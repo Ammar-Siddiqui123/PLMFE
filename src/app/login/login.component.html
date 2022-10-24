@@ -1,0 +1,37 @@
+<div class="center">
+  <!-- <input type="checkbox" id="show">
+  <label for="show" class="show-btn">View Form</label> -->
+  <div class="container">
+     <!-- <label for="show" class="close-btn fas fa-times" title="close"></label> -->
+     <div class="text">
+        Login Form
+     </div>
+     <form [formGroup]="addLoginForm" (ngSubmit)="loginUser()" name="addLoginForm">
+        <div class="data">
+           <label>UserName</label>
+           <input type="text" formControlName="username" required />
+           
+           <span class="error-message" style="color: red;" *ngIf="addLoginForm.controls['username'].invalid && (addLoginForm.controls['username'].dirty || addLoginForm.controls['username'].touched)">
+             username is required
+          </span>
+        </div>
+        <div class="data">
+           <label>Password</label>
+           <input type="password" formControlName="password" required>
+           <span class="error-message" style="color: red;" *ngIf="addLoginForm.controls['password'].invalid && (addLoginForm.controls['password'].dirty || addLoginForm.controls['password'].touched)">
+            password is required
+         </span>
+        </div>
+        <div class="forgot-pass">
+           <a href="#">Forgot Password?</a>
+        </div>
+        <div class="btn">
+           <div class="inner"></div>
+           <button [disabled]="!addLoginForm.valid" type="submit">login</button>
+        </div>
+        <div class="signup-link">
+           Not a member? <a href="#">Signup now</a>
+        </div>
+     </form>
+  </div>
+</div>
