@@ -1,0 +1,19 @@
+{
+  "background.customImages": [
+      "https://visualstudio.microsoft.com/wp-content/uploads/2021/10/vswin-carousel@2x.png"
+  ],
+  "background.enabled": true,
+  "background.useDefault": false,
+  "background.styles": [
+
+      {
+        "background-size": "cover",
+  "position": "fixed",
+"opacity": 0.3,
+"background-position": "right center",
+
+      },
+      {},
+      {}
+  ]
+}
