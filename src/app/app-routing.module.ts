@@ -20,7 +20,7 @@ const routes: Routes = [
         component: MainComponent,
       },
       {
-        path: 'all-employees',
+        path: 'employees',
         component: EmployeesComponent,
       }
     ]
