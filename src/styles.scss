@@ -24,6 +24,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   height: 100%;
 }
 
+.bg-purple{
+background-color: #7B42AC;
+}
+
+.purple{
+  color: #7B42AC;
+}
+
+
 mat-sidenav {
   width: 228px;
 }
@@ -54,6 +63,10 @@ mat-sidenav-container {
 .mat-divider {
   border-top-width: 2px;
   border-color: white;
+}
+
+.mat-list-base{
+padding-top: 40px !important;
 }
 .mat-list-item {
   color: #09094899 !important;
@@ -168,7 +181,29 @@ mat-toolbar {
   border-radius: 12px;
 }
 
+.mat-tab-header{
+
+  border: none;
+
+}
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{
+
+  background-color: #7B42AC;
+  border-radius: 100px;
+  height: 3px !important;
+
+}
+.mat-ink-bar{
+  bottom: 2px !important;
+}
 
 .dashboard-section{
   padding: 20px 30px;
 }
+
+.g-tab{
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 36px;
+}
+

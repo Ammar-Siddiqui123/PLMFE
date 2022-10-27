@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
+import {MatTabsModule} from '@angular/material/tabs';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { RouterModule } from '@angular/router';
 import { EmployeesComponent } from './employees/employees.component';
@@ -36,6 +37,8 @@ import { MainComponent } from './main/main.component';
     MatIconModule,
     MatDividerModule,
     MatListModule,
+    MatTabsModule,
+
   ]
 })
 export class DashboardModule { }
