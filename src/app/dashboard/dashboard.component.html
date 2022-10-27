@@ -1,9 +1,18 @@
 <mat-drawer-container>
-  <mat-drawer mode="side" opened="true">
+  <mat-drawer mode="side" [opened]="sideBarOpen">
     <app-side-nav></app-side-nav>
   </mat-drawer>
   <mat-drawer-content>
-    <app-header>
+    <app-header (toggleSidebarForMe)="sideBarToggler()">
     </app-header>
+
+    <h1>Dashboard</h1>
+
+
+    <!-- Dynamic pages content is coming from this router-outlet tag -->
+    <router-outlet></router-outlet>
   </mat-drawer-content>
+
+
+
 </mat-drawer-container>
