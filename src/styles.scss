@@ -11,7 +11,7 @@ body, html {
 }
 
 .body-box{
-  background-color: #E8EAEA;
+  background-color: #F3F4F4;
   padding: 25px;
 }
 
@@ -25,14 +25,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 mat-sidenav {
-  width: 260px;
+  width: 228px;
 }
 mat-sidenav-container {
   height: 100%;
 }
+.mat-sidenav-container {
+  background: #F3F4F4;
+}
 
 .mat-drawer {
-  background: #0f172a;
+  background: #F3F4F4;
 }
 
 :host {
@@ -53,12 +56,12 @@ mat-sidenav-container {
   border-color: white;
 }
 .mat-list-item {
-  color: #94a3b8 !important;
+  color: #09094899 !important;
   font-size: 0.8rem;
   height: 44px !important;
   margin-bottom: 4px;
   &:hover {
-    color: #f2f5f7 !important;
+    color: #000080 !important;
   }
   ::ng-deep {
     .mat-list-item-content {
@@ -77,7 +80,8 @@ mat-sidenav-container {
   //   background: blue;
   // }
 
-  color: #f2f5f7 !important;
+  background: #D6D6FD !important;
+  color: #000080 !important;
   ::ng-deep {
     .mat-list-item-content {
       background: #2c3344 !important;
@@ -99,6 +103,23 @@ mat-toolbar {
   position: sticky;
   top: 0;
   z-index: 100;
+}
+.mat-toolbar {
+  background-color: #090948;
+  background-image: url('./assets/Brand Flourish.png');
+  background-position: 50% 33%;
+  background-size: auto;
+  background-repeat: no-repeat;
+}
+
+.mat-toolbar:before {
+  content: "";
+  position: absolute;
+  background: #0f172a2b;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 ul {
@@ -131,4 +152,23 @@ mat-toolbar {
   .mat-menu-content {
     width: 160px;
   }
+}
+
+.icon-white{
+  color: #fff;
+  fill: #fff;
+}
+
+.mat-drawer-side {
+  border: none;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.mat-nav-list .mat-list-item {
+  border-radius: 12px;
+}
+
+
+.dashboard-section{
+  padding: 20px 30px;
 }
