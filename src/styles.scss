@@ -50,6 +50,15 @@ h1, h2, h3, h4, h5, h6, p, strong, span, b, u, a, div
   background-color: #F3F4F4;
   padding: 25px;
 }
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 600,
+  'GRAD' 0,
+  'opsz' 48
+}
+
 #pickpro {
   font-family: 'Mulish', sans-serif;
   font-size: 16px;
@@ -247,18 +256,114 @@ mat-toolbar {
   margin-right: 6px;
 }
 .mat-card-title, .card-header-title {
-  font-size: 28px !important;
-  line-height: 1  !important;
-  font-weight: 700  !important;
+  font-size: 22px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
 }
+
+.mat-form-field.action-dropdown .mat-form-field-flex {
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid #D7D7F9;
+  padding: 0.18em .75em 0 .75em;
+}
+
+.mat-form-field.action-dropdown .mat-form-field-wrapper{
+
+  padding-bottom: 0;
+}
+
+
+
+.mat-form-field.action-dropdown .mat-form-field-label-wrapper {
+  top: -0.74375em;
+}
+.mat-form-field.action-dropdown .mat-form-field-label {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.mat-form-field.action-dropdown .mat-select-arrow-wrapper {
+  transform: translateY(-20%);
+}
+
+.mat-form-field-underline {
+  visibility: hidden;
+}
+.mat-form-field.mat-focused.action-dropdown .mat-form-field-flex {
+  border-color: #8b65cf;
+}
+
+// .mat-form-field-appearance-fill.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-appearance-fill.mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label {
+//   transform: translateY(0em) scale(0.95);
+// }
+
+.cdk-overlay-pane {
+  margin-top: 3.3em;
+}
+
+
 
 .dashboard-section{
   padding: 20px 30px;
 }
 
-.g-tab{
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 36px;
+.mat-icon-wrap {
+  background: #F2F2FF;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.mat-icon-wrap .mat-icon {
+  font-size: 18px;
+  width: auto;
+  height: auto;
+}
+
+.g-tab{
+  background-color: #f3f4f4;
+  padding: 1px;
+  border-radius: 36px;
+  margin-top: 22px;
+}
+
+.g-details-wrap {
+  margin-top: 2.2em;
+  margin-bottom: 2.2em;
+}
+
+.g-detail .g-field-label {
+  position: absolute;
+  top: 0;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  color: #8B8BA3;
+  background: #F2F2FF;
+  padding: 0.1em 0.6em;
+  border-radius: 100px;
+  border: 1px solid #F2F2FF;
+  z-index: 1;
+}
+
+.g-detail {
+  background: #F2F2FF;
+  margin-bottom: 1.7em;
+  padding: 0.88em 0.9em 0.88em;
+  position: relative;
+  border-radius: 10px;
+  border: 1px solid #d7d7f999;
+}
+
+.g-field-content {
+  padding: 0.1em 0.4em;
+  font-size: 16px;
+  color: #8B8BA3;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}

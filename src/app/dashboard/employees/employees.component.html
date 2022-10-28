@@ -3,30 +3,83 @@
     <div class="employees-tab g-tab">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-7">
+          <div class="col-6">
             <mat-card class="mat-elevation-z g-card">
-              <mat-card-header>
-                <div class="d-flex justify-content-end">
-                  <h2 class="card-header-title">Employees</h2>
-                  <mat-form-field appearance="fill">
-                    <mat-label>Choose an option</mat-label>
-                    <mat-select [disabled]="employees_action">
+              <mat-card-content>
+                <div class="d-flex justify-content-between align-items-center">
+                  <h2 class="card-header-title mb-0 d-flex align-items-center">
+                    <div class="mat-icon-wrap me-lg-3">
+                      <span class="material-symbols-outlined">
+                        assignment_ind
+                        </span>
+                    </div>
+                    <span>Employees</span>
+                  </h2>
+                  <mat-form-field class="action-dropdown" appearance="fill">
+                    <mat-label>Actions</mat-label>
+                    <mat-select class="employees-action" [disabled]="employees_action">
                       <mat-option value="edit">Edit</mat-option>
                       <mat-option value="delete">Delete</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
-              </mat-card-header>
-              <mat-card-content>
-                <p>
-                  The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                  A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                  bred for hunting.
-                </p>
+                <div class="employee-details details-wrap g-details-wrap">
+                  <div class="g-detail">
+                    <label class="g-field-label">Employee Lookup</label>
+                    <div class="g-field-content">Jeff Segal</div>
+                  </div>
+                  <div class="g-detail">
+                    <label class="g-field-label">ID</label>
+                    <div class="g-field-content">123-321-000</div>
+                  </div>
+                  <div class="g-detail">
+                    <label class="g-field-label">MI</label>
+                    <div class="g-field-content">0000000</div>
+                  </div>
+                  <div class="g-detail">
+                    <label class="g-field-label">First Name</label>
+                    <div class="g-field-content">Jeff</div>
+                  </div>
+                  <div class="g-detail">
+                    <label class="g-field-label">Last Name</label>
+                    <div class="g-field-content">Segal</div>
+                  </div>
+                  <div class="g-detail">
+                    <label class="g-field-label">Username</label>
+                    <div class="g-field-content">JeffSegal</div>
+                  </div>
+                  <div class="g-detail">
+                    <label class="g-field-label">Email Address</label>
+                    <div class="g-field-content">jeffsegal@peaklogix.com</div>
+                  </div>
+                  <div class="g-detail">
+                    <label class="g-field-label">Access Level</label>
+                    <div class="g-field-content">Staff Member</div>
+                  </div>
+                </div>
               </mat-card-content>
             </mat-card>
           </div>
-          <div class="col-5"></div>
+          <div class="col-6">
+            <mat-tab-group dynamicHeight>
+              <mat-tab label="BulkPro Settings">
+                <div class="statistics-tab g-tab">
+                  Large content
+                </div>
+              </mat-tab>
+              <mat-tab label="Employee Pick Level">
+                <div class="groups-tab g-tab">
+                  Large content
+                </div>
+              </mat-tab>
+
+              <mat-tab label="Groups Allowed">
+                <div class="statistics-tab g-tab">
+                  Large content
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
         </div>
       </div>
 
