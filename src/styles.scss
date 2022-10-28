@@ -4,15 +4,56 @@
 @import '~bootstrap/scss/bootstrap';
 @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap');
 
-body, html {
+ body, html,
+.mat-badge-content, .mat-button,
+.mat-raised-button,
+.mat-icon-button,
+.mat-stroked-button,
+.mat-flat-button,
+.mat-fab,
+.mat-mini-fab, .mat-button-toggle,
+.mat-card,
+.mat-checkbox,
+.mat-table,
+.mat-calendar,
+.mat-expansion-panel-header,
+.mat-form-field,
+.mat-menu-item,
+.mat-paginator,
+.mat-paginator-page-size .mat-select-trigger,
+.mat-select,
+.mat-slide-toggle-content,
+.mat-slider-thumb-label-text,
+.mat-stepper-vertical,
+.mat-stepper-horizontal,
+.mat-tab-group,
+.mat-tab-label,
+.mat-tab-link,
+.mat-toolbar,
+.mat-radio-button,
+.mat-tooltip,
+.mat-list-item,
+.mat-list-option,
+.mat-list-base .mat-subheader,
+.mat-list-base[dense] .mat-subheader,
+.mat-option,
+.mat-simple-snackbar,
+.mat-simple-snackbar-action,
+.mat-tree,
+h1, h2, h3, h4, h5, h6, p, strong, span, b, u, a, div
+
+   {
   font-family: 'Mulish', sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
 }
 
 .body-box{
   background-color: #F3F4F4;
   padding: 25px;
+}
+#pickpro {
+  font-family: 'Mulish', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 html, body { height: 100%; }
@@ -195,6 +236,20 @@ mat-toolbar {
 }
 .mat-ink-bar{
   bottom: 2px !important;
+}
+
+.mat-tab-label:hover {
+  background: rgba(0,0,0,.04);
+  border-radius: 12px;
+}
+
+.mat-tab-label {
+  margin-right: 6px;
+}
+.mat-card-title, .card-header-title {
+  font-size: 28px !important;
+  line-height: 1  !important;
+  font-weight: 700  !important;
 }
 
 .dashboard-section{

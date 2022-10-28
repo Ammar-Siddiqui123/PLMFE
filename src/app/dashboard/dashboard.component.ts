@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { disableDebugTools } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  sideBarOpen = true;
+
+  sideBarOpen: boolean = true;
 
 
 
