@@ -3,7 +3,9 @@
     <div class="employees-tab g-tab">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-6">
+
+          <!-- left side for details -->
+          <div class="col-7">
             <mat-card class="mat-elevation-z g-card">
               <mat-card-content>
                 <div class="d-flex justify-content-between align-items-center">
@@ -60,11 +62,44 @@
               </mat-card-content>
             </mat-card>
           </div>
-          <div class="col-6">
+
+          <!-- Right side for actions -->
+          <div class="col-5">
             <mat-tab-group dynamicHeight>
               <mat-tab label="BulkPro Settings">
                 <div class="statistics-tab g-tab">
-                  Large content
+
+                  <div class="g-action-card">
+                    <div class="card w-100 text-center">
+                      <div class="card-header">
+                        Zones
+                      </div>
+
+                      <div class="card-body">
+                        <div class="p-2">
+                          <div class="search-box zone-search-box">
+                            <mat-form-field class="example-form-field" appearance="fill">
+                              <mat-label>Clearable input</mat-label>
+                              <input matInput type="text" [matAutocomplete]="auto">
+                              <button *ngIf="employee_zone" matSuffix mat-icon-button aria-label="Clear" (click)="employee_zone=''">
+                                <mat-icon>close</mat-icon>
+                              </button>
+                              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                  {{option}}
+                                </mat-option>
+                              </mat-autocomplete>
+                            </mat-form-field>
+                            <mat-list role="list">
+                              <mat-list-item role="listitem" *ngFor="let zone of employee_zones_list">{{zone}}</mat-list-item>
+                            </mat-list>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
                 </div>
               </mat-tab>
               <mat-tab label="Employee Pick Level">
