@@ -78,20 +78,31 @@
                       <div class="card-body">
                         <div class="p-2">
                           <div class="search-box zone-search-box">
-                            <mat-form-field class="example-form-field" appearance="fill">
-                              <mat-label>Clearable input</mat-label>
-                              <input matInput type="text" [matAutocomplete]="auto">
-                              <button *ngIf="employee_zone" matSuffix mat-icon-button aria-label="Clear" (click)="employee_zone=''">
-                                <mat-icon>close</mat-icon>
-                              </button>
-                              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                                  {{option}}
-                                </mat-option>
-                              </mat-autocomplete>
-                            </mat-form-field>
+                              <div class="d-flex g-mini-search-box">
+                                <mat-form-field class="w-100" appearance="fill">
+                                  <span class="material-symbols-outlined icon-search">
+                                    search
+                                    </span>
+                                  <input type="text"
+                                         placeholder="Search Zones"
+                                         aria-label="Search Zones"
+                                         matInput
+                                         [formControl]="myControl"
+                                         [matAutocomplete]="auto">
+                                  <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                      {{option}}
+                                    </mat-option>
+                                  </mat-autocomplete>
+                                </mat-form-field>
+                                <button mat-raised-button color="primary">
+                                  <span class="material-symbols-outlined">
+                                  add
+                                  </span>
+                                </button>
+                              </div>
                             <mat-list role="list">
-                              <mat-list-item role="listitem" *ngFor="let zone of employee_zones_list">{{zone}}</mat-list-item>
+                              <mat-list-item role="listitem" *ngFor="let zone of employee_fetched_zones">{{zone}}</mat-list-item>
                             </mat-list>
                           </div>
                         </div>

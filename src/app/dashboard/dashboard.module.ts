@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -35,6 +35,7 @@ import { MainComponent } from './main/main.component';
     CommonModule,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatInputModule,
     MatSidenavModule,

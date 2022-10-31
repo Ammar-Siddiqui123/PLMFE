@@ -371,3 +371,27 @@ mat-toolbar {
   font-weight: 400;
   letter-spacing: 0.5px;
 }
+
+
+.g-mini-search-box  .mat-form-field-appearance-fill .mat-form-field-flex {
+  background: none;
+  border: 1px solid red;
+  padding: 0;
+}
+
+.g-mini-search-box  .mat-form-field-wrapper.ng-tns-c111-4 {
+  padding-bottom: 0;
+}
+
+.g-mini-search-box  span.icon-search {
+  position: absolute;
+  left: 9px;
+  font-size: 22px;
+  color: #dfdfdf;
+}
+
+.g-mini-search-box  input.mat-input-element {
+  padding-left: 2em;
+  /* border: 1px solid red; */
+  /* height: 48px; */
+}
