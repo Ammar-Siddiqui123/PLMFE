@@ -23,6 +23,7 @@ import { HeaderComponent } from './header/header.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { MainComponent } from './main/main.component';
 import { EmployeesLookupComponent } from './employees/employees-lookup/employees-lookup.component';
+import { EmployeePickupLevelComponent } from './employees/employee-pickup-level/employee-pickup-level.component';
 
 
 
@@ -33,7 +34,8 @@ import { EmployeesLookupComponent } from './employees/employees-lookup/employees
     SideNavComponent,
     EmployeesComponent,
     MainComponent,
-    EmployeesLookupComponent
+    EmployeesLookupComponent,
+    EmployeePickupLevelComponent
 
   ],
   imports: [

@@ -222,6 +222,21 @@ mat-toolbar {
   fill: #fff;
 }
 
+.icon-circle-edit {
+  background: #000080;
+  color: #fff;
+  border-radius: 50%;
+  width: 23px;
+  height: 23px;
+  opacity: 0.7;
+  transition: 0.5s ease all;
+  font-size: 18px;
+}
+
+.icon-circle-edit:hover {
+  opacity: 1;
+}
+
 .icon-circle-cancel {
   background: #DE2654;
   color: #fff;
@@ -230,6 +245,7 @@ mat-toolbar {
   height: 23px;
   opacity: 0.7;
   transition: 0.5s ease all;
+  font-size: 18px;
 }
 
 .icon-circle-cancel:hover {
@@ -477,4 +493,8 @@ table.g-card-table th.mat-header-cell {
 
 .card {
   border: 1px solid #D7D7F9;
+}
+
+.mat-drawer-content{
+  overflow: initial;
 }
