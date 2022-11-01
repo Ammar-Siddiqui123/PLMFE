@@ -13,6 +13,9 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatCardModule} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatTableModule } from '@angular/material/table';
+import {MatSortModule} from '@angular/material/sort';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { RouterModule } from '@angular/router';
 import { EmployeesComponent } from './employees/employees.component';
@@ -48,6 +51,9 @@ import { MainComponent } from './main/main.component';
     MatCardModule,
     MatSelectModule,
     MatAutocompleteModule,
+    MatTableModule,
+    MatSortModule,
+    NgScrollbarModule
 
 
   ]
