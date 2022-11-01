@@ -25,6 +25,9 @@ import { MainComponent } from './main/main.component';
 import { EmployeesLookupComponent } from './employees/employees-lookup/employees-lookup.component';
 import { EmployeePickupLevelComponent } from './employees/employee-pickup-level/employee-pickup-level.component';
 import { GroupsAllowedComponent } from './employees/groups-allowed/groups-allowed.component';
+import { GroupsLookupComponent } from './employees/groups-lookup/groups-lookup.component';
+import { AssignedFunctionsComponent } from './employees/assigned-functions/assigned-functions.component';
+import { UnassignedFunctionsComponent } from './employees/unassigned-functions/unassigned-functions.component';
 
 
 
@@ -37,7 +40,10 @@ import { GroupsAllowedComponent } from './employees/groups-allowed/groups-allowe
     MainComponent,
     EmployeesLookupComponent,
     EmployeePickupLevelComponent,
-    GroupsAllowedComponent
+    GroupsAllowedComponent,
+    GroupsLookupComponent,
+    AssignedFunctionsComponent,
+    UnassignedFunctionsComponent
 
   ],
   imports: [

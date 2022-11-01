@@ -1,0 +1,31 @@
+<div class="search-box">
+  <div class="d-flex g-mini-search-box">
+    <mat-form-field class="w-100" appearance="fill">
+      <span class="material-symbols-outlined icon-search">
+        search
+      </span>
+      <input type="text" placeholder="Search Groups" aria-label="Search Groups" matInput (keyup)="applyFilter($event)" >
+    </mat-form-field>
+    <button mat-raised-button color="primary" class=" mat-button-icon">
+      <span class="material-symbols-outlined">
+        add
+      </span>
+    </button>
+  </div>
+</div>
+
+<table mat-table [dataSource]="group_data_source" matSort (matSortChange)="announceSortChange($event)" class="w-100 g-card-table employee-location-table">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
