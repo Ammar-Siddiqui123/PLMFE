@@ -241,8 +241,54 @@
                   </mat-tab>
 
                   <mat-tab label="Groups Allowed">
-                    <div class="statistics-tab g-tab">
-                      Large content
+                    <div class="groups-allowed-tab g-tab">
+
+                      <div class="g-action-card g-action-card-disabled mb-3">
+                        <div class="card w-100 text-center">
+
+                          <div class="card-body">
+                            <div class="p-2">
+                              <div class="search-box zone-search-box">
+                                <div class="d-flex g-mini-search-box">
+                                  <mat-form-field class="w-100" appearance="fill">
+                                    <span class="material-symbols-outlined icon-search">
+                                      search
+                                    </span>
+                                    <input type="text" placeholder="Search Groups Allowed" aria-label="Search Groups Allowed" matInput >
+                                  </mat-form-field>
+                                  <button mat-raised-button color="primary" class=" mat-button-icon">
+                                    <span class="material-symbols-outlined">
+                                      add
+                                    </span>
+                                  </button>
+                                </div>
+                                <div class="d-block text-end">
+                                  <button mat-stroked-button color="warn" class="button-remove-all">
+                                    <mat-icon>close</mat-icon>
+                                    Remove All
+                                  </button>
+                                </div>
+                                <mat-list class="zones-list g-card-list" role="list">
+                                  <ng-scrollbar style="height: 200px">
+                                    <mat-list-item role="listitem" *ngFor="let zone of employee_fetched_zones">
+                                      <span class="list-label zone-list-label">
+                                        {{zone}}
+                                      </span>
+                                      <button mat-icon-button aria-label="Delete Zone">
+                                        <mat-icon class="icon-circle-cancel">close</mat-icon>
+                                      </button>
+                                    </mat-list-item>
+                                  </ng-scrollbar>
+
+                                </mat-list>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+
                     </div>
                   </mat-tab>
                 </mat-tab-group>

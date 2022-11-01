@@ -24,6 +24,7 @@ import { SideNavComponent } from './side-nav/side-nav.component';
 import { MainComponent } from './main/main.component';
 import { EmployeesLookupComponent } from './employees/employees-lookup/employees-lookup.component';
 import { EmployeePickupLevelComponent } from './employees/employee-pickup-level/employee-pickup-level.component';
+import { GroupsAllowedComponent } from './employees/groups-allowed/groups-allowed.component';
 
 
 
@@ -35,7 +36,8 @@ import { EmployeePickupLevelComponent } from './employees/employee-pickup-level/
     EmployeesComponent,
     MainComponent,
     EmployeesLookupComponent,
-    EmployeePickupLevelComponent
+    EmployeePickupLevelComponent,
+    GroupsAllowedComponent
 
   ],
   imports: [
