@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
+import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,6 +18,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatTableModule } from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { DataTablesModule } from "angular-datatables";
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { RouterModule } from '@angular/router';
 import { EmployeesComponent } from './employees/employees.component';
@@ -28,6 +31,7 @@ import { GroupsAllowedComponent } from './employees/groups-allowed/groups-allowe
 import { GroupsLookupComponent } from './employees/groups-lookup/groups-lookup.component';
 import { AssignedFunctionsComponent } from './employees/assigned-functions/assigned-functions.component';
 import { UnassignedFunctionsComponent } from './employees/unassigned-functions/unassigned-functions.component';
+import { StatisticsLookupComponent } from './employees/statistics-lookup/statistics-lookup.component';
 
 
 
@@ -43,13 +47,17 @@ import { UnassignedFunctionsComponent } from './employees/unassigned-functions/u
     GroupsAllowedComponent,
     GroupsLookupComponent,
     AssignedFunctionsComponent,
-    UnassignedFunctionsComponent
+    UnassignedFunctionsComponent,
+    StatisticsLookupComponent
 
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
+    BrowserModule,
+    DataTablesModule,
+    HttpClientModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatInputModule,

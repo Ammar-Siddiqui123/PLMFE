@@ -266,6 +266,12 @@ mat-toolbar {
   border: none;
 
 }
+
+.mat-tab-label {
+  border-radius: 14px;
+  overflow: hidden;
+}
+
 .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{
 
   background-color: #7B42AC;
@@ -516,4 +522,16 @@ table.g-card-table th.mat-header-cell {
 
 .mat-drawer-content{
   overflow: initial;
+}
+
+table.dataTable{
+  width: 100% !important;
+}
+
+.dataTables_wrapper{
+  padding: 15px;
+}
+td.no-data-available {
+  padding: 20px !important;
+  text-align: center;
 }

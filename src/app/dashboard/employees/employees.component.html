@@ -350,19 +350,19 @@
           <!-- Right side for actions -->
           <div class="col-7">
             <mat-card class="mat-elevation-z g-card">
-                <mat-card-content>
-                  <div class="row">
-                    <h4>Assigned Functions</h4>
+              <mat-card-content>
+                <div class="row">
+                  <h4>Assigned Functions</h4>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <app-assigned-functions></app-assigned-functions>
                   </div>
-                  <div class="row">
-                    <div class="col-6">
-                      <app-assigned-functions></app-assigned-functions>
-                    </div>
-                    <div class="col-6">
-                      <app-unassigned-functions></app-unassigned-functions>
-                    </div>
+                  <div class="col-6">
+                    <app-unassigned-functions></app-unassigned-functions>
                   </div>
-                </mat-card-content>
+                </div>
+              </mat-card-content>
             </mat-card>
           </div>
         </div>
@@ -372,7 +372,13 @@
 
   <mat-tab label="Statistics">
     <div class="statistics-tab g-tab">
-      Large content
+      <div class="container-fluid p-0">
+        <div class="row">
+          <div class="col-12">
+            <app-statistics-lookup></app-statistics-lookup>
+          </div>
+        </div>
+      </div>
     </div>
   </mat-tab>
 </mat-tab-group>
