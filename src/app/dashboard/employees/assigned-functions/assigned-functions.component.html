@@ -1,1 +1,34 @@
-<p>assigned-functions works!</p>
+<div class="assigned-functions functions-list-wrap mt-3">
+  <div class="search-box zone-search-box">
+    <div class="d-flex g-mini-search-box">
+      <mat-form-field class="w-100" appearance="fill">
+        <span class="material-symbols-outlined icon-search">
+          search
+        </span>
+        <input type="text" placeholder="Search Assigned Function"
+          aria-label="Search Groups Allowed" matInput>
+      </mat-form-field>
+    </div>
+    <div class="d-flex align-items-center justify-content-between">
+      <p class="mb-0">Assigned</p>
+      <button mat-stroked-button color="warn" class="button-remove-all">
+        <mat-icon>close</mat-icon>
+        Remove All
+      </button>
+    </div>
+    <mat-list class="zones-list g-card-list" role="list">
+      <ng-scrollbar style="height: 200px">
+        <mat-list-item role="listitem" *ngFor="let zone of employee_fetched_zones">
+          <span class="list-label zone-list-label">
+            {{zone}}
+          </span>
+          <button mat-icon-button aria-label="Delete Function">
+            <mat-icon class="icon-circle-cancel">close</mat-icon>
+          </button>
+        </mat-list-item>
+      </ng-scrollbar>
+
+    </mat-list>
+  </div>
+
+</div>

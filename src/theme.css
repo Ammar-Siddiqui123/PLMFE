@@ -471,7 +471,7 @@ input.mat-input-element {
   font-weight: 500
 }
 
-.mat-tab-group {
+.mat-tab-13p {
   font-family: 'Mulish', sans-serif
 }
 
@@ -1393,7 +1393,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 .mat-raised-button.mat-primary,
 .mat-fab.mat-primary,
 .mat-mini-fab.mat-primary {
-  background-color: #00008099
+  background-color: #000080cc;
 }
 
 .mat-flat-button.mat-accent,

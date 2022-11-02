@@ -331,13 +331,13 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="employees-details details-wrap g-details-wrap">
+                <div class="groups-details details-wrap g-details-wrap">
 
                   <!-- groups lookup here -->
                   <app-groups-lookup></app-groups-lookup>
 
                 </div>
-                <div class="groups-details details-wrap g-details-wrap">
+                <div class="group-details details-wrap g-details-wrap">
                   <div class="g-detail">
                     <label class="g-field-label">Group Name</label>
                     <div class="g-field-content">Bulk Operator</div>
@@ -349,17 +349,21 @@
 
           <!-- Right side for actions -->
           <div class="col-7">
-            <div class="row">
-              <h4>Assigned Functions</h4>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <app-assigned-functions></app-assigned-functions>
-              </div>
-              <div class="col-6">
-                <app-unassigned-functions></app-unassigned-functions>
-              </div>
-            </div>
+            <mat-card class="mat-elevation-z g-card">
+                <mat-card-content>
+                  <div class="row">
+                    <h4>Assigned Functions</h4>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <app-assigned-functions></app-assigned-functions>
+                    </div>
+                    <div class="col-6">
+                      <app-unassigned-functions></app-unassigned-functions>
+                    </div>
+                  </div>
+                </mat-card-content>
+            </mat-card>
           </div>
         </div>
       </div>
