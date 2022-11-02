@@ -535,3 +535,15 @@ td.no-data-available {
   padding: 20px !important;
   text-align: center;
 }
+td.dataTables_empty{
+  visibility: hidden;
+}
+.dataTables_filter { display: none; }
+
+.dataTables_wrapper .dataTables_paginate .paginate_button a.page-link {
+  border-radius: 14px !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  padding: 0.5em 0.4em !important;
+}

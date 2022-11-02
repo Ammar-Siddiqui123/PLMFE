@@ -1,9 +1,25 @@
 <table datatable [dtOptions]="dtOptions" class="row-border hover">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>First name</th>
-      <th>Last name</th>
+      <th>
+        ID
+        <div class="d-block dt-search-wrap">
+          <input type="text" placeholder="Search ID" name="search-id"/>
+        </div>
+
+      </th>
+      <th>
+        First name
+        <div class="d-block dt-search-wrap">
+          <input type="text" placeholder="Search first name" name="search-first-name"/>
+        </div>
+      </th>
+      <th>
+        Last name
+        <div class="d-block dt-search-wrap">
+          <input type="text" placeholder="Search last name" name="search-last-name"/>
+        </div>
+      </th>
     </tr>
   </thead>
   <tbody *ngIf="persons?.length != 0">

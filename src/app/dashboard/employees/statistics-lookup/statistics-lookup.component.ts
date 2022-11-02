@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { DataTableDirective } from 'angular-datatables';
 
 
 class DataTablesResponse {
@@ -20,7 +21,10 @@ class Person {
   templateUrl: './statistics-lookup.component.html',
   styleUrls: ['./statistics-lookup.component.scss']
 })
-export class StatisticsLookupComponent implements OnInit {
+export class StatisticsLookupComponent implements OnInit, AfterViewInit {
+
+  @ViewChild(DataTableDirective, {static: false})
+  datatableElement: DataTableDirective;
 
 
   persons: Person[];
@@ -47,8 +51,10 @@ export class StatisticsLookupComponent implements OnInit {
     const that = this;
 
     this.dtOptions = {
+      ordering: false,
+      lengthChange: false,
       pagingType: 'full_numbers',
-      pageLength: 2,
+      pageLength: 25,
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
@@ -68,6 +74,21 @@ export class StatisticsLookupComponent implements OnInit {
       },
       columns: [{ data: 'id' }, { data: 'firstName' }, { data: 'lastName' }]
     };
+  }
+
+  ngAfterViewInit(): void {
+    this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.columns().every(function () {
+        const that = this;
+        $('input', this.header()).on('keyup change', function () {
+          if (that.search() !== this['value']) {
+            that
+              .search(this['value'])
+              .draw();
+          }
+        });
+      });
+    });
   }
 
 }
