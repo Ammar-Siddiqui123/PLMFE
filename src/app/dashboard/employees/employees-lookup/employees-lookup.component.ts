@@ -1,7 +1,10 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {MatSort, Sort} from '@angular/material/sort';
+import {MatDialog} from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { AddNewEmployeeComponent } from '../../dialogs/add-new-employee/add-new-employee.component';
+import { NgForm } from '@angular/forms';
 
 
 export interface employees_details {
@@ -28,7 +31,7 @@ const employees_details_data: employees_details[] = [
 })
 export class EmployeesLookupComponent implements OnInit {
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
+  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog) {}
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -60,5 +63,32 @@ export class EmployeesLookupComponent implements OnInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
+
+
+  openDialog() {
+    let dialogRef = this.dialog.open(AddNewEmployeeComponent, {
+      height: 'auto',
+      width: '480px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+        if (result !== undefined) {
+            if (result !== 'no') {
+              const enabled = "Y"
+                console.log(result);
+            } else if (result === 'no') {
+               console.log('User clicked no.');
+            }
+        }
+    })
+}
+
+
+  // openDialog() {
+  //   this.dialog.open(AddNewEmployeeComponent, {
+  //     data: {
+  //       animal: 'panda',
+  //     },
+  //   });
+  // }
 
 }

@@ -18,6 +18,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatTableModule } from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatRippleModule} from '@angular/material/core';
+import {MatDialogModule} from '@angular/material/dialog';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { DataTablesModule } from "angular-datatables";
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -33,6 +34,7 @@ import { GroupsLookupComponent } from './employees/groups-lookup/groups-lookup.c
 import { AssignedFunctionsComponent } from './employees/assigned-functions/assigned-functions.component';
 import { UnassignedFunctionsComponent } from './employees/unassigned-functions/unassigned-functions.component';
 import { StatisticsLookupComponent } from './employees/statistics-lookup/statistics-lookup.component';
+import { AddNewEmployeeComponent } from './dialogs/add-new-employee/add-new-employee.component';
 
 
 
@@ -49,7 +51,8 @@ import { StatisticsLookupComponent } from './employees/statistics-lookup/statist
     GroupsLookupComponent,
     AssignedFunctionsComponent,
     UnassignedFunctionsComponent,
-    StatisticsLookupComponent
+    StatisticsLookupComponent,
+    AddNewEmployeeComponent
 
   ],
   imports: [
@@ -75,6 +78,7 @@ import { StatisticsLookupComponent } from './employees/statistics-lookup/statist
     MatTableModule,
     MatSortModule,
     MatRippleModule,
+    MatDialogModule,
     NgScrollbarModule
 
 
