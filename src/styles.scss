@@ -547,3 +547,38 @@ td.dataTables_empty{
 .dataTables_wrapper .dataTables_paginate .paginate_button {
   padding: 0.5em 0.4em !important;
 }
+
+.main-section-option {
+    padding: 1.25em;
+    border-radius: 14px;
+    min-height: 360px;
+    background: #fff;
+    transition: 0.7s ease all;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.main-section-option:hover {
+  box-shadow: 0 5px 12px #ce9bff;
+}
+
+.main-section-option .main-section-icon {
+  width: 64px;
+  height: 64px;
+  background: #F0E1FE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7B42AC;
+  border-radius: 14px;
+  margin-bottom: 1.25em;
+}
+
+.main-section-option .main-section-icon span.material-symbols-outlined {
+  color: #7B42AC;
+  font-size: 24px;
+}
+h4.main-section-title {
+  color: #000080;
+  font-weight: 500;
+}

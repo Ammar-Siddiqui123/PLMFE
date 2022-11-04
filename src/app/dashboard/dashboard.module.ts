@@ -17,6 +17,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatTableModule } from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
+import {MatRippleModule} from '@angular/material/core';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { DataTablesModule } from "angular-datatables";
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -73,6 +74,7 @@ import { StatisticsLookupComponent } from './employees/statistics-lookup/statist
     MatAutocompleteModule,
     MatTableModule,
     MatSortModule,
+    MatRippleModule,
     NgScrollbarModule
 
 
