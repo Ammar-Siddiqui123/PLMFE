@@ -252,6 +252,33 @@ mat-toolbar {
   opacity: 1;
 }
 
+.dialog-close-button {
+  float: right;
+  top: -3.7em;
+  right: 0;
+  background: #F5F5FA;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 14px !important;
+  padding: 3px !important;
+}
+
+
+
+
+.dialog-close-button .close-icon{
+  color: #626273;
+}
+
+.mat-dialog-content {
+    clear: both;
+}
+
+.form-button-submit {
+  min-width: 134px !important;
+  min-height: 48px;
+}
+
 .mat-drawer-side {
   border: none;
   padding-right: 15px;
@@ -582,3 +609,5 @@ h4.main-section-title {
   color: #000080;
   font-weight: 500;
 }
+
+
