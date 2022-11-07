@@ -217,6 +217,98 @@ mat-toolbar {
   }
 }
 
+
+.ngx-toastr {
+  background-image: none;
+  background-color: #c8c8c8;
+  box-shadow: 0 0 5px #b4b4b4 !important;
+}
+
+.toast-success::before {
+  content: "\e86c";
+  position: absolute;
+  top: 50%;
+  left: 0.5em;
+  transform: translateY(-50%);
+  background: #E4E4E4;
+  width: 66px;
+  height: 66px;
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 33px;
+  color: #1D865C;
+}
+
+.toast-error::before {
+  content: "\e5c9";
+  position: absolute;
+  top: 50%;
+  left: 0.5em;
+  transform: translateY(-50%);
+  background: #E4E4E4;
+  width: 66px;
+  height: 66px;
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 33px;
+  color: #861d1d;
+}
+
+#pickpro .toast-container .ngx-toastr {
+  padding-left: 5.9em !important;
+  background-image: none;
+  background-color: #f9f9f9;
+}
+
+
+#pickpro .toast-container .ngx-toastr.toast-success .toast-title {
+  color: #1D865C;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+#pickpro .toast-container .ngx-toastr.toast-error .toast-title {
+  color: #861d1d;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+#pickpro .toast-container .ngx-toastr .toast-message {
+  color: #090948;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
 .icon-white{
   color: #fff;
   fill: #fff;

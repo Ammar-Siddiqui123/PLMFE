@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject, ViewChild, TemplateRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import labels from '../../../labels/labels.json';
 
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion';
@@ -19,7 +21,7 @@ export class AddNewEmployeeComponent implements OnInit {
 
   toggle_password = true;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private dialog: MatDialog) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private dialog: MatDialog, private toastr: ToastrService) {}
 
   ngOnInit(): void {
   }
@@ -32,6 +34,8 @@ export class AddNewEmployeeComponent implements OnInit {
         console.log(form.value)
         this.dialog.closeAll(); // Close opened diaglo
       // do whatever you want to do with your data
+
+      this.toastr.success(labels.alert.success, 'Success!');
     }
 
   }

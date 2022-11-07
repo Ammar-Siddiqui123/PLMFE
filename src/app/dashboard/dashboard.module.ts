@@ -19,6 +19,7 @@ import { MatTableModule } from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatRippleModule} from '@angular/material/core';
 import {MatDialogModule} from '@angular/material/dialog';
+import { ToastrModule } from 'ngx-toastr';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { DataTablesModule } from "angular-datatables";
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -79,6 +80,16 @@ import { AddNewEmployeeComponent } from './dialogs/add-new-employee/add-new-empl
     MatSortModule,
     MatRippleModule,
     MatDialogModule,
+    ToastrModule.forRoot({
+      timeOut: 0,
+      extendedTimeOut: 0,
+      iconClasses: {
+        error: 'toast-error',
+        info: 'toast-info',
+        success: 'toast-success',
+        warning: 'toast-warning',
+      }
+    }),
     NgScrollbarModule
 
 
