@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { disableDebugTools } from '@angular/platform-browser';
+
 import { IEmployee,EmployeeObject,AdminEmployeeLookupResponse,AccessGroupObject } from '../Iemployee';
 import { EmployeeService } from '../employee.service';
 @Component({
@@ -7,6 +9,7 @@ import { EmployeeService } from '../employee.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  sideBarOpen: boolean = true;
   emp: IEmployee;
   empRes:EmployeeObject;
   constructor(public employeeService: EmployeeService) { }
@@ -50,6 +53,9 @@ export class DashboardComponent implements OnInit {
     this.updateAccessGroup()
   }
 
+  sideBarToggler() {
+    this.sideBarOpen = !this.sideBarOpen;
+  }
   //Methods
 
   //Employees

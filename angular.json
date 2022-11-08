@@ -28,17 +28,24 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/theme.css",
+              "src/styles.scss",
+              "node_modules/datatables.net-dt/css/jquery.dataTables.min.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/datatables.net/js/jquery.dataTables.min.js",
+              "node_modules/datatables.net-bs5/js/dataTables.bootstrap5.min.js"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "3mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -96,6 +103,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/theme.css",
               "src/styles.scss"
             ],
             "scripts": []

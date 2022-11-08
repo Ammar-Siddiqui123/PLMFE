@@ -1,1 +1,31 @@
-<p>dashboard works!</p>
+<app-header (toggleSidebarForMe)="sideBarToggler()">
+</app-header>
+<mat-sidenav-container>
+
+  <mat-sidenav mode="side" [opened]="sideBarOpen">
+    <app-side-nav></app-side-nav>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="dashboard-section">
+      <!-- Dashboard Breadcrumb -->
+      <div class="breadcrumb-menu">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item active" aria-current="page">Library</li>
+          </ol>
+        </nav>
+      </div>
+
+      <!-- Dynamic pages content is coming from this router-outlet tag -->
+      <router-outlet></router-outlet>
+
+    </div>
+
+
+  </mat-sidenav-content>
+
+
+
+</mat-sidenav-container>
