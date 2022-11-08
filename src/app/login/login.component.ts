@@ -22,7 +22,9 @@ export class LoginComponent {
   constructor(public loginService: LoginService, private router: Router, private route: ActivatedRoute,) {}
 
   addLoginForm = new FormGroup({
-    username: new FormControl('', [Validators.required]),
+    username: new FormControl('', [Validators.required,
+      Validators.minLength(2),  Validators.maxLength(50)
+    ]),
     password: new FormControl('', [Validators.required]),
   });
 
@@ -55,6 +57,7 @@ export class LoginComponent {
   }
 
   ngOnInit() {  
+
   }
 
 }
