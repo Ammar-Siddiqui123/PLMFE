@@ -6,6 +6,8 @@ import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { EmployeeService } from 'src/app/employee.service';
+import { AdminEmployeeLookupResponse, IEmployee } from 'src/app/Iemployee';
 
 export interface location {
   start_location: string;
@@ -29,7 +31,7 @@ const location_data: location[] = [
   styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent implements OnInit {
-
+  emp: IEmployee;
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
@@ -42,7 +44,7 @@ export class EmployeesComponent implements OnInit {
   displayedColumns: string[] = ['start_location', 'end_location', 'delete_location'];
   location_data_source = new MatTableDataSource(location_data);
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
+  constructor(private _liveAnnouncer: LiveAnnouncer, private employeeService: EmployeeService) {}
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -50,12 +52,16 @@ export class EmployeesComponent implements OnInit {
     this.location_data_source.sort = this.sort;
   }
 
+
+
   ngOnInit(): void {
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
     );
+
+
 
   }
 

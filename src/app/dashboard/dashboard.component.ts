@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
 
   //  this.getAdminEmployeeDetails() 
 
-  //    this.employeeLookup()
+     this.employeeLookup()
 
   //    this.saveEmployee()
 
@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
     // this.insertPickLevels() 
     // this.updatePickLevels()
     // this.deletePickLevels()
-    this.updateAccessGroup()
+    // this.updateAccessGroup()
   }
 
   sideBarToggler() {
@@ -111,22 +111,24 @@ console.log(response);
 
 //save employee Lookup
 
-saveEmployee() {
-  this.emp = {
-    "lastName": "AsifAhmedtwo",
-    "firstName": "Admin",
-    "userName": "asifadmin12",
-    "mi": "",
-    "accessLevel": "Administrator",
-    "wsid": "TESTWSID"
-  };
-this.employeeService.saveAdminEmployee(this.emp)
-.subscribe((response: AdminEmployeeLookupResponse) => {
-console.log(response);
+// saveEmployee() {
+//   this.emp = {
+//     "lastName": "AsifAhmedtwo",
+//     "firstName": "Admin",
+//     "userName": "asifadmin12",
+//     "mi": "",
+//     "accessLevel": "Administrator",
+//     "wsid": "TESTWSID"
+//   };
+
+  
+// this.employeeService.saveAdminEmployee(this.emp)
+// .subscribe((response: AdminEmployeeLookupResponse) => {
+// console.log(response);
 
 
-});
-}
+// });
+// }
 
 //delete employee Lookup
 deleteEmployee() {

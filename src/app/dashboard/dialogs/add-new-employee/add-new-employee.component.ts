@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import labels from '../../../labels/labels.json';
+import { EmployeeService } from 'src/app/employee.service';
+import { AdminEmployeeLookupResponse } from 'src/app/Iemployee';
 
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion';
@@ -21,7 +23,7 @@ export class AddNewEmployeeComponent implements OnInit {
 
   toggle_password = true;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private dialog: MatDialog, private toastr: ToastrService) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private dialog: MatDialog, private toastr: ToastrService, private employeeService: EmployeeService) {}
 
   ngOnInit(): void {
   }
@@ -32,6 +34,14 @@ export class AddNewEmployeeComponent implements OnInit {
       // display error in your form
     }else{
         console.log(form.value)
+      
+        this.employeeService.saveAdminEmployee(form.value)
+.subscribe((response: AdminEmployeeLookupResponse) => {
+console.log(response);
+
+
+});
+
         this.dialog.closeAll(); // Close opened diaglo
       // do whatever you want to do with your data
 

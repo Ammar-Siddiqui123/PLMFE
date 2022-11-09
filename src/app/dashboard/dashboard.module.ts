@@ -36,6 +36,7 @@ import { AssignedFunctionsComponent } from './employees/assigned-functions/assig
 import { UnassignedFunctionsComponent } from './employees/unassigned-functions/unassigned-functions.component';
 import { StatisticsLookupComponent } from './employees/statistics-lookup/statistics-lookup.component';
 import { AddNewEmployeeComponent } from './dialogs/add-new-employee/add-new-employee.component';
+import { AddZoneComponent } from './dialogs/add-zone/add-zone.component';
 
 
 
@@ -53,7 +54,9 @@ import { AddNewEmployeeComponent } from './dialogs/add-new-employee/add-new-empl
     AssignedFunctionsComponent,
     UnassignedFunctionsComponent,
     StatisticsLookupComponent,
-    AddNewEmployeeComponent
+    AddNewEmployeeComponent,
+    AddZoneComponent,
+    
 
   ],
   imports: [

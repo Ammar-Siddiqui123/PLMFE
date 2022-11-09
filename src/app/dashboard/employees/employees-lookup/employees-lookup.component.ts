@@ -5,6 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import { AddNewEmployeeComponent } from '../../dialogs/add-new-employee/add-new-employee.component';
 import { NgForm } from '@angular/forms';
+import { AdminEmployeeLookupResponse, IEmployee } from 'src/app/Iemployee';
+import { EmployeeService } from 'src/app/employee.service';
 
 
 export interface employees_details {
@@ -15,14 +17,7 @@ export interface employees_details {
 }
 
 // employee_details table data
-const employees_details_data: employees_details[] = [
-  {id: '01', first_name: 'Jeff', last_name: 'Smith', mi: 'js'},
-  {id: '02', first_name: 'Chris', last_name: 'Adward', mi: 'CA'},
-  {id: '03', first_name: 'Anthony', last_name: 'Jackson', mi: 'AJ'},
-  {id: '04', first_name: 'Brad', last_name: 'Way', mi: 'BW'},
-  {id: '05', first_name: 'Micheal', last_name: 'Steph', mi: 'MS'},
-  {id: '06', first_name: 'Steward', last_name: 'Johnson', mi: 'SJ'},
-];
+
 
 @Component({
   selector: 'app-employees-lookup',
@@ -30,20 +25,41 @@ const employees_details_data: employees_details[] = [
   styleUrls: ['./employees-lookup.component.scss']
 })
 export class EmployeesLookupComponent implements OnInit {
+  emp: IEmployee;
+  employees_res: any;
+  employee_data_source:any = []
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog) {}
+
+  // table initialization
+  displayedColumns: string[] = ['firstName', 'lastName', 'mi'];
+  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog,private employeeService: EmployeeService) {}
 
   @ViewChild(MatSort) sort: MatSort;
+  employees_details_data: any = [];
+
+ 
+
+
+
+  ngOnInit(): void {
+
+    this.emp = {
+      "lastName": "%",   
+      "userName": "1234",
+      "wsid": "TESTWSID"
+    };
+    this.employeeService.getAdminEmployeeLookup(this.emp)
+      .subscribe((response: AdminEmployeeLookupResponse) => {
+        this.employees_res = response
+        this.employees_details_data = this.employees_res.data.employees
+        console.log(this.employees_details_data)
+        this.employee_data_source = new MatTableDataSource(this.employees_details_data);
+      });
+
+  }
 
   ngAfterViewInit() {
     this.employee_data_source.sort = this.sort;
-  }
-
-   // table initialization
-   displayedColumns: string[] = ['id', 'first_name', 'last_name', 'mi'];
-   employee_data_source = new MatTableDataSource(employees_details_data);
-
-  ngOnInit(): void {
   }
 
   applyFilter(event: Event) {
