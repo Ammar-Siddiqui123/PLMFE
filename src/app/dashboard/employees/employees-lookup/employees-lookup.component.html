@@ -13,7 +13,7 @@
     </button>
   </div>
 </div>
-
+<ng-scrollbar style="height: 400px">
 <table mat-table [dataSource]="employee_data_source" matSort (matSortChange)="announceSortChange($event)" class="w-100 g-card-table employee-location-table">
 
   <!--- Note that these columns can be defined in any order.
@@ -43,6 +43,7 @@
 
 
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-header-row  *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+  <tr mat-row class="table-row" tabindex="1" *matRowDef="let row; columns: displayedColumns;" (click)="getEmpDetails(row)"></tr>
 </table>
+</ng-scrollbar>

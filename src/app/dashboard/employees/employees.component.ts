@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, Inject, Input } from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
@@ -7,7 +7,7 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { EmployeeService } from 'src/app/employee.service';
-import { AdminEmployeeLookupResponse, IEmployee } from 'src/app/Iemployee';
+import { AdminEmployeeLookupResponse, EmployeeObject, IEmployee } from 'src/app/Iemployee';
 
 export interface location {
   start_location: string;
@@ -32,12 +32,15 @@ const location_data: location[] = [
 })
 export class EmployeesComponent implements OnInit {
   emp: IEmployee;
+  public isLookUp: boolean = false;
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
+  empData:any = {};
+  max_orders:any;
 
   employees_action: boolean = false;
-  employee_fetched_zones: string[] = ['Zone A', 'Zone B', 'Zone C', 'Zone D', 'Zone E'];
+  employee_fetched_zones: string[] = [];
 
 
   // table initialization
@@ -50,6 +53,24 @@ export class EmployeesComponent implements OnInit {
 
   ngAfterViewInit() {
     this.location_data_source.sort = this.sort;
+  }
+
+  updateIsLookUp(event:any){
+    this.empData = {};
+    this.empData = event.userData;
+    this.isLookUp = event;
+    this.max_orders = 10;
+    // console.log(event.userData);
+    
+    const emp_data = {
+      "userName": event.userData?.username,
+      "wsid": "TESTWSID"
+      };
+    this.employeeService.getAdminEmployeeDetails(emp_data)
+    .subscribe((response:any) => {
+      console.log(response);
+      this.employee_fetched_zones = response.data?.allZones
+    });
   }
 
 

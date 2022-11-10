@@ -3166,3 +3166,7 @@ td.mat-footer-cell {
 .mat-simple-snackbar-action {
   color: #ffd740
 }
+.table-row:focus {  
+  border-radius: 10px;
+  background: #dfdfdf;
+}
