@@ -4,7 +4,7 @@
       <span class="material-symbols-outlined icon-search">
         search
       </span>
-      <input type="text" placeholder="Search Groups" aria-label="Search Groups" matInput [formControl]="myControl" [matAutocomplete]="auto">
+      <input type="text" placeholder="Search Groups" aria-label="Search Groups" matInput (keyup)="applyFilter($event)" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
           {{option}}
@@ -18,7 +18,7 @@
     </button>
   </div>
 </div>
-
+<ng-scrollbar style="height: 400px"> 
 <table mat-table [dataSource]="group_data_source" matSort (matSortChange)="announceSortChange($event)" class="w-100 g-card-table employee-location-table">
 
   <!--- Note that these columns can be defined in any order.
@@ -32,5 +32,6 @@
 
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getGrpDetails(row)"></tr>
 </table>
+</ng-scrollbar>

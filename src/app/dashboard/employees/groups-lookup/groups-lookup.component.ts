@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import {MatSort, Sort} from '@angular/material/sort';
+import {MatDialog} from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {FormControl} from '@angular/forms';
@@ -24,6 +25,15 @@ export class GroupsLookupComponent implements OnInit {
   emp: IEmployee;
   employees_res: any;
   employees_details_data: any = [];
+  @Input('childLookUp') isLookUp: boolean;
+  @Output() updateGrpLookUp  = new EventEmitter();
+
+  selectedRowIndex = -1;
+
+  highlight(row){
+      this.selectedRowIndex = row.id;
+  }
+
 
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
@@ -33,7 +43,7 @@ export class GroupsLookupComponent implements OnInit {
    // table initialization
    displayedColumns: string[] = ['groupName'];
 
-  constructor(private _liveAnnouncer: LiveAnnouncer,private employeeService: EmployeeService) {}
+  constructor(private _liveAnnouncer: LiveAnnouncer,private dialog: MatDialog,private employeeService: EmployeeService) {}
 
   // employee_details table data
 //  groups_details_data: groups_details[] = [
@@ -65,15 +75,19 @@ export class GroupsLookupComponent implements OnInit {
     
       });
       
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
+    // this.filteredOptions = this.myControl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filter(value || '')),
+    // );
 
 
 
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.group_data_source.filter = filterValue.trim().toLowerCase();
+  }
   /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {
     // This example uses English messages. If your application supports
@@ -92,5 +106,32 @@ export class GroupsLookupComponent implements OnInit {
 
     return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
+
+// openDialog() {
+//     let dialogRef = this.dialog.open(AddNewEmployeeComponent, {
+//       height: 'auto',
+//       width: '480px',
+//     });
+//     dialogRef.afterClosed().subscribe(result => {
+//         if (result !== undefined) {
+//             if (result !== 'no') {
+//               const enabled = "Y"
+//                 console.log(result);
+//             } else if (result === 'no') {
+//                console.log('User clicked no.');
+//             }
+//         }
+//     })
+// }
+getGrpDetails(grpData: any){
+  console.log(grpData)
+  this.isLookUp = true;
+  this.updateGrpLookUp.emit(this.isLookUp);
+  this.updateGrpLookUp.emit({userData: grpData});
+  
+} 
+
+
+
 
 }

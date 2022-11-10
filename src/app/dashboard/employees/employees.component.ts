@@ -37,6 +37,7 @@ export class EmployeesComponent implements OnInit {
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
   empData:any = {};
+  grpData:any = {};
   max_orders:any;
 
   employees_action: boolean = false;
@@ -60,7 +61,7 @@ export class EmployeesComponent implements OnInit {
     this.empData = event.userData;
     this.isLookUp = event;
     this.max_orders = 10;
-    // console.log(event.userData);
+    console.log(event.userData);
     
     const emp_data = {
       "userName": event.userData?.username,
@@ -71,6 +72,24 @@ export class EmployeesComponent implements OnInit {
       console.log(response);
       this.employee_fetched_zones = response.data?.allZones
     });
+  }
+
+  updateGrpLookUp(event:any){
+    this.grpData = {};
+    this.grpData = event.userData;
+    this.isLookUp = event;
+    this.max_orders = 10;
+    console.log(event.userData);
+    
+    // const emp_data = {
+    //   "userName": event.userData?.username,
+    //   "wsid": "TESTWSID"
+    //   };
+    // this.employeeService.getAdminEmployeeDetails(emp_data)
+    // .subscribe((response:any) => {
+    //   console.log(response);
+    //   this.employee_fetched_zones = response.data?.allZones
+    // });
   }
 
 
