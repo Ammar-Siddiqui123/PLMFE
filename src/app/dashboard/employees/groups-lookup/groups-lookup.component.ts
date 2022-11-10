@@ -5,21 +5,15 @@ import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { EmployeeObject, IEmployee } from 'src/app/Iemployee';
+import { EmployeeService } from 'src/app/employee.service';
 
 
 export interface groups_details {
-  name: string;
+  groupName: string;
 }
 
-// employee_details table data
-const groups_details_data: groups_details[] = [
-  {name: 'Administrator'},
-  {name: 'Bulk Operator'},
-  {name: 'Staff'},
-  {name: 'Brad'},
-  {name: 'Micheal'},
-  {name: 'Steward'},
-];
+
 
 @Component({
   selector: 'app-groups-lookup',
@@ -27,31 +21,59 @@ const groups_details_data: groups_details[] = [
   styleUrls: ['./groups-lookup.component.scss']
 })
 export class GroupsLookupComponent implements OnInit {
+  emp: IEmployee;
+  employees_res: any;
+  employees_details_data: any = [];
 
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
+  group_data_source: any =[];
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
+   // table initialization
+   displayedColumns: string[] = ['groupName'];
+
+  constructor(private _liveAnnouncer: LiveAnnouncer,private employeeService: EmployeeService) {}
+
+  // employee_details table data
+//  groups_details_data: groups_details[] = [
+
+// ];
 
   @ViewChild(MatSort) sort: MatSort;
-
+  groups_details_data:any = [];
   ngAfterViewInit() {
     this.group_data_source.sort = this.sort;
   }
 
-   // table initialization
-   displayedColumns: string[] = ['name'];
-   group_data_source = new MatTableDataSource(groups_details_data);
+
+  
 
    ngOnInit(): void {
 
+    this.emp = {
+      "userName": "1234",
+      "wsid": "TESTWSID"
+        };
+    this.employeeService.getEmployeeData(this.emp)
+    .subscribe((response: EmployeeObject) => {
+      this.employees_res = response
+      this.groups_details_data = this.employees_res.data.allGroups
+      console.log(this.groups_details_data);
+      this.group_data_source = new MatTableDataSource(this.groups_details_data);
+      console.log(this.group_data_source)
+    
+      });
+      
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
     );
 
+
+
   }
+
   /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {
     // This example uses English messages. If your application supports
