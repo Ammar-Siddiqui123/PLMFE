@@ -25,16 +25,16 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="employees-details details-wrap g-details-wrap">
+                <div class="emp-details-table details-wrap g-details-wrap" *ngIf="!isLookUp">
 
                   <!-- employee lookup here -->
-                  <app-employees-lookup></app-employees-lookup>
+                  <app-employees-lookup [childLookUp]="isLookUp" (updateIsLookUp)="updateIsLookUp($event)"></app-employees-lookup>
 
                 </div>
-                <div class="employee-details details-wrap g-details-wrap">
+                <div class="employee-details details-wrap g-details-wrap" *ngIf="isLookUp">
                   <div class="g-detail">
                     <label class="g-field-label">Employee Lookup</label>
-                    <div class="g-field-content">Jeff Segal</div>
+                    <div class="g-field-content">{{empData.firstName }} {{empData.lastName }}</div>
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">ID</label>
@@ -42,27 +42,27 @@
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">MI</label>
-                    <div class="g-field-content">0000000</div>
+                    <div class="g-field-content">{{empData.mi }}</div>
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">First Name</label>
-                    <div class="g-field-content">Jeff</div>
+                    <div class="g-field-content">{{empData.firstName }}</div>
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">Last Name</label>
-                    <div class="g-field-content">Segal</div>
+                    <div class="g-field-content">{{empData.lastName }}</div>
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">Username</label>
-                    <div class="g-field-content">JeffSegal</div>
+                    <div class="g-field-content">{{empData.username }}</div>
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">Email Address</label>
-                    <div class="g-field-content">jeffsegal@peaklogix.com</div>
+                    <div class="g-field-content">j{{empData.emailAddress }}</div>
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">Access Level</label>
-                    <div class="g-field-content">Staff Member</div>
+                    <div class="g-field-content">{{empData.accessLevel }}</div>
                   </div>
                 </div>
               </mat-card-content>
@@ -200,36 +200,9 @@
                               <div class="search-box zone-search-box">
                                 <div class="d-flex g-mini-search-box">
                                   <mat-form-field class="w-100" appearance="fill">
-                                    <span class="material-symbols-outlined icon-search">
-                                      search
-                                    </span>
-                                    <input type="text" placeholder="Search Order" aria-label="Search Order" matInput
-                                      [formControl]="myControl" [matAutocomplete]="auto">
-                                    <mat-autocomplete #auto="matAutocomplete">
-                                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                                        {{option}}
-                                      </mat-option>
-                                    </mat-autocomplete>
+                                      <input type="text" placeholder="Maximun Handheld Orders" aria-label="Maximun Handheld Orders" matInput #max_orders>
                                   </mat-form-field>
-                                  <button mat-raised-button color="primary" class=" mat-button-icon">
-                                    <span class="material-symbols-outlined">
-                                      add
-                                    </span>
-                                  </button>
                                 </div>
-                                <mat-list class="orders-list g-card-list" role="list">
-                                  <ng-scrollbar style="height: 200px">
-                                    <mat-list-item role="listitem" *ngFor="let zone of employee_fetched_zones">
-                                      <span class="list-label zone-list-label">
-                                        {{zone}}
-                                      </span>
-                                      <button mat-icon-button aria-label="Delete Order">
-                                        <mat-icon class="icon-circle-cancel">close</mat-icon>
-                                      </button>
-                                    </mat-list-item>
-                                  </ng-scrollbar>
-
-                                </mat-list>
                               </div>
                             </div>
                           </div>

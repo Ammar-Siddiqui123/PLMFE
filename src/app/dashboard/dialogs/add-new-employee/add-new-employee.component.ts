@@ -36,11 +36,11 @@ export class AddNewEmployeeComponent implements OnInit {
         console.log(form.value)
       
         this.employeeService.saveAdminEmployee(form.value)
-.subscribe((response: AdminEmployeeLookupResponse) => {
-console.log(response);
+    .subscribe((response: AdminEmployeeLookupResponse) => {
+    console.log(response);
 
 
-});
+    });
 
         this.dialog.closeAll(); // Close opened diaglo
       // do whatever you want to do with your data

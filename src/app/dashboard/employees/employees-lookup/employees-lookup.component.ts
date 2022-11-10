@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -27,7 +27,17 @@ export interface employees_details {
 export class EmployeesLookupComponent implements OnInit {
   emp: IEmployee;
   employees_res: any;
-  employee_data_source:any = []
+  employee_data_source:any = [];
+  @Input('childLookUp') isLookUp: boolean;
+  @Output() updateIsLookUp  = new EventEmitter();
+
+  selectedRowIndex = -1;
+
+  highlight(row){
+      this.selectedRowIndex = row.id;
+  }
+
+  
 
 
   // table initialization
@@ -97,7 +107,11 @@ export class EmployeesLookupComponent implements OnInit {
         }
     })
 }
-
+getEmpDetails(empData: any){
+  this.isLookUp = true;
+  this.updateIsLookUp.emit(this.isLookUp);
+  this.updateIsLookUp.emit({userData: empData});
+} 
 
   // openDialog() {
   //   this.dialog.open(AddNewEmployeeComponent, {

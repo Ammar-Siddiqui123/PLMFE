@@ -63,8 +63,8 @@ export class DashboardComponent implements OnInit {
   //get employee
   getEmployee() {
     this.emp = {
-  "userName": "1234",
-  "wsid": "TESTWSID"
+    "userName": "1234",
+    "wsid": "TESTWSID"
     };
 this.employeeService.getEmployeeData(this.emp)
 .subscribe((response: EmployeeObject) => {
