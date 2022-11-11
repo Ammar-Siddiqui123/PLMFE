@@ -12,7 +12,7 @@ export class UnassignedFunctionsComponent implements OnInit {
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
-  employee_fetched_zones: string[] = ['Zone A', 'Zone B', 'Zone C', 'Zone D', 'Zone E'];
+  employee_fetched_zones: string[] = [];
 
   constructor() { }
 

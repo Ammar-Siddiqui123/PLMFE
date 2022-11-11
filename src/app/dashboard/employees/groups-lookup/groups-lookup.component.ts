@@ -8,6 +8,7 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { EmployeeObject, IEmployee } from 'src/app/Iemployee';
 import { EmployeeService } from 'src/app/employee.service';
+import { AddNewGroupComponent } from '../../dialogs/add-new-group/add-new-group.component';
 
 
 export interface groups_details {
@@ -107,22 +108,23 @@ export class GroupsLookupComponent implements OnInit {
     return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
-// openDialog() {
-//     let dialogRef = this.dialog.open(AddNewEmployeeComponent, {
-//       height: 'auto',
-//       width: '480px',
-//     });
-//     dialogRef.afterClosed().subscribe(result => {
-//         if (result !== undefined) {
-//             if (result !== 'no') {
-//               const enabled = "Y"
-//                 console.log(result);
-//             } else if (result === 'no') {
-//                console.log('User clicked no.');
-//             }
-//         }
-//     })
-// }
+
+  openDialog() {
+    let dialogRef = this.dialog.open(AddNewGroupComponent, {
+      height: 'auto',
+      width: '480px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+        if (result !== undefined) {
+            if (result !== 'no') {
+              const enabled = "Y"
+                console.log(result);
+            } else if (result === 'no') {
+               console.log('User clicked no.');
+            }
+        }
+    })
+}
 getGrpDetails(grpData: any){
   console.log(grpData)
   this.isLookUp = true;

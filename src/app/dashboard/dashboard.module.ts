@@ -37,6 +37,7 @@ import { UnassignedFunctionsComponent } from './employees/unassigned-functions/u
 import { StatisticsLookupComponent } from './employees/statistics-lookup/statistics-lookup.component';
 import { AddNewEmployeeComponent } from './dialogs/add-new-employee/add-new-employee.component';
 import { AddZoneComponent } from './dialogs/add-zone/add-zone.component';
+import { AddNewGroupComponent } from './dialogs/add-new-group/add-new-group.component';
 
 
 
@@ -56,6 +57,7 @@ import { AddZoneComponent } from './dialogs/add-zone/add-zone.component';
     StatisticsLookupComponent,
     AddNewEmployeeComponent,
     AddZoneComponent,
+    AddNewGroupComponent,
     
 
   ],
