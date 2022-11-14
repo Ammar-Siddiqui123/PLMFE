@@ -44,7 +44,7 @@ export class DeleteConfirmationComponent implements OnInit {
         "endLocation": this.data.location.endLocation,
         "username": "1234"
       }
-      this.employeeService.deleteEmployeeZone(locationData).subscribe((res: any) => {
+      this.employeeService.deleteEmployeeLocation(locationData).subscribe((res: any) => {
         if (res.isExecuted) {
           this.dialog.closeAll();
           this.toastr.success(labels.alert.delete, 'Success!', {

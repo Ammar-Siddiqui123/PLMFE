@@ -48,6 +48,7 @@ export class EmployeesComponent implements OnInit {
   employee_fetched_zones: any;
   location_data_source: any;
   employee_group_allowed: any;
+  emp_all_zones:any;
 
 
   // table initialization
@@ -69,21 +70,21 @@ export class EmployeesComponent implements OnInit {
   updateIsLookUp(event: any) {
     this.empData = {};
     this.empData = event.userData;
-    this.isLookUp = event;
-    this.max_orders = 10;
-    
+    this.max_orders = event.userData.maximumOrders;
     const emp_data = {
       "userName": event.userData?.username,
       "wsid": "TESTWSID"
     };
     this.employeeService.getAdminEmployeeDetails(emp_data)
       .subscribe((response: any) => {
-        // console.log(response);
+        console.log(response);
+        this.isLookUp = event;
         this.employee_group_allowed = response.data?.userRights
         this.pickUplevels = response.data?.pickLevels;
         this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
         this.location_data = response.data?.bulkRange
-        this.employee_fetched_zones = new MatTableDataSource(response.data?.allZones);
+        this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones);
+        this.emp_all_zones = response.data?.allZones;
       });
   }
 
@@ -92,7 +93,7 @@ export class EmployeesComponent implements OnInit {
     this.grpData = event.userData;
     this.isLookUp = event;
     this.max_orders = 10;
-    console.log(event.userData);
+    // console.log(event.userData);
     
     // const emp_data = {
     //   "userName": event.userData?.username,
@@ -171,6 +172,8 @@ export class EmployeesComponent implements OnInit {
     if(event === 'back'){
       this.isLookUp = false;
       this.employee_fetched_zones = [];
+      this.location_data_source = [];
+      this.max_orders = '';
       const matSelect: MatSelect = matEvent.source;
       matSelect.writeValue(null);
       
@@ -184,6 +187,9 @@ export class EmployeesComponent implements OnInit {
     dialogRef = this.dialog.open(AddZoneComponent, {
       height: 'auto',
       width: '480px',
+      data: {
+        allZones: this.emp_all_zones
+      }
     })
     dialogRef.afterClosed().subscribe(result => {
      console.log('Added Succesfully!');
@@ -215,7 +221,8 @@ export class EmployeesComponent implements OnInit {
   }
 
   deleteLocation(location:any){
-    this.dialog.open(DeleteConfirmationComponent, {
+    let dialogRef;
+    dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
       data: {
@@ -223,6 +230,10 @@ export class EmployeesComponent implements OnInit {
         location: location
       }
     })
+    dialogRef.afterClosed().subscribe(result => {
+      this.isLookUp = false;
+      this.location_data_source = [];
+     })
     
   }
 
@@ -248,6 +259,12 @@ export class EmployeesComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.location_data_source.filter = filterValue.trim().toLowerCase();
   }
+  zoneFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.employee_fetched_zones.filter = filterValue.trim().toLowerCase();
+  }
 
+  resetEmpData(){
 
+  }
 }

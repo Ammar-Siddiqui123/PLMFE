@@ -14,26 +14,26 @@ export class AddPickuplevelsComponent implements OnInit {
 
   form_heading: string = 'Add Pick Label';
   form_btn_label: string = 'Add';
-  levelId:any;
-  startShelf:any;
-  endShelf:any;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private employeeService: EmployeeService, private toastr: ToastrService) {}
+  levelId: any;
+  startShelf: any;
+  endShelf: any;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private employeeService: EmployeeService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
 
-  onSend(form: NgForm){
+  onSend(form: NgForm) {
     form.value.username = "1234";
     form.value.wsid = "TESTWID";
-    this.employeeService.insertPickLevels(form.value).subscribe((res:any) => {
-      if(res.isExecuted){
+    this.employeeService.insertPickLevels(form.value).subscribe((res: any) => {
+      if (res.isExecuted) {
         this.dialog.closeAll();
-        this.toastr.success(labels.alert.success, 'Success!',{
+        this.toastr.success(labels.alert.success, 'Success!', {
           positionClass: 'toast-bottom-right',
-          timeOut:2000
-       });
+          timeOut: 2000
+        });
       }
- }); 
+    });
   }
 
 }
