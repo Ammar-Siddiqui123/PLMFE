@@ -452,6 +452,23 @@ console.log(response);
 });
 
 }
+//Group
+
+insertGroup() {
+  this.emp = {
+    "userName": "1234",
+    "wsid": "TESTWID",
+    "GroupName": "Group Test"
+
+  };
+this.employeeService.updateAccessGroup(this.emp)
+.subscribe((response: AccessGroupObject) => {
+console.log(response);
+
+
+});
+
+}
 
 
 

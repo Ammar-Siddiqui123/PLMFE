@@ -41,6 +41,7 @@ import { DeleteConfirmationComponent } from './dialogs/delete-confirmation/delet
 import { AddLocationComponent } from './dialogs/add-location/add-location.component';
 import { AddPickuplevelsComponent } from './dialogs/add-pickuplevels/add-pickuplevels.component';
 import { AddGroupAllowedComponent } from './dialogs/add-group-allowed/add-group-allowed.component';
+import { AddNewGroupComponent } from './dialogs/add-new-group/add-new-group.component';
 
 
 
@@ -64,6 +65,7 @@ import { AddGroupAllowedComponent } from './dialogs/add-group-allowed/add-group-
     AddLocationComponent,
     AddPickuplevelsComponent,
     AddGroupAllowedComponent,
+    AddNewGroupComponent,
     
 
   ],

@@ -305,16 +305,16 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="groups-details details-wrap g-details-wrap">
+                <div class="groups-details details-wrap g-details-wrap" *ngIf="!isLookUp">
 
                   <!-- groups lookup here -->
-                  <app-groups-lookup></app-groups-lookup>
+                  <app-groups-lookup  [childLookUp]="isLookUp" (updateGrpLookUp)="updateGrpLookUp($event)"></app-groups-lookup>
 
                 </div>
-                <div class="group-details details-wrap g-details-wrap">
+                <div class="group-details details-wrap g-details-wrap" *ngIf="isLookUp">
                   <div class="g-detail">
                     <label class="g-field-label">Group Name</label>
-                    <div class="g-field-content">Bulk Operator</div>
+                    <div class="g-field-content">{{grpData.groupName }}</div>
                   </div>
                 </div>
               </mat-card-content>

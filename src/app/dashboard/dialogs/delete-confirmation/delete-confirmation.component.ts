@@ -70,21 +70,21 @@ export class DeleteConfirmationComponent implements OnInit {
         "endShelf": this.data.picklevel.endCarousel.toString(),
         "userName": "1234"
       }
-      this.employeeService.deletePickLevels(pickLevelData).subscribe((res: any) => {
-        if (res.isExecuted) {
-          this.dialog.closeAll();
-          this.toastr.success(labels.alert.delete, 'Success!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-        }else{
-          this.dialog.closeAll();
-          this.toastr.error(labels.alert.went_worng, 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-        }
-      });
+      // this.employeeService.deletePickLevels(pickLevelData).subscribe((res: any) => {
+      //   if (res.isExecuted) {
+      //     this.dialog.closeAll();
+      //     this.toastr.success(labels.alert.delete, 'Success!', {
+      //       positionClass: 'toast-bottom-right',
+      //       timeOut: 2000
+      //     });
+      //   }else{
+      //     this.dialog.closeAll();
+      //     this.toastr.error(labels.alert.went_worng, 'Error!', {
+      //       positionClass: 'toast-bottom-right',
+      //       timeOut: 2000
+      //     });
+      //   }
+      // });
     }
     else {
       let emp_data = {

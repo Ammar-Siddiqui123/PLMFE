@@ -41,6 +41,7 @@ export class EmployeesComponent implements OnInit {
   pickUplevels: any;
   location_data: any[] = [];
   employee_data_source:any = [];
+  grpData:any = {};
 
   // employees_action: boolean = false;
   employee_fetched_zones: string[] = [];
@@ -67,8 +68,7 @@ export class EmployeesComponent implements OnInit {
     this.empData = event.userData;
     this.isLookUp = event;
     this.max_orders = 10;
-
-    // this.pickUplevels = [];
+    
     const emp_data = {
       "userName": event.userData?.username,
       "wsid": "TESTWSID"
@@ -82,6 +82,24 @@ export class EmployeesComponent implements OnInit {
         this.location_data = response.data?.bulkRange
         this.employee_fetched_zones = response.data?.allZones
       });
+  }
+
+  updateGrpLookUp(event:any){
+    this.grpData = {};
+    this.grpData = event.userData;
+    this.isLookUp = event;
+    this.max_orders = 10;
+    console.log(event.userData);
+    
+    // const emp_data = {
+    //   "userName": event.userData?.username,
+    //   "wsid": "TESTWSID"
+    //   };
+    // this.employeeService.getAdminEmployeeDetails(emp_data)
+    // .subscribe((response:any) => {
+    //   console.log(response);
+    //   this.employee_fetched_zones = response.data?.allZones
+    // });
   }
 
 

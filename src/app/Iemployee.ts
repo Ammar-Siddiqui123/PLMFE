@@ -28,7 +28,7 @@ export interface IEmployee {
   startShelf?:string| null | undefined;
   endShelf?:string| null | undefined;
   group?:string| null | undefined;
-
+  GroupName?:string| null | undefined;
 
   }
 
@@ -40,8 +40,11 @@ export interface IEmployee {
 
     
 export interface DataAccessGroup {
-        userName: string;
-        group: string;
+        userName?: string;
+        group?: string;
+        groupName?:string;
+        wsid?:string
+
         }
 
   export interface PickLevel {
