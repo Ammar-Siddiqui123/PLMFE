@@ -65,26 +65,50 @@ export class DeleteConfirmationComponent implements OnInit {
 
       let pickLevelData = {
         "wsid": "TESTWID",
-        "levelID": this.data.picklevel.pickLevel.toString(),
+        "levelID": this.data.picklevel.levelID.toString(),
         "startShelf": this.data.picklevel.startCarousel.toString(),
         "endShelf": this.data.picklevel.endCarousel.toString(),
         "userName": "1234"
       }
-      // this.employeeService.deletePickLevels(pickLevelData).subscribe((res: any) => {
-      //   if (res.isExecuted) {
-      //     this.dialog.closeAll();
-      //     this.toastr.success(labels.alert.delete, 'Success!', {
-      //       positionClass: 'toast-bottom-right',
-      //       timeOut: 2000
-      //     });
-      //   }else{
-      //     this.dialog.closeAll();
-      //     this.toastr.error(labels.alert.went_worng, 'Error!', {
-      //       positionClass: 'toast-bottom-right',
-      //       timeOut: 2000
-      //     });
-      //   }
-      // });
+      this.employeeService.deletePickLevels(pickLevelData).subscribe((res: any) => {
+        if (res.isExecuted) {
+          this.dialog.closeAll();
+          this.toastr.success(labels.alert.delete, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }else{
+          this.dialog.closeAll();
+          this.toastr.error(labels.alert.went_worng, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
+    }
+    else if (this.data.mode === 'delete-allowedgroup') {
+      console.log(this.data);
+
+      let pickLevelData = {
+        "wsid": "TESTWID",
+        "GroupName": this.data.allowedGroup,
+        "userName": "1234"
+      }
+      this.employeeService.deletePickLevels(pickLevelData).subscribe((res: any) => {
+        if (res.isExecuted) {
+          this.dialog.closeAll();
+          this.toastr.success(labels.alert.delete, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }else{
+          this.dialog.closeAll();
+          this.toastr.error(labels.alert.went_worng, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
     }
     else {
       let emp_data = {

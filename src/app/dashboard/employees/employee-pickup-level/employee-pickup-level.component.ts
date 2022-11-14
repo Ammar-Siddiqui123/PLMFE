@@ -74,7 +74,8 @@ export class EmployeePickupLevelComponent implements OnInit {
   }
 
   deletePickLevel(picklevel){
-    this.dialog.open(DeleteConfirmationComponent, {
+    let dialogRef;
+    dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
       data: {
@@ -82,6 +83,10 @@ export class EmployeePickupLevelComponent implements OnInit {
         picklevel: picklevel
       }
     })
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Added Succesfully!');
+      // this.ngOnInit();
+     })
     
   }
 

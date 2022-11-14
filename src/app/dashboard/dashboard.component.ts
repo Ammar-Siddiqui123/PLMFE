@@ -18,9 +18,8 @@ export class DashboardComponent implements OnInit {
     //get employee
   //   this.getEmployee()
 
-  //  this.getAdminEmployeeDetails() 
 
-     this.employeeLookup()
+    //  this.employeeLookup()
 
   //    this.saveEmployee()
 
@@ -93,22 +92,6 @@ this.employeeService.employeeStatsInfo(this.emp)
   });
 }
 
-//get employee Lookup
-
-employeeLookup() {
-  this.emp = {
-    "lastName": "%",   
-    "userName": "1234",
-    "wsid": "TESTWSID"
-  };
-this.employeeService.getAdminEmployeeLookup(this.emp)
-.subscribe((response: AdminEmployeeLookupResponse) => {
-console.log(response);
-
-
-});
-}
-
 //save employee Lookup
 
 // saveEmployee() {
@@ -171,20 +154,6 @@ console.log(response);
 }
 
 
-//update employee Lookup
-getAdminEmployeeDetails() {
-  this.emp = {
-    "userName": "1234",
-    "wsid": "TESTWID"
-  };
-this.employeeService.getAdminEmployeeDetails(this.emp)
-.subscribe((response: EmployeeObject) => {
-console.log(response);
-
-
-});
-
-}
 
 
 //control Name

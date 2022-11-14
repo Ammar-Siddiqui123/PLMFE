@@ -14,6 +14,7 @@ import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/dele
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { AddZoneComponent } from '../dialogs/add-zone/add-zone.component';
 import { AddLocationComponent } from '../dialogs/add-location/add-location.component';
+import { AddGroupAllowedComponent } from '../dialogs/add-group-allowed/add-group-allowed.component';
 
 export interface location {
   start_location: string;
@@ -44,13 +45,14 @@ export class EmployeesComponent implements OnInit {
   grpData:any = {};
 
   // employees_action: boolean = false;
-  employee_fetched_zones: string[] = [];
+  employee_fetched_zones: any;
   location_data_source: any;
   employee_group_allowed: any;
 
 
   // table initialization
   displayedColumns: string[] = ['start_location', 'end_location', 'delete_location'];
+  zoneColumns: string[] = ['zones', 'actions'];
 
 
   constructor(private _liveAnnouncer: LiveAnnouncer, private employeeService: EmployeeService, private dialog: MatDialog) { }
@@ -59,6 +61,7 @@ export class EmployeesComponent implements OnInit {
 
   ngAfterViewInit() {
     this.location_data_source.sort = this.sort;
+    this.employee_fetched_zones.sort = this.sort;
   }
 
 
@@ -80,7 +83,7 @@ export class EmployeesComponent implements OnInit {
         this.pickUplevels = response.data?.pickLevels;
         this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
         this.location_data = response.data?.bulkRange
-        this.employee_fetched_zones = response.data?.allZones
+        this.employee_fetched_zones = new MatTableDataSource(response.data?.allZones);
       });
   }
 
@@ -221,6 +224,29 @@ export class EmployeesComponent implements OnInit {
       }
     })
     
+  }
+
+  groupAllowedDialog(){
+    this.dialog.open(AddGroupAllowedComponent, {
+      height: 'auto',
+      width: '480px',
+    })
+  }
+  deleteGroupAllowed(allowedGroup: any){
+      this.dialog.open(DeleteConfirmationComponent, {
+        height: 'auto',
+        width: '480px',
+        data: {
+          mode: 'delete-allowedgroup',
+          allowedGroup: allowedGroup
+        }
+      })
+      
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.location_data_source.filter = filterValue.trim().toLowerCase();
   }
 
 

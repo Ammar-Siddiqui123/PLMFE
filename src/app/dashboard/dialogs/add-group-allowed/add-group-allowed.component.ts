@@ -12,7 +12,7 @@ import { EmployeeService } from 'src/app/employee.service';
 })
 export class AddGroupAllowedComponent implements OnInit {
 
-  form_heading: string = 'Add Pick Label';
+  form_heading: string = 'Add Group Allowed';
   form_btn_label: string = 'Add';
   GroupName:any;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private employeeService: EmployeeService, private toastr: ToastrService) {}
@@ -22,7 +22,10 @@ export class AddGroupAllowedComponent implements OnInit {
   onSend(form: NgForm){
     form.value.username = "1234";
     form.value.wsid = "TESTWID";
-    this.employeeService.insertPickLevels(form.value).subscribe((res:any) => {
+
+    console.log(form.value);
+    
+    this.employeeService.insertGroup(form.value).subscribe((res:any) => {
       if(res.isExecuted){
         this.dialog.closeAll();
         this.toastr.success(labels.alert.success, 'Success!',{
