@@ -5,11 +5,11 @@
 <div class="container">
     <div mat-dialog-content>
 
-        <form #zoneForm="ngForm" (ngSubmit)="onSend(zoneForm)" style="height:180px;">
+        <form #pickUpLevelForm="ngForm" (ngSubmit)="onSend(pickUpLevelForm)" style="height:200px;">
 
             <mat-form-field class="d-block w-100" appearance="outline">
-                <mat-label>Zone</mat-label>
-                <input matInput type="text" name="zone" required="required" [(ngModel)]="zone">
+                <mat-label>Pick Level</mat-label>
+                <input matInput type="text" name="GroupName" required="required" [(ngModel)]="GroupName">
             </mat-form-field>
             <mat-dialog-actions align="end">
                 <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->

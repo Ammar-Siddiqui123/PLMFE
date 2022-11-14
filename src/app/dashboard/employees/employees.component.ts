@@ -1,13 +1,19 @@
 import { AfterViewInit, Component, OnInit, ViewChild, Inject, Input } from '@angular/core';
-import {MatInputModule} from '@angular/material/input';
-import {MatSort, Sort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {LiveAnnouncer} from '@angular/cdk/a11y';
-import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { MatInputModule } from '@angular/material/input';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { EmployeeService } from 'src/app/employee.service';
 import { AdminEmployeeLookupResponse, EmployeeObject, IEmployee } from 'src/app/Iemployee';
+import { MatDialog } from '@angular/material/dialog';
+import { AddNewEmployeeComponent } from '../dialogs/add-new-employee/add-new-employee.component';
+import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/delete-confirmation.component';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { AddZoneComponent } from '../dialogs/add-zone/add-zone.component';
+import { AddLocationComponent } from '../dialogs/add-location/add-location.component';
 
 export interface location {
   start_location: string;
@@ -16,13 +22,7 @@ export interface location {
 }
 
 // location table data
-const location_data: location[] = [
-  {start_location: 'NewYork', end_location: 'SanFransisco', delete_location: '1'},
-  {start_location: 'France', end_location: 'Oklahoma', delete_location: '1'},
-  {start_location: 'American Creek', end_location: 'Center Point', delete_location: '1'},
-  {start_location: 'Italy', end_location: 'NewYork', delete_location: '1'},
-  {start_location: 'SanFransisco', end_location: 'Virginia', delete_location: '1'},
-];
+
 
 
 @Component({
@@ -36,18 +36,23 @@ export class EmployeesComponent implements OnInit {
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
-  empData:any = {};
-  max_orders:any;
+  empData: any = {};
+  max_orders: any;
+  pickUplevels: any;
+  location_data: any[] = [];
+  employee_data_source:any = [];
 
-  employees_action: boolean = false;
+  // employees_action: boolean = false;
   employee_fetched_zones: string[] = [];
+  location_data_source: any;
+  employee_group_allowed: any;
 
 
   // table initialization
   displayedColumns: string[] = ['start_location', 'end_location', 'delete_location'];
-  location_data_source = new MatTableDataSource(location_data);
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private employeeService: EmployeeService) {}
+
+  constructor(private _liveAnnouncer: LiveAnnouncer, private employeeService: EmployeeService, private dialog: MatDialog) { }
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -55,28 +60,33 @@ export class EmployeesComponent implements OnInit {
     this.location_data_source.sort = this.sort;
   }
 
-  updateIsLookUp(event:any){
+
+
+  updateIsLookUp(event: any) {
     this.empData = {};
     this.empData = event.userData;
     this.isLookUp = event;
     this.max_orders = 10;
-    // console.log(event.userData);
-    
+
+    // this.pickUplevels = [];
     const emp_data = {
       "userName": event.userData?.username,
       "wsid": "TESTWSID"
-      };
+    };
     this.employeeService.getAdminEmployeeDetails(emp_data)
-    .subscribe((response:any) => {
-      console.log(response);
-      this.employee_fetched_zones = response.data?.allZones
-    });
+      .subscribe((response: any) => {
+        // console.log(response);
+        this.employee_group_allowed = response.data?.userRights
+        this.pickUplevels = response.data?.pickLevels;
+        this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
+        this.location_data = response.data?.bulkRange
+        this.employee_fetched_zones = response.data?.allZones
+      });
   }
 
 
 
   ngOnInit(): void {
-
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
@@ -104,6 +114,95 @@ export class EmployeesComponent implements OnInit {
     const filterValue = value.toLowerCase();
 
     return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  actionDialog(event: any, emp_data: any, matEvent: MatSelectChange) {
+    if (event === 'edit') {
+      let dialogRef = this.dialog.open(AddNewEmployeeComponent, {
+        height: 'auto',
+        width: '480px',
+        data: {
+          mode: 'edit',
+          emp_data: emp_data
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        this.isLookUp = false;
+        const matSelect: MatSelect = matEvent.source;
+        matSelect.writeValue(null);
+      })
+    }
+    if (event === 'delete') {
+      let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+        height: 'auto',
+        width: '480px',
+        data: {
+          mode: 'edit',
+          emp_data: emp_data
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        this.isLookUp = false;
+        const matSelect: MatSelect = matEvent.source;
+        matSelect.writeValue(null);
+      })
+    }
+    if(event === 'back'){
+      this.isLookUp = false;
+      this.employee_fetched_zones = [];
+      const matSelect: MatSelect = matEvent.source;
+      matSelect.writeValue(null);
+      
+    }
+   
+
+  }
+
+  addZoneDialog() {
+    let dialogRef;
+    dialogRef = this.dialog.open(AddZoneComponent, {
+      height: 'auto',
+      width: '480px',
+    })
+    dialogRef.afterClosed().subscribe(result => {
+     console.log('Added Succesfully!');
+     
+    })
+  }
+  
+  deleteZone(zone:any){
+    this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        mode: 'delete-zone',
+        zone: zone
+      }
+    })
+    
+  }
+
+  addLocationDialog() {
+    let dialogRef;
+    dialogRef = this.dialog.open(AddLocationComponent, {
+      height: 'auto',
+      width: '480px',
+    })
+    dialogRef.afterClosed().subscribe(result => {
+     this.ngOnInit();
+    })
+  }
+
+  deleteLocation(location:any){
+    this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        mode: 'delete-location',
+        location: location
+      }
+    })
+    
   }
 
 

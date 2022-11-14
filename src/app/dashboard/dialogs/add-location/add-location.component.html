@@ -5,11 +5,15 @@
 <div class="container">
     <div mat-dialog-content>
 
-        <form #zoneForm="ngForm" (ngSubmit)="onSend(zoneForm)" style="height:180px;">
+        <form #zoneForm="ngForm" (ngSubmit)="onSend(zoneForm)" style="height:250px;">
 
             <mat-form-field class="d-block w-100" appearance="outline">
-                <mat-label>Zone</mat-label>
-                <input matInput type="text" name="zone" required="required" [(ngModel)]="zone">
+                <mat-label>Start Location</mat-label>
+                <input matInput type="text" name="startLocation" required="required" [(ngModel)]="startLocation">
+            </mat-form-field>
+            <mat-form-field class="d-block w-100" appearance="outline">
+                <mat-label>End Location</mat-label>
+                <input matInput type="text" name="endLocation" required="required" [(ngModel)]="endLocation">
             </mat-form-field>
             <mat-dialog-actions align="end">
                 <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->
