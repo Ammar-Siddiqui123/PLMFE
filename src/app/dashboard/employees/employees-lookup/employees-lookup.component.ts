@@ -109,10 +109,6 @@ export class EmployeesLookupComponent implements OnInit {
 }
 getEmpDetails(empData: any){
   this.isLookUp = true;
-  this.updateIsLookUp.emit(this.isLookUp);
-  this.updateIsLookUp.emit({userData: empData});
-} 
-
-
-
+  this.updateIsLookUp.emit({userData: empData, isLookUp: this.isLookUp});
+}
 }

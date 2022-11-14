@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Add New Employee</h1>
+<h1 mat-dialog-title>{{form_heading}}</h1>
 <button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
   <mat-icon class="close-icon">close</mat-icon>
 </button>
@@ -8,22 +8,22 @@
 
     <mat-form-field class="d-block w-100" appearance="outline">
       <mat-label>MI</mat-label>
-      <input matInput type="text" name="mi" required="required" ngModel>
+      <input matInput type="text" name="mi" required="required" [(ngModel)]="mi">
     </mat-form-field>
 
     <mat-form-field class="d-block w-100" appearance="outline">
       <mat-label>First Name</mat-label>
-      <input matInput type="text" name="firstName" required="required" ngModel>
+      <input matInput type="text" name="firstName" required="required" [(ngModel)]="firstName">
     </mat-form-field>
 
     <mat-form-field class="d-block w-100" appearance="outline">
       <mat-label>Last Name</mat-label>
-      <input matInput type="text" name="lastName" required="required" ngModel>
+      <input matInput type="text" name="lastName" required="required" [(ngModel)]="lastName">
     </mat-form-field>
 
     <mat-form-field class="d-block w-100" appearance="outline">
       <mat-label>Username</mat-label>
-      <input matInput type="text" name="userName" required="required" ngModel>
+      <input matInput type="text" name="userName" required="required" [(ngModel)]="userName">
     </mat-form-field>
 
     <mat-form-field class="d-block w-100" appearance="outline">
@@ -36,13 +36,13 @@
 
     <mat-form-field class="d-block w-100" appearance="outline">
       <mat-label>Email Address</mat-label>
-      <input matInput type="email" name="email" required="required" ngModel>
+      <input matInput type="email" name="emailAddress" required="required" [(ngModel)]="emailAddress">
     </mat-form-field>
 
 
     <mat-form-field class="d-block w-100" appearance="outline">
       <mat-label>Access Level</mat-label>
-      <mat-select required="required" name="accessLevel" ngModel>
+      <mat-select required="required" name="accessLevel" [(ngModel)]="accessLevel">
         <mat-option value="administrator">Administrator</mat-option>
         <mat-option value="staff_member">Staff Member</mat-option>
       </mat-select>
@@ -50,8 +50,8 @@
 
     <mat-dialog-actions align="end">
       <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->
-      <button type="submit" mat-raised-button class="form-button-submit" color="primary">Add</button>
-  </mat-dialog-actions>
+      <button type="submit" mat-raised-button class="form-button-submit" color="primary">{{form_btn_label}}</button>
+    </mat-dialog-actions>
 
   </form>
 

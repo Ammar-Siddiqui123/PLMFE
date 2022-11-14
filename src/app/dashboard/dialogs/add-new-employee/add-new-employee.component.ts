@@ -20,12 +20,32 @@ export class AddNewEmployeeComponent implements OnInit {
 
 
   @ViewChild('addNewEmployee') AddNewEmployeeComponent: TemplateRef<any>;
+  form_heading: string = 'Add New Employee';
+  form_btn_label: string = 'Add';
+  empData: any = [];
+  mi:string;
+  firstName:string;
+  lastName:string;
+  userName:string;
+  emailAddress:string;
+  accessLevel:string;
 
   toggle_password = true;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private dialog: MatDialog, private toastr: ToastrService, private employeeService: EmployeeService) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private toastr: ToastrService, private employeeService: EmployeeService) {}
 
   ngOnInit(): void {
+    // console.log(this.data);
+    this.empData = this.data.emp_data;
+    this.data?.mode === 'edit' ? this.form_heading = 'Edit Employee' : 'Add New Employee';
+    this.data?.mode === 'edit' ? this.form_btn_label = 'Save': 'Add';
+    this.mi = this.empData.mi ?? '';
+    this.firstName = this.empData.firstName ?? '';
+    this.lastName = this.empData.lastName ?? '';
+    this.userName = this.empData.username ?? '';
+    this.emailAddress = this.empData.emailAddress ?? '';
+    this.accessLevel = this.empData.accessLevel.toLowerCase() ?? '';
+    
   }
 
   onSend(form: NgForm){
@@ -33,19 +53,39 @@ export class AddNewEmployeeComponent implements OnInit {
     {
       // display error in your form
     }else{
-        console.log(form.value)
-      
+        // console.log(form.value)
+      if(this.data?.mode === 'edit'){
+        form.value.wsid = "TESTWID";
+        form.value.groupName =  "",
+       this.employeeService.updateAdminEmployee(form.value).subscribe((res:any) => {
+            if(res.isExecuted){
+              this.dialog.closeAll();
+              this.toastr.success(labels.alert.update, 'Success!',{
+                positionClass: 'toast-bottom-right',
+                timeOut:2000
+             });
+            }
+            else{
+
+            }
+       }); 
+      }
+      else{
         this.employeeService.saveAdminEmployee(form.value)
-    .subscribe((response: AdminEmployeeLookupResponse) => {
-    console.log(response);
+        .subscribe((response: AdminEmployeeLookupResponse) => {
+          if(response.isExecuted){
+            this.dialog.closeAll(); // Close opened diaglo
+            this.toastr.success(labels.alert.success, 'Success!',{
+              positionClass: 'toast-bottom-right',
+              timeOut:2000
+           });
+          }
+          else{
 
-
-    });
-
-        this.dialog.closeAll(); // Close opened diaglo
-      // do whatever you want to do with your data
-
-      this.toastr.success(labels.alert.success, 'Success!');
+          }
+      });
+      }
+      
     }
 
   }

@@ -37,6 +37,10 @@ import { UnassignedFunctionsComponent } from './employees/unassigned-functions/u
 import { StatisticsLookupComponent } from './employees/statistics-lookup/statistics-lookup.component';
 import { AddNewEmployeeComponent } from './dialogs/add-new-employee/add-new-employee.component';
 import { AddZoneComponent } from './dialogs/add-zone/add-zone.component';
+import { DeleteConfirmationComponent } from './dialogs/delete-confirmation/delete-confirmation.component';
+import { AddLocationComponent } from './dialogs/add-location/add-location.component';
+import { AddPickuplevelsComponent } from './dialogs/add-pickuplevels/add-pickuplevels.component';
+import { AddGroupAllowedComponent } from './dialogs/add-group-allowed/add-group-allowed.component';
 import { AddNewGroupComponent } from './dialogs/add-new-group/add-new-group.component';
 
 
@@ -57,6 +61,10 @@ import { AddNewGroupComponent } from './dialogs/add-new-group/add-new-group.comp
     StatisticsLookupComponent,
     AddNewEmployeeComponent,
     AddZoneComponent,
+    DeleteConfirmationComponent,
+    AddLocationComponent,
+    AddPickuplevelsComponent,
+    AddGroupAllowedComponent,
     AddNewGroupComponent,
     
 
