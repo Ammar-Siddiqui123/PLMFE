@@ -33,15 +33,18 @@ const location_data: location[] = [
 export class EmployeesComponent implements OnInit {
   emp: IEmployee;
   public isLookUp: boolean = false;
+  public isGroupLookUp:boolean =false;
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
   empData:any = {};
   grpData:any = {};
   max_orders:any;
-
+  userName:any;
   employees_action: boolean = false;
   employee_fetched_zones: string[] = [];
+  // group_fetched_assigned_function:string[] = [];
+  // group_fetched_unassigned_function:string[] = [];
 
 
   // table initialization
@@ -61,12 +64,13 @@ export class EmployeesComponent implements OnInit {
     this.empData = event.userData;
     this.isLookUp = event;
     this.max_orders = 10;
-    console.log(event.userData);
+    console.log(event.userData?.username);
     
     const emp_data = {
       "userName": event.userData?.username,
       "wsid": "TESTWSID"
       };
+      console.log(emp_data)
     this.employeeService.getAdminEmployeeDetails(emp_data)
     .subscribe((response:any) => {
       console.log(response);
@@ -76,25 +80,44 @@ export class EmployeesComponent implements OnInit {
 
   updateGrpLookUp(event:any){
     this.grpData = {};
-    this.grpData = event.userData;
-    this.isLookUp = event;
+    this.grpData = event.groupData;
+    this.isGroupLookUp = event;
     this.max_orders = 10;
-    console.log(event.userData);
-    
-    // const emp_data = {
-    //   "userName": event.userData?.username,
-    //   "wsid": "TESTWSID"
+    console.log("event",event);
+   
+    // const usr = localStorage.getItem("user")
+    // if(usr)
+    // {
+    //    const jsonResult = JSON.parse(usr); 
+    //   console.log(usr)
+    //   this.userName= jsonResult.data.userName;
+    //   console.log( this.userName)
+      
+    // }
+   
+
+    // const grp_data = {
+    //   "userName":this.userName,
+    //   "wsid": "TESTWSID",
+    //   "groupName":event.groupData?.groupName,
+      
     //   };
-    // this.employeeService.getAdminEmployeeDetails(emp_data)
+    //   console.log("grp_data",grp_data)
+    // this.employeeService.getFunctionByGroup(grp_data)
     // .subscribe((response:any) => {
-    //   console.log(response);
-    //   this.employee_fetched_zones = response.data?.allZones
+    //   console.log("function data",response);
+    //   this.group_fetched_assigned_function = response.data?.groupFunc
+    //   this.group_fetched_unassigned_function = response.data?.allFunc
+
+
     // });
   }
 
 
 
   ngOnInit(): void {
+
+    
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),

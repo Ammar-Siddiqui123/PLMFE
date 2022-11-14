@@ -18,9 +18,9 @@
     </div>
     <mat-list class="zones-list g-card-list" role="list">
       <ng-scrollbar style="height: 200px">
-        <mat-list-item role="listitem" *ngFor="let zone of employee_fetched_zones">
+        <mat-list-item role="listitem" *ngFor="let groupFunc of group_fetched_assigned_function">
           <span class="list-label zone-list-label">
-            {{zone}}
+            {{groupFunc}}
           </span>
           <button mat-icon-button aria-label="Delete Function">
             <mat-icon class="icon-circle-cancel">close</mat-icon>

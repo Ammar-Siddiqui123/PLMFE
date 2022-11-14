@@ -304,13 +304,13 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="groups-details details-wrap g-details-wrap" *ngIf="!isLookUp">
+                <div class="groups-details details-wrap g-details-wrap" *ngIf="!isGroupLookUp">
 
                   <!-- groups lookup here -->
-                  <app-groups-lookup  [childLookUp]="isLookUp" (updateGrpLookUp)="updateGrpLookUp($event)"></app-groups-lookup>
+                  <app-groups-lookup  [childGroupLookUp]="isGroupLookUp" (updateGrpLookUp)="updateGrpLookUp($event)"></app-groups-lookup>
 
                 </div>
-                <div class="group-details details-wrap g-details-wrap" *ngIf="isLookUp">
+                <div class="group-details details-wrap g-details-wrap" *ngIf="isGroupLookUp">
                   <div class="g-detail">
                     <label class="g-field-label">Group Name</label>
                     <div class="g-field-content">{{grpData.groupName }}</div>
@@ -328,8 +328,11 @@
                   <h4>Assigned Functions</h4>
                 </div>
                 <div class="row">
-                  <div class="col-6">
-                    <app-assigned-functions></app-assigned-functions>
+                  <div class="col-6">                   
+                     <!-- <app-assigned-functions ></app-assigned-functions> -->
+                     <!-- <div class="groups-details details-wrap g-details-wrap" *ngIf="!isAssignedLookUp"> -->
+                    <app-assigned-functions ></app-assigned-functions>
+                    <!-- <div> -->
                   </div>
                   <div class="col-6">
                     <app-unassigned-functions></app-unassigned-functions>

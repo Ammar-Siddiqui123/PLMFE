@@ -113,12 +113,6 @@ getEmpDetails(empData: any){
   this.updateIsLookUp.emit({userData: empData});
 } 
 
-  // openDialog() {
-  //   this.dialog.open(AddNewEmployeeComponent, {
-  //     data: {
-  //       animal: 'panda',
-  //     },
-  //   });
-  // }
+
 
 }
