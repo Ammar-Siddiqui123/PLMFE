@@ -303,6 +303,18 @@ public insertGroup(employee: IEmployee ): Observable<AccessGroupObject> {
   return this.http.post<any>(`${environment.apiUrl}/Admin/InsertGroup`, employee,httpOptions);
 }
 
+public insertGroupFunctions(employee: IEmployee ): Observable<AccessGroupObject> {
+  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': 'Basic ' + basicAuth
+    })
+  };
+  return this.http.post<any>(`${environment.apiUrl}/Admin/insertGroupFunctions`, employee,httpOptions);
+}
+
+
 public getFunctionByGroup(employee: IEmployee ): Observable<AccessGroupObject> {
   let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
   const httpOptions = {
