@@ -6,29 +6,42 @@
           search
         </span>
         <input type="text" placeholder="Search Assigned Function"
-          aria-label="Search Groups Allowed" matInput>
+          aria-label="Search Groups Allowed" matInput (keyup)="applyFilter($event)">
       </mat-form-field>
     </div>
     <div class="d-flex align-items-center justify-content-between">
       <p class="mb-0">Assigned</p>
-      <button mat-stroked-button color="warn" class="button-remove-all">
+      <button mat-stroked-button color="warn" class="button-remove-all" (click)="removeAllFunctions()">
         <mat-icon>close</mat-icon>
         Remove All
       </button>
     </div>
+
     <mat-list class="zones-list g-card-list" role="list">
-      <ng-scrollbar style="height: 200px">
-        <mat-list-item role="listitem" *ngFor="let groupFunc of group_fetched_assigned_function">
+      <ng-scrollbar *ngIf="!filterValue" style="height: 200px">
+        <mat-list-item role="listitem" *ngFor="let groupname of assignedFunctions">
           <span class="list-label zone-list-label">
-            {{groupFunc}}
+            {{groupname}}
           </span>
           <button mat-icon-button aria-label="Delete Function">
             <mat-icon class="icon-circle-cancel">close</mat-icon>
           </button>
         </mat-list-item>
       </ng-scrollbar>
-
+      <ng-scrollbar *ngIf="filterValue" style="height: 200px">
+        <mat-list-item role="listitem" *ngFor="let groupname of filteredOptions">
+          <span class="list-label zone-list-label">
+            {{groupname}}
+          </span>
+          <button mat-icon-button aria-label="Delete Function" (click)="removeFunction(groupname)">
+            <mat-icon class="icon-circle-cancel">close</mat-icon>
+          </button>
+        </mat-list-item>
+      </ng-scrollbar>
     </mat-list>
+
+
+
   </div>
 
 </div>

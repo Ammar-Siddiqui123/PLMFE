@@ -41,6 +41,9 @@ export class EmployeesComponent implements OnInit {
   empData: any = {};
   max_orders: any;
   pickUplevels: any;
+  assignedFunctions:any;
+  unassignedFunctions:any;
+  group_fetched_unassigned_function:any
   location_data: any[] = [];
   employee_data_source: any = [];
   grpData: any = {};
@@ -48,9 +51,6 @@ export class EmployeesComponent implements OnInit {
   userName: any;
   employees_action: boolean = false;
   // employee_fetched_zones: string[] = [];
-  // group_fetched_assigned_function:string[] = [];
-  // group_fetched_unassigned_function:string[] = [];
-
   // employees_action: boolean = false;
   employee_fetched_zones: any;
   location_data_source: any;
@@ -94,6 +94,8 @@ export class EmployeesComponent implements OnInit {
         this.location_data = response.data?.bulkRange
         this.employee_fetched_zones = new MatTableDataSource(response.data?.allZones);
       });
+
+   
   }
 
   updateGrpLookUp(event: any) {
@@ -103,32 +105,24 @@ export class EmployeesComponent implements OnInit {
     this.max_orders = 10;
     console.log("event", event);
 
-    // const usr = localStorage.getItem("user")
-    // if(usr)
-    // {
-    //    const jsonResult = JSON.parse(usr); 
-    //   console.log(usr)
-    //   this.userName= jsonResult.data.userName;
-    //   console.log( this.userName)
+    const grp_data = {
+      "userName":this.userName,
+      "wsid": "TESTWSID",
+      "groupName":this.grpData.groupName
+      
+      };
+      console.log("grp_data",grp_data)
+    this.employeeService.getFunctionByGroup(grp_data)
+    .subscribe((response:any) => {
+      console.log("function data",response);
+      this.assignedFunctions = response.data?.allFunc
+      this.unassignedFunctions = response.data?.groupFunc
 
-    // }
-
-
-    // const grp_data = {
-    //   "userName":this.userName,
-    //   "wsid": "TESTWSID",
-    //   "groupName":event.groupData?.groupName,
-
-    //   };
-    //   console.log("grp_data",grp_data)
-    // this.employeeService.getFunctionByGroup(grp_data)
-    // .subscribe((response:any) => {
-    //   console.log("function data",response);
-    //   this.group_fetched_assigned_function = response.data?.groupFunc
-    //   this.group_fetched_unassigned_function = response.data?.allFunc
+      
+    });
 
 
-    // });
+  
   }
 
 
@@ -139,7 +133,7 @@ export class EmployeesComponent implements OnInit {
       map(value => this._filter(value || '')),
     );
 
-
+    
 
   }
 

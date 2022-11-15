@@ -347,12 +347,12 @@
                 <div class="row">
                   <div class="col-6">                   
                      <!-- <app-assigned-functions ></app-assigned-functions> -->
-                     <!-- <div class="groups-details details-wrap g-details-wrap" *ngIf="!isAssignedLookUp"> -->
-                    <app-assigned-functions ></app-assigned-functions>
-                    <!-- <div> -->
+                   
+                    <app-assigned-functions  [assignedFunctions]="assignedFunctions"></app-assigned-functions>
+           
                   </div>
                   <div class="col-6">
-                    <app-unassigned-functions></app-unassigned-functions>
+                    <app-unassigned-functions [unassignedFunctions]="unassignedFunctions"></app-unassigned-functions>
                   </div>
                 </div>
               </mat-card-content>
