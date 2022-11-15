@@ -15,6 +15,7 @@ import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { AddZoneComponent } from '../dialogs/add-zone/add-zone.component';
 import { AddLocationComponent } from '../dialogs/add-location/add-location.component';
 import { AddGroupAllowedComponent } from '../dialogs/add-group-allowed/add-group-allowed.component';
+import { AddNewGroupComponent } from '../dialogs/add-new-group/add-new-group.component';
 
 export interface location {
   start_location: string;
@@ -203,6 +204,52 @@ export class EmployeesComponent implements OnInit {
 
 
   }
+
+  actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
+    console.log(event.value)
+    if (event === 'edit') {
+      let dialogRef = this.dialog.open(AddNewGroupComponent, {
+        height: 'auto',
+        width: '480px',
+        data: {
+          mode: 'edit',
+          grp_data: grp_data
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        this.isGroupLookUp = false;
+        const matSelect: MatSelect = matEvent.source;
+        matSelect.writeValue(null);
+      })
+    }
+    if (event === 'delete') {
+      let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+        height: 'auto',
+        width: '480px',
+        data: {
+          mode: 'delete-group',
+          grp_data: grp_data
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        this.isGroupLookUp = false;
+        const matSelect: MatSelect = matEvent.source;
+        matSelect.writeValue(null);
+      })
+    }
+    if (event === 'back') {
+      this.isGroupLookUp = false;
+      this.assignedFunctions = [];
+      this.unassignedFunctions = [];
+      this.max_orders = '';
+      const matSelect: MatSelect = matEvent.source;
+      matSelect.writeValue(null);
+
+    }
+
+
+  }
+
 
   addZoneDialog() {
     let dialogRef;

@@ -35,7 +35,6 @@ export class AddNewEmployeeComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private toastr: ToastrService, private employeeService: EmployeeService) {}
 
   ngOnInit(): void {
-    // console.log(this.data);
     this.empData = this.data.emp_data;
     this.data?.mode === 'edit' ? this.form_heading = 'Edit Employee' : 'Add New Employee';
     this.data?.mode === 'edit' ? this.form_btn_label = 'Save': 'Add';
