@@ -328,21 +328,21 @@
                   </h2>
                   <mat-form-field class="action-dropdown" appearance="fill">
                     <mat-label>Actions</mat-label>
-                    <mat-select class="employees-action" [disabled]="!isLookUp">
+                    <mat-select class="employees-action" [disabled]="!isGroupLookUp"
+                    (selectionChange)="actionGroupDialog($event.value, grpData, $event)">
                       <mat-option value="edit">Edit</mat-option>
                       <mat-option value="delete">Delete</mat-option>
-                      <mat-option value="delete">Clone</mat-option>
+                      <mat-option value="back">Back</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="groups-details details-wrap g-details-wrap" *ngIf="!isLookUp">
+                <div class="groups-details details-wrap g-details-wrap" *ngIf="!isGroupLookUp">
 
                   <!-- groups lookup here -->
-                  <app-groups-lookup [childLookUp]="isLookUp" (updateGrpLookUp)="updateGrpLookUp($event)">
-                  </app-groups-lookup>
+                  <app-groups-lookup  [childGroupLookUp]="isGroupLookUp" (updateGrpLookUp)="updateGrpLookUp($event)"></app-groups-lookup>
 
                 </div>
-                <div class="group-details details-wrap g-details-wrap" *ngIf="isLookUp">
+                <div class="group-details details-wrap g-details-wrap" *ngIf="isGroupLookUp">
                   <div class="g-detail">
                     <label class="g-field-label">Group Name</label>
                     <div class="g-field-content">{{grpData.groupName }}</div>
@@ -357,14 +357,22 @@
             <mat-card class="mat-elevation-z g-card">
               <mat-card-content>
                 <div class="row">
-                  <h4>Assigned Functions</h4>
-                </div>
-                <div class="row">
                   <div class="col-6">
-                    <app-assigned-functions></app-assigned-functions>
+                    <h4>Assigned Functions</h4>
                   </div>
                   <div class="col-6">
-                    <app-unassigned-functions></app-unassigned-functions>
+                    <button mat-raised-button class="form-button-submit" color="primary" style="float: right;">Save</button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">                   
+                     <!-- <app-assigned-functions ></app-assigned-functions> -->
+                   
+                    <app-assigned-functions  [assignedFunctions]="assignedFunctions"></app-assigned-functions>
+           
+                  </div>
+                  <div class="col-6">
+                    <app-unassigned-functions (addPermission)="addPermission($event)" [unassignedFunctions]="unassignedFunctions"></app-unassigned-functions>
                   </div>
                 </div>
               </mat-card-content>

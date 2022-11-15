@@ -6,7 +6,7 @@
           search
         </span>
         <input type="text" placeholder="Search Unassigned function"
-          aria-label="Search Unassigned Function" matInput>
+          aria-label="Search Unassigned Function"  matInput (keyup)="applyFilter($event)">
       </mat-form-field>
     </div>
     <div class="d-flex align-items-center justify-content-between">
@@ -17,11 +17,22 @@
       </button>
     </div>
     <mat-list class="zones-list g-card-list" role="list">
-      <ng-scrollbar style="height: 200px">
-        <mat-list-item role="listitem" *ngFor="let zone of employee_fetched_zones">
+      <ng-scrollbar *ngIf="!filterValue" style="height: 200px">
+        <mat-list-item role="listitem"  *ngFor="let groupname of unassignedFunctions">
           <span class="list-label zone-list-label">
-            {{zone}}
+            {{groupname}}
           </span>
+          <button mat-icon-button aria-label="Delete Function"  (click)="add(groupname)">
+            <mat-icon>add_circle_outline</mat-icon>
+          </button>
+        </mat-list-item>
+      </ng-scrollbar>
+      <ng-scrollbar *ngIf="filterValue" style="height: 200px">
+        <mat-list-item role="listitem" *ngFor="let groupname of filteredOptions">
+          <span class="list-label zone-list-label">
+            {{groupname}}
+          </span>
+          <!-- <button mat-icon-button aria-label="Delete Function" (click)="removeFunction(groupname)"> -->
           <button mat-icon-button aria-label="Delete Function">
             <mat-icon class="icon-circle-cancel">close</mat-icon>
           </button>

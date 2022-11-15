@@ -15,6 +15,7 @@ import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { AddZoneComponent } from '../dialogs/add-zone/add-zone.component';
 import { AddLocationComponent } from '../dialogs/add-location/add-location.component';
 import { AddGroupAllowedComponent } from '../dialogs/add-group-allowed/add-group-allowed.component';
+import { AddNewGroupComponent } from '../dialogs/add-new-group/add-new-group.component';
 
 export interface location {
   start_location: string;
@@ -34,16 +35,24 @@ export interface location {
 export class EmployeesComponent implements OnInit {
   emp: IEmployee;
   public isLookUp: boolean = false;
+  public isGroupLookUp: boolean = false;
+ 
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
   empData: any = {};
   max_orders: any;
   pickUplevels: any;
+  assignedFunctions:any;
+  unassignedFunctions:any;
+  group_fetched_unassigned_function:any
   location_data: any[] = [];
-  employee_data_source:any = [];
-  grpData:any = {};
-
+  employee_data_source: any = [];
+  grpData: any = {};
+  // max_orders:any;
+  userName: any;
+  employees_action: boolean = false;
+  // employee_fetched_zones: string[] = [];
   // employees_action: boolean = false;
   employee_fetched_zones: any;
   location_data_source: any;
@@ -70,11 +79,15 @@ export class EmployeesComponent implements OnInit {
   updateIsLookUp(event: any) {
     this.empData = {};
     this.empData = event.userData;
+    this.isLookUp = event;
+    console.log(event.userData?.username);
+
     this.max_orders = event.userData.maximumOrders;
     const emp_data = {
       "userName": event.userData?.username,
       "wsid": "TESTWSID"
     };
+    console.log(emp_data)
     this.employeeService.getAdminEmployeeDetails(emp_data)
       .subscribe((response: any) => {
         console.log(response);
@@ -86,24 +99,38 @@ export class EmployeesComponent implements OnInit {
         this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones);
         this.emp_all_zones = response.data?.allZones;
       });
+
+   
+  }
+  addPermission(event:any){
+    console.log("add permsion",event)
   }
 
-  updateGrpLookUp(event:any){
+  updateGrpLookUp(event: any) {
     this.grpData = {};
-    this.grpData = event.userData;
-    this.isLookUp = event;
+    this.grpData = event.groupData;
+    this.isGroupLookUp = event;
     this.max_orders = 10;
-    // console.log(event.userData);
-    
-    // const emp_data = {
-    //   "userName": event.userData?.username,
-    //   "wsid": "TESTWSID"
-    //   };
-    // this.employeeService.getAdminEmployeeDetails(emp_data)
-    // .subscribe((response:any) => {
-    //   console.log(response);
-    //   this.employee_fetched_zones = response.data?.allZones
-    // });
+    console.log("event", event);
+
+    const grp_data = {
+      "userName":this.userName,
+      "wsid": "TESTWSID",
+      "groupName":this.grpData.groupName
+      
+      };
+      console.log("grp_data",grp_data)
+    this.employeeService.getFunctionByGroup(grp_data)
+    .subscribe((response:any) => {
+      console.log("function data",response);
+      this.assignedFunctions = response.data?.allFunc
+      this.unassignedFunctions = response.data?.groupFunc
+
+      
+    });
+
+
+  
   }
 
 
@@ -114,7 +141,7 @@ export class EmployeesComponent implements OnInit {
       map(value => this._filter(value || '')),
     );
 
-
+    
 
   }
 
@@ -169,18 +196,64 @@ export class EmployeesComponent implements OnInit {
         matSelect.writeValue(null);
       })
     }
-    if(event === 'back'){
+    if (event === 'back') {
       this.isLookUp = false;
       this.employee_fetched_zones = [];
       this.location_data_source = [];
       this.max_orders = '';
       const matSelect: MatSelect = matEvent.source;
       matSelect.writeValue(null);
-      
+
     }
-   
+
 
   }
+
+  actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
+    console.log(event.value)
+    if (event === 'edit') {
+      let dialogRef = this.dialog.open(AddNewGroupComponent, {
+        height: 'auto',
+        width: '480px',
+        data: {
+          mode: 'edit',
+          grp_data: grp_data
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        this.isGroupLookUp = false;
+        const matSelect: MatSelect = matEvent.source;
+        matSelect.writeValue(null);
+      })
+    }
+    if (event === 'delete') {
+      let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+        height: 'auto',
+        width: '480px',
+        data: {
+          mode: 'delete-group',
+          grp_data: grp_data
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        this.isGroupLookUp = false;
+        const matSelect: MatSelect = matEvent.source;
+        matSelect.writeValue(null);
+      })
+    }
+    if (event === 'back') {
+      this.isGroupLookUp = false;
+      this.assignedFunctions = [];
+      this.unassignedFunctions = [];
+      this.max_orders = '';
+      const matSelect: MatSelect = matEvent.source;
+      matSelect.writeValue(null);
+
+    }
+
+
+  }
+
 
   addZoneDialog() {
     let dialogRef;
@@ -192,12 +265,12 @@ export class EmployeesComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-     console.log('Added Succesfully!');
-     
+      console.log('Added Succesfully!');
+
     })
   }
-  
-  deleteZone(zone:any){
+
+  deleteZone(zone: any) {
     this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
@@ -206,7 +279,7 @@ export class EmployeesComponent implements OnInit {
         zone: zone
       }
     })
-    
+
   }
 
   addLocationDialog() {
@@ -216,7 +289,7 @@ export class EmployeesComponent implements OnInit {
       width: '480px',
     })
     dialogRef.afterClosed().subscribe(result => {
-     this.ngOnInit();
+      this.ngOnInit();
     })
   }
 
@@ -230,29 +303,24 @@ export class EmployeesComponent implements OnInit {
         location: location
       }
     })
-    dialogRef.afterClosed().subscribe(result => {
-      this.isLookUp = false;
-      this.location_data_source = [];
-     })
-    
   }
 
-  groupAllowedDialog(){
+  groupAllowedDialog() {
     this.dialog.open(AddGroupAllowedComponent, {
       height: 'auto',
       width: '480px',
     })
   }
-  deleteGroupAllowed(allowedGroup: any){
-      this.dialog.open(DeleteConfirmationComponent, {
-        height: 'auto',
-        width: '480px',
-        data: {
-          mode: 'delete-allowedgroup',
-          allowedGroup: allowedGroup
-        }
-      })
-      
+  deleteGroupAllowed(allowedGroup: any) {
+    this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        mode: 'delete-allowedgroup',
+        allowedGroup: allowedGroup
+      }
+    })
+
   }
 
   applyFilter(event: Event) {
@@ -267,4 +335,6 @@ export class EmployeesComponent implements OnInit {
   resetEmpData(){
 
   }
+
+  
 }

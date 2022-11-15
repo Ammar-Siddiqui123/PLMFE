@@ -19,43 +19,105 @@ export interface DialogData {
 export class AddNewGroupComponent implements OnInit {
  
   @ViewChild('addNewGroup') AddNewEmployeeComponent: TemplateRef<any>;
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private dialog: MatDialog, private toastr: ToastrService, private employeeService: EmployeeService) { }
+  form_heading: string = 'Add New Group';
+  form_btn_label: string = 'Add';
+  grpData: any = [];
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private toastr: ToastrService, private employeeService: EmployeeService) { }
+ 
   emp: IEmployee;
-  gname;
+  groupName:string;
 
   ngOnInit(): void {
+    console.log(this.data)
+    this.grpData = this.data.grp_data;
+    this.data?.mode === 'edit' ? this.form_heading = 'Edit Group' : 'Add New Group';
+    this.data?.mode === 'edit' ? this.form_btn_label = 'Save': 'Add';
+    this.groupName = this.grpData.groupName ?? '';
+
+
   }
 
+
   onSend(form: NgForm){
+   
+
     if(form.status === 'INVALID')
     {
       // display error in your form
     }else{
+
+      if(this.data?.mode === 'edit'){
         console.log(form.value)
         
-        this.gname = form.value.groupName
+        this.groupName = form.value.groupName
         this.emp = {
           "userName": "1234",
           "wsid": "TESTWID",
-          "GroupName":this.gname
+          "GroupName":this.groupName
       
         };
       
-        this.employeeService.insertGroup(this.emp)
-        .subscribe((response: AccessGroupObject) => {
+        this.employeeService.updateEmployeesInGroup(this.emp)
+        .subscribe((response: AdminEmployeeLookupResponse) => {
           console.log(response);
-
+  
         
         
         });
-
+  
         this.dialog.closeAll(); // Close opened diaglo
       // do whatever you want to do with your data
-
+  
       this.toastr.success(labels.alert.success, 'Success!');
     }
+   
+
+   
+
+      }
+       
 
   }
+
+
+  // onSend(form: NgForm){
+  //   if(form.status === 'INVALID')
+  //   {
+  //     // display error in your form
+  //   }else{
+  //       console.log(form.value)
+  //     if(this.data?.mode === 'edit'){
+  //       form.value.userName= "1234",
+  //       form.value.wsid = "TESTWID";
+  //       form.value.groupName =  "",
+  //      this.employeeService.updateEmployeesInGroup(form.value).subscribe((res:any) => {
+  //           if(res.isExecuted){
+  //             this.dialog.closeAll();
+  //             this.toastr.success(labels.alert.update, 'Success!',{
+  //               positionClass: 'toast-bottom-right',
+  //               timeOut:2000
+  //            });
+  //           }
+         
+  //      }); 
+  //     }
+  //     else{
+  //       console.log(form.value)
+      //   this.employeeService.insertGroup(form.value)
+      //   .subscribe((response: AccessGroupObject) => {
+      //     if(response.isExecuted){
+      //       this.dialog.closeAll(); // Close opened diaglo
+      //       this.toastr.success(labels.alert.success, 'Success!',{
+      //         positionClass: 'toast-bottom-right',
+      //         timeOut:2000
+      //      });
+      //     }
+        
+      // });
+  //     }
+      
+  //   }
+
+  // }
 
 }

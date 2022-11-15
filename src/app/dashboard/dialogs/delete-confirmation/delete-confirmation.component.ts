@@ -16,6 +16,7 @@ export class DeleteConfirmationComponent implements OnInit {
   }
 
   onConfirmdelete() {
+    console.log("data mode",this.data)
     if (this.data.mode === 'delete-zone') {
       let zoneData = {
         "zone": this.data.zone,
@@ -110,6 +111,55 @@ export class DeleteConfirmationComponent implements OnInit {
         }
       });
     }
+    else if (this.data.mode === 'delete-location') {
+
+      let locationData = {
+        "startLocation": this.data.location.startLocation,
+        "endLocation": this.data.location.endLocation,
+        "username": "1234"
+      }
+      this.employeeService.deleteEmployeeLocation(locationData).subscribe((res: any) => {
+        if (res.isExecuted) {
+          this.dialog.closeAll();
+          this.toastr.success(labels.alert.delete, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        } else {
+          this.dialog.closeAll();
+          this.toastr.error(labels.alert.went_worng, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
+    }
+    else if (this.data.mode === 'delete-group') {
+
+      let groupData = {
+             "username": "1234",
+             "wsid": "TESTWID",
+             "GroupName": this.data.grp_data.groupName
+
+
+      }
+      this.employeeService.deleteGroup(groupData).subscribe((res: any) => {
+        if (res.isExecuted) {
+          this.dialog.closeAll();
+          this.toastr.success(labels.alert.delete, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        } else {
+          this.dialog.closeAll();
+          this.toastr.error(labels.alert.went_worng, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
+    }
+
     else {
       let emp_data = {
         "userName": this.data.emp_data.username,

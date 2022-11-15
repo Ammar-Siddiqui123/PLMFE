@@ -26,7 +26,7 @@ export class GroupsLookupComponent implements OnInit {
   emp: IEmployee;
   employees_res: any;
   employees_details_data: any = [];
-  @Input('childLookUp') isLookUp: boolean;
+  @Input('childGroupLookUp') isGroupLookUp: boolean;
   @Output() updateGrpLookUp  = new EventEmitter();
 
   selectedRowIndex = -1;
@@ -72,7 +72,7 @@ export class GroupsLookupComponent implements OnInit {
       this.groups_details_data = this.employees_res.data.allGroups
       console.log(this.groups_details_data);
       this.group_data_source = new MatTableDataSource(this.groups_details_data);
-      console.log(this.group_data_source)
+      console.log("data source",this.groups_details_data)
     
       });
       
@@ -109,7 +109,7 @@ export class GroupsLookupComponent implements OnInit {
   }
 
 
-  openDialog() {
+  openGroupDialog() {
     let dialogRef = this.dialog.open(AddNewGroupComponent, {
       height: 'auto',
       width: '480px',
@@ -124,12 +124,13 @@ export class GroupsLookupComponent implements OnInit {
             }
         }
     })
+    
 }
 getGrpDetails(grpData: any){
   console.log(grpData)
-  this.isLookUp = true;
-  this.updateGrpLookUp.emit(this.isLookUp);
-  this.updateGrpLookUp.emit({userData: grpData});
+  this.isGroupLookUp = true;
+  this.updateGrpLookUp.emit({groupData: grpData, isGroupLookUp: this.isGroupLookUp});
+  console.log(this.isGroupLookUp)
   
 } 
 
