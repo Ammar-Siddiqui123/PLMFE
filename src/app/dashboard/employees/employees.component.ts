@@ -78,7 +78,6 @@ export class EmployeesComponent implements OnInit {
     this.empData = {};
     this.empData = event.userData;
     this.isLookUp = event;
-    // this.max_orders = 10;
     console.log(event.userData?.username);
 
     this.max_orders = event.userData.maximumOrders;
@@ -107,7 +106,6 @@ export class EmployeesComponent implements OnInit {
     this.grpData = event.groupData;
     this.isGroupLookUp = event;
     this.max_orders = 10;
-<<<<<<< HEAD
     console.log("event", event);
 
     const grp_data = {
@@ -128,19 +126,6 @@ export class EmployeesComponent implements OnInit {
 
 
   
-=======
-    // console.log(event.userData);
-    
-    // const emp_data = {
-    //   "userName": event.userData?.username,
-    //   "wsid": "TESTWSID"
-    //   };
-    // this.employeeService.getAdminEmployeeDetails(emp_data)
-    // .subscribe((response:any) => {
-    //   console.log(response);
-    //   this.employee_fetched_zones = response.data?.allZones
-    // });
->>>>>>> 5509a8fb94a4f8a03247345d6877da531ad23095
   }
 
 
@@ -257,14 +242,9 @@ export class EmployeesComponent implements OnInit {
     })
   }
 
-<<<<<<< HEAD
-  deleteLocation(location: any) {
-    this.dialog.open(DeleteConfirmationComponent, {
-=======
   deleteLocation(location:any){
     let dialogRef;
     dialogRef = this.dialog.open(DeleteConfirmationComponent, {
->>>>>>> 5509a8fb94a4f8a03247345d6877da531ad23095
       height: 'auto',
       width: '480px',
       data: {
@@ -272,15 +252,6 @@ export class EmployeesComponent implements OnInit {
         location: location
       }
     })
-<<<<<<< HEAD
-
-=======
-    dialogRef.afterClosed().subscribe(result => {
-      this.isLookUp = false;
-      this.location_data_source = [];
-     })
-    
->>>>>>> 5509a8fb94a4f8a03247345d6877da531ad23095
   }
 
   groupAllowedDialog() {
