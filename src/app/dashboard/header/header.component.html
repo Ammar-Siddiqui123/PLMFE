@@ -1,5 +1,6 @@
 <mat-toolbar>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggleSidebar()">
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
+    (click)="toggleSidebar()">
     <mat-icon>menu</mat-icon>
   </button>
   <span>PickPro</span>
@@ -7,17 +8,11 @@
   <div class="row mr-2 ml-auto">
     <ul class="row m-0 align-items-center">
       <li>
-        <button
-          mat-button
-          [matMenuTriggerFor]="menu"
-          class="user mt-2 d-flex align-items-center"
-        >
-        <mat-icon>dashboard</mat-icon>
+        <button mat-button [matMenuTriggerFor]="menu" class="user mt-2 d-flex align-items-center">
+          <mat-icon>dashboard</mat-icon>
 
-         Apps
-          <mat-icon class="user-image-icon ml-1"
-            >keyboard_arrow_down</mat-icon
-          >
+          Apps
+          <mat-icon class="user-image-icon ml-1">keyboard_arrow_down</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item>
@@ -35,17 +30,11 @@
   <div class="row mr-2 ml-auto">
     <ul class="row m-0 align-items-center">
       <li>
-        <button
-          mat-button
-          [matMenuTriggerFor]="menu"
-          class="user mt-2 d-flex align-items-center"
-        >
-        <mat-icon>account_circle</mat-icon>
+        <button mat-button [matMenuTriggerFor]="menu" class="user mt-2 d-flex align-items-center">
+          <mat-icon>account_circle</mat-icon>
 
           User Name
-          <mat-icon class="user-image-icon ml-1"
-            >keyboard_arrow_down</mat-icon
-          >
+          <mat-icon class="user-image-icon ml-1">keyboard_arrow_down</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item>
@@ -63,4 +52,9 @@
   <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
     <mat-icon>settings</mat-icon>
   </button>
+
+
 </mat-toolbar>
+<mat-progress-bar *ngIf="loading" style="display: flex; justify-content: center; align-items: center" color="primary"
+  mode="indeterminate">
+</mat-progress-bar>

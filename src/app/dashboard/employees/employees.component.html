@@ -95,7 +95,8 @@
                                     <span class="material-symbols-outlined icon-search">
                                       search
                                     </span>
-                                    <input type="text" placeholder="Search Zones" aria-label="Search Zones" matInput (keyup)="zoneFilter($event)">
+                                    <input type="text" placeholder="Search Zones" aria-label="Search Zones" matInput
+                                      (keyup)="zoneFilter($event)">
                                   </mat-form-field>
                                   <button mat-raised-button color="primary" class=" mat-button-icon"
                                     (click)="addZoneDialog()" [disabled]="!isLookUp">
@@ -108,6 +109,11 @@
                                   <table mat-table [dataSource]="employee_fetched_zones" matSort
                                     (matSortChange)="announceSortChange($event)" class="w-100 g-card-table">
 
+                                    <tr class="mat-row" *matNoDataRow>
+                                      <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                                        No data matching the filter.
+                                      </td>
+                                    </tr>
                                     <!-- Start Location Column -->
                                     <ng-container matColumnDef="zones">
                                       <th mat-header-cell *matHeaderCellDef></th>
@@ -152,7 +158,7 @@
                                     <span class="material-symbols-outlined icon-search">
                                       search
                                     </span>
-                                    <input type="text" placeholder="Search Employee" aria-label="Search Employee"
+                                    <input type="text" placeholder="Search location" aria-label="Search location"
                                       matInput (keyup)="applyFilter($event)">
                                   </mat-form-field>
                                   <button mat-raised-button color="primary" class=" mat-button-icon"
@@ -166,6 +172,11 @@
                                   <table mat-table [dataSource]="location_data_source" matSort
                                     (matSortChange)="announceSortChange($event)"
                                     class="w-100 g-card-table employee-location-table">
+                                    <tr class="mat-row" *matNoDataRow>
+                                      <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                                        No data matching the filter.
+                                      </td>
+                                    </tr>
 
                                     <!-- Start Location Column -->
                                     <ng-container matColumnDef="start_location">
@@ -229,7 +240,7 @@
                     </div>
                   </mat-tab>
                   <mat-tab label="Employee Pick Level" [disabled]="!isLookUp">
-                    <app-employee-pickup-level [pickUplevels]="pickUplevels" ></app-employee-pickup-level>
+                    <app-employee-pickup-level [pickUplevels]="pickUplevels"></app-employee-pickup-level>
                   </mat-tab>
 
                   <mat-tab label="Groups Allowed" [disabled]="!isLookUp">
