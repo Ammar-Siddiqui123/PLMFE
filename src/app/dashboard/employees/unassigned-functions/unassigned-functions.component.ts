@@ -1,7 +1,10 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { map, Observable, startWith } from 'rxjs';
 import { AssignService } from 'src/app/assign.service';
+import { FunctionAllocationComponent } from '../../dialogs/function-allocation/function-allocation.component';
+import { AssignedFunctionsComponent } from '../assigned-functions/assigned-functions.component';
 
 @Component({
   selector: 'app-unassigned-functions',
@@ -10,7 +13,7 @@ import { AssignService } from 'src/app/assign.service';
 })
 export class UnassignedFunctionsComponent implements OnInit {
   @Input() unassignedFunctions: [];
-  @Output() addPermission = new EventEmitter();
+  @Output() addFunction = new EventEmitter();
   spliceArray: any;
   filterValue: string;
   myControl = new FormControl('');
@@ -18,7 +21,7 @@ export class UnassignedFunctionsComponent implements OnInit {
   filteredOptions: string[];
   employee_fetched_zones: string[] = [];
 
-  constructor(private AssignService: AssignService) { }
+  constructor(private AssignService: AssignService,private dialog: MatDialog) { }
   public searchText: string;
   ngOnInit(): void {
 
@@ -47,9 +50,31 @@ export class UnassignedFunctionsComponent implements OnInit {
   }
 
 
-  add(permData: any) {
-    console.log(permData);
-    this.addPermission.emit({ permisionData: permData });
+  assignFunction(permData: any) { 
+    let dialogRef = this.dialog.open(FunctionAllocationComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        target: 'assigned',
+        function: permData
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      this.addFunction.emit(result);
+    })
+  }
+  assignAllFunction(allFunc:any){
+    let dialogRef = this.dialog.open(FunctionAllocationComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        target: 'assigned',
+        function: allFunc
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      this.addFunction.emit(result);
+    })
   }
 
 

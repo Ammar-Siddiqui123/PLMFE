@@ -16,7 +16,7 @@ export class AssignService {
   }
   addGroupOption(data: string[], value: string){
 
-    return data.push(value)
+    return data.push(value);
   }
 
 }

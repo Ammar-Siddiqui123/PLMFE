@@ -103,9 +103,23 @@ export class EmployeesComponent implements OnInit {
    
   }
   addPermission(event:any){
-    console.log("add permsion",event)
+    // console.log(typeof( event.function));
+    // console.log(this.unassignedFunctions);
+    if(typeof( event.function) == 'string'){
+      this.unassignedFunctions = this.unassignedFunctions.filter(name => name !== event.function);
+      this.assignedFunctions.push(event.function);
+    }
+    else{
+      event.function.map((func => {
+        this.unassignedFunctions = this.unassignedFunctions.filter(name => name !== func);
+        this.assignedFunctions.push(func);  
+      }));
+      
+    }
   }
-
+  saveAssignedFunc(){
+    
+  }
   updateGrpLookUp(event: any) {
     this.grpData = {};
     this.grpData = event.groupData;
@@ -128,29 +142,17 @@ export class EmployeesComponent implements OnInit {
 
       
     });
-
-
-  
   }
-
-
 
   ngOnInit(): void {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
     );
-
-    
-
   }
 
   /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {

@@ -11,7 +11,7 @@
     </div>
     <div class="d-flex align-items-center justify-content-between">
       <p class="mb-0">Unassigned</p>
-      <button mat-stroked-button color="warn" class="button-add-all">
+      <button mat-stroked-button color="warn" class="button-add-all" (click)="assignAllFunction(unassignedFunctions)">
         <mat-icon>add</mat-icon>
         Add All
       </button>
@@ -22,7 +22,7 @@
           <span class="list-label zone-list-label">
             {{groupname}}
           </span>
-          <button mat-icon-button aria-label="Delete Function"  (click)="add(groupname)">
+          <button mat-icon-button aria-label="Delete Function"  (click)="assignFunction(groupname)">
             <mat-icon>add_circle_outline</mat-icon>
           </button>
         </mat-list-item>

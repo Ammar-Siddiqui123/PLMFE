@@ -16,7 +16,7 @@ export class DeleteConfirmationComponent implements OnInit {
   }
 
   onConfirmdelete() {
-    console.log("data mode",this.data)
+    // console.log("data mode",this.data)
     if (this.data.mode === 'delete-zone') {
       let zoneData = {
         "zone": this.data.zone,
