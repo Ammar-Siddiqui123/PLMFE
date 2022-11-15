@@ -346,7 +346,12 @@
             <mat-card class="mat-elevation-z g-card">
               <mat-card-content>
                 <div class="row">
-                  <h4>Assigned Functions</h4>
+                  <div class="col-6">
+                    <h4>Assigned Functions</h4>
+                  </div>
+                  <div class="col-6">
+                    <button mat-raised-button class="form-button-submit" color="primary" style="float: right;">Save</button>
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-6">                   
@@ -356,7 +361,7 @@
            
                   </div>
                   <div class="col-6">
-                    <app-unassigned-functions [unassignedFunctions]="unassignedFunctions"></app-unassigned-functions>
+                    <app-unassigned-functions (addPermission)="addPermission($event)" [unassignedFunctions]="unassignedFunctions"></app-unassigned-functions>
                   </div>
                 </div>
               </mat-card-content>

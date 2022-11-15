@@ -36,6 +36,7 @@ export class EmployeesComponent implements OnInit {
   emp: IEmployee;
   public isLookUp: boolean = false;
   public isGroupLookUp: boolean = false;
+ 
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
@@ -100,6 +101,9 @@ export class EmployeesComponent implements OnInit {
       });
 
    
+  }
+  addPermission(event:any){
+    console.log("add permsion",event)
   }
 
   updateGrpLookUp(event: any) {
@@ -331,4 +335,6 @@ export class EmployeesComponent implements OnInit {
   resetEmpData(){
 
   }
+
+  
 }

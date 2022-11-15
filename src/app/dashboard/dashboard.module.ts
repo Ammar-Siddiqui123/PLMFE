@@ -42,6 +42,7 @@ import { AddLocationComponent } from './dialogs/add-location/add-location.compon
 import { AddPickuplevelsComponent } from './dialogs/add-pickuplevels/add-pickuplevels.component';
 import { AddGroupAllowedComponent } from './dialogs/add-group-allowed/add-group-allowed.component';
 import { AddNewGroupComponent } from './dialogs/add-new-group/add-new-group.component';
+import { FunctionAllocationComponent } from './dialogs/function-allocation/function-allocation.component';
 
 
 
@@ -66,6 +67,7 @@ import { AddNewGroupComponent } from './dialogs/add-new-group/add-new-group.comp
     AddPickuplevelsComponent,
     AddGroupAllowedComponent,
     AddNewGroupComponent,
+    FunctionAllocationComponent,
     
 
   ],

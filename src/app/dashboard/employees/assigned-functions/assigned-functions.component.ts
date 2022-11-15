@@ -14,6 +14,8 @@ export class AssignedFunctionsComponent implements OnInit {
   // @Output() updateAssignedLookUp  = new EventEmitter();
   @Input() assignedFunctions: [];
   @Input() spliceValue:[]=[];
+
+
   spliceArray:any;
 
   selectedRowIndex = -1;
