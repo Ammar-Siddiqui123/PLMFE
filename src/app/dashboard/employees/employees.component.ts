@@ -119,6 +119,17 @@ export class EmployeesComponent implements OnInit {
   }
   saveAssignedFunc(){
     
+    let assignFunc = {
+      "userName": "1234",
+      "wsid": "TESTWID",
+      "GroupName": "Administrator",
+      "controls": this.assignedFunctions
+    }
+    this.employeeService.insertGroupFunctions(assignFunc)
+      .subscribe((response: any) => {
+        console.log(response);
+        
+      });
   }
   updateGrpLookUp(event: any) {
     this.grpData = {};
