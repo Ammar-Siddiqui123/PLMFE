@@ -18,9 +18,8 @@ export class DashboardComponent implements OnInit {
     //get employee
   //   this.getEmployee()
 
-  //  this.getAdminEmployeeDetails() 
 
-  //    this.employeeLookup()
+    //  this.employeeLookup()
 
   //    this.saveEmployee()
 
@@ -50,7 +49,7 @@ export class DashboardComponent implements OnInit {
     // this.insertPickLevels() 
     // this.updatePickLevels()
     // this.deletePickLevels()
-    this.updateAccessGroup()
+    // this.updateAccessGroup()
   }
 
   sideBarToggler() {
@@ -63,8 +62,8 @@ export class DashboardComponent implements OnInit {
   //get employee
   getEmployee() {
     this.emp = {
-  "userName": "1234",
-  "wsid": "TESTWSID"
+    "userName": "1234",
+    "wsid": "TESTWSID"
     };
 this.employeeService.getEmployeeData(this.emp)
 .subscribe((response: EmployeeObject) => {
@@ -93,40 +92,26 @@ this.employeeService.employeeStatsInfo(this.emp)
   });
 }
 
-//get employee Lookup
-
-employeeLookup() {
-  this.emp = {
-    "lastName": "%",   
-    "userName": "1234",
-    "wsid": "TESTWSID"
-  };
-this.employeeService.getAdminEmployeeLookup(this.emp)
-.subscribe((response: AdminEmployeeLookupResponse) => {
-console.log(response);
-
-
-});
-}
-
 //save employee Lookup
 
-saveEmployee() {
-  this.emp = {
-    "lastName": "AsifAhmedtwo",
-    "firstName": "Admin",
-    "userName": "asifadmin12",
-    "mi": "",
-    "accessLevel": "Administrator",
-    "wsid": "TESTWSID"
-  };
-this.employeeService.saveAdminEmployee(this.emp)
-.subscribe((response: AdminEmployeeLookupResponse) => {
-console.log(response);
+// saveEmployee() {
+//   this.emp = {
+//     "lastName": "AsifAhmedtwo",
+//     "firstName": "Admin",
+//     "userName": "asifadmin12",
+//     "mi": "",
+//     "accessLevel": "Administrator",
+//     "wsid": "TESTWSID"
+//   };
+
+  
+// this.employeeService.saveAdminEmployee(this.emp)
+// .subscribe((response: AdminEmployeeLookupResponse) => {
+// console.log(response);
 
 
-});
-}
+// });
+// }
 
 //delete employee Lookup
 deleteEmployee() {
@@ -169,20 +154,6 @@ console.log(response);
 }
 
 
-//update employee Lookup
-getAdminEmployeeDetails() {
-  this.emp = {
-    "userName": "1234",
-    "wsid": "TESTWID"
-  };
-this.employeeService.getAdminEmployeeDetails(this.emp)
-.subscribe((response: EmployeeObject) => {
-console.log(response);
-
-
-});
-
-}
 
 
 //control Name
@@ -440,6 +411,23 @@ updateAccessGroup() {
   this.emp = {
     "userName": "1234",
     "group": "Administrator"
+
+  };
+this.employeeService.updateAccessGroup(this.emp)
+.subscribe((response: AccessGroupObject) => {
+console.log(response);
+
+
+});
+
+}
+//Group
+
+insertGroup() {
+  this.emp = {
+    "userName": "1234",
+    "wsid": "TESTWID",
+    "GroupName": "Group Test"
 
   };
 this.employeeService.updateAccessGroup(this.emp)

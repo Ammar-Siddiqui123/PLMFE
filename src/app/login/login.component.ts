@@ -31,6 +31,8 @@ export class LoginComponent {
   loginUser() {
 
     this.login = this.addLoginForm.value;
+    console.log(this.login);
+    
     this.loginService
       .login(this.login)
       .subscribe((response: ILoginInfo) => {
@@ -44,7 +46,7 @@ export class LoginComponent {
         if(exe == true){
           console.log("logins",this.logins)
           localStorage.setItem('user', JSON.stringify(response));
-          this.router.navigate(['../dashboard']);
+          this.router.navigate(['/dashboard']);
         }
         else{
           const errorMessage = response.responseMessage;

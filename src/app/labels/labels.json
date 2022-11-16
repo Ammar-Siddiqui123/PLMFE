@@ -1,5 +1,8 @@
 {
   "alert":{
-    "success": "Your details have been added"
+    "success": "Your details have been added",
+    "update": "Your details have been updated",
+    "delete": "Your details have been deleted",
+    "went_worng": "Something went wrong!"
   }
 }

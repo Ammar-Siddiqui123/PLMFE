@@ -292,4 +292,60 @@ public updateAccessGroup(employee: IEmployee ): Observable<AccessGroupObject> {
 }
 
 
+public insertGroup(employee: IEmployee ): Observable<AccessGroupObject> {
+  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': 'Basic ' + basicAuth
+    })
+  };
+  return this.http.post<any>(`${environment.apiUrl}/Admin/InsertGroup`, employee,httpOptions);
+}
+
+public insertGroupFunctions(employee: IEmployee ): Observable<AccessGroupObject> {
+  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': 'Basic ' + basicAuth
+    })
+  };
+  return this.http.post<any>(`${environment.apiUrl}/Admin/insertGroupFunctions`, employee,httpOptions);
+}
+
+
+public getFunctionByGroup(employee: IEmployee ): Observable<AccessGroupObject> {
+  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': 'Basic ' + basicAuth
+    })
+  };
+  return this.http.post<any>(`${environment.apiUrl}/Admin/GetFunctionByGroup`, employee,httpOptions);
+}
+
+public updateEmployeesInGroup(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
+  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': 'Basic ' + basicAuth
+    })
+  };
+  return this.http.post<any>(`${environment.apiUrl}/Admin/UpdateEmployeesInGroup`, employee,httpOptions);
+}
+
+public deleteGroup(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
+  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': 'Basic ' + basicAuth
+    })
+  };
+  return this.http.post<any>(`${environment.apiUrl}/Admin/DeleteGroup`, employee,httpOptions);
+}
+
 }
