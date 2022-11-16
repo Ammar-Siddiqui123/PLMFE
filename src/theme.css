@@ -3171,3 +3171,6 @@ td.mat-footer-cell {
   border-radius: 10px;
   background: #dfdfdf;
 }
+.mat-list-item-content{
+  padding: 0 10px !important;
+}

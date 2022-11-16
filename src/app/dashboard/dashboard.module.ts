@@ -3,25 +3,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatListModule } from '@angular/material/list';
-import { MatInputModule } from '@angular/material/input';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatCardModule} from '@angular/material/card';
-import {MatSelectModule} from '@angular/material/select';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import { MatTableModule } from '@angular/material/table';
-import {MatSortModule} from '@angular/material/sort';
-import {MatRippleModule} from '@angular/material/core';
-import {MatDialogModule} from '@angular/material/dialog';
 import { ToastrModule } from 'ngx-toastr';
-import { NgScrollbarModule } from 'ngx-scrollbar';
 import { DataTablesModule } from "angular-datatables";
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { RouterModule } from '@angular/router';
@@ -44,6 +26,8 @@ import { AddPickuplevelsComponent } from './dialogs/add-pickuplevels/add-pickupl
 import { AddGroupAllowedComponent } from './dialogs/add-group-allowed/add-group-allowed.component';
 import { AddNewGroupComponent } from './dialogs/add-new-group/add-new-group.component';
 import { FunctionAllocationComponent } from './dialogs/function-allocation/function-allocation.component';
+import { MaterialModule } from '../material-module';
+import { GeneralModule } from '../gen-module';
 
 
 
@@ -80,25 +64,9 @@ import { FunctionAllocationComponent } from './dialogs/function-allocation/funct
     DataTablesModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatButtonModule,
-    MatInputModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatMenuModule,
-    MatIconModule,
-    MatDividerModule,
-    MatListModule,
-    MatTabsModule,
-    MatCardModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-    MatTableModule,
-    MatSortModule,
-    MatRippleModule,
-    MatProgressBarModule,
-    MatDialogModule,
+    MaterialModule,
     ToastrModule.forRoot({
-      timeOut: 0,
+      timeOut: 2000,
       extendedTimeOut: 0,
       iconClasses: {
         error: 'toast-error',
@@ -107,7 +75,7 @@ import { FunctionAllocationComponent } from './dialogs/function-allocation/funct
         warning: 'toast-warning',
       }
     }),
-    NgScrollbarModule
+    GeneralModule
 
 
   ]

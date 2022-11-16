@@ -8,7 +8,7 @@ const routes: Routes = [
 
   {
     path:'',
-    redirectTo: '/login',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   { path: 'login', component: LoginComponent },
@@ -23,13 +23,17 @@ const routes: Routes = [
       {
         path: 'employees',
         component: EmployeesComponent,
-      }
+      },
+      { 
+        path: 'admin',
+        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) 
+      },
+
     ]
 
   },
 
-
-
+  
 
   // {
   //   path:'dashboard',

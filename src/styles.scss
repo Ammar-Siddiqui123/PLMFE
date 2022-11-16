@@ -83,16 +83,18 @@ background-color: #7B42AC;
 }
 
 
-mat-sidenav {
-  width: 228px;
-}
-mat-sidenav-container {
-  height: 100%;
-}
+// mat-sidenav {
+//   width: 228px;
+// }
+// mat-sidenav-container {
+//   height: 100%;
+// }
 .mat-sidenav-container {
   background: #F3F4F4;
 }
-
+.mat-drawer-inner-container{
+  overflow: hidden !important;
+}
 .mat-drawer {
   background: #F3F4F4;
 }
@@ -373,8 +375,8 @@ mat-toolbar {
 
 .mat-drawer-side {
   border: none;
-  padding-right: 15px;
-  padding-left: 15px;
+  // padding-right: 15px;
+  // padding-left: 15px;
 }
 .mat-nav-list .mat-list-item {
   border-radius: 12px;
