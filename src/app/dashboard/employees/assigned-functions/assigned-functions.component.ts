@@ -1,8 +1,10 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { map, Observable, startWith } from 'rxjs';
 import { AssignService } from 'src/app/assign.service';
 import { EmployeeService } from 'src/app/employee.service';
+import { FunctionAllocationComponent } from '../../dialogs/function-allocation/function-allocation.component';
 
 @Component({
   selector: 'app-assigned-functions',
@@ -13,6 +15,7 @@ export class AssignedFunctionsComponent implements OnInit {
   // @Input('isAssignedLookUp') isAssignedLookUp: boolean;
   // @Output() updateAssignedLookUp  = new EventEmitter();
   @Input() assignedFunctions: [];
+  @Output() removeFunction = new EventEmitter();
   @Input() spliceValue:[]=[];
 
 
@@ -30,7 +33,7 @@ export class AssignedFunctionsComponent implements OnInit {
   employee_fetched_zones: string[] = [];
   group_fetched_unassigned_function:string[] = [];
   userName:any;
-  constructor( private employeeService: EmployeeService, private assignService:AssignService) { }
+  constructor( private employeeService: EmployeeService, private assignService:AssignService,private dialog: MatDialog) { }
 
   ngOnInit(): void {
 
@@ -39,7 +42,7 @@ export class AssignedFunctionsComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    console.log(filterValue)
+    // console.log(filterValue)
     this.filterValue = filterValue
     const filteredArray = this.assignedFunctions.filter((option: string) => option.toLowerCase().includes(filterValue))
     
@@ -48,19 +51,18 @@ export class AssignedFunctionsComponent implements OnInit {
   }
   
   
-  removeFunction(value: string){
-    console.log("value: ", value)
-    // this.spliceArray = this.unassignedFunctions.filter(v => v !== value)
-    this.spliceArray = this.assignService.removeGroupOption(this.assignedFunctions, value)
-    this.assignedFunctions = this.spliceArray
-  
-   //after splice array
+  unassignFunction(permData: any){
+    // console.log("value: ", permData)
+    let dialogRef = this.dialog.open(FunctionAllocationComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        target: 'unassigned',
+        function: permData
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      this.removeFunction.emit(result);
+    })
   }
-
-  removeAllFunctions() {
-    this.assignedFunctions = []
-  }
-
-
-
 }

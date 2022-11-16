@@ -38,18 +38,6 @@ export class UnassignedFunctionsComponent implements OnInit {
     this.filteredOptions = filterValue ? filteredArray : this.unassignedFunctions
 
   }
-
-
-  removeFunction(value: string) {
-    console.log("value: ", value)
-    // this.spliceArray = this.unassignedFunctions.filter(v => v !== value)
-    this.spliceArray = this.AssignService.removeGroupOption(this.unassignedFunctions, value)
-    this.unassignedFunctions = this.spliceArray
-
-    //after splice array
-  }
-
-
   assignFunction(permData: any) { 
     let dialogRef = this.dialog.open(FunctionAllocationComponent, {
       height: 'auto',
@@ -57,19 +45,6 @@ export class UnassignedFunctionsComponent implements OnInit {
       data: {
         target: 'assigned',
         function: permData
-      }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      this.addFunction.emit(result);
-    })
-  }
-  assignAllFunction(allFunc:any){
-    let dialogRef = this.dialog.open(FunctionAllocationComponent, {
-      height: 'auto',
-      width: '480px',
-      data: {
-        target: 'assigned',
-        function: allFunc
       }
     })
     dialogRef.afterClosed().subscribe(result => {

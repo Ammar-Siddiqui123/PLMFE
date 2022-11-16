@@ -16,6 +16,8 @@ import { AddZoneComponent } from '../dialogs/add-zone/add-zone.component';
 import { AddLocationComponent } from '../dialogs/add-location/add-location.component';
 import { AddGroupAllowedComponent } from '../dialogs/add-group-allowed/add-group-allowed.component';
 import { AddNewGroupComponent } from '../dialogs/add-new-group/add-new-group.component';
+import { ToastrService } from 'ngx-toastr';
+import labels from '../../labels/labels.json';
 
 export interface location {
   start_location: string;
@@ -65,7 +67,7 @@ export class EmployeesComponent implements OnInit {
   zoneColumns: string[] = ['zones', 'actions'];
 
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private employeeService: EmployeeService, private dialog: MatDialog) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, private employeeService: EmployeeService, private dialog: MatDialog,private toastr: ToastrService) { }
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -87,10 +89,10 @@ export class EmployeesComponent implements OnInit {
       "userName": event.userData?.username,
       "wsid": "TESTWSID"
     };
-    console.log(emp_data)
+    // console.log(emp_data)
     this.employeeService.getAdminEmployeeDetails(emp_data)
       .subscribe((response: any) => {
-        console.log(response);
+        // console.log(response);
         this.isLookUp = event;
         this.employee_group_allowed = response.data?.userRights
         this.pickUplevels = response.data?.pickLevels;
@@ -103,16 +105,28 @@ export class EmployeesComponent implements OnInit {
    
   }
   addPermission(event:any){
-    // console.log(typeof( event.function));
-    // console.log(this.unassignedFunctions);
     if(typeof( event.function) == 'string'){
       this.unassignedFunctions = this.unassignedFunctions.filter(name => name !== event.function);
-      this.assignedFunctions.push(event.function);
+      this.assignedFunctions.unshift(event.function);
     }
     else{
       event.function.map((func => {
         this.unassignedFunctions = this.unassignedFunctions.filter(name => name !== func);
-        this.assignedFunctions.push(func);  
+        this.assignedFunctions.unshift(func);  
+      }));
+      
+    }
+  }
+  removePermission(event:any){
+    // console.log(this.unassignedFunctions);
+    if(typeof(event.function) == 'string'){
+      this.assignedFunctions = this.assignedFunctions.filter(name => name !== event.function);
+      this.unassignedFunctions.unshift(event.function);
+    }
+    else{
+      event.function.map((func => {
+        this.assignedFunctions = this.assignedFunctions.filter(name => name !== func);
+        this.unassignedFunctions.unshift(func);  
       }));
       
     }
@@ -122,12 +136,20 @@ export class EmployeesComponent implements OnInit {
     let assignFunc = {
       "userName": "1234",
       "wsid": "TESTWID",
-      "GroupName": "Administrator",
+      "GroupName": "123",
       "controls": this.assignedFunctions
     }
     this.employeeService.insertGroupFunctions(assignFunc)
-      .subscribe((response: any) => {
-        console.log(response);
+      .subscribe((res: any) => {
+        this.assignedFunctions =[];
+        this.unassignedFunctions =[];
+        this.isGroupLookUp = false;
+        if(res.isExecuted){
+          this.toastr.success(labels.alert.delete, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
         
       });
   }
@@ -136,7 +158,7 @@ export class EmployeesComponent implements OnInit {
     this.grpData = event.groupData;
     this.isGroupLookUp = event;
     this.max_orders = 10;
-    console.log("event", event);
+    // console.log("event", event);
 
     const grp_data = {
       "userName":this.userName,
@@ -144,10 +166,10 @@ export class EmployeesComponent implements OnInit {
       "groupName":this.grpData.groupName
       
       };
-      console.log("grp_data",grp_data)
+      // console.log("grp_data",grp_data)
     this.employeeService.getFunctionByGroup(grp_data)
     .subscribe((response:any) => {
-      console.log("function data",response);
+      // console.log("function data",response);
       this.assignedFunctions = response.data?.allFunc
       this.unassignedFunctions = response.data?.groupFunc
 
@@ -343,10 +365,6 @@ export class EmployeesComponent implements OnInit {
   zoneFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.employee_fetched_zones.filter = filterValue.trim().toLowerCase();
-  }
-
-  resetEmpData(){
-
   }
 
   

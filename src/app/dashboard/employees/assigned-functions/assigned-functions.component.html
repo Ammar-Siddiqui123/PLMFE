@@ -11,7 +11,7 @@
     </div>
     <div class="d-flex align-items-center justify-content-between">
       <p class="mb-0">Assigned</p>
-      <button mat-stroked-button color="warn" class="button-remove-all" (click)="removeAllFunctions()">
+      <button mat-stroked-button color="warn" class="button-remove-all" (click)="unassignFunction(assignedFunctions)">
         <mat-icon>close</mat-icon>
         Remove All
       </button>
@@ -23,7 +23,7 @@
           <span class="list-label zone-list-label">
             {{groupname}}
           </span>
-          <button mat-icon-button aria-label="Delete Function">
+          <button mat-icon-button aria-label="Delete Function" (click)="unassignFunction(groupname)">
             <mat-icon class="icon-circle-cancel">close</mat-icon>
           </button>
         </mat-list-item>
@@ -33,7 +33,7 @@
           <span class="list-label zone-list-label">
             {{groupname}}
           </span>
-          <button mat-icon-button aria-label="Delete Function" (click)="removeFunction(groupname)">
+          <button mat-icon-button aria-label="Delete Function" (click)="unassignFunction(groupname)">
             <mat-icon class="icon-circle-cancel">close</mat-icon>
           </button>
         </mat-list-item>
