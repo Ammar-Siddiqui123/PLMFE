@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-side-nav',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./side-nav.component.scss']
 })
 export class SideNavComponent implements OnInit {
+
   menus: any = [
     { icon: 'home', title: 'Home', route: '/dashboard' },
     { icon: 'electric_bolt', title: 'Import Export', route: '#' },
@@ -26,36 +28,35 @@ export class SideNavComponent implements OnInit {
     { icon: 'analytics', title: 'Reports', route: '#' },
     { icon: 'my_location', title: 'Location Assignment', route: '#' },
     { icon: 'low_priority', title: 'Cycle Count', route: '#' },
-    { icon: 'blur_short', title: 'Move Item', route: '#' },
+    { icon: 'trolley', title: 'Move Item', route: '#' },
     { icon: 'dvr', title: 'Transactions', route: '#' },
     { icon: 'ads_click', title: 'manual Transactions', route: '#' },
     { icon: 'event_note', title: 'Event Logs', route: '#' },
     { icon: 'airline_stops', title: 'De-allocate Orders', route: '#' },
-    { icon: 'original', title: 'Inventory', route: '#' }
+    { icon: 'dashboard', title: 'Inventory', route: '#' }
   ];
   isParentMenu: boolean = true;
   isChildMenu: boolean = false;
   childMenus: any;
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+    this.loadMenus({route: this.router.url});
+    console.log(this.router.url);
   }
 
-  loadChildMenu(menu: any) {
-    // console.log(menu);
+  loadMenus(menu: any) {
+
     if (menu.route === '/admin') {
       this.childMenus = this.adminMenus;
       this.isParentMenu = false;
       this.isChildMenu = true;
     }
-
-
-  }
-  loadParentMenu(menu: any) {
     if (menu.route === '/dashboard') {
       this.isParentMenu = true;
       this.isChildMenu = false;
     }
+
   }
 
 }

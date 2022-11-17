@@ -1,3 +1,46 @@
 table {
     width: 100%;
   }
+//   td.mat-cell{
+//     border-bottom-style: none;
+// }
+
+// th.mat-header-cell{
+//     border-bottom-style: none;
+// }
+
+.counter
+{
+    background-color: #eaecf0;
+    padding: 12px;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+.counter-count
+{
+  font-size: 18px;
+  background-color: #000080cc;
+  border-radius: 50%;
+  position: relative;
+  color: #ffffff;
+  text-align: center;
+  line-height: 64px;
+  width: 60px;
+  height: 60px;
+  -webkit-border-radius: 25%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  display: inline-block;
+}
+
+.employee-p,.customer-p,.order-p,.design-p
+{
+  font-size: 12px;
+  color: #000000;
+  line-height: 0px;
+  text-align: center;
+}
+.main-widget{
+  justify-content: space-around;
+}
