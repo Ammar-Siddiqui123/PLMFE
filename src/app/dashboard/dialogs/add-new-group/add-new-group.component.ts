@@ -28,7 +28,7 @@ export class AddNewGroupComponent implements OnInit {
   groupName:string;
 
   ngOnInit(): void {
-    console.log(this.data)
+    // console.log(this.data)
     this.grpData = this.data.grp_data;
     this.data?.mode === 'edit' ? this.form_heading = 'Edit Group' : 'Add New Group';
     this.data?.mode === 'edit' ? this.form_btn_label = 'Save': 'Add';
@@ -39,85 +39,31 @@ export class AddNewGroupComponent implements OnInit {
 
 
   onSend(form: NgForm){
-   
-
     if(form.status === 'INVALID')
     {
       // display error in your form
     }else{
+        
+         this.employeeService.insertGroup(form.value)
+        .subscribe((response: AccessGroupObject) => {
+          console.log(response)
+          if(response.isExecuted){
+            this.dialog.closeAll(); // Close opened diaglo
+            this.toastr.success(labels.alert.success, 'Success!',{
+              positionClass: 'toast-bottom-right',
+              timeOut:2000
+           });
+          }
+          else{
 
-      if(this.data?.mode === 'edit'){
-        console.log(form.value)
-        
-        this.groupName = form.value.groupName
-        this.emp = {
-          "userName": "1234",
-          "wsid": "TESTWID",
-          "GroupName":this.groupName
+          }
+      });
       
-        };
       
-        this.employeeService.updateEmployeesInGroup(this.emp)
-        .subscribe((response: AdminEmployeeLookupResponse) => {
-          console.log(response);
-  
-        
-        
-        });
-  
-        this.dialog.closeAll(); // Close opened diaglo
-      // do whatever you want to do with your data
-  
-      this.toastr.success(labels.alert.success, 'Success!');
     }
-   
-
-   
-
-      }
-       
 
   }
 
-
-  // onSend(form: NgForm){
-  //   if(form.status === 'INVALID')
-  //   {
-  //     // display error in your form
-  //   }else{
-  //       console.log(form.value)
-  //     if(this.data?.mode === 'edit'){
-  //       form.value.userName= "1234",
-  //       form.value.wsid = "TESTWID";
-  //       form.value.groupName =  "",
-  //      this.employeeService.updateEmployeesInGroup(form.value).subscribe((res:any) => {
-  //           if(res.isExecuted){
-  //             this.dialog.closeAll();
-  //             this.toastr.success(labels.alert.update, 'Success!',{
-  //               positionClass: 'toast-bottom-right',
-  //               timeOut:2000
-  //            });
-  //           }
-         
-  //      }); 
-  //     }
-  //     else{
-  //       console.log(form.value)
-      //   this.employeeService.insertGroup(form.value)
-      //   .subscribe((response: AccessGroupObject) => {
-      //     if(response.isExecuted){
-      //       this.dialog.closeAll(); // Close opened diaglo
-      //       this.toastr.success(labels.alert.success, 'Success!',{
-      //         positionClass: 'toast-bottom-right',
-      //         timeOut:2000
-      //      });
-      //     }
-        
-      // });
-  //     }
-      
-  //   }
-
-  // }
-
 }
+
+  
