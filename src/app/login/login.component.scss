@@ -1,9 +1,42 @@
-.login-section{
+.login-section {
   position: relative;
-// width: 1440px;
-height: 826px;
+  // width: 1440px;
+  height: 826px;
 
-/* Tertiary 900 */
+  /* Tertiary 900 */
 
-background: #090948;
+  background: #090948;
+}
+
+.app-heading {
+  font-family: 'Mulish' !important;
+  font-style: normal;
+  font-weight: 1000;
+  font-size: 40px;
+  line-height: 64px;
+
+
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.4px;
+
+  color: #FFFFFF;
+}
+
+.account_login {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 64px;
+  /* identical to box height, or 213% */
+
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.4px;
+
+  color: #090948;
+}
+::ng-deep .mat-form-field {
+  font-size: 15px; // example
 }

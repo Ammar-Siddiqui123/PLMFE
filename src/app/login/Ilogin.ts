@@ -17,6 +17,7 @@ export interface ILoginInfo {
     accessLevel?: string | null | undefined;
     responseMessage?: string | null | undefined;
     loginTime?: string | null | undefined;
+    data?: object | null | undefined;
 
   }
 

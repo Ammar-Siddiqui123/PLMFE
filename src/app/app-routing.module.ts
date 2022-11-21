@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EmployeesComponent } from './dashboard/employees/employees.component';
 import { MainComponent } from './dashboard/main/main.component';
+import { AuthGuardGuard } from './guard/auth-guard.guard';
 import { LoginComponent } from './login/login.component';
 const routes: Routes = [
 
@@ -19,14 +20,17 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: MainComponent,
+        canActivate:[AuthGuardGuard]
       },
       {
         path: 'employees',
         component: EmployeesComponent,
+        canActivate:[AuthGuardGuard]
       },
       { 
         path: 'admin',
-        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) 
+        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+        canActivate:[AuthGuardGuard]
       },
 
     ]

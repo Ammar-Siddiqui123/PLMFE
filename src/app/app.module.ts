@@ -8,6 +8,12 @@ import { LoginService } from './login.service';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRippleModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -21,7 +27,13 @@ import { DashboardModule } from './dashboard/dashboard.module';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    DashboardModule
+    DashboardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRippleModule,
+    MatIconModule,
+    MatCheckboxModule
   ],
   providers: [
     LoginService
