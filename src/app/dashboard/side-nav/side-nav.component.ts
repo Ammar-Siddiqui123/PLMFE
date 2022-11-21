@@ -20,7 +20,7 @@ export class SideNavComponent implements OnInit {
   ];
   adminMenus: any = [
     { icon: 'arrow_back', title: 'Admin', route: '/dashboard', class: 'back-class' },
-    { icon: 'assignment_ind', title: 'Employee', route: '/employees' },
+    { icon: 'assignment_ind', title: 'Employee', route: '/admin/employees' },
     { icon: 'tune', title: 'Preferences', route: '#' },
     { icon: 'published_with_changes', title: 'System Replenishment', route: '#' },
     { icon: 'directions_alt', title: 'Inventery Map', route: '#' },
@@ -42,12 +42,12 @@ export class SideNavComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadMenus({route: this.router.url});
-    console.log(this.router.url);
+    // console.log(this.router.url);
   }
 
   loadMenus(menu: any) {
 
-    if (menu.route === '/admin') {
+    if (menu.route.includes('/admin')) {
       this.childMenus = this.adminMenus;
       this.isParentMenu = false;
       this.isChildMenu = true;

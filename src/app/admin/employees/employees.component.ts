@@ -72,8 +72,8 @@ export class EmployeesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ngAfterViewInit() {
-    this.location_data_source.sort = this.sort;
-    this.employee_fetched_zones.sort = this.sort;
+    // this.location_data_source.sort = this.sort;
+    // this.employee_fetched_zones.sort = this.sort;
   }
 
 
