@@ -1,0 +1,32 @@
+
+.mat-row,
+.mat-header-row {
+    display: table-row;
+}
+
+.mat-cell,
+.mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    padding: 0px 5px;
+    line-break: unset;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+}
+// .mat-table{
+//     overflow-x: scroll;
+// }
+
+.mat-header-row{
+    width: fit-content !important;
+}
+.mat-row{
+    width: fit-content !important;
+}
+
+.mat-column-name{
+    padding-left: 24px;
+}
+

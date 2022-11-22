@@ -5,6 +5,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 import { MaterialModule } from '../material-module';
 import { GeneralModule } from '../gen-module';
+import { CdkTableModule} from '@angular/cdk/table';
 
 //Employees Components
 import { EmployeesComponent } from './employees/employees.component';
@@ -25,6 +26,8 @@ import { AddPickuplevelsComponent } from './dialogs/add-pickuplevels/add-pickupl
 import { AddGroupAllowedComponent } from './dialogs/add-group-allowed/add-group-allowed.component';
 import { AddNewGroupComponent } from './dialogs/add-new-group/add-new-group.component';
 import { FunctionAllocationComponent } from './dialogs/function-allocation/function-allocation.component';
+import { InventoryMapComponent } from './inventory-map/inventory-map.component';
+import { ChecksWithDragTableComponent } from '../components/checks-with-drag-table/checks-with-drag-table.component';
 
 
 @NgModule({
@@ -46,12 +49,15 @@ import { FunctionAllocationComponent } from './dialogs/function-allocation/funct
     AddGroupAllowedComponent,
     AddNewGroupComponent,
     FunctionAllocationComponent,
+    InventoryMapComponent,
+    ChecksWithDragTableComponent,
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     MaterialModule,
-    GeneralModule
+    GeneralModule,
+    CdkTableModule
   ]
 })
 export class AdminModule { }

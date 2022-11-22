@@ -1,0 +1,59 @@
+<div class="example-container ">
+  <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+    <!-- checkbox header -->
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *cdkCellDef="let row">
+        <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+    <!-- table dynamic columns -->
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+      <th class="header" mat-header-cell *cdkHeaderCellDef>
+        <h6><strong> {{ column.header }}</strong></h6>
+        <mat-form-field class="filter w-100 stats-filters" appearance="outline">
+          <mat-label>Search</mat-label>
+          <input matInput type="text">
+        </mat-form-field>
+      </th>
+      <mat-cell *cdkCellDef="let row">{{ row[column.columnDef] }}</mat-cell>
+    </ng-container>
+
+    <!-- table action column -->
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef>
+        <h6>Action</h6>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon>visibility</mat-icon>
+            <span>View Details</span>
+          </button>
+        </mat-menu>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row>
+  </mat-table>
+  <!-- table pagination -->
+  <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+</div>

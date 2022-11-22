@@ -23,7 +23,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'assignment_ind', title: 'Employee', route: '/admin/employees' },
     { icon: 'tune', title: 'Preferences', route: '#' },
     { icon: 'published_with_changes', title: 'System Replenishment', route: '#' },
-    { icon: 'directions_alt', title: 'Inventery Map', route: '#' },
+    { icon: 'directions_alt', title: 'Inventery Map', route: '/admin/inventoryMap' },
     { icon: 'list_alt', title: 'Batch Manager', route: '#' },
     { icon: 'analytics', title: 'Reports', route: '#' },
     { icon: 'my_location', title: 'Location Assignment', route: '#' },
