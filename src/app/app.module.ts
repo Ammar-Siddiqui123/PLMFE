@@ -8,6 +8,7 @@ import { LoginService } from './login.service';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     DashboardModule
   ],
   providers: [
-    LoginService
+    LoginService,{provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })
