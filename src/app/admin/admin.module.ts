@@ -28,6 +28,9 @@ import { AddNewGroupComponent } from './dialogs/add-new-group/add-new-group.comp
 import { FunctionAllocationComponent } from './dialogs/function-allocation/function-allocation.component';
 import { InventoryMapComponent } from './inventory-map/inventory-map.component';
 import { ChecksWithDragTableComponent } from '../components/checks-with-drag-table/checks-with-drag-table.component';
+import { AddInvMapLocationComponent } from './dialogs/add-inv-map-location/add-inv-map-location.component';
+import { WarehouseComponent } from './dialogs/warehouse/warehouse.component';
+import { SetColumnSeqComponent } from './dialogs/set-column-seq/set-column-seq.component';
 
 
 @NgModule({
@@ -51,6 +54,9 @@ import { ChecksWithDragTableComponent } from '../components/checks-with-drag-tab
     FunctionAllocationComponent,
     InventoryMapComponent,
     ChecksWithDragTableComponent,
+    AddInvMapLocationComponent,
+    WarehouseComponent,
+    SetColumnSeqComponent,
   ],
   imports: [
     CommonModule,

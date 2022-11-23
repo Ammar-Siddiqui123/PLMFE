@@ -18,6 +18,7 @@ import {MatRippleModule} from '@angular/material/core';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
 @NgModule({
     exports: [
         MatButtonModule,
@@ -39,7 +40,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
         MatDialogModule,
         MatCheckboxModule,
         MatPaginatorModule,
-        
+        MatRadioModule
     ]
 })
 export class MaterialModule { }

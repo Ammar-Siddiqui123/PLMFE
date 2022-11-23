@@ -1,0 +1,16 @@
+.container.location_detail, .item_detail {
+    border: 1px solid #D7D7F9;
+    border-radius: 14px;
+    padding: 30px;
+}
+
+.ld_checks {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .ld_checkbox {
+    margin: 0 10px;
+  }

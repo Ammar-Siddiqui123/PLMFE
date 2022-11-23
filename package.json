@@ -28,6 +28,7 @@
     "datatables.net-bs5": "^1.11.3",
     "datatables.net-dt": "^1.11.3",
     "jquery": "^3.6.0",
+    "material-symbols": "^0.4.0",
     "ngx-scrollbar": "^10.0.1",
     "ngx-toastr": "^15.2.1",
     "rxjs": "~7.5.0",

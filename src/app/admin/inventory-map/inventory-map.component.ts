@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AddInvMapLocationComponent } from '../dialogs/add-inv-map-location/add-inv-map-location.component';
+import { SetColumnSeqComponent } from '../dialogs/set-column-seq/set-column-seq.component';
 
 
 @Component({
@@ -337,17 +339,33 @@ export class InventoryMapComponent implements OnInit {
     console.log('event', event)
   }
   addLocDialog(){
-    // let dialogRef = this.dialog.open(, {
-    //   height: 'auto',
-    //   width: '480px',
-    //   data: {
-    //     mode: 'addlocation',
-    //   }
-    // })
-    // dialogRef.afterClosed().subscribe(result => {
-    // console.log(result);
+    let dialogRef = this.dialog.open(AddInvMapLocationComponent, {
+      height: '750px',
+      width: '100%',
+      data: {
+        mode: 'addlocation',
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+    console.log(result);
     
-    // })
+    })
+  }
+  inventoryMapAction(actionEvent: any){
+      console.log(actionEvent.value); 
+      if(actionEvent.value === 'set_column_sq'){ 
+      let dialogRef = this.dialog.open(SetColumnSeqComponent, {
+        height: 'auto',
+        width: '400px',
+        data: {
+          mode: actionEvent.value,
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      
+      })
+    }
   }
 
 }

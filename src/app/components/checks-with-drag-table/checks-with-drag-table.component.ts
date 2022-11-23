@@ -34,7 +34,7 @@ export class ChecksWithDragTableComponent implements OnInit {
 
   ngOnInit(): void {
     // set checkbox column
-    this.displayedColumns.push("select");
+    // this.displayedColumns.push("select");
 
     // set table columns
     this.displayedColumns = this.displayedColumns.concat(this.columns.map(x => x.columnDef));    // pre-fix static

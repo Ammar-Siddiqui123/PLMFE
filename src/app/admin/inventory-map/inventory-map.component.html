@@ -19,11 +19,11 @@
                 </button>
               </div>
               <div class="col mt-2">
-                <mat-form-field class="action-dropdown" appearance="fill">
+                <mat-form-field class="action-dropdown" appearance="fill" >
                   <mat-label>Actions</mat-label>
-                  <mat-select class="employees-action">
-                    <mat-option value="delete">Delete</mat-option>
-                    <mat-option value="back">Back</mat-option>
+                  <mat-select class="employees-action" (selectionChange)="inventoryMapAction($event)">
+                    <mat-option value="print">Print</mat-option>
+                    <mat-option value="set_column_sq">Set Column Sequence</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
