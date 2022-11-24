@@ -31,6 +31,7 @@ import { ChecksWithDragTableComponent } from '../components/checks-with-drag-tab
 import { AddInvMapLocationComponent } from './dialogs/add-inv-map-location/add-inv-map-location.component';
 import { WarehouseComponent } from './dialogs/warehouse/warehouse.component';
 import { SetColumnSeqComponent } from './dialogs/set-column-seq/set-column-seq.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -57,13 +58,15 @@ import { SetColumnSeqComponent } from './dialogs/set-column-seq/set-column-seq.c
     AddInvMapLocationComponent,
     WarehouseComponent,
     SetColumnSeqComponent,
+
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     MaterialModule,
     GeneralModule,
-    CdkTableModule
+    CdkTableModule,
+    DragDropModule
   ]
 })
 export class AdminModule { }
