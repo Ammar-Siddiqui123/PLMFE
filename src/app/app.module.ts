@@ -13,7 +13,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,{provide: LocationStrategy, useClass: HashLocationStrategy}
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +25,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     DashboardModule
   ],
   providers: [
-    LoginService
+    LoginService,{provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })
