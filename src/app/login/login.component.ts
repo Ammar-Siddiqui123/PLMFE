@@ -35,7 +35,11 @@ export class LoginComponent {
         const exe = response.isExecuted
         if(exe == true){
           let data = {
-            '_token' : response.data.token
+            '_token' : response.data.token,
+            'userName':response.data.userName,
+            'accessLevel':response.data.accessLevel,
+            'wsid':response.data.wsid,
+            'loginTime':response.data.loginTime,
           }
           this.addLoginForm.reset();
           localStorage.setItem('user', JSON.stringify(data));

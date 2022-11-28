@@ -38,13 +38,20 @@
 
             </div>
           </div>
-          <div class="groups-details details-wrap g-details-wrap">
-            <ng-scrollbar style="height: 565px;">
-              <app-checks-with-drag-table
-              (action)="onTableAction($event)"
-                [dataset]="data" 
-                [columns]="columns">
-              </app-checks-with-drag-table>
+          <div class="example-container">
+            <ng-scrollbar style="height: 665px;">
+              <mat-table #table [dataSource]="dataSource" matSort class="example-container">
+
+                <ng-container [matColumnDef]="col.colDef" *ngFor="let col of displayedColumns">
+                  <mat-header-cell *matHeaderCellDef> <h6><strong> {{ col.colDef }} </strong></h6></mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{ element[col.colHeader] }} </mat-cell>
+                </ng-container>
+              
+                <mat-header-row *matHeaderRowDef="columnValues;sticky: true"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: columnValues;"></mat-row>
+              
+              </mat-table>
+              <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
             </ng-scrollbar>
           </div>
         </mat-card-content>

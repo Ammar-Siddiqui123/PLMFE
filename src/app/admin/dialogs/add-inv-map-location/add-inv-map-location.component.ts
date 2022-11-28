@@ -16,8 +16,6 @@ export class AddInvMapLocationComponent implements OnInit {
   onSend(location: any) { }
 
   loadWarehouse() {
-    console.log('Working warehouse');
-
     let dialogRef = this.dialog.open(WarehouseComponent, {
       height: '400px',
       width: '600px',
@@ -27,7 +25,6 @@ export class AddInvMapLocationComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
-
     })
   }
 }

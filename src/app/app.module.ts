@@ -14,7 +14,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ChecksWithDragTableComponent } from './components/checks-with-drag-table/checks-with-drag-table.component';
 import { MaterialModule } from './material-module';
 import { MatTableModule } from '@angular/material/table';
 
