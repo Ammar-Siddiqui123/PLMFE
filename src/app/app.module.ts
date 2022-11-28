@@ -42,7 +42,7 @@ import { MatTableModule } from '@angular/material/table';
     MatTableModule
   ],
   providers: [
-    LoginService
+    LoginService,{provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })
