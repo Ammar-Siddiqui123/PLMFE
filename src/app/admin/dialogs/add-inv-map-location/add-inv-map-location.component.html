@@ -1,0 +1,180 @@
+<h1 mat-dialog-title>Add Location</h1>
+<button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+    <mat-icon class="close-icon">close</mat-icon>
+</button>
+<form #employeeForm="ngForm" (ngSubmit)="onSend(employeeForm)">
+<div class="row">
+        <div class="col-6">
+            <ng-scrollbar style="height: 600px">
+                <div class="container location_detail">
+                    <h1 mat-dialog-title>Location Detail</h1>
+                    <div class="row">
+                        <div class="col-6">
+                            <mat-form-field class="d-block w-100 " appearance="outline">
+                                <mat-label>Location Number</mat-label>
+                                <input matInput type="text" name="mi" required="required">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6">
+                            <mat-form-field class="d-block w-100" appearance="outline">
+                                <mat-label>Location Name</mat-label>
+                                <input matInput type="text" name="firstName" required="required">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <mat-form-field class="d-block w-100 " appearance="outline">
+                                <mat-label>Laser X</mat-label>
+                                <input matInput type="text" name="mi" required="required">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6">
+                            <mat-form-field class="d-block w-100" appearance="outline">
+                                <mat-label>Laser Y</mat-label>
+                                <input matInput type="text" name="firstName" required="required">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <mat-form-field class="d-block w-100 " appearance="outline" (click)="loadWarehouse()">
+                                <mat-label>Warehouse</mat-label>
+                                <input matInput type="text" name="mi" readonly>
+                                <span matSuffix><mat-icon style="color:#8B8BA3;">open_in_full</mat-icon></span>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6">
+                            <mat-form-field class="d-block w-100" appearance="outline">
+                                <mat-label>Zone</mat-label>
+                                <input matInput type="text" name="firstName" required="required">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <mat-form-field class="d-block w-100 " appearance="outline">
+                                <mat-label>Carousel</mat-label>
+                                <input matInput type="text" name="mi" required="required">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6">
+                            <mat-form-field class="d-block w-100" appearance="outline">
+                                <mat-label>Row</mat-label>
+                                <input matInput type="text" name="firstName" required="required">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <mat-form-field class="d-block w-100 " appearance="outline">
+                                <mat-label>Shelf</mat-label>
+                                <input matInput type="text" name="mi" required="required">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6">
+                            <mat-form-field class="d-block w-100" appearance="outline">
+                                <mat-label>Bin</mat-label>
+                                <input matInput type="text" name="firstName" required="required">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <mat-form-field class="d-block w-100 " appearance="outline">
+                                <mat-label>UM</mat-label>
+                                <input matInput type="text" name="mi" required="required">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6">
+                            <mat-form-field class="d-block w-100" appearance="outline">
+                                <mat-label>Cell Size</mat-label>
+                                <input matInput type="text" name="firstName" required="required">
+                                <span matSuffix><mat-icon style="color:#8B8BA3;">open_in_full</mat-icon></span>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <mat-form-field class="d-block w-100 " appearance="outline">
+                                <mat-label>Velocity Code</mat-label>
+                                <input matInput type="text" name="mi" required="required">
+                                <span matSuffix><mat-icon style="color:#8B8BA3;">open_in_full</mat-icon></span>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6">
+                            <mat-form-field class="d-block w-100" appearance="outline">
+                                <mat-label>Alternate Light</mat-label>
+                                <input matInput type="text" name="firstName" required="required">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <mat-form-field class="d-block w-100 mt-3" appearance="outline">
+                        <mat-label>Ship Via</mat-label>
+                        <input matInput type="text" name="userName" required="required">
+                        <!-- <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint> -->
+
+                    </mat-form-field>
+
+                    <mat-form-field class="d-block w-100 mt-3" appearance="outline">
+                        <mat-label>Ship To Name</mat-label>
+                        <input matInput type="email" name="emailAddress" required="required">
+                    </mat-form-field>
+                    <section class="ld_checks">
+                        <mat-checkbox class="ld_checkbox" color="primary">Dedicated </mat-checkbox>
+                        <mat-checkbox class="ld_checkbox" color="primary">Date Sensitive</mat-checkbox>
+                    </section>
+
+                </div>
+            </ng-scrollbar>
+        </div>
+        <div class="col-6">
+            <div class="container item_detail">
+                <h1 mat-dialog-title>Item Detail</h1>
+                <mat-form-field class="d-block w-100" appearance="outline">
+                    <mat-label>MI</mat-label>
+                    <input matInput type="text" name="mi" required="required">
+                </mat-form-field>
+
+                <mat-form-field class="d-block w-100" appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input matInput type="text" name="firstName" required="required">
+                </mat-form-field>
+
+                <mat-form-field class="d-block w-100" appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput type="text" name="lastName" required="required">
+                </mat-form-field>
+
+                <mat-form-field class="d-block w-100" appearance="outline">
+                    <mat-label>Username</mat-label>
+                    <input matInput type="text" name="userName" required="required">
+                    <!-- <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint> -->
+
+                </mat-form-field>
+
+                <mat-form-field class="d-block w-100" appearance="outline">
+                    <mat-label>Email Address</mat-label>
+                    <input matInput type="email" name="emailAddress" required="required">
+                </mat-form-field>
+
+
+                <mat-form-field class="d-block w-100" appearance="outline">
+                    <mat-label>Access Level</mat-label>
+                    <mat-select required="required" name="accessLevel">
+                        <mat-option value="administrator">Administrator</mat-option>
+                        <mat-option value="staff_member">Staff Member</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+
+            </div>
+        </div>
+        
+    </div>
+    <mat-dialog-actions align="end">
+        <button mat-stroked-button color="warn" class="form-button-submit">Clear</button>
+        <button type="submit" mat-raised-button class="form-button-submit" color="primary">Save Changes</button>
+    </mat-dialog-actions>
+</form>

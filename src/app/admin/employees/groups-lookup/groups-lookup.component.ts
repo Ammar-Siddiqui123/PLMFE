@@ -70,9 +70,7 @@ export class GroupsLookupComponent implements OnInit {
     .subscribe((response: EmployeeObject) => {
       this.employees_res = response
       this.groups_details_data = this.employees_res.data.allGroups
-      console.log(this.groups_details_data);
       this.group_data_source = new MatTableDataSource(this.groups_details_data);
-      console.log("data source",this.groups_details_data)
     
       });
       

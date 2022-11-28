@@ -3,6 +3,7 @@
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap');
+// @import 'material-symbols';
 
  body, html,
 .mat-badge-content, .mat-button,
@@ -83,16 +84,18 @@ background-color: #7B42AC;
 }
 
 
-mat-sidenav {
-  width: 228px;
-}
-mat-sidenav-container {
-  height: 100%;
-}
+// mat-sidenav {
+//   width: 228px;
+// }
+// mat-sidenav-container {
+//   height: 100%;
+// }
 .mat-sidenav-container {
   background: #F3F4F4;
 }
-
+.mat-drawer-inner-container{
+  overflow: hidden !important;
+}
 .mat-drawer {
   background: #F3F4F4;
 }
@@ -373,8 +376,8 @@ mat-toolbar {
 
 .mat-drawer-side {
   border: none;
-  padding-right: 15px;
-  padding-left: 15px;
+  // padding-right: 15px;
+  // padding-left: 15px;
 }
 .mat-nav-list .mat-list-item {
   border-radius: 12px;
