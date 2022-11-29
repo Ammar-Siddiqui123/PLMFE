@@ -111,7 +111,7 @@ export class InventoryMapComponent implements OnInit {
     })
   }
   inventoryMapAction(actionEvent: any) {
-    console.log(actionEvent.value);
+    // console.log(actionEvent.value);
     if (actionEvent.value === 'set_column_sq') {
       let dialogRef = this.dialog.open(SetColumnSeqComponent, {
         height: 'auto',
