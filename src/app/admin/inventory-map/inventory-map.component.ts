@@ -56,6 +56,7 @@ export class InventoryMapComponent implements OnInit {
   public displayedColumns: any;
   public dataSource: any;
   public columnValues: any;
+  public itemList: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -91,18 +92,22 @@ export class InventoryMapComponent implements OnInit {
     });
 
     this.invMapService.getInventoryMap(paylaod).subscribe((res: any) => {
+      this.itemList =  res.data.inventoryMaps.map((arr => {
+        return {'itemNumber': arr.itemNumber, 'desc': arr.description}
+      }))
       this.dataSource = new MatTableDataSource(res.data.inventoryMaps);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       
     });
   }
-  addLocDialog() {
+  addLocDialog() { 
     let dialogRef = this.dialog.open(AddInvMapLocationComponent, {
       height: '750px',
       width: '100%',
       data: {
-        mode: 'addlocation',
+        mode: 'addInvMapLocation',
+        itemList : this.itemList
       }
     })
     dialogRef.afterClosed().subscribe(result => {
@@ -111,7 +116,6 @@ export class InventoryMapComponent implements OnInit {
     })
   }
   inventoryMapAction(actionEvent: any) {
-    // console.log(actionEvent.value);
     if (actionEvent.value === 'set_column_sq') {
       let dialogRef = this.dialog.open(SetColumnSeqComponent, {
         height: 'auto',
@@ -124,6 +128,15 @@ export class InventoryMapComponent implements OnInit {
         console.log(result);
 
       })
+    }
+  }
+
+  applyFilter(filterValue:any, colHeader:any) {
+    console.log(filterValue, colHeader);
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    console.log(this.dataSource.filter);
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
   }
 

@@ -28,4 +28,22 @@ export class InvMapLocationService {
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/GetLocationZoneTypeInventoryMap`, paylaod, httpOptions);
   }
+
+  public getItemNumDetail(body: any): Observable<any> {
+    let userData = this.authService.userData();
+    let paylaod = {
+      "itemNumber": body?.itemNumber,
+      "zone": body?.zone,
+      "username": userData.userName,
+      "wsid": userData.wsid,
+    }
+    // let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic '
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Admin/GetItemDetail`, paylaod, httpOptions);
+  }
 }

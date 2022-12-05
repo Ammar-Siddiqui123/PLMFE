@@ -11,7 +11,7 @@
         </button>
     </div>
     <div class="row">
-        <ng-container *ngFor="let warehouse of warehosue_list;let i = index">
+        <ng-container *ngFor="let warehouse of warehouse_list;let i = index">
             <div class="row mt-3">
                 <div class="col-1" style="margin-top: 20px;">
                     <mat-radio-button value="{{warehouse}}" color="primary" (change)="selectWearHouse($event)">
@@ -38,21 +38,6 @@
     </div>
     <mat-dialog-actions align="end">
         <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->
-        <button type="button" mat-stroked-button class="form-button-submit" color="warning">Clear Warehouse</button>
+        <button type="button" (click)="clearWareHouse()" mat-stroked-button class="form-button-submit" color="warning">Clear Warehouse</button>
     </mat-dialog-actions>
-
-
-
-    <!-- My favorite animal is: -->
-    <!-- <ul>
-<li>
-<span *ngIf="data.animal === 'panda'">&#10003;</span> Panda
-</li>
-<li>
-<span *ngIf="data.animal === 'unicorn'">&#10003;</span> Unicorn
-</li>
-<li>
-<span *ngIf="data.animal === 'lion'">&#10003;</span> Lion
-</li>
-</ul> -->
 </div>

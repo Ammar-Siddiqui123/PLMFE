@@ -46,7 +46,7 @@
                     {{ col.colDef }}
                     <mat-form-field class="filter" floatLabel="never" appearance="outline">
                       <mat-label>Search {{ col.colDef }}</mat-label>
-                      <input matInput>
+                      <input #searchInput matInput (keyup)="applyFilter(searchInput.value, col.colHeader)">
                     </mat-form-field>
                   </th>
                   <mat-cell *matCellDef="let element"> {{ element[col.colHeader] }} </mat-cell>
