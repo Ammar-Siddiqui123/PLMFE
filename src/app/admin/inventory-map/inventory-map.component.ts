@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../init/auth.service';
@@ -85,10 +86,8 @@ export class InventoryMapComponent implements OnInit {
       "filter": "1 = 1"
     }
     this.seqColumn.getSetColumnSeq().subscribe((res) => {
-      // INVMAP_DATA.map((colHeader => {return colHeader.colHeader}))
       this.displayedColumns = INVMAP_DATA;
       this.columnValues = INVMAP_DATA.map((colDef => { return colDef.colDef }));
-      
     });
 
     this.invMapService.getInventoryMap(paylaod).subscribe((res: any) => {
@@ -118,7 +117,7 @@ export class InventoryMapComponent implements OnInit {
   inventoryMapAction(actionEvent: any) {
     if (actionEvent.value === 'set_column_sq') {
       let dialogRef = this.dialog.open(SetColumnSeqComponent, {
-        height: 'auto',
+        height: '700px',
         width: '600px',
         data: {
           mode: actionEvent.value,
@@ -126,7 +125,8 @@ export class InventoryMapComponent implements OnInit {
       })
       dialogRef.afterClosed().subscribe(result => {
         console.log(result);
-
+        const matSelect: MatSelect = actionEvent.source;
+        matSelect.writeValue(null);
       })
     }
   }

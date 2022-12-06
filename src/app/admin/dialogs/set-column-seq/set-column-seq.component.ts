@@ -33,7 +33,6 @@ export class SetColumnSeqComponent implements OnInit {
   dropTable(event: CdkDragDrop<PeriodicElement[]>) {
     const prevIndex = this.dataSource.findIndex((d) => d === event.item.data);
     moveItemInArray(this.dataSource, prevIndex, event.currentIndex);
-    console.log(this.dataSource);
     this.table.renderRows();
   }
 
@@ -44,5 +43,8 @@ export class SetColumnSeqComponent implements OnInit {
     this.dataSource = ELEMENT_DATA;
   }
   
+  saveColumnSeq($event:any){
+      console.log($event);
+  }
 
 }

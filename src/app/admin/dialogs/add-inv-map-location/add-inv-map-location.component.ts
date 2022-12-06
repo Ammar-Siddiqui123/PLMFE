@@ -155,12 +155,6 @@ export class AddInvMapLocationComponent implements OnInit {
         console.log(res);
         this.addInvMapLocation.controls['description'].setValue(res.data.description);
         this.addInvMapLocation.controls['description'].setValue(res.data.maximumQuantity);
-        this.addInvMapLocation.controls['description'].setValue(res.data.minimumQuantity);
-        this.addInvMapLocation.controls['description'].setValue(res.data.maximumQuantity);
-        this.addInvMapLocation.controls['description'].setValue(res.data.maximumQuantity);
-        this.addInvMapLocation.controls['description'].setValue(res.data.maximumQuantity);
-        this.addInvMapLocation.controls['description'].setValue(res.data.maximumQuantity);
-        this.addInvMapLocation.controls['description'].setValue(res.data.maximumQuantity);
       });
   }
 }

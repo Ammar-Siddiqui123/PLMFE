@@ -33,6 +33,7 @@ import { SetColumnSeqComponent } from './dialogs/set-column-seq/set-column-seq.c
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CellSizeComponent } from './dialogs/cell-size/cell-size.component';
 import { VelocityCodeComponent } from './dialogs/velocity-code/velocity-code.component';
+import { InventoryMasterComponent } from './inventory-master/inventory-master.component';
 
 
 
@@ -62,6 +63,7 @@ import { VelocityCodeComponent } from './dialogs/velocity-code/velocity-code.com
     SetColumnSeqComponent,
     CellSizeComponent,
     VelocityCodeComponent,
+    InventoryMasterComponent,
 
   ],
   imports: [
