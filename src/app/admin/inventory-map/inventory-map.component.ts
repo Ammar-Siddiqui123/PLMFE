@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../init/auth.service';
@@ -55,6 +55,17 @@ const INVMAP_DATA = [
 export class InventoryMapComponent implements OnInit {
   public displayedColumns: any;
   public dataSource: any;
+  customPagination: any = {
+    total : '',
+    recordsPerPage : 20
+  }
+  columnSearch: any = {
+    searchColumn : '',
+    searchValue : ''
+  }
+  userData: any;
+  payload: any;
+
   public columnValues: any;
   public itemList: any;
 
@@ -71,36 +82,65 @@ export class InventoryMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let userData = this.authService.userData();
-    let paylaod = {
-      "username": userData.userName,
-      "wsid": userData.wsid,
-      "oqa": "Nothing",
-      "searchString": "",
-      "searchColumn": "",
-      "sortColumnIndex": 32,
-      "sRow": 1,
-      "eRow": 20,
-      "sortOrder": "asc",
-      "filter": "1 = 1"
-    }
+
+
+    this.initializeApi();
+    this.getColumnsData();
+    this.getContentData();
+
+
+
+  }
+
+  pageEvent: PageEvent;
+
+  handlePageEvent(e: PageEvent) {
+    this.pageEvent = e;
+   // this.length = e.length;
+    this.customPagination.recordsPerPage = e.pageSize;
+   // this.pageIndex = e.pageIndex;
+
+   this.initializeApi();
+   this.getContentData();
+  }
+
+  initializeApi(){
+    this.userData = this.authService.userData();
+    this.payload = {
+     "username": this.userData.userName,
+     "wsid": this.userData.wsid,
+     "oqa": "Nothing",
+     "searchString": this.columnSearch.searchValue,
+     "searchColumn": this.columnSearch.searchColumn,
+     "sortColumnIndex": 32,
+     "sRow": 1,
+     "eRow": this.customPagination.recordsPerPage,
+     "sortOrder": "asc",
+     "filter": "1 = 1"
+   }
+  }
+  getColumnsData(){
     this.seqColumn.getSetColumnSeq().subscribe((res) => {
       // INVMAP_DATA.map((colHeader => {return colHeader.colHeader}))
       this.displayedColumns = INVMAP_DATA;
       this.columnValues = INVMAP_DATA.map((colDef => { return colDef.colDef }));
       
     });
+  }
 
-    this.invMapService.getInventoryMap(paylaod).subscribe((res: any) => {
+  getContentData(){
+    this.invMapService.getInventoryMap(this.payload).subscribe((res: any) => {
       this.itemList =  res.data.inventoryMaps.map((arr => {
         return {'itemNumber': arr.itemNumber, 'desc': arr.description}
       }))
       this.dataSource = new MatTableDataSource(res.data.inventoryMaps);
-      this.dataSource.paginator = this.paginator;
+    //  this.dataSource.paginator = this.paginator;
+      this.customPagination.total = res.data.recordsTotal;
       this.dataSource.sort = this.sort;
       
     });
   }
+
   addLocDialog() { 
     let dialogRef = this.dialog.open(AddInvMapLocationComponent, {
       height: '750px',
@@ -132,12 +172,16 @@ export class InventoryMapComponent implements OnInit {
   }
 
   applyFilter(filterValue:any, colHeader:any) {
-    console.log(filterValue, colHeader);
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    console.log(this.dataSource.filter);
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+     console.log(filterValue, colHeader);
+     this.columnSearch.searchValue = filterValue;
+     this.columnSearch.searchColumn = colHeader;
+     this.initializeApi();
+     this.getContentData();
+    // this.dataSource.filter = filterValue.trim().toLowerCase();
+    // console.log(this.dataSource.filter);
+    // if (this.dataSource.paginator) {
+    //   this.dataSource.paginator.firstPage();
+    // }
   }
 
 }
