@@ -12,14 +12,4 @@ export class InventoryMasterService extends BaseService{
   constructor(http: HttpClient) {
     super(http);
   }
-
-  // public get(reqPaylaod:any, endPoint:string): Observable<any>{
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({
-  //       'Content-Type':  'application/json',
-  //       'Authorization': 'Basic '
-  //     })
-  //   };
-  //   return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod,httpOptions);
-  // }
 }
