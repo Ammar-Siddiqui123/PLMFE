@@ -34,6 +34,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CellSizeComponent } from './dialogs/cell-size/cell-size.component';
 import { VelocityCodeComponent } from './dialogs/velocity-code/velocity-code.component';
 import { InventoryMasterComponent } from './inventory-master/inventory-master.component';
+import { ItemNumberComponent } from './dialogs/item-number/item-number.component';
+import { ItemCategoryComponent } from './dialogs/item-category/item-category.component';
+import { PrintRangeComponent } from './dialogs/print-range/print-range.component';
+import { UnitMeasureComponent } from './dialogs/unit-measure/unit-measure.component';
 
 
 
@@ -64,6 +68,10 @@ import { InventoryMasterComponent } from './inventory-master/inventory-master.co
     CellSizeComponent,
     VelocityCodeComponent,
     InventoryMasterComponent,
+    ItemNumberComponent,
+    ItemCategoryComponent,
+    PrintRangeComponent,
+    UnitMeasureComponent,
 
   ],
   imports: [
