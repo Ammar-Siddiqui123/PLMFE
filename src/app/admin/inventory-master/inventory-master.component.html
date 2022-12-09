@@ -14,9 +14,20 @@
                 <span>Inventory</span>
               </h2>
               </div>
-              <div>
-                <mat-paginator>
-                </mat-paginator>
+              <div class="d-flex align-items-center gap-12">
+                <button mat-flat-button color="primary" class="sm-icon-button">
+                  <span class="material-symbols-outlined">
+                    keyboard_arrow_left
+                  </span>
+                </button>
+                <div class="text-chrome-600"><b>69</b> of 200</div>
+                <button mat-flat-button color="primary" class="sm-icon-button">
+                  <span class="material-symbols-outlined">
+                    keyboard_arrow_right
+                  </span>
+                </button>
+                <!-- <mat-paginator>
+                </mat-paginator> -->
               </div>
               
             </div>
@@ -53,7 +64,7 @@
               </div>
             </div>
             <div class="card bg-white bg-50 px-4 py-4 br-14 mb-3">
-              <mat-tab-group dynamicHeight #hello>
+              <mat-tab-group dynamicHeight>
                 <mat-tab label="Details">
                   <div class="row">
                     <div class="col-8">
