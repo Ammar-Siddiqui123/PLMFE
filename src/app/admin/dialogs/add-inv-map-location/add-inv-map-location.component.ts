@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { startWith } from 'rxjs/internal/operators/startWith';
 import { map } from 'rxjs/internal/operators/map';
 import { InvMapLocationService } from './inv-map-location.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-inv-map-location',
@@ -21,11 +22,15 @@ export class AddInvMapLocationComponent implements OnInit {
   zoneList: any[] = [];
   filteredOptions: Observable<any[]>;
   filteredItemNum: Observable<any[]>;
+
+ 
+
   constructor(
     private dialog: MatDialog,
     private fb: FormBuilder,
     private invMapService: InvMapLocationService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private toastr: ToastrService
   ) {
     this.addInvMapLocation = fb.group({
       location: ['', [Validators.required]],
@@ -37,34 +42,37 @@ export class AddInvMapLocationComponent implements OnInit {
       itemNumber: new FormControl(''),
       itemQuantity: new FormControl(''),
       description: new FormControl(''),
-      cellSize: new FormControl(''),
-      goldenZone: new FormControl(''),
+      cell:['', [Validators.required]],
+      velocity: ['', [Validators.required]],
       maximumQuantity: new FormControl(''),
-      dedicated: new FormControl(''),
-      serialNumber: new FormControl(''),
-      lotNumber: new FormControl(''),
-      expirationDate: new FormControl(''),
+      dedicated: new FormControl(false),
+      //serialNumber: new FormControl(''),
+     // lotNumber: new FormControl(''),
+    //  expirationDate: new FormControl(''),
       unitOfMeasure: new FormControl(''),
       quantityAllocatedPick: new FormControl(''),
       quantityAllocatedPutAway: new FormControl(''),
-      putAwayDate: new FormControl(''),
+      //putAwayDate: new FormControl(''),
       warehouse: ['', [Validators.required]],
-      revision: new FormControl(''),
+     // revision: new FormControl(''),
       invMapID: new FormControl(''),
       userField1: new FormControl(''),
       userField2: new FormControl(''),
       masterLocation: new FormControl(''),
-      dateSensitive: new FormControl(''),
+      dateSensitive: new FormControl(false),
       masterInvMapID: new FormControl(''),
       minQuantity: new FormControl(''),
       laserX: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(13)]],
       laserY: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(13)]],
       locationNumber: new FormControl(''),
       locationID: new FormControl(''),
+
+      //velocity
     });
   }
 
   ngOnInit(): void {
+    
    this.itemNumberList = this.data.itemList;
     this.invMapService.getLocZTypeInvMap().subscribe((res) => {
       this.locZoneList = res.data;
@@ -80,8 +88,18 @@ export class AddInvMapLocationComponent implements OnInit {
 
   }
   onSubmit(form: FormGroup) {
-    console.log(form);
-
+    
+    console.log('create',form);
+    this.invMapService.createInventoryMap(form.value).subscribe((res) => {
+      if(res.isExecuted){
+        this.toastr.success(res.responseMessage, 'Success!',{
+          positionClass: 'toast-bottom-right',
+          timeOut:2000
+       });
+        console.log(res.responseMessage)
+        this.dialog.closeAll()
+      }
+    });
   }
 
   get f() {
@@ -107,6 +125,7 @@ export class AddInvMapLocationComponent implements OnInit {
     })
   }
   loadCellSize() {
+    
     let dialogRef = this.dialog.open(CellSizeComponent, {
       height: '600px',
       width: '600px',
@@ -115,7 +134,8 @@ export class AddInvMapLocationComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      this.addInvMapLocation.controls['cellSize'].setValue(result);
+      
+      this.addInvMapLocation.controls['cell'].setValue(result);
     })
   }
   loadVelocityCode() {
@@ -128,6 +148,7 @@ export class AddInvMapLocationComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
+      this.addInvMapLocation.controls['velocity'].setValue(result);
     })
   }
 
@@ -157,4 +178,7 @@ export class AddInvMapLocationComponent implements OnInit {
         this.addInvMapLocation.controls['description'].setValue(res.data.maximumQuantity);
       });
   }
+
+
+
 }

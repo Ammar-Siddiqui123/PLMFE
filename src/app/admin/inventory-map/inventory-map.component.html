@@ -46,7 +46,7 @@
                     {{ col.colDef }}
                     <mat-form-field class="filter" floatLabel="never" appearance="outline">
                       <mat-label>Search {{ col.colDef }}</mat-label>
-                      <input #searchInput matInput (keyup)="applyFilter(searchInput.value, col.colHeader)">
+                      <input #searchInput matInput (change)="applyFilter(searchInput.value, col.colHeader)">
                     </mat-form-field>
                   </th>
                   <mat-cell *matCellDef="let element"> {{ element[col.colHeader] }} </mat-cell>
@@ -56,7 +56,8 @@
                 <mat-row *matRowDef="let row; columns: columnValues;"></mat-row>
               
               </mat-table>
-              <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+              <mat-paginator [length]="this.customPagination.total"
+              [pageSize]="20" [pageSizeOptions]="[10, 25, 100]" (page)="handlePageEvent($event)"></mat-paginator>
             </ng-scrollbar>
           </div>
         </mat-card-content>
