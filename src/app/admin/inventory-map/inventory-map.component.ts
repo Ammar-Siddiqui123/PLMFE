@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../init/auth.service';
 import { AddInvMapLocationComponent } from '../dialogs/add-inv-map-location/add-inv-map-location.component';
+import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/delete-confirmation.component';
 import { SetColumnSeqComponent } from '../dialogs/set-column-seq/set-column-seq.component';
 import { SetColumnSeqService } from '../dialogs/set-column-seq/set-column-seq.service';
 import { InventoryMapService } from './inventory-map.service';
@@ -14,38 +15,40 @@ import { InventoryMapService } from './inventory-map.service';
 
 const INVMAP_DATA = [
   { colHeader: "location", colDef: "Location" },
-  { colHeader: "zone", colDef: "Zone" },
-  { colHeader: "carousel", colDef: "Carousel" },
-  { colHeader: "row", colDef: "Row" },
-  { colHeader: "shelf", colDef: "Shelf" },
-  { colHeader: "bin", colDef: "Bin" },
-  { colHeader: "itemNumber", colDef: "Item Number" },
-  { colHeader: "itemQuantity", colDef: "Item Quantity" },
-  { colHeader: "description", colDef: "Description" },
-  { colHeader: "cellSize", colDef: "Cell Size" },
-  { colHeader: "goldenZone", colDef: "Velocity Code" },
-  { colHeader: "maximumQuantity", colDef: "Maximum Quantity" },
-  { colHeader: "dedicated", colDef: "Dedicated" },
-  { colHeader: "serialNumber", colDef: "Serial Number" },
-  { colHeader: "lotNumber", colDef: "Lot Number" },
-  { colHeader: "expirationDate", colDef: "Expiration Date" },
-  { colHeader: "unitOfMeasure", colDef: "Unit of Measure" },
-  { colHeader: "quantityAllocatedPick", colDef: "Quantity Allocated Pick" },
-  { colHeader: "quantityAllocatedPutAway", colDef: "Quantity Allocated Put Awa" },
-  { colHeader: "putAwayDate", colDef: "Put Away Date" },
-  { colHeader: "warehouse", colDef: "Warehouse" },
-  { colHeader: "revision", colDef: "Revision" },
-  { colHeader: "invMapID", colDef: "Inv Map ID" },
-  { colHeader: "userField1", colDef: "User Field1" },
-  { colHeader: "userField2", colDef: "User Field2" },
-  { colHeader: "masterLocation", colDef: "Master Location" },
-  { colHeader: "dateSensitive", colDef: "Date Sensitive" },
-  { colHeader: "masterInvMapID", colDef: "Master Inv Map ID" },
-  { colHeader: "minQuantity", colDef: "Min Quantity" },
-  { colHeader: "laserX", colDef: "Laser X" },
-  { colHeader: "laserY", colDef: "Laser Y" },
-  { colHeader: "locationNumber", colDef: "Location Number" },
-  { colHeader: "locationID", colDef: "Alternate Light" }
+  // { colHeader: "zone", colDef: "Zone" },
+  // { colHeader: "carousel", colDef: "Carousel" },
+  // { colHeader: "row", colDef: "Row" },
+  // { colHeader: "shelf", colDef: "Shelf" },
+  // { colHeader: "bin", colDef: "Bin" },
+  // { colHeader: "itemNumber", colDef: "Item Number" },
+  // { colHeader: "itemQuantity", colDef: "Item Quantity" },
+  // { colHeader: "description", colDef: "Description" },
+  // { colHeader: "cellSize", colDef: "Cell Size" },
+  // { colHeader: "goldenZone", colDef: "Velocity Code" },
+  // { colHeader: "maximumQuantity", colDef: "Maximum Quantity" },
+  // { colHeader: "dedicated", colDef: "Dedicated" },
+  // { colHeader: "serialNumber", colDef: "Serial Number" },
+  // { colHeader: "lotNumber", colDef: "Lot Number" },
+  // { colHeader: "expirationDate", colDef: "Expiration Date" },
+  // { colHeader: "unitOfMeasure", colDef: "Unit of Measure" },
+  // { colHeader: "quantityAllocatedPick", colDef: "Quantity Allocated Pick" },
+  // { colHeader: "quantityAllocatedPutAway", colDef: "Quantity Allocated Put Awa" },
+  // { colHeader: "putAwayDate", colDef: "Put Away Date" },
+  // { colHeader: "warehouse", colDef: "Warehouse" },
+  // { colHeader: "revision", colDef: "Revision" },
+  // { colHeader: "invMapID", colDef: "Inv Map ID" },
+  // { colHeader: "userField1", colDef: "User Field1" },
+  // { colHeader: "userField2", colDef: "User Field2" },
+  // { colHeader: "masterLocation", colDef: "Master Location" },
+  // { colHeader: "dateSensitive", colDef: "Date Sensitive" },
+  // { colHeader: "masterInvMapID", colDef: "Master Inv Map ID" },
+  // { colHeader: "minQuantity", colDef: "Min Quantity" },
+  // { colHeader: "laserX", colDef: "Laser X" },
+  // { colHeader: "laserY", colDef: "Laser Y" },
+  // { colHeader: "locationNumber", colDef: "Location Number" },
+  //{ colHeader: "locationID", colDef: "Alternate Light" },
+  //{ colHeader: "ac//tions", colDef: "actions" },
+  
 ];
 
 @Component({
@@ -124,6 +127,8 @@ export class InventoryMapComponent implements OnInit {
     this.seqColumn.getSetColumnSeq().subscribe((res) => {
       this.displayedColumns = INVMAP_DATA;
       this.columnValues = INVMAP_DATA.map((colDef => { return colDef.colDef }));
+      this.columnValues.push('actions')
+      console.log(this.columnValues)
     });
   }
 
@@ -184,4 +189,54 @@ export class InventoryMapComponent implements OnInit {
     // }
   }
 
+  edit(){
+    let dialogRef = this.dialog.open(AddInvMapLocationComponent, {
+      height: '750px',
+      width: '100%',
+      data: {
+        mode: 'addInvMapLocation',
+        itemList : this.itemList,
+        detailData : ''
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+
+    })
+  }
+
+  delete(event: any){
+    console.log(event);
+    let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        mode: 'delete-inventory-map',
+        id: event.invMapID
+     //   grp_data: grp_data
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+    //  this.isGroupLookUp = false;
+      // const matSelect: MatSelect = matEvent.source;
+      // matSelect.writeValue(null);
+    })
+  }
+
+
+  quarantine(){
+
+  }
+
+  adjustQuantity(){
+
+  }
+
+  viewInInventoryMaster(){
+
+  }
+
+  viewLocationHistory(){
+    
+  }
 }
