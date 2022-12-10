@@ -34,6 +34,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CellSizeComponent } from './dialogs/cell-size/cell-size.component';
 import { VelocityCodeComponent } from './dialogs/velocity-code/velocity-code.component';
 import { InventoryMasterComponent } from './inventory-master/inventory-master.component';
+import { QuarantineConfirmationComponent } from './dialogs/quarantine-confirmation/quarantine-confirmation.component';
 
 
 
@@ -64,6 +65,7 @@ import { InventoryMasterComponent } from './inventory-master/inventory-master.co
     CellSizeComponent,
     VelocityCodeComponent,
     InventoryMasterComponent,
+    QuarantineConfirmationComponent
 
   ],
   imports: [

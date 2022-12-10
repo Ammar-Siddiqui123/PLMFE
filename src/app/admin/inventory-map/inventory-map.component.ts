@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../init/auth.service';
 import { AddInvMapLocationComponent } from '../dialogs/add-inv-map-location/add-inv-map-location.component';
 import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/delete-confirmation.component';
+import { QuarantineConfirmationComponent } from '../dialogs/quarantine-confirmation/quarantine-confirmation.component';
 import { SetColumnSeqComponent } from '../dialogs/set-column-seq/set-column-seq.component';
 import { SetColumnSeqService } from '../dialogs/set-column-seq/set-column-seq.service';
 import { InventoryMapService } from './inventory-map.service';
@@ -224,8 +225,22 @@ export class InventoryMapComponent implements OnInit {
   }
 
 
-  quarantine(){
+  quarantine(event){
 
+    let dialogRef = this.dialog.open(QuarantineConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        mode: 'inventory-map-quarantine',
+        id: event.invMapID
+     //   grp_data: grp_data
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+    //  this.isGroupLookUp = false;
+      // const matSelect: MatSelect = matEvent.source;
+      // matSelect.writeValue(null);
+    })
   }
 
   adjustQuantity(){
