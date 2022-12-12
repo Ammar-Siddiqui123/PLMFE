@@ -74,6 +74,8 @@ export class InventoryMapComponent implements OnInit {
   public columnValues: any;
   public itemList: any;
 
+  detailDataInventoryMap: any;
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -138,6 +140,7 @@ export class InventoryMapComponent implements OnInit {
       this.itemList =  res.data.inventoryMaps.map((arr => {
         return {'itemNumber': arr.itemNumber, 'desc': arr.description}
       }))
+      this.detailDataInventoryMap= res.data.inventoryMaps;
       this.dataSource = new MatTableDataSource(res.data.inventoryMaps);
     //  this.dataSource.paginator = this.paginator;
       this.customPagination.total = res.data.recordsTotal;
@@ -190,14 +193,14 @@ export class InventoryMapComponent implements OnInit {
     // }
   }
 
-  edit(){
+  edit(event: any){
     let dialogRef = this.dialog.open(AddInvMapLocationComponent, {
       height: '750px',
       width: '100%',
       data: {
         mode: 'addInvMapLocation',
         itemList : this.itemList,
-        detailData : ''
+        detailData : event
       }
     })
     dialogRef.afterClosed().subscribe(result => {

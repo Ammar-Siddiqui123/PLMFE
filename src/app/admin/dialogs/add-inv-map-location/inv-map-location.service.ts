@@ -75,4 +75,32 @@ export class InvMapLocationService {
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/InsertInventoryMap`, payload, httpOptions);
   }
+
+  public updateInventoryMap(body: any): Observable<any> {
+    const asArray = Object.entries(body);
+
+    const filtered = asArray.filter(([key, value]) =>  value != '');
+
+    let payload = Object.fromEntries(filtered);
+
+    console.log(payload);
+    // let payload = body.filter((key: any, value: any)=>{
+    //   console.log(key, value);
+    //   return value != ''
+    // })
+    
+    let userData = this.authService.userData();
+   
+     payload['username'] = userData.userName;
+     payload["wsid"] =userData.wsid;
+    
+    // let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic '
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Admin/UpdateInventoryMap`, payload, httpOptions);
+  }
 }
