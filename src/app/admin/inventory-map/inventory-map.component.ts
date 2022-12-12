@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
@@ -45,7 +45,8 @@ const INVMAP_DATA = [
   { colHeader: "laserX", colDef: "Laser X" },
   { colHeader: "laserY", colDef: "Laser Y" },
   { colHeader: "locationNumber", colDef: "Location Number" },
-  { colHeader: "locationID", colDef: "Alternate Light" }
+  { colHeader: "locationID", colDef: "Alternate Light" },
+  { colHeader: "qtyAlcPutAway", colDef: "Quantity Allocated Put Away" },
 ];
 
 @Component({
@@ -58,9 +59,14 @@ export class InventoryMapComponent implements OnInit {
   public dataSource: any;
   public columnValues: any;
   public itemList: any;
+  public filterLoc:any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
+
+  favoriteSeason: string;
+  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
 
 
   constructor(
@@ -87,7 +93,7 @@ export class InventoryMapComponent implements OnInit {
     }
     this.seqColumn.getSetColumnSeq().subscribe((res) => {
       this.displayedColumns = INVMAP_DATA;
-      this.columnValues = INVMAP_DATA.map((colDef => { return colDef.colDef }));
+      this.columnValues = res.data.columnSequence;
     });
 
     this.invMapService.getInventoryMap(paylaod).subscribe((res: any) => {
@@ -111,7 +117,6 @@ export class InventoryMapComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
-
     })
   }
   inventoryMapAction(actionEvent: any) {
@@ -127,17 +132,29 @@ export class InventoryMapComponent implements OnInit {
         console.log(result);
         const matSelect: MatSelect = actionEvent.source;
         matSelect.writeValue(null);
+        this.ngOnInit();
       })
     }
   }
 
   applyFilter(filterValue:any, colHeader:any) {
-    console.log(filterValue, colHeader);
     this.dataSource.filter = filterValue.trim().toLowerCase();
-    console.log(this.dataSource.filter);
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  viewAllLocDialog(): void {
+    const dialogRef = this.dialog.open(this.customTemplate, {
+       width: '400px'
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  viewLocFilter(){
+    console.log(this.filterLoc);
   }
 
 }

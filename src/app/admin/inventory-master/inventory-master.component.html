@@ -29,7 +29,6 @@
                 <!-- <mat-paginator>
                 </mat-paginator> -->
               </div>
-              
             </div>
             <div class="card bg-light-blue bg-50 px-4 py-4 br-14 mb-3">
               <div class="d-flex justify-content-between">
@@ -70,22 +69,22 @@
                     <div class="col-8">
                       <div class="py-4 br-14">
                         <div class="d-flex gap-20 mb-3">
-                          <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="openItemNumDialog()">
+                          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openItemNumDialog()">
                             <mat-label>Item No.</mat-label>
                             <span matSuffix>
                               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
                           </span>
-                            <input matInput type="text">
+                            <input matInput readonly class="__grab_cursor" type="text" [(ngModel)]="getInvMasterData.itemNumber">
                           </mat-form-field>
                           <mat-form-field class="custom-form-field w-100" appearance="outline">
                             <mat-label>Supplier Item ID</mat-label>
-                            <input matInput type="text">
+                            <input matInput type="text" [(ngModel)]="getInvMasterData.supplierItemID">
                           </mat-form-field>
                         </div>
                         <div class="mb-3">
                           <mat-form-field class="filter w-100 stats-filters" appearance="outline">
                             <mat-label>Description</mat-label>
-                            <textarea matInput type="text">Demo item</textarea>
+                            <textarea matInput type="text" [ngModel]="getInvMasterData.description"></textarea>
                           </mat-form-field>
                         </div>
                         <div class="d-flex gap-20 mb-3">
