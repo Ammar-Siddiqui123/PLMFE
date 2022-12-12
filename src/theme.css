@@ -3183,3 +3183,6 @@ td.mat-footer-cell {
   color: red;
   font-size: small;
 }
+.__grab_cursor{
+  cursor:grab !important;
+}

@@ -19,7 +19,7 @@ export class InventoryMasterComponent implements OnInit {
   public getInvMasterData: any;
   public locationTable: any;
   public getItemNum: any;
-  public itemNumber: any;
+  // public d_ItemNumber: any;
   constructor(private invMasterService: InventoryMasterService, private authService: AuthService,private dialog: MatDialog) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
 
@@ -37,7 +37,6 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventory').subscribe((res: any) => {
-      console.log(res.data);
       this.invData = res.data;
       this.getInvMasterDetail(res.data.firstItemNumber);
     });
@@ -50,9 +49,8 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
-      console.log(res.data);
-
-      this.getInvMasterData = res.data;
+      this.getInvMasterData = res.data; 
+      console.log(this.getInvMasterData);
     })
   }
   public getLocationTable(stockCode: any) {
