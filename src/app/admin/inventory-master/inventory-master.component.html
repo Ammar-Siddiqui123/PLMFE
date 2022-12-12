@@ -1,4 +1,4 @@
-<div class="container-fluid p-0" style="height: 800px;">
+<div class="container-fluid p-0">
     <div class="row">
       <div class="col-12">
         <mat-card class="mat-elevation-z g-card">
@@ -66,7 +66,7 @@
               <mat-tab-group dynamicHeight>
                 <mat-tab label="Details">
                   <div class="row">
-                    <div class="col-8">
+                    <div class="col-xl-9 col-lg-6">
                       <div class="py-4 br-14">
                         <div class="d-flex gap-20 mb-3">
                           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openItemNumDialog()">
@@ -151,7 +151,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-4 main-widget">
+                    <div class="col-xl-3 col-lg-6 main-widget">
                       <div class="custom bg-white bg-50 br-14 mb-3">
                         <div class="counter">
                           <div>
@@ -194,14 +194,23 @@
                               <div class="employees text-center">
                                 <p class="counter-count mb-1 bg-primary-900">504</p>
                                 <p class="employee-p text-tertiary-900 mb-1">Open</p>
+                                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
+                                  View
+                                </button>
                               </div>
                               <div class="customer text-center">
                                 <p class="counter-count mb-1 bg-primary-900">405</p>
                                 <p class="customer-p text-tertiary-900 mb-1">History</p>
+                                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
+                                  View
+                                </button>
                               </div>
                               <div class="customer text-center">
                                 <p class="counter-count mb-1 bg-primary-900">405</p>
                                 <p class="customer-p text-tertiary-900 mb-1">Reprocess</p>
+                                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
+                                  View
+                                </button>
                               </div>
                             </div>
                           </div>

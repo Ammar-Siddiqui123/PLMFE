@@ -69,7 +69,7 @@ h1, h2, h3, h4, h5, h6, p, strong, span, b, u, a, div
 }
 
 // html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; height: 100%; }
 
 :host {
   display: flex;
@@ -121,7 +121,7 @@ background-color: #7B42AC;
 }
 
 .mat-list-base{
-padding-top: 40px !important;
+// padding-top: 40px !important;
 }
 .mat-list-item {
   color: #09094899 !important;
@@ -806,6 +806,9 @@ button.sm-icon-button {
 button.custom-btn{
   min-width: 150px;
   padding: 6px 15px;
+  border-radius: 14px;
+}
+button.default-btn{
   border-radius: 14px;
 }
 //-------------- BUTTON-CLASSES ----END-------------------
