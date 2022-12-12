@@ -38,6 +38,7 @@ import { ItemNumberComponent } from './dialogs/item-number/item-number.component
 import { ItemCategoryComponent } from './dialogs/item-category/item-category.component';
 import { PrintRangeComponent } from './dialogs/print-range/print-range.component';
 import { UnitMeasureComponent } from './dialogs/unit-measure/unit-measure.component';
+import { ItemSetupComponent } from './inventory-master/item-setup/item-setup.component';
 
 
 
@@ -72,6 +73,7 @@ import { UnitMeasureComponent } from './dialogs/unit-measure/unit-measure.compon
     ItemCategoryComponent,
     PrintRangeComponent,
     UnitMeasureComponent,
+    ItemSetupComponent,
 
   ],
   imports: [
