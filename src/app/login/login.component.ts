@@ -3,6 +3,8 @@ import { ILogin, ILoginInfo } from './Ilogin';
 import { LoginService } from '../login.service';
 import { FormControl, FormGroup, Validators,  } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import labels from '../labels/labels.json'
 
 @Component({
   selector: 'login',
@@ -12,14 +14,11 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 })
 export class LoginComponent {
   login: ILogin;
-  logins: ILogin[] = [];
-  // LoginTyped: ILoginInfo[] = [];
-  //sprintForm!: FormGroup;
 
   returnUrl: string;
 
 
-  constructor(public loginService: LoginService, private router: Router, private route: ActivatedRoute,) {}
+  constructor(public loginService: LoginService, private router: Router, private route: ActivatedRoute,private toastr: ToastrService) {}
 
   addLoginForm = new FormGroup({
     username: new FormControl('', [Validators.required,
@@ -29,29 +28,29 @@ export class LoginComponent {
   });
 
   loginUser() {
-
     this.login = this.addLoginForm.value;
-    console.log(this.login);
-    
     this.loginService
       .login(this.login)
-      .subscribe((response: ILoginInfo) => {
-        console.log(response);
-
-        this.logins.push({ userName: response.userName
-          , accessLevel: response.accessLevel,token: response.token,isExecuted: response.isExecuted, loginTime: response.loginTime , responseMessage: response.responseMessage});
-     
-     
-        const exe = this.logins[0].isExecuted
+      .subscribe((response: any) => {
+        const exe = response.isExecuted
         if(exe == true){
-          console.log("logins",this.logins)
-          localStorage.setItem('user', JSON.stringify(response));
+          let data = {
+            '_token' : response.data.token,
+            'userName':response.data.userName,
+            'accessLevel':response.data.accessLevel,
+            'wsid':response.data.wsid,
+            'loginTime':response.data.loginTime,
+          }
+          this.addLoginForm.reset();
+          localStorage.setItem('user', JSON.stringify(data));
           this.router.navigate(['/dashboard']);
         }
         else{
           const errorMessage = response.responseMessage;
-          console.log(" something went wrong", errorMessage)
-
+          this.toastr.error(errorMessage?.toString(), 'Error!', {
+            positionClass: 'toast-top-right',
+            timeOut: 2000
+          });
         }
        
         

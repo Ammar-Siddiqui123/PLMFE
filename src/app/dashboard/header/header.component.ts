@@ -1,4 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { SpinnerService } from '../../../app/init/spinner.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +11,7 @@ export class HeaderComponent implements OnInit {
 
   @Output() toggleSidebarForMe: EventEmitter<any> = new EventEmitter();
   loading:boolean = true
-  constructor() { }
+  constructor(private router: Router,public spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
     this.loading = false;
@@ -17,6 +19,11 @@ export class HeaderComponent implements OnInit {
 
   toggleSidebar() {
     this.toggleSidebarForMe.emit();
+  }
+
+  logout(){   
+    localStorage.removeItem('user');
+    this.router.navigate(['/login']);
   }
 
 }

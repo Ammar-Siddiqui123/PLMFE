@@ -6,14 +6,24 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginService } from './login.service';
 import { LoginComponent } from './login/login.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRippleModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MaterialModule } from './material-module';
+import { MatTableModule } from '@angular/material/table';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CustomHttpInterceptor } from './init/http-interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -22,10 +32,27 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    DashboardModule
+    DashboardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRippleModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MaterialModule,
+    MatTableModule
   ],
   providers: [
-    LoginService,{provide: LocationStrategy, useClass: HashLocationStrategy}
+    LoginService, 
+    { 
+      provide: LocationStrategy, 
+      useClass: HashLocationStrategy 
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomHttpInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -241,9 +241,9 @@
   letter-spacing: normal
 }
 
-.mat-form-field-wrapper {
+/* .mat-form-field-wrapper {
   padding-bottom: 1.34375em
-}
+} */
 
 .mat-form-field-prefix .mat-icon,
 .mat-form-field-suffix .mat-icon {
@@ -3170,4 +3170,19 @@ td.mat-footer-cell {
 .table-row:focus {  
   border-radius: 10px;
   background: #dfdfdf;
+}
+.mat-list-item-content{
+  padding: 0 10px !important;
+}
+.readonly {
+  background-color: #ebebeb;
+  pointer-events: auto! important;
+  cursor: not-allowed! important;
+}
+.error{
+  color: red;
+  font-size: small;
+}
+.__grab_cursor{
+  cursor:grab !important;
 }
