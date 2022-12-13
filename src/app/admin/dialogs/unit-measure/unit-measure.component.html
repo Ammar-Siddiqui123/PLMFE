@@ -1,0 +1,98 @@
+<h1 mat-dialog-title><b>Unit Of Measure - Add, Delete, Edit and Set</b></h1>
+<button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+    <mat-icon class="close-icon">close</mat-icon>
+</button>
+<div class="card w-100">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-12 px-4">
+                Unit Of Measure
+            </div>
+        </div>
+    </div>
+    <div class="card-bordy">
+        <div class="container">
+        <div class="row">
+            <div class="col-6 offset-6">
+                <div class="d-flex gap-12 my-4 justify-content-end">
+                  <button mat-raised-button color="primary" class="add-icon-button">
+                    <span class="material-symbols-outlined">
+                      add
+                    </span>
+                  </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <mat-radio-group aria-label="Select an option" color="primary" class="w-100">
+                
+                <mat-radio-button value="1" class="custom-radio-btn w-100 mb-2">
+
+                        <div class="d-flex gap-12 align-items-center">
+                        <mat-form-field class="custom-form-field w-100" appearance="outline">
+                            <mat-label>FC Fast</mat-label>
+                            <input matInput type="text">
+                        </mat-form-field>
+                        
+                            <button mat-flat-button color="warn" class="sm-icon-button">
+                                <span class="material-symbols-outlined">
+                                    close
+                                </span>
+                            </button>
+                            <button mat-flat-button color="primary" class="sm-icon-button">
+                            <span class="material-symbols-outlined">
+                                save
+                            </span>
+                            </button>
+                        </div>
+                </mat-radio-button>
+                <mat-radio-button value="2" class="custom-radio-btn w-100 mb-2">
+
+                    <div class="d-flex gap-12 align-items-center">
+                    <mat-form-field class="custom-form-field w-100" appearance="outline">
+                        <mat-label>Fridge</mat-label>
+                        <input matInput type="text">
+                    </mat-form-field>
+                    
+                        <button mat-flat-button color="warn" class="sm-icon-button">
+                            <span class="material-symbols-outlined">
+                                close
+                            </span>
+                        </button>
+                        <button mat-flat-button color="primary" class="sm-icon-button">
+                        <span class="material-symbols-outlined">
+                            save
+                        </span>
+                        </button>
+                    </div>
+            </mat-radio-button>
+            <mat-radio-button value="3" class="custom-radio-btn w-100 mb-2">
+
+                <div class="d-flex gap-12 align-items-center">
+                <mat-form-field class="custom-form-field w-100" appearance="outline">
+                    <mat-label>Slow</mat-label>
+                    <input matInput type="text">
+                </mat-form-field>
+                
+                    <button mat-flat-button color="warn" class="sm-icon-button">
+                        <span class="material-symbols-outlined">
+                            close
+                        </span>
+                    </button>
+                    <button mat-flat-button color="primary" class="sm-icon-button">
+                    <span class="material-symbols-outlined">
+                        save
+                    </span>
+                    </button>
+                </div>
+        </mat-radio-button>
+                
+            
+            </mat-radio-group>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="container">
+    
+</div>

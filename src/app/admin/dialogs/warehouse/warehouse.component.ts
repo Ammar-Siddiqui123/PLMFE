@@ -12,7 +12,7 @@ import labels from '../../../labels/labels.json'
 })
 export class WarehouseComponent implements OnInit {
 
-  public warehosue_list: any;
+  public warehouse_list: any;
   public userData: any;
 
   constructor(
@@ -26,12 +26,12 @@ export class WarehouseComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.whService.getWareHouse().subscribe((res) => {
-     this.warehosue_list = res.data;
+     this.warehouse_list = res.data;
     });
   
   }
   addwhRow(row:any){
-    this.warehosue_list.push([]);
+    this.warehouse_list.push([]);
   }
   saveWareHouse(warehosue:any, oldWh:any){ 
     let paylaod = {
@@ -55,7 +55,7 @@ export class WarehouseComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.warehosue_list.pop(warehosue);
+    this.warehouse_list.pop(warehosue);
     this.whService.dltWareHouse(paylaod).subscribe((res) => {
       this.toastr.success(labels.alert.delete, 'Success!', {
         positionClass: 'toast-bottom-right',
@@ -66,5 +66,8 @@ export class WarehouseComponent implements OnInit {
 
   selectWearHouse(selectedWh: any){
     this.dialogRef.close(selectedWh.value);
+  }
+  clearWareHouse(){
+    this.dialogRef.close('');
   }
 }

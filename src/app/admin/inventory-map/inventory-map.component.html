@@ -28,22 +28,27 @@
                 </mat-form-field>
               </div>
               <div class="col mt-2">
-                <button mat-button>
+                <button mat-button (click)="viewAllLocDialog()">
                   <span class="material-symbols-outlined">
                     filter_list
                   </span>
-                  <mat-label>Filter</mat-label>
+                  <mat-label> View All Location</mat-label>
                 </button>
               </div>
 
             </div>
           </div>
-          <div class="example-container">
+          <div>
             <ng-scrollbar style="height: 665px;">
-              <mat-table #table [dataSource]="dataSource" matSort class="example-container">
-
+              <mat-table #table [dataSource]="dataSource" matSort>
                 <ng-container [matColumnDef]="col.colDef" *ngFor="let col of displayedColumns">
-                  <mat-header-cell *matHeaderCellDef> <h6><strong> {{ col.colDef }} </strong></h6></mat-header-cell>
+                  <th class="header" mat-header-cell *cdkHeaderCellDef>
+                    {{ col.colDef }}
+                    <mat-form-field class="filter" floatLabel="never" appearance="outline">
+                      <mat-label>Search {{ col.colDef }}</mat-label>
+                      <input #searchInput matInput (keyup)="applyFilter(searchInput.value, col.colHeader)">
+                    </mat-form-field>
+                  </th>
                   <mat-cell *matCellDef="let element"> {{ element[col.colHeader] }} </mat-cell>
                 </ng-container>
               
@@ -59,3 +64,42 @@
     </div>
   </div>
 </div>
+
+<ng-template #viewAllLocation>
+  <!-- <div class="d-flex justify-content-between align-items-center">
+    <h2 class="card-header-title mb-0 d-flex align-items-center">
+      <span>Inventory Map</span>
+    </h2>
+  </div>
+<mat-radio-group
+  aria-labelledby="example-radio-group-label"
+  class="example-radio-group"
+  [(ngModel)]="favoriteSeason">
+  <mat-radio-button class="example-radio-button" *ngFor="let season of seasons" [value]="season" color="primary">
+    {{season}}
+  </mat-radio-button>
+</mat-radio-group> -->
+<h1 mat-dialog-title>View All Location</h1>
+<!-- <h6>Drag to reorder</h6> -->
+<button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+  <mat-icon class="close-icon">close</mat-icon>
+</button>
+
+<div>
+  <div>
+    <div class="outside">
+      <div class="example-list">
+        <h6>Location</h6>
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="filterLoc">
+        <mat-radio-button class="example-radio-button" value="all" color="primary">All Location</mat-radio-button>
+        <mat-radio-button class="example-radio-button" value="open" color="primary">Open Location</mat-radio-button>
+        <mat-radio-button class="example-radio-button" value="quarantined" color="primary">Quarantined location</mat-radio-button>
+      </mat-radio-group>
+      </div>
+    </div>
+  </div>
+</div>
+<mat-dialog-actions align="end">
+  <button type="submit" mat-raised-button class="form-button-submit" color="primary" (click)="viewLocFilter()">Apply</button>
+</mat-dialog-actions>
+</ng-template>

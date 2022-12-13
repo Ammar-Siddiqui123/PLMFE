@@ -33,7 +33,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'ads_click', title: 'manual Transactions', route: '#' },
     { icon: 'event_note', title: 'Event Logs', route: '#' },
     { icon: 'airline_stops', title: 'De-allocate Orders', route: '#' },
-    { icon: 'dashboard', title: 'Inventory', route: '#' }
+    { icon: 'dashboard', title: 'Inventory', route: '/admin/inventoryMaster' }
   ];
   isParentMenu: boolean = true;
   isChildMenu: boolean = false;

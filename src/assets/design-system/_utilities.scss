@@ -1,0 +1,20 @@
+@import 'colors';
+
+/*TEXT AND BACKGROUND CLASSES---START*/
+@each $color, $shades in $colors {
+    @each $shade, $value in $shades {
+        .text-#{$color}-#{$shade}{
+            color:$value !important;
+        }
+        .bg-#{$color}-#{$shade}{
+            background:$value !important;
+        }
+    }
+}
+/*Theme colors*/
+@each $theme-color, $value in $theme-colors {
+    .text-#{$theme-color}{
+        color:$value !important;
+    }
+}
+/*TEXT AND BACKGROUND CLASSES---END*/
