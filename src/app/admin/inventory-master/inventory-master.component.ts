@@ -7,6 +7,7 @@ import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/dele
 import { ItemCategoryComponent } from '../dialogs/item-category/item-category.component';
 import { ItemNumberComponent } from '../dialogs/item-number/item-number.component';
 import { UnitMeasureComponent } from '../dialogs/unit-measure/unit-measure.component';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-inventory-master',
@@ -20,9 +21,9 @@ export class InventoryMasterComponent implements OnInit {
   public locationTable: any;
   public getItemNum: any;
   // public d_ItemNumber: any;
-  constructor(private invMasterService: InventoryMasterService, private authService: AuthService,private dialog: MatDialog) { }
+  constructor(private invMasterService: InventoryMasterService, private authService: AuthService, private dialog: MatDialog) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
-
+  invMaster: FormGroup;
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
@@ -49,7 +50,7 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
-      this.getInvMasterData = res.data; 
+      this.getInvMasterData = res.data;
       console.log(this.getInvMasterData);
     })
   }
