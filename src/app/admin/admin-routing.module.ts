@@ -4,6 +4,7 @@ import { AuthGuardGuard } from '../guard/auth-guard.guard';
 import { AdminComponent } from './admin.component';
 import { EmployeesComponent } from './employees/employees.component';
 import { InventoryMapComponent } from './inventory-map/inventory-map.component';
+import { InventoryMasterComponent } from './inventory-master/inventory-master.component';
 
 const routes: Routes = [
   { path: '', component: AdminComponent },
@@ -15,6 +16,11 @@ const routes: Routes = [
   {
     path: 'inventoryMap',
     component: InventoryMapComponent,
+    canActivate:[AuthGuardGuard]
+  },
+  {
+    path: 'inventoryMaster',
+    component: InventoryMasterComponent,
     canActivate:[AuthGuardGuard]
   },
 

@@ -3174,3 +3174,15 @@ td.mat-footer-cell {
 .mat-list-item-content{
   padding: 0 10px !important;
 }
+.readonly {
+  background-color: #ebebeb;
+  pointer-events: auto! important;
+  cursor: not-allowed! important;
+}
+.error{
+  color: red;
+  font-size: small;
+}
+.__grab_cursor{
+  cursor:grab !important;
+}

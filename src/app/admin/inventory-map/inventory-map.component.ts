@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../init/auth.service';
@@ -44,7 +45,8 @@ const INVMAP_DATA = [
   { colHeader: "laserX", colDef: "Laser X" },
   { colHeader: "laserY", colDef: "Laser Y" },
   { colHeader: "locationNumber", colDef: "Location Number" },
-  { colHeader: "locationID", colDef: "Alternate Light" }
+  { colHeader: "locationID", colDef: "Alternate Light" },
+  { colHeader: "qtyAlcPutAway", colDef: "Quantity Allocated Put Away" },
 ];
 
 @Component({
@@ -56,9 +58,15 @@ export class InventoryMapComponent implements OnInit {
   public displayedColumns: any;
   public dataSource: any;
   public columnValues: any;
+  public itemList: any;
+  public filterLoc:any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
+
+  favoriteSeason: string;
+  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
 
 
   constructor(
@@ -84,37 +92,37 @@ export class InventoryMapComponent implements OnInit {
       "filter": "1 = 1"
     }
     this.seqColumn.getSetColumnSeq().subscribe((res) => {
-      // INVMAP_DATA.map((colHeader => {return colHeader.colHeader}))
       this.displayedColumns = INVMAP_DATA;
-      this.columnValues = INVMAP_DATA.map((colDef => { return colDef.colDef }));
-      
+      this.columnValues = res.data.columnSequence;
     });
 
     this.invMapService.getInventoryMap(paylaod).subscribe((res: any) => {
+      this.itemList =  res.data.inventoryMaps.map((arr => {
+        return {'itemNumber': arr.itemNumber, 'desc': arr.description}
+      }))
       this.dataSource = new MatTableDataSource(res.data.inventoryMaps);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       
     });
   }
-  addLocDialog() {
+  addLocDialog() { 
     let dialogRef = this.dialog.open(AddInvMapLocationComponent, {
       height: '750px',
       width: '100%',
       data: {
-        mode: 'addlocation',
+        mode: 'addInvMapLocation',
+        itemList : this.itemList
       }
     })
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
-
     })
   }
   inventoryMapAction(actionEvent: any) {
-    console.log(actionEvent.value);
     if (actionEvent.value === 'set_column_sq') {
       let dialogRef = this.dialog.open(SetColumnSeqComponent, {
-        height: 'auto',
+        height: '700px',
         width: '600px',
         data: {
           mode: actionEvent.value,
@@ -122,9 +130,31 @@ export class InventoryMapComponent implements OnInit {
       })
       dialogRef.afterClosed().subscribe(result => {
         console.log(result);
-
+        const matSelect: MatSelect = actionEvent.source;
+        matSelect.writeValue(null);
+        this.ngOnInit();
       })
     }
+  }
+
+  applyFilter(filterValue:any, colHeader:any) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  viewAllLocDialog(): void {
+    const dialogRef = this.dialog.open(this.customTemplate, {
+       width: '400px'
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  viewLocFilter(){
+    console.log(this.filterLoc);
   }
 
 }

@@ -56,9 +56,8 @@
 }
 .mat-table{
     background-color: rgba(255, 255, 255, 0.959);
-    // height : 100vh;
     overflow: auto;   
-    width: 100rem;
+    width: 98rem;
 }
 .mat-header-cell, .mat-cell {
     min-width: 180px;
@@ -86,4 +85,21 @@
 }
 .mat-paginator{
     background-color: white;
+}
+.filter {
+  display: block;
+}
+.header {
+  padding: 5px;
+}
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.example-radio-button {
+  margin: 5px;
 }
