@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../init/auth.service';
 import { AddInvMapLocationComponent } from '../dialogs/add-inv-map-location/add-inv-map-location.component';
+import { AdjustQuantityComponent } from '../dialogs/adjust-quantity/adjust-quantity.component';
 import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/delete-confirmation.component';
 import { QuarantineConfirmationComponent } from '../dialogs/quarantine-confirmation/quarantine-confirmation.component';
 import { SetColumnSeqComponent } from '../dialogs/set-column-seq/set-column-seq.component';
@@ -240,14 +241,19 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-    //  this.isGroupLookUp = false;
-      // const matSelect: MatSelect = matEvent.source;
-      // matSelect.writeValue(null);
     })
   }
 
-  adjustQuantity(){
-
+  adjustQuantity(event){
+    let dialogRef = this.dialog.open(AdjustQuantityComponent, {
+      height: 'auto',
+      width: '800px',
+      data: {
+        id: event.invMapID
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+    })
   }
 
   viewInInventoryMaster(){

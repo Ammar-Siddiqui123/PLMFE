@@ -143,9 +143,9 @@ export class AddInvMapLocationComponent implements OnInit {
     this.addInvMapLocation = this.fb.group({
       location: [ this.getDetailInventoryMapData.location || '', [Validators.required]],
       zone: [this.getDetailInventoryMapData.zone || '', [Validators.required]],
-      carousel: [this.getDetailInventoryMapData.carousel.toString() || '', [Validators.required]],
-      row: [this.getDetailInventoryMapData.row.toString()  || '', [Validators.required]],
-      shelf: [this.getDetailInventoryMapData.shelf.toString() || '', [Validators.required]],
+      carousel: [this.getDetailInventoryMapData.carousel|| '', [Validators.required]],
+      row: [this.getDetailInventoryMapData.row  || '', [Validators.required]],
+      shelf: [this.getDetailInventoryMapData.shelf|| '', [Validators.required]],
       bin: [this.getDetailInventoryMapData.bin || '', [Validators.required]],
       itemNumber:  [this.getDetailInventoryMapData.itemNumber || ''],
       itemQuantity:  [this.getDetailInventoryMapData.itemQuantity || ''],

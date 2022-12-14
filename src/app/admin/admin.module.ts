@@ -35,6 +35,7 @@ import { CellSizeComponent } from './dialogs/cell-size/cell-size.component';
 import { VelocityCodeComponent } from './dialogs/velocity-code/velocity-code.component';
 import { InventoryMasterComponent } from './inventory-master/inventory-master.component';
 import { QuarantineConfirmationComponent } from './dialogs/quarantine-confirmation/quarantine-confirmation.component';
+import { AdjustQuantityComponent } from './dialogs/adjust-quantity/adjust-quantity.component';
 
 
 
@@ -65,7 +66,8 @@ import { QuarantineConfirmationComponent } from './dialogs/quarantine-confirmati
     CellSizeComponent,
     VelocityCodeComponent,
     InventoryMasterComponent,
-    QuarantineConfirmationComponent
+    QuarantineConfirmationComponent,
+    AdjustQuantityComponent
 
   ],
   imports: [
