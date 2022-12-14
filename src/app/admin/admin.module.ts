@@ -41,6 +41,10 @@ import { UnitMeasureComponent } from './dialogs/unit-measure/unit-measure.compon
 import { ItemSetupComponent } from './inventory-master/item-setup/item-setup.component';
 import { QuarantineConfirmationComponent } from './dialogs/quarantine-confirmation/quarantine-confirmation.component';
 import { AdjustQuantityComponent } from './dialogs/adjust-quantity/adjust-quantity.component';
+import { BatchManagerComponent } from './batch-manager/batch-manager.component';
+import { BatchDeleteComponent } from './batch-manager/batch-delete/batch-delete.component';
+import { BatchOrderListComponent } from './batch-manager/batch-order-list/batch-order-list.component';
+import { BatchSelectedOrdersComponent } from './batch-manager/batch-selected-orders/batch-selected-orders.component';
 
 
 
@@ -77,7 +81,11 @@ import { AdjustQuantityComponent } from './dialogs/adjust-quantity/adjust-quanti
     UnitMeasureComponent,
     ItemSetupComponent,
     QuarantineConfirmationComponent,
-    AdjustQuantityComponent
+    AdjustQuantityComponent,
+    BatchManagerComponent,
+    BatchDeleteComponent,
+    BatchOrderListComponent,
+    BatchSelectedOrdersComponent,
 
   ],
   imports: [

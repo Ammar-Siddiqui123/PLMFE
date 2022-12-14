@@ -24,7 +24,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'tune', title: 'Preferences', route: '#' },
     { icon: 'published_with_changes', title: 'System Replenishment', route: '#' },
     { icon: 'directions_alt', title: 'Inventery Map', route: '/admin/inventoryMap' },
-    { icon: 'list_alt', title: 'Batch Manager', route: '#' },
+    { icon: 'list_alt', title: 'Batch Manager', route: '/admin/batchManager' },
     { icon: 'analytics', title: 'Reports', route: '#' },
     { icon: 'my_location', title: 'Location Assignment', route: '#' },
     { icon: 'low_priority', title: 'Cycle Count', route: '#' },
