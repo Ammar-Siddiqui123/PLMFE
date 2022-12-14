@@ -2,9 +2,9 @@
   border-radius: 10px;
 }
 
-// .table{
-//   width:100%;
-// }
+.table{
+  width:100%;
+}
 .mat-header-row {
   // background-color: #3F51B5;
   // color: white;
@@ -57,7 +57,8 @@
 .mat-table{
     background-color: rgba(255, 255, 255, 0.959);
     overflow: auto;   
-    width: 98rem;
+    //width: 98rem;
+    width: 100%;
 }
 .mat-header-cell, .mat-cell {
     min-width: 180px;
@@ -103,3 +104,10 @@
 .example-radio-button {
   margin: 5px;
 }
+:host ::ng-deep .ng-scroll-content {
+  display: inline-block;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+

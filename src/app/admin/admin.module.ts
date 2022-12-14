@@ -39,6 +39,8 @@ import { ItemCategoryComponent } from './dialogs/item-category/item-category.com
 import { PrintRangeComponent } from './dialogs/print-range/print-range.component';
 import { UnitMeasureComponent } from './dialogs/unit-measure/unit-measure.component';
 import { ItemSetupComponent } from './inventory-master/item-setup/item-setup.component';
+import { QuarantineConfirmationComponent } from './dialogs/quarantine-confirmation/quarantine-confirmation.component';
+import { AdjustQuantityComponent } from './dialogs/adjust-quantity/adjust-quantity.component';
 
 
 
@@ -74,6 +76,8 @@ import { ItemSetupComponent } from './inventory-master/item-setup/item-setup.com
     PrintRangeComponent,
     UnitMeasureComponent,
     ItemSetupComponent,
+    QuarantineConfirmationComponent,
+    AdjustQuantityComponent
 
   ],
   imports: [

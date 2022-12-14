@@ -8,6 +8,47 @@ import { Observable } from 'rxjs/internal/Observable';
 import { startWith } from 'rxjs/internal/operators/startWith';
 import { map } from 'rxjs/internal/operators/map';
 import { InvMapLocationService } from './inv-map-location.service';
+import { ToastrService } from 'ngx-toastr';
+import { ConditionalExpr } from '@angular/compiler';
+
+export interface  InventoryMapDataStructure   {
+  invMapID : string |  '',
+  locationID :  string |  '',
+  location :  string |  '',
+  warehouse :  string |  '',
+  zone:  string |  '',
+  carousel :  string |  '',
+  row :  string |  '',
+  shelf :  string |  '',
+  bin :  string |  '',
+  itemNumber :  string |  '',
+  revision:  string |  '',
+  serialNumber: string |   '',
+  lotNumber:  string |  '',
+  expirationDate : string |   '',
+  description :  string |   '',
+  itemQuantity :  string |   '',
+  unitOfMeasure:  string |  '',
+  maximumQuantity: string |   '',
+  cellSize:  string |  '',
+  goldenZone:  string |  '',
+  putAwayDate:  string |  '',
+  userField1:  string |  '',
+  userField2:  string |  '',
+  masterLocation:  string |  '',
+  dateSensitive:  boolean |  '',
+  dedicated:  string |  '',
+  masterInvMapID:  string |  '',
+  minQuantity:  string |   '',
+  quantityAllocatedPick:  string |  '',
+  quantityAllocatedPutAway:  string |  '',
+  laserX:  string |  '',
+  laserY:  string |  '',
+  locationNumber:  string |  '',
+  rn :  string |  '',
+
+  velocity:  string |   '' //additional field
+}
 
 @Component({
   selector: 'app-add-inv-map-location',
@@ -21,51 +62,68 @@ export class AddInvMapLocationComponent implements OnInit {
   zoneList: any[] = [];
   filteredOptions: Observable<any[]>;
   filteredItemNum: Observable<any[]>;
+
+  getDetailInventoryMapData  :    InventoryMapDataStructure = {
+    invMapID : '',
+    locationID :   '',
+    location :   '',
+    warehouse :   '',
+    zone:   '',
+    carousel :   '',
+    row :   '',
+    shelf :   '',
+    bin :   '',
+    itemNumber :   '',
+    revision:   '',
+    serialNumber:   '',
+    lotNumber:   '',
+    expirationDate :   '',
+    description :    '',
+    itemQuantity :    '',
+    unitOfMeasure:   '',
+    maximumQuantity:   '',
+    cellSize:   '',
+    goldenZone:   '',
+    putAwayDate:   '',
+    userField1:   '',
+    userField2:   '',
+    masterLocation:   '',
+    dateSensitive:   false,
+    dedicated:   '',
+    masterInvMapID:   '',
+    minQuantity:    '',
+    quantityAllocatedPick:   '',
+    quantityAllocatedPutAway:   '',
+    laserX:   '',
+    laserY:   '',
+    locationNumber:   '',
+    rn :   '',
+  
+    velocity:    '' //additional field
+  } ;
+
+ 
+
   constructor(
     private dialog: MatDialog,
     private fb: FormBuilder,
     private invMapService: InvMapLocationService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private toastr: ToastrService
   ) {
-    this.addInvMapLocation = fb.group({
-      location: ['', [Validators.required]],
-      zone: ['', [Validators.required]],
-      carousel: ['', [Validators.required]],
-      row: ['', [Validators.required]],
-      shelf: ['', [Validators.required]],
-      bin: ['', [Validators.required]],
-      itemNumber: new FormControl(''),
-      itemQuantity: new FormControl(''),
-      description: new FormControl(''),
-      cellSize: new FormControl(''),
-      goldenZone: new FormControl(''),
-      maximumQuantity: new FormControl(''),
-      dedicated: new FormControl(''),
-      serialNumber: new FormControl(''),
-      lotNumber: new FormControl(''),
-      expirationDate: new FormControl(''),
-      unitOfMeasure: new FormControl(''),
-      quantityAllocatedPick: new FormControl(''),
-      quantityAllocatedPutAway: new FormControl(''),
-      putAwayDate: new FormControl(''),
-      warehouse: ['', [Validators.required]],
-      revision: new FormControl(''),
-      invMapID: new FormControl(''),
-      userField1: new FormControl(''),
-      userField2: new FormControl(''),
-      masterLocation: new FormControl(''),
-      dateSensitive: new FormControl(''),
-      masterInvMapID: new FormControl(''),
-      minQuantity: new FormControl(''),
-      laserX: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(13)]],
-      laserY: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(13)]],
-      locationNumber: new FormControl(''),
-      locationID: new FormControl(''),
-    });
+
   }
 
   ngOnInit(): void {
+    if(this.data.detailData){
+      this.getDetailInventoryMapData = this.data.detailData;
+      this.initializeDataSet();
+    } else {
+      this.initializeDataSet();
+    }
    this.itemNumberList = this.data.itemList;
+   
+   console.log(this.getDetailInventoryMapData)
     this.invMapService.getLocZTypeInvMap().subscribe((res) => {
       this.locZoneList = res.data;
       this.filteredOptions = this.addInvMapLocation.controls['location'].valueChanges.pipe(
@@ -76,11 +134,77 @@ export class AddInvMapLocationComponent implements OnInit {
         startWith(''),
         map(value => this._filterItemNum(value || '')),
       );
+      console.log(this.filteredItemNum)
     });
 
   }
+
+  initializeDataSet(){
+    this.addInvMapLocation = this.fb.group({
+      location: [ this.getDetailInventoryMapData.location || '', [Validators.required]],
+      zone: [this.getDetailInventoryMapData.zone || '', [Validators.required]],
+      carousel: [this.getDetailInventoryMapData.carousel|| '', [Validators.required]],
+      row: [this.getDetailInventoryMapData.row  || '', [Validators.required]],
+      shelf: [this.getDetailInventoryMapData.shelf|| '', [Validators.required]],
+      bin: [this.getDetailInventoryMapData.bin || '', [Validators.required]],
+      itemNumber:  [this.getDetailInventoryMapData.itemNumber || ''],
+      itemQuantity:  [this.getDetailInventoryMapData.itemQuantity || ''],
+      description:  [this.getDetailInventoryMapData.description || ''],
+      cell:[ this.getDetailInventoryMapData.cellSize || '', [Validators.required]],
+      velocity: [this.getDetailInventoryMapData.velocity || '', [Validators.required]],
+      maximumQuantity:  [this.getDetailInventoryMapData.maximumQuantity || ''],
+      dedicated:  [this.getDetailInventoryMapData.dedicated || ''],
+      //serialNumber: new FormControl(''),
+     // lotNumber: new FormControl(''),
+    //  expirationDate: new FormControl(''),
+      unitOfMeasure:  [this.getDetailInventoryMapData.unitOfMeasure || ''],
+      quantityAllocatedPick:  [this.getDetailInventoryMapData.quantityAllocatedPick || ''],
+      quantityAllocatedPutAway:  [this.getDetailInventoryMapData.quantityAllocatedPutAway || ''],
+      //putAwayDate: new FormControl(''),
+      warehouse: [this.getDetailInventoryMapData.warehouse || '', [Validators.required]],
+     // revision: new FormControl(''),
+      invMapID:  [this.getDetailInventoryMapData.invMapID || ''],
+      userField1:  [this.getDetailInventoryMapData.userField1 || ''],
+      userField2:  [this.getDetailInventoryMapData.userField2 || ''],
+      masterLocation:  [this.getDetailInventoryMapData.masterLocation || ''],
+      dateSensitive: [this.getDetailInventoryMapData.dateSensitive || false],
+      masterInvMapID:  [this.getDetailInventoryMapData.masterInvMapID || ''],
+      minQuantity:  [this.getDetailInventoryMapData.minQuantity || ''],
+      laserX: [this.getDetailInventoryMapData.laserX || '', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(13)]],
+      laserY: [this.getDetailInventoryMapData.laserY || '', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(13)]],
+      locationNumber: [this.getDetailInventoryMapData.locationNumber || ''],
+      locationID:  [this.getDetailInventoryMapData.locationID || '']
+
+      //velocity
+    });
+  }
+
   onSubmit(form: FormGroup) {
-    console.log(form);
+    
+    console.log('create',form);
+    if(this.data.detailData){
+      this.invMapService.updateInventoryMap(form.value).subscribe((res) => {
+        if(res.isExecuted){
+          this.toastr.success(res.responseMessage, 'Success!',{
+            positionClass: 'toast-bottom-right',
+            timeOut:2000
+         });
+          console.log(res.responseMessage)
+          this.dialog.closeAll()
+        }
+      });
+    } else{
+      this.invMapService.createInventoryMap(form.value).subscribe((res) => {
+        if(res.isExecuted){
+          this.toastr.success(res.responseMessage, 'Success!',{
+            positionClass: 'toast-bottom-right',
+            timeOut:2000
+         });
+          console.log(res.responseMessage)
+          this.dialog.closeAll()
+        }
+      });
+    }
 
   }
 
@@ -107,6 +231,7 @@ export class AddInvMapLocationComponent implements OnInit {
     })
   }
   loadCellSize() {
+    
     let dialogRef = this.dialog.open(CellSizeComponent, {
       height: '600px',
       width: '600px',
@@ -115,7 +240,8 @@ export class AddInvMapLocationComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      this.addInvMapLocation.controls['cellSize'].setValue(result);
+      
+      this.addInvMapLocation.controls['cell'].setValue(result);
     })
   }
   loadVelocityCode() {
@@ -128,6 +254,7 @@ export class AddInvMapLocationComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
+      this.addInvMapLocation.controls['velocity'].setValue(result);
     })
   }
 
@@ -157,4 +284,7 @@ export class AddInvMapLocationComponent implements OnInit {
         this.addInvMapLocation.controls['description'].setValue(res.data.maximumQuantity);
       });
   }
+
+
+
 }

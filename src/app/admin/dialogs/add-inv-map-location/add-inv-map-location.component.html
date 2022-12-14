@@ -12,14 +12,14 @@
                         <div class="col-6">
                             <mat-form-field class="d-block w-100 readonly" appearance="outline">
                                 <mat-label>Location Number</mat-label>
-                                <input matInput class="readonly" formControlName="locationNumber" type="text" name="locationNumber"
+                                <input matInput class="readonly" formControlName="locationNumber"   name="locationNumber"
                                     readonly>
                             </mat-form-field>
                         </div>
                         <div class="col-6">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Location Name</mat-label>
-                                <input type="text" placeholder="Location Name" aria-label="Location Name" matInput
+                                <input   placeholder="Location Name" aria-label="Location Name" matInput
                                     formControlName="location" [matAutocomplete]="auto">
                                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
                                     (optionSelected)="loadZones($event)">
@@ -41,7 +41,7 @@
                         <div class="col-6">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Laser X</mat-label>
-                                <input matInput formControlName="laserX" type="text" name="laserX">
+                                <input matInput formControlName="laserX"   name="laserX">
                             </mat-form-field>
                             <div class="error" *ngIf="hasError('laserX', 'required')">This field is required.</div>
                             <div class="error" *ngIf="hasError('laserX', 'pattern')">Please enter numbers only.</div>
@@ -50,7 +50,7 @@
                         <div class="col-6">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Laser Y</mat-label>
-                                <input matInput formControlName="laserY" type="text" name="laserY">
+                                <input matInput formControlName="laserY"   name="laserY">
                             </mat-form-field>
                             <div class="error" *ngIf="hasError('laserY', 'required')">This field is required.</div>
                             <div class="error" *ngIf="hasError('laserY', 'pattern')">Please enter numbers only.</div>
@@ -61,7 +61,7 @@
                         <div class="col-6">
                             <mat-form-field class="d-block w-100 " appearance="outline" (click)="loadWarehouse()">
                                 <mat-label>Warehouse</mat-label>
-                                <input matInput formControlName="warehouse" type="text" name="warehouse" readonly="true">
+                                <input matInput formControlName="warehouse"   name="warehouse" readonly="true">
                                 <span matSuffix>
                                     <mat-icon style="color:#8B8BA3;">open_in_full</mat-icon>
                                 </span>
@@ -71,7 +71,7 @@
                         <div class="col-6">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Zone</mat-label>
-                                <input type="text" placeholder="Zone" aria-label="Zone" matInput
+                                <input   placeholder="Zone" aria-label="Zone" matInput
                                     formControlName="zone" [matAutocomplete]="zoneAuto">
                                 <mat-autocomplete autoActiveFirstOption #zoneAuto="matAutocomplete">
                                     <h6 class="loc_name"><span>Zone</span> <span>Location</span></h6>
@@ -90,14 +90,14 @@
                         <div class="col-6">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Carousel</mat-label>
-                                <input matInput formControlName="carousel" type="text" name="carousel">
+                                <input matInput formControlName="carousel"   name="carousel">
                             </mat-form-field>
                             <div class="error" *ngIf="hasError('carousel', 'required')">This field is required.</div>
                         </div>
                         <div class="col-6">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Row</mat-label>
-                                <input matInput formControlName="row" type="text" name="row">
+                                <input matInput formControlName="row"   name="row">
                             </mat-form-field>
                             <div class="error" *ngIf="hasError('row', 'required')">This field is required.</div>
                         </div>
@@ -106,14 +106,14 @@
                         <div class="col-6">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Shelf</mat-label>
-                                <input matInput formControlName="shelf" type="text" name="shelf">
+                                <input matInput formControlName="shelf"   name="shelf">
                             </mat-form-field>
                             <div class="error" *ngIf="hasError('shelf', 'required')">This field is required.</div>
                         </div>
                         <div class="col-6">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Bin</mat-label>
-                                <input matInput formControlName="bin" type="text" name="bin">
+                                <input matInput formControlName="bin"   name="bin">
                             </mat-form-field>
                             <div class="error" *ngIf="hasError('bin', 'required')">This field is required.</div>
                         </div>
@@ -122,13 +122,13 @@
                         <div class="col-6">
                             <mat-form-field class="d-block w-100 readonly" appearance="outline">
                                 <mat-label>UM</mat-label>
-                                <input matInput formControlName="unitOfMeasure" class="readonly" type="text" name="unitOfMeasure">
+                                <input matInput formControlName="unitOfMeasure" class="readonly"   name="unitOfMeasure">
                             </mat-form-field>
                         </div>
                         <div class="col-6">
                             <mat-form-field class="d-block w-100" appearance="outline" (click)="loadCellSize()">
                                 <mat-label>Cell Size</mat-label>
-                                <input matInput formControlName="cellSize" type="text" name="cellSize" readonly>
+                                <input matInput formControlName="cell"   name="cell" readonly>
                                 <span matSuffix>
                                     <mat-icon style="color:#8B8BA3;">open_in_full</mat-icon>
                                 </span>
@@ -139,7 +139,7 @@
                         <div class="col-6">
                             <mat-form-field class="d-block w-100 " appearance="outline" (click)="loadVelocityCode()">
                                 <mat-label>Velocity Code</mat-label>
-                                <input matInput formControlName="goldenZone" type="text" name="goldenZone" readonly>
+                                <input matInput formControlName="velocity"   name="velocity" readonly>
                                 <span matSuffix>
                                     <mat-icon style="color:#8B8BA3;">open_in_full</mat-icon>
                                 </span>
@@ -148,21 +148,21 @@
                         <div class="col-6">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Alternate Light</mat-label>
-                                <input matInput formControlName="locationID" type="text" name="locationID">
+                                <input matInput formControlName="locationID"   name="locationID">
                             </mat-form-field>
                         </div>
                     </div>
 
                     <mat-form-field class="d-block w-100 mt-3" appearance="outline">
                         <mat-label>Ship Via</mat-label>
-                        <input matInput formControlName="userField1" type="text" name="userField1">
+                        <input matInput formControlName="userField1"   name="userField1">
                         <!-- <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint> -->
 
                     </mat-form-field>
 
                     <mat-form-field class="d-block w-100 mt-3" appearance="outline">
                         <mat-label>Ship To Name</mat-label>
-                        <input matInput formControlName="userField2" type="text" name="userField2">
+                        <input matInput formControlName="userField2"   name="userField2">
                     </mat-form-field>
                     <section class="ld_checks">
                         <mat-checkbox formControlName="dedicated" class="ld_checkbox" color="primary">Dedicated
@@ -181,7 +181,7 @@
                     <div class="col-6">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Item Number</mat-label>
-                            <input type="text" placeholder="Item Number" aria-label="Item Number" matInput
+                            <input   placeholder="Item Number" aria-label="Item Number" matInput
                                 formControlName="itemNumber" [matAutocomplete]="itemNumAuto">
                             <mat-autocomplete autoActiveFirstOption #itemNumAuto="matAutocomplete" [panelWidth]="400" (optionSelected)="loadItemDetails($event)">
                                 <h6 class="loc_name"><span>Item Number</span> <span>Description</span></h6>
@@ -198,55 +198,55 @@
 
                 <mat-form-field class="d-block w-100 readonly" appearance="outline">
                     <mat-label>Description</mat-label>
-                    <input matInput readonly class="readonly" formControlName="description" type="text" name="description">
+                    <input matInput readonly class="readonly" formControlName="description"   name="description">
                 </mat-form-field>
                 <div class="row">
                     <div class="col-6">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Maximum (Location) Quantity</mat-label>
-                            <input matInput formControlName="maximumQuantity" type="text" name="maximumQuantity">
+                            <input matInput formControlName="maximumQuantity"   name="maximumQuantity">
                         </mat-form-field>
                     </div>
                     <div class="col-6">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Min (Location) Quantity</mat-label>
-                            <input matInput formControlName="minQuantity" type="text" name="minQuantity">
+                            <input matInput formControlName="minQuantity"   name="minQuantity">
                             <!-- <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint> -->
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-6">
+                <!-- <div class="row">
+                     <div class="col-6">
                         <mat-form-field class="d-block w-100 readonly" appearance="outline">
                             <mat-label>Put Away Date</mat-label>
-                            <input matInput class="readonly" formControlName="putAwayDate" type="text" name="putAwayDate">
+                            <input matInput class="readonly" formControlName="putAwayDate"   name="putAwayDate">
                         </mat-form-field>
                     </div>
                     <div class="col-6">
                         <mat-form-field class="d-block w-100 readonly" appearance="outline">
                             <mat-label>Serial Number</mat-label>
-                            <input matInput class="readonly"  formControlName="serialNumber" type="text" name="serialNumber">
+                            <input matInput class="readonly"  formControlName="serialNumber"   name="serialNumber">
                         </mat-form-field>
                     </div>
-                </div>
-                <div class="row">
+                </div> -->
+                <!-- <div class="row">
                     <div class="col-6">
                         <mat-form-field class="d-block w-100 readonly" appearance="outline">
                             <mat-label>Lot Number</mat-label>
-                            <input matInput class="readonly"  formControlName="location" type="text" name="emailAddress">
+                            <input matInput class="readonly"  formControlName="location"   name="emailAddress">
                         </mat-form-field>
                     </div>
                     <div class="col-6">
                         <mat-form-field class="d-block w-100 readonly" appearance="outline">
                             <mat-label>Revision</mat-label>
-                            <input matInput class="readonly" formControlName="lotNumber" type="text" name="lotNumber">
+                            <input matInput class="readonly" formControlName="lotNumber"   name="lotNumber">
                         </mat-form-field>
                     </div>
-                </div>
-                <mat-form-field class="d-block w-100 readonly" appearance="outline">
+                </div> -->
+                <!-- <mat-form-field class="d-block w-100 readonly" appearance="outline">
                     <mat-label>Expiration Date</mat-label>
-                    <input matInput class="readonly" formControlName="expirationDate" type="text" name="expirationDate">
-                </mat-form-field>
+                    <input matInput class="readonly" formControlName="expirationDate"   name="expirationDate">
+                </mat-form-field> -->
             </div>
         </div>
 

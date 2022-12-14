@@ -3,6 +3,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { EmployeeService } from 'src/app/employee.service';
 import labels from '../../../labels/labels.json';
+import { InventoryMapService } from '../../inventory-map/inventory-map.service';
 
 @Component({
   selector: 'app-delete-confirmation',
@@ -10,7 +11,8 @@ import labels from '../../../labels/labels.json';
 })
 export class DeleteConfirmationComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private toastr: ToastrService, private employeeService: EmployeeService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private toastr: ToastrService, private employeeService: EmployeeService,
+  private invMapService: InventoryMapService ) { }
 
   ngOnInit(): void {
   }
@@ -158,6 +160,29 @@ export class DeleteConfirmationComponent implements OnInit {
           });
         }
       });
+    }
+    else if (this.data.mode === 'delete-inventory-map') {
+
+      let payload = {
+        "inventoryMapID": this.data.id,
+        "username": "1234",
+        "wsid": "TESTWID"
+    }
+    this.invMapService.deleteInventoryMap(payload).subscribe((res: any) => {
+      if (res.isExecuted) {
+        this.dialog.closeAll();
+        this.toastr.success(labels.alert.delete, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      } else {
+        this.dialog.closeAll();
+        this.toastr.error(labels.alert.went_worng, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    });
     }
 
     else {
