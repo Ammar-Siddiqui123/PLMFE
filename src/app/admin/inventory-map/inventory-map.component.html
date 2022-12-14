@@ -39,7 +39,7 @@
             </div>
           </div>
           <div>
-            <ng-scrollbar style="height: 665px;">
+            <ng-scrollbar style="height: 665px; width: 100%;">
               <mat-table #table [dataSource]="dataSource" matSort>
                 <ng-container [matColumnDef]="col.colDef" *ngFor="let col of displayedColumns">
                   <th class="header" mat-header-cell *cdkHeaderCellDef>
@@ -49,11 +49,11 @@
                       <input #searchInput matInput (change)="applyFilter(searchInput.value, col.colHeader)">
                     </mat-form-field>
                   </th>
-                  <td *matCellDef="let element"> {{ element[col.colHeader] }} </td>
+                  <td *matCellDef="let element" style="min-width: 180px;  padding: 5px"> {{ element[col.colHeader] }} </td>
                 </ng-container>
                 <ng-container matColumnDef="actions" stickyEnd>
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> afreen </th>                  
-                  <td mat-cell *matCellDef="let seletedRecord"> 
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 50px;  padding: 5px; border: none;"> </th>                  
+                  <td mat-cell *matCellDef="let seletedRecord"  style="min-width: 50px;  padding: 5px; border: none;"> 
                      <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="">
                          <mat-icon>more_vert</mat-icon>
                      </button>
