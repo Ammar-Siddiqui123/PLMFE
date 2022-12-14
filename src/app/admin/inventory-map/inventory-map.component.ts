@@ -134,7 +134,7 @@ export class InventoryMapComponent implements OnInit {
   getColumnsData(){
     this.seqColumn.getSetColumnSeq().subscribe((res) => {
       this.displayedColumns = INVMAP_DATA;
-      this.columnValues = res.data.columnSequence;
+      this.columnValues = res.data?.columnSequence;
       // this.columnValues = INVMAP_DATA.map((colDef => { return colDef.colDef }));
       this.columnValues.push('actions')
     });
@@ -150,8 +150,11 @@ export class InventoryMapComponent implements OnInit {
     //  this.dataSource.paginator = this.paginator;
       this.customPagination.total = res.data.recordsTotal;
       this.dataSource.sort = this.sort;
-      
     });
+  }
+
+  invMapTable(){
+    
   }
 
   addLocDialog() { 
