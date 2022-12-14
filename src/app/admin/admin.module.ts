@@ -38,6 +38,10 @@ import { ItemNumberComponent } from './dialogs/item-number/item-number.component
 import { ItemCategoryComponent } from './dialogs/item-category/item-category.component';
 import { PrintRangeComponent } from './dialogs/print-range/print-range.component';
 import { UnitMeasureComponent } from './dialogs/unit-measure/unit-measure.component';
+import { BatchManagerComponent } from './batch-manager/batch-manager.component';
+import { BatchDeleteComponent } from './batch-manager/batch-delete/batch-delete.component';
+import { BatchOrderListComponent } from './batch-manager/batch-order-list/batch-order-list.component';
+import { BatchSelectedOrdersComponent } from './batch-manager/batch-selected-orders/batch-selected-orders.component';
 
 
 
@@ -72,6 +76,10 @@ import { UnitMeasureComponent } from './dialogs/unit-measure/unit-measure.compon
     ItemCategoryComponent,
     PrintRangeComponent,
     UnitMeasureComponent,
+    BatchManagerComponent,
+    BatchDeleteComponent,
+    BatchOrderListComponent,
+    BatchSelectedOrdersComponent,
 
   ],
   imports: [
