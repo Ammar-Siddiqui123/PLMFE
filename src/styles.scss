@@ -120,9 +120,9 @@ background-color: #7B42AC;
   border-color: white;
 }
 
-.mat-list-base{
-// padding-top: 40px !important;
-}
+// .mat-list-base{
+// // padding-top: 40px !important;
+// }
 .mat-list-item {
   color: #09094899 !important;
   font-size: 0.8rem;
@@ -499,6 +499,9 @@ mat-toolbar {
 .g-tab .mat-card {
   border-radius: 14px;
 }
+.mat-card {
+  border-radius: 14px !important;
+}
 
 .g-details-wrap {
   margin-top: 2.2em;
@@ -815,6 +818,13 @@ button.default-btn{
 
 //-------------- FORM INPUT-CLASSES ----START-------------------
 
+.mat-select-value{
+  padding-left: 8px;
+}
+.custom-input-number{
+  padding-left: 8px !important;
+}
+
 //-------------- FORM INPUT-CLASSES ----END-------------------
 
 //-------------- RADIO BUTTOM-CLASSES ----START-------------------
@@ -822,6 +832,10 @@ button.default-btn{
   width: 100%!important;
 }
 
+.custom-checkbox .mat-checkbox-background, .mat-checkbox-frame{
+  border-radius: 4px !important;
+
+}
 
 .checkbox-background{
   background: rgba(255, 196, 88, 0.2);
