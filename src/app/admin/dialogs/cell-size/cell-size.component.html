@@ -3,7 +3,52 @@
     <mat-icon class="close-icon">close</mat-icon>
 </button>
 <div class="container warehouse">
-    <h1 mat-dialog-title>Cell Size</h1>
+    <div class="card w-100">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-6 px-4">
+                    Cell Size
+                </div>
+            </div>
+        </div>
+        <div class="card-body" style="max-height: 240px; overflow-y:scroll">
+            <div class="d-flex justify-content-end">
+                <button mat-mini-fab color="primary" aria-label="Add Warehouse" style="border-radius: 10px;"
+                    (click)="addczRow($event)">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+            <ng-container *ngFor="let cell of cellsize_list;let i = index">
+                <div class="row mt-2 align-items-center">
+                    <div class="col-1">
+                        <mat-radio-button value="{{cell.cells}}" color="primary" (change)="selectCellSize(sigleCell.value)">
+                        </mat-radio-button>
+                    </div>
+                    <div class="col-2" style="font-size: 12px">
+                        <mat-form-field class="d-block w-100" appearance="outline">
+                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="{{cell.cells}}" #sigleCell>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6" style="font-size: 12px">
+                        <mat-form-field class="d-block w-100" appearance="outline">
+                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="{{cell.cellTypes}}" #cellType>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-1"><button style="color:#DE2654;"
+                            (click)="dltCellSize(sigleCell.value,i);">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </div>
+                    <div class="col-1">
+                        <button style="color:#000080;" (click)="saveCellSize(sigleCell.value, cellType.value, i)">
+                            <mat-icon>save</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <!-- <h1 mat-dialog-title>Cell Size</h1>
     <div class="col">
         <button mat-mini-fab color="primary" aria-label="Add Warehouse" style="border-radius: 10px;float: right;"
             (click)="addczRow($event)">
@@ -39,7 +84,7 @@
                 </div>
             </div>
         </ng-container>
-    </div>
+    </div> -->
     <mat-dialog-actions align="end">
         <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->
         <button type="button" (click)="clearCellSize()" mat-stroked-button class="form-button-submit" color="warning">Clear Cell Size</button>
