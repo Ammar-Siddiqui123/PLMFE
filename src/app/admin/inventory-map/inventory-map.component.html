@@ -39,24 +39,40 @@
             </div>
           </div>
           <div>
-            <ng-scrollbar style="height: 665px;">
+            <ng-scrollbar style="height: 665px; width: 100%;">
               <mat-table #table [dataSource]="dataSource" matSort>
                 <ng-container [matColumnDef]="col.colDef" *ngFor="let col of displayedColumns">
                   <th class="header" mat-header-cell *cdkHeaderCellDef>
                     {{ col.colDef }}
                     <mat-form-field class="filter" floatLabel="never" appearance="outline">
                       <mat-label>Search {{ col.colDef }}</mat-label>
-                      <input #searchInput matInput (keyup)="applyFilter(searchInput.value, col.colHeader)">
+                      <input #searchInput matInput (change)="applyFilter(searchInput.value, col.colHeader)">
                     </mat-form-field>
                   </th>
-                  <mat-cell *matCellDef="let element"> {{ element[col.colHeader] }} </mat-cell>
+                  <td *matCellDef="let element" style="min-width: 180px;  padding: 5px"> {{ element[col.colHeader] }} </td>
                 </ng-container>
-              
+                <ng-container matColumnDef="actions" stickyEnd>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 50px;  padding: 5px; border: none;"> </th>                  
+                  <td mat-cell *matCellDef="let seletedRecord"  style="min-width: 50px;  padding: 5px; border: none;"> 
+                     <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="">
+                         <mat-icon>more_vert</mat-icon>
+                     </button>
+                     <mat-menu #appMenu="matMenu">
+                       <button mat-menu-item (click)="edit(seletedRecord)">Edit</button>
+                       <button mat-menu-item (click)="delete(seletedRecord)">Delete</button>
+                       <button mat-menu-item (click)="quarantine(seletedRecord)">Quarantine</button>
+                       <button mat-menu-item (click)="adjustQuantity(seletedRecord)">Adjust Quantity</button>
+                       <button mat-menu-item (click)="viewInInventoryMaster()">View in Invetory Master</button>
+                       <button mat-menu-item (click)="viewLocationHistory()">View location history</button>
+                     </mat-menu>  
+                 </td>
+              </ng-container>
                 <mat-header-row *matHeaderRowDef="columnValues;sticky: true"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: columnValues;"></mat-row>
               
               </mat-table>
-              <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+              <mat-paginator [length]="this.customPagination.total"
+              [pageSize]="20" [pageSizeOptions]="[10, 25, 100]" (page)="handlePageEvent($event)"></mat-paginator>
             </ng-scrollbar>
           </div>
         </mat-card-content>

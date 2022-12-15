@@ -1,4 +1,5 @@
-<div class="container-fluid p-0" style="height: 800px;">
+<div class="container-fluid p-0">
+  <form [formGroup]="invMaster" (ngSubmit)="onSubmit(invMaster)">
     <div class="row">
       <div class="col-12">
         <mat-card class="mat-elevation-z g-card">
@@ -14,9 +15,20 @@
                 <span>Inventory</span>
               </h2>
               </div>
-              <div>
-                <mat-paginator>
-                </mat-paginator>
+              <div class="d-flex align-items-center gap-12">
+                <button mat-flat-button color="primary" class="sm-icon-button">
+                  <span class="material-symbols-outlined">
+                    keyboard_arrow_left
+                  </span>
+                </button>
+                <div class="text-chrome-600"><b>69</b> of 200</div>
+                <button mat-flat-button color="primary" class="sm-icon-button">
+                  <span class="material-symbols-outlined">
+                    keyboard_arrow_right
+                  </span>
+                </button>
+                <!-- <mat-paginator>
+                </mat-paginator> -->
               </div>
             </div>
             <div class="card bg-light-blue bg-50 px-4 py-4 br-14 mb-3">
@@ -51,11 +63,11 @@
               </div>
               </div>
             </div>
-            <div class="card bg-white bg-50 px-4 py-4 br-14 mb-3">
-              <mat-tab-group dynamicHeight #hello>
+            <div class="card bg-white bg-50 px-4 py-4 br-14 mb-3" style="min-height: 450px;">
+              <mat-tab-group dynamicHeight>
                 <mat-tab label="Details">
                   <div class="row">
-                    <div class="col-8">
+                    <div class="col-xl-9 col-lg-6">
                       <div class="py-4 br-14">
                         <div class="d-flex gap-20 mb-3">
                           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openItemNumDialog()">
@@ -63,17 +75,17 @@
                             <span matSuffix>
                               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
                           </span>
-                            <input matInput readonly class="__grab_cursor" type="text" [(ngModel)]="getInvMasterData.itemNumber">
+                            <input matInput readonly class="__grab_cursor readonly" type="text" formControlName="itemNumber">
                           </mat-form-field>
                           <mat-form-field class="custom-form-field w-100" appearance="outline">
                             <mat-label>Supplier Item ID</mat-label>
-                            <input matInput type="text" [(ngModel)]="getInvMasterData.supplierItemID">
+                            <input matInput type="text">
                           </mat-form-field>
                         </div>
                         <div class="mb-3">
                           <mat-form-field class="filter w-100 stats-filters" appearance="outline">
                             <mat-label>Description</mat-label>
-                            <textarea matInput type="text" [ngModel]="getInvMasterData.description"></textarea>
+                            <textarea matInput type="text"></textarea>
                           </mat-form-field>
                         </div>
                         <div class="d-flex gap-20 mb-3">
@@ -140,18 +152,18 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-4 main-widget">
+                    <div class="col-xl-3 col-lg-6 main-widget">
                       <div class="custom bg-white bg-50 br-14 mb-3">
                         <div class="counter">
                           <div>
-                            <h6 class="text-tertiary-900"><b>Picks</b></h6>
+                            <h6 class="text-tertiary-900"><b>Quantity</b></h6>
                             <div class="d-flex gap-20 justify-content-center">
                               <div class="employees text-center">
-                                <p class="counter-count mb-1 bg-primary-900">879</p>
+                                <p class="counter-count mb-1 bg-primary-900">{{totalQuantity ?? 0}}</p>
                                 <p class="employee-p text-tertiary-900 mb-1">Total</p>
                               </div>
                               <div class="customer text-center">
-                                <p class="counter-count mb-1 bg-primary-900">954</p>
+                                <p class="counter-count mb-1 bg-primary-900">{{wipCount ?? 0}}</p>
                                 <p class="customer-p text-tertiary-900 mb-1">WIP</p>
                               </div>
                             </div>
@@ -164,11 +176,11 @@
                             <h6 class="text-tertiary-900"><b>Allocated</b></h6>
                             <div class="d-flex gap-20 justify-content-center">
                               <div class="employees text-center">
-                                <p class="counter-count mb-1 bg-primary-900">504</p>
+                                <p class="counter-count mb-1 bg-primary-900">{{totalPicks ?? 0}}</p>
                                 <p class="employee-p text-tertiary-900 mb-1">Picks</p>
                               </div>
                               <div class="customer text-center">
-                                <p class="counter-count mb-1 bg-primary-900">405</p>
+                                <p class="counter-count mb-1 bg-primary-900">{{totalPuts ?? 0}}</p>
                                 <p class="customer-p text-tertiary-900 mb-1">PutAway</p>
                               </div>
                             </div>
@@ -181,16 +193,25 @@
                             <h6 class="text-tertiary-900"><b>Transaction</b></h6>
                             <div class="d-flex gap-20 justify-content-center">
                               <div class="employees text-center">
-                                <p class="counter-count mb-1 bg-primary-900">504</p>
+                                <p class="counter-count mb-1 bg-primary-900">{{openCount ?? 0}}</p>
                                 <p class="employee-p text-tertiary-900 mb-1">Open</p>
+                                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
+                                  View
+                                </button>
                               </div>
                               <div class="customer text-center">
-                                <p class="counter-count mb-1 bg-primary-900">405</p>
+                                <p class="counter-count mb-1 bg-primary-900">{{histCount ?? 0}}</p>
                                 <p class="customer-p text-tertiary-900 mb-1">History</p>
+                                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
+                                  View
+                                </button>
                               </div>
                               <div class="customer text-center">
-                                <p class="counter-count mb-1 bg-primary-900">405</p>
+                                <p class="counter-count mb-1 bg-primary-900">{{procCount ?? 0}}</p>
                                 <p class="customer-p text-tertiary-900 mb-1">Reprocess</p>
+                                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
+                                  View
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -199,6 +220,8 @@
                     </div>
                   </div>
                 </mat-tab>
+                <mat-tab label="Item Setup"><app-item-setup></app-item-setup></mat-tab>
+                
               </mat-tab-group>
             </div>
             
@@ -207,8 +230,8 @@
         </mat-card>
       </div>
     </div>
+  </form>
   </div>
-
 
   <ng-template #quarantineAction>
   

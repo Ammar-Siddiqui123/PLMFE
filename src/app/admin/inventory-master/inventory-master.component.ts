@@ -7,6 +7,7 @@ import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/dele
 import { ItemCategoryComponent } from '../dialogs/item-category/item-category.component';
 import { ItemNumberComponent } from '../dialogs/item-number/item-number.component';
 import { UnitMeasureComponent } from '../dialogs/unit-measure/unit-measure.component';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-inventory-master',
@@ -19,14 +20,35 @@ export class InventoryMasterComponent implements OnInit {
   public getInvMasterData: any;
   public locationTable: any;
   public getItemNum: any;
-  // public d_ItemNumber: any;
-  constructor(private invMasterService: InventoryMasterService, private authService: AuthService,private dialog: MatDialog) { }
+  public openCount: any;
+  public histCount: any;
+  public procCount: any;
+  public totalQuantity: any;
+  public totalPicks: any;
+  public totalPuts: any;
+  public wipCount: any;
+  constructor(
+    private invMasterService: InventoryMasterService, 
+    private authService: AuthService, 
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    ) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
-
+  invMaster: FormGroup;
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getInventory();
+    this.initialzeIMFeilds();
+    
+  }
+  initialzeIMFeilds(){
+    this.invMaster = this.fb.group({
+      itemNumber: [ '', [Validators.required]],
+    });
+  }
+  onSubmit(form: FormGroup){
+    console.log(form.value);
   }
   public getInventory() {
     let paylaod = {
@@ -49,7 +71,15 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
-      this.getInvMasterData = res.data; 
+      this.getInvMasterData = res.data;
+      this.totalQuantity = res.data.totalQuantity;
+      this.wipCount   = res.data.wipCount;
+      this.totalPicks = res.data.totalPicks;
+      this.totalPuts  = res.data.totalPuts;
+      this.openCount  = res.data.openCount;
+      this.histCount  = res.data.histCount;
+      this.procCount  = res.data.procCount;
+      // this.invMaster.controls['itemNumber'].setValue('');
       console.log(this.getInvMasterData);
     })
   }

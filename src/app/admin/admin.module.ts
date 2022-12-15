@@ -38,6 +38,9 @@ import { ItemNumberComponent } from './dialogs/item-number/item-number.component
 import { ItemCategoryComponent } from './dialogs/item-category/item-category.component';
 import { PrintRangeComponent } from './dialogs/print-range/print-range.component';
 import { UnitMeasureComponent } from './dialogs/unit-measure/unit-measure.component';
+import { ItemSetupComponent } from './inventory-master/item-setup/item-setup.component';
+import { QuarantineConfirmationComponent } from './dialogs/quarantine-confirmation/quarantine-confirmation.component';
+import { AdjustQuantityComponent } from './dialogs/adjust-quantity/adjust-quantity.component';
 import { BatchManagerComponent } from './batch-manager/batch-manager.component';
 import { BatchDeleteComponent } from './batch-manager/batch-delete/batch-delete.component';
 import { BatchOrderListComponent } from './batch-manager/batch-order-list/batch-order-list.component';
@@ -76,6 +79,9 @@ import { BatchSelectedOrdersComponent } from './batch-manager/batch-selected-ord
     ItemCategoryComponent,
     PrintRangeComponent,
     UnitMeasureComponent,
+    ItemSetupComponent,
+    QuarantineConfirmationComponent,
+    AdjustQuantityComponent,
     BatchManagerComponent,
     BatchDeleteComponent,
     BatchOrderListComponent,
