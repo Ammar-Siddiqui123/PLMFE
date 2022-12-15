@@ -39,7 +39,7 @@
                   <mat-form-field class="custom-form-field w-100 __grab_cursor bg-white" appearance="outline" >
                       <mat-label>Batch ID</mat-label>
                       <mat-select [(ngModel)]="batchID">
-                        <mat-option *ngFor="let batch of batchList" value="{{batch.id}}">{{batch.number}}</mat-option>
+                        <mat-option *ngFor="let batch of batchList" value="{{batch}}">{{batch}}</mat-option>
                       </mat-select>
                   </mat-form-field>
               </div>
