@@ -46,7 +46,6 @@ export interface  InventoryMapDataStructure   {
   laserY:  string |  '',
   locationNumber:  string |  '',
   rn :  string |  '',
-
   velocity:  string |   '' //additional field
 }
 
