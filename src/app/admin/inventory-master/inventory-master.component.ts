@@ -45,6 +45,17 @@ export class InventoryMasterComponent implements OnInit {
   initialzeIMFeilds(){
     this.invMaster = this.fb.group({
       itemNumber: [ '', [Validators.required]],
+      supplierItemID : [ '', [Validators.required]],
+      description : [ '', [Validators.required]],
+      reorderPoint : [ '', [Validators.required]],
+      replenishmentPoint : [ '', [Validators.required]],
+      category : [ '', [Validators.required]],
+      reorderQuantity : [ '', [Validators.required]],
+      replenishmentLevel : [ '', [Validators.required]],
+      subCategory : [ '', [Validators.required]],
+      unitOfMeasure : [ '', [Validators.required]],
+      kanbanReplenishmentPoint : [ '', [Validators.required]],
+      kanbanReplenishmentLevel : [ '', [Validators.required]]
     });
   }
   onSubmit(form: FormGroup){
@@ -80,6 +91,22 @@ export class InventoryMasterComponent implements OnInit {
       this.histCount  = res.data.histCount;
       this.procCount  = res.data.procCount;
       // this.invMaster.controls['itemNumber'].setValue('');
+
+      this.invMaster.patchValue({
+        'itemNumber' : this.getInvMasterData.itemNumber,
+        'supplierItemID' : this.getInvMasterData.supplierItemID,
+        'description' : this.getInvMasterData.description,
+        'reorderPoint' : this.getInvMasterData.reorderPoint,
+        'replenishmentPoint' : this.getInvMasterData.replenishmentPoint,
+        'category': this.getInvMasterData.category,
+        'reorderQuantity' : this.getInvMasterData.reorderQuantity,
+        'replenishmentLevel' : this.getInvMasterData.replenishmentLevel,
+        'subCategory': this.getInvMasterData.subCategory,
+        'unitOfMeasure': this.getInvMasterData.unitOfMeasure,
+        'kanbanReplenishmentPoint' : this.getInvMasterData.kanbanReplenishmentPoint,
+        'kanbanReplenishmentLevel' : this.getInvMasterData.kanbanReplenishmentLevel        
+      });
+
       console.log(this.getInvMasterData);
     })
   }
@@ -385,14 +412,19 @@ export class InventoryMasterComponent implements OnInit {
   public opencategoryDialog() {
     let dialogRef = this.dialog.open(ItemCategoryComponent, {
       height: 'auto',
-      width: '750px',
+      width: '800px',
       data: {
         mode: '',
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      // console.log(result);
 
+      this.invMaster.patchValue({        
+        'category': result.category,        
+        'subCategory': result.subCategory,        
+      });
+      
     })
   }
 

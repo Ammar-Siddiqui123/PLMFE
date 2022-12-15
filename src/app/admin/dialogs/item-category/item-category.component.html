@@ -1,101 +1,81 @@
 <h1 mat-dialog-title><b>Categories - Add, Delete, Edit and Set</b></h1>
+
 <button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
     <mat-icon class="close-icon">close</mat-icon>
 </button>
+
 <div class="container">
-    <div class="card w-100">
-        <div class="card-header">
-            <div class="row">
-                <div class="col-6 px-4">
-                    Category
-                </div>
-                <div class="col-6 px-4">
-                    Sub Category
-                </div>
+
+    <div class="row">
+        <div class="col-6 offset-6">
+            <div class="d-flex gap-12 my-4 justify-content-end">
+            <button mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="openPrintRangeDialog()" >
+                <mat-icon>print</mat-icon>
+                Print
+              </button>
+              <button mat-raised-button color="primary" class="add-icon-button" (click)="addCatRow($event)">
+                <span class="material-symbols-outlined">
+                  add
+                </span>
+              </button>
             </div>
         </div>
-        <div class="card-body">
-            <div class="container">
+    </div>
+
+    <div class="card w-100">
+        
+        <div class="card-header">
             <div class="row">
-                <div class="col-6 offset-6">
-                    <div class="d-flex gap-12 my-4 justify-content-end">
-                    <button mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="openPrintRangeDialog()" >
-                        <mat-icon>print</mat-icon>
-                        Print
-                      </button>
-                      <button mat-raised-button color="primary" class="add-icon-button">
-                        <span class="material-symbols-outlined">
-                          add
-                        </span>
-                      </button>
-                    </div>
-                </div>
+                <div class="col-6 px-4">Category</div>
+                <div class="col-6 px-4">Sub Category</div>
             </div>
+        </div>
+
+        <div class="card-body" style="max-height: 400px; overflow-y: scroll;">
+            <div class="container">
+            
             <div class="row">
                 <mat-radio-group aria-label="Select an option" color="primary" class="w-100">
                     
-                    <mat-radio-button value="1" class="custom-radio-btn w-100 mb-2">
+                    <div *ngFor="let category of category_list;" class="d-flex align-items-center">
+
+                        <mat-radio-button value="{{category.category}}" class="custom-radio-btn" (change)="selectCategory(category)">                        
+                        </mat-radio-button>
+
                         <div class="container w-100">
-                        <div class="row">
-                        <div class="col-6">
-                        <mat-form-field class="custom-form-field w-100" appearance="outline">
-                            <mat-label>Reel</mat-label>
-                            <input matInput type="text">
-                          </mat-form-field>
-                        </div>
-                        <div class="col-6">
-                            <div class="d-flex gap-12 align-items-center">
-                            <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                <mat-label>Reel Tracking</mat-label>
-                                <input matInput type="text">
-                            </mat-form-field>
                             
-                                <button mat-flat-button color="warn" class="sm-icon-button">
-                                    <span class="material-symbols-outlined">
-                                        close
-                                    </span>
-                                </button>
-                                <button mat-flat-button color="primary" class="sm-icon-button">
-                                <span class="material-symbols-outlined">
-                                    save
-                                </span>
-                                </button>
+                            <div class="row">
+                            
+                                <div class="col-6">
+                                    <mat-form-field class="custom-form-field w-100" appearance="outline">
+                                        <mat-label>Category</mat-label>
+                                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #catName name="{{category.category}}" value="{{category.category}}">
+                                    </mat-form-field>
+                                </div>
+                                
+                                <div class="col-6">
+                                    <div class="d-flex gap-12 align-items-center">
+                                        
+                                        <mat-form-field class="custom-form-field w-100" appearance="outline">
+                                            <mat-label>Sub-Category</mat-label>
+                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.subCategory}}" value="{{category.subCategory}}" #subCatName>
+                                        </mat-form-field>
+                                        
+                                        <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(catName.value, subCatName.value);">
+                                            <span class="material-symbols-outlined">close</span>
+                                        </button>
+
+                                        <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveCategory(catName.value, category.category, subCatName.value, category.subCategory)">
+                                            <span class="material-symbols-outlined">save</span>
+                                        </button>
+
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                        </div>
+
                     </div>
-                    </mat-radio-button>
-                    <mat-radio-button value="2" class="custom-radio-btn w-100 mb-2">
-                        <div class="container w-100">
-                        <div class="row">
-                        <div class="col-6">
-                        <mat-form-field class="custom-form-field w-100" appearance="outline">
-                            <mat-label>Reel</mat-label>
-                            <input matInput type="text">
-                          </mat-form-field>
-                        </div>
-                        <div class="col-6">
-                            <div class="d-flex gap-12 align-items-center">
-                            <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                <mat-label>Reel Tracking</mat-label>
-                                <input matInput type="text">
-                            </mat-form-field>
-                            
-                                <button mat-flat-button color="warn" class="sm-icon-button">
-                                    <span class="material-symbols-outlined">
-                                        close
-                                    </span>
-                                </button>
-                                <button mat-flat-button color="primary" class="sm-icon-button">
-                                <span class="material-symbols-outlined">
-                                    save
-                                </span>
-                                </button>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    </mat-radio-button>
                 
                 </mat-radio-group>
             </div>
