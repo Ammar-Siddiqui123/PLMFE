@@ -30,9 +30,10 @@ export class BatchSelectedOrdersComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     // this.dataSource =  this.dataSource.filter((i : any) => i.isSelected == 1);
-    console.log(changes);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    // console.log(changes);
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
+    
     // this.doSomething(changes.categoryId.currentValue);
     // You can also use categoryId.previousValue and 
     // categoryId.firstChange for comparing old and new values

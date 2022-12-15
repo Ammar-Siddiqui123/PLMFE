@@ -6,7 +6,7 @@
           (transTypeEmitter)="getOrders($event)">          
         </app-batch-delete>
 
-        <app-batch-order-list 
+        <app-batch-order-list
           [dataSource]="orderList" 
           [displayedColumns]="displayOrderCols"
           (addOrderEmitter)="addRemoveOrder($event, 1)">

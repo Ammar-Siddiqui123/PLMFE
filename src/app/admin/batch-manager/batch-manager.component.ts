@@ -71,7 +71,7 @@ const INVMAP_DATA = [
 export class BatchManagerComponent implements OnInit {  
 
   public userData : any;
-  orderList : any = [];
+  orderList : any;
   displayOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "minOfPriority", "detail", "action"];
   selOrderList : any = [];
   displaySelOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "action"];
@@ -94,10 +94,10 @@ export class BatchManagerComponent implements OnInit {
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
       }
-      this.batchService.get(paylaod, '/Admin/BatchManagerOrder').subscribe((res: any) => {
-        const { data, isExecuted } = res
-        if (isExecuted && data.length > 0) {
-          this.orderList = data;
+      this.batchService.get(paylaod, '/Admin/GetBatchManager').subscribe((res: any) => {
+        const { batchManagerOrder, batchManagerSettings } = res.data
+        if (res.isExecuted && batchManagerOrder.length > 0) {
+          this.orderList = batchManagerOrder;
           // this.orderList.forEach((i : any) => {
           //   i.isSelected = 0
           // });
@@ -115,6 +115,7 @@ export class BatchManagerComponent implements OnInit {
     // this.orderList[getIndex].isSelected ? this.orderList[getIndex].isSelected = 1 : this.orderList[getIndex].isSelected = 0;
     // this.orderList = this.orderList;
     if (type == 1) {
+      //this.orderList = order;
       this.orderList.shift(order);
       this.selOrderList.unshift(order);
     } else {
@@ -122,8 +123,8 @@ export class BatchManagerComponent implements OnInit {
       this.selOrderList.shift(order);
     }
 
-    console.log(this.orderList)
-    console.log(this.selOrderList)
+    // console.log(this.orderList)
+    // console.log(this.selOrderList)
   }
 
 }

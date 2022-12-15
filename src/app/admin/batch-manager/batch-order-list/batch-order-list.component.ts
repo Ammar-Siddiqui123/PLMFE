@@ -1,5 +1,5 @@
 import {LiveAnnouncer} from '@angular/cdk/a11y';
-import { Component, OnInit, AfterViewInit, ViewChild, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Input, SimpleChanges, EventEmitter, Output, OnChanges, ChangeDetectionStrategy  } from '@angular/core';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
@@ -16,24 +16,26 @@ export class BatchOrderListComponent implements OnInit {
 
   @Output() addOrderEmitter = new EventEmitter<any>();
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  
+  @ViewChild(MatPaginator) paginator: MatPaginator;  
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private _liveAnnouncer: LiveAnnouncer) { }
 
   ngOnInit(): void {
+    console.log("ngOnInit");
     // this.dataSource.paginator = this.paginator;
     // this.dataSource.sort = this.sort;
   }
 
-  ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
-  }
+  // ngAfterViewInit() {
+  //   console.log("ngAfterViewInit");
+  //   // this.dataSource.paginator = this.paginator;
+  //   // this.dataSource.sort = this.sort;
+  // }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
+    console.log("ngOnChanges");
+    // console.log(changes);
     // this.dataSource =  this.dataSource.filter((i : any) => i.isSelected == 0);
     // this.dataSource.paginator = this.paginator;
     // this.dataSource.sort = this.sort;
