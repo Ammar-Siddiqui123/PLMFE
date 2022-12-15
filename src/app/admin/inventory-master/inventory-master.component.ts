@@ -27,14 +27,28 @@ export class InventoryMasterComponent implements OnInit {
   public totalPicks: any;
   public totalPuts: any;
   public wipCount: any;
-  constructor(private invMasterService: InventoryMasterService, private authService: AuthService, private dialog: MatDialog) { }
+  constructor(
+    private invMasterService: InventoryMasterService, 
+    private authService: AuthService, 
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    ) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
   invMaster: FormGroup;
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getInventory();
+    this.initialzeIMFeilds();
     
+  }
+  initialzeIMFeilds(){
+    this.invMaster = this.fb.group({
+      itemNumber: [ '', [Validators.required]],
+    });
+  }
+  onSubmit(form: FormGroup){
+    console.log(form.value);
   }
   public getInventory() {
     let paylaod = {
@@ -65,6 +79,7 @@ export class InventoryMasterComponent implements OnInit {
       this.openCount  = res.data.openCount;
       this.histCount  = res.data.histCount;
       this.procCount  = res.data.procCount;
+      // this.invMaster.controls['itemNumber'].setValue('');
       console.log(this.getInvMasterData);
     })
   }
