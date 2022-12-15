@@ -20,7 +20,13 @@ export class InventoryMasterComponent implements OnInit {
   public getInvMasterData: any;
   public locationTable: any;
   public getItemNum: any;
-  // public d_ItemNumber: any;
+  public openCount: any;
+  public histCount: any;
+  public procCount: any;
+  public totalQuantity: any;
+  public totalPicks: any;
+  public totalPuts: any;
+  public wipCount: any;
   constructor(private invMasterService: InventoryMasterService, private authService: AuthService, private dialog: MatDialog) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
   invMaster: FormGroup;
@@ -28,6 +34,7 @@ export class InventoryMasterComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getInventory();
+    
   }
   public getInventory() {
     let paylaod = {
@@ -51,6 +58,13 @@ export class InventoryMasterComponent implements OnInit {
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
       this.getInvMasterData = res.data;
+      this.totalQuantity = res.data.totalQuantity;
+      this.wipCount   = res.data.wipCount;
+      this.totalPicks = res.data.totalPicks;
+      this.totalPuts  = res.data.totalPuts;
+      this.openCount  = res.data.openCount;
+      this.histCount  = res.data.histCount;
+      this.procCount  = res.data.procCount;
       console.log(this.getInvMasterData);
     })
   }

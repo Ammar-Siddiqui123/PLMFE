@@ -239,8 +239,7 @@ export class AddInvMapLocationComponent implements OnInit {
         mode: 'cell-size',
       }
     })
-    dialogRef.afterClosed().subscribe(result => {
-      
+    dialogRef.afterClosed().subscribe(result => { 
       this.addInvMapLocation.controls['cell'].setValue(result);
     })
   }

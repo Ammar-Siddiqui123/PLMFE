@@ -155,14 +155,14 @@
                       <div class="custom bg-white bg-50 br-14 mb-3">
                         <div class="counter">
                           <div>
-                            <h6 class="text-tertiary-900"><b>Picks</b></h6>
+                            <h6 class="text-tertiary-900"><b>Quantity</b></h6>
                             <div class="d-flex gap-20 justify-content-center">
                               <div class="employees text-center">
-                                <p class="counter-count mb-1 bg-primary-900">879</p>
+                                <p class="counter-count mb-1 bg-primary-900">{{totalQuantity ?? 0}}</p>
                                 <p class="employee-p text-tertiary-900 mb-1">Total</p>
                               </div>
                               <div class="customer text-center">
-                                <p class="counter-count mb-1 bg-primary-900">954</p>
+                                <p class="counter-count mb-1 bg-primary-900">{{wipCount ?? 0}}</p>
                                 <p class="customer-p text-tertiary-900 mb-1">WIP</p>
                               </div>
                             </div>
@@ -175,11 +175,11 @@
                             <h6 class="text-tertiary-900"><b>Allocated</b></h6>
                             <div class="d-flex gap-20 justify-content-center">
                               <div class="employees text-center">
-                                <p class="counter-count mb-1 bg-primary-900">504</p>
+                                <p class="counter-count mb-1 bg-primary-900">{{totalPicks ?? 0}}</p>
                                 <p class="employee-p text-tertiary-900 mb-1">Picks</p>
                               </div>
                               <div class="customer text-center">
-                                <p class="counter-count mb-1 bg-primary-900">405</p>
+                                <p class="counter-count mb-1 bg-primary-900">{{totalPuts ?? 0}}</p>
                                 <p class="customer-p text-tertiary-900 mb-1">PutAway</p>
                               </div>
                             </div>
@@ -192,21 +192,21 @@
                             <h6 class="text-tertiary-900"><b>Transaction</b></h6>
                             <div class="d-flex gap-20 justify-content-center">
                               <div class="employees text-center">
-                                <p class="counter-count mb-1 bg-primary-900">504</p>
+                                <p class="counter-count mb-1 bg-primary-900">{{openCount ?? 0}}</p>
                                 <p class="employee-p text-tertiary-900 mb-1">Open</p>
                                 <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
                                   View
                                 </button>
                               </div>
                               <div class="customer text-center">
-                                <p class="counter-count mb-1 bg-primary-900">405</p>
+                                <p class="counter-count mb-1 bg-primary-900">{{histCount ?? 0}}</p>
                                 <p class="customer-p text-tertiary-900 mb-1">History</p>
                                 <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
                                   View
                                 </button>
                               </div>
                               <div class="customer text-center">
-                                <p class="counter-count mb-1 bg-primary-900">405</p>
+                                <p class="counter-count mb-1 bg-primary-900">{{procCount ?? 0}}</p>
                                 <p class="customer-p text-tertiary-900 mb-1">Reprocess</p>
                                 <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
                                   View
