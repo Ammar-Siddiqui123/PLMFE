@@ -7,13 +7,15 @@
         </app-batch-delete>
 
         <app-batch-order-list 
-          [dataSource]="dataSource" 
-          [displayedColumns]="displayedColumns">
+          [dataSource]="orderList" 
+          [displayedColumns]="displayOrderCols"
+          (addOrderEmitter)="addRemoveOrder($event, 1)">
         </app-batch-order-list>
 
         <app-batch-selected-orders 
-          [dataSource]="dataSource" 
-          [displayedColumns]="displayedColumns">
+          [dataSource]="selOrderList" 
+          [displayedColumns]="displaySelOrderCols"
+          (removeOrderEmitter)="addRemoveOrder($event, 2)">
         </app-batch-selected-orders>
         
       </div>

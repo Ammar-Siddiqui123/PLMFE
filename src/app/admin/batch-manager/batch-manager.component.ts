@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { BatchManagerService } from './batch-manager.service';
+import { AuthService } from '../../../app/init/auth.service';
 
 const ELEMENT_DATA: any = [
   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H', action: ''},
@@ -68,21 +70,60 @@ const INVMAP_DATA = [
 })
 export class BatchManagerComponent implements OnInit {  
 
-  constructor() { }
+  public userData : any;
+  orderList : any = [];
+  displayOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "minOfPriority", "detail", "action"];
+  selOrderList : any = [];
+  displaySelOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "action"];
+
+  constructor(private batchService : BatchManagerService, 
+              private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.userData = this.authService.userData();
     this.getOrders("Pick");
   }
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
-  dataSource : any = ELEMENT_DATA;
+  // displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
+  // dataSource : any;
 
   getOrders(type : any) {
-    if (type == "Count") {
-      this.dataSource = ELEMENT_DATA;
-    } else {
-      this.dataSource = [];
+    try {
+      let paylaod = {
+        "transType": type,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid,
+      }
+      this.batchService.get(paylaod, '/Admin/BatchManagerOrder').subscribe((res: any) => {
+        const { data, isExecuted } = res
+        if (isExecuted && data.length > 0) {
+          this.orderList = data;
+          // this.orderList.forEach((i : any) => {
+          //   i.isSelected = 0
+          // });
+        } else {
+        }
+      });
+    } catch (error) {
+      console.log(error);
     }
+  }
+
+  addRemoveOrder(order : any, type : any) {
+    // console.log(order)
+    // var getIndex = this.orderList.indexOf(order);
+    // this.orderList[getIndex].isSelected ? this.orderList[getIndex].isSelected = 1 : this.orderList[getIndex].isSelected = 0;
+    // this.orderList = this.orderList;
+    if (type == 1) {
+      this.orderList.shift(order);
+      this.selOrderList.unshift(order);
+    } else {
+      this.orderList.unshift(order);
+      this.selOrderList.shift(order);
+    }
+
+    console.log(this.orderList)
+    console.log(this.selOrderList)
   }
 
 }
