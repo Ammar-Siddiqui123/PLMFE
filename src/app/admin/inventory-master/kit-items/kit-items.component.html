@@ -1,0 +1,189 @@
+<div class="row">
+    <div class="col-6 offset-6">
+        <div class="d-flex gap-12 my-4 justify-content-end">
+            <button mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="printRangeDialog()">
+                <mat-icon>print</mat-icon>
+                Print
+            </button>
+            <button mat-raised-button color="primary" class="add-icon-button">
+                <span class="material-symbols-outlined">
+                    add
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="card w-100">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-2 text-center">
+                Item Number
+            </div>
+            <div class="col-3 text-center">
+                Description
+            </div>
+            <div class="col-3 text-center">
+                Special Features
+            </div>
+            <div class="col-2 text-center">
+                Kit Quantity
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        
+        <div class="row">
+            <div class="col-2">
+                <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="addItemDialog()">
+                    <!-- <mat-label>Reel</mat-label> -->
+                    <input matInput type="text" value="000000">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="addDescriptionDialog()">
+                    <!-- <mat-label>Reel</mat-label> -->
+                    <input matInput type="text" value="Steel rod with iron stand">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="custom-form-field w-100" appearance="outline">
+                    <!-- <mat-label>Reel</mat-label> -->
+                    <input matInput type="text" value="Packet">
+                </mat-form-field>
+            </div>
+            <div class="col-2">
+                <div class="d-flex gap-12 align-items-center">
+                    <mat-form-field class="custom-form-field w-100" appearance="outline">
+                        <!-- <mat-label>Reel Tracking</mat-label> -->
+                        <input matInput type="text" value="12">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="d-flex gap-12 align-items-center h-100">
+                <button mat-flat-button color="warn" class="sm-icon-button">
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+                </button>
+                <button mat-flat-button color="primary" class="sm-icon-button">
+                    <span class="material-symbols-outlined">
+                        save
+                    </span>
+                </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2">
+                <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="addItemDialog()">
+                    <!-- <mat-label>Reel</mat-label> -->
+                    <input matInput type="text" value="000000">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="addDescriptionDialog()">
+                    <!-- <mat-label>Reel</mat-label> -->
+                    <input matInput type="text" value="Steel rod with iron stand">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="custom-form-field w-100" appearance="outline">
+                    <!-- <mat-label>Reel</mat-label> -->
+                    <input matInput type="text" value="Packet">
+                </mat-form-field>
+            </div>
+            <div class="col-2">
+                <div class="d-flex gap-12 align-items-center">
+                    <mat-form-field class="custom-form-field w-100" appearance="outline">
+                        <!-- <mat-label>Reel Tracking</mat-label> -->
+                        <input matInput type="text" value="12">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="d-flex gap-12 align-items-center h-100">
+                <button mat-flat-button color="warn" class="sm-icon-button">
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+                </button>
+                <button mat-flat-button color="primary" class="sm-icon-button">
+                    <span class="material-symbols-outlined">
+                        save
+                    </span>
+                </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex gap-20 justify-content-end py-3">
+    <button mat-stroked-button color="warn" class="button-delete bg-white" (click)="deleteItem($event)">
+      Delete Item
+    </button>
+    <button mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="quarantineDialog()">
+      Quarantine Item
+    </button>
+    <button mat-flat-button color="primary" class="button-primary bg-white">
+      Save
+    </button>
+  </div>
+
+
+<ng-template #quarantineAction>
+    <div class="d-flex flex-column align-items-center justify-content-center text-center py-4">
+        <div color="warn" class="circle-icon circle-66 circle-danger mb-4">
+            <mat-icon color="warn">vpn_lock</mat-icon>
+        </div>
+        <div>
+            <p class="bold text-tritary-900 mb-4">Click submit to quarantine item 11005. This will cause any allocated
+                orders and locations with this item to be deallocated?</p>
+            <div class="mb-3">
+                <button mat-flat-button color="warn" class="custom-btn button-delete-flat bg-white">
+                    Submit
+                </button>
+            </div>
+            <div>
+                <button mat-stroked-button color="basic" class="custom-btn bg-white" [mat-dialog-close]="true">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #addItemAction>
+    <h1 mat-dialog-title>Add New Item</h1>
+    <button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
+    <div class="col-12 mb-4">
+        <mat-form-field class="custom-form-field w-100" appearance="outline">
+            <mat-label>Add Item</mat-label>
+            <input matInput type="text">
+          </mat-form-field>
+    </div>
+    <div class="d-flex justify-content-end">
+        <button mat-flat-button color="primary" class="button-primary bg-white">
+            Save
+          </button>
+    </div>
+</ng-template>
+
+<ng-template #addDescriptionAction>
+    <h1 mat-dialog-title>Edit Description</h1>
+    <button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
+    <div class="col-12">
+        <mat-form-field class="custom-form-field w-100" appearance="outline">
+            <mat-label>Demo Item</mat-label>
+            <textarea matInput type="text" style="min-height: 100px ;"></textarea>
+          </mat-form-field>
+    </div>
+    
+    
+</ng-template>

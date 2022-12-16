@@ -265,7 +265,8 @@
 
 .mat-form-field-infix {
   padding: .5em 0;
-  border-top: .84375em solid rgba(0, 0, 0, 0)
+  border-top: .84375em solid rgba(0, 0, 0, 0);
+  display: flex !important;
 }
 
 .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,

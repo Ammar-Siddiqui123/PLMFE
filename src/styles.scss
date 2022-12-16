@@ -791,8 +791,12 @@ button.button-primary{
   border: 1px solid $primary-900!important;
 }
 button.add-icon-button {
-  min-height: 48px;
-  min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px !important;
+  max-width: 48px !important;
+  min-width: 48px !important;
   border-radius: 14px !important;
 }
 button.sm-icon-button {
