@@ -39,7 +39,7 @@
                     
                     <div *ngFor="let category of category_list;" class="d-flex align-items-center">
 
-                        <mat-radio-button value="{{category.category}}" class="custom-radio-btn" (change)="selectCategory(category)">                        
+                        <mat-radio-button value="{{category.category}}" class="custom-radio-btn" (change)="selectCategory({'category': catName.value, 'subCategory': subCatName.value})">                        
                         </mat-radio-button>
 
                         <div class="container w-100">

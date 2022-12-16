@@ -45,7 +45,7 @@ export class ItemCategoryComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    console.log(paylaod);
+    // console.log(paylaod);
     
     this.catService.saveCategory(paylaod).subscribe((res) => {
       this.toastr.success(labels.alert.success, 'Success!', {
@@ -63,6 +63,7 @@ export class ItemCategoryComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.category_list.pop(category);
+    
     this.catService.dltCategory(paylaod).subscribe((res) => {
       this.toastr.success(labels.alert.delete, 'Success!', {
         positionClass: 'toast-bottom-right',
