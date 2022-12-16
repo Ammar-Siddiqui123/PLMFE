@@ -71,7 +71,7 @@ const INVMAP_DATA = [
 export class BatchManagerComponent implements OnInit {  
 
   public userData : any;
-  orderList : any = [];
+  orderList : any;
   displayOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "minOfPriority", "detail", "action"];
   selOrderList : any = [];
   displaySelOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "action"];

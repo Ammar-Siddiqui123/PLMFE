@@ -8,6 +8,9 @@ import { ItemCategoryComponent } from '../dialogs/item-category/item-category.co
 import { ItemNumberComponent } from '../dialogs/item-number/item-number.component';
 import { UnitMeasureComponent } from '../dialogs/unit-measure/unit-measure.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { data } from 'jquery';
+import labels from '../../labels/labels.json'
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-inventory-master',
@@ -32,6 +35,7 @@ export class InventoryMasterComponent implements OnInit {
     private authService: AuthService, 
     private dialog: MatDialog,
     private fb: FormBuilder,
+    private toastr: ToastrService,
     ) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
   invMaster: FormGroup;
@@ -45,6 +49,17 @@ export class InventoryMasterComponent implements OnInit {
   initialzeIMFeilds(){
     this.invMaster = this.fb.group({
       itemNumber: [ '', [Validators.required]],
+      supplierItemID : [ '', [Validators.required]],
+      description : [ '', [Validators.required]],
+      reorderPoint : [ '', [Validators.required]],
+      replenishmentPoint : [ '', [Validators.required]],
+      category : [ '', [Validators.required]],
+      reorderQuantity : [ '', [Validators.required]],
+      replenishmentLevel : [ '', [Validators.required]],
+      subCategory : [ '', [Validators.required]],
+      unitOfMeasure : [ '', [Validators.required]],
+      kanbanReplenishmentPoint : [ '', [Validators.required]],
+      kanbanReplenishmentLevel : [ '', [Validators.required]]
     });
   }
   onSubmit(form: FormGroup){
@@ -80,6 +95,22 @@ export class InventoryMasterComponent implements OnInit {
       this.histCount  = res.data.histCount;
       this.procCount  = res.data.procCount;
       // this.invMaster.controls['itemNumber'].setValue('');
+
+      this.invMaster.patchValue({
+        'itemNumber' : this.getInvMasterData.itemNumber,
+        'supplierItemID' : this.getInvMasterData.supplierItemID,
+        'description' : this.getInvMasterData.description,
+        'reorderPoint' : this.getInvMasterData.reorderPoint,
+        'replenishmentPoint' : this.getInvMasterData.replenishmentPoint,
+        'category': this.getInvMasterData.category,
+        'reorderQuantity' : this.getInvMasterData.reorderQuantity,
+        'replenishmentLevel' : this.getInvMasterData.replenishmentLevel,
+        'subCategory': this.getInvMasterData.subCategory,
+        'unitOfMeasure': this.getInvMasterData.unitOfMeasure,
+        'kanbanReplenishmentPoint' : this.getInvMasterData.kanbanReplenishmentPoint,
+        'kanbanReplenishmentLevel' : this.getInvMasterData.kanbanReplenishmentLevel        
+      });
+
       console.log(this.getInvMasterData);
     })
   }
@@ -367,17 +398,77 @@ export class InventoryMasterComponent implements OnInit {
     })
   }
 
+  public openAddItemDialog() {
+    let dialogRef = this.dialog.open(ItemNumberComponent, {
+      height: 'auto',
+      width: 'auto',
+      data: {
+        itemNumber: '',
+        newItemNumber : '',
+        addItem : true
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result) {
+        const { itemNumber, desc } = result;
+        let paylaod = {
+          "itemNumber": itemNumber,
+          "description": desc,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
+        }
+        this.invMasterService.create(paylaod, '/Admin/AddNewItem').subscribe((res: any) => {
+          // console.log(res.data);
+          if (res.isExecuted) {
+            // this.invMaster.patchValue({
+            //   'itemNumber' : res.data.newItemNumber
+            // }); 
+            this.toastr.success(labels.alert.success, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          } else {
+            this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        })
+      }
+
+    });
+  }
 
   public openItemNumDialog() {
     let dialogRef = this.dialog.open(ItemNumberComponent, {
       height: 'auto',
       width: 'auto',
       data: {
-        mode: '',
+        itemNumber: this.invMaster.value.itemNumber,
+        newItemNumber : '',
+        addItem : false
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      // console.log(result);
+      if (result) {
+        let paylaod = {
+          "oldItemNumber": this.invMaster.value.itemNumber,
+          "newItemNumber": result,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
+        }
+        this.invMasterService.update(paylaod, '/Admin/UpdateItemNumber').subscribe((res: any) => {
+          // console.log(res.data);
+          if (res.isExecuted) {
+            this.invMaster.patchValue({
+              'itemNumber' : res.data.newItemNumber
+            }); 
+          }          
+        })
+      }
 
     })
   }
@@ -385,14 +476,19 @@ export class InventoryMasterComponent implements OnInit {
   public opencategoryDialog() {
     let dialogRef = this.dialog.open(ItemCategoryComponent, {
       height: 'auto',
-      width: '750px',
+      width: '800px',
       data: {
         mode: '',
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      // console.log(result);
 
+      this.invMaster.patchValue({        
+        'category': result.category,        
+        'subCategory': result.subCategory,        
+      });
+      
     })
   }
 
@@ -405,7 +501,10 @@ export class InventoryMasterComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      // console.log(result);
+      this.invMaster.patchValue({
+        'unitOfMeasure' : result
+      });
 
     })
   }
