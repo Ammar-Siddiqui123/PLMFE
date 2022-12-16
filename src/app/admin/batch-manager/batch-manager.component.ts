@@ -98,10 +98,8 @@ export class BatchManagerComponent implements OnInit {
         const { data, isExecuted } = res
         if (isExecuted && data.length > 0) {
           this.orderList = data;
-          // this.orderList.forEach((i : any) => {
-          //   i.isSelected = 0
-          // });
         } else {
+
         }
       });
     } catch (error) {
@@ -110,20 +108,21 @@ export class BatchManagerComponent implements OnInit {
   }
 
   addRemoveOrder(order : any, type : any) {
-    // console.log(order)
-    // var getIndex = this.orderList.indexOf(order);
-    // this.orderList[getIndex].isSelected ? this.orderList[getIndex].isSelected = 1 : this.orderList[getIndex].isSelected = 0;
-    // this.orderList = this.orderList;
     if (type == 1) {
+      // let shiftedArr = this.orderList.unshift(order);
+      // this.orderList = shiftedArr
+      // this.orderList.unshift(order);
       this.orderList.shift(order);
-      this.selOrderList.unshift(order);
+      console.log(this.orderList);
+      
+      // this.selOrderList = this.selOrderList.unshift(order);
     } else {
       this.orderList.unshift(order);
       this.selOrderList.shift(order);
     }
 
-    console.log(this.orderList)
-    console.log(this.selOrderList)
+    // console.log(this.orderList)
+    // console.log(this.selOrderList)
   }
 
 }
