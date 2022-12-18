@@ -2,6 +2,9 @@ import {LiveAnnouncer} from '@angular/cdk/a11y';
 import { Component, OnInit, AfterViewInit, ViewChild, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { AuthService } from '../../../../app/init/auth.service';
+import { BatchManagerService } from '../batch-manager.service';
 
 @Component({
   selector: 'app-batch-selected-orders',
@@ -9,35 +12,43 @@ import {MatPaginator} from '@angular/material/paginator';
   styleUrls: ['./batch-selected-orders.component.scss']
 })
 export class BatchSelectedOrdersComponent implements OnInit {
-
-  @Input() dataSource : any;
+  public userData : any;
+  tableData:any;
+  @Input() set selectedOrderList(val: any) {
+    this.tableData = new MatTableDataSource(val);
+    this.tableData.paginator = this.paginator;
+    this.tableData.sort = this.sort;
+  }
   @Input() displayedColumns : any;
+  @Input() batchManagerSettings : any;
+  @Input() type : any;
+  public nextOrderNumber:any;
 
   @Output() removeOrderEmitter = new EventEmitter<any>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, private authService: AuthService,private batchService : BatchManagerService) { }
 
   ngOnInit(): void {
+    this.userData = this.authService.userData();
+    // console.log(this.batchManagerSettings);
   }
 
   ngAfterViewInit() {
     // this.dataSource.paginator = this.paginator;
     // this.dataSource.sort = this.sort;
   }
-
   ngOnChanges(changes: SimpleChanges) {
-    // this.dataSource =  this.dataSource.filter((i : any) => i.isSelected == 1);
     // console.log(changes);
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
-    // this.doSomething(changes.categoryId.currentValue);
-    // You can also use categoryId.previousValue and 
-    // categoryId.firstChange for comparing old and new values
-    
+    this.batchManagerSettings.map(batchSetting => {
+        this.nextOrderNumber = batchSetting.batchID
+        // console.log(batchSetting.batchID);
+        
+    });
   }
+
 
   /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {
@@ -54,6 +65,32 @@ export class BatchSelectedOrdersComponent implements OnInit {
 
   removeOrders(order : any) {
     this.removeOrderEmitter.emit(order);
+  }
+
+  createBatch() {
+    let iBactchData:any[] = [];
+    this.tableData.data.map((order:any) => {
+      let result = [ order.orderNumber.toString(), order.countOfOrderNumber.toString()];
+      iBactchData.push(result);
+    });
+    
+    console.log(iBactchData);
+    console.log(this.batchManagerSettings);
+    let paylaod = {
+      "batch": iBactchData,
+      "nextBatchID": this.nextOrderNumber,
+      "transType": this.type,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    try {
+      this.batchService.create(paylaod, '/Admin/BatchInsert').subscribe((res: any) => {
+        console.log(res);
+      });
+    } catch (error) {
+      console.log(error);
+      
+    }
   }
 
 }

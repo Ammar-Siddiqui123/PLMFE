@@ -74,6 +74,8 @@ export class BatchManagerComponent implements OnInit {
   orderList : any;
   displayOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "minOfPriority", "detail", "action"];
   selOrderList : any = [];
+  type:any;
+  batchManagerSettings : any = [];
   displaySelOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "action"];
 
   constructor(private batchService : BatchManagerService, 
@@ -88,12 +90,13 @@ export class BatchManagerComponent implements OnInit {
   // dataSource : any;
 
   getOrders(type : any) {
+    this.type = type;
+    let paylaod = {
+      "transType": type,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
     try {
-      let paylaod = {
-        "transType": type,
-        "username": this.userData.userName,
-        "wsid": this.userData.wsid,
-      }
       this.batchService.get(paylaod, '/Admin/BatchManagerOrder').subscribe((res: any) => {
         const { data, isExecuted } = res
         if (isExecuted && data.length > 0) {
@@ -102,27 +105,27 @@ export class BatchManagerComponent implements OnInit {
 
         }
       });
+      this.batchService.get(paylaod, '/Admin/GetBatchManager').subscribe((res: any) => {
+        const { data, isExecuted } = res
+        if (isExecuted) {
+          this.batchManagerSettings = data.batchManagerSettings;
+        } else {
+        }
+      });
     } catch (error) {
       console.log(error);
     }
+  
   }
 
   addRemoveOrder(order : any, type : any) {
     if (type == 1) {
-      // let shiftedArr = this.orderList.unshift(order);
-      // this.orderList = shiftedArr
-      // this.orderList.unshift(order);
-      this.orderList.shift(order);
-      console.log(this.orderList);
-      
-      // this.selOrderList = this.selOrderList.unshift(order);
+      this.orderList = this.orderList.filter(val => val.orderNumber !== order.orderNumber);
+      this.selOrderList = [order, ...this.selOrderList];
     } else {
-      this.orderList.unshift(order);
-      this.selOrderList.shift(order);
+      this.selOrderList = this.selOrderList.filter(val => val.orderNumber !== order.orderNumber);
+      this.orderList = [order, ...this.orderList];
     }
-
-    // console.log(this.orderList)
-    // console.log(this.selOrderList)
   }
 
 }

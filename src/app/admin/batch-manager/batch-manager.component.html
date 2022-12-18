@@ -9,8 +9,8 @@
         (addOrderEmitter)="addRemoveOrder($event, 1)">
       </app-batch-order-list>
 
-      <app-batch-selected-orders [dataSource]="selOrderList" [displayedColumns]="displaySelOrderCols"
-        (removeOrderEmitter)="addRemoveOrder($event, 2)">
+      <app-batch-selected-orders [selectedOrderList]="selOrderList" [displayedColumns]="displaySelOrderCols"
+        (removeOrderEmitter)="addRemoveOrder($event, 2)" [batchManagerSettings]="batchManagerSettings" [type]="type">
       </app-batch-selected-orders>
 
     </div>

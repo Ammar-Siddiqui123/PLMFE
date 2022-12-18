@@ -1,11 +1,14 @@
 <mat-card class="mat-elevation-z g-card br-14 mb-4">
     <mat-card-content>
-
+      <h2 class="card-header-title mb-0 d-flex align-items-center">                    
+        <span>Selected Ordes</span>
+    </h2>
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h2 class="card-header-title mb-0 d-flex align-items-center">                    
-              <span>Selected Ordes</span>
-          </h2>
+          <mat-form-field class="custom-form-field w-100" appearance="outline">
+            <mat-label>Next Batch Order Number</mat-label>
+            <input matInput readonly type="text" value="{{nextOrderNumber}}">
+          </mat-form-field>
         </div>
         <div>
           <button mat-stroked-button color="warn" class="button-remove-all bg-white" >
@@ -17,7 +20,7 @@
 
       <div class="card bg-light-blue br-14">
         
-          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+          <table mat-table [dataSource]="tableData" matSort (matSortChange)="announceSortChange($event)">
         
             <!-- Position Column -->
             <ng-container matColumnDef="orderNumber">
@@ -35,16 +38,17 @@
             <ng-container matColumnDef="action">
               <th class="bg-light-blue" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by action"> Actions </th>
               <td mat-cell *matCellDef="let element">
-                 <!-- <button mat-flat-button color="warn" class="">
-                  <mat-icon>remove_circle</mat-icon>
-                </button> -->
-                <button mat-flat-button color="warn" class="sm-icon-button">
+                <button mat-icon-button aria-label="Delete Function" (click)="removeOrders(element)">
+                  <mat-icon class="icon-circle-cancel">close</mat-icon>
+                </button>
+                <!-- <button mat-flat-button color="warn" class="sm-icon-button">
                   <span class="material-symbols-outlined">
                       close
                   </span>
-                </button>
+                </button> -->
               </td>
             </ng-container>
+            
         
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -53,7 +57,7 @@
           <div class="d-flex justify-content-between bg-white">
             <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
             <div class="m-3">
-              <button mat-flat-button color="primary" class="br-14" >
+              <button mat-flat-button color="primary" class="br-14" (click)="createBatch()">
                 Create Batch
               </button>
             </div>                  
