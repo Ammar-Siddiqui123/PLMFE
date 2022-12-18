@@ -62,7 +62,9 @@ export class InventoryMapComponent implements OnInit {
   public dataSource: any;
   customPagination: any = {
     total : '',
-    recordsPerPage : 20
+    recordsPerPage : 20,
+    startIndex: '',
+    endIndex: ''
   }
   columnSearch: any = {
     searchColumn : '',
@@ -96,6 +98,12 @@ export class InventoryMapComponent implements OnInit {
   ngOnInit(): void {
 
 
+    this.customPagination = {
+      total : '',
+      recordsPerPage : 20,
+      startIndex: 0,
+      endIndex: 20
+    }
     this.initializeApi();
     this.getColumnsData();
     this.getContentData();
@@ -107,7 +115,12 @@ export class InventoryMapComponent implements OnInit {
   pageEvent: PageEvent;
 
   handlePageEvent(e: PageEvent) {
+    console.log(e)
     this.pageEvent = e;
+
+    this.customPagination.startIndex =  e.pageSize*e.pageIndex
+
+    this.customPagination.endIndex =  (e.pageSize*e.pageIndex + e.pageSize)
    // this.length = e.length;
     this.customPagination.recordsPerPage = e.pageSize;
    // this.pageIndex = e.pageIndex;
@@ -125,8 +138,8 @@ export class InventoryMapComponent implements OnInit {
      "searchString": this.columnSearch.searchValue,
      "searchColumn": this.columnSearch.searchColumn,
      "sortColumnIndex": 32,
-     "sRow": 1,
-     "eRow": this.customPagination.recordsPerPage,
+     "sRow":  this.customPagination.startIndex,
+     "eRow": this.customPagination.endIndex,
      "sortOrder": "asc",
      "filter": "1 = 1"
    }
@@ -274,4 +287,21 @@ export class InventoryMapComponent implements OnInit {
   viewLocationHistory(){
     
   }
+
+  searchColumn(){
+    if(this.columnSearch.searchValue){
+      this.initializeApi();
+      this.getContentData();
+    }
+  }
+
+  searchData(){
+    if( this.columnSearch.searchColumn){
+      this.initializeApi();
+      this.getContentData();
+    }
+  }
+
+
+
 }

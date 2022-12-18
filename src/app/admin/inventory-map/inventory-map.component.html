@@ -3,7 +3,7 @@
     <div class="col-12">
       <mat-card class="mat-elevation-z g-card">
         <mat-card-content>
-          <div class="d-flex justify-content-between align-items-center">
+          <div class="row">
             <h2 class="card-header-title mb-0 d-flex align-items-center">
               <div class="mat-icon-wrap me-lg-3">
                 <span class="material-symbols-outlined">
@@ -12,14 +12,47 @@
               </div>
               <span>Inventory Map</span>
             </h2>
-            <div class="row">
-              <div class="col mt-2">
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center" style="border: 1px solid #F2F2FF;
+          border-radius: 20px;
+          height: 60px;
+          margin-top: 8px;
+          padding: 10px;
+          background-color: #F2F2FF">
+             <div class="row"  style="border: 1px solid #F2F2FF;
+             border-radius: 20px;
+             height: 100%;
+             width: 100;
+             margin-left: 5px;
+             background-color: white;">
+              <div class="col" style="height: 100%;">
+                <mat-form-field class="action-dropdown" appearance="fill" class="full-width" style="height: 100%;" >
+                  <mat-label>Item No</mat-label>
+                  <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn" (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()">
+                    <mat-option *ngFor="let item of displayedColumns" [value]="item.colHeader" value="print">
+                      {{item.colDef}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col" style="height: 100%; border-left: 1px solid #F2F2FF">
+                <mat-form-field class="filter" floatLabel="never" appearance="fill" style="height: 100%;">
+                  <mat-label>Search </mat-label>
+                  <input #searchInput matInput  [(ngModel)]='this.columnSearch.searchValue' (keyup.enter)="searchData()" (change)="searchData()">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row" style="height: 100%;">
+              <div class="col">
                 <button mat-mini-fab color="primary" aria-label="Add Locations" (click)="addLocDialog()">
                   <mat-icon>add</mat-icon>
                 </button>
               </div>
-              <div class="col mt-2">
-                <mat-form-field class="action-dropdown" appearance="fill" >
+              <div class="col" style="background-color: white; border: 1px solid #F2F2FF;
+              border-radius: 20px; height: 100%;">
+                <mat-form-field class="action-dropdown" appearance="fill" style="height: 100%;">
                   <mat-label>Actions</mat-label>
                   <mat-select class="employees-action" (selectionChange)="inventoryMapAction($event)">
                     <mat-option value="print">Print</mat-option>
@@ -27,7 +60,7 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div class="col mt-2">
+              <div class="col">
                 <button mat-button (click)="viewAllLocDialog()">
                   <span class="material-symbols-outlined">
                     filter_list
@@ -44,10 +77,10 @@
                 <ng-container [matColumnDef]="col.colDef" *ngFor="let col of displayedColumns">
                   <th class="header" mat-header-cell *cdkHeaderCellDef>
                     {{ col.colDef }}
-                    <mat-form-field class="filter" floatLabel="never" appearance="outline">
+                    <!-- <mat-form-field class="filter" floatLabel="never" appearance="outline">
                       <mat-label>Search {{ col.colDef }}</mat-label>
                       <input #searchInput matInput (change)="applyFilter(searchInput.value, col.colHeader)">
-                    </mat-form-field>
+                    </mat-form-field> -->
                   </th>
                   <td *matCellDef="let element" style="min-width: 180px;  padding: 5px"> {{ element[col.colHeader] }} </td>
                 </ng-container>
