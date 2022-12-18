@@ -122,8 +122,7 @@ export class AddInvMapLocationComponent implements OnInit {
       this.initializeDataSet();
     }
    this.itemNumberList = this.data.itemList;
-   
-   console.log(this.getDetailInventoryMapData)
+  
     this.invMapService.getLocZTypeInvMap().subscribe((res) => {
       this.locZoneList = res.data;
       this.filteredOptions = this.addInvMapLocation.controls['location'].valueChanges.pipe(
@@ -134,7 +133,7 @@ export class AddInvMapLocationComponent implements OnInit {
         startWith(''),
         map(value => this._filterItemNum(value || '')),
       );
-      console.log(this.filteredItemNum)
+     
     });
 
   }
@@ -181,7 +180,6 @@ export class AddInvMapLocationComponent implements OnInit {
 
   onSubmit(form: FormGroup) {
     
-    console.log('create',form);
     if(this.data.detailData){
       this.invMapService.updateInventoryMap(form.value).subscribe((res) => {
         if(res.isExecuted){
@@ -189,7 +187,7 @@ export class AddInvMapLocationComponent implements OnInit {
             positionClass: 'toast-bottom-right',
             timeOut:2000
          });
-          console.log(res.responseMessage)
+
           this.dialog.closeAll()
         }
       });
@@ -200,7 +198,7 @@ export class AddInvMapLocationComponent implements OnInit {
             positionClass: 'toast-bottom-right',
             timeOut:2000
          });
-          console.log(res.responseMessage)
+
           this.dialog.closeAll()
         }
       });
@@ -253,7 +251,6 @@ export class AddInvMapLocationComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       this.addInvMapLocation.controls['velocity'].setValue(result);
     })
   }
@@ -270,16 +267,15 @@ export class AddInvMapLocationComponent implements OnInit {
   loadZones(zone: any) {
     this.zoneList = this.locZoneList.filter(option => option.locationName.includes(zone.option.value));
     this.addInvMapLocation.controls['zone'].setValue(this.zoneList[0].zone);
-    console.log(this.zoneList);
+
   }
   loadItemDetails(item:any){
-      // console.log(item.option.value,this.addInvMapLocation.get('zone')?.value);
       let payload = {
         "itemNumber": item.option.value,
         "zone": this.addInvMapLocation.get('zone')?.value
       }
       this.invMapService.getItemNumDetail(payload).subscribe((res) => {
-        console.log(res);
+    
         this.addInvMapLocation.controls['description'].setValue(res.data.description);
         this.addInvMapLocation.controls['description'].setValue(res.data.maximumQuantity);
       });

@@ -90,7 +90,6 @@ export class DeleteConfirmationComponent implements OnInit {
       });
     }
     else if (this.data.mode === 'delete-allowedgroup') {
-      console.log(this.data);
 
       let pickLevelData = {
         "wsid": "TESTWID",

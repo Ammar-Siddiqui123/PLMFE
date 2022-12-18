@@ -55,11 +55,6 @@ export class InvMapLocationService {
 
     let payload = Object.fromEntries(filtered);
 
-    console.log(payload);
-    // let payload = body.filter((key: any, value: any)=>{
-    //   console.log(key, value);
-    //   return value != ''
-    // })
     
     let userData = this.authService.userData();
    
@@ -82,12 +77,6 @@ export class InvMapLocationService {
     const filtered = asArray.filter(([key, value]) =>  value != '');
 
     let payload = Object.fromEntries(filtered);
-
-    console.log(payload);
-    // let payload = body.filter((key: any, value: any)=>{
-    //   console.log(key, value);
-    //   return value != ''
-    // })
     
     let userData = this.authService.userData();
    

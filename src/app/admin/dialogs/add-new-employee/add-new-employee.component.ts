@@ -52,7 +52,6 @@ export class AddNewEmployeeComponent implements OnInit {
     {
       // display error in your form
     }else{
-        // console.log(form.value)
       if(this.data?.mode === 'edit'){
         form.value.wsid = "TESTWID";
         form.value.groupName =  "",
