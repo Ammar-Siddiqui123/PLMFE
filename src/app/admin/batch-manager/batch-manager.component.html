@@ -6,11 +6,15 @@
       </app-batch-delete>
 
       <app-batch-order-list [orderListData]="orderList" [displayedColumns]="displayOrderCols"
-        (addOrderEmitter)="addRemoveOrder($event, 1)">
+        (addOrderEmitter)="addRemoveOrder($event, 1)" (addRemoveAll)="addRemoveAllOrders('add')">
       </app-batch-order-list>
 
       <app-batch-selected-orders [selectedOrderList]="selOrderList" [displayedColumns]="displaySelOrderCols"
-        (removeOrderEmitter)="addRemoveOrder($event, 2)" [batchManagerSettings]="batchManagerSettings" [type]="type">
+        (removeOrderEmitter)="addRemoveOrder($event, 2)" 
+        [batchManagerSettings]="batchManagerSettings" 
+        [type]="type" (addRemoveAll)="addRemoveAllOrders('remove')"
+        (batchCreated)="batchCreated($event)"
+        >
       </app-batch-selected-orders>
 
     </div>

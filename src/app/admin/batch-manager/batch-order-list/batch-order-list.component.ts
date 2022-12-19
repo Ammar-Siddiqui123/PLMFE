@@ -20,6 +20,7 @@ export class BatchOrderListComponent implements OnInit {
   }
   @Input() displayedColumns : any;
   @Output() addOrderEmitter = new EventEmitter<any>();
+  @Output() addRemoveAll = new EventEmitter<any>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -49,6 +50,10 @@ export class BatchOrderListComponent implements OnInit {
 
   addOrders(order : any) {
     this.addOrderEmitter.emit(order);
+  }
+
+  addRemoveAllOrder(){
+    this.addRemoveAll.emit();
   }
 
 }
