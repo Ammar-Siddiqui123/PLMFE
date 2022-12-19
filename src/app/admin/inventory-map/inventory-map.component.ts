@@ -82,7 +82,7 @@ export class InventoryMapComponent implements OnInit {
 
   public columnValues: any;
   public itemList: any;
-  public filterLoc:any;
+  public filterLoc:any = 'Nothing';
 
   detailDataInventoryMap: any;
 
@@ -141,7 +141,7 @@ export class InventoryMapComponent implements OnInit {
     this.payload = {
      "username": this.userData.userName,
      "wsid": this.userData.wsid,
-     "oqa": "Nothing",
+     "oqa": this.filterLoc,
      "searchString": this.columnSearch.searchValue,
      "searchColumn": this.columnSearch.searchColumn,
      "sortColumnIndex": this.sortColumn.columnName,
@@ -221,7 +221,9 @@ export class InventoryMapComponent implements OnInit {
   }
 
   viewLocFilter(){
-   
+    this.initializeApi();
+    this.getContentData();
+    this.dialog. closeAll();
   }
 
   edit(event: any){
