@@ -74,8 +74,8 @@ export class BatchSelectedOrdersComponent implements OnInit {
       iBactchData.push(result);
     });
     
-    console.log(iBactchData);
-    console.log(this.batchManagerSettings);
+    // console.log(iBactchData);
+    // console.log(this.batchManagerSettings);
     let paylaod = {
       "batch": iBactchData,
       "nextBatchID": this.nextOrderNumber,
