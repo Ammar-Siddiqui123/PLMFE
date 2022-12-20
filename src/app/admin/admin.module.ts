@@ -46,6 +46,7 @@ import { BatchDeleteComponent } from './batch-manager/batch-delete/batch-delete.
 import { BatchOrderListComponent } from './batch-manager/batch-order-list/batch-order-list.component';
 import { BatchSelectedOrdersComponent } from './batch-manager/batch-selected-orders/batch-selected-orders.component';
 import { KitItemsComponent } from './inventory-master/kit-items/kit-items.component';
+import { InventoryLocationComponent } from './inventory-master/inventory-location/inventory-location.component';
 
 
 
@@ -88,6 +89,7 @@ import { KitItemsComponent } from './inventory-master/kit-items/kit-items.compon
     BatchOrderListComponent,
     BatchSelectedOrdersComponent,
     KitItemsComponent,
+    InventoryLocationComponent,
 
   ],
   imports: [

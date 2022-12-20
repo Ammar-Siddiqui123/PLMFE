@@ -249,12 +249,24 @@
                 </mat-tab>
                 <mat-tab label="Item Setup"><app-item-setup></app-item-setup></mat-tab>
                 <mat-tab label="Kit Items"><app-kit-items></app-kit-items></mat-tab>
+                <mat-tab label="Locations"><app-inventory-location></app-inventory-location></mat-tab>
                 
               </mat-tab-group>
             </div>
             
             
           </mat-card-content>
+          <div class="d-flex gap-20 justify-content-end">
+            <button mat-stroked-button color="warn" class="button-delete bg-white" (click)="deleteItem($event)">
+              Delete Item
+            </button>
+            <button mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="quarantineDialog()">
+              Quarantine Item
+            </button>
+            <button mat-flat-button color="primary" class="button-primary bg-white">
+              Save
+            </button>
+          </div>
         </mat-card>
       </div>
     </div>
