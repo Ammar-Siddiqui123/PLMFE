@@ -1,8 +1,9 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { BatchManagerService } from '../batch-manager.service';
 import { AuthService } from '../../../../app/init/auth.service';
+
 
 @Component({
   selector: 'app-batch-delete',
@@ -29,6 +30,7 @@ export class BatchDeleteComponent implements OnInit {
   transType : string = 'Pick';
   batchID : string = "";
   public userData : any;
+  @ViewChild('deleteAction') dltActionTemplate: TemplateRef<any>;
 
   @Output() transTypeEmitter = new EventEmitter<any>();
   
@@ -69,8 +71,8 @@ export class BatchDeleteComponent implements OnInit {
 
   deleteBatch(type : any, id : any) {
     // alert(`Type : ${type} and Batch ID : ${id}`);
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '450px'
+    const dialogRef = this.dialog.open(this.dltActionTemplate, {
+      width: '550px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -80,6 +82,9 @@ export class BatchDeleteComponent implements OnInit {
         // this.batchService.delete();
       }
     });
+  }
+  onDltOptions(){
+    
   }
 
 }
