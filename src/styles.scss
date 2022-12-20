@@ -897,3 +897,37 @@ button.default-btn{
 .mat-dialog-container{
   border-radius: 14px !important;
 }
+
+
+
+//-------------- Table-CLASSES ----START-------------------
+.custom-table{
+  border-radius: 14px;
+  th.mat-header-cell{
+  background: #F9F9FF;
+  font-size:16px;
+  font-weight: 800;
+  color: $tertiary-900;
+  &:first-child{
+    border-top-left-radius: 14px;
+  }
+  &:last-child{
+    border-top-right-radius: 14px;
+  }
+  }
+}
+
+
+//-------------- Table-CLASSES ----END-------------------
+
+//-------------- PAGINATOR-CLASSES ----START-------------------
+
+.mat-paginator-range-actions{
+button{
+  color:var(--clr-primary-900);
+  background: var(--clr-chrome-50);
+  margin: 2px;
+}
+}
+
+//-------------- PAGINATOR-CLASSES ----START-------------------
