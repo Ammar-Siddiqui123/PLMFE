@@ -45,6 +45,9 @@ import { BatchManagerComponent } from './batch-manager/batch-manager.component';
 import { BatchDeleteComponent } from './batch-manager/batch-delete/batch-delete.component';
 import { BatchOrderListComponent } from './batch-manager/batch-order-list/batch-order-list.component';
 import { BatchSelectedOrdersComponent } from './batch-manager/batch-selected-orders/batch-selected-orders.component';
+import { CycleCountsComponent } from './cycle-counts/cycle-counts.component';
+import { CCDiscrepanciesComponent } from './cycle-counts/ccdiscrepancies/ccdiscrepancies.component';
+import { CCCountQueueComponent } from './cycle-counts/cccount-queue/cccount-queue.component';
 
 
 
@@ -86,6 +89,9 @@ import { BatchSelectedOrdersComponent } from './batch-manager/batch-selected-ord
     BatchDeleteComponent,
     BatchOrderListComponent,
     BatchSelectedOrdersComponent,
+    CycleCountsComponent,
+    CCDiscrepanciesComponent,
+    CCCountQueueComponent,
 
   ],
   imports: [
