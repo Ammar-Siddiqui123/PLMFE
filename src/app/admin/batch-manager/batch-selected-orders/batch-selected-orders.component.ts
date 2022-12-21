@@ -42,7 +42,6 @@ export class BatchSelectedOrdersComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    // console.log(this.batchManagerSettings);
   }
 
   ngAfterViewInit() {
@@ -54,6 +53,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
     this.batchManagerSettings.map(batchSetting => {
         this.nextOrderNumber = batchSetting.batchID
         // console.log(batchSetting.batchID);
+        // console.log(this.tableData.data.length);
         
     });
   }
