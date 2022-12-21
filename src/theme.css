@@ -1273,7 +1273,8 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 .mat-button.mat-primary,
 .mat-icon-button.mat-primary,
 .mat-stroked-button.mat-primary {
-  color: #00008099
+  /* color: #00008099 */
+  color: var(--clr-tertiary-900);
 }
 
 .mat-button.mat-accent,
@@ -2303,7 +2304,8 @@ td.mat-footer-cell {
 }
 
 .mat-paginator {
-  background: #fff
+  /* background: #fff */
+  background: transparent;
 }
 
 .mat-paginator,

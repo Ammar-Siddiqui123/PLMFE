@@ -47,6 +47,7 @@ import { BatchOrderListComponent } from './batch-manager/batch-order-list/batch-
 import { BatchSelectedOrdersComponent } from './batch-manager/batch-selected-orders/batch-selected-orders.component';
 import { KitItemsComponent } from './inventory-master/kit-items/kit-items.component';
 import { InventoryLocationComponent } from './inventory-master/inventory-location/inventory-location.component';
+import { ReelTrackingComponent } from './inventory-master/reel-tracking/reel-tracking.component';
 
 
 
@@ -90,6 +91,7 @@ import { InventoryLocationComponent } from './inventory-master/inventory-locatio
     BatchSelectedOrdersComponent,
     KitItemsComponent,
     InventoryLocationComponent,
+    ReelTrackingComponent,
 
   ],
   imports: [
