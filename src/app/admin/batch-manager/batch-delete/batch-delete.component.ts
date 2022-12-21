@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter, TemplateRef, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnInit, Output, EventEmitter, TemplateRef, ViewChild, Optional } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { BatchManagerService } from '../batch-manager.service';
 import { AuthService } from '../../../../app/init/auth.service';
@@ -36,7 +36,8 @@ export class BatchDeleteComponent implements OnInit {
   
   constructor(private dialog: MatDialog,
               private batchService : BatchManagerService, 
-              private authService: AuthService) { }
+              private authService: AuthService,
+              @Optional() public dialogRef: MatDialogRef<any>) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
@@ -70,21 +71,17 @@ export class BatchDeleteComponent implements OnInit {
   }
 
   deleteBatch(type : any, id : any) {
-    // alert(`Type : ${type} and Batch ID : ${id}`);
+    let dltbatchData = {type: type, id: id}
     const dialogRef = this.dialog.open(this.dltActionTemplate, {
-      width: '550px'
+      width: '550px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       console.log(result);
-      if (result == "Yes") {
-        // this.batchService.delete();
-      }
     });
   }
-  onDltOptions(){
-    
+  onDltOptions(dltType:any){
+    this.dialogRef.close(dltType);
   }
 
 }
