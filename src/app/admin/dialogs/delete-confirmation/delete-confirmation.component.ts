@@ -142,13 +142,10 @@ export class DeleteConfirmationComponent implements OnInit {
         });
       }
       else if (this.data.mode === 'delete-group') {
-  
         let groupData = {
                "username": "1234",
                "wsid": "TESTWID",
                "GroupName": this.data.grp_data.groupName
-  
-  
         }
         this.employeeService.deleteGroup(groupData).subscribe((res: any) => {
           if (res.isExecuted) {
