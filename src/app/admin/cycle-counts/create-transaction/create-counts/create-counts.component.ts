@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 
 export interface PeriodicElement {
@@ -23,22 +22,18 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 @Component({
-  selector: 'app-ccdiscrepancies',
-  templateUrl: './ccdiscrepancies.component.html',
-  styleUrls: ['./ccdiscrepancies.component.scss']
+  selector: 'app-create-counts',
+  templateUrl: './create-counts.component.html',
+  styleUrls: ['./create-counts.component.scss']
 })
-export class CCDiscrepanciesComponent implements OnInit {
+export class CreateCountsComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'ex', 'srno', 'action'];
   tableData = ELEMENT_DATA;
-
-  constructor(private router: Router) { }
+  
+  constructor() { }
 
   ngOnInit(): void {
-  }
-
-  createTransaction(){
-    this.router.navigate(['/admin/createCounts']);
   }
 
 }

@@ -48,6 +48,9 @@ import { BatchSelectedOrdersComponent } from './batch-manager/batch-selected-ord
 import { CycleCountsComponent } from './cycle-counts/cycle-counts.component';
 import { CCDiscrepanciesComponent } from './cycle-counts/ccdiscrepancies/ccdiscrepancies.component';
 import { CCCountQueueComponent } from './cycle-counts/cccount-queue/cccount-queue.component';
+import { CreateCountsComponent } from './cycle-counts/create-transaction/create-counts/create-counts.component';
+import { CreateTransactionComponent } from './cycle-counts/create-transaction/create-transaction.component';
+import { CountQueueComponent } from './cycle-counts/create-transaction/count-queue/count-queue.component';
 
 
 
@@ -92,6 +95,9 @@ import { CCCountQueueComponent } from './cycle-counts/cccount-queue/cccount-queu
     CycleCountsComponent,
     CCDiscrepanciesComponent,
     CCCountQueueComponent,
+    CreateCountsComponent,
+    CreateTransactionComponent,
+    CountQueueComponent,
 
   ],
   imports: [
