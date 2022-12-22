@@ -48,6 +48,7 @@ import { BatchSelectedOrdersComponent } from './batch-manager/batch-selected-ord
 import { KitItemsComponent } from './inventory-master/kit-items/kit-items.component';
 import { InventoryLocationComponent } from './inventory-master/inventory-location/inventory-location.component';
 import { ReelTrackingComponent } from './inventory-master/reel-tracking/reel-tracking.component';
+import { ScanCodesComponent } from './inventory-master/scan-codes/scan-codes.component';
 
 
 
@@ -92,6 +93,7 @@ import { ReelTrackingComponent } from './inventory-master/reel-tracking/reel-tra
     KitItemsComponent,
     InventoryLocationComponent,
     ReelTrackingComponent,
+    ScanCodesComponent,
 
   ],
   imports: [
