@@ -54,6 +54,8 @@ import { CreateCountsComponent } from './cycle-counts/create-transaction/create-
 import { CreateTransactionComponent } from './cycle-counts/create-transaction/create-transaction.component';
 import { CountQueueComponent } from './cycle-counts/create-transaction/count-queue/count-queue.component';
 import { ImportFieldMappingComponent } from './cycle-counts/import-field-mapping/import-field-mapping.component';
+import { ReelTrackingComponent } from './inventory-master/reel-tracking/reel-tracking.component';
+import { ScanCodesComponent } from './inventory-master/scan-codes/scan-codes.component';
 
 
 
@@ -104,6 +106,8 @@ import { ImportFieldMappingComponent } from './cycle-counts/import-field-mapping
     CreateTransactionComponent,
     CountQueueComponent,
     ImportFieldMappingComponent,
+    ReelTrackingComponent,
+    ScanCodesComponent,
 
   ],
   imports: [

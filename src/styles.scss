@@ -68,7 +68,7 @@ h1, h2, h3, h4, h5, h6, p, strong, span, b, u, a, div
   line-height: 1.5;
 }
 
-// html, body { height: 100%; }
+html { min-height: 100%; position: relative;}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; height: 100%; }
 
 :host {
@@ -96,7 +96,7 @@ background-color: #7B42AC;
   background: #F3F4F4;
 }
 .mat-drawer-inner-container{
-  overflow: hidden !important;
+  // overflow: hidden !important;
 }
 .mat-drawer {
   background: #F3F4F4;
@@ -126,7 +126,7 @@ background-color: #7B42AC;
 .mat-list-item {
   color: #09094899 !important;
   font-size: 0.8rem;
-  height: 44px !important;
+  height: 40px !important;
   margin-bottom: 4px;
   &:hover {
     color: #000080 !important;
@@ -641,10 +641,16 @@ table.g-card-table th.mat-header-cell {
   padding-bottom: 1em;
   background: #F9F9FF;
       border-bottom-color: #D7D7F9;
+      
 }
 
 .card {
   border: 1px solid #D7D7F9;
+  border-radius: 14px;
+  .card-header{
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+  }
 }
 
 .mat-drawer-content{
@@ -818,6 +824,9 @@ button.custom-btn{
 button.default-btn{
   border-radius: 14px;
 }
+.btn-primary{
+  padding: 10px 16px !important;
+}
 //-------------- BUTTON-CLASSES ----END-------------------
 
 //-------------- FORM INPUT-CLASSES ----START-------------------
@@ -931,3 +940,17 @@ button{
 }
 
 //-------------- PAGINATOR-CLASSES ----START-------------------
+.f-container{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left:0;
+  right:0;
+  height: 100vh;
+}
+
+.main-container{
+  flex: auto;
+}
