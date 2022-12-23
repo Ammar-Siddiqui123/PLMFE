@@ -58,22 +58,31 @@ const INVMAP_DATA = [
   styleUrls: ['./inventory-map.component.scss']
 })
 export class InventoryMapComponent implements OnInit {
+
+
   public displayedColumns: any;
   public dataSource: any;
   customPagination: any = {
     total : '',
-    recordsPerPage : 20
+    recordsPerPage : 20,
+    startIndex: '',
+    endIndex: ''
   }
   columnSearch: any = {
     searchColumn : '',
     searchValue : ''
+  }
+
+  sortColumn: any ={
+    columnName: 32,
+    sortOrder: 'asc'
   }
   userData: any;
   payload: any;
 
   public columnValues: any;
   public itemList: any;
-  public filterLoc:any;
+  public filterLoc:any = 'Nothing';
 
   detailDataInventoryMap: any;
 
@@ -96,6 +105,12 @@ export class InventoryMapComponent implements OnInit {
   ngOnInit(): void {
 
 
+    this.customPagination = {
+      total : '',
+      recordsPerPage : 20,
+      startIndex: 0,
+      endIndex: 20
+    }
     this.initializeApi();
     this.getColumnsData();
     this.getContentData();
@@ -107,7 +122,12 @@ export class InventoryMapComponent implements OnInit {
   pageEvent: PageEvent;
 
   handlePageEvent(e: PageEvent) {
+    
     this.pageEvent = e;
+
+    this.customPagination.startIndex =  e.pageSize*e.pageIndex
+
+    this.customPagination.endIndex =  (e.pageSize*e.pageIndex + e.pageSize)
    // this.length = e.length;
     this.customPagination.recordsPerPage = e.pageSize;
    // this.pageIndex = e.pageIndex;
@@ -121,13 +141,13 @@ export class InventoryMapComponent implements OnInit {
     this.payload = {
      "username": this.userData.userName,
      "wsid": this.userData.wsid,
-     "oqa": "Nothing",
+     "oqa": this.filterLoc,
      "searchString": this.columnSearch.searchValue,
      "searchColumn": this.columnSearch.searchColumn,
-     "sortColumnIndex": 32,
-     "sRow": 1,
-     "eRow": this.customPagination.recordsPerPage,
-     "sortOrder": "asc",
+     "sortColumnIndex": this.sortColumn.columnName,
+     "sRow":  this.customPagination.startIndex,
+     "eRow": this.customPagination.endIndex,
+     "sortOrder": this.sortColumn.sortOrder,
      "filter": "1 = 1"
    }
   }
@@ -180,7 +200,6 @@ export class InventoryMapComponent implements OnInit {
         }
       })
       dialogRef.afterClosed().subscribe(result => {
-        console.log(result);
         const matSelect: MatSelect = actionEvent.source;
         matSelect.writeValue(null);
         this.ngOnInit();
@@ -205,7 +224,9 @@ export class InventoryMapComponent implements OnInit {
   }
 
   viewLocFilter(){
-    console.log(this.filterLoc);
+    this.initializeApi();
+    this.getContentData();
+    this.dialog. closeAll();
   }
 
   edit(event: any){
@@ -219,13 +240,11 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
 
     })
   }
 
   delete(event: any){
-    console.log(event);
     let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
@@ -277,4 +296,33 @@ export class InventoryMapComponent implements OnInit {
   viewLocationHistory(){
     
   }
+
+  searchColumn(){
+    if(this.columnSearch.searchValue){
+      this.initializeApi();
+      this.getContentData();
+    }
+  }
+
+  searchData(){
+    if( this.columnSearch.searchColumn){
+      this.initializeApi();
+      this.getContentData();
+    }
+  }
+
+  announceSortChange(e : any){
+    let index = this.columnValues.findIndex(x => x === e.active );
+    this.sortColumn = {
+      columnName: index,
+      sortOrder: e.direction
+    }
+
+    this.initializeApi();
+    this.getContentData();
+
+
+  }
+
+
 }

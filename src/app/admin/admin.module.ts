@@ -47,6 +47,13 @@ import { BatchOrderListComponent } from './batch-manager/batch-order-list/batch-
 import { BatchSelectedOrdersComponent } from './batch-manager/batch-selected-orders/batch-selected-orders.component';
 import { KitItemsComponent } from './inventory-master/kit-items/kit-items.component';
 import { InventoryLocationComponent } from './inventory-master/inventory-location/inventory-location.component';
+import { CycleCountsComponent } from './cycle-counts/cycle-counts.component';
+import { CCDiscrepanciesComponent } from './cycle-counts/ccdiscrepancies/ccdiscrepancies.component';
+import { CCCountQueueComponent } from './cycle-counts/cccount-queue/cccount-queue.component';
+import { CreateCountsComponent } from './cycle-counts/create-transaction/create-counts/create-counts.component';
+import { CreateTransactionComponent } from './cycle-counts/create-transaction/create-transaction.component';
+import { CountQueueComponent } from './cycle-counts/create-transaction/count-queue/count-queue.component';
+import { ImportFieldMappingComponent } from './cycle-counts/import-field-mapping/import-field-mapping.component';
 import { ReelTrackingComponent } from './inventory-master/reel-tracking/reel-tracking.component';
 import { ScanCodesComponent } from './inventory-master/scan-codes/scan-codes.component';
 import { WeighScaleComponent } from './inventory-master/weigh-scale/weigh-scale.component';
@@ -93,6 +100,13 @@ import { WeighScaleComponent } from './inventory-master/weigh-scale/weigh-scale.
     BatchSelectedOrdersComponent,
     KitItemsComponent,
     InventoryLocationComponent,
+    CycleCountsComponent,
+    CCDiscrepanciesComponent,
+    CCCountQueueComponent,
+    CreateCountsComponent,
+    CreateTransactionComponent,
+    CountQueueComponent,
+    ImportFieldMappingComponent,
     ReelTrackingComponent,
     ScanCodesComponent,
     WeighScaleComponent,
