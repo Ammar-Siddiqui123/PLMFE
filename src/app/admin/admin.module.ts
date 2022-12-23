@@ -49,6 +49,7 @@ import { KitItemsComponent } from './inventory-master/kit-items/kit-items.compon
 import { InventoryLocationComponent } from './inventory-master/inventory-location/inventory-location.component';
 import { ReelTrackingComponent } from './inventory-master/reel-tracking/reel-tracking.component';
 import { ScanCodesComponent } from './inventory-master/scan-codes/scan-codes.component';
+import { WeighScaleComponent } from './inventory-master/weigh-scale/weigh-scale.component';
 
 
 
@@ -94,6 +95,7 @@ import { ScanCodesComponent } from './inventory-master/scan-codes/scan-codes.com
     InventoryLocationComponent,
     ReelTrackingComponent,
     ScanCodesComponent,
+    WeighScaleComponent,
 
   ],
   imports: [

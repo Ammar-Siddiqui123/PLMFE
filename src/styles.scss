@@ -954,3 +954,7 @@ button{
 .main-container{
   flex: auto;
 }
+
+.mat-nav-list .mat-list-item:active{
+  background: #000080;
+}
