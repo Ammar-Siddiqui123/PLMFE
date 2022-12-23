@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ImportFieldMappingComponent } from '../import-field-mapping/import-field-mapping.component';
 
 
 export interface PeriodicElement {
@@ -32,9 +34,24 @@ export class CCCountQueueComponent implements OnInit {
   tableData = ELEMENT_DATA;
 
 
-  constructor() { }
+  constructor(private dialog: MatDialog,) { }
 
   ngOnInit(): void {
+  }
+
+  importFieldMapping(){
+    let dialogRef = this.dialog.open(ImportFieldMappingComponent, {
+      height: '650px',
+      width: '800px',
+      data: {
+        mode: 'addInvMapLocation',
+        //itemList : this.itemList,
+      //  detailData : event
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+
+    })
   }
 
 }

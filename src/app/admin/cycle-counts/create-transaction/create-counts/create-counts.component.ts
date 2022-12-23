@@ -31,6 +31,23 @@ export class CreateCountsComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'ex', 'srno', 'action'];
   tableData = ELEMENT_DATA;
   
+  transList : any = [
+    {
+      id : "Pick",
+      name : "Pick"
+    },
+    {
+      id : "Put Away",
+      name : "Put Away"
+    },
+    {
+      id : "Count",
+      name : "Count"
+    }    
+  ];
+  transType : string = 'Pick';
+
+  
   constructor() { }
 
   ngOnInit(): void {

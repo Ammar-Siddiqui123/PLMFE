@@ -51,6 +51,7 @@ import { CCCountQueueComponent } from './cycle-counts/cccount-queue/cccount-queu
 import { CreateCountsComponent } from './cycle-counts/create-transaction/create-counts/create-counts.component';
 import { CreateTransactionComponent } from './cycle-counts/create-transaction/create-transaction.component';
 import { CountQueueComponent } from './cycle-counts/create-transaction/count-queue/count-queue.component';
+import { ImportFieldMappingComponent } from './cycle-counts/import-field-mapping/import-field-mapping.component';
 
 
 
@@ -98,6 +99,7 @@ import { CountQueueComponent } from './cycle-counts/create-transaction/count-que
     CreateCountsComponent,
     CreateTransactionComponent,
     CountQueueComponent,
+    ImportFieldMappingComponent,
 
   ],
   imports: [
