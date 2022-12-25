@@ -48,6 +48,7 @@ export class InventoryMasterComponent implements OnInit {
   }
   initialzeIMFeilds(){
     this.invMaster = this.fb.group({
+
       itemNumber: [ '', [Validators.required]],
       supplierItemID : [ '', [Validators.required]],
       description : [ '', [Validators.required]],
@@ -59,7 +60,66 @@ export class InventoryMasterComponent implements OnInit {
       subCategory : [ '', [Validators.required]],
       unitOfMeasure : [ '', [Validators.required]],
       kanbanReplenishmentPoint : [ '', [Validators.required]],
-      kanbanReplenishmentLevel : [ '', [Validators.required]]
+      kanbanReplenishmentLevel : [ '', [Validators.required]],
+
+      totalQuantity: [ '', [Validators.required]],
+      wipCount: [ '', [Validators.required]],
+      totalPicks: [ '', [Validators.required]],
+      totalPuts: [ '', [Validators.required]],
+      openCount: [ '', [Validators.required]],
+      histCount: [ '', [Validators.required]],
+      procCount: [ '', [Validators.required]],
+      
+
+      primaryPickZone: [ '', [Validators.required]],
+      secondaryPickZone: [ '', [Validators.required]],
+      caseQuantity: [ '', [Validators.required]],
+      pickFenceQuantity: [ '', [Validators.required]],
+      pickSequence: [ '', [Validators.required]],
+
+      dateSensitive: [ '', [Validators.required]],
+      warehouseSensitive: [ '', [Validators.required]],
+      splitCase: [ '', [Validators.required]],
+      active: [ '', [Validators.required]],
+      fifo: [ '', [Validators.required]],
+      fifoDate: [ '', [Validators.required]],
+
+      bulkCellSize: [ '', [Validators.required]],
+      cellSize: [ '', [Validators.required]],
+      cfCellSize: [ '', [Validators.required]],
+
+      bulkVelocity: [ '', [Validators.required]],
+      cfVelocity: [ '', [Validators.required]],
+
+
+
+      kitInventories: [ '', [Validators.required]],
+
+
+
+      includeInAutoRTSUpdate: [ '', [Validators.required]],
+      minimumRTSReelQuantity: [ '', [Validators.required]],
+
+    
+
+      scanCode: [ '', [Validators.required]],
+
+
+      avgPieceWeight: [ '', [Validators.required]],
+      sampleQuantity: [ '', [Validators.required]],
+      minimumUseScaleQuantity: [ '', [Validators.required]],
+      useScale: [ '', [Validators.required]],
+ 
+
+
+      unitCost: [ '' || 0, [Validators.required]],
+     // supplierItemID: [ '', [Validators.required]],
+      manufacturer: [ '', [Validators.required]],
+      specialFeatures: [ '', [Validators.required]],
+    
+
+      location:[''] //dummy
+
     });
   }
   onSubmit(form: FormGroup){
@@ -114,6 +174,8 @@ export class InventoryMasterComponent implements OnInit {
       console.log(this.getInvMasterData);
     })
   }
+
+
   public getLocationTable(stockCode: any) {
     let paylaod = {
       "stockCode": stockCode,
@@ -441,72 +503,19 @@ export class InventoryMasterComponent implements OnInit {
     });
   }
 
-  public openItemNumDialog() {
-    let dialogRef = this.dialog.open(ItemNumberComponent, {
-      height: 'auto',
-      width: 'auto',
-      data: {
-        itemNumber: this.invMaster.value.itemNumber,
-        newItemNumber : '',
-        addItem : false
-      }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
-      if (result) {
-        let paylaod = {
-          "oldItemNumber": this.invMaster.value.itemNumber,
-          "newItemNumber": result,
-          "username": this.userData.userName,
-          "wsid": this.userData.wsid
-        }
-        this.invMasterService.update(paylaod, '/Admin/UpdateItemNumber').subscribe((res: any) => {
-          // console.log(res.data);
-          if (res.isExecuted) {
-            this.invMaster.patchValue({
-              'itemNumber' : res.data.newItemNumber
-            }); 
-          }          
-        })
-      }
 
-    })
-  }
 
-  public opencategoryDialog() {
-    let dialogRef = this.dialog.open(ItemCategoryComponent, {
-      height: 'auto',
-      width: '800px',
-      data: {
-        mode: '',
-      }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
 
-      this.invMaster.patchValue({        
-        'category': result.category,        
-        'subCategory': result.subCategory,        
-      });
-      
-    })
-  }
 
-  public openUmDialog() {
-    let dialogRef = this.dialog.open(UnitMeasureComponent, {
-      height: 'auto',
-      width: '750px',
-      data: {
-        mode: '',
-      }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
-      this.invMaster.patchValue({
-        'unitOfMeasure' : result
-      });
 
-    })
+
+  deleteItem($event) {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      width: '450px'
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
   }
 
   quarantineDialog(): void {
@@ -517,13 +526,6 @@ export class InventoryMasterComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
+  
 
-  deleteItem($event) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '450px'
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-    });
-  }
 }

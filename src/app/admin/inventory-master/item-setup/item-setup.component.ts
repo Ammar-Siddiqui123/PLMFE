@@ -1,4 +1,5 @@
-import { Component, OnInit, TemplateRef, ViewChild,} from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild,} from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CellSizeComponent } from '../../dialogs/cell-size/cell-size.component';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
@@ -10,20 +11,16 @@ import { VelocityCodeComponent } from '../../dialogs/velocity-code/velocity-code
 })
 export class ItemSetupComponent implements OnInit {
 
+
+  @Input() itemSetup: FormGroup;
+  public userData: any;
+
   constructor(private dialog: MatDialog) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
 
   ngOnInit(): void {
   }
 
-  quarantineDialog(): void {
-    const dialogRef = this.dialog.open(this.quarantineTemp, {
-      width: '450px'
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-    });
-  }
 
   public openCellSizeDialog() {
     let dialogRef = this.dialog.open(CellSizeComponent, {
@@ -50,15 +47,6 @@ export class ItemSetupComponent implements OnInit {
       console.log(result);
 
     })
-  }
-
-  deleteItem($event) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '450px'
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-    });
   }
 
 }

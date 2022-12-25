@@ -1,0 +1,112 @@
+<div class="row py-4 br-14">
+<ng-scrollbar class="card bg-light-blue br-14 table-responsive">
+          
+    <table mat-table [dataSource]="location.controls['location'].value" matSort>
+      <ng-container matColumnDef="location">
+        <th mat-header-cell *matHeaderCellDef> Location </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+    
+      <!-- Name Column -->
+      <ng-container matColumnDef="warehouse">
+        <th mat-header-cell *matHeaderCellDef> Warehouse </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+    
+      <!-- Weight Column -->
+      <ng-container matColumnDef="zone">
+        <th mat-header-cell *matHeaderCellDef> Zone </th>
+        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+      </ng-container>
+    
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="carousal">
+        <th mat-header-cell *matHeaderCellDef> Carousal </th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="row">
+        <th mat-header-cell *matHeaderCellDef> Row</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="shelf">
+        <th mat-header-cell *matHeaderCellDef>Shelf</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="bin">
+        <th mat-header-cell *matHeaderCellDef>Bin</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="lotNo">
+        <th mat-header-cell *matHeaderCellDef>Lot No.</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expiration">
+        <th mat-header-cell *matHeaderCellDef>Expiration</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="serialNo">
+        <th mat-header-cell *matHeaderCellDef>Serial No.</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cellSize">
+        <th mat-header-cell *matHeaderCellDef>Cell Size</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="shipVia">
+        <th mat-header-cell *matHeaderCellDef>Ship Via</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="shipToName">
+        <th mat-header-cell *matHeaderCellDef>Ship To Name</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="qtyAllPick">
+        <th mat-header-cell *matHeaderCellDef>Qty All. Pick</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="qtyAllPut">
+        <th mat-header-cell *matHeaderCellDef>Qty All. Put</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="unitOfMeasure">
+        <th mat-header-cell *matHeaderCellDef>Unit Of Measure</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="itemQty">
+        <th mat-header-cell *matHeaderCellDef>Item Qty</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="stockDate">
+        <th mat-header-cell *matHeaderCellDef>Stock Date</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="velocity">
+        <th mat-header-cell *matHeaderCellDef>Velocity</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" style=" background-color: #F9F9FF;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</ng-scrollbar>
+
+<div class="d-flex justify-content-between bg-white">
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>          
+</div>
+</div>

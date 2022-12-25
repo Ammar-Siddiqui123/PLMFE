@@ -52,6 +52,13 @@ import { CreateCountsComponent } from './cycle-counts/create-transaction/create-
 import { CreateTransactionComponent } from './cycle-counts/create-transaction/create-transaction.component';
 import { CountQueueComponent } from './cycle-counts/create-transaction/count-queue/count-queue.component';
 import { ImportFieldMappingComponent } from './cycle-counts/import-field-mapping/import-field-mapping.component';
+import { DetailComponent } from './inventory-master/detail/detail.component';
+import { KitItemComponent } from './inventory-master/kit-item/kit-item.component';
+import { LocationComponent } from './inventory-master/location/location.component';
+import { ReelTrackingComponent } from './inventory-master/reel-tracking/reel-tracking.component';
+import { ScanCodesComponent } from './inventory-master/scan-codes/scan-codes.component';
+import { WeightScaleComponent } from './inventory-master/weight-scale/weight-scale.component';
+import { OthersComponent } from './inventory-master/others/others.component';
 
 
 
@@ -100,6 +107,13 @@ import { ImportFieldMappingComponent } from './cycle-counts/import-field-mapping
     CreateTransactionComponent,
     CountQueueComponent,
     ImportFieldMappingComponent,
+    DetailComponent,
+    KitItemComponent,
+    LocationComponent,
+    ReelTrackingComponent,
+    ScanCodesComponent,
+    WeightScaleComponent,
+    OthersComponent,
 
   ],
   imports: [

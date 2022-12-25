@@ -1,0 +1,32 @@
+.table-responsive {
+    display: block;
+    width: 100%;
+    height: 400px;
+    overflow-x: auto;
+    overflow-y: auto;
+    .mat-table {
+        width: 100%;
+        max-width: 100%;
+        height: 400px;
+        margin-bottom: 1rem;
+        display: table;
+        border-collapse: collapse;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+    .mat-row,
+    .mat-header-row {
+        display: table-row;
+    }
+    .mat-cell,
+    .mat-header-cell {
+        word-wrap: initial;
+        display: table-cell;
+        padding: 0px 5px;
+        line-break: unset;
+        width: auto;
+        white-space: nowrap;
+        overflow: hidden;
+        vertical-align: middle;
+    }
+  }
