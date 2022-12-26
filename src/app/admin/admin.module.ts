@@ -56,6 +56,10 @@ import { CountQueueComponent } from './cycle-counts/create-transaction/count-que
 import { ImportFieldMappingComponent } from './cycle-counts/import-field-mapping/import-field-mapping.component';
 import { ReelTrackingComponent } from './inventory-master/reel-tracking/reel-tracking.component';
 import { ScanCodesComponent } from './inventory-master/scan-codes/scan-codes.component';
+import { LocationAssignmentComponent } from './location-assignment/location-assignment.component';
+import { CountComponent } from './location-assignment/count/count.component';
+import { PickComponent } from './location-assignment/pick/pick.component';
+import { PutAwayComponent } from './location-assignment/put-away/put-away.component';
 
 
 
@@ -108,6 +112,10 @@ import { ScanCodesComponent } from './inventory-master/scan-codes/scan-codes.com
     ImportFieldMappingComponent,
     ReelTrackingComponent,
     ScanCodesComponent,
+    LocationAssignmentComponent,
+    CountComponent,
+    PickComponent,
+    PutAwayComponent,
 
   ],
   imports: [
