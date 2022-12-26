@@ -57,6 +57,7 @@ import { ImportFieldMappingComponent } from './cycle-counts/import-field-mapping
 import { ReelTrackingComponent } from './inventory-master/reel-tracking/reel-tracking.component';
 import { ScanCodesComponent } from './inventory-master/scan-codes/scan-codes.component';
 import { WeighScaleComponent } from './inventory-master/weigh-scale/weigh-scale.component';
+import { InventoryMasterOtherComponent } from './inventory-master/inventory-master-other/inventory-master-other.component';
 
 
 
@@ -110,6 +111,7 @@ import { WeighScaleComponent } from './inventory-master/weigh-scale/weigh-scale.
     ReelTrackingComponent,
     ScanCodesComponent,
     WeighScaleComponent,
+    InventoryMasterOtherComponent,
 
   ],
   imports: [
