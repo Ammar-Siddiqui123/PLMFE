@@ -60,6 +60,8 @@ import { LocationAssignmentComponent } from './location-assignment/location-assi
 import { CountComponent } from './location-assignment/count/count.component';
 import { PickComponent } from './location-assignment/pick/pick.component';
 import { PutAwayComponent } from './location-assignment/put-away/put-away.component';
+import { WeighScaleComponent } from './inventory-master/weigh-scale/weigh-scale.component';
+import { InventoryMasterOtherComponent } from './inventory-master/inventory-master-other/inventory-master-other.component';
 
 
 
@@ -116,6 +118,8 @@ import { PutAwayComponent } from './location-assignment/put-away/put-away.compon
     CountComponent,
     PickComponent,
     PutAwayComponent,
+    WeighScaleComponent,
+    InventoryMasterOtherComponent,
 
   ],
   imports: [

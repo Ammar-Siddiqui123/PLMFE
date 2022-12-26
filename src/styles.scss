@@ -378,8 +378,8 @@ mat-toolbar {
 
 .mat-drawer-side {
   border: none;
-  // padding-right: 15px;
-  // padding-left: 15px;
+  padding-right: 12px;
+  padding-left: 12px;
 }
 .mat-nav-list .mat-list-item {
   border-radius: 12px;
@@ -953,4 +953,10 @@ button{
 
 .main-container{
   flex: auto;
+}
+
+.mat-nav-list .mat-list-item.active{
+  background: #D6D6FD;
+    color: #000080 !important;
+ 
 }
