@@ -40,9 +40,12 @@
                       Password is required
                     </mat-hint>
                   </div>
-                  <div class="form-outline col-10">
-                    <a class="small text-muted" href="#" style="float: right;">Forgot password?</a>
-                  </div>
+                  <ng-container *ngIf="(env === 'DB' || env === 'ADLDS')">
+                    <div class="form-outline col-10">
+                      <button type="button" class="small text-muted" style="float: right;" (click)="changePass()">Forgot password?</button>
+                    </div>
+                  </ng-container>
+                  
                   
                   <div class="form-outline col-9 pt-5" style="margin: 0 auto;">
                     <mat-checkbox color="primary">Remember me</mat-checkbox>

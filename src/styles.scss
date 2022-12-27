@@ -68,8 +68,8 @@ h1, h2, h3, h4, h5, h6, p, strong, span, b, u, a, div
   line-height: 1.5;
 }
 
-// html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html { min-height: 100%; position: relative;}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; height: 100%; }
 
 :host {
   display: flex;
@@ -96,7 +96,7 @@ background-color: #7B42AC;
   background: #F3F4F4;
 }
 .mat-drawer-inner-container{
-  overflow: hidden !important;
+  // overflow: hidden !important;
 }
 .mat-drawer {
   background: #F3F4F4;
@@ -120,13 +120,13 @@ background-color: #7B42AC;
   border-color: white;
 }
 
-.mat-list-base{
-padding-top: 40px !important;
-}
+// .mat-list-base{
+// // padding-top: 40px !important;
+// }
 .mat-list-item {
   color: #09094899 !important;
   font-size: 0.8rem;
-  height: 44px !important;
+  height: 40px !important;
   margin-bottom: 4px;
   &:hover {
     color: #000080 !important;
@@ -378,8 +378,8 @@ mat-toolbar {
 
 .mat-drawer-side {
   border: none;
-  // padding-right: 15px;
-  // padding-left: 15px;
+  padding-right: 12px;
+  padding-left: 12px;
 }
 .mat-nav-list .mat-list-item {
   border-radius: 12px;
@@ -477,7 +477,7 @@ mat-toolbar {
   background: #F2F2FF;
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 30%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -498,6 +498,9 @@ mat-toolbar {
 
 .g-tab .mat-card {
   border-radius: 14px;
+}
+.mat-card {
+  border-radius: 14px !important;
 }
 
 .g-details-wrap {
@@ -638,10 +641,16 @@ table.g-card-table th.mat-header-cell {
   padding-bottom: 1em;
   background: #F9F9FF;
       border-bottom-color: #D7D7F9;
+      
 }
 
 .card {
   border: 1px solid #D7D7F9;
+  border-radius: 14px;
+  .card-header{
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+  }
 }
 
 .mat-drawer-content{
@@ -788,8 +797,12 @@ button.button-primary{
   border: 1px solid $primary-900!important;
 }
 button.add-icon-button {
-  min-height: 48px;
-  min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px !important;
+  max-width: 48px !important;
+  min-width: 48px !important;
   border-radius: 14px !important;
 }
 button.sm-icon-button {
@@ -808,9 +821,22 @@ button.custom-btn{
   padding: 6px 15px;
   border-radius: 14px;
 }
+button.default-btn{
+  border-radius: 14px;
+}
+.btn-primary{
+  padding: 10px 16px !important;
+}
 //-------------- BUTTON-CLASSES ----END-------------------
 
 //-------------- FORM INPUT-CLASSES ----START-------------------
+
+.mat-select-value{
+  padding-left: 8px;
+}
+.custom-input-number{
+  padding-left: 8px !important;
+}
 
 //-------------- FORM INPUT-CLASSES ----END-------------------
 
@@ -819,6 +845,10 @@ button.custom-btn{
   width: 100%!important;
 }
 
+.custom-checkbox .mat-checkbox-background, .mat-checkbox-frame{
+  border-radius: 4px !important;
+
+}
 
 .checkbox-background{
   background: rgba(255, 196, 88, 0.2);
@@ -875,4 +905,58 @@ button.custom-btn{
 
 .mat-dialog-container{
   border-radius: 14px !important;
+}
+
+
+
+//-------------- Table-CLASSES ----START-------------------
+.custom-table{
+  border-radius: 14px;
+  th.mat-header-cell{
+  background: #F9F9FF;
+  font-size:16px;
+  font-weight: 800;
+  color: $tertiary-900;
+  &:first-child{
+    border-top-left-radius: 14px;
+  }
+  &:last-child{
+    border-top-right-radius: 14px;
+  }
+  }
+}
+
+
+//-------------- Table-CLASSES ----END-------------------
+
+//-------------- PAGINATOR-CLASSES ----START-------------------
+
+.mat-paginator-range-actions{
+button{
+  color:var(--clr-primary-900);
+  background: var(--clr-chrome-50);
+  margin: 2px;
+}
+}
+
+//-------------- PAGINATOR-CLASSES ----START-------------------
+.f-container{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left:0;
+  right:0;
+  height: 100vh;
+}
+
+.main-container{
+  flex: auto;
+}
+
+.mat-nav-list .mat-list-item.active{
+  background: #D6D6FD;
+    color: #000080 !important;
+ 
 }

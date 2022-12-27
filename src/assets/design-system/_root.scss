@@ -1,0 +1,10 @@
+@use 'colors'as c;
+
+:root{
+    /*Color shades*/
+        @each $color, $shades in $colors {
+            @each $shade, $value in $shades {
+                --clr-#{$color}-#{$shade}: #{$value};
+            }
+        }
+}

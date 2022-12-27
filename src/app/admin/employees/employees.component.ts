@@ -221,7 +221,7 @@ export class EmployeesComponent implements OnInit {
         height: 'auto',
         width: '480px',
         data: {
-          mode: 'edit',
+          mode: 'delete-emp',
           emp_data: emp_data
         }
       })
