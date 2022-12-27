@@ -102,11 +102,11 @@
             <h6 class="text-tertiary-900"><b>Quantity</b></h6>
             <div class="d-flex gap-20 justify-content-center">
               <div class="employees text-center">
-                <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['totalQuantity'].value ?? 0}}</p>
+                <p class="counter-count mb-1 bg-primary-900">{{details.controls['totalQuantity'].value  }}</p>
                 <p class="employee-p text-tertiary-900 mb-1">Total</p>
               </div>
               <div class="customer text-center">
-                <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['wipCount'].value ?? 0}}</p>
+                <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['wipCount'].value }}</p>
                 <p class="customer-p text-tertiary-900 mb-1">WIP</p>
               </div>
             </div>
@@ -119,11 +119,11 @@
             <h6 class="text-tertiary-900"><b>Allocated</b></h6>
             <div class="d-flex gap-20 justify-content-center">
               <div class="employees text-center">
-                <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['totalPicks'].value ?? 0}}</p>
+                <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['totalPicks'].value }}</p>
                 <p class="employee-p text-tertiary-900 mb-1">Picks</p>
               </div>
               <div class="customer text-center">
-                <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['totalPuts'].value ?? 0}}</p>
+                <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['totalPuts'].value }}</p>
                 <p class="customer-p text-tertiary-900 mb-1">PutAway</p>
               </div>
             </div>
@@ -136,21 +136,21 @@
             <h6 class="text-tertiary-900"><b>Transaction</b></h6>
             <div class="d-flex gap-20 justify-content-center">
               <div class="employees text-center">
-                <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['openCount'].value ?? 0}}</p>
+                <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['openCount'].value }}</p>
                 <p class="employee-p text-tertiary-900 mb-1">Open</p>
                 <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
                   View
                 </button>
               </div>
               <div class="customer text-center">
-                <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['histCount'].value ?? 0}}</p>
+                <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['histCount'].value }}</p>
                 <p class="customer-p text-tertiary-900 mb-1">History</p>
                 <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
                   View
                 </button>
               </div>
               <div class="customer text-center">
-                <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['procCount'].value ?? 0}}</p>
+                <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['procCount'].value }}</p>
                 <p class="customer-p text-tertiary-900 mb-1">Reprocess</p>
                 <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
                   View

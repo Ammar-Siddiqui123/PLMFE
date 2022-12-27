@@ -6,7 +6,7 @@
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Primary Zone</mat-label>
             <mat-select formControlName="primaryPickZone">
-              <mat-option value="option1">Carousel</mat-option>
+              <mat-option value="CAROUSEL">Carousel</mat-option>
               <mat-option value="option2">Option 2</mat-option>
               <mat-option value="option3">Option 3</mat-option>
             </mat-select>
@@ -16,7 +16,7 @@
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Secondary Zone</mat-label>
             <mat-select formControlName="secondaryPickZone">
-              <mat-option value="option1">Bulk</mat-option>
+              <mat-option value="CAROUSEL">Carousel</mat-option>
               <mat-option value="option2">Option 2</mat-option>
               <mat-option value="option3">Option 3</mat-option>
             </mat-select>
@@ -142,7 +142,7 @@
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Carousel</mat-label>
-            <input matInput type="text" value="0">
+            <input matInput type="text" formControlName="minimumQuantity">
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
@@ -151,7 +151,7 @@
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Bulk</mat-label>
-            <input matInput type="text" value="00">
+            <input matInput type="text" formControlName="bulkMinimumQuantity">
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
@@ -160,7 +160,7 @@
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Carton Flow</mat-label>
-            <input matInput type="text" value="0">
+            <input matInput type="text" formControlName="cfMinimumQuantity">
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
@@ -175,7 +175,7 @@
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" >
             <mat-label>Carousel</mat-label>
-            <input matInput type="text" value="0">
+            <input matInput type="text" formControlName="maximumQuantity">
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
@@ -184,7 +184,7 @@
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Bulk</mat-label>
-            <input matInput type="text" value="00">
+            <input matInput type="text" formControlName="bulkMaximumQuantity">
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
@@ -193,7 +193,7 @@
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Carton Flow</mat-label>
-            <input matInput type="text" value="0">
+            <input matInput type="text" formControlName="cfMaximumQuantity">
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
