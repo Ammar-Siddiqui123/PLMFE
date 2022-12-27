@@ -470,6 +470,17 @@ mat-toolbar {
 
 
 .dashboard-section{
+
+  padding:20px 30px 20px 90px;
+}
+
+.mat-drawer{
+  visibility:visible !important;
+  display: block !important;
+  transform: translate3d(0, 0, 0) !important;
+}
+
+.side-bar-opened.dashboard-section {
   padding: 20px 30px;
 }
 
@@ -641,7 +652,7 @@ table.g-card-table th.mat-header-cell {
   padding-bottom: 1em;
   background: #F9F9FF;
       border-bottom-color: #D7D7F9;
-      
+
 }
 
 .card {
@@ -958,5 +969,5 @@ button{
 .mat-nav-list .mat-list-item.active{
   background: #D6D6FD;
     color: #000080 !important;
- 
+
 }
