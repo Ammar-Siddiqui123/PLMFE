@@ -41,8 +41,7 @@
                             
                                 <div class="col-3">
                                     <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                        <mat-label>Item Number</mat-label>
-                                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #catName name="{{category.category}}" value="{{category.category}}">
+                                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #catName name="{{category.itemNumber}}" value="{{category.itemNumber}}">
                                     </mat-form-field>
                                 </div>
                                 
@@ -51,16 +50,8 @@
                                         
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
                                             <mat-label>Description</mat-label>
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.subCategory}}" value="{{category.subCategory}}" #subCatName>
+                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.description}}" value="{{category.description}}" #subCatName>
                                         </mat-form-field>
-                                        
-                                        <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(catName.value, subCatName.value);">
-                                            <span class="material-symbols-outlined">close</span>
-                                        </button>
-
-                                        <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveCategory(catName.value, category.category, subCatName.value, category.subCategory)">
-                                            <span class="material-symbols-outlined">save</span>
-                                        </button>
 
                                     </div>
                                 </div>
@@ -68,17 +59,8 @@
                                     <div class="d-flex gap-12 align-items-center">
                                         
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                            <mat-label>Special Features</mat-label>
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.subCategory}}" value="{{category.subCategory}}" #subCatName>
+                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.specialFeatures}}" value="{{category.specialFeatures}}" #subCatName>
                                         </mat-form-field>
-                                        
-                                        <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(catName.value, subCatName.value);">
-                                            <span class="material-symbols-outlined">close</span>
-                                        </button>
-
-                                        <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveCategory(catName.value, category.category, subCatName.value, category.subCategory)">
-                                            <span class="material-symbols-outlined">save</span>
-                                        </button>
 
                                     </div>
                                 </div>
@@ -88,7 +70,7 @@
                                         
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
                                             <mat-label>Kit Quantity</mat-label>
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.subCategory}}" value="{{category.subCategory}}" #subCatName>
+                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.kitQuantity}}" value="{{category.kitQuantity}}">
                                         </mat-form-field>
                                         
                                         <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(catName.value, subCatName.value);">
