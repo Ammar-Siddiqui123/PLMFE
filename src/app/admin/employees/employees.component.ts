@@ -60,6 +60,7 @@ export class EmployeesComponent implements OnInit {
   location_data_source: any;
   employee_group_allowed: any;
   emp_all_zones:any;
+  groupAllowedList:any;
 
 
   // table initialization
@@ -101,6 +102,13 @@ export class EmployeesComponent implements OnInit {
         this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones);
         this.emp_all_zones = response.data?.allZones;
       });
+
+      this.employeeService.getEmployeeData(emp_data).subscribe((res:any) => {
+        console.log(res.data);
+        
+
+        this.groupAllowedList = res.data.allGroups;
+      })  
 
    
   }
@@ -281,15 +289,6 @@ export class EmployeesComponent implements OnInit {
         matSelect.writeValue(null);
       })
     }
-    // if (event === 'back') {
-    //   this.isGroupLookUp = false;
-    //   this.assignedFunctions = [];
-    //   this.unassignedFunctions = [];
-    //   this.max_orders = '';
-    //   const matSelect: MatSelect = matEvent.source;
-    //   matSelect.writeValue(null);
-
-    // }
 
 
   }
