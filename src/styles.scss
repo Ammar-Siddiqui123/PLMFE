@@ -1,5 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 
+$blue:    #1A1AD3;
+$indigo:  #6610f2;
+$purple:  #6f42c1;
+$pink:    #d63384;
+$red:     #DE2654;
+$orange:  #fd7e14;
+$yellow:  #ffc107;
+$green:   #198754;
+$teal:    #20c997;
+$cyan:    #0dcaf0;
+
+$primary:       $blue;
+$secondary:     $gray-600;
+$success:       $green;
+$info:          $cyan;
+$warning:       $yellow;
+$danger:        $red;
+$light:         $gray-100;
+$dark:          $gray-900;
+
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $light,
+  "dark":       $dark
+);
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
@@ -423,7 +455,12 @@ mat-toolbar {
 
 .mat-tab-label:hover {
   background: rgba(0,0,0,.04);
-  border-radius: 12px;
+  border-radius: 100px;
+}
+
+.card-header-subtitle {
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .mat-card-title, .card-header-title {
@@ -511,6 +548,10 @@ mat-toolbar {
   height: auto;
 }
 
+.box-bottom-hr{
+  border-bottom: 1px solid #D7D7F9;
+}
+
 .g-tab{
   background-color: #F2F2FF;
   padding: 1px;
@@ -529,6 +570,13 @@ mat-toolbar {
 .g-details-wrap {
   margin-top: 2.2em;
   margin-bottom: 2.2em;
+}
+
+.g-details-wrap.box-border {
+  margin-top: 1.1em;
+  padding: 1.1em;
+  border: 1px solid #D7D7F9;
+  border-radius: 14px;
 }
 
 .g-detail .g-field-label {
@@ -612,14 +660,14 @@ mat-toolbar {
 button.button-remove-all {
   color: #DE2654 !important;
   padding: 6px 15px;
-  border-radius: 14px;
+  border-radius: 100px;
   border: 1px solid #D7D7F9 !important;
 }
 
 button.button-add-all {
   color: #000080 !important;
   padding: 6px 15px;
-  border-radius: 14px;
+  border-radius: 100px;
   border: 1px solid #D7D7F9 !important;
 }
 
@@ -875,12 +923,35 @@ button.default-btn{
   padding: 10px 16px !important;
 }
 
-button.mat-button-base {
-  border-radius: 100px;
+.mat-button-base {
+  border-radius: 100px !important;
   font-size: 14px;
   letter-spacing: 1px;
   font-weight: 600;
 }
+.mat-modal-wrap .mat-button-base {
+  min-width: 200px;
+  height: 48px;
+  font-size: 16px;
+}
+
+.prompt-action-accent-button {
+  background: rgba(26, 26, 211, 0.1);
+  border-color: rgba(195, 195, 195, 0.1) !important;
+  color: #1A1AD3;
+}
+
+.prompt-action-basic-button {
+  border: 1px solid rgba(98, 98, 115, 0.23) !important;
+  color: #626273;
+}
+
+.prompt-action-danger-button {
+  background: rgba(222, 38, 84, 0.1);
+  border-color: rgba(195, 195, 195, 0.1) !important;
+  color: #DE2654;
+}
+
 //-------------- BUTTON-CLASSES ----END-------------------
 
 //-------------- FORM INPUT-CLASSES ----START-------------------
@@ -959,6 +1030,7 @@ button.mat-button-base {
 
 .mat-dialog-container{
   border-radius: 14px !important;
+  padding: 40px !important;
 }
 
 
@@ -1014,4 +1086,28 @@ button{
     color: #000080 !important;
     font-weight: 700;
 
+}
+
+.prompt-icon-add {
+  font-size: 38px;
+  width: 66px;
+  height: 66px;
+  background: rgba(26, 26, 211, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1A1AD3;
+}
+
+.prompt-icon-delete {
+  font-size: 28px;
+  width: 66px;
+  height: 66px;
+  background: rgba(222, 38, 84, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #DE2654;
 }

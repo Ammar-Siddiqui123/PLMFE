@@ -1572,7 +1572,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 }
 
 .mat-card-subtitle {
-  color: rgba(0, 0, 0, .54)
+  color: rgb(9, 9, 72);
 }
 
 .mat-checkbox-frame {
