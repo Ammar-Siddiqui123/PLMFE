@@ -479,8 +479,9 @@ input.mat-input-element {
 .mat-tab-label,
 .mat-tab-link {
   font-family: 'Mulish', sans-serif;
-  font-size: 16px;
-  font-weight: 500
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.4s ease-all;
 }
 
 .mat-toolbar,
@@ -1395,7 +1396,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 .mat-raised-button.mat-primary,
 .mat-fab.mat-primary,
 .mat-mini-fab.mat-primary {
-  background-color: #000080cc;
+  background-color: #1A1AD3;
 }
 
 .mat-flat-button.mat-accent,
@@ -2807,7 +2808,7 @@ td.mat-footer-cell {
 
 .mat-tab-label,
 .mat-tab-link {
-  color: rgba(0, 0, 0, .87)
+  color: rgb(9 9 72 / 60%);
 }
 
 .mat-tab-label.mat-tab-disabled,
@@ -3172,7 +3173,7 @@ td.mat-footer-cell {
 .mat-simple-snackbar-action {
   color: #ffd740
 }
-.table-row:focus {  
+.table-row:focus {
   border-radius: 10px;
   background: #dfdfdf;
 }
