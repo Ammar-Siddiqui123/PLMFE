@@ -231,19 +231,19 @@ export class EmployeesComponent implements OnInit {
         matSelect.writeValue(null);
       })
     }
-    if (event === 'back') {
-      this.isLookUp = false;
-      this.employee_fetched_zones = [];
-      this.location_data_source = [];
-      this.max_orders = '';
-      const matSelect: MatSelect = matEvent.source;
-      matSelect.writeValue(null);
+    // if (event === 'back') {
+    //   this.isLookUp = false;
+    //   this.employee_fetched_zones = [];
+    //   this.location_data_source = [];
+    //   this.max_orders = '';
+    //   const matSelect: MatSelect = matEvent.source;
+    //   matSelect.writeValue(null);
 
-    }
+    // }
 
 
   }
-  backAction(){
+  backEmpAction(){
     this.isLookUp = false;
       this.employee_fetched_zones = [];
       this.location_data_source = [];
@@ -281,19 +281,25 @@ export class EmployeesComponent implements OnInit {
         matSelect.writeValue(null);
       })
     }
-    if (event === 'back') {
-      this.isGroupLookUp = false;
-      this.assignedFunctions = [];
-      this.unassignedFunctions = [];
-      this.max_orders = '';
-      const matSelect: MatSelect = matEvent.source;
-      matSelect.writeValue(null);
+    // if (event === 'back') {
+    //   this.isGroupLookUp = false;
+    //   this.assignedFunctions = [];
+    //   this.unassignedFunctions = [];
+    //   this.max_orders = '';
+    //   const matSelect: MatSelect = matEvent.source;
+    //   matSelect.writeValue(null);
 
-    }
+    // }
 
 
   }
 
+  backGroupAction(){
+    this.isGroupLookUp = false;
+    this.assignedFunctions = [];
+    this.unassignedFunctions = [];
+    this.max_orders = '';
+  }
 
   addZoneDialog() {
     let dialogRef;
