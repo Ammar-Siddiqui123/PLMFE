@@ -243,7 +243,12 @@ export class EmployeesComponent implements OnInit {
 
 
   }
-
+  backAction(){
+    this.isLookUp = false;
+      this.employee_fetched_zones = [];
+      this.location_data_source = [];
+      this.max_orders = '';
+  }
   actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
     console.log(event.value)
     if (event === 'edit') {
