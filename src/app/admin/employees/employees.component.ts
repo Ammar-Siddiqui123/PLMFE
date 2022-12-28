@@ -231,19 +231,24 @@ export class EmployeesComponent implements OnInit {
         matSelect.writeValue(null);
       })
     }
-    if (event === 'back') {
-      this.isLookUp = false;
-      this.employee_fetched_zones = [];
-      this.location_data_source = [];
-      this.max_orders = '';
-      const matSelect: MatSelect = matEvent.source;
-      matSelect.writeValue(null);
+    // if (event === 'back') {
+    //   this.isLookUp = false;
+    //   this.employee_fetched_zones = [];
+    //   this.location_data_source = [];
+    //   this.max_orders = '';
+    //   const matSelect: MatSelect = matEvent.source;
+    //   matSelect.writeValue(null);
 
-    }
+    // }
 
 
   }
-
+  backEmpAction(){
+    this.isLookUp = false;
+      this.employee_fetched_zones = [];
+      this.location_data_source = [];
+      this.max_orders = '';
+  }
   actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
     console.log(event.value)
     if (event === 'edit') {
@@ -276,19 +281,25 @@ export class EmployeesComponent implements OnInit {
         matSelect.writeValue(null);
       })
     }
-    if (event === 'back') {
-      this.isGroupLookUp = false;
-      this.assignedFunctions = [];
-      this.unassignedFunctions = [];
-      this.max_orders = '';
-      const matSelect: MatSelect = matEvent.source;
-      matSelect.writeValue(null);
+    // if (event === 'back') {
+    //   this.isGroupLookUp = false;
+    //   this.assignedFunctions = [];
+    //   this.unassignedFunctions = [];
+    //   this.max_orders = '';
+    //   const matSelect: MatSelect = matEvent.source;
+    //   matSelect.writeValue(null);
 
-    }
+    // }
 
 
   }
 
+  backGroupAction(){
+    this.isGroupLookUp = false;
+    this.assignedFunctions = [];
+    this.unassignedFunctions = [];
+    this.max_orders = '';
+  }
 
   addZoneDialog() {
     let dialogRef;
@@ -351,7 +362,7 @@ export class EmployeesComponent implements OnInit {
       height: 'auto',
       width: '480px',
       data: {
-        mode: 'delete-allowedgroup',
+        mode: 'delete-group',
         allowedGroup: allowedGroup
       }
     })

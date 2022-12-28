@@ -12,13 +12,13 @@
         <mat-icon color="warn">delete_outline</mat-icon>
     </div>
     <div>
-        <p class="bold text-tritary-900 mb-4">Are you sure you want to delete item: 3201?</p>
+        <p class="bold text-tritary-900 mb-4">Are you sure you want to delete ?</p>
         <p class="bold text-danger mb-4">This action can not be redone.</p>
         <div class="br-14 px-4 py-3 checkbox-background mb-4">
-            <mat-checkbox class="example-margin" color="primary">I understand data cannot be recovered</mat-checkbox>
+            <mat-checkbox (change)="checkOptions($event)" class="example-margin" color="primary">I understand data cannot be recovered</mat-checkbox>
         </div>
         <div class="mb-3">
-            <button mat-flat-button color="warn" class="custom-btn button-delete-flat bg-white"
+            <button mat-flat-button color="warn" class="custom-btn button-delete-flat bg-white" [disabled]="isChecked" [ngStyle]="{'opacity': isChecked ? '0.5' : '1' }"
                 (click)="onConfirmdelete()">
                 Delete
             </button>

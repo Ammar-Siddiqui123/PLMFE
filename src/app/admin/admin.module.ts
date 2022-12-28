@@ -62,6 +62,11 @@ import { PickComponent } from './location-assignment/pick/pick.component';
 import { PutAwayComponent } from './location-assignment/put-away/put-away.component';
 import { WeighScaleComponent } from './inventory-master/weigh-scale/weigh-scale.component';
 import { InventoryMasterOtherComponent } from './inventory-master/inventory-master-other/inventory-master-other.component';
+import { DetailComponent } from './inventory-master/detail/detail.component';
+import { KitItemComponent } from './inventory-master/kit-item/kit-item.component';
+import { LocationComponent } from './inventory-master/location/location.component';
+import { WeightScaleComponent } from './inventory-master/weight-scale/weight-scale.component';
+import { OthersComponent } from './inventory-master/others/others.component';
 
 
 
@@ -120,6 +125,13 @@ import { InventoryMasterOtherComponent } from './inventory-master/inventory-mast
     PutAwayComponent,
     WeighScaleComponent,
     InventoryMasterOtherComponent,
+    DetailComponent,
+    KitItemComponent,
+    LocationComponent,
+    ReelTrackingComponent,
+    ScanCodesComponent,
+    WeightScaleComponent,
+    OthersComponent,
 
   ],
   imports: [

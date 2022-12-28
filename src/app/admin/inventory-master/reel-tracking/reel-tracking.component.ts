@@ -1,4 +1,5 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -10,6 +11,8 @@ export class ReelTrackingComponent implements OnInit {
 
   constructor(private dialog: MatDialog) { }
   @ViewChild('addItemAction') addItemTemp: TemplateRef<any>;
+  @Input() reelTracking: FormGroup;
+  public userData: any;
 
   ngOnInit(): void {
   }

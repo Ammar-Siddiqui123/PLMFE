@@ -10,6 +10,11 @@
               <mat-card-content>
                 <div class="d-flex justify-content-between align-items-center">
                   <h2 class="card-header-title mb-0 d-flex align-items-center">
+                    <div class="mat-icon-wrap me-lg-3" *ngIf="isLookUp">
+                      <span class="material-symbols-outlined" style="cursor:pointer;" (click)="backEmpAction()">
+                        arrow_back
+                      </span>
+                    </div>
                     <div class="mat-icon-wrap me-lg-3">
                       <span class="material-symbols-outlined">
                         assignment_ind
@@ -23,11 +28,11 @@
                       (selectionChange)="actionDialog($event.value, empData, $event)">
                       <mat-option value="edit">Edit</mat-option>
                       <mat-option value="delete">Delete</mat-option>
-                      <mat-option value="back">Back</mat-option>
+                      <!-- <mat-option value="back">Back</mat-option> -->
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="emp-details-table details-wrap g-details-wrap" *ngIf="!isLookUp">
+                <div class="emp-details-table details-wrap g-details-wrap {{!isLookUp ? 'box-border' : ''}}" *ngIf="!isLookUp">
 
                   <!-- employee lookup here -->
                   <app-employees-lookup [childLookUp]="isLookUp" (updateIsLookUp)="updateIsLookUp($event)">
@@ -41,7 +46,7 @@
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">ID</label>
-                    <div class="g-field-content">123-321-000</div>
+                    <div class="g-field-content">123-321-000 - dummy</div>
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">MI</label>
@@ -76,14 +81,14 @@
           <div class="col-5">
             <mat-card class="mat-elevation-z g-card">
               <mat-card-content>
-                <mat-tab-group dynamicHeight>
+                <mat-tab-group dynamicHeight class="mini-tab-labels">
                   <mat-tab label="BulkPro Settings">
                     <div class="bulkpro-settings-tab g-tab bg-white">
 
                       <!-- Zones Card -->
                       <div class="g-action-card g-action-card-disabled mb-3">
-                        <div class="card w-100 text-center">
-                          <div class="card-header">
+                        <div class="card w-100">
+                          <div class="card-header text-center">
                             Zones
                           </div>
 
@@ -105,9 +110,10 @@
                                     </span>
                                   </button>
                                 </div>
-                                <ng-scrollbar style="height: 200px">
+                                <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
                                   <table mat-table [dataSource]="employee_fetched_zones" matSort
-                                    (matSortChange)="announceSortChange($event)" class="w-100 g-card-table">
+                                    (matSortChange)="announceSortChange($event)"
+                                    class="action-clickable-table g-card-table">
 
                                     <tr class="mat-row" *matNoDataRow>
                                       <td class="mat-cell" [attr.colspan]="displayedColumns.length">
@@ -116,11 +122,11 @@
                                     </tr>
                                     <!-- Start Location Column -->
                                     <ng-container matColumnDef="zones">
-                                      <th mat-header-cell *matHeaderCellDef></th>
+                                      <th mat-header-cell *matHeaderCellDef>Zone</th>
                                       <td mat-cell *matCellDef="let element"> {{element}} </td>
                                     </ng-container>
                                     <ng-container matColumnDef="actions">
-                                      <th mat-header-cell *matHeaderCellDef></th>
+                                      <th mat-header-cell *matHeaderCellDef>Action</th>
                                       <td mat-cell *matCellDef="let element">
                                         <button mat-icon-button aria-label="Delete" (click)="deleteZone(element)">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
@@ -146,7 +152,7 @@
                       <!-- Location Card -->
                       <div class="g-action-card g-action-card-disabled mb-3">
                         <div class="card w-100 overflow-hidden">
-                          <div class="card-header">
+                          <div class="card-header text-center">
                             Location
                           </div>
 
@@ -168,10 +174,10 @@
                                     </span>
                                   </button>
                                 </div>
-                                <ng-scrollbar style="height: 200px">
+                                <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
                                   <table mat-table [dataSource]="location_data_source" matSort
                                     (matSortChange)="announceSortChange($event)"
-                                    class="w-100 g-card-table employee-location-table">
+                                    class="action-clickable-table g-card-table employee-location-table">
                                     <tr class="mat-row" *matNoDataRow>
                                       <td class="mat-cell" [attr.colspan]="displayedColumns.length">
                                         No data matching the filter.
@@ -192,7 +198,7 @@
 
                                     <!-- Delete Location Column -->
                                     <ng-container matColumnDef="delete_location">
-                                      <th mat-header-cell *matHeaderCellDef></th>
+                                      <th mat-header-cell *matHeaderCellDef>Action</th>
                                       <td mat-cell *matCellDef="let element">
                                         <button mat-icon-button aria-label="Delete Location"
                                           (click)="deleteLocation(element)">
@@ -217,19 +223,16 @@
 
                       <!-- Orders Card -->
                       <div class="g-action-card g-action-card-disabled mb-3">
-                        <div class="card w-100 text-center">
-                          <div class="card-header">
+                        <div class="card w-100">
+                          <div class="card-header text-center">
                             Orders
                           </div>
 
                           <div class="card-body">
                             <div class="p-2">
-                              <div class="search-box zone-search-box">
-                                <div class="d-flex g-mini-search-box">
-                                  <mat-form-field class="w-100" appearance="fill">
-                                    <input type="text" placeholder="Maximun Handheld Orders"
-                                      aria-label="Maximun Handheld Orders" matInput value="{{max_orders}}">
-                                  </mat-form-field>
+                              <div class="g-details-wrap my-3" *ngIf="isLookUp">
+                                <div class="g-detail">
+                                  <div class="g-field-content">{{max_orders}}</div>
                                 </div>
                               </div>
                             </div>
@@ -243,7 +246,7 @@
                     <app-employee-pickup-level [pickUplevels]="pickUplevels"></app-employee-pickup-level>
                   </mat-tab>
 
-                  <mat-tab label="Groups Allowed" [disabled]="!isLookUp">
+                  <mat-tab label="Function Allowed" [disabled]="!isLookUp">
                     <div class="groups-allowed-tab g-tab bg-white">
 
                       <div class="g-action-card g-action-card-disabled mb-3">
@@ -257,7 +260,7 @@
                                     <span class="material-symbols-outlined icon-search">
                                       search
                                     </span>
-                                    <input type="text" placeholder="Search Groups Allowed"
+                                    <input type="text" placeholder="Search Function allowed"
                                       aria-label="Search Groups Allowed" matInput>
                                   </mat-form-field>
                                   <button mat-raised-button color="primary" class=" mat-button-icon"
@@ -265,12 +268,6 @@
                                     <span class="material-symbols-outlined">
                                       add
                                     </span>
-                                  </button>
-                                </div>
-                                <div class="d-block text-end">
-                                  <button mat-stroked-button color="warn" class="button-remove-all">
-                                    <mat-icon>close</mat-icon>
-                                    Remove All
                                   </button>
                                 </div>
                                 <mat-list class="zones-list g-card-list" role="list">
@@ -288,6 +285,55 @@
                                   </ng-scrollbar>
 
                                 </mat-list>
+
+                               <!-- <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
+                                 <table mat-table [dataSource]="employee_group_allowed" matSort
+                                  (matSortChange)="announceSortChange($event)"
+                                  class="action-clickable-table g-card-table groups-allowed-table">
+
+                                  <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                                      No data matching the filter.
+                                    </td>
+                                  </tr>
+                                  <ng-container matColumnDef="pick_level">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Pick Level</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.pickLevel}} </td>
+                                  </ng-container> -->
+
+                                  <!-- End Location Column -->
+                                  <!-- <ng-container matColumnDef="start_shelf">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Shelf</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.startCarousel}} </td>
+                                  </ng-container>
+
+                                  <ng-container matColumnDef="end_shelf">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>End Shelf</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.endCarousel}} </td>
+                                  </ng-container>
+
+
+                                  <ng-container matColumnDef="edit">
+                                    <th mat-header-cell *matHeaderCellDef></th>
+                                    <td mat-cell *matCellDef="let element">
+                                      <button mat-icon-button aria-label="Delete" (click)="deletePickLevel(element)">
+                                        <mat-icon class="icon-circle-cancel">close</mat-icon>
+                                      </button>
+                                      <button mat-icon-button aria-label="Edit">
+                                        <mat-icon class="icon-circle-edit">border_color</mat-icon>
+                                      </button>
+                                    </td>
+
+                                  </ng-container>
+
+
+
+
+                                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+                                </ng-scrollbar> -->
+
                               </div>
                             </div>
                           </div>
@@ -319,6 +365,11 @@
               <mat-card-content>
                 <div class="d-flex justify-content-between align-items-center">
                   <h2 class="card-header-title mb-0 d-flex align-items-center">
+                    <div class="mat-icon-wrap me-lg-3" *ngIf="isGroupLookUp">
+                      <span class="material-symbols-outlined" style="cursor:pointer;" (click)="backGroupAction()">
+                        arrow_back
+                      </span>
+                    </div>
                     <div class="mat-icon-wrap me-lg-3">
                       <span class="material-symbols-outlined">
                         diversity_2
@@ -329,16 +380,17 @@
                   <mat-form-field class="action-dropdown" appearance="fill">
                     <mat-label>Actions</mat-label>
                     <mat-select class="employees-action" [disabled]="!isGroupLookUp"
-                    (selectionChange)="actionGroupDialog($event.value, grpData, $event)">
+                      (selectionChange)="actionGroupDialog($event.value, grpData, $event)">
                       <mat-option value="delete">Delete</mat-option>
-                      <mat-option value="back">Back</mat-option>
+                      <!-- <mat-option value="back">Back</mat-option> -->
                     </mat-select>
                   </mat-form-field>
                 </div>
                 <div class="groups-details details-wrap g-details-wrap" *ngIf="!isGroupLookUp">
 
                   <!-- groups lookup here -->
-                  <app-groups-lookup  [childGroupLookUp]="isGroupLookUp" (updateGrpLookUp)="updateGrpLookUp($event)"></app-groups-lookup>
+                  <app-groups-lookup [childGroupLookUp]="isGroupLookUp" (updateGrpLookUp)="updateGrpLookUp($event)">
+                  </app-groups-lookup>
 
                 </div>
                 <div class="group-details details-wrap g-details-wrap" *ngIf="isGroupLookUp">
@@ -355,23 +407,26 @@
           <div class="col-7">
             <mat-card class="mat-elevation-z g-card">
               <mat-card-content>
-                <div class="row">
+                <div class="row align-items-center">
                   <div class="col-6">
-                    <h4>Assigned Functions</h4>
+                    <h4 class="card-header-subtitle mb-0">Assigned Functions</h4>
                   </div>
                   <div class="col-6">
-                    <button mat-raised-button class="form-button-submit" color="primary" style="float: right;" (click)="saveAssignedFunc()">Save</button>
+                    <button mat-raised-button class="form-button-submit" color="primary" style="float: right;"
+                      (click)="saveAssignedFunc()">Save</button>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-6">                   
-                     <!-- <app-assigned-functions ></app-assigned-functions> -->
-                   
-                    <app-assigned-functions (removeFunction)="removePermission($event)"  [assignedFunctions]="assignedFunctions"></app-assigned-functions>
-           
+                  <div class="col-6">
+                    <app-unassigned-functions (addFunction)="addPermission($event)"
+                      [unassignedFunctions]="unassignedFunctions"></app-unassigned-functions>
                   </div>
                   <div class="col-6">
-                    <app-unassigned-functions (addFunction)="addPermission($event)" [unassignedFunctions]="unassignedFunctions"></app-unassigned-functions>
+                    <!-- <app-assigned-functions ></app-assigned-functions> -->
+
+                    <app-assigned-functions (removeFunction)="removePermission($event)"
+                      [assignedFunctions]="assignedFunctions"></app-assigned-functions>
+
                   </div>
                 </div>
               </mat-card-content>
@@ -382,7 +437,7 @@
     </div>
   </mat-tab>
 
-  <mat-tab label="Statistics">
+  <!-- <mat-tab label="Statistics">
     <div class="statistics-tab g-tab">
       <div class="container-fluid p-0">
         <div class="row">
@@ -392,5 +447,5 @@
         </div>
       </div>
     </div>
-  </mat-tab>
+  </mat-tab> -->
 </mat-tab-group>
