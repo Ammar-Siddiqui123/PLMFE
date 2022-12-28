@@ -18,8 +18,8 @@
     </button>
   </div>
 </div>
-<ng-scrollbar style="height: 400px"> 
-<table mat-table [dataSource]="group_data_source" matSort (matSortChange)="announceSortChange($event)" class="w-100 g-card-table employee-location-table">
+<ng-scrollbar class="mat-table-scrollbar" style="height: 400px">
+<table mat-table [dataSource]="group_data_source" matSort (matSortChange)="announceSortChange($event)" class="action-clickable-table g-card-table employee-location-table">
 
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
