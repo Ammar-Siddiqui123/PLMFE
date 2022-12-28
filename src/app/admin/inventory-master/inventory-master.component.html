@@ -66,200 +66,31 @@
             <div class="card bg-white bg-50 px-4 py-4 br-14 mb-3" style="min-height: 450px;">
               <mat-tab-group dynamicHeight>
                 <mat-tab label="Details">
-                  <div class="row">
-                    
-                    <div class="col-xl-9 col-lg-6">
-                      <div class="py-4 br-14">
-                        
-                        <div class="d-flex gap-20 mb-3">
-                          
-                          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openItemNumDialog()">
-                            <mat-label>Item No.</mat-label>
-                            <span matSuffix>
-                              <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
-                            </span>
-                            <input matInput readonly class="__grab_cursor readonly" type="text" formControlName="itemNumber">
-                          </mat-form-field>
-
-                          <mat-form-field class="custom-form-field w-100" appearance="outline">
-                            <mat-label>Supplier Item ID</mat-label>
-                            <input matInput type="text" formControlName="supplierItemID">
-                          </mat-form-field>
-
-                        </div>
-
-                        <div class="mb-3">
-                          <mat-form-field class="filter w-100 stats-filters" appearance="outline">
-                            <mat-label>Description</mat-label>
-                            <textarea matInput type="text" formControlName="description"></textarea>
-                          </mat-form-field>
-                        </div>
-
-                        <div class="d-flex gap-20 mb-3">
-                          <mat-form-field class="custom-form-field w-100" appearance="outline">
-                            <mat-label>Reorder Point</mat-label>
-                            <input matInput type="text" formControlName="reorderPoint">
-                          </mat-form-field>
-
-                          <mat-form-field class="custom-form-field w-100" appearance="outline">
-                            <mat-label>Replenishment Point</mat-label>
-                            <input matInput type="text" formControlName="replenishmentPoint">
-                          </mat-form-field>
-                          
-                          <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="opencategoryDialog()">
-                            <mat-label>Category</mat-label>
-                            <span matSuffix>
-                              <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
-                            </span>
-                            <input matInput type="text" formControlName="category">
-                          </mat-form-field>
-                          
-                        </div>
-
-                        <div class="d-flex gap-20 mb-3">
-                          
-                          <mat-form-field class="custom-form-field w-100" appearance="outline">
-                            <mat-label>Reorder Quantity</mat-label>
-                            <input matInput type="text" formControlName="reorderQuantity">
-                          </mat-form-field>
-                          
-                          <mat-form-field class="custom-form-field w-100" appearance="outline">
-                            <mat-label>Replenishment Level</mat-label>
-                            <input matInput type="text" formControlName="replenishmentLevel">
-                          </mat-form-field>
-                          
-                          <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="opencategoryDialog()">
-                            <mat-label>Sub Category</mat-label>
-                            <span matSuffix>
-                              <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
-                            </span>
-                            <input matInput type="text" formControlName="subCategory">
-                          </mat-form-field>
-
-                        </div>
-
-                        <div class="d-flex gap-20 mb-5">
-
-                          <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="openUmDialog()" >
-                            <mat-label>UM</mat-label>
-                            <span matSuffix>
-                              <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
-                            </span>
-                            <input matInput type="text" formControlName="unitOfMeasure">
-                          </mat-form-field>
-                          
-                          <mat-form-field class="custom-form-field w-100" appearance="outline">
-                            <mat-label>KanBan Replenishment Point </mat-label>
-                            <input matInput type="text" formControlName="kanbanReplenishmentPoint">
-                          </mat-form-field>
-                          
-                          <mat-form-field class="custom-form-field w-100" appearance="outline">
-                            <mat-label>KanBan Replenishment Level</mat-label>                            
-                            <input matInput type="text" formControlName="kanbanReplenishmentLevel">
-                          </mat-form-field>
-
-                        </div>
-
-                        <div class="d-flex gap-20 justify-content-end">
-                          
-                          <button mat-stroked-button color="warn" class="button-delete bg-white" (click)="deleteItem($event)">
-                            Delete Item
-                          </button>
-                          
-                          <button mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="quarantineDialog()">
-                            Quarantine Item
-                          </button>
-                          
-                          <button mat-flat-button color="primary" class="button-primary bg-white" >
-                            Save
-                          </button>
-                        </div>
-
-                      </div>
-                    </div>
-
-                    <div class="col-xl-3 col-lg-6 main-widget">
-                      <div class="custom bg-white bg-50 br-14 mb-3">
-                        <div class="counter">
-                          <div>
-                            <h6 class="text-tertiary-900"><b>Quantity</b></h6>
-                            <div class="d-flex gap-20 justify-content-center">
-                              <div class="employees text-center">
-                                <p class="counter-count mb-1 bg-primary-900">{{totalQuantity ?? 0}}</p>
-                                <p class="employee-p text-tertiary-900 mb-1">Total</p>
-                              </div>
-                              <div class="customer text-center">
-                                <p class="counter-count mb-1 bg-primary-900">{{wipCount ?? 0}}</p>
-                                <p class="customer-p text-tertiary-900 mb-1">WIP</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="custom bg-white bg-50 br-14">
-                        <div class="counter">
-                          <div>
-                            <h6 class="text-tertiary-900"><b>Allocated</b></h6>
-                            <div class="d-flex gap-20 justify-content-center">
-                              <div class="employees text-center">
-                                <p class="counter-count mb-1 bg-primary-900">{{totalPicks ?? 0}}</p>
-                                <p class="employee-p text-tertiary-900 mb-1">Picks</p>
-                              </div>
-                              <div class="customer text-center">
-                                <p class="counter-count mb-1 bg-primary-900">{{totalPuts ?? 0}}</p>
-                                <p class="customer-p text-tertiary-900 mb-1">PutAway</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="custom bg-white bg-50 br-14">
-                        <div class="counter">
-                          <div>
-                            <h6 class="text-tertiary-900"><b>Transaction</b></h6>
-                            <div class="d-flex gap-20 justify-content-center">
-                              <div class="employees text-center">
-                                <p class="counter-count mb-1 bg-primary-900">{{openCount ?? 0}}</p>
-                                <p class="employee-p text-tertiary-900 mb-1">Open</p>
-                                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
-                                  View
-                                </button>
-                              </div>
-                              <div class="customer text-center">
-                                <p class="counter-count mb-1 bg-primary-900">{{histCount ?? 0}}</p>
-                                <p class="customer-p text-tertiary-900 mb-1">History</p>
-                                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
-                                  View
-                                </button>
-                              </div>
-                              <div class="customer text-center">
-                                <p class="counter-count mb-1 bg-primary-900">{{procCount ?? 0}}</p>
-                                <p class="customer-p text-tertiary-900 mb-1">Reprocess</p>
-                                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
-                                  View
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                  </div>
+                  <app-detail [details]="invMaster"></app-detail>
                 </mat-tab>
-                <mat-tab label="Item Setup"><app-item-setup></app-item-setup></mat-tab>
-                <mat-tab label="Kit Items"><app-kit-items></app-kit-items></mat-tab>
-                <mat-tab label="Locations"><app-inventory-location></app-inventory-location></mat-tab>
-                <mat-tab label="Reel Tracking" style="min-height: 400px;"><app-reel-tracking></app-reel-tracking></mat-tab>
-                <mat-tab label="Scan Codes"><app-scan-codes></app-scan-codes></mat-tab>
-                <mat-tab label="Weigh Scale"><app-weigh-scale></app-weigh-scale></mat-tab>
-                <mat-tab label="Other"><app-inventory-master-other></app-inventory-master-other></mat-tab>
-                
-                
+                <mat-tab label="Item Setup">
+                  <app-item-setup [itemSetup]="invMaster"></app-item-setup>
+                </mat-tab>
+                <mat-tab label="Kit Items">
+                  <app-kit-item [kitItem]="invMaster"></app-kit-item>
+                </mat-tab>
+                <mat-tab label="Location">
+                  <app-location [location]="invMaster"></app-location>
+                </mat-tab>
+                <mat-tab label="Reel Tracking">
+                  <app-reel-tracking [reelTracking]="invMaster"></app-reel-tracking>
+                </mat-tab>
+                <mat-tab label="Scan  Codes">
+                  <app-scan-codes [scanCodes]="invMaster"></app-scan-codes>
+                </mat-tab>
+                <mat-tab label="Weigh Scale">
+                  <app-weight-scale [weighScale]="invMaster"></app-weight-scale>
+                </mat-tab>
+                <mat-tab label="Other">
+                  <app-others [others]="invMaster"></app-others>
+                </mat-tab>
               </mat-tab-group>
             </div>
-            
-            
           </mat-card-content>
           <div class="d-flex gap-20 justify-content-end">
             <button mat-stroked-button color="warn" class="button-delete bg-white" (click)="deleteItem($event)">
@@ -277,25 +108,3 @@
     </div>
   </form>
   </div>
-
-  <ng-template #quarantineAction>
-  
-    <div class="d-flex flex-column align-items-center justify-content-center text-center py-4">
-      <div color="warn" class="circle-icon circle-66 circle-danger mb-4">
-          <mat-icon color="warn">vpn_lock</mat-icon>
-      </div>
-      <div>
-          <p class="bold text-tritary-900 mb-4">Click submit to quarantine item 11005. This will cause any allocated orders and locations with this item to be deallocated?</p>
-          <div class="mb-3">
-          <button mat-flat-button color="warn" class="custom-btn button-delete-flat bg-white">
-              Submit
-          </button>
-          </div>
-          <div>
-            <button mat-stroked-button color="basic" class="custom-btn bg-white" [mat-dialog-close]="true">
-              Cancel
-            </button>
-          </div>
-      </div>
-      </div>
-  </ng-template>

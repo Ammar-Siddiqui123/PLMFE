@@ -21,6 +21,7 @@ export class InventoryMasterComponent implements OnInit {
   public userData: any;
   public invData: any;
   public getInvMasterData: any;
+  public invMasterLocations: any;
   public locationTable: any;
   public getItemNum: any;
   public openCount: any;
@@ -41,25 +42,95 @@ export class InventoryMasterComponent implements OnInit {
   invMaster: FormGroup;
 
   ngOnInit(): void {
+
+    this.initialzeIMFeilds();
+
     this.userData = this.authService.userData();
     this.getInventory();
-    this.initialzeIMFeilds();
+
     
   }
   initialzeIMFeilds(){
     this.invMaster = this.fb.group({
-      itemNumber: [ '', [Validators.required]],
-      supplierItemID : [ '', [Validators.required]],
-      description : [ '', [Validators.required]],
-      reorderPoint : [ '', [Validators.required]],
-      replenishmentPoint : [ '', [Validators.required]],
-      category : [ '', [Validators.required]],
-      reorderQuantity : [ '', [Validators.required]],
-      replenishmentLevel : [ '', [Validators.required]],
-      subCategory : [ '', [Validators.required]],
-      unitOfMeasure : [ '', [Validators.required]],
-      kanbanReplenishmentPoint : [ '', [Validators.required]],
-      kanbanReplenishmentLevel : [ '', [Validators.required]]
+
+      itemNumber: [  this.getInvMasterData?.itemNumber || '', [Validators.required]],
+      supplierItemID : [  this.getInvMasterData?.supplierItemID || '', [Validators.required]],
+      description : [  this.getInvMasterData?.description || '', [Validators.required]],
+      reorderPoint : [  this.getInvMasterData?.reorderPoint || '', [Validators.required]],
+      replenishmentPoint : [  this.getInvMasterData?.replenishmentPoint || '', [Validators.required]],
+      category : [  this.getInvMasterData?.category || '', [Validators.required]],
+      reorderQuantity : [  this.getInvMasterData?.reorderQuantity || '', [Validators.required]],
+      replenishmentLevel : [  this.getInvMasterData?.replenishmentLevel || '', [Validators.required]],
+      subCategory : [  this.getInvMasterData?.subCategory || '', [Validators.required]],
+      unitOfMeasure : [  this.getInvMasterData?.unitOfMeasure || '', [Validators.required]],
+      kanbanReplenishmentPoint : [  this.getInvMasterData?.kanbanReplenishmentPoint || 0, [Validators.required]],
+      kanbanReplenishmentLevel : [  this.getInvMasterData?.kanbanReplenishmentLevel || 0, [Validators.required]],
+
+      totalQuantity: [  this.getInvMasterData?.totalQuantity || 0, [Validators.required]],
+      wipCount: [  this.getInvMasterData?.wipCount || 0, [Validators.required]],
+      totalPicks: [  this.getInvMasterData?.totalPicks || 0, [Validators.required]],
+      totalPuts: [  this.getInvMasterData?.totalPuts || 0, [Validators.required]],
+      openCount: [  this.getInvMasterData?.openCount || 0, [Validators.required]],
+      histCount: [  this.getInvMasterData?.histCount || 0, [Validators.required]],
+      procCount: [  this.getInvMasterData?.procCount || 0, [Validators.required]],
+      
+
+      primaryPickZone: [  this.getInvMasterData?.primaryPickZone || '', [Validators.required]],
+      secondaryPickZone: [  this.getInvMasterData?.secondaryPickZone || '', [Validators.required]],
+      caseQuantity: [  this.getInvMasterData?.caseQuantity || 0, [Validators.required]],
+      pickFenceQuantity: [  this.getInvMasterData?.pickFenceQuantity || 0, [Validators.required]],
+      pickSequence: [  this.getInvMasterData?.pickSequence || 0, [Validators.required]],
+
+      dateSensitive: [  this.getInvMasterData?.dateSensitive || '', [Validators.required]],
+      warehouseSensitive: [  this.getInvMasterData?.warehouseSensitive || '', [Validators.required]],
+      splitCase: [  this.getInvMasterData?.splitCase || '', [Validators.required]],
+      active: [  this.getInvMasterData?.active || '', [Validators.required]],
+      fifo: [  this.getInvMasterData?.fifo || '', [Validators.required]],
+      fifoDate: [  this.getInvMasterData?.fifoDate || '', [Validators.required]],
+
+      bulkCellSize: [  this.getInvMasterData?.bulkCellSize || 0, [Validators.required]],
+      cellSize: [  this.getInvMasterData?.cellSize || 0, [Validators.required]],
+      cfCellSize: [ this.getInvMasterData?.cfCellSize || 0, [Validators.required]],
+
+      bulkVelocity: [  this.getInvMasterData?.bulkVelocity || 0, [Validators.required]],
+      cfVelocity: [  this.getInvMasterData?.cfVelocity || 0, [Validators.required]],
+
+      minimumQuantity: [  this.getInvMasterData?.minimumQuantity || 0, [Validators.required]],
+      bulkMinimumQuantity: [  this.getInvMasterData?.bulkMinimumQuantity || 0, [Validators.required]],
+      cfMinimumQuantity: [  this.getInvMasterData?.cfMinimumQuantity || 0, [Validators.required]],
+
+      maximumQuantity: [  this.getInvMasterData?.maximumQuantity || 0, [Validators.required]],
+      bulkMaximumQuantity: [  this.getInvMasterData?.bulkMaximumQuantity || 0, [Validators.required]],
+      cfMaximumQuantity: [ this.getInvMasterData?.cfMaximumQuantity || 0, [Validators.required]],
+
+      kitInventories: [  this.getInvMasterData?.kitInventories || '', [Validators.required]],
+
+
+
+      includeInAutoRTSUpdate: [  this.getInvMasterData?.includeInAutoRTSUpdate || '', [Validators.required]],
+      minimumRTSReelQuantity: [  this.getInvMasterData?.minimumRTSReelQuantity || 0, [Validators.required]],
+
+    
+
+      scanCode: [  this.getInvMasterData?.scanCode || '', [Validators.required]],
+
+
+      avgPieceWeight: [  this.getInvMasterData?.avgPieceWeight || 0, [Validators.required]],
+      sampleQuantity: [  this.getInvMasterData?.sampleQuantity || 0, [Validators.required]],
+      minimumUseScaleQuantity: [  this.getInvMasterData?.minimumUseScaleQuantity || 0, [Validators.required]],
+      useScale: [  this.getInvMasterData?.useScale || '', [Validators.required]],
+ 
+
+
+      unitCost: [ this.getInvMasterData?.unitCost  || 0, [Validators.required]],
+     // supplierItemID: [ '', [Validators.required]],
+      manufacturer: [  this.getInvMasterData?.manufacturer || '', [Validators.required]],
+      specialFeatures: [  this.getInvMasterData?.specialFeatures || '', [Validators.required]],
+    
+
+      inventoryTable: [  this.invMasterLocations?.inventoryTable || '', [Validators.required]],
+      count: [  this.invMasterLocations?.count || '', [Validators.required]],
+
     });
   }
   onSubmit(form: FormGroup){
@@ -75,7 +146,9 @@ export class InventoryMasterComponent implements OnInit {
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventory').subscribe((res: any) => {
       this.invData = res.data;
-      this.getInvMasterDetail(res.data.firstItemNumber);
+     // this.getInvMasterDetail(res.data.firstItemNumber);
+     this.getInvMasterDetail('024768000010');
+     this.getInvMasterLocations('024768000010');
     });
   }
 
@@ -87,33 +160,31 @@ export class InventoryMasterComponent implements OnInit {
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
       this.getInvMasterData = res.data;
-      this.totalQuantity = res.data.totalQuantity;
-      this.wipCount   = res.data.wipCount;
-      this.totalPicks = res.data.totalPicks;
-      this.totalPuts  = res.data.totalPuts;
-      this.openCount  = res.data.openCount;
-      this.histCount  = res.data.histCount;
-      this.procCount  = res.data.procCount;
-      // this.invMaster.controls['itemNumber'].setValue('');
-
-      this.invMaster.patchValue({
-        'itemNumber' : this.getInvMasterData.itemNumber,
-        'supplierItemID' : this.getInvMasterData.supplierItemID,
-        'description' : this.getInvMasterData.description,
-        'reorderPoint' : this.getInvMasterData.reorderPoint,
-        'replenishmentPoint' : this.getInvMasterData.replenishmentPoint,
-        'category': this.getInvMasterData.category,
-        'reorderQuantity' : this.getInvMasterData.reorderQuantity,
-        'replenishmentLevel' : this.getInvMasterData.replenishmentLevel,
-        'subCategory': this.getInvMasterData.subCategory,
-        'unitOfMeasure': this.getInvMasterData.unitOfMeasure,
-        'kanbanReplenishmentPoint' : this.getInvMasterData.kanbanReplenishmentPoint,
-        'kanbanReplenishmentLevel' : this.getInvMasterData.kanbanReplenishmentLevel        
-      });
-
-      console.log(this.getInvMasterData);
+      this.initialzeIMFeilds();
     })
   }
+
+  public getInvMasterLocations(itemNum: any) {
+    let paylaod = {
+      "draw": 0,
+      "itemNumber": itemNum,
+      "start": 0,
+      "length": 10,
+      "sortColumnNumber": 0,
+      "sortOrder": "asc",
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterLocation').subscribe((res: any) => {
+      this.invMasterLocations = res.data;
+
+      console.log(this.getInvMasterData);
+
+      this.initialzeIMFeilds();
+    })
+  }
+
+
   public getLocationTable(stockCode: any) {
     let paylaod = {
       "stockCode": stockCode,
@@ -441,72 +512,19 @@ export class InventoryMasterComponent implements OnInit {
     });
   }
 
-  public openItemNumDialog() {
-    let dialogRef = this.dialog.open(ItemNumberComponent, {
-      height: 'auto',
-      width: 'auto',
-      data: {
-        itemNumber: this.invMaster.value.itemNumber,
-        newItemNumber : '',
-        addItem : false
-      }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
-      if (result) {
-        let paylaod = {
-          "oldItemNumber": this.invMaster.value.itemNumber,
-          "newItemNumber": result,
-          "username": this.userData.userName,
-          "wsid": this.userData.wsid
-        }
-        this.invMasterService.update(paylaod, '/Admin/UpdateItemNumber').subscribe((res: any) => {
-          // console.log(res.data);
-          if (res.isExecuted) {
-            this.invMaster.patchValue({
-              'itemNumber' : res.data.newItemNumber
-            }); 
-          }          
-        })
-      }
 
-    })
-  }
 
-  public opencategoryDialog() {
-    let dialogRef = this.dialog.open(ItemCategoryComponent, {
-      height: 'auto',
-      width: '800px',
-      data: {
-        mode: '',
-      }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
 
-      this.invMaster.patchValue({        
-        'category': result.category,        
-        'subCategory': result.subCategory,        
-      });
-      
-    })
-  }
 
-  public openUmDialog() {
-    let dialogRef = this.dialog.open(UnitMeasureComponent, {
-      height: 'auto',
-      width: '750px',
-      data: {
-        mode: '',
-      }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
-      this.invMaster.patchValue({
-        'unitOfMeasure' : result
-      });
 
-    })
+
+  deleteItem($event) {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      width: '450px'
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
   }
 
   quarantineDialog(): void {
@@ -518,12 +536,5 @@ export class InventoryMasterComponent implements OnInit {
     });
   }
 
-  deleteItem($event) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '450px'
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-    });
-  }
+
 }

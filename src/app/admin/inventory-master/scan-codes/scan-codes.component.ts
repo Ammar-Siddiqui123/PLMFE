@@ -1,5 +1,6 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild,Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-scan-codes',
@@ -8,18 +9,27 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ScanCodesComponent implements OnInit {
 
-  constructor(private dialog: MatDialog) { }
-  @ViewChild('scanCodes') scanCodes: TemplateRef<any>;
+  @Input() scanCodes: FormGroup;
+  public userData: any;
+
+  constructor() { }
 
   ngOnInit(): void {
   }
-  scanCodesDialog(): void {
-    const dialogRef = this.dialog.open(this.scanCodes, {
-      width: '600px'
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-    });
+
+  openPrintRangeDialog(){
+
+  }
+  addCatRow(e: any){
+
   }
 
+  dltCategory(e1: any, e2: any){
+
+  }
+
+  saveCategory(e1: any, e2: any , e3: any , e4: any){
+
+  }
+  
 }
