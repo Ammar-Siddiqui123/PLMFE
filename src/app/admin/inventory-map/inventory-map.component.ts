@@ -5,6 +5,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../init/auth.service';
 import { AddInvMapLocationComponent } from '../dialogs/add-inv-map-location/add-inv-map-location.component';
 import { AdjustQuantityComponent } from '../dialogs/adjust-quantity/adjust-quantity.component';
@@ -98,7 +99,8 @@ export class InventoryMapComponent implements OnInit {
     private dialog: MatDialog,
     private seqColumn: SetColumnSeqService,
     private authService: AuthService,
-    private invMapService: InventoryMapService
+    private invMapService: InventoryMapService,
+    private toastr: ToastrService, 
   ) {
   }
 
@@ -113,7 +115,7 @@ export class InventoryMapComponent implements OnInit {
     }
     this.initializeApi();
     this.getColumnsData();
-    this.getContentData();
+  //  this.getContentData();
 
 
 
@@ -133,7 +135,7 @@ export class InventoryMapComponent implements OnInit {
    // this.pageIndex = e.pageIndex;
 
    this.initializeApi();
-   this.getContentData();
+   
   }
 
   initializeApi(){
@@ -154,21 +156,28 @@ export class InventoryMapComponent implements OnInit {
   getColumnsData(){
     this.seqColumn.getSetColumnSeq().subscribe((res) => {
       this.displayedColumns = INVMAP_DATA;
-      this.columnValues = res.data?.columnSequence;
-      // this.columnValues = INVMAP_DATA.map((colDef => { return colDef.colDef }));
-      this.columnValues.push('actions')
+      if(res.data.columnSequence.length>0){
+        this.columnValues = res.data?.columnSequence;
+        this.columnValues.push('actions');
+        this.getContentData();
+      } else {
+        this.toastr.error('Something went wrong', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
     });
   }
 
   getContentData(){
     this.invMapService.getInventoryMap(this.payload).subscribe((res: any) => {
-      this.itemList =  res.data.inventoryMaps.map((arr => {
+      this.itemList =  res.data?.inventoryMaps?.map((arr => {
         return {'itemNumber': arr.itemNumber, 'desc': arr.description}
       }))
-      this.detailDataInventoryMap= res.data.inventoryMaps;
-      this.dataSource = new MatTableDataSource(res.data.inventoryMaps);
+      this.detailDataInventoryMap= res.data?.inventoryMaps;
+      this.dataSource = new MatTableDataSource(res.data?.inventoryMaps);
     //  this.dataSource.paginator = this.paginator;
-      this.customPagination.total = res.data.recordsTotal;
+      this.customPagination.total = res.data?.recordsTotal;
       this.dataSource.sort = this.sort;
     });
   }
