@@ -362,7 +362,7 @@ export class EmployeesComponent implements OnInit {
       height: 'auto',
       width: '480px',
       data: {
-        mode: 'delete-allowedgroup',
+        mode: 'delete-group',
         allowedGroup: allowedGroup
       }
     })
