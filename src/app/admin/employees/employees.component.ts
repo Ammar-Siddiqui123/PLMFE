@@ -18,6 +18,8 @@ import { AddGroupAllowedComponent } from '../dialogs/add-group-allowed/add-group
 import { AddNewGroupComponent } from '../dialogs/add-new-group/add-new-group.component';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../labels/labels.json';
+import { GroupsAllowedComponent } from './groups-allowed/groups-allowed.component';
+import { GroupAllowedComponent } from '../dialogs/group-allowed/add-group-allowed.component';
 
 export interface location {
   start_location: string;
@@ -352,6 +354,12 @@ export class EmployeesComponent implements OnInit {
 
   groupAllowedDialog() {
     this.dialog.open(AddGroupAllowedComponent, {
+      height: 'auto',
+      width: '480px',
+    })
+  }
+  grpAllowedDialog() {
+    this.dialog.open(GroupAllowedComponent, {
       height: 'auto',
       width: '480px',
     })
