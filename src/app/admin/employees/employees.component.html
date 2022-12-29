@@ -384,7 +384,7 @@
                     <mat-select class="employees-action" [disabled]="!isGroupLookUp"
                       (selectionChange)="actionGroupDialog($event.value, grpData, $event)">
                       <mat-option value="delete">Delete</mat-option>
-                      <mat-option value="clone">Clone</mat-option>
+                      <mat-option value="clone" *ngIf="env === 'ADLDS'">Clone</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
