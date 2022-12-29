@@ -1,0 +1,10 @@
+.ctl_name {
+    display: flex !important;
+    justify-content: space-between;
+    padding: 10px 20px 0px 20px;
+  }
+  .ctl_option{
+    display: flex;
+    justify-content: space-between;
+    text-overflow: ellipsis;
+  }

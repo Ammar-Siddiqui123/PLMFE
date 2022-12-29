@@ -18,6 +18,8 @@ import { AddGroupAllowedComponent } from '../dialogs/add-group-allowed/add-group
 import { AddNewGroupComponent } from '../dialogs/add-new-group/add-new-group.component';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../labels/labels.json';
+import { GroupsAllowedComponent } from './groups-allowed/groups-allowed.component';
+import { GroupAllowedComponent } from '../dialogs/group-allowed/group-allowed.component';
 
 export interface location {
   start_location: string;
@@ -38,7 +40,10 @@ export class EmployeesComponent implements OnInit {
   emp: IEmployee;
   public isLookUp: boolean = false;
   public isGroupLookUp: boolean = false;
- 
+  public env;
+  public searchGrpAllowed = '';
+  public searchfuncAllowed = '';
+
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
@@ -60,6 +65,8 @@ export class EmployeesComponent implements OnInit {
   location_data_source: any;
   employee_group_allowed: any;
   emp_all_zones:any;
+  groupAllowedList:any;
+
 
 
   // table initialization
@@ -102,6 +109,13 @@ export class EmployeesComponent implements OnInit {
         this.emp_all_zones = response.data?.allZones;
       });
 
+      this.employeeService.getEmployeeData(emp_data).subscribe((res:any) => {
+        console.log(res.data);
+        
+
+        this.groupAllowedList = res.data.allGroups;
+      })  
+
    
   }
   addPermission(event:any){
@@ -112,9 +126,9 @@ export class EmployeesComponent implements OnInit {
     else{
       event.function.map((func => {
         this.unassignedFunctions = this.unassignedFunctions.filter(name => name !== func);
-        this.assignedFunctions.unshift(func);  
+        this.assignedFunctions.unshift(func);
       }));
-      
+
     }
   }
   removePermission(event:any){
@@ -126,13 +140,13 @@ export class EmployeesComponent implements OnInit {
     else{
       event.function.map((func => {
         this.assignedFunctions = this.assignedFunctions.filter(name => name !== func);
-        this.unassignedFunctions.unshift(func);  
+        this.unassignedFunctions.unshift(func);
       }));
-      
+
     }
   }
   saveAssignedFunc(){
-    
+
     let assignFunc = {
       "userName": "1234",
       "wsid": "TESTWID",
@@ -145,12 +159,12 @@ export class EmployeesComponent implements OnInit {
         this.unassignedFunctions =[];
         this.isGroupLookUp = false;
         if(res.isExecuted){
-          this.toastr.success(labels.alert.delete, 'Success!', {
+          this.toastr.success(labels.alert.update, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
         }
-        
+
       });
   }
   updateGrpLookUp(event: any) {
@@ -164,7 +178,7 @@ export class EmployeesComponent implements OnInit {
       "userName":this.userName,
       "wsid": "TESTWSID",
       "groupName":this.grpData.groupName
-      
+
       };
       // console.log("grp_data",grp_data)
     this.employeeService.getFunctionByGroup(grp_data)
@@ -173,7 +187,7 @@ export class EmployeesComponent implements OnInit {
       this.assignedFunctions = response.data?.allFunc
       this.unassignedFunctions = response.data?.groupFunc
 
-      
+
     });
   }
 
@@ -182,6 +196,8 @@ export class EmployeesComponent implements OnInit {
       startWith(''),
       map(value => this._filter(value || '')),
     );
+
+   this.env =  JSON.parse(localStorage.getItem('env') || '');
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -221,7 +237,7 @@ export class EmployeesComponent implements OnInit {
         height: 'auto',
         width: '480px',
         data: {
-          mode: 'edit',
+          mode: 'delete-emp',
           emp_data: emp_data
         }
       })
@@ -231,19 +247,24 @@ export class EmployeesComponent implements OnInit {
         matSelect.writeValue(null);
       })
     }
-    if (event === 'back') {
-      this.isLookUp = false;
-      this.employee_fetched_zones = [];
-      this.location_data_source = [];
-      this.max_orders = '';
-      const matSelect: MatSelect = matEvent.source;
-      matSelect.writeValue(null);
+    // if (event === 'back') {
+    //   this.isLookUp = false;
+    //   this.employee_fetched_zones = [];
+    //   this.location_data_source = [];
+    //   this.max_orders = '';
+    //   const matSelect: MatSelect = matEvent.source;
+    //   matSelect.writeValue(null);
 
-    }
+    // }
 
 
   }
-
+  backEmpAction(){
+    this.isLookUp = false;
+      this.employee_fetched_zones = [];
+      this.location_data_source = [];
+      this.max_orders = '';
+  }
   actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
     console.log(event.value)
     if (event === 'edit') {
@@ -276,19 +297,16 @@ export class EmployeesComponent implements OnInit {
         matSelect.writeValue(null);
       })
     }
-    if (event === 'back') {
-      this.isGroupLookUp = false;
-      this.assignedFunctions = [];
-      this.unassignedFunctions = [];
-      this.max_orders = '';
-      const matSelect: MatSelect = matEvent.source;
-      matSelect.writeValue(null);
-
-    }
 
 
   }
 
+  backGroupAction(){
+    this.isGroupLookUp = false;
+    this.assignedFunctions = [];
+    this.unassignedFunctions = [];
+    this.max_orders = '';
+  }
 
   addZoneDialog() {
     let dialogRef;
@@ -346,12 +364,30 @@ export class EmployeesComponent implements OnInit {
       width: '480px',
     })
   }
+  grpAllowedDialog() {
+    this.dialog.open(GroupAllowedComponent, {
+      height: 'auto',
+      width: '480px',
+    })
+  }
   deleteGroupAllowed(allowedGroup: any) {
     this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
       data: {
-        mode: 'delete-allowedgroup',
+        mode: 'delete-group',
+        allowedGroup: allowedGroup
+      }
+    })
+
+  }
+  deleteGrpAllowed(allowedGroup: any) {
+    allowedGroup.userName = this.userName;
+    this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        mode: 'delete-grpallowed',
         allowedGroup: allowedGroup
       }
     })
@@ -366,6 +402,15 @@ export class EmployeesComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.employee_fetched_zones.filter = filterValue.trim().toLowerCase();
   }
+  // grpAllowedFilter(event: Event) {
+    
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   // console.log(filterValue);
+  //   // this.groupAllowedList.filter = filterValue.trim().toLowerCase();
 
-  
+  //   this.groupAllowedList = this.groupAllowedList.filter(t=>t.groupName === filterValue);
+  //   // console.log(filteredvalues);
+  // }
+
+
 }

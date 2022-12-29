@@ -1,34 +1,34 @@
 <h1 mat-dialog-title>{{form_heading}}</h1>
-<button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+<button mat-icon-button class="close-button dialog-close-button br-14" [mat-dialog-close]="true">
   <mat-icon class="close-icon">close</mat-icon>
 </button>
 <div mat-dialog-content>
 
   <form #employeeForm="ngForm" (ngSubmit)="onSend(employeeForm)">
 
-    <mat-form-field class="d-block w-100" appearance="outline">
+    <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>MI</mat-label>
       <input matInput type="text" name="mi" required="required" [(ngModel)]="mi">
     </mat-form-field>
 
-    <mat-form-field class="d-block w-100" appearance="outline">
+    <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>First Name</mat-label>
       <input matInput type="text" name="firstName" required="required" [(ngModel)]="firstName">
     </mat-form-field>
 
-    <mat-form-field class="d-block w-100" appearance="outline">
+    <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>Last Name</mat-label>
       <input matInput type="text" name="lastName" required="required" [(ngModel)]="lastName">
     </mat-form-field>
 
-    <mat-form-field class="d-block w-100" appearance="outline">
+    <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>Username</mat-label>
       <input matInput  type="text"  name="userName" required="required" [(ngModel)]="userName">
       <!-- <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint> -->
-      
+
     </mat-form-field>
 
-    <mat-form-field class="d-block w-100" appearance="outline">
+    <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>Password</mat-label>
       <input matInput [type]="toggle_password ? 'password' : 'text'" required="required" name="password" ngModel>
       <button mat-icon-button matSuffix (click)="toggle_password = !toggle_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
@@ -36,13 +36,13 @@
       </button>
     </mat-form-field>
 
-    <mat-form-field class="d-block w-100" appearance="outline">
+    <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>Email Address</mat-label>
       <input matInput type="email" name="emailAddress" required="required" [(ngModel)]="emailAddress">
     </mat-form-field>
 
 
-    <mat-form-field class="d-block w-100" appearance="outline">
+    <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>Access Level</mat-label>
       <mat-select required="required" name="accessLevel" [(ngModel)]="accessLevel">
         <mat-option value="administrator">Administrator</mat-option>
@@ -51,24 +51,8 @@
     </mat-form-field>
 
     <mat-dialog-actions align="end">
-      <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->
       <button type="submit" mat-raised-button class="form-button-submit" color="primary">{{form_btn_label}}</button>
     </mat-dialog-actions>
 
   </form>
-
-
-
-  <!-- My favorite animal is: -->
-  <!-- <ul>
-    <li>
-      <span *ngIf="data.animal === 'panda'">&#10003;</span> Panda
-    </li>
-    <li>
-      <span *ngIf="data.animal === 'unicorn'">&#10003;</span> Unicorn
-    </li>
-    <li>
-      <span *ngIf="data.animal === 'lion'">&#10003;</span> Lion
-    </li>
-  </ul> -->
 </div>

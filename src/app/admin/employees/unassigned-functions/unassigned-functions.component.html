@@ -1,6 +1,6 @@
 <div class="unassigned-functions functions-list-wrap mt-3">
   <div class="search-box zone-search-box">
-    <div class="d-flex g-mini-search-box">
+    <div class="d-flex g-mini-search-box pb-4">
       <mat-form-field class="w-100" appearance="fill">
         <span class="material-symbols-outlined icon-search">
           search
@@ -9,8 +9,8 @@
           aria-label="Search Unassigned Function"  matInput (keyup)="applyFilter($event)">
       </mat-form-field>
     </div>
-    <div class="d-flex align-items-center justify-content-between">
-      <p class="mb-0">Unassigned</p>
+    <div class="d-flex align-items-center justify-content-between  box-bottom-hr pb-4">
+      <p class="mb-0"><strong>Unassigned</strong></p>
       <button mat-stroked-button color="warn" class="button-add-all" (click)="assignFunction(unassignedFunctions)">
         <mat-icon>add</mat-icon>
         Add All
@@ -23,7 +23,7 @@
             {{groupname}}
           </span>
           <button mat-icon-button aria-label="Delete Function"  (click)="assignFunction(groupname)">
-            <mat-icon>add_circle_outline</mat-icon>
+            <mat-icon class="icon-circle-edit">add</mat-icon>
           </button>
         </mat-list-item>
       </ng-scrollbar>

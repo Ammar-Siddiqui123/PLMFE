@@ -18,11 +18,13 @@ import { MaterialModule } from './material-module';
 import { MatTableModule } from '@angular/material/table';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { CustomHttpInterceptor } from './init/http-interceptor';
+import { ChangePasswordComponent } from './login/change-password/change-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    ChangePasswordComponent,
 
   ],
   imports: [

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./side-nav.component.scss']
 })
 export class SideNavComponent implements OnInit {
+
+  @Input() sideBarOpen: Boolean;
 
   menus: any = [
     { icon: 'home', title: 'Home', route: '/dashboard' },
@@ -24,10 +26,10 @@ export class SideNavComponent implements OnInit {
     { icon: 'tune', title: 'Preferences', route: '#' },
     { icon: 'published_with_changes', title: 'System Replenishment', route: '#' },
     { icon: 'directions_alt', title: 'Inventery Map', route: '/admin/inventoryMap' },
-    { icon: 'list_alt', title: 'Batch Manager', route: '#' },
+    { icon: 'list_alt', title: 'Batch Manager', route: '/admin/batchManager' },
     { icon: 'analytics', title: 'Reports', route: '#' },
-    { icon: 'my_location', title: 'Location Assignment', route: '#' },
-    { icon: 'low_priority', title: 'Cycle Count', route: '#' },
+    { icon: 'my_location', title: 'Location Assignment', route: '/admin/locationAssignment' },
+    { icon: 'low_priority', title: 'Cycle Count', route: '/admin/cycleCounts' },
     { icon: 'trolley', title: 'Move Item', route: '#' },
     { icon: 'dvr', title: 'Transactions', route: '#' },
     { icon: 'ads_click', title: 'manual Transactions', route: '#' },
