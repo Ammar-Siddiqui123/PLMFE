@@ -38,9 +38,7 @@ export class EmployeesLookupComponent implements OnInit {
   employees_details_data: [] = [];
 
   ngOnInit(): void {
-
-    this.env =  localStorage.getItem('env');
-
+    this.env =  JSON.parse(localStorage.getItem('env') || '');
     this.emp = {
       "lastName": "%",
       "userName": "1234",

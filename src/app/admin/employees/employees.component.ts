@@ -197,7 +197,7 @@ export class EmployeesComponent implements OnInit {
       map(value => this._filter(value || '')),
     );
 
-   this.env =  localStorage.getItem('env');
+   this.env =  JSON.parse(localStorage.getItem('env') || '');
   }
 
   /** Announce the change in sort state for assistive technology. */
