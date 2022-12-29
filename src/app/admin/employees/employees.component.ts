@@ -20,6 +20,7 @@ import { ToastrService } from 'ngx-toastr';
 import labels from '../../labels/labels.json';
 import { GroupsAllowedComponent } from './groups-allowed/groups-allowed.component';
 import { GroupAllowedComponent } from '../dialogs/group-allowed/group-allowed.component';
+import { CloneGroupComponent } from '../dialogs/clone-group/clone-group.component';
 
 export interface location {
   start_location: string;
@@ -266,7 +267,7 @@ export class EmployeesComponent implements OnInit {
       this.max_orders = '';
   }
   actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
-    console.log(event.value)
+    // console.log(event.value)
     if (event === 'edit') {
       let dialogRef = this.dialog.open(AddNewGroupComponent, {
         height: 'auto',
@@ -296,6 +297,23 @@ export class EmployeesComponent implements OnInit {
         const matSelect: MatSelect = matEvent.source;
         matSelect.writeValue(null);
       })
+    }
+    if (event === 'clone') {
+      console.log(grp_data);
+      let dialogRef = this.dialog.open(CloneGroupComponent, {
+        height: 'auto',
+        width: '480px',
+        data: {
+          mode: 'clone',
+          grp_data: grp_data
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        this.isGroupLookUp = false;
+        const matSelect: MatSelect = matEvent.source;
+        matSelect.writeValue(null);
+      })
+      
     }
 
 

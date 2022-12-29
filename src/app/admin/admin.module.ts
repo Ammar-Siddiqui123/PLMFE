@@ -70,6 +70,7 @@ import { OthersComponent } from './inventory-master/others/others.component';
 import { GroupAllowedComponent } from './dialogs/group-allowed/group-allowed.component';
 import { SearchPipe } from './employees/search.pipe';
 import { customFuncAllowedSearch } from './employees/customFuncAllowedSearch.pipe';
+import { CloneGroupComponent } from './dialogs/clone-group/clone-group.component';
 
 
 
@@ -137,7 +138,8 @@ import { customFuncAllowedSearch } from './employees/customFuncAllowedSearch.pip
     OthersComponent,
     GroupAllowedComponent,
     SearchPipe,
-    customFuncAllowedSearch
+    customFuncAllowedSearch,
+    CloneGroupComponent
 
   ],
   imports: [
