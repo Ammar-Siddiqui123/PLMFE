@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { startWith } from 'rxjs/internal/operators/startWith';
 import { map } from 'rxjs/internal/operators/map';
 import { AuthService } from '../../../../app/init/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'group-allowed',
@@ -31,12 +32,13 @@ export class GroupAllowedComponent implements OnInit {
     private employeeService: EmployeeService,
     private toastr: ToastrService,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.controlNameForm = this.fb.group({
-      controlName: [ '', [Validators.required]]
+      controlName: ['', [Validators.required]]
     })
     this.userData = this.authService.userData();
     let payload = {
@@ -71,10 +73,25 @@ export class GroupAllowedComponent implements OnInit {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
+        this.reloadCurrentRoute();
+      }
+      else {
+        // this.dialog.closeAll();
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
       }
     });
   }
   hasError(fieldName: string, errorName: string) {
     return this.controlNameForm.get(fieldName)?.touched && this.controlNameForm.get(fieldName)?.hasError(errorName);
+  }
+
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
   }
 }
