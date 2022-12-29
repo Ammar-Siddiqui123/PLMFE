@@ -14,7 +14,7 @@ import { AuthService } from '../../../../app/init/auth.service';
   templateUrl: './add-group-allowed.component.html',
   styleUrls: ['./add-group-allowed.component.scss']
 })
-export class AddGroupAllowedComponent implements OnInit {
+export class GroupAllowedComponent implements OnInit {
 
   form_heading: string = 'Add Group Allowed';
   form_btn_label: string = 'Add';

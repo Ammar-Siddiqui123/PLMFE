@@ -18,6 +18,8 @@ import { AddGroupAllowedComponent } from '../dialogs/add-group-allowed/add-group
 import { AddNewGroupComponent } from '../dialogs/add-new-group/add-new-group.component';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../labels/labels.json';
+import { GroupsAllowedComponent } from './groups-allowed/groups-allowed.component';
+import { GroupAllowedComponent } from '../dialogs/group-allowed/add-group-allowed.component';
 
 export interface location {
   start_location: string;
@@ -60,6 +62,7 @@ export class EmployeesComponent implements OnInit {
   location_data_source: any;
   employee_group_allowed: any;
   emp_all_zones:any;
+  groupAllowedList:any;
 
 
   // table initialization
@@ -102,7 +105,14 @@ export class EmployeesComponent implements OnInit {
         this.emp_all_zones = response.data?.allZones;
       });
 
+      this.employeeService.getEmployeeData(emp_data).subscribe((res:any) => {
+        console.log(res.data);
+        
 
+        this.groupAllowedList = res.data.allGroups;
+      })  
+
+   
   }
   addPermission(event:any){
     if(typeof( event.function) == 'string'){
@@ -281,15 +291,6 @@ export class EmployeesComponent implements OnInit {
         matSelect.writeValue(null);
       })
     }
-    // if (event === 'back') {
-    //   this.isGroupLookUp = false;
-    //   this.assignedFunctions = [];
-    //   this.unassignedFunctions = [];
-    //   this.max_orders = '';
-    //   const matSelect: MatSelect = matEvent.source;
-    //   matSelect.writeValue(null);
-
-    // }
 
 
   }
@@ -353,6 +354,12 @@ export class EmployeesComponent implements OnInit {
 
   groupAllowedDialog() {
     this.dialog.open(AddGroupAllowedComponent, {
+      height: 'auto',
+      width: '480px',
+    })
+  }
+  grpAllowedDialog() {
+    this.dialog.open(GroupAllowedComponent, {
       height: 'auto',
       width: '480px',
     })
