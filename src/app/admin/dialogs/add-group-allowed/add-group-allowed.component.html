@@ -18,11 +18,11 @@
                            matInput
                            formControlName="controlName"
                            [matAutocomplete]="auto">
-                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="controlNameForm.controls['controlName'].setValue($event.option.value)">
-                        <h6 class="ctl_name"><span>Control Name</span> <span>Function</span></h6>
+                    <mat-autocomplete class="autocomplete-center" panelWidth="auto" autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="controlNameForm.controls['controlName'].setValue($event.option.value)">
+                        <h6 class="ctl_name ac-dropdown-label"><span>Control Name</span> <span>Function</span></h6>
                         <mat-option *ngFor="let option of filteredOptions | async"
                             [value]="option.controlName" style="width:900px !important;">
-                            <div class="ctl_option">
+                            <div class="ctl_option ac-dropdown-option">
                                 <span>{{option.controlName}}</span> <span>{{option.function}}</span>
                             </div>
                         </mat-option>
