@@ -101,6 +101,16 @@ export class EmployeeService {
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/UpdateEmployee`, employee,httpOptions);
   }
+  public cloneGroup(employee: any ): Observable<AdminEmployeeLookupResponse> {
+    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + basicAuth
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Admin/CloneGroup`, employee,httpOptions);
+  }
 
   public getAdminEmployeeDetails(employee: IEmployee ): Observable<EmployeeObject> {
     let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)

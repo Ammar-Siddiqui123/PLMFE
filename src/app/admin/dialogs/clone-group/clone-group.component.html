@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Clone Group</h1>
+<button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+    <mat-icon class="close-icon">close</mat-icon>
+</button>
+<div class="container">
+    <div mat-dialog-content>
+
+        <form [formGroup]="cloneForm" (ngSubmit)="onSend(cloneForm)" style="height:200px;">
+
+            <mat-form-field class="mb-3 w-100" appearance="outline">
+                <mat-label>New Group Name</mat-label>
+                <input matInput type="text" formControlName="group_name">
+              </mat-form-field>
+            <div class="error" *ngIf="hasError('group_name', 'required')">This field is required.</div>
+            <mat-dialog-actions align="end">
+                <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->
+                <button type="submit" mat-raised-button class="form-button-submit" color="primary"
+                    [disabled]="!cloneForm.valid">Submit</button>
+            </mat-dialog-actions>
+
+        </form>
+    </div>
+</div>
