@@ -539,6 +539,10 @@ mat-toolbar {
   padding: 20px 30px;
 }
 
+.mat-sidenav:not(.mat-drawer-opened) .mat-nav-list .mat-list-item {
+  border-radius: 14px;
+}
+
 .mat-icon-wrap {
   background: #F2F2FF;
   width: 40px;
