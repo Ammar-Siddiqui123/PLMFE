@@ -31,7 +31,7 @@ export class AddLocationComponent implements OnInit {
           timeOut:2000
        });
       }
- }); 
+ });
   }
 
 }

@@ -1,16 +1,17 @@
 <h1 mat-dialog-title>{{form_heading}}</h1>
-<button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+<button mat-icon-button class="close-button dialog-close-button br-14" [mat-dialog-close]="true">
     <mat-icon class="close-icon">close</mat-icon>
 </button>
 <div class="container">
     <div mat-dialog-content>
 
-        <form #zoneForm="ngForm" (ngSubmit)="onSend(zoneForm)" style="height:180px;">
+        <form class="form pb-4" #zoneForm="ngForm" (ngSubmit)="onSend(zoneForm)">
 
-            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-form-field class="w-100 mb-2" appearance="outline">
                 <mat-label>Select Zone</mat-label>
-                <input type="text" placeholder="Pick one" aria-label="Select Zone" matInput [formControl]="zone"
+                <input type="text" placeholder="Select Zone" aria-label="Select Zone" matInput [formControl]="zone"
                     [matAutocomplete]="auto">
+                    <mat-icon class="icon-kbdown-dropdown" matSuffix>keyboard_arrow_down</mat-icon>
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                         {{option}}
