@@ -28,7 +28,6 @@ export class AddNewGroupComponent implements OnInit {
   groupName:string;
 
   ngOnInit(): void {
-    // console.log(this.data)
     this.grpData = this.data.grp_data;
     this.data?.mode === 'edit' ? this.form_heading = 'Edit Group' : 'Add New Group';
     this.data?.mode === 'edit' ? this.form_btn_label = 'Save': 'Add';
@@ -46,7 +45,6 @@ export class AddNewGroupComponent implements OnInit {
         
          this.employeeService.insertGroup(form.value)
         .subscribe((response: AccessGroupObject) => {
-          console.log(response)
           if(response.isExecuted){
             this.dialog.closeAll(); // Close opened diaglo
             this.toastr.success(labels.alert.success, 'Success!',{

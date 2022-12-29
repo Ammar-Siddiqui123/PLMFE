@@ -31,6 +31,34 @@ import { AddInvMapLocationComponent } from './dialogs/add-inv-map-location/add-i
 import { WarehouseComponent } from './dialogs/warehouse/warehouse.component';
 import { SetColumnSeqComponent } from './dialogs/set-column-seq/set-column-seq.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CellSizeComponent } from './dialogs/cell-size/cell-size.component';
+import { VelocityCodeComponent } from './dialogs/velocity-code/velocity-code.component';
+import { InventoryMasterComponent } from './inventory-master/inventory-master.component';
+import { ItemNumberComponent } from './dialogs/item-number/item-number.component';
+import { ItemCategoryComponent } from './dialogs/item-category/item-category.component';
+import { PrintRangeComponent } from './dialogs/print-range/print-range.component';
+import { UnitMeasureComponent } from './dialogs/unit-measure/unit-measure.component';
+import { ItemSetupComponent } from './inventory-master/item-setup/item-setup.component';
+import { QuarantineConfirmationComponent } from './dialogs/quarantine-confirmation/quarantine-confirmation.component';
+import { AdjustQuantityComponent } from './dialogs/adjust-quantity/adjust-quantity.component';
+import { BatchManagerComponent } from './batch-manager/batch-manager.component';
+import { BatchDeleteComponent } from './batch-manager/batch-delete/batch-delete.component';
+import { BatchOrderListComponent } from './batch-manager/batch-order-list/batch-order-list.component';
+import { BatchSelectedOrdersComponent } from './batch-manager/batch-selected-orders/batch-selected-orders.component';
+import { CycleCountsComponent } from './cycle-counts/cycle-counts.component';
+import { CCDiscrepanciesComponent } from './cycle-counts/ccdiscrepancies/ccdiscrepancies.component';
+import { CCCountQueueComponent } from './cycle-counts/cccount-queue/cccount-queue.component';
+import { CreateCountsComponent } from './cycle-counts/create-transaction/create-counts/create-counts.component';
+import { CreateTransactionComponent } from './cycle-counts/create-transaction/create-transaction.component';
+import { CountQueueComponent } from './cycle-counts/create-transaction/count-queue/count-queue.component';
+import { ImportFieldMappingComponent } from './cycle-counts/import-field-mapping/import-field-mapping.component';
+import { DetailComponent } from './inventory-master/detail/detail.component';
+import { KitItemComponent } from './inventory-master/kit-item/kit-item.component';
+import { LocationComponent } from './inventory-master/location/location.component';
+import { ReelTrackingComponent } from './inventory-master/reel-tracking/reel-tracking.component';
+import { ScanCodesComponent } from './inventory-master/scan-codes/scan-codes.component';
+import { WeightScaleComponent } from './inventory-master/weight-scale/weight-scale.component';
+import { OthersComponent } from './inventory-master/others/others.component';
 
 
 
@@ -58,6 +86,34 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AddInvMapLocationComponent,
     WarehouseComponent,
     SetColumnSeqComponent,
+    CellSizeComponent,
+    VelocityCodeComponent,
+    InventoryMasterComponent,
+    ItemNumberComponent,
+    ItemCategoryComponent,
+    PrintRangeComponent,
+    UnitMeasureComponent,
+    ItemSetupComponent,
+    QuarantineConfirmationComponent,
+    AdjustQuantityComponent,
+    BatchManagerComponent,
+    BatchDeleteComponent,
+    BatchOrderListComponent,
+    BatchSelectedOrdersComponent,
+    CycleCountsComponent,
+    CCDiscrepanciesComponent,
+    CCCountQueueComponent,
+    CreateCountsComponent,
+    CreateTransactionComponent,
+    CountQueueComponent,
+    ImportFieldMappingComponent,
+    DetailComponent,
+    KitItemComponent,
+    LocationComponent,
+    ReelTrackingComponent,
+    ScanCodesComponent,
+    WeightScaleComponent,
+    OthersComponent,
 
   ],
   imports: [

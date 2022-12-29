@@ -12,7 +12,6 @@ export class SetColumnSeqService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   public getSetColumnSeq(reqPaylaod?:any): Observable<any>{
-    // let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`);
     let userData = this.authService.userData();
     let payload = {
       "username": userData.userName,
@@ -26,5 +25,14 @@ export class SetColumnSeqService {
       })
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/GetColumnSequenceDetail`, payload,httpOptions);
+  }
+  public saveColumnSeq(payload:any): Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic '
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Admin/SaveColumns`, payload,httpOptions);
   }
 }
