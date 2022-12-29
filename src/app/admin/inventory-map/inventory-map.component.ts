@@ -61,6 +61,7 @@ const INVMAP_DATA = [
 export class InventoryMapComponent implements OnInit {
 
 
+
   public displayedColumns: any;
   public dataSource: any;
   customPagination: any = {
@@ -70,7 +71,11 @@ export class InventoryMapComponent implements OnInit {
     endIndex: ''
   }
   columnSearch: any = {
-    searchColumn : '',
+    
+    searchColumn : {
+      colHeader :'',
+      colDef: ''
+    },
     searchValue : ''
   }
 
@@ -80,6 +85,8 @@ export class InventoryMapComponent implements OnInit {
   }
   userData: any;
   payload: any;
+
+  searchAutocompleteList: any;
 
   public columnValues: any;
   public itemList: any;
@@ -145,7 +152,7 @@ export class InventoryMapComponent implements OnInit {
      "wsid": this.userData.wsid,
      "oqa": this.filterLoc,
      "searchString": this.columnSearch.searchValue,
-     "searchColumn": this.columnSearch.searchColumn,
+     "searchColumn": this.columnSearch.searchColumn.colHeader,
      "sortColumnIndex": this.sortColumn.columnName,
      "sRow":  this.customPagination.startIndex,
      "eRow": this.customPagination.endIndex,
@@ -156,8 +163,9 @@ export class InventoryMapComponent implements OnInit {
   getColumnsData(){
     this.seqColumn.getSetColumnSeq().subscribe((res) => {
       this.displayedColumns = INVMAP_DATA;
-      if(res.data.columnSequence.length>0){
-        this.columnValues = res.data?.columnSequence;
+  
+      if(res.data.columnSequence){
+        this.columnValues = (res.data?.columnSequence.length>0) ? res.data?.columnSequence : res.data?.allColumnSequence;
         this.columnValues.push('actions');
         this.getContentData();
       } else {
@@ -306,6 +314,21 @@ export class InventoryMapComponent implements OnInit {
     
   }
 
+  autocompleteSearchColumn(){
+    let searchPayload = {
+      "columnName": this.columnSearch.searchColumn.colDef,
+      "value": this.columnSearch.searchValue,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.invMapService.getSearchData(searchPayload).subscribe((res: any) => {
+      if(res.data){
+        this.searchAutocompleteList = res.data;
+      }
+
+    });
+  }
+
   searchColumn(){
     if(this.columnSearch.searchValue){
       this.initializeApi();
@@ -314,7 +337,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   searchData(){
-    if( this.columnSearch.searchColumn){
+    if( this.columnSearch.searchColumn.colHeader){
       this.initializeApi();
       this.getContentData();
     }
