@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { startWith } from 'rxjs/internal/operators/startWith';
 import { map } from 'rxjs/internal/operators/map';
 import { AuthService } from '../../../../app/init/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-group-allowed',
@@ -31,7 +32,8 @@ export class AddGroupAllowedComponent implements OnInit {
     private employeeService: EmployeeService,
     private toastr: ToastrService,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -74,10 +76,23 @@ export class AddGroupAllowedComponent implements OnInit {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
+        this.reloadCurrentRoute();
+      }
+      else{
+        this.toastr.success(res.responseMessage, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
       }
     });
   }
   hasError(fieldName: string, errorName: string) {
     return this.controlNameForm.get(fieldName)?.touched && this.controlNameForm.get(fieldName)?.hasError(errorName);
+  }
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
   }
 }
