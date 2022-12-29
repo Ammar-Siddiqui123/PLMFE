@@ -1143,3 +1143,59 @@ button{
   justify-content: center;
   color: #DE2654;
 }
+
+.container.location_detail,
+.item_detail {
+  border: 1px solid #D7D7F9;
+  border-radius: 14px;
+  padding: 30px;
+}
+
+.ld_checks {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.ld_checkbox {
+  margin: 0 10px;
+}
+
+.loc_name, .ac-dropdown-label {
+  display: flex !important;
+  justify-content: space-between;
+  padding: 10px 20px 0px 20px;
+}
+.loc_option, .ac-dropdown-option{
+  display: flex;
+  justify-content: space-between;
+  text-overflow: ellipsis;
+}
+
+.ac-dropdown-label span {
+  width: 50%;
+  display: inline-block;
+}
+
+.ac-dropdown-option span {
+  width: 50%;
+  display: inline-block;
+}
+
+.loc_optionZ{
+  display: flex;
+  justify-content: space-around;
+  text-overflow: ellipsis;
+}
+.itemNum  {
+  display: flex;
+  justify-content: space-between;
+  text-overflow: ellipsis;
+}
+
+
+.autocomplete-center {
+  left: 32%;
+  margin-left: -58%;
+}
