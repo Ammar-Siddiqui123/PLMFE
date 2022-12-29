@@ -10,9 +10,9 @@ import { map } from 'rxjs/internal/operators/map';
 import { AuthService } from '../../../../app/init/auth.service';
 
 @Component({
-  selector: 'app-add-group-allowed',
-  templateUrl: './add-group-allowed.component.html',
-  styleUrls: ['./add-group-allowed.component.scss']
+  selector: 'group-allowed',
+  templateUrl: './group-allowed.component.html',
+  styleUrls: ['./group-allowed.component.scss']
 })
 export class GroupAllowedComponent implements OnInit {
 
@@ -42,32 +42,29 @@ export class GroupAllowedComponent implements OnInit {
     let payload = {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
-      "filter": "%"
     }
-    this.employeeService.getControlName(payload).subscribe((res: any) => {
+    this.employeeService.getEmployeeData(payload).subscribe((res: any) => {
       console.log(res.data);
-      this.controlNameList = res.data;
+      this.controlNameList = res.data.allGroups;
       this.filteredOptions = this.controlNameForm.controls['controlName'].valueChanges.pipe(
         startWith(''),
         map(value => this.filterx(value || '')),
       );
     });
 
-   
-
 
   }
   filterx(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.controlNameList.filter(option => option.controlName.toLowerCase().includes(filterValue));
+    return this.controlNameList.filter(option => option.groupName.toLowerCase().includes(filterValue));
   }
   onSend(form: any) {
     let payload = {
-      "controlName": form.value.controlName,
+      "groupname": form.value.controlName,
       "username": this.userData.userName,
-      "wsid": this.userData.wsid,
+      // "wsid": this.userData.wsid,
     }
-    this.employeeService.submitControlResponse(payload).subscribe((res: any) => {
+    this.employeeService.insertUserGroup(payload).subscribe((res: any) => {
       if (res.isExecuted) {
         this.dialog.closeAll();
         this.toastr.success(labels.alert.success, 'Success!', {
