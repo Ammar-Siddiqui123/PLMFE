@@ -30,9 +30,9 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions class="d-flex flex-column justify-content-center">
-    <button [ngClass]="{'prompt-action-accent-button' : btn_label == 'Add', 'prompt-action-danger-button' : btn_label == 'Remove' }" class="mat-button-base  mb-2" mat-stroked-button mat-button
+    <button [ngClass]="{'prompt-action-accent-button' : btn_label == 'Add', 'prompt-action-danger-button' : btn_label == 'Remove' }" class="mat-button-base  mb-3" mat-stroked-button mat-button
       (click)="onConfirmAdd()" tabindex="1">{{btn_label}}</button>
-    <button class="mat-button-base prompt-action-basic-button mx-0" mat-button mat-dialog-close
+    <button class="mat-button-base prompt-action-basic-button" mat-button mat-dialog-close
       tabindex="-1">Close</button>
   </mat-dialog-actions>
 </div>
