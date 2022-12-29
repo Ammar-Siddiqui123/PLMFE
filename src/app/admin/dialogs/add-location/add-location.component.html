@@ -1,17 +1,17 @@
-<h1 mat-dialog-title>{{form_heading}}</h1>
-<button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+<h2 class="card-header-title">{{form_heading}}</h2>
+<button mat-icon-button class="close-button dialog-close-button br-14" [mat-dialog-close]="true">
     <mat-icon class="close-icon">close</mat-icon>
 </button>
 <div class="container">
     <div mat-dialog-content>
 
-        <form #zoneForm="ngForm" (ngSubmit)="onSend(zoneForm)" style="height:250px;">
+        <form class="form pb-4" #zoneForm="ngForm" (ngSubmit)="onSend(zoneForm)">
 
-            <mat-form-field class="d-block w-100" appearance="outline">
+            <mat-form-field class="mb-3 w-100" appearance="outline">
                 <mat-label>Start Location</mat-label>
                 <input matInput type="text" name="startLocation" required="required" [(ngModel)]="startLocation">
             </mat-form-field>
-            <mat-form-field class="d-block w-100" appearance="outline">
+            <mat-form-field class="mb-3 w-100" appearance="outline">
                 <mat-label>End Location</mat-label>
                 <input matInput type="text" name="endLocation" required="required" [(ngModel)]="endLocation">
             </mat-form-field>

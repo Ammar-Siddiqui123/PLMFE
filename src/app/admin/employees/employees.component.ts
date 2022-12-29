@@ -40,7 +40,7 @@ export class EmployeesComponent implements OnInit {
   emp: IEmployee;
   public isLookUp: boolean = false;
   public isGroupLookUp: boolean = false;
- 
+
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
@@ -122,9 +122,9 @@ export class EmployeesComponent implements OnInit {
     else{
       event.function.map((func => {
         this.unassignedFunctions = this.unassignedFunctions.filter(name => name !== func);
-        this.assignedFunctions.unshift(func);  
+        this.assignedFunctions.unshift(func);
       }));
-      
+
     }
   }
   removePermission(event:any){
@@ -136,13 +136,13 @@ export class EmployeesComponent implements OnInit {
     else{
       event.function.map((func => {
         this.assignedFunctions = this.assignedFunctions.filter(name => name !== func);
-        this.unassignedFunctions.unshift(func);  
+        this.unassignedFunctions.unshift(func);
       }));
-      
+
     }
   }
   saveAssignedFunc(){
-    
+
     let assignFunc = {
       "userName": "1234",
       "wsid": "TESTWID",
@@ -155,12 +155,12 @@ export class EmployeesComponent implements OnInit {
         this.unassignedFunctions =[];
         this.isGroupLookUp = false;
         if(res.isExecuted){
-          this.toastr.success(labels.alert.delete, 'Success!', {
+          this.toastr.success(labels.alert.update, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
         }
-        
+
       });
   }
   updateGrpLookUp(event: any) {
@@ -174,7 +174,7 @@ export class EmployeesComponent implements OnInit {
       "userName":this.userName,
       "wsid": "TESTWSID",
       "groupName":this.grpData.groupName
-      
+
       };
       // console.log("grp_data",grp_data)
     this.employeeService.getFunctionByGroup(grp_data)
@@ -183,7 +183,7 @@ export class EmployeesComponent implements OnInit {
       this.assignedFunctions = response.data?.allFunc
       this.unassignedFunctions = response.data?.groupFunc
 
-      
+
     });
   }
 
@@ -385,5 +385,5 @@ export class EmployeesComponent implements OnInit {
     this.employee_fetched_zones.filter = filterValue.trim().toLowerCase();
   }
 
-  
+
 }
