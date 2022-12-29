@@ -45,6 +45,8 @@ import { BatchManagerComponent } from './batch-manager/batch-manager.component';
 import { BatchDeleteComponent } from './batch-manager/batch-delete/batch-delete.component';
 import { BatchOrderListComponent } from './batch-manager/batch-order-list/batch-order-list.component';
 import { BatchSelectedOrdersComponent } from './batch-manager/batch-selected-orders/batch-selected-orders.component';
+import { KitItemsComponent } from './inventory-master/kit-items/kit-items.component';
+import { InventoryLocationComponent } from './inventory-master/inventory-location/inventory-location.component';
 import { CycleCountsComponent } from './cycle-counts/cycle-counts.component';
 import { CCDiscrepanciesComponent } from './cycle-counts/ccdiscrepancies/ccdiscrepancies.component';
 import { CCCountQueueComponent } from './cycle-counts/cccount-queue/cccount-queue.component';
@@ -52,11 +54,17 @@ import { CreateCountsComponent } from './cycle-counts/create-transaction/create-
 import { CreateTransactionComponent } from './cycle-counts/create-transaction/create-transaction.component';
 import { CountQueueComponent } from './cycle-counts/create-transaction/count-queue/count-queue.component';
 import { ImportFieldMappingComponent } from './cycle-counts/import-field-mapping/import-field-mapping.component';
+import { ReelTrackingComponent } from './inventory-master/reel-tracking/reel-tracking.component';
+import { ScanCodesComponent } from './inventory-master/scan-codes/scan-codes.component';
+import { LocationAssignmentComponent } from './location-assignment/location-assignment.component';
+import { CountComponent } from './location-assignment/count/count.component';
+import { PickComponent } from './location-assignment/pick/pick.component';
+import { PutAwayComponent } from './location-assignment/put-away/put-away.component';
+import { WeighScaleComponent } from './inventory-master/weigh-scale/weigh-scale.component';
+import { InventoryMasterOtherComponent } from './inventory-master/inventory-master-other/inventory-master-other.component';
 import { DetailComponent } from './inventory-master/detail/detail.component';
 import { KitItemComponent } from './inventory-master/kit-item/kit-item.component';
 import { LocationComponent } from './inventory-master/location/location.component';
-import { ReelTrackingComponent } from './inventory-master/reel-tracking/reel-tracking.component';
-import { ScanCodesComponent } from './inventory-master/scan-codes/scan-codes.component';
 import { WeightScaleComponent } from './inventory-master/weight-scale/weight-scale.component';
 import { OthersComponent } from './inventory-master/others/others.component';
 
@@ -100,6 +108,8 @@ import { OthersComponent } from './inventory-master/others/others.component';
     BatchDeleteComponent,
     BatchOrderListComponent,
     BatchSelectedOrdersComponent,
+    KitItemsComponent,
+    InventoryLocationComponent,
     CycleCountsComponent,
     CCDiscrepanciesComponent,
     CCCountQueueComponent,
@@ -107,6 +117,14 @@ import { OthersComponent } from './inventory-master/others/others.component';
     CreateTransactionComponent,
     CountQueueComponent,
     ImportFieldMappingComponent,
+    ReelTrackingComponent,
+    ScanCodesComponent,
+    LocationAssignmentComponent,
+    CountComponent,
+    PickComponent,
+    PutAwayComponent,
+    WeighScaleComponent,
+    InventoryMasterOtherComponent,
     DetailComponent,
     KitItemComponent,
     LocationComponent,

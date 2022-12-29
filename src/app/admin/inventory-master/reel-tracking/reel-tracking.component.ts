@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-reel-tracking',
@@ -8,12 +9,19 @@ import { FormGroup } from '@angular/forms';
 })
 export class ReelTrackingComponent implements OnInit {
 
+  constructor(private dialog: MatDialog) { }
+  @ViewChild('addItemAction') addItemTemp: TemplateRef<any>;
   @Input() reelTracking: FormGroup;
   public userData: any;
-  
-  constructor() { }
 
   ngOnInit(): void {
   }
-
+  addItemDialog(): void {
+    const dialogRef = this.dialog.open(this.addItemTemp, {
+      width: '450px'
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
+  }
 }

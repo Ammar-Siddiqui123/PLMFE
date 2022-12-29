@@ -5,6 +5,8 @@ import {MatPaginator} from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../../../app/init/auth.service';
 import { BatchManagerService } from '../batch-manager.service';
+import { ToastrService } from 'ngx-toastr';
+import labels from '../../../labels/labels.json';
 
 @Component({
   selector: 'app-batch-selected-orders',
@@ -22,6 +24,8 @@ export class BatchSelectedOrdersComponent implements OnInit {
   @Input() displayedColumns : any;
   @Input() batchManagerSettings : any;
   @Input() type : any;
+  @Output() addRemoveAll = new EventEmitter<any>();
+  @Output() batchCreated = new EventEmitter<any>();
   public nextOrderNumber:any;
 
   @Output() removeOrderEmitter = new EventEmitter<any>();
@@ -29,11 +33,15 @@ export class BatchSelectedOrdersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private authService: AuthService,private batchService : BatchManagerService) { }
+  constructor(
+    private _liveAnnouncer: LiveAnnouncer, 
+    private authService: AuthService,
+    private batchService : BatchManagerService,
+    private toastr: ToastrService
+    ) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    // console.log(this.batchManagerSettings);
   }
 
   ngAfterViewInit() {
@@ -45,6 +53,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
     this.batchManagerSettings.map(batchSetting => {
         this.nextOrderNumber = batchSetting.batchID
         // console.log(batchSetting.batchID);
+        // console.log(this.tableData.data.length);
         
     });
   }
@@ -85,12 +94,24 @@ export class BatchSelectedOrdersComponent implements OnInit {
     }
     try {
       this.batchService.create(paylaod, '/Admin/BatchInsert').subscribe((res: any) => {
-        console.log(res);
+        const {isExecuted } = res
+        if(isExecuted){
+          this.batchCreated.emit(true);
+          this.toastr.success(labels.alert.success, 'Success!',{
+            positionClass: 'toast-bottom-right',
+            timeOut:2000
+         });
+        }
+        
       });
     } catch (error) {
       console.log(error);
       
     }
+  }
+
+  addRemoveAllOrder(){
+    this.addRemoveAll.emit();
   }
 
 }

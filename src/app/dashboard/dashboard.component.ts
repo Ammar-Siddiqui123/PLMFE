@@ -24,29 +24,29 @@ export class DashboardComponent implements OnInit {
   //    this.saveEmployee()
 
   //    this.deleteEmployee()
-     
+
   //    this.updateEmployee()
 
   //    this.getControlName()
 
   //    this.updateControlName()
 
-  //    this.deleteControlName() 
+  //    this.deleteControlName()
 
   //    this.submitControlName()
 
     //  this.employeeStatsInfo()
 
-    //  this.getZones() 
+    //  this.getZones()
     // this.insertAllAccess()
 
     // this.updateEmployeeZone();
-    
+
     // this.deleteEmployeeZone()
-    // this.insertEmployeeLocation() 
+    // this.insertEmployeeLocation()
     // this.updateEmployeeLocation()
-    // this.deleteEmployeeLocation() 
-    // this.insertPickLevels() 
+    // this.deleteEmployeeLocation()
+    // this.insertPickLevels()
     // this.updatePickLevels()
     // this.deletePickLevels()
     // this.updateAccessGroup()
@@ -104,7 +104,7 @@ this.employeeService.employeeStatsInfo(this.emp)
 //     "wsid": "TESTWSID"
 //   };
 
-  
+
 // this.employeeService.saveAdminEmployee(this.emp)
 // .subscribe((response: AdminEmployeeLookupResponse) => {
 // console.log(response);

@@ -8,14 +8,6 @@ import { NgForm } from '@angular/forms';
 import { AdminEmployeeLookupResponse, IEmployee } from 'src/app/Iemployee';
 import { EmployeeService } from 'src/app/employee.service';
 
-
-export interface employees_details {
-  id: string;
-  first_name: string;
-  last_name: string;
-  mi: string;
-}
-
 // employee_details table data
 
 
@@ -37,24 +29,17 @@ export class EmployeesLookupComponent implements OnInit {
       this.selectedRowIndex = row.id;
   }
 
-  
-
-
   // table initialization
   displayedColumns: string[] = ['firstName', 'lastName', 'mi'];
   constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog,private employeeService: EmployeeService) {}
 
   @ViewChild(MatSort) sort: MatSort;
-  employees_details_data: any = [];
-
- 
-
-
+  employees_details_data: [] = [];
 
   ngOnInit(): void {
 
     this.emp = {
-      "lastName": "%",   
+      "lastName": "%",
       "userName": "1234",
       "wsid": "TESTWSID"
     };
@@ -79,10 +64,7 @@ export class EmployeesLookupComponent implements OnInit {
 
   /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
+
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {

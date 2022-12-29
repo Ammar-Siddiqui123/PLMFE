@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild,Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { FormGroup } from '@angular/forms';
 
 @Component({

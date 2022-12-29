@@ -9,6 +9,7 @@ import { CycleCountsComponent } from './cycle-counts/cycle-counts.component';
 import { EmployeesComponent } from './employees/employees.component';
 import { InventoryMapComponent } from './inventory-map/inventory-map.component';
 import { InventoryMasterComponent } from './inventory-master/inventory-master.component';
+import { LocationAssignmentComponent } from './location-assignment/location-assignment.component';
 
 const routes: Routes = [
   { path: '', component: AdminComponent },
@@ -40,6 +41,12 @@ const routes: Routes = [
   {
     path: 'createCounts',
     component: CreateTransactionComponent,
+    canActivate:[AuthGuardGuard]
+    
+  },
+  {
+    path: 'locationAssignment',
+    component: LocationAssignmentComponent,
     canActivate:[AuthGuardGuard]
     
   }

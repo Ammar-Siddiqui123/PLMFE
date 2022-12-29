@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { EmployeeService } from 'src/app/employee.service';
@@ -10,11 +11,11 @@ import { InventoryMapService } from '../../inventory-map/inventory-map.service';
   templateUrl: './delete-confirmation.component.html',
 })
 export class DeleteConfirmationComponent implements OnInit {
-
+  isChecked = true;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any, 
-    private dialog: MatDialog, 
-    private toastr: ToastrService, 
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialog: MatDialog,
+    private toastr: ToastrService,
     private employeeService: EmployeeService,
     private invMapService: InventoryMapService,
     public dialogRef: MatDialogRef<DeleteConfirmationComponent>) { }
@@ -46,7 +47,7 @@ export class DeleteConfirmationComponent implements OnInit {
         });
       }
       else if (this.data.mode === 'delete-location') {
-  
+
         let locationData = {
           "startLocation": this.data.location.startLocation,
           "endLocation": this.data.location.endLocation,
@@ -70,7 +71,7 @@ export class DeleteConfirmationComponent implements OnInit {
       }
       else if (this.data.mode === 'delete-picklevel') {
         console.log(this.data);
-  
+
         let pickLevelData = {
           "wsid": "TESTWID",
           "levelID": this.data.picklevel.levelID.toString(),
@@ -85,7 +86,7 @@ export class DeleteConfirmationComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
-          }else{
+          } else {
             this.dialog.closeAll();
             this.toastr.error(labels.alert.went_worng, 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -96,7 +97,7 @@ export class DeleteConfirmationComponent implements OnInit {
       }
       else if (this.data.mode === 'delete-allowedgroup') {
         console.log(this.data);
-  
+
         let pickLevelData = {
           "wsid": "TESTWID",
           "GroupName": this.data.allowedGroup,
@@ -109,7 +110,7 @@ export class DeleteConfirmationComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
-          }else{
+          } else {
             this.dialog.closeAll();
             this.toastr.error(labels.alert.went_worng, 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -119,7 +120,7 @@ export class DeleteConfirmationComponent implements OnInit {
         });
       }
       else if (this.data.mode === 'delete-location') {
-  
+
         let locationData = {
           "startLocation": this.data.location.startLocation,
           "endLocation": this.data.location.endLocation,
@@ -142,15 +143,14 @@ export class DeleteConfirmationComponent implements OnInit {
         });
       }
       else if (this.data.mode === 'delete-group') {
-  
         let groupData = {
-               "username": "1234",
-               "wsid": "TESTWID",
-               "GroupName": this.data.grp_data.groupName
-  
-  
+          "wsid": "TESTWID",
+          "GroupName": this.data.allowedGroup,
+          "userName": "1234"
         }
         this.employeeService.deleteGroup(groupData).subscribe((res: any) => {
+          console.log(res);
+
           if (res.isExecuted) {
             this.dialog.closeAll();
             this.toastr.success(labels.alert.delete, 'Success!', {
@@ -166,29 +166,29 @@ export class DeleteConfirmationComponent implements OnInit {
           }
         });
       }
-    else if (this.data.mode === 'delete-inventory-map') {
+      else if (this.data.mode === 'delete-inventory-map') {
 
-      let payload = {
-        "inventoryMapID": this.data.id,
-        "username": "1234",
-        "wsid": "TESTWID"
-    }
-    this.invMapService.deleteInventoryMap(payload).subscribe((res: any) => {
-      if (res.isExecuted) {
-        this.dialog.closeAll();
-        this.toastr.success(labels.alert.delete, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      } else {
-        this.dialog.closeAll();
-        this.toastr.error(labels.alert.went_worng, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
+        let payload = {
+          "inventoryMapID": this.data.id,
+          "username": "1234",
+          "wsid": "TESTWID"
+        }
+        this.invMapService.deleteInventoryMap(payload).subscribe((res: any) => {
+          if (res.isExecuted) {
+            this.dialog.closeAll();
+            this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          } else {
+            this.dialog.closeAll();
+            this.toastr.error(labels.alert.went_worng, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
         });
       }
-    });
-    }
       else if (this.data.mode === 'delete-emp') {
         let emp_data = {
           "userName": this.data.emp_data.username,
@@ -204,15 +204,24 @@ export class DeleteConfirmationComponent implements OnInit {
             });
           }
         });
-      } 
+      }
       else {
         this.dialogRef.close("Yes");
         // this.dialog.closeAll();
-      }    
+      }
     } else {
       this.dialogRef.close("Yes");
-    }     
+    }
 
+  }
+
+  checkOptions(event: MatCheckboxChange): void {
+   if(event.checked){
+    this.isChecked = false;
+   }
+   else{
+    this.isChecked = true;
+   }
   }
 
 }

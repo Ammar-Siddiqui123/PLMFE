@@ -5,6 +5,8 @@ import { FormControl, FormGroup, Validators,  } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../labels/labels.json'
+import { MatDialog } from '@angular/material/dialog';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @Component({
   selector: 'login',
@@ -16,9 +18,16 @@ export class LoginComponent {
   login: ILogin;
 
   returnUrl: string;
+  public env;
 
 
-  constructor(public loginService: LoginService, private router: Router, private route: ActivatedRoute,private toastr: ToastrService) {}
+  constructor(
+    public loginService: LoginService, 
+    private router: Router, 
+    private route: ActivatedRoute,
+    private toastr: ToastrService,
+    private dialog: MatDialog
+    ) {}
 
   addLoginForm = new FormGroup({
     username: new FormControl('', [Validators.required,
@@ -58,7 +67,22 @@ export class LoginComponent {
   }
 
   ngOnInit() {  
+    this.loginService.getSecurityEnvironment().subscribe((res) => {
+      this.env = res.data;
+        localStorage.setItem('env', JSON.stringify(res.data));
+    });
+    
+  }
 
+  changePass(){
+    let dialogRef = this.dialog.open(ChangePasswordComponent, {
+      height: 'auto',
+      width: '500px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      
+    });
   }
 
 }

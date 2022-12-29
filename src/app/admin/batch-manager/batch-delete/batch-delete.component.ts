@@ -1,8 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, TemplateRef, ViewChild, Optional, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
+
 import { BatchManagerService } from '../batch-manager.service';
 import { AuthService } from '../../../../app/init/auth.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-batch-delete',
@@ -11,37 +13,41 @@ import { AuthService } from '../../../../app/init/auth.service';
 })
 export class BatchDeleteComponent implements OnInit {
 
-  transList : any = [
+  transList: any = [
     {
-      id : "Pick",
-      name : "Pick"
+      id: "Pick",
+      name: "Pick"
     },
     {
-      id : "Put Away",
-      name : "Put Away"
+      id: "Put Away",
+      name: "Put Away"
     },
     {
-      id : "Count",
-      name : "Count"
-    }    
+      id: "Count",
+      name: "Count"
+    }
   ];
-  batchList : any = [];
-  transType : string = 'Pick';
-  batchID : string = "";
-  public userData : any;
+  batchList: any = [];
+  transType: string = 'Pick';
+  batchID: string = "";
+  public userData: any;
+  public dltType: any;
+  @ViewChild('deleteAction') dltActionTemplate: TemplateRef<any>;
 
   @Output() transTypeEmitter = new EventEmitter<any>();
-  
+
   constructor(private dialog: MatDialog,
-              private batchService : BatchManagerService, 
-              private authService: AuthService) { }
+    private batchService: BatchManagerService,
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getBatch(this.transType);
   }
 
-  getBatch(type : any) {
+  getBatch(type: any) {
     try {
       let paylaod = {
         "transType": type,
@@ -50,11 +56,11 @@ export class BatchDeleteComponent implements OnInit {
       }
       this.batchService.get(paylaod, '/Admin/SelectBatchesDeleteDrop').subscribe((res: any) => {
         this.batchList = [];
-        if (res.isExecuted && res.data.length > 0) {          
+        if (res.isExecuted && res.data.length > 0) {
           this.batchList.push("All Transaction")
-          res.data.forEach((i : any) => {
+          res.data.forEach((i: any) => {
             i ? this.batchList.push(i) : "";
-          });    
+          });
         }
       });
     } catch (error) {
@@ -62,24 +68,60 @@ export class BatchDeleteComponent implements OnInit {
     }
   }
 
-  changeTranType(value : any) {
+  changeTranType(value: any) {
     this.getBatch(value);
     this.transTypeEmitter.emit(value);
   }
 
-  deleteBatch(type : any, id : any) {
-    // alert(`Type : ${type} and Batch ID : ${id}`);
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '450px'
-    });
+  deleteBatch(type: any, id: any) {
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-      if (result == "Yes") {
-        // this.batchService.delete();
-      }
-    });
+    let payload = {
+      "batchID": id,
+      "identity": 2,
+      "transType": type,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    if (this.batchID !== 'All Transaction') {
+      const dialogRef = this.dialog.open(this.dltActionTemplate, {
+        width: '550px',
+      });
+
+      dialogRef.afterClosed().subscribe(() => {
+        if (this.dltType == 'batch_tote') {
+          payload.identity = 0
+        } else {
+          payload.identity = 1
+        }
+        this.batchService.delete(payload, '/Admin/BatchDeleteAll').subscribe((res: any) => {
+          if(res.isExecuted) {
+            this.ngOnInit();
+            this.toastr.success(res.responseMessage, 'Success!',{
+              positionClass: 'toast-bottom-right',
+              timeOut:2000
+           });
+          }
+        });
+      });
+    }
+    else{
+      payload.identity = 2;
+      this.batchService.delete(payload, '/Admin/BatchDeleteAll').subscribe((res: any) => {
+        if(res.isExecuted) {
+          this.ngOnInit();
+          this.toastr.success(res.responseMessage, 'Success!',{
+            positionClass: 'toast-bottom-right',
+            timeOut:2000
+         });
+        }
+      });
+    }
+
+
+  }
+  onDltOptions(dltType: any) {
+    this.dltType = dltType;
+    this.dialog.closeAll();
   }
 
 }

@@ -265,7 +265,8 @@
 
 .mat-form-field-infix {
   padding: .5em 0;
-  border-top: .84375em solid rgba(0, 0, 0, 0)
+  border-top: .84375em solid rgba(0, 0, 0, 0);
+  display: flex !important;
 }
 
 .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
@@ -423,7 +424,7 @@ input.mat-input-element {
 .mat-paginator,
 .mat-paginator-page-size .mat-select-trigger {
   font-family: 'Mulish', sans-serif;
-  font-size: 12px
+  font-size: 14px
 }
 
 .mat-radio-button {
@@ -478,8 +479,9 @@ input.mat-input-element {
 .mat-tab-label,
 .mat-tab-link {
   font-family: 'Mulish', sans-serif;
-  font-size: 16px;
-  font-weight: 500
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.4s ease-all;
 }
 
 .mat-toolbar,
@@ -516,7 +518,7 @@ input.mat-input-element {
 }
 
 .mat-list-base .mat-list-item {
-  font-size: 16px
+  font-size: 14px
 }
 
 .mat-list-base .mat-list-item .mat-line {
@@ -1272,7 +1274,8 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 .mat-button.mat-primary,
 .mat-icon-button.mat-primary,
 .mat-stroked-button.mat-primary {
-  color: #00008099
+  /* color: #00008099 */
+  color: var(--clr-tertiary-900);
 }
 
 .mat-button.mat-accent,
@@ -1393,7 +1396,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 .mat-raised-button.mat-primary,
 .mat-fab.mat-primary,
 .mat-mini-fab.mat-primary {
-  background-color: #000080cc;
+  background-color: #1A1AD3;
 }
 
 .mat-flat-button.mat-accent,
@@ -1569,7 +1572,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 }
 
 .mat-card-subtitle {
-  color: rgba(0, 0, 0, .54)
+  color: rgb(9, 9, 72);
 }
 
 .mat-checkbox-frame {
@@ -2302,7 +2305,8 @@ td.mat-footer-cell {
 }
 
 .mat-paginator {
-  background: #fff
+  /* background: #fff */
+  background: transparent;
 }
 
 .mat-paginator,
@@ -2804,7 +2808,7 @@ td.mat-footer-cell {
 
 .mat-tab-label,
 .mat-tab-link {
-  color: rgba(0, 0, 0, .87)
+  color: rgb(9 9 72 / 60%);
 }
 
 .mat-tab-label.mat-tab-disabled,
@@ -3169,7 +3173,7 @@ td.mat-footer-cell {
 .mat-simple-snackbar-action {
   color: #ffd740
 }
-.table-row:focus {  
+.table-row:focus {
   border-radius: 10px;
   background: #dfdfdf;
 }

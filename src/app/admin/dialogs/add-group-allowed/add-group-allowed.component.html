@@ -7,10 +7,28 @@
 
         <form #pickUpLevelForm="ngForm" (ngSubmit)="onSend(pickUpLevelForm)" style="height:200px;">
 
-            <mat-form-field class="d-block w-100" appearance="outline">
-                <mat-label>Group Name</mat-label>
-                <input matInput type="text" name="GroupName" required="required" [(ngModel)]="GroupName">
-            </mat-form-field>
+            <!-- <mat-form-field class="d-block w-100" appearance="outline"> -->
+                <!-- <mat-label>Set Control Names</mat-label> -->
+                <!-- <input matInput type="text" name="Control Names"> -->
+                <mat-form-field class="d-block w-100" appearance="outline">
+                    <mat-label>Control Name</mat-label>
+                    <input type="text"
+                           placeholder="Control Name"
+                           aria-label="Number"
+                           matInput
+                           [formControl]="myControl"
+                           [matAutocomplete]="auto">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                        <h6 class="ctl_name"><span>Location</span> <span>Zone</span></h6>
+                        <mat-option *ngFor="let option of filteredOptions | async"
+                            [value]="option">
+                            <div class="ctl_option">
+                                <span>{{option}}</span> <span>{{option}}</span>
+                            </div>
+                        </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+            <!-- </mat-form-field> -->
             <mat-dialog-actions align="end">
                 <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->
                 <button type="submit" mat-raised-button class="form-button-submit"

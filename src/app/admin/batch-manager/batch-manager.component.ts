@@ -82,6 +82,8 @@ export class BatchManagerComponent implements OnInit {
               private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.orderList = [];
+    this.selOrderList = [];
     this.userData = this.authService.userData();
     this.getOrders("Pick");
   }
@@ -125,6 +127,24 @@ export class BatchManagerComponent implements OnInit {
     } else {
       this.selOrderList = this.selOrderList.filter(val => val.orderNumber !== order.orderNumber);
       this.orderList = [order, ...this.orderList];
+    }
+  }
+  addRemoveAllOrders(operation){
+    if(operation === 'add'){
+        this.selOrderList = [...this.selOrderList,...this.orderList];
+        this.orderList = [];
+    }
+    else if(operation === 'remove'){
+      this.orderList = [...this.orderList,...this.selOrderList];
+      this.selOrderList = [];
+    }
+    
+  }
+  batchCreated(event:any){
+    if(event){
+      console.log(event);
+      
+      this.ngOnInit();
     }
   }
 
