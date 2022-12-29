@@ -3,6 +3,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { EmployeeService } from 'src/app/employee.service';
+import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json';
 import { InventoryMapService } from '../../inventory-map/inventory-map.service';
 
@@ -12,15 +13,19 @@ import { InventoryMapService } from '../../inventory-map/inventory-map.service';
 })
 export class DeleteConfirmationComponent implements OnInit {
   isChecked = true;
+  public userData;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
     private toastr: ToastrService,
     private employeeService: EmployeeService,
     private invMapService: InventoryMapService,
-    public dialogRef: MatDialogRef<DeleteConfirmationComponent>) { }
+    public dialogRef: MatDialogRef<DeleteConfirmationComponent>,
+    private authService: AuthService
+    ) { }
 
   ngOnInit(): void {
+    this.userData = this.authService.userData();
   }
 
   onConfirmdelete() {
@@ -196,6 +201,26 @@ export class DeleteConfirmationComponent implements OnInit {
           "wsid": "TESTWSID"
         };
         this.employeeService.deleteAdminEmployee(emp_data).subscribe((res: any) => {
+          if (res.isExecuted) {
+            this.dialog.closeAll();
+            this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        });
+      }
+      else if (this.data.mode === 'delete-grpallowed') {
+        console.log(this.data);
+        
+        let emp_data = {
+          "groupname": this.data.allowedGroup.groupName,
+          // "deleteBy": "1234",
+          // "wsid": "TESTWSID"
+          "username": this.userData.userName,
+          // "wsid": this.userData.wsid,
+        };
+        this.employeeService.deleteUserGroup(emp_data).subscribe((res: any) => {
           if (res.isExecuted) {
             this.dialog.closeAll();
             this.toastr.success(labels.alert.delete, 'Success!', {

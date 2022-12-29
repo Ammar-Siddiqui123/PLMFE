@@ -20,6 +20,7 @@ export class EmployeesLookupComponent implements OnInit {
   emp: IEmployee;
   employees_res: any;
   employee_data_source:any = [];
+  public env;
   @Input('childLookUp') isLookUp: boolean;
   @Output() updateIsLookUp  = new EventEmitter();
 
@@ -37,6 +38,8 @@ export class EmployeesLookupComponent implements OnInit {
   employees_details_data: [] = [];
 
   ngOnInit(): void {
+
+    this.env =  localStorage.getItem('env');
 
     this.emp = {
       "lastName": "%",

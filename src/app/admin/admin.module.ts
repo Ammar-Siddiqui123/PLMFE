@@ -67,7 +67,9 @@ import { KitItemComponent } from './inventory-master/kit-item/kit-item.component
 import { LocationComponent } from './inventory-master/location/location.component';
 import { WeightScaleComponent } from './inventory-master/weight-scale/weight-scale.component';
 import { OthersComponent } from './inventory-master/others/others.component';
-import { GroupAllowedComponent } from './dialogs/group-allowed/add-group-allowed.component';
+import { GroupAllowedComponent } from './dialogs/group-allowed/group-allowed.component';
+import { SearchPipe } from './employees/search.pipe';
+import { customFuncAllowedSearch } from './employees/customFuncAllowedSearch.pipe';
 
 
 
@@ -133,7 +135,9 @@ import { GroupAllowedComponent } from './dialogs/group-allowed/add-group-allowed
     ScanCodesComponent,
     WeightScaleComponent,
     OthersComponent,
-    GroupAllowedComponent
+    GroupAllowedComponent,
+    SearchPipe,
+    customFuncAllowedSearch
 
   ],
   imports: [

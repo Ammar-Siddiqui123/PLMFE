@@ -79,6 +79,16 @@ export class EmployeeService {
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/DeleteEmployee`, employee,httpOptions);
   }
+  public deleteUserGroup(employee: any ): Observable<any> {
+    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + basicAuth
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Admin/DeleteUserGroup`, employee,httpOptions);
+  }
 
 
   public updateAdminEmployee(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
@@ -146,6 +156,16 @@ export class EmployeeService {
       })
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/SubmitControlResponse`, employee,httpOptions);
+  }
+  public insertUserGroup(employee: any): Observable<EmployeeObject> {
+    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + basicAuth
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Admin/InsertUserGroup`, employee,httpOptions);
   }
 
 //zone

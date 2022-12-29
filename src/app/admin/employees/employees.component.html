@@ -246,7 +246,7 @@
                     <app-employee-pickup-level [pickUplevels]="pickUplevels"></app-employee-pickup-level>
                   </mat-tab>
 
-                  <mat-tab label="Function Allowed" [disabled]="!isLookUp">
+                  <mat-tab label="Function Allowed" [disabled]="!isLookUp" *ngIf="env === 'DB'">
                     <div class="groups-allowed-tab g-tab bg-white">
 
                       <div class="g-action-card g-action-card-disabled mb-3">
@@ -261,7 +261,7 @@
                                       search
                                     </span>
                                     <input type="text" placeholder="Search Functions allowed"
-                                      aria-label="Search Groups Allowed" matInput>
+                                      aria-label="Search Groups Allowed" matInput [(ngModel)]="searchfuncAllowed">
                                   </mat-form-field>
                                   <button mat-raised-button color="primary" class=" mat-button-icon"
                                     (click)="groupAllowedDialog()">
@@ -273,7 +273,7 @@
                                 <mat-list class="zones-list g-card-list" role="list">
                                   <ng-scrollbar style="height: 200px">
                                     <mat-list-item role="listitem"
-                                      *ngFor="let groups_allowed of employee_group_allowed">
+                                      *ngFor="let groups_allowed of employee_group_allowed | customFuncAllowedSearch:searchfuncAllowed;let i = index">
                                       <span class="list-label zone-list-label">
                                         {{groups_allowed}}
                                       </span>
@@ -296,7 +296,7 @@
 
                     </div>
                   </mat-tab>
-                  <mat-tab label="Group Allowed" [disabled]="!isLookUp">
+                  <mat-tab label="Group Allowed" [disabled]="!isLookUp" *ngIf="env !== 'DB'">
                     <div class="groups-allowed-tab g-tab bg-white">
 
                       <div class="g-action-card g-action-card-disabled mb-3">
@@ -310,8 +310,8 @@
                                     <span class="material-symbols-outlined icon-search">
                                       search
                                     </span>
-                                    <input type="text" placeholder="Search Function allowed"
-                                      aria-label="Search Groups Allowed" matInput>
+                                    <input type="text" placeholder="Search Group allowed"
+                                      aria-label="Search Groups Allowed" matInput  [(ngModel)]="searchGrpAllowed">
                                   </mat-form-field>
                                   <button mat-raised-button color="primary" class=" mat-button-icon"
                                     (click)="grpAllowedDialog()">
@@ -323,12 +323,12 @@
                                 <mat-list class="zones-list g-card-list" role="list">
                                   <ng-scrollbar style="height: 200px">
                                     <mat-list-item role="listitem"
-                                      *ngFor="let grp_allowed of groupAllowedList">
+                                      *ngFor="let grp_allowed of groupAllowedList | custumGrpAllowedSearch:searchGrpAllowed;let i = index">
                                       <span class="list-label zone-list-label">
                                         {{grp_allowed.groupName}}
                                       </span>
                                       <button mat-icon-button aria-label="Delete Zone"
-                                        (click)="deleteGroupAllowed(grp_allowed)">
+                                        (click)="deleteGrpAllowed(grp_allowed)">
                                         <mat-icon class="icon-circle-cancel">close</mat-icon>
                                       </button>
                                     </mat-list-item>

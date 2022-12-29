@@ -19,7 +19,7 @@ import { AddNewGroupComponent } from '../dialogs/add-new-group/add-new-group.com
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../labels/labels.json';
 import { GroupsAllowedComponent } from './groups-allowed/groups-allowed.component';
-import { GroupAllowedComponent } from '../dialogs/group-allowed/add-group-allowed.component';
+import { GroupAllowedComponent } from '../dialogs/group-allowed/group-allowed.component';
 
 export interface location {
   start_location: string;
@@ -40,6 +40,9 @@ export class EmployeesComponent implements OnInit {
   emp: IEmployee;
   public isLookUp: boolean = false;
   public isGroupLookUp: boolean = false;
+  public env;
+  public searchGrpAllowed = '';
+  public searchfuncAllowed = '';
 
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
@@ -63,6 +66,7 @@ export class EmployeesComponent implements OnInit {
   employee_group_allowed: any;
   emp_all_zones:any;
   groupAllowedList:any;
+
 
 
   // table initialization
@@ -192,6 +196,8 @@ export class EmployeesComponent implements OnInit {
       startWith(''),
       map(value => this._filter(value || '')),
     );
+
+   this.env =  localStorage.getItem('env');
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -375,6 +381,18 @@ export class EmployeesComponent implements OnInit {
     })
 
   }
+  deleteGrpAllowed(allowedGroup: any) {
+    allowedGroup.userName = this.userName;
+    this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        mode: 'delete-grpallowed',
+        allowedGroup: allowedGroup
+      }
+    })
+
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -384,6 +402,15 @@ export class EmployeesComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.employee_fetched_zones.filter = filterValue.trim().toLowerCase();
   }
+  // grpAllowedFilter(event: Event) {
+    
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   // console.log(filterValue);
+  //   // this.groupAllowedList.filter = filterValue.trim().toLowerCase();
+
+  //   this.groupAllowedList = this.groupAllowedList.filter(t=>t.groupName === filterValue);
+  //   // console.log(filteredvalues);
+  // }
 
 
 }
