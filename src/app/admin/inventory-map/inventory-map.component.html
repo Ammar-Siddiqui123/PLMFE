@@ -46,7 +46,7 @@
 
             <div class="row" style="height: 100%;">
               <div class="col">
-                <button mat-mini-fab color="primary" aria-label="Add Locations" (click)="addLocDialog()">
+                <button mat-mini-fab color="primary" aria-label="Add Inventory Map" (click)="addLocDialog()">
                   <mat-icon>add</mat-icon>
                 </button>
               </div>
@@ -71,7 +71,7 @@
 
             </div>
           </div>
-      
+
             <div class="table-responsive">
               <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
                 <ng-container [matColumnDef]="col.colDef" *ngFor="let col of displayedColumns; let indexOfelement=index;" >
@@ -85,8 +85,8 @@
                   <td *matCellDef="let element" style="min-width: 180px;  padding: 5px"> {{ element[col.colHeader] }} </td>
                 </ng-container>
                 <ng-container matColumnDef="actions" stickyEnd>
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 50px;  padding: 5px; border: none;"> </th>                  
-                  <td mat-cell *matCellDef="let seletedRecord"  style="min-width: 50px;  padding: 5px; border: none;"> 
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 50px;  padding: 5px; border: none;"> </th>
+                  <td mat-cell *matCellDef="let seletedRecord"  style="min-width: 50px;  padding: 5px; border: none;">
                      <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="">
                          <mat-icon>more_vert</mat-icon>
                      </button>
@@ -97,17 +97,17 @@
                        <button mat-menu-item (click)="adjustQuantity(seletedRecord)">Adjust Quantity</button>
                        <button mat-menu-item (click)="viewInInventoryMaster()">View in Invetory Master</button>
                        <button mat-menu-item (click)="viewLocationHistory()">View location history</button>
-                     </mat-menu>  
+                     </mat-menu>
                  </td>
               </ng-container>
                 <mat-header-row *matHeaderRowDef="columnValues;sticky: true"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: columnValues;"></mat-row>
-              
+
               </mat-table>
             </div>
             <div  class="table-pagination">
               <mat-paginator [length]="this.customPagination.total"
-              [pageSize]="20" [pageSizeOptions]="[10, 25, 100]" (page)="handlePageEvent($event)"></mat-paginator>           
+              [pageSize]="20" [pageSizeOptions]="[10, 25, 100]" (page)="handlePageEvent($event)"></mat-paginator>
             </div>
         </mat-card-content>
       </mat-card>
@@ -150,6 +150,6 @@
   </div>
 </div>
 <mat-dialog-actions align="end">
-  <button type="submit" mat-raised-button class="form-button-submit" color="primary" (click)="viewLocFilter()">Apply</button>
+  <button type="submit" mat-flat-button class="form-button-submit" color="primary" (click)="viewLocFilter()">Apply</button>
 </mat-dialog-actions>
 </ng-template>

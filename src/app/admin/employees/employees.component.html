@@ -103,7 +103,7 @@
                                     <input type="text" placeholder="Search Zones" aria-label="Search Zones" matInput
                                       (keyup)="zoneFilter($event)">
                                   </mat-form-field>
-                                  <button mat-raised-button color="primary" class=" mat-button-icon"
+                                  <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="addZoneDialog()" [disabled]="!isLookUp">
                                     <span class="material-symbols-outlined">
                                       add
@@ -167,7 +167,7 @@
                                     <input type="text" placeholder="Search location" aria-label="Search location"
                                       matInput (keyup)="applyFilter($event)">
                                   </mat-form-field>
-                                  <button mat-raised-button color="primary" class=" mat-button-icon"
+                                  <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="addLocationDialog()" [disabled]="!isLookUp">
                                     <span class="material-symbols-outlined">
                                       add
@@ -263,7 +263,7 @@
                                     <input type="text" placeholder="Search Functions allowed"
                                       aria-label="Search Groups Allowed" matInput [(ngModel)]="searchfuncAllowed">
                                   </mat-form-field>
-                                  <button mat-raised-button color="primary" class=" mat-button-icon"
+                                  <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="groupAllowedDialog()">
                                     <span class="material-symbols-outlined">
                                       add
@@ -313,7 +313,7 @@
                                     <input type="text" placeholder="Search Group allowed"
                                       aria-label="Search Groups Allowed" matInput  [(ngModel)]="searchGrpAllowed">
                                   </mat-form-field>
-                                  <button mat-raised-button color="primary" class=" mat-button-icon"
+                                  <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="grpAllowedDialog()">
                                     <span class="material-symbols-outlined">
                                       add
@@ -414,7 +414,7 @@
                     <h4 class="card-header-subtitle mb-0">Assigned Functions</h4>
                   </div>
                   <div class="col-6">
-                    <button mat-raised-button class="form-button-submit" color="primary" style="float: right;"
+                    <button mat-flat-button class="form-button-submit" color="primary" style="float: right;"
                       (click)="saveAssignedFunc()">Save</button>
                   </div>
                 </div>

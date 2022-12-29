@@ -513,7 +513,7 @@ mat-toolbar {
 //   transform: translateY(0em) scale(0.95);
 // }
 
-.mat-raised-button.mat-button-icon{
+.mat-flat-button.mat-button-icon{
   border-radius: 14px !important;
 }
 
@@ -653,7 +653,7 @@ mat-toolbar {
 }
 
 
-.search-box .mat-raised-button.mat-button-icon{
+.search-box .mat-flat-button.mat-button-icon{
   margin-left: 1em;
   min-width: 1px;
   max-width: 48px;
@@ -663,7 +663,7 @@ mat-toolbar {
   padding: 2px;
 }
 
-.search-box .mat-raised-button.mat-button-icon span.material-symbols-outlined {
+.search-box .mat-flat-button.mat-button-icon span.material-symbols-outlined {
   position: relative;
   top: -2px;
 }

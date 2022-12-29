@@ -6,7 +6,7 @@
       </span>
       <input type="text" placeholder="Search Employee" aria-label="Search Employee" matInput (keyup)="applyFilter($event)" >
     </mat-form-field>
-    <button mat-raised-button color="primary" class=" mat-button-icon" (click)="openDialog()" *ngIf="(env === 'DB' || env === 'ADLDS')">
+    <button mat-flat-button color="primary" class=" mat-button-icon" (click)="openDialog()" *ngIf="(env === 'DB' || env === 'ADLDS')">
       <span class="material-symbols-outlined">
         add
       </span>
