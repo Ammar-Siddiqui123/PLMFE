@@ -22,7 +22,7 @@
                     </div>
                     <span>Employees</span>
                   </h2>
-                  <mat-form-field class="action-dropdown" appearance="fill">
+                  <mat-form-field  class="action-dropdown cs-expand" appearance="fill">
                     <mat-label>Actions</mat-label>
                     <mat-select class="employees-action" [disabled]="!isLookUp"
                       (selectionChange)="actionDialog($event.value, empData, $event)">
@@ -30,6 +30,9 @@
                       <mat-option value="delete">Delete</mat-option>
                       <!-- <mat-option value="back">Back</mat-option> -->
                     </mat-select>
+                    <span class="material-symbols-outlined icon-expand-more">
+                      expand_more
+                    </span>
                   </mat-form-field>
                 </div>
                 <div class="emp-details-table details-wrap g-details-wrap {{!isLookUp ? 'box-border' : ''}}" *ngIf="!isLookUp">

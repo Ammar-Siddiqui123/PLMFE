@@ -14,96 +14,88 @@
             </h2>
           </div>
 
-          <div class="d-flex justify-content-between align-items-center header-filter-bar">
-             <div class="row"  style="border: 1px solid #F2F2FF;
-             border-radius: 20px;
-             height: 100%;
-             width: 100;
-             margin-left: 5px;
-             background-color: white;">
-              <div class="col" style="height: 100%;">
-                <mat-form-field class="action-dropdown" appearance="fill" class="full-width" style="height: 100%;" >
-                  <mat-label>Item No</mat-label>
-                  <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn" (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()">
-                    <mat-option *ngFor="let item of displayedColumns" [value]="item.colHeader" value="print">
-                      {{item.colDef}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col" style="height: 100%; border-left: 1px solid #F2F2FF">
-                <mat-form-field class="filter" floatLabel="never" appearance="fill" style="height: 100%;">
-                  <mat-label>Search </mat-label>
-                  <input #searchInput matInput  [(ngModel)]='this.columnSearch.searchValue' (keyup.enter)="searchData()" (change)="searchData()">
-                </mat-form-field>
-              </div>
-            </div>
+          <div class="header-filter-bar">
+            <div class="header-filter-options w-100 d-flex align-items-center">
+              <mat-form-field class="action-dropdown border-dropdown-0 cs-expand" appearance="fill" class="">
+                <mat-label>Item No</mat-label>
+                <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn"
+                  (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()">
+                  <mat-option *ngFor="let item of displayedColumns" [value]="item.colHeader" value="print">
+                    {{item.colDef}}
+                  </mat-option>
+                </mat-select>
+                <span class="material-symbols-outlined icon-expand-more">
+                  expand_more
+                </span>
+              </mat-form-field>
+              <span class="v-br"></span>
+              <mat-form-field class="filter border-dropdown-0" appearance="fill">
+                <input placeholder="Search" #searchInput matInput [(ngModel)]='this.columnSearch.searchValue' (keyup.enter)="searchData()"
+                  (change)="searchData()">
+              </mat-form-field>
 
-            <div class="row" style="height: 100%;">
-              <div class="col">
-                <button mat-mini-fab color="primary" aria-label="Add Inventory Map" (click)="addLocDialog()">
-                  <mat-icon>add</mat-icon>
-                </button>
-              </div>
-              <div class="col" style="background-color: white; border: 1px solid #F2F2FF;
-              border-radius: 20px; height: 100%;">
-                <mat-form-field class="action-dropdown" appearance="fill" style="height: 100%;">
-                  <mat-label>Actions</mat-label>
-                  <mat-select class="employees-action" (selectionChange)="inventoryMapAction($event)">
-                    <mat-option value="print">Print</mat-option>
-                    <mat-option value="set_column_sq">Set Column Sequence</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col">
-                <button mat-button (click)="viewAllLocDialog()">
-                  <span class="material-symbols-outlined">
-                    filter_list
-                  </span>
-                  <mat-label> View All Location</mat-label>
-                </button>
-              </div>
+              <button class="br-14" mat-mini-fab color="primary" aria-label="Add Inventory Map"
+                (click)="addLocDialog()">
+                <mat-icon>add</mat-icon>
+              </button>
 
+              <mat-form-field class="action-dropdown border-dropdown-0" appearance="fill">
+                <mat-label>Actions</mat-label>
+                <mat-select class="employees-action" (selectionChange)="inventoryMapAction($event)">
+                  <mat-option value="print">Print</mat-option>
+                  <mat-option value="set_column_sq">Set Column Sequence</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <button mat-button (click)="viewAllLocDialog()">
+                <span class="material-symbols-outlined">
+                  filter_list
+                </span>
+                <mat-label> View All Location</mat-label>
+              </button>
             </div>
           </div>
 
-            <div class="table-responsive">
-              <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
-                <ng-container [matColumnDef]="col.colDef" *ngFor="let col of displayedColumns; let indexOfelement=index;" >
-                  <th class="header" mat-header-cell *cdkHeaderCellDef mat-sort-header (sortActionDescription)="indexOfelement">
-                    {{ col.colDef }}
-                    <!-- <mat-form-field class="filter" floatLabel="never" appearance="outline">
+          <div class="table-responsive">
+            <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+              <ng-container [matColumnDef]="col.colDef" *ngFor="let col of displayedColumns; let indexOfelement=index;">
+                <th class="header" mat-header-cell *cdkHeaderCellDef mat-sort-header
+                  (sortActionDescription)="indexOfelement">
+                  {{ col.colDef }}
+                  <!-- <mat-form-field class="filter" floatLabel="never" appearance="outline">
                       <mat-label>Search {{ col.colDef }}</mat-label>
                       <input #searchInput matInput (change)="applyFilter(searchInput.value, col.colHeader)">
                     </mat-form-field> -->
-                  </th>
-                  <td *matCellDef="let element" style="min-width: 180px;  padding: 5px"> {{ element[col.colHeader] }} </td>
-                </ng-container>
-                <ng-container matColumnDef="actions" stickyEnd>
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 50px;  padding: 5px; border: none;"> </th>
-                  <td mat-cell *matCellDef="let seletedRecord"  style="min-width: 50px;  padding: 5px; border: none;">
-                     <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="">
-                         <mat-icon>more_vert</mat-icon>
-                     </button>
-                     <mat-menu #appMenu="matMenu">
-                       <button mat-menu-item (click)="edit(seletedRecord)">Edit</button>
-                       <button mat-menu-item (click)="delete(seletedRecord)">Delete</button>
-                       <button mat-menu-item (click)="quarantine(seletedRecord)">Quarantine</button>
-                       <button mat-menu-item (click)="adjustQuantity(seletedRecord)">Adjust Quantity</button>
-                       <button mat-menu-item (click)="viewInInventoryMaster()">View in Invetory Master</button>
-                       <button mat-menu-item (click)="viewLocationHistory()">View location history</button>
-                     </mat-menu>
-                 </td>
+                </th>
+                <td *matCellDef="let element" style="min-width: 180px;  padding: 5px"> {{ element[col.colHeader] }}
+                </td>
               </ng-container>
-                <mat-header-row *matHeaderRowDef="columnValues;sticky: true"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: columnValues;"></mat-row>
+              <ng-container matColumnDef="actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                  style="min-width: 50px;  padding: 5px; border: none;"> </th>
+                <td mat-cell *matCellDef="let seletedRecord" style="min-width: 50px;  padding: 5px; border: none;">
+                  <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #appMenu="matMenu">
+                    <button mat-menu-item (click)="edit(seletedRecord)">Edit</button>
+                    <button mat-menu-item (click)="delete(seletedRecord)">Delete</button>
+                    <button mat-menu-item (click)="quarantine(seletedRecord)">Quarantine</button>
+                    <button mat-menu-item (click)="adjustQuantity(seletedRecord)">Adjust Quantity</button>
+                    <button mat-menu-item (click)="viewInInventoryMaster()">View in Invetory Master</button>
+                    <button mat-menu-item (click)="viewLocationHistory()">View location history</button>
+                  </mat-menu>
+                </td>
+              </ng-container>
+              <mat-header-row *matHeaderRowDef="columnValues;sticky: true"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: columnValues;"></mat-row>
 
-              </mat-table>
-            </div>
-            <div  class="table-pagination">
-              <mat-paginator [length]="this.customPagination.total"
-              [pageSize]="20" [pageSizeOptions]="[10, 25, 100]" (page)="handlePageEvent($event)"></mat-paginator>
-            </div>
+            </mat-table>
+          </div>
+          <div class="table-pagination">
+            <mat-paginator [length]="this.customPagination.total" [pageSize]="20" [pageSizeOptions]="[10, 25, 100]"
+              (page)="handlePageEvent($event)"></mat-paginator>
+          </div>
         </mat-card-content>
       </mat-card>
     </div>
@@ -124,27 +116,31 @@
     {{season}}
   </mat-radio-button>
 </mat-radio-group> -->
-<h1 mat-dialog-title>View All Location</h1>
-<!-- <h6>Drag to reorder</h6> -->
-<button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
-  <mat-icon class="close-icon">close</mat-icon>
-</button>
+  <h1 mat-dialog-title>View All Locations</h1>
+  <!-- <h6>Drag to reorder</h6> -->
+  <button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+    <mat-icon class="close-icon">close</mat-icon>
+  </button>
 
-<div>
   <div>
-    <div class="outside">
-      <div class="example-list">
-        <h6>Location</h6>
-        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="filterLoc">
-        <mat-radio-button class="example-radio-button" value="Nothing" color="primary">All Location</mat-radio-button>
-        <mat-radio-button class="example-radio-button" value="Open" color="primary">Open Location</mat-radio-button>
-        <mat-radio-button class="example-radio-button" value="Quarantine" color="primary">Quarantined location</mat-radio-button>
-      </mat-radio-group>
+    <div>
+      <div class="outside">
+        <div class="example-list">
+          <h6>Location</h6>
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+            [(ngModel)]="filterLoc">
+            <mat-radio-button class="example-radio-button" value="Nothing" color="primary">All
+              Location</mat-radio-button>
+            <mat-radio-button class="example-radio-button" value="Open" color="primary">Open Location</mat-radio-button>
+            <mat-radio-button class="example-radio-button" value="Quarantine" color="primary">Quarantined
+              location</mat-radio-button>
+          </mat-radio-group>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<mat-dialog-actions align="end">
-  <button type="submit" mat-flat-button class="form-button-submit" color="primary" (click)="viewLocFilter()">Apply</button>
-</mat-dialog-actions>
+  <mat-dialog-actions align="end">
+    <button type="submit" mat-flat-button class="form-button-submit" color="primary"
+      (click)="viewLocFilter()">Apply</button>
+  </mat-dialog-actions>
 </ng-template>
