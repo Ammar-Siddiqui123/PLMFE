@@ -61,9 +61,10 @@ export class GroupAllowedComponent implements OnInit {
     return this.controlNameList.filter(option => option.groupName.toLowerCase().includes(filterValue));
   }
   onSend(form: any) {
+    // console.log(this.data.grp_data);
     let payload = {
       "groupname": form.value.controlName,
-      "username": this.userData.userName,
+      "username": this.data.grp_data,
       // "wsid": this.userData.wsid,
     }
     this.employeeService.insertUserGroup(payload).subscribe((res: any) => {

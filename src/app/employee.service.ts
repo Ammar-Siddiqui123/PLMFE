@@ -31,6 +31,16 @@ export class EmployeeService {
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/GetEmployeeData`, employee,httpOptions);
   }
+  public getUserGroupNames(employee: any ): Observable<any> {
+    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + basicAuth
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Admin/GetUserGroupNames`, employee,httpOptions);
+  }
 
 
   public getAdminEmployeeLookup(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {

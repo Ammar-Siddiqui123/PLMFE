@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
@@ -20,7 +21,13 @@ export class AddZoneComponent implements OnInit {
   all_zones:string[] = this.data.allZones;
   filteredOptions: Observable<string[]>;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private toastr: ToastrService, private employeeService: EmployeeService) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+    private dialog: MatDialog, 
+    private toastr: ToastrService, 
+    private employeeService: EmployeeService,
+    private router: Router
+    ) {}
 
   ngOnInit(): void {
     this.filteredOptions = this.zone.valueChanges.pipe(
@@ -36,8 +43,9 @@ export class AddZoneComponent implements OnInit {
   }
 
   onSend(form: NgForm){
+
     let addZoneData = {
-        "username": '1234',
+        "username": this.data.userName,
         "zone": this.zone.value
     }
     this.employeeService.updateEmployeeZone(addZoneData).subscribe((res: any) => {
@@ -47,7 +55,20 @@ export class AddZoneComponent implements OnInit {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
+        this.reloadCurrentRoute();
+      }else{
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
       }
+    });
+  }
+
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
     });
   }
 

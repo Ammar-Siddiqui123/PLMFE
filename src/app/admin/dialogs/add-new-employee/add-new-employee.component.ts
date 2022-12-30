@@ -5,6 +5,7 @@ import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import labels from '../../../labels/labels.json';
 import { EmployeeService } from 'src/app/employee.service';
 import { AdminEmployeeLookupResponse } from 'src/app/Iemployee';
+import { Router } from '@angular/router';
 
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion';
@@ -32,7 +33,13 @@ export class AddNewEmployeeComponent implements OnInit {
 
   toggle_password = true;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private toastr: ToastrService, private employeeService: EmployeeService) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+    private dialog: MatDialog, 
+    private toastr: ToastrService, 
+    private employeeService: EmployeeService,
+    private router: Router
+    ) {}
 
   ngOnInit(): void {
     this.empData = this.data.emp_data;
@@ -72,20 +79,30 @@ export class AddNewEmployeeComponent implements OnInit {
         this.employeeService.saveAdminEmployee(form.value)
         .subscribe((response: AdminEmployeeLookupResponse) => {
           if(response.isExecuted){
-            this.dialog.closeAll(); // Close opened diaglo
+            this.dialog.closeAll();
             this.toastr.success(labels.alert.success, 'Success!',{
               positionClass: 'toast-bottom-right',
               timeOut:2000
            });
+           this.reloadCurrentRoute();
           }
           else{
-
+            this.toastr.error(response.responseMessage, 'Error!',{
+              positionClass: 'toast-bottom-right',
+              timeOut:2000
+           });
           }
       });
       }
       
     }
 
+  }
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
   }
 
 }
