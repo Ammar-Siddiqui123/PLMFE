@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { EmployeeService } from 'src/app/employee.service';
 import { AuthService } from '../../../../app/init/auth.service';
@@ -21,7 +22,8 @@ export class DeleteConfirmationComponent implements OnInit {
     private employeeService: EmployeeService,
     private invMapService: InventoryMapService,
     public dialogRef: MatDialogRef<DeleteConfirmationComponent>,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
     ) { }
 
   ngOnInit(): void {
@@ -33,7 +35,7 @@ export class DeleteConfirmationComponent implements OnInit {
       if (this.data.mode === 'delete-zone') {
         let zoneData = {
           "zone": this.data.zone,
-          "username": "1234"
+          "username": this.data.userName
         }
         this.employeeService.deleteEmployeeZone(zoneData).subscribe((res: any) => {
           if (res.isExecuted) {
@@ -42,6 +44,7 @@ export class DeleteConfirmationComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
+            this.reloadCurrentRoute()
           } else {
             this.dialog.closeAll();
             this.toastr.error(labels.alert.went_worng, 'Error!', {
@@ -56,7 +59,7 @@ export class DeleteConfirmationComponent implements OnInit {
         let locationData = {
           "startLocation": this.data.location.startLocation,
           "endLocation": this.data.location.endLocation,
-          "username": "1234"
+          "username": this.data.userName
         }
         this.employeeService.deleteEmployeeLocation(locationData).subscribe((res: any) => {
           if (res.isExecuted) {
@@ -129,7 +132,7 @@ export class DeleteConfirmationComponent implements OnInit {
         let locationData = {
           "startLocation": this.data.location.startLocation,
           "endLocation": this.data.location.endLocation,
-          "username": "1234"
+          "username": this.data.userName
         }
         this.employeeService.deleteEmployeeLocation(locationData).subscribe((res: any) => {
           if (res.isExecuted) {
@@ -211,19 +214,20 @@ export class DeleteConfirmationComponent implements OnInit {
         });
       }
       else if (this.data.mode === 'delete-grpallowed') {
-        console.log(this.data);
-        
         let emp_data = {
           "groupname": this.data.allowedGroup.groupName,
-          // "deleteBy": "1234",
-          // "wsid": "TESTWSID"
-          "username": this.userData.userName,
-          // "wsid": this.userData.wsid,
+          "username": this.data.allowedGroup.userName,
         };
         this.employeeService.deleteUserGroup(emp_data).subscribe((res: any) => {
           if (res.isExecuted) {
             this.dialog.closeAll();
             this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+            this.reloadCurrentRoute();
+          }else{
+            this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
@@ -247,6 +251,12 @@ export class DeleteConfirmationComponent implements OnInit {
    else{
     this.isChecked = true;
    }
+  }
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
   }
 
 }
