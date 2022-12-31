@@ -9,7 +9,7 @@
 
             <mat-form-field class="w-100 mb-2" appearance="outline">
                 <mat-label>Select Zone</mat-label>
-                <input type="text" placeholder="Select Zone" aria-label="Select Zone" matInput [formControl]="zone"
+                <input type="text" placeholder="Select Zone" required="required" aria-label="Select Zone" matInput [formControl]="zone"
                     [matAutocomplete]="auto">
                     <mat-icon class="icon-kbdown-dropdown" matSuffix>keyboard_arrow_down</mat-icon>
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">

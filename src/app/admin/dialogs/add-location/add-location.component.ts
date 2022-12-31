@@ -22,11 +22,16 @@ export class AddLocationComponent implements OnInit {
   }
 
   onSend(form: NgForm){
-    form.value.username = "1234";
+    form.value.username = this.data.userName;
     this.employeeService.insertEmployeeLocation(form.value).subscribe((res:any) => {
       if(res.isExecuted){
         this.dialog.closeAll();
         this.toastr.success(labels.alert.update, 'Success!',{
+          positionClass: 'toast-bottom-right',
+          timeOut:2000
+       });
+      }else{
+        this.toastr.error(res.responseMessage, 'Error!',{
           positionClass: 'toast-bottom-right',
           timeOut:2000
        });

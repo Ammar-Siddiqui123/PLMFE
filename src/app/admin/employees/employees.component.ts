@@ -67,6 +67,7 @@ export class EmployeesComponent implements OnInit {
   employee_group_allowed: any;
   emp_all_zones:any;
   groupAllowedList:any;
+  grp_data:any;
 
 
 
@@ -91,6 +92,7 @@ export class EmployeesComponent implements OnInit {
     this.empData = event.userData;
     this.isLookUp = event;
     console.log(event.userData?.username);
+    this.grp_data = event.userData?.username
 
     this.max_orders = event.userData.maximumOrders;
     const emp_data = {
@@ -110,13 +112,13 @@ export class EmployeesComponent implements OnInit {
         this.emp_all_zones = response.data?.allZones;
       });
 
-      this.employeeService.getEmployeeData(emp_data).subscribe((res:any) => {
-        console.log(res.data);
-        
-
-        this.groupAllowedList = res.data.allGroups;
-      })  
-
+      const emp_grp = {
+        "userName": event.userData?.username,
+        "wsid": "TESTWSID"
+      };
+      this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
+        this.groupAllowedList = res.data;
+      }) 
    
   }
   addPermission(event:any){
@@ -218,6 +220,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   actionDialog(event: any, emp_data: any, matEvent: MatSelectChange) {
+
     if (event === 'edit') {
       let dialogRef = this.dialog.open(AddNewEmployeeComponent, {
         height: 'auto',
@@ -332,7 +335,8 @@ export class EmployeesComponent implements OnInit {
       height: 'auto',
       width: '480px',
       data: {
-        allZones: this.emp_all_zones
+        allZones: this.emp_all_zones,
+        userName: this.grp_data
       }
     })
     dialogRef.afterClosed().subscribe(result => {
@@ -347,7 +351,8 @@ export class EmployeesComponent implements OnInit {
       width: '480px',
       data: {
         mode: 'delete-zone',
-        zone: zone
+        zone: zone,
+        userName:this.grp_data
       }
     })
 
@@ -358,6 +363,9 @@ export class EmployeesComponent implements OnInit {
     dialogRef = this.dialog.open(AddLocationComponent, {
       height: 'auto',
       width: '480px',
+      data: {
+        userName:this.grp_data
+      }
     })
     dialogRef.afterClosed().subscribe(result => {
       this.ngOnInit();
@@ -371,7 +379,8 @@ export class EmployeesComponent implements OnInit {
       width: '480px',
       data: {
         mode: 'delete-location',
-        location: location
+        location: location,
+        userName:this.grp_data
       }
     })
   }
@@ -386,6 +395,9 @@ export class EmployeesComponent implements OnInit {
     this.dialog.open(GroupAllowedComponent, {
       height: 'auto',
       width: '480px',
+      data:{
+        grp_data:this.grp_data
+      }
     })
   }
   deleteGroupAllowed(allowedGroup: any) {
@@ -400,7 +412,7 @@ export class EmployeesComponent implements OnInit {
 
   }
   deleteGrpAllowed(allowedGroup: any) {
-    allowedGroup.userName = this.userName;
+    allowedGroup.userName = this.grp_data;
     this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
