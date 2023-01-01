@@ -18,10 +18,19 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./inventory-master.component.scss']
 })
 export class InventoryMasterComponent implements OnInit {
+
   public userData: any;
   public invData: any;
   public getInvMasterData: any;
   public invMasterLocations: any;
+  public paginationData : {
+    total : 0,
+    position: 0,
+    itemNumber: 0
+  }
+  public currentPageItemNo : any = '';
+
+
   public locationTable: any;
   public getItemNum: any;
   public openCount: any;
@@ -138,17 +147,28 @@ export class InventoryMasterComponent implements OnInit {
   }
   public getInventory() {
     let paylaod = {
-      "itemNumber": "",
+      "itemNumber": this.currentPageItemNo,
       "app": "",
       "newItem": false,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventory').subscribe((res: any) => {
-      this.invData = res.data;
-     // this.getInvMasterDetail(res.data.firstItemNumber);
-     this.getInvMasterDetail('024768000010');
-     this.getInvMasterLocations('024768000010');
+
+      if(this.currentPageItemNo == ''){
+        this.currentPageItemNo = res.data.firstItemNumber;
+      }
+
+      this.paginationData ={
+        total: res.data.filterCount.total,
+        position: res.data.filterCount.pos,
+        itemNumber: res.data.filterCount.itemNumber,
+      }
+
+      this.getInvMasterDetail(this.currentPageItemNo);
+      this.getInvMasterLocations(this.currentPageItemNo);
+     //this.getInvMasterDetail('024768000010');
+     //this.getInvMasterLocations('024768000010');
     });
   }
 
@@ -184,6 +204,38 @@ export class InventoryMasterComponent implements OnInit {
     })
   }
 
+  nextPage(){
+    if(this.paginationData.position >= 1 && this.paginationData.position <= this.paginationData.total){
+    let paylaod = {
+      "itemNumber": this.currentPageItemNo,
+      "filter": "1=1",
+      "firstItem": 1,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    this.invMasterService.get(paylaod, '/Admin/NextItemNumber').subscribe((res: any) => {
+      this.currentPageItemNo = res.data;
+      this.getInventory();
+    })
+  }
+
+  }
+  prevPage(){
+    if(this.paginationData.position >= 1 && this.paginationData.position <= this.paginationData.total){
+      let paylaod = {
+        "itemNumber": this.currentPageItemNo,
+        "filter": "1=1",
+        "firstItem": 1,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid,
+      }
+      this.invMasterService.get(paylaod, '/Admin/PreviousItemNumber').subscribe((res: any) => {
+        this.currentPageItemNo = res.data;
+        this.getInventory();
+      })
+    }
+
+  }
 
   public getLocationTable(stockCode: any) {
     let paylaod = {
