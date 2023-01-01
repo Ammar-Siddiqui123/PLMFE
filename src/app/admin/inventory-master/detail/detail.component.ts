@@ -18,7 +18,7 @@ export class DetailComponent implements OnInit {
 
   @Input() details: FormGroup;
   public userData: any;
-  @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
+
   
 
   constructor(   
@@ -39,16 +39,15 @@ export class DetailComponent implements OnInit {
       height: 'auto',
       width: 'auto',
       data: {
-        itemNumber: this.details.value.itemNumber,
+        itemNumber: this.details.controls['itemNumber'].value,
         newItemNumber : '',
         addItem : false
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
       if (result) {
         let paylaod = {
-          "oldItemNumber": this.details.value.itemNumber,
+          "oldItemNumber": this.details.controls['itemNumber'].value,
           "newItemNumber": result,
           "username": this.userData.userName,
           "wsid": this.userData.wsid
