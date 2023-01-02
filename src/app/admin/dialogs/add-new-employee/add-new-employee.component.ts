@@ -73,7 +73,10 @@ export class AddNewEmployeeComponent implements OnInit {
              });
             }
             else{
-
+              this.toastr.error(res.responseMessage, 'Error!',{
+                positionClass: 'toast-bottom-right',
+                timeOut:2000
+             });
             }
        }); 
       }
