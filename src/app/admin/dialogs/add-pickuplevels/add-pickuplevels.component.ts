@@ -32,6 +32,11 @@ export class AddPickuplevelsComponent implements OnInit {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
+      } else {
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
       }
     });
   }

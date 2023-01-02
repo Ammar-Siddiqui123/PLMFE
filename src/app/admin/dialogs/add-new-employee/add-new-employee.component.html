@@ -6,6 +6,8 @@
 
   <form #employeeForm="ngForm" (ngSubmit)="onSend(employeeForm)">
 
+
+    <mat-checkbox *ngIf="data?.mode === 'edit' " matInput name="active" style="margin-right: 12px;" class="example-margin custom-checkbox" color="primary"  [(ngModel)]="active">Active</mat-checkbox>
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>MI</mat-label>
       <input matInput type="text" name="mi" [(ngModel)]="mi" required="required">
