@@ -19,6 +19,7 @@ export class LoginComponent {
 
   returnUrl: string;
   public env;
+  public toggle_password = true;
 
 
   constructor(
