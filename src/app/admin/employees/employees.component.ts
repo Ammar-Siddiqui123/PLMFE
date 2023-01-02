@@ -72,6 +72,7 @@ export class EmployeesComponent implements OnInit {
   // table initialization
   displayedColumns: string[] = ['start_location', 'end_location', 'delete_location'];
   zoneColumns: string[] = ['zones', 'actions'];
+  groupsColumns: string[] = ['groups', 'actions'];
 
 
   constructor(private _liveAnnouncer: LiveAnnouncer, private employeeService: EmployeeService, private dialog: MatDialog,private toastr: ToastrService) { }
@@ -111,12 +112,12 @@ export class EmployeesComponent implements OnInit {
 
       this.employeeService.getEmployeeData(emp_data).subscribe((res:any) => {
         console.log(res.data);
-        
+
 
         this.groupAllowedList = res.data.allGroups;
-      })  
+      })
 
-   
+
   }
   addPermission(event:any){
     if(typeof( event.function) == 'string'){
@@ -403,7 +404,7 @@ export class EmployeesComponent implements OnInit {
     this.employee_fetched_zones.filter = filterValue.trim().toLowerCase();
   }
   // grpAllowedFilter(event: Event) {
-    
+
   //   const filterValue = (event.target as HTMLInputElement).value;
   //   // console.log(filterValue);
   //   // this.groupAllowedList.filter = filterValue.trim().toLowerCase();
