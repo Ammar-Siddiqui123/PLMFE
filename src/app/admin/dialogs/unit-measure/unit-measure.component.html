@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-6 offset-6">
                 <div class="d-flex gap-12 my-4 justify-content-end">
-                  <button mat-raised-button color="primary" class="add-icon-button" (click)="addUMRow($event)">
+                  <button mat-flat-button color="primary" class="add-icon-button" (click)="addUMRow($event)">
                     <span class="material-symbols-outlined">
                       add
                     </span>
@@ -28,7 +28,7 @@
 
                 <div *ngFor="let unit of unitOfMeasure_list;" class="d-flex align-items-center">
 
-                    <mat-radio-button class="custom-radio-btn w-100 mb-2" value="{{unit}}" class="custom-radio-btn" (change)="selectUnitMeasure(unitMeasure.value)">                        
+                    <mat-radio-button class="custom-radio-btn w-100 mb-2" value="{{unit}}" class="custom-radio-btn" (change)="selectUnitMeasure(unitMeasure.value)">
                     </mat-radio-button>
 
                     <div class="container w-100">
@@ -39,13 +39,13 @@
                                         <mat-label>Unit Of Measure</mat-label>
                                         <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{unit}}" value="{{unit}}" #unitMeasure>
                                     </mat-form-field>
-                                    
+
                                     <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltUnitMeasure(unitMeasure.value);">
                                         <span class="material-symbols-outlined">
                                             close
                                         </span>
                                     </button>
-                                    
+
                                     <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveUnitMeasure(unitMeasure.value, unit)">
                                         <span class="material-symbols-outlined">
                                             save
@@ -54,15 +54,15 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
 
-                </div>                                    
-            
+                </div>
+
             </mat-radio-group>
         </div>
     </div>
     </div>
 </div>
 <div class="container">
-    
+
 </div>

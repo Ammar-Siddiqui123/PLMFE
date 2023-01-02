@@ -74,6 +74,7 @@ export class EmployeesComponent implements OnInit {
   // table initialization
   displayedColumns: string[] = ['start_location', 'end_location', 'delete_location'];
   zoneColumns: string[] = ['zones', 'actions'];
+  groupsColumns: string[] = ['groups', 'actions'];
 
 
   constructor(private _liveAnnouncer: LiveAnnouncer, private employeeService: EmployeeService, private dialog: MatDialog,private toastr: ToastrService) { }
@@ -112,14 +113,14 @@ export class EmployeesComponent implements OnInit {
         this.emp_all_zones = response.data?.allZones;
       });
 
-      const emp_grp = {
-        "userName": event.userData?.username,
-        "wsid": "TESTWSID"
-      };
-      this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
-        this.groupAllowedList = res.data;
-      }) 
-   
+      this.employeeService.getEmployeeData(emp_data).subscribe((res:any) => {
+        console.log(res.data);
+
+
+        this.groupAllowedList = res.data.allGroups;
+      })
+
+
   }
   reloadData(){
     const emp_data = {
@@ -331,7 +332,7 @@ export class EmployeesComponent implements OnInit {
         const matSelect: MatSelect = matEvent.source;
         matSelect.writeValue(null);
       })
-      
+
     }
 
 
@@ -487,7 +488,7 @@ export class EmployeesComponent implements OnInit {
     this.employee_fetched_zones.filter = filterValue.trim().toLowerCase();
   }
   // grpAllowedFilter(event: Event) {
-    
+
   //   const filterValue = (event.target as HTMLInputElement).value;
   //   // console.log(filterValue);
   //   // this.groupAllowedList.filter = filterValue.trim().toLowerCase();
