@@ -98,6 +98,9 @@ export class GroupsLookupComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+
+    this.group_data_source.sort = this.sort;
+    
   }
 
   private _filter(value: string): string[] {
