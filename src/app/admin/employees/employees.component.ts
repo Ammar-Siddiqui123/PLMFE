@@ -387,7 +387,7 @@ export class EmployeesComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      this.ngOnInit();
+      this.reloadData();
     })
   }
 
