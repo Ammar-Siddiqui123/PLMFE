@@ -6,14 +6,16 @@
 
   <form #employeeForm="ngForm" (ngSubmit)="onSend(employeeForm)">
 
+
+    <mat-checkbox *ngIf="data?.mode === 'edit' " matInput name="active" style="margin-right: 12px;" class="example-margin custom-checkbox" color="primary"  [(ngModel)]="active">Active</mat-checkbox>
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>MI</mat-label>
-      <input matInput type="text" name="mi" required="required" [(ngModel)]="mi">
+      <input matInput type="text" name="mi" [(ngModel)]="mi" required="required">
     </mat-form-field>
 
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>First Name</mat-label>
-      <input matInput type="text" name="firstName" required="required" [(ngModel)]="firstName">
+      <input matInput type="text" name="firstName"  [(ngModel)]="firstName">
     </mat-form-field>
 
     <mat-form-field class="mb-3 w-100" appearance="outline">
@@ -23,7 +25,7 @@
 
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>Username</mat-label>
-      <input matInput  type="text"  name="userName" required="required" [(ngModel)]="userName">
+      <input matInput  type="text"  name="userName" required="required" [(ngModel)]="userName" [maxlength]="50">
       <!-- <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint> -->
 
     </mat-form-field>
@@ -38,7 +40,7 @@
 
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>Email Address</mat-label>
-      <input matInput type="email" name="emailAddress" required="required" [(ngModel)]="emailAddress">
+      <input matInput type="email" name="emailAddress" [(ngModel)]="emailAddress">
     </mat-form-field>
 
 

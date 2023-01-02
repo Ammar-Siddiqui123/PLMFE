@@ -53,7 +53,11 @@ export class AddNewGroupComponent implements OnInit {
            });
           }
           else{
-
+            //this.dialog.closeAll(); // Close opened diaglo
+            this.toastr.error(response.responseMessage, 'Error!',{
+              positionClass: 'toast-bottom-right',
+              timeOut:2000
+           });
           }
       });
       

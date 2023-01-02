@@ -74,7 +74,6 @@ export class GroupAllowedComponent implements OnInit {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
-        this.reloadCurrentRoute();
       }
       else {
         // this.dialog.closeAll();

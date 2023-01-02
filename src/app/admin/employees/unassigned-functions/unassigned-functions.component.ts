@@ -39,17 +39,11 @@ export class UnassignedFunctionsComponent implements OnInit {
 
   }
   assignFunction(permData: any) { 
-    let dialogRef = this.dialog.open(FunctionAllocationComponent, {
-      height: 'auto',
-      width: '480px',
-      data: {
-        target: 'assigned',
-        function: permData
-      }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      this.addFunction.emit(result);
-    })
+    let   data = {
+      target: 'assigned',
+      function: permData
+    }
+      this.addFunction.emit(data);
   }
 
 
