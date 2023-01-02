@@ -71,6 +71,7 @@ import { GroupAllowedComponent } from './dialogs/group-allowed/group-allowed.com
 import { SearchPipe } from './employees/search.pipe';
 import { customFuncAllowedSearch } from './employees/customFuncAllowedSearch.pipe';
 import { CloneGroupComponent } from './dialogs/clone-group/clone-group.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -149,7 +150,16 @@ import { CloneGroupComponent } from './dialogs/clone-group/clone-group.component
     GeneralModule,
     CdkTableModule,
     DragDropModule,
-    
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      extendedTimeOut: 0,
+      iconClasses: {
+        error: 'toast-error',
+        info: 'toast-info',
+        success: 'toast-success',
+        warning: 'toast-warning',
+      }
+    })
   ]
 })
 export class AdminModule { }

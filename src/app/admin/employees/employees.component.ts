@@ -121,6 +121,21 @@ export class EmployeesComponent implements OnInit {
       }) 
    
   }
+  reloadData(){
+    const emp_data = {
+      "userName":  this.grp_data,
+      "wsid": "TESTWSID"
+    };
+    this.employeeService.getAdminEmployeeDetails(emp_data)
+      .subscribe((response: any) => {
+        this.employee_group_allowed = response.data?.userRights
+        this.pickUplevels = response.data?.pickLevels;
+        this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
+        this.location_data = response.data?.bulkRange
+        this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones);
+        this.emp_all_zones = response.data?.allZones;
+      });
+  }
   addPermission(event:any){
     if(typeof( event.function) == 'string'){
       this.unassignedFunctions = this.unassignedFunctions.filter(name => name !== event.function);
@@ -330,8 +345,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   addZoneDialog() {
-    let dialogRef;
-    dialogRef = this.dialog.open(AddZoneComponent, {
+    const dialogRef = this.dialog.open(AddZoneComponent, {
       height: 'auto',
       width: '480px',
       data: {
@@ -341,12 +355,13 @@ export class EmployeesComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       console.log('Added Succesfully!');
+      this.reloadData();
 
     })
   }
 
   deleteZone(zone: any) {
-    this.dialog.open(DeleteConfirmationComponent, {
+   const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
       data: {
@@ -354,6 +369,10 @@ export class EmployeesComponent implements OnInit {
         zone: zone,
         userName:this.grp_data
       }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      this.reloadData();
+
     })
 
   }
@@ -392,16 +411,28 @@ export class EmployeesComponent implements OnInit {
     })
   }
   grpAllowedDialog() {
-    this.dialog.open(GroupAllowedComponent, {
+   const  dialogRef = this.dialog.open(GroupAllowedComponent, {
       height: 'auto',
       width: '480px',
       data:{
         grp_data:this.grp_data
       }
     })
+
+    dialogRef.afterClosed().subscribe(result => {
+     
+      const emp_grp = {
+        "userName": this.grp_data,
+        "wsid": "TESTWSID"
+      };
+      this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
+        this.groupAllowedList = res.data;
+      }) 
+    })
   }
+
   deleteGroupAllowed(allowedGroup: any) {
-    this.dialog.open(DeleteConfirmationComponent, {
+    const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
       data: {
@@ -409,11 +440,22 @@ export class EmployeesComponent implements OnInit {
         allowedGroup: allowedGroup
       }
     })
+    dialogRef.afterClosed().subscribe(result => {
+     
+      const emp_grp = {
+        "userName": this.grp_data,
+        "wsid": "TESTWSID"
+      };
+      this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
+        this.groupAllowedList = res.data;
+      }) 
+
+    })
 
   }
   deleteGrpAllowed(allowedGroup: any) {
     allowedGroup.userName = this.grp_data;
-    this.dialog.open(DeleteConfirmationComponent, {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
       data: {
@@ -421,6 +463,18 @@ export class EmployeesComponent implements OnInit {
         allowedGroup: allowedGroup
       }
     })
+    dialogRef.afterClosed().subscribe(result => {
+     
+      const emp_grp = {
+        "userName": this.grp_data,
+        "wsid": "TESTWSID"
+      };
+      this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
+        this.groupAllowedList = res.data;
+      }) 
+
+    })
+
 
   }
 

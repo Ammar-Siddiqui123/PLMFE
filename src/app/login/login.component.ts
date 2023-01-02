@@ -58,7 +58,7 @@ export class LoginComponent {
         else{
           const errorMessage = response.responseMessage;
           this.toastr.error(errorMessage?.toString(), 'Error!', {
-            positionClass: 'toast-top-right',
+            positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
         }
