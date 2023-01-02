@@ -392,16 +392,28 @@ export class EmployeesComponent implements OnInit {
     })
   }
   grpAllowedDialog() {
-    this.dialog.open(GroupAllowedComponent, {
+   const  dialogRef = this.dialog.open(GroupAllowedComponent, {
       height: 'auto',
       width: '480px',
       data:{
         grp_data:this.grp_data
       }
     })
+
+    dialogRef.afterClosed().subscribe(result => {
+     
+      const emp_grp = {
+        "userName": this.grp_data,
+        "wsid": "TESTWSID"
+      };
+      this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
+        this.groupAllowedList = res.data;
+      }) 
+    })
   }
+
   deleteGroupAllowed(allowedGroup: any) {
-    this.dialog.open(DeleteConfirmationComponent, {
+    const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
       data: {
@@ -409,11 +421,22 @@ export class EmployeesComponent implements OnInit {
         allowedGroup: allowedGroup
       }
     })
+    dialogRef.afterClosed().subscribe(result => {
+     
+      const emp_grp = {
+        "userName": this.grp_data,
+        "wsid": "TESTWSID"
+      };
+      this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
+        this.groupAllowedList = res.data;
+      }) 
+
+    })
 
   }
   deleteGrpAllowed(allowedGroup: any) {
     allowedGroup.userName = this.grp_data;
-    this.dialog.open(DeleteConfirmationComponent, {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
       data: {
@@ -421,6 +444,18 @@ export class EmployeesComponent implements OnInit {
         allowedGroup: allowedGroup
       }
     })
+    dialogRef.afterClosed().subscribe(result => {
+     
+      const emp_grp = {
+        "userName": this.grp_data,
+        "wsid": "TESTWSID"
+      };
+      this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
+        this.groupAllowedList = res.data;
+      }) 
+
+    })
+
 
   }
 

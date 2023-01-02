@@ -104,8 +104,6 @@ export class DeleteConfirmationComponent implements OnInit {
         });
       }
       else if (this.data.mode === 'delete-allowedgroup') {
-        console.log(this.data);
-
         let pickLevelData = {
           "wsid": "TESTWID",
           "GroupName": this.data.allowedGroup,
@@ -225,7 +223,7 @@ export class DeleteConfirmationComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
-            this.reloadCurrentRoute();
+         //   this.reloadCurrentRoute();
           }else{
             this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
