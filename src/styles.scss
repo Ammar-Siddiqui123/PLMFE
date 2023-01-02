@@ -81,6 +81,21 @@ h1, h2, h3, h4, h5, h6, p, strong, span, b, u, a, div
   font-family: 'Mulish', sans-serif;
 }
 
+// resetting default input fields color
+
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 0 rgb(255, 255, 255) inset !important;
+}
+
+/*Change text in autofill textbox*/
+input:-webkit-autofill{
+  -webkit-text-fill-color: rgb(255, 255, 255) !important;
+}
+
 .body-box{
   background-color: #F3F4F4;
   padding: 25px;
@@ -354,6 +369,14 @@ mat-toolbar {
   fill: #fff;
 }
 
+.table-minimal-action-buttons button{
+
+  width: 24px;
+  height: 24px;
+  margin-right: 0.5em;
+
+}
+
 .icon-circle-edit {
   background: #1A1AD3;
   color: #fff;
@@ -474,6 +497,7 @@ mat-toolbar {
   font-size: 22px !important;
   line-height: 1 !important;
   font-weight: 700 !important;
+  color:#090948;
 }
 
 .mat-form-field.action-dropdown .mat-form-field-flex {
@@ -548,7 +572,7 @@ mat-toolbar {
   background: #F2F2FF;
   width: 40px;
   height: 40px;
-  border-radius: 30%;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -558,6 +582,23 @@ mat-toolbar {
   font-size: 18px;
   width: auto;
   height: auto;
+}
+
+.mat-icon-wrap-lg {
+  background: #F2F2FF;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-icon-wrap-lg .mat-icon {
+  font-size: 20px;
+  width: auto;
+  height: auto;
+  color: #090948;
 }
 
 .box-bottom-hr{
@@ -699,7 +740,7 @@ button.button-remove-all .mat-icon {
 table.g-card-table {
   border-radius: 14px;
   width: 100%;
-  max-width: 97%;
+  // max-width: 97%;
 }
 
 // table.g-card-table th.mat-header-cell:after {
@@ -718,6 +759,19 @@ table.g-card-table th.mat-header-cell {
   font-weight: 700;
   font-size: 14px;
 }
+
+table.g-card-table th.mat-header-cell:first-of-type,
+table.g-card-table td.mat-cell:first-of-type {
+  padding-left: 1px;
+}
+
+table.g-card-table th.mat-header-cell:last-of-type,
+table.g-card-table td.mat-cell:last-of-type,
+table.g-card-table td.mat-footer-cell:last-of-type {
+  padding-right: 1px;
+}
+
+
 table.g-card-table tr.mat-row td
 {
   border: none;
