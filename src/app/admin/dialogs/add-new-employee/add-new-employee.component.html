@@ -31,7 +31,7 @@
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>Password</mat-label>
       <input matInput [type]="toggle_password ? 'password' : 'text'" required="required" name="password" ngModel>
-      <button mat-icon-button matSuffix (click)="toggle_password = !toggle_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
+      <button type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
         <mat-icon>{{toggle_password ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
@@ -51,7 +51,7 @@
     </mat-form-field>
 
     <mat-dialog-actions align="end">
-      <button type="submit" mat-raised-button class="form-button-submit" color="primary">{{form_btn_label}}</button>
+      <button type="submit" mat-flat-button class="form-button-submit" color="primary">{{form_btn_label}}</button>
     </mat-dialog-actions>
 
   </form>

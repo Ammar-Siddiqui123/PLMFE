@@ -30,11 +30,15 @@
                     </mat-hint>
                   </div>
                   <div class="form-outline col-9" style="float: none;margin: 0 auto;">
-                    <mat-form-field appearance="outline" style=" width: 100%;">
+                    <mat-form-field class="mb-3 w-100" appearance="outline">
                       <mat-label>Password</mat-label>
-                      <input type="password" matInput placeholder="Enter Password" formControlName="password" required />
+                      <input placeholder="Password" formControlName="password" matInput [type]="toggle_password ? 'password' : 'text'">
                       <mat-icon matPrefix style="color: #090948;">lock</mat-icon>
+                      <button type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
+                        <mat-icon>{{toggle_password ? 'visibility_off' : 'visibility'}}</mat-icon>
+                      </button>
                     </mat-form-field>
+
                     <mat-hint class="error-message" style="color: red;font-size: 14px;"
                       *ngIf="addLoginForm.controls['password'].invalid && (addLoginForm.controls['password'].dirty || addLoginForm.controls['password'].touched)">
                       Password is required
@@ -45,14 +49,14 @@
                       <button type="button" class="small text-muted" style="float: right;" (click)="changePass()">Forgot password?</button>
                     </div>
                   </ng-container>
-                  
-                  
-                  <div class="form-outline col-9 pt-5" style="margin: 0 auto;">
-                    <mat-checkbox color="primary">Remember me</mat-checkbox>
+
+
+                  <!-- <div class="form-outline col-9 pt-5" style="margin: 0 auto;">
+                    <mat-checkbox color="primary">Remember me</mat-checkbox> -->
                     <!-- <button class="btn btn-dark btn-lg btn-block" [disabled]="!addLoginForm.valid"
                       type="submit">Login</button> -->
                       <button style="width:100%;" [disabled]="!addLoginForm.valid" mat-flat-button color="primary" class="mat-button-icon">Login</button>
-                  </div>
+                  <!-- </div> -->
 
                   <div class="form-outline col-9 pt-3" style="text-align: center;float: none;margin: 0 auto;">
                     <img src="../../assets/images/ScottTech _ Pickpro_Blue.png" alt="">
@@ -62,7 +66,7 @@
                   <!-- <a href="#!" class="small text-muted">Terms of use.</a>
                    <a href="#!" class="small text-muted">Privacy policy</a> -->
                 </form>
-               
+
               </div>
             </div>
           </div>
