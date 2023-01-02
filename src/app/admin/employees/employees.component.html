@@ -112,7 +112,7 @@
                                 </div>
                                 <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
                                   <table mat-table [dataSource]="employee_fetched_zones" matSort
-                                    (matSortChange)="announceSortChange($event)" class="g-card-table">
+                                    (matSortChange)="announceSortChange($event)" class="g-card-table table-minimal-action-buttons">
 
                                     <tr class="mat-row" *matNoDataRow>
                                       <td class="mat-cell" [attr.colspan]="displayedColumns.length">
@@ -126,7 +126,7 @@
                                     </ng-container>
                                     <ng-container matColumnDef="actions">
                                       <th width="10%" mat-header-cell *matHeaderCellDef>Action</th>
-                                      <td class="table-minimal-action-buttons" width="10%" mat-cell
+                                      <td width="10%" mat-cell
                                         *matCellDef="let element">
                                         <button mat-icon-button aria-label="Delete" (click)="deleteZone(element)">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
@@ -177,7 +177,7 @@
                                 <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
                                   <table mat-table [dataSource]="location_data_source" matSort
                                     (matSortChange)="announceSortChange($event)"
-                                    class="g-card-table employee-location-table">
+                                    class="g-card-table employee-location-table table-minimal-action-buttons">
                                     <tr class="mat-row" *matNoDataRow>
                                       <td class="mat-cell" [attr.colspan]="displayedColumns.length">
                                         No data matching the filter.
@@ -202,7 +202,7 @@
                                     <!-- Delete Location Column -->
                                     <ng-container matColumnDef="delete_location">
                                       <th width="20%" mat-header-cell *matHeaderCellDef>Action</th>
-                                      <td class="table-minimal-action-buttons" width="20%" mat-cell
+                                      <td width="20%" mat-cell
                                         *matCellDef="let element">
                                         <button mat-icon-button aria-label="Delete Location"
                                           (click)="deleteLocation(element)">
@@ -330,7 +330,7 @@
                                 <mat-list class="zones-list g-card-list" role="list">
                                   <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
                                     <table mat-table [dataSource]="groupAllowedList" matSort
-                                      (matSortChange)="announceSortChange($event)" class="g-card-table">
+                                      (matSortChange)="announceSortChange($event)" class="g-card-table table-minimal-action-buttons">
 
                                       <tr class="mat-row" *matNoDataRow>
                                         <td class="mat-cell" [attr.colspan]="groupsColumns.length">
@@ -344,7 +344,7 @@
                                       </ng-container>
                                       <ng-container matColumnDef="actions">
                                         <th width="10%" mat-header-cell *matHeaderCellDef>Action</th>
-                                        <td class="table-minimal-action-buttons" width="10%" mat-cell
+                                        <td width="10%" mat-cell
                                           *matCellDef="let element">
                                           <button mat-icon-button aria-label="Delete"
                                             (click)="deleteGrpAllowed(element)">
