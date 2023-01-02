@@ -22,7 +22,7 @@ export class SideNavComponent implements OnInit {
   ];
   adminMenus: any = [
     { icon: 'arrow_back', title: 'Admin', route: '/dashboard', class: 'back-class' },
-    { icon: 'assignment_ind', title: 'Employee', route: '/admin/employees' },
+    { icon: 'assignment_ind', title: 'Employees', route: '/admin/employees' },
     { icon: 'tune', title: 'Preferences', route: '#' },
     { icon: 'published_with_changes', title: 'System Replenishment', route: '#' },
     { icon: 'directions_alt', title: 'Inventory Map', route: '/admin/inventoryMap' },

@@ -100,7 +100,7 @@
                                     <span class="material-symbols-outlined icon-search">
                                       search
                                     </span>
-                                    <input type="text" placeholder="Search Zones" aria-label="Search Zones" matInput
+                                    <input type="text" placeholder="Search Zone" aria-label="Search Zone" matInput
                                       (keyup)="zoneFilter($event)">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
@@ -112,13 +112,13 @@
                                 </div>
                                 <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
                                   <table mat-table [dataSource]="employee_fetched_zones" matSort
-                                    (matSortChange)="announceSortChange($event)" class="g-card-table">
+                                    (matSortChange)="announceSortChange($event)" class="g-card-table table-minimal-action-buttons">
 
-                                    <tr class="mat-row" *matNoDataRow>
+                                    <!-- <tr class="mat-row" *matNoDataRow>
                                       <td class="mat-cell" [attr.colspan]="displayedColumns.length">
                                         No data matching the filter.
                                       </td>
-                                    </tr>
+                                    </tr> -->
                                     <!-- Start Location Column -->
                                     <ng-container matColumnDef="zones">
                                       <th width="90%" mat-header-cell *matHeaderCellDef>Zone</th>
@@ -126,7 +126,7 @@
                                     </ng-container>
                                     <ng-container matColumnDef="actions">
                                       <th width="10%" mat-header-cell *matHeaderCellDef>Action</th>
-                                      <td class="table-minimal-action-buttons" width="10%" mat-cell
+                                      <td width="10%" mat-cell
                                         *matCellDef="let element">
                                         <button mat-icon-button aria-label="Delete" (click)="deleteZone(element)">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
@@ -177,12 +177,12 @@
                                 <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
                                   <table mat-table [dataSource]="location_data_source" matSort
                                     (matSortChange)="announceSortChange($event)"
-                                    class="g-card-table employee-location-table">
-                                    <tr class="mat-row" *matNoDataRow>
+                                    class="g-card-table employee-location-table table-minimal-action-buttons">
+                                    <!-- <tr class="mat-row" *matNoDataRow>
                                       <td class="mat-cell" [attr.colspan]="displayedColumns.length">
                                         No data matching the filter.
                                       </td>
-                                    </tr>
+                                    </tr> -->
 
                                     <!-- Start Location Column -->
                                     <ng-container matColumnDef="start_location">
@@ -202,7 +202,7 @@
                                     <!-- Delete Location Column -->
                                     <ng-container matColumnDef="delete_location">
                                       <th width="20%" mat-header-cell *matHeaderCellDef>Action</th>
-                                      <td class="table-minimal-action-buttons" width="20%" mat-cell
+                                      <td width="20%" mat-cell
                                         *matCellDef="let element">
                                         <button mat-icon-button aria-label="Delete Location"
                                           (click)="deleteLocation(element)">
@@ -249,7 +249,7 @@
                       </div>
                     </div>
                   </mat-tab>
-                  <mat-tab label="Employee Pick Level" [disabled]="!isLookUp">
+                  <mat-tab label="Employee Pick Levels" [disabled]="!isLookUp">
                     <app-employee-pickup-level [pickUplevels]="pickUplevels"></app-employee-pickup-level>
                   </mat-tab>
 
@@ -268,7 +268,7 @@
                                       search
                                     </span>
                                     <input type="text" placeholder="Search Functions allowed"
-                                      aria-label="Search Groups Allowed" matInput [(ngModel)]="searchfuncAllowed">
+                                      aria-label="Search Group Allowed" matInput [(ngModel)]="searchfuncAllowed">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="groupAllowedDialog()">
@@ -284,7 +284,7 @@
                                       <span class="list-label zone-list-label">
                                         {{groups_allowed}}
                                       </span>
-                                      <button mat-icon-button aria-label="Delete Zone"
+                                      <button mat-icon-button aria-label="Delete Group"
                                         (click)="deleteGroupAllowed(groups_allowed)">
                                         <mat-icon class="icon-circle-cancel">close</mat-icon>
                                       </button>
@@ -317,7 +317,7 @@
                                     <span class="material-symbols-outlined icon-search">
                                       search
                                     </span>
-                                    <input type="text" placeholder="Search Group allowed"
+                                    <input type="text" placeholder="Search Groups allowed"
                                       aria-label="Search Groups Allowed" matInput [(ngModel)]="searchGrpAllowed">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
@@ -330,21 +330,21 @@
                                 <mat-list class="zones-list g-card-list" role="list">
                                   <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
                                     <table mat-table [dataSource]="groupAllowedList" matSort
-                                      (matSortChange)="announceSortChange($event)" class="g-card-table">
+                                      (matSortChange)="announceSortChange($event)" class="g-card-table table-minimal-action-buttons">
 
-                                      <tr class="mat-row" *matNoDataRow>
+                                      <!-- <tr class="mat-row" *matNoDataRow>
                                         <td class="mat-cell" [attr.colspan]="groupsColumns.length">
                                           No data matching the filter.
                                         </td>
-                                      </tr>
+                                      </tr> -->
                                       <!-- Start Location Column -->
                                       <ng-container matColumnDef="groups">
-                                        <th width="90%" mat-header-cell *matHeaderCellDef>Zone</th>
+                                        <th width="90%" mat-header-cell *matHeaderCellDef>Group</th>
                                         <td width="90%" mat-cell *matCellDef="let element"> {{element.groupName}} </td>
                                       </ng-container>
                                       <ng-container matColumnDef="actions">
                                         <th width="10%" mat-header-cell *matHeaderCellDef>Action</th>
-                                        <td class="table-minimal-action-buttons" width="10%" mat-cell
+                                        <td width="10%" mat-cell
                                           *matCellDef="let element">
                                           <button mat-icon-button aria-label="Delete"
                                             (click)="deleteGrpAllowed(element)">

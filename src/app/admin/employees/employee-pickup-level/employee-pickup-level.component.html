@@ -28,13 +28,13 @@
               </button>
             </div> -->
             <table mat-table [dataSource]="pickup_level_data_source" matSort
-              (matSortChange)="announceSortChange($event)" class="w-100 g-card-table employee-pick-level-table">
+              (matSortChange)="announceSortChange($event)" class="w-100 g-card-table employee-pick-level-table table-minimal-action-buttons">
 
-              <tr class="mat-row" *matNoDataRow>
+              <!-- <tr class="mat-row" *matNoDataRow>
                 <td class="mat-cell" [attr.colspan]="displayedColumns.length">
                   No data matching the filter.
                 </td>
-              </tr>
+              </tr> -->
               <ng-container matColumnDef="pick_level">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Pick Level</th>
                 <td mat-cell *matCellDef="let element"> {{element.pickLevel}} </td>
@@ -54,7 +54,7 @@
 
               <ng-container matColumnDef="edit">
                 <th width="20%" mat-header-cell *matHeaderCellDef>Action</th>
-                <td class="table-minimal-action-buttons" width="20%" mat-cell *matCellDef="let element">
+                <td width="20%" mat-cell *matCellDef="let element">
                   <button mat-icon-button aria-label="Delete" (click)="deletePickLevel(element)">
                     <mat-icon class="icon-circle-cancel">close</mat-icon>
                   </button>
