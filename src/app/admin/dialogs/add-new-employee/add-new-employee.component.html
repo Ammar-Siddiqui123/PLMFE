@@ -23,7 +23,7 @@
 
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>Username</mat-label>
-      <input matInput  type="text"  name="userName" required="required" [(ngModel)]="userName">
+      <input matInput  type="text"  name="userName" required="required" [(ngModel)]="userName" [maxlength]="50">
       <!-- <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint> -->
 
     </mat-form-field>
