@@ -47,7 +47,7 @@
                   </div>
                 </div>
                 <div class="d-flex gap-12">
-                <button mat-raised-button color="primary" class=" mat-button-icon">
+                <button mat-flat-button color="primary" class=" mat-button-icon">
                     <span class="material-symbols-outlined">
                       add
                     </span>
@@ -67,12 +67,12 @@
                 <mat-tab-group dynamicHeight>
                   <mat-tab label="Details">
                     <div class="row">
-                      
+
                       <div class="col-xl-9 col-lg-6">
                         <div class="py-4 br-14">
-                          
+
                           <div class="d-flex gap-20 mb-3">
-                            
+
                             <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
                               <mat-label>Item No.</mat-label>
                               <span matSuffix>
@@ -80,32 +80,32 @@
                               </span>
                               <input matInput readonly class="__grab_cursor readonly" type="text" formControlName="itemNumber">
                             </mat-form-field>
-  
+
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                               <mat-label>Supplier Item ID</mat-label>
                               <input matInput type="text" formControlName="supplierItemID">
                             </mat-form-field>
-  
+
                           </div>
-  
+
                           <div class="mb-3">
                             <mat-form-field class="filter w-100 stats-filters" appearance="outline">
                               <mat-label>Description</mat-label>
                               <textarea matInput type="text" formControlName="description"></textarea>
                             </mat-form-field>
                           </div>
-  
+
                           <div class="d-flex gap-20 mb-3">
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                               <mat-label>Reorder Point</mat-label>
                               <input matInput type="text" formControlName="reorderPoint">
                             </mat-form-field>
-  
+
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                               <mat-label>Replenishment Point</mat-label>
                               <input matInput type="text" formControlName="replenishmentPoint">
                             </mat-form-field>
-                            
+
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                               <mat-label>Category</mat-label>
                               <span matSuffix>
@@ -113,21 +113,21 @@
                               </span>
                               <input matInput type="text" formControlName="category">
                             </mat-form-field>
-                            
+
                           </div>
-  
+
                           <div class="d-flex gap-20 mb-3">
-                            
+
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                               <mat-label>Reorder Quantity</mat-label>
                               <input matInput type="text" formControlName="reorderQuantity">
                             </mat-form-field>
-                            
+
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                               <mat-label>Replenishment Level</mat-label>
                               <input matInput type="text" formControlName="replenishmentLevel">
                             </mat-form-field>
-                            
+
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                               <mat-label>Sub Category</mat-label>
                               <span matSuffix>
@@ -135,11 +135,11 @@
                               </span>
                               <input matInput type="text" formControlName="subCategory">
                             </mat-form-field>
-  
+
                           </div>
-  
+
                           <div class="d-flex gap-20 mb-5">
-  
+
                             <mat-form-field class="custom-form-field w-100" appearance="outline" >
                               <mat-label>UM</mat-label>
                               <span matSuffix>
@@ -147,37 +147,37 @@
                               </span>
                               <input matInput type="text" formControlName="unitOfMeasure">
                             </mat-form-field>
-                            
+
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                               <mat-label>KanBan Replenishment Point </mat-label>
                               <input matInput type="text" formControlName="kanbanReplenishmentPoint">
                             </mat-form-field>
-                            
+
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
-                              <mat-label>KanBan Replenishment Level</mat-label>                            
+                              <mat-label>KanBan Replenishment Level</mat-label>
                               <input matInput type="text" formControlName="kanbanReplenishmentLevel">
                             </mat-form-field>
-  
+
                           </div>
-  
+
                           <div class="d-flex gap-20 justify-content-end">
-                            
+
                             <button mat-stroked-button color="warn" class="button-delete bg-white">
                               Delete Item
                             </button>
-                            
+
                             <button mat-stroked-button color="primary" class="button-primary-o bg-white">
                               Quarantine Item
                             </button>
-                            
+
                             <button mat-flat-button color="primary" class="button-primary bg-white" >
                               Save
                             </button>
                           </div>
-  
+
                         </div>
                       </div>
-  
+
                       <div class="col-xl-3 col-lg-6 main-widget">
                         <div class="custom bg-white bg-50 br-14 mb-3">
                           <div class="counter">
@@ -244,7 +244,7 @@
                           </div>
                         </div>
                       </div>
-                      
+
                     </div>
                   </mat-tab>
                   <mat-tab label="Item Setup"><app-item-setup></app-item-setup></mat-tab>
@@ -252,12 +252,12 @@
                   <mat-tab label="Locations"><app-inventory-location></app-inventory-location></mat-tab>
                   <mat-tab label="Reel Tracking" style="min-height: 400px;"><app-reel-tracking></app-reel-tracking></mat-tab>
                   <mat-tab label="Scan Codes"><app-scan-codes></app-scan-codes></mat-tab>
-                  
-                  
+
+
                 </mat-tab-group>
               </div>
-              
-              
+
+
             </mat-card-content>
             <div class="d-flex gap-20 justify-content-end">
               <button mat-stroked-button color="warn" class="button-delete bg-white">
