@@ -44,7 +44,7 @@ export class DeleteConfirmationComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
-            this.reloadCurrentRoute()
+           // this.reloadCurrentRoute()
           } else {
             this.dialog.closeAll();
             this.toastr.error(labels.alert.went_worng, 'Error!', {
