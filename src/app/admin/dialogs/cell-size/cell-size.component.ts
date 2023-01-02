@@ -22,10 +22,16 @@ export class CellSizeComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.cellSizeService.getCellSize().subscribe((res) => {
-       this.cellsize_list = res.data;
-    });
+    this.getCellSizeList();
+   
   }
+
+  getCellSizeList(){
+    this.cellSizeService.getCellSize().subscribe((res) => {
+      this.cellsize_list = res.data;
+   });
+  }
+  
   addczRow(row:any){
     this.cellsize_list.unshift({cells: '', cellTypes: ''});
   }
@@ -45,11 +51,13 @@ export class CellSizeComponent implements OnInit {
     
     this.cellSizeService.saveCellSize(paylaod).subscribe((res) => {
       console.log(res);
-      
+      if(res.isExecuted){
+        this.getCellSizeList();
       this.toastr.success(labels.alert.success, 'Success!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+    }
     });
   }
   dltCellSize(cell:any, i){
@@ -62,10 +70,13 @@ export class CellSizeComponent implements OnInit {
     
     this.cellsize_list.shift(i);
     this.cellSizeService.dltCellSize(paylaod).subscribe((res) => {
+      if(res.isExecuted){
+        this.getCellSizeList();
       this.toastr.success(labels.alert.delete, 'Success!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+    }
     });
   }
 
