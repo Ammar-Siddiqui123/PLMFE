@@ -22,7 +22,7 @@
                     </div>
                     <span>Employees</span>
                   </h2>
-                  <mat-form-field  class="action-dropdown cs-expand" appearance="fill">
+                  <mat-form-field class="action-dropdown cs-expand" appearance="fill">
                     <mat-label>Actions</mat-label>
                     <mat-select class="employees-action" [disabled]="!isLookUp"
                       (selectionChange)="actionDialog($event.value, empData, $event)">
@@ -35,7 +35,8 @@
                     </span>
                   </mat-form-field>
                 </div>
-                <div class="emp-details-table details-wrap g-details-wrap {{!isLookUp ? 'box-border' : ''}}" *ngIf="!isLookUp">
+                <div class="emp-details-table details-wrap g-details-wrap {{!isLookUp ? 'box-border' : ''}}"
+                  *ngIf="!isLookUp">
 
                   <!-- employee lookup here -->
                   <app-employees-lookup [childLookUp]="isLookUp" (updateIsLookUp)="updateIsLookUp($event)">
@@ -46,10 +47,6 @@
                   <div class="g-detail">
                     <label class="g-field-label">Employee Lookup</label>
                     <div class="g-field-content">{{empData.firstName }} {{empData.lastName }}</div>
-                  </div>
-                  <div class="g-detail">
-                    <label class="g-field-label">ID</label>
-                    <div class="g-field-content">123-321-000 - dummy</div>
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">MI</label>
@@ -115,8 +112,7 @@
                                 </div>
                                 <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
                                   <table mat-table [dataSource]="employee_fetched_zones" matSort
-                                    (matSortChange)="announceSortChange($event)"
-                                    class="g-card-table">
+                                    (matSortChange)="announceSortChange($event)" class="g-card-table">
 
                                     <tr class="mat-row" *matNoDataRow>
                                       <td class="mat-cell" [attr.colspan]="displayedColumns.length">
@@ -130,7 +126,8 @@
                                     </ng-container>
                                     <ng-container matColumnDef="actions">
                                       <th width="10%" mat-header-cell *matHeaderCellDef>Action</th>
-                                      <td width="10%" mat-cell *matCellDef="let element">
+                                      <td class="table-minimal-action-buttons" width="10%" mat-cell
+                                        *matCellDef="let element">
                                         <button mat-icon-button aria-label="Delete" (click)="deleteZone(element)">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
                                         </button>
@@ -189,27 +186,31 @@
 
                                     <!-- Start Location Column -->
                                     <ng-container matColumnDef="start_location">
-                                      <th width="40%" mat-header-cell *matHeaderCellDef mat-sort-header>Start Location</th>
-                                      <td width="40%" mat-cell *matCellDef="let element"> {{element.startLocation}} </td>
+                                      <th width="40%" mat-header-cell *matHeaderCellDef mat-sort-header>Start Location
+                                      </th>
+                                      <td width="40%" mat-cell *matCellDef="let element"> {{element.startLocation}}
+                                      </td>
                                     </ng-container>
 
                                     <!-- End Location Column -->
                                     <ng-container matColumnDef="end_location">
-                                      <th width="40%" mat-header-cell *matHeaderCellDef mat-sort-header>End Location</th>
+                                      <th width="40%" mat-header-cell *matHeaderCellDef mat-sort-header>End Location
+                                      </th>
                                       <td width="40%" mat-cell *matCellDef="let element"> {{element.endLocation}} </td>
                                     </ng-container>
 
                                     <!-- Delete Location Column -->
                                     <ng-container matColumnDef="delete_location">
                                       <th width="20%" mat-header-cell *matHeaderCellDef>Action</th>
-                                      <td class="table-minimal-action-buttons" width="20%" mat-cell *matCellDef="let element">
+                                      <td class="table-minimal-action-buttons" width="20%" mat-cell
+                                        *matCellDef="let element">
                                         <button mat-icon-button aria-label="Delete Location"
-                                        (click)="deleteLocation(element)">
-                                        <mat-icon class="icon-circle-cancel">close</mat-icon>
-                                      </button>
-                                      <button mat-icon-button aria-label="Edit">
-                                        <mat-icon class="icon-circle-edit">border_color</mat-icon>
-                                      </button>
+                                          (click)="deleteLocation(element)">
+                                          <mat-icon class="icon-circle-cancel">close</mat-icon>
+                                        </button>
+                                        <button mat-icon-button aria-label="Edit">
+                                          <mat-icon class="icon-circle-edit">border_color</mat-icon>
+                                        </button>
                                       </td>
 
                                     </ng-container>
@@ -317,7 +318,7 @@
                                       search
                                     </span>
                                     <input type="text" placeholder="Search Group allowed"
-                                      aria-label="Search Groups Allowed" matInput  [(ngModel)]="searchGrpAllowed">
+                                      aria-label="Search Groups Allowed" matInput [(ngModel)]="searchGrpAllowed">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="grpAllowedDialog()">
@@ -327,8 +328,41 @@
                                   </button>
                                 </div>
                                 <mat-list class="zones-list g-card-list" role="list">
-                                  <ng-scrollbar style="height: 200px">
-                                    <mat-list-item role="listitem"
+                                  <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
+                                    <table mat-table [dataSource]="groupAllowedList" matSort
+                                      (matSortChange)="announceSortChange($event)" class="g-card-table">
+
+                                      <tr class="mat-row" *matNoDataRow>
+                                        <td class="mat-cell" [attr.colspan]="groupsColumns.length">
+                                          No data matching the filter.
+                                        </td>
+                                      </tr>
+                                      <!-- Start Location Column -->
+                                      <ng-container matColumnDef="groups">
+                                        <th width="90%" mat-header-cell *matHeaderCellDef>Zone</th>
+                                        <td width="90%" mat-cell *matCellDef="let element"> {{element.groupName}} </td>
+                                      </ng-container>
+                                      <ng-container matColumnDef="actions">
+                                        <th width="10%" mat-header-cell *matHeaderCellDef>Action</th>
+                                        <td class="table-minimal-action-buttons" width="10%" mat-cell
+                                          *matCellDef="let element">
+                                          <button mat-icon-button aria-label="Delete"
+                                            (click)="deleteGrpAllowed(element)">
+                                            <mat-icon class="icon-circle-cancel">close</mat-icon>
+                                          </button>
+                                          <!-- <button mat-icon-button aria-label="Edit">
+                                          <mat-icon class="icon-circle-edit">border_color</mat-icon>
+                                        </button> -->
+
+                                        </td>
+                                      </ng-container>
+
+                                      <tr mat-header-row *matHeaderRowDef="groupsColumns; sticky:true"></tr>
+                                      <tr mat-row *matRowDef="let row; columns: groupsColumns;"></tr>
+                                    </table>
+
+                                    <!-- below list is converted to above table -->
+                                    <!-- <mat-list-item role="listitem"
                                       *ngFor="let grp_allowed of groupAllowedList | custumGrpAllowedSearch:searchGrpAllowed;let i = index">
                                       <span class="list-label zone-list-label">
                                         {{grp_allowed.groupName}}
@@ -337,7 +371,8 @@
                                         (click)="deleteGrpAllowed(grp_allowed)">
                                         <mat-icon class="icon-circle-cancel">close</mat-icon>
                                       </button>
-                                    </mat-list-item>
+                                    </mat-list-item> -->
+
                                   </ng-scrollbar>
 
                                 </mat-list>

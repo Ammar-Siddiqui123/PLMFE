@@ -11,9 +11,12 @@ export class HeaderComponent implements OnInit {
 
   @Output() toggleSidebarForMe: EventEmitter<any> = new EventEmitter();
   loading:boolean = true
+  public user_data  = JSON.parse(localStorage.getItem('user') || '');
   constructor(private router: Router,public spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
+    console.log(this.user_data.userName);
+    
     this.loading = false;
   }
 

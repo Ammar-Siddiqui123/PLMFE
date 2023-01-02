@@ -30,6 +30,7 @@ export class AddNewEmployeeComponent implements OnInit {
   userName:string;
   emailAddress:string;
   accessLevel:string;
+  active: boolean;
 
   toggle_password = true;
 
@@ -42,15 +43,16 @@ export class AddNewEmployeeComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
-    this.empData = this.data.emp_data;
+    this.empData = this.data?.emp_data;
     this.data?.mode === 'edit' ? this.form_heading = 'Edit Employee' : 'Add New Employee';
     this.data?.mode === 'edit' ? this.form_btn_label = 'Save': 'Add';
-    this.mi = this.empData.mi ?? '';
-    this.firstName = this.empData.firstName ?? '';
-    this.lastName = this.empData.lastName ?? '';
-    this.userName = this.empData.username ?? '';
-    this.emailAddress = this.empData.emailAddress ?? '';
-    this.accessLevel = this.empData.accessLevel.toLowerCase() ?? '';
+    this.mi = this.empData?.mi ?? '';
+    this.firstName = this.empData?.firstName ?? '';
+    this.lastName = this.empData?.lastName ?? '';
+    this.userName = this.empData?.username ?? '';
+    this.emailAddress = this.empData?.emailAddress ?? '';
+    this.accessLevel = this.empData?.accessLevel.toLowerCase() ?? '';
+    this.active = this.empData?.active ?? true;
     
   }
 

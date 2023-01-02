@@ -109,6 +109,34 @@ input:-webkit-autofill{
   'opsz' 48
 }
 
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+  background: #1A1AD3;
+}
+
+.mat-button.mat-primary, .mat-icon-button.mat-primary, .mat-stroked-button.mat-primary {
+  color: #1A1AD3;
+  border: 1px solid #1A1AD3;
+}
+
+.mat-form-field-appearance-outline:not(.mat-form-field-disabled) .mat-form-field-flex:hover .mat-form-field-outline-thick {
+  color: #1A1AD3;
+}
+
+.mat-button.mat-warn, .mat-icon-button.mat-warn, .mat-stroked-button.mat-warn {
+  color: #de2654;
+  border: 1px solid #de2654;
+}
+
+.mat-flat-button.mat-warn, .mat-raised-button.mat-warn, .mat-fab.mat-warn, .mat-mini-fab.mat-warn {
+
+  background: #de2654;
+}
+
+.form-control:focus{
+
+  box-shadow: unset;
+}
+
 #pickpro {
   font-family: 'Mulish', sans-serif;
   font-size: 16px;
@@ -763,12 +791,14 @@ table.g-card-table th.mat-header-cell {
 table.g-card-table th.mat-header-cell:first-of-type,
 table.g-card-table td.mat-cell:first-of-type {
   padding-left: 1px;
+  text-align: left;
 }
 
 table.g-card-table th.mat-header-cell:last-of-type,
 table.g-card-table td.mat-cell:last-of-type,
 table.g-card-table td.mat-footer-cell:last-of-type {
-  padding-right: 1px;
+  padding-right: 14px;
+  text-align: right;
 }
 
 
