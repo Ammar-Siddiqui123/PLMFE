@@ -42,7 +42,7 @@ export class AddNewEmployeeComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
-    this.empData = this.data.emp_data;
+    this.empData = this.data?.emp_data;
     this.data?.mode === 'edit' ? this.form_heading = 'Edit Employee' : 'Add New Employee';
     this.data?.mode === 'edit' ? this.form_btn_label = 'Save': 'Add';
     this.mi = this.empData.mi ?? '';
