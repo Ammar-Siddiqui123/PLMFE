@@ -21,6 +21,7 @@ import labels from '../../labels/labels.json';
 import { GroupsAllowedComponent } from './groups-allowed/groups-allowed.component';
 import { GroupAllowedComponent } from '../dialogs/group-allowed/group-allowed.component';
 import { CloneGroupComponent } from '../dialogs/clone-group/clone-group.component';
+import { Router,NavigationEnd  } from '@angular/router';
 
 export interface location {
   start_location: string;
@@ -77,7 +78,9 @@ export class EmployeesComponent implements OnInit {
   groupsColumns: string[] = ['groups', 'actions'];
 
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private employeeService: EmployeeService, private dialog: MatDialog,private toastr: ToastrService) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, private employeeService: EmployeeService, private dialog: MatDialog,private toastr: ToastrService, public router: Router) { 
+    console.log(router.url);
+  }
 
   @ViewChild(MatSort) sort: MatSort;
 

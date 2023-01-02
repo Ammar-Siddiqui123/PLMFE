@@ -3,6 +3,7 @@ import { disableDebugTools } from '@angular/platform-browser';
 
 import { IEmployee,EmployeeObject,AdminEmployeeLookupResponse,AccessGroupObject } from '../Iemployee';
 import { EmployeeService } from '../employee.service';
+import { Router,NavigationEnd  } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -12,9 +13,37 @@ export class DashboardComponent implements OnInit {
   sideBarOpen: boolean = true;
   emp: IEmployee;
   empRes:EmployeeObject;
-  constructor(public employeeService: EmployeeService) { }
+
+  breadcrumbList: any = [];
+  constructor(public employeeService: EmployeeService,  public router: Router) {
+
+    router.events.subscribe((val: any) => {
+      this.breadcrumbList = [];
+      this.breadcrumbList.push({
+        name:'Home',
+        value:'/dashboard'
+      })
+      if(val instanceof NavigationEnd){
+        let res = val.url.substring(1);
+        let splittedArray = res.split('/');
+        splittedArray.forEach(element => {
+        this.breadcrumbList.push({
+          name: this.capitalizeFirstLetter(element),
+          value:'/'+element
+        })
+      });
+      }
+      console.log(val instanceof NavigationEnd) 
+  });
+   }
+
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   ngOnInit(): void {
+
+    
     //get employee
   //   this.getEmployee()
 
