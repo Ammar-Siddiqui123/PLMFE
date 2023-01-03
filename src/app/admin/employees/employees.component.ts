@@ -443,6 +443,9 @@ getgroupAllowedList(){
         userName:this.grp_data
       }
     })
+    dialogRef.afterClosed().subscribe(result => {
+      this.reloadData();
+    })
   }
 
   groupAllowedDialog() {
