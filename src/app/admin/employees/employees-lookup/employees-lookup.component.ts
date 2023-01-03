@@ -31,7 +31,7 @@ export class EmployeesLookupComponent implements OnInit {
   }
 
   // table initialization
-  displayedColumns: string[] = ['firstName', 'lastName', 'mi', 'username'];
+  displayedColumns: string[] = ['lastName', 'firstName', 'mi', 'username'];
   constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog,private employeeService: EmployeeService) {}
 
   @ViewChild(MatSort) sort: MatSort;

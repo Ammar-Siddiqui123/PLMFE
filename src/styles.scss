@@ -854,15 +854,19 @@ table.g-card-table th.mat-header-cell {
 
 .action-clickable-table .mat-row:after {
   content: "";
-  border-radius: 27px;
+  border-radius: 8px;
   border: 1px solid transparent;
   transition: 0.3s ease all;
   position: absolute;
   top: 0;
-  left: 0;
+  left: -10px;
   right: 0;
   bottom: 0;
   /* background: red; */
+}
+
+.scrollbar-hover-padding .ng-scroll-content {
+  padding-left: 10px;
 }
 
 .action-clickable-table tr.mat-row td {
@@ -870,9 +874,13 @@ table.g-card-table th.mat-header-cell {
   z-index: 3;
 }
 
+.action-clickable-table .mat-row:hover td {
+  color: #fff;
+}
+
 .action-clickable-table .mat-row:hover:after {
 
-  background:#D6D6FD;
+  background:#5555EC;
 }
 
 .mat-table-scrollbar scrollbar-y.scrollbar-control {

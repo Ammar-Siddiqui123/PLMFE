@@ -1,6 +1,6 @@
 <div class="search-box">
-  <div class="d-flex g-mini-search-box">
-    <mat-form-field class="w-100" appearance="fill">
+  <div class="d-flex justify-content-between g-mini-search-box">
+    <mat-form-field class="w-100" style="max-width: 309px;" appearance="fill">
       <span class="material-symbols-outlined icon-search">
         search
       </span>
@@ -13,8 +13,8 @@
     </button>
   </div>
 </div>
-<ng-scrollbar class="mat-table-scrollbar" style="height: 558px">
-<table mat-table [dataSource]="employee_data_source" matSort (matSortChange)="announceSortChange($event)" class="g-card-table employee-location-table action-clickable-table">
+<ng-scrollbar class="mat-table-scrollbar scrollbar-hover-padding" style="height: 558px">
+<table style="width: 98%;" mat-table [dataSource]="employee_data_source" matSort (matSortChange)="announceSortChange($event)" class="g-card-table employee-location-table action-clickable-table">
 
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
