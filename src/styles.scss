@@ -101,9 +101,9 @@ $c-white:  #fff;
 $c-blue: #fff;
 
 input:-webkit-autofill {
-border: $border-style !important;
--webkit-text-fill-color: $c-white !important;
-background-color: $c-blue !important;
+border: rgba(9, 9, 72, 1) !important;
+-webkit-text-fill-color: rgba(9, 9, 72, 1) !important;
+background-color: #fff !important;
 -webkit-box-shadow: 0 0 0px 10px $c-blue inset;
 transition: background-color 5000s ease-in-out 0s;
 }
