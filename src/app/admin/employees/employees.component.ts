@@ -43,7 +43,7 @@ export class EmployeesComponent implements OnInit {
   public isLookUp: boolean = false;
   public isGroupLookUp: boolean = false;
   public env;
-  public searchGrpAllowed = '';
+ // public searchGrpAllowed = '';
   public searchfuncAllowed = '';
 
   myControl = new FormControl('');
@@ -90,7 +90,19 @@ export class EmployeesComponent implements OnInit {
   }
 
 
-
+getgroupAllowedList(){
+  const emp_grp = {
+    "userName": this.grp_data,
+    "wsid": "TESTWSID"
+  };
+  this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
+   // this.groupAllowedList = res.data;
+    this.groupAllowedList = new MatTableDataSource(res.data);
+    this.groupAllowedList.filterPredicate = (data: String, filter: string) => {
+      return data.toLowerCase().includes(filter.trim().toLowerCase());
+  };
+  }) 
+}
   updateIsLookUp(event: any) {
     this.empData = {};
     this.empData = event.userData;
@@ -123,7 +135,10 @@ export class EmployeesComponent implements OnInit {
         console.log(res.data);
 
 
-        this.groupAllowedList = res.data.allGroups;
+        this.groupAllowedList = new MatTableDataSource(res.data?.allGroups);
+      //   this.groupAllowedList.filterPredicate = (data: String, filter: string) => {
+      //     return data.toLowerCase().includes(filter.trim().toLowerCase());
+      // };
       })
 
 
@@ -432,13 +447,7 @@ export class EmployeesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
      
-      const emp_grp = {
-        "userName": this.grp_data,
-        "wsid": "TESTWSID"
-      };
-      this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
-        this.groupAllowedList = res.data;
-      }) 
+    this.getgroupAllowedList();
     })
   }
 
@@ -452,14 +461,8 @@ export class EmployeesComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-     
-      const emp_grp = {
-        "userName": this.grp_data,
-        "wsid": "TESTWSID"
-      };
-      this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
-        this.groupAllowedList = res.data;
-      }) 
+
+      this.getgroupAllowedList();
 
     })
 
@@ -476,19 +479,18 @@ export class EmployeesComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
      
-      const emp_grp = {
-        "userName": this.grp_data,
-        "wsid": "TESTWSID"
-      };
-      this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
-        this.groupAllowedList = res.data;
-      }) 
+      this.getgroupAllowedList();
+
 
     })
 
 
   }
 
+  groupAllowedFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.groupAllowedList.filter = filterValue;
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.location_data_source.filter = filterValue.trim().toLowerCase();

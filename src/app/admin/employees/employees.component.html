@@ -318,7 +318,7 @@
                                       search
                                     </span>
                                     <input type="text" placeholder="Search Groups Allowed"
-                                      aria-label="Search Groups Allowed" matInput [(ngModel)]="searchGrpAllowed">
+                                      aria-label="Search Groups Allowed" matInput  (keyup)="groupAllowedFilter($event)">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="grpAllowedDialog()">
