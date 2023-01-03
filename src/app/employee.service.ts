@@ -19,6 +19,16 @@ export class EmployeeService {
 
   }
 
+  public getLocationList(url, payload ): Observable<EmployeeObject> {
+    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + basicAuth
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}`+ url, payload,httpOptions);
+  }
 
   //Test Later
   public getEmployeeData(employee: IEmployee ): Observable<EmployeeObject> {
@@ -248,9 +258,6 @@ public insertEmployeeLocation(employee: IEmployee ): Observable<EmployeeObject> 
   };
   return this.http.post<any>(`${environment.apiUrl}/Admin/InsertEmployeeLocation`, employee,httpOptions);
 }
-
-
-
 
 public updateEmployeeLocation(employee: IEmployee ): Observable<EmployeeObject> {
   let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
