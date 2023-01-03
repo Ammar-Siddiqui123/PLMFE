@@ -137,6 +137,7 @@ transition: background-color 5000s ease-in-out 0s;
 .mat-button.mat-warn, .mat-icon-button.mat-warn, .mat-stroked-button.mat-warn {
   color: #de2654;
   border: 1px solid #de2654;
+  min-height: 48px;
 }
 
 .mat-flat-button.mat-warn, .mat-raised-button.mat-warn, .mat-fab.mat-warn, .mat-mini-fab.mat-warn {
