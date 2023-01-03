@@ -151,12 +151,32 @@ export class DeleteConfirmationComponent implements OnInit {
       else if (this.data.mode === 'delete-group') {
         let groupData = {
           "wsid": "TESTWID",
+          "GroupName": this.data.grp_data.groupName,
+          "userName": "1234"
+        }
+        this.employeeService.deleteGroup(groupData).subscribe((res: any) => {
+          if (res.isExecuted) {
+            this.dialog.closeAll();
+            this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          } else {
+            this.dialog.closeAll();
+            this.toastr.error(labels.alert.went_worng, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        });
+      }
+      else if (this.data.mode === 'delete-allowed-group') {
+        let groupData = {
+          "wsid": "TESTWID",
           "GroupName": this.data.allowedGroup,
           "userName": "1234"
         }
         this.employeeService.deleteGroup(groupData).subscribe((res: any) => {
-          console.log(res);
-
           if (res.isExecuted) {
             this.dialog.closeAll();
             this.toastr.success(labels.alert.delete, 'Success!', {
