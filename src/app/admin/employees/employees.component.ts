@@ -112,6 +112,9 @@ export class EmployeesComponent implements OnInit {
         this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
         this.location_data = response.data?.bulkRange
         this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones);
+        this.employee_fetched_zones.filterPredicate = (data: String, filter: string) => {
+          return data.toLowerCase().includes(filter.trim().toLowerCase());
+      };
         this.emp_all_zones = response.data?.allZones;
       });
 
@@ -213,6 +216,10 @@ export class EmployeesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+
+
+
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
@@ -486,8 +493,8 @@ export class EmployeesComponent implements OnInit {
     this.location_data_source.filter = filterValue.trim().toLowerCase();
   }
   zoneFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.employee_fetched_zones.filter = filterValue.trim().toLowerCase();
+     const filterValue = (event.target as HTMLInputElement).value;
+     this.employee_fetched_zones.filter = filterValue;
   }
   // grpAllowedFilter(event: Event) {
     
