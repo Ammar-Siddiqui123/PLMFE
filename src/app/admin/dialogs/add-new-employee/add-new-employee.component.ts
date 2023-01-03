@@ -31,6 +31,7 @@ export class AddNewEmployeeComponent implements OnInit {
   emailAddress:string;
   accessLevel:string;
   active: boolean;
+  isEmail: boolean;
 
   toggle_password = true;
 
@@ -46,6 +47,7 @@ export class AddNewEmployeeComponent implements OnInit {
     this.empData = this.data?.emp_data;
     this.data?.mode === 'edit' ? this.form_heading = 'Edit Employee' : 'Add New Employee';
     this.data?.mode === 'edit' ? this.form_btn_label = 'Save': 'Add';
+    this.data?.mode === 'edit' ? this.isEmail = true: false;
     this.mi = this.empData?.mi ?? '';
     this.firstName = this.empData?.firstName ?? '';
     this.lastName = this.empData?.lastName ?? '';
