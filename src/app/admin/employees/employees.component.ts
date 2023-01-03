@@ -22,6 +22,7 @@ import { GroupsAllowedComponent } from './groups-allowed/groups-allowed.componen
 import { GroupAllowedComponent } from '../dialogs/group-allowed/group-allowed.component';
 import { CloneGroupComponent } from '../dialogs/clone-group/clone-group.component';
 import { Router,NavigationEnd  } from '@angular/router';
+import { AuthService } from '../../../app/init/auth.service';
 
 export interface location {
   start_location: string;
@@ -70,6 +71,7 @@ export class EmployeesComponent implements OnInit {
   groupAllowedList:any;
   grp_data:any;
   public demo1TabIndex = 0;
+  public userData;
 
 
 
@@ -79,8 +81,8 @@ export class EmployeesComponent implements OnInit {
   groupsColumns: string[] = ['groups', 'actions'];
 
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private employeeService: EmployeeService, private dialog: MatDialog,private toastr: ToastrService, public router: Router) { 
-    console.log(router.url);
+  constructor(private authService: AuthService,private _liveAnnouncer: LiveAnnouncer, private employeeService: EmployeeService, private dialog: MatDialog,private toastr: ToastrService, public router: Router) { 
+    // console.log(router.url);
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -190,9 +192,9 @@ getgroupAllowedList(){
   saveAssignedFunc(){
 
     let assignFunc = {
-      "userName": "1234",
-      "wsid": "TESTWID",
-      "GroupName": "123",
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+      "GroupName":this.grpData.groupName,
       "controls": this.assignedFunctions
     }
     this.employeeService.insertGroupFunctions(assignFunc)
@@ -205,11 +207,18 @@ getgroupAllowedList(){
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
+          this.updateGrpLookUp();
+        }
+        else{
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
         }
 
       });
   }
-  updateGrpLookUp(event: any) {
+  updateGrpLookUp(event?: any) {
     this.grpData = {};
     this.grpData = event.groupData;
     this.isGroupLookUp = event;
@@ -226,18 +235,13 @@ getgroupAllowedList(){
     this.employeeService.getFunctionByGroup(grp_data)
     .subscribe((response:any) => {
       // console.log("function data",response);
-      this.assignedFunctions = response.data?.allFunc
-      this.unassignedFunctions = response.data?.groupFunc
-
-
+      this.assignedFunctions = response.data?.groupFunc
+      this.unassignedFunctions = response.data?.allFunc
     });
   }
 
   ngOnInit(): void {
-
-
-
-
+    this.userData = this.authService.userData();
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
@@ -329,6 +333,7 @@ getgroupAllowedList(){
         this.isGroupLookUp = false;
         const matSelect: MatSelect = matEvent.source;
         matSelect.writeValue(null);
+        this.updateGrpLookUp();
       })
     }
     if (event === 'delete') {
@@ -478,14 +483,12 @@ getgroupAllowedList(){
       height: 'auto',
       width: '480px',
       data: {
-        mode: 'delete-group',
+        mode: 'delete-allowed-group',
         allowedGroup: allowedGroup
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-
       this.getgroupAllowedList();
-
     })
 
   }

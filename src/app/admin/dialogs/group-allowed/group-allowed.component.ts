@@ -46,7 +46,6 @@ export class GroupAllowedComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.employeeService.getEmployeeData(payload).subscribe((res: any) => {
-      console.log(res.data);
       this.controlNameList = res.data.allGroups;
       this.filteredOptions = this.controlNameForm.controls['controlName'].valueChanges.pipe(
         startWith(''),
