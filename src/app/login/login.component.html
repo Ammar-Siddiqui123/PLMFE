@@ -46,7 +46,7 @@
                   </div>
                   <ng-container *ngIf="(env === 'DB' || env === 'ADLDS')">
                     <div class="form-outline text-end mb-4">
-                      <button color="primary" type="button" style="color: #000080;" class="small anchor-feel anchor-focus" (click)="changePass()">Forgot password?</button>
+                      <button color="primary" type="button" class="small anchor-feel anchor-focus text-primary-500" (click)="changePass()">Forgot password?</button>
                     </div>
                   </ng-container>
 
@@ -56,7 +56,7 @@
                     <!-- <button class="btn btn-dark btn-lg btn-block" [disabled]="!addLoginForm.valid"
                       type="submit">Login</button> -->
                       <div class="d-flex justify-content-center my-3">
-                        <button class="form-button-submit" style="min-width: 275px !important;" [disabled]="!addLoginForm.valid" mat-flat-button color="primary">Login</button>
+                        <button class="form-button-submit w-100" [disabled]="!addLoginForm.valid" mat-flat-button color="primary">Login</button>
                       </div>
                   <!-- </div> -->
 
