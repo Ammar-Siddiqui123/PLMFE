@@ -22,7 +22,7 @@ export class SideNavComponent implements OnInit {
   ];
   adminMenus: any = [
     { icon: 'arrow_back', title: 'Admin', route: '/dashboard', class: 'back-class' },
-    { icon: 'assignment_ind', title: 'Employee', route: '/admin/employees' },
+    { icon: 'assignment_ind', title: 'Employees', route: '/admin/employees' },
     { icon: 'tune', title: 'Preferences', route: '#' },
     { icon: 'published_with_changes', title: 'System Replenishment', route: '#' },
     { icon: 'directions_alt', title: 'Inventory Map', route: '/admin/inventoryMap' },
@@ -30,11 +30,11 @@ export class SideNavComponent implements OnInit {
     { icon: 'analytics', title: 'Reports', route: '#' },
     { icon: 'my_location', title: 'Location Assignment', route: '/admin/locationAssignment' },
     { icon: 'low_priority', title: 'Cycle Count', route: '/admin/cycleCounts' },
-    { icon: 'trolley', title: 'Move Item', route: '#' },
+    { icon: 'trolley', title: 'Move Items', route: '#' },
     { icon: 'dvr', title: 'Transactions', route: '#' },
     { icon: 'ads_click', title: 'Manual Transactions', route: '#' },
-    { icon: 'event_note', title: 'Event Logs', route: '#' },
-    { icon: 'airline_stops', title: 'De-allocate Orders', route: '#' },
+    { icon: 'event_note', title: 'Event Log', route: '#' },
+    { icon: 'airline_stops', title: 'De-Allocate Orders', route: '#' },
     { icon: 'dashboard', title: 'Inventory', route: '/admin/inventoryMaster' }
   ];
   isParentMenu: boolean = true;
