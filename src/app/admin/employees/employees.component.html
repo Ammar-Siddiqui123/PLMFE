@@ -66,7 +66,7 @@
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">Email Address</label>
-                    <div class="g-field-content">j{{empData.emailAddress }}</div>
+                    <div class="g-field-content">{{empData.emailAddress }}</div>
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">Access Level</label>
@@ -208,7 +208,8 @@
                                           (click)="deleteLocation(element)">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
                                         </button>
-                                        <button mat-icon-button aria-label="Edit">
+                                        <button mat-icon-button aria-label="Edit" 
+                                        (click)="editLocationDialog(element)">
                                           <mat-icon class="icon-circle-edit">border_color</mat-icon>
                                         </button>
                                       </td>
@@ -250,7 +251,7 @@
                     </div>
                   </mat-tab>
                   <mat-tab label="Employee Pick Levels" [disabled]="!isLookUp">
-                    <app-employee-pickup-level [pickUplevels]="pickUplevels"></app-employee-pickup-level>
+                    <app-employee-pickup-level [pickUplevels]="pickUplevels" (relaodPickUpLvl)="relaodPickUpLvl()" [grp_data]="grp_data"></app-employee-pickup-level>
                   </mat-tab>
 
                   <mat-tab label="Function Allowed" [disabled]="!isLookUp" *ngIf="env === 'DB'">
@@ -318,7 +319,7 @@
                                       search
                                     </span>
                                     <input type="text" placeholder="Search Groups Allowed"
-                                      aria-label="Search Groups Allowed" matInput [(ngModel)]="searchGrpAllowed">
+                                      aria-label="Search Groups Allowed" matInput  (keyup)="groupAllowedFilter($event)">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="grpAllowedDialog()">
