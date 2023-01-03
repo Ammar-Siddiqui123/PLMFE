@@ -250,7 +250,7 @@
                     </div>
                   </mat-tab>
                   <mat-tab label="Employee Pick Levels" [disabled]="!isLookUp">
-                    <app-employee-pickup-level [pickUplevels]="pickUplevels"></app-employee-pickup-level>
+                    <app-employee-pickup-level [pickUplevels]="pickUplevels" (relaodPickUpLvl)="relaodPickUpLvl()" [grp_data]="grp_data"></app-employee-pickup-level>
                   </mat-tab>
 
                   <mat-tab label="Function Allowed" [disabled]="!isLookUp" *ngIf="env === 'DB'">

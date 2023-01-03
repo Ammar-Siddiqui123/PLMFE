@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import {MatSort, Sort} from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
@@ -24,12 +24,15 @@ export interface pickup_level_details {
   styleUrls: ['./employee-pickup-level.component.scss']
 })
 export class EmployeePickupLevelComponent implements OnInit {
-  @Input() pickUplevels: [];
+  @Input() pickUplevels: any;
+  @Input() grp_data: any;
+  @Output() relaodPickUpLvl = new EventEmitter<any>();
   pickup_level_data: any = [];
   pickup_level_data_source: any;
   constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog) {}
 
   @ViewChild(MatSort) sort: MatSort;
+  public nextPickLvl:any;
 
   ngAfterViewInit() {
     this.pickup_level_data_source.sort = this.sort;
@@ -39,10 +42,13 @@ export class EmployeePickupLevelComponent implements OnInit {
 
 
   ngOnInit(): void {
-   
+    
   }
   ngOnChanges(changes: SimpleChanges): void {
     // console.log(this.pickUplevels);
+    let max: number = Math.max(0,...this.pickUplevels.map(o => o.pickLevel));
+    this.nextPickLvl = max+1;
+    
     this.pickup_level_data = this.pickUplevels;
     this.pickup_level_data_source = new MatTableDataSource(this.pickup_level_data);
   }
@@ -66,10 +72,28 @@ export class EmployeePickupLevelComponent implements OnInit {
     dialogRef = this.dialog.open(AddPickuplevelsComponent, {
       height: 'auto',
       width: '480px',
+      data:{
+        nextPickLvl:this.nextPickLvl,
+        userName:this.grp_data
+      }
     })
     dialogRef.afterClosed().subscribe(result => {
-     console.log('Added Succesfully!');
-     
+        this.relaodPickUpLvl.emit(result);
+    })
+  }
+  editPickLevel(pickLevelData){
+    let dialogRef;
+    dialogRef = this.dialog.open(AddPickuplevelsComponent, {
+      height: 'auto',
+      width: '480px',
+      data:{
+        mode: 'edit',
+        pickLevelData:pickLevelData,
+        userName:this.grp_data
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+        this.relaodPickUpLvl.emit(result);
     })
   }
 
@@ -84,10 +108,10 @@ export class EmployeePickupLevelComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Added Succesfully!');
-      // this.ngOnInit();
+      this.relaodPickUpLvl.emit(result);
      })
     
   }
+
 
 }

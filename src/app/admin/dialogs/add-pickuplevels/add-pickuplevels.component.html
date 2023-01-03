@@ -7,9 +7,9 @@
 
         <form class="form pb-4" #pickUpLevelForm="ngForm" (ngSubmit)="onSend(pickUpLevelForm)" style="height:330px;">
 
-            <mat-form-field class="mb-3 w-100" appearance="outline">
+            <mat-form-field class="mb-3 w-100 readonly" appearance="outline">
                 <mat-label>Pick Level</mat-label>
-                <input matInput type="text" name="levelId" required="required" [(ngModel)]="levelId">
+                <input readonly matInput type="text" name="picklvl" required="required" [(ngModel)]="picklvl">
             </mat-form-field>
             <mat-form-field class="mb-3 w-100" appearance="outline">
                 <mat-label>Start Shelf</mat-label>

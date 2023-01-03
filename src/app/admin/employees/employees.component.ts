@@ -499,15 +499,9 @@ getgroupAllowedList(){
      const filterValue = (event.target as HTMLInputElement).value;
      this.employee_fetched_zones.filter = filterValue;
   }
-  // grpAllowedFilter(event: Event) {
-
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   // console.log(filterValue);
-  //   // this.groupAllowedList.filter = filterValue.trim().toLowerCase();
-
-  //   this.groupAllowedList = this.groupAllowedList.filter(t=>t.groupName === filterValue);
-  //   // console.log(filteredvalues);
-  // }
+  relaodPickUpLvl(){
+    this.reloadData();
+  }
 
 
 }
