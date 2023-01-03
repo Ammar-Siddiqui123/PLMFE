@@ -84,16 +84,28 @@ h1, h2, h3, h4, h5, h6, p, strong, span, b, u, a, div
 // resetting default input fields color
 
 /* Change the white to any color */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 0 rgb(255, 255, 255) inset !important;
-}
+// input:-webkit-autofill,
+// input:-webkit-autofill:hover,
+// input:-webkit-autofill:focus,
+// input:-webkit-autofill:active{
+//     -webkit-box-shadow: 0 0 0 0 rgb(255, 255, 255) inset !important;
+// }
 
-/*Change text in autofill textbox*/
-input:-webkit-autofill{
-  -webkit-text-fill-color: rgb(255, 255, 255) !important;
+// /*Change text in autofill textbox*/
+// input:-webkit-autofill{
+//   -webkit-text-fill-color: rgb(255, 255, 255) !important;
+// }
+
+$border-style: #fff;
+$c-white:  #fff;
+$c-blue: #fff;
+
+input:-webkit-autofill {
+border: $border-style !important;
+-webkit-text-fill-color: $c-white !important;
+background-color: $c-blue !important;
+-webkit-box-shadow: 0 0 0px 10px $c-blue inset;
+transition: background-color 5000s ease-in-out 0s;
 }
 
 .body-box{
@@ -158,6 +170,16 @@ background-color: #7B42AC;
 
 .purple{
   color: #7B42AC;
+}
+
+
+.anchor-feel {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.anchor-focus:focus {
+  border: 1px dotted #c5c5c5;
 }
 
 

@@ -45,8 +45,8 @@
                     </mat-hint>
                   </div>
                   <ng-container *ngIf="(env === 'DB' || env === 'ADLDS')">
-                    <div class="form-outline text-end">
-                      <button type="button" class="small text-muted" (click)="changePass()">Forgot password?</button>
+                    <div class="form-outline text-end mb-4">
+                      <button color="primary" type="button" style="color: #000080;" class="small anchor-feel anchor-focus" (click)="changePass()">Forgot password?</button>
                     </div>
                   </ng-container>
 
@@ -56,7 +56,7 @@
                     <!-- <button class="btn btn-dark btn-lg btn-block" [disabled]="!addLoginForm.valid"
                       type="submit">Login</button> -->
                       <div class="d-flex justify-content-center my-3">
-                        <button class="form-button-submit" style="min-width: 240px !important;" [disabled]="!addLoginForm.valid" mat-flat-button color="primary">Login</button>
+                        <button class="form-button-submit" style="min-width: 275px !important;" [disabled]="!addLoginForm.valid" mat-flat-button color="primary">Login</button>
                       </div>
                   <!-- </div> -->
 
