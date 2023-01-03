@@ -71,13 +71,13 @@ export class AddLocationComponent implements OnInit {
     let payload = {
       "startLocation": this.startLocation,
       "endLocation": this.endLocation,   
-      "oldStartLocation":  this.data.locationData.startLocation,    
-      "oldEndLocation": this.data.locationData.endLocation,
+      "oldStartLocation":  this.data.locationData?.startLocation ?? '',    
+      "oldEndLocation": this.data.locationData?.endLocation ?? '',
       "username": this.data.userName,
       "wsid": "TESTWSID"
     }
     if(this.data.locationData){
-      this.employeeService.insertEmployeeLocation(form.value).subscribe((res:any) => {
+      this.employeeService.updateEmployeeLocation(payload).subscribe((res:any) => {
         if(res.isExecuted){
           this.dialog.closeAll();
           this.toastr.success(labels.alert.update, 'Success!',{
@@ -92,7 +92,7 @@ export class AddLocationComponent implements OnInit {
         }
    });
     }else{
-      this.employeeService.insertEmployeeLocation(form.value).subscribe((res:any) => {
+      this.employeeService.insertEmployeeLocation(payload).subscribe((res:any) => {
         if(res.isExecuted){
           this.dialog.closeAll();
           this.toastr.success(labels.alert.update, 'Success!',{
