@@ -69,6 +69,7 @@ export class EmployeesComponent implements OnInit {
   emp_all_zones:any;
   groupAllowedList:any;
   grp_data:any;
+  public demo1TabIndex = 0;
 
 
 
@@ -130,16 +131,17 @@ getgroupAllowedList(){
       };
         this.emp_all_zones = response.data?.allZones;
       });
+      this.getgroupAllowedList();
 
-      this.employeeService.getEmployeeData(emp_data).subscribe((res:any) => {
-        console.log(res.data);
+      // this.employeeService.getEmployeeData(emp_data).subscribe((res:any) => {
+      //   console.log(res.data);
 
 
-        this.groupAllowedList = new MatTableDataSource(res.data?.allGroups);
-      //   this.groupAllowedList.filterPredicate = (data: String, filter: string) => {
-      //     return data.toLowerCase().includes(filter.trim().toLowerCase());
-      // };
-      })
+      //   this.groupAllowedList = new MatTableDataSource(res.data?.allGroups);
+      // //   this.groupAllowedList.filterPredicate = (data: String, filter: string) => {
+      // //     return data.toLowerCase().includes(filter.trim().toLowerCase());
+      // // };
+      // })
 
 
   }
@@ -308,7 +310,9 @@ getgroupAllowedList(){
     this.isLookUp = false;
       this.employee_fetched_zones = [];
       this.location_data_source = [];
+      this.groupAllowedList = [];
       this.max_orders = '';
+      this.demo1TabIndex = 0;
   }
   actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
     // console.log(event.value)
