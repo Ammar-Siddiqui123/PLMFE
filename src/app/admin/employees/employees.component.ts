@@ -417,6 +417,21 @@ getgroupAllowedList(){
     })
   }
 
+  editLocationDialog(element) {
+    let dialogRef;
+    dialogRef = this.dialog.open(AddLocationComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        userName:this.grp_data,
+        locationData: element
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      this.reloadData();
+    })
+  }
+
   deleteLocation(location:any){
     let dialogRef;
     dialogRef = this.dialog.open(DeleteConfirmationComponent, {

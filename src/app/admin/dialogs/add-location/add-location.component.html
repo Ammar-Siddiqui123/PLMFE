@@ -9,11 +9,37 @@
 
             <mat-form-field class="mb-3 w-100" appearance="outline">
                 <mat-label>Start Location</mat-label>
-                <input matInput type="text" name="startLocation" required="required" [(ngModel)]="startLocation">
+                <input type="text"
+                placeholder="Pick one"
+                aria-label="Number"
+                matInput
+                [(ngModel)]="startLocation"
+                [matAutocomplete]="auto"
+                name="startLocation" required="required"
+                (keyup)="getstartLocationList()" >
+                <mat-autocomplete #auto="matAutocomplete" >
+                    <mat-option *ngFor="let option of startLocationList" [value]="option">
+                      {{option}}
+                    </mat-option>
+                </mat-autocomplete>
+                <!-- <input matInput type="text" name="startLocation" required="required" [(ngModel)]="startLocation"> -->
             </mat-form-field>
             <mat-form-field class="mb-3 w-100" appearance="outline">
                 <mat-label>End Location</mat-label>
-                <input matInput type="text" name="endLocation" required="required" [(ngModel)]="endLocation">
+                <input type="text"
+                placeholder="Pick one"
+                aria-label="Number"
+                matInput
+                [(ngModel)]="endLocation"
+                [matAutocomplete]="auto1"
+                name="endLocation" required="required"
+                (keyup)="getendLocationList()" >
+                <mat-autocomplete #auto1="matAutocomplete" >
+                    <mat-option *ngFor="let option of endLocationList" [value]="option">
+                      {{option}}
+                    </mat-option>
+                </mat-autocomplete>
+              <!-- //  <input matInput type="text" name="endLocation" required="required" [(ngModel)]="endLocation"> -->
             </mat-form-field>
             <mat-dialog-actions align="end">
                 <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->

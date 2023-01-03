@@ -35,10 +35,10 @@ export class EmployeePickupLevelComponent implements OnInit {
   public nextPickLvl:any;
 
   ngAfterViewInit() {
-    this.pickup_level_data_source.sort = this.sort;
+    //this.pickup_level_data_source.sort = this.sort;
   }
 
-   displayedColumns: string[] = ['pick_level', 'start_shelf', 'end_shelf', 'edit'];
+   displayedColumns: string[] = ['pickLevel', 'startCarousel', 'endCarousel', 'edit'];
 
 
   ngOnInit(): void {
@@ -65,6 +65,7 @@ export class EmployeePickupLevelComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+    this.pickup_level_data_source.sort = this.sort;
   }
 
   pickUpLevelDialog(){
