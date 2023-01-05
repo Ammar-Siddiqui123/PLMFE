@@ -61,7 +61,7 @@
                         <div class="col-6">
                             <mat-form-field class="d-block w-100 " appearance="outline" (click)="loadWarehouse()">
                                 <mat-label>Warehouse</mat-label>
-                                <input matInput formControlName="warehouse"   name="warehouse" readonly="true">
+                                <input matInput formControlName="warehouse"   name="warehouse" readonly="true" >
                                 <span matSuffix>
                                     <mat-icon style="color:#8B8BA3;">open_in_full</mat-icon>
                                 </span>
@@ -120,9 +120,9 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <mat-form-field class="d-block w-100 readonly" appearance="outline">
+                            <mat-form-field class="d-block w-100 readonly "  appearance="outline">
                                 <mat-label>UM</mat-label>
-                                <input matInput formControlName="unitOfMeasure" class="readonly"   name="unitOfMeasure">
+                                <input matInput formControlName="unitOfMeasure" class="readonly" [ngClass]="{'readonly': this.data.detailData}"   name="unitOfMeasure" [readonly]="this.data.detailData? true: false">
                             </mat-form-field>
                         </div>
                         <div class="col-6">
