@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { FloatLabelType } from '@angular/material/form-field';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
@@ -60,7 +62,8 @@ const INVMAP_DATA = [
   styleUrls: ['./inventory-map.component.scss']
 })
 export class InventoryMapComponent implements OnInit {
-
+  hideRequiredControl = new FormControl(false);
+  floatLabelControl = new FormControl('auto' as FloatLabelType);
 
 
   public displayedColumns: any;
@@ -379,6 +382,8 @@ export class InventoryMapComponent implements OnInit {
 
 
   }
-
+  getFloatLabelValue(): FloatLabelType {
+    return this.floatLabelControl.value || 'auto';
+  }
 
 }
