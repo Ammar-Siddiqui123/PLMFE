@@ -226,8 +226,8 @@ export class InventoryMapComponent implements OnInit {
       })
       dialogRef.afterClosed().subscribe(result => {
     //    debugger
-        // const matSelect: MatSelect = actionEvent.source;
-        // matSelect.writeValue(null);
+        const matSelect: MatSelect = actionEvent.source;
+        matSelect.writeValue(null);
         this.getColumnsData();
       })
     }
