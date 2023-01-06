@@ -131,7 +131,7 @@ export class InventoryMapComponent implements OnInit {
   pageEvent: PageEvent;
 
   handlePageEvent(e: PageEvent) {
-    
+    debugger
     this.pageEvent = e;
 
     this.customPagination.startIndex =  e.pageSize*e.pageIndex
@@ -142,6 +142,7 @@ export class InventoryMapComponent implements OnInit {
    // this.pageIndex = e.pageIndex;
 
    this.initializeApi();
+   this.getContentData()
    
   }
 
@@ -275,9 +276,8 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-    //  this.isGroupLookUp = false;
-      // const matSelect: MatSelect = matEvent.source;
-      // matSelect.writeValue(null);
+
+      this.getContentData();
     })
   }
 

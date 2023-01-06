@@ -103,6 +103,7 @@ export class AddInvMapLocationComponent implements OnInit {
   } ;
 
  
+  clickSubmit: boolean = true;
 
   constructor(
     private dialog: MatDialog,
@@ -185,8 +186,12 @@ export class AddInvMapLocationComponent implements OnInit {
   }
   onSubmit(form: FormGroup) {
     
+    if(this.clickSubmit){
     if(this.data.detailData){
+      this.clickSubmit = false;
       this.invMapService.updateInventoryMap(form.value).subscribe((res) => {
+
+        this.clickSubmit = true;
         if(res.isExecuted){
           this.toastr.success(res.responseMessage, 'Success!',{
             positionClass: 'toast-bottom-right',
@@ -197,7 +202,9 @@ export class AddInvMapLocationComponent implements OnInit {
         }
       });
     } else{
+      this.clickSubmit = false;
       this.invMapService.createInventoryMap(form.value).subscribe((res) => {
+        this.clickSubmit = true;
         if(res.isExecuted){
           this.toastr.success(res.responseMessage, 'Success!',{
             positionClass: 'toast-bottom-right',
@@ -208,7 +215,7 @@ export class AddInvMapLocationComponent implements OnInit {
         }
       });
     }
-
+  }
   }
 
   get f() {
@@ -230,7 +237,9 @@ export class AddInvMapLocationComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
+      if(result != true && result != false){
       this.addInvMapLocation.controls['warehouse'].setValue(result);
+      }
     })
   }
   loadCellSize() {
@@ -243,7 +252,9 @@ export class AddInvMapLocationComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => { 
+      if(result != true && result != false){
       this.addInvMapLocation.controls['cell'].setValue(result);
+      }
     })
   }
   loadVelocityCode() {
@@ -255,7 +266,10 @@ export class AddInvMapLocationComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      this.addInvMapLocation.controls['velocity'].setValue(result);
+      if(result != true && result != false){
+        this.addInvMapLocation.controls['velocity'].setValue(result);
+      }
+
     })
   }
 
