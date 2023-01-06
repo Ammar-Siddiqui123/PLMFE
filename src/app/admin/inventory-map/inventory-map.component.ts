@@ -187,7 +187,7 @@ export class InventoryMapComponent implements OnInit {
       this.detailDataInventoryMap= res.data?.inventoryMaps;
       this.dataSource = new MatTableDataSource(res.data?.inventoryMaps);
     //  this.dataSource.paginator = this.paginator;
-      this.customPagination.total = res.data?.recordsTotal;
+      this.customPagination.total = res.data?.recordsFiltered;
       this.dataSource.sort = this.sort;
     });
   }
