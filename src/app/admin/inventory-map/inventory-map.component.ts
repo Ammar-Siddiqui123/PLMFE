@@ -5,6 +5,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../init/auth.service';
 import { AddInvMapLocationComponent } from '../dialogs/add-inv-map-location/add-inv-map-location.component';
 import { AdjustQuantityComponent } from '../dialogs/adjust-quantity/adjust-quantity.component';
@@ -60,6 +61,7 @@ const INVMAP_DATA = [
 export class InventoryMapComponent implements OnInit {
 
 
+
   public displayedColumns: any;
   public dataSource: any;
   customPagination: any = {
@@ -69,7 +71,11 @@ export class InventoryMapComponent implements OnInit {
     endIndex: ''
   }
   columnSearch: any = {
-    searchColumn : '',
+    
+    searchColumn : {
+      colHeader :'',
+      colDef: ''
+    },
     searchValue : ''
   }
 
@@ -79,6 +85,8 @@ export class InventoryMapComponent implements OnInit {
   }
   userData: any;
   payload: any;
+
+  searchAutocompleteList: any;
 
   public columnValues: any;
   public itemList: any;
@@ -98,7 +106,8 @@ export class InventoryMapComponent implements OnInit {
     private dialog: MatDialog,
     private seqColumn: SetColumnSeqService,
     private authService: AuthService,
-    private invMapService: InventoryMapService
+    private invMapService: InventoryMapService,
+    private toastr: ToastrService, 
   ) {
   }
 
@@ -113,7 +122,7 @@ export class InventoryMapComponent implements OnInit {
     }
     this.initializeApi();
     this.getColumnsData();
-    this.getContentData();
+  //  this.getContentData();
 
 
 
@@ -122,7 +131,6 @@ export class InventoryMapComponent implements OnInit {
   pageEvent: PageEvent;
 
   handlePageEvent(e: PageEvent) {
-    
     this.pageEvent = e;
 
     this.customPagination.startIndex =  e.pageSize*e.pageIndex
@@ -133,7 +141,8 @@ export class InventoryMapComponent implements OnInit {
    // this.pageIndex = e.pageIndex;
 
    this.initializeApi();
-   this.getContentData();
+   this.getContentData()
+   
   }
 
   initializeApi(){
@@ -143,7 +152,7 @@ export class InventoryMapComponent implements OnInit {
      "wsid": this.userData.wsid,
      "oqa": this.filterLoc,
      "searchString": this.columnSearch.searchValue,
-     "searchColumn": this.columnSearch.searchColumn,
+     "searchColumn": this.columnSearch.searchColumn.colHeader,
      "sortColumnIndex": this.sortColumn.columnName,
      "sRow":  this.customPagination.startIndex,
      "eRow": this.customPagination.endIndex,
@@ -154,21 +163,31 @@ export class InventoryMapComponent implements OnInit {
   getColumnsData(){
     this.seqColumn.getSetColumnSeq().subscribe((res) => {
       this.displayedColumns = INVMAP_DATA;
-      this.columnValues = res.data?.columnSequence;
-      // this.columnValues = INVMAP_DATA.map((colDef => { return colDef.colDef }));
-      this.columnValues.push('actions')
+
+      this.displayedColumns.unshift({ colHeader: "", colDef: "" });
+  
+      if(res.data.columnSequence){
+        this.columnValues = (res.data?.columnSequence.length>0) ? res.data?.columnSequence : res.data?.allColumnSequence;
+        this.columnValues.push('actions');
+        this.getContentData();
+      } else {
+        this.toastr.error('Something went wrong', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
     });
   }
 
   getContentData(){
     this.invMapService.getInventoryMap(this.payload).subscribe((res: any) => {
-      this.itemList =  res.data.inventoryMaps.map((arr => {
+      this.itemList =  res.data?.inventoryMaps?.map((arr => {
         return {'itemNumber': arr.itemNumber, 'desc': arr.description}
       }))
-      this.detailDataInventoryMap= res.data.inventoryMaps;
-      this.dataSource = new MatTableDataSource(res.data.inventoryMaps);
+      this.detailDataInventoryMap= res.data?.inventoryMaps;
+      this.dataSource = new MatTableDataSource(res.data?.inventoryMaps);
     //  this.dataSource.paginator = this.paginator;
-      this.customPagination.total = res.data.recordsTotal;
+      this.customPagination.total = res.data?.recordsTotal;
       this.dataSource.sort = this.sort;
     });
   }
@@ -188,6 +207,7 @@ export class InventoryMapComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
+      this.getContentData();
     })
   }
   inventoryMapAction(actionEvent: any) {
@@ -234,13 +254,13 @@ export class InventoryMapComponent implements OnInit {
       height: '750px',
       width: '100%',
       data: {
-        mode: 'addInvMapLocation',
+        mode: 'editInvMapLocation',
         itemList : this.itemList,
         detailData : event
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-
+      this.getContentData();
     })
   }
 
@@ -255,9 +275,8 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-    //  this.isGroupLookUp = false;
-      // const matSelect: MatSelect = matEvent.source;
-      // matSelect.writeValue(null);
+
+      this.getContentData();
     })
   }
 
@@ -286,6 +305,7 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
+      this.getContentData();
     })
   }
 
@@ -297,6 +317,21 @@ export class InventoryMapComponent implements OnInit {
     
   }
 
+  autocompleteSearchColumn(){
+    let searchPayload = {
+      "columnName": this.columnSearch.searchColumn.colDef,
+      "value": this.columnSearch.searchValue,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.invMapService.getSearchData(searchPayload).subscribe((res: any) => {
+      if(res.data){
+        this.searchAutocompleteList = res.data;
+      }
+
+    });
+  }
+
   searchColumn(){
     if(this.columnSearch.searchValue){
       this.initializeApi();
@@ -305,13 +340,14 @@ export class InventoryMapComponent implements OnInit {
   }
 
   searchData(){
-    if( this.columnSearch.searchColumn){
+    if( this.columnSearch.searchColumn.colHeader ||  this.columnSearch.searchColumn.colHeader == '' ){
       this.initializeApi();
       this.getContentData();
     }
   }
 
   announceSortChange(e : any){
+    debugger
     let index = this.columnValues.findIndex(x => x === e.active );
     this.sortColumn = {
       columnName: index,

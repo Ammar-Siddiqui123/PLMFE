@@ -21,28 +21,47 @@ export class VelocityCodeComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.velcodeService.getVelocityCode().subscribe((res) => {
-     this.velocity_code_list = res.data;
-    });
+    this.getVelocity();
   }
+
+  getVelocity(){
+    this.velcodeService.getVelocityCode().subscribe((res) => {
+      this.velocity_code_list = res.data;
+     });
+  }
+
   addVLRow(row:any){
     this.velocity_code_list.unshift([]);
   }
   saveVlCode(vlcode:any, oldVC:any){ 
+
+    let cond = true;
+    this.velocity_code_list.forEach(element => {
+      if(element == vlcode ) { 
+        cond = false;
+       this.toastr.error('Already Exists', 'Error!', {
+         positionClass: 'toast-bottom-right',
+         timeOut: 2000
+       });
+       return;
+      }   
+    });
+
+    if(cond){
+
     let paylaod = {
       "oldVelocity": oldVC.toString(),
       "velocity": vlcode,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
-    }
-    console.log(paylaod);
-    
+    } 
     this.velcodeService.saveVelocityCode(paylaod).subscribe((res) => {
       this.toastr.success(labels.alert.success, 'Success!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
     });
+    }
   }
   dltVlCode(vlCode:any){
     let paylaod = {
@@ -50,12 +69,14 @@ export class VelocityCodeComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.velocity_code_list.shift(vlCode);
     this.velcodeService.dltVelocityCode(paylaod).subscribe((res) => {
       this.toastr.success(labels.alert.delete, 'Success!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+
+      this.getVelocity();
+      
     });
   }
 

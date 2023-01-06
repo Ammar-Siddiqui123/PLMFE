@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Add Location</h1>
+<h1 mat-dialog-title>{{headerLable}}</h1>
 <button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
     <mat-icon class="close-icon">close</mat-icon>
 </button>
@@ -41,20 +41,20 @@
                         <div class="col-6">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Laser X</mat-label>
-                                <input matInput formControlName="laserX"   name="laserX">
+                                <input matInput formControlName="laserX"   name="laserX"  >
                             </mat-form-field>
                             <div class="error" *ngIf="hasError('laserX', 'required')">This field is required.</div>
                             <div class="error" *ngIf="hasError('laserX', 'pattern')">Please enter numbers only.</div>
-                            <div class="error" *ngIf="hasError('laserX', 'maxlength')">Max number allowed is 13.</div>
+                            <div class="error" *ngIf="hasError('laserX', 'maxlength')">Max number allowed is 9.</div>
                         </div>
                         <div class="col-6">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Laser Y</mat-label>
-                                <input matInput formControlName="laserY"   name="laserY">
+                                <input matInput formControlName="laserY"   name="laserY" >
                             </mat-form-field>
                             <div class="error" *ngIf="hasError('laserY', 'required')">This field is required.</div>
                             <div class="error" *ngIf="hasError('laserY', 'pattern')">Please enter numbers only.</div>
-                            <div class="error" *ngIf="hasError('laserY', 'maxlength')">Max number allowed is 13.</div>
+                            <div class="error" *ngIf="hasError('laserY', 'maxlength')">Max number allowed is 9.</div>
                         </div>
                     </div>
                     <div class="row">
@@ -72,7 +72,7 @@
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Zone</mat-label>
                                 <input   placeholder="Zone" aria-label="Zone" matInput
-                                    formControlName="zone" [matAutocomplete]="zoneAuto">
+                                    formControlName="zone" [matAutocomplete]="zoneAuto" (change)="onchangeItemNumber()">
                                 <mat-autocomplete autoActiveFirstOption #zoneAuto="matAutocomplete">
                                     <h6 class="loc_name"><span>Zone</span> <span>Location</span></h6>
                                     <mat-option *ngFor="let option of zoneList"
@@ -84,43 +84,49 @@
                                 </mat-autocomplete>
                             </mat-form-field>
                             <div class="error" *ngIf="hasError('zone', 'required')">This field is required.</div>
+                            <div class="error" *ngIf="hasError('zone', 'maxlength')">Max number allowed is 2.</div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Carousel</mat-label>
-                                <input matInput formControlName="carousel"   name="carousel">
+                                <input matInput formControlName="carousel"   name="carousel"  [maxlength]="1" (change)="onchangeItemNumber()">
                             </mat-form-field>
                             <div class="error" *ngIf="hasError('carousel', 'required')">This field is required.</div>
+                            <div class="error" *ngIf="hasError('carousel', 'maxlength')">Max number allowed is 1.</div>
+                            <div class="error" *ngIf="hasError('carousel', 'pattern')">Please enter numbers only.</div>
                         </div>
                         <div class="col-6">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Row</mat-label>
-                                <input matInput formControlName="row"   name="row">
+                                <input matInput formControlName="row"   name="row" (change)="onchangeItemNumber()">
                             </mat-form-field>
                             <div class="error" *ngIf="hasError('row', 'required')">This field is required.</div>
+                            <div class="error" *ngIf="hasError('row', 'maxlength')">Max number allowed is 5.</div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Shelf</mat-label>
-                                <input matInput formControlName="shelf"   name="shelf">
+                                <input matInput formControlName="shelf"   name="shelf" (change)="onchangeItemNumber()">
                             </mat-form-field>
                             <div class="error" *ngIf="hasError('shelf', 'required')">This field is required.</div>
+                            <div class="error" *ngIf="hasError('shelf', 'maxlength')">Max number allowed is 2.</div>
                         </div>
                         <div class="col-6">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Bin</mat-label>
-                                <input matInput formControlName="bin"   name="bin">
+                                <input matInput formControlName="bin"   name="bin" (change)="onchangeItemNumber()">
                             </mat-form-field>
                             <div class="error" *ngIf="hasError('bin', 'required')">This field is required.</div>
+                            <div class="error" *ngIf="hasError('bin', 'maxlength')">Max number allowed is 3.</div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <mat-form-field class="d-block w-100 readonly "  appearance="outline">
+                            <mat-form-field class="d-block w-100 "  [ngClass]="{'readonly': this.data.detailData}" appearance="outline">
                                 <mat-label>UM</mat-label>
                                 <input matInput formControlName="unitOfMeasure" class="readonly" [ngClass]="{'readonly': this.data.detailData}"   name="unitOfMeasure" [readonly]="this.data.detailData? true: false">
                             </mat-form-field>
@@ -148,8 +154,10 @@
                         <div class="col-6">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Alternate Light</mat-label>
-                                <input matInput formControlName="locationID"   name="locationID">
+                                <input matInput formControlName="altLight"   name="altLight"  >
                             </mat-form-field>
+                            <div class="error" *ngIf="hasError('altLight', 'pattern')">Please enter numbers only.</div>
+                            <div class="error" *ngIf="hasError('altLight', 'maxlength')">Max number allowed is 9.</div>
                         </div>
                     </div>
 
@@ -176,13 +184,13 @@
         </div>
         <div class="col-6">
             <div class="container item_detail">
-                <h1 mat-dialog-title>Item Detail</h1>
+                <h1 mat-dialog-title>Assigned Item Detail</h1>
                 <div class="row">
                     <div class="col-6">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Item Number</mat-label>
                             <input   placeholder="Item Number" aria-label="Item Number" matInput
-                                formControlName="itemNumber" [matAutocomplete]="itemNumAuto">
+                                formControlName="item" [matAutocomplete]="itemNumAuto">
                             <mat-autocomplete autoActiveFirstOption #itemNumAuto="matAutocomplete" [panelWidth]="400" (optionSelected)="loadItemDetails($event)">
                                 <h6 class="loc_name"><span>Item Number</span> <span>Description</span></h6>
                                 <mat-option *ngFor="let option of filteredItemNum | async"
@@ -204,15 +212,17 @@
                     <div class="col-6">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Maximum (Location) Quantity</mat-label>
-                            <input matInput formControlName="maximumQuantity"   name="maximumQuantity">
+                            <input matInput formControlName="maximumQuantity"   name="maximumQuantity"  type="number">
                         </mat-form-field>
+                        <div class="error" *ngIf="hasError('maximumQuantity', 'maxlength')">Max number allowed is 9.</div>
                     </div>
                     <div class="col-6">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Min (Location) Quantity</mat-label>
-                            <input matInput formControlName="minQuantity"   name="minQuantity">
+                            <input matInput formControlName="minQuantity"   name="minQuantity"  type="number">
                             <!-- <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint> -->
                         </mat-form-field>
+                            <div class="error" *ngIf="hasError('minQuantity', 'maxlength')">Max number allowed is 9.</div>
                     </div>
                 </div>
                 <!-- <div class="row">

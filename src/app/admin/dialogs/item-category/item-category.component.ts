@@ -24,9 +24,13 @@ export class ItemCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+    this.getCategoryList();
+  }
+
+ getCategoryList(){
     this.catService.getCategory().subscribe((res) => {
-     this.category_list = res.data;
-    });
+      this.category_list = res.data;
+     });
   }
 
   addCatRow(row : any){
@@ -48,10 +52,13 @@ export class ItemCategoryComponent implements OnInit {
     // console.log(paylaod);
     
     this.catService.saveCategory(paylaod).subscribe((res) => {
+      if(res.isExecuted){
+        this.getCategoryList();
       this.toastr.success(labels.alert.success, 'Success!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+    }
     });
   }
 
@@ -62,13 +69,17 @@ export class ItemCategoryComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.category_list.pop(category);
+   // this.category_list.pop(category);
     
     this.catService.dltCategory(paylaod).subscribe((res) => {
-      this.toastr.success(labels.alert.delete, 'Success!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
+      if(res.isExecuted){
+        this.getCategoryList();
+        this.toastr.success(labels.alert.delete, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+
     });
   }
 

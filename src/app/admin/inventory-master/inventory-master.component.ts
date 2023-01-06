@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../../app/init/auth.service';
 import { InventoryMasterService } from './inventory-master.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/delete-confirmation.component';
 import { ItemCategoryComponent } from '../dialogs/item-category/item-category.component';
 import { ItemNumberComponent } from '../dialogs/item-number/item-number.component';
@@ -18,10 +18,19 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./inventory-master.component.scss']
 })
 export class InventoryMasterComponent implements OnInit {
+
   public userData: any;
   public invData: any;
   public getInvMasterData: any;
   public invMasterLocations: any;
+  public paginationData : {
+    total : 0,
+    position: 0,
+    itemNumber: 0
+  }
+  public currentPageItemNo : any = '';
+
+
   public locationTable: any;
   public getItemNum: any;
   public openCount: any;
@@ -37,29 +46,29 @@ export class InventoryMasterComponent implements OnInit {
     private dialog: MatDialog,
     private fb: FormBuilder,
     private toastr: ToastrService,
+   // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
     ) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
   invMaster: FormGroup;
 
   ngOnInit(): void {
 
-    this.initialzeIMFeilds();
-
     this.userData = this.authService.userData();
+    this.initialzeIMFeilds();
     this.getInventory();
-
     
   }
+
   initialzeIMFeilds(){
     this.invMaster = this.fb.group({
 
       itemNumber: [  this.getInvMasterData?.itemNumber || '', [Validators.required]],
       supplierItemID : [  this.getInvMasterData?.supplierItemID || '', [Validators.required]],
       description : [  this.getInvMasterData?.description || '', [Validators.required]],
-      reorderPoint : [  this.getInvMasterData?.reorderPoint || '', [Validators.required]],
+      reorderPoint : [  this.getInvMasterData?.reorderPoint || 0, [Validators.required]],
       replenishmentPoint : [  this.getInvMasterData?.replenishmentPoint || '', [Validators.required]],
       category : [  this.getInvMasterData?.category || '', [Validators.required]],
-      reorderQuantity : [  this.getInvMasterData?.reorderQuantity || '', [Validators.required]],
+      reorderQuantity : [  this.getInvMasterData?.reorderQuantity ||  0, [Validators.required]],
       replenishmentLevel : [  this.getInvMasterData?.replenishmentLevel || '', [Validators.required]],
       subCategory : [  this.getInvMasterData?.subCategory || '', [Validators.required]],
       unitOfMeasure : [  this.getInvMasterData?.unitOfMeasure || '', [Validators.required]],
@@ -81,11 +90,11 @@ export class InventoryMasterComponent implements OnInit {
       pickFenceQuantity: [  this.getInvMasterData?.pickFenceQuantity || 0, [Validators.required]],
       pickSequence: [  this.getInvMasterData?.pickSequence || 0, [Validators.required]],
 
-      dateSensitive: [  this.getInvMasterData?.dateSensitive || '', [Validators.required]],
-      warehouseSensitive: [  this.getInvMasterData?.warehouseSensitive || '', [Validators.required]],
+      dateSensitive: [  this.getInvMasterData?.dateSensitive || false, [Validators.required]],
+      warehouseSensitive: [  this.getInvMasterData?.warehouseSensitive || false, [Validators.required]],
       splitCase: [  this.getInvMasterData?.splitCase || '', [Validators.required]],
       active: [  this.getInvMasterData?.active || '', [Validators.required]],
-      fifo: [  this.getInvMasterData?.fifo || '', [Validators.required]],
+      fifo: [  this.getInvMasterData?.fifo || false, [Validators.required]],
       fifoDate: [  this.getInvMasterData?.fifoDate || '', [Validators.required]],
 
       bulkCellSize: [  this.getInvMasterData?.bulkCellSize || 0, [Validators.required]],
@@ -107,7 +116,7 @@ export class InventoryMasterComponent implements OnInit {
 
 
 
-      includeInAutoRTSUpdate: [  this.getInvMasterData?.includeInAutoRTSUpdate || '', [Validators.required]],
+      includeInAutoRTSUpdate: [  this.getInvMasterData?.includeInAutoRTSUpdate || false, [Validators.required]],
       minimumRTSReelQuantity: [  this.getInvMasterData?.minimumRTSReelQuantity || 0, [Validators.required]],
 
     
@@ -116,9 +125,9 @@ export class InventoryMasterComponent implements OnInit {
 
 
       avgPieceWeight: [  this.getInvMasterData?.avgPieceWeight || 0, [Validators.required]],
-      sampleQuantity: [  this.getInvMasterData?.sampleQuantity || 0, [Validators.required]],
+      sampleQuantity: [  this.getInvMasterData?.sampleQuantity || "0", [Validators.required]],
       minimumUseScaleQuantity: [  this.getInvMasterData?.minimumUseScaleQuantity || 0, [Validators.required]],
-      useScale: [  this.getInvMasterData?.useScale || '', [Validators.required]],
+      useScale: [  this.getInvMasterData?.useScale || 0, [Validators.required]],
  
 
 
@@ -131,6 +140,9 @@ export class InventoryMasterComponent implements OnInit {
       inventoryTable: [  this.invMasterLocations?.inventoryTable || '', [Validators.required]],
       count: [  this.invMasterLocations?.count || '', [Validators.required]],
 
+
+      wsid: [  this.userData?.wsid || '', [Validators.required]],
+      username: [  this.userData?.userName || '' , [Validators.required]],
     });
   }
   onSubmit(form: FormGroup){
@@ -138,17 +150,28 @@ export class InventoryMasterComponent implements OnInit {
   }
   public getInventory() {
     let paylaod = {
-      "itemNumber": "",
+      "itemNumber": this.currentPageItemNo,
       "app": "",
       "newItem": false,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventory').subscribe((res: any) => {
-      this.invData = res.data;
-     // this.getInvMasterDetail(res.data.firstItemNumber);
-     this.getInvMasterDetail('024768000010');
-     this.getInvMasterLocations('024768000010');
+
+      if(this.currentPageItemNo == ''){
+        this.currentPageItemNo = res.data.firstItemNumber;
+      }
+
+      this.paginationData ={
+        total: res.data.filterCount.total,
+        position: res.data.filterCount.pos,
+        itemNumber: res.data.filterCount.itemNumber,
+      }
+
+      this.getInvMasterDetail(this.currentPageItemNo);
+      this.getInvMasterLocations(this.currentPageItemNo);
+     //this.getInvMasterDetail('024768000010');
+     //this.getInvMasterLocations('024768000010');
     });
   }
 
@@ -184,7 +207,6 @@ export class InventoryMasterComponent implements OnInit {
     })
   }
 
-
   public getLocationTable(stockCode: any) {
     let paylaod = {
       "stockCode": stockCode,
@@ -196,231 +218,285 @@ export class InventoryMasterComponent implements OnInit {
       this.locationTable = res.data;
     })
   }
-  public getItemNumber(itemNumber: any) {
-    let paylaod = {
-      "itemNumber": itemNumber,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-    }
-    this.invMasterService.get(paylaod, '/Admin/GetItemNumber').subscribe((res: any) => {
-      console.log(res.data);
-      this.getItemNum = res.data;
-    })
-  }
-  public addNewItem(form: NgForm) {
-    let paylaod = {
-      "itemNumber": form.value.itemNumber,
-      "description": form.value.description,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-    }
-    this.invMasterService.create(paylaod, '/Admin/AddNewItem').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public updateInvMastOTQuarantine(form: NgForm) {
-    let paylaod = {
-      "itemNumber": form.value.itemNumber,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-      "append": true
-    }
-    this.invMasterService.create(paylaod, '/Admin/UpdateInventoryMasterOTQuarantine').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public updateInvMastOTUnQuarantine(form: NgForm) {
-    let paylaod = {
-      "itemNumber": form.value.itemNumber,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-      "append": true
-    }
-    this.invMasterService.create(paylaod, '/Admin/UpdateInventoryMasterOTUnQuarantine').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public deleteItemNum(itemNumber: any) {
-    let paylaod = {
-      "itemNumber": itemNumber,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-      "append": true
-    }
-    this.invMasterService.delete(paylaod, '/Admin/DeleteItem').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public refreshKits(itemNumber: any) {
-    let paylaod = {
-      "itemNumber": itemNumber,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.invMasterService.get(paylaod, '/Admin/RefreshKits').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public insertKit(form: any) {
-    let paylaod = {
-      "itemNumber": form.itemNumber,
-      "kitItem": form.kitItem,
-      "kitQuantity": form.kitQuantity,
-      "specialFeatures": form.specialFeatures,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.invMasterService.create(paylaod, '/Admin/InsertKit').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public updateKit(form: any) {
-    let paylaod = {
-      "itemNumber": form.itemNumber,
-      "oldKitItem": form.oldKitItem,
-      "newKitItem": form.newKitItem,
-      "kitQuantity": form.kitQuantity,
-      "specialFeatures": form.specialFeatures,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.invMasterService.update(paylaod, '/Admin/UpdateKit').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public deleteKit(form: any) {
-    let paylaod = {
-      "itemNumber": form.itemNumber,
-      "kitItem": form.kitItem,
-      "kitQuantity": form.kitQuantity,
-      "specialFeatures": form.specialFeatures,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.invMasterService.delete(paylaod, '/Admin/DeleteKit').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public getDescriptionByItem(itemNum: any) {
-    let paylaod = {
-      "itemNumber": itemNum,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.invMasterService.delete(paylaod, '/Admin/DeleteKit').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public refreshScanCodes(itemNum: any) {
-    let paylaod = {
-      "itemNumber": itemNum,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.invMasterService.get(paylaod, '/Admin/RefreshScanCodes').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public insertScanCodes(form: any) {
-    let paylaod = {
-      "itemNumber": form.itemNumber,
-      "scanCode": form.scanCode,
-      "scanType": form.scanType,
-      "scanRange": form.scanRange,
-      "startPosition": form.startPosition,
-      "codeLength": form.codeLength,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.invMasterService.create(paylaod, '/Admin/InsertScanCodes').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public updateScanCodes(form: any) {
-    let paylaod = {
-      "itemNumber": form.itemNumber,
-      "scanCode": form.scanCode,
-      "scanType": form.scanType,
-      "scanRange": form.scanRange,
-      "oldStartPosition": form.oldStartPosition,
-      "newStartPosition": form.newStartPosition,
-      "oldCodeLength": form.oldCodeLength,
-      "newCodeLength": form.newCodeLength,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.invMasterService.update(paylaod, '/Admin/UpdateScanCodes').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public deleteScanCode(form: any) {
-    let paylaod = {
-      "itemNumber": form.itemNumber,
-      "scanCode": form.scanCode,
-      "scanType": form.scanType,
-      "scanRange": form.scanRange,
-      "startPosition": form.startPosition,
-      "codeLength": form.codeLength,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.invMasterService.delete(paylaod, '/Admin/DeleteScanCode').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public updateInventoryMaster(form: NgForm) {
-    form.value.username = this.userData.userName;
-    form.value.wsid = this.userData.wsid;
-    this.invMasterService.update(form.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public updateReelQuantity(form: NgForm) {
 
+  nextPage(){
+    if(this.paginationData.position >= 1 && this.paginationData.position <= this.paginationData.total){
     let paylaod = {
-      "itemNumber": form.value.itemNumber,
-      "minimumRTS": form.value.minimumRTS,
-      "includeAutoRTS": true,
+      "itemNumber": this.currentPageItemNo,
+      "filter": "1=1",
+      "firstItem": 1,
       "username": this.userData.userName,
-      "wsid": this.userData.wsid
+      "wsid": this.userData.wsid,
     }
-    this.invMasterService.update(paylaod, '/Admin/UpdateReelQuantity').subscribe((res: any) => {
-      console.log(res.data);
+    this.invMasterService.get(paylaod, '/Admin/NextItemNumber').subscribe((res: any) => {
+      this.currentPageItemNo = res.data;
+      this.getInventory();
     })
   }
-  public updateReelAll(form: NgForm) {
 
-    let paylaod = {
-      "rtsAmount": form.value.rtsAmount,
-      "rtsQuantity": form.value.rtsAmount,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
+  }
+  prevPage(){
+    if(this.paginationData.position >= 1 && this.paginationData.position <= this.paginationData.total){
+      let paylaod = {
+        "itemNumber": this.currentPageItemNo,
+        "filter": "1=1",
+        "firstItem": 1,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid,
+      }
+      this.invMasterService.get(paylaod, '/Admin/PreviousItemNumber').subscribe((res: any) => {
+        this.currentPageItemNo = res.data;
+        this.getInventory();
+      })
     }
-    this.invMasterService.update(paylaod, '/Admin/UpdateReelAll').subscribe((res: any) => {
+
+  }
+
+  public updateInventoryMaster() {
+
+    
+    this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
+      if(res.isExecuted){
+        this.toastr.success(labels.alert.update, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      } else{
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
       console.log(res.data);
     })
   }
-  public refreshRTS(itemNumber: any) {
-    let paylaod = {
-      "itemNumber": itemNumber,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.invMasterService.update(paylaod, '/Admin/RefreshRTS').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public validateKit(form: any) {
-    let paylaod = {
-      "kit": form.value.kit,
-      "itemNumber": form.value.itemNumber,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.invMasterService.update(paylaod, '/Admin/ValidateKit').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
+
+  // public getItemNumber(itemNumber: any) {
+  //   let paylaod = {
+  //     "itemNumber": itemNumber,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid,
+  //   }
+  //   this.invMasterService.get(paylaod, '/Admin/GetItemNumber').subscribe((res: any) => {
+  //     console.log(res.data);
+  //     this.getItemNum = res.data;
+  //   })
+  // }
+  // public addNewItem(form: NgForm) {
+  //   let paylaod = {
+  //     "itemNumber": form.value.itemNumber,
+  //     "description": form.value.description,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid,
+  //   }
+  //   this.invMasterService.create(paylaod, '/Admin/AddNewItem').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+
+  // public updateInvMastOTQuarantine(form: NgForm) {
+  //   let paylaod = {
+  //     "itemNumber": form.value.itemNumber,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid,
+  //     "append": true
+  //   }
+  //   this.invMasterService.create(paylaod, '/Admin/UpdateInventoryMasterOTQuarantine').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public updateInvMastOTUnQuarantine(form: NgForm) {
+  //   let paylaod = {
+  //     "itemNumber": form.value.itemNumber,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid,
+  //     "append": true
+  //   }
+  //   this.invMasterService.create(paylaod, '/Admin/UpdateInventoryMasterOTUnQuarantine').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public deleteItemNum(itemNumber: any) {
+  //   let paylaod = {
+  //     "itemNumber": itemNumber,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid,
+  //     "append": true
+  //   }
+  //   this.invMasterService.delete(paylaod, '/Admin/DeleteItem').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public refreshKits(itemNumber: any) {
+  //   let paylaod = {
+  //     "itemNumber": itemNumber,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.get(paylaod, '/Admin/RefreshKits').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public insertKit(form: any) {
+  //   let paylaod = {
+  //     "itemNumber": form.itemNumber,
+  //     "kitItem": form.kitItem,
+  //     "kitQuantity": form.kitQuantity,
+  //     "specialFeatures": form.specialFeatures,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.create(paylaod, '/Admin/InsertKit').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public updateKit(form: any) {
+  //   let paylaod = {
+  //     "itemNumber": form.itemNumber,
+  //     "oldKitItem": form.oldKitItem,
+  //     "newKitItem": form.newKitItem,
+  //     "kitQuantity": form.kitQuantity,
+  //     "specialFeatures": form.specialFeatures,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.update(paylaod, '/Admin/UpdateKit').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public deleteKit(form: any) {
+  //   let paylaod = {
+  //     "itemNumber": form.itemNumber,
+  //     "kitItem": form.kitItem,
+  //     "kitQuantity": form.kitQuantity,
+  //     "specialFeatures": form.specialFeatures,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.delete(paylaod, '/Admin/DeleteKit').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public getDescriptionByItem(itemNum: any) {
+  //   let paylaod = {
+  //     "itemNumber": itemNum,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.delete(paylaod, '/Admin/DeleteKit').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public refreshScanCodes(itemNum: any) {
+  //   let paylaod = {
+  //     "itemNumber": itemNum,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.get(paylaod, '/Admin/RefreshScanCodes').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public insertScanCodes(form: any) {
+  //   let paylaod = {
+  //     "itemNumber": form.itemNumber,
+  //     "scanCode": form.scanCode,
+  //     "scanType": form.scanType,
+  //     "scanRange": form.scanRange,
+  //     "startPosition": form.startPosition,
+  //     "codeLength": form.codeLength,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.create(paylaod, '/Admin/InsertScanCodes').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public updateScanCodes(form: any) {
+  //   let paylaod = {
+  //     "itemNumber": form.itemNumber,
+  //     "scanCode": form.scanCode,
+  //     "scanType": form.scanType,
+  //     "scanRange": form.scanRange,
+  //     "oldStartPosition": form.oldStartPosition,
+  //     "newStartPosition": form.newStartPosition,
+  //     "oldCodeLength": form.oldCodeLength,
+  //     "newCodeLength": form.newCodeLength,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.update(paylaod, '/Admin/UpdateScanCodes').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public deleteScanCode(form: any) {
+  //   let paylaod = {
+  //     "itemNumber": form.itemNumber,
+  //     "scanCode": form.scanCode,
+  //     "scanType": form.scanType,
+  //     "scanRange": form.scanRange,
+  //     "startPosition": form.startPosition,
+  //     "codeLength": form.codeLength,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.delete(paylaod, '/Admin/DeleteScanCode').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public updateInventoryMaster(form: NgForm) {
+  //   form.value.username = this.userData.userName;
+  //   form.value.wsid = this.userData.wsid;
+  //   this.invMasterService.update(form.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public updateReelQuantity(form: NgForm) {
+
+  //   let paylaod = {
+  //     "itemNumber": form.value.itemNumber,
+  //     "minimumRTS": form.value.minimumRTS,
+  //     "includeAutoRTS": true,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.update(paylaod, '/Admin/UpdateReelQuantity').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public updateReelAll(form: NgForm) {
+
+  //   let paylaod = {
+  //     "rtsAmount": form.value.rtsAmount,
+  //     "rtsQuantity": form.value.rtsAmount,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.update(paylaod, '/Admin/UpdateReelAll').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public refreshRTS(itemNumber: any) {
+  //   let paylaod = {
+  //     "itemNumber": itemNumber,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.update(paylaod, '/Admin/RefreshRTS').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public validateKit(form: any) {
+  //   let paylaod = {
+  //     "kit": form.value.kit,
+  //     "itemNumber": form.value.itemNumber,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.update(paylaod, '/Admin/ValidateKit').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
   public updateItemNumber(form: any) {
     let paylaod = {
       "oldItemNumber": form.oldItemNumber,
@@ -432,42 +508,42 @@ export class InventoryMasterComponent implements OnInit {
       console.log(res.data);
     })
   }
-  public previousItemNumber(form: any) {
-    let paylaod = {
-      "itemNumber": form.itemNumber,
-      "filter": form.filter,
-      "firstItem": form.firstItem,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.invMasterService.get(paylaod, '/Admin/PreviousItemNumber').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public nextItemNumber(form: any) {
-    let paylaod = {
-      "itemNumber": form.itemNumber,
-      "filter": form.filter,
-      "firstItem": form.firstItem,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.invMasterService.get(paylaod, '/Admin/NextItemNumber').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
-  public getItemNumberCount(form: any) {
-    let paylaod = {
-      "itemNumber": form.itemNumber,
-      "filter": form.filter,
-      "firstItem": form.firstItem,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.invMasterService.get(paylaod, '/Admin/GetItemNumberCount').subscribe((res: any) => {
-      console.log(res.data);
-    })
-  }
+  // public previousItemNumber(form: any) {
+  //   let paylaod = {
+  //     "itemNumber": form.itemNumber,
+  //     "filter": form.filter,
+  //     "firstItem": form.firstItem,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.get(paylaod, '/Admin/PreviousItemNumber').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public nextItemNumber(form: any) {
+  //   let paylaod = {
+  //     "itemNumber": form.itemNumber,
+  //     "filter": form.filter,
+  //     "firstItem": form.firstItem,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.get(paylaod, '/Admin/NextItemNumber').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
+  // public getItemNumberCount(form: any) {
+  //   let paylaod = {
+  //     "itemNumber": form.itemNumber,
+  //     "filter": form.filter,
+  //     "firstItem": form.firstItem,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMasterService.get(paylaod, '/Admin/GetItemNumberCount').subscribe((res: any) => {
+  //     console.log(res.data);
+  //   })
+  // }
 
   public openAddItemDialog() {
     let dialogRef = this.dialog.open(ItemNumberComponent, {
@@ -481,8 +557,7 @@ export class InventoryMasterComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      if (result) {
+      if (result?.itemNumber) {
         const { itemNumber, desc } = result;
         let paylaod = {
           "itemNumber": itemNumber,
@@ -491,39 +566,54 @@ export class InventoryMasterComponent implements OnInit {
           "wsid": this.userData.wsid
         }
         this.invMasterService.create(paylaod, '/Admin/AddNewItem').subscribe((res: any) => {
-          // console.log(res.data);
-          if (res.isExecuted) {
-            // this.invMaster.patchValue({
-            //   'itemNumber' : res.data.newItemNumber
-            // }); 
+          if (res.isExecuted && res.data) {
             this.toastr.success(labels.alert.success, 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
           } else {
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        })
+      } else {
+        this.toastr.error('Enter Valid Item Number', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+
+    });
+  }
+
+  deleteItem($event) {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      width: '450px'
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if(res=='Yes'){
+        let paylaod = {
+          "itemNumber": this.currentPageItemNo,
+          "append": true,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
+        }
+        this.invMasterService.delete(paylaod, '/Admin/DeleteItem').subscribe((res: any) => {
+          if(res.isExecuted){
             this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          } else {
+            this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
           }
         })
       }
-
-    });
-  }
-
-
-
-
-
-
-
-  deleteItem($event) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '450px'
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
     });
   }
 
@@ -531,9 +621,29 @@ export class InventoryMasterComponent implements OnInit {
     const dialogRef = this.dialog.open(this.quarantineTemp, {
       width: '450px'
     });
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.afterClosed().subscribe((x) => {
+      if(x){
+        let paylaod = {
+          "itemNumber": this.currentPageItemNo,
+          "append": true,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
+        }
+        this.invMasterService.get(paylaod, '/Admin/UpdateInventoryMasterOTQuarantine').subscribe((res: any) => {
+          if(res.isExecuted){
+            this.toastr.success(res.responseMessage, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          } else {
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        })
+    }
+  })
   }
 
 

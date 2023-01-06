@@ -16,22 +16,29 @@
 
           <div class="header-filter-bar">
             <div class="header-filter-options w-100 d-flex align-items-center">
-              <mat-form-field class="action-dropdown border-dropdown-0 cs-expand" appearance="fill" class="">
+              <mat-form-field class="action-dropdown" appearance="fill" class="full-width" style="height: 100%;" >
                 <mat-label>Item No</mat-label>
-                <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn"
-                  (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()">
-                  <mat-option *ngFor="let item of displayedColumns" [value]="item.colHeader" value="print">
+                <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn" (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()">
+                  <mat-option *ngFor="let item of displayedColumns" [value]="item" value="print">
                     {{item.colDef}}
                   </mat-option>
                 </mat-select>
-                <span class="material-symbols-outlined icon-expand-more">
-                  expand_more
-                </span>
               </mat-form-field>
               <span class="v-br"></span>
-              <mat-form-field class="filter border-dropdown-0" appearance="fill">
-                <input placeholder="Search" #searchInput matInput [(ngModel)]='this.columnSearch.searchValue' (keyup.enter)="searchData()"
-                  (change)="searchData()">
+              <mat-form-field  class="filter" floatLabel="never" appearance="fill" style="height: 100%;">
+                <mat-label>Search</mat-label>
+                <input type="text"
+                       placeholder="Pick one"
+                       aria-label="Number"
+                       matInput
+                       [(ngModel)]='this.columnSearch.searchValue'
+                       [matAutocomplete]="auto"
+                       (keyup)="autocompleteSearchColumn()">
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
+                  <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-autocomplete>
               </mat-form-field>
 
               <button class="br-14" mat-mini-fab color="primary" aria-label="Add Inventory Map"
@@ -82,7 +89,7 @@
                     <button mat-menu-item (click)="delete(seletedRecord)">Delete</button>
                     <button mat-menu-item (click)="quarantine(seletedRecord)">Quarantine</button>
                     <button mat-menu-item (click)="adjustQuantity(seletedRecord)">Adjust Quantity</button>
-                    <button mat-menu-item (click)="viewInInventoryMaster()">View in Invetory Master</button>
+                    <button mat-menu-item (click)="viewInInventoryMaster()">View in Inventory Master</button>
                     <button mat-menu-item (click)="viewLocationHistory()">View location history</button>
                   </mat-menu>
                 </td>

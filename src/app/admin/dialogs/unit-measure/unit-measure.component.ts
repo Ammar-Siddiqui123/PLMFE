@@ -25,6 +25,9 @@ export class UnitMeasureComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+    this.getUOM()
+  }
+  getUOM(){
     this.umService.getUnitOfMeasure().subscribe((res) => {
       if (res.isExecuted) {
         this.unitOfMeasure_list = res.data;
@@ -46,10 +49,14 @@ export class UnitMeasureComponent implements OnInit {
     }
     
     this.umService.saveUnitOfMeasure(paylaod).subscribe((res) => {
-      this.toastr.success(labels.alert.success, 'Success!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
+      if(res.isExecuted){
+        this.getUOM();
+        this.toastr.success(labels.alert.success, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+  
     });
   }
 
@@ -62,10 +69,13 @@ export class UnitMeasureComponent implements OnInit {
     this.unitOfMeasure_list.pop();
     
     this.umService.dltUnitOfMeasure(paylaod).subscribe((res) => {
+      if(res.isExecuted){
+        this.getUOM();
       this.toastr.success(labels.alert.delete, 'Success!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+    }
     });
   }
 

@@ -19,7 +19,7 @@ export interface  AdjustQuantityDataStructure   {
   quantityAllocatedPick:  string |  '',
   quantityAllocatedPutAway :  string |  '',
 
-  locationZone:   any |  '',  //notExist
+  zone:   any |  '',  //notExist
   currentMaxQty:  any |  '',  //notExist
   currentMinQty:  any |  '',  //notExist
   currentLocationQty:  any |  '' //notExist
@@ -40,7 +40,7 @@ export class AdjustQuantityComponent implements OnInit {
   itemNumber : '',
   description :  '',
   location : '',
-  locationZone: '', //notExist
+  zone: '', //notExist
   quantityAllocatedPick:  '',
   quantityAllocatedPutAway : '',
 
