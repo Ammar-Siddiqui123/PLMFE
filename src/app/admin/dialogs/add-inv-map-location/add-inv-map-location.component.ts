@@ -104,6 +104,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
  
   clickSubmit: boolean = true;
+  headerLable: any;
 
   constructor(
     private dialog: MatDialog,
@@ -112,6 +113,11 @@ export class AddInvMapLocationComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private toastr: ToastrService
   ) {
+    if(data.mode== "addInvMapLocation"){
+      this.headerLable = 'Add Location';
+    } else if (data.mode== "editInvMapLocation"){
+      this.headerLable = 'Update Location';
+    }
 
   }
 

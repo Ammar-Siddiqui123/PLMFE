@@ -21,10 +21,15 @@ export class VelocityCodeComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.velcodeService.getVelocityCode().subscribe((res) => {
-     this.velocity_code_list = res.data;
-    });
+    this.getVelocity();
   }
+
+  getVelocity(){
+    this.velcodeService.getVelocityCode().subscribe((res) => {
+      this.velocity_code_list = res.data;
+     });
+  }
+
   addVLRow(row:any){
     this.velocity_code_list.unshift([]);
   }
@@ -64,12 +69,14 @@ export class VelocityCodeComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.velocity_code_list.shift(vlCode);
     this.velcodeService.dltVelocityCode(paylaod).subscribe((res) => {
       this.toastr.success(labels.alert.delete, 'Success!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+
+      this.getVelocity();
+      
     });
   }
 

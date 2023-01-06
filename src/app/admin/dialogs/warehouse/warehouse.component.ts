@@ -25,10 +25,15 @@ export class WarehouseComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.whService.getWareHouse().subscribe((res) => {
-     this.warehouse_list = res.data;
-    });
+
+    this.getWarehouse();
   
+  }
+
+  getWarehouse(){
+    this.whService.getWareHouse().subscribe((res) => {
+      this.warehouse_list = res.data;
+     });
   }
   addwhRow(row:any){
     this.warehouse_list.push([]);
@@ -69,12 +74,15 @@ export class WarehouseComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.warehouse_list.pop(warehosue);
+  //  this.warehouse_list.pop(warehosue);
     this.whService.dltWareHouse(paylaod).subscribe((res) => {
       this.toastr.success(labels.alert.delete, 'Success!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+
+      this.getWarehouse();
+      
     });
   }
 

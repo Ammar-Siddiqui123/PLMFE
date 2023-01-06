@@ -81,8 +81,6 @@ export class CellSizeComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     console.log(paylaod);
-    
-    this.cellsize_list.shift(i);
     this.cellSizeService.dltCellSize(paylaod).subscribe((res) => {
       if(res.isExecuted){
         this.getCellSizeList();

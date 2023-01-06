@@ -254,7 +254,7 @@ export class InventoryMapComponent implements OnInit {
       height: '750px',
       width: '100%',
       data: {
-        mode: 'addInvMapLocation',
+        mode: 'editInvMapLocation',
         itemList : this.itemList,
         detailData : event
       }
@@ -305,6 +305,7 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
+      this.getContentData();
     })
   }
 
@@ -346,6 +347,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   announceSortChange(e : any){
+    debugger
     let index = this.columnValues.findIndex(x => x === e.active );
     this.sortColumn = {
       columnName: index,
