@@ -96,7 +96,7 @@
                     </mat-form-field> -->
                 </th>
                 
-                <td *matCellDef="let element" style="min-width: 180px;  padding: 5px"> {{ element[col.colHeader] }}</td>
+                <td *matCellDef="let element" style="min-width: 180px;  padding: 5px" [ngClass]="{'quarantineColor': element.warehouse}"> {{ element[col.colHeader] }}</td>
 
               </ng-container>
               
