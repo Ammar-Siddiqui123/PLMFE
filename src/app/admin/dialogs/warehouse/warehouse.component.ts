@@ -34,6 +34,19 @@ export class WarehouseComponent implements OnInit {
     this.warehouse_list.push([]);
   }
   saveWareHouse(warehosue:any, oldWh:any){ 
+
+    let cond = true;
+    this.warehouse_list.forEach(element => {
+     if(element == warehosue ) {
+      cond= false
+      this.toastr.error('Already Exists', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+     }   
+   });
+   if(cond ){
     let paylaod = {
       "oldWarehouse": oldWh.toString(),
       "warehouse": warehosue,
@@ -48,6 +61,7 @@ export class WarehouseComponent implements OnInit {
         timeOut: 2000
       });
     });
+  }
   }
   dltWareHouse(warehosue:any){
     let paylaod = {

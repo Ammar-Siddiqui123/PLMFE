@@ -131,7 +131,6 @@ export class InventoryMapComponent implements OnInit {
   pageEvent: PageEvent;
 
   handlePageEvent(e: PageEvent) {
-    debugger
     this.pageEvent = e;
 
     this.customPagination.startIndex =  e.pageSize*e.pageIndex

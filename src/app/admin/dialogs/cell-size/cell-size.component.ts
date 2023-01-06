@@ -40,6 +40,20 @@ export class CellSizeComponent implements OnInit {
     
   }
   saveCellSize(cell:any, cellType:any, i){ 
+
+    let cond = true;
+    this.cellsize_list.forEach(element => {
+      if(element.cells == cell ) {
+        cond = false;
+       this.toastr.error('Already Exists', 'Error!', {
+         positionClass: 'toast-bottom-right',
+         timeOut: 2000
+       });
+       return;
+      }   
+    });
+
+    if(cond){
     let oldVal = this.cellsize_list[i].cells;
     let paylaod = {
       "oldCell": oldVal.toString(),
@@ -48,7 +62,6 @@ export class CellSizeComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    
     this.cellSizeService.saveCellSize(paylaod).subscribe((res) => {
       console.log(res);
       if(res.isExecuted){
@@ -59,6 +72,7 @@ export class CellSizeComponent implements OnInit {
       });
     }
     });
+  }
   }
   dltCellSize(cell:any, i){
     let paylaod = {
