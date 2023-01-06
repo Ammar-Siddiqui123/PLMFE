@@ -293,6 +293,7 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
+      this.getContentData();
     })
   }
 
@@ -347,14 +348,14 @@ export class InventoryMapComponent implements OnInit {
   }
 
   announceSortChange(e : any){
-    let index = this.columnValues.findIndex(x => x === e.active );
-    this.sortColumn = {
-      columnName: index,
-      sortOrder: e.direction
-    }
+    // let index = this.columnValues.findIndex(x => x === e.active );
+    // this.sortColumn = {
+    //   columnName: index,
+    //   sortOrder: e.direction
+    // }
 
-    this.initializeApi();
-    this.getContentData();
+    // this.initializeApi();
+    // this.getContentData();
 
 
   }
