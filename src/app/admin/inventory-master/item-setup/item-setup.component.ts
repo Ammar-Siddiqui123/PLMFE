@@ -16,7 +16,6 @@ export class ItemSetupComponent implements OnInit {
   public userData: any;
 
   constructor(private dialog: MatDialog) { }
-  @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
 
   ngOnInit(): void {
   }

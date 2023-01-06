@@ -143,27 +143,18 @@
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Carousel</mat-label>
             <input matInput type="text" formControlName="minimumQuantity">
-            <span matSuffix>
-              <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
-            </span>
           </mat-form-field>
         </div>
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Bulk</mat-label>
             <input matInput type="text" formControlName="bulkMinimumQuantity">
-            <span matSuffix>
-              <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
-            </span>
           </mat-form-field>
         </div>
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Carton Flow</mat-label>
             <input matInput type="text" formControlName="cfMinimumQuantity">
-            <span matSuffix>
-              <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
-            </span>
           </mat-form-field>
         </div>
       </div>
@@ -176,27 +167,18 @@
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" >
             <mat-label>Carousel</mat-label>
             <input matInput type="text" formControlName="maximumQuantity">
-            <span matSuffix>
-              <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
-            </span>
           </mat-form-field>
         </div>
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Bulk</mat-label>
             <input matInput type="text" formControlName="bulkMaximumQuantity">
-            <span matSuffix>
-              <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
-            </span>
           </mat-form-field>
         </div>
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Carton Flow</mat-label>
             <input matInput type="text" formControlName="cfMaximumQuantity">
-            <span matSuffix>
-              <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
-            </span>
           </mat-form-field>
         </div>
       </div>
@@ -204,25 +186,3 @@
     </div>
   </div>
 </div>
-
-<ng-template #quarantineAction>
-
-<div class="d-flex flex-column align-items-center justify-content-center text-center py-4">
-<div color="warn" class="circle-icon circle-66 circle-danger mb-4">
-<mat-icon color="warn">vpn_lock</mat-icon>
-</div>
-<div>
-<p class="bold text-tritary-900 mb-4">Click submit to quarantine item 11005. This will cause any allocated orders and locations with this item to be deallocated?</p>
-<div class="mb-3">
-<button mat-flat-button color="warn" class="custom-btn button-delete-flat bg-white">
-Submit
-</button>
-</div>
-<div>
-<button mat-stroked-button color="basic" class="custom-btn bg-white" [mat-dialog-close]="true">
-Cancel
-</button>
-</div>
-</div>
-</div>
-</ng-template>
