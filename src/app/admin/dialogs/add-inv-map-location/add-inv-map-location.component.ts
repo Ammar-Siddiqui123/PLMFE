@@ -142,16 +142,16 @@ export class AddInvMapLocationComponent implements OnInit {
     this.addInvMapLocation = this.fb.group({
       location: [ this.getDetailInventoryMapData.location || '', [Validators.required]],
       zone: [this.getDetailInventoryMapData.zone || '', [Validators.required, Validators.maxLength(2)]],
-      carousel: [this.getDetailInventoryMapData.carousel|| '', [Validators.required, Validators.maxLength(1)]],
-      row: [this.getDetailInventoryMapData.row  || '', [Validators.required, Validators.maxLength(5)]],
-      shelf: [this.getDetailInventoryMapData.shelf|| '', [Validators.required, Validators.maxLength(2)]],
-      bin: [this.getDetailInventoryMapData.bin || '', [Validators.required, Validators.maxLength(3)]],
-      itemNumber:  [this.getDetailInventoryMapData.itemNumber || '', Validators.maxLength(50)],
+      carousel: [this.getDetailInventoryMapData.carousel|| '', [ Validators.pattern("^[0-9]*$"), Validators.maxLength(1)]],
+      row: [this.getDetailInventoryMapData.row  || '', [Validators.maxLength(5)]],
+      shelf: [this.getDetailInventoryMapData.shelf|| '', [Validators.maxLength(2)]],
+      bin: [this.getDetailInventoryMapData.bin || '', [Validators.maxLength(3)]],
+      itemNumber:  [this.getDetailInventoryMapData.itemNumber || '', [Validators.maxLength(50)]],
       itemQuantity:  [this.getDetailInventoryMapData.itemQuantity || ''],
       description:  [this.getDetailInventoryMapData.description || ''],
-      cell:[ this.getDetailInventoryMapData.cellSize || '', [Validators.required]],
-      velocity: [this.getDetailInventoryMapData.velocity || '', [Validators.required, Validators.maxLength(9)]],
-      maximumQuantity:  [this.getDetailInventoryMapData.maximumQuantity || ''],
+      cell:[ this.getDetailInventoryMapData.cellSize || '', Validators.required],
+      velocity: [this.getDetailInventoryMapData.goldenZone || '', [Validators.required, Validators.maxLength(9)]],
+      maximumQuantity:  [this.getDetailInventoryMapData.maximumQuantity || 0, [ Validators.maxLength(9)]],
       dedicated:  [this.getDetailInventoryMapData.dedicated || ''],
       //serialNumber: new FormControl(''),
      // lotNumber: new FormControl(''),
@@ -160,7 +160,7 @@ export class AddInvMapLocationComponent implements OnInit {
       quantityAllocatedPick:  [this.getDetailInventoryMapData.quantityAllocatedPick || ''],
       quantityAllocatedPutAway:  [this.getDetailInventoryMapData.quantityAllocatedPutAway || ''],
       //putAwayDate: new FormControl(''),
-      warehouse: [this.getDetailInventoryMapData.warehouse || '', [Validators.required]],
+      warehouse: [this.getDetailInventoryMapData.warehouse || ''],
      // revision: new FormControl(''),
       invMapID:  [this.getDetailInventoryMapData.invMapID || ''],
       userField1:  [this.getDetailInventoryMapData.userField1 || '' ,[ Validators.maxLength(255)]],
@@ -168,17 +168,21 @@ export class AddInvMapLocationComponent implements OnInit {
       masterLocation:  [this.getDetailInventoryMapData.masterLocation || ''],
       dateSensitive: [this.getDetailInventoryMapData.dateSensitive || false],
       masterInvMapID:  [this.getDetailInventoryMapData.masterInvMapID || ''],
-      minQuantity:  [this.getDetailInventoryMapData.minQuantity || '',[ Validators.maxLength(9)]],
-      laserX: [this.getDetailInventoryMapData.laserX || '', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(9)]],
-      laserY: [this.getDetailInventoryMapData.laserY || '', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(9)]],
-      locationNumber: [this.getDetailInventoryMapData.locationNumber || ''],
+      minQuantity:  [this.getDetailInventoryMapData.minQuantity || 0 ,[ Validators.maxLength(9)]],
+      laserX: [this.getDetailInventoryMapData.laserX || 0, [ Validators.pattern("^[0-9]*$"), Validators.maxLength(9)]],
+      laserY: [this.getDetailInventoryMapData.laserY || 0 , [ Validators.pattern("^[0-9]*$"), Validators.maxLength(9)]],
+      locationNumber: [this.getDetailInventoryMapData.locationNumber || '', ],
       locationID:  [this.getDetailInventoryMapData.locationID || ''],
-      altLight: [this.getDetailInventoryMapData.altLight || '',[Validators.maxLength(9)]]
+      altLight: [this.getDetailInventoryMapData.altLight || 0,[Validators.maxLength(9), Validators.pattern("^[0-9]*$")]]
 
       //velocity
     });
   }
 
+  onchangeItemNumber(){
+    let value =  this.addInvMapLocation.controls['zone'].value + this.addInvMapLocation.controls['carousel'].value + this.addInvMapLocation.controls['row'].value + this.addInvMapLocation.controls['shelf'].value +  this.addInvMapLocation.controls['bin'].value;
+    this.addInvMapLocation.controls['locationNumber'].setValue(value);
+  }
   onSubmit(form: FormGroup) {
     
     if(this.data.detailData){

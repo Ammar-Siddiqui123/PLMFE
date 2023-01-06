@@ -188,6 +188,7 @@ export class InventoryMapComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
+      this.getContentData();
     })
   }
   inventoryMapAction(actionEvent: any) {
@@ -240,7 +241,7 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-
+      this.getContentData();
     })
   }
 
