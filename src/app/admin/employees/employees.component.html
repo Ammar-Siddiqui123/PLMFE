@@ -110,6 +110,7 @@
                                     </span>
                                   </button>
                                 </div>
+                                <div class="card br-14 table-responsive my-3">
                                 <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
                                   <table mat-table [dataSource]="employee_fetched_zones" matSort
                                     (matSortChange)="announceSortChange($event)" class="g-card-table table-minimal-action-buttons">
@@ -121,12 +122,12 @@
                                     </tr> -->
                                     <!-- Start Location Column -->
                                     <ng-container matColumnDef="zones">
-                                      <th width="90%" mat-header-cell *matHeaderCellDef>Zone</th>
-                                      <td width="90%" mat-cell *matCellDef="let element"> {{element}} </td>
+                                      <th width="80%" mat-header-cell *matHeaderCellDef>Zone</th>
+                                      <td width="80%" mat-cell *matCellDef="let element"> {{element}} </td>
                                     </ng-container>
                                     <ng-container matColumnDef="actions">
-                                      <th width="10%" mat-header-cell *matHeaderCellDef>Action</th>
-                                      <td width="10%" mat-cell
+                                      <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action</th>
+                                      <td width="20%" class="text-center" mat-cell
                                         *matCellDef="let element">
                                         <button mat-icon-button aria-label="Delete" (click)="deleteZone(element)">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
@@ -142,6 +143,7 @@
                                     <tr mat-row *matRowDef="let row; columns: zoneColumns;"></tr>
                                   </table>
                                 </ng-scrollbar>
+                              </div>
                               </div>
                             </div>
                           </div>
@@ -174,7 +176,8 @@
                                     </span>
                                   </button>
                                 </div>
-                                <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
+                                <div class="card br-14 table-responsive my-3">
+                                <ng-scrollbar class="mat-table-scrollbar " style="height: 200px">
                                   <table mat-table [dataSource]="location_data_source" matSort
                                     (matSortChange)="announceSortChange($event)"
                                     class="g-card-table employee-location-table table-minimal-action-buttons">
@@ -201,14 +204,14 @@
 
                                     <!-- Delete Location Column -->
                                     <ng-container matColumnDef="delete_location">
-                                      <th width="20%" mat-header-cell *matHeaderCellDef>Action</th>
-                                      <td width="20%" mat-cell
+                                      <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action</th>
+                                      <td width="20%" mat-cell class="text-center"
                                         *matCellDef="let element">
                                         <button mat-icon-button aria-label="Delete Location"
                                           (click)="deleteLocation(element)">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
                                         </button>
-                                        <button mat-icon-button aria-label="Edit" 
+                                        <button class="me-0" mat-icon-button aria-label="Edit" 
                                         (click)="editLocationDialog(element)">
                                           <mat-icon class="icon-circle-edit">border_color</mat-icon>
                                         </button>
@@ -220,6 +223,7 @@
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                                   </table>
                                 </ng-scrollbar>
+                              </div>
                               </div>
                             </div>
                           </div>
