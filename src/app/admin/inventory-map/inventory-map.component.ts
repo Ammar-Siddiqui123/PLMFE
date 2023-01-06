@@ -5,6 +5,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../init/auth.service';
 import { AddInvMapLocationComponent } from '../dialogs/add-inv-map-location/add-inv-map-location.component';
@@ -108,6 +109,7 @@ export class InventoryMapComponent implements OnInit {
     private authService: AuthService,
     private invMapService: InventoryMapService,
     private toastr: ToastrService, 
+    private router: Router
   ) {
   }
 
@@ -220,9 +222,10 @@ export class InventoryMapComponent implements OnInit {
         }
       })
       dialogRef.afterClosed().subscribe(result => {
-        const matSelect: MatSelect = actionEvent.source;
-        matSelect.writeValue(null);
-        this.ngOnInit();
+    //    debugger
+        // const matSelect: MatSelect = actionEvent.source;
+        // matSelect.writeValue(null);
+        this.getColumnsData();
       })
     }
   }
@@ -328,6 +331,7 @@ export class InventoryMapComponent implements OnInit {
 
   viewInInventoryMaster(){
 
+    this.router.navigate(['/admin/inventoryMaster']);
   }
 
   viewLocationHistory(){
