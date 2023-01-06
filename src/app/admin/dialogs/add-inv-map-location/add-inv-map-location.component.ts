@@ -130,7 +130,7 @@ export class AddInvMapLocationComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value || '')),
       );
-      this.filteredItemNum = this.addInvMapLocation.controls['itemNumber'].valueChanges.pipe(
+      this.filteredItemNum = this.addInvMapLocation.controls['item'].valueChanges.pipe(
         startWith(''),
         map(value => this._filterItemNum(value || '')),
       );
@@ -147,7 +147,7 @@ export class AddInvMapLocationComponent implements OnInit {
       row: [this.getDetailInventoryMapData.row  || '', [Validators.maxLength(5)]],
       shelf: [this.getDetailInventoryMapData.shelf|| '', [Validators.maxLength(2)]],
       bin: [this.getDetailInventoryMapData.bin || '', [Validators.maxLength(3)]],
-      itemNumber:  [this.getDetailInventoryMapData.itemNumber || '', [Validators.maxLength(50)]],
+      item:  [this.getDetailInventoryMapData.itemNumber || '', [Validators.maxLength(50)]],
       itemQuantity:  [this.getDetailInventoryMapData.itemQuantity || ''],
       description:  [this.getDetailInventoryMapData.description || ''],
       cell:[ this.getDetailInventoryMapData.cellSize || '', Validators.required],

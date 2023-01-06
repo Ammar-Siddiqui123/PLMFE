@@ -190,7 +190,7 @@
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Item Number</mat-label>
                             <input   placeholder="Item Number" aria-label="Item Number" matInput
-                                formControlName="itemNumber" [matAutocomplete]="itemNumAuto">
+                                formControlName="item" [matAutocomplete]="itemNumAuto">
                             <mat-autocomplete autoActiveFirstOption #itemNumAuto="matAutocomplete" [panelWidth]="400" (optionSelected)="loadItemDetails($event)">
                                 <h6 class="loc_name"><span>Item Number</span> <span>Description</span></h6>
                                 <mat-option *ngFor="let option of filteredItemNum | async"
