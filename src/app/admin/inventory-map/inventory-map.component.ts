@@ -293,6 +293,23 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
+      this.getContentData();
+    })
+  }
+
+  unQuarantine(event){
+
+    let dialogRef = this.dialog.open(QuarantineConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        mode: 'inventory-map-unquarantine',
+        id: event.invMapID
+     //   grp_data: grp_data
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      this.getContentData();
     })
   }
 
@@ -347,14 +364,14 @@ export class InventoryMapComponent implements OnInit {
   }
 
   announceSortChange(e : any){
-    let index = this.columnValues.findIndex(x => x === e.active );
-    this.sortColumn = {
-      columnName: index,
-      sortOrder: e.direction
-    }
+    // let index = this.columnValues.findIndex(x => x === e.active );
+    // this.sortColumn = {
+    //   columnName: index,
+    //   sortOrder: e.direction
+    // }
 
-    this.initializeApi();
-    this.getContentData();
+    // this.initializeApi();
+    // this.getContentData();
 
 
   }
