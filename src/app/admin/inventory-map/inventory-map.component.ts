@@ -297,6 +297,22 @@ export class InventoryMapComponent implements OnInit {
     })
   }
 
+  unQuarantine(event){
+
+    let dialogRef = this.dialog.open(QuarantineConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        mode: 'inventory-map-unquarantine',
+        id: event.invMapID
+     //   grp_data: grp_data
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      this.getContentData();
+    })
+  }
+
   adjustQuantity(event){
     let dialogRef = this.dialog.open(AdjustQuantityComponent, {
       height: 'auto',

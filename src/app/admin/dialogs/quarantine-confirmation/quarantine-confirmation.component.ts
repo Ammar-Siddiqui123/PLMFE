@@ -11,8 +11,16 @@ import { InventoryMapService } from '../../inventory-map/inventory-map.service';
 })
 export class QuarantineConfirmationComponent implements OnInit {
 
+  action: any;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private toastr: ToastrService,
-  private invMapService: InventoryMapService ) { }
+  private invMapService: InventoryMapService ) {
+
+    if (this.data.mode === 'inventory-map-quarantine') {
+    this.action = 'Quarantine'
+    } else if(this.data.mode === 'inventory-map-unquarantine') {
+      this.action = 'Unquarantine'
+    }
+   }
 
   ngOnInit(): void {
   }
@@ -42,6 +50,30 @@ export class QuarantineConfirmationComponent implements OnInit {
       }
     });
       
+    } else if(this.data.mode === 'inventory-map-unquarantine') {
+
+      let payload = {
+        "mapID": this.data.id,
+        "username": "1234",
+        "wsid": "TESTWID"
+    }
+    this.invMapService.unQuarantineInventoryMap(payload).subscribe((res: any) => {
+
+      if (res.isExecuted) {
+        this.dialog.closeAll();
+        this.toastr.success(labels.alert.quarantine, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      } else {
+        this.dialog.closeAll();
+        this.toastr.error(labels.alert.went_worng, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    });
+
     }
   }
 
