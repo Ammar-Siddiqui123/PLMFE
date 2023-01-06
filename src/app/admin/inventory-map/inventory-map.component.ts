@@ -347,7 +347,6 @@ export class InventoryMapComponent implements OnInit {
   }
 
   announceSortChange(e : any){
-    debugger
     let index = this.columnValues.findIndex(x => x === e.active );
     this.sortColumn = {
       columnName: index,
