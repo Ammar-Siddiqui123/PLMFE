@@ -11,7 +11,7 @@ import { PrintRangeComponent } from '../../dialogs/print-range/print-range.compo
 export class KitItemsComponent implements OnInit {
 
   constructor(private dialog: MatDialog) { }
-  @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
+
 
   @ViewChild('addItemAction') addItemTemp: TemplateRef<any>;
 
@@ -20,12 +20,7 @@ export class KitItemsComponent implements OnInit {
   ngOnInit(): void {
   }
   quarantineDialog(): void {
-    const dialogRef = this.dialog.open(this.quarantineTemp, {
-      width: '450px'
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-    });
+
   }
 
   addItemDialog(): void {

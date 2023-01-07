@@ -5,6 +5,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../init/auth.service';
 import { AddInvMapLocationComponent } from '../dialogs/add-inv-map-location/add-inv-map-location.component';
@@ -61,6 +62,7 @@ const INVMAP_DATA = [
 export class InventoryMapComponent implements OnInit {
 
 
+
   public displayedColumns: any;
   public dataSource: any;
   customPagination: any = {
@@ -70,7 +72,11 @@ export class InventoryMapComponent implements OnInit {
     endIndex: ''
   }
   columnSearch: any = {
-    searchColumn : '',
+    
+    searchColumn : {
+      colHeader :'',
+      colDef: ''
+    },
     searchValue : ''
   }
 
@@ -80,6 +86,8 @@ export class InventoryMapComponent implements OnInit {
   }
   userData: any;
   payload: any;
+
+  searchAutocompleteList: any;
 
   public columnValues: any;
   public itemList: any;
@@ -101,6 +109,7 @@ export class InventoryMapComponent implements OnInit {
     private authService: AuthService,
     private invMapService: InventoryMapService,
     private toastr: ToastrService, 
+    private router: Router
   ) {
   }
 
@@ -124,7 +133,6 @@ export class InventoryMapComponent implements OnInit {
   pageEvent: PageEvent;
 
   handlePageEvent(e: PageEvent) {
-    
     this.pageEvent = e;
 
     this.customPagination.startIndex =  e.pageSize*e.pageIndex
@@ -135,6 +143,7 @@ export class InventoryMapComponent implements OnInit {
    // this.pageIndex = e.pageIndex;
 
    this.initializeApi();
+   this.getContentData()
    
   }
 
@@ -145,7 +154,7 @@ export class InventoryMapComponent implements OnInit {
      "wsid": this.userData.wsid,
      "oqa": this.filterLoc,
      "searchString": this.columnSearch.searchValue,
-     "searchColumn": this.columnSearch.searchColumn,
+     "searchColumn": this.columnSearch.searchColumn.colHeader,
      "sortColumnIndex": this.sortColumn.columnName,
      "sRow":  this.customPagination.startIndex,
      "eRow": this.customPagination.endIndex,
@@ -156,8 +165,11 @@ export class InventoryMapComponent implements OnInit {
   getColumnsData(){
     this.seqColumn.getSetColumnSeq().subscribe((res) => {
       this.displayedColumns = INVMAP_DATA;
-      if(res.data.columnSequence.length>0){
-        this.columnValues = res.data?.columnSequence;
+
+      this.displayedColumns.unshift({ colHeader: "", colDef: "" });
+  
+      if(res.data.columnSequence){
+        this.columnValues = (res.data?.columnSequence.length>0) ? res.data?.columnSequence : res.data?.allColumnSequence;
         this.columnValues.push('actions');
         this.getContentData();
       } else {
@@ -177,7 +189,7 @@ export class InventoryMapComponent implements OnInit {
       this.detailDataInventoryMap= res.data?.inventoryMaps;
       this.dataSource = new MatTableDataSource(res.data?.inventoryMaps);
     //  this.dataSource.paginator = this.paginator;
-      this.customPagination.total = res.data?.recordsTotal;
+      this.customPagination.total = res.data?.recordsFiltered;
       this.dataSource.sort = this.sort;
     });
   }
@@ -197,6 +209,7 @@ export class InventoryMapComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
+      this.getContentData();
     })
   }
   inventoryMapAction(actionEvent: any) {
@@ -209,9 +222,10 @@ export class InventoryMapComponent implements OnInit {
         }
       })
       dialogRef.afterClosed().subscribe(result => {
-        const matSelect: MatSelect = actionEvent.source;
-        matSelect.writeValue(null);
-        this.ngOnInit();
+    //    debugger
+        // const matSelect: MatSelect = actionEvent.source;
+        // matSelect.writeValue(null);
+        this.getColumnsData();
       })
     }
   }
@@ -243,13 +257,13 @@ export class InventoryMapComponent implements OnInit {
       height: '750px',
       width: '100%',
       data: {
-        mode: 'addInvMapLocation',
+        mode: 'editInvMapLocation',
         itemList : this.itemList,
         detailData : event
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-
+      this.getContentData();
     })
   }
 
@@ -264,9 +278,8 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-    //  this.isGroupLookUp = false;
-      // const matSelect: MatSelect = matEvent.source;
-      // matSelect.writeValue(null);
+
+      this.getContentData();
     })
   }
 
@@ -283,6 +296,23 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
+      this.getContentData();
+    })
+  }
+
+  unQuarantine(event){
+
+    let dialogRef = this.dialog.open(QuarantineConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        mode: 'inventory-map-unquarantine',
+        id: event.invMapID
+     //   grp_data: grp_data
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      this.getContentData();
     })
   }
 
@@ -295,15 +325,32 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
+      this.getContentData();
     })
   }
 
   viewInInventoryMaster(){
 
+    this.router.navigate(['/admin/inventoryMaster']);
   }
 
   viewLocationHistory(){
     
+  }
+
+  autocompleteSearchColumn(){
+    let searchPayload = {
+      "columnName": this.columnSearch.searchColumn.colDef,
+      "value": this.columnSearch.searchValue,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.invMapService.getSearchData(searchPayload).subscribe((res: any) => {
+      if(res.data){
+        this.searchAutocompleteList = res.data;
+      }
+
+    });
   }
 
   searchColumn(){
@@ -314,21 +361,21 @@ export class InventoryMapComponent implements OnInit {
   }
 
   searchData(){
-    if( this.columnSearch.searchColumn){
+    if( this.columnSearch.searchColumn.colHeader ||  this.columnSearch.searchColumn.colHeader == '' ){
       this.initializeApi();
       this.getContentData();
     }
   }
 
   announceSortChange(e : any){
-    let index = this.columnValues.findIndex(x => x === e.active );
-    this.sortColumn = {
-      columnName: index,
-      sortOrder: e.direction
-    }
+    // let index = this.columnValues.findIndex(x => x === e.active );
+    // this.sortColumn = {
+    //   columnName: index,
+    //   sortOrder: e.direction
+    // }
 
-    this.initializeApi();
-    this.getContentData();
+    // this.initializeApi();
+    // this.getContentData();
 
 
   }

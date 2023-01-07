@@ -25,15 +25,33 @@ export class WarehouseComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.whService.getWareHouse().subscribe((res) => {
-     this.warehouse_list = res.data;
-    });
+
+    this.getWarehouse();
   
+  }
+
+  getWarehouse(){
+    this.whService.getWareHouse().subscribe((res) => {
+      this.warehouse_list = res.data;
+     });
   }
   addwhRow(row:any){
     this.warehouse_list.push([]);
   }
   saveWareHouse(warehosue:any, oldWh:any){ 
+
+    let cond = true;
+    this.warehouse_list.forEach(element => {
+     if(element == warehosue ) {
+      cond= false
+      this.toastr.error('Already Exists', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+     }   
+   });
+   if(cond ){
     let paylaod = {
       "oldWarehouse": oldWh.toString(),
       "warehouse": warehosue,
@@ -49,18 +67,22 @@ export class WarehouseComponent implements OnInit {
       });
     });
   }
+  }
   dltWareHouse(warehosue:any){
     let paylaod = {
       "warehouse": warehosue,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.warehouse_list.pop(warehosue);
+  //  this.warehouse_list.pop(warehosue);
     this.whService.dltWareHouse(paylaod).subscribe((res) => {
       this.toastr.success(labels.alert.delete, 'Success!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+
+      this.getWarehouse();
+      
     });
   }
 

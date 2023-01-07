@@ -821,7 +821,7 @@ table.g-card-table th.mat-header-cell {
 
 table.g-card-table th.mat-header-cell:first-of-type,
 table.g-card-table td.mat-cell:first-of-type {
-  padding-left: 1px;
+  padding-left: 8px;
   text-align: left;
 }
 
@@ -860,14 +860,14 @@ table.g-card-table th.mat-header-cell {
   transition: 0.3s ease all;
   position: absolute;
   top: 0;
-  left: -10px;
+  left: 0px;
   right: 0;
   bottom: 0;
   /* background: red; */
 }
 
 .scrollbar-hover-padding .ng-scroll-content {
-  padding-left: 10px;
+  // padding-left: 10px;
 }
 
 .action-clickable-table tr.mat-row td {
@@ -1215,6 +1215,9 @@ button.default-btn{
   }
   }
 }
+.mat-table thead{
+  background-color: #F9F9FF;
+}
 
 
 //-------------- Table-CLASSES ----END-------------------
@@ -1357,4 +1360,9 @@ button{
 
 .mat-form-field-disabled {
   opacity: 0.5;
+}
+
+.table-fix .mat-sort-header-container{
+  width: 180px!important;
+  height: 56px!important;
 }

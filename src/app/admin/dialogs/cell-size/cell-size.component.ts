@@ -22,10 +22,16 @@ export class CellSizeComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.cellSizeService.getCellSize().subscribe((res) => {
-       this.cellsize_list = res.data;
-    });
+    this.getCellSizeList();
+   
   }
+
+  getCellSizeList(){
+    this.cellSizeService.getCellSize().subscribe((res) => {
+      this.cellsize_list = res.data;
+   });
+  }
+  
   addczRow(row:any){
     this.cellsize_list.unshift({cells: '', cellTypes: ''});
   }
@@ -34,6 +40,20 @@ export class CellSizeComponent implements OnInit {
     
   }
   saveCellSize(cell:any, cellType:any, i){ 
+
+    let cond = true;
+    this.cellsize_list.forEach(element => {
+      if(element.cells == cell ) {
+        cond = false;
+       this.toastr.error('Already Exists', 'Error!', {
+         positionClass: 'toast-bottom-right',
+         timeOut: 2000
+       });
+       return;
+      }   
+    });
+
+    if(cond){
     let oldVal = this.cellsize_list[i].cells;
     let paylaod = {
       "oldCell": oldVal.toString(),
@@ -42,15 +62,17 @@ export class CellSizeComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    
     this.cellSizeService.saveCellSize(paylaod).subscribe((res) => {
       console.log(res);
-      
+      if(res.isExecuted){
+        this.getCellSizeList();
       this.toastr.success(labels.alert.success, 'Success!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+    }
     });
+  }
   }
   dltCellSize(cell:any, i){
     let paylaod = {
@@ -59,13 +81,14 @@ export class CellSizeComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     console.log(paylaod);
-    
-    this.cellsize_list.shift(i);
     this.cellSizeService.dltCellSize(paylaod).subscribe((res) => {
+      if(res.isExecuted){
+        this.getCellSizeList();
       this.toastr.success(labels.alert.delete, 'Success!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+    }
     });
   }
 
