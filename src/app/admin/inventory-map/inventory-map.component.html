@@ -30,9 +30,9 @@
                   </span>
                 </mat-form-field>
                 
-                <span class="v-br"></span>
+                <span class="v-br">-</span>
                 <div class="d-flex g-mini-search-box">
-                  <mat-form-field class="w-100 bg-white br-14" appearance="fill" [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
+                  <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
                     <span class="material-symbols-outlined icon-search">
                       search
                     </span>
@@ -51,7 +51,7 @@
               </div> -->
               
 <div class="d-flex align-items-center gap-12">
-              <button class="br-14" mat-mini-fab color="primary" aria-label="Add Inventory Map"
+              <button class="br-14" mat-mini-fab color="primary" aria-label="Add Inventory Map" style="line-height: 20px;"
                 (click)="addLocDialog()">
                 <mat-icon>add</mat-icon>
               </button>
@@ -67,10 +67,10 @@
                 </span>
               </mat-form-field>
               <div>
-              <button mat-button color="primary-o" (click)="viewAllLocDialog()" class="btn-primary-i">
-                <span class="material-symbols-outlined">
+              <button mat-flat-button (click)="viewAllLocDialog()" class="button-primary-i button-sm">
+                <!-- <span class="material-symbols-outlined">
                   filter_list
-                </span>
+                </span> -->
                 <mat-label> View All Location</mat-label>
               </button>
             </div>

@@ -552,11 +552,11 @@ mat-toolbar {
 }
 
 .mat-form-field.action-dropdown .mat-form-field-flex {
-  border-radius: 100px;
+  border-radius: 8px;
   background: #fff;
   border: 1px solid #D7D7F9;
-  height: 52px;
-  padding: 0.45em 0.75em 0 0.75em;
+  height: 48px;
+  padding: 4px 16px 0 16px;
 }
 
 .mat-form-field.action-dropdown .mat-form-field-wrapper{
@@ -721,7 +721,7 @@ mat-toolbar {
   background: none;
   border: 1px solid #D7D7F9;
   padding: 0;
-  border-radius: 14px;
+  border-radius: 8px;
 }
 
 .g-mini-search-box  .mat-form-field-wrapper.ng-tns-c111-4 {
@@ -982,7 +982,9 @@ h4.main-section-title {
 
 
 //-------------- BORDER-RADIUS-CLASSES ----START-------------------
-
+.br-8{
+  border-radius:8px;
+}
 .br-12{
   border-radius:12px;
 }
@@ -1025,6 +1027,9 @@ h4.main-section-title {
 .primary-btn{
   color: #090948 !important;
 }
+.button-sm{
+  padding: 4px 24px !important;
+}
 button.button-delete {
   color: #DE2654 !important;
   padding: 6px 15px;
@@ -1038,11 +1043,10 @@ button.button-delete-flat {
   background-color: rgba(222, 38, 84, 0.1) !important;
 }
 button.button-primary-i{
-  color: #000080 !important;
-  padding: 6px 15px;
+  color: var(--clr-primary-500);
   border-radius: 999px;
   background: #fff;
-  // border: 1px solid #000080 !important;
+  border: 1px solid var(--clr-tertiary-50);
 }
 button.button-primary-o{
   color: #000080 !important;
@@ -1093,8 +1097,8 @@ button.default-btn{
 .mat-button-base {
   border-radius: 100px !important;
   font-size: 16px;
-  letter-spacing: 1px;
-  font-weight: 700;
+  // letter-spacing: 1px;
+  font-weight: 600;
 }
 .mat-modal-wrap .mat-button-base {
   min-width: 200px;
