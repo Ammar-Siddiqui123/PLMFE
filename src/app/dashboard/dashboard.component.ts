@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
         })
       });
       }
-      console.log(val instanceof NavigationEnd) 
+      // console.log(val instanceof NavigationEnd) 
   });
    }
 
