@@ -1037,6 +1037,13 @@ button.button-delete-flat {
   border-radius: 14px;
   background-color: rgba(222, 38, 84, 0.1) !important;
 }
+button.button-primary-i{
+  color: #000080 !important;
+  padding: 6px 15px;
+  border-radius: 999px;
+  background: #fff;
+  // border: 1px solid #000080 !important;
+}
 button.button-primary-o{
   color: #000080 !important;
   padding: 6px 15px;
@@ -1214,6 +1221,9 @@ button.default-btn{
     border-top-right-radius: 14px;
   }
   }
+  .mat-row{
+    border: none;
+  }
 }
 .mat-table thead{
   background-color: #F9F9FF;
@@ -1359,10 +1369,29 @@ button{
 }
 
 .mat-form-field-disabled {
-  opacity: 0.5;
+  // opacity: 0.5;
 }
 
 .table-fix .mat-sort-header-container{
   width: 250px !important;
   height: 56px!important;
+}
+
+
+.breadcrumb-item + .breadcrumb-item{
+  position: relative;
+  padding-left: 20px;
+&::before {
+  float: left;
+  padding-right: 0px;
+  color: #fff;
+  content: "";
+  height: 2px;
+  width: 2px;
+  background: #fff;
+  position: absolute;
+  left: 9px;
+  top: 17px;
+  border-radius: 999px;
+}
 }
