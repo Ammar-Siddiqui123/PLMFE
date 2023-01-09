@@ -491,7 +491,7 @@ input.mat-input-element {
 .mat-toolbar h4,
 .mat-toolbar h5,
 .mat-toolbar h6 {
-  font: 500 20px/32px 'Mulish', sans-serif;
+  font: 500 16px/32px 'Mulish', sans-serif;
   letter-spacing: normal;
   margin: 0
 }
