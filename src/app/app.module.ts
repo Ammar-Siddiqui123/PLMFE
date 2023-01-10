@@ -19,6 +19,7 @@ import { MatTableModule } from '@angular/material/table';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { CustomHttpInterceptor } from './init/http-interceptor';
 import { ChangePasswordComponent } from './login/change-password/change-password.component';
+import { HeaderInterceptor } from './init/header-interceptor.interceptor';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,11 @@ import { ChangePasswordComponent } from './login/change-password/change-password
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CustomHttpInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HeaderInterceptor,
       multi: true
     }
   ],

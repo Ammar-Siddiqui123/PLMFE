@@ -265,7 +265,8 @@
 
 .mat-form-field-infix {
   padding: .5em 0;
-  border-top: .84375em solid rgba(0, 0, 0, 0);
+  /* border-top: .84375em solid rgba(0, 0, 0, 0); */
+  border-top: 14px solid rgba(0, 0, 0, 0) ;
   display: flex !important;
 }
 
@@ -353,7 +354,8 @@
 }
 
 .mat-form-field-appearance-fill .mat-form-field-infix {
-  padding: .25em 0 .75em 0
+  /* padding: .25em 0 .75em 0; */
+  padding: 1px 0 14px 0;
 }
 
 .mat-form-field-appearance-fill .mat-form-field-label {
@@ -491,7 +493,7 @@ input.mat-input-element {
 .mat-toolbar h4,
 .mat-toolbar h5,
 .mat-toolbar h6 {
-  font: 500 20px/32px 'Mulish', sans-serif;
+  font: 500 16px/32px 'Mulish', sans-serif;
   letter-spacing: normal;
   margin: 0
 }
