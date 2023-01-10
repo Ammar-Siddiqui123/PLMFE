@@ -1,6 +1,6 @@
 <mat-nav-list *ngIf="isParentMenu">
   <ng-container *ngFor="let menu of menus;">
-    <mat-list-item  routerLinkActive="active" routerLink="{{menu.route}}" (click)="loadMenus(menu)">
+    <mat-list-item  routerLinkActive="active" routerLink="{{menu.route}}" (click)="loadMenus(menu)" [disabled]="isAuthorized(menu.permission)">
       <mat-icon mat-list-icon>{{menu.icon}}</mat-icon>
       <div class="sidenav-item" *ngIf="sideBarOpen">{{menu.title}}</div>
     </mat-list-item>

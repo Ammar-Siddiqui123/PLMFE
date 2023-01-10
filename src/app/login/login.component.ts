@@ -42,6 +42,8 @@ export class LoginComponent {
     this.loginService
       .login(this.login)
       .subscribe((response: any) => {
+        console.log(response);
+        
         const exe = response.isExecuted
         if(exe == true){
           let data = {
@@ -51,8 +53,10 @@ export class LoginComponent {
             'wsid':response.data.wsid,
             'loginTime':response.data.loginTime,
           }
+          let userRights = response.data.userRights;
           this.addLoginForm.reset();
           localStorage.setItem('user', JSON.stringify(data));
+          localStorage.setItem('userRights', JSON.stringify(userRights));
           this.router.navigate(['/dashboard']);
         }
         else{

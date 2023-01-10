@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../app/init/auth.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -11,14 +12,14 @@ export class SideNavComponent implements OnInit {
   @Input() sideBarOpen: Boolean;
 
   menus: any = [
-    { icon: 'home', title: 'Home', route: '/dashboard' },
-    { icon: 'electric_bolt', title: 'Import Export', route: '#' },
-    { icon: 'manage_accounts', title: 'Admin', route: '/admin' },
-    { icon: 'checklist', title: 'Induction Manager', route: '#' },
-    { icon: 'fact_check', title: 'Work Manager', route: '#' },
-    { icon: 'insert_chart', title: 'Consolidation Manager', route: '#' },
-    { icon: 'pending_actions', title: 'Order Manager', route: '#' },
-    { icon: 'schema', title: 'FlowRack Replenish', route: '#' }
+    { icon: 'home', title: 'Home', route: '/dashboard' ,permission: ''},
+    { icon: 'electric_bolt', title: 'Import Export', route: '#' ,permission: ''},
+    { icon: 'manage_accounts', title: 'Admin', route: '/admin', permission: 'Admin Menu'},
+    { icon: 'checklist', title: 'Induction Manager', route: '#' ,permission: ''},
+    { icon: 'fact_check', title: 'Work Manager', route: '#' ,permission: ''},
+    { icon: 'insert_chart', title: 'Consolidation Manager', route: '#' ,permission: ''},
+    { icon: 'pending_actions', title: 'Order Manager', route: '#' ,permission: ''},
+    { icon: 'schema', title: 'FlowRack Replenish', route: '#',permission: '' }
   ];
   adminMenus: any = [
     { icon: 'arrow_back', title: 'Admin', route: '/dashboard', class: 'back-class' },
@@ -40,7 +41,7 @@ export class SideNavComponent implements OnInit {
   isParentMenu: boolean = true;
   isChildMenu: boolean = false;
   childMenus: any;
-  constructor(private router: Router) { }
+  constructor(private router: Router,private authService: AuthService,) { }
 
   ngOnInit(): void {
     this.loadMenus({route: this.router.url});
@@ -59,6 +60,10 @@ export class SideNavComponent implements OnInit {
       this.isChildMenu = false;
     }
 
+  }
+
+  isAuthorized(controlName:any) {
+     return !this.authService.isAuthorized(controlName);
   }
 
 }
