@@ -1374,7 +1374,10 @@ button{
 // }
 
 .mat-form-field-appearance-fill.cs-expand .icon-expand-more {
-  margin-top: -0.4em;
+  // margin-top: -0.4em;
+  position: absolute;
+  right: 0px;
+  bottom: 14px;
   color: rgb(9 9 72 / 50%);
 }
 
