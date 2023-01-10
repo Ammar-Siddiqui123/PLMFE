@@ -123,7 +123,7 @@
               </ng-container>
               
               <mat-header-row *matHeaderRowDef="columnValues;sticky: true"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: columnValues;"></mat-row>
+              <mat-row *matRowDef="let row; columns: columnValues;"  [ngClass]="{'quarantineColor': row.warehouse == 'Quarantine'}" ></mat-row>
 
             </mat-table>
           </div>
