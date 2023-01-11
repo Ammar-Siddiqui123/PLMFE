@@ -66,8 +66,8 @@ export class InventoryMapComponent implements OnInit {
   floatLabelControl = new FormControl('auto' as FloatLabelType);
 
 
-  public displayedColumns: any;
-  public dataSource: any;
+  public displayedColumns: any ;
+  public dataSource: any = new MatTableDataSource;
   customPagination: any = {
     total : '',
     recordsPerPage : 20,
@@ -92,7 +92,7 @@ export class InventoryMapComponent implements OnInit {
 
   searchAutocompleteList: any;
 
-  public columnValues: any;
+  public columnValues: any = [];
   public itemList: any;
   public filterLoc:any = 'Nothing';
 
@@ -118,13 +118,13 @@ export class InventoryMapComponent implements OnInit {
 
   ngOnInit(): void {
 
-
     this.customPagination = {
       total : '',
       recordsPerPage : 20,
       startIndex: 0,
       endIndex: 20
     }
+
     this.initializeApi();
     this.getColumnsData();
   //  this.getContentData();
@@ -166,13 +166,15 @@ export class InventoryMapComponent implements OnInit {
    }
   }
   getColumnsData(){
-    this.seqColumn.getSetColumnSeq().subscribe((res) => {
-      this.displayedColumns = INVMAP_DATA;
+ //   this.displayedColumns = [];
+    
+    this.invMapService.getSetColumnSeq(this.userData.userName, this.userData.wsid).subscribe((res: any) => {
+       
+     this.displayedColumns = INVMAP_DATA;
+     //this.displayedColumns.unshift({ colHeader: "", colDef: "" });
 
-      this.displayedColumns.unshift({ colHeader: "", colDef: "" });
-  
-      if(res.data.columnSequence){
-        this.columnValues = (res.data?.columnSequence.length>0) ? res.data?.columnSequence : res.data?.allColumnSequence;
+      if(res?.data?.columnSequence){
+        this.columnValues =  res.data?.columnSequence ;
         this.columnValues.push('actions');
         this.getContentData();
       } else {
@@ -186,9 +188,11 @@ export class InventoryMapComponent implements OnInit {
 
   getContentData(){
     this.invMapService.getInventoryMap(this.payload).subscribe((res: any) => {
+       
       this.itemList =  res.data?.inventoryMaps?.map((arr => {
         return {'itemNumber': arr.itemNumber, 'desc': arr.description}
       }))
+       
       this.detailDataInventoryMap= res.data?.inventoryMaps;
       this.dataSource = new MatTableDataSource(res.data?.inventoryMaps);
     //  this.dataSource.paginator = this.paginator;
@@ -211,7 +215,6 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       this.getContentData();
     })
   }
@@ -225,7 +228,7 @@ export class InventoryMapComponent implements OnInit {
         }
       })
       dialogRef.afterClosed().subscribe(result => {
-    //    debugger
+    //    
         // const matSelect: MatSelect = actionEvent.source;
         // matSelect.writeValue(null);
         this.getColumnsData();
@@ -245,7 +248,7 @@ export class InventoryMapComponent implements OnInit {
        width: '400px'
     });
     dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
+
     });
   }
 
