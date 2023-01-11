@@ -17,9 +17,9 @@
           <div class="header-filter-bar">
             <div class="header-filter-options w-100 d-flex align-items-center justify-content-between" style="gap:12px">
               <div class="d-flex gap-12 align-items-center">
-                <mat-form-field class="action-dropdown border-dropdown-0 cs-expand" appearance="fill">
+                <mat-form-field class="action-dropdown" appearance="outline">
                   <mat-label>Search</mat-label>
-                  <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn"
+                  <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn" placeholder="Search"
                     (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()">
                     <mat-option *ngFor="let item of displayedColumns" [value]="item.colHeader" value="print">
                       {{item.colDef}}
@@ -56,9 +56,9 @@
                 <mat-icon>add</mat-icon>
               </button>
 
-              <mat-form-field class="action-dropdown border-dropdown-0 cs-expand" appearance="fill">
+              <mat-form-field class="action-dropdown" appearance="outline">
                 <mat-label>Actions</mat-label>
-                <mat-select class="employees-action" (selectionChange)="inventoryMapAction($event)">
+                <mat-select class="employees-action" (selectionChange)="inventoryMapAction($event)" placeholder="Actions">
                   <mat-option value="print">Print</mat-option>
                   <mat-option value="set_column_sq">Set Column Sequence</mat-option>
                 </mat-select>
