@@ -107,6 +107,7 @@ export class InventoryMasterComponent implements OnInit {
       cellSize: [  this.getInvMasterData?.cellSize || 0, [Validators.required]],
       cfCellSize: [ this.getInvMasterData?.cfCellSize || 0, [Validators.required]],
 
+      goldenZone: [  this.getInvMasterData?.goldenZone || 0, [Validators.required]],
       bulkVelocity: [  this.getInvMasterData?.bulkVelocity || 0, [Validators.required]],
       cfVelocity: [  this.getInvMasterData?.cfVelocity || 0, [Validators.required]],
 
