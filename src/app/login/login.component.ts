@@ -42,6 +42,8 @@ export class LoginComponent {
     this.loginService
       .login(this.login)
       .subscribe((response: any) => {
+        console.log(response);
+        
         const exe = response.isExecuted
         if(exe == true){
           let data = {
@@ -51,8 +53,11 @@ export class LoginComponent {
             'wsid':response.data.wsid,
             'loginTime':response.data.loginTime,
           }
+          let userRights = response.data.userRights;
+          userRights = this.addCustomPermission(userRights);
           this.addLoginForm.reset();
           localStorage.setItem('user', JSON.stringify(data));
+          localStorage.setItem('userRights', JSON.stringify(userRights));
           this.router.navigate(['/dashboard']);
         }
         else{
@@ -84,6 +89,32 @@ export class LoginComponent {
       console.log(result);
       
     });
+  }
+  private addCustomPermission(userRights:any){
+    let customPerm = [
+      'Home',
+      'Import Export',
+      'Induction Manager',
+      'Work Manager',
+      'Consolidation Manager',
+      'Order Manager',
+      'Admin Menu',
+      'FlowRack Replenish',
+
+      //Admin Menus
+      'Dashboard',
+      // 'Inventory Map',
+      // 'Batch Manager',
+      // 'Reports',
+      // 'Location Assignment',
+      // 'Cycle Count Manager',
+      // 'Move Items',
+      // 'Transaction Journal',
+      // 'Dashboard',
+      // 'Dashboard',
+      // 'Dashboard',
+    ];
+    return [...userRights, ...customPerm];
   }
 
 }

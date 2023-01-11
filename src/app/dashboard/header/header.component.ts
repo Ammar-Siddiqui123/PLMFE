@@ -15,8 +15,7 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router,public spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
-    console.log(this.user_data.userName);
-    
+    // console.log(this.user_data.userName);
     this.loading = false;
   }
 

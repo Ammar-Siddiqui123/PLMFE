@@ -462,11 +462,17 @@ mat-toolbar {
   float: right;
   top: -3.7em;
   right: 0;
-  background: #f2f2ff80;
+  background: #fff;
+  border: 1px solid var(--clr-tertiary-50)!important;
   width: 48px !important;
   height: 48px !important;
   border-radius: 14px !important;
   padding: 3px !important;
+  .mat-button-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .icon-kbdown-dropdown {
@@ -552,16 +558,38 @@ mat-toolbar {
 }
 
 .mat-form-field.action-dropdown .mat-form-field-flex {
-  border-radius: 100px;
-  background: #fff;
-  border: 1px solid #D7D7F9;
-  height: 52px;
-  padding: 0.45em 0.75em 0 0.75em;
+  border-radius: 8px;
+  
+  // border: 1px solid #D7D7F9;
+  // height: 48px;
+  padding: 0px 16px 0 16px;
+  
+  .mat-form-field-infix{
+    border-top: 9px solid transparent;
+  }
 }
+
+.action-dropdown.mat-form-field-appearance-outline{
+
+  .mat-form-field-infix{
+  padding: 9px 0 10px 0
+}
+.mat-form-field-label{
+  top: 27px;
+}  
+}
+
+  .action-dropdown.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
+  .action-dropdown.mat-form-field-appearance-outline.mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label{
+    transform: translateY(-21px) scale(0.75) !important;
+  }
+
 
 .mat-form-field.action-dropdown .mat-form-field-wrapper{
 
   padding-bottom: 0;
+  background: #fff;
+  border-radius: 8px;
 }
 
 
@@ -721,7 +749,7 @@ mat-toolbar {
   background: none;
   border: 1px solid #D7D7F9;
   padding: 0;
-  border-radius: 14px;
+  border-radius: 8px;
 }
 
 .g-mini-search-box  .mat-form-field-wrapper.ng-tns-c111-4 {
@@ -982,7 +1010,9 @@ h4.main-section-title {
 
 
 //-------------- BORDER-RADIUS-CLASSES ----START-------------------
-
+.br-8{
+  border-radius:8px;
+}
 .br-12{
   border-radius:12px;
 }
@@ -1025,6 +1055,9 @@ h4.main-section-title {
 .primary-btn{
   color: #090948 !important;
 }
+.button-sm{
+  padding: 4px 24px !important;
+}
 button.button-delete {
   color: #DE2654 !important;
   padding: 6px 15px;
@@ -1036,6 +1069,12 @@ button.button-delete-flat {
   padding: 6px 15px;
   border-radius: 14px;
   background-color: rgba(222, 38, 84, 0.1) !important;
+}
+button.button-primary-i{
+  color: var(--clr-primary-500);
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--clr-tertiary-50);
 }
 button.button-primary-o{
   color: #000080 !important;
@@ -1086,8 +1125,8 @@ button.default-btn{
 .mat-button-base {
   border-radius: 100px !important;
   font-size: 16px;
-  letter-spacing: 1px;
-  font-weight: 700;
+  // letter-spacing: 1px;
+  font-weight: 600;
 }
 .mat-modal-wrap .mat-button-base {
   min-width: 200px;
@@ -1175,6 +1214,9 @@ button.default-btn{
 .bold{
   font-weight: bold;
 }
+.text-error{
+  color: #DE2654;
+}
 //-------------- TEXT-CLASSES ----END-------------------
 
 .circle-icon{
@@ -1190,6 +1232,9 @@ button.default-btn{
 }
 .circle-danger{
   background: #DE26541A;
+}
+.circle-primary{
+  background: #1A1AD31A;
 }
 
 .mat-dialog-container{
@@ -1213,6 +1258,9 @@ button.default-btn{
   &:last-child{
     border-top-right-radius: 14px;
   }
+  }
+  .mat-row{
+    border: none;
   }
 }
 .mat-table thead{
@@ -1354,15 +1402,37 @@ button{
 // }
 
 .mat-form-field-appearance-fill.cs-expand .icon-expand-more {
-  margin-top: -0.4em;
+  // margin-top: -0.4em;
+  position: absolute;
+  right: 0px;
+  bottom: 11px;
   color: rgb(9 9 72 / 50%);
 }
 
 .mat-form-field-disabled {
-  opacity: 0.5;
+  // opacity: 0.5;
 }
 
 .table-fix .mat-sort-header-container{
   width: 250px !important;
   height: 56px!important;
+}
+
+
+.breadcrumb-item + .breadcrumb-item{
+  position: relative;
+  padding-left: 20px;
+&::before {
+  float: left;
+  padding-right: 0px;
+  color: #fff;
+  content: "";
+  height: 2px;
+  width: 2px;
+  background: #fff;
+  position: absolute;
+  left: 9px;
+  top: 17px;
+  border-radius: 999px;
+}
 }
