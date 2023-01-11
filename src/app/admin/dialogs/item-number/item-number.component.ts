@@ -10,6 +10,7 @@ export class ItemNumberComponent implements OnInit {
 
   // updateItemNumber : boolean = true;
   addItem : boolean = true;
+  submit: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<any>,
               @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -23,8 +24,17 @@ export class ItemNumberComponent implements OnInit {
     }    
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  onNoClick(onsubmit?: any): void {
+    this.submit= true;
+    if(this.addItem && onsubmit){
+      if(this.data.itemNumber && this.data.desc){
+      
+        this.dialogRef.close(  {itemNumber : this.data.itemNumber, desc : this.data.desc} );
+      }
+    } else {
+      this.dialogRef.close();
+    }
+  
   }
 
 }
