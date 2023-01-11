@@ -20,8 +20,9 @@
                 <mat-form-field class="action-dropdown border-dropdown-0 cs-expand" appearance="fill">
                   <mat-label>Search</mat-label>
                   <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn"
-                    (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()">
-                    <mat-option *ngFor="let item of displayedColumns" [value]="item.colHeader" value="print">
+                    (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()"
+                    [compareWith]="compareObjects">
+                    <mat-option *ngFor="let item of displayedColumns" [value]="item">
                       {{item.colDef}}
                     </mat-option>
                   </mat-select>

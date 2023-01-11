@@ -11,6 +11,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { data } from 'jquery';
 import labels from '../../labels/labels.json'
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inventory-master',
@@ -46,6 +47,7 @@ export class InventoryMasterComponent implements OnInit {
     private dialog: MatDialog,
     private fb: FormBuilder,
     private toastr: ToastrService,
+    private router: Router
    // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
     ) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
@@ -646,5 +648,9 @@ export class InventoryMasterComponent implements OnInit {
   })
   }
 
+
+  viewLocations(){
+    this.router.navigate(['/admin/inventoryMap'], { state: {colHeader: 'itemNumber', colDef: 'Item Number', searchValue: this.currentPageItemNo}})
+  }
 
 }

@@ -14,7 +14,7 @@ export class SetColumnSeqService {
   public getSetColumnSeq(reqPaylaod?:any): Observable<any>{
     let userData = this.authService.userData();
     let payload = {
-      "username": reqPaylaod.userData.userName,
+      "username": userData.userName,
       "wsid": userData.wsid,
       "viewName": "Inventory Map"
     }
