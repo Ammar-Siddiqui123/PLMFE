@@ -52,12 +52,17 @@
         
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                No data available in table.
+              </td>
+            </tr>
           </table>
         
           <div class="d-flex justify-content-between bg-white">
             <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
             <div class="m-3">
-              <button mat-flat-button color="primary" class="br-14" [disabled]="this.tableData.data.length == 0" (click)="createBatch()">
+              <button mat-flat-button color="primary" class="br-14" [disabled]="this.tableData.data.length == 0" (click)="createBatchDialog()">
                 Create Batch
               </button>
             </div>                  

@@ -72,6 +72,8 @@ import { SearchPipe } from './employees/search.pipe';
 import { customFuncAllowedSearch } from './employees/customFuncAllowedSearch.pipe';
 import { CloneGroupComponent } from './dialogs/clone-group/clone-group.component';
 import { ToastrModule } from 'ngx-toastr';
+import { CreateBatchConfirmationComponent } from './dialogs/create-batch-confirmation/create-batch-confirmation.component';
+import { CreateBatchComponent } from './dialogs/create-batch/create-batch.component';
 
 
 
@@ -140,7 +142,9 @@ import { ToastrModule } from 'ngx-toastr';
     GroupAllowedComponent,
     SearchPipe,
     customFuncAllowedSearch,
-    CloneGroupComponent
+    CloneGroupComponent,
+    CreateBatchConfirmationComponent,
+    CreateBatchComponent
 
   ],
   imports: [

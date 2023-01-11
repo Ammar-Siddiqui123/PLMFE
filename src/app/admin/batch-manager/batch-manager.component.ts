@@ -142,8 +142,6 @@ export class BatchManagerComponent implements OnInit {
   }
   batchCreated(event:any){
     if(event){
-      console.log(event);
-      
       this.ngOnInit();
     }
   }

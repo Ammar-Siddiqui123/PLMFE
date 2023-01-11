@@ -6,7 +6,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../../../app/init/auth.service';
 import { BatchManagerService } from '../batch-manager.service';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
+
 import labels from '../../../labels/labels.json';
+import { CreateBatchComponent } from '../../dialogs/create-batch/create-batch.component';
 
 @Component({
   selector: 'app-batch-selected-orders',
@@ -34,6 +37,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
+    private dialog: MatDialog,
     private _liveAnnouncer: LiveAnnouncer, 
     private authService: AuthService,
     private batchService : BatchManagerService,
@@ -112,6 +116,25 @@ export class BatchSelectedOrdersComponent implements OnInit {
 
   addRemoveAllOrder(){
     this.addRemoveAll.emit();
+  }
+
+
+  
+   /*
+  Open Create batch dialog for first confirmation to create a batch .
+  Result returns true to create a batch and false to defer .  
+  */ 
+  createBatchDialog(){
+    let dialogRef;
+    dialogRef = this.dialog.open(CreateBatchComponent, {
+      height: 'auto',
+      width: '480px',
+    })
+    dialogRef.afterClosed().subscribe(result => {
+        // this.relaodPickUpLvl.emit(result);
+        console.log('batch result',result)
+        if(result){this.createBatch()}
+    })
   }
 
 }
