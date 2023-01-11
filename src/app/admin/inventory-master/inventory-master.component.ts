@@ -226,6 +226,7 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   nextPage(){
+    this.searchValue = this.currentPageItemNo;
     if(this.paginationData.position >= 1 && this.paginationData.position <= this.paginationData.total){
     let paylaod = {
       "itemNumber": this.currentPageItemNo,
@@ -242,6 +243,7 @@ export class InventoryMasterComponent implements OnInit {
 
   }
   prevPage(){
+    this.searchValue = this.currentPageItemNo;
     if(this.paginationData.position >= 1 && this.paginationData.position <= this.paginationData.total){
       let paylaod = {
         "itemNumber": this.currentPageItemNo,
