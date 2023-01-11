@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -19,7 +19,10 @@ export class DetailComponent implements OnInit {
 
   @Input() details: FormGroup;
   public userData: any;
-
+  @Output() notifyParent: EventEmitter<any> = new EventEmitter();
+  sendNotification() {
+      this.notifyParent.emit('Some value to send to the parent');
+  }
   
 
   constructor(   
@@ -59,6 +62,7 @@ export class DetailComponent implements OnInit {
             this.details.patchValue({
               'itemNumber' : res.data.newItemNumber
             }); 
+            this.sendNotification();
           }          
         })
       }
