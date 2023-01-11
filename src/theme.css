@@ -414,7 +414,9 @@
 }
 
 input.mat-input-element {
-  margin-top: -0.0625em
+  margin-top: -0.0625em;
+  margin-top: 1px;
+  margin-bottom: 1px;
 }
 
 .mat-menu-item {

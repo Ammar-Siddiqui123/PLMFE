@@ -4,14 +4,20 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpHeaders
+  HttpHeaders,
+  HttpErrorResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
 
-  constructor() {}
+  constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let authReq: any;
@@ -33,7 +39,23 @@ export class HeaderInterceptor implements HttpInterceptor {
         })
       });
     }
-    return next.handle(authReq);
+    return next.handle(authReq).pipe(catchError((error, caught) => {
+      this.handleAuthError(error);
+      return of(error);
+    }) as any);
   
+  }
+
+  private handleAuthError(err: HttpErrorResponse): Observable<any> {
+    if (err.status === 401) {
+      this.toastr.error('Token Expire', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      localStorage.clear();
+      this.router.navigate([`/login`]);
+      return of(err.message);
+    }
+    throw err;
   }
 }

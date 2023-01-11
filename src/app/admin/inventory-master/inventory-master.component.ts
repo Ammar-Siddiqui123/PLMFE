@@ -11,6 +11,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { data } from 'jquery';
 import labels from '../../labels/labels.json'
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inventory-master',
@@ -29,6 +30,8 @@ export class InventoryMasterComponent implements OnInit {
     itemNumber: 0
   }
   public currentPageItemNo : any = '';
+  searchList: any;
+  searchValue: any = '';
 
 
   public locationTable: any;
@@ -46,10 +49,13 @@ export class InventoryMasterComponent implements OnInit {
     private dialog: MatDialog,
     private fb: FormBuilder,
     private toastr: ToastrService,
+    private router: Router
    // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
     ) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
   invMaster: FormGroup;
+
+
 
   ngOnInit(): void {
 
@@ -645,6 +651,41 @@ export class InventoryMasterComponent implements OnInit {
     }
   })
   }
+
+
+  viewLocations(){
+    this.router.navigate(['/admin/inventoryMap'], { state: {colHeader: 'itemNumber', colDef: 'Item Number', searchValue: this.currentPageItemNo}})
+  }
+
+  getSearchList(e: any) {
+    
+    this.searchValue = e.currentTarget.value;
+    console.log(e.currentTarget.value)
+    let paylaod = {
+      "stockCode": e.currentTarget.value,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    this.invMasterService.get(paylaod, '/Admin/GetLocationTable').subscribe((res: any) => {
+      if(res.data){
+        this.searchList = res.data
+      }
+    });
+  }
+
+  onSearchSelect(e: any){
+    this.searchValue = e.option.value;
+    this.currentPageItemNo = e.option.value;
+    this.getInventory();
+    this.getInvMasterDetail(e.option.value);
+    this.getInvMasterLocations(e.option.value);
+  }
+
+  clearSearchField(){
+
+    this.searchValue = '';
+  }
+
 
 
 }
