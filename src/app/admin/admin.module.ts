@@ -72,6 +72,7 @@ import { SearchPipe } from './employees/search.pipe';
 import { customFuncAllowedSearch } from './employees/customFuncAllowedSearch.pipe';
 import { CloneGroupComponent } from './dialogs/clone-group/clone-group.component';
 import { ToastrModule } from 'ngx-toastr';
+import { UpdateDescriptionComponent } from './dialogs/update-description/update-description.component';
 
 
 
@@ -140,7 +141,8 @@ import { ToastrModule } from 'ngx-toastr';
     GroupAllowedComponent,
     SearchPipe,
     customFuncAllowedSearch,
-    CloneGroupComponent
+    CloneGroupComponent,
+    UpdateDescriptionComponent
 
   ],
   imports: [

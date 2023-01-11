@@ -70,8 +70,8 @@ export class InventoryMapComponent implements OnInit {
   floatLabelControl = new FormControl('auto' as FloatLabelType);
 
 
-  public displayedColumns: any;
-  public dataSource: any;
+  public displayedColumns: any ;
+  public dataSource: any = new MatTableDataSource;
   customPagination: any = {
     total : '',
     recordsPerPage : 20,
@@ -96,7 +96,7 @@ export class InventoryMapComponent implements OnInit {
 
   searchAutocompleteList: any;
 
-  public columnValues: any;
+  public columnValues: any = [];
   public itemList: any;
   public filterLoc:any = 'Nothing';
 
@@ -119,17 +119,29 @@ export class InventoryMapComponent implements OnInit {
     private router: Router,
     private loader: SpinnerService
   ) {
+
+
+    if(this.router.getCurrentNavigation()?.extras?.state?.['searchValue'] ){
+      this.columnSearch.searchValue = this.router.getCurrentNavigation()?.extras?.state?.['searchValue'] ;
+      this.columnSearch.searchColumn = {
+        colDef: this.router.getCurrentNavigation()?.extras?.state?.['colDef'],
+        colHeader: this.router.getCurrentNavigation()?.extras?.state?.['colHeader']
+      }
+    }
+
   }
 
   ngOnInit(): void {
 
-
+ 
     this.customPagination = {
       total : '',
       recordsPerPage : 20,
       startIndex: 0,
       endIndex: 20
     }
+
+
     this.initializeApi();
     this.getColumnsData();
    //  this.getContentData();
@@ -162,7 +174,7 @@ export class InventoryMapComponent implements OnInit {
      "wsid": this.userData.wsid,
      "oqa": this.filterLoc,
      "searchString": this.columnSearch.searchValue,
-     "searchColumn": this.columnSearch.searchColumn.colHeader,
+     "searchColumn": this.columnSearch.searchColumn.colDef,
      "sortColumnIndex": this.sortColumn.columnName,
      "sRow":  this.customPagination.startIndex,
      "eRow": this.customPagination.endIndex,
@@ -174,10 +186,8 @@ export class InventoryMapComponent implements OnInit {
     this.seqColumn.getSetColumnSeq().pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
       this.displayedColumns = INVMAP_DATA;
 
-      this.displayedColumns.unshift({ colHeader: "", colDef: "" });
-  
-      if(res.data.columnSequence){
-        this.columnValues = (res.data?.columnSequence.length>0) ? res.data?.columnSequence : res.data?.allColumnSequence;
+      if(res?.data?.columnSequence){
+        this.columnValues =  res.data?.columnSequence ;
         this.columnValues.push('actions');
         this.getContentData();
       } else {
@@ -194,6 +204,7 @@ export class InventoryMapComponent implements OnInit {
       this.itemList =  res.data?.inventoryMaps?.map((arr => {
         return {'itemNumber': arr.itemNumber, 'desc': arr.description}
       }))
+       
       this.detailDataInventoryMap= res.data?.inventoryMaps;
       this.dataSource = new MatTableDataSource(res.data?.inventoryMaps);
     //  this.dataSource.paginator = this.paginator;
@@ -212,7 +223,6 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-      console.log(result);
       this.getContentData();
     })
   }
@@ -226,9 +236,6 @@ export class InventoryMapComponent implements OnInit {
         }
       })
       dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-    //    debugger
-        // const matSelect: MatSelect = actionEvent.source;
-        // matSelect.writeValue(null);
         this.getColumnsData();
       })
     }
@@ -365,7 +372,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   searchData(){
-    if( this.columnSearch.searchColumn.colHeader ||  this.columnSearch.searchColumn.colHeader == '' ){
+    if( this.columnSearch.searchColumn ||  this.columnSearch.searchColumn == '' ){
       this.initializeApi();
       this.getContentData();
     }
@@ -390,6 +397,9 @@ export class InventoryMapComponent implements OnInit {
   ngOnDestroy() {
     this.onDestroy$.next(true);
     this.onDestroy$.unsubscribe();
+  }
+  compareObjects(o1: any, o2: any): boolean {
+    return o1.colDef === o2.colDef && o1.colHeader === o2.colHeader;
   }
 
 }
