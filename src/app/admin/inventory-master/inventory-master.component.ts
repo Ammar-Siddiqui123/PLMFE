@@ -30,6 +30,8 @@ export class InventoryMasterComponent implements OnInit {
     itemNumber: 0
   }
   public currentPageItemNo : any = '';
+  searchList: any;
+  searchValue: any = '';
 
 
   public locationTable: any;
@@ -52,6 +54,8 @@ export class InventoryMasterComponent implements OnInit {
     ) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
   invMaster: FormGroup;
+
+
 
   ngOnInit(): void {
 
@@ -652,5 +656,36 @@ export class InventoryMasterComponent implements OnInit {
   viewLocations(){
     this.router.navigate(['/admin/inventoryMap'], { state: {colHeader: 'itemNumber', colDef: 'Item Number', searchValue: this.currentPageItemNo}})
   }
+
+  getSearchList(e: any) {
+    
+    this.searchValue = e.currentTarget.value;
+    console.log(e.currentTarget.value)
+    let paylaod = {
+      "stockCode": e.currentTarget.value,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    this.invMasterService.get(paylaod, '/Admin/GetLocationTable').subscribe((res: any) => {
+      if(res.data){
+        this.searchList = res.data
+      }
+    });
+  }
+
+  onSearchSelect(e: any){
+    this.searchValue = e.option.value;
+    this.currentPageItemNo = e.option.value;
+    this.getInventory();
+    this.getInvMasterDetail(e.option.value);
+    this.getInvMasterLocations(e.option.value);
+  }
+
+  clearSearchField(){
+
+    this.searchValue = '';
+  }
+
+
 
 }
