@@ -226,6 +226,7 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   nextPage(){
+
     if(this.paginationData.position >= 1 && this.paginationData.position <= this.paginationData.total){
     let paylaod = {
       "itemNumber": this.currentPageItemNo,
@@ -236,12 +237,14 @@ export class InventoryMasterComponent implements OnInit {
     }
     this.invMasterService.get(paylaod, '/Admin/NextItemNumber').subscribe((res: any) => {
       this.currentPageItemNo = res.data;
+      this.searchValue = this.currentPageItemNo;
       this.getInventory();
     })
   }
 
   }
   prevPage(){
+    this.searchValue = this.currentPageItemNo;
     if(this.paginationData.position >= 1 && this.paginationData.position <= this.paginationData.total){
       let paylaod = {
         "itemNumber": this.currentPageItemNo,
@@ -252,6 +255,7 @@ export class InventoryMasterComponent implements OnInit {
       }
       this.invMasterService.get(paylaod, '/Admin/PreviousItemNumber').subscribe((res: any) => {
         this.currentPageItemNo = res.data;
+        this.searchValue = this.currentPageItemNo;
         this.getInventory();
       })
     }
@@ -595,13 +599,29 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   deleteItem($event) {
+    let itemToDelete = this.currentPageItemNo
+
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       width: '450px'
     });
     dialogRef.afterClosed().subscribe((res) => {
       if(res=='Yes'){
-        let paylaod = {
+
+        let paylaodNextItemNumber = {
           "itemNumber": this.currentPageItemNo,
+          "filter": "1=1",
+          "firstItem": 1,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid,
+        }
+        this.invMasterService.get(paylaodNextItemNumber, '/Admin/NextItemNumber').subscribe((res: any) => {
+          this.currentPageItemNo = res.data;
+          this.searchValue = this.currentPageItemNo;
+          //this.getInventory();
+        })
+
+        let paylaod = {
+          "itemNumber": itemToDelete,
           "append": true,
           "username": this.userData.userName,
           "wsid": this.userData.wsid
@@ -612,6 +632,7 @@ export class InventoryMasterComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
+            this.getInventory();
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -677,15 +698,17 @@ export class InventoryMasterComponent implements OnInit {
     this.searchValue = e.option.value;
     this.currentPageItemNo = e.option.value;
     this.getInventory();
-    this.getInvMasterDetail(e.option.value);
-    this.getInvMasterLocations(e.option.value);
+    // this.getInvMasterDetail(e.option.value);
+    // this.getInvMasterLocations(e.option.value);
   }
 
   clearSearchField(){
 
     this.searchValue = '';
   }
-
+  getNotification(e: any){
+    this.getInventory();
+  }
 
 
 }
