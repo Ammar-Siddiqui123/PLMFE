@@ -462,11 +462,17 @@ mat-toolbar {
   float: right;
   top: -3.7em;
   right: 0;
-  background: #f2f2ff80;
+  background: #fff;
+  border: 1px solid var(--clr-tertiary-50)!important;
   width: 48px !important;
   height: 48px !important;
   border-radius: 14px !important;
   padding: 3px !important;
+  .mat-button-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .icon-kbdown-dropdown {
@@ -553,15 +559,37 @@ mat-toolbar {
 
 .mat-form-field.action-dropdown .mat-form-field-flex {
   border-radius: 8px;
-  background: #fff;
-  border: 1px solid #D7D7F9;
-  height: 48px;
-  padding: 4px 16px 0 16px;
+  
+  // border: 1px solid #D7D7F9;
+  // height: 48px;
+  padding: 0px 16px 0 16px;
+  
+  .mat-form-field-infix{
+    border-top: 9px solid transparent;
+  }
 }
+
+.action-dropdown.mat-form-field-appearance-outline{
+
+  .mat-form-field-infix{
+  padding: 9px 0 10px 0
+}
+.mat-form-field-label{
+  top: 27px;
+}  
+}
+
+  .action-dropdown.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
+  .action-dropdown.mat-form-field-appearance-outline.mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label{
+    transform: translateY(-21px) scale(0.75) !important;
+  }
+
 
 .mat-form-field.action-dropdown .mat-form-field-wrapper{
 
   padding-bottom: 0;
+  background: #fff;
+  border-radius: 8px;
 }
 
 
@@ -1377,7 +1405,7 @@ button{
   // margin-top: -0.4em;
   position: absolute;
   right: 0px;
-  bottom: 14px;
+  bottom: 11px;
   color: rgb(9 9 72 / 50%);
 }
 
