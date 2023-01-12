@@ -33,7 +33,7 @@
             <div class="row">
                 <mat-radio-group aria-label="Select an option" color="primary" class="w-100">
 
-                    <div *ngFor="let category of kitItem.controls['kitInventories'].value" class="d-flex align-items-center">
+                    <div *ngFor="let category of kitItemsList" class="d-flex align-items-center">
 
                         <div class="container w-100">
 
@@ -41,7 +41,8 @@
 
                                 <div class="col-3">
                                     <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #catName name="{{category.itemNumber}}" value="{{category.itemNumber}}">
+                                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #catName name="{{category.itemNumber}}" [(ngModel)]="category.itemNumber"
+                                        (click)="openAddItemNumDialog(category)">
                                     </mat-form-field>
                                 </div>
 
@@ -50,7 +51,8 @@
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
                                             <mat-label>Description</mat-label>
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.description}}" value="{{category.description}}" #subCatName>
+                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.description}}" [(ngModel)]="category.description" #subCatName
+                                            (click)="openDescriptionDialog(category)">
                                         </mat-form-field>
 
                                     </div>
@@ -59,7 +61,7 @@
                                     <div class="d-flex gap-12 align-items-center">
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.specialFeatures}}" value="{{category.specialFeatures}}" #subCatName>
+                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.specialFeatures}}" [(ngModel)]="category.specialFeatures" #subCatName>
                                         </mat-form-field>
 
                                     </div>
@@ -70,14 +72,14 @@
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
                                             <mat-label>Kit Quantity</mat-label>
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.kitQuantity}}" value="{{category.kitQuantity}}">
+                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.kitQuantity}}" [(ngModel)]="category.kitQuantity">
                                         </mat-form-field>
 
-                                        <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(catName.value, subCatName.value);">
+                                        <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(category);">
                                             <span class="material-symbols-outlined">close</span>
                                         </button>
 
-                                        <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveCategory(catName.value, category.category, subCatName.value, category.subCategory)">
+                                        <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveCategory(category)">
                                             <span class="material-symbols-outlined">save</span>
                                         </button>
 
@@ -94,3 +96,57 @@
         </div>
     </div>
 </div>
+
+
+<ng-template #additemNumber>
+    <h1 mat-dialog-title>Item Number</h1>
+
+    <button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
+    
+    <div class="container">    
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field class="custom-form-field w-100" appearance="outline" >
+                    <mat-label>Item No.</mat-label>
+                    <input  [matAutocomplete]="searchauto" type="text" placeholder="Search" aria-label="Search" matInput  (keyup)="getSearchList($event)"  [(ngModel)]="dialogitemNumber" >
+                    <mat-autocomplete #searchauto="matAutocomplete" (optionSelected)="onSearchSelect($event)"  [panelWidth]="500" >
+                      <h6 class ="loc_name" style="display: flex; justify-content: space-around;"><span style="width:  100px;">Item#</span> <span  style="width:  100px;">Desc</span> <span  style="width:  100px;">Category</span> <span  style="width:  100px;">Sub-Category</span></h6>
+                      <mat-option *ngFor="let option of searchList" [value]="option">
+                        <div class="loc_option" style="display: flex; justify-content: space-around;">
+                          <span  class="searchColumn" style="width:  100px;">{{option?.itemNumber}}</span> <span  class="searchColumn" style="width:  100px;">{{option.description}}</span> <span  class="searchColumn" style="width:  100px;">{{option.category}}</span> <span class="searchColumn" style="width:  100px;">{{option.subCategory}}</span>
+                      </div>
+                      </mat-option>
+                    </mat-autocomplete>
+
+                </mat-form-field>
+            </div>
+            <button mat-flat-button color="primary" class="add-icon-button"  [mat-dialog-close]="true"  cdkFocusInitial>Submit</button>
+        </div>
+    
+    </div>
+    
+</ng-template>
+
+<ng-template #description>
+    <h1 mat-dialog-title>Description</h1>
+
+    <button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
+    
+    <div class="container">    
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field class="custom-form-field w-100" appearance="outline">
+                    <mat-label>Description</mat-label>
+                    <textarea matInput [(ngModel)]="dialogDescription"  readonly="true"></textarea>
+                </mat-form-field>
+            </div>
+            <button mat-flat-button color="primary" class="add-icon-button"  [mat-dialog-close]="true"  cdkFocusInitial>Submit</button>
+        </div>
+    
+    </div>
+    
+</ng-template>
