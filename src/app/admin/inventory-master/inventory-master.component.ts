@@ -563,7 +563,7 @@ export class InventoryMasterComponent implements OnInit {
   public openAddItemDialog() {
     let dialogRef = this.dialog.open(ItemNumberComponent, {
       height: 'auto',
-      width: 'auto',
+      width: '400px',
       data: {
         itemNumber: '',
         newItemNumber : '',
