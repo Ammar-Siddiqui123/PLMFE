@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -7,6 +7,7 @@ import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/d
 import { ItemCategoryComponent } from '../../dialogs/item-category/item-category.component';
 import { ItemNumberComponent } from '../../dialogs/item-number/item-number.component';
 import { UnitMeasureComponent } from '../../dialogs/unit-measure/unit-measure.component';
+import { UpdateDescriptionComponent } from '../../dialogs/update-description/update-description.component';
 import { InventoryMasterService } from '../inventory-master.service';
 
 @Component({
@@ -18,7 +19,10 @@ export class DetailComponent implements OnInit {
 
   @Input() details: FormGroup;
   public userData: any;
-
+  @Output() notifyParent: EventEmitter<any> = new EventEmitter();
+  sendNotification() {
+      this.notifyParent.emit('Some value to send to the parent');
+  }
   
 
   constructor(   
@@ -58,10 +62,29 @@ export class DetailComponent implements OnInit {
             this.details.patchValue({
               'itemNumber' : res.data.newItemNumber
             }); 
+            this.sendNotification();
           }          
         })
       }
 
+    })
+  }
+
+  public openDescriptionDialog() {
+    let dialogRef = this.dialog.open(UpdateDescriptionComponent, {
+      height: 'auto',
+      width: '700px',
+      data: {
+        description: this.details.controls['description'].value,
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.details.patchValue({
+          'description' : result.description
+        });
+
+      }
     })
   }
 
