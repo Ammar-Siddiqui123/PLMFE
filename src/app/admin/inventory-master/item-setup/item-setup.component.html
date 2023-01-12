@@ -6,9 +6,9 @@
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Primary Zone</mat-label>
             <mat-select formControlName="primaryPickZone">
-              <mat-option value="CAROUSEL">Carousel</mat-option>
-              <mat-option value="option2">Option 2</mat-option>
-              <mat-option value="option3">Option 3</mat-option>
+              <mat-option value="carousel">Carousel</mat-option>
+              <mat-option value="bulk">Bulk</mat-option>
+              <mat-option value="carton flow">Carton Flow</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -16,9 +16,9 @@
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Secondary Zone</mat-label>
             <mat-select formControlName="secondaryPickZone">
-              <mat-option value="CAROUSEL">Carousel</mat-option>
-              <mat-option value="option2">Option 2</mat-option>
-              <mat-option value="option3">Option 3</mat-option>
+              <mat-option value="carousel">Carousel</mat-option>
+              <mat-option value="bulk">Bulk</mat-option>
+              <mat-option value="carton flow">Carton Flow</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -58,12 +58,11 @@
           <div class="px-3">
             <mat-checkbox class="example-margin custom-checkbox" color="primary" formControlName="fifo">FIFO</mat-checkbox>
           </div>
-          <mat-form-field class="custom-form-field" appearance="outline">
+          <mat-form-field class="custom-form-field" appearance="outline" *ngIf="this.itemSetup.controls['fifo'].value == true">
             <mat-label>FIFO Date</mat-label>
             <mat-select formControlName="fifoDate">
-              <mat-option value="option1">Expiration Date</mat-option>
-              <mat-option value="option2">Option 2</mat-option>
-              <mat-option value="option3">Option 3</mat-option>
+              <mat-option value="Put Away Date">Put Away Date</mat-option>
+              <mat-option value="Expiration Date">Expiration Date</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -75,7 +74,7 @@
           <div class="text-tertiary-900 bold">Cell Size</div>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openCellSizeDialog()">
+          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openCellSizeDialog('cellSize')">
             <mat-label>Carousel</mat-label>
             <input matInput type="text" formControlName="cellSize">
             <span matSuffix>
@@ -84,7 +83,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openCellSizeDialog()">
+          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openCellSizeDialog('bulkCellSize')">
             <mat-label>Bulk</mat-label>
             <input matInput type="text" formControlName="bulkCellSize">
             <span matSuffix>
@@ -93,7 +92,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openCellSizeDialog()">
+          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openCellSizeDialog('cfCellSize')">
             <mat-label>Carton Flow</mat-label>
             <input matInput type="text" formControlName="cfCellSize">
             <span matSuffix>
@@ -107,16 +106,16 @@
           <div class="text-tertiary-900 bold">Velocity Code</div>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openVelocityCodeDialog()">
+          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openVelocityCodeDialog('goldenZone')">
             <mat-label>Carousel</mat-label>
-            <input matInput type="text" formControlName="bulkVelocity">
+            <input matInput type="text" formControlName="goldenZone">
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openVelocityCodeDialog()">
+          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openVelocityCodeDialog('bulkVelocity')">
             <mat-label>Bulk</mat-label>
             <input matInput type="text" formControlName="bulkVelocity">
             <span matSuffix>
@@ -125,7 +124,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openVelocityCodeDialog()">
+          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openVelocityCodeDialog('cfVelocity')">
             <mat-label>Carton Flow</mat-label>
             <input matInput type="text" formControlName="cfVelocity">
             <span matSuffix>

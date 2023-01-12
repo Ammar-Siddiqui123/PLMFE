@@ -21,7 +21,7 @@ export class ItemSetupComponent implements OnInit {
   }
 
 
-  public openCellSizeDialog() {
+  public openCellSizeDialog(param) {
     let dialogRef = this.dialog.open(CellSizeComponent, {
       height: '500px',
       width: '750px',
@@ -31,10 +31,24 @@ export class ItemSetupComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
+      if(param == 'cellSize'){
+        this.itemSetup.patchValue({
+          'cellSize' : result
+        });
+      } else if(param == 'bulkCellSize'){
+        this.itemSetup.patchValue({
+          'bulkCellSize' : result
+        });
+      } else if(param == 'cfCellSize'){
+        this.itemSetup.patchValue({
+          'cfCellSize' : result
+        });
+      }
+
 
     })
   }
-  public openVelocityCodeDialog() {
+  public openVelocityCodeDialog(param) {
     let dialogRef = this.dialog.open(VelocityCodeComponent, {
       height: '500px',
       width: '750px',
@@ -44,6 +58,20 @@ export class ItemSetupComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
+  
+      if(param == 'goldenZone'){
+        this.itemSetup.patchValue({
+          'goldenZone' : result
+        });
+      } else if(param == 'bulkVelocity'){
+        this.itemSetup.patchValue({
+          'bulkVelocity' : result
+        });
+      } else if(param == 'cfVelocity'){
+        this.itemSetup.patchValue({
+          'cfVelocity' : result
+        });
+      }
 
     })
   }

@@ -60,6 +60,7 @@ export class VelocityCodeComponent implements OnInit {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+      this.getVelocity()
     });
     }
   }
