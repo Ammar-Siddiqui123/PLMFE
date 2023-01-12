@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { EmployeeService } from 'src/app/employee.service';
+import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json';
 import { InventoryMapService } from '../../inventory-map/inventory-map.service';
 
@@ -12,7 +13,8 @@ import { InventoryMapService } from '../../inventory-map/inventory-map.service';
 export class QuarantineConfirmationComponent implements OnInit {
 
   action: any;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private toastr: ToastrService,
+  userData: any;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private toastr: ToastrService,private authService: AuthService,
   private invMapService: InventoryMapService ) {
 
     if (this.data.mode === 'inventory-map-quarantine') {
@@ -23,6 +25,7 @@ export class QuarantineConfirmationComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.userData = this.authService.userData();
   }
 
   onConfirmQuarantine () {
@@ -30,8 +33,8 @@ export class QuarantineConfirmationComponent implements OnInit {
     if (this.data.mode === 'inventory-map-quarantine') {
       let payload = {
         "mapID": this.data.id,
-        "username": "1234",
-        "wsid": "TESTWID"
+        "userName": this.userData.userName,
+      "wsid": this.userData.wsid
     }
     this.invMapService.quarantineInventoryMap(payload).subscribe((res: any) => {
 
@@ -54,8 +57,8 @@ export class QuarantineConfirmationComponent implements OnInit {
 
       let payload = {
         "mapID": this.data.id,
-        "username": "1234",
-        "wsid": "TESTWID"
+        "userName": this.userData.userName,
+      "wsid": this.userData.wsid
     }
     this.invMapService.unQuarantineInventoryMap(payload).subscribe((res: any) => {
 

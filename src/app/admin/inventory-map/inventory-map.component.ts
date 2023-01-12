@@ -285,7 +285,7 @@ export class InventoryMapComponent implements OnInit {
       data: {
         mode: 'delete-inventory-map',
         id: event.invMapID
-     //   grp_data: grp_data
+      //  grp_data: grp_data
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
