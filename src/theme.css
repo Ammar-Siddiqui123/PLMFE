@@ -2160,7 +2160,8 @@ td.mat-footer-cell {
 }
 
 .mat-form-field-appearance-outline .mat-form-field-outline {
-  color: rgba(0, 0, 0, .12)
+  /* color: rgba(0, 0, 0, .12) */
+  color: var(--clr-tertiary-50);
 }
 
 .mat-form-field-appearance-outline .mat-form-field-outline-thick {

@@ -1218,7 +1218,18 @@ button.default-btn{
   color: #DE2654;
 }
 //-------------- TEXT-CLASSES ----END-------------------
-
+.circle-icon-o{
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid var(--clr-tertiary-50) !important;
+  background-color: #fff;
+  .mat-button-wrapper{
+    display: flex;
+    align-items: center;
+  }
+}
 .circle-icon{
   display: flex;
   align-items: center;
