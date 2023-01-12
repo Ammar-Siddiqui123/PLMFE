@@ -107,6 +107,7 @@ export class InventoryMasterComponent implements OnInit {
       cellSize: [  this.getInvMasterData?.cellSize || 0, [Validators.required]],
       cfCellSize: [ this.getInvMasterData?.cfCellSize || 0, [Validators.required]],
 
+      goldenZone: [  this.getInvMasterData?.goldenZone || 0, [Validators.required]],
       bulkVelocity: [  this.getInvMasterData?.bulkVelocity || 0, [Validators.required]],
       cfVelocity: [  this.getInvMasterData?.cfVelocity || 0, [Validators.required]],
 
@@ -149,7 +150,11 @@ export class InventoryMasterComponent implements OnInit {
 
       wsid: [  this.userData?.wsid || '', [Validators.required]],
       username: [  this.userData?.userName || '' , [Validators.required]],
+
+      itemQuarantined:  [  this.getInvMasterData?.itemQuarantined || '', [Validators.required]],
     });
+
+
   }
   onSubmit(form: FormGroup){
     console.log(form.value);
@@ -662,6 +667,37 @@ export class InventoryMasterComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
+            this.getInventory();
+          } else {
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        })
+    }
+  })
+  }
+
+  unquarantineDialog(): void {
+    const dialogRef = this.dialog.open(this.quarantineTemp, {
+      width: '450px'
+    });
+    dialogRef.afterClosed().subscribe((x) => {
+      if(x){
+        let paylaod = {
+          "itemNumber": this.currentPageItemNo,
+          "append": true,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
+        }
+        this.invMasterService.get(paylaod, '/Admin/UpdateInventoryMasterOTUnQuarantine').subscribe((res: any) => {
+          if(res.isExecuted){
+            this.toastr.success(res.responseMessage, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+            this.getInventory();
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',

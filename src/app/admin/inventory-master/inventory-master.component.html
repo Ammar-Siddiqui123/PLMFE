@@ -106,8 +106,11 @@
             <button mat-stroked-button color="warn" class="button-delete bg-white" (click)="deleteItem($event)" [disabled]="!(this.currentPageItemNo)">
               Delete Item
             </button>
-            <button mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="quarantineDialog()" [disabled]="(this.currentPageItemNo)">
+            <button *ngIf="invMaster.controls['itemQuarantined'].value == 0" mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="quarantineDialog()">
               Quarantine Item
+            </button>
+            <button *ngIf="invMaster.controls['itemQuarantined'].value == 1" mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="unquarantineDialog()">
+              Unquarantine Item
             </button>
             <button mat-flat-button color="primary" class="button-primary bg-white" (click)="updateInventoryMaster()">
               Save
