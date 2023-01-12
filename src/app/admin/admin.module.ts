@@ -45,8 +45,8 @@ import { BatchManagerComponent } from './batch-manager/batch-manager.component';
 import { BatchDeleteComponent } from './batch-manager/batch-delete/batch-delete.component';
 import { BatchOrderListComponent } from './batch-manager/batch-order-list/batch-order-list.component';
 import { BatchSelectedOrdersComponent } from './batch-manager/batch-selected-orders/batch-selected-orders.component';
-import { KitItemsComponent } from './inventory-master/kit-items/kit-items.component';
-import { InventoryLocationComponent } from './inventory-master/inventory-location/inventory-location.component';
+//import { KitItemsComponent } from './inventory-master/kit-items/kit-items.component';
+//import { InventoryLocationComponent } from './inventory-master/inventory-location/inventory-location.component';
 import { CycleCountsComponent } from './cycle-counts/cycle-counts.component';
 import { CCDiscrepanciesComponent } from './cycle-counts/ccdiscrepancies/ccdiscrepancies.component';
 import { CCCountQueueComponent } from './cycle-counts/cccount-queue/cccount-queue.component';
@@ -60,8 +60,8 @@ import { LocationAssignmentComponent } from './location-assignment/location-assi
 import { CountComponent } from './location-assignment/count/count.component';
 import { PickComponent } from './location-assignment/pick/pick.component';
 import { PutAwayComponent } from './location-assignment/put-away/put-away.component';
-import { WeighScaleComponent } from './inventory-master/weigh-scale/weigh-scale.component';
-import { InventoryMasterOtherComponent } from './inventory-master/inventory-master-other/inventory-master-other.component';
+//import { WeighScaleComponent } from './inventory-master/weigh-scale/weigh-scale.component';
+//import { InventoryMasterOtherComponent } from './inventory-master/inventory-master-other/inventory-master-other.component';
 import { DetailComponent } from './inventory-master/detail/detail.component';
 import { KitItemComponent } from './inventory-master/kit-item/kit-item.component';
 import { LocationComponent } from './inventory-master/location/location.component';
@@ -114,8 +114,8 @@ import { UpdateDescriptionComponent } from './dialogs/update-description/update-
     BatchDeleteComponent,
     BatchOrderListComponent,
     BatchSelectedOrdersComponent,
-    KitItemsComponent,
-    InventoryLocationComponent,
+   // KitItemsComponent,
+  //  InventoryLocationComponent,
     CycleCountsComponent,
     CCDiscrepanciesComponent,
     CCCountQueueComponent,
@@ -129,8 +129,8 @@ import { UpdateDescriptionComponent } from './dialogs/update-description/update-
     CountComponent,
     PickComponent,
     PutAwayComponent,
-    WeighScaleComponent,
-    InventoryMasterOtherComponent,
+  //  WeighScaleComponent,
+ //   InventoryMasterOtherComponent,
     DetailComponent,
     KitItemComponent,
     LocationComponent,
