@@ -1,18 +1,27 @@
-<h1 mat-dialog-title><b>Unit Of Measure - Add, Delete, Edit and Set</b></h1>
-<button mat-icon-button class="close-button dialog-close-button" (click)="clearUnitMeasure()">
+<div class="d-flex justify-content-between mb-4 align-items-center">
+<h1 class="m-0" mat-dialog-title><b>Unit Of Measure - Add, Delete, Edit and Set</b></h1>
+<button mat-icon-button class="close-button dialog-close-button-fix" (click)="clearUnitMeasure()">
     <mat-icon class="close-icon">close</mat-icon>
 </button>
+</div><div class="d-flex gap-12 my-4 justify-content-end">
+    <button mat-flat-button color="primary" class="add-icon-button" (click)="addUMRow($event)">
+      <span class="material-symbols-outlined">
+        add
+      </span>
+    </button>
+  </div>
+
 <div class="card w-100">
     <div class="card-header">
         <div class="row">
-            <div class="col-12 px-4">
+            <div class="col-12" style="padding-left:50px;">
                 Unit Of Measure
             </div>
         </div>
     </div>
     <div class="card-bordy" style="max-height: 400px; overflow-y: scroll;">
         <div class="container">
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-6 offset-6">
                 <div class="d-flex gap-12 my-4 justify-content-end">
                   <button mat-flat-button color="primary" class="add-icon-button" (click)="addUMRow($event)">
@@ -22,8 +31,8 @@
                   </button>
                 </div>
             </div>
-        </div>
-        <div class="row">
+        </div> -->
+        <div class="row py-4">
             <mat-radio-group aria-label="Select an option" color="primary" class="w-100">
 
                 <div *ngFor="let unit of unitOfMeasure_list;" class="d-flex align-items-center">

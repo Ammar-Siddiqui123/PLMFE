@@ -563,7 +563,7 @@ export class InventoryMasterComponent implements OnInit {
   public openAddItemDialog() {
     let dialogRef = this.dialog.open(ItemNumberComponent, {
       height: 'auto',
-      width: 'auto',
+      width: '400px',
       data: {
         itemNumber: '',
         newItemNumber : '',
@@ -572,7 +572,7 @@ export class InventoryMasterComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result?.itemNumber) {
+      if (result.itemNumber) {
         const { itemNumber, desc } = result;
         let paylaod = {
           "itemNumber": itemNumber,
@@ -594,10 +594,10 @@ export class InventoryMasterComponent implements OnInit {
           }
         })
       } else {
-        this.toastr.error('Enter Valid Item Number', 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
+        // this.toastr.error('Enter Valid Item Number', 'Error!', {
+        //   positionClass: 'toast-bottom-right',
+        //   timeOut: 2000
+        // });
       }
 
     });

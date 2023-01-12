@@ -76,4 +76,9 @@
       </div>
     </div>
   </div>
+  <div class="overlay" *ngIf="loader.visibility | async">
+    <div class="center">
+      <mat-spinner [diameter]="50"></mat-spinner>
+    </div>
+  </div>
 </section>

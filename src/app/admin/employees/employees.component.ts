@@ -134,15 +134,12 @@ getgroupAllowedList(){
         this.emp_all_zones = response.data?.allZones;
       });
       this.getgroupAllowedList();
-
+      
       // this.employeeService.getEmployeeData(emp_data).subscribe((res:any) => {
-      //   console.log(res.data);
-
-
       //   this.groupAllowedList = new MatTableDataSource(res.data?.allGroups);
-      // //   this.groupAllowedList.filterPredicate = (data: String, filter: string) => {
-      // //     return data.toLowerCase().includes(filter.trim().toLowerCase());
-      // // };
+      //   this.groupAllowedList.filterPredicate = (data: String, filter: string) => {
+      //     return data.toLowerCase().includes(filter.trim().toLowerCase());
+      // };
       // })
 
 
@@ -334,6 +331,7 @@ getgroupAllowedList(){
         const matSelect: MatSelect = matEvent.source;
         matSelect.writeValue(null);
         this.updateGrpLookUp();
+        
       })
     }
     if (event === 'delete') {
@@ -342,7 +340,8 @@ getgroupAllowedList(){
         width: '480px',
         data: {
           mode: 'delete-group',
-          grp_data: grp_data
+          grp_data: grp_data,
+          userName: this.userData.userName
         }
       })
       dialogRef.afterClosed().subscribe(result => {
@@ -484,7 +483,8 @@ getgroupAllowedList(){
       width: '480px',
       data: {
         mode: 'delete-allowed-group',
-        allowedGroup: allowedGroup
+        allowedGroup: allowedGroup,
+        userName :this.grp_data
       }
     })
     dialogRef.afterClosed().subscribe(result => {

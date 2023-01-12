@@ -2,14 +2,19 @@
   <div class="row">
     <div class="col-12">
 
-      <app-batch-delete (transTypeEmitter)="getOrders($event)">
+      <app-batch-delete [batchUpdater]="batchUpdater" (transTypeEmitter)="getOrders($event)">
       </app-batch-delete>
 
-      <app-batch-order-list [orderListData]="orderList" [displayedColumns]="displayOrderCols"
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-7">
+      <app-batch-order-list   [orderListData]="orderList" [displayedColumns]="displayOrderCols"
         (addOrderEmitter)="addRemoveOrder($event, 1)" (addRemoveAll)="addRemoveAllOrders('add')">
       </app-batch-order-list>
-
-      <app-batch-selected-orders [selectedOrderList]="selOrderList" [displayedColumns]="displaySelOrderCols"
+    </div>
+      <div class="col-5">
+      <app-batch-selected-orders (batchIdUpdateEmit)="onBatchUpdate($event)" [selectedOrderList]="selOrderList" [displayedColumns]="displaySelOrderCols"
         (removeOrderEmitter)="addRemoveOrder($event, 2)" 
         [batchManagerSettings]="batchManagerSettings" 
         [type]="type" (addRemoveAll)="addRemoveAllOrders('remove')"
@@ -18,7 +23,7 @@
       </app-batch-selected-orders>
 
     </div>
-  </div>
+ 
 </div>
 <ng-template #quarantineAction>
 
