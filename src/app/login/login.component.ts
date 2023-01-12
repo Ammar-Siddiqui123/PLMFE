@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import labels from '../labels/labels.json'
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { SpinnerService } from '../init/spinner.service';
 
 @Component({
   selector: 'login',
@@ -27,7 +28,8 @@ export class LoginComponent {
     private router: Router, 
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public loader: SpinnerService,
     ) {}
 
   addLoginForm = new FormGroup({
@@ -38,12 +40,11 @@ export class LoginComponent {
   });
 
   loginUser() {
+    this.loader.show();
     this.login = this.addLoginForm.value;
     this.loginService
       .login(this.login)
       .subscribe((response: any) => {
-        console.log(response);
-        
         const exe = response.isExecuted
         if(exe == true){
           let data = {

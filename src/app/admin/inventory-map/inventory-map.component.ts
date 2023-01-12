@@ -401,5 +401,9 @@ export class InventoryMapComponent implements OnInit {
   compareObjects(o1: any, o2: any): boolean {
     return o1.colDef === o2.colDef && o1.colHeader === o2.colHeader;
   }
+  
+  isAuthorized(controlName:any) {
+    return !this.authService.isAuthorized(controlName);
+ }
 
 }

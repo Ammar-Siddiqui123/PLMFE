@@ -572,7 +572,7 @@ export class InventoryMasterComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result?.itemNumber) {
+      if (result.itemNumber) {
         const { itemNumber, desc } = result;
         let paylaod = {
           "itemNumber": itemNumber,
@@ -594,10 +594,10 @@ export class InventoryMasterComponent implements OnInit {
           }
         })
       } else {
-        this.toastr.error('Enter Valid Item Number', 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
+        // this.toastr.error('Enter Valid Item Number', 'Error!', {
+        //   positionClass: 'toast-bottom-right',
+        //   timeOut: 2000
+        // });
       }
 
     });

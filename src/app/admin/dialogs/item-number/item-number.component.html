@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>{{ addItem ? 'Add New Item' : 'Edit Item Number'}}</h1>
 
-<button mat-icon-button class="close-button dialog-close-button" (click)="onNoClick()">
+<button mat-icon-button type="button" class="close-button dialog-close-button" [mat-dialog-close]="true">
     <mat-icon class="close-icon">close</mat-icon>
 </button>
 
