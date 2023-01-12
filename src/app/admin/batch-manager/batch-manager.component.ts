@@ -69,7 +69,7 @@ const INVMAP_DATA = [
   styleUrls: ['./batch-manager.component.scss']
 })
 export class BatchManagerComponent implements OnInit {  
-
+  batchUpdater: Event;
   public userData : any;
   orderList : any;
   displayOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "minOfPriority", "detail", "action"];
@@ -87,7 +87,9 @@ export class BatchManagerComponent implements OnInit {
     this.userData = this.authService.userData();
     this.getOrders("Pick");
   }
-
+  onBatchUpdate(event: Event) {
+    this.batchUpdater = event;
+  }
   // displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
   // dataSource : any;
 
@@ -142,8 +144,6 @@ export class BatchManagerComponent implements OnInit {
   }
   batchCreated(event:any){
     if(event){
-      console.log(event);
-      
       this.ngOnInit();
     }
   }

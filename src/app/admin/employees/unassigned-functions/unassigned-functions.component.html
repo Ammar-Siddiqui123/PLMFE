@@ -17,7 +17,7 @@
       </button>
     </div>
     <mat-list class="zones-list g-card-list" role="list">
-      <ng-scrollbar *ngIf="!filterValue" style="height: 200px">
+      <ng-scrollbar *ngIf="!filterValue" style="height: 280px">
         <mat-list-item role="listitem"  *ngFor="let groupname of unassignedFunctions">
           <span class="list-label zone-list-label">
             {{groupname}}
@@ -27,7 +27,7 @@
           </button>
         </mat-list-item>
       </ng-scrollbar>
-      <ng-scrollbar *ngIf="filterValue" style="height: 200px">
+      <ng-scrollbar *ngIf="filterValue" style="height: 280px">
         <mat-list-item role="listitem" *ngFor="let groupname of filteredOptions">
           <span class="list-label zone-list-label">
             {{groupname}}

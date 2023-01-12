@@ -3,18 +3,29 @@
 
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h2 class="card-header-title mb-0 d-flex align-items-center">                    
+          <h2 class="card-header-title mb-0 d-flex align-items-center">      
+            <div class="mat-icon-wrap me-lg-3">
+              <span class="material-symbols-outlined">
+                list_alt
+              </span>
+            </div>              
               <span>Order Selection List</span>
           </h2>
         </div>
-        <div>
+        <!-- <div>
           <button mat-stroked-button color="button-default" class="default-btn bg-white text-primary-900 br-14" (click)="addRemoveAllOrder()">
             <mat-icon>add</mat-icon>
             Add All
           </button>
-        </div> 
+        </div>  -->
       </div>
-
+      <div class="d-flex justify-content-center bg-white">
+        <div class="m-3  w-100 ">
+          <button (click)="addRemoveAllOrder()" mat-flat-button color="primary" class="br-18 w-100 form-button-submit" >
+            Selected Orders in Auto Batch Zone
+          </button>
+        </div>                  
+      </div>
       <div class="card bg-light-blue br-14">
         
           <table mat-table [dataSource]="tableData" matSort>
@@ -57,17 +68,26 @@
               </td>
             </ng-container>
         
+
+            
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+   
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell notify-center-table" [attr.colspan]="displayedColumns.length">
+                No data available in table.
+              </td>
+            </tr>
           </table>
         
           <div class="d-flex justify-content-between bg-white">
             <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
-            <div class="m-3">
+            <!-- <div class="m-3">
               <button mat-flat-button color="primary" class="br-14" >
                 Selected Orders in Auto Batch Zone
               </button>
-            </div>                  
+            </div>                   -->
           </div>
 
       </div>

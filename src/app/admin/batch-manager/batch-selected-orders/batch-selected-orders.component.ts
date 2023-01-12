@@ -6,7 +6,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../../../app/init/auth.service';
 import { BatchManagerService } from '../batch-manager.service';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
+
 import labels from '../../../labels/labels.json';
+import { CreateBatchComponent } from '../../dialogs/create-batch/create-batch.component';
 
 @Component({
   selector: 'app-batch-selected-orders',
@@ -26,6 +29,8 @@ export class BatchSelectedOrdersComponent implements OnInit {
   @Input() type : any;
   @Output() addRemoveAll = new EventEmitter<any>();
   @Output() batchCreated = new EventEmitter<any>();
+  @Output() batchIdUpdateEmit = new EventEmitter<any>();
+
   public nextOrderNumber:any;
 
   @Output() removeOrderEmitter = new EventEmitter<any>();
@@ -34,6 +39,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
+    private dialog: MatDialog,
     private _liveAnnouncer: LiveAnnouncer, 
     private authService: AuthService,
     private batchService : BatchManagerService,
@@ -97,6 +103,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
         const {isExecuted } = res
         if(isExecuted){
           this.batchCreated.emit(true);
+          this.batchIdUpdateEmit.emit(true);
           this.toastr.success(labels.alert.success, 'Success!',{
             positionClass: 'toast-bottom-right',
             timeOut:2000
@@ -112,6 +119,23 @@ export class BatchSelectedOrdersComponent implements OnInit {
 
   addRemoveAllOrder(){
     this.addRemoveAll.emit();
+  }
+
+
+
+   /*
+  Open Create batch dialog for first confirmation to create a batch .
+  Result returns true to create a batch and false to defer .  
+  */ 
+  createBatchDialog(){
+    let dialogRef;
+    dialogRef = this.dialog.open(CreateBatchComponent, {
+      height: 'auto',
+      width: '480px',
+    })
+    dialogRef.afterClosed().subscribe(result => {
+        if(result){this.createBatch()}
+    })
   }
 
 }

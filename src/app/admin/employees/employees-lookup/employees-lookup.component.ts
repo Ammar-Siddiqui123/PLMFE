@@ -7,6 +7,7 @@ import { AddNewEmployeeComponent } from '../../dialogs/add-new-employee/add-new-
 import { NgForm } from '@angular/forms';
 import { AdminEmployeeLookupResponse, IEmployee } from 'src/app/Iemployee';
 import { EmployeeService } from 'src/app/employee.service';
+import { AuthService } from '../../../../app/init/auth.service';
 
 // employee_details table data
 
@@ -23,7 +24,7 @@ export class EmployeesLookupComponent implements OnInit {
   public env;
   @Input('childLookUp') isLookUp: boolean;
   @Output() updateIsLookUp  = new EventEmitter();
-
+  userData: any;
   selectedRowIndex = -1;
 
   highlight(row){
@@ -32,17 +33,18 @@ export class EmployeesLookupComponent implements OnInit {
 
   // table initialization
   displayedColumns: string[] = ['lastName', 'firstName', 'mi', 'username'];
-  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog,private employeeService: EmployeeService) {}
+  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog,private employeeService: EmployeeService,private authService: AuthService) {}
 
   @ViewChild(MatSort) sort: MatSort;
   employees_details_data: [] = [];
 
   ngOnInit(): void {
+    this.userData = this.authService.userData();
     this.env =  JSON.parse(localStorage.getItem('env') || '');
     this.emp = {
       "lastName": "%",
-      "userName": "1234",
-      "wsid": "TESTWSID"
+      "userName": this.userData.userName,
+      "wsid": this.userData.wsid
     };
     this.employeeService.getAdminEmployeeLookup(this.emp)
       .subscribe((response: AdminEmployeeLookupResponse) => {
