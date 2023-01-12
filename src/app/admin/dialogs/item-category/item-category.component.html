@@ -1,14 +1,16 @@
-<h1 mat-dialog-title><b>Categories - Add, Delete, Edit and Set</b></h1>
+<div class="d-flex justify-content-between mb-4 align-items-center">
+<h1 class="m-0" mat-dialog-title><b>Categories - Add, Delete, Edit and Set</b></h1>
 
-<button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+<button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
     <mat-icon class="close-icon">close</mat-icon>
 </button>
+</div>
 
-<div class="container">
+<div class="">
 
-    <div class="row">
-        <div class="col-6 offset-6">
-            <div class="d-flex gap-12 my-4 justify-content-end">
+    <div class="">
+        <div class="">
+            <div class="d-flex gap-12 my-4 justify-content-end w-100">
             <button mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="openPrintRangeDialog()" >
                 <mat-icon>print</mat-icon>
                 Print
@@ -26,7 +28,7 @@
 
         <div class="card-header">
             <div class="row">
-                <div class="col-6 px-4">Category</div>
+                <div class="col-6" style="padding-left:64px;">Category</div>
                 <div class="col-6 px-4">Sub Category</div>
             </div>
         </div>
