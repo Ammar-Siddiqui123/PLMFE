@@ -29,6 +29,8 @@ export class BatchSelectedOrdersComponent implements OnInit {
   @Input() type : any;
   @Output() addRemoveAll = new EventEmitter<any>();
   @Output() batchCreated = new EventEmitter<any>();
+  @Output() batchIdUpdateEmit = new EventEmitter<any>();
+
   public nextOrderNumber:any;
 
   @Output() removeOrderEmitter = new EventEmitter<any>();
@@ -101,6 +103,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
         const {isExecuted } = res
         if(isExecuted){
           this.batchCreated.emit(true);
+          this.batchIdUpdateEmit.emit(true);
           this.toastr.success(labels.alert.success, 'Success!',{
             positionClass: 'toast-bottom-right',
             timeOut:2000
@@ -119,7 +122,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
   }
 
 
-  
+
    /*
   Open Create batch dialog for first confirmation to create a batch .
   Result returns true to create a batch and false to defer .  
@@ -131,8 +134,6 @@ export class BatchSelectedOrdersComponent implements OnInit {
       width: '480px',
     })
     dialogRef.afterClosed().subscribe(result => {
-        // this.relaodPickUpLvl.emit(result);
-        console.log('batch result',result)
         if(result){this.createBatch()}
     })
   }

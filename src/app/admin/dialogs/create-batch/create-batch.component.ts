@@ -33,9 +33,15 @@ export class CreateBatchComponent implements OnInit {
       width: '480px',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('from confirm batch',result)
-      // this.relaodPickUpLvl.emit(result);
-      if(result){ this.dialogRef.close(true)};
+  
+      if(result){ this.dialogRef.close(true)}
+      else{
+        this.dialog.closeAll();
+      };
+
     });
   }
+
+
+  
 }
