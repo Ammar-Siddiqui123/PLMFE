@@ -44,7 +44,7 @@
                     <h6 class ="loc_name" style="display: flex; justify-content: space-around;"><span style="width:  100px;">Item#</span> <span  style="width:  100px;">Desc</span> <span  style="width:  100px;">Category</span> <span  style="width:  100px;">Sub-Category</span></h6>
                     <mat-option *ngFor="let option of searchList" [value]="option.itemNumber">
                       <div class="loc_option" style="display: flex; justify-content: space-around;">
-                        <span  style="width:  100px;">{{option.itemNumber}}</span> <span  style="width:  100px;">{{option.description}}</span> <span  style="width:  100px;">{{option.category}}</span> <span  style="width:  100px;">{{option.subCategory}}</span>
+                        <span  class="searchColumn" style="width:  100px;">{{option.itemNumber}}</span> <span  class="searchColumn" style="width:  100px;">{{option.description}}</span> <span  class="searchColumn" style="width:  100px;">{{option.category}}</span> <span class="searchColumn" style="width:  100px;">{{option.subCategory}}</span>
                     </div>
                     </mat-option>
                   </mat-autocomplete>

@@ -45,3 +45,10 @@
   ::ng-deep textarea.mat-input-element {
     padding-left: 10px !important;
   }
+
+  .searchColumn{
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+  }
