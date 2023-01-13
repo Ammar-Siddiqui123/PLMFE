@@ -3194,3 +3194,6 @@ td.mat-footer-cell {
 .__grab_cursor{
   cursor:grab !important;
 }
+.__pointer_cursor{
+  cursor:pointer !important;
+}

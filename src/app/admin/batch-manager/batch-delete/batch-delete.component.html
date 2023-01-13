@@ -20,7 +20,7 @@
         <div class="row">
 
           <div class="col-3">
-            <mat-form-field class="custom-form-field w-100 __grab_cursor bg-white" appearance="outline">
+            <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
               <mat-label>Transaction Type</mat-label>
               <mat-select [(ngModel)]="transType" (selectionChange)="changeTranType($event.value)">
                 <mat-option *ngFor="let type of transList" value="{{type.id}}">{{type.name}}</mat-option>
@@ -28,7 +28,7 @@
             </mat-form-field>
           </div>
 
-          <div class=" col-3">
+          <div class="col-3">
             <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
               <mat-label>Location No.</mat-label>
               <input matInput disabled class="" value="Pick and Pass" type="text">
@@ -36,7 +36,7 @@
           </div>
 
           <div class=" col-3">
-            <mat-form-field class="custom-form-field w-100 __grab_cursor bg-white" appearance="outline">
+            <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
               <mat-label>Batch ID</mat-label>
               <mat-select [(ngModel)]="batchID">
                 <mat-option *ngFor="let batch of batchList" value="{{batch}}">{{batch}}</mat-option>

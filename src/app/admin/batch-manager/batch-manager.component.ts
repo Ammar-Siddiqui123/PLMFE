@@ -102,12 +102,38 @@ export class BatchManagerComponent implements OnInit {
     }
     try {
       this.batchService.get(paylaod, '/Admin/BatchManagerOrder').subscribe((res: any) => {
-        const { data, isExecuted } = res
-        if (isExecuted && data.length > 0) {
-          this.orderList = data;
-        } else {
+        // const { data, isExecuted } = res
+        // if (isExecuted && data.length > 0) {
+        //   this.orderList = data;
+        // } else {
 
-        }
+        // }
+        this.orderList = [
+          {"orderNumber":"2950310","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950311","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950312","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950313","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950314","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950315","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950316","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950317","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950318","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950319","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950320","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950321","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950322","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950313","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950314","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950315","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950316","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950317","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950318","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950319","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950330","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          {"orderNumber":"2950331","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+        
+        
+        ];
       });
       this.batchService.get(paylaod, '/Admin/GetBatchManager').subscribe((res: any) => {
         const { data, isExecuted } = res
@@ -126,6 +152,7 @@ export class BatchManagerComponent implements OnInit {
     if (type == 1) {
       this.orderList = this.orderList.filter(val => val.orderNumber !== order.orderNumber);
       this.selOrderList = [order, ...this.selOrderList];
+      
     } else {
       this.selOrderList = this.selOrderList.filter(val => val.orderNumber !== order.orderNumber);
       this.orderList = [order, ...this.orderList];
