@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SharedService } from '../../../app/services/shared.service';
 import { AuthService } from '../../../app/init/auth.service';
 
 @Component({
@@ -41,11 +42,10 @@ export class SideNavComponent implements OnInit {
   isParentMenu: boolean = true;
   isChildMenu: boolean = false;
   childMenus: any;
-  constructor(private router: Router,private authService: AuthService,) { }
+  constructor(private router: Router,private authService: AuthService) { }
 
   ngOnInit(): void {
     this.loadMenus({route: this.router.url});
-    // console.log(this.router.url);
   }
 
   loadMenus(menu: any) {
