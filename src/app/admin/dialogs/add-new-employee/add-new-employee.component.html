@@ -4,56 +4,55 @@
 </button>
 <div mat-dialog-content>
 
-  <form #employeeForm="ngForm" (ngSubmit)="onSend(employeeForm)">
+  <form [formGroup]="empForm" (ngSubmit)="onSubmit(empForm)">
 
 
-    <mat-checkbox *ngIf="data?.mode === 'edit' " matInput name="active" style="margin-right: 12px;" class="example-margin custom-checkbox" color="primary"  [(ngModel)]="active">Active</mat-checkbox>
+    <mat-checkbox *ngIf="data?.mode === 'edit'" matInput  formControlName="active" style="margin-right: 12px;" class="example-margin custom-checkbox" color="primary">Active</mat-checkbox>
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>MI</mat-label>
-      <input matInput type="text" name="mi" [(ngModel)]="mi" required="required">
+      <input matInput type="text" formControlName="mi">
     </mat-form-field>
 
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>First Name</mat-label>
-      <input matInput type="text" name="firstName"  [(ngModel)]="firstName">
+      <input matInput type="text" formControlName="firstName">
     </mat-form-field>
 
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>Last Name</mat-label>
-      <input matInput type="text" name="lastName" required="required" [(ngModel)]="lastName">
+      <input matInput type="text" formControlName="lastName">
     </mat-form-field>
 
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>Username</mat-label>
-      <input matInput  type="text"  name="userName" required="required" [(ngModel)]="userName" [maxlength]="50">
+      <input matInput  type="text"  formControlName="userName" [maxlength]="50" [readonly]="isDisabledUsername">
       <!-- <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint> -->
-
     </mat-form-field>
 
-    <mat-form-field class="mb-3 w-100" appearance="outline">
+    <mat-form-field class="mb-3 w-100" appearance="outline" (click)="toggleDisabled()">
       <mat-label>Password</mat-label>
-      <input matInput [type]="toggle_password ? 'password' : 'text'" required="required" name="password" ngModel>
-      <button type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
+      <input matInput [type]="toggle_password ? 'password' : 'text'" #focusFeild formControlName="password" (focusout)="isEmptyPass()">
+      <button *ngIf="!isDisabledPassword" type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
         <mat-icon>{{toggle_password ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
 
     <mat-form-field class="mb-3 w-100" appearance="outline" *ngIf="isEmail">
       <mat-label>Email Address</mat-label>
-      <input matInput type="email" name="emailAddress" [(ngModel)]="emailAddress">
+      <input matInput type="email" formControlName="emailAddress">
     </mat-form-field>
 
 
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>Access Level</mat-label>
-      <mat-select required="required" name="accessLevel" [(ngModel)]="accessLevel">
+      <mat-select formControlName="accessLevel">
         <mat-option value="administrator">Administrator</mat-option>
         <mat-option value="staff_member">Staff Member</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-dialog-actions align="end">
-      <button type="submit" mat-flat-button class="form-button-submit" color="primary">{{form_btn_label}}</button>
+      <button type="submit" mat-flat-button class="form-button-submit" [disabled]="!empForm.valid" color="primary">{{form_btn_label}}</button>
     </mat-dialog-actions>
 
   </form>
