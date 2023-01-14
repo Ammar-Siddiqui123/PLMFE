@@ -86,10 +86,10 @@
                   <app-item-setup [itemSetup]="invMaster"></app-item-setup>
                 </mat-tab>
                 <mat-tab label="Kit Items">
-                  <app-kit-item [kitItem]="invMaster"></app-kit-item>
+                  <app-kit-item [kitItem]="invMaster" (notifyParent)="getNotification($event)"></app-kit-item>
                 </mat-tab>
                 <mat-tab label="Location">
-                  <app-location [location]="invMaster"></app-location>
+                  <app-location [location]="invMaster" (notifyParent)="getNotification($event)"></app-location>
                 </mat-tab>
                 <mat-tab label="Reel Tracking">
                   <app-reel-tracking [reelTracking]="invMaster"></app-reel-tracking>

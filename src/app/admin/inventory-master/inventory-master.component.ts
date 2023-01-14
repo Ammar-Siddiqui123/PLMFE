@@ -201,12 +201,12 @@ export class InventoryMasterComponent implements OnInit {
     })
   }
 
-  public getInvMasterLocations(itemNum: any) {
+  public getInvMasterLocations(itemNum: any , pageSize?, startIndex?) {
     let paylaod = {
       "draw": 0,
       "itemNumber": itemNum,
-      "start": 0,
-      "length": 10,
+      "start":  startIndex? startIndex: 0,
+      "length": pageSize? pageSize : 5,
       "sortColumnNumber": 0,
       "sortOrder": "asc",
       "username": this.userData.userName,
@@ -747,8 +747,17 @@ export class InventoryMasterComponent implements OnInit {
     this.searchValue = '';
   }
   getNotification(e: any, ){
-    this.currentPageItemNo = e;
-    this.getInventory();
+    if(e.newItemNumber){
+      this.currentPageItemNo = e.newItemNumber;
+      this.getInventory();
+    } else if(e.refreshLocationGrid){
+      this.getInvMasterLocations(this.currentPageItemNo);
+    } else if(e.locationPageSize && e.startIndex){
+      this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex);
+    }else {
+      this.getInventory();
+    }
+
   }
 
 

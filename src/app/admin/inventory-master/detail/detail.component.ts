@@ -62,7 +62,7 @@ export class DetailComponent implements OnInit {
             this.details.patchValue({
               'itemNumber' : res.data.newItemNumber
             }); 
-            this.sendNotification(res.data.newItemNumber);
+            this.sendNotification({newItemNumber: res.data.newItemNumber});
           } else {
             this.toastr.error("Item Number Already Exists.", 'Error!', {
               positionClass: 'toast-bottom-right',
