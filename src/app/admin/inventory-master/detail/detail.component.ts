@@ -63,7 +63,12 @@ export class DetailComponent implements OnInit {
               'itemNumber' : res.data.newItemNumber
             }); 
             this.sendNotification(res.data.newItemNumber);
-          }          
+          } else {
+            this.toastr.error("Item Number Already Exists.", 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
         })
       }
 

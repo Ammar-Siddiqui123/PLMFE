@@ -52,7 +52,7 @@
                                 <div class="col-6">
                                     <mat-form-field class="custom-form-field w-100" appearance="outline">
                                         <mat-label>Category</mat-label>
-                                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #catName name="{{category.category}}" value="{{category.category}}">
+                                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #catName name="{{category.category}}" value="{{category.category}}" maxlength="50">
                                     </mat-form-field>
                                 </div>
 
@@ -61,7 +61,7 @@
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
                                             <mat-label>Sub-Category</mat-label>
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.subCategory}}" value="{{category.subCategory}}" #subCatName>
+                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.subCategory}}" value="{{category.subCategory}}" #subCatName maxlength="50">
                                         </mat-form-field>
 
                                         <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(catName.value, subCatName.value);">

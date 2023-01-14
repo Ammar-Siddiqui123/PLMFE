@@ -68,18 +68,18 @@ export class InventoryMasterComponent implements OnInit {
   initialzeIMFeilds(){
     this.invMaster = this.fb.group({
 
-      itemNumber: [  this.getInvMasterData?.itemNumber || '', [Validators.required]],
-      supplierItemID : [  this.getInvMasterData?.supplierItemID || '', [Validators.required]],
-      description : [  this.getInvMasterData?.description || '', [Validators.required]],
-      reorderPoint : [  this.getInvMasterData?.reorderPoint || 0, [Validators.required]],
-      replenishmentPoint : [  this.getInvMasterData?.replenishmentPoint || '', [Validators.required]],
-      category : [  this.getInvMasterData?.category || '', [Validators.required]],
-      reorderQuantity : [  this.getInvMasterData?.reorderQuantity ||  0, [Validators.required]],
-      replenishmentLevel : [  this.getInvMasterData?.replenishmentLevel || '', [Validators.required]],
-      subCategory : [  this.getInvMasterData?.subCategory || '', [Validators.required]],
-      unitOfMeasure : [  this.getInvMasterData?.unitOfMeasure || '', [Validators.required]],
-      kanbanReplenishmentPoint : [  this.getInvMasterData?.kanbanReplenishmentPoint || 0, [Validators.required]],
-      kanbanReplenishmentLevel : [  this.getInvMasterData?.kanbanReplenishmentLevel || 0, [Validators.required]],
+      itemNumber: [  this.getInvMasterData?.itemNumber || '', [Validators.required,  Validators.maxLength(50)]],
+      supplierItemID : [  this.getInvMasterData?.supplierItemID || '', [Validators.required, Validators.maxLength(50)]],
+      description : [  this.getInvMasterData?.description || '', [Validators.required,  Validators.maxLength(255)]],
+      reorderPoint : [  this.getInvMasterData?.reorderPoint || 0, [Validators.required,Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      replenishmentPoint : [  this.getInvMasterData?.replenishmentPoint || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      category : [  this.getInvMasterData?.category || '', [Validators.required, Validators.maxLength(50)]],
+      reorderQuantity : [  this.getInvMasterData?.reorderQuantity ||  0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      replenishmentLevel : [  this.getInvMasterData?.replenishmentLevel || 0, [Validators.required, Validators.maxLength(9), , Validators.pattern("^[0-9]*$")]],
+      subCategory : [  this.getInvMasterData?.subCategory || '', [Validators.required,Validators.maxLength(50)]],
+      unitOfMeasure : [  this.getInvMasterData?.unitOfMeasure || '', [Validators.required, Validators.maxLength(50)]],
+      kanbanReplenishmentPoint : [  this.getInvMasterData?.kanbanReplenishmentPoint || 0, [Validators.required,  Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      kanbanReplenishmentLevel : [  this.getInvMasterData?.kanbanReplenishmentLevel || 0, [Validators.required,  Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
 
       totalQuantity: [  this.getInvMasterData?.totalQuantity || 0, [Validators.required]],
       wipCount: [  this.getInvMasterData?.wipCount || 0, [Validators.required]],
@@ -103,11 +103,11 @@ export class InventoryMasterComponent implements OnInit {
       fifo: [  this.getInvMasterData?.fifo || false, [Validators.required]],
       fifoDate: [  this.getInvMasterData?.fifoDate || '', [Validators.required]],
 
-      bulkCellSize: [  this.getInvMasterData?.bulkCellSize || 0, [Validators.required]],
-      cellSize: [  this.getInvMasterData?.cellSize || 0, [Validators.required]],
+      bulkCellSize: [  this.getInvMasterData?.bulkCellSize || "0", [Validators.required]],
+      cellSize: [  this.getInvMasterData?.cellSize || "0", [Validators.required]],
       cfCellSize: [ this.getInvMasterData?.cfCellSize || 0, [Validators.required]],
 
-      goldenZone: [  this.getInvMasterData?.goldenZone || 0, [Validators.required]],
+      goldenZone: [  this.getInvMasterData?.goldenZone || "0", [Validators.required]],
       bulkVelocity: [  this.getInvMasterData?.bulkVelocity || 0, [Validators.required]],
       cfVelocity: [  this.getInvMasterData?.cfVelocity || 0, [Validators.required]],
 
@@ -275,6 +275,7 @@ export class InventoryMasterComponent implements OnInit {
     
     this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
       if(res.isExecuted){
+        this.getInventory();
         this.toastr.success(labels.alert.update, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000

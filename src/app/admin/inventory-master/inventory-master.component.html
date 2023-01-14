@@ -39,7 +39,7 @@
                   <span class="material-symbols-outlined icon-search">
                     search
                   </span>
-                  <input  [matAutocomplete]="searchauto" type="text" placeholder="Search" aria-label="Search" matInput  (keyup)="getSearchList($event)" [value]="searchValue">
+                  <input  [matAutocomplete]="searchauto" type="text" placeholder="Search" aria-label="Search" matInput  (keyup)="getSearchList($event)" [value]="searchValue" maxlength="50">
                   <mat-autocomplete #searchauto="matAutocomplete" (optionSelected)="onSearchSelect($event)"  [panelWidth]="500" >
                     <h6 class ="loc_name" style="display: flex; justify-content: space-around;"><span style="width:  100px;">Item#</span> <span  style="width:  100px;">Desc</span> <span  style="width:  100px;">Category</span> <span  style="width:  100px;">Sub-Category</span></h6>
                     <mat-option *ngFor="let option of searchList" [value]="option.itemNumber">
@@ -56,7 +56,7 @@
                 Clear
               </button>
 
-                <div class="br-14 d-flex align-items-center label label-yellow px-3 f-16">
+                <div class="br-14 d-flex align-items-center label label-yellow px-3 f-16" *ngIf="this.getInvMasterData?.kitInventories.length>0">
                   Kit
                 </div>
                 <button mat-flat-button color="secondary" class="button-secondary" (click)="viewLocations()">
