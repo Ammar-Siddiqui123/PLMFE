@@ -41,7 +41,7 @@ export class DetailComponent implements OnInit {
   public openItemNumDialog() {
     let dialogRef = this.dialog.open(ItemNumberComponent, {
       height: 'auto',
-      width: '400px',
+      width: '560px',
       data: {
         itemNumber: this.details.controls['itemNumber'].value,
         newItemNumber : '',
@@ -73,7 +73,7 @@ export class DetailComponent implements OnInit {
   public openDescriptionDialog() {
     let dialogRef = this.dialog.open(UpdateDescriptionComponent, {
       height: 'auto',
-      width: '700px',
+      width: '560px',
       data: {
         description: this.details.controls['description'].value,
       }

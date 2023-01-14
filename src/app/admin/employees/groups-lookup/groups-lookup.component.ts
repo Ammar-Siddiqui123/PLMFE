@@ -91,7 +91,7 @@ export class GroupsLookupComponent implements OnInit {
   openGroupDialog() {
     let dialogRef = this.dialog.open(AddNewGroupComponent, {
       height: 'auto',
-      width: '480px',
+      width: '560px',
     });
     dialogRef.afterClosed().subscribe(result => {
       this.loadEmpData();

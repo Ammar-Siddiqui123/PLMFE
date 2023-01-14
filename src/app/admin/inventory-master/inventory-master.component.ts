@@ -563,7 +563,7 @@ export class InventoryMasterComponent implements OnInit {
   public openAddItemDialog() {
     let dialogRef = this.dialog.open(ItemNumberComponent, {
       height: 'auto',
-      width: '400px',
+      width: '560px',
       data: {
         itemNumber: '',
         newItemNumber : '',
@@ -607,7 +607,7 @@ export class InventoryMasterComponent implements OnInit {
     let itemToDelete = this.currentPageItemNo
 
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '450px'
+      width: '560px'
     });
     dialogRef.afterClosed().subscribe((res) => {
       if(res=='Yes'){
@@ -651,7 +651,7 @@ export class InventoryMasterComponent implements OnInit {
 
   quarantineDialog(): void {
     const dialogRef = this.dialog.open(this.quarantineTemp, {
-      width: '450px'
+      width: '560px'
     });
     dialogRef.afterClosed().subscribe((x) => {
       if(x){
