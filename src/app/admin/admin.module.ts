@@ -76,6 +76,7 @@ import { UpdateDescriptionComponent } from './dialogs/update-description/update-
 import { CreateBatchConfirmationComponent } from './dialogs/create-batch-confirmation/create-batch-confirmation.component';
 import { CreateBatchComponent } from './dialogs/create-batch/create-batch.component';
 import { ItemNumUpdateConfirmationComponent } from './dialogs/item-num-update-confirmation/item-num-update-confirmation.component';
+import { ScanTypeCodeComponent } from './dialogs/scan-type-code/scan-type-code.component';
 
 
 
@@ -148,7 +149,8 @@ import { ItemNumUpdateConfirmationComponent } from './dialogs/item-num-update-co
     UpdateDescriptionComponent,
     CreateBatchConfirmationComponent,
     CreateBatchComponent,
-    ItemNumUpdateConfirmationComponent
+    ItemNumUpdateConfirmationComponent,
+    ScanTypeCodeComponent
 
   ],
   imports: [

@@ -46,11 +46,21 @@
                                 <div class="col-2">
                                     <div class="d-flex gap-12 align-items-center">
 
-                                        <mat-form-field class="custom-form-field w-100" appearance="outline">
+                                        <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="openScanTypePopup(item)">
+                                            <mat-label>Scan Type</mat-label>
+                                            <span matSuffix>
+                                                <mat-icon
+                                                    style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
+                                            </span>
+                                            <input readonly class="__grab_cursor readonly" matInput type="text"
+                                            name="{{item.scanType}}" value="{{item.scanType}}" maxlength="50"/>
+                                        </mat-form-field>
+
+                                        <!-- <mat-form-field class="custom-form-field w-100" appearance="outline">
                                             <mat-select [(ngModel)]="item.scanType"  (selectionChange)="changeScanType($event.value)">
                                                 <mat-option *ngFor="let val of scanTypeList"   [value]="val" >{{val}}</mat-option>
                                               </mat-select>
-                                        </mat-form-field>
+                                        </mat-form-field> -->
 
                                     </div>
                                 </div>

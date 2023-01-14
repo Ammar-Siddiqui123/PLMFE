@@ -5,6 +5,7 @@ import { InventoryMasterService } from '../inventory-master.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../../labels/labels.json'
+import { ScanTypeCodeComponent } from '../../dialogs/scan-type-code/scan-type-code.component';
 
 @Component({
   selector: 'app-scan-codes',
@@ -21,24 +22,24 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   
 
   constructor( private invMasterService: InventoryMasterService,
-    private authService: AuthService, private toastr: ToastrService) {
+    private authService: AuthService, private toastr: ToastrService,  private dialog: MatDialog,) {
 
     this.userData = this.authService.userData();
-    this.getScanTypeList();
+ //   this.getScanTypeList();
 
   }
 
-  getScanTypeList(){
-    let paylaod = {
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-    }
-    this.invMasterService.get(paylaod, '/Common/ScanCodeTypes').subscribe((res: any) => {
-      if (res.isExecuted) {
-        this.scanTypeList = res.data;
-      }
-    })
-  }
+  // getScanTypeList(){
+  //   let paylaod = {
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid,
+  //   }
+  //   this.invMasterService.get(paylaod, '/Common/ScanCodeTypes').subscribe((res: any) => {
+  //     if (res.isExecuted) {
+  //       this.scanTypeList = res.data;
+  //     }
+  //   })
+  // }
   ngOnChanges(changes: SimpleChanges) {
       this.scanCodesList = this.scanCodes.controls['scanCode'].value;
   }
@@ -187,4 +188,22 @@ export class ScanCodesComponent implements OnInit , OnChanges {
       }
     })
   }
+
+
+  openScanTypePopup(item){
+    let dialogRef = this.dialog.open(ScanTypeCodeComponent, {
+      height: 'auto',
+      width: '750px',
+      data: {
+        mode: '',
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+      item.scanType = result
+    }
+
+    })
+  }
+
 }

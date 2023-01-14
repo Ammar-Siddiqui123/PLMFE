@@ -108,15 +108,18 @@
 
 
 <ng-template #additemNumber>
-    <h1 mat-dialog-title>Item Number</h1>
+    <div class="d-flex justify-content-between mb-4 align-items-center">
+        <h1 class="m-0" mat-dialog-title>Item Number</h1>
 
-    <button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+    <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
         <mat-icon class="close-icon">close</mat-icon>
     </button>
+    </div>
     
-    <div class="container">    
-        <div class="row">
-            <div class="col-12">
+    
+    <div class="">    
+        <div class="w-100">
+            <div class="col-12 mb-2">
                 <mat-form-field class="custom-form-field w-100" appearance="outline" >
                     <mat-label>Item No.</mat-label>
                     <input  [matAutocomplete]="searchauto" type="text" placeholder="Search" aria-label="Search" matInput  (keyup)="getSearchList($event)"  [(ngModel)]="dialogitemNumberDisplay" >
@@ -131,7 +134,9 @@
 
                 </mat-form-field>
             </div>
-            <button mat-flat-button color="primary" class="add-icon-button"  [mat-dialog-close]="true"  cdkFocusInitial>Submit</button>
+            <div class="d-flex justify-content-end pt-3">
+            <button mat-flat-button color="primary" class="button-primary btn-lg"  [mat-dialog-close]="true"  cdkFocusInitial>Submit</button>
+            </div>
         </div>
     
     </div>
@@ -139,21 +144,26 @@
 </ng-template>
 
 <ng-template #description>
-    <h1 mat-dialog-title>Description</h1>
 
-    <button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+    <div class="d-flex justify-content-between mb-4 align-items-center">
+    <h1  class="m-0" mat-dialog-title>Description</h1>
+
+    <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
         <mat-icon class="close-icon">close</mat-icon>
     </button>
+    </div>
     
-    <div class="container">    
-        <div class="row">
-            <div class="col-12">
+    <div class="">    
+        <div class="w-100">
+            <div class="col-12 mb-2">
                 <mat-form-field class="custom-form-field w-100" appearance="outline">
                     <mat-label>Description</mat-label>
                     <textarea matInput [(ngModel)]="dialogDescription"  readonly="true"></textarea>
                 </mat-form-field>
             </div>
-            <button mat-flat-button color="primary" class="add-icon-button"  [mat-dialog-close]="true"  cdkFocusInitial>Submit</button>
+            <div class="d-flex justify-content-end pt-3">
+            <button mat-flat-button color="primary" class="button-primary btn-lg" [mat-dialog-close]="true"  cdkFocusInitial>Submit</button>
+        </div>
         </div>
     
     </div>

@@ -131,16 +131,16 @@ export class InventoryMasterComponent implements OnInit {
       scanCode: [  this.getInvMasterData?.scanCode || '', [Validators.required]],
 
 
-      avgPieceWeight: [  this.getInvMasterData?.avgPieceWeight || 0, [Validators.required]],
-      sampleQuantity: [  this.getInvMasterData?.sampleQuantity || "0", [Validators.required]],
-      minimumUseScaleQuantity: [  this.getInvMasterData?.minimumUseScaleQuantity || 0, [Validators.required]],
+      avgPieceWeight: [  this.getInvMasterData?.avgPieceWeight || 0, [Validators.required, Validators.maxLength(11), Validators.pattern("^[0-9]*$")]],
+      sampleQuantity: [  this.getInvMasterData?.sampleQuantity || "0", [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      minimumUseScaleQuantity: [  this.getInvMasterData?.minimumUseScaleQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       useScale: [  this.getInvMasterData?.useScale || 0, [Validators.required]],
  
 
 
-      unitCost: [ this.getInvMasterData?.unitCost  || 0, [Validators.required]],
+      unitCost: [ this.getInvMasterData?.unitCost  || 0, [Validators.required, Validators.maxLength(11), Validators.pattern("^[0-9]*$")]],
      // supplierItemID: [ '', [Validators.required]],
-      manufacturer: [  this.getInvMasterData?.manufacturer || '', [Validators.required]],
+      manufacturer: [  this.getInvMasterData?.manufacturer || '', [Validators.required,  Validators.maxLength(11)]],
       specialFeatures: [  this.getInvMasterData?.specialFeatures || '', [Validators.required]],
     
 
