@@ -5,14 +5,30 @@
   </button>
   <!-- <span class="mx-3">PickPro</span> -->
   <div class="breadcrumb-menu ps-3" style="height: 30px;">
+
+    
     <nav aria-label="breadcrumb" class="breadcrumb m-0" >
-      <li class="breadcrumb-item" style="cursor:pointer;">PickPro
+
+      <div *ngFor="let item of breadcrumbList; index as i;">
+          
+        <div *ngIf="i<(breadcrumbList.length-1)">
+          <li class="breadcrumb-item" [routerLink]="item.value"  style="cursor:pointer;">{{item.name}}
+            &nbsp; {{"/"}} &nbsp;
+          </li>
+        </div>
+        <div *ngIf="i>=(breadcrumbList.length-1)">
+          <li class="breadcrumb-item active"  style="cursor:pointer;">{{item.name}}
+          </li>
+        </div>
+      </div> 
+
+      <!-- <li class="breadcrumb-item" style="cursor:pointer;">PickPro
       </li>
           <li class="breadcrumb-item" style="cursor:pointer;">Admin
           </li>
 
           <li class="breadcrumb-item"  style="cursor:pointer;">Home
-          </li>
+          </li> -->
 
         <!-- <li class="breadcrumb-item active" aria-current="page">Library</li> -->
     </nav>
