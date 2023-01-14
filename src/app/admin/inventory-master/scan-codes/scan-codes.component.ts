@@ -87,8 +87,6 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   }
 
   saveCategory(item, scanCode, startPosition, codeLength){
-
-    debugger
     let newRecord = true;
 
     if(item.scanCode=='') {

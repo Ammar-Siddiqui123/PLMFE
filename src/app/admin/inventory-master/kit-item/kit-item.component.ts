@@ -182,11 +182,13 @@ export class KitItemComponent implements OnInit, OnChanges {
     this.searchValue = e.currentTarget.value;
     console.log(e.currentTarget.value)
     let paylaod = {
-      "stockCode": e.currentTarget.value,
+      "itemNumber": e.currentTarget.value,
+      "beginItem": "---",
+      "isEqual": false,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.invMasterService.get(paylaod, '/Admin/GetLocationTable').subscribe((res: any) => {
+    this.invMasterService.get(paylaod, '/Common/SearchItem').subscribe((res: any) => {
       if (res.data) {
         this.searchList = res.data
       }
