@@ -49,21 +49,21 @@
             <div class="col-4">
                 <mat-form-field class="d-block w-100 " appearance="outline" aria-disabled="true">
                     <mat-label>Current Location Qty</mat-label>
-                    <input matInput class="" [value]="this.getAdjustQuantityData.currentLocationQty"   name="this.getAdjustQuantityData.itemNumber"
+                    <input matInput class="" [value]="this.getAdjustQuantityData.currentLocationQty? this.getAdjustQuantityData.currentLocationQty : '-' "   name="this.getAdjustQuantityData.itemNumber"
                     disabled>
                 </mat-form-field>
             </div>
             <div class="col-4">
                 <mat-form-field class="d-block w-100 " appearance="outline" aria-disabled="true">
                     <mat-label>Current Max. Qty</mat-label>
-                    <input matInput class="" [value]="this.getAdjustQuantityData.currentMaxQty"   name="this.getAdjustQuantityData.itemNumber"
+                    <input matInput class="" [value]="this.getAdjustQuantityData.currentMaxQty? this.getAdjustQuantityData.currentMaxQty : '-'"   name="this.getAdjustQuantityData.itemNumber"
                     disabled>
                 </mat-form-field>
             </div>
             <div class="col-4">
                 <mat-form-field class="d-block w-100" appearance="outline" aria-disabled="true">
                     <mat-label>Current Min. Qty</mat-label>
-                    <input matInput class="" [value]="this.getAdjustQuantityData.currentMinQty"   name="this.getAdjustQuantityData.itemNumber"
+                    <input matInput class="" [value]="this.getAdjustQuantityData.currentMinQty? this.getAdjustQuantityData.currentMinQty : '-'"   name="this.getAdjustQuantityData.itemNumber"
                     disabled>
                 </mat-form-field>
             </div>

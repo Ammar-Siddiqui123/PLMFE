@@ -462,11 +462,17 @@ mat-toolbar {
   float: right;
   top: -3.7em;
   right: 0;
-  background: #f2f2ff80;
+  background: #fff;
+  border: 1px solid var(--clr-tertiary-50)!important;
   width: 48px !important;
   height: 48px !important;
   border-radius: 14px !important;
   padding: 3px !important;
+  .mat-button-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .icon-kbdown-dropdown {
@@ -553,15 +559,37 @@ mat-toolbar {
 
 .mat-form-field.action-dropdown .mat-form-field-flex {
   border-radius: 8px;
-  background: #fff;
-  border: 1px solid #D7D7F9;
-  height: 48px;
-  padding: 4px 16px 0 16px;
+  
+  // border: 1px solid #D7D7F9;
+  // height: 48px;
+  padding: 0px 16px 0 16px;
+  
+  .mat-form-field-infix{
+    border-top: 9px solid transparent;
+  }
 }
+
+.action-dropdown.mat-form-field-appearance-outline{
+
+  .mat-form-field-infix{
+  padding: 9px 0 10px 0
+}
+.mat-form-field-label{
+  top: 27px;
+}  
+}
+
+  .action-dropdown.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
+  .action-dropdown.mat-form-field-appearance-outline.mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label{
+    transform: translateY(-21px) scale(0.75) !important;
+  }
+
 
 .mat-form-field.action-dropdown .mat-form-field-wrapper{
 
   padding-bottom: 0;
+  background: #fff;
+  border-radius: 8px;
 }
 
 
@@ -620,10 +648,10 @@ mat-toolbar {
 }
 
 .mat-icon-wrap {
-  background: #F2F2FF;
-  width: 40px;
-  height: 40px;
-  border-radius: 14px;
+  background: var(--clr-tertiary-10);
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -668,7 +696,7 @@ mat-toolbar {
   padding: 20px;
 }
 .mat-card {
-  border-radius: 14px !important;
+  border-radius: 36px !important;
 }
 
 .g-details-wrap {
@@ -773,7 +801,8 @@ button.button-remove-all {
   color: #DE2654 !important;
   padding: 6px 15px;
   border-radius: 100px;
-  border: 1px solid #D7D7F9 !important;
+  min-width: 100px;
+  border: 1px solid #fff !important;
 }
 
 button.button-add-all {
@@ -991,6 +1020,9 @@ h4.main-section-title {
 .br-14{
   border-radius:14px !important;
 }
+.br-18{
+  border-radius:18px !important;
+}
 
 //-------------- BORDER-RADIUS-CLASSES ----END-------------------
 
@@ -1007,10 +1039,36 @@ h4.main-section-title {
 
 //-------------- LABEL-CLASSES ----START-------------------
 .label-purple{
-  background: rgba(123, 66, 172, 0.15);
-  color: #7B42AC;
+  background: rgba(#EDC9E8, 0.15);
+  color: #4D2045;
   cursor: default;
 }
+.label-yellow{
+  background: rgba(#FFEDCC, 0.8);
+  color:#4D3B1A;
+}
+.label-red{
+  background: rgba(#F5C4D0, 0.8);
+  color:#4D0D1D;
+}
+.label-green{
+  background: rgba(#BADBCE, 0.8);
+  color:#114D35;
+}
+.label-blue{
+  background: rgba(#BEE6EE, 0.8);
+  color:#00404D;
+}
+.label-blue2{
+  background: rgba(#CACAEE, 0.8);
+  color:#00004D;
+}
+.label{
+  border-radius: 999px;
+  height: 28px;
+  cursor: default;
+}
+
 //-------------- LABEL-CLASSES ----END-------------------
 
 
@@ -1024,6 +1082,12 @@ h4.main-section-title {
 //-------------- GAP-CLASSES ----END-------------------
 
 //-------------- BUTTON-CLASSES ----START-------------------
+.btn-lg{
+  padding: 12px 30px !important;
+}
+.btn-md{
+  padding: 10px 30px !important;
+}
 .primary-btn{
   color: #090948 !important;
 }
@@ -1056,11 +1120,27 @@ button.button-primary-o{
 }
 button.button-primary{
   color: #ffffff !important;
-  background-color: $primary-900 !important;
+  background-color: $primary-500 !important;
   padding: 6px 15px;
   min-width: 150px !important;
-  border-radius: 14px !important;
-  border: 1px solid $primary-900!important;
+  // border-radius: 14px !important;
+  border: 1px solid $primary-500!important;
+}
+button.button-secondary{
+  color: $primary-500!important;
+  background-color: #fff !important;
+  padding: 6px 30px;
+  min-width: 150px !important;
+  // border-radius: 14px !important;
+  // border: 1px solid #fff!important;
+}
+button.button-warn{
+  color: $danger!important;
+  background-color: #fff !important;
+  padding: 6px 15px;
+  min-width: 150px !important;
+  // border-radius: 14px !important;
+  border: 1px solid transparent!important;
 }
 button.add-icon-button {
   display: flex;
@@ -1127,6 +1207,22 @@ button.default-btn{
   color: #DE2654;
 }
 
+.dialog-close-button-fix {
+  float: right;
+  background: #fff;
+  border: 1px solid var(--clr-tertiary-50)!important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 999px !important;
+  padding: 3px !important;
+  .mat-button-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
 //-------------- BUTTON-CLASSES ----END-------------------
 
 //-------------- FORM INPUT-CLASSES ----START-------------------
@@ -1166,17 +1262,17 @@ button.default-btn{
 {
   font-size: 18px;
   background-color: #000080cc;
-  border-radius: 50%;
+  border-radius: 999px;
   position: relative;
   color: #ffffff;
   text-align: center;
   line-height: 64px;
   width: 60px;
   height: 60px;
-  -webkit-border-radius: 25%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
+  -webkit-border-radius: 999px;
+  -moz-border-radius: 999px;
+  -ms-border-radius: 999px;
+  -o-border-radius: 999px;
   display: inline-block;
 }
 }
@@ -1190,7 +1286,18 @@ button.default-btn{
   color: #DE2654;
 }
 //-------------- TEXT-CLASSES ----END-------------------
-
+.circle-icon-o{
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid var(--clr-tertiary-50) !important;
+  background-color: #fff;
+  .mat-button-wrapper{
+    display: flex;
+    align-items: center;
+  }
+}
 .circle-icon{
   display: flex;
   align-items: center;
@@ -1377,7 +1484,7 @@ button{
   // margin-top: -0.4em;
   position: absolute;
   right: 0px;
-  bottom: 14px;
+  bottom: 11px;
   color: rgb(9 9 72 / 50%);
 }
 

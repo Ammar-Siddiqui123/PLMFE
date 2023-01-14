@@ -108,7 +108,8 @@ export class EmployeePickupLevelComponent implements OnInit {
       width: '480px',
       data: {
         mode: 'delete-picklevel',
-        picklevel: picklevel
+        picklevel: picklevel,
+        userName:this.grp_data
       }
     })
     dialogRef.afterClosed().subscribe(result => {

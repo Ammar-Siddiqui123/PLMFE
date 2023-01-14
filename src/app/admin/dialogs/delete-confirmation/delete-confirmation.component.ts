@@ -54,38 +54,13 @@ export class DeleteConfirmationComponent implements OnInit {
           }
         });
       }
-      else if (this.data.mode === 'delete-location') {
-
-        let locationData = {
-          "startLocation": this.data.location.startLocation,
-          "endLocation": this.data.location.endLocation,
-          "username": this.data.userName
-        }
-        this.employeeService.deleteEmployeeLocation(locationData).subscribe((res: any) => {
-          if (res.isExecuted) {
-            this.dialog.closeAll();
-            this.toastr.success(labels.alert.delete, 'Success!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-          } else {
-            this.dialog.closeAll();
-            this.toastr.error(labels.alert.went_worng, 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-          }
-        });
-      }
       else if (this.data.mode === 'delete-picklevel') {
-        console.log(this.data);
-
         let pickLevelData = {
           "wsid": "TESTWID",
           "levelID": this.data.picklevel.levelID.toString(),
           "startShelf": this.data.picklevel.startCarousel.toString(),
           "endShelf": this.data.picklevel.endCarousel.toString(),
-          "userName": "1234"
+          "userName": this.data.userName
         }
         this.employeeService.deletePickLevels(pickLevelData).subscribe((res: any) => {
           if (res.isExecuted) {
@@ -103,28 +78,28 @@ export class DeleteConfirmationComponent implements OnInit {
           }
         });
       }
-      else if (this.data.mode === 'delete-allowedgroup') {
-        let pickLevelData = {
-          "wsid": "TESTWID",
-          "GroupName": this.data.allowedGroup,
-          "userName": "1234"
-        }
-        this.employeeService.deletePickLevels(pickLevelData).subscribe((res: any) => {
-          if (res.isExecuted) {
-            this.dialog.closeAll();
-            this.toastr.success(labels.alert.delete, 'Success!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-          } else {
-            this.dialog.closeAll();
-            this.toastr.error(labels.alert.went_worng, 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-          }
-        });
-      }
+      // else if (this.data.mode === 'delete-allowedgroup') {
+      //   let pickLevelData = {
+      //     "wsid": "TESTWID",
+      //     "GroupName": this.data.allowedGroup,
+      //     "userName": "1234"
+      //   }
+      //   this.employeeService.deletePickLevels(pickLevelData).subscribe((res: any) => {
+      //     if (res.isExecuted) {
+      //       this.dialog.closeAll();
+      //       this.toastr.success(labels.alert.delete, 'Success!', {
+      //         positionClass: 'toast-bottom-right',
+      //         timeOut: 2000
+      //       });
+      //     } else {
+      //       this.dialog.closeAll();
+      //       this.toastr.error(labels.alert.went_worng, 'Error!', {
+      //         positionClass: 'toast-bottom-right',
+      //         timeOut: 2000
+      //       });
+      //     }
+      //   });
+      // }
       else if (this.data.mode === 'delete-location') {
 
         let locationData = {
@@ -152,7 +127,7 @@ export class DeleteConfirmationComponent implements OnInit {
         let groupData = {
           "wsid": "TESTWID",
           "GroupName": this.data.grp_data.groupName,
-          "userName": "1234"
+          "userName": this.data.userName
         }
         this.employeeService.deleteGroup(groupData).subscribe((res: any) => {
           if (res.isExecuted) {
@@ -174,7 +149,7 @@ export class DeleteConfirmationComponent implements OnInit {
         let groupData = {
           "wsid": "TESTWID",
           "GroupName": this.data.allowedGroup,
-          "userName": "1234"
+          "userName": this.data.userName
         }
         this.employeeService.deleteGroup(groupData).subscribe((res: any) => {
           if (res.isExecuted) {
@@ -196,8 +171,8 @@ export class DeleteConfirmationComponent implements OnInit {
 
         let payload = {
           "inventoryMapID": this.data.id,
-          "username": "1234",
-          "wsid": "TESTWID"
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
         }
         this.invMapService.deleteInventoryMap(payload).subscribe((res: any) => {
           if (res.isExecuted) {
@@ -218,7 +193,7 @@ export class DeleteConfirmationComponent implements OnInit {
       else if (this.data.mode === 'delete-emp') {
         let emp_data = {
           "userName": this.data.emp_data.username,
-          "deleteBy": "1234",
+          "deleteBy": this.userData.userName,
           "wsid": "TESTWSID"
         };
         this.employeeService.deleteAdminEmployee(emp_data).subscribe((res: any) => {

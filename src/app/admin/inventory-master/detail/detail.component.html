@@ -1,6 +1,6 @@
 <div class="row" [formGroup]="details">
                     
-    <div class="col-xl-9 col-lg-6">
+    <div class="col-xl-8">
       <div class="py-4 br-14">
         
         <div class="d-flex gap-20 mb-3">
@@ -98,9 +98,9 @@
       </div>
     </div>
 
-    <div class="col-xl-3 col-lg-6 main-widget">
+    <div class="col-xl-4 main-widget">
       <div class="custom bg-white bg-50 br-14 mb-3">
-        <div class="counter">
+        <div class="counter bg-tertiary-10">
           <div>
             <h6 class="text-tertiary-900"><b>Quantity</b></h6>
             <div class="d-flex gap-20 justify-content-center">
@@ -117,7 +117,7 @@
         </div>
       </div>
       <div class="custom bg-white bg-50 br-14">
-        <div class="counter">
+        <div class="counter bg-tertiary-10">
           <div>
             <h6 class="text-tertiary-900"><b>Allocated</b></h6>
             <div class="d-flex gap-20 justify-content-center">
@@ -134,28 +134,28 @@
         </div>
       </div>
       <div class="custom bg-white bg-50 br-14">
-        <div class="counter">
+        <div class="counter bg-tertiary-10">
           <div>
             <h6 class="text-tertiary-900"><b>Transaction</b></h6>
             <div class="d-flex gap-20 justify-content-center">
               <div class="employees text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['openCount'].value }}</p>
                 <p class="employee-p text-tertiary-900 mb-1">Open</p>
-                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
+                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md" >
                   View
                 </button>
               </div>
               <div class="customer text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['histCount'].value }}</p>
                 <p class="customer-p text-tertiary-900 mb-1">History</p>
-                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
+                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md" >
                   View
                 </button>
               </div>
               <div class="customer text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['procCount'].value }}</p>
                 <p class="customer-p text-tertiary-900 mb-1">Reprocess</p>
-                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900" >
+                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md" >
                   View
                 </button>
               </div>

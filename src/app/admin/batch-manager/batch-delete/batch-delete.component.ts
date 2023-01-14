@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, TemplateRef, ViewChild, Optional, Inject } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, TemplateRef, ViewChild, Optional, Inject, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { BatchManagerService } from '../batch-manager.service';
@@ -35,6 +35,13 @@ export class BatchDeleteComponent implements OnInit {
   @ViewChild('deleteAction') dltActionTemplate: TemplateRef<any>;
 
   @Output() transTypeEmitter = new EventEmitter<any>();
+  @Input()
+  set batchUpdater(batchUpdater: Event) {
+    if (batchUpdater) {
+      this.getBatch(this.transType);
+    }
+  }
+
 
   constructor(private dialog: MatDialog,
     private batchService: BatchManagerService,

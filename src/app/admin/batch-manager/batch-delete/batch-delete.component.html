@@ -6,10 +6,10 @@
         <h2 class="card-header-title mb-0 d-flex align-items-center">
           <div class="mat-icon-wrap me-lg-3">
             <span class="material-symbols-outlined">
-              dashboard
+              list_alt
             </span>
           </div>
-          <span>Batch</span>
+          <span>Batch Manager Control</span>
         </h2>
       </div>
     </div>
@@ -30,7 +30,7 @@
 
           <div class=" col-3">
             <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
-              <mat-label>Current Pick Mode</mat-label>
+              <mat-label>Location No.</mat-label>
               <input matInput disabled class="" value="Pick and Pass" type="text">
             </mat-form-field>
           </div>
@@ -44,8 +44,8 @@
             </mat-form-field>
           </div>
 
-          <div class="col-3 justify-content-end">
-            <button mat-stroked-button color="warn" class="button-remove-all bg-white"
+          <div class="col-3 d-flex  justify-content-center ">
+            <button mat-stroked-button color="warn" class="button-remove-all bg-white button custom-button-width"
               (click)="deleteBatch(transType, batchID)">
               <mat-icon>delete_outline</mat-icon>
               Delete

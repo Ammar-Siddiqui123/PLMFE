@@ -16,7 +16,7 @@ export class ItemNumberComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {  
-    console.log(this.data)
+    // console.log(this.data)
     if (this.data.addItem) {
       this.addItem = true;
     } else {

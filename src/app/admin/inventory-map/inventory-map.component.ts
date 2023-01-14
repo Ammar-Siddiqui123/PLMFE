@@ -9,6 +9,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { takeUntil } from 'rxjs/internal/operators/takeUntil';
+import { Subject } from 'rxjs/internal/Subject';
+import { SpinnerService } from '../../../app/init/spinner.service';
 import { AuthService } from '../../init/auth.service';
 import { AddInvMapLocationComponent } from '../dialogs/add-inv-map-location/add-inv-map-location.component';
 import { AdjustQuantityComponent } from '../dialogs/adjust-quantity/adjust-quantity.component';
@@ -62,6 +65,7 @@ const INVMAP_DATA = [
   styleUrls: ['./inventory-map.component.scss']
 })
 export class InventoryMapComponent implements OnInit {
+  onDestroy$: Subject<boolean> = new Subject();
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto' as FloatLabelType);
 
@@ -112,7 +116,8 @@ export class InventoryMapComponent implements OnInit {
     private authService: AuthService,
     private invMapService: InventoryMapService,
     private toastr: ToastrService, 
-    private router: Router
+    private router: Router,
+    private loader: SpinnerService
   ) {
 
 
@@ -139,7 +144,7 @@ export class InventoryMapComponent implements OnInit {
 
     this.initializeApi();
     this.getColumnsData();
-  //  this.getContentData();
+   //  this.getContentData();
 
 
 
@@ -178,12 +183,8 @@ export class InventoryMapComponent implements OnInit {
    }
   }
   getColumnsData(){
- //   this.displayedColumns = [];
-    
-    this.invMapService.getSetColumnSeq(this.userData.userName, this.userData.wsid).subscribe((res: any) => {
-       
-     this.displayedColumns = INVMAP_DATA;
-     //this.displayedColumns.unshift({ colHeader: "", colDef: "" });
+    this.seqColumn.getSetColumnSeq().pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
+      this.displayedColumns = INVMAP_DATA;
 
       if(res?.data?.columnSequence){
         this.columnValues =  res.data?.columnSequence ;
@@ -199,8 +200,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   getContentData(){
-    this.invMapService.getInventoryMap(this.payload).subscribe((res: any) => {
-       
+    this.invMapService.getInventoryMap(this.payload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
       this.itemList =  res.data?.inventoryMaps?.map((arr => {
         return {'itemNumber': arr.itemNumber, 'desc': arr.description}
       }))
@@ -213,10 +213,6 @@ export class InventoryMapComponent implements OnInit {
     });
   }
 
-  invMapTable(){
-    
-  }
-
   addLocDialog() { 
     let dialogRef = this.dialog.open(AddInvMapLocationComponent, {
       height: '750px',
@@ -226,7 +222,7 @@ export class InventoryMapComponent implements OnInit {
         itemList : this.itemList
       }
     })
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
       this.getContentData();
     })
   }
@@ -239,10 +235,7 @@ export class InventoryMapComponent implements OnInit {
           mode: actionEvent.value,
         }
       })
-      dialogRef.afterClosed().subscribe(result => {
-    //    
-        // const matSelect: MatSelect = actionEvent.source;
-        // matSelect.writeValue(null);
+      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
         this.getColumnsData();
       })
     }
@@ -259,8 +252,8 @@ export class InventoryMapComponent implements OnInit {
     const dialogRef = this.dialog.open(this.customTemplate, {
        width: '400px'
     });
-    dialogRef.afterClosed().subscribe(() => {
-
+    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+      console.log('The dialog was closed');
     });
   }
 
@@ -280,7 +273,7 @@ export class InventoryMapComponent implements OnInit {
         detailData : event
       }
     })
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
       this.getContentData();
     })
   }
@@ -292,10 +285,10 @@ export class InventoryMapComponent implements OnInit {
       data: {
         mode: 'delete-inventory-map',
         id: event.invMapID
-     //   grp_data: grp_data
+      //  grp_data: grp_data
       }
     })
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
 
       this.getContentData();
     })
@@ -313,7 +306,7 @@ export class InventoryMapComponent implements OnInit {
      //   grp_data: grp_data
       }
     })
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
       this.getContentData();
     })
   }
@@ -329,7 +322,7 @@ export class InventoryMapComponent implements OnInit {
      //   grp_data: grp_data
       }
     })
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
       this.getContentData();
     })
   }
@@ -342,7 +335,7 @@ export class InventoryMapComponent implements OnInit {
         id: event.invMapID
       }
     })
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
       this.getContentData();
     })
   }
@@ -363,7 +356,7 @@ export class InventoryMapComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.invMapService.getSearchData(searchPayload).subscribe((res: any) => {
+    this.invMapService.getSearchData(searchPayload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
       if(res.data){
         this.searchAutocompleteList = res.data;
       }
@@ -401,8 +394,16 @@ export class InventoryMapComponent implements OnInit {
     return this.floatLabelControl.value || 'auto';
   }
 
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.unsubscribe();
+  }
   compareObjects(o1: any, o2: any): boolean {
     return o1.colDef === o2.colDef && o1.colHeader === o2.colHeader;
   }
+  
+  isAuthorized(controlName:any) {
+    return !this.authService.isAuthorized(controlName);
+ }
 
 }
