@@ -90,11 +90,11 @@ export class InventoryMasterComponent implements OnInit {
       procCount: [  this.getInvMasterData?.procCount || 0, [Validators.required]],
       
 
-      primaryPickZone: [  this.getInvMasterData?.primaryPickZone || '', [Validators.required]],
-      secondaryPickZone: [  this.getInvMasterData?.secondaryPickZone || '', [Validators.required]],
-      caseQuantity: [  this.getInvMasterData?.caseQuantity || 0, [Validators.required]],
-      pickFenceQuantity: [  this.getInvMasterData?.pickFenceQuantity || 0, [Validators.required]],
-      pickSequence: [  this.getInvMasterData?.pickSequence || 0, [Validators.required]],
+      primaryPickZone: [  this.getInvMasterData?.primaryPickZone.toLowerCase() || '', [Validators.required]],
+      secondaryPickZone: [  this.getInvMasterData?.secondaryPickZone.toLowerCase() || '', [Validators.required]],
+      caseQuantity: [  this.getInvMasterData?.caseQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      pickFenceQuantity: [  this.getInvMasterData?.pickFenceQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      pickSequence: [  this.getInvMasterData?.pickSequence || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
 
       dateSensitive: [  this.getInvMasterData?.dateSensitive || false, [Validators.required]],
       warehouseSensitive: [  this.getInvMasterData?.warehouseSensitive || false, [Validators.required]],
@@ -103,21 +103,21 @@ export class InventoryMasterComponent implements OnInit {
       fifo: [  this.getInvMasterData?.fifo || false, [Validators.required]],
       fifoDate: [  this.getInvMasterData?.fifoDate || '', [Validators.required]],
 
-      bulkCellSize: [  this.getInvMasterData?.bulkCellSize || "0", [Validators.required]],
-      cellSize: [  this.getInvMasterData?.cellSize || "0", [Validators.required]],
-      cfCellSize: [ this.getInvMasterData?.cfCellSize || 0, [Validators.required]],
+      bulkCellSize: [  this.getInvMasterData?.bulkCellSize || "0", [Validators.required, Validators.maxLength(50)]],
+      cellSize: [  this.getInvMasterData?.cellSize || "0", [Validators.required, Validators.maxLength(50)]],
+      cfCellSize: [ this.getInvMasterData?.cfCellSize || 0, [Validators.required, Validators.maxLength(50)]],
 
       goldenZone: [  this.getInvMasterData?.goldenZone || "0", [Validators.required]],
       bulkVelocity: [  this.getInvMasterData?.bulkVelocity || 0, [Validators.required]],
       cfVelocity: [  this.getInvMasterData?.cfVelocity || 0, [Validators.required]],
 
-      minimumQuantity: [  this.getInvMasterData?.minimumQuantity || 0, [Validators.required]],
-      bulkMinimumQuantity: [  this.getInvMasterData?.bulkMinimumQuantity || 0, [Validators.required]],
-      cfMinimumQuantity: [  this.getInvMasterData?.cfMinimumQuantity || 0, [Validators.required]],
+      minimumQuantity: [  this.getInvMasterData?.minimumQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      bulkMinimumQuantity: [  this.getInvMasterData?.bulkMinimumQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      cfMinimumQuantity: [  this.getInvMasterData?.cfMinimumQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
 
-      maximumQuantity: [  this.getInvMasterData?.maximumQuantity || 0, [Validators.required]],
-      bulkMaximumQuantity: [  this.getInvMasterData?.bulkMaximumQuantity || 0, [Validators.required]],
-      cfMaximumQuantity: [ this.getInvMasterData?.cfMaximumQuantity || 0, [Validators.required]],
+      maximumQuantity: [  this.getInvMasterData?.maximumQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      bulkMaximumQuantity: [  this.getInvMasterData?.bulkMaximumQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      cfMaximumQuantity: [ this.getInvMasterData?.cfMaximumQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
 
       kitInventories: [  this.getInvMasterData?.kitInventories || '', [Validators.required]],
 
@@ -750,6 +750,7 @@ export class InventoryMasterComponent implements OnInit {
     this.currentPageItemNo = e;
     this.getInventory();
   }
+
 
 
 }

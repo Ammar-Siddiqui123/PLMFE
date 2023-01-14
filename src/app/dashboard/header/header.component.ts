@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
           value:'/'+element
         })
       });
-      debugger
+      
       }
       // console.log(val instanceof NavigationEnd) 
   });

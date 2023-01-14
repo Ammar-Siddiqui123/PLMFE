@@ -102,7 +102,7 @@ export class KitItemComponent implements OnInit {
       width: '450px',
     });
     dialogRef.afterClosed().subscribe((x) => {
-      debugger
+      
       if(x){
         e.itemNumber= this.dialogitemNumber;
         e.description= this.dialogDescription;
@@ -115,7 +115,7 @@ export class KitItemComponent implements OnInit {
       width: '450px',
     });
     dialogRef.afterClosed().subscribe((x) => {
-      debugger
+      
       if(x){
         e.description= this.dialogDescription
     }

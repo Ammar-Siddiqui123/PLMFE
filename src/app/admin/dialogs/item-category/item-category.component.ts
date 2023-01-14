@@ -41,7 +41,7 @@ export class ItemCategoryComponent implements OnInit {
   }
 
   saveCategory(category : any, oldCat : any, subCategory : any, oldSubCat : any) {
-    debugger
+  
     if(category && subCategory){
       let paylaod = {      
         "category": category,

@@ -15,7 +15,7 @@
         <div class="col-md-4 mb-3">
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Secondary Zone</mat-label>
-            <mat-select formControlName="secondaryPickZone">
+            <mat-select formControlName="secondaryPickZone" [disabled]="this.itemSetup.controls['primaryPickZone'].value == '' ">
               <mat-option value="carousel">Carousel</mat-option>
               <mat-option value="bulk">Bulk</mat-option>
               <mat-option value="carton flow">Carton Flow</mat-option>
@@ -25,19 +25,19 @@
         <div class="col-md-4 mb-3">
           <mat-form-field class="filter w-100 stats-filters" appearance="outline">
             <mat-label>Case Quantity</mat-label>
-            <input matInput type="number" class="custom-input-number" formControlName="caseQuantity">
+            <input matInput type="number" class="custom-input-number" formControlName="caseQuantity" maxlength="9">
           </mat-form-field>
         </div>
         <div class="col-md-4 mb-3">
           <mat-form-field class="filter w-100 stats-filters" appearance="outline">
             <mat-label>Pick Fence Qty</mat-label>
-            <input matInput type="number" class="custom-input-number" formControlName="pickFenceQuantity">
+            <input matInput type="number" class="custom-input-number" formControlName="pickFenceQuantity" maxlength="9">
           </mat-form-field>
         </div>
         <div class="col-md-4 mb-3">
           <mat-form-field class="filter w-100 stats-filters" appearance="outline">
             <mat-label>Pick Sequence</mat-label>
-            <input matInput type="number" class="custom-input-number" formControlName="pickSequence">
+            <input matInput type="number" class="custom-input-number" formControlName="pickSequence" maxlength="9">
           </mat-form-field>
         </div>
       </div>
@@ -76,7 +76,7 @@
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openCellSizeDialog('cellSize')">
             <mat-label>Carousel</mat-label>
-            <input matInput type="text" formControlName="cellSize">
+            <input matInput type="text" formControlName="cellSize" maxlength="50">
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
@@ -85,7 +85,7 @@
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openCellSizeDialog('bulkCellSize')">
             <mat-label>Bulk</mat-label>
-            <input matInput type="text" formControlName="bulkCellSize">
+            <input matInput type="text" formControlName="bulkCellSize"  maxlength="50">
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
@@ -94,7 +94,7 @@
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" (click)="openCellSizeDialog('cfCellSize')">
             <mat-label>Carton Flow</mat-label>
-            <input matInput type="text" formControlName="cfCellSize">
+            <input matInput type="text" formControlName="cfCellSize"  maxlength="50">
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
@@ -141,19 +141,19 @@
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Carousel</mat-label>
-            <input matInput type="text" formControlName="minimumQuantity">
+            <input matInput type="text" formControlName="minimumQuantity"  maxlength="9" (change)="cellQuantityChange()">
           </mat-form-field>
         </div>
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Bulk</mat-label>
-            <input matInput type="text" formControlName="bulkMinimumQuantity">
+            <input matInput type="text" formControlName="bulkMinimumQuantity" maxlength="9" (change)="cellQuantityChange()">
           </mat-form-field>
         </div>
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Carton Flow</mat-label>
-            <input matInput type="text" formControlName="cfMinimumQuantity">
+            <input matInput type="text" formControlName="cfMinimumQuantity" maxlength="9" (change)="cellQuantityChange()">
           </mat-form-field>
         </div>
       </div>
@@ -165,19 +165,19 @@
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" >
             <mat-label>Carousel</mat-label>
-            <input matInput type="text" formControlName="maximumQuantity">
+            <input matInput type="text" formControlName="maximumQuantity" maxlength="9" (change)="cellQuantityChange()">
           </mat-form-field>
         </div>
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Bulk</mat-label>
-            <input matInput type="text" formControlName="bulkMaximumQuantity">
+            <input matInput type="text" formControlName="bulkMaximumQuantity" maxlength="9" (change)="cellQuantityChange()">
           </mat-form-field>
         </div>
         <div class="col-md-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Carton Flow</mat-label>
-            <input matInput type="text" formControlName="cfMaximumQuantity">
+            <input matInput type="text" formControlName="cfMaximumQuantity" maxlength="9" (change)="cellQuantityChange()">
           </mat-form-field>
         </div>
       </div>
