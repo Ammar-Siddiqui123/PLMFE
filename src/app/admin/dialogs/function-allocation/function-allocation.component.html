@@ -25,14 +25,14 @@
         </ng-template>
       </ng-container> -->
 
-      <h6 class="text-primary my-3 {{btn_label == 'Add' ? 'text-primary' : 'text-danger'}}">{{btn_label == 'Add' ? 'Selected employees functions will be added once done' : 'This action can not be redone'}}</h6>
+      <h6 class="text-primary my-3 mb-5 {{btn_label == 'Add' ? 'text-primary' : 'text-danger'}}">{{btn_label == 'Add' ? 'Selected employees functions will be added once done' : 'This action can not be redone'}}</h6>
 
     </div>
   </mat-dialog-content>
-  <mat-dialog-actions class="d-flex flex-column justify-content-center">
-    <button [ngClass]="{'prompt-action-accent-button' : btn_label == 'Add', 'prompt-action-danger-button' : btn_label == 'Remove' }" class="mat-button-base  mb-3" mat-stroked-button mat-button
+  <mat-dialog-actions class="d-flex flex-column justify-content-center m-0 p-0">
+    <button [ngClass]="{'prompt-action-accent-button' : btn_label == 'Add', 'prompt-action-danger-button' : btn_label == 'Remove' }" class="mat-button-base btn-lg w-100 mb-3" mat-stroked-button mat-button
       (click)="onConfirmAdd()" tabindex="1">{{btn_label}}</button>
-    <button class="mat-button-base prompt-action-basic-button" mat-button mat-dialog-close
+    <button class="mat-button-base prompt-action-basic-button btn-lg w-100" mat-button mat-dialog-close
       tabindex="-1">Close</button>
   </mat-dialog-actions>
 </div>

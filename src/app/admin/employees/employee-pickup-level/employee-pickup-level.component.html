@@ -7,7 +7,7 @@
       <div class="card-body">
         <div class="p-2">
           <div class="search-box zone-search-box">
-            <div class="d-flex g-mini-search-box">
+            <div class="d-flex g-mini-search-box mb-3">
               <mat-form-field class="w-100" appearance="fill">
                 <span class="material-symbols-outlined icon-search">
                   search
@@ -27,6 +27,7 @@
                 Remove All
               </button>
             </div> -->
+            <div class="card table-responsive">
             <table mat-table [dataSource]="pickup_level_data_source" matSort
               (matSortChange)="announceSortChange($event)" class="w-100 g-card-table employee-pick-level-table table-minimal-action-buttons">
 
@@ -53,12 +54,12 @@
 
 
               <ng-container matColumnDef="edit">
-                <th width="20%" mat-header-cell *matHeaderCellDef>Action</th>
-                <td width="20%" mat-cell *matCellDef="let element">
+                <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action</th>
+                <td width="20%" class="text-center" mat-cell *matCellDef="let element">
                   <button mat-icon-button aria-label="Delete" (click)="deletePickLevel(element)">
                     <mat-icon class="icon-circle-cancel">close</mat-icon>
                   </button>
-                  <button mat-icon-button aria-label="Edit" (click)="editPickLevel(element)">
+                  <button class="me-0"mat-icon-button aria-label="Edit" (click)="editPickLevel(element)">
                     <mat-icon class="icon-circle-edit">border_color</mat-icon>
                   </button>
                 </td>
@@ -71,6 +72,7 @@
               <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+          </div>
           </div>
         </div>
       </div>

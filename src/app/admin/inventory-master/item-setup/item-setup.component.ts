@@ -23,7 +23,7 @@ export class ItemSetupComponent implements OnInit {
 
   public openCellSizeDialog(param) {
     let dialogRef = this.dialog.open(CellSizeComponent, {
-      height: '500px',
+      height: 'auto',
       width: '750px',
       data: {
         mode: '',
@@ -50,7 +50,7 @@ export class ItemSetupComponent implements OnInit {
   }
   public openVelocityCodeDialog(param) {
     let dialogRef = this.dialog.open(VelocityCodeComponent, {
-      height: '500px',
+      height: 'auto',
       width: '750px',
       data: {
         mode: '',

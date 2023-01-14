@@ -1,8 +1,11 @@
-<h1 mat-dialog-title>{{form_heading}}</h1>
-<button mat-icon-button class="close-button dialog-close-button br-14" [mat-dialog-close]="true">
+<div class="d-flex justify-content-between mb-4 align-items-center">
+    <div style="width:48px"></div>
+<h1 class="m-0" mat-dialog-title>{{form_heading}}</h1>
+<button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
     <mat-icon class="close-icon">close</mat-icon>
 </button>
-<div class="container">
+</div>
+<div>
     <div mat-dialog-content>
 
         <form class="form pb-4" #zoneForm="ngForm" (ngSubmit)="onSend(zoneForm)">
@@ -20,7 +23,7 @@
             </mat-form-field>
             <mat-dialog-actions align="end">
                 <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->
-                <button type="submit" mat-flat-button class="form-button-submit"
+                <button type="submit" mat-flat-button class="form-button-submit btn-lg w-100"
                     color="primary">{{form_btn_label}}</button>
             </mat-dialog-actions>
 

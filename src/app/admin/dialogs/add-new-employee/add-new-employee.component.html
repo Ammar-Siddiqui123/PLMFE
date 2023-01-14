@@ -1,8 +1,18 @@
-<h1 mat-dialog-title>{{form_heading}}</h1>
-<button mat-icon-button class="close-button dialog-close-button br-14" [mat-dialog-close]="true">
+<div class="d-flex justify-content-between mb-4 align-items-center">
+  <div style="width:48px"></div>
+<h1 class="m-0" mat-dialog-title>{{form_heading}}</h1>
+<button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
   <mat-icon class="close-icon">close</mat-icon>
 </button>
-<div mat-dialog-content>
+</div>
+<!-- Error message FOR DEV USE-->
+        <!-- <div class="label-red p-3 d-flex br-8 mb-3">
+            <mat-icon class="material-symbols-outlined">notification_important</mat-icon>
+            <span class="ps-2 w-100">Location scan verify failed. Please scan valid location.</span>
+        </div> -->
+<!-- <div mat-dialog-content> -->
+  <ng-scrollbar style="height: 400px;">
+    <div class="px-3">
 
   <form #employeeForm="ngForm" (ngSubmit)="onSend(employeeForm)">
 
@@ -53,8 +63,10 @@
     </mat-form-field>
 
     <mat-dialog-actions align="end">
-      <button type="submit" mat-flat-button class="form-button-submit" color="primary">{{form_btn_label}}</button>
+      <button type="submit" mat-flat-button class="form-button-submit btn-lg w-100" color="primary">{{form_btn_label}}</button>
     </mat-dialog-actions>
 
   </form>
 </div>
+</ng-scrollbar>
+<!-- </div> -->
