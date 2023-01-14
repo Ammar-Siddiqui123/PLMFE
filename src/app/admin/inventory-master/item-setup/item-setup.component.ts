@@ -31,6 +31,7 @@ export class ItemSetupComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
+      if(result){
       if(param == 'cellSize'){
         this.itemSetup.patchValue({
           'cellSize' : result
@@ -44,6 +45,7 @@ export class ItemSetupComponent implements OnInit {
           'cfCellSize' : result
         });
       }
+    }
 
 
     })
@@ -59,6 +61,7 @@ export class ItemSetupComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
   
+      if(result){
       if(param == 'goldenZone'){
         this.itemSetup.patchValue({
           'goldenZone' : result
@@ -73,7 +76,10 @@ export class ItemSetupComponent implements OnInit {
         });
       }
 
+    }
     })
+
+    
   }
 
 

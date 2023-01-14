@@ -34,7 +34,7 @@ export class ItemCategoryComponent implements OnInit {
   }
 
   addCatRow(row : any){
-    this.category_list.push({
+    this.category_list.unshift({
       category : "",
       subCategory: ""
   });
@@ -42,7 +42,19 @@ export class ItemCategoryComponent implements OnInit {
 
   saveCategory(category : any, oldCat : any, subCategory : any, oldSubCat : any) {
   
-    if(category && subCategory){
+    let cond = true;
+    this.category_list.forEach(element => {
+      if(element.category == category ) {
+        cond = false;
+       this.toastr.error('Already Exists', 'Error!', {
+         positionClass: 'toast-bottom-right',
+         timeOut: 2000
+       });
+       return;
+      }   
+    });
+
+    if(category && subCategory && cond){
       let paylaod = {      
         "category": category,
         "oldCategory": oldCat.toString(),
@@ -85,6 +97,8 @@ export class ItemCategoryComponent implements OnInit {
         });
       }
     });
+  } else {
+    this.category_list.shift();
   }
   }
 
