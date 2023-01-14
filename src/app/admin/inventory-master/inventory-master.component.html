@@ -9,10 +9,10 @@
               <h2 class="card-header-title mb-0 d-flex align-items-center">
                 <div class="mat-icon-wrap me-lg-3">
                   <span class="material-symbols-outlined">
-                    dashboard
+                    manage_search
                   </span>
                 </div>
-                <span>Inventory</span>
+                <span>Item Number Lookup</span>
               </h2>
               </div>
               <div class="d-flex align-items-center gap-12">
@@ -112,14 +112,14 @@
           <button mat-stroked-button color="danger" class=" button-warn btn-lg" (click)="deleteItem($event)" [disabled]="!(this.currentPageItemNo)">
             Delete
           </button>
-          <button *ngIf="invMaster.controls['itemQuarantined'].value == 0" mat-flat-button color="secondary" class="button-secondary btn-lg" (click)="openAddItemDialog()">
+          <button mat-flat-button color="secondary" class="button-secondary btn-lg" (click)="openAddItemDialog()">
            Add New Item
           </button>
           <button *ngIf="invMaster.controls['itemQuarantined'].value == 0" mat-flat-button color="secondary" class="button-secondary btn-lg" (click)="quarantineDialog()">
             Quarantine Item
           </button>
           <button *ngIf="invMaster.controls['itemQuarantined'].value == 1" mat-stroked-button color="primary" class="button-primary-o bg-white btn-lg" (click)="unquarantineDialog()">
-            Unquarantine Item
+            Un-Quarantine Item
           </button>
           <button style="flex:1" mat-flat-button color="primary" class="button-primary btn-lg" (click)="updateInventoryMaster()">
             Save
@@ -150,4 +150,24 @@
             </div>
         </div>
     </div>
+</ng-template>
+<ng-template #UNquarantineAction>
+  <div class="d-flex flex-column align-items-center justify-content-center text-center py-4">
+      <div color="warn" class="circle-icon circle-66 circle-danger mb-4">
+          <mat-icon color="warn">vpn_lock</mat-icon>
+      </div>
+      <div>
+          <p class="bold text-tritary-900 mb-4">Are you sure you want to Un-quarantine</p>
+          <div class="mb-3">
+              <button mat-flat-button color="warn" class="custom-btn button-delete-flat bg-white w-100 btn-lg" [mat-dialog-close]="true">
+                  Un-Quarantine
+              </button>
+          </div>
+          <div>
+              <button mat-stroked-button color="basic" class="custom-btn bg-white w-100 btn-lg" [mat-dialog-close]="false">
+                  Cancel
+              </button>
+          </div>
+      </div>
+  </div>
 </ng-template>

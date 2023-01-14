@@ -53,6 +53,7 @@ export class InventoryMasterComponent implements OnInit {
    // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
     ) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
+  @ViewChild('UNquarantineAction') unquarantineTemp: TemplateRef<any>;
   invMaster: FormGroup;
 
 
@@ -684,7 +685,7 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   unquarantineDialog(): void {
-    const dialogRef = this.dialog.open(this.quarantineTemp, {
+    const dialogRef = this.dialog.open(this.unquarantineTemp, {
       width: '450px'
     });
     dialogRef.afterClosed().subscribe((x) => {
