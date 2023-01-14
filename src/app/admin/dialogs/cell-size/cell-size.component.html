@@ -1,17 +1,10 @@
 <div class="d-flex justify-content-between mb-4 align-items-center">
-    <div style="width:48px"></div>
 <h1 class="m-0" mat-dialog-title>Cell Sizes - Add, Delete, Edit and Set</h1>
 <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="false">
     <mat-icon class="close-icon">close</mat-icon>
 </button>
 </div>
-<div class="d-flex gap-12 my-4 justify-content-end">
-    <button mat-flat-button color="primary" class="add-icon-button" (click)="addczRow($event)">
-      <span class="material-symbols-outlined">
-        add
-      </span>
-    </button>
-  </div>
+
 <div class="warehouse">
     <div class="card w-100">
         <div class="card-header">
@@ -21,6 +14,15 @@
                 </div>
             </div>
         </div>
+
+        <div class="d-flex gap-12 my-4 justify-content-end" style="padding-right: 25px;">
+            <button mat-flat-button color="primary" class="add-icon-button" (click)="addczRow($event)">
+              <span class="material-symbols-outlined">
+                add
+              </span>
+            </button>
+          </div>
+
         <ng-scrollbar style="height: 250px;">
         <div class="card-body" >
             <!-- <div class="d-flex justify-content-end">
@@ -30,7 +32,7 @@
                 </button>
             </div> -->
             <ng-container *ngFor="let cell of cellsize_list;let i = index">
-                <div class="row mb-3 align-items-center">
+                <div class="row mb-3 align-items-center" style="justify-content: space-evenly;">
                     <div class="col-1">
                         <mat-radio-button value="{{cell.cells}}" color="primary" (change)="selectCellSize(sigleCell.value)">
                         </mat-radio-button>
@@ -45,16 +47,16 @@
                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="{{cell.cellTypes}}" #cellType maxlength="50">
                         </mat-form-field>
                     </div>
-                    <div class="col-1"><button style="color:#DE2654;"
+          
+                        <button mat-flat-button color="warn" class="sm-icon-button"
                             (click)="dltCellSize(sigleCell.value,i);">
-                            <mat-icon>cancel</mat-icon>
+                            <span class="material-symbols-outlined">close</span>
                         </button>
-                    </div>
-                    <div class="col-1">
-                        <button style="color:#000080;" (click)="saveCellSize(sigleCell.value, cellType.value, i)">
-                            <mat-icon>save</mat-icon>
+               
+                        <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveCellSize(sigleCell.value, cellType.value, i)">
+                            <span class="material-symbols-outlined">save</span>
                         </button>
-                    </div>
+                  
                 </div>
             </ng-container>
         </div>
@@ -97,8 +99,7 @@
             </div>
         </ng-container>
     </div> -->
-    <mat-dialog-actions align="end">
-        <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->
+    <!-- <mat-dialog-actions align="end">
         <button type="button" (click)="clearCellSize()" mat-stroked-button class="form-button-submit btn-lg w-100" color="warning">Clear Cell Size</button>
-    </mat-dialog-actions>
+    </mat-dialog-actions> -->
 </div>
