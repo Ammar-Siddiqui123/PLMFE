@@ -55,7 +55,7 @@ export class AssignedFunctionsComponent implements OnInit {
     // console.log("value: ", permData)
     let dialogRef = this.dialog.open(FunctionAllocationComponent, {
       height: 'auto',
-      width: '480px',
+      width: '560px',
       data: {
         target: 'unassigned',
         function: permData
