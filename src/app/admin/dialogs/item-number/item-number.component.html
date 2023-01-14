@@ -3,7 +3,7 @@
     <div style="width: 48px;"></div>
     <h1 class="m-0" mat-dialog-title>{{ addItem ? 'Add New Item' : 'Edit Item Number'}}</h1>
 
-    <button mat-icon-button class="close-button dialog-close-button-fix"  [mat-dialog-close]="true">
+    <button mat-icon-button class="close-button dialog-close-button-fix"  [mat-dialog-close]="false">
         <mat-icon class="close-icon">close</mat-icon>
     </button>
 </div>
@@ -24,7 +24,7 @@
             </mat-form-field>
         </div>
         <div class="d-flex justify-content-end pt-3">
-            <button style="flex:1" mat-flat-button color="primary" class="button-primary btn-lg"[mat-dialog-close]="data.newItemNumber" cdkFocusInitial>Save</button>
+            <button style="flex:1" mat-flat-button color="primary" class="button-primary btn-lg" (click)="onNoClick(true, 'update')" cdkFocusInitial>Save</button>
         </div>
         
     </div>
@@ -46,7 +46,7 @@
             <div class="error" *ngIf="submit && !data.desc">This field is required.</div>
         </div>
         <div class="d-flex justify-content-end pt-3">
-        <button style="flex:1" mat-flat-button color="primary" class="button-primary btn-lg" (click)="onNoClick(true)"  cdkFocusInitial>Add Item</button>
+        <button style="flex:1" mat-flat-button color="primary" class="button-primary btn-lg" (click)="onNoClick(true, 'createNew')"  cdkFocusInitial>Add Item</button>
     </div>
     </div>
 
