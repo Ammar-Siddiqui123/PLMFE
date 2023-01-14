@@ -75,7 +75,7 @@ export class EmployeePickupLevelComponent implements OnInit {
     let dialogRef;
     dialogRef = this.dialog.open(AddPickuplevelsComponent, {
       height: 'auto',
-      width: '480px',
+      width: '560px',
       data:{
         nextPickLvl:this.nextPickLvl,
         userName:this.grp_data

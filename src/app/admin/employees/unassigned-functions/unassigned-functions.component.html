@@ -9,14 +9,23 @@
           aria-label="Search Unassigned Function"  matInput (keyup)="applyFilter($event)">
       </mat-form-field>
     </div>
-    <div class="d-flex align-items-center justify-content-between  box-bottom-hr pb-4">
+    <!-- <div class="d-flex align-items-center justify-content-between  box-bottom-hr pb-4">
       <p class="mb-0"><strong>Unassigned</strong></p>
       <button mat-stroked-button color="primary" class="button-add-all" (click)="assignFunction(unassignedFunctions)">
         <mat-icon>add</mat-icon>
         Add All
       </button>
-    </div>
-    <mat-list class="zones-list g-card-list" role="list">
+    </div> -->
+
+    <button mat-stroked-button color="primary" class="button-add-all w-100 mb-3" (click)="assignFunction(unassignedFunctions)">
+      Add All
+    </button>
+    <div class="card w-100">
+      <div class="card-header text-center">
+        Unassigned
+      </div>
+      <div class="card-body">
+    <mat-list class="zones-list g-card-list list-style-1" role="list">
       <ng-scrollbar *ngIf="!filterValue" style="height: 280px">
         <mat-list-item role="listitem"  *ngFor="let groupname of unassignedFunctions">
           <span class="list-label zone-list-label">
@@ -40,6 +49,8 @@
       </ng-scrollbar>
 
     </mat-list>
+  </div>
+  </div>
   </div>
 
 </div>
