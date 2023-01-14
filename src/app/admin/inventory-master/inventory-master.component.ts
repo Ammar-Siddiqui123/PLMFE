@@ -152,6 +152,9 @@ export class InventoryMasterComponent implements OnInit {
       username: [  this.userData?.userName || '' , [Validators.required]],
 
       itemQuarantined:  [  this.getInvMasterData?.itemQuarantined || '', [Validators.required]],
+
+
+      supplierName: ['']
     });
 
 
@@ -742,7 +745,8 @@ export class InventoryMasterComponent implements OnInit {
 
     this.searchValue = '';
   }
-  getNotification(e: any){
+  getNotification(e: any, ){
+    this.currentPageItemNo = e;
     this.getInventory();
   }
 

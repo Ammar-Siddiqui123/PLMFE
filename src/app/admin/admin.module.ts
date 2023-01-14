@@ -75,6 +75,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { UpdateDescriptionComponent } from './dialogs/update-description/update-description.component';
 import { CreateBatchConfirmationComponent } from './dialogs/create-batch-confirmation/create-batch-confirmation.component';
 import { CreateBatchComponent } from './dialogs/create-batch/create-batch.component';
+import { ItemNumUpdateConfirmationComponent } from './dialogs/item-num-update-confirmation/item-num-update-confirmation.component';
 
 
 
@@ -146,7 +147,8 @@ import { CreateBatchComponent } from './dialogs/create-batch/create-batch.compon
     CloneGroupComponent,
     UpdateDescriptionComponent,
     CreateBatchConfirmationComponent,
-    CreateBatchComponent
+    CreateBatchComponent,
+    ItemNumUpdateConfirmationComponent
 
   ],
   imports: [
