@@ -95,7 +95,7 @@ export class AddLocationComponent implements OnInit {
       this.employeeService.insertEmployeeLocation(payload).subscribe((res:any) => {
         if(res.isExecuted){
           this.dialog.closeAll();
-          this.toastr.success(labels.alert.update, 'Success!',{
+          this.toastr.success(labels.alert.success, 'Success!',{
             positionClass: 'toast-bottom-right',
             timeOut:2000
          });

@@ -101,7 +101,7 @@
                                       search
                                     </span>
                                     <input type="text" placeholder="Search Zones" aria-label="Search zone-search-box" matInput
-                                      (keyup)="zoneFilter($event)">
+                                      (keyup)="zoneFilter($event)" maxlength="2">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="addZoneDialog()" [disabled]="!isLookUp">
@@ -112,7 +112,7 @@
                                 </div>
                                 <div class="card br-14 table-responsive my-3">
                                 <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
-                                  <table mat-table [dataSource]="employee_fetched_zones" matSort
+                                  <table mat-table [dataSource]="employee_fetched_zones" matSort #zoneDataRefresh
                                     (matSortChange)="announceSortChange($event)" class="g-card-table table-minimal-action-buttons">
 
                                     <!-- <tr class="mat-row" *matNoDataRow>
@@ -132,9 +132,9 @@
                                         <button class="me-0" mat-icon-button aria-label="Delete" (click)="deleteZone(element)">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
                                         </button>
-                                        <!-- <button mat-icon-button aria-label="Edit">
+                                        <button mat-icon-button aria-label="Edit" (click)="editZoneDialog(element)">
                                           <mat-icon class="icon-circle-edit">border_color</mat-icon>
-                                        </button> -->
+                                        </button>
 
                                       </td>
                                     </ng-container>

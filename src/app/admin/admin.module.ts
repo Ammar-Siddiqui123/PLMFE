@@ -14,7 +14,7 @@ import { EmployeePickupLevelComponent } from './employees/employee-pickup-level/
 import { GroupsAllowedComponent } from './employees/groups-allowed/groups-allowed.component';
 import { GroupsLookupComponent } from './employees/groups-lookup/groups-lookup.component';
 import { AssignedFunctionsComponent } from './employees/assigned-functions/assigned-functions.component';
-import { UnassignedFunctionsComponent } from './employees/unassigned-functions/unassigned-functions.component';
+import { UnassignedFunctionsComponent, filterUnassignedFunc } from './employees/unassigned-functions/unassigned-functions.component';
 import { StatisticsLookupComponent } from './employees/statistics-lookup/statistics-lookup.component';
 
 //Dialogs
@@ -91,6 +91,7 @@ import { ScanTypeCodeComponent } from './dialogs/scan-type-code/scan-type-code.c
     GroupsLookupComponent,
     AssignedFunctionsComponent,
     UnassignedFunctionsComponent,
+    filterUnassignedFunc,
     StatisticsLookupComponent,
     AddNewEmployeeComponent,
     AddZoneComponent,
@@ -150,7 +151,7 @@ import { ScanTypeCodeComponent } from './dialogs/scan-type-code/scan-type-code.c
     CreateBatchConfirmationComponent,
     CreateBatchComponent,
     ItemNumUpdateConfirmationComponent,
-    ScanTypeCodeComponent
+    ScanTypeCodeComponent,
 
   ],
   imports: [
@@ -170,6 +171,7 @@ import { ScanTypeCodeComponent } from './dialogs/scan-type-code/scan-type-code.c
         warning: 'toast-warning',
       }
     })
-  ]
+  ],
+ 
 })
 export class AdminModule { }
