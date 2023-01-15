@@ -53,6 +53,7 @@ export class InventoryMasterComponent implements OnInit {
    // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
     ) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
+  @ViewChild('UNquarantineAction') unquarantineTemp: TemplateRef<any>;
   invMaster: FormGroup;
 
 
@@ -68,18 +69,18 @@ export class InventoryMasterComponent implements OnInit {
   initialzeIMFeilds(){
     this.invMaster = this.fb.group({
 
-      itemNumber: [  this.getInvMasterData?.itemNumber || '', [Validators.required]],
-      supplierItemID : [  this.getInvMasterData?.supplierItemID || '', [Validators.required]],
-      description : [  this.getInvMasterData?.description || '', [Validators.required]],
-      reorderPoint : [  this.getInvMasterData?.reorderPoint || 0, [Validators.required]],
-      replenishmentPoint : [  this.getInvMasterData?.replenishmentPoint || '', [Validators.required]],
-      category : [  this.getInvMasterData?.category || '', [Validators.required]],
-      reorderQuantity : [  this.getInvMasterData?.reorderQuantity ||  0, [Validators.required]],
-      replenishmentLevel : [  this.getInvMasterData?.replenishmentLevel || '', [Validators.required]],
-      subCategory : [  this.getInvMasterData?.subCategory || '', [Validators.required]],
-      unitOfMeasure : [  this.getInvMasterData?.unitOfMeasure || '', [Validators.required]],
-      kanbanReplenishmentPoint : [  this.getInvMasterData?.kanbanReplenishmentPoint || 0, [Validators.required]],
-      kanbanReplenishmentLevel : [  this.getInvMasterData?.kanbanReplenishmentLevel || 0, [Validators.required]],
+      itemNumber: [  this.getInvMasterData?.itemNumber || '', [Validators.required,  Validators.maxLength(50)]],
+      supplierItemID : [  this.getInvMasterData?.supplierItemID || '', [Validators.required, Validators.maxLength(50)]],
+      description : [  this.getInvMasterData?.description || '', [Validators.required,  Validators.maxLength(255)]],
+      reorderPoint : [  this.getInvMasterData?.reorderPoint || 0, [Validators.required,Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      replenishmentPoint : [  this.getInvMasterData?.replenishmentPoint || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      category : [  this.getInvMasterData?.category || '', [Validators.required, Validators.maxLength(50)]],
+      reorderQuantity : [  this.getInvMasterData?.reorderQuantity ||  0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      replenishmentLevel : [  this.getInvMasterData?.replenishmentLevel || 0, [Validators.required, Validators.maxLength(9), , Validators.pattern("^[0-9]*$")]],
+      subCategory : [  this.getInvMasterData?.subCategory || '', [Validators.required,Validators.maxLength(50)]],
+      unitOfMeasure : [  this.getInvMasterData?.unitOfMeasure || '', [Validators.required, Validators.maxLength(50)]],
+      kanbanReplenishmentPoint : [  this.getInvMasterData?.kanbanReplenishmentPoint || 0, [Validators.required,  Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      kanbanReplenishmentLevel : [  this.getInvMasterData?.kanbanReplenishmentLevel || 0, [Validators.required,  Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
 
       totalQuantity: [  this.getInvMasterData?.totalQuantity || 0, [Validators.required]],
       wipCount: [  this.getInvMasterData?.wipCount || 0, [Validators.required]],
@@ -90,11 +91,11 @@ export class InventoryMasterComponent implements OnInit {
       procCount: [  this.getInvMasterData?.procCount || 0, [Validators.required]],
       
 
-      primaryPickZone: [  this.getInvMasterData?.primaryPickZone || '', [Validators.required]],
-      secondaryPickZone: [  this.getInvMasterData?.secondaryPickZone || '', [Validators.required]],
-      caseQuantity: [  this.getInvMasterData?.caseQuantity || 0, [Validators.required]],
-      pickFenceQuantity: [  this.getInvMasterData?.pickFenceQuantity || 0, [Validators.required]],
-      pickSequence: [  this.getInvMasterData?.pickSequence || 0, [Validators.required]],
+      primaryPickZone: [  this.getInvMasterData?.primaryPickZone.toLowerCase() || '', [Validators.required]],
+      secondaryPickZone: [  this.getInvMasterData?.secondaryPickZone.toLowerCase() || '', [Validators.required]],
+      caseQuantity: [  this.getInvMasterData?.caseQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      pickFenceQuantity: [  this.getInvMasterData?.pickFenceQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      pickSequence: [  this.getInvMasterData?.pickSequence || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
 
       dateSensitive: [  this.getInvMasterData?.dateSensitive || false, [Validators.required]],
       warehouseSensitive: [  this.getInvMasterData?.warehouseSensitive || false, [Validators.required]],
@@ -103,21 +104,21 @@ export class InventoryMasterComponent implements OnInit {
       fifo: [  this.getInvMasterData?.fifo || false, [Validators.required]],
       fifoDate: [  this.getInvMasterData?.fifoDate || '', [Validators.required]],
 
-      bulkCellSize: [  this.getInvMasterData?.bulkCellSize || 0, [Validators.required]],
-      cellSize: [  this.getInvMasterData?.cellSize || 0, [Validators.required]],
-      cfCellSize: [ this.getInvMasterData?.cfCellSize || 0, [Validators.required]],
+      bulkCellSize: [  this.getInvMasterData?.bulkCellSize || "0", [Validators.required, Validators.maxLength(50)]],
+      cellSize: [  this.getInvMasterData?.cellSize || "0", [Validators.required, Validators.maxLength(50)]],
+      cfCellSize: [ this.getInvMasterData?.cfCellSize || 0, [Validators.required, Validators.maxLength(50)]],
 
-      goldenZone: [  this.getInvMasterData?.goldenZone || 0, [Validators.required]],
+      goldenZone: [  this.getInvMasterData?.goldenZone || "0", [Validators.required]],
       bulkVelocity: [  this.getInvMasterData?.bulkVelocity || 0, [Validators.required]],
       cfVelocity: [  this.getInvMasterData?.cfVelocity || 0, [Validators.required]],
 
-      minimumQuantity: [  this.getInvMasterData?.minimumQuantity || 0, [Validators.required]],
-      bulkMinimumQuantity: [  this.getInvMasterData?.bulkMinimumQuantity || 0, [Validators.required]],
-      cfMinimumQuantity: [  this.getInvMasterData?.cfMinimumQuantity || 0, [Validators.required]],
+      minimumQuantity: [  this.getInvMasterData?.minimumQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      bulkMinimumQuantity: [  this.getInvMasterData?.bulkMinimumQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      cfMinimumQuantity: [  this.getInvMasterData?.cfMinimumQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
 
-      maximumQuantity: [  this.getInvMasterData?.maximumQuantity || 0, [Validators.required]],
-      bulkMaximumQuantity: [  this.getInvMasterData?.bulkMaximumQuantity || 0, [Validators.required]],
-      cfMaximumQuantity: [ this.getInvMasterData?.cfMaximumQuantity || 0, [Validators.required]],
+      maximumQuantity: [  this.getInvMasterData?.maximumQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      bulkMaximumQuantity: [  this.getInvMasterData?.bulkMaximumQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      cfMaximumQuantity: [ this.getInvMasterData?.cfMaximumQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
 
       kitInventories: [  this.getInvMasterData?.kitInventories || '', [Validators.required]],
 
@@ -131,16 +132,16 @@ export class InventoryMasterComponent implements OnInit {
       scanCode: [  this.getInvMasterData?.scanCode || '', [Validators.required]],
 
 
-      avgPieceWeight: [  this.getInvMasterData?.avgPieceWeight || 0, [Validators.required]],
-      sampleQuantity: [  this.getInvMasterData?.sampleQuantity || "0", [Validators.required]],
-      minimumUseScaleQuantity: [  this.getInvMasterData?.minimumUseScaleQuantity || 0, [Validators.required]],
+      avgPieceWeight: [  this.getInvMasterData?.avgPieceWeight || 0, [Validators.required, Validators.maxLength(11), Validators.pattern("^[0-9]*$")]],
+      sampleQuantity: [  this.getInvMasterData?.sampleQuantity || "0", [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      minimumUseScaleQuantity: [  this.getInvMasterData?.minimumUseScaleQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       useScale: [  this.getInvMasterData?.useScale || 0, [Validators.required]],
  
 
 
-      unitCost: [ this.getInvMasterData?.unitCost  || 0, [Validators.required]],
+      unitCost: [ this.getInvMasterData?.unitCost  || 0, [Validators.required, Validators.maxLength(11), Validators.pattern("^[0-9]*$")]],
      // supplierItemID: [ '', [Validators.required]],
-      manufacturer: [  this.getInvMasterData?.manufacturer || '', [Validators.required]],
+      manufacturer: [  this.getInvMasterData?.manufacturer || '', [Validators.required,  Validators.maxLength(11)]],
       specialFeatures: [  this.getInvMasterData?.specialFeatures || '', [Validators.required]],
     
 
@@ -152,6 +153,9 @@ export class InventoryMasterComponent implements OnInit {
       username: [  this.userData?.userName || '' , [Validators.required]],
 
       itemQuarantined:  [  this.getInvMasterData?.itemQuarantined || '', [Validators.required]],
+
+
+      supplierName: ['']
     });
 
 
@@ -198,12 +202,12 @@ export class InventoryMasterComponent implements OnInit {
     })
   }
 
-  public getInvMasterLocations(itemNum: any) {
+  public getInvMasterLocations(itemNum: any , pageSize?, startIndex?) {
     let paylaod = {
       "draw": 0,
       "itemNumber": itemNum,
-      "start": 0,
-      "length": 10,
+      "start":  startIndex? startIndex: 0,
+      "length": pageSize? pageSize : 5,
       "sortColumnNumber": 0,
       "sortOrder": "asc",
       "username": this.userData.userName,
@@ -272,6 +276,7 @@ export class InventoryMasterComponent implements OnInit {
     
     this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
       if(res.isExecuted){
+        this.getInventory();
         this.toastr.success(labels.alert.update, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
@@ -563,7 +568,7 @@ export class InventoryMasterComponent implements OnInit {
   public openAddItemDialog() {
     let dialogRef = this.dialog.open(ItemNumberComponent, {
       height: 'auto',
-      width: '400px',
+      width: '560px',
       data: {
         itemNumber: '',
         newItemNumber : '',
@@ -607,7 +612,7 @@ export class InventoryMasterComponent implements OnInit {
     let itemToDelete = this.currentPageItemNo
 
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '450px'
+      width: '560px'
     });
     dialogRef.afterClosed().subscribe((res) => {
       if(res=='Yes'){
@@ -651,7 +656,7 @@ export class InventoryMasterComponent implements OnInit {
 
   quarantineDialog(): void {
     const dialogRef = this.dialog.open(this.quarantineTemp, {
-      width: '450px'
+      width: '560px'
     });
     dialogRef.afterClosed().subscribe((x) => {
       if(x){
@@ -680,7 +685,7 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   unquarantineDialog(): void {
-    const dialogRef = this.dialog.open(this.quarantineTemp, {
+    const dialogRef = this.dialog.open(this.unquarantineTemp, {
       width: '450px'
     });
     dialogRef.afterClosed().subscribe((x) => {
@@ -742,9 +747,20 @@ export class InventoryMasterComponent implements OnInit {
 
     this.searchValue = '';
   }
-  getNotification(e: any){
-    this.getInventory();
+  getNotification(e: any, ){
+    if(e.newItemNumber){
+      this.currentPageItemNo = e.newItemNumber;
+      this.getInventory();
+    } else if(e.refreshLocationGrid){
+      this.getInvMasterLocations(this.currentPageItemNo);
+    } else if(e.locationPageSize && e.startIndex){
+      this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex);
+    }else {
+      this.getInventory();
+    }
+
   }
+
 
 
 }

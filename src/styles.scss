@@ -719,20 +719,20 @@ mat-toolbar {
   font-weight: 700;
   letter-spacing: 0.1px;
   color: rgba(9, 9, 72, 0.5);
-  background: rgba(242, 242, 255, 0.25);
+  background: #fff;
   padding: 0.1em 0.6em;
   border-radius: 100px;
-  border: 1px solid rgba(242, 242, 255, 0.25);
+  border: #fff;
   z-index: 1;
 }
 
 .g-detail {
-  background: rgb(242, 242, 255, 0.25);
+  background: rgba($tertiary-10, $alpha: 0.25);
   margin-bottom: 1.7em;
   padding: 0.88em 0.9em 0.88em;
   position: relative;
   border-radius: 10px;
-  border: 1px solid rgb(242, 242, 255, 0.25);
+  border: 1px solid var(--clr-tertiary-50);
   min-height: 57px;
 }
 
@@ -791,6 +791,7 @@ mat-toolbar {
 
 .mat-form-field-appearance-outline .mat-form-field-outline-start {
   border-radius: 8px 0 0 8px !important;
+  min-width: 8px!important;
 }
 
 .mat-form-field-appearance-outline .mat-form-field-outline-end {
@@ -803,6 +804,13 @@ button.button-remove-all {
   border-radius: 100px;
   min-width: 100px;
   border: 1px solid #fff !important;
+}
+button.button-remove-all-w-stroke {
+  color: #DE2654 !important;
+  padding: 6px 15px;
+  border-radius: 100px;
+  min-width: 100px;
+  border: 1px solid var(--clr-tertiary-50) !important;
 }
 
 button.button-add-all {
@@ -1083,7 +1091,8 @@ h4.main-section-title {
 
 //-------------- BUTTON-CLASSES ----START-------------------
 .btn-lg{
-  padding: 12px 30px !important;
+  min-height: 30px !important;
+  padding: 13px 30px !important;
 }
 .btn-md{
   padding: 10px 30px !important;
@@ -1122,7 +1131,7 @@ button.button-primary{
   color: #ffffff !important;
   background-color: $primary-500 !important;
   padding: 6px 15px;
-  min-width: 150px !important;
+  min-width: 130px !important;
   // border-radius: 14px !important;
   border: 1px solid $primary-500!important;
 }
@@ -1317,8 +1326,8 @@ button.default-btn{
 }
 
 .mat-dialog-container{
-  border-radius: 14px !important;
-  padding: 40px !important;
+  border-radius: 36px !important;
+  padding: 30px 40px !important;
 }
 
 
@@ -1514,4 +1523,57 @@ button{
   top: 17px;
   border-radius: 999px;
 }
+}
+
+
+// LIST STYLES   START
+
+.list-style-1{
+.mat-list-item-content{
+  &:hover{
+    background: rgba($primary-500, $alpha: 0.1);
+    border-radius: 999px;
+    color: var(--clr-tertiary-900);
+  }
+}
+}
+
+.greyBtn{
+    border-color: #D7D7F9!important;
+    border-style: solid !important;
+    border-width: 0;
+    min-height: 48px;
+    padding: 6px 15px;
+    border-radius: 100px;
+    min-width: 100px;
+    color:  #090948 !important;
+}
+.gridRefreshBtn{
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.custom-scroll.mat-autocomplete-panel {
+  max-height: 350px !important;
+  &::-webkit-scrollbar {
+      width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+      border-radius: 4px;
+      background-color: #fff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: #D7D7F9;
+  }
+}
+
+.matAutoCompHeader{
+  display: flex; justify-content: space-around;
+}
+.matAutoCompTableContent{
+  min-height: 50px !important; min-width: 250px;  padding: 5px 32px; border: 0;
 }

@@ -35,9 +35,10 @@ export class VelocityCodeComponent implements OnInit {
   }
   saveVlCode(vlcode:any, oldVC:any){ 
 
+    if(vlcode){
     let cond = true;
     this.velocity_code_list.forEach(element => {
-      if(element == vlcode ) { 
+      if(element.toLowerCase() == vlcode.toLowerCase() ) { 
         cond = false;
        this.toastr.error('Already Exists', 'Error!', {
          positionClass: 'toast-bottom-right',
@@ -64,7 +65,9 @@ export class VelocityCodeComponent implements OnInit {
     });
     }
   }
+  }
   dltVlCode(vlCode:any){
+    if(vlCode){
     let paylaod = {
       "velocity": vlCode,
       "username": this.userData.userName,
@@ -79,6 +82,9 @@ export class VelocityCodeComponent implements OnInit {
       this.getVelocity();
       
     });
+  }  else {
+    this.velocity_code_list.shift();
+  }
   }
 
   selectVlCode(selectedVL: any){

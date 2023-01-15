@@ -1,6 +1,6 @@
 <div class="search-box">
   <div class="d-flex justify-content-between g-mini-search-box">
-    <mat-form-field class="w-100" style="max-width: 309px;" appearance="fill">
+    <mat-form-field class="w-100" appearance="fill">
       <span class="material-symbols-outlined icon-search">
         search
       </span>
@@ -54,6 +54,11 @@
 
 
   <tr mat-header-row  *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+      No data matching the filter.
+    </td>
+  </tr>
   <tr mat-row class="table-row" tabindex="1" *matRowDef="let row; columns: displayedColumns;" (click)="getEmpDetails(row)"></tr>
 
 </table>

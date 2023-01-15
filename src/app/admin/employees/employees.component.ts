@@ -268,7 +268,7 @@ getgroupAllowedList(){
     if (event === 'edit') {
       let dialogRef = this.dialog.open(AddNewEmployeeComponent, {
         height: 'auto',
-        width: '480px',
+        width: '520px',
         data: {
           mode: 'edit',
           emp_data: emp_data

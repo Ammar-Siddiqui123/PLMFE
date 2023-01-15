@@ -4,47 +4,51 @@ import { PrintRangeComponent } from '../print-range/print-range.component';
 import { ToastrService } from 'ngx-toastr';
 import { UnitOfMeasureService } from 'src/app/common/services/unit-measure.service';
 import { AuthService } from '../../../../app/init/auth.service';
-import labels from '../../../labels/labels.json'
+import labels from '../../../labels/labels.json';
+import { InventoryMasterService } from '../../inventory-master/inventory-master.service';
 
 @Component({
-  selector: 'app-unit-measure',
-  templateUrl: './unit-measure.component.html',
-  styleUrls: ['./unit-measure.component.scss']
+  selector: 'app-scan-type-code',
+  templateUrl: './scan-type-code.component.html',
+  styleUrls: ['./scan-type-code.component.scss']
 })
-export class UnitMeasureComponent implements OnInit {
+export class ScanTypeCodeComponent implements OnInit {
 
-  public unitOfMeasure_list: any;
+  public scanTypeCode_list: any;
   public userData: any;
 
 
   constructor(private dialog: MatDialog,
-              private umService: UnitOfMeasureService,
+    private invMasterService: InventoryMasterService, 
               private authService: AuthService,
               private toastr: ToastrService,
               public dialogRef: MatDialogRef<any>) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.getUOM()
+    this.getScanCodeType()
   }
-  getUOM(){
-    this.umService.getUnitOfMeasure().subscribe((res) => {
+  getScanCodeType(){
+    let paylaod = {
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    this.invMasterService.get(paylaod, '/Common/ScanCodeTypes').subscribe((res) => {
       if (res.isExecuted) {
-        this.unitOfMeasure_list = res.data;
+        this.scanTypeCode_list = res.data;
       }
     });
   }
 
   addUMRow(row : any){
-    this.unitOfMeasure_list.unshift("");
-    console.log(this.unitOfMeasure_list)
+    this.scanTypeCode_list.unshift("");
   }
 
-  saveUnitMeasure(um : any, oldUM : any) {
+  saveScanCodeType(newScanCode : any, oldScanCode  : any) {
 
     let cond = true;
-    this.unitOfMeasure_list.forEach(element => {
-      if(element.toLowerCase() == um.toLowerCase() ) {
+    this.scanTypeCode_list.forEach(element => {
+      if(element.toLowerCase() == newScanCode.toLowerCase() ) {
         cond = false;
        this.toastr.error('Already Exists', 'Error!', {
          positionClass: 'toast-bottom-right',
@@ -54,17 +58,17 @@ export class UnitMeasureComponent implements OnInit {
       }   
     });
 
-    if(um && cond){
+    if(newScanCode && cond){
     let paylaod = {      
-      "newValue": um,
-      "oldValue": oldUM.toString(),
+      "oldScanCodeType": newScanCode ,
+      "scanCodeType": oldScanCode.toString(),
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
     
-    this.umService.saveUnitOfMeasure(paylaod).subscribe((res) => {
+    this.invMasterService.get(paylaod, '/Common/CodeTypeSave').subscribe((res) => {
       if(res.isExecuted){
-        this.getUOM();
+        this.getScanCodeType();
         this.toastr.success(labels.alert.success, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
@@ -75,17 +79,17 @@ export class UnitMeasureComponent implements OnInit {
   }
   }
 
-  dltUnitMeasure(um : any) {
-    if(um){
+  dltScanTypeCode(newScanTypeCode : any) {
+    if(newScanTypeCode){
     let paylaod = {
-      "newValue": um,
+      "scanCodeType": newScanTypeCode,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
     
-    this.umService.dltUnitOfMeasure(paylaod).subscribe((res) => {
+    this.invMasterService.get(paylaod,'/Common/ScanCodeTypeDelete').subscribe((res) => {
       if(res.isExecuted){
-        this.getUOM();
+        this.getScanCodeType();
       this.toastr.success(labels.alert.delete, 'Success!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
@@ -93,15 +97,15 @@ export class UnitMeasureComponent implements OnInit {
     }
     });
   } else {
-    this.unitOfMeasure_list.shift();
+    this.scanTypeCode_list.shift();
   }
   }
 
-  selectUnitMeasure(selectedUM: any){
-    this.dialogRef.close(selectedUM);
+  selectScanTypeCode(selectedrecord: any){
+    this.dialogRef.close(selectedrecord);
   }
 
-  clearUnitMeasure(){
+  clearScanTypeCode(){
     this.dialogRef.close('');
   }
 

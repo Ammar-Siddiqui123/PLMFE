@@ -20,8 +20,8 @@ export class DetailComponent implements OnInit {
   @Input() details: FormGroup;
   public userData: any;
   @Output() notifyParent: EventEmitter<any> = new EventEmitter();
-  sendNotification() {
-      this.notifyParent.emit('Some value to send to the parent');
+  sendNotification(e) {
+      this.notifyParent.emit(e);
   }
   
 
@@ -41,7 +41,7 @@ export class DetailComponent implements OnInit {
   public openItemNumDialog() {
     let dialogRef = this.dialog.open(ItemNumberComponent, {
       height: 'auto',
-      width: '400px',
+      width: '560px',
       data: {
         itemNumber: this.details.controls['itemNumber'].value,
         newItemNumber : '',
@@ -62,8 +62,13 @@ export class DetailComponent implements OnInit {
             this.details.patchValue({
               'itemNumber' : res.data.newItemNumber
             }); 
-            this.sendNotification();
-          }          
+            this.sendNotification({newItemNumber: res.data.newItemNumber});
+          } else {
+            this.toastr.error("Item Number Already Exists.", 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
         })
       }
 
@@ -73,7 +78,7 @@ export class DetailComponent implements OnInit {
   public openDescriptionDialog() {
     let dialogRef = this.dialog.open(UpdateDescriptionComponent, {
       height: 'auto',
-      width: '700px',
+      width: '560px',
       data: {
         description: this.details.controls['description'].value,
       }

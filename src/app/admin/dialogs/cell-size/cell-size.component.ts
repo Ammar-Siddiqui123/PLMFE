@@ -41,9 +41,10 @@ export class CellSizeComponent implements OnInit {
   }
   saveCellSize(cell:any, cellType:any, i){ 
 
+    if(cell){
     let cond = true;
     this.cellsize_list.forEach(element => {
-      if(element.cells == cell ) {
+      if(element.cells.toLowerCase() == cell.toLowerCase() ) {
         cond = false;
        this.toastr.error('Already Exists', 'Error!', {
          positionClass: 'toast-bottom-right',
@@ -73,8 +74,10 @@ export class CellSizeComponent implements OnInit {
     }
     });
   }
+}
   }
   dltCellSize(cell:any, i){
+    if(cell){
     let paylaod = {
       "cell": cell.toString(),
       "username": this.userData.userName,
@@ -90,6 +93,9 @@ export class CellSizeComponent implements OnInit {
       });
     }
     });
+  } else {
+    this.cellsize_list.shift()
+  }
   }
 
   selectCellSize(selectedCZ: any){
