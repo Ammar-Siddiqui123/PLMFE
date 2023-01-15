@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-location',
@@ -14,6 +15,11 @@ export class LocationComponent implements OnInit {
 
   @Input() location: FormGroup;
 
+  @Output() notifyParent: EventEmitter<any> = new EventEmitter();
+  sendNotification(e?) {
+    this.notifyParent.emit(e);
+  }
+  
   constructor() { }
 
   ngOnInit(): void {
@@ -22,6 +28,15 @@ export class LocationComponent implements OnInit {
     
   announceSortChange(sortState: any) {
 
+  }
+
+  refreshGrid(){
+  this.sendNotification({refreshLocationGrid: true});
+  }
+
+  handlePageEvent(e: PageEvent) {
+    this.sendNotification({locationPageSize: e.pageSize, startIndex: e.pageSize*e.pageIndex})
+   
   }
   
 }

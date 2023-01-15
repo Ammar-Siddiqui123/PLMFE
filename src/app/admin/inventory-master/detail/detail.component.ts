@@ -20,8 +20,8 @@ export class DetailComponent implements OnInit {
   @Input() details: FormGroup;
   public userData: any;
   @Output() notifyParent: EventEmitter<any> = new EventEmitter();
-  sendNotification() {
-      this.notifyParent.emit('Some value to send to the parent');
+  sendNotification(e) {
+      this.notifyParent.emit(e);
   }
   
 
@@ -62,8 +62,13 @@ export class DetailComponent implements OnInit {
             this.details.patchValue({
               'itemNumber' : res.data.newItemNumber
             }); 
-            this.sendNotification();
-          }          
+            this.sendNotification({newItemNumber: res.data.newItemNumber});
+          } else {
+            this.toastr.error("Item Number Already Exists.", 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
         })
       }
 

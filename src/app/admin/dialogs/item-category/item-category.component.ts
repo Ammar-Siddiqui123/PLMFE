@@ -34,35 +34,52 @@ export class ItemCategoryComponent implements OnInit {
   }
 
   addCatRow(row : any){
-    this.category_list.push({
+    this.category_list.unshift({
       category : "",
       subCategory: ""
   });
   }
 
   saveCategory(category : any, oldCat : any, subCategory : any, oldSubCat : any) {
-    let paylaod = {      
-      "category": category,
-      "oldCategory": oldCat.toString(),
-      "subCategory": subCategory,
-      "oldSubCategory": oldSubCat.toString(),
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-    }
-    // console.log(paylaod);
-    
-    this.catService.saveCategory(paylaod).subscribe((res) => {
-      if(res.isExecuted){
-        this.getCategoryList();
-      this.toastr.success(labels.alert.success, 'Success!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
+  
+    let cond = true;
+    this.category_list.forEach(element => {
+      if(element.category == category ) {
+        cond = false;
+       this.toastr.error('Already Exists', 'Error!', {
+         positionClass: 'toast-bottom-right',
+         timeOut: 2000
+       });
+       return;
+      }   
+    });
+
+    if(category && subCategory && cond){
+      let paylaod = {      
+        "category": category,
+        "oldCategory": oldCat.toString(),
+        "subCategory": subCategory,
+        "oldSubCategory": oldSubCat.toString(),
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid,
+      }
+      // console.log(paylaod);
+      
+      this.catService.saveCategory(paylaod).subscribe((res) => {
+        if(res.isExecuted){
+          this.getCategoryList();
+        this.toastr.success(labels.alert.success, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
       });
     }
-    });
+
   }
 
   dltCategory(category : any, subCategory : any){
+    if(category && subCategory){
     let paylaod = {
       "category": category,
       "subCategory": subCategory,
@@ -79,8 +96,10 @@ export class ItemCategoryComponent implements OnInit {
           timeOut: 2000
         });
       }
-
     });
+  } else {
+    this.category_list.shift();
+  }
   }
 
   selectCategory(selectedCat: any){
