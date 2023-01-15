@@ -75,6 +75,14 @@ import { ToastrModule } from 'ngx-toastr';
 import { UpdateDescriptionComponent } from './dialogs/update-description/update-description.component';
 import { CreateBatchConfirmationComponent } from './dialogs/create-batch-confirmation/create-batch-confirmation.component';
 import { CreateBatchComponent } from './dialogs/create-batch/create-batch.component';
+import { TransactionComponent } from './transaction/transaction.component';
+import { OpenTransactionComponent } from './transaction/open-transaction/open-transaction.component';
+import { OpenTransactionFiltersComponent } from './transaction/open-transaction/open-transaction-filters/open-transaction-filters.component';
+import { OpenTransactionDataTableComponent } from './transaction/open-transaction/open-transaction-data-table/open-transaction-data-table.component';
+import { TransactionHistoryComponent } from './transaction/transaction-history/transaction-history.component';
+import { TransactionHistoryFiltersComponent } from './transaction/transaction-history/transaction-history-filters/transaction-history-filters.component';
+import { TransactionHistoryListComponent } from './transaction/transaction-history/transaction-history-list/transaction-history-list.component';
+import { OrderStatusComponent } from './transaction/order-status/order-status.component';
 
 
 
@@ -146,7 +154,15 @@ import { CreateBatchComponent } from './dialogs/create-batch/create-batch.compon
     CloneGroupComponent,
     UpdateDescriptionComponent,
     CreateBatchConfirmationComponent,
-    CreateBatchComponent
+    CreateBatchComponent,
+    TransactionComponent,
+    OpenTransactionComponent,
+    OpenTransactionFiltersComponent,
+    OpenTransactionDataTableComponent,
+    TransactionHistoryComponent,
+    TransactionHistoryFiltersComponent,
+    TransactionHistoryListComponent,
+    OrderStatusComponent
 
   ],
   imports: [
