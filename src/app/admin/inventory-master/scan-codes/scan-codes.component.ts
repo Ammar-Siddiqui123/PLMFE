@@ -132,7 +132,6 @@ export class ScanCodesComponent implements OnInit , OnChanges {
       }
     })
   } else if (item.scanCode!='' && !newRecord) {
-    debugger
     let paylaod = {
       "itemNumber": this.scanCodes.controls['itemNumber'].value,
       "oldScanCode": scanCode,
