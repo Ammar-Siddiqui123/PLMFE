@@ -70,17 +70,17 @@ export class InventoryMasterComponent implements OnInit {
     this.invMaster = this.fb.group({
 
       itemNumber: [  this.getInvMasterData?.itemNumber || '', [Validators.required,  Validators.maxLength(50)]],
-      supplierItemID : [  this.getInvMasterData?.supplierItemID || '', [Validators.required, Validators.maxLength(50)]],
-      description : [  this.getInvMasterData?.description || '', [Validators.required,  Validators.maxLength(255)]],
-      reorderPoint : [  this.getInvMasterData?.reorderPoint || 0, [Validators.required,Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
-      replenishmentPoint : [  this.getInvMasterData?.replenishmentPoint || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
-      category : [  this.getInvMasterData?.category || '', [Validators.required, Validators.maxLength(50)]],
-      reorderQuantity : [  this.getInvMasterData?.reorderQuantity ||  0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
-      replenishmentLevel : [  this.getInvMasterData?.replenishmentLevel || 0, [Validators.required, Validators.maxLength(9), , Validators.pattern("^[0-9]*$")]],
-      subCategory : [  this.getInvMasterData?.subCategory || '', [Validators.required,Validators.maxLength(50)]],
-      unitOfMeasure : [  this.getInvMasterData?.unitOfMeasure || '', [Validators.required, Validators.maxLength(50)]],
-      kanbanReplenishmentPoint : [  this.getInvMasterData?.kanbanReplenishmentPoint || 0, [Validators.required,  Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
-      kanbanReplenishmentLevel : [  this.getInvMasterData?.kanbanReplenishmentLevel || 0, [Validators.required,  Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      supplierItemID : [  this.getInvMasterData?.supplierItemID || '', [ Validators.maxLength(50)]],
+      description : [  this.getInvMasterData?.description || '', [ Validators.maxLength(255)]],
+      reorderPoint : [  this.getInvMasterData?.reorderPoint || 0, [Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      replenishmentPoint : [  this.getInvMasterData?.replenishmentPoint || 0, [ Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      category : [  this.getInvMasterData?.category || '', [ Validators.maxLength(50)]],
+      reorderQuantity : [  this.getInvMasterData?.reorderQuantity ||  0, [ Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      replenishmentLevel : [  this.getInvMasterData?.replenishmentLevel || 0, [Validators.maxLength(9), , Validators.pattern("^[0-9]*$")]],
+      subCategory : [  this.getInvMasterData?.subCategory || '', [Validators.maxLength(50)]],
+      unitOfMeasure : [  this.getInvMasterData?.unitOfMeasure || '', [ Validators.maxLength(50)]],
+      kanbanReplenishmentPoint : [  this.getInvMasterData?.kanbanReplenishmentPoint || 0, [  Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      kanbanReplenishmentLevel : [  this.getInvMasterData?.kanbanReplenishmentLevel || 0, [ Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
 
       totalQuantity: [  this.getInvMasterData?.totalQuantity || 0, [Validators.required]],
       wipCount: [  this.getInvMasterData?.wipCount || 0, [Validators.required]],
@@ -202,14 +202,14 @@ export class InventoryMasterComponent implements OnInit {
     })
   }
 
-  public getInvMasterLocations(itemNum: any , pageSize?, startIndex?) {
+  public getInvMasterLocations(itemNum: any , pageSize?, startIndex?, sortingColumnName?, sortingOrder?) {
     let paylaod = {
       "draw": 0,
       "itemNumber": itemNum,
       "start":  startIndex? startIndex: 0,
       "length": pageSize? pageSize : 5,
-      "sortColumnNumber": 0,
-      "sortOrder": "asc",
+      "sortColumnNumber": sortingColumnName? sortingColumnName : 0,
+      "sortOrder":  sortingOrder? sortingOrder : "asc",
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
@@ -755,6 +755,8 @@ export class InventoryMasterComponent implements OnInit {
       this.getInvMasterLocations(this.currentPageItemNo);
     } else if(e.locationPageSize && e.startIndex){
       this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex);
+    } else if(e.sortingColumn){
+      this.getInvMasterLocations(this.currentPageItemNo, '', '', e.sortingColumn, e.sortingSeq );
     }else {
       this.getInventory();
     }
