@@ -222,7 +222,7 @@ background-color: #7B42AC;
 // // padding-top: 40px !important;
 // }
 .mat-list-item {
-  color: #09094899 !important;
+  color: #09094899;
   font-size: 0.8rem;
   height: 40px !important;
   margin-bottom: 4px;
@@ -239,7 +239,7 @@ background-color: #7B42AC;
 }
 
 .mat-sidenav .mat-list-item {
-  color: #000080 !important;
+  color: #000080;
 }
 
 .list-item-active {
@@ -858,7 +858,8 @@ table.g-card-table th.mat-header-cell {
 
 table.g-card-table th.mat-header-cell:first-of-type,
 table.g-card-table td.mat-cell:first-of-type {
-  padding-left: 8px;
+  // padding-left: 8px;
+  padding-left: 24px;
   text-align: left;
 }
 
@@ -897,8 +898,8 @@ table.g-card-table th.mat-header-cell {
   transition: 0.3s ease all;
   position: absolute;
   top: 0;
-  left: 0px;
-  right: 0;
+  left: 8px;
+  right: 14px;
   bottom: 0;
   /* background: red; */
 }
@@ -918,7 +919,7 @@ table.g-card-table th.mat-header-cell {
 
 .action-clickable-table .mat-row:hover:after {
 
-  background:#5555EC;
+  background:var(--clr-primary-300);
 }
 
 .mat-table-scrollbar scrollbar-y.scrollbar-control {
@@ -1031,13 +1032,20 @@ h4.main-section-title {
 .br-18{
   border-radius:18px !important;
 }
+.br-20{
+  border-radius:20px !important;
+}
+.br-none{
+  border:none !important
+}
 
 //-------------- BORDER-RADIUS-CLASSES ----END-------------------
 
 
 //-------------- BACKGROUND-COLOR-CLASSES ----START-------------------
 .bg-light-blue{
-  background: rgba(242, 242, 255, 0.5);
+  // background: rgba(242, 242, 255, 0.5);
+  background: rgba($tertiary-10, $alpha: 0.5);
 }
 .bg-light-purple{
   background: rgba(123, 66, 172, 0.15);
@@ -1269,13 +1277,13 @@ button.default-btn{
 }
 .counter-count
 {
-  font-size: 18px;
+  font-size: 22px;
   background-color: #000080cc;
   border-radius: 999px;
   position: relative;
   color: #ffffff;
   text-align: center;
-  line-height: 64px;
+  line-height: 60px;
   width: 60px;
   height: 60px;
   -webkit-border-radius: 999px;

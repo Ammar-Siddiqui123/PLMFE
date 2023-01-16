@@ -103,7 +103,7 @@ export class BatchManagerComponent implements OnInit {
     }
     try {
       this.batchService.get(paylaod, '/Admin/BatchManagerOrder').subscribe((res: any) => {
-        debugger
+        
         const { data, isExecuted } = res
         if (isExecuted && data.length > 0) {
           this.orderList = data;

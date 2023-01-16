@@ -53,7 +53,7 @@
                                                     style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
                                             </span>
                                             <input readonly class="__grab_cursor readonly" matInput type="text"
-                                            name="{{item.scanType}}" value="{{item.scanType}}" maxlength="50"/>
+                                            name="{{item.scanType}}" value="{{item.scanType}}" maxlength="50" #scanType/>
                                         </mat-form-field>
 
                                         <!-- <mat-form-field class="custom-form-field w-100" appearance="outline">
@@ -68,8 +68,8 @@
                                     <div class="d-flex gap-12 align-items-center">
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                            <mat-select [(ngModel)]="item.scanRange"  (selectionChange)="changeScanRange(item)">
-                                                <mat-option *ngFor="let val of scanRange"   [value]="val" >{{val}}</mat-option>
+                                            <mat-select value="{{item.scanRange}}" #scanRange (selectionChange)="changeScanRange(item)">
+                                                <mat-option *ngFor="let val of scanRangeList"   [value]="val" >{{val}}</mat-option>
                                               </mat-select>
                                         </mat-form-field>
 
@@ -81,7 +81,7 @@
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
                                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{item.startPosition}}" value="{{item.startPosition}}" #startPosition
-                                            [disabled]="item.scanRange == 'No'"  max="9" pattern="^[0-9]*$" maxlength="9" >
+                                            [disabled]="scanRange.value == 'No'"  max="9" pattern="^[0-9]*$" maxlength="9" >
                                         </mat-form-field>
 
                                     </div>
@@ -92,7 +92,7 @@
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
                                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{item.codeLength}}" value="{{item.codeLength}}" #codeLength
-                                            [disabled]="item.scanRange == 'No'"  max="9" pattern="^[0-9]*$" maxlength="9" >
+                                            [disabled]="scanRange.value == 'No'"  max="9" pattern="^[0-9]*$" maxlength="9" >
                                         </mat-form-field>
 
 
@@ -100,7 +100,7 @@
                                             <span class="material-symbols-outlined">close</span>
                                         </button>
 
-                                        <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveCategory(item , scanCode.value, startPosition.value, codeLength.value)">
+                                        <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveCategory(item , scanCode.value, startPosition.value, codeLength.value, scanRange.value, scanType.value)">
                                             <span class="material-symbols-outlined">save</span>
                                         </button>
 
