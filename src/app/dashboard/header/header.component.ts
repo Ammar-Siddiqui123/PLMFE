@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
     router.events.subscribe((val: any) => {
       this.breadcrumbList = [];
       this.breadcrumbList.push({
-        name:'Home',
+        name:'PickPro',
         value:'/dashboard'
       })
       if(val instanceof NavigationEnd){
