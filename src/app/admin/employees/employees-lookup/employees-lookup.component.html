@@ -4,9 +4,11 @@
       <span class="material-symbols-outlined icon-search">
         search
       </span>
-      <input type="text" placeholder="Search Employee" aria-label="Search Employee" matInput (keyup)="applyFilter($event)" >
+      <input type="text" maxlength="50" placeholder="Search Employee" aria-label="Search Employee" matInput
+        (keyup)="applyFilter($event)">
     </mat-form-field>
-    <button mat-flat-button color="primary" class=" mat-button-icon" (click)="openDialog()" *ngIf="(env === 'DB' || env === 'ADLDS')">
+    <button mat-flat-button color="primary" class=" mat-button-icon" (click)="openDialog()"
+      *ngIf="(env === 'DB' || env === 'ADLDS')">
       <span class="material-symbols-outlined">
         add
       </span>
@@ -14,53 +16,43 @@
   </div>
 </div>
 <div class="card br-14 table-responsive my-3">
-    <ng-scrollbar class="mat-table-scrollbar scrollbar-hover-padding" style="height: 558px">
-<table style="width: 100%;" mat-table [dataSource]="employee_data_source" matSort (matSortChange)="announceSortChange($event)" class="g-card-table employee-location-table action-clickable-table">
+  <ng-scrollbar class="mat-table-scrollbar scrollbar-hover-padding" style="height: 558px">
+    <table style="width: 100%;" mat-table [dataSource]="employee_data_source" matSort
+      (matSortChange)="announceSortChange($event)" class="g-card-table employee-location-table action-clickable-table">
+      <ng-container matColumnDef="id">
+        <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td width="25%" mat-cell *matCellDef="let element"> {{element?.id}} </td>
+      </ng-container>
 
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
+      <ng-container matColumnDef="lastName">
+        <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+        <td width="25%" mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+      </ng-container>
 
-  <!-- Start Location Column -->
-  <!-- <tr class="mat-row" *matNoDataRow>
-    <td class="mat-cell" [attr.colspan]="displayedColumns.length">
-      No data matching the filter.
-    </td>
-  </tr> -->
-  <ng-container matColumnDef="id">
-    <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-    <td width="25%" mat-cell *matCellDef="let element"> {{element?.id}} </td>
-  </ng-container>
+      <!-- End Location Column -->
+      <ng-container matColumnDef="firstName">
+        <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+        <td width="25%" mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+      </ng-container>
 
-  <ng-container matColumnDef="lastName">
-    <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
-    <td width="25%" mat-cell *matCellDef="let element"> {{element.lastName}} </td>
-  </ng-container>
+      <ng-container matColumnDef="mi">
+        <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>MI</th>
+        <td width="25%" mat-cell *matCellDef="let element"> {{element.mi}} </td>
+      </ng-container>
+      <ng-container matColumnDef="username">
+        <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
+        <td width="25%" mat-cell *matCellDef="let element"> {{element.username}} </td>
+      </ng-container>
 
-  <!-- End Location Column -->
-  <ng-container matColumnDef="firstName">
-    <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
-    <td width="25%" mat-cell *matCellDef="let element"> {{element.firstName}} </td>
-  </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+          No data matching the filter.
+        </td>
+      </tr>
+      <tr mat-row class="table-row" tabindex="1" *matRowDef="let row; columns: displayedColumns;"
+        (click)="getEmpDetails(row)"></tr>
 
-  <ng-container matColumnDef="mi">
-    <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>MI</th>
-    <td width="25%" mat-cell *matCellDef="let element"> {{element.mi}} </td>
-  </ng-container>
-  <ng-container matColumnDef="username">
-    <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
-    <td width="25%" mat-cell *matCellDef="let element"> {{element.username}} </td>
-  </ng-container>
-
-
-
-  <tr mat-header-row  *matHeaderRowDef="displayedColumns; sticky:true"></tr>
-  <tr class="mat-row" *matNoDataRow>
-    <td class="mat-cell" [attr.colspan]="displayedColumns.length">
-      No data matching the filter.
-    </td>
-  </tr>
-  <tr mat-row class="table-row" tabindex="1" *matRowDef="let row; columns: displayedColumns;" (click)="getEmpDetails(row)"></tr>
-
-</table>
-</ng-scrollbar>
+    </table>
+  </ng-scrollbar>
 </div>
