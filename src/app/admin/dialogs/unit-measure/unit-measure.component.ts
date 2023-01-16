@@ -43,6 +43,7 @@ export class UnitMeasureComponent implements OnInit {
   saveUnitMeasure(um : any, oldUM : any) {
 
     let cond = true;
+    if(um){
     this.unitOfMeasure_list.forEach(element => {
       if(element.toLowerCase() == um.toLowerCase() ) {
         cond = false;
@@ -53,7 +54,7 @@ export class UnitMeasureComponent implements OnInit {
        return;
       }   
     });
-
+  }
     if(um && cond){
     let paylaod = {      
       "newValue": um,
