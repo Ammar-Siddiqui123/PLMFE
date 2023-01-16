@@ -80,6 +80,7 @@ export class EmployeesLookupComponent implements OnInit {
     let dialogRef = this.dialog.open(AddNewEmployeeComponent, {
       height: 'auto',
       width: '560px',
+      autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
         if (result !== undefined) {

@@ -45,7 +45,8 @@ export class CountComponent implements OnInit {
 
   quarantineDialog(): void {
     const dialogRef = this.dialog.open(this.quarantineTemp, {
-      width: '550px'
+      width: '550px',
+      autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');
@@ -54,7 +55,8 @@ export class CountComponent implements OnInit {
 
   addOrdereDialog(): void {
     const dialogRef = this.dialog.open(this.addOrderTemp, {
-      width: '550px'
+      width: '550px',
+      autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');
@@ -62,7 +64,8 @@ export class CountComponent implements OnInit {
   }
   deleteItem($event) {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '450px'
+      width: '450px',
+      autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');

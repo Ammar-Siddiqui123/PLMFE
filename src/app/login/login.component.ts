@@ -89,6 +89,7 @@ export class LoginComponent {
     let dialogRef = this.dialog.open(ChangePasswordComponent, {
       height: 'auto',
       width: '500px',
+      autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);

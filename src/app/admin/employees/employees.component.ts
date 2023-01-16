@@ -273,6 +273,7 @@ getgroupAllowedList(){
       let dialogRef = this.dialog.open(AddNewEmployeeComponent, {
         height: 'auto',
         width: '520px',
+        autoFocus: '__non_existing_element__',
         data: {
           mode: 'edit',
           emp_data: emp_data
@@ -288,6 +289,7 @@ getgroupAllowedList(){
       let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
         width: '480px',
+        autoFocus: '__non_existing_element__',
         data: {
           mode: 'delete-emp',
           emp_data: emp_data
@@ -325,6 +327,7 @@ getgroupAllowedList(){
       let dialogRef = this.dialog.open(AddNewGroupComponent, {
         height: 'auto',
         width: '480px',
+        autoFocus: '__non_existing_element__',
         data: {
           mode: 'edit',
           grp_data: grp_data
@@ -342,6 +345,7 @@ getgroupAllowedList(){
       let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
         width: '480px',
+        autoFocus: '__non_existing_element__',
         data: {
           mode: 'delete-group',
           grp_data: grp_data,
@@ -359,6 +363,7 @@ getgroupAllowedList(){
       let dialogRef = this.dialog.open(CloneGroupComponent, {
         height: 'auto',
         width: '480px',
+        autoFocus: '__non_existing_element__',
         data: {
           mode: 'clone',
           grp_data: grp_data
@@ -386,6 +391,7 @@ getgroupAllowedList(){
     const dialogRef = this.dialog.open(AddZoneComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         allZones: this.emp_all_zones,
         userName: this.grp_data
@@ -404,6 +410,7 @@ getgroupAllowedList(){
    const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-zone',
         zone: zone,
@@ -420,6 +427,7 @@ getgroupAllowedList(){
    const dialogRef =  this.dialog.open(AddZoneComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'edit-zone',
         zone: zone,
@@ -432,9 +440,14 @@ getgroupAllowedList(){
       console.log(result);
       
       if(result.mode === 'editZone'){
-        this.employee_fetched_zones.filteredData.pop(result.oldZone)
         this.employee_fetched_zones.filteredData.push(result.data.zone)
-        this.zoneDataRefresh.renderRows()
+        const index = this.employee_fetched_zones.filteredData.indexOf(result.oldZone);
+        if (index > -1) { 
+          this.employee_fetched_zones.filteredData.splice(index, 1);
+        }
+        
+        console.log(this.employee_fetched_zones.filteredData);
+        this.zoneDataRefresh.renderRows();
       }
 
     })
@@ -446,6 +459,7 @@ getgroupAllowedList(){
     dialogRef = this.dialog.open(AddLocationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         userName:this.grp_data
       }
@@ -460,6 +474,7 @@ getgroupAllowedList(){
     dialogRef = this.dialog.open(AddLocationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         userName:this.grp_data,
         locationData: element
@@ -475,6 +490,7 @@ getgroupAllowedList(){
     dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-location',
         location: location,
@@ -490,12 +506,14 @@ getgroupAllowedList(){
     this.dialog.open(AddGroupAllowedComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
     })
   }
   grpAllowedDialog() {
    const  dialogRef = this.dialog.open(GroupAllowedComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data:{
         grp_data:this.grp_data
       }
@@ -511,6 +529,7 @@ getgroupAllowedList(){
     const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-allowed-group',
         allowedGroup: allowedGroup,
@@ -527,6 +546,7 @@ getgroupAllowedList(){
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-grpallowed',
         allowedGroup: allowedGroup

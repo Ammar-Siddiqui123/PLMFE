@@ -100,7 +100,7 @@
 <!-- <mat-progress-bar *ngIf="loading" style="display: flex; justify-content: center; align-items: center;height: 10px;" color="warn"
   mode="indeterminate">
 </mat-progress-bar> -->
-<div class="overlay" *ngIf="spinnerService.visibility | async">
+<div class="overlay" *ngIf="spinnerService.visibility | async" style="z-index: 999999;">
   <div class="center">
     <mat-spinner [diameter]="50"></mat-spinner>
   </div>

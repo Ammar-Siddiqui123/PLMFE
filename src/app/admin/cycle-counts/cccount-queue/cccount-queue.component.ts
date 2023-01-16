@@ -43,6 +43,7 @@ export class CCCountQueueComponent implements OnInit {
     let dialogRef = this.dialog.open(ImportFieldMappingComponent, {
       height: '650px',
       width: '800px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'addInvMapLocation',
         //itemList : this.itemList,
