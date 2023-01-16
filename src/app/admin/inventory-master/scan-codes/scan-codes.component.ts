@@ -93,7 +93,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
 
     }
     this.scanCodesList.forEach(element => {
-      if(element.scanCode.toLowerCase() == scanCode.toLowerCase()){
+      if(element.scanCode== scanCode){
         newRecord = false;
         return;
       }

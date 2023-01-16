@@ -43,6 +43,7 @@ export class ItemCategoryComponent implements OnInit {
   saveCategory(category : any, oldCat : any, subCategory : any, oldSubCat : any) {
   
     let cond = true;
+    if(category){
     this.category_list.forEach(element => {
       if(element.category == category ) {
         cond = false;
@@ -53,7 +54,7 @@ export class ItemCategoryComponent implements OnInit {
        return;
       }   
     });
-
+  } 
     if(category && subCategory && cond){
       let paylaod = {      
         "category": category,
