@@ -243,10 +243,14 @@
                           <div class="card-body">
                             <div class="p-2">
                               <div class="g-details-wrap my-3" *ngIf="isLookUp">
-                                <div class="g-detail">
+                                <!-- <div class="g-detail">
                                   <label class="g-field-label">Maximun Handheld Orders</label>
                                   <div class="g-field-content">{{max_orders}}</div>
-                                </div>
+                                </div> -->
+                                <mat-form-field class="mb-3 w-100" appearance="outline">
+                                  <mat-label>Maximun Handheld Orders</mat-label>
+                                  <input matInput type="text" [NumbersOnly]="true"  [(ngModel)]="max_orders">
+                              </mat-form-field>
                               </div>
                             </div>
                           </div>
