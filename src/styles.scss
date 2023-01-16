@@ -283,8 +283,8 @@ mat-toolbar {
 
 .mat-toolbar:before {
   content: "";
-  position: absolute;
-  background: #0f172a2b;
+  // position: absolute;
+  // background: #0f172a2b;
   top: 0;
   left: 0;
   right: 0;
@@ -1191,7 +1191,7 @@ button.default-btn{
 }
 .mat-modal-wrap .mat-button-base {
   min-width: 200px;
-  height: 48px;
+  // height: 48px;
   font-size: 16px;
 }
 
