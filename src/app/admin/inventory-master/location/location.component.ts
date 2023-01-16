@@ -27,7 +27,7 @@ export class LocationComponent implements OnInit {
 
     
   announceSortChange(sortState: any) {
-
+   this.sendNotification({sortingColumn: this.displayedColumns.indexOf(sortState.active) , sortingSeq: sortState.direction})
   }
 
   refreshGrid(){

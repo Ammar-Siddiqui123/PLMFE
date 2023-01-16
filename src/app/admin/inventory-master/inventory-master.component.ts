@@ -202,14 +202,14 @@ export class InventoryMasterComponent implements OnInit {
     })
   }
 
-  public getInvMasterLocations(itemNum: any , pageSize?, startIndex?) {
+  public getInvMasterLocations(itemNum: any , pageSize?, startIndex?, sortingColumnName?, sortingOrder?) {
     let paylaod = {
       "draw": 0,
       "itemNumber": itemNum,
       "start":  startIndex? startIndex: 0,
       "length": pageSize? pageSize : 5,
-      "sortColumnNumber": 0,
-      "sortOrder": "asc",
+      "sortColumnNumber": sortingColumnName? sortingColumnName : 0,
+      "sortOrder":  sortingOrder? sortingOrder : "asc",
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
@@ -755,6 +755,8 @@ export class InventoryMasterComponent implements OnInit {
       this.getInvMasterLocations(this.currentPageItemNo);
     } else if(e.locationPageSize && e.startIndex){
       this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex);
+    } else if(e.sortingColumn){
+      this.getInvMasterLocations(this.currentPageItemNo, '', '', e.sortingColumn, e.sortingSeq );
     }else {
       this.getInventory();
     }
