@@ -37,7 +37,11 @@ export class BatchOrderListComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // console.log(changes);
+if(changes['orderListData']){
+  this.tableData['_data']['_value']=changes['orderListData']['currentValue']
+}
+   
+
   }
 
 

@@ -29,12 +29,13 @@ export class BatchDeleteComponent implements OnInit {
   ];
   batchList: any = [];
   transType: string = 'Pick';
-  batchID: string = "";
+  batchID: string|undefined = "";
   public userData: any;
   public dltType: any;
   @ViewChild('deleteAction') dltActionTemplate: TemplateRef<any>;
 
   @Output() transTypeEmitter = new EventEmitter<any>();
+  @Output() deleteEmitter = new EventEmitter<any>();
   @Input()
   set batchUpdater(batchUpdater: Event) {
     if (batchUpdater) {
@@ -81,7 +82,7 @@ export class BatchDeleteComponent implements OnInit {
   }
 
   deleteBatch(type: any, id: any) {
-
+debugger
     let payload = {
       "batchID": id,
       "identity": 2,
@@ -95,20 +96,24 @@ export class BatchDeleteComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(() => {
-        if (this.dltType == 'batch_tote') {
+     
+        if(this.dltType){
+          if (this.dltType == 'batch_tote') {
           payload.identity = 0
-        } else {
+          } else {
           payload.identity = 1
-        }
-        this.batchService.delete(payload, '/Admin/BatchDeleteAll').subscribe((res: any) => {
+          }
+          this.batchService.delete(payload, '/Admin/BatchDeleteAll').subscribe((res: any) => {
           if(res.isExecuted) {
             this.ngOnInit();
             this.toastr.success(res.responseMessage, 'Success!',{
               positionClass: 'toast-bottom-right',
               timeOut:2000
            });
+           this.deleteEmitter.emit(res)
           }
         });
+         }
       });
     }
     else{
@@ -120,6 +125,9 @@ export class BatchDeleteComponent implements OnInit {
             positionClass: 'toast-bottom-right',
             timeOut:2000
          });
+         this.deleteEmitter.emit(res.data)
+        this.batchID=undefined;
+         
         }
       });
     }
