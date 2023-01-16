@@ -13,6 +13,7 @@ export class BatchOrderListComponent implements OnInit {
 
   // @Input() orderListData : any;
   tableData:any;
+  toteNumber:number=1;
   @Input() set orderListData(val: any) {
     this.tableData = new MatTableDataSource(val);
     this.tableData.paginator = this.paginator;
@@ -36,7 +37,11 @@ export class BatchOrderListComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // console.log(changes);
+if(changes['orderListData']){
+  this.tableData['_data']['_value']=changes['orderListData']['currentValue']
+}
+   
+
   }
 
 
@@ -49,11 +54,17 @@ export class BatchOrderListComponent implements OnInit {
   }
 
   addOrders(order : any) {
+  
+    order.toteNumber= this.toteNumber<=10?this.toteNumber++:this.toteNumber=1; // tote number increment till 10 after 10 restarts to 1
     this.addOrderEmitter.emit(order);
   }
 
   addRemoveAllOrder(){
     this.addRemoveAll.emit();
+  }
+
+  openView(){
+    
   }
 
 }

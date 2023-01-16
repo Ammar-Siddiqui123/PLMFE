@@ -20,7 +20,7 @@
         <div class="row">
 
           <div class="col-3">
-            <mat-form-field class="custom-form-field w-100 __grab_cursor bg-white" appearance="outline">
+            <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
               <mat-label>Transaction Type</mat-label>
               <mat-select [(ngModel)]="transType" (selectionChange)="changeTranType($event.value)">
                 <mat-option *ngFor="let type of transList" value="{{type.id}}">{{type.name}}</mat-option>
@@ -28,7 +28,7 @@
             </mat-form-field>
           </div>
 
-          <div class=" col-3">
+          <div class="col-3">
             <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
               <mat-label>Location No.</mat-label>
               <input matInput disabled class="" value="Pick and Pass" type="text">
@@ -36,7 +36,7 @@
           </div>
 
           <div class=" col-3">
-            <mat-form-field class="custom-form-field w-100 __grab_cursor bg-white" appearance="outline">
+            <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
               <mat-label>Batch ID</mat-label>
               <mat-select [(ngModel)]="batchID">
                 <mat-option *ngFor="let batch of batchList" value="{{batch}}">{{batch}}</mat-option>
@@ -45,7 +45,7 @@
           </div>
 
           <div class="col-3 d-flex  justify-content-center ">
-            <button mat-stroked-button color="warn" class="button-remove-all bg-white button custom-button-width"
+            <button [disabled]="!batchID" mat-stroked-button color="warn" class="button-remove-all bg-white button custom-button-width"
               (click)="deleteBatch(transType, batchID)">
               <mat-icon>delete_outline</mat-icon>
               Delete
@@ -69,10 +69,10 @@
     <div>
       <p class="bold text-tritary-900 mb-4 pt-4">Select the desired option for deleting the selected batch.</p>
       <div class="mb-3 d-flex justify-content-around text-center">
-        <button mat-flat-button color="warn" class="custom-btn button-delete-flat bg-white" (click)="onDltOptions('batch_tote')">
+        <button mat-stroked-button color="warn" class="custom-btn button-delete-flat bg-white" (click)="onDltOptions('batch_tote')">
           Delete Batch and Tote
         </button>
-        <button mat-stroked-button color="warn" class="custom-btn bg-white" (click)="onDltOptions('batch')">
+        <button  mat-stroked-button color="warn" class="custom-btn bg-white" (click)="onDltOptions('batch')">
           Delete Batch
         </button>
       </div>

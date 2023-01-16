@@ -17,6 +17,7 @@ export class AssignedFunctionsComponent implements OnInit {
   @Input() assignedFunctions: [];
   @Output() removeFunction = new EventEmitter();
   @Input() spliceValue:[]=[];
+  filterName:any
 
 
   spliceArray:any;

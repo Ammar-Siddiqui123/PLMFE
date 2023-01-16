@@ -22,6 +22,7 @@ export class AddNewGroupComponent implements OnInit {
   form_heading: string = 'Add New Group';
   form_btn_label: string = 'Add';
   grpData: any = [];
+  isValidForm:boolean = true;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private toastr: ToastrService, private employeeService: EmployeeService) { }
  
   emp: IEmployee;
@@ -32,8 +33,7 @@ export class AddNewGroupComponent implements OnInit {
     this.data?.mode === 'edit' ? this.form_heading = 'Edit Group' : 'Add New Group';
     this.data?.mode === 'edit' ? this.form_btn_label = 'Save': 'Add';
     this.groupName = this.grpData.groupName ?? '';
-
-
+    
   }
 
 
@@ -42,7 +42,6 @@ export class AddNewGroupComponent implements OnInit {
     {
       // display error in your form
     }else{
-        
          this.employeeService.insertGroup(form.value)
         .subscribe((response: AccessGroupObject) => {
           if(response.isExecuted){
@@ -64,6 +63,15 @@ export class AddNewGroupComponent implements OnInit {
       
     }
 
+  }
+  
+  checkIfValid(){
+    if(this.groupName.trim() === ''){
+      this.isValidForm = true;
+    }
+    else{
+      this.isValidForm = false;
+    }
   }
 
 }

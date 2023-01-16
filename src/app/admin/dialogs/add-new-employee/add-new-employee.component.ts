@@ -64,37 +64,41 @@ export class AddNewEmployeeComponent implements OnInit {
     this.initialzeEmpForm();
   }
 
-  toggleDisabled(){
+  toggleDisabled() {
     this.isDisabledPassword = false;
-    if(!this.isDisabledPassword){
+    if (!this.isDisabledPassword) {
       this.empForm.controls['password'].enable();
       this.focusFeild.nativeElement.focus();
     }
   }
-  isEmptyPass(){
-  // console.log(this.empForm.controls['password']?.value);
-  
-     if(this.empForm.controls['password']?.value === ''){
-      this.isDisabledPassword = true;
-      this.empForm.controls['password'].disable();
+  isEmptyPass() {
+    // console.log(this.empForm.controls['password']?.value);
+    if (this.data?.mode === 'edit') {
+      if (this.empForm.controls['password']?.value === '') {
+        this.isDisabledPassword = true;
+        this.empForm.controls['password'].disable();
+      }
     }
+
   }
 
   initialzeEmpForm() {
     this.empForm = this.fb.group({
-      mi: [ this.mi || '', []],
-      firstName: [  this.firstName || '', []],
-      lastName: [  this.lastName || '', [Validators.required]],
-      userName: [{value: this.userName, disabled: this.isDisabledPassword} || '', [Validators.required]],
-      password: [{value: '', disabled: this.isDisabledPassword}, [Validators.required]],
-      emailAddress: [  this.emailAddress || '', []],
-      accessLevel: [  this.accessLevel || '', [Validators.required]],
-      active: [  this.active || '', []],
+      mi: [this.mi || '', []],
+      firstName: [this.firstName || '', []],
+      lastName: [this.lastName || '', [Validators.required]],
+      userName: [{ value: this.userName, disabled: this.isDisabledPassword } || '', [Validators.required]],
+      password: [{ value: '', disabled: this.isDisabledPassword }, [Validators.required]],
+      emailAddress: [this.emailAddress || '', []],
+      accessLevel: [this.accessLevel || '', [Validators.required]],
+      active: [this.active || '', []],
     });
   }
 
   onSubmit(form: FormGroup) {
-   if(form.valid) {
+    if (form.valid) {
+      this.cleanForm(form);
+      form.value.active = Boolean(JSON.parse(form.value.active));
       if (this.data?.mode === 'edit') {
         form.value.wsid = "TESTWID";
         form.value.userName = this.userName;
@@ -138,11 +142,19 @@ export class AddNewEmployeeComponent implements OnInit {
     }
 
   }
+
+  public cleanForm(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach((key) => this.empForm.get(key)?.setValue(this.empForm.get(key)?.value.toString().trim()));
+  }
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate([currentUrl]);
     });
+  }
+
+  hasError(fieldName: string, errorName: string) {
+    return this.empForm.get(fieldName)?.touched && this.empForm.get(fieldName)?.hasError(errorName);
   }
 
 }
