@@ -69,7 +69,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
     }
     this.invMasterService.get(paylaod, '/Admin/DeleteScanCode').subscribe((res: any) => {
       if (res.isExecuted) {
-        this.toastr.success(labels.alert.success, 'Success!', {
+        this.toastr.success(labels.alert.delete, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });

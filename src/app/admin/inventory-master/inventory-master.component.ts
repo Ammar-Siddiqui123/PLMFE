@@ -747,15 +747,16 @@ export class InventoryMasterComponent implements OnInit {
 
     this.searchValue = '';
   }
-  getNotification(e: any, ){
-    if(e.newItemNumber){
+  getNotification(e: any ){
+    
+    if(e?.newItemNumber){
       this.currentPageItemNo = e.newItemNumber;
       this.getInventory();
-    } else if(e.refreshLocationGrid){
+    } else if(e?.refreshLocationGrid){
       this.getInvMasterLocations(this.currentPageItemNo);
-    } else if(e.locationPageSize && e.startIndex){
+    } else if(e?.locationPageSize && e?.startIndex){
       this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex);
-    } else if(e.sortingColumn){
+    } else if(e?.sortingColumn){
       this.getInvMasterLocations(this.currentPageItemNo, '', '', e.sortingColumn, e.sortingSeq );
     }else {
       this.getInventory();

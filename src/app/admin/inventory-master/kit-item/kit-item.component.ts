@@ -42,7 +42,7 @@ export class KitItemComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.kitItem.controls['kitInventories'].value) {
-      this.kitItemsList = this.kitItem.controls['kitInventories'].value;
+      this.kitItemsList = [...this.kitItem.controls['kitInventories'].value];
     }
   }
 
@@ -60,7 +60,8 @@ export class KitItemComponent implements OnInit, OnChanges {
   }
 
   dltCategory(e: any) {
-    if (e.itemNumber) {
+    
+    if (e?.itemNumber) {
       let paylaod = {
         "itemNumber": this.kitItem.controls['itemNumber'].value,
         "kitItem": e.itemNumber,
@@ -72,7 +73,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       this.invMasterService.get(paylaod, '/Admin/DeleteKit').subscribe((res: any) => {
 
         if (res.isExecuted) {
-          this.toastr.success(labels.alert.success, 'Success!', {
+          this.toastr.success(labels.alert.delete, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
@@ -87,9 +88,10 @@ export class KitItemComponent implements OnInit, OnChanges {
   }
 
   saveKit(newItem: any, e: any) {
+   console.log(this.kitItem.controls['kitInventories'].value)
     
     let newRecord = true;
-    this.kitItemsList.forEach(element => {
+    this.kitItem.controls['kitInventories'].value.forEach(element => {
       if(element.itemNumber == newItem){
         newRecord = false;
         return;
@@ -208,7 +210,7 @@ export class KitItemComponent implements OnInit, OnChanges {
     } else {
 
     let alreadyExits = false;
-    this.kitItemsList.forEach(element => {
+    this.kitItem.controls['kitInventories'].value.forEach(element => {
       if(element.itemNumber == e.option.value.itemNumber){
         alreadyExits = true;
         return;
@@ -229,7 +231,7 @@ export class KitItemComponent implements OnInit, OnChanges {
   }
 
   displayFn(e){
-    return e.itemNumber
+    return e?.itemNumber
   }
 
 }
