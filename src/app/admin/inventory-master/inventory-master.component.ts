@@ -176,7 +176,7 @@ export class InventoryMasterComponent implements OnInit {
       if(this.currentPageItemNo == ''){
         this.currentPageItemNo = res.data.firstItemNumber;
       }
-
+      this.searchValue = this.currentPageItemNo;
       this.paginationData ={
         total: res.data.filterCount.total,
         position: res.data.filterCount.pos,
