@@ -55,7 +55,21 @@ export class BatchSelectedOrdersComponent implements OnInit {
     // this.dataSource.sort = this.sort;
   }
   ngOnChanges(changes: SimpleChanges) {
-    // console.log(changes);
+    console.log(changes['selectedOrderList']?.currentValue);
+    let toteLimit=0;
+
+    if(changes['selectedOrderList']){
+      this.tableData['_data']['_value'].forEach(element => {
+        if(toteLimit<10){
+          toteLimit++;
+        }else{
+          toteLimit=1;
+        }  
+        element['toteNumber']=toteLimit;
+  
+      });
+    }
+  
     this.batchManagerSettings.map(batchSetting => {
         this.nextOrderNumber = batchSetting.batchID
         // console.log(batchSetting.batchID);
@@ -85,7 +99,8 @@ export class BatchSelectedOrdersComponent implements OnInit {
   createBatch() {
     let iBactchData:any[] = [];
     this.tableData.data.map((order:any) => {
-      let result = [ order.orderNumber.toString(), order.countOfOrderNumber.toString()];
+      // let result = [ order.orderNumber.toString(), order.countOfOrderNumber.toString()];
+      let result = [ order.orderNumber.toString(), order.toteNumber.toString()];
       iBactchData.push(result);
     });
     

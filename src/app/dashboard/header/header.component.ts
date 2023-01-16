@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
       });
       
       }
-      // console.log(val instanceof NavigationEnd) 
+      console.log(this.breadcrumbList) 
   });
 
    }

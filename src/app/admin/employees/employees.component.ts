@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild, Inject, Input } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -23,6 +23,7 @@ import { GroupAllowedComponent } from '../dialogs/group-allowed/group-allowed.co
 import { CloneGroupComponent } from '../dialogs/clone-group/clone-group.component';
 import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
+import { SpinnerService } from '../../../app/init/spinner.service';
 
 export interface location {
   start_location: string;
@@ -72,6 +73,7 @@ export class EmployeesComponent implements OnInit {
   grp_data:any;
   public demo1TabIndex = 0;
   public userData;
+  @ViewChild('zoneDataRefresh', { static: true,read:MatTable }) zoneDataRefresh;
 
 
 
@@ -81,7 +83,15 @@ export class EmployeesComponent implements OnInit {
   groupsColumns: string[] = ['groups', 'actions'];
 
 
-  constructor(private authService: AuthService,private _liveAnnouncer: LiveAnnouncer, private employeeService: EmployeeService, private dialog: MatDialog,private toastr: ToastrService, public router: Router) { 
+  constructor(
+    private authService: AuthService,
+    private _liveAnnouncer: LiveAnnouncer, 
+    private employeeService: EmployeeService, 
+    private dialog: MatDialog,
+    private toastr: ToastrService, 
+    public router: Router,
+    public laoder: SpinnerService
+    ) { 
     // console.log(router.url);
   }
 
@@ -101,16 +111,16 @@ getgroupAllowedList(){
   this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
    // this.groupAllowedList = res.data;
     this.groupAllowedList = new MatTableDataSource(res.data);
-    this.groupAllowedList.filterPredicate = (data: String, filter: string) => {
-      return data.toLowerCase().includes(filter.trim().toLowerCase());
-  };
+  //   this.groupAllowedList.filterPredicate = (data: any, filter: string) => {
+  //     return data.toLowerCase().includes(filter.trim().toLowerCase());
+  // };
   }) 
 }
   updateIsLookUp(event: any) {
     this.empData = {};
     this.empData = event.userData;
     this.isLookUp = event;
-    console.log(event.userData?.username);
+    // console.log(event.userData?.username);
     this.grp_data = event.userData?.username
 
     this.max_orders = event.userData.maximumOrders;
@@ -118,7 +128,7 @@ getgroupAllowedList(){
       "userName": event.userData?.username,
       "wsid": "TESTWSID"
     };
-    // console.log(emp_data)
+ 
     this.employeeService.getAdminEmployeeDetails(emp_data)
       .subscribe((response: any) => {
         // console.log(response);
@@ -132,15 +142,9 @@ getgroupAllowedList(){
           return data.toLowerCase().includes(filter.trim().toLowerCase());
       };
         this.emp_all_zones = response.data?.allZones;
+        this.getgroupAllowedList();
       });
-      this.getgroupAllowedList();
-      
-      // this.employeeService.getEmployeeData(emp_data).subscribe((res:any) => {
-      //   this.groupAllowedList = new MatTableDataSource(res.data?.allGroups);
-      //   this.groupAllowedList.filterPredicate = (data: String, filter: string) => {
-      //     return data.toLowerCase().includes(filter.trim().toLowerCase());
-      // };
-      // })
+
 
 
   }
@@ -388,9 +392,11 @@ getgroupAllowedList(){
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Added Succesfully!');
-      this.reloadData();
-
+      if(result.mode === 'addZone'){
+        this.employee_fetched_zones.filteredData.push(result.data.zone)
+        this.zoneDataRefresh.renderRows()
+      }
+      // this.reloadData();
     })
   }
 
@@ -406,6 +412,30 @@ getgroupAllowedList(){
     })
     dialogRef.afterClosed().subscribe(result => {
       this.reloadData();
+
+    })
+
+  }
+  editZoneDialog(zone: any) {
+   const dialogRef =  this.dialog.open(AddZoneComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        mode: 'edit-zone',
+        zone: zone,
+        allZones: this.emp_all_zones,
+        userName:this.grp_data
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      // this.reloadData();
+      console.log(result);
+      
+      if(result.mode === 'editZone'){
+        this.employee_fetched_zones.filteredData.pop(result.oldZone)
+        this.employee_fetched_zones.filteredData.push(result.data.zone)
+        this.zoneDataRefresh.renderRows()
+      }
 
     })
 
@@ -514,7 +544,7 @@ getgroupAllowedList(){
 
   groupAllowedFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.groupAllowedList.filter = filterValue;
+    this.groupAllowedList.filter = filterValue.trim().toLowerCase();
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
