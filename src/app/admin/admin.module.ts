@@ -83,6 +83,10 @@ import { TransactionHistoryComponent } from './transaction/transaction-history/t
 import { TransactionHistoryFiltersComponent } from './transaction/transaction-history/transaction-history-filters/transaction-history-filters.component';
 import { TransactionHistoryListComponent } from './transaction/transaction-history/transaction-history-list/transaction-history-list.component';
 import { OrderStatusComponent } from './transaction/order-status/order-status.component';
+import { TranSelectOrderComponent } from './transaction/order-status/tran-select-order/tran-select-order.component';
+import { TranCarouselLzoneComponent } from './transaction/order-status/tran-carousel-lzone/tran-carousel-lzone.component';
+import { TranOffCarouselLzoneComponent } from './transaction/order-status/tran-off-carousel-lzone/tran-off-carousel-lzone.component';
+import { TranOrderListComponent } from './transaction/order-status/tran-order-list/tran-order-list.component';
 
 
 
@@ -162,7 +166,11 @@ import { OrderStatusComponent } from './transaction/order-status/order-status.co
     TransactionHistoryComponent,
     TransactionHistoryFiltersComponent,
     TransactionHistoryListComponent,
-    OrderStatusComponent
+    OrderStatusComponent,
+    TranSelectOrderComponent,
+    TranCarouselLzoneComponent,
+    TranOffCarouselLzoneComponent,
+    TranOrderListComponent
 
   ],
   imports: [

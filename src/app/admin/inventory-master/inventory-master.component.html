@@ -109,9 +109,7 @@
           
         </mat-card>
         <div class="d-flex gap-20 justify-content-end py-3">
-          <button mat-stroked-button color="danger" class=" button-warn btn-lg" (click)="deleteItem($event)" [disabled]="!(this.currentPageItemNo)">
-            Delete
-          </button>
+ 
           <button *ngIf="invMaster.controls['itemQuarantined'].value == 0" mat-flat-button color="secondary" class="button-secondary btn-lg" (click)="openAddItemDialog()">
            Add New Item
           </button>

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild ,AfterViewInit} from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild ,AfterViewInit, Input, SimpleChanges} from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -72,7 +72,9 @@ const INVMAP_DATA = [
 export class OpenTransactionDataTableComponent implements OnInit,AfterViewInit {
   public columnValues: any = [];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
+  // displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
+  @Input() displayedColumns : any;
+  
   selection = new SelectionModel<PeriodicElement>(true, []);
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -124,6 +126,13 @@ export class OpenTransactionDataTableComponent implements OnInit,AfterViewInit {
     //  this.getContentData();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    debugger
+    console.log(changes)
+    // this.displayedColumns=changes['displayedColumns']['currentValue'].map(item=>{
+    //   return item
+    // })
+  }
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;

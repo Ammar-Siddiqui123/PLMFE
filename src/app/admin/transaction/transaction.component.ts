@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
@@ -7,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TransactionComponent implements OnInit {
   public demo1TabIndex = 1;
-
+  public userData: any;
+  
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+ 
+
+  }
+
+
 
   public demo1BtnClick() {
     const tabCount = 3;
