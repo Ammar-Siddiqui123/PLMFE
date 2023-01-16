@@ -7,8 +7,13 @@
    position: absolute;
   left: 10px;
   width: calc(100% - 50px);
+  
   padding: 6px;
   text-align: center;
   box-sizing: border-box;
+    
+ }
 
+ .td-right-align{
+    text-align: right;
  }
