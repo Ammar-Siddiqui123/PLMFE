@@ -1,9 +1,12 @@
-<h1 mat-dialog-title>Group Allowed</h1>
-<button mat-icon-button class="close-button dialog-close-button br-14" [mat-dialog-close]="true">
+<div class="d-flex justify-content-between mb-4 align-items-center">
+    <div style="width:48px"></div>
+<h1 class="m-0" mat-dialog-title>Group Allowed</h1>
+<button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
     <mat-icon class="close-icon">close</mat-icon>
 </button>
-<div class="container">
-    <div mat-dialog-content>
+</div>
+<div class="">
+    <!-- <div mat-dialog-content> -->
 
         <form class="form pb-4" [formGroup]="controlNameForm" (ngSubmit)="onSend(controlNameForm)">
                 <mat-form-field class="d-block w-100" appearance="outline">
@@ -23,6 +26,9 @@
                             </div>
                         </mat-option>
                     </mat-autocomplete>
+                    <span class="material-symbols-outlined icon-expand-more">
+                        expand_more
+                      </span>
                   </mat-form-field>
                   <div class="error" *ngIf="hasError('controlName', 'required')">This field is required.</div>
             <!-- </mat-form-field> -->
@@ -33,5 +39,5 @@
             </mat-dialog-actions>
 
         </form>
-    </div>
+    <!-- </div> -->
 </div>

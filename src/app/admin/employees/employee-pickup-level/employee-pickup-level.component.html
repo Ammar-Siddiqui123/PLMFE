@@ -28,6 +28,7 @@
               </button>
             </div> -->
             <div class="card table-responsive">
+              <ng-scrollbar style="height: 500px;">
             <table mat-table [dataSource]="pickup_level_data_source" matSort
               (matSortChange)="announceSortChange($event)" class="w-100 g-card-table employee-pick-level-table table-minimal-action-buttons">
 
@@ -72,6 +73,7 @@
               <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+          </ng-scrollbar>
           </div>
           </div>
         </div>
