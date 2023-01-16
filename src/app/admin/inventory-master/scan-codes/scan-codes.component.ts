@@ -18,7 +18,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   public userData: any;
   scanCodesList: any;
   scanTypeList: any = [];
-  scanRange: any =['Yes', 'No']
+  scanRangeList: any =['Yes', 'No']
   
 
   constructor( private invMasterService: InventoryMasterService,
@@ -69,7 +69,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
     }
     this.invMasterService.get(paylaod, '/Admin/DeleteScanCode').subscribe((res: any) => {
       if (res.isExecuted) {
-        this.toastr.success(labels.alert.success, 'Success!', {
+        this.toastr.success(labels.alert.delete, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
@@ -86,14 +86,15 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   }
   }
 
-  saveCategory(item, scanCode, startPosition, codeLength){
+  saveCategory(item, scanCode, startPosition, codeLength, scanRange, scanType){
     let newRecord = true;
 
     if(item.scanCode=='') {
 
     }
     this.scanCodesList.forEach(element => {
-      if(element.scanCode== scanCode){
+      if(element.scanCode== scanCode && element.startPosition == startPosition && element.codeLength == codeLength  
+        && element.scanRange == scanRange && element.scanType == scanType ){
         newRecord = false;
         return;
       }
@@ -131,13 +132,14 @@ export class ScanCodesComponent implements OnInit , OnChanges {
         });
       }
     })
-  } else if (item.scanCode!='' && !newRecord) {
+  } else if (item.scanCode!='') {
     let paylaod = {
       "itemNumber": this.scanCodes.controls['itemNumber'].value,
-      "oldScanCode": scanCode,
+      "oldScanCode": item.scanCode,
       "scanCode": scanCode,
-      "scanType": item.scanType,
-      "scanRange": item.scanRange,
+      "scanType": scanType,
+      "oldScanRange": item.scanRange,
+      "scanRange": scanRange,
       "oldStartPosition": item.startPosition,
       "newStartPosition": startPosition,
       "oldCodeLength": item.codeLength,
@@ -153,7 +155,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
         });
         this.refreshScanCodeList();
       }else{
-        this.toastr.error(res.responseMessage, 'Error!', {
+        this.toastr.error('Already Exists', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
