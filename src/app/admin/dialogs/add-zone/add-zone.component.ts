@@ -48,8 +48,7 @@ export class AddZoneComponent implements OnInit {
 
   ngAfterViewInit(){
     if(this.data.mode === 'edit-zone'){
-      console.log(this.data);
-      
+      // console.log(this.data);
       this.addZoneForm.controls['zoneList'].setValue(this.data.zone);
     }
   }
@@ -69,8 +68,9 @@ export class AddZoneComponent implements OnInit {
   }
 
   blurInput() {
-    if (!this.isValid)
-    this.addZoneForm.controls['zoneList'].setValue("");
+    if (!this.isValid){
+      this.addZoneForm.controls['zoneList'].setValue("");
+    }
   }
 
   private _filter(value: string){
@@ -87,12 +87,29 @@ export class AddZoneComponent implements OnInit {
         "zone": form.value.zoneList
     }
     let oldZone;
+    let mode = 'addZone';
     if(this.data.mode === 'edit-zone'){
+      mode = 'editZone';
       oldZone = this.data.zone
+      let zoneData = {
+        "zone": oldZone,
+        "username": this.data.userName
+      }
+      this.employeeService.deleteEmployeeZone(zoneData).subscribe((res: any) => {
+        if (res.isExecuted) {
+          this.addUpdateZone(addZoneData, oldZone, mode)
+        } 
+      });
     }
+    else{
+      this.addUpdateZone(addZoneData, oldZone, mode);
+    }
+  }
+
+  private addUpdateZone(addZoneData:any, oldZone:any, mode:string){
     this.employeeService.updateEmployeeZone(addZoneData).subscribe((res: any) => {
       if (res.isExecuted) {
-        this.dialogRef.close({data: addZoneData, mode: 'addZone', oldZone: oldZone});
+        this.dialogRef.close({data: addZoneData, mode: mode, oldZone: oldZone});
         this.toastr.success(labels.alert.success, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000

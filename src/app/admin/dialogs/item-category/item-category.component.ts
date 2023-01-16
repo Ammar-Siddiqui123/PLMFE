@@ -115,6 +115,7 @@ export class ItemCategoryComponent implements OnInit {
     let dialogRef = this.dialog.open(PrintRangeComponent, {
       height: 'auto',
       width: '400px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: '',
       }

@@ -192,6 +192,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
     let dialogRef = this.dialog.open(ScanTypeCodeComponent, {
       height: 'auto',
       width: '750px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: '',
       }

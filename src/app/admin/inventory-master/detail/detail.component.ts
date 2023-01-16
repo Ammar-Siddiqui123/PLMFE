@@ -42,6 +42,7 @@ export class DetailComponent implements OnInit {
     let dialogRef = this.dialog.open(ItemNumberComponent, {
       height: 'auto',
       width: '560px',
+      autoFocus: '__non_existing_element__',
       data: {
         itemNumber: this.details.controls['itemNumber'].value,
         newItemNumber : '',
@@ -79,6 +80,7 @@ export class DetailComponent implements OnInit {
     let dialogRef = this.dialog.open(UpdateDescriptionComponent, {
       height: 'auto',
       width: '560px',
+      autoFocus: '__non_existing_element__',
       data: {
         description: this.details.controls['description'].value,
       }
@@ -97,6 +99,7 @@ export class DetailComponent implements OnInit {
     let dialogRef = this.dialog.open(ItemCategoryComponent, {
       height: 'auto',
       width: '800px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: '',
       }
@@ -116,6 +119,7 @@ export class DetailComponent implements OnInit {
     let dialogRef = this.dialog.open(UnitMeasureComponent, {
       height: 'auto',
       width: '750px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: '',
       }

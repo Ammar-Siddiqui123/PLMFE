@@ -217,6 +217,7 @@ export class InventoryMapComponent implements OnInit {
     let dialogRef = this.dialog.open(AddInvMapLocationComponent, {
       height: '750px',
       width: '100%',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'addInvMapLocation',
         itemList : this.itemList
@@ -231,6 +232,7 @@ export class InventoryMapComponent implements OnInit {
       let dialogRef = this.dialog.open(SetColumnSeqComponent, {
         height: '700px',
         width: '600px',
+        autoFocus: '__non_existing_element__',
         data: {
           mode: actionEvent.value,
         }
@@ -250,7 +252,8 @@ export class InventoryMapComponent implements OnInit {
 
   viewAllLocDialog(): void {
     const dialogRef = this.dialog.open(this.customTemplate, {
-       width: '400px'
+       width: '400px',
+       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       console.log('The dialog was closed');
@@ -267,6 +270,7 @@ export class InventoryMapComponent implements OnInit {
     let dialogRef = this.dialog.open(AddInvMapLocationComponent, {
       height: '750px',
       width: '100%',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'editInvMapLocation',
         itemList : this.itemList,
@@ -282,6 +286,7 @@ export class InventoryMapComponent implements OnInit {
     let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-inventory-map',
         id: event.invMapID
@@ -300,6 +305,7 @@ export class InventoryMapComponent implements OnInit {
     let dialogRef = this.dialog.open(QuarantineConfirmationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'inventory-map-quarantine',
         id: event.invMapID
@@ -316,6 +322,7 @@ export class InventoryMapComponent implements OnInit {
     let dialogRef = this.dialog.open(QuarantineConfirmationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'inventory-map-unquarantine',
         id: event.invMapID
@@ -331,6 +338,7 @@ export class InventoryMapComponent implements OnInit {
     let dialogRef = this.dialog.open(AdjustQuantityComponent, {
       height: 'auto',
       width: '800px',
+      autoFocus: '__non_existing_element__',
       data: {
         id: event.invMapID
       }
