@@ -93,7 +93,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
 
     }
     this.scanCodesList.forEach(element => {
-      if(element.scanCode.toLowerCase() == scanCode.toLowerCase()){
+      if(element.scanCode== scanCode){
         newRecord = false;
         return;
       }
@@ -132,6 +132,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
       }
     })
   } else if (item.scanCode!='' && !newRecord) {
+    debugger
     let paylaod = {
       "itemNumber": this.scanCodes.controls['itemNumber'].value,
       "oldScanCode": scanCode,
