@@ -569,6 +569,7 @@ export class InventoryMasterComponent implements OnInit {
     let dialogRef = this.dialog.open(ItemNumberComponent, {
       height: 'auto',
       width: '560px',
+      autoFocus: '__non_existing_element__',
       data: {
         itemNumber: '',
         newItemNumber : '',
@@ -612,7 +613,8 @@ export class InventoryMasterComponent implements OnInit {
     let itemToDelete = this.currentPageItemNo
 
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '560px'
+      width: '560px',
+      autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((res) => {
       if(res=='Yes'){
@@ -656,7 +658,8 @@ export class InventoryMasterComponent implements OnInit {
 
   quarantineDialog(): void {
     const dialogRef = this.dialog.open(this.quarantineTemp, {
-      width: '560px'
+      width: '560px',
+      autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((x) => {
       if(x){
@@ -686,7 +689,8 @@ export class InventoryMasterComponent implements OnInit {
 
   unquarantineDialog(): void {
     const dialogRef = this.dialog.open(this.unquarantineTemp, {
-      width: '450px'
+      width: '450px',
+      autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((x) => {
       if(x){
