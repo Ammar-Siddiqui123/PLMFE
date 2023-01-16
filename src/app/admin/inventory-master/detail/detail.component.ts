@@ -112,6 +112,7 @@ export class DetailComponent implements OnInit {
     })
   }
   public openUmDialog() {
+    console.log(this.details.controls['replenishmentLevel'].value)
     let dialogRef = this.dialog.open(UnitMeasureComponent, {
       height: 'auto',
       width: '750px',
