@@ -66,7 +66,7 @@ export class VelocityCodeComponent implements OnInit {
       });
       this.getVelocity()
     });
-    }
+    } 
   }
   }
   dltVlCode(vlCode:any){
