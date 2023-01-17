@@ -41,7 +41,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   //   })
   // }
   ngOnChanges(changes: SimpleChanges) {
-      this.scanCodesList = this.scanCodes.controls['scanCode'].value;
+      this.scanCodesList = [...this.scanCodes.controls['scanCode'].value];
   }
 
   ngOnInit(): void {
@@ -92,27 +92,26 @@ export class ScanCodesComponent implements OnInit , OnChanges {
     if(item.scanCode=='') {
 
     }
-    this.scanCodesList.forEach(element => {
-      if(element.scanCode== scanCode && element.startPosition == startPosition && element.codeLength == codeLength  
-        && element.scanRange == scanRange && element.scanType == scanType ){
+    this.scanCodes.controls['scanCode'].value.forEach(element => {
+      if(element.scanCode== scanCode  ){
         newRecord = false;
         return;
       }
     });
 
-    if(!newRecord && item.scanCode==''){
+    if(!newRecord && item.scanCode=='' ){
       this.toastr.error('Already Exists', 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
     }
 
-    else if(newRecord && item.scanCode==''){
+    else if(newRecord && item.scanCode=='' && scanCode !=''){
     let paylaod = {
       "itemNumber": this.scanCodes.controls['itemNumber'].value,
       "scanCode": scanCode,
-      "scanType": item.scanType,
-      "scanRange": item.scanRange,
+      "scanType": scanType,
+      "scanRange": scanRange,
       "startPosition": startPosition,
       "codeLength": codeLength,
       "username": this.userData.userName,
@@ -183,7 +182,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
     }
     this.invMasterService.get(paylaod, '/Admin/RefreshScanCodes').subscribe((res: any) => {
       if (res.isExecuted) {
-        this.scanCodes.controls['scanCode'].setValue(res.data);
+        this.scanCodes.controls['scanCode'].setValue([...res.data]);
         this.scanCodesList = res.data;
       }
     })
