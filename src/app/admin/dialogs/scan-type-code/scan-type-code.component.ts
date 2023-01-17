@@ -15,6 +15,7 @@ import { InventoryMasterService } from '../../inventory-master/inventory-master.
 export class ScanTypeCodeComponent implements OnInit {
 
   public scanTypeCode_list: any;
+  public scanTypeCode_list_Response: any;
   public userData: any;
 
 
@@ -35,6 +36,7 @@ export class ScanTypeCodeComponent implements OnInit {
     }
     this.invMasterService.get(paylaod, '/Common/ScanCodeTypes').subscribe((res) => {
       if (res.isExecuted) {
+        this.scanTypeCode_list_Response = [...res.data];
         this.scanTypeCode_list = res.data;
       }
     });
@@ -47,7 +49,7 @@ export class ScanTypeCodeComponent implements OnInit {
   saveScanCodeType(newScanCode : any, oldScanCode  : any) {
 
     let cond = true;
-    this.scanTypeCode_list.forEach(element => {
+    this.scanTypeCode_list_Response.forEach(element => {
       if(element.toLowerCase() == newScanCode.toLowerCase() ) {
         cond = false;
        this.toastr.error('Already Exists', 'Error!', {
@@ -102,7 +104,22 @@ export class ScanTypeCodeComponent implements OnInit {
   }
 
   selectScanTypeCode(selectedrecord: any){
-    this.dialogRef.close(selectedrecord);
+
+    let notselected = true;
+    this.scanTypeCode_list_Response.forEach(element => {
+      if(element.toLowerCase() == selectedrecord.toLowerCase() ) {
+        notselected = false;
+        this.dialogRef.close(selectedrecord);
+       return;
+      }   
+    });
+    if(notselected){
+      this.toastr.error('Please save the record first.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+
   }
 
   clearScanTypeCode(){
