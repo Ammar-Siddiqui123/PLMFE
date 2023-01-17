@@ -12,6 +12,7 @@ import labels from '../../../labels/labels.json'
 })
 export class VelocityCodeComponent implements OnInit {
   public velocity_code_list: any;
+  public velocity_code_list_Res: any;
   public userData: any;
   constructor(
     private velcodeService: VelocityCodeService,
@@ -26,6 +27,7 @@ export class VelocityCodeComponent implements OnInit {
 
   getVelocity(){
     this.velcodeService.getVelocityCode().subscribe((res) => {
+      this.velocity_code_list_Res = [...res.data];
       this.velocity_code_list = res.data;
      });
   }
@@ -38,7 +40,7 @@ export class VelocityCodeComponent implements OnInit {
     debugger
     if(vlcode){
     let cond = true;
-    this.velocity_code_list.forEach(element => {
+    this.velocity_code_list_Res.forEach(element => {
       if(element == vlcode ) { 
         cond = false;
        this.toastr.error('Already Exists', 'Error!', {
@@ -69,6 +71,7 @@ export class VelocityCodeComponent implements OnInit {
   }
   dltVlCode(vlCode:any){
     if(vlCode){
+
     let paylaod = {
       "velocity": vlCode,
       "username": this.userData.userName,

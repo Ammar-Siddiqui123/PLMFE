@@ -76,7 +76,7 @@ export class InventoryMasterComponent implements OnInit {
       replenishmentPoint : [  this.getInvMasterData?.replenishmentPoint || 0, [ Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       category : [  this.getInvMasterData?.category || '', [ Validators.maxLength(50)]],
       reorderQuantity : [  this.getInvMasterData?.reorderQuantity ||  0, [ Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
-      replenishmentLevel : [  this.getInvMasterData?.replenishmentLevel || 0, [Validators.maxLength(9), , Validators.pattern("^[0-9]*$")]],
+      replenishmentLevel : [  this.getInvMasterData?.replenishmentLevel || 0, [Validators.maxLength(9) , Validators.pattern("^[0-9]*$")]],
       subCategory : [  this.getInvMasterData?.subCategory || '', [Validators.maxLength(50)]],
       unitOfMeasure : [  this.getInvMasterData?.unitOfMeasure || '', [ Validators.maxLength(50)]],
       kanbanReplenishmentPoint : [  this.getInvMasterData?.kanbanReplenishmentPoint || 0, [  Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
