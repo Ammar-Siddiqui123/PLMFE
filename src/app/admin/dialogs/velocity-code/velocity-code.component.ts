@@ -36,8 +36,6 @@ export class VelocityCodeComponent implements OnInit {
     this.velocity_code_list.unshift([]);
   }
   saveVlCode(vlcode:any, oldVC:any){ 
-
-    debugger
     if(vlcode){
     let cond = true;
     this.velocity_code_list_Res.forEach(element => {
