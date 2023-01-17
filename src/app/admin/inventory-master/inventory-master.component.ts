@@ -104,13 +104,13 @@ export class InventoryMasterComponent implements OnInit {
       fifo: [  this.getInvMasterData?.fifo || false],
       fifoDate: [  this.getInvMasterData?.fifoDate || ''],
 
-      bulkCellSize: [  this.getInvMasterData?.bulkCellSize || "0", [ Validators.maxLength(50)]],
-      cellSize: [  this.getInvMasterData?.cellSize || "0", [ Validators.maxLength(50)]],
-      cfCellSize: [ this.getInvMasterData?.cfCellSize || 0, [Validators.maxLength(50)]],
+      bulkCellSize: [  this.getInvMasterData?.bulkCellSize || "", [ Validators.maxLength(50)]],
+      cellSize: [  this.getInvMasterData?.cellSize || "", [ Validators.maxLength(50)]],
+      cfCellSize: [ this.getInvMasterData?.cfCellSize , [Validators.maxLength(50)]],
 
-      goldenZone: [  this.getInvMasterData?.goldenZone || "0"],
-      bulkVelocity: [  this.getInvMasterData?.bulkVelocity || 0],
-      cfVelocity: [  this.getInvMasterData?.cfVelocity || 0],
+      goldenZone: [  this.getInvMasterData?.goldenZone || ""],
+      bulkVelocity: [  this.getInvMasterData?.bulkVelocity ],
+      cfVelocity: [  this.getInvMasterData?.cfVelocity ],
 
       minimumQuantity: [  this.getInvMasterData?.minimumQuantity || 0, [ Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       bulkMinimumQuantity: [  this.getInvMasterData?.bulkMinimumQuantity || 0, [Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],

@@ -35,10 +35,11 @@ export class VelocityCodeComponent implements OnInit {
   }
   saveVlCode(vlcode:any, oldVC:any){ 
 
+    debugger
     if(vlcode){
     let cond = true;
     this.velocity_code_list.forEach(element => {
-      if(element.toLowerCase() == vlcode.toLowerCase() ) { 
+      if(element == vlcode ) { 
         cond = false;
        this.toastr.error('Already Exists', 'Error!', {
          positionClass: 'toast-bottom-right',

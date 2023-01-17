@@ -32,7 +32,7 @@
             <ng-container *ngFor="let vlcode of velocity_code_list;let i = index">
                 <div class="row mb-3" style="justify-content: space-evenly; align-items: center;">
                     <div class="col-1" style="margin-top: 20px;">
-                        <mat-radio-button value="{{vlcode}}" color="primary" (change)="selectVlCode($event)">
+                        <mat-radio-button class="custom-radio-btn" value="{{vlcode}}" (change)="selectVlCode($event)">
                         </mat-radio-button>
                     </div>
                     <div class="col-8" style="font-size: 12px">
