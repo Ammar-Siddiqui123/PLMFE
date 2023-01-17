@@ -5,8 +5,8 @@
         <div class="row">
 
           <!-- left side for details -->
-          <div class="col-7">
-            <mat-card class="mat-elevation-z g-card">
+          <div class="col-xl-7">
+            <mat-card class="mat-elevation-z g-card mb-3" style="height: 100%;">
               <mat-card-content>
                 <div class="d-flex justify-content-between align-items-center">
                   <h2 class="card-header-title mb-0 d-flex align-items-center">
@@ -78,8 +78,8 @@
           </div>
 
           <!-- Right side for actions -->
-          <div class="col-5">
-            <mat-card class="mat-elevation-z g-card">
+          <div class="col-xl-5">
+            <mat-card class="mat-elevation-z g-card" style="height:100%">
               <mat-card-content>
                 <mat-tab-group dynamicHeight class="mini-tab-labels" [(selectedIndex)]="demo1TabIndex">
                   <mat-tab label="BulkPro Settings">
@@ -129,10 +129,10 @@
                                       <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action</th>
                                       <td width="20%" class="text-center" mat-cell
                                         *matCellDef="let element">
-                                        <button class="me-0" mat-icon-button aria-label="Delete" (click)="deleteZone(element)">
+                                        <button mat-icon-button aria-label="Delete" (click)="deleteZone(element)">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
                                         </button>
-                                        <button mat-icon-button aria-label="Edit" (click)="editZoneDialog(element)">
+                                        <button class="me-0" mat-icon-button aria-label="Edit" (click)="editZoneDialog(element)">
                                           <mat-icon class="icon-circle-edit">border_color</mat-icon>
                                         </button>
 
@@ -166,7 +166,7 @@
                                     <span class="material-symbols-outlined icon-search">
                                       search
                                     </span>
-                                    <input type="text" placeholder="Search locations" aria-label="Search Locations"
+                                    <input type="text" placeholder="Search Locations" aria-label="Search Locations"
                                       matInput (keyup)="applyFilter($event)">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
@@ -243,10 +243,14 @@
                           <div class="card-body">
                             <div class="p-2">
                               <div class="g-details-wrap my-3" *ngIf="isLookUp">
-                                <div class="g-detail">
+                                <!-- <div class="g-detail">
                                   <label class="g-field-label">Maximun Handheld Orders</label>
                                   <div class="g-field-content">{{max_orders}}</div>
-                                </div>
+                                </div> -->
+                                <mat-form-field class="mb-3 w-100" appearance="outline">
+                                  <mat-label>Maximum Handheld Orders</mat-label>
+                                  <input matInput type="text" [NumbersOnly]="true"  [(ngModel)]="max_orders">
+                              </mat-form-field>
                               </div>
                             </div>
                           </div>
@@ -336,7 +340,7 @@
                                 <mat-list class="zones-list g-card-list" role="list">
                                   
                                     <div class="card table-responsive">
-                                      <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
+                                      <ng-scrollbar class="mat-table-scrollbar" style="height: 500px">
                                     <table mat-table [dataSource]="groupAllowedList" matSort
                                       (matSortChange)="announceSortChange($event)" class="g-card-table table-minimal-action-buttons">
 

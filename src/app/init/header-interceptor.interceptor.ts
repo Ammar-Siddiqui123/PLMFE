@@ -10,6 +10,7 @@ import {
 import { catchError, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
@@ -17,6 +18,7 @@ export class HeaderInterceptor implements HttpInterceptor {
   constructor(
     private router: Router,
     private toastr: ToastrService,
+    private dialog: MatDialog,
     ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -48,6 +50,7 @@ export class HeaderInterceptor implements HttpInterceptor {
 
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
     if (err.status === 401) {
+      this.dialog.closeAll();
       this.toastr.error('Token Expire', 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000

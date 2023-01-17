@@ -25,6 +25,7 @@ export class ItemSetupComponent implements OnInit {
     let dialogRef = this.dialog.open(CellSizeComponent, {
       height: 'auto',
       width: '750px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: '',
       }
@@ -54,6 +55,7 @@ export class ItemSetupComponent implements OnInit {
     let dialogRef = this.dialog.open(VelocityCodeComponent, {
       height: 'auto',
       width: '750px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: '',
       }

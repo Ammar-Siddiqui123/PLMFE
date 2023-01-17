@@ -2261,8 +2261,8 @@ td.mat-footer-cell {
 }
 
 .mat-list-base .mat-list-item-disabled {
-  background-color: #eee;
-  color: rgba(0, 0, 0, .38)
+  /* background-color: #eee; */
+  color: rgba(0, 0, 0, .38)!important
 }
 
 .mat-list-option:hover,

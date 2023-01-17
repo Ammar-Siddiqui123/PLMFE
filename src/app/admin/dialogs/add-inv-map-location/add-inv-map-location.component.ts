@@ -238,6 +238,7 @@ export class AddInvMapLocationComponent implements OnInit {
     let dialogRef = this.dialog.open(WarehouseComponent, {
       height: '600px',
       width: '600px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'addlocation',
       }
@@ -253,6 +254,7 @@ export class AddInvMapLocationComponent implements OnInit {
     let dialogRef = this.dialog.open(CellSizeComponent, {
       height: '600px',
       width: '600px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'cell-size',
       }
@@ -267,6 +269,7 @@ export class AddInvMapLocationComponent implements OnInit {
     let dialogRef = this.dialog.open(VelocityCodeComponent, {
       height: '600px',
       width: '600px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'cell-size',
       }

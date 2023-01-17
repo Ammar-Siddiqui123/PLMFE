@@ -86,7 +86,7 @@
       </div>
     </div>
   </div>
-  <div class="overlay" *ngIf="loader.visibility | async">
+  <div class="overlay" *ngIf="loader.visibility | async" style="z-index: 999999;">
     <div class="center">
       <mat-spinner [diameter]="50"></mat-spinner>
     </div>

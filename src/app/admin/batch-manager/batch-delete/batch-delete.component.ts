@@ -92,6 +92,7 @@ export class BatchDeleteComponent implements OnInit {
     if (this.batchID !== 'All Transaction') {
       const dialogRef = this.dialog.open(this.dltActionTemplate, {
         width: '550px',
+        autoFocus: '__non_existing_element__',
       });
 
       dialogRef.afterClosed().subscribe(() => {

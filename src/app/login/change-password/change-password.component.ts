@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LoginService } from '../../../app/login.service';
@@ -24,11 +24,16 @@ export class ChangePasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.resetPassForm = this.fb.group({
-      userName: ['', Validators.required],
-      old_password: ['', Validators.required],
-      new_password: ['', Validators.required],
-      confirm_password: ['', Validators.required]
+      userName: ['', Validators.required, this.noWhitespaceValidator],
+      old_password: ['', Validators.required, this.noWhitespaceValidator],
+      new_password: ['', Validators.required, this.noWhitespaceValidator],
+      confirm_password: ['', Validators.required, this.noWhitespaceValidator]
     },{validator: this.passwordMatchValidator});
+  }
+
+  private noWhitespaceValidator(control: FormControl) {
+    const isSpace = (control.value || '').match(/\s/g);
+    return isSpace ? { 'whitespace': true } : null;
   }
   passwordMatchValidator(frm: FormGroup) {
     return frm.controls['new_password'].value === frm.controls['confirm_password'].value ? null : {'mismatch': true};

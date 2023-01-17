@@ -20,6 +20,7 @@ export class AddPickuplevelsComponent implements OnInit {
   endShelf: any;
   userData: any;
   picklvl: any;
+  isValidForm: boolean = true;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
@@ -41,6 +42,15 @@ export class AddPickuplevelsComponent implements OnInit {
       this.levelId = this.data.pickLevelData.levelID?.toString();
     } else {
       this.picklvl = this.data.nextPickLvl?.toString();
+    }
+  }
+
+  checkIfValid(){
+    if(this.startShelf.trim() === '' || this.endShelf.trim() === ''){
+      this.isValidForm = true;
+    }
+    else{
+      this.isValidForm = false;
     }
   }
 

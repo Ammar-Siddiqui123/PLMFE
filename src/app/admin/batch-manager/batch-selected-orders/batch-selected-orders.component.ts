@@ -147,6 +147,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
     dialogRef = this.dialog.open(CreateBatchComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe(result => {
         if(result){this.createBatch()}
