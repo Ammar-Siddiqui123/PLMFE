@@ -571,7 +571,7 @@ export class InventoryMasterComponent implements OnInit {
       width: '560px',
       autoFocus: '__non_existing_element__',
       data: {
-        itemNumber: '',
+        itemNumber: this.currentPageItemNo,
         newItemNumber : '',
         addItem : true
       }
@@ -592,6 +592,8 @@ export class InventoryMasterComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
+            this.currentPageItemNo = itemNumber;
+            this.getInventory();
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
