@@ -45,7 +45,7 @@ export class ItemCategoryComponent implements OnInit {
     let cond = true;
     if(category){
     this.category_list.forEach(element => {
-      if(element.category == category ) {
+      if(element.category?.toLowerCase() == category?.toLowerCase() && element.subCategory?.toLowerCase() == subCategory?.toLowerCase() ) {
         cond = false;
        this.toastr.error('Already Exists', 'Error!', {
          positionClass: 'toast-bottom-right',
