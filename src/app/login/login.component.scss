@@ -59,3 +59,8 @@
   left: 0;
   position: fixed;
 }
+
+.forgotPassword-link{
+color:var(--clr-primary-500);
+&:hover{color:var(--clr-primary-300)}
+}

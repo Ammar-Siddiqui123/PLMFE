@@ -8,6 +8,7 @@ import labels from '../labels/labels.json'
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { SpinnerService } from '../init/spinner.service';
+import { AuthService } from '../init/auth.service';
 
 @Component({
   selector: 'login',
@@ -30,11 +31,12 @@ export class LoginComponent {
     private toastr: ToastrService,
     private dialog: MatDialog,
     public loader: SpinnerService,
+    private auth: AuthService
   ) { }
 
   addLoginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50), this.noWhitespaceValidator]),
-    password: new FormControl('', [Validators.required, this.noWhitespaceValidator]),
+    username: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
+    password: new FormControl('', [Validators.required]),
   });
 
 
@@ -45,7 +47,11 @@ export class LoginComponent {
 
   loginUser() {
     this.loader.show();
+    this.addLoginForm.get("username")?.setValue(this.addLoginForm.value.username?.replace(/\s/g, "")||null);
     this.login = this.addLoginForm.value;
+
+    console.log(this.login);
+
     this.loginService
       .login(this.login)
       .subscribe((response: any) => {
@@ -78,10 +84,16 @@ export class LoginComponent {
   }
 
   ngOnInit() {
-    this.loginService.getSecurityEnvironment().subscribe((res) => {
-      this.env = res.data;
-      localStorage.setItem('env', JSON.stringify(res.data));
-    });
+    if(this.auth.IsloggedIn()){
+      this.router.navigate(['/dashboard']);
+    }
+    else{
+      this.loginService.getSecurityEnvironment().subscribe((res) => {
+        this.env = res.data;
+        localStorage.setItem('env', JSON.stringify(res.data));
+      });
+    }
+    
 
   }
 
