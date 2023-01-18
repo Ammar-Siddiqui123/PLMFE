@@ -9,8 +9,25 @@
 
 <div class="">
 
+    <div class="">
+        <div class="">
+            <div class="d-flex gap-12 my-4 justify-content-end w-100" style="">
+            <button mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="openPrintRangeDialog()" >
+                <mat-icon>print</mat-icon>
+                Print
+              </button>
+              <button mat-flat-button color="primary" class="add-icon-button" (click)="addCatRow($event)">
+                <span class="material-symbols-outlined">
+                  add
+                </span>
+              </button>
+            </div>
+        </div>
+    </div>
+
     <div class="card w-100">
 
+        
         <div class="card-header">
             <div class="row">
                 <div class="col-6" style="padding-left:64px;">Category</div>
@@ -18,21 +35,7 @@
             </div>
         </div>
 
-        <div class="">
-            <div class="">
-                <div class="d-flex gap-12 my-4 justify-content-end w-100" style="padding-right: 35px;">
-                <button mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="openPrintRangeDialog()" >
-                    <mat-icon>print</mat-icon>
-                    Print
-                  </button>
-                  <button mat-flat-button color="primary" class="add-icon-button" (click)="addCatRow($event)">
-                    <span class="material-symbols-outlined">
-                      add
-                    </span>
-                  </button>
-                </div>
-            </div>
-        </div>
+
 
 <ng-scrollbar style="height: 380px;">
         <div class="card-body">
@@ -65,7 +68,7 @@
                                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.subCategory}}" value="{{category.subCategory}}" #subCatName maxlength="50">
                                         </mat-form-field>
 
-                                        <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(catName.value, subCatName.value);">
+                                        <button mat-flat-button color="warn" class="sm-icon-button" disabled="true" (click)="dltCategory(catName.value, subCatName.value);">
                                             <span class="material-symbols-outlined">close</span>
                                         </button>
 

@@ -3,14 +3,14 @@
     <div class="row">
         <div class="col-6 offset-6">
             <div class="d-flex gap-12 my-4 justify-content-end">
-            <button mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="openPrintRangeDialog()" >
-                <mat-icon>print</mat-icon>
-                Print
-              </button>
               <button mat-flat-button color="primary" class="add-icon-button" (click)="addCatRow($event)">
                 <span class="material-symbols-outlined">
                   add
                 </span>
+              </button>
+              <button mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="openPrintRangeDialog()" >
+                <mat-icon>print</mat-icon>
+                Print
               </button>
             </div>
         </div>
@@ -41,7 +41,7 @@
 
                                 <div class="col-3">
                                     <mat-form-field class="custom-form-field w-100" appearance="outline"   (click)="openAddItemNumDialog(kitItem)">
-                                        <mat-label>Item Number</mat-label>
+                                        
                                         <span matSuffix>
                                             <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
                                           </span>
@@ -57,7 +57,7 @@
                                             <span matSuffix>
                                                 <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
                                               </span>
-                                            <mat-label>Description</mat-label>
+                                         
                                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{kitItem.description}}" [(ngModel)]="kitItem.description" #itemDesc
                                             >
                                         </mat-form-field>
@@ -67,7 +67,7 @@
                                 <div class="col-3">
                                     <div class="d-flex gap-12 align-items-center">
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                            <mat-label>Special Features</mat-label>
+                                            
                                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{kitItem.specialFeatures}}" [(ngModel)]="kitItem.specialFeatures"  #specialFeature
                                             maxlength="255">
                                         </mat-form-field>
@@ -79,7 +79,7 @@
                                     <div class="d-flex gap-12 align-items-center">
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                            <mat-label>Kit Quantity</mat-label>
+                                          
                                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{kitItem.kitQuantity}}" [(ngModel)]="kitItem.kitQuantity"  #kitQuantity
                                              max="9" pattern="^[0-9]*$" maxlength="9">
                                         </mat-form-field>
@@ -121,7 +121,7 @@
         <div class="w-100">
             <div class="col-12 mb-2">
                 <mat-form-field class="custom-form-field w-100" appearance="outline" >
-                    <mat-label>Item No.</mat-label>
+                  
                     <input  [matAutocomplete]="searchauto" type="text" placeholder="Search" aria-label="Search" matInput  (keyup)="getSearchList($event)"  [(ngModel)]="dialogitemNumberDisplay" >
                     <mat-autocomplete class="card custom-scroll"  #searchauto="matAutocomplete" (optionSelected)="onSearchSelect($event)" [displayWith]="displayFn" >
                       <h6 class ="card-header matAutoCompHeader "><span style="width:  140px;">Item No.</span> <span  style="width:  140px;">Description</span></h6>
@@ -157,7 +157,7 @@
         <div class="w-100">
             <div class="col-12 mb-2">
                 <mat-form-field class="custom-form-field w-100" appearance="outline">
-                    <mat-label>Description</mat-label>
+            
                     <textarea matInput [(ngModel)]="dialogDescription"  readonly="true"></textarea>
                 </mat-form-field>
             </div>
