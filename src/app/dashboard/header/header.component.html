@@ -4,20 +4,19 @@
   </button>
   <div class="breadcrumb-menu ps-3" style="height: 30px;">
 
-    
-    <nav aria-label="breadcrumb" class="breadcrumb m-0" >
+
+    <nav aria-label="breadcrumb" class="breadcrumb m-0">
       <ng-container *ngFor="let item of breadcrumbList; index as i;">
-          
-        
-          <li *ngIf="i<(breadcrumbList.length-1)" class="breadcrumb-item" [routerLink]="item.value"  style="cursor:pointer;">{{item.name}}
-            <!-- &nbsp; {{"."}} &nbsp; -->
-          </li>
-        
-      
-          <li *ngIf="i>=(breadcrumbList.length-1)" class="breadcrumb-item active"  style="cursor:pointer;">{{item.name}}
-          </li>
-        
-      </ng-container> 
+
+
+        <li *ngIf="i<(breadcrumbList.length-1)" class="breadcrumb-item" [routerLink]="item.value"
+          style="cursor:pointer;">{{item.name}}
+          <!-- &nbsp; {{"."}} &nbsp; -->
+        </li>
+        <li *ngIf="i>=(breadcrumbList.length-1)" class="breadcrumb-item active" style="cursor:pointer;">{{item.name}}
+        </li>
+
+      </ng-container>
     </nav>
   </div>
   <!-- <div class="breadcrumb-menu ps-3" style="height: 30px;">

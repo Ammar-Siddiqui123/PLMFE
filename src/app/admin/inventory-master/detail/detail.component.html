@@ -90,7 +90,7 @@
           
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>KanBan Replenishment Level</mat-label>                            
-            <input matInput type="text" formControlName="kanbanReplenishmentLevel" maxlength="9">
+            <input matInput type="text" formControlName="kanbanReplenishmentLevel" >
           </mat-form-field>
 
         </div>
@@ -106,11 +106,11 @@
             <div class="d-flex gap-20 justify-content-center">
               <div class="employees text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{details.controls['totalQuantity'].value  }}</p>
-                <p class="employee-p text-tertiary-900 mb-1">Total</p>
+                <p class="employee-p text-tertiary-900 mb-1  ">Total</p>
               </div>
               <div class="customer text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['wipCount'].value }}</p>
-                <p class="customer-p text-tertiary-900 mb-1">WIP</p>
+                <p class="customer-p text-tertiary-900 mb-1  ">WIP</p>
               </div>
             </div>
           </div>
@@ -123,11 +123,11 @@
             <div class="d-flex gap-20 justify-content-center">
               <div class="employees text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['totalPicks'].value }}</p>
-                <p class="employee-p text-tertiary-900 mb-1">Picks</p>
+                <p class="employee-p text-tertiary-900 mb-1  ">Picks</p>
               </div>
               <div class="customer text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['totalPuts'].value }}</p>
-                <p class="customer-p text-tertiary-900 mb-1">PutAway</p>
+                <p class="customer-p text-tertiary-900 mb-1  ">PutAway</p>
               </div>
             </div>
           </div>
@@ -140,22 +140,22 @@
             <div class="d-flex gap-20 justify-content-center">
               <div class="employees text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['openCount'].value }}</p>
-                <p class="employee-p text-tertiary-900 mb-1">Open</p>
-                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md" >
+                <p class="employee-p text-tertiary-900 mb-1  ">Open</p>
+                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md backgroundColor " >
                   View
                 </button>
               </div>
               <div class="customer text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['histCount'].value }}</p>
-                <p class="customer-p text-tertiary-900 mb-1">History</p>
-                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md" >
+                <p class="customer-p text-tertiary-900 mb-1  ">History</p>
+                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md  backgroundColor" >
                   View
                 </button>
               </div>
               <div class="customer text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['procCount'].value }}</p>
-                <p class="customer-p text-tertiary-900 mb-1">Reprocess</p>
-                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md" >
+                <p class="customer-p text-tertiary-900 mb-1  ">Reprocess</p>
+                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md  backgroundColor" >
                   View
                 </button>
               </div>

@@ -68,7 +68,7 @@
                                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.subCategory}}" value="{{category.subCategory}}" #subCatName maxlength="50">
                                         </mat-form-field>
 
-                                        <button mat-flat-button color="warn" class="sm-icon-button" disabled="true" (click)="dltCategory(catName.value, subCatName.value);">
+                                        <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(catName.value, subCatName.value);">
                                             <span class="material-symbols-outlined">close</span>
                                         </button>
 

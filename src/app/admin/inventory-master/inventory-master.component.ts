@@ -76,7 +76,7 @@ export class InventoryMasterComponent implements OnInit {
       replenishmentPoint : [  this.getInvMasterData?.replenishmentPoint || 0, [ Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       category : [  this.getInvMasterData?.category || '', [ Validators.maxLength(50)]],
       reorderQuantity : [  this.getInvMasterData?.reorderQuantity ||  0, [ Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
-      replenishmentLevel : [  this.getInvMasterData?.replenishmentLevel || 0, [Validators.maxLength(9), , Validators.pattern("^[0-9]*$")]],
+      replenishmentLevel : [  this.getInvMasterData?.replenishmentLevel || 0, [Validators.maxLength(9) , Validators.pattern("^[0-9]*$")]],
       subCategory : [  this.getInvMasterData?.subCategory || '', [Validators.maxLength(50)]],
       unitOfMeasure : [  this.getInvMasterData?.unitOfMeasure || '', [ Validators.maxLength(50)]],
       kanbanReplenishmentPoint : [  this.getInvMasterData?.kanbanReplenishmentPoint || 0, [  Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
@@ -104,13 +104,13 @@ export class InventoryMasterComponent implements OnInit {
       fifo: [  this.getInvMasterData?.fifo || false],
       fifoDate: [  this.getInvMasterData?.fifoDate || ''],
 
-      bulkCellSize: [  this.getInvMasterData?.bulkCellSize || "0", [ Validators.maxLength(50)]],
-      cellSize: [  this.getInvMasterData?.cellSize || "0", [ Validators.maxLength(50)]],
-      cfCellSize: [ this.getInvMasterData?.cfCellSize || 0, [Validators.maxLength(50)]],
+      bulkCellSize: [  this.getInvMasterData?.bulkCellSize || "", [ Validators.maxLength(50)]],
+      cellSize: [  this.getInvMasterData?.cellSize || "", [ Validators.maxLength(50)]],
+      cfCellSize: [ this.getInvMasterData?.cfCellSize , [Validators.maxLength(50)]],
 
-      goldenZone: [  this.getInvMasterData?.goldenZone || "0"],
-      bulkVelocity: [  this.getInvMasterData?.bulkVelocity || 0],
-      cfVelocity: [  this.getInvMasterData?.cfVelocity || 0],
+      goldenZone: [  this.getInvMasterData?.goldenZone || ""],
+      bulkVelocity: [  this.getInvMasterData?.bulkVelocity ],
+      cfVelocity: [  this.getInvMasterData?.cfVelocity ],
 
       minimumQuantity: [  this.getInvMasterData?.minimumQuantity || 0, [ Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       bulkMinimumQuantity: [  this.getInvMasterData?.bulkMinimumQuantity || 0, [Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
@@ -571,7 +571,7 @@ export class InventoryMasterComponent implements OnInit {
       width: '560px',
       autoFocus: '__non_existing_element__',
       data: {
-        itemNumber: '',
+        itemNumber: this.currentPageItemNo,
         newItemNumber : '',
         addItem : true
       }
@@ -592,6 +592,8 @@ export class InventoryMasterComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
+            this.currentPageItemNo = itemNumber;
+            this.getInventory();
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
