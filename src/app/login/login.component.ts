@@ -88,7 +88,7 @@ export class LoginComponent {
   changePass() {
     let dialogRef = this.dialog.open(ChangePasswordComponent, {
       height: 'auto',
-      width: '500px',
+      width: '560px',
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);

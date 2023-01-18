@@ -57,12 +57,13 @@
               <ng-container matColumnDef="edit">
                 <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action</th>
                 <td width="20%" class="text-center" mat-cell *matCellDef="let element">
-                  <button mat-icon-button aria-label="Delete" (click)="deletePickLevel(element)">
-                    <mat-icon class="icon-circle-cancel">close</mat-icon>
-                  </button>
-                  <button class="me-0"mat-icon-button aria-label="Edit" (click)="editPickLevel(element)">
+                  <button mat-icon-button aria-label="Edit" (click)="editPickLevel(element)">
                     <mat-icon class="icon-circle-edit">border_color</mat-icon>
                   </button>
+                  <button class="me-0" mat-icon-button aria-label="Delete" (click)="deletePickLevel(element)">
+                    <mat-icon class="icon-circle-cancel">close</mat-icon>
+                  </button>
+                  
                 </td>
 
               </ng-container>

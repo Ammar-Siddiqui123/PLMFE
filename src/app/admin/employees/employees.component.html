@@ -20,7 +20,7 @@
                         assignment_ind
                       </span>
                     </div>
-                    <span>Employees</span>
+                    <span>Employees Information</span>
                   </h2>
                   <mat-form-field class="action-dropdown" appearance="outline">
                     <mat-label>Actions</mat-label>
@@ -35,7 +35,7 @@
                     </span>
                   </mat-form-field>
                 </div>
-                <div class="emp-details-table details-wrap g-details-wrap {{!isLookUp ? 'box-border' : ''}}"
+                <div class="emp-details-table mt-3 {{!isLookUp ? 'box-border' : ''}}"
                   *ngIf="!isLookUp">
 
                   <!-- employee lookup here -->
@@ -129,12 +129,13 @@
                                       <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action</th>
                                       <td width="20%" class="text-center" mat-cell
                                         *matCellDef="let element">
-                                        <button mat-icon-button aria-label="Delete" (click)="deleteZone(element)">
-                                          <mat-icon class="icon-circle-cancel">close</mat-icon>
-                                        </button>
-                                        <button class="me-0" mat-icon-button aria-label="Edit" (click)="editZoneDialog(element)">
+                                        <button mat-icon-button aria-label="Edit" (click)="editZoneDialog(element)">
                                           <mat-icon class="icon-circle-edit">border_color</mat-icon>
                                         </button>
+                                        <button class="me-0" mat-icon-button aria-label="Delete" (click)="deleteZone(element)">
+                                          <mat-icon class="icon-circle-cancel">close</mat-icon>
+                                        </button>
+                                        
 
                                       </td>
                                     </ng-container>
@@ -207,13 +208,13 @@
                                       <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action</th>
                                       <td width="20%" mat-cell class="text-center"
                                         *matCellDef="let element">
-                                        <button mat-icon-button aria-label="Delete Location"
-                                          (click)="deleteLocation(element)">
-                                          <mat-icon class="icon-circle-cancel">close</mat-icon>
-                                        </button>
-                                        <button class="me-0" mat-icon-button aria-label="Edit" 
+                                        <button mat-icon-button aria-label="Edit" 
                                         (click)="editLocationDialog(element)">
                                           <mat-icon class="icon-circle-edit">border_color</mat-icon>
+                                        </button>
+                                        <button class="me-0" mat-icon-button aria-label="Delete Location"
+                                          (click)="deleteLocation(element)">
+                                          <mat-icon class="icon-circle-cancel">close</mat-icon>
                                         </button>
                                       </td>
 
@@ -351,14 +352,14 @@
                                       </tr> -->
                                       <!-- Start Location Column -->
                                       <ng-container matColumnDef="groups">
-                                        <th width="90%" mat-header-cell *matHeaderCellDef>Group</th>
-                                        <td width="90%" mat-cell *matCellDef="let element"> {{element.groupName}} </td>
+                                        <th width="80%" mat-header-cell *matHeaderCellDef>Group</th>
+                                        <td width="80%" mat-cell *matCellDef="let element"> {{element.groupName}} </td>
                                       </ng-container>
                                       <ng-container matColumnDef="actions">
-                                        <th width="10%" mat-header-cell *matHeaderCellDef>Action</th>
-                                        <td width="10%" mat-cell
+                                        <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action</th>
+                                        <td width="20%" class="text-center" mat-cell
                                           *matCellDef="let element">
-                                          <button mat-icon-button aria-label="Delete"
+                                          <button class="me-0" mat-icon-button aria-label="Delete"
                                             (click)="deleteGrpAllowed(element)">
                                             <mat-icon class="icon-circle-cancel">close</mat-icon>
                                           </button>
@@ -417,8 +418,8 @@
       <div class="container-fluid p-0">
         <div class="row">
           <!-- left side for details -->
-          <div class="col-5">
-            <mat-card class="mat-elevation-z g-card">
+          <div class="col-xl-5">
+            <mat-card class="mat-elevation-z g-card" style="height: 100%;">
               <mat-card-content>
                 <div class="d-flex justify-content-between align-items-center">
                   <h2 class="card-header-title mb-0 d-flex align-items-center">
@@ -432,7 +433,7 @@
                         diversity_2
                       </span>
                     </div>
-                    <span>Groups</span>
+                    <span>Employee Group Management</span>
                   </h2>
                   <mat-form-field class="action-dropdown" appearance="outline">
                     <mat-label>Actions</mat-label>
@@ -464,12 +465,20 @@
           </div>
 
           <!-- Right side for actions -->
-          <div class="col-7">
-            <mat-card class="mat-elevation-z g-card">
+          <div class="col-xl-7">
+            <mat-card class="mat-elevation-z g-card" style="height: 100%;">
               <mat-card-content>
                 <div class="row align-items-center">
                   <div class="col-6">
-                    <h4 class="card-header-subtitle mb-0">Assigned Functions</h4>
+                    <h2 class="card-header-title mb-0 d-flex align-items-center">
+                      <div class="mat-icon-wrap me-lg-3">
+                        <span class="material-symbols-outlined">
+                          assignment_turned_in
+                        </span>
+                      </div>
+                      <span>Assigned Functions</span>
+                    </h2>
+                    <!-- <h4 class="card-header-subtitle mb-0">Assigned Functions</h4> -->
                   </div>
                   <div class="col-6">
                     <button mat-flat-button class="form-button-submit" color="primary" style="float: right;"

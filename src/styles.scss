@@ -328,7 +328,7 @@ mat-toolbar {
 .ngx-toastr {
   background-image: none;
   background-color: #c8c8c8;
-  box-shadow: 0 0 5px #b4b4b4 !important;
+  box-shadow: 0 0 5px #b4b4b469 !important;
 }
 
 .toast-success::before {
@@ -337,7 +337,7 @@ mat-toolbar {
   top: 50%;
   left: 0.5em;
   transform: translateY(-50%);
-  background: #E4E4E4;
+  background: rgba($color: #BADBCE, $alpha: 0.4);
   width: 66px;
   height: 66px;
   font-family: 'Material Symbols Outlined';
@@ -356,7 +356,7 @@ mat-toolbar {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  font-size: 33px;
+  font-size: 34px;
   color: #1D865C;
 }
 
@@ -366,7 +366,7 @@ mat-toolbar {
   top: 50%;
   left: 0.5em;
   transform: translateY(-50%);
-  background: #E4E4E4;
+  background: rgba($color: #F5C4D0, $alpha: 0.4);
   width: 66px;
   height: 66px;
   font-family: 'Material Symbols Outlined';
@@ -385,14 +385,15 @@ mat-toolbar {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  font-size: 33px;
+  font-size: 34px;
   color: #861d1d;
 }
 
 #pickpro .toast-container .ngx-toastr {
   padding-left: 5.9em !important;
   background-image: none;
-  background-color: #f9f9f9;
+  background-color: #fff;
+  border-radius: 16px;
 }
 
 
