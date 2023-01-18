@@ -12,9 +12,13 @@
 
             <mat-form-field class="mb-3 w-100" appearance="outline">
                 <mat-label>New Group Name</mat-label>
-                <input matInput type="text" formControlName="group_name">
+                <input matInput type="text" formControlName="group_name" (keyup)="checkIfValid()">
               </mat-form-field>
             <div class="error" *ngIf="hasError('group_name', 'required')">This field is required.</div>
+            <!-- <mat-hint class="error-message" style="color: red;font-size: 14px;"
+                      *ngIf="hasError('group_name', 'whitespace')">
+                      Please enter valid group
+                    </mat-hint> -->
             <mat-dialog-actions align="end" class="m-0">
                 <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->
                 <button type="submit" mat-flat-button class="form-button-submit btn-lg w-100" color="primary"

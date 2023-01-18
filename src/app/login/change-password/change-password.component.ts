@@ -24,16 +24,11 @@ export class ChangePasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.resetPassForm = this.fb.group({
-      userName: ['', Validators.required, this.noWhitespaceValidator],
-      old_password: ['', Validators.required, this.noWhitespaceValidator],
-      new_password: ['', Validators.required, this.noWhitespaceValidator],
-      confirm_password: ['', Validators.required, this.noWhitespaceValidator]
+      userName: ['', Validators.required],
+      old_password: ['', Validators.required],
+      new_password: ['', Validators.required],
+      confirm_password: ['', Validators.required]
     },{validator: this.passwordMatchValidator});
-  }
-
-  private noWhitespaceValidator(control: FormControl) {
-    const isSpace = (control.value || '').match(/\s/g);
-    return isSpace ? { 'whitespace': true } : null;
   }
   passwordMatchValidator(frm: FormGroup) {
     return frm.controls['new_password'].value === frm.controls['confirm_password'].value ? null : {'mismatch': true};
@@ -46,7 +41,6 @@ export class ChangePasswordComponent implements OnInit {
       "newpassword":form.value.new_password   
     }
     this.loginService.changePassword(payload).subscribe((res) => {
-      console.log(res);
       const { isExecuted, responseMessage } = res;
       if(isExecuted){
         this.toastr.success(labels.alert.success, 'Success!', {
