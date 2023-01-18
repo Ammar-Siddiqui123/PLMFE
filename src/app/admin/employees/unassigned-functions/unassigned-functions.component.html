@@ -9,7 +9,7 @@
           aria-label="Search Unassigned Function"  matInput [(ngModel)]="filterName">
       </mat-form-field>
     </div>
-    <button mat-stroked-button color="primary" class="button-add-all w-100 mb-3" (click)="assignFunction(unassignedFunctions)">
+    <button mat-stroked-button color="primary" class="button-add-all w-100 mb-3" (click)="assignFunction(unassignedFunctions)" [disabled]="!isGroupLookUp">
       Add All
     </button>
     <div class="card w-100">
@@ -18,12 +18,12 @@
       </div>
       <div class="card-body">
     <mat-list class="zones-list g-card-list list-style-1" role="list">
-      <ng-scrollbar *ngIf="!filterValue" style="height: 280px">
+      <ng-scrollbar *ngIf="!filterValue" style="height: 380px">
         <mat-list-item role="listitem"  *ngFor="let groupname of unassignedFunctions | filterUnassignedFunc:filterName">
           <span class="list-label zone-list-label">
             {{groupname}}
           </span>
-          <button mat-icon-button aria-label="Delete Function"  (click)="assignFunction(groupname)">
+          <button mat-icon-button aria-label="Delete Function"  (click)="assignFunction(groupname)" matTooltip="Add" matTooltipPosition="above">
             <mat-icon class="icon-circle-edit">add</mat-icon>
           </button>
         </mat-list-item>

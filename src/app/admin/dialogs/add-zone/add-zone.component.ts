@@ -18,37 +18,36 @@ export class AddZoneComponent implements OnInit {
   form_heading: string = 'Add New Zone';
   form_btn_label: string = 'Add';
   zone = new FormControl('');;
-  all_zones:any = this.data.allZones;
+  all_zones: any = this.data.allZones;
   filteredOptions: Observable<string[]>;
   addZoneForm: FormGroup;
   isValid = false;
-  public editZoneName:any;
+  public editZoneName: any;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any, 
-    private dialog: MatDialog, 
-    private toastr: ToastrService, 
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialog: MatDialog,
+    private toastr: ToastrService,
     private employeeService: EmployeeService,
     private router: Router,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<any>
-    ) {}
+  ) { }
 
   ngOnInit(): void {
     this.data?.mode === 'edit-zone' ? this.form_heading = 'Edit Zone' : 'Update Zone';
     this.data?.mode === 'edit-zone' ? this.form_btn_label = 'Update' : 'Add';
-    
+
     this.initialzeEmpForm();
     this.filteredOptions = this.addZoneForm.controls['zoneList'].valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
     );
-   
+
   }
 
-  ngAfterViewInit(){
-    if(this.data.mode === 'edit-zone'){
-      // console.log(this.data);
+  ngAfterViewInit() {
+    if (this.data.mode === 'edit-zone') {
       this.addZoneForm.controls['zoneList'].setValue(this.data.zone);
     }
   }
@@ -68,54 +67,59 @@ export class AddZoneComponent implements OnInit {
   }
 
   blurInput() {
-    if (!this.isValid){
+    if (!this.isValid) {
       this.addZoneForm.controls['zoneList'].setValue("");
     }
   }
 
-  private _filter(value: string){
+  private _filter(value: string) {
     const filterValue = value.toLowerCase();
-    let results =  this.all_zones.filter(option => option.toLowerCase().includes(filterValue))
+    let results = this.all_zones.filter(option => option.toLowerCase().includes(filterValue))
     this.isValid = results.length > 0;
     return results;
   }
-  
 
-  onSubmit(form: FormGroup){
-    let addZoneData = {
+
+  onSubmit(form: FormGroup) {
+    if (this.isValid) {
+      let addZoneData = {
         "username": this.data.userName,
         "zone": form.value.zoneList
-    }
-    let oldZone;
-    let mode = 'addZone';
-    if(this.data.mode === 'edit-zone'){
-      mode = 'editZone';
-      oldZone = this.data.zone
-      let zoneData = {
-        "zone": oldZone,
-        "username": this.data.userName
       }
-      this.employeeService.deleteEmployeeZone(zoneData).subscribe((res: any) => {
-        if (res.isExecuted) {
-          this.addUpdateZone(addZoneData, oldZone, mode)
-        } 
-      });
+      let oldZone;
+      let mode = 'addZone';
+      if (this.data.mode === 'edit-zone') {
+        mode = 'editZone';
+        oldZone = this.data.zone
+        let zoneData = {
+          "zone": oldZone,
+          "username": this.data.userName
+        }
+        this.employeeService.deleteEmployeeZone(zoneData).subscribe((res: any) => {
+          if (res.isExecuted) {
+            this.addUpdateZone(addZoneData, oldZone, mode)
+          }
+        });
+      }
+      else {
+        this.addUpdateZone(addZoneData, oldZone, mode);
+      }
     }
     else{
-      this.addUpdateZone(addZoneData, oldZone, mode);
+        this.blurInput();
     }
   }
 
-  private addUpdateZone(addZoneData:any, oldZone:any, mode:string){
+  private addUpdateZone(addZoneData: any, oldZone: any, mode: string) {
     this.employeeService.updateEmployeeZone(addZoneData).subscribe((res: any) => {
       if (res.isExecuted) {
-        this.dialogRef.close({data: addZoneData, mode: mode, oldZone: oldZone});
+        this.dialogRef.close({ data: addZoneData, mode: mode, oldZone: oldZone });
         this.toastr.success(labels.alert.success, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
-      //  this.reloadCurrentRoute();
-      }else{
+        //  this.reloadCurrentRoute();
+      } else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000

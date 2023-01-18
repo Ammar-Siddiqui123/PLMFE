@@ -280,7 +280,7 @@ getgroupAllowedList(){
         }
       })
       dialogRef.afterClosed().subscribe(result => {
-        this.isLookUp = false;
+        this.empData = result.data;
         const matSelect: MatSelect = matEvent.source;
         matSelect.writeValue(null);
       })
@@ -454,6 +454,24 @@ getgroupAllowedList(){
 
   }
 
+  openDialog() {
+    let dialogRef = this.dialog.open(AddNewEmployeeComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+        if (result !== undefined) {
+            if (result !== 'no') {
+              const enabled = "Y"
+                console.log(result);
+            } else if (result === 'no') {
+               console.log('User clicked no.');
+            }
+        }
+    })
+}
+
   addLocationDialog() {
     let dialogRef;
     dialogRef = this.dialog.open(AddLocationComponent, {
@@ -465,7 +483,9 @@ getgroupAllowedList(){
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      this.reloadData();
+      if(result === 'add'){
+        this.reloadData();
+      }
     })
   }
 
@@ -481,7 +501,9 @@ getgroupAllowedList(){
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      this.reloadData();
+      if(result === 'update'){
+        this.reloadData();
+      }
     })
   }
 

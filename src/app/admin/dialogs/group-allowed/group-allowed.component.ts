@@ -9,6 +9,7 @@ import { startWith } from 'rxjs/internal/operators/startWith';
 import { map } from 'rxjs/internal/operators/map';
 import { AuthService } from '../../../../app/init/auth.service';
 import { Router } from '@angular/router';
+import { CustomValidatorService } from '../../../../app/init/custom-validator.service';
 
 @Component({
   selector: 'group-allowed',
@@ -34,12 +35,13 @@ export class GroupAllowedComponent implements OnInit {
     private toastr: ToastrService,
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private cusValidator: CustomValidatorService
   ) { }
 
   ngOnInit(): void {
     this.controlNameForm = this.fb.group({
-      controlName: ['', [Validators.required]]
+      controlName: ['', [Validators.required,this.cusValidator.specialCharValidator]]
     })
     this.userData = this.authService.userData();
     let payload = {
