@@ -7,18 +7,18 @@
 
     
     <nav aria-label="breadcrumb" class="breadcrumb m-0" >
-      <div *ngFor="let item of breadcrumbList; index as i;">
+      <ng-container *ngFor="let item of breadcrumbList; index as i;">
           
-        <div *ngIf="i<(breadcrumbList.length-1)">
-          <li class="breadcrumb-item" [routerLink]="item.value"  style="cursor:pointer;">{{item.name}}
-            &nbsp; {{"."}} &nbsp;
+        
+          <li *ngIf="i<(breadcrumbList.length-1)" class="breadcrumb-item" [routerLink]="item.value"  style="cursor:pointer;">{{item.name}}
+            <!-- &nbsp; {{"."}} &nbsp; -->
           </li>
-        </div>
-        <div *ngIf="i>=(breadcrumbList.length-1)">
-          <li class="breadcrumb-item active"  style="cursor:pointer;">{{item.name}}
+        
+      
+          <li *ngIf="i>=(breadcrumbList.length-1)" class="breadcrumb-item active"  style="cursor:pointer;">{{item.name}}
           </li>
-        </div>
-      </div> 
+        
+      </ng-container> 
     </nav>
   </div>
   <!-- <div class="breadcrumb-menu ps-3" style="height: 30px;">
@@ -60,10 +60,10 @@
   <div class="row mr-2 ml-auto">
     <ul class="row m-0 align-items-center">
       <li>
-        <button mat-button [matMenuTriggerFor]="menu" class="user mt-2 d-flex align-items-center">
-          <mat-icon>account_circle</mat-icon>
+        <button mat-button [matMenuTriggerFor]="menu" class="user mt-1 d-flex align-items-center">
+          <mat-icon class="material-symbols-outlined">account_circle</mat-icon>
           {{user_data.userName}}
-          <mat-icon class="user-image-icon ml-1">keyboard_arrow_down</mat-icon>
+          <mat-icon class="user-image-icon ml-1" style="height: 18px ;">keyboard_arrow_down</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item>
@@ -79,7 +79,7 @@
     </ul>
   </div>
   <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-    <mat-icon>settings</mat-icon>
+    <mat-icon class="material-symbols-outlined">settings</mat-icon>
   </button>
 
 
