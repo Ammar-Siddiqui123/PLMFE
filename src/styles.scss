@@ -1514,23 +1514,32 @@ button{
   height: 56px!important;
 }
 
-
-.breadcrumb-item + .breadcrumb-item{
+.breadcrumb-item{
   position: relative;
-  padding-left: 20px;
-&::before {
-  float: left;
-  padding-right: 0px;
-  color: #fff;
-  content: "";
-  height: 2px;
-  width: 2px;
-  background: #fff;
-  position: absolute;
-  left: 9px;
-  top: 17px;
-  border-radius: 999px;
-}
+  padding-left: 20px !important;
+  color: #fff !important;
+  &::before {
+    float: left !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    color: #fff;
+    content: "" !important;
+    height: 2px;
+    width: 2px;
+    background: #fff;
+    position: absolute;
+    left: 9px;
+    top: 17px;
+    border-radius: 999px;
+  }
+  &:first-child{
+    position: relative;
+    padding-left: 0px !important;
+    &::before{
+      content: none !important;
+    }
+  }
+  
 }
 
 
