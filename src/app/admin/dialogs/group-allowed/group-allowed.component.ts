@@ -25,6 +25,7 @@ export class GroupAllowedComponent implements OnInit {
   options: string[] = [];
   filteredOptions: Observable<any[]>;
   userData: any;
+  isValid = false;
   controlNameForm: FormGroup;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -55,9 +56,18 @@ export class GroupAllowedComponent implements OnInit {
 
 
   }
+
+  blurInput() {
+    if (!this.isValid){
+      this.controlNameForm.controls['controlName'].setValue("");
+    }
+  }
   filterx(value: string): string[] {
+    let result;
     const filterValue = value.toLowerCase();
-    return this.controlNameList.filter(option => option.groupName.toLowerCase().includes(filterValue));
+    result =  this.controlNameList.filter(option => option.groupName.toLowerCase().includes(filterValue));
+    result.length == 0 ?? this.controlNameForm.controls['controlName'].setValue("");
+    return result;
   }
   onSend(form: any) {
     // console.log(this.data.grp_data);
