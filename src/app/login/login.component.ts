@@ -8,6 +8,7 @@ import labels from '../labels/labels.json'
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { SpinnerService } from '../init/spinner.service';
+import { AuthService } from '../init/auth.service';
 
 @Component({
   selector: 'login',
@@ -30,6 +31,7 @@ export class LoginComponent {
     private toastr: ToastrService,
     private dialog: MatDialog,
     public loader: SpinnerService,
+    private auth: AuthService
   ) { }
 
   addLoginForm = new FormGroup({
@@ -82,10 +84,16 @@ export class LoginComponent {
   }
 
   ngOnInit() {
-    this.loginService.getSecurityEnvironment().subscribe((res) => {
-      this.env = res.data;
-      localStorage.setItem('env', JSON.stringify(res.data));
-    });
+    if(this.auth.IsloggedIn()){
+      this.router.navigate(['/dashboard']);
+    }
+    else{
+      this.loginService.getSecurityEnvironment().subscribe((res) => {
+        this.env = res.data;
+        localStorage.setItem('env', JSON.stringify(res.data));
+      });
+    }
+    
 
   }
 
