@@ -9,7 +9,7 @@
           aria-label="Search Unassigned Function"  matInput [(ngModel)]="filterName">
       </mat-form-field>
     </div>
-    <button mat-stroked-button color="primary" class="button-add-all w-100 mb-3" (click)="assignFunction(unassignedFunctions)">
+    <button mat-stroked-button color="primary" class="button-add-all w-100 mb-3" (click)="assignFunction(unassignedFunctions)" [disabled]="!isGroupLookUp">
       Add All
     </button>
     <div class="card w-100">
@@ -23,7 +23,7 @@
           <span class="list-label zone-list-label">
             {{groupname}}
           </span>
-          <button mat-icon-button aria-label="Delete Function"  (click)="assignFunction(groupname)">
+          <button mat-icon-button aria-label="Delete Function"  (click)="assignFunction(groupname)" matTooltip="Add" matTooltipPosition="above">
             <mat-icon class="icon-circle-edit">add</mat-icon>
           </button>
         </mat-list-item>

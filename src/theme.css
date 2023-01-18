@@ -1307,7 +1307,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 .mat-stroked-button.mat-accent.mat-button-disabled,
 .mat-stroked-button.mat-warn.mat-button-disabled,
 .mat-stroked-button.mat-button-disabled.mat-button-disabled {
-  color: rgba(0, 0, 0, .26)
+  color: rgba(0, 0, 0, .26) !important
 }
 
 .mat-button.mat-primary .mat-button-focus-overlay,

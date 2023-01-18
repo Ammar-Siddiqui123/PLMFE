@@ -20,38 +20,39 @@
     <mat-checkbox *ngIf="data?.mode === 'edit'" matInput  formControlName="active" style="margin-right: 12px;" class="example-margin custom-checkbox" color="primary">Active</mat-checkbox>
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>MI</mat-label>
-      <input matInput type="text" formControlName="mi">
+      <input matInput type="text" formControlName="mi" maxlength="10">
     </mat-form-field>
 
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>First Name</mat-label>
-      <input matInput type="text" formControlName="firstName">
+      <input matInput type="text" formControlName="firstName" maxlength="30">
     </mat-form-field>
 
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>Last Name</mat-label>
-      <input matInput type="text" formControlName="lastName">
+      <input matInput type="text" formControlName="lastName" maxlength="30">
     </mat-form-field>
     <!-- <mat-hint class="error" *ngIf="hasError('lastName', 'required')">This field is required.</mat-hint> -->
 
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>Username</mat-label>
-      <input matInput  type="text"  formControlName="userName" [maxlength]="50" [readonly]="isDisabledUsername" (keydown.space)="$event.preventDefault()">
+      <input matInput  type="text"  formControlName="username" [maxlength]="50" [readonly]="isDisabledUsername" (keydown.space)="$event.preventDefault()">
     </mat-form-field>
     <!-- <mat-hint  class="error" *ngIf="hasError('userName', 'required')">This field is required.</mat-hint> -->
     <!-- <mat-hint align="end"></mat-hint> -->
 
     <mat-form-field class="mb-3 w-100" appearance="outline" (click)="toggleDisabled()">
       <mat-label>Password</mat-label>
-      <input matInput [type]="toggle_password ? 'password' : 'text'" #focusFeild formControlName="password" (focusout)="isEmptyPass()" (keydown.space)="$event.preventDefault()">
+      <input matInput [type]="toggle_password ? 'password' : 'text'" #focusFeild formControlName="password" (focusout)="isEmptyPass()" (keydown.space)="$event.preventDefault()" maxlength="16">
       <button *ngIf="!isDisabledPassword" type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
         <mat-icon>{{toggle_password ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
+    <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
 
     <mat-form-field class="mb-3 w-100" appearance="outline" *ngIf="isEmail">
       <mat-label>Email Address</mat-label>
-      <input matInput type="email" formControlName="emailAddress">
+      <input matInput type="email" formControlName="emailAddress" maxlength="255">
     </mat-form-field>
 
 
@@ -67,7 +68,7 @@
     </mat-form-field>
 
     <mat-dialog-actions align="end">
-      <button type="submit" [disabled]="isSubmitting" mat-flat-button class="form-button-submit btn-lg w-100" [disabled]="!empForm.valid" color="primary">{{form_btn_label}}</button>
+      <button  type="submit" mat-flat-button class="form-button-submit btn-lg w-100" [disabled]="!empForm.valid" color="primary">{{form_btn_label}}</button>
     </mat-dialog-actions>
 
   </form>

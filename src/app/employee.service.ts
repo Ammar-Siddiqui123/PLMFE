@@ -5,10 +5,12 @@ import {
   HttpEvent,
   HttpParams,
   HttpResponse,
-  HttpHeaders
+  HttpHeaders,
+  HttpContext
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IEmployee,EmployeeObject,AdminEmployeeLookupResponse,AccessGroupObject, ResponseData,AllGroup,AllAccess } from './Iemployee';
+import { BYPASS_LOG } from './init/http-interceptor';
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +22,16 @@ export class EmployeeService {
   }
 
   public getLocationList(url, payload ): Observable<EmployeeObject> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`);
+    
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
         'Authorization': 'Basic ' + basicAuth
-      })
+      }),
+      context: new HttpContext().set(BYPASS_LOG, true)
     };
-    return this.http.post<any>(`${environment.apiUrl}`+ url, payload,httpOptions);
+    return this.http.post<any>(`${environment.apiUrl}`+ url, payload, httpOptions);
   }
 
   //Test Later

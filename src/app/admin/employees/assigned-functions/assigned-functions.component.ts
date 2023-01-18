@@ -15,6 +15,7 @@ export class AssignedFunctionsComponent implements OnInit {
   // @Input('isAssignedLookUp') isAssignedLookUp: boolean;
   // @Output() updateAssignedLookUp  = new EventEmitter();
   @Input() assignedFunctions: [];
+  @Input() isGroupLookUp: boolean;
   @Output() removeFunction = new EventEmitter();
   @Input() spliceValue:[]=[];
   filterName:any

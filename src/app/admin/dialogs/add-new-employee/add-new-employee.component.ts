@@ -1,11 +1,12 @@
 import { Component, OnInit, Inject, ViewChild, TemplateRef, ElementRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import labels from '../../../labels/labels.json';
 import { EmployeeService } from 'src/app/employee.service';
 import { AdminEmployeeLookupResponse } from 'src/app/Iemployee';
 import { Router } from '@angular/router';
+import { CustomValidatorService } from '../../../../app/init/custom-validator.service';
 
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion';
@@ -27,7 +28,7 @@ export class AddNewEmployeeComponent implements OnInit {
   mi: string;
   firstName: string;
   lastName: string;
-  userName: string;
+  username: string;
   emailAddress: string;
   accessLevel: string;
   active: boolean;
@@ -46,6 +47,8 @@ export class AddNewEmployeeComponent implements OnInit {
     private employeeService: EmployeeService,
     private router: Router,
     private fb: FormBuilder,
+    private cusValidator: CustomValidatorService,
+    public dialogRef: MatDialogRef<any>
   ) { }
 
   ngOnInit(): void {
@@ -58,7 +61,7 @@ export class AddNewEmployeeComponent implements OnInit {
     this.mi = this.empData?.mi ?? '';
     this.firstName = this.empData?.firstName ?? '';
     this.lastName = this.empData?.lastName ?? '';
-    this.userName = this.empData?.username ?? '';
+    this.username = this.empData?.username ?? '';
     this.emailAddress = this.empData?.emailAddress ?? '';
     this.accessLevel = this.empData?.accessLevel.toLowerCase() ?? '';
     this.active = this.empData?.active ?? true;
@@ -87,8 +90,8 @@ export class AddNewEmployeeComponent implements OnInit {
     this.empForm = this.fb.group({
       mi: [this.mi || '', []],
       firstName: [this.firstName || '', []],
-      lastName: [this.lastName || '', [Validators.required]],
-      userName: [{ value: this.userName, disabled: this.isDisabledPassword } || '', [Validators.required]],
+      lastName: [this.lastName || '', [Validators.required, this.cusValidator.customTrim]],
+      username: [{ value: this.username, disabled: this.isDisabledPassword } || '', [Validators.required]],
       password: [{ value: '', disabled: this.isDisabledPassword }, [Validators.required]],
       emailAddress: [this.emailAddress || '', []],
       accessLevel: [this.accessLevel || '', [Validators.required]],
@@ -98,16 +101,16 @@ export class AddNewEmployeeComponent implements OnInit {
 
   onSubmit(form: FormGroup) {
     if (form.valid) {
-      this.isSubmitting = true;
+      // this.isSubmitting = true;
       this.cleanForm(form);
       form.value.active = Boolean(JSON.parse(form.value.active));
       if (this.data?.mode === 'edit') {
         form.value.wsid = "TESTWID";
-        form.value.userName = this.userName;
+        form.value.username = this.username;
         form.value.groupName = "",
           this.employeeService.updateAdminEmployee(form.value).subscribe((res: any) => {
             if (res.isExecuted) {
-              this.dialog.closeAll();
+              this.dialogRef.close({mode: 'edit-employee', data: form.value});
               this.toastr.success(labels.alert.update, 'Success!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000

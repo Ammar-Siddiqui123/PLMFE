@@ -10,7 +10,7 @@
       </mat-form-field>
     </div>
 
-    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100 mb-3" (click)="unassignFunction(assignedFunctions)">
+    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100 mb-3" (click)="unassignFunction(assignedFunctions)" [disabled]="!isGroupLookUp">
       Remove All
     </button>
     <div class="card w-100">
@@ -24,7 +24,7 @@
           <span class="list-label zone-list-label">
             {{groupname}}
           </span>
-          <button mat-icon-button aria-label="Delete Function" (click)="unassignFunction(groupname)">
+          <button mat-icon-button aria-label="Delete Function" (click)="unassignFunction(groupname)" matTooltip="Remove" matTooltipPosition="above">
             <mat-icon class="icon-circle-cancel">close</mat-icon>
           </button>
         </mat-list-item>
