@@ -33,7 +33,7 @@ export class LoginComponent {
   ) { }
 
   addLoginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50), this.noWhitespaceValidator]),
+    username: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
     password: new FormControl('', [Validators.required, this.noWhitespaceValidator]),
   });
 
@@ -45,7 +45,11 @@ export class LoginComponent {
 
   loginUser() {
     this.loader.show();
+    this.addLoginForm.get("username")?.setValue(this.addLoginForm.value.username?.replace(/\s/g, "")||null);
     this.login = this.addLoginForm.value;
+
+    console.log(this.login);
+
     this.loginService
       .login(this.login)
       .subscribe((response: any) => {
