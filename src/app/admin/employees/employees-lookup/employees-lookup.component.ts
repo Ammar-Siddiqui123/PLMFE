@@ -74,25 +74,6 @@ export class EmployeesLookupComponent implements OnInit {
     }
     this.employee_data_source.sort = this.sort;
   }
-
-
-  openDialog() {
-    let dialogRef = this.dialog.open(AddNewEmployeeComponent, {
-      height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
-    });
-    dialogRef.afterClosed().subscribe(result => {
-        if (result !== undefined) {
-            if (result !== 'no') {
-              const enabled = "Y"
-                console.log(result);
-            } else if (result === 'no') {
-               console.log('User clicked no.');
-            }
-        }
-    })
-}
 getEmpDetails(empData: any){
   this.isLookUp = true;
   this.updateIsLookUp.emit({userData: empData, isLookUp: this.isLookUp});

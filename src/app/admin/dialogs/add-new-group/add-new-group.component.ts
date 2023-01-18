@@ -36,6 +36,14 @@ export class AddNewGroupComponent implements OnInit {
     
   }
 
+  alphaNumberOnly(string:any) {
+    const regex = "^[a-zA-Z0-9_-]*$";
+    if(string.match(regex)){
+      return true;
+    }
+      return false
+  }
+
 
   onSend(form: NgForm){
     if(form.status === 'INVALID')
@@ -65,12 +73,18 @@ export class AddNewGroupComponent implements OnInit {
 
   }
   
-  checkIfValid(){
+  checkIfValid(input:string){
     if(this.groupName.trim() === ''){
       this.isValidForm = true;
     }
     else{
-      this.isValidForm = false;
+      if(this.alphaNumberOnly(input)){
+        this.isValidForm = false;
+      }
+      else{
+        this.isValidForm = true;
+      }
+      
     }
   }
 

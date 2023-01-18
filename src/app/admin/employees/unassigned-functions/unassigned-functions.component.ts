@@ -13,6 +13,7 @@ import { AssignedFunctionsComponent } from '../assigned-functions/assigned-funct
 })
 export class UnassignedFunctionsComponent implements OnInit {
   @Input() unassignedFunctions: [];
+  @Input() isGroupLookUp: boolean;
   @Output() addFunction = new EventEmitter();
   spliceArray: any;
   filterValue: string;

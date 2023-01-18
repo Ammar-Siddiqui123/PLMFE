@@ -1,4 +1,6 @@
 @use 'colors'as c;
+@import 'typography';
+
 
 :root{
     /*Color shades*/
@@ -8,3 +10,13 @@
             }
         }
 }
+
+/*TEXT-SIZES---START*/
+@each $text, $sizes in $text-size {
+    @each $size, $value in $sizes {
+        .text-#{$size}{
+            font-size:#{$size}#{px} !important;
+        }
+    }
+}
+/*TEXT-SIZES---END*/
