@@ -11,13 +11,13 @@
             <span class="ps-2 w-100">Location scan verify failed. Please scan valid location.</span>
         </div> -->
 <!-- <div mat-dialog-content> -->
-  <ng-scrollbar style="height: 400px;">
+  <!-- <ng-scrollbar style="height: 400px;"> -->
     <div class="px-3">
 
   <form [formGroup]="empForm" (ngSubmit)="onSubmit(empForm)">
 
 
-    <mat-checkbox *ngIf="data?.mode === 'edit'" matInput  formControlName="active" style="margin-right: 12px;" class="example-margin custom-checkbox" color="primary">Active</mat-checkbox>
+    <mat-checkbox *ngIf="data?.mode === 'edit'" matInput  formControlName="active" style="margin-right: 12px;" class="example-margin custom-checkbox mb-3" color="primary">Active</mat-checkbox>
     <mat-form-field class="mb-3 w-100" appearance="outline">
       <mat-label>MI</mat-label>
       <input matInput type="text" formControlName="mi" maxlength="10">
@@ -32,6 +32,10 @@
       <mat-label>Last Name</mat-label>
       <input matInput type="text" formControlName="lastName" maxlength="30">
     </mat-form-field>
+
+    
+
+    
     <!-- <mat-hint class="error" *ngIf="hasError('lastName', 'required')">This field is required.</mat-hint> -->
 
     <mat-form-field class="mb-3 w-100" appearance="outline">
@@ -40,6 +44,17 @@
     </mat-form-field>
     <!-- <mat-hint  class="error" *ngIf="hasError('userName', 'required')">This field is required.</mat-hint> -->
     <!-- <mat-hint align="end"></mat-hint> -->
+
+    <mat-form-field class="mb-3 w-100" appearance="outline">
+      <mat-label>Access Level</mat-label>
+      <mat-select formControlName="accessLevel">
+        <mat-option value="administrator">Administrator</mat-option>
+        <mat-option value="staff_member">Staff Member</mat-option>
+      </mat-select>
+      <span class="material-symbols-outlined icon-expand-more">
+        expand_more
+      </span>
+    </mat-form-field>
 
     <mat-form-field class="mb-3 w-100" appearance="outline" (click)="toggleDisabled()">
       <mat-label>Password</mat-label>
@@ -56,22 +71,13 @@
     </mat-form-field>
 
 
-    <mat-form-field class="mb-3 w-100" appearance="outline">
-      <mat-label>Access Level</mat-label>
-      <mat-select formControlName="accessLevel">
-        <mat-option value="administrator">Administrator</mat-option>
-        <mat-option value="staff_member">Staff Member</mat-option>
-      </mat-select>
-      <span class="material-symbols-outlined icon-expand-more">
-        expand_more
-      </span>
-    </mat-form-field>
+    
 
     <mat-dialog-actions align="end">
-      <button  type="submit" mat-flat-button class="form-button-submit btn-lg w-100" [disabled]="!empForm.valid" color="primary">{{form_btn_label}}</button>
+      <button type="submit" mat-flat-button class="form-button-submit btn-lg w-100 mb-3" [disabled]="!empForm.valid" color="primary">{{form_btn_label}}</button>
     </mat-dialog-actions>
 
   </form>
 </div>
-</ng-scrollbar>
+<!-- </ng-scrollbar> -->
 <!-- </div> -->

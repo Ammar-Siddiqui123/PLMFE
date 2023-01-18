@@ -1,18 +1,30 @@
 .login-section {
   position: relative;
   // width: 1440px;
-  height: 826px;
+  min-height: 768px;
+  height: 100vh;
 
   /* Tertiary 900 */
 
   background: #090948;
+  overflow: hidden;
+  &::before{
+    content: '';
+    position: absolute;
+    height: 600px;
+    width: 600px;
+    left:-300px;
+    top: 300px;
+    transform: rotate(45deg);
+    background-color: var(--clr-tertiary-800);
+  }
 }
 
 .app-heading {
   font-family: 'Mulish' !important;
   font-style: normal;
   font-weight: 1000;
-  font-size: 40px;
+  font-size: 32px;
   line-height: 64px;
 
 
@@ -27,7 +39,7 @@
   font-family: 'Mulish';
   font-style: normal;
   font-weight: 700;
-  font-size: 30px;
+  font-size: 24px;
   line-height: 64px;
   /* identical to box height, or 213% */
 
@@ -59,7 +71,6 @@
   left: 0;
   position: fixed;
 }
-
 .forgotPassword-link{
 color:var(--clr-primary-500);
 &:hover{color:var(--clr-primary-300)}
