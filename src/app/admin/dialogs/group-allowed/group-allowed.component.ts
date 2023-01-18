@@ -66,7 +66,7 @@ export class GroupAllowedComponent implements OnInit {
     let result;
     const filterValue = value.toLowerCase();
     result =  this.controlNameList.filter(option => option.groupName.toLowerCase().includes(filterValue));
-    result.length == 0 ?? this.controlNameForm.controls['controlName'].setValue("");
+    this.isValid = result.length > 0;
     return result;
   }
   onSend(form: any) {

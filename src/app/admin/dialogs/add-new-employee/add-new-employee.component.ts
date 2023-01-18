@@ -35,6 +35,7 @@ export class AddNewEmployeeComponent implements OnInit {
   isDisabledPassword: boolean;
   isDisabledUsername: boolean;
   toggle_password = true;
+  isSubmitting = false;
   empForm: FormGroup;
   @ViewChild('focusFeild') focusFeild: ElementRef;
 
@@ -97,6 +98,7 @@ export class AddNewEmployeeComponent implements OnInit {
 
   onSubmit(form: FormGroup) {
     if (form.valid) {
+      this.isSubmitting = true;
       this.cleanForm(form);
       form.value.active = Boolean(JSON.parse(form.value.active));
       if (this.data?.mode === 'edit') {
