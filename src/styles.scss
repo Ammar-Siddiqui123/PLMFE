@@ -104,7 +104,8 @@ input:-webkit-autofill {
 border: rgba(9, 9, 72, 1) !important;
 -webkit-text-fill-color: rgba(9, 9, 72, 1) !important;
 background-color: #fff !important;
--webkit-box-shadow: 0 0 0px 10px $c-blue inset;
+-webkit-box-shadow: 0 0 0px 10px transparent inset;
+// -webkit-box-shadow: 0 0 0px 10px $c-blue inset;
 transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -1593,4 +1594,8 @@ button{
 }
 .matAutoCompTableContent{
   min-height: 50px !important; min-width: 250px;  padding: 5px 32px; border: 0;
+}
+
+.username-login-icon{
+  top: 5px!important;
 }
