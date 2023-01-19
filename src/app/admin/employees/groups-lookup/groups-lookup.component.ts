@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -28,7 +28,9 @@ export class GroupsLookupComponent implements OnInit {
   employees_res: any;
   employees_details_data: any = [];
   @Input('childGroupLookUp') isGroupLookUp: boolean;
+  @Input('updateGrpTable') updateGrpTable: any;
   @Output() updateGrpLookUp = new EventEmitter();
+  @ViewChild('groupDataRefresh', { static: true,read:MatTable }) groupDataRefresh;
 
   selectedRowIndex = -1;
 
@@ -88,17 +90,17 @@ export class GroupsLookupComponent implements OnInit {
   }
 
 
-  openGroupDialog() {
-    let dialogRef = this.dialog.open(AddNewGroupComponent, {
-      height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      this.loadEmpData();
-    })
+  // openGroupDialog() {
+  //   let dialogRef = this.dialog.open(AddNewGroupComponent, {
+  //     height: 'auto',
+  //     width: '560px',
+  //     autoFocus: '__non_existing_element__',
+  //   });
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     this.loadEmpData();
+  //   })
 
-  }
+  // }
   getGrpDetails(grpData: any) {
     console.log(grpData)
     this.isGroupLookUp = true;
@@ -121,6 +123,12 @@ export class GroupsLookupComponent implements OnInit {
 
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+   this.group_data_source.filteredData.push({groupName:this.updateGrpTable});
+   console.log(this.group_data_source.filteredData);
+   
+   this.groupDataRefresh.renderRows();
+  }
 
 
 

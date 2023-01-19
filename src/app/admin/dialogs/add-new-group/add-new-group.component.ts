@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewChild, TemplateRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import labels from '../../../labels/labels.json';
 import { EmployeeService } from 'src/app/employee.service';
 import { AccessGroupObject, AdminEmployeeLookupResponse, IEmployee } from 'src/app/Iemployee';
@@ -23,7 +23,13 @@ export class AddNewGroupComponent implements OnInit {
   form_btn_label: string = 'Add';
   grpData: any = [];
   isValidForm:boolean = true;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private toastr: ToastrService, private employeeService: EmployeeService) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+    private dialog: MatDialog, 
+    private toastr: ToastrService, 
+    private employeeService: EmployeeService,
+    public dialogRef: MatDialogRef<any>
+    ) { }
  
   emp: IEmployee;
   groupName:string;
@@ -53,7 +59,7 @@ export class AddNewGroupComponent implements OnInit {
          this.employeeService.insertGroup(form.value)
         .subscribe((response: AccessGroupObject) => {
           if(response.isExecuted){
-            this.dialog.closeAll(); // Close opened diaglo
+            this.dialogRef.close(form.value); // Close opened diaglo
             this.toastr.success(labels.alert.success, 'Success!',{
               positionClass: 'toast-bottom-right',
               timeOut:2000
