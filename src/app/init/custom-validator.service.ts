@@ -23,4 +23,13 @@ export class CustomValidatorService {
     const isSpace = (control.value || '').trim() === '' ? true : false;
     return isSpace ? { 'whitespace': true } : null
   }
+
+  numberOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
+  }
 }

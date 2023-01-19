@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../../labels/labels.json'
 import { ScanTypeCodeComponent } from '../../dialogs/scan-type-code/scan-type-code.component';
+import { CustomValidatorService } from '../../../../app/init/custom-validator.service';
 
 @Component({
   selector: 'app-scan-codes',
@@ -22,7 +23,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   
 
   constructor( private invMasterService: InventoryMasterService,
-    private authService: AuthService, private toastr: ToastrService,  private dialog: MatDialog,) {
+    private authService: AuthService, private toastr: ToastrService,  private dialog: MatDialog,private cusValidator: CustomValidatorService) {
 
     this.userData = this.authService.userData();
  //   this.getScanTypeList();
@@ -43,6 +44,14 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   ngOnChanges(changes: SimpleChanges) {
       this.scanCodesList = [...this.scanCodes.controls['scanCode'].value];
   }
+
+
+  numberOnly(event): boolean {
+    return this.cusValidator.numberOnly(event);
+
+  }
+
+  
 
   ngOnInit(): void {
   }
