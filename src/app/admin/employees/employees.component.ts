@@ -73,6 +73,7 @@ export class EmployeesComponent implements OnInit {
   grp_data:any;
   public demo1TabIndex = 0;
   public userData;
+  public updateGrpTable;
   @ViewChild('zoneDataRefresh', { static: true,read:MatTable }) zoneDataRefresh;
 
 
@@ -307,6 +308,21 @@ getgroupAllowedList(){
 
 
   }
+
+  openGroupDialog() {
+    let dialogRef = this.dialog.open(AddNewGroupComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      this.updateGrpTable = result.groupName;
+      // this.loadEmpData();
+    })
+
+  }
+  
   backEmpAction(){
     this.isLookUp = false;
       this.employee_fetched_zones = [];
@@ -439,8 +455,7 @@ getgroupAllowedList(){
         if (index > -1) { 
           this.employee_fetched_zones.filteredData.splice(index, 1);
         }
-        
-        console.log(this.employee_fetched_zones.filteredData);
+        // console.log(this.employee_fetched_zones.filteredData);
         this.zoneDataRefresh.renderRows();
       }
 
