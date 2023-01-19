@@ -280,7 +280,9 @@ getgroupAllowedList(){
         }
       })
       dialogRef.afterClosed().subscribe(result => {
-        this.empData = result.data;
+        if(result.data){
+          this.empData = result.data;
+        }
         const matSelect: MatSelect = matEvent.source;
         matSelect.writeValue(null);
       })
@@ -299,17 +301,9 @@ getgroupAllowedList(){
         this.isLookUp = false;
         const matSelect: MatSelect = matEvent.source;
         matSelect.writeValue(null);
+        this.backEmpAction();
       })
     }
-    // if (event === 'back') {
-    //   this.isLookUp = false;
-    //   this.employee_fetched_zones = [];
-    //   this.location_data_source = [];
-    //   this.max_orders = '';
-    //   const matSelect: MatSelect = matEvent.source;
-    //   matSelect.writeValue(null);
-
-    // }
 
 
   }

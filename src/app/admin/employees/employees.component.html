@@ -131,13 +131,13 @@
                                       <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action</th>
                                       <td width="20%" class="text-center" mat-cell
                                         *matCellDef="let element">
-                                        <button mat-icon-button aria-label="Delete" (click)="deleteZone(element)" matTooltip="Delete zone" matTooltipPosition="above">
+                                        <!-- <button mat-icon-button aria-label="Delete" (click)="deleteZone(element)" matTooltip="Delete zone" matTooltipPosition="above">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
-                                        </button>
-                                        <button class="me-0" mat-icon-button aria-label="Edit" (click)="editZoneDialog(element)" matTooltip="Edit zone" matTooltipPosition="above">
+                                        </button> -->
+                                        <button  mat-icon-button aria-label="Edit" (click)="editZoneDialog(element)" matTooltip="Edit zone" matTooltipPosition="above">
                                           <mat-icon class="icon-circle-edit">border_color</mat-icon>
                                         </button>
-                                        <button class="me-0" mat-icon-button aria-label="Delete" (click)="deleteZone(element)">
+                                        <button class="me-0" mat-icon-button aria-label="Delete" (click)="deleteZone(element)" matTooltip="Delete zone" matTooltipPosition="above">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
                                         </button>
                                         
@@ -213,16 +213,16 @@
                                       <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action</th>
                                       <td width="20%" mat-cell class="text-center"
                                         *matCellDef="let element">
-                                        <button mat-icon-button aria-label="Delete Location"
-                                          (click)="deleteLocation(element)" matTooltip="Delete location" matTooltipPosition="above">
+                                        <!-- <button mat-icon-button aria-label="Delete Location"
+                                          (click)="deleteLocation(element)" >
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
-                                        </button>
-                                        <button class="me-0" mat-icon-button aria-label="Edit" 
+                                        </button> -->
+                                        <button mat-icon-button aria-label="Edit" 
                                         (click)="editLocationDialog(element)" matTooltip="Edit location" matTooltipPosition="above">
                                           <mat-icon class="icon-circle-edit">border_color</mat-icon>
                                         </button>
                                         <button class="me-0" mat-icon-button aria-label="Delete Location"
-                                          (click)="deleteLocation(element)">
+                                          (click)="deleteLocation(element)" matTooltip="Delete location" matTooltipPosition="above">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
                                         </button>
                                       </td>
