@@ -155,7 +155,7 @@ export class KitItemComponent implements OnInit, OnChanges {
 
   openAddItemNumDialog(e): void {
     const dialogRef = this.dialog.open(this.additemNumber, {
-      width: '450px',
+      width: '560px',
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((x) => {
@@ -169,7 +169,7 @@ export class KitItemComponent implements OnInit, OnChanges {
 
   openDescriptionDialog(e): void {
     const dialogRef = this.dialog.open(this.description, {
-      width: '450px',
+      width: '560px',
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((x) => {

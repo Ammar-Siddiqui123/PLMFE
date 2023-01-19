@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between mb-4 align-items-center">
-
+<div style="width:48px"></div>
 <h1 class="m-0" mat-dialog-title>Categories - Add, Delete, Edit and Set</h1>
 
 <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
@@ -12,15 +12,16 @@
     <div class="">
         <div class="">
             <div class="d-flex gap-12 my-4 justify-content-end w-100" style="">
-            <button mat-stroked-button color="primary" class="button-primary-o bg-white" (click)="openPrintRangeDialog()" >
-                <mat-icon>print</mat-icon>
+                <button mat-flat-button color="primary" class="add-icon-button" (click)="addCatRow($event)">
+                    <span class="material-symbols-outlined">
+                      add
+                    </span>
+                  </button>
+            <button mat-stroked-button color="primary" class="btn-regular" (click)="openPrintRangeDialog()" >
+                <mat-icon class="material-symbols-outlined">print</mat-icon>
                 Print
               </button>
-              <button mat-flat-button color="primary" class="add-icon-button" (click)="addCatRow($event)">
-                <span class="material-symbols-outlined">
-                  add
-                </span>
-              </button>
+              
             </div>
         </div>
     </div>
@@ -44,18 +45,18 @@
             <div class="row">
                 <mat-radio-group aria-label="Select an option" color="primary" class="w-100">
 
-                    <div *ngFor="let category of category_list;" class="d-flex align-items-center">
+                    <div *ngFor="let category of category_list;" class="d-flex align-items-center mb-3">
 
                         <mat-radio-button value="{{category.category}}" class="custom-radio-btn" (change)="selectCategory({'category': catName.value, 'subCategory': subCatName.value})">
                         </mat-radio-button>
 
                         <div class="container w-100">
 
-                            <div class="row mb-3">
+                            <div class="row">
 
                                 <div class="col-6">
                                     <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                        <mat-label>Category</mat-label>
+                                        <!-- <mat-label>Category</mat-label> -->
                                         <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #catName name="{{category.category}}" value="{{category.category}}" maxlength="50">
                                     </mat-form-field>
                                 </div>
@@ -64,16 +65,16 @@
                                     <div class="d-flex gap-12 align-items-center">
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                            <mat-label>Sub-Category</mat-label>
+                                            <!-- <mat-label>Sub-Category</mat-label> -->
                                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.subCategory}}" value="{{category.subCategory}}" #subCatName maxlength="50">
                                         </mat-form-field>
 
-                                        <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(catName.value, subCatName.value);">
-                                            <span class="material-symbols-outlined">close</span>
+                                        <button mat-flat-button color="primary" class="sm-icon-button ms-2" (click)="saveCategory(catName.value, category.category, subCatName.value, category.subCategory)">
+                                            <span class="material-symbols-outlined">save</span>
                                         </button>
 
-                                        <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveCategory(catName.value, category.category, subCatName.value, category.subCategory)">
-                                            <span class="material-symbols-outlined">save</span>
+                                        <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(catName.value, subCatName.value);">
+                                            <span class="material-symbols-outlined">close</span>
                                         </button>
 
                                     </div>
