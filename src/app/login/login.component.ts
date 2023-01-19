@@ -49,9 +49,8 @@ export class LoginComponent {
     this.loader.show();
     this.addLoginForm.get("username")?.setValue(this.addLoginForm.value.username?.replace(/\s/g, "")||null);
     this.login = this.addLoginForm.value;
-
-    console.log(this.login);
-
+    const workStation:any = JSON.parse(localStorage.getItem('workStation') || '');
+    this.login.wsid = workStation.workStationID;
     this.loginService
       .login(this.login)
       .subscribe((response: any) => {
@@ -88,9 +87,11 @@ export class LoginComponent {
       this.router.navigate(['/dashboard']);
     }
     else{
-      this.loginService.getSecurityEnvironment().subscribe((res) => {
-        this.env = res.data;
-        localStorage.setItem('env', JSON.stringify(res.data));
+      this.loginService.getSecurityEnvironment().subscribe((res:any) => {
+        this.env = res.data.securityEnvironment;
+        const { workStation } = res.data;
+        localStorage.setItem('env', JSON.stringify(this.env));
+        localStorage.setItem('workStation', JSON.stringify(workStation));
       });
     }
     

@@ -6,6 +6,7 @@ export interface ILogin {
     accessLevel?: string | null | undefined;
     responseMessage?: string | null | undefined;
     loginTime?: string | null | undefined;
+    wsid?: string | null | undefined;
 
   }
 

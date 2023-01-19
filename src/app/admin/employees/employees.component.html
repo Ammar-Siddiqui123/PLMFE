@@ -131,13 +131,13 @@
                                       <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action</th>
                                       <td width="20%" class="text-center" mat-cell
                                         *matCellDef="let element">
-                                        <button mat-icon-button aria-label="Delete" (click)="deleteZone(element)" matTooltip="Delete zone" matTooltipPosition="above">
+                                        <!-- <button mat-icon-button aria-label="Delete" (click)="deleteZone(element)" matTooltip="Delete zone" matTooltipPosition="above">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
-                                        </button>
-                                        <button class="me-0" mat-icon-button aria-label="Edit" (click)="editZoneDialog(element)" matTooltip="Edit zone" matTooltipPosition="above">
+                                        </button> -->
+                                        <button  mat-icon-button aria-label="Edit" (click)="editZoneDialog(element)" matTooltip="Edit zone" matTooltipPosition="above">
                                           <mat-icon class="icon-circle-edit">border_color</mat-icon>
                                         </button>
-                                        <button class="me-0" mat-icon-button aria-label="Delete" (click)="deleteZone(element)">
+                                        <button class="me-0" mat-icon-button aria-label="Delete" (click)="deleteZone(element)" matTooltip="Delete zone" matTooltipPosition="above">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
                                         </button>
                                         
@@ -213,16 +213,16 @@
                                       <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action</th>
                                       <td width="20%" mat-cell class="text-center"
                                         *matCellDef="let element">
-                                        <button mat-icon-button aria-label="Delete Location"
-                                          (click)="deleteLocation(element)" matTooltip="Delete location" matTooltipPosition="above">
+                                        <!-- <button mat-icon-button aria-label="Delete Location"
+                                          (click)="deleteLocation(element)" >
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
-                                        </button>
-                                        <button class="me-0" mat-icon-button aria-label="Edit" 
+                                        </button> -->
+                                        <button mat-icon-button aria-label="Edit" 
                                         (click)="editLocationDialog(element)" matTooltip="Edit location" matTooltipPosition="above">
                                           <mat-icon class="icon-circle-edit">border_color</mat-icon>
                                         </button>
                                         <button class="me-0" mat-icon-button aria-label="Delete Location"
-                                          (click)="deleteLocation(element)">
+                                          (click)="deleteLocation(element)" matTooltip="Delete location" matTooltipPosition="above">
                                           <mat-icon class="icon-circle-cancel">close</mat-icon>
                                         </button>
                                       </td>
@@ -446,10 +446,11 @@
                   </h2>
                   <mat-form-field class="action-dropdown" appearance="outline">
                     <mat-label>Actions</mat-label>
-                    <mat-select class="employees-action" [disabled]="!isGroupLookUp"
+                    <mat-select class="employees-action"
                       (selectionChange)="actionGroupDialog($event.value, grpData, $event)">
-                      <mat-option value="delete">Delete</mat-option>
-                      <mat-option value="clone" *ngIf="env === 'ADLDS'">Clone</mat-option>
+                      <mat-option [hidden]="isGroupLookUp" (click)="openGroupDialog()">Add new group</mat-option>
+                      <mat-option [hidden]="!isGroupLookUp" value="delete">Delete</mat-option>
+                      <mat-option [hidden]="!isGroupLookUp" value="clone" *ngIf="env === 'ADLDS'">Clone</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
                       expand_more
@@ -459,7 +460,7 @@
                 <div class="groups-details details-wrap g-details-wrap" *ngIf="!isGroupLookUp">
 
                   <!-- groups lookup here -->
-                  <app-groups-lookup [childGroupLookUp]="isGroupLookUp" (updateGrpLookUp)="updateGrpLookUp($event)">
+                  <app-groups-lookup [updateGrpTable]="updateGrpTable" [childGroupLookUp]="isGroupLookUp" (updateGrpLookUp)="updateGrpLookUp($event)">
                   </app-groups-lookup>
 
                 </div>
