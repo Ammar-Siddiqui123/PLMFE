@@ -124,6 +124,14 @@ transition: background-color 5000s ease-in-out 0s;
 
 .mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
   background: #1A1AD3;
+  &:disabled{
+    &:hover{
+     background-color: rgba(0, 0, 0, .12);
+    }
+  }
+  &:hover{
+    background-color: var(--clr-primary-400);
+  }
 }
 
 .mat-button.mat-primary, .mat-icon-button.mat-primary, .mat-stroked-button.mat-primary {

@@ -12,7 +12,7 @@
                 <mat-form-field class="d-block w-100" appearance="outline">
                     <mat-label>Select Group</mat-label>
                     <input type="text"
-                           placeholder="Control Name"
+                           placeholder="Group Name"
                            aria-label="Number"
                            matInput
                            formControlName="controlName"
@@ -21,7 +21,7 @@
                         <!-- <h6 class="ctl_name ac-dropdown-label"><span>Group Name</span></h6> -->
                         <mat-option>
                             <div class="ctl_option ac-dropdown-option">
-                                <span>Select Group Name</span>
+                                <span>Group Name</span>
                             </div>
                         </mat-option>
                         <mat-option *ngFor="let option of filteredOptions | async"
