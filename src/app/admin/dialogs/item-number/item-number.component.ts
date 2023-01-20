@@ -19,7 +19,7 @@ export class ItemNumberComponent implements OnInit {
               private confirmationdialog: MatDialog) { }
 
   ngOnInit(): void {  
-    // console.log(this.data)
+    console.log(this.data)
     if (this.data.addItem) {
       this.addItem = true;
     } else {
@@ -28,12 +28,14 @@ export class ItemNumberComponent implements OnInit {
   }
 
   onNoClick(onsubmit: any, status : any): void {
+    console.log();
+    
     if(status == 'createNew'){
     this.submit= true;
     if(this.addItem && onsubmit){
-      if(this.data.itemNumber && this.data.desc){
+      if(this.data.itemNumber && this.data.description){
       
-        this.dialogRef.close(  {itemNumber : this.data.itemNumber, desc : this.data.desc} );
+        this.dialogRef.close(  {itemNumber : this.data.itemNumber, description : this.data.description} );
       }
     } else {
       this.dialogRef.close();

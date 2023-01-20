@@ -89,9 +89,17 @@ export class LoginComponent {
     else{
       this.loginService.getSecurityEnvironment().subscribe((res:any) => {
         this.env = res.data.securityEnvironment;
-        const { workStation } = res.data;
-        localStorage.setItem('env', JSON.stringify(this.env));
-        localStorage.setItem('workStation', JSON.stringify(workStation));
+        if(this.env){
+          const { workStation } = res.data;
+          localStorage.setItem('env', JSON.stringify(this.env));
+          localStorage.setItem('workStation', JSON.stringify(workStation));
+        }
+        else{
+          this.toastr.error('Kindly contact to administrator', 'Workstation is not set!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
       });
     }
     
