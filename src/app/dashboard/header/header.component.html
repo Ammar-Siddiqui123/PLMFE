@@ -70,12 +70,12 @@
   <div class="row mr-2 ml-auto">
     <ul class="row m-0 align-items-center">
       <li>
-        <button mat-button [matMenuTriggerFor]="menu" class="user mt-1 d-flex align-items-center">
-          <mat-icon class="material-symbols-outlined">account_circle</mat-icon>
+        <button mat-button [matMenuTriggerFor]="menu" class="user">
+          <mat-icon class="material-symbols-outlined me-1">account_circle</mat-icon>
           {{user_data.userName}}
-          <mat-icon class="user-image-icon ml-1" style="height: 18px ;">keyboard_arrow_down</mat-icon>
+          <mat-icon class="user-image-icon" style="height: 18px ;">keyboard_arrow_down</mat-icon>
         </button>
-        <mat-menu #menu="matMenu">
+        <mat-menu #menu="matMenu" class="custom mat-menu-panel " xPosition="before">
           <!-- <button mat-menu-item>
             <mat-icon>assignment_ind</mat-icon>
             Profile

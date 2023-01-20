@@ -313,6 +313,10 @@ button {
 }
 .user {
   font-size: 14px;
+  line-height: 44px!important;
+}
+.user[aria-expanded='true']{
+  background: rgba($tertiary-10, $alpha: 0.25);
 }
 mat-toolbar {
   background: #f7f7f7;
@@ -1640,4 +1644,33 @@ mat-row{
 }
 .username-login-icon{
   top: 5px!important;
+}
+
+
+
+.custom.mat-menu-panel {
+  min-width: 190px!important;
+  border-radius: 8px!important;
+  .mat-menu-content {
+    .mat-menu-item{
+      border-top: 1px solid var(--clr-tertiary-10);
+      border-bottom: 1px solid var(--clr-tertiary-10);
+      display: flex;
+      align-items: center;
+      color: var(--clr-tertiary-900);
+      font-size: 14px;
+      &:nth-child(2n+1){
+        border: none;
+      }
+      // &:first-child{
+      //   border: none;
+      // }
+      &:last-child{
+        border-bottom: none;
+      }
+      .mat-icon{
+        margin-right: 8px;
+      }
+    }
+  }
 }
