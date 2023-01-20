@@ -54,6 +54,7 @@ export class InventoryMasterComponent implements OnInit {
     ) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
   @ViewChild('UNquarantineAction') unquarantineTemp: TemplateRef<any>;
+  @ViewChild('propertiesChanged') propertiesChanged: TemplateRef<any>;
   invMaster: FormGroup;
 
 
@@ -172,7 +173,7 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventory').subscribe((res: any) => {
-
+      
       if(this.currentPageItemNo == ''){
         this.currentPageItemNo = res.data.firstItemNumber;
       }
@@ -198,8 +199,24 @@ export class InventoryMasterComponent implements OnInit {
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
       this.getInvMasterData = res.data;
+      // console.log(this.getInvMasterData);
+      
       this.initialzeIMFeilds();
     })
+  }
+
+  private getChangedProperties(): string[] {
+    let changedProperties:any = [];
+  
+    Object.keys(this.invMaster.controls).forEach((name) => {
+      const currentControl = this.invMaster.controls[name];
+  
+      if (currentControl.dirty) {
+        changedProperties.push(name);
+      }
+    });
+  
+    return changedProperties;
   }
 
   public getInvMasterLocations(itemNum: any , pageSize?, startIndex?, sortingColumnName?, sortingOrder?) {
@@ -253,6 +270,12 @@ export class InventoryMasterComponent implements OnInit {
 
   }
   prevPage(){
+    console.log(this.getChangedProperties());
+    
+    // const dialogRef = this.dialog.open(this.propertiesChanged, {
+    //   width: '450px',
+    //   autoFocus: '__non_existing_element__',
+    // });
     this.searchValue = this.currentPageItemNo;
     if(this.paginationData.position >= 1 && this.paginationData.position <= this.paginationData.total){
       let paylaod = {
@@ -572,6 +595,7 @@ export class InventoryMasterComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         itemNumber: this.currentPageItemNo,
+        description: this.getInvMasterData.description,
         newItemNumber : '',
         addItem : true
       }
@@ -579,10 +603,10 @@ export class InventoryMasterComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result.itemNumber) {
-        const { itemNumber, desc } = result;
+        const { itemNumber, description } = result;
         let paylaod = {
           "itemNumber": itemNumber,
-          "description": desc,
+          "description": description,
           "username": this.userData.userName,
           "wsid": this.userData.wsid
         }
