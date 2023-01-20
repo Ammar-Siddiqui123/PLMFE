@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./transaction.component.scss'],
 })
 export class TransactionComponent implements OnInit {
-  public demo1TabIndex = 1;
+  public TabIndex = 1;
   public userData: any;
   
   constructor() {}
@@ -21,6 +21,6 @@ export class TransactionComponent implements OnInit {
 
   public demo1BtnClick() {
     const tabCount = 3;
-    this.demo1TabIndex = (this.demo1TabIndex + 1) % tabCount;
+    this.TabIndex = (this.TabIndex + 1) % tabCount;
   }
 }

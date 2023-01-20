@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { AuthService } from 'src/app/init/auth.service';
-import { ITransactionModelIndex, OpenTransactionResponse } from 'src/app/interface/transaction';
+import {
+  ITransactionModelIndex,
+  OpenTransactionResponse,
+} from 'src/app/interface/transaction';
 import { TransactionService } from '../transaction.service';
 
 @Component({
@@ -11,33 +15,44 @@ import { TransactionService } from '../transaction.service';
 export class OpenTransactionComponent implements OnInit {
   transactions;
   userData: any;
-  transactionIndex:ITransactionModelIndex;
+  transactionIndex: ITransactionModelIndex;
+  selectedIndex: number = 0;
+
   // displayOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "minOfPriority", "detail", "action"];
-  displayOrderCols: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
-  constructor(private transactionService: TransactionService, private authService: AuthService) {}
+  displayOrderCols: any = []; //'position', 'name', 'weight', 'symbol'
+  constructor(
+    private transactionService: TransactionService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.getTransactionModelIndex()
-    
+    // this.getTransactionModelIndex();
+  }
+  nexScreen(event) {
+    this.previousStep();
+
+  }
+  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    this.selectedIndex = tabChangeEvent.index;
+  }
+  returnFromComp(event) {
+    this.nextStep();
+
   }
 
-  getTransactionModelIndex(){
-    let paylaod = {
-      "viewToShow": 2,
-      "location": "",
-      "itemNumber": "",
-      "holds":false,
-      "orderStatusOrder": "",
-      "app": "Admin",
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
+  nextStep() {
+    if (this.selectedIndex != 2) {
+      this.selectedIndex = this.selectedIndex + 1;
     }
-    this.transactionService.get(paylaod, '/Admin/TransactionModelIndex').subscribe((res: any) => {
-      // this.displayOrderCols=res.data.openTransactionColumns;
-    },
-    (error) => {
-      debugger;
-    });
+    console.log(this.selectedIndex);
   }
+
+  previousStep() {
+    if (this.selectedIndex != 0) {
+      this.selectedIndex = this.selectedIndex - 1;
+    }
+    console.log(this.selectedIndex);
+  }
+
 }

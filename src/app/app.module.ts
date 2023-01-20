@@ -20,7 +20,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { CustomHttpInterceptor } from './init/http-interceptor';
 import { ChangePasswordComponent } from './login/change-password/change-password.component';
 import { HeaderInterceptor } from './init/header-interceptor.interceptor';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +44,10 @@ import { HeaderInterceptor } from './init/header-interceptor.interceptor';
     MatIconModule,
     MatCheckboxModule,
     MaterialModule,
-    MatTableModule
+    MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+    
   ],
   providers: [
     LoginService, 

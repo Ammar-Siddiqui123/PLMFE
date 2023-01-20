@@ -46,6 +46,7 @@ export class LoginComponent {
   loginUser() {
     this.loader.show();
     this.login = this.addLoginForm.value;
+    this.login['WSID']="TestWSID"; // Line have been added after modifications in backend . modification required.
     this.loginService
       .login(this.login)
       .subscribe((response: any) => {

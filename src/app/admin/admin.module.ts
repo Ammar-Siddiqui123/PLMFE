@@ -87,7 +87,11 @@ import { TranSelectOrderComponent } from './transaction/order-status/tran-select
 import { TranCarouselLzoneComponent } from './transaction/order-status/tran-carousel-lzone/tran-carousel-lzone.component';
 import { TranOffCarouselLzoneComponent } from './transaction/order-status/tran-off-carousel-lzone/tran-off-carousel-lzone.component';
 import { TranOrderListComponent } from './transaction/order-status/tran-order-list/tran-order-list.component';
-
+import { OpenTransactionOnHoldComponent } from './transaction/open-transaction/open-transaction-on-hold/open-transaction-on-hold.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -170,7 +174,8 @@ import { TranOrderListComponent } from './transaction/order-status/tran-order-li
     TranSelectOrderComponent,
     TranCarouselLzoneComponent,
     TranOffCarouselLzoneComponent,
-    TranOrderListComponent
+    TranOrderListComponent,
+    OpenTransactionOnHoldComponent
 
   ],
   imports: [
@@ -180,6 +185,10 @@ import { TranOrderListComponent } from './transaction/order-status/tran-order-li
     GeneralModule,
     CdkTableModule,
     DragDropModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
     ToastrModule.forRoot({
       timeOut: 2000,
       extendedTimeOut: 0,
