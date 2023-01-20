@@ -126,7 +126,8 @@ transition: background-color 5000s ease-in-out 0s;
   background: #1A1AD3;
   &:disabled{
     &:hover{
-     background-color: rgba(0, 0, 0, .12);
+      background-color: var(--clr-chrome-600);
+      color: #fff;
     }
   }
   &:hover{
@@ -772,16 +773,17 @@ mat-toolbar {
   position: absolute;
   left: 9px;
   font-size: 22px;
-  color:#11116999;
+  // color:#11116999;
+  color: rgba($tertiary-900, 0.6);
   top: 0;
 }
 
 .g-mini-search-box  input.mat-input-element {
   padding-left: 2.5em;
-  color: #111169;
+  color: $tertiary-900;
 }
 .g-mini-search-box  input.mat-input-element::placeholder {
-  color: #11116999;
+  color: rgba($tertiary-900, 0.6);
   font-weight: 500;
 }
 
@@ -1273,6 +1275,10 @@ button.default-btn{
   mat-label{
     background: #fff;
   }
+}
+
+.mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-flex {
+  background-color: rgba($tertiary-10, $alpha: 0.25)!important
 }
 
 //-------------- FORM INPUT-CLASSES ----END-------------------
