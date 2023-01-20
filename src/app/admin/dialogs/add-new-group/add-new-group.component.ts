@@ -44,12 +44,12 @@ export class AddNewGroupComponent implements OnInit {
 
   alphaNumberOnly(string:any) {
     // const regex = "^[a-zA-Z0-9_-]*$";
-    // if(string.match(regex)){
-    //   return true;
-    // }
-    //   return false
-
+    const regex = "^[a-zA-Z0-9_//][a-zA-Z0-9_// ]*[a-zA-Z0-9_//]$";
+    //^[a-zA-Z0-9_][a-zA-Z0-9_ ]*[a-zA-Z0-9_]$
+    if(string.match(regex)){
       return true;
+    }
+      return false;
   }
 
 
