@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between mb-4 align-items-center">
-    
+    <div style="width:48px"></div>
 <h1 class="m-0" mat-dialog-title>Cell Sizes - Add, Delete, Edit and Set</h1>
 <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="false">
     <mat-icon class="close-icon">close</mat-icon>
@@ -18,7 +18,7 @@
     <div class="card w-100">
         <div class="card-header">
             <div class="row">
-                <div class="col-6 px-4">
+                <div class="col-6" style="padding-left: 64px;">
                     Cell Size
                 </div>
             </div>
@@ -34,30 +34,39 @@
                 </button>
             </div> -->
             <ng-container *ngFor="let cell of cellsize_list;let i = index">
-                <div class="row mb-3 align-items-center" style="justify-content: space-evenly;">
-                    <div class="col-1">
+                <div class="d-flex align-items-center mb-3">
                         <mat-radio-button value="{{cell.cells}}" color="primary" (change)="selectCellSize(sigleCell.value)">
                         </mat-radio-button>
-                    </div>
-                    <div class="col-2" style="font-size: 12px">
-                        <mat-form-field class="d-block w-100" appearance="outline">
+                        <div class="container w-100">
+                        <div class="row">
+                    <div class="col-4">
+                        <mat-form-field class="d-block" appearance="outline">
                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="{{cell.cells}}" #sigleCell maxlength="50">
                         </mat-form-field>
                     </div>
-                    <div class="col-6" style="font-size: 12px">
-                        <mat-form-field class="d-block w-100" appearance="outline">
+                    <div class="col-8">
+                        <div class="d-flex align-items-center gap-12">
+                        <mat-form-field class="w-100" appearance="outline">
                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="{{cell.cellTypes}}" #cellType maxlength="50">
                         </mat-form-field>
+                        <div class="d-flex gap-12">
+                            <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveCellSize(sigleCell.value, cellType.value, i)">
+                                <span class="material-symbols-outlined">save</span>
+                            </button>
+                            <button mat-flat-button color="warn" class="sm-icon-button"
+                                    (click)="dltCellSize(sigleCell.value,i);">
+                                    <span class="material-symbols-outlined">close</span>
+                                </button>
+                       
+                                
+                            </div>
+                        </div>
                     </div>
+                    
+                </div>
+            </div>
           
-                        <button mat-flat-button color="warn" class="sm-icon-button"
-                            (click)="dltCellSize(sigleCell.value,i);">
-                            <span class="material-symbols-outlined">close</span>
-                        </button>
-               
-                        <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveCellSize(sigleCell.value, cellType.value, i)">
-                            <span class="material-symbols-outlined">save</span>
-                        </button>
+                        
                   
                 </div>
             </ng-container>

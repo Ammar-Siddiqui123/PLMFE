@@ -98,7 +98,7 @@ export class DetailComponent implements OnInit {
   public opencategoryDialog() {
     let dialogRef = this.dialog.open(ItemCategoryComponent, {
       height: 'auto',
-      width: '800px',
+      width: '860px',
       autoFocus: '__non_existing_element__',
       data: {
         mode: '',

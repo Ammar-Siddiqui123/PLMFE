@@ -136,7 +136,7 @@ transition: background-color 5000s ease-in-out 0s;
 
 .mat-button.mat-primary, .mat-icon-button.mat-primary, .mat-stroked-button.mat-primary {
   color: #1A1AD3;
-  border: 1px solid #1A1AD3;
+  // border: 1px solid #1A1AD3;
 }
 
 .mat-form-field-appearance-outline:not(.mat-form-field-disabled) .mat-form-field-flex:hover .mat-form-field-outline-thick {
@@ -661,6 +661,8 @@ mat-toolbar {
   background: var(--clr-tertiary-10);
   width: 48px;
   height: 48px;
+  min-width: 48px;
+  min-height: 48px;
   border-radius: 999px;
   display: flex;
   align-items: center;
@@ -1115,6 +1117,9 @@ h4.main-section-title {
 .btn-md{
   padding: 10px 30px !important;
 }
+.btn-regular{
+  padding: 6px 20px !important;
+}
 .primary-btn{
   color: #090948 !important;
 }
@@ -1147,7 +1152,7 @@ button.button-primary-o{
 }
 button.button-primary{
   color: #ffffff !important;
-  background-color: $primary-500 !important;
+  background-color: $primary-500;
   padding: 6px 15px;
   min-width: 130px !important;
   // border-radius: 14px !important;
@@ -1260,12 +1265,26 @@ button.default-btn{
 .custom-input-number{
   padding-left: 8px !important;
 }
+.mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-outline {
+  background-color: rgba($tertiary-10, $alpha: 0.25);
+  border-radius: 8px;
+}
+.mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-label {
+  mat-label{
+    background: #fff;
+  }
+}
 
 //-------------- FORM INPUT-CLASSES ----END-------------------
 
 //-------------- RADIO BUTTOM-CLASSES ----START-------------------
-.custom-radio-btn .mat-radio-label-content{
+
+
+.custom-radio-btn {
+  display: flex!important;
+.mat-radio-label-content{
   width: 100%!important;
+}
 }
 
 .custom-checkbox .mat-checkbox-background, .mat-checkbox-frame{
@@ -1519,9 +1538,14 @@ button{
   // opacity: 0.5;
 }
 
-.table-fix .mat-sort-header-container{
-  width: 250px !important;
+.table-fix{
+  .mat-sort-header-container{
+  // width: 250px !important;
   height: 56px!important;
+}
+mat-row{
+  margin: 4px 0;
+}
 }
 
 .breadcrumb-item{
@@ -1599,7 +1623,7 @@ button{
 }
 
 .matAutoCompHeader{
-  display: flex; justify-content: space-around;
+  display: flex; justify-content: space-between;
 }
 .matAutoCompTableContent{
   min-height: 50px !important; min-width: 250px;  padding: 5px 32px; border: 0;

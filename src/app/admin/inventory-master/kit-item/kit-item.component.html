@@ -1,17 +1,18 @@
-<div class="py-4 br-14">
+<div class="">
 
     <div class="row">
         <div class="col-6 offset-6">
             <div class="d-flex gap-12 my-4 justify-content-end">
-              <button mat-flat-button color="primary" class="add-icon-button" (click)="addCatRow($event)">
+                <button mat-stroked-button color="primary" class="" (click)="openPrintRangeDialog()" >
+                    <mat-icon>print</mat-icon>
+                    Print
+                  </button>
+                <button mat-flat-button color="primary" class="add-icon-button" (click)="addCatRow($event)">
                 <span class="material-symbols-outlined">
                   add
                 </span>
               </button>
-              <button mat-stroked-button color="primary" class="button-primary-o bg-white backgroundColor" (click)="openPrintRangeDialog()" >
-                <mat-icon>print</mat-icon>
-                Print
-              </button>
+              
             </div>
         </div>
     </div>
@@ -20,24 +21,22 @@
 
         <div class="card-header">
             <div class="row">
-                <div class="col-3 px-4">Item Number</div>
-                <div class="col-3 px-4">Description</div>
-                <div class="col-3 px-4">Special Features</div>
-                <div class="col-3 px-4">Kit Quantity</div>
+                <div class="col-3 ">Item Number</div>
+                <div class="col-3 ">Description</div>
+                <div class="col-2 ">Special Features</div>
+                <div class="col-4 ">Kit Quantity</div>
             </div>
         </div>
-
-        <div class="card-body" style="max-height: 400px; overflow-y: scroll;">
-            <div class="container">
+<ng-scrollbar style="height:260px">
+        <div class="card-body" style="overflow-x: auto;">
+            <div class="">
 
             <div class="row">
                 <mat-radio-group aria-label="Select an option" color="primary" class="w-100">
 
-                    <div *ngFor="let kitItem of kitItemsList" class="d-flex align-items-center">
+                    <div *ngFor="let kitItem of kitItemsList" class="row align-items-center" >
 
-                        <div class="container w-100">
 
-                            <div class="row">
 
                                 <div class="col-3">
                                     <mat-form-field class="custom-form-field w-100" appearance="outline"   (click)="openAddItemNumDialog(kitItem)">
@@ -64,7 +63,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="d-flex gap-12 align-items-center">
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
                                             
@@ -75,15 +74,15 @@
                                     </div>
                                 </div>
 
-                                <div class="col-3">
-                                    <div class="d-flex gap-12 align-items-center">
+                                <div class="col-4">
+                                    <div class="d-flex align-items-center justify-content-between">
 
-                                        <mat-form-field class="custom-form-field w-100" appearance="outline">
+                                        <mat-form-field class="custom-form-field" appearance="outline">
                                           
                                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{kitItem.kitQuantity}}" [(ngModel)]="kitItem.kitQuantity"  #kitQuantity
                                              max="9" pattern="^[0-9]*$" maxlength="9">
                                         </mat-form-field>
-
+                                        <div class="d-flex gap-12">
                                         <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(kitItem);">
                                             <span class="material-symbols-outlined">close</span>
                                         </button>
@@ -91,11 +90,10 @@
                                         <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveKit(itemNum.value,  kitItem)">
                                             <span class="material-symbols-outlined">save</span>
                                         </button>
-
+                                    </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+
 
                     </div>
 
@@ -103,12 +101,14 @@
             </div>
         </div>
         </div>
+    </ng-scrollbar>
     </div>
 </div>
 
 
 <ng-template #additemNumber>
     <div class="d-flex justify-content-between mb-4 align-items-center">
+        <div style="width:48px"></div>
         <h1 class="m-0" mat-dialog-title>Item Number</h1>
 
     <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
@@ -135,7 +135,7 @@
                 </mat-form-field>
             </div>
             <div class="d-flex justify-content-end pt-3">
-            <button mat-flat-button color="primary" class="button-primary btn-lg"  [mat-dialog-close]="true"  cdkFocusInitial>Submit</button>
+            <button mat-flat-button color="primary" class="button-primary btn-lg w-100"  [mat-dialog-close]="true"  cdkFocusInitial>Submit</button>
             </div>
         </div>
     
@@ -146,6 +146,7 @@
 <ng-template #description>
 
     <div class="d-flex justify-content-between mb-4 align-items-center">
+        <div style="width:48px"></div>
     <h1  class="m-0" mat-dialog-title>Description</h1>
 
     <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
@@ -158,11 +159,11 @@
             <div class="col-12 mb-2">
                 <mat-form-field class="custom-form-field w-100" appearance="outline">
             
-                    <textarea matInput [(ngModel)]="dialogDescription"  readonly="true"></textarea>
+                    <textarea matInput [(ngModel)]="dialogDescription"  readonly="true" style="min-height:100px"></textarea>
                 </mat-form-field>
             </div>
             <div class="d-flex justify-content-end pt-3">
-            <button mat-flat-button color="primary" class="button-primary btn-lg" [mat-dialog-close]="true"  cdkFocusInitial>Submit</button>
+            <button mat-flat-button color="primary" class="button-primary btn-lg w-100" [mat-dialog-close]="true"  cdkFocusInitial>Submit</button>
         </div>
         </div>
     
