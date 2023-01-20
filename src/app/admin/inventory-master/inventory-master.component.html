@@ -40,7 +40,7 @@
                     search
                   </span>
                   <input  [matAutocomplete]="searchauto" type="text" placeholder="Item No." aria-label="Search" matInput  (keyup)="getSearchList($event)" [value]="searchValue" maxlength="50">
-                  <mat-autocomplete class="card custom-scroll" #searchauto="matAutocomplete" (optionSelected)="onSearchSelect($event)"  >
+                  <mat-autocomplete class="card custom-scroll" #searchauto="matAutocomplete" (optionSelected)="onSearchSelect($event)">
                     <h6 class ="card-header matAutoCompHeader "><span style="width:  140px;">Item No./Supp No./Supp Code</span> <span  style="width:  140px;">Description</span> <span  style="width:  140px;">Category</span> <span  style="width:  140px;">Sub Category</span></h6>
                     <mat-option *ngFor="let option of searchList" [value]="option.itemNumber" class="matAutoCompTableContent">
                       <div class="loc_option" >

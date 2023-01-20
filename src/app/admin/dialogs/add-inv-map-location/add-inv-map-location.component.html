@@ -1,19 +1,22 @@
-<h1 mat-dialog-title>{{headerLable}}</h1>
-<button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+<div class="d-flex justify-content-between mb-4 align-items-center">
+    <div style="width:48px"></div>
+<h1 class="m-0" mat-dialog-title>{{headerLable}}</h1>
+<button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
     <mat-icon class="close-icon">close</mat-icon>
 </button>
+</div>
 <form [formGroup]="addInvMapLocation" (ngSubmit)="onSubmit(addInvMapLocation)">
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-6">
-            <ng-scrollbar style="height: 600px">
+            <ng-scrollbar style="height: 500px">
                 <div class="container location_detail">
                     <h1 mat-dialog-title>Location Detail</h1>
                     <div class="row">
                         <div class="col-6">
-                            <mat-form-field class="d-block w-100 readonly" appearance="outline">
+                            <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Location Number</mat-label>
-                                <input matInput class="readonly" formControlName="locationNumber"   name="locationNumber"
-                                    readonly>
+                                <input matInput  disabled name="locationNumber" value="asdasdas"
+                                    >
                             </mat-form-field>
                         </div>
                         <div class="col-6">
@@ -204,9 +207,9 @@
                     </div>
                 </div>
 
-                <mat-form-field class="d-block w-100 readonly" appearance="outline">
+                <mat-form-field class="d-block w-100" appearance="outline">
                     <mat-label>Description</mat-label>
-                    <input matInput readonly class="readonly" formControlName="description"   name="description">
+                    <input matInput disabled    name="description" value="value">
                 </mat-form-field>
                 <div class="row">
                     <div class="col-6">
@@ -261,8 +264,10 @@
         </div>
 
     </div>
-    <mat-dialog-actions align="end">
-        <button mat-stroked-button color="warn" class="form-button-submit">Clear</button>
-        <button type="submit" mat-flat-button class="form-button-submit" color="primary" [disabled]="!isValid()">Save Changes</button>
-    </mat-dialog-actions>
+    <!-- <mat-dialog-actions align="end"> -->
+        <div class="d-flex gap-12">
+        <button mat-stroked-button color="warn" class="form-button-submit btn-lg">Clear</button>
+        <button type="submit" mat-flat-button class="form-button-submit btn-lg w-100" color="primary" [disabled]="!isValid()">Save Changes</button>
+    </div>
+    <!-- </mat-dialog-actions> -->
 </form>
