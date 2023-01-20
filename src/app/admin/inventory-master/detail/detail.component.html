@@ -141,21 +141,21 @@
               <div class="employees text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['openCount'].value }}</p>
                 <p class="employee-p text-tertiary-900 mb-1  ">Open</p>
-                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md backgroundColor " >
+                <button mat-flat-button color="button-default" [disabled]="this.details.controls['openCount'].value==0" [class.disabledBtn] = "this.details.controls['openCount'].value==0" class="default-btn bg-white text-primary-900 btn-md backgroundColor " >
                   View
                 </button>
               </div>
               <div class="customer text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['histCount'].value }}</p>
                 <p class="customer-p text-tertiary-900 mb-1  ">History</p>
-                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md  backgroundColor" >
+                <button mat-flat-button color="button-default" [disabled]="this.details.controls['histCount'].value==0" [class.disabledBtn] = "this.details.controls['histCount'].value==0" class="default-btn bg-white text-primary-900 btn-md  backgroundColor" >
                   View
                 </button>
               </div>
               <div class="customer text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['procCount'].value }}</p>
                 <p class="customer-p text-tertiary-900 mb-1  ">Reprocess</p>
-                <button mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md  backgroundColor" >
+                <button mat-flat-button color="button-default" [class.disabledBtn] = "this.details.controls['procCount'].value==0"  [disabled]="this.details.controls['procCount'].value==0" class="default-btn bg-white text-primary-900 btn-md  backgroundColor" >
                   View
                 </button>
               </div>

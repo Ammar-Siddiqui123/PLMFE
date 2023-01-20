@@ -22,6 +22,7 @@ export class ItemNumberComponent implements OnInit {
     console.log(this.data)
     if (this.data.addItem) {
       this.addItem = true;
+      this.data.itemNumber="";
     } else {
       this.addItem = false;
     }    

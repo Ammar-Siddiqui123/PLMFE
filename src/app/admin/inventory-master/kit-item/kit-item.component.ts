@@ -204,7 +204,7 @@ export class KitItemComponent implements OnInit, OnChanges {
     if (this.kitItem.controls['itemNumber'].value == e.option.value.itemNumber) {
       this.dialogitemNumber = '';
       this.dialogDescription = '';
-      this.toastr.error("Item Number and Kit Item Number cann't be same", 'Error!', {
+      this.toastr.error("Item "+e.option.value.itemNumber+" cannot belong to itself in a kit.", 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });

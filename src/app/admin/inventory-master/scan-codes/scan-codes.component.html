@@ -75,7 +75,7 @@
                                     <div class="d-flex gap-12 align-items-center">
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="number" name="{{item.startPosition}}" value="{{item.startPosition}}" #startPosition
+                                            <input (keypress)="numberOnly($event)" (keydown.shift.enter)="$event.preventDefault()" matInput type="number" name="{{item.startPosition}}" value="{{item.startPosition}}" #startPosition
                                             [disabled]="scanRange.value == 'No'"  max="9" pattern="^[0-9]*$" maxlength="9" >
                                         </mat-form-field>
 
@@ -85,8 +85,8 @@
                                 <div class="col-4">
                                     <div class="d-flex gap-12 align-items-center justify-content-between">
 
-                                        <mat-form-field class="custom-form-field" appearance="outline">
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="number" name="{{item.codeLength}}" value="{{item.codeLength}}" #codeLength
+                                        <mat-form-field class="custom-form-field w-100" appearance="outline">
+                                            <input (keypress)="numberOnly($event)" (keydown.shift.enter)="$event.preventDefault()" matInput type="number" name="{{item.codeLength}}" value="{{item.codeLength}}" #codeLength
                                             [disabled]="scanRange.value == 'No'"  max="9" pattern="^[0-9]*$" maxlength="9" >
                                         </mat-form-field>
 
