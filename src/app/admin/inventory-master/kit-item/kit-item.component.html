@@ -79,7 +79,7 @@
 
                                         <mat-form-field class="custom-form-field" appearance="outline">
                                           
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{kitItem.kitQuantity}}" [(ngModel)]="kitItem.kitQuantity"  #kitQuantity
+                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="number" name="{{kitItem.kitQuantity}}" [(ngModel)]="kitItem.kitQuantity"  #kitQuantity
                                              max="9" pattern="^[0-9]*$" maxlength="9">
                                         </mat-form-field>
                                         <div class="d-flex gap-12">

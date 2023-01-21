@@ -20,6 +20,7 @@ export class AddLocationComponent implements OnInit {
 
   startLocationList: any;
   endLocationList: any;
+  isValid: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, 
@@ -84,8 +85,18 @@ export class AddLocationComponent implements OnInit {
     })
   }
   }
+  onBlur(){
+    if(this.startLocation.trim() !== '' && this.endLocation.trim() !== '' ){
+      this.isValid = true
+    }
+    else{
+      this.isValid = false
+    }
+  }
 
   onSend(form: NgForm){
+
+
     let payload = {
       "startLocation": this.startLocation,
       "endLocation": this.endLocation,   

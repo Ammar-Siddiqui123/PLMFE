@@ -43,6 +43,7 @@ export class InventoryMasterComponent implements OnInit {
   public totalPicks: any;
   public totalPuts: any;
   public wipCount: any;
+  public append: any;
   constructor(
     private invMasterService: InventoryMasterService, 
     private authService: AuthService, 
@@ -713,6 +714,10 @@ export class InventoryMasterComponent implements OnInit {
   })
   }
 
+  checkCheckBoxvalue(event){
+    this.append = event.checked;
+  }
+
   unquarantineDialog(): void {
     const dialogRef = this.dialog.open(this.unquarantineTemp, {
       width: '450px',
@@ -722,7 +727,7 @@ export class InventoryMasterComponent implements OnInit {
       if(x){
         let paylaod = {
           "itemNumber": this.currentPageItemNo,
-          "append": true,
+          "append": this.append,
           "username": this.userData.userName,
           "wsid": this.userData.wsid
         }
