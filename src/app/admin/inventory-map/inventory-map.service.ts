@@ -16,7 +16,7 @@ export class InventoryMapService {
     let payload = {
       "username": userName,
       "wsid": wsid,
-      "viewName": "Inventory Map"
+      "tableName": "Inventory Map"
     }
     const httpOptions = {
       headers: new HttpHeaders({
@@ -24,7 +24,7 @@ export class InventoryMapService {
         'Authorization': 'Basic '
       })
     };
-    return this.http.post<any>(`${environment.apiUrl}/Admin/GetColumnSequenceDetail`, payload,httpOptions);
+    return this.http.post<any>(`${environment.apiUrl}/Admin/GetColumnSequence`, payload,httpOptions);
   }
   public saveColumnSeq(payload:any): Observable<any>{
     const httpOptions = {

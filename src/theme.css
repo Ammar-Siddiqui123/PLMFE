@@ -1439,7 +1439,9 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 .mat-mini-fab.mat-accent.mat-button-disabled,
 .mat-mini-fab.mat-warn.mat-button-disabled,
 .mat-mini-fab.mat-button-disabled.mat-button-disabled {
-  background-color: rgba(0, 0, 0, .12)
+  /* background-color: rgba(0, 0, 0, .12) */
+  background-color: var(--clr-chrome-600);
+  color: #fff;
 }
 
 .mat-flat-button.mat-primary .mat-ripple-element,
@@ -2217,7 +2219,9 @@ td.mat-footer-cell {
 
 .mat-input-element:disabled,
 .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
-  color: rgba(0, 0, 0, .38)
+  /* color: rgba(0, 0, 0, .38) */
+  color: #090948;
+  opacity: 0.6;
 }
 
 .mat-input-element {

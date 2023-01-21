@@ -16,6 +16,7 @@
                            aria-label="Number"
                            matInput
                            formControlName="controlName"
+                           (keyup)="checkIfValid(GroupName)"
                            [matAutocomplete]="auto" (blur)="blurInput()">
                     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="controlNameForm.controls['controlName'].setValue($event.option.value)">
                         <!-- <h6 class="ctl_name ac-dropdown-label"><span>Group Name</span></h6> -->
@@ -39,7 +40,7 @@
             <!-- </mat-form-field> -->
             <mat-dialog-actions align="end">
                 <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->
-                <button type="submit" mat-flat-button class="form-button-submit"
+                <button type="submit" mat-flat-button class="form-button-submit btn-lg w-100"
                     color="primary" [disabled]="!controlNameForm.valid">{{form_btn_label}}</button>
             </mat-dialog-actions>
 
