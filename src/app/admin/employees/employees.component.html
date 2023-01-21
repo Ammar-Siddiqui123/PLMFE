@@ -173,7 +173,7 @@
                                       search
                                     </span>
                                     <input type="text" placeholder="Search Locations" aria-label="Search Locations"
-                                      matInput (keyup)="applyFilter($event)">
+                                      matInput (keyup)="applyFilter($event)" maxlength="50">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="addLocationDialog()" [disabled]="!isLookUp" matTooltip="Add new location" matTooltipPosition="above">
@@ -338,7 +338,7 @@
                                       search
                                     </span>
                                     <input type="text" placeholder="Search Groups Allowed"
-                                      aria-label="Search Groups Allowed" matInput  (keyup)="groupAllowedFilter($event)">
+                                      aria-label="Search Groups Allowed" matInput  (keyup)="groupAllowedFilter($event)" maxlength="50">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="grpAllowedDialog()">

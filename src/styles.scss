@@ -126,7 +126,8 @@ transition: background-color 5000s ease-in-out 0s;
   background: #1A1AD3;
   &:disabled{
     &:hover{
-     background-color: rgba(0, 0, 0, .12);
+      background-color: var(--clr-chrome-600);
+      color: #fff;
     }
   }
   &:hover{
@@ -312,6 +313,10 @@ button {
 }
 .user {
   font-size: 14px;
+  line-height: 44px!important;
+}
+.user[aria-expanded='true']{
+  background: rgba($tertiary-10, $alpha: 0.25);
 }
 mat-toolbar {
   background: #f7f7f7;
@@ -772,16 +777,17 @@ mat-toolbar {
   position: absolute;
   left: 9px;
   font-size: 22px;
-  color:#11116999;
+  // color:#11116999;
+  color: rgba($tertiary-900, 0.6);
   top: 0;
 }
 
 .g-mini-search-box  input.mat-input-element {
   padding-left: 2.5em;
-  color: #111169;
+  color: $tertiary-900;
 }
 .g-mini-search-box  input.mat-input-element::placeholder {
-  color: #11116999;
+  color: rgba($tertiary-900, 0.6);
   font-weight: 500;
 }
 
@@ -1275,6 +1281,10 @@ button.default-btn{
   }
 }
 
+.mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-flex {
+  background-color: rgba($tertiary-10, $alpha: 0.25)!important
+}
+
 //-------------- FORM INPUT-CLASSES ----END-------------------
 
 //-------------- RADIO BUTTOM-CLASSES ----START-------------------
@@ -1634,4 +1644,33 @@ mat-row{
 }
 .username-login-icon{
   top: 5px!important;
+}
+
+
+
+.custom.mat-menu-panel {
+  min-width: 190px!important;
+  border-radius: 8px!important;
+  .mat-menu-content {
+    .mat-menu-item{
+      border-top: 1px solid var(--clr-tertiary-10);
+      border-bottom: 1px solid var(--clr-tertiary-10);
+      display: flex;
+      align-items: center;
+      color: var(--clr-tertiary-900);
+      font-size: 14px;
+      &:nth-child(2n+1){
+        border: none;
+      }
+      // &:first-child{
+      //   border: none;
+      // }
+      &:last-child{
+        border-bottom: none;
+      }
+      .mat-icon{
+        margin-right: 8px;
+      }
+    }
+  }
 }

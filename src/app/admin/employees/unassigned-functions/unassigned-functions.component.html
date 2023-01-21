@@ -6,7 +6,7 @@
           search
         </span>
         <input type="text" placeholder="Search Unassigned Function"
-          aria-label="Search Unassigned Function"  matInput [(ngModel)]="filterName">
+          aria-label="Search Unassigned Function"  matInput [(ngModel)]="filterName" maxlength="50">
       </mat-form-field>
     </div>
     <button mat-stroked-button color="primary" class="button-add-all w-100 mb-3" (click)="assignFunction(unassignedFunctions)" [disabled]="!isGroupLookUp">
