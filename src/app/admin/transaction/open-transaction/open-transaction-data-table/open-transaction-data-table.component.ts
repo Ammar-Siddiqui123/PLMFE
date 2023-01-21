@@ -303,7 +303,7 @@ export class OpenTransactionDataTableComponent
       .getInventoryMap(this.payload)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((res: any) => {
-        debugger;
+      
         this.itemList = res.data?.inventoryMaps?.map((arr) => {
           return { itemNumber: arr.itemNumber, desc: arr.description };
         });
@@ -350,7 +350,7 @@ export class OpenTransactionDataTableComponent
           // this.displayOrderCols=res.data.openTransactionColumns;
         },
         (error) => {
-          debugger;
+         
         }
       );
   }

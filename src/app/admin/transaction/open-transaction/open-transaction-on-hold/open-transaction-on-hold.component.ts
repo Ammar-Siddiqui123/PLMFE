@@ -25,6 +25,9 @@ import { SetColumnSeqService } from 'src/app/admin/dialogs/set-column-seq/set-co
 import { InventoryMapService } from 'src/app/admin/inventory-map/inventory-map.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { TransactionService } from '../../transaction.service';
+import { DeleteConfirmationTransactionComponent } from 'src/app/admin/dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
+import { SetColumnSeqComponent } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.component';
+import { FloatLabelType } from '@angular/material/form-field';
 
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
@@ -100,10 +103,12 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     new EventEmitter();
   @Output() enddateChange: EventEmitter<MatDatepickerInputEvent<any>> =
     new EventEmitter();
-
+  floatLabelControl = new FormControl('auto' as FloatLabelType);
+  hideRequiredControl = new FormControl(false);
   searchByToteId = new Subject<string>();
   searchByOrderNumber = new Subject<string>();
   searchBar = new Subject<string>();
+  searchAutocompleteList: any;
   /*for data col. */
   public columnValues: any = [];
   onDestroy$: Subject<boolean> = new Subject();
@@ -226,20 +231,25 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   onEndDate(event) {
     alert(event);
   }
-  ongg(row,event){
-console.log(row)
+  rowClick(row, event) {
+    console.log(row);
   }
   filterVals: any = {
     transactions: '',
   };
 
   ngOnInit(): void {
+    this.customPagination = {
+      total: '',
+      recordsPerPage: 20,
+      startIndex: 0,
+      endIndex: 20,
+    };
     // Search by Tote Id Debounce values
     this.searchByToteId
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
         this.toteId = value;
-        // this.initializeApi();
         this.getContentData();
       });
     // Search by Order Number Debounce values
@@ -247,35 +257,33 @@ console.log(row)
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
         this.orderNumber = value;
-        // this.initializeApi();
         this.getContentData();
       });
 
     // Search Bar  Debounce values
     this.searchBar
-      .pipe(debounceTime(900), distinctUntilChanged())
+      .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log('=->',value)
+        console.log("00",this.searchAutocompleteList)
         this.columnSearch.searchValue = value;
-        // this.initializeApi();
-        if(!this.columnSearch.searchColumn.colDef) return
-        this.getContentData();
+        if (!this.columnSearch.searchColumn.colDef) return;
+        
+        this.autocompleteSearchColumn();
+        if(!this.searchAutocompleteList.length){
+          this.getContentData();
+        }
+       
       });
-    this.customPagination = {
-      total: '',
-      recordsPerPage: 20,
-      startIndex: 0,
-      endIndex: 20,
-    };
+
+   
 
     this.userData = this.authService.userData();
-    // this.cols = this.displayedColumns.map(c => c);
-
-    // this.getTransactionModelIndex;
-
-    this.initializeApi();
     this.getColumnsData();
   }
-
+  getFloatLabelValue(): FloatLabelType {
+    return this.floatLabelControl.value || 'auto';
+  }
   changeTableRowColor(idx: any) {
     if (this.rowClicked === idx) {
       this.rowClicked = -1;
@@ -293,10 +301,19 @@ console.log(row)
   isAuthorized(controlName: any) {
     return !this.authService.isAuthorized(controlName);
   }
+  searchData() {
 
+    if (
+      this.columnSearch.searchColumn ||
+      this.columnSearch.searchColumn == ''
+    ) {
+      this.getContentData();
+    }
+  }
   handlePageEvent(e: PageEvent) {
+  
     this.pageEvent = e;
-
+    // this.customPagination.startIndex =  e.pageIndex
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
 
     this.customPagination.endIndex = e.pageSize * e.pageIndex + e.pageSize;
@@ -304,24 +321,38 @@ console.log(row)
     this.customPagination.recordsPerPage = e.pageSize;
     // this.pageIndex = e.pageIndex;
 
-    this.initializeApi();
+    // this.initializeApi();
     this.getContentData();
   }
+  // autocompleteSearchColumn(){
+  //   let searchPayload = {
+  //     "columnName": this.columnSearch.searchColumn.colDef,
+  //     "value": this.columnSearch.searchValue,
+  //     "username": this.userData.userName,
+  //     "wsid": this.userData.wsid
+  //   }
+  //   this.invMapService.getSearchData(searchPayload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
+  //     if(res.data){
+  //       this.searchAutocompleteList = res.data;
+  //     }
 
-  autocompleteSearchColumn() {
+  //   });
+  // }
+  async autocompleteSearchColumn() {
     let searchPayload = {
-      query: this.searchBar,
+      query: this.columnSearch.searchValue,
       tableName: 2,
-      column: this.columnSearch.colDef,
+      column: this.columnSearch.searchColumn.colDef,
       username: this.userData.userName,
       wsid: 'TESTWSID',
     };
     this.transactionService
       .get(searchPayload, '/Admin/NextSuggestedTransactions')
       .subscribe(
-        (res: any) => {},
+        (res: any) => {
+          this.searchAutocompleteList = res.data;
+        },
         (error) => {
-          debugger;
         }
       );
   }
@@ -345,56 +376,32 @@ console.log(row)
         this.getContentData();
       });
   }
-  unQuarantine(event) {
-    let dialogRef = this.dialog.open(QuarantineConfirmationComponent, {
+ 
+
+  deleteItem(event) {
+    const dialogRef = this.dialog.open(DeleteConfirmationTransactionComponent, {
       height: 'auto',
       width: '480px',
       data: {
-        mode: 'inventory-map-unquarantine',
-        id: event.invMapID,
-        //   grp_data: grp_data
+        mode: 'delete-transaction',
+        id: event.id,
+        orderNo: event.orderNumber,
+        transType: event.transactionType,
       },
     });
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((result) => {
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res == 'Yes') {
+        // this.initializeApi();
         this.getContentData();
-      });
+      }
+    });
   }
-  quarantine(event) {
-    let dialogRef = this.dialog.open(QuarantineConfirmationComponent, {
-      height: 'auto',
-      width: '480px',
-      data: {
-        mode: 'inventory-map-quarantine',
-        id: event.invMapID,
-        //   grp_data: grp_data
-      },
-    });
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((result) => {
-        this.getContentData();
-      });
-  }
-  delete(event: any) {
-    let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '480px',
-      data: {
-        mode: 'delete-inventory-map',
-        id: event.invMapID,
-        //  grp_data: grp_data
-      },
-    });
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((result) => {
-        this.getContentData();
-      });
+
+  resetToTodaysDate() {
+    this.edate = new Date().toISOString();
+    this.sdate = new Date().toISOString();
+    // this.initializeApi();
+    this.getContentData();
   }
 
   getColumnsData() {
@@ -429,23 +436,7 @@ console.log(row)
     // this.getContentData();
   }
 
-  edit(event: any) {
-    let dialogRef = this.dialog.open(AddInvMapLocationComponent, {
-      height: '750px',
-      width: '100%',
-      data: {
-        mode: 'editInvMapLocation',
-        itemList: this.itemList,
-        detailData: event,
-      },
-    });
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((result) => {
-        this.getContentData();
-      });
-  }
+ 
 
   getContentData() {
     let payload = {
@@ -456,7 +447,7 @@ console.log(row)
       transStatus: this.transStatusSelect,
       searchString: this.columnSearch.searchValue,
       searchColumn: this.columnSearch.searchColumn.colDef,
-      start: 1,
+      start: this.customPagination.startIndex,
       length: this.customPagination.recordsPerPage,
       orderNumber: this.orderNumber,
       toteID: this.toteId,
@@ -478,7 +469,6 @@ console.log(row)
           this.dataSource.sort = this.sort;
         },
         (error) => {
-          debugger;
         }
       );
     // this.invMapService
@@ -498,21 +488,21 @@ console.log(row)
     //   });
   }
 
-  initializeApi() {
-    this.userData = this.authService.userData();
-    this.payload = {
-      username: this.userData.userName,
-      wsid: this.userData.wsid,
-      oqa: this.filterLoc,
-      searchString: this.columnSearch.searchValue,
-      searchColumn: this.columnSearch.searchColumn.colDef,
-      sortColumnIndex: this.sortColumn.columnName,
-      sRow: this.customPagination.startIndex,
-      eRow: this.customPagination.endIndex,
-      sortOrder: this.sortColumn.sortOrder,
-      filter: '1 = 1',
-    };
-  }
+  // initializeApi() {
+  //   this.userData = this.authService.userData();
+  //   this.payload = {
+  //     username: this.userData.userName,
+  //     wsid: this.userData.wsid,
+  //     oqa: this.filterLoc,
+  //     searchString: this.columnSearch.searchValue,
+  //     searchColumn: this.columnSearch.searchColumn.colDef,
+  //     sortColumnIndex: this.sortColumn.columnName,
+  //     sRow: this.customPagination.startIndex,
+  //     eRow: this.customPagination.endIndex,
+  //     sortOrder: this.sortColumn.sortOrder,
+  //     filter: '1 = 1',
+  //   };
+  // }
 
   getTransactionModelIndex() {
     let paylaod = {
@@ -534,34 +524,44 @@ console.log(row)
           // this.displayOrderCols=res.data.openTransactionColumns;
         },
         (error) => {
-          debugger;
         }
       );
   }
   /*End of table functions */
-  actionDialog(event) {}
+  actionDialog(event) {
+    if (event == 'set_column_sq') {
+      let dialogRef = this.dialog.open(SetColumnSeqComponent, {
+        height: '700px',
+        width: '600px',
+        data: {
+          mode: event,
+          tableName:'Open Transactions'
+        },
+      });
+    }
+  }
 
   onDateChange(event): void {
     this.startdateChange.emit();
     this.sdate = new Date(event).toISOString();
-    this.initializeApi();
+    // this.initializeApi();
     this.getContentData();
   }
 
   onEndDateChange(event): void {
     this.enddateChange.emit();
     this.edate = new Date(event).toISOString();
-    this.initializeApi();
+    // this.initializeApi();
     this.getContentData();
   }
   selectStatus(event) {
     this.transStatusSelect = event;
-    this.initializeApi();
+    // this.initializeApi();
     this.getContentData();
   }
   selectTransType(value) {
     this.transTypeSelect = value;
-    this.initializeApi();
+    // this.initializeApi();
     this.getContentData();
   }
 
@@ -569,11 +569,4 @@ console.log(row)
     this.searchByToteId.unsubscribe();
     this.searchByOrderNumber.unsubscribe();
   }
-}
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
 }

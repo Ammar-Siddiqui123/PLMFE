@@ -92,6 +92,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { DeleteConfirmationTransactionComponent } from './dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
 
 
 
@@ -175,7 +176,8 @@ import { MatInputModule } from '@angular/material/input';
     TranCarouselLzoneComponent,
     TranOffCarouselLzoneComponent,
     TranOrderListComponent,
-    OpenTransactionOnHoldComponent
+    OpenTransactionOnHoldComponent,
+    DeleteConfirmationTransactionComponent
 
   ],
   imports: [

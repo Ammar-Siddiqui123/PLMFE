@@ -23,7 +23,8 @@
                 <div class="col-3">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
                         <mat-label>Import Date(Start)</mat-label>
-                        <input matInput [value]="sdate"  [(ngModel)]="sdate"  [matDatepicker]="start" (dateChange)="onDateChange($event.value)">
+                        <input matInput [value]="sdate" [(ngModel)]="sdate" [matDatepicker]="start"
+                            (dateChange)="onDateChange($event.value)">
                         <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle>
                         <mat-datepicker #start></mat-datepicker>
                     </mat-form-field>
@@ -34,7 +35,8 @@
 
                     <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
                         <mat-label>End Date</mat-label>
-                        <input matInput [value]="edate"  [(ngModel)]="edate"  [matDatepicker]="end" (dateChange)="onEndDateChange($event.value)">
+                        <input matInput [value]="edate" [(ngModel)]="edate" [matDatepicker]="end"
+                            (dateChange)="onEndDateChange($event.value)">
                         <mat-datepicker-toggle matSuffix [for]="end" ngDefaultControl></mat-datepicker-toggle>
                         <mat-datepicker #end></mat-datepicker>
                     </mat-form-field>
@@ -101,7 +103,7 @@
             <div class="row">
                 <div class="col-md-8"></div>
                 <div class="col-md-2">
-                    <button mat-flat-button color="primary" class="br-14 mx-2">
+                    <button mat-flat-button color="primary" class="br-14 mx-2" (click)="resetToTodaysDate()">
                         Reset to Today's Date
                     </button>
                 </div>
@@ -148,39 +150,61 @@
                         <div class="d-flex gap-12 align-items-center ">
                             <mat-form-field class="action-dropdown" appearance="outline">
                                 <mat-label>Search</mat-label>
-                                <mat-select class="employees-action"  [(ngModel)]="this.columnSearch.searchColumn">
-                                  <mat-option *ngFor="let item of displayedColumns" [value]="item">
-                                    {{item.colDef}}
-                                  </mat-option>
+                                <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn">
+                                    <mat-option *ngFor="let item of displayedColumns" [value]="item">
+                                        {{item.colDef}}
+                                    </mat-option>
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
-                                  expand_more
+                                    expand_more
                                 </span>
-                              </mat-form-field>
+                            </mat-form-field>
 
                             <span class="v-br">-</span>
                             <div class="d-flex g-mini-search-box w-100">
-                                <mat-form-field class="w-100 bg-white br-8 " appearance="fill">
+                                <!-- <mat-form-field class="w-100 bg-white br-8 " appearance="fill">
                                     <span class="material-symbols-outlined icon-search">
                                         search
                                     </span>
-                                    <input  [(ngModel)]="columnSearch.searchValue" (ngModelChange)="this.searchBar.next($event)" placeholder="search" aria-label="Number" matInput>
+                                    <input [(ngModel)]="columnSearch.searchValue"
+                                        (ngModelChange)="this.searchBar.next($event)" placeholder="search"
+                                        aria-label="Number" matInput>
                                     <mat-autocomplete #auto="matAutocomplete">
                                         <mat-option *ngFor="let option of transType" [value]="option.value">
                                             {{option.type}}
                                         </mat-option>
 
                                     </mat-autocomplete>
+                                </mat-form-field> -->
+
+
+
+                                <mat-form-field class="w-100 bg-white br-8" appearance="fill"
+                                    [floatLabel]="getFloatLabelValue()"
+                                    [hideRequiredMarker]="hideRequiredControl.value">
+                                    <span class="material-symbols-outlined icon-search">
+                                        search
+                                    </span>
+                                    <input type="text" placeholder="search" aria-label="Number" matInput
+                                        [(ngModel)]='this.columnSearch.searchValue' [matAutocomplete]="auto"
+                                        (ngModelChange)="this.searchBar.next($event)"  >
+                                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()" >
+                                        <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
+                                            {{option}}
+                                        </mat-option>
+                                    </mat-autocomplete>
                                 </mat-form-field>
+
+
                             </div>
                         </div>
                     </div>
                     <div class="col-7 d-flex flex-row-reverse">
                         <mat-form-field class="action-dropdown w-30" appearance="outline">
                             <mat-label>Action</mat-label>
-                            <mat-select class="employees-action" (selectionChange)="actionDialog($event)">
+                            <mat-select class="employees-action" (selectionChange)="actionDialog($event.value)">
                                 <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
-                                <mat-option value="seq">Set Column Sequence</mat-option>
+                                <mat-option value="set_column_sq">Set Column Sequence</mat-option>
                             </mat-select>
                             <span class="material-symbols-outlined icon-expand-more">
                                 expand_more
@@ -232,13 +256,14 @@
                                 </button>
 
                                 <mat-menu #appMenu="matMenu">
-                                    <button mat-menu-item (click)="edit(seletedRecord)">View Item in Inventory Master</button>
-                                    <button mat-menu-item (click)="delete(seletedRecord)"
-                                        [hidden]="isAuthorized('Inv Map Delete')">View Order in Order Status</button>
-                                    <button *ngIf="seletedRecord.warehouse != 'Quarantine'" mat-menu-item
-                                        (click)="quarantine(seletedRecord)">Delete Transaction</button>
-                                    <button  mat-menu-item
-                                        (click)="unQuarantine(seletedRecord)">Send Completed to History</button>
+                                    <button mat-menu-item >View Item in Inventory
+                                        Master</button>
+                                    <button mat-menu-item >View Order in Order
+                                        Status</button>
+                                    <button mat-menu-item
+                                        (click)="deleteItem(seletedRecord)">Delete Transaction</button>
+                                    <button mat-menu-item >Send Completed to
+                                        History</button>
                                     <!-- <button mat-menu-item (click)="adjustQuantity(seletedRecord)">Adjust
                                         Quantity</button>
                                     <button mat-menu-item (click)="viewInInventoryMaster()">View in Inventory
@@ -255,18 +280,20 @@
 
                         <!-- <mat-row  *matRowDef="let row; columns: columnValues; let idx=index let even=even"  [style.background-color]="rowClicked == idx ? 'hwb(240deg 33% 8%) ' : (even ? 'white' : 'white')" 
                         [style.color]="rowClicked == idx ? 'white ' :'black'"
-                        (click)="[changeTableRowColor(idx),ongg(row,$event)]" ></mat-row> -->
-                        
+                        (click)="[changeTableRowColor(idx),rowClick(row,$event)]" ></mat-row> -->
+
                         <!-- <mat-row  *matRowDef="let row; columns: columnValues;" [class.selected]="row.selected"   (click)="row.selected= !row.selected" ></mat-row> -->
-                       
+
                         <!-- *matRowDef="let element; columns: columnsToDisplay;"
                         [class.selected]="element.selected"
                         (click)="element.selected= !element.selected" -->
                     </mat-table>
                 </div>
-                <div class="table-pagination">
+                <div class="table-pagination" *ngIf="columnValues.length>0 && displayedColumns && dataSource">
                     <mat-paginator [length]="this.customPagination.total" [pageSize]="20"
                         [pageSizeOptions]="[10, 20, 100]" (page)="handlePageEvent($event)"></mat-paginator>
+
+
                 </div>
 
 

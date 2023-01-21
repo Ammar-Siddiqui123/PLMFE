@@ -184,7 +184,7 @@ export class InventoryMapComponent implements OnInit {
   }
   getColumnsData(){
     this.seqColumn.getSetColumnSeq().pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
-      debugger;
+  
       this.displayedColumns = INVMAP_DATA;
 
       if(res?.data?.columnSequence){
@@ -202,7 +202,7 @@ export class InventoryMapComponent implements OnInit {
 
   getContentData(){
     this.invMapService.getInventoryMap(this.payload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
-      debugger;
+    
       this.itemList =  res.data?.inventoryMaps?.map((arr => {
         return {'itemNumber': arr.itemNumber, 'desc': arr.description}
       }))
@@ -235,6 +235,7 @@ export class InventoryMapComponent implements OnInit {
         width: '600px',
         data: {
           mode: actionEvent.value,
+          tableName:'Inventory Map'
         }
       })
       dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
@@ -374,6 +375,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   searchData(){
+    
     if( this.columnSearch.searchColumn ||  this.columnSearch.searchColumn == '' ){
       this.initializeApi();
       this.getContentData();
