@@ -222,7 +222,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       this.dialogitemNumber = e.option.value.itemNumber;
       this.dialogDescription = e.option.value.description;
     } else {
-      this.toastr.error("Already Exists", 'Error!', {
+      this.toastr.error("Item "+this.dialogitemNumber+" already exists in kit.", 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
