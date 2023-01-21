@@ -26,13 +26,19 @@
 
       <ng-container matColumnDef="lastName">
         <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
-        <td width="25%" mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+        <td width="25%"  style="    max-width: 15ch;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;" mat-cell *matCellDef="let element"> {{element.lastName}} </td>
       </ng-container>
 
       <!-- End Location Column -->
       <ng-container matColumnDef="firstName">
         <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
-        <td width="25%" mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+        <td width="25%" style="    max-width: 15ch;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;"  mat-cell *matCellDef="let element"> {{element.firstName}} </td>
       </ng-container>
 
       <ng-container matColumnDef="mi">
@@ -41,7 +47,10 @@
       </ng-container>
       <ng-container matColumnDef="username">
         <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
-        <td width="25%" mat-cell *matCellDef="let element"> {{element.username}} </td>
+        <td width="25%" style="    max-width: 15ch;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;" mat-cell *matCellDef="let element"> {{element.username}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
