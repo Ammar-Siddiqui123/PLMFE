@@ -18,9 +18,9 @@
             <div class="header-filter-options w-100 d-flex align-items-center justify-content-between" style="gap:12px">
               <div class="d-flex gap-12 align-items-center">
                 <mat-form-field class="action-dropdown" appearance="outline">
-                  <!-- <mat-label>Search</mat-label> -->
+                  <!-- <mat-label>Select</mat-label> -->
                   <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn"
-                    (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()" [compareWith]="compareObjects">
+                    (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()" [compareWith]="compareObjects" placeholder="Select">
                     <mat-option *ngFor="let item of displayedColumns" [value]="item">
                       {{item.colDef}}
                     </mat-option>
@@ -37,7 +37,7 @@
                     <span class="material-symbols-outlined icon-search">
                       search
                     </span>
-                    <input type="text" placeholder="search" aria-label="Number" matInput
+                    <input type="text" placeholder="Search" aria-label="Number" matInput
                       [(ngModel)]='this.columnSearch.searchValue' [matAutocomplete]="auto"
                       (keyup)="autocompleteSearchColumn()">
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
