@@ -97,7 +97,7 @@ export class KitItemComponent implements OnInit, OnChanges {
         return;
       }
     });
-      if (e.itemNumber && newRecord) {
+      if (e.itemNumber && newRecord && e.kitQuantity) {
         let paylaod = {
           "itemNumber": this.kitItem.controls['itemNumber'].value,
           "kitItem": newItem,
@@ -122,7 +122,7 @@ export class KitItemComponent implements OnInit, OnChanges {
           }
 
         })
-      } else if (e.itemNumber && !newRecord ){
+      } else if (e.itemNumber && !newRecord && e.kitQuantity){
 
        let paylaod = {
         "itemNumber": this.kitItem.controls['itemNumber'].value,
