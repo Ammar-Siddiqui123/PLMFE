@@ -140,7 +140,7 @@
         </div>
         <div>
             <p class="bold text-tritary-900 mb-4">Click submit to quarantine item {{this.currentPageItemNo}}. This will cause any allocated
-                orders and locations with this item to be deallocated?</p>
+                orders and locations with this item to be deallocated.</p>
             <div class="mb-3">
                 <button mat-flat-button color="warn" class="custom-btn button-delete-flat bg-white w-100 btn-lg" [mat-dialog-close]="true">
                     Submit
@@ -160,7 +160,10 @@
           <mat-icon color="warn">vpn_lock</mat-icon>
       </div>
       <div>
-          <p class="bold text-tritary-900 mb-4">Are you sure you want to Un-quarantine</p>
+          <p class="bold text-tritary-900 mb-4">Are you sure you want to Un-Quarantine item {{this.currentPageItemNo}}.</p>
+          <div class="mb-3">
+          <mat-checkbox (change)="checkCheckBoxvalue($event)">Append Reprocess to Open Transactions?</mat-checkbox>
+          </div>
           <div class="mb-3">
               <button mat-flat-button color="warn" class="custom-btn button-delete-flat bg-white w-100 btn-lg" [mat-dialog-close]="true">
                   Un-Quarantine
