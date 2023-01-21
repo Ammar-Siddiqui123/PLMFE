@@ -85,6 +85,7 @@ export class GroupAllowedComponent implements OnInit {
       this.isValid = true;
     }
     else{
+      this.isValid =  false;
       if(this.alphaNumberOnly(input)){
         this.isValid = false;
       }

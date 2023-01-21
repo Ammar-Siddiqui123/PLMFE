@@ -16,7 +16,6 @@
                            aria-label="Number"
                            matInput
                            formControlName="controlName"
-                           (keyup)="checkIfValid(GroupName)"
                            [matAutocomplete]="auto" (blur)="blurInput()">
                     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="controlNameForm.controls['controlName'].setValue($event.option.value)">
                         <!-- <h6 class="ctl_name ac-dropdown-label"><span>Group Name</span></h6> -->

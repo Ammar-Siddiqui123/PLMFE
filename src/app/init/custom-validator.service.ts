@@ -17,7 +17,7 @@ export class CustomValidatorService {
 
   specialCharValidatorExceptSlash(control: FormControl): any {
     const nameRegexp: RegExp = /^[a-zA-Z0-9_//][a-zA-Z0-9_// ]*[a-zA-Z0-9_//]$/;
-    if (control.value && nameRegexp.test(control.value)) {
+    if (control.value && !nameRegexp.test(control.value)) {
        return { invalidInput: true };
     }
   }
