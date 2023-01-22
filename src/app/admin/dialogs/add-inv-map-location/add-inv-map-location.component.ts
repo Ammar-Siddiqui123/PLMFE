@@ -10,6 +10,7 @@ import { map } from 'rxjs/internal/operators/map';
 import { InvMapLocationService } from './inv-map-location.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConditionalExpr } from '@angular/compiler';
+import { AuthService } from '../../../../app/init/auth.service';
 
 export interface  InventoryMapDataStructure   {
   invMapID : string |  '',
@@ -62,6 +63,7 @@ export class AddInvMapLocationComponent implements OnInit {
   zoneList: any[] = [];
   filteredOptions: Observable<any[]>;
   filteredItemNum: Observable<any[]>;
+  itemDescription: any;
 
   getDetailInventoryMapData  :    InventoryMapDataStructure = {
     invMapID : '',
@@ -105,12 +107,14 @@ export class AddInvMapLocationComponent implements OnInit {
  
   clickSubmit: boolean = true;
   headerLable: any;
+  userData:any;
 
   constructor(
     private dialog: MatDialog,
     private fb: FormBuilder,
     private invMapService: InvMapLocationService,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private authService: AuthService,
     private toastr: ToastrService
   ) {
     if(data.mode== "addInvMapLocation"){
@@ -122,13 +126,16 @@ export class AddInvMapLocationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+     this.userData = this.authService.userData();
     if(this.data.detailData){
       this.getDetailInventoryMapData = this.data.detailData;
       this.initializeDataSet();
     } else {
       this.initializeDataSet();
     }
-   this.itemNumberList = this.data.itemList;
+    // console.log(this.data.itemList);
+    
+  //  this.itemNumberList = this.data.itemList;
   
     this.invMapService.getLocZTypeInvMap().subscribe((res) => {
       this.locZoneList = res.data;
@@ -136,13 +143,32 @@ export class AddInvMapLocationComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value || '')),
       );
-      this.filteredItemNum = this.addInvMapLocation.controls['item'].valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterItemNum(value || '')),
-      );
+      // this.filteredItemNum = this.addInvMapLocation.controls['item'].valueChanges.pipe(
+      //   startWith(''),
+      //   map(value => this._filterItemNum(value || '')),
+      // );
      
     });
 
+  }
+
+  searchItemNumber(itemNum:any){
+    let payload = {
+      "itemNumber": itemNum.value.toString(),
+      "beginItem": "---",
+      "isEqual": false,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.invMapService.getSearchedItem(payload).subscribe(res => {
+          if(res.data.length > 0){
+            this.itemNumberList = res.data;
+          }
+          else{
+            this.addInvMapLocation.controls['item'].setValue('');
+            this.itemNumberList = []
+          }
+    });
   }
 
   initializeDataSet(){
@@ -297,15 +323,21 @@ export class AddInvMapLocationComponent implements OnInit {
 
   }
   loadItemDetails(item:any){
-      let payload = {
-        "itemNumber": item.option.value,
-        "zone": this.addInvMapLocation.get('zone')?.value
+    // console.log(item);
+    this.itemNumberList.map(val => {
+      if(val.itemNumber === item){
+          // console.log(val);
+          this.itemDescription = val.description ?? ''; 
       }
-      this.invMapService.getItemNumDetail(payload).subscribe((res) => {
+    })
+      // let payload = {
+      //   "itemNumber": item.option.value,
+      //   "zone": this.addInvMapLocation.get('zone')?.value
+      // }
+      // this.invMapService.getItemNumDetail(payload).subscribe((res) => {
     
-        this.addInvMapLocation.controls['description'].setValue(res.data.description);
-       // this.addInvMapLocation.controls['description'].setValue(res.data.maximumQuantity);
-      });
+      //  // this.addInvMapLocation.controls['description'].setValue(res.data.maximumQuantity);
+      // });
   }
 
 

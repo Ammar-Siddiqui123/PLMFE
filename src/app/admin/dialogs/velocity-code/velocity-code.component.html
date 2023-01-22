@@ -34,7 +34,7 @@
             </div> -->
             <ng-container *ngFor="let vlcode of velocity_code_list;let i = index">
                 <div class="d-flex align-items-center mb-3">
-                        <mat-radio-button class="custom-radio-btn" value="{{vlcode}}" (change)="selectVlCode($event)">
+                        <mat-radio-button class="custom-radio-btn" [checked]="vlcode==currentVelocity" value="{{vlcode}}" (change)="selectVlCode($event)">
                         </mat-radio-button>
                         <div class="container w-100">
                             <div class="row">
@@ -45,7 +45,7 @@
                                 name="{{vlcode}}" value="{{vlcode}}">
                         </mat-form-field>
                         <div class="d-flex gap-12">
-                            <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveVlCode(vlname.value, vlcode)">
+                            <button #btnSave mat-flat-button color="primary" class="sm-icon-button"  (click)="saveVlCode(vlname.value, vlcode)">
                                 <span class="material-symbols-outlined">save</span>
                             </button>
                             <button mat-flat-button color="warn" class="sm-icon-button"
