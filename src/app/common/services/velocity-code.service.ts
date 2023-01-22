@@ -8,7 +8,6 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class VelocityCodeService {
-
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   public getVelocityCode(body?: any): Observable<any> {

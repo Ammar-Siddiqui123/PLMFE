@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit,Inject } from '@angular/core';
+import { MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { CellSizeService } from '../../../../app/common/services/cell-size.service';
 import { AuthService } from '../../../../app/init/auth.service';
@@ -13,7 +13,9 @@ import labels from '../../../labels/labels.json'
 export class CellSizeComponent implements OnInit {
   public cellsize_list: any;
   public userData: any;
+  public currentCellValue="";
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private cellSizeService: CellSizeService,
     private authService: AuthService,
     private toastr: ToastrService,
@@ -22,6 +24,7 @@ export class CellSizeComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+    this.currentCellValue = this.data.cs
     this.getCellSizeList();
    
   }
