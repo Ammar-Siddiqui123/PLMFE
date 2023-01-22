@@ -42,12 +42,29 @@ export class AddNewGroupComponent implements OnInit {
     
   }
 
+  checkWhiteSpace(string:any)
+  {
+    const isSpace = string.trim() === '' ? true : false;
+    if(isSpace)
+    {
+    return  { 'whitespace': true }
+    }
+    else 
+    {
+    return false;
+    }
+  }
+
   alphaNumberOnly(string:any) {
-    const regex = "^[a-zA-Z0-9_-]*$";
+
+    //const regex: RegExp = /[!@#$%^&*()+=\[\]{};':"\\|,.<>\/?]/;
+    const regex = "^[a-zA-Z0-9_ ]*$";
     if(string.match(regex)){
       return true;
     }
       return false
+
+
   }
 
 
