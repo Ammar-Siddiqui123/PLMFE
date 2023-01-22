@@ -2,12 +2,12 @@
     <div class="container-fluid p-0">
     <div class="row">
       <div class="col-12">
-        <app-transaction-history-filters></app-transaction-history-filters>
+        <app-transaction-history-filters  (startDate)="startDateChange($event)"  (endDate)="endDateChange($event)"  (orderNo)="orderNoChange($event)" ></app-transaction-history-filters>
       </div>
       </div>
       <div class="row">
         <div class="col-12">
-        <app-transaction-history-list></app-transaction-history-list>
+        <app-transaction-history-list [startDateEvent]="startDateEvent" [endDateEvent]="endDateEvent" [orderNoEvent]="orderNoEvent"  ></app-transaction-history-list>
       </div>
       </div>
   </div>

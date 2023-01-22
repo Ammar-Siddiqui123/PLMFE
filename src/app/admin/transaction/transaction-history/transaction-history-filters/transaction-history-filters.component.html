@@ -23,7 +23,8 @@
                 <div class="col-3">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
                         <mat-label>Import Date(Start)</mat-label>
-                        <input matInput [matDatepicker]="start">
+                        <input matInput [value]="sdate" [(ngModel)]="sdate" [matDatepicker]="start"
+                            (dateChange)="onDateChange($event.value)">
                         <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle>
                         <mat-datepicker #start></mat-datepicker>
                     </mat-form-field>
@@ -34,7 +35,7 @@
 
                     <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
                         <mat-label>End Date</mat-label>
-                        <input matInput [matDatepicker]="end">
+                        <input  matInput [matDatepicker]="end"  [(ngModel)]="edate" (dateChange)="onEndDateChange($event.value)">
                         <mat-datepicker-toggle matSuffix [for]="end" ngDefaultControl></mat-datepicker-toggle>
                         <mat-datepicker #end></mat-datepicker>
                     </mat-form-field>
@@ -45,16 +46,10 @@
 
 
                     <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
-                        <mat-label>By Status</mat-label>
-                        <mat-select>
-                            <mat-option>
-                                2
-                            </mat-option>
-                        </mat-select>
-                        <span class="material-symbols-outlined icon-expand-more">
-                            expand_more
-                        </span>
-
+                        <mat-label>Order No.</mat-label>
+                        <input [(ngModel)]="orderNumber" matInput class="" value="" type="text" (ngModelChange)="this.searchByOrderNumber.next($event)" type="text" placeholder="search" aria-label="Number" matInput
+                        
+                      >
                     </mat-form-field>
                 </div>
 

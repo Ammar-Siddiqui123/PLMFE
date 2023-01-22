@@ -1,34 +1,99 @@
 import {
+  AfterViewInit,
   Component,
+  EventEmitter,
+  Input,
   OnInit,
+  Output,
   TemplateRef,
   ViewChild,
-  AfterViewInit,
 } from '@angular/core';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
+import { FormGroup, FormControl } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { SelectionModel } from '@angular/cdk/collections';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil, interval, Subscription, Observable } from 'rxjs';
+
+import { AddInvMapLocationComponent } from 'src/app/admin/dialogs/add-inv-map-location/add-inv-map-location.component';
+import { AdjustQuantityComponent } from 'src/app/admin/dialogs/adjust-quantity/adjust-quantity.component';
+import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
+import { QuarantineConfirmationComponent } from 'src/app/admin/dialogs/quarantine-confirmation/quarantine-confirmation.component';
 import { SetColumnSeqService } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.service';
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
+import { InventoryMapService } from 'src/app/admin/inventory-map/inventory-map.service';
+import { AuthService } from 'src/app/init/auth.service';
+import { TransactionService } from '../../transaction.service';
+import { DeleteConfirmationTransactionComponent } from 'src/app/admin/dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
+import { SetColumnSeqComponent } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.component';
+import { FloatLabelType } from '@angular/material/form-field';
+
+const TRNSC_DATA = [
+  { colHeader: 'id', colDef: 'ID' },
+  { colHeader: 'importDate', colDef: 'Import Date' },
+  { colHeader: 'importBy', colDef: 'Import By' },
+  { colHeader: 'importFileName', colDef: 'Import Filename' },
+  { colHeader: 'transactionType', colDef: 'Transaction Type' },
+  { colHeader: 'orderNumber', colDef: 'Order Number' },
+  { colHeader: 'lineNumber', colDef: 'Line Number' },
+  { colHeader: 'lineSequence', colDef: 'Line Sequence' },
+  { colHeader: 'priority', colDef: 'Priority' },
+  { colHeader: 'requiredDate', colDef: 'Required Date' },
+  { colHeader: 'itemNumber', colDef: 'Item Number' },
+  { colHeader: 'unitOfMeasure', colDef: 'Unit of Measure' },
+  { colHeader: 'lotNumber', colDef: 'Lot Number' },
+  { colHeader: 'expirationDate', colDef: 'Expiration Date' },
+  { colHeader: 'serialNumber', colDef: 'Serial Number' },
+  { colHeader: 'description', colDef: 'Description' },
+  { colHeader: 'revision', colDef: 'Revision' },
+  { colHeader: 'transactionQuantity', colDef: 'Transaction Quantity' },
+  { colHeader: 'location', colDef: 'Location' },
+  { colHeader: 'wareHouse', colDef: 'Warehouse' },
+  { colHeader: 'zone', colDef: 'Zone' },
+  { colHeader: 'carousel', colDef: 'Carousel' },
+  { colHeader: 'row', colDef: 'Row' },
+  { colHeader: 'shelf', colDef: 'Shelf' },
+  { colHeader: 'bin', colDef: 'Bin' },
+  { colHeader: 'invMapID', colDef: 'Inv Map ID' },
+  { colHeader: 'completedDate', colDef: 'Completed Date' },
+  { colHeader: 'completedBy', colDef: 'Completed By' },
+  { colHeader: 'completedQuantity', colDef: 'Completed Quantity' },
+  { colHeader: 'batchPickID', colDef: 'Batch Pick ID' },
+  { colHeader: 'notes', colDef: 'Notes' },
+  { colHeader: 'exportFileName', colDef: 'Export File Name' },
+  { colHeader: 'exportDate', colDef: 'Export Date' },
+  { colHeader: 'exportedBy', colDef: 'Exported By' },
+  { colHeader: 'exportBatchID', colDef: 'Export Batch ID' },
+  { colHeader: 'tableType', colDef: 'Table Type' },
+  { colHeader: 'statusCode', colDef: 'Status Code' },
+  { colHeader: 'masterRecord', colDef: 'Master Record' },
+  { colHeader: 'masterRecordID', colDef: 'Master Record ID' },
+  { colHeader: 'label', colDef: 'Label' },
+  { colHeader: 'inProcess', colDef: 'In Process' },
+  { colHeader: 'userField1', colDef: 'User Field1' },
+  { colHeader: 'userField2', colDef: 'User Field2' },
+  { colHeader: 'userField3', colDef: 'User Field3' },
+  { colHeader: 'userField4', colDef: 'User Field4' },
+  { colHeader: 'userField5', colDef: 'User Field5' },
+  { colHeader: 'userField6', colDef: 'User Field6' },
+  { colHeader: 'userField7', colDef: 'User Field7' },
+  { colHeader: 'userField8', colDef: 'User Field8' },
+  { colHeader: 'userField9', colDef: 'User Field9' },
+  { colHeader: 'userField10', colDef: 'User Field10' },
+  { colHeader: 'toteID', colDef: 'Tote ID' },
+  { colHeader: 'toteNumber', colDef: 'Tote Number' },
+  { colHeader: 'cell', colDef: 'Cell' },
+  { colHeader: 'hostTransactionID', colDef: 'Host Transaction ID' },
+  { colHeader: 'emergency', colDef: 'Emergency' },
 ];
+let today = new Date();
+let year = today.getFullYear();
+let month = today.getMonth();
+let day = today.getDate();
+let backDate = new Date(year - 50, month, day);
 @Component({
   selector: 'app-transaction-history-list',
   templateUrl: './transaction-history-list.component.html',
@@ -36,18 +101,40 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   public columnValues: any = [];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  displayedColumns: string[] = [
-    'select',
-    'position',
-    'name',
-    'weight',
-    'symbol',
-  ];
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  public userData: any;
+  public displayedColumns: any;
+  public dataSource: any = new MatTableDataSource();
+  public detailDataTransHistory: any;
+  public startDate: any = backDate.toISOString();
+  public endDate: any = new Date().toISOString();
+  public orderNo: any = '';
+  public payload: any;
+  floatLabelControl = new FormControl('auto' as FloatLabelType);
+  hideRequiredControl = new FormControl(false);
+  searchBar = new Subject<string>();
+  searchAutocompleteList: any;
+
+  @Input() set startDateEvent(event: Event) {
+    if (event) {
+      this.startDate = event;
+      this.getContentData();
+    }
+  }
+  @Input() set endDateEvent(event: Event) {
+    if (event) {
+      this.endDate = event;
+      this.getContentData();
+    }
+  }
+  @Input() set orderNoEvent(event: Event) {
+    this.orderNo = event;
+    this.getContentData();
+  }
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
+  pageEvent: PageEvent;
+
+  cols = [];
   customPagination: any = {
     total: '',
     recordsPerPage: 20,
@@ -66,18 +153,13 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     columnName: 32,
     sortOrder: 'asc',
   };
-  constructor(private router: Router, private seqColumn: SetColumnSeqService) {
-    
-    if (this.router.getCurrentNavigation()?.extras?.state?.['searchValue']) {
-      this.columnSearch.searchValue =
-        this.router.getCurrentNavigation()?.extras?.state?.['searchValue'];
-      this.columnSearch.searchColumn = {
-        colDef: this.router.getCurrentNavigation()?.extras?.state?.['colDef'],
-        colHeader:
-          this.router.getCurrentNavigation()?.extras?.state?.['colHeader'],
-      };
-    }
-  }
+  constructor(
+    private router: Router,
+    private seqColumn: SetColumnSeqService,
+    private transactionService: TransactionService,
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.customPagination = {
@@ -86,35 +168,123 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       startIndex: 0,
       endIndex: 20,
     };
+    this.searchBar
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((value) => {
+        console.log('=->', value);
+        console.log('00', this.searchAutocompleteList);
+        this.columnSearch.searchValue = value;
+        if (!this.columnSearch.searchColumn.colDef) return;
 
-    // this.initializeApi();
-    //  this.getContentData();
+        this.autocompleteSearchColumn();
+        if (!this.searchAutocompleteList.length) {
+          this.getContentData();
+        }
+      });
+
+    this.userData = this.authService.userData();
+    this.getColumnsData();
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+  async autocompleteSearchColumn() {
+    let searchPayload = {
+      query: this.columnSearch.searchValue,
+      tableName: 2,
+      column: this.columnSearch.searchColumn.colDef,
+      username: this.userData.userName,
+      wsid: 'TESTWSID',
+    };
+    this.transactionService
+      .get(searchPayload, '/Admin/NextSuggestedTransactions')
+      .subscribe(
+        (res: any) => {
+          this.searchAutocompleteList = res.data;
+        },
+        (error) => {}
+      );
   }
-    /** Selects all rows if they are not all selected; otherwise clear selection. */
-    toggleAllRows() {
-      if (this.isAllSelected()) {
-        this.selection.clear();
-        return;
-      }
-  
-      this.selection.select(...this.dataSource.data);
-    }
+  getColumnsData() {
+    this.displayedColumns = TRNSC_DATA;
+    this.getContentData();
+  }
+  getFloatLabelValue(): FloatLabelType {
+    return this.floatLabelControl.value || 'auto';
+  }
+  getTransactionModelIndex() {
+    let paylaod = {
+      viewToShow: 2,
+      location: '',
+      itemNumber: '',
+      holds: false,
+      orderStatusOrder: '',
+      app: 'Admin',
+      username: '1234',
+      wsid: 'TESTWSID',
+    };
+    this.transactionService
+      .get(paylaod, '/Admin/TransactionModelIndex')
+      .subscribe(
+        (res: any) => {
+          this.columnValues = res.data?.openTransactionColumns;
+          this.columnValues.push('actions');
+          // this.displayOrderCols=res.data.openTransactionColumns;
+        },
+        (error) => {}
+      );
+  }
 
-    checkboxLabel(row?: PeriodicElement): string {
-      if (!row) {
-        return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-      }
-      return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  getContentData() {
+    let payload = {
+      draw: 0,
+      sDate: this.startDate,
+      eDate: this.endDate,
+      transType: 'All Transactions',
+      transStatus: 'All Transactions',
+      searchString: 'Count',
+      searchColumn: 'Transaction Type',
+      start: 0,
+      length: 20,
+      orderNumber: this.orderNo,
+      toteID: '',
+      sortColumnNumber: 5,
+      sortOrder: 'asc',
+      filter: '1=1',
+      username: '1234',
+      wsid: 'TESTWSID',
+    };
+    this.transactionService
+      .get(payload, '/Admin/OpenTransactionTable')
+      .subscribe(
+        (res: any) => {
+          this.getTransactionModelIndex();
+          this.detailDataTransHistory = res.data?.transactions;
+          this.dataSource = new MatTableDataSource(res.data?.transactions);
+          //  this.dataSource.paginator = this.paginator;
+          this.customPagination.total = res.data?.recordsFiltered;
+          this.dataSource.sort = this.sort;
+        },
+        (error) => {}
+      );
+  }
+  searchData() {
+    if (
+      this.columnSearch.searchColumn ||
+      this.columnSearch.searchColumn == ''
+    ) {
+      this.getContentData();
     }
-
+  }
+  announceSortChange(e: any) {
+    // let index = this.columnValues.findIndex(x => x === e.active );
+    // this.sortColumn = {
+    //   columnName: index,
+    //   sortOrder: e.direction
+    // }
+    // this.initializeApi();
+    // this.getContentData();
+  }
 }

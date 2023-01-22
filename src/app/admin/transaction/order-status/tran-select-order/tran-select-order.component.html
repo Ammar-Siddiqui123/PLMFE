@@ -28,31 +28,21 @@
     <div class="row align-items-center">
       <div class="col-9">
         <div class="d-flex gap-12 align-items-center">
-          <mat-form-field class="action-dropdown w-50" appearance="outline">
-            <mat-label>Search</mat-label>
-            <mat-select class=" employees-action fields-width">
-              <mat-option>
-                1
-              </mat-option>
-            </mat-select>
-            <span class="material-symbols-outlined icon-expand-more">
-              expand_more
-            </span>
-          </mat-form-field>
+          <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
+            <mat-label>Order No.</mat-label>
+            <input  matInput class="" value="" type="text" type="text" placeholder="search" aria-label="Number" matInput
+            
+          >
+        </mat-form-field>
 
           <span class="v-br">-</span>
           <div class="d-flex g-mini-search-box">
-            <mat-form-field class="fields-width bg-white br-8 " appearance="fill">
-              <span class="material-symbols-outlined icon-search">
-                search
-              </span>
-              <input type="text" placeholder="search" aria-label="Number" matInput [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option>
-                  1
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
+            <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
+              <mat-label>Tote ID.</mat-label>
+              <input  matInput class="" value="" type="text" type="text" placeholder="search" aria-label="Number" matInput
+              
+            >
+          </mat-form-field>
           </div>
         </div>
       </div>
