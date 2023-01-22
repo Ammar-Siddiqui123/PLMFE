@@ -46,8 +46,10 @@
             </mat-form-field>
             <mat-dialog-actions align="end">
                 <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->
-                <button type="submit" mat-flat-button class="form-button-submit w-100 btn-lg"
-                    color="primary" [disabled]="!isValid">{{form_btn_label}}</button>
+                
+
+                <button type="submit"  [disabled]="!(startLocation&&endLocation)" mat-flat-button class="form-button-submit w-100 btn-lg"
+                    color="primary">{{form_btn_label}}</button>
             </mat-dialog-actions>
 
         </form>

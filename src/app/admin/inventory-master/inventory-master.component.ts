@@ -111,6 +111,9 @@ export class InventoryMasterComponent implements OnInit {
       cfCellSize: [ this.getInvMasterData?.cfCellSize , [Validators.maxLength(50)]],
 
       goldenZone: [  this.getInvMasterData?.goldenZone || ""],
+      bulkGoldZone: [  this.getInvMasterData?.bulkGoldZone || ""],
+      CfGoldZone: [  this.getInvMasterData?.CfGoldZone || ""],
+      
       bulkVelocity: [  this.getInvMasterData?.bulkVelocity ],
       cfVelocity: [  this.getInvMasterData?.cfVelocity ],
 
@@ -297,6 +300,8 @@ export class InventoryMasterComponent implements OnInit {
 
   public updateInventoryMaster() {
 
+    
+    console.log(this.invMaster.value);
     
     this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
       if(res.isExecuted){

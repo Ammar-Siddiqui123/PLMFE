@@ -35,7 +35,7 @@
             </div> -->
             <ng-container *ngFor="let cell of cellsize_list;let i = index">
                 <div class="d-flex align-items-center mb-3">
-                        <mat-radio-button value="{{cell.cells}}" color="primary" (change)="selectCellSize(sigleCell.value)">
+                        <mat-radio-button value="{{cell.cells}}" [checked]="cell.cells==currentCellValue" color="primary" (change)="selectCellSize(sigleCell.value)">
                         </mat-radio-button>
                         <div class="container w-100">
                         <div class="row">
