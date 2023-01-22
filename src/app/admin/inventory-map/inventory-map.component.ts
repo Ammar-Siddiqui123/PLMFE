@@ -373,7 +373,9 @@ export class InventoryMapComponent implements OnInit {
   }
 
   searchColumn(){
+    this.searchAutocompleteList = [];
     if(this.columnSearch.searchValue){
+      this.columnSearch.searchValue = '';
       this.initializeApi();
       this.getContentData();
     }
