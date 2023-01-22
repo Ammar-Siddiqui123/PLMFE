@@ -51,4 +51,8 @@ export class TransactionHistoryFiltersComponent implements OnInit {
     this.endDate.emit(event);    
     // this.getContentData();
   }
+  ngOnDestroy() {
+   
+    this.searchByOrderNumber.unsubscribe();
+  }
 }

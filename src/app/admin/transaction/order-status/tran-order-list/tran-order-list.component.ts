@@ -4,31 +4,74 @@ import {
   TemplateRef,
   ViewChild,
   AfterViewInit,
+  Input,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
 import { SetColumnSeqService } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.service';
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
+import { TransactionService } from '../../transaction.service';
+import { AuthService } from 'src/app/init/auth.service';
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
+const Order_Table_Config = [
+  { colHeader: 'id', colDef: 'ID' },
+  { colHeader: 'importDate', colDef: 'Import Date' },
+  { colHeader: 'importBy', colDef: 'Import By' },
+  { colHeader: 'importFileName', colDef: 'Import Filename' },
+  { colHeader: 'transactionType', colDef: 'Transaction Type' },
+  { colHeader: 'orderNumber', colDef: 'Order Number' },
+  { colHeader: 'lineNumber', colDef: 'Line Number' },
+  { colHeader: 'lineSequence', colDef: 'Line Sequence' },
+  { colHeader: 'priority', colDef: 'Priority' },
+  { colHeader: 'requiredDate', colDef: 'Required Date' },
+  { colHeader: 'itemNumber', colDef: 'Item Number' },
+  { colHeader: 'unitOfMeasure', colDef: 'Unit of Measure' },
+  { colHeader: 'lotNumber', colDef: 'Lot Number' },
+  { colHeader: 'expirationDate', colDef: 'Expiration Date' },
+  { colHeader: 'serialNumber', colDef: 'Serial Number' },
+  { colHeader: 'description', colDef: 'Description' },
+  { colHeader: 'revision', colDef: 'Revision' },
+  { colHeader: 'transactionQuantity', colDef: 'Transaction Quantity' },
+  { colHeader: 'location', colDef: 'Location' },
+  { colHeader: 'wareHouse', colDef: 'Warehouse' },
+  { colHeader: 'zone', colDef: 'Zone' },
+  { colHeader: 'carousel', colDef: 'Carousel' },
+  { colHeader: 'row', colDef: 'Row' },
+  { colHeader: 'shelf', colDef: 'Shelf' },
+  { colHeader: 'bin', colDef: 'Bin' },
+  { colHeader: 'invMapID', colDef: 'Inv Map ID' },
+  { colHeader: 'completedDate', colDef: 'Completed Date' },
+  { colHeader: 'completedBy', colDef: 'Completed By' },
+  { colHeader: 'completedQuantity', colDef: 'Completed Quantity' },
+  { colHeader: 'batchPickID', colDef: 'Batch Pick ID' },
+  { colHeader: 'notes', colDef: 'Notes' },
+  { colHeader: 'exportFileName', colDef: 'Export File Name' },
+  { colHeader: 'exportDate', colDef: 'Export Date' },
+  { colHeader: 'exportedBy', colDef: 'Exported By' },
+  { colHeader: 'exportBatchID', colDef: 'Export Batch ID' },
+  { colHeader: 'tableType', colDef: 'Table Type' },
+  { colHeader: 'statusCode', colDef: 'Status Code' },
+  { colHeader: 'masterRecord', colDef: 'Master Record' },
+  { colHeader: 'masterRecordID', colDef: 'Master Record ID' },
+  { colHeader: 'label', colDef: 'Label' },
+  { colHeader: 'inProcess', colDef: 'In Process' },
+  { colHeader: 'userField1', colDef: 'User Field1' },
+  { colHeader: 'userField2', colDef: 'User Field2' },
+  { colHeader: 'userField3', colDef: 'User Field3' },
+  { colHeader: 'userField4', colDef: 'User Field4' },
+  { colHeader: 'userField5', colDef: 'User Field5' },
+  { colHeader: 'userField6', colDef: 'User Field6' },
+  { colHeader: 'userField7', colDef: 'User Field7' },
+  { colHeader: 'userField8', colDef: 'User Field8' },
+  { colHeader: 'userField9', colDef: 'User Field9' },
+  { colHeader: 'userField10', colDef: 'User Field10' },
+  { colHeader: 'toteID', colDef: 'Tote ID' },
+  { colHeader: 'toteNumber', colDef: 'Tote Number' },
+  { colHeader: 'cell', colDef: 'Cell' },
+  { colHeader: 'hostTransactionID', colDef: 'Host Transaction ID' },
+  { colHeader: 'emergency', colDef: 'Emergency' },
 ];
 @Component({
   selector: 'app-tran-order-list',
@@ -37,18 +80,36 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class TranOrderListComponent implements OnInit, AfterViewInit {
   public columnValues: any = [];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  displayedColumns: string[] = [
+  public displayedColumns: any;
+  public dataSource: any = new MatTableDataSource();
+  public userData: any;
+  public detailDataInventoryMap: any;
+  public orderNo: any = '';
+  public toteId: any = '';
 
-    'position',
-    'name',
-    'weight',
-    'symbol',
-  ];
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  @Input() set orderNoEvent(event: Event) {
+    if(event){
+      this.orderNo = event;
+      alert(event)
+    }
+ 
+    // this.getContentData();
+  }
+
+  
+  @Input() set toteIdEvent(event: Event) {
+    if(event){
+      this.toteId = event;
+
+    }
+ 
+    // this.getContentData();
+  }
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
+  pageEvent: PageEvent;
+  cols = [];
   customPagination: any = {
     total: '',
     recordsPerPage: 20,
@@ -62,59 +123,143 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     },
     searchValue: '',
   };
-
   sortColumn: any = {
     columnName: 32,
     sortOrder: 'asc',
   };
-  constructor(private router: Router, private seqColumn: SetColumnSeqService) {
-    if (this.router.getCurrentNavigation()?.extras?.state?.['searchValue']) {
-      this.columnSearch.searchValue =
-        this.router.getCurrentNavigation()?.extras?.state?.['searchValue'];
-      this.columnSearch.searchColumn = {
-        colDef: this.router.getCurrentNavigation()?.extras?.state?.['colDef'],
-        colHeader:
-          this.router.getCurrentNavigation()?.extras?.state?.['colHeader'],
-      };
-    }
+
+  constructor(
+    private transactionService: TransactionService,
+    private authService: AuthService
+  ) {}
+  getContentData() {
+    let payload = {
+      draw: 0,
+      sDate: '2020-10-10T07:25:04.661Z',
+      eDate: '2022-12-20T07:25:04.661Z',
+      transType: 'Pick',
+      transStatus: '',
+      searchString: '',
+      searchColumn: 'ID',
+      start: 1,
+      length: 13,
+      orderNumber: '',
+      toteID: '',
+      sortColumnNumber: 5,
+      sortOrder: 'asc',
+      filter: '1=1',
+      username: '1234',
+      wsid: 'TESTWSID',
+    };
+    this.transactionService
+      .get(payload, '/Admin/OpenTransactionTable')
+      .subscribe(
+        (res: any) => {
+          this.getTransactionModelIndex();
+          this.detailDataInventoryMap = res.data?.transactions;
+          this.dataSource = new MatTableDataSource(res.data?.transactions);
+          //  this.dataSource.paginator = this.paginator;
+          this.customPagination.total = res.data?.recordsFiltered;
+          this.dataSource.sort = this.sort;
+        },
+        (error) => {}
+      );
+    // this.invMapService
+    //   .getInventoryMap(this.payload)
+    //   .pipe(takeUntil(this.onDestroy$))
+    //   .subscribe((res: any) => {
+    //     debugger;
+    //     this.itemList = res.data?.inventoryMaps?.map((arr) => {
+    //       return { itemNumber: arr.itemNumber, desc: arr.description };
+    //     });
+
+    //     this.detailDataInventoryMap = res.data?.inventoryMaps;
+    //     this.dataSource = new MatTableDataSource(res.data?.inventoryMaps);
+    //     //  this.dataSource.paginator = this.paginator;
+    //     this.customPagination.total = res.data?.recordsFiltered;
+    //     this.dataSource.sort = this.sort;
+    //   });
+  }
+
+  orderNoChange(event: Event) {
+    this.orderNoEvent = event;
+  }
+  toteIdChange(event: Event) {
+    this.orderNoEvent = event;
+  }
+  getTransactionModelIndex() {
+    let paylaod = {
+      viewToShow: 2,
+      location: '',
+      itemNumber: '',
+      holds: false,
+      orderStatusOrder: '',
+      app: 'Admin',
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+    };
+    this.transactionService
+      .get(paylaod, '/Admin/TransactionModelIndex')
+      .subscribe(
+        (res: any) => {
+          this.columnValues = res.data?.openTransactionColumns;
+          this.columnValues.push('actions');
+          // this.displayOrderCols=res.data.openTransactionColumns;
+        },
+        (error) => {}
+      );
+  }
+  getColumnsData() {
+    this.displayedColumns = Order_Table_Config;
+    this.getContentData();
+    // this.seqColumn
+    //   .getSetColumnSeq()
+    //   .pipe(takeUntil(this.onDestroy$))
+    //   .subscribe((res) => {
+    //     this.displayedColumns = TRNSC_DATA;
+
+    //     if (res?.data?.columnSequence) {
+    //       this.columnValues = res.data?.columnSequence;
+    //       this.columnValues.push('actions');
+    //       this.getContentData();
+    //     } else {
+    //       this.toastr.error('Something went wrong', 'Error!', {
+    //         positionClass: 'toast-bottom-right',
+    //         timeOut: 2000,
+    //       });
+    // }
+    // });
+  }
+  handlePageEvent(e: PageEvent) {
+    this.pageEvent = e;
+    // this.customPagination.startIndex =  e.pageIndex
+    this.customPagination.startIndex = e.pageSize * e.pageIndex;
+
+    this.customPagination.endIndex = e.pageSize * e.pageIndex + e.pageSize;
+    // this.length = e.length;
+    this.customPagination.recordsPerPage = e.pageSize;
+    // this.pageIndex = e.pageIndex;
+
+    // this.initializeApi();
+    this.getContentData();
+  }
+
+  announceSortChange(e: any) {
+    // let index = this.columnValues.findIndex(x => x === e.active );
+    // this.sortColumn = {
+    //   columnName: index,
+    //   sortOrder: e.direction
+    // }
+    // this.initializeApi();
+    // this.getContentData();
   }
 
   ngOnInit(): void {
-    this.customPagination = {
-      total: '',
-      recordsPerPage: 20,
-      startIndex: 0,
-      endIndex: 20,
-    };
+    this.userData = this.authService.userData();
 
-    // this.initializeApi();
-    //  this.getContentData();
+    this.getColumnsData();
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-  }
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.position + 1
-    }`;
   }
 }

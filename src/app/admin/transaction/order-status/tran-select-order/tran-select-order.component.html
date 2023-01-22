@@ -30,7 +30,7 @@
         <div class="d-flex gap-12 align-items-center">
           <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Order No.</mat-label>
-            <input  matInput class="" value="" type="text" type="text" placeholder="search" aria-label="Number" matInput
+            <input  [(ngModel)]="orderNumber" (ngModelChange)="this.searchByOrderNumber.next($event)" matInput class="" value="" type="text" placeholder="search" aria-label="Number" matInput
             
           >
         </mat-form-field>
@@ -39,7 +39,7 @@
           <div class="d-flex g-mini-search-box">
             <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
               <mat-label>Tote ID.</mat-label>
-              <input  matInput class="" value="" type="text" type="text" placeholder="search" aria-label="Number" matInput
+              <input [(ngModel)]="toteID" (ngModelChange)="this.searchByToteId.next($event)" matInput class="" value="" type="text" type="text" placeholder="search" aria-label="Number" matInput
               
             >
           </mat-form-field>

@@ -264,19 +264,16 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     this.searchBar
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        console.log('=->',value)
-        console.log("00",this.searchAutocompleteList)
+        console.log('=->', value);
+        console.log('00', this.searchAutocompleteList);
         this.columnSearch.searchValue = value;
         if (!this.columnSearch.searchColumn.colDef) return;
-        
+
         this.autocompleteSearchColumn();
-        if(!this.searchAutocompleteList.length){
+        if (!this.searchAutocompleteList.length) {
           this.getContentData();
         }
-       
       });
-
-   
 
     this.userData = this.authService.userData();
     this.getColumnsData();
@@ -302,7 +299,6 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     return !this.authService.isAuthorized(controlName);
   }
   searchData() {
-
     if (
       this.columnSearch.searchColumn ||
       this.columnSearch.searchColumn == ''
@@ -311,7 +307,6 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     }
   }
   handlePageEvent(e: PageEvent) {
-  
     this.pageEvent = e;
     // this.customPagination.startIndex =  e.pageIndex
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
@@ -352,8 +347,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
         (res: any) => {
           this.searchAutocompleteList = res.data;
         },
-        (error) => {
-        }
+        (error) => {}
       );
   }
 
@@ -376,7 +370,6 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
         this.getContentData();
       });
   }
- 
 
   deleteItem(event) {
     const dialogRef = this.dialog.open(DeleteConfirmationTransactionComponent, {
@@ -436,8 +429,6 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     // this.getContentData();
   }
 
- 
-
   getContentData() {
     let payload = {
       draw: 0,
@@ -468,8 +459,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
           this.customPagination.total = res.data?.recordsFiltered;
           this.dataSource.sort = this.sort;
         },
-        (error) => {
-        }
+        (error) => {}
       );
     // this.invMapService
     //   .getInventoryMap(this.payload)
@@ -523,8 +513,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
           this.columnValues.push('actions');
           // this.displayOrderCols=res.data.openTransactionColumns;
         },
-        (error) => {
-        }
+        (error) => {}
       );
   }
   /*End of table functions */
@@ -535,7 +524,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
         width: '600px',
         data: {
           mode: event,
-          tableName:'Open Transactions'
+          tableName: 'Open Transactions',
         },
       });
     }
