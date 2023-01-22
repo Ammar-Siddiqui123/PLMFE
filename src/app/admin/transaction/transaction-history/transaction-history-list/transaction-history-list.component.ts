@@ -32,23 +32,20 @@ import { SetColumnSeqComponent } from 'src/app/admin/dialogs/set-column-seq/set-
 import { FloatLabelType } from '@angular/material/form-field';
 
 const TRNSC_DATA = [
+  { colHeader: 'tH_ID', colDef: 'TH_ID' },
   { colHeader: 'id', colDef: 'ID' },
   { colHeader: 'importDate', colDef: 'Import Date' },
   { colHeader: 'importBy', colDef: 'Import By' },
   { colHeader: 'importFileName', colDef: 'Import Filename' },
   { colHeader: 'transactionType', colDef: 'Transaction Type' },
   { colHeader: 'orderNumber', colDef: 'Order Number' },
-  { colHeader: 'lineNumber', colDef: 'Line Number' },
-  { colHeader: 'lineSequence', colDef: 'Line Sequence' },
   { colHeader: 'priority', colDef: 'Priority' },
-  { colHeader: 'requiredDate', colDef: 'Required Date' },
   { colHeader: 'itemNumber', colDef: 'Item Number' },
-  { colHeader: 'unitOfMeasure', colDef: 'Unit of Measure' },
+  { colHeader: 'revision', colDef: 'Revision' },
   { colHeader: 'lotNumber', colDef: 'Lot Number' },
   { colHeader: 'expirationDate', colDef: 'Expiration Date' },
   { colHeader: 'serialNumber', colDef: 'Serial Number' },
   { colHeader: 'description', colDef: 'Description' },
-  { colHeader: 'revision', colDef: 'Revision' },
   { colHeader: 'transactionQuantity', colDef: 'Transaction Quantity' },
   { colHeader: 'location', colDef: 'Location' },
   { colHeader: 'wareHouse', colDef: 'Warehouse' },
@@ -57,7 +54,6 @@ const TRNSC_DATA = [
   { colHeader: 'row', colDef: 'Row' },
   { colHeader: 'shelf', colDef: 'Shelf' },
   { colHeader: 'bin', colDef: 'Bin' },
-  { colHeader: 'invMapID', colDef: 'Inv Map ID' },
   { colHeader: 'completedDate', colDef: 'Completed Date' },
   { colHeader: 'completedBy', colDef: 'Completed By' },
   { colHeader: 'completedQuantity', colDef: 'Completed Quantity' },
@@ -67,27 +63,34 @@ const TRNSC_DATA = [
   { colHeader: 'exportDate', colDef: 'Export Date' },
   { colHeader: 'exportedBy', colDef: 'Exported By' },
   { colHeader: 'exportBatchID', colDef: 'Export Batch ID' },
+  { colHeader: 'lineNumber', colDef: 'Line Number' },
+  { colHeader: 'lineSequence', colDef: 'Line Sequence' },
   { colHeader: 'tableType', colDef: 'Table Type' },
-  { colHeader: 'statusCode', colDef: 'Status Code' },
-  { colHeader: 'masterRecord', colDef: 'Master Record' },
-  { colHeader: 'masterRecordID', colDef: 'Master Record ID' },
-  { colHeader: 'label', colDef: 'Label' },
-  { colHeader: 'inProcess', colDef: 'In Process' },
   { colHeader: 'userField1', colDef: 'User Field1' },
   { colHeader: 'userField2', colDef: 'User Field2' },
   { colHeader: 'userField3', colDef: 'User Field3' },
   { colHeader: 'userField4', colDef: 'User Field4' },
   { colHeader: 'userField5', colDef: 'User Field5' },
   { colHeader: 'userField6', colDef: 'User Field6' },
-  { colHeader: 'userField7', colDef: 'User Field7' },
+  { colHeader: 'useField7', colDef: 'User Field7' },
   { colHeader: 'userField8', colDef: 'User Field8' },
   { colHeader: 'userField9', colDef: 'User Field9' },
   { colHeader: 'userField10', colDef: 'User Field10' },
+  { colHeader: 'unitOfMeasure', colDef: 'Unit of Measure' },
+  { colHeader: 'requiredDate', colDef: 'Required Date' },
+  { colHeader: 'statusCode', colDef: 'Status Code' },
+  { colHeader: 'masterRecord', colDef: 'Master Record' },
+  { colHeader: 'masterRecordID', colDef: 'Master Record ID' },
+  { colHeader: 'tH_ID', colDef: 'Inv Map ID' },
+  { colHeader: 'label', colDef: 'Label' },
+  { colHeader: 'inProcess', colDef: 'In Process' },
   { colHeader: 'toteID', colDef: 'Tote ID' },
   { colHeader: 'toteNumber', colDef: 'Tote Number' },
   { colHeader: 'cell', colDef: 'Cell' },
   { colHeader: 'hostTransactionID', colDef: 'Host Transaction ID' },
   { colHeader: 'emergency', colDef: 'Emergency' },
+
+ 
 ];
 let today = new Date();
 let year = today.getFullYear();
@@ -229,7 +232,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       .get(paylaod, '/Admin/TransactionModelIndex')
       .subscribe(
         (res: any) => {
-          this.columnValues = res.data?.openTransactionColumns;
+          this.columnValues = res.data?.transactionHistoryColumns;
           this.columnValues.push('actions');
           // this.displayOrderCols=res.data.openTransactionColumns;
         },
@@ -239,25 +242,22 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
 
   getContentData() {
     let payload = {
-      draw: 0,
-      sDate: this.startDate,
-      eDate: this.endDate,
-      transType: 'All Transactions',
-      transStatus: 'All Transactions',
-      searchString: 'Count',
-      searchColumn: 'Transaction Type',
-      start: 0,
-      length: 20,
-      orderNumber: this.orderNo,
-      toteID: '',
-      sortColumnNumber: 5,
-      sortOrder: 'asc',
-      filter: '1=1',
-      username: '1234',
-      wsid: 'TESTWSID',
+      "draw": 0,
+      "sDate": "1973-01-21T07:32:36.104Z",
+      "eDate": "2023-01-21T07:32:36.104Z",
+      "searchString": "",
+      "searchColumn": "",
+      "start": 0,
+      "length": 10,
+      "orderNumber": "",
+      "sortColumnNumber": 0,
+      "sortOrder": "asc",
+      "filter": "1=1",
+      "username": "1234",
+      "wsid": "TESTWSID"
     };
     this.transactionService
-      .get(payload, '/Admin/OpenTransactionTable')
+      .get(payload, '/Admin/TransactionHistoryTable')
       .subscribe(
         (res: any) => {
           this.getTransactionModelIndex();
