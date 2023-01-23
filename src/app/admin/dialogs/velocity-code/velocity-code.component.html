@@ -45,12 +45,12 @@
                                 name="{{vlcode}}" value="{{vlcode}}">
                         </mat-form-field>
                         <div class="d-flex gap-12">
-                            <button #btnSave mat-flat-button color="primary" class="sm-icon-button"  (click)="saveVlCode(vlname.value, vlcode)">
-                                <span class="material-symbols-outlined">save</span>
+                            <button mat-flat-button color="primary" class="xsm-icon-button" (click)="saveVlCode(vlname.value, vlcode)">
+                                <mat-icon class="material-symbols-outlined">save</mat-icon>
                             </button>
-                            <button mat-flat-button color="warn" class="sm-icon-button"
+                            <button mat-flat-button color="warn" class="xsm-icon-button"
                             (click)="dltVlCode(vlname.value);">
-                            <span class="material-symbols-outlined">close</span>
+                            <mat-icon class="material-symbols-outlined">close</mat-icon>
                         </button>
                     
                         
