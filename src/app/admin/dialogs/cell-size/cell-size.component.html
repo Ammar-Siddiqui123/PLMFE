@@ -50,12 +50,12 @@
                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="{{cell.cellTypes}}" #cellType maxlength="50">
                         </mat-form-field>
                         <div class="d-flex gap-12">
-                            <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveCellSize(sigleCell.value, cellType.value, i)">
-                                <span class="material-symbols-outlined">save</span>
+                            <button mat-flat-button color="primary" class="xsm-icon-button" (click)="saveCellSize(sigleCell.value, cellType.value, i)">
+                                <mat-icon class="material-symbols-outlined">save</mat-icon>
                             </button>
-                            <button mat-flat-button color="warn" class="sm-icon-button"
+                            <button mat-flat-button color="warn" class="xsm-icon-button"
                                     (click)="dltCellSize(sigleCell.value,i);">
-                                    <span class="material-symbols-outlined">close</span>
+                                    <mat-icon class="material-symbols-outlined">close</mat-icon>
                                 </button>
                        
                                 
