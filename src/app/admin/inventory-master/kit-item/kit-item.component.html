@@ -1,8 +1,8 @@
-<div class="">
+<div class="py-3">
 
     <div class="row">
         <div class="col-6 offset-6">
-            <div class="d-flex gap-12 my-4 justify-content-end">
+            <div class="d-flex gap-12 mb-3 justify-content-end">
                 <button mat-stroked-button color="primary" class="" (click)="openPrintRangeDialog()" >
                     <mat-icon>print</mat-icon>
                     Print
@@ -24,7 +24,8 @@
                 <div class="col-3 ">Item Number</div>
                 <div class="col-3 ">Description</div>
                 <div class="col-2 ">Special Features</div>
-                <div class="col-4 ">Kit Quantity</div>
+                <div class="col-2 ">Kit Quantity</div>
+                <div class="col-2 ">Actions</div>
             </div>
         </div>
 <ng-scrollbar style="height:260px">
@@ -74,24 +75,31 @@
                                     </div>
                                 </div>
 
-                                <div class="col-4">
+                                <div class="col-2">
+                                    <mat-form-field class="custom-form-field" appearance="outline">
+                                          
+                                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{kitItem.kitQuantity}}" [(ngModel)]="kitItem.kitQuantity"  #kitQuantity
+                                         max="9" pattern="^[0-9]*$" maxlength="9">
+                                    </mat-form-field>
                                     <div class="d-flex align-items-center justify-content-between">
 
-                                        <mat-form-field class="custom-form-field" appearance="outline">
-                                          
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="number" name="{{kitItem.kitQuantity}}" [(ngModel)]="kitItem.kitQuantity"  #kitQuantity
-                                             max="9" pattern="^[0-9]*$" maxlength="9">
-                                        </mat-form-field>
-                                        <div class="d-flex gap-12">
-                                        <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(kitItem);">
-                                            <span class="material-symbols-outlined">close</span>
+                                        
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="d-flex">
+                                    <div class="d-flex gap-12">
+                                        <button mat-flat-button color="primary" class="xsm-icon-button" (click)="saveKit(itemNum.value,  kitItem)">
+                                            <mat-icon class="material-symbols-outlined">save</mat-icon>
                                         </button>
 
-                                        <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveKit(itemNum.value,  kitItem)">
-                                            <span class="material-symbols-outlined">save</span>
+                                        <button mat-flat-button color="warn" class="xsm-icon-button" (click)="dltCategory(kitItem);">
+                                            <mat-icon class="material-symbols-outlined">close</mat-icon>
                                         </button>
-                                    </div>
-                                    </div>
+                                    
+                                </div>
+                            </div>
                                 </div>
 
 

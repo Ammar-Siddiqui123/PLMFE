@@ -482,10 +482,10 @@ initialzeEmpForm() {
 
   saveMaximumOrders(){
     this.initialzeEmpForm();
+    this.empForm.removeControl('password');
     this.empForm.value.wsid = "TESTWID";
     this.empForm.value.username = this.empData.username;
     this.empForm.value.groupName = "";
-    console.log(this.empForm.value);
       this.employeeService.updateAdminEmployee(this.empForm.value).subscribe((res: any) => {
         if (res.isExecuted) 
         {
