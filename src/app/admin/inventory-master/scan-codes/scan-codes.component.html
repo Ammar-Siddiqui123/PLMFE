@@ -1,8 +1,8 @@
-<div class="py-4 br-14">
+<div class="py-3 br-14">
 
     <div class="row">
         <div class="col-6 offset-6">
-            <div class="d-flex gap-12 my-4 justify-content-end">
+            <div class="d-flex gap-12 mb-3 justify-content-end">
               <button mat-flat-button color="primary" class="add-icon-button" (click)="addCatRow($event)">
                 <span class="material-symbols-outlined">
                   add
@@ -20,11 +20,12 @@
                 <div class="col-2">Scan Type</div>
                 <div class="col-2">Scan Range</div>
                 <div class="col-2">Start Position</div>
-                <div class="col-4">Code Lenght</div>
+                <div class="col-2">Code Length</div>
+                <div class="col-2">Actions</div>
             </div>
         </div>
-
-        <div class="card-body" style="max-height: 400px; overflow-y: scroll;">
+<ng-scrollbar style="height: 400px;">
+        <div class="card-body">
 
                 <mat-radio-group aria-label="Select an option" color="primary" class="w-100">
 
@@ -82,7 +83,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-4">
+                                <div class="col-2">
                                     <div class="d-flex gap-12 align-items-center justify-content-between">
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
@@ -90,17 +91,21 @@
                                             [disabled]="scanRange.value == 'No'"  max="9" pattern="^[0-9]*$" maxlength="9" >
                                         </mat-form-field>
 
-                                        <div class="d-flex gap-12">
-                                        <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(item)">
-                                            <span class="material-symbols-outlined">close</span>
-                                        </button>
-
-                                        <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveCategory(item , scanCode.value, startPosition.value, codeLength.value, scanRange.value, scanType.value)">
-                                            <span class="material-symbols-outlined">save</span>
-                                        </button>
-                                        </div>
+                                        
 
                                     </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="d-flex">
+                                    <div class="d-flex gap-12">
+                                        <button mat-flat-button color="primary" class="xsm-icon-button" (click)="saveCategory(item , scanCode.value, startPosition.value, codeLength.value, scanRange.value, scanType.value)">
+                                            <mat-icon class="material-symbols-outlined">save</mat-icon>
+                                        </button>
+                                        <button mat-flat-button color="warn" class="xsm-icon-button" (click)="dltCategory(item)">
+                                            <mat-icon class="material-symbols-outlined">close</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
                                 </div>
 
                     </div>
@@ -108,5 +113,6 @@
                 </mat-radio-group>
 
         </div>
+    </ng-scrollbar>
     </div>
 </div>

@@ -51,16 +51,16 @@
                                         <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{unit}}" value="{{unit}}" #scanCodeType>
                                     </mat-form-field>
 
-                                    <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltScanTypeCode(scanCodeType.value);">
-                                        <span class="material-symbols-outlined">
+                                    <button mat-flat-button color="warn" class="xsm-icon-button" (click)="dltScanTypeCode(scanCodeType.value);">
+                                        <mat-icon class="material-symbols-outlined">
                                             close
-                                        </span>
+                                        </mat-icon>
                                     </button>
 
-                                    <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveScanCodeType(scanCodeType.value, unit)">
-                                        <span class="material-symbols-outlined">
+                                    <button mat-flat-button color="primary" class="xsm-icon-button" (click)="saveScanCodeType(scanCodeType.value, unit)">
+                                        <mat-icon class="material-symbols-outlined">
                                             save
-                                        </span>
+                                        </mat-icon>
                                     </button>
                                 </div>
                             </div>
