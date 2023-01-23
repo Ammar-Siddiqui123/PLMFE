@@ -76,19 +76,13 @@
                                 </div>
 
                                 <div class="col-2">
-                                    <mat-form-field class="custom-form-field" appearance="outline">
+                                    <mat-form-field class="custom-form-field w-100" appearance="outline">
                                           
                                         <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{kitItem.kitQuantity}}" [(ngModel)]="kitItem.kitQuantity"  #kitQuantity
                                          max="9" pattern="^[0-9]*$" maxlength="9">
                                     </mat-form-field>
-                                    <div class="d-flex align-items-center justify-content-between">
-
-                                        
-                                        
-                                    </div>
                                 </div>
                                 <div class="col-2">
-                                    <div class="d-flex">
                                     <div class="d-flex gap-12">
                                         <button mat-flat-button color="primary" class="xsm-icon-button" (click)="saveKit(itemNum.value,  kitItem)">
                                             <mat-icon class="material-symbols-outlined">save</mat-icon>
@@ -99,7 +93,6 @@
                                         </button>
                                     
                                 </div>
-                            </div>
                                 </div>
 
 
