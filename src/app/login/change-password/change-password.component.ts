@@ -43,7 +43,7 @@ export class ChangePasswordComponent implements OnInit {
     this.loginService.changePassword(payload).subscribe((res) => {
       const { isExecuted, responseMessage } = res;
       if(isExecuted){
-        this.toastr.success(labels.alert.success, 'Success!', {
+        this.toastr.success(labels.alert.update, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });

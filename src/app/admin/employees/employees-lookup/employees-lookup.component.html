@@ -1,11 +1,15 @@
 <div class="search-box">
   <div class="d-flex justify-content-between g-mini-search-box">
-    <mat-form-field class="w-100" appearance="fill">
+    <mat-form-field class="w-100 align-items-center" appearance="fill">
       <span class="material-symbols-outlined icon-search">
         search
       </span>
-      <input type="text" matTooltip="You must select an employee from the list to continue" matTooltipPosition="above" maxlength="50" placeholder="Search Employee" aria-label="Search Employee" matInput
-        (keyup)="applyFilter($event)">
+      <input type="search" matTooltip="You must select an employee from the list to continue" matTooltipPosition="above" maxlength="50" placeholder="Search Employee" aria-label="Search Employee" matInput
+        (keyup)="applyFilter($event)" [(ngModel)]="searchVal">
+        <!-- <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" (click)="clear()">
+          <mat-icon>close</mat-icon>
+        </button> -->
+        <!-- <mat-icon class="material-symbols-outlined icon-search ms-2" matSuffix>search</mat-icon> -->
     </mat-form-field>
     <!-- <button mat-flat-button color="primary" class=" mat-button-icon" (click)="openDialog()"
       *ngIf="(env === 'DB' || env === 'ADLDS')">
