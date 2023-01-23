@@ -229,7 +229,6 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   }
 
   onEndDate(event) {
-    alert(event);
   }
   rowClick(row, event) {
     console.log(row);

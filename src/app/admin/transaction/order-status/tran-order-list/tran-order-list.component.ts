@@ -5,6 +5,8 @@ import {
   ViewChild,
   AfterViewInit,
   Input,
+  EventEmitter,
+  Output,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -14,49 +16,29 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { SetColumnSeqService } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.service';
 import { TransactionService } from '../../transaction.service';
 import { AuthService } from 'src/app/init/auth.service';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 const Order_Table_Config = [
-  { colHeader: 'id', colDef: 'ID' },
-  { colHeader: 'importDate', colDef: 'Import Date' },
-  { colHeader: 'importBy', colDef: 'Import By' },
-  { colHeader: 'importFileName', colDef: 'Import Filename' },
   { colHeader: 'transactionType', colDef: 'Transaction Type' },
-  { colHeader: 'orderNumber', colDef: 'Order Number' },
-  { colHeader: 'lineNumber', colDef: 'Line Number' },
-  { colHeader: 'lineSequence', colDef: 'Line Sequence' },
-  { colHeader: 'priority', colDef: 'Priority' },
-  { colHeader: 'requiredDate', colDef: 'Required Date' },
+  { colHeader: 'completedDate', colDef: 'Completed Date' },
+  { colHeader: 'location', colDef: 'Location' },
+  { colHeader: 'transactionQuantity', colDef: 'Transaction Quantity' },
   { colHeader: 'itemNumber', colDef: 'Item Number' },
-  { colHeader: 'unitOfMeasure', colDef: 'Unit of Measure' },
+  { colHeader: 'lineNumber', colDef: 'Line Number' },
+  { colHeader: 'requiredDate', colDef: 'Required Date' },
+  { colHeader: 'description', colDef: 'Description' },
+  { colHeader: 'completedQuantity', colDef: 'Completed Quantity' },
+  { colHeader: 'toteID', colDef: 'Tote ID' },
+  { colHeader: 'priority', colDef: 'Priority' },
+  { colHeader: 'completedBy', colDef: 'Completed By' },
+  { colHeader: 'unitOfMeasure', colDef: 'Unit of Meure' },
   { colHeader: 'lotNumber', colDef: 'Lot Number' },
   { colHeader: 'expirationDate', colDef: 'Expiration Date' },
   { colHeader: 'serialNumber', colDef: 'Serial Number' },
-  { colHeader: 'description', colDef: 'Description' },
   { colHeader: 'revision', colDef: 'Revision' },
-  { colHeader: 'transactionQuantity', colDef: 'Transaction Quantity' },
-  { colHeader: 'location', colDef: 'Location' },
   { colHeader: 'wareHouse', colDef: 'Warehouse' },
-  { colHeader: 'zone', colDef: 'Zone' },
-  { colHeader: 'carousel', colDef: 'Carousel' },
-  { colHeader: 'row', colDef: 'Row' },
-  { colHeader: 'shelf', colDef: 'Shelf' },
-  { colHeader: 'bin', colDef: 'Bin' },
-  { colHeader: 'invMapID', colDef: 'Inv Map ID' },
-  { colHeader: 'completedDate', colDef: 'Completed Date' },
-  { colHeader: 'completedBy', colDef: 'Completed By' },
-  { colHeader: 'completedQuantity', colDef: 'Completed Quantity' },
+  { colHeader: 'importDate', colDef: 'Import Date' },
   { colHeader: 'batchPickID', colDef: 'Batch Pick ID' },
-  { colHeader: 'notes', colDef: 'Notes' },
-  { colHeader: 'exportFileName', colDef: 'Export File Name' },
-  { colHeader: 'exportDate', colDef: 'Export Date' },
-  { colHeader: 'exportedBy', colDef: 'Exported By' },
-  { colHeader: 'exportBatchID', colDef: 'Export Batch ID' },
-  { colHeader: 'tableType', colDef: 'Table Type' },
-  { colHeader: 'statusCode', colDef: 'Status Code' },
-  { colHeader: 'masterRecord', colDef: 'Master Record' },
-  { colHeader: 'masterRecordID', colDef: 'Master Record ID' },
-  { colHeader: 'label', colDef: 'Label' },
-  { colHeader: 'inProcess', colDef: 'In Process' },
   { colHeader: 'userField1', colDef: 'User Field1' },
   { colHeader: 'userField2', colDef: 'User Field2' },
   { colHeader: 'userField3', colDef: 'User Field3' },
@@ -67,11 +49,33 @@ const Order_Table_Config = [
   { colHeader: 'userField8', colDef: 'User Field8' },
   { colHeader: 'userField9', colDef: 'User Field9' },
   { colHeader: 'userField10', colDef: 'User Field10' },
-  { colHeader: 'toteID', colDef: 'Tote ID' },
   { colHeader: 'toteNumber', colDef: 'Tote Number' },
   { colHeader: 'cell', colDef: 'Cell' },
   { colHeader: 'hostTransactionID', colDef: 'Host Transaction ID' },
+  { colHeader: 'zone', colDef: 'Zone' },
   { colHeader: 'emergency', colDef: 'Emergency' },
+  { colHeader: 'id', colDef: 'ID' },
+  { colHeader: 'importBy', colDef: 'Import By' },
+  { colHeader: 'fileFrom', colDef: 'filefrom' },
+  { colHeader: 'orderNumber', colDef: 'Order Number' },
+  { colHeader: 'lineSequence', colDef: 'Line Sequence' },
+  { colHeader: 'carousel', colDef: 'Carousel' },
+  { colHeader: 'row', colDef: 'Row' },
+  { colHeader: 'shelf', colDef: 'Shelf' },
+  { colHeader: 'bin', colDef: 'Bin' },
+  { colHeader: 'invMapID', colDef: 'Inv Map ID' },
+  { colHeader: 'notes', colDef: 'Notes' },
+  { colHeader: 'exportFileName', colDef: 'Export File Name' },
+  { colHeader: 'exportDate', colDef: 'Export Date' },
+  { colHeader: 'exportedBy', colDef: 'Exported By' },
+  { colHeader: 'exportBatchID', colDef: 'Export Batch ID' },
+  { colHeader: 'tableType', colDef: 'Table Type' },
+
+  { colHeader: 'statusCode', colDef: 'Status Code' },
+  { colHeader: 'masterRecord', colDef: 'Mter Record' },
+  { colHeader: 'masterRecordID', colDef: 'Mter Record ID' },
+  { colHeader: 'label', colDef: 'Label' },
+  { colHeader: 'inProcess', colDef: 'In Process' },
 ];
 @Component({
   selector: 'app-tran-order-list',
@@ -86,11 +90,16 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   public detailDataInventoryMap: any;
   public orderNo: any = '';
   public toteId: any = '';
+ public searchCol:any='';
+ public searchString:any='';
 
+ 
+ searchByInput = new Subject<string>();
+ 
   @Input() set orderNoEvent(event: Event) {
     if(event){
       this.orderNo = event;
-      alert(event)
+      this.getContentData();
     }
  
     // this.getContentData();
@@ -100,11 +109,16 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   @Input() set toteIdEvent(event: Event) {
     if(event){
       this.toteId = event;
-
     }
- 
     // this.getContentData();
   }
+  // Emitters 
+  @Output() openOrders = new EventEmitter<any>();
+  @Output() completeOrders = new EventEmitter<any>();
+  @Output() reprocessOrders = new EventEmitter<any>();
+  @Output() orderTypeOrders = new EventEmitter<any>();
+  @Output() totalLinesOrders = new EventEmitter<any>();
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
@@ -113,8 +127,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   customPagination: any = {
     total: '',
     recordsPerPage: 20,
-    startIndex: '',
-    endIndex: '',
+    startIndex: 0,
+    endIndex: 20,
   };
   columnSearch: any = {
     searchColumn: {
@@ -135,32 +149,40 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   getContentData() {
     let payload = {
       draw: 0,
-      sDate: '2020-10-10T07:25:04.661Z',
-      eDate: '2022-12-20T07:25:04.661Z',
-      transType: 'Pick',
-      transStatus: '',
-      searchString: '',
-      searchColumn: 'ID',
-      start: 1,
-      length: 13,
-      orderNumber: '',
-      toteID: '',
-      sortColumnNumber: 5,
-      sortOrder: 'asc',
-      filter: '1=1',
-      username: '1234',
-      wsid: 'TESTWSID',
+      compDate: "",
+      identify: 0,
+      searchString: this.searchString,
+      direct: "asc",
+      searchColumn: this.searchCol,
+      sRow: this.customPagination.startIndex,
+      eRow: this.customPagination.endIndex,
+      checkValue: true,
+      checkColumn: 0,
+      orderNumber: this.orderNo,
+      toteID:this.toteId,
+      sortColumnNumber: 0,
+      sortOrder: "asc",
+      filter: "1=1",
+      username: this.userData.userName,
+      wsid:this.userData.wsid
     };
     this.transactionService
-      .get(payload, '/Admin/OpenTransactionTable')
+      .get(payload, '/Admin/OrderStatusData')
       .subscribe(
         (res: any) => {
+         
           this.getTransactionModelIndex();
-          this.detailDataInventoryMap = res.data?.transactions;
-          this.dataSource = new MatTableDataSource(res.data?.transactions);
+          this.detailDataInventoryMap = res.data?.orderStatus;
+          this.dataSource = new MatTableDataSource(res.data?.orderStatus);
+          this.columnValues = res.data?.orderStatusColSequence;
           //  this.dataSource.paginator = this.paginator;
-          this.customPagination.total = res.data?.recordsFiltered;
+          this.customPagination.total = res.data?.totalRecords;
           this.dataSource.sort = this.sort;
+          this.onOpenOrderChange(res.data?.opLines)
+          this.onCompleteOrderChange(res.data?.compLines)
+          this.onReprocessOrderChange(res.data?.compLines)
+          this.onOrderTypeOrderChange(res.data?.orderStatus[0]?.transactionType)
+          this.totalLinesOrderChange(res.data?.orderStatus?.length)
         },
         (error) => {}
       );
@@ -187,6 +209,23 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   toteIdChange(event: Event) {
     this.orderNoEvent = event;
   }
+  onOpenOrderChange(event) {
+    this.openOrders.emit(event);
+  }
+  onOrderTypeOrderChange(event) {
+    this.orderTypeOrders.emit(event);
+  }
+  onReprocessOrderChange(event) {
+    this.reprocessOrders.emit(event);
+  }
+  totalLinesOrderChange(event) {
+
+    this.totalLinesOrders.emit(event);
+  }
+  onCompleteOrderChange(event) {
+    this.completeOrders.emit(event);
+  }
+ 
   getTransactionModelIndex() {
     let paylaod = {
       viewToShow: 2,
@@ -202,8 +241,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       .get(paylaod, '/Admin/TransactionModelIndex')
       .subscribe(
         (res: any) => {
-          this.columnValues = res.data?.openTransactionColumns;
-          this.columnValues.push('actions');
+          // this.columnValues = res.data?.openTransactionColumns;
+          // this.columnValues.push('actions');
           // this.displayOrderCols=res.data.openTransactionColumns;
         },
         (error) => {}
@@ -256,7 +295,13 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+    this.searchByInput
+    .pipe(debounceTime(400), distinctUntilChanged())
+    .subscribe((value) => {
+      this.searchString=value;
+    this.getColumnsData();
 
+    });
     this.getColumnsData();
   }
   ngAfterViewInit() {
