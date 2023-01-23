@@ -259,8 +259,14 @@
                                 </div> -->
                                 <mat-form-field class="mb-3 w-100" appearance="outline">
                                   <mat-label>Maximum Handheld Orders</mat-label>
-                                  <input matInput type="text" [NumbersOnly]="true"   [(ngModel)]="max_orders">
+                                  <input matInput type="text" [NumbersOnly]="true" [(ngModel)]="max_orders" [disabled]="true">
                               </mat-form-field>
+
+                              <!-- <mat-dialog-actions align="end">
+                                <button (click)="saveMaximumOrders()" mat-flat-button class="form-button-submit btn-lg w-100"
+                                    color="primary" [disabled]="!max_orders">Save</button>
+                              </mat-dialog-actions> -->
+                          
                               </div>
                             </div>
                           </div>
