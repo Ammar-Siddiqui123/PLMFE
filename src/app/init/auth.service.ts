@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +24,7 @@ export class AuthService {
     { icon: 'airline_stops', title: 'De-Allocate Orders', route: '#' ,permission: 'De-Allocate Orders'},
     { icon: 'dashboard', title: 'Inventory', route: '/admin/inventoryMaster',permission: 'Inventory' }
   ];
-  constructor() { }
+  constructor(private http: HttpClient) { }
   
   IsloggedIn(){
     let user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -45,5 +48,9 @@ export class AuthService {
   }
   isAllowedUrl(){
     
+  }
+
+  public logout(userData:any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/Login/Logout`, userData);
   }
 }

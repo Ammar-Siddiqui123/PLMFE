@@ -1,6 +1,9 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { SpinnerService } from '../../../app/init/spinner.service';
+import { LoginService } from '../../../app/login.service';
 import { Router,NavigationEnd  } from '@angular/router';
+import { AuthService } from '../../../app/init/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-header',
@@ -13,9 +16,15 @@ export class HeaderComponent implements OnInit {
   loading:boolean = true;
 
   breadcrumbList: any = [];
+  userData: any;
 
   public user_data  = JSON.parse(localStorage.getItem('user') || '');
-  constructor(private router: Router,public spinnerService: SpinnerService) {
+  constructor(
+    private router: Router,
+    public spinnerService: SpinnerService,
+    private authService: AuthService,
+    private toastr: ToastrService
+    ) {
 
     router.events.subscribe((val: any) => {
       this.breadcrumbList = [];
@@ -46,6 +55,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     // console.log(this.user_data.userName);
     this.loading = false;
+    this.userData = this.authService.userData();
   }
 
   toggleSidebar() {
@@ -53,9 +63,34 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(){   
-    // localStorage.removeItem('user');
+    let paylaod = {
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
     localStorage.clear();
-    this.router.navigate(['/login']);
+    this.authService.logout(paylaod).subscribe((res:any) => {
+      if (res.isExecuted) 
+      {
+        // this.toastr.success(res.responseMessage, 'Success!', {
+        //   positionClass: 'toast-bottom-right',
+        //   timeOut: 2000
+        // });
+        this.router.navigate(['/login']);
+      }
+      else 
+      {
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    })
+    // this.deleteAllCookies();
+
   }
+
+  // deleteAllCookies() {
+  //   document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+  // }
 
 }
