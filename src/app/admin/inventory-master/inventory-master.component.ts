@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../../app/init/auth.service';
 import { InventoryMasterService } from './inventory-master.service';
@@ -58,6 +58,10 @@ export class InventoryMasterComponent implements OnInit {
   @ViewChild('propertiesChanged') propertiesChanged: TemplateRef<any>;
   invMaster: FormGroup;
 
+  @HostListener('window:scroll', ['$event']) // for window scroll events
+  onScroll(event) {
+    alert();
+  }
 
 
   ngOnInit(): void {

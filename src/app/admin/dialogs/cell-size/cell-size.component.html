@@ -6,7 +6,7 @@
 </button>
 </div>
 
-<div class="d-flex gap-12 my-4 justify-content-end" style="">
+<div class="d-flex gap-12 my-4 justify-content-end">
     <button mat-flat-button color="primary" class="add-icon-button" (click)="addczRow($event)">
       <span class="material-symbols-outlined">
         add
@@ -35,8 +35,10 @@
             </div> -->
             <ng-container *ngFor="let cell of cellsize_list;let i = index">
                 <div class="d-flex align-items-center mb-3">
-                        <mat-radio-button value="{{cell.cells}}" [checked]="cell.cells==currentCellValue" color="primary" (change)="selectCellSize(sigleCell.value)">
+                    <mat-radio-group color="primary">
+                        <mat-radio-button value="{{cell.cells}}" [checked]="cell.cells==currentCellValue" (change)="selectCellSize(sigleCell.value)">
                         </mat-radio-button>
+                    </mat-radio-group>
                         <div class="container w-100">
                         <div class="row">
                     <div class="col-4">
