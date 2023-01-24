@@ -18,10 +18,12 @@ export class KitItemComponent implements OnInit, OnChanges {
   kitItemsList: any = [];
   dialogitemNumber: any = '';
   dialogDescription: any = '';
-  dialogitemNumberDisplay: any  ='';
+  dialogitemNumberDisplay: any = '';
+  isFormFilled:boolean = false;
 
   searchValue: any = '';
   searchList: any;
+  isValidForm: boolean = false;
 
   @ViewChild('additemNumber') additemNumber: TemplateRef<any>;
   @ViewChild('description') description: TemplateRef<any>;
@@ -60,7 +62,7 @@ export class KitItemComponent implements OnInit, OnChanges {
   }
 
   dltCategory(e: any) {
-    
+
     if (e?.itemNumber) {
       let paylaod = {
         "itemNumber": this.kitItem.controls['itemNumber'].value,
@@ -88,43 +90,43 @@ export class KitItemComponent implements OnInit, OnChanges {
   }
 
   saveKit(newItem: any, e: any) {
-   console.log(this.kitItem.controls['kitInventories'].value)
-    
+    //  console.log(this.kitItem.controls['kitInventories'].value)
+
     let newRecord = true;
     this.kitItem.controls['kitInventories'].value.forEach(element => {
-      if(element.itemNumber == newItem){
+      if (element.itemNumber == newItem) {
         newRecord = false;
         return;
       }
     });
-      if (e.itemNumber && newRecord && e.kitQuantity) {
-        let paylaod = {
-          "itemNumber": this.kitItem.controls['itemNumber'].value,
-          "kitItem": newItem,
-          "kitQuantity": e.kitQuantity,
-          "specialFeatures": e.specialFeatures,
-          "username": this.userData.userName,
-          "wsid": this.userData.wsid,
+    if (e.itemNumber && newRecord && e.kitQuantity) {
+      let paylaod = {
+        "itemNumber": this.kitItem.controls['itemNumber'].value,
+        "kitItem": newItem,
+        "kitQuantity": e.kitQuantity,
+        "specialFeatures": e.specialFeatures,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid,
+      }
+      this.invMasterService.get(paylaod, '/Admin/InsertKit').subscribe((res: any) => {
+
+        if (res.isExecuted) {
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+          this.sendNotification();
+        } else {
+          this.toastr.error("Invalid Input", 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
         }
-        this.invMasterService.get(paylaod, '/Admin/InsertKit').subscribe((res: any) => {
 
-          if (res.isExecuted) {
-            this.toastr.success(labels.alert.success, 'Success!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-            this.sendNotification();
-          } else {
-            this.toastr.error("Invalid Input", 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-          }
+      })
+    } else if (e.itemNumber && !newRecord && e.kitQuantity) {
 
-        })
-      } else if (e.itemNumber && !newRecord && e.kitQuantity){
-
-       let paylaod = {
+      let paylaod = {
         "itemNumber": this.kitItem.controls['itemNumber'].value,
         "oldKitItem": e.itemNumber,
         "newKitItem": newItem,
@@ -132,25 +134,25 @@ export class KitItemComponent implements OnInit, OnChanges {
         "specialFeatures": e.specialFeatures,
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
-        }
-        this.invMasterService.get(paylaod, '/Admin/UpdateKit').subscribe((res: any) => {
-
-          if (res.isExecuted) {
-            this.toastr.success(labels.alert.success, 'Success!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-            this.sendNotification();
-          } else {
-            this.toastr.error("Invalid Input", 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-          }
-
-        })
       }
-    
+      this.invMasterService.get(paylaod, '/Admin/UpdateKit').subscribe((res: any) => {
+
+        if (res.isExecuted) {
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+          this.sendNotification();
+        } else {
+          this.toastr.error("Invalid Input", 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+
+      })
+    }
+
   }
 
   openAddItemNumDialog(e): void {
@@ -163,6 +165,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       if (x) {
         e.itemNumber = this.dialogitemNumber;
         e.description = this.dialogDescription;
+        this.isFormFilled = true;
       }
     })
   }
@@ -195,45 +198,80 @@ export class KitItemComponent implements OnInit, OnChanges {
     this.invMasterService.get(paylaod, '/Common/SearchItem').subscribe((res: any) => {
       if (res.data) {
         this.searchList = res.data
+        if (this.searchList.length > 0) {
+          this.isValidForm = false;
+        }
       }
     });
   }
 
   onSearchSelect(e: any) {
-    
+
     if (this.kitItem.controls['itemNumber'].value == e.option.value.itemNumber) {
       this.dialogitemNumber = '';
       this.dialogDescription = '';
-      this.toastr.error("Item "+e.option.value.itemNumber+" cannot belong to itself in a kit.", 'Error!', {
+      this.toastr.error("Item " + e.option.value.itemNumber + " cannot belong to itself in a kit.", 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+      this.isValidForm = false
       return;
     } else {
 
-    let alreadyExits = false;
-    this.kitItem.controls['kitInventories'].value.forEach(element => {
-      if(element.itemNumber == e.option.value.itemNumber){
-        alreadyExits = true;
+      let alreadyExits = false;
+      this.kitItem.controls['kitInventories'].value.forEach(element => {
+        if (element.itemNumber == e.option.value.itemNumber) {
+          alreadyExits = true;
+          return;
+        }
+      });
+      if (!alreadyExits) {
+        this.dialogitemNumber = e.option.value.itemNumber;
+        this.dialogDescription = e.option.value.description;
+      } else {
+        this.isValidForm = false
+        this.toastr.error("Item " + this.dialogitemNumber + " already exists in kit.", 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        this.dialogitemNumber = '';
+        this.dialogDescription = '';
         return;
       }
-    });
-    if(!alreadyExits){
-      this.dialogitemNumber = e.option.value.itemNumber;
-      this.dialogDescription = e.option.value.description;
-    } else {
-      this.toastr.error("Item "+this.dialogitemNumber+" already exists in kit.", 'Error!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
-      this.dialogitemNumber = '';
-      this.dialogDescription = '';
+    }
+
+    if (e.option.value.itemNumber.trim() !== '') {
+      this.isValidForm = true
+    }
+    else {
+      this.isValidForm = false;
     }
   }
+
+  displayFn(e) {
+    return e?.itemNumber
   }
 
-  displayFn(e){
-    return e?.itemNumber
+  submitFunc(){
+    this.dialogitemNumberDisplay = '';
+  }
+  checkIfFilled(val: any, input?: any){
+    if(input === 'kitQuantity'){
+      if(val > 0){
+        this.isFormFilled = true;
+      }
+    }
+     if(input === 'specialFeatures'){
+        this.isFormFilled = true;
+    }
+
+    if(val.trim() !== ''){
+      this.isFormFilled = true;
+    } 
+    else{
+      this.isFormFilled = false;
+
+    }  
   }
 
 }

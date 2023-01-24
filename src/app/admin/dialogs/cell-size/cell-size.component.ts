@@ -113,7 +113,14 @@ export class CellSizeComponent implements OnInit {
   }
 
   selectCellSize(selectedCZ: any) {
-    this.dialogRef.close(selectedCZ);
+    const cellExists =  this.cellsize_list.some(obj => obj.cells === selectedCZ)
+    if(cellExists){
+      this.dialogRef.close(selectedCZ);   
+    }
+    else{
+      this.dialogRef.close();   
+    }
+    
   }
   clearCellSize() {
     this.dialogRef.close('');
