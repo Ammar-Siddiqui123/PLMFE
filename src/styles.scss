@@ -1190,6 +1190,20 @@ button.add-icon-button {
   min-width: 48px !important;
   border-radius: 14px !important;
 }
+button.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px !important;
+  max-width: 48px !important;
+  min-width: 48px !important;
+  border-radius: 14px !important;
+}
+button.secondary-button{
+  background-color: #fff;
+  color: $primary;
+  border: 1px solid var(--clr-tertiary-50);
+}
 button.sm-icon-button {
   height: 32px!important;
   width: 32px!important;
