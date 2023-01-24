@@ -93,6 +93,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DeleteConfirmationTransactionComponent } from './dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
+import { ReprocessedTransactionComponent } from './transaction/reprocessed-transaction/reprocessed-transaction.component';
+import { ReprocessTransactionComponent } from './transaction/reprocess-transaction/reprocess-transaction.component';
+import { TranInReprocessComponent } from './transaction/reprocess-transaction/tran-in-reprocess/tran-in-reprocess.component';
+import { ReprocessChoiceComponent } from './transaction/reprocess-transaction/reprocess-choice/reprocess-choice.component';
 
 
 
@@ -177,7 +181,11 @@ import { DeleteConfirmationTransactionComponent } from './dialogs/delete-confirm
     TranOffCarouselLzoneComponent,
     TranOrderListComponent,
     OpenTransactionOnHoldComponent,
-    DeleteConfirmationTransactionComponent
+    DeleteConfirmationTransactionComponent,
+    ReprocessedTransactionComponent,
+    ReprocessTransactionComponent,
+    TranInReprocessComponent,
+    ReprocessChoiceComponent
 
   ],
   imports: [
