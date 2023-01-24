@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit , Inject, ViewChild, ElementRef } from '@angular/core';
+import { MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { VelocityCodeService } from '../../../../app/common/services/velocity-code.service';
 import { AuthService } from '../../../../app/init/auth.service';
@@ -10,22 +10,33 @@ import labels from '../../../labels/labels.json'
   templateUrl: './velocity-code.component.html',
   styleUrls: ['./velocity-code.component.scss']
 })
+
 export class VelocityCodeComponent implements OnInit {
+  
   public velocity_code_list: any;
+  public velocity_code_list_Res: any;
+  public currentVelocity="";
   public userData: any;
+  @ViewChild('btnSave') button;
   constructor(
+    
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private velcodeService: VelocityCodeService,
     private authService: AuthService,
     private toastr: ToastrService,
-    public dialogRef: MatDialogRef<any>) { }
+    public dialogRef: MatDialogRef<any>,
+    ) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+    this.currentVelocity = this.data.vc
     this.getVelocity();
+    
   }
 
   getVelocity(){
     this.velcodeService.getVelocityCode().subscribe((res) => {
+      this.velocity_code_list_Res = [...res.data];
       this.velocity_code_list = res.data;
      });
   }
@@ -34,9 +45,9 @@ export class VelocityCodeComponent implements OnInit {
     this.velocity_code_list.unshift([]);
   }
   saveVlCode(vlcode:any, oldVC:any){ 
-
+    if(vlcode){
     let cond = true;
-    this.velocity_code_list.forEach(element => {
+    this.velocity_code_list_Res.forEach(element => {
       if(element == vlcode ) { 
         cond = false;
        this.toastr.error('Already Exists', 'Error!', {
@@ -62,9 +73,12 @@ export class VelocityCodeComponent implements OnInit {
       });
       this.getVelocity()
     });
-    }
+    } 
+  }
   }
   dltVlCode(vlCode:any){
+    if(vlCode){
+
     let paylaod = {
       "velocity": vlCode,
       "username": this.userData.userName,
@@ -79,6 +93,15 @@ export class VelocityCodeComponent implements OnInit {
       this.getVelocity();
       
     });
+  }  else {
+    this.velocity_code_list.shift();
+  }
+  }
+
+  valueEntered()
+  {
+    alert("TRIGGERED");
+    this.button.nativeElement.disabled = true;
   }
 
   selectVlCode(selectedVL: any){

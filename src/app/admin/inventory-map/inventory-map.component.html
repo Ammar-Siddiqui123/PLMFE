@@ -18,9 +18,10 @@
             <div class="header-filter-options w-100 d-flex align-items-center justify-content-between" style="gap:12px">
               <div class="d-flex gap-12 align-items-center">
                 <mat-form-field class="action-dropdown" appearance="outline">
-                  <mat-label>Search</mat-label>
+                  <!-- <mat-label>Select</mat-label> -->
                   <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn"
-                    (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()" [compareWith]="compareObjects">
+                    (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()" [compareWith]="compareObjects" placeholder="Select">
+                    <mat-option></mat-option>
                     <mat-option *ngFor="let item of displayedColumns" [value]="item">
                       {{item.colDef}}
                     </mat-option>
@@ -37,7 +38,7 @@
                     <span class="material-symbols-outlined icon-search">
                       search
                     </span>
-                    <input type="text" placeholder="search" aria-label="Number" matInput
+                    <input type="text" placeholder="Search" aria-label="Number" matInput
                       [(ngModel)]='this.columnSearch.searchValue' [matAutocomplete]="auto"
                       (keyup)="autocompleteSearchColumn()">
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
@@ -97,22 +98,22 @@ filter_list
 
                 <th class="header" mat-header-cell *cdkHeaderCellDef mat-sort-header
                   (sortActionDescription)="indexOfelement"
-                  style="width:auto; min-width: 200px!important;  padding: 5px 32px; border: 0;">
+                  style="width:auto; min-width: 250px;  padding: 5px 32px; border: 0;">
                   {{ col.colDef }}
                  
                 </th>
 
-                <td *matCellDef="let element" style="min-width: 250px;  padding: 5px 32px; border: 0;"
-                  [ngClass]="{'x ;jr': element.warehouse}"> {{ element[col.colHeader] }}</td>
+                <td *matCellDef="let element" style="min-width: 250px; padding: 5px 32px; border: 0; text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;"
+                  [ngClass]="{'quarantineColor': element.warehouse}"> {{ element[col.colHeader] }}</td>
 
               </ng-container>
 
               <ng-container matColumnDef="actions" stickyEnd>
 
-                <th mat-header-cell *matHeaderCellDef style="border: 0; width: 200px; min-width: 64px;">
+                <th mat-header-cell *matHeaderCellDef style="border: 0;height: 66px; padding-left:45px;">
                 </th>
 
-                <td mat-cell *matCellDef="let seletedRecord" style="border: 0; width: 64px;" >
+                <td mat-cell *matCellDef="let seletedRecord" style="border: 0; padding-left: 5px;" >
                   
                   <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o" appearance="outline">
                     <mat-icon>more_horiz</mat-icon>
@@ -126,15 +127,15 @@ filter_list
                     <button *ngIf="seletedRecord.warehouse == 'Quarantine'" mat-menu-item
                       (click)="unQuarantine(seletedRecord)">Unquarantine</button>
                     <button mat-menu-item (click)="adjustQuantity(seletedRecord)">Adjust Quantity</button>
-                    <button mat-menu-item (click)="viewInInventoryMaster()">View in Inventory Master</button>
-                    <button mat-menu-item (click)="viewLocationHistory()">View location history</button>
+                    <button mat-menu-item (click)="viewInInventoryMaster()">View item in Inventory Master</button>
+                    <button mat-menu-item (click)="viewLocationHistory()">View Location History</button>
                   </mat-menu>
 
                 </td>
 
               </ng-container>
 
-              <mat-header-row *matHeaderRowDef="columnValues;sticky: true"></mat-header-row>
+              <mat-header-row *matHeaderRowDef="columnValues;sticky: true" style=" border: 0"></mat-header-row>
               <mat-row *matRowDef="let row; columns: columnValues;"
                 [ngClass]="{'quarantineColor': row.warehouse == 'Quarantine'}"></mat-row>
 

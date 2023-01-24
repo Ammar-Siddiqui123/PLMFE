@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { EmployeeService } from 'src/app/employee.service';
+import { EmployeeService } from '../../../../app/employee.service';
+import { SpinnerService } from '../../../../app/init/spinner.service';
 import labels from '../../../labels/labels.json';
 
 @Component({
@@ -19,8 +20,18 @@ export class AddLocationComponent implements OnInit {
 
   startLocationList: any;
   endLocationList: any;
+  isValid: boolean = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private employeeService: EmployeeService, private toastr: ToastrService) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+    private dialog: MatDialog, 
+    private employeeService: EmployeeService, 
+    private toastr: ToastrService,
+    private loader: SpinnerService,
+    public dialogRef: MatDialogRef<any>
+    
+    
+    ) {}
 
   ngOnInit(): void {
     if(this.data.locationData){
@@ -47,6 +58,10 @@ export class AddLocationComponent implements OnInit {
     this.employeeService.getLocationList('/Common/LocationBegin',payload).subscribe((res:any) => {
       if(res.isExecuted){
         this.startLocationList = res.data;
+        const foundStr = this.startLocationList.find(v => v.toLowerCase().includes(this.startLocation.toLowerCase()));
+        if(!foundStr){
+          this.startLocation = '';
+        }
       }
     })
   }
@@ -62,12 +77,26 @@ export class AddLocationComponent implements OnInit {
     this.employeeService.getLocationList('/Common/LocationEnd',payload).subscribe((res:any) => {
       if(res.isExecuted){
         this.endLocationList = res.data;
+        const foundStr = this.endLocationList.find(v => v.toLowerCase().includes(this.endLocation.toLowerCase()));
+        if(!foundStr){
+          this.endLocation = '';
+        }
       }
     })
   }
   }
+  onBlur(){
+    if(this.startLocation.trim() !== '' && this.endLocation.trim() !== '' ){
+      this.isValid = true
+    }
+    else{
+      this.isValid = false
+    }
+  }
 
   onSend(form: NgForm){
+
+
     let payload = {
       "startLocation": this.startLocation,
       "endLocation": this.endLocation,   
@@ -79,7 +108,8 @@ export class AddLocationComponent implements OnInit {
     if(this.data.locationData){
       this.employeeService.updateEmployeeLocation(payload).subscribe((res:any) => {
         if(res.isExecuted){
-          this.dialog.closeAll();
+          // this.dialog.closeAll();
+          this.dialogRef.close('update');
           this.toastr.success(labels.alert.update, 'Success!',{
             positionClass: 'toast-bottom-right',
             timeOut:2000
@@ -94,8 +124,9 @@ export class AddLocationComponent implements OnInit {
     }else{
       this.employeeService.insertEmployeeLocation(payload).subscribe((res:any) => {
         if(res.isExecuted){
-          this.dialog.closeAll();
-          this.toastr.success(labels.alert.update, 'Success!',{
+          // this.dialog.closeAll();
+          this.dialogRef.close('add');
+          this.toastr.success(labels.alert.success, 'Success!',{
             positionClass: 'toast-bottom-right',
             timeOut:2000
          });

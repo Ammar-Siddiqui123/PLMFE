@@ -58,7 +58,7 @@ import { GeneralModule } from '../gen-module';
   ],
   imports: [
     CommonModule,
-     RouterModule,
+    //  RouterModule,
     // FormsModule,
     BrowserModule,
     // DataTablesModule,
@@ -80,7 +80,7 @@ import { GeneralModule } from '../gen-module';
 
   ],
   exports:[
-    RouterModule
+    // RouterModule
   ]
 })
 export class DashboardModule { }

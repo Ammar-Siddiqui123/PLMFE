@@ -36,11 +36,26 @@ export class UnitMeasureComponent implements OnInit {
   }
 
   addUMRow(row : any){
-    this.unitOfMeasure_list.push("");
+    this.unitOfMeasure_list.unshift("");
     console.log(this.unitOfMeasure_list)
   }
 
   saveUnitMeasure(um : any, oldUM : any) {
+
+    let cond = true;
+    if(um){
+    this.unitOfMeasure_list.forEach(element => {
+      if(element.toLowerCase() == um.toLowerCase() ) {
+        cond = false;
+       this.toastr.error('Already Exists', 'Error!', {
+         positionClass: 'toast-bottom-right',
+         timeOut: 2000
+       });
+       return;
+      }   
+    });
+  }
+    if(um && cond){
     let paylaod = {      
       "newValue": um,
       "oldValue": oldUM.toString(),
@@ -59,14 +74,15 @@ export class UnitMeasureComponent implements OnInit {
   
     });
   }
+  }
 
   dltUnitMeasure(um : any) {
+    if(um){
     let paylaod = {
       "newValue": um,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.unitOfMeasure_list.pop();
     
     this.umService.dltUnitOfMeasure(paylaod).subscribe((res) => {
       if(res.isExecuted){
@@ -77,6 +93,9 @@ export class UnitMeasureComponent implements OnInit {
       });
     }
     });
+  } else {
+    this.unitOfMeasure_list.shift();
+  }
   }
 
   selectUnitMeasure(selectedUM: any){

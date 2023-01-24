@@ -75,7 +75,8 @@ export class EmployeePickupLevelComponent implements OnInit {
     let dialogRef;
     dialogRef = this.dialog.open(AddPickuplevelsComponent, {
       height: 'auto',
-      width: '480px',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
       data:{
         nextPickLvl:this.nextPickLvl,
         userName:this.grp_data
@@ -90,6 +91,7 @@ export class EmployeePickupLevelComponent implements OnInit {
     dialogRef = this.dialog.open(AddPickuplevelsComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data:{
         mode: 'edit',
         pickLevelData:pickLevelData,
@@ -106,6 +108,7 @@ export class EmployeePickupLevelComponent implements OnInit {
     dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-picklevel',
         picklevel: picklevel,

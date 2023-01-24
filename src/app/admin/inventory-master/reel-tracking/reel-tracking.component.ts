@@ -18,7 +18,8 @@ export class ReelTrackingComponent implements OnInit {
   }
   addItemDialog(): void {
     const dialogRef = this.dialog.open(this.addItemTemp, {
-      width: '450px'
+      width: '450px',
+      autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');

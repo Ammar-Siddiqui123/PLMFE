@@ -1,8 +1,8 @@
-<div class="container py-4 br-14">
+<div class="py-3 br-14">
 
     <div class="row">
         <div class="col-6 offset-6">
-            <div class="d-flex gap-12 my-4 justify-content-end">
+            <div class="d-flex gap-12 mb-3 justify-content-end">
               <button mat-flat-button color="primary" class="add-icon-button" (click)="addCatRow($event)">
                 <span class="material-symbols-outlined">
                   add
@@ -16,38 +16,47 @@
 
         <div class="card-header">
             <div class="row">
-                <div class="col-2 px-4">Scan Code</div>
-                <div class="col-2 px-4">Scan Type</div>
-                <div class="col-2 px-4">Scan Range</div>
-                <div class="col-2 px-4">Start Position</div>
-                <div class="col-2 px-4">Code Lenght</div>
+                <div class="col-2">Scan Code</div>
+                <div class="col-2">Scan Type</div>
+                <div class="col-2">Scan Range</div>
+                <div class="col-2">Start Position</div>
+                <div class="col-2">Code Length</div>
+                <div class="col-2">Actions</div>
             </div>
         </div>
+<ng-scrollbar style="height: 400px;">
+        <div class="card-body">
 
-        <div class="card-body" style="max-height: 400px; overflow-y: scroll;">
-            <div class="container">
-
-            <div class="row">
                 <mat-radio-group aria-label="Select an option" color="primary" class="w-100">
 
-                    <div *ngFor="let category of scanCodes.controls['scanCode'].value" class="d-flex align-items-center">
+                    <div *ngFor="let item of scanCodesList" class="row align-items-center">
 
-                        <div class="container w-100">
-
-                            <div class="row">
 
                                 <div class="col-2">
                                     <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #catName name="{{category.scanCode}}" value="{{category.scanCode}}">
+                                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #scanCode name="{{item.scanCode}}" value="{{item.scanCode}}"
+                                            maxlength="50">
                                     </mat-form-field>
                                 </div>
 
                                 <div class="col-2">
                                     <div class="d-flex gap-12 align-items-center">
 
-                                        <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.scanType}}" value="{{category.scanType}}" >
+                                        <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="openScanTypePopup(item)">
+                                     
+                                            <span matSuffix>
+                                                <mat-icon
+                                                    style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
+                                            </span>
+                                            <input readonly class="__grab_cursor readonly" matInput type="text"
+                                            name="{{item.scanType}}" value="{{item.scanType}}" maxlength="50" #scanType/>
                                         </mat-form-field>
+
+                                        <!-- <mat-form-field class="custom-form-field w-100" appearance="outline">
+                                            <mat-select [(ngModel)]="item.scanType"  (selectionChange)="changeScanType($event.value)">
+                                                <mat-option *ngFor="let val of scanTypeList"   [value]="val" >{{val}}</mat-option>
+                                              </mat-select>
+                                        </mat-form-field> -->
 
                                     </div>
                                 </div>
@@ -55,7 +64,9 @@
                                     <div class="d-flex gap-12 align-items-center">
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.scanRange}}" value="{{category.scanRange}}" >
+                                            <mat-select value="{{item.scanRange}}" #scanRange (selectionChange)="changeScanRange(item)">
+                                                <mat-option *ngFor="let val of scanRangeList"   [value]="val" >{{val}}</mat-option>
+                                              </mat-select>
                                         </mat-form-field>
 
                                     </div>
@@ -65,39 +76,43 @@
                                     <div class="d-flex gap-12 align-items-center">
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.startPosition}}" value="{{category.startPosition}}" #subCatName>
+                                            <input (keypress)="numberOnly($event)" (keydown.shift.enter)="$event.preventDefault()" matInput type="number" name="{{item.startPosition}}" value="{{item.startPosition}}" #startPosition
+                                            [disabled]="scanRange.value == 'No'"  max="9" pattern="^[0-9]*$" maxlength="9" >
                                         </mat-form-field>
 
                                     </div>
                                 </div>
 
                                 <div class="col-2">
-                                    <div class="d-flex gap-12 align-items-center">
+                                    <div class="d-flex gap-12 align-items-center justify-content-between">
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.codeLength}}" value="{{category.codeLength}}">
+                                            <input (keypress)="numberOnly($event)" (keydown.shift.enter)="$event.preventDefault()" matInput type="number" name="{{item.codeLength}}" value="{{item.codeLength}}" #codeLength
+                                            [disabled]="scanRange.value == 'No'"  max="9" pattern="^[0-9]*$" maxlength="9" >
                                         </mat-form-field>
 
+                                        
 
-                                        <button mat-flat-button color="warn" class="sm-icon-button" (click)="dltCategory(catName.value, subCatName.value);">
-                                            <span class="material-symbols-outlined">close</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="d-flex">
+                                    <div class="d-flex gap-12">
+                                        <button mat-flat-button color="primary" class="xsm-icon-button" (click)="saveCategory(item , scanCode.value, startPosition.value, codeLength.value, scanRange.value, scanType.value)">
+                                            <mat-icon class="material-symbols-outlined">save</mat-icon>
                                         </button>
-
-                                        <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveCategory(catName.value, category.category, subCatName.value, category.subCategory)">
-                                            <span class="material-symbols-outlined">save</span>
+                                        <button mat-flat-button color="warn" class="xsm-icon-button" (click)="dltCategory(item)">
+                                            <mat-icon class="material-symbols-outlined">close</mat-icon>
                                         </button>
-
                                     </div>
                                 </div>
-
-                            </div>
-                        </div>
+                                </div>
 
                     </div>
 
                 </mat-radio-group>
-            </div>
+
         </div>
-        </div>
+    </ng-scrollbar>
     </div>
 </div>

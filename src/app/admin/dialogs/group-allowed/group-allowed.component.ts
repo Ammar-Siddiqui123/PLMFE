@@ -9,6 +9,7 @@ import { startWith } from 'rxjs/internal/operators/startWith';
 import { map } from 'rxjs/internal/operators/map';
 import { AuthService } from '../../../../app/init/auth.service';
 import { Router } from '@angular/router';
+import { CustomValidatorService } from '../../../../app/init/custom-validator.service';
 
 @Component({
   selector: 'group-allowed',
@@ -25,6 +26,7 @@ export class GroupAllowedComponent implements OnInit {
   options: string[] = [];
   filteredOptions: Observable<any[]>;
   userData: any;
+  isValid = false;
   controlNameForm: FormGroup;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -33,12 +35,13 @@ export class GroupAllowedComponent implements OnInit {
     private toastr: ToastrService,
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private cusValidator: CustomValidatorService
   ) { }
 
   ngOnInit(): void {
     this.controlNameForm = this.fb.group({
-      controlName: ['', [Validators.required]]
+      controlName: ['', [Validators.required,this.cusValidator.specialCharValidatorExceptSlash]]
     })
     this.userData = this.authService.userData();
     let payload = {
@@ -55,9 +58,42 @@ export class GroupAllowedComponent implements OnInit {
 
 
   }
+
+  blurInput() {
+    if (!this.isValid){
+      this.controlNameForm.controls['controlName'].setValue("");
+    }
+  }
   filterx(value: string): string[] {
+    let result;
     const filterValue = value.toLowerCase();
-    return this.controlNameList.filter(option => option.groupName.toLowerCase().includes(filterValue));
+    result =  this.controlNameList.filter(option => option.groupName.toLowerCase().includes(filterValue));
+    this.isValid = result.length > 0;
+    return result;
+  }
+  alphaNumberOnly(string:any) {
+    // const regex = "^[a-zA-Z0-9_-]*$";
+    const regex = "^[a-zA-Z0-9_//][a-zA-Z0-9_// ]*[a-zA-Z0-9_//]$";
+    //^[a-zA-Z0-9_][a-zA-Z0-9_ ]*[a-zA-Z0-9_]$
+    if(string.match(regex)){
+      return true;
+    }
+      return false;
+  }
+  checkIfValid(input:string){
+    if(this.GroupName.trim() === ''){
+      this.isValid = true;
+    }
+    else{
+      this.isValid =  false;
+      if(this.alphaNumberOnly(input)){
+        this.isValid = false;
+      }
+      else{
+        this.isValid = true;
+      }
+      
+    }
   }
   onSend(form: any) {
     // console.log(this.data.grp_data);

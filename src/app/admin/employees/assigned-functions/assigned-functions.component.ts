@@ -15,8 +15,10 @@ export class AssignedFunctionsComponent implements OnInit {
   // @Input('isAssignedLookUp') isAssignedLookUp: boolean;
   // @Output() updateAssignedLookUp  = new EventEmitter();
   @Input() assignedFunctions: [];
+  @Input() isGroupLookUp: boolean;
   @Output() removeFunction = new EventEmitter();
   @Input() spliceValue:[]=[];
+  filterName:any
 
 
   spliceArray:any;
@@ -52,17 +54,20 @@ export class AssignedFunctionsComponent implements OnInit {
   
   
   unassignFunction(permData: any){
-    // console.log("value: ", permData)
-    let dialogRef = this.dialog.open(FunctionAllocationComponent, {
-      height: 'auto',
-      width: '480px',
-      data: {
-        target: 'unassigned',
-        function: permData
-      }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      this.removeFunction.emit(result);
-    })
-  }
+    // console.log(permData);
+    if(permData){
+      let dialogRef = this.dialog.open(FunctionAllocationComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          target: 'unassigned',
+          function: permData
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        this.removeFunction.emit(result);
+      })
+    }
+    }
 }

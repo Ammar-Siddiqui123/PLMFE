@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { map, Observable, startWith } from 'rxjs';
@@ -13,6 +13,7 @@ import { AssignedFunctionsComponent } from '../assigned-functions/assigned-funct
 })
 export class UnassignedFunctionsComponent implements OnInit {
   @Input() unassignedFunctions: [];
+  @Input() isGroupLookUp: boolean;
   @Output() addFunction = new EventEmitter();
   spliceArray: any;
   filterValue: string;
@@ -20,6 +21,7 @@ export class UnassignedFunctionsComponent implements OnInit {
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: string[];
   employee_fetched_zones: string[] = [];
+  filterName:any
 
   constructor(private AssignService: AssignService,private dialog: MatDialog) { }
   public searchText: string;
@@ -31,12 +33,7 @@ export class UnassignedFunctionsComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    console.log(filterValue)
-    this.filterValue = filterValue
-    const filteredArray = this.unassignedFunctions.filter((option: string) => option.toLowerCase().includes(filterValue))
-
-    this.filteredOptions = filterValue ? filteredArray : this.unassignedFunctions
-
+    this.unassignedFunctions.filter((option: string) => option.toLowerCase().includes(filterValue))
   }
   assignFunction(permData: any) { 
     let   data = {
@@ -45,6 +42,18 @@ export class UnassignedFunctionsComponent implements OnInit {
     }
       this.addFunction.emit(data);
   }
+  ngOnDestroy() {
+    this.filterName = '';
+  }
 
 
+}
+
+@Pipe({name: 'filterUnassignedFunc'})
+export class filterUnassignedFunc implements PipeTransform {
+  transform(listOfNames: any, nameToFilter: any) {
+    if(!listOfNames) return null;
+    if(!nameToFilter) return listOfNames;
+    return listOfNames.filter(n => n.toLowerCase().indexOf(nameToFilter.toLowerCase()) >= 0);
+  }
 }

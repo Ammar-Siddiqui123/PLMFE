@@ -1,7 +1,10 @@
-<h1 mat-dialog-title><b>Print Range</b></h1>
-<button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
+<div class="d-flex justify-content-between mb-4 align-items-center">
+    <div style="width:48px"></div>
+<h1 class="m-0" mat-dialog-title>Print Range</h1>
+<button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
     <mat-icon class="close-icon">close</mat-icon>
 </button>
+</div>
 
 <div class="mb-2 w-100">
     <mat-form-field class="custom-form-field w-100" appearance="outline">
@@ -22,7 +25,7 @@
     </div>
 </div>
 <div class="d-flex justify-content-end">
-    <button mat-flat-button color="primary" class="button-primary bg-white" >
+    <button mat-flat-button color="primary" class="button-primary w-100 btn-lg" >
         Print Range
       </button>
 </div>

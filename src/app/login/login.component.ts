@@ -8,6 +8,7 @@ import labels from '../labels/labels.json'
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { SpinnerService } from '../init/spinner.service';
+import { AuthService } from '../init/auth.service';
 
 @Component({
   selector: 'login',
@@ -30,11 +31,12 @@ export class LoginComponent {
     private toastr: ToastrService,
     private dialog: MatDialog,
     public loader: SpinnerService,
+    private auth: AuthService
   ) { }
 
   addLoginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50), this.noWhitespaceValidator]),
-    password: new FormControl('', [Validators.required, this.noWhitespaceValidator]),
+    username: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
+    password: new FormControl('', [Validators.required]),
   });
 
 
@@ -45,8 +47,10 @@ export class LoginComponent {
 
   loginUser() {
     this.loader.show();
+    this.addLoginForm.get("username")?.setValue(this.addLoginForm.value.username?.replace(/\s/g, "")||null);
     this.login = this.addLoginForm.value;
-    this.login['WSID']="TestWSID"; // Line have been added after modifications in backend . modification required.
+    const workStation:any = JSON.parse(localStorage.getItem('workStation') || '');
+    this.login.wsid = workStation.workStationID;
     this.loginService
       .login(this.login)
       .subscribe((response: any) => {
@@ -79,10 +83,26 @@ export class LoginComponent {
   }
 
   ngOnInit() {
-    this.loginService.getSecurityEnvironment().subscribe((res) => {
-      this.env = res.data;
-      localStorage.setItem('env', JSON.stringify(res.data));
-    });
+    if(this.auth.IsloggedIn()){
+      this.router.navigate(['/dashboard']);
+    }
+    else{
+      this.loginService.getSecurityEnvironment().subscribe((res:any) => {
+        this.env = res.data.securityEnvironment;
+        if(this.env){
+          const { workStation } = res.data;
+          localStorage.setItem('env', JSON.stringify(this.env));
+          localStorage.setItem('workStation', JSON.stringify(workStation));
+        }
+        else{
+          this.toastr.error('Kindly contact to administrator', 'Workstation is not set!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
+    }
+    
 
   }
 
@@ -90,6 +110,7 @@ export class LoginComponent {
     let dialogRef = this.dialog.open(ChangePasswordComponent, {
       height: 'auto',
       width: '500px',
+      autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);

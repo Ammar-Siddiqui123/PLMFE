@@ -1,13 +1,13 @@
 .table-responsive {
     display: block !important;
     width: 100%;
-    height: 400px;
+    // height: 400px;
     overflow-x: auto;
     overflow-y: auto;
     .mat-table {
         width: 100%;
         max-width: 100%;
-        height: 400px;
+        // height: 400px;
         margin-bottom: 1rem;
         display: table;
         border-collapse: collapse;
@@ -18,23 +18,28 @@
     }
     .mat-cell{
         width: 80px;
-        text-align: center;
+        text-align: left;
+        white-space: nowrap;
+        padding: 0px 8px 0px 8px;
 
     }
     .mat-header-cell {
         word-wrap: initial;
         display: table-cell;
-        padding: 0px 5px;
+        padding: 0px 8px 0px 8px;
+        // padding: 0px;
         line-break: unset;
         width: auto;
         white-space: nowrap;
         overflow: hidden;
         vertical-align: middle;
-        text-align: center;
+        text-align: left;
         font-weight: 700;
         font-size: 16px;
         color: black;
-
+        &:first-child{
+            padding-left: 10px;
+        }
     }
 
   }

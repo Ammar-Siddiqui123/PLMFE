@@ -20,8 +20,8 @@ export class DetailComponent implements OnInit {
   @Input() details: FormGroup;
   public userData: any;
   @Output() notifyParent: EventEmitter<any> = new EventEmitter();
-  sendNotification() {
-      this.notifyParent.emit('Some value to send to the parent');
+  sendNotification(e) {
+      this.notifyParent.emit(e);
   }
   
 
@@ -41,7 +41,8 @@ export class DetailComponent implements OnInit {
   public openItemNumDialog() {
     let dialogRef = this.dialog.open(ItemNumberComponent, {
       height: 'auto',
-      width: '400px',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
       data: {
         itemNumber: this.details.controls['itemNumber'].value,
         newItemNumber : '',
@@ -62,8 +63,13 @@ export class DetailComponent implements OnInit {
             this.details.patchValue({
               'itemNumber' : res.data.newItemNumber
             }); 
-            this.sendNotification();
-          }          
+            this.sendNotification({newItemNumber: res.data.newItemNumber});
+          } else {
+            this.toastr.error("Item Number Already Exists.", 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
         })
       }
 
@@ -73,7 +79,8 @@ export class DetailComponent implements OnInit {
   public openDescriptionDialog() {
     let dialogRef = this.dialog.open(UpdateDescriptionComponent, {
       height: 'auto',
-      width: '700px',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
       data: {
         description: this.details.controls['description'].value,
       }
@@ -91,7 +98,8 @@ export class DetailComponent implements OnInit {
   public opencategoryDialog() {
     let dialogRef = this.dialog.open(ItemCategoryComponent, {
       height: 'auto',
-      width: '800px',
+      width: '860px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: '',
       }
@@ -107,9 +115,11 @@ export class DetailComponent implements OnInit {
     })
   }
   public openUmDialog() {
+    console.log(this.details.controls['replenishmentLevel'].value)
     let dialogRef = this.dialog.open(UnitMeasureComponent, {
       height: 'auto',
       width: '750px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: '',
       }

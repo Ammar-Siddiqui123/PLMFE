@@ -14,7 +14,7 @@ import { EmployeePickupLevelComponent } from './employees/employee-pickup-level/
 import { GroupsAllowedComponent } from './employees/groups-allowed/groups-allowed.component';
 import { GroupsLookupComponent } from './employees/groups-lookup/groups-lookup.component';
 import { AssignedFunctionsComponent } from './employees/assigned-functions/assigned-functions.component';
-import { UnassignedFunctionsComponent } from './employees/unassigned-functions/unassigned-functions.component';
+import { UnassignedFunctionsComponent, filterUnassignedFunc } from './employees/unassigned-functions/unassigned-functions.component';
 import { StatisticsLookupComponent } from './employees/statistics-lookup/statistics-lookup.component';
 
 //Dialogs
@@ -97,6 +97,9 @@ import { ReprocessedTransactionComponent } from './transaction/reprocessed-trans
 import { ReprocessTransactionComponent } from './transaction/reprocess-transaction/reprocess-transaction.component';
 import { TranInReprocessComponent } from './transaction/reprocess-transaction/tran-in-reprocess/tran-in-reprocess.component';
 import { ReprocessChoiceComponent } from './transaction/reprocess-transaction/reprocess-choice/reprocess-choice.component';
+import { ItemNumUpdateConfirmationComponent } from './dialogs/item-num-update-confirmation/item-num-update-confirmation.component';
+import { ScanTypeCodeComponent } from './dialogs/scan-type-code/scan-type-code.component';
+
 
 
 
@@ -110,6 +113,7 @@ import { ReprocessChoiceComponent } from './transaction/reprocess-transaction/re
     GroupsLookupComponent,
     AssignedFunctionsComponent,
     UnassignedFunctionsComponent,
+    filterUnassignedFunc,
     StatisticsLookupComponent,
     AddNewEmployeeComponent,
     AddZoneComponent,
@@ -185,7 +189,9 @@ import { ReprocessChoiceComponent } from './transaction/reprocess-transaction/re
     ReprocessedTransactionComponent,
     ReprocessTransactionComponent,
     TranInReprocessComponent,
-    ReprocessChoiceComponent
+    ReprocessChoiceComponent,
+    ItemNumUpdateConfirmationComponent,
+    ScanTypeCodeComponent,
 
   ],
   imports: [
@@ -209,6 +215,7 @@ import { ReprocessChoiceComponent } from './transaction/reprocess-transaction/re
         warning: 'toast-warning',
       }
     })
-  ]
+  ],
+ 
 })
 export class AdminModule { }

@@ -22,15 +22,26 @@ export class ItemSetupComponent implements OnInit {
 
 
   public openCellSizeDialog(param) {
+    let currentValue="";
+    if(param == 'cellSize'){
+      currentValue  = this.itemSetup.controls['cellSize'].value
+    } else if(param == 'bulkCellSize'){
+      currentValue  = this.itemSetup.controls['bulkCellSize'].value
+    } else if(param == 'cfCellSize'){
+      currentValue  = this.itemSetup.controls['cfCellSize'].value
+    }
     let dialogRef = this.dialog.open(CellSizeComponent, {
-      height: '500px',
+      height: 'auto',
       width: '750px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: '',
+        cs:currentValue
       }
     })
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
+      if(result){
       if(param == 'cellSize'){
         this.itemSetup.patchValue({
           'cellSize' : result
@@ -44,21 +55,32 @@ export class ItemSetupComponent implements OnInit {
           'cfCellSize' : result
         });
       }
+    }
 
 
     })
   }
   public openVelocityCodeDialog(param) {
+    let currentValue="";
+    if(param == 'goldenZone'){
+      currentValue  = this.itemSetup.controls['goldenZone'].value
+    } else if(param == 'bulkVelocity'){
+      currentValue  = this.itemSetup.controls['bulkVelocity'].value
+    } else if(param == 'cfVelocity'){
+      currentValue  = this.itemSetup.controls['cfVelocity'].value
+    }
+    
     let dialogRef = this.dialog.open(VelocityCodeComponent, {
-      height: '500px',
+      height: 'auto',
       width: '750px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: '',
+        vc: currentValue
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-  
+      if(result){
       if(param == 'goldenZone'){
         this.itemSetup.patchValue({
           'goldenZone' : result
@@ -73,7 +95,22 @@ export class ItemSetupComponent implements OnInit {
         });
       }
 
+    }
     })
+
+    
   }
+
+
+  cellQuantityChange(){
+    if(this.itemSetup.controls['maximumQuantity'].value < this.itemSetup.controls['minimumQuantity'].value){
+      this.itemSetup.controls['minimumQuantity'].setValue(this.itemSetup.controls['maximumQuantity'].value);
+    } else if(this.itemSetup.controls['bulkMaximumQuantity'].value < this.itemSetup.controls['bulkMinimumQuantity'].value){
+      this.itemSetup.controls['bulkMinimumQuantity'].setValue(this.itemSetup.controls['bulkMaximumQuantity'].value)
+    }  else    if(this.itemSetup.controls['cfMaximumQuantity'].value < this.itemSetup.controls['cfMinimumQuantity'].value){
+      this.itemSetup.controls['cfMinimumQuantity'].setValue(this.itemSetup.controls['cfMaximumQuantity'].value)
+    } 
+  }
+
 
 }

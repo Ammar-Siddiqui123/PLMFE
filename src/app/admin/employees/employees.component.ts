@@ -1,14 +1,14 @@
 import { AfterViewInit, Component, OnInit, ViewChild, Inject, Input } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { EmployeeService } from 'src/app/employee.service';
 import { AdminEmployeeLookupResponse, EmployeeObject, IEmployee } from 'src/app/Iemployee';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog ,MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AddNewEmployeeComponent } from '../dialogs/add-new-employee/add-new-employee.component';
 import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/delete-confirmation.component';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
@@ -23,6 +23,7 @@ import { GroupAllowedComponent } from '../dialogs/group-allowed/group-allowed.co
 import { CloneGroupComponent } from '../dialogs/clone-group/clone-group.component';
 import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
+import { SpinnerService } from '../../../app/init/spinner.service';
 
 export interface location {
   start_location: string;
@@ -72,6 +73,9 @@ export class EmployeesComponent implements OnInit {
   grp_data:any;
   public demo1TabIndex = 0;
   public userData;
+  public updateGrpTable;
+  empForm: FormGroup;
+  @ViewChild('zoneDataRefresh', { static: true,read:MatTable }) zoneDataRefresh;
 
 
 
@@ -81,7 +85,16 @@ export class EmployeesComponent implements OnInit {
   groupsColumns: string[] = ['groups', 'actions'];
 
 
-  constructor(private authService: AuthService,private _liveAnnouncer: LiveAnnouncer, private employeeService: EmployeeService, private dialog: MatDialog,private toastr: ToastrService, public router: Router) { 
+  constructor(
+    private authService: AuthService,
+    private _liveAnnouncer: LiveAnnouncer, 
+    private employeeService: EmployeeService, 
+    private dialog: MatDialog,
+    private toastr: ToastrService, 
+    public router: Router,
+    public laoder: SpinnerService,
+    private fb: FormBuilder
+    ) { 
     // console.log(router.url);
   }
 
@@ -101,16 +114,30 @@ getgroupAllowedList(){
   this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
    // this.groupAllowedList = res.data;
     this.groupAllowedList = new MatTableDataSource(res.data);
-    this.groupAllowedList.filterPredicate = (data: String, filter: string) => {
-      return data.toLowerCase().includes(filter.trim().toLowerCase());
-  };
+  //   this.groupAllowedList.filterPredicate = (data: any, filter: string) => {
+  //     return data.toLowerCase().includes(filter.trim().toLowerCase());
+  // };
   }) 
+}
+
+initialzeEmpForm() {
+  this.empForm = this.fb.group({
+    mi: this.empData.mi,
+    firstName: this.empData.firstName,
+    lastName: this.empData.lastName,
+    username: this.empData.username,
+    password: this.empData.password,
+    emailAddress: this.empData.emailAddress,
+    accessLevel: this.empData.accessLevel,
+    active:this.empData.active,
+    maximumOrders:this.max_orders
+  });
 }
   updateIsLookUp(event: any) {
     this.empData = {};
     this.empData = event.userData;
     this.isLookUp = event;
-    console.log(event.userData?.username);
+    // console.log(event.userData?.username);
     this.grp_data = event.userData?.username
 
     this.max_orders = event.userData.maximumOrders;
@@ -118,7 +145,7 @@ getgroupAllowedList(){
       "userName": event.userData?.username,
       "wsid": "TESTWSID"
     };
-    // console.log(emp_data)
+ 
     this.employeeService.getAdminEmployeeDetails(emp_data)
       .subscribe((response: any) => {
         // console.log(response);
@@ -132,15 +159,9 @@ getgroupAllowedList(){
           return data.toLowerCase().includes(filter.trim().toLowerCase());
       };
         this.emp_all_zones = response.data?.allZones;
+        this.getgroupAllowedList();
       });
-      this.getgroupAllowedList();
-      
-      // this.employeeService.getEmployeeData(emp_data).subscribe((res:any) => {
-      //   this.groupAllowedList = new MatTableDataSource(res.data?.allGroups);
-      //   this.groupAllowedList.filterPredicate = (data: String, filter: string) => {
-      //     return data.toLowerCase().includes(filter.trim().toLowerCase());
-      // };
-      // })
+
 
 
   }
@@ -245,6 +266,7 @@ getgroupAllowedList(){
     );
 
    this.env =  JSON.parse(localStorage.getItem('env') || '');
+   this.initialzeEmpForm();
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -268,14 +290,17 @@ getgroupAllowedList(){
     if (event === 'edit') {
       let dialogRef = this.dialog.open(AddNewEmployeeComponent, {
         height: 'auto',
-        width: '480px',
+        width: '520px',
+        autoFocus: '__non_existing_element__',
         data: {
           mode: 'edit',
           emp_data: emp_data
         }
       })
       dialogRef.afterClosed().subscribe(result => {
-        this.isLookUp = false;
+        if(result.data){
+          this.empData = result.data;
+        }
         const matSelect: MatSelect = matEvent.source;
         matSelect.writeValue(null);
       })
@@ -284,6 +309,7 @@ getgroupAllowedList(){
       let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
         width: '480px',
+        autoFocus: '__non_existing_element__',
         data: {
           mode: 'delete-emp',
           emp_data: emp_data
@@ -293,20 +319,27 @@ getgroupAllowedList(){
         this.isLookUp = false;
         const matSelect: MatSelect = matEvent.source;
         matSelect.writeValue(null);
+        this.backEmpAction();
       })
     }
-    // if (event === 'back') {
-    //   this.isLookUp = false;
-    //   this.employee_fetched_zones = [];
-    //   this.location_data_source = [];
-    //   this.max_orders = '';
-    //   const matSelect: MatSelect = matEvent.source;
-    //   matSelect.writeValue(null);
-
-    // }
 
 
   }
+
+  openGroupDialog() {
+    let dialogRef = this.dialog.open(AddNewGroupComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      this.updateGrpTable = result.groupName;
+      // this.loadEmpData();
+    })
+
+  }
+  
   backEmpAction(){
     this.isLookUp = false;
       this.employee_fetched_zones = [];
@@ -321,6 +354,7 @@ getgroupAllowedList(){
       let dialogRef = this.dialog.open(AddNewGroupComponent, {
         height: 'auto',
         width: '480px',
+        autoFocus: '__non_existing_element__',
         data: {
           mode: 'edit',
           grp_data: grp_data
@@ -338,6 +372,7 @@ getgroupAllowedList(){
       let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
         width: '480px',
+        autoFocus: '__non_existing_element__',
         data: {
           mode: 'delete-group',
           grp_data: grp_data,
@@ -355,6 +390,7 @@ getgroupAllowedList(){
       let dialogRef = this.dialog.open(CloneGroupComponent, {
         height: 'auto',
         width: '480px',
+        autoFocus: '__non_existing_element__',
         data: {
           mode: 'clone',
           grp_data: grp_data
@@ -382,15 +418,18 @@ getgroupAllowedList(){
     const dialogRef = this.dialog.open(AddZoneComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         allZones: this.emp_all_zones,
         userName: this.grp_data
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Added Succesfully!');
-      this.reloadData();
-
+      if(result.mode === 'addZone'){
+        this.employee_fetched_zones.filteredData.push(result.data.zone)
+        this.zoneDataRefresh.renderRows()
+      }
+      // this.reloadData();
     })
   }
 
@@ -398,6 +437,7 @@ getgroupAllowedList(){
    const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-zone',
         zone: zone,
@@ -410,18 +450,95 @@ getgroupAllowedList(){
     })
 
   }
+  editZoneDialog(zone: any) {
+   const dialogRef =  this.dialog.open(AddZoneComponent, {
+      height: 'auto',
+      width: '480px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        mode: 'edit-zone',
+        zone: zone,
+        allZones: this.emp_all_zones,
+        userName:this.grp_data
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      // this.reloadData();
+      console.log(result);
+      
+      if(result.mode === 'editZone'){
+        this.employee_fetched_zones.filteredData.push(result.data.zone)
+        const index = this.employee_fetched_zones.filteredData.indexOf(result.oldZone);
+        if (index > -1) { 
+          this.employee_fetched_zones.filteredData.splice(index, 1);
+        }
+        // console.log(this.employee_fetched_zones.filteredData);
+        this.zoneDataRefresh.renderRows();
+      }
+
+    })
+
+  }
+
+  saveMaximumOrders(){
+    this.initialzeEmpForm();
+    this.empForm.removeControl('password');
+    this.empForm.value.wsid = "TESTWID";
+    this.empForm.value.username = this.empData.username;
+    this.empForm.value.groupName = "";
+      this.employeeService.updateAdminEmployee(this.empForm.value).subscribe((res: any) => {
+        if (res.isExecuted) 
+        {
+          this.toastr.success(labels.alert.update, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+        else 
+        {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
+
+
+
+  }
+
+  openDialog() {
+    let dialogRef = this.dialog.open(AddNewEmployeeComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+        if (result !== undefined) {
+            if (result !== 'no') {
+              const enabled = "Y"
+                console.log(result);
+            } else if (result === 'no') {
+               console.log('User clicked no.');
+            }
+        }
+    })
+}
 
   addLocationDialog() {
     let dialogRef;
     dialogRef = this.dialog.open(AddLocationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         userName:this.grp_data
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      this.reloadData();
+      if(result === 'add'){
+        this.reloadData();
+      }
     })
   }
 
@@ -430,13 +547,16 @@ getgroupAllowedList(){
     dialogRef = this.dialog.open(AddLocationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         userName:this.grp_data,
         locationData: element
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      this.reloadData();
+      if(result === 'update'){
+        this.reloadData();
+      }
     })
   }
 
@@ -445,6 +565,7 @@ getgroupAllowedList(){
     dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-location',
         location: location,
@@ -460,12 +581,14 @@ getgroupAllowedList(){
     this.dialog.open(AddGroupAllowedComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
     })
   }
   grpAllowedDialog() {
    const  dialogRef = this.dialog.open(GroupAllowedComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data:{
         grp_data:this.grp_data
       }
@@ -481,6 +604,7 @@ getgroupAllowedList(){
     const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-allowed-group',
         allowedGroup: allowedGroup,
@@ -497,6 +621,7 @@ getgroupAllowedList(){
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
+      autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-grpallowed',
         allowedGroup: allowedGroup
@@ -514,7 +639,7 @@ getgroupAllowedList(){
 
   groupAllowedFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.groupAllowedList.filter = filterValue;
+    this.groupAllowedList.filter = filterValue.trim().toLowerCase();
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

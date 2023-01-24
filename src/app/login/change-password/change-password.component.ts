@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LoginService } from '../../../app/login.service';
@@ -41,10 +41,9 @@ export class ChangePasswordComponent implements OnInit {
       "newpassword":form.value.new_password   
     }
     this.loginService.changePassword(payload).subscribe((res) => {
-      console.log(res);
       const { isExecuted, responseMessage } = res;
       if(isExecuted){
-        this.toastr.success(labels.alert.success, 'Success!', {
+        this.toastr.success(labels.alert.update, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
