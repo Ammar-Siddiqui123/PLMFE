@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import { ColumnSequenceService } from './column-sequence.service';
 import labels from '../../../labels/labels.json';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-column-sequence-dialog',
@@ -12,6 +13,10 @@ import labels from '../../../labels/labels.json';
   styleUrls: ['./column-sequence-dialog.component.scss'],
 })
 export class ColumnSequenceDialogComponent implements OnInit {
+  todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
+
+  done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
+
   dialogData;
   payload;
   unorderedCol: any = [];
@@ -31,11 +36,23 @@ export class ColumnSequenceDialogComponent implements OnInit {
     this.initializePayload(this.dialogData.tableName);
     this.getColumnsSeqDetail();
   }
-  addArr(col, index) {
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
+  }
+  addArr(index) {
     this.defaultCol.push(...this.unorderedCol.splice(index, 1));
   }
 
-  remove(col, index) {
+  remove( index) {
     this.unorderedCol.push(...this.defaultCol.splice(index, 1));
   }
 
@@ -44,7 +61,7 @@ export class ColumnSequenceDialogComponent implements OnInit {
     console.log('defaultCol', this.defaultCol);
 
     this.payload.columns = this.defaultCol;
-    this.dialogRef.close({ isExecuted: true });
+    // this.dialogRef.close({ isExecuted: true });
   }
 
   initializePayload(tableName) {

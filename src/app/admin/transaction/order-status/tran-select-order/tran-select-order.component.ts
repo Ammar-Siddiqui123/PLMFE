@@ -18,6 +18,7 @@ export class TranSelectOrderComponent implements OnInit {
   reprocessOrder: any = 0;
   orderTypeOrder: any = 'not available';
   totalLinesOrder: any = 0;
+  locationZoneData: any = [];
 
   searchByOrderNumber = new Subject<string>();
   searchByToteId = new Subject<string>();

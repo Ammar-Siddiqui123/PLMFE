@@ -11,8 +11,9 @@ export class OrderStatusComponent implements OnInit {
   openOrderEvent: Event;
   completeOrderEvent: Event;
   reprocessOrderEvent: Event;
- orderTypeOrderEvent: Event;
- totalLinesOrderEvent: Event;
+  orderTypeOrderEvent: Event;
+  totalLinesOrderEvent: Event;
+  locationZonesEvent: Event;
 
   constructor() {}
   orderNoChange(event: Event) {
@@ -37,6 +38,9 @@ export class OrderStatusComponent implements OnInit {
   totalLinesOrderChange(event: Event) {
     this.totalLinesOrderEvent = event;
   }
-  
+  locationZones(event: Event) {
+    alert(event)
+    this.locationZonesEvent = event;
+  }
   ngOnInit(): void {}
 }

@@ -528,7 +528,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
         },
       })
       dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-       if(result.isExecuted){
+       if(result && result.isExecuted){
         // this.getColumnsData()
        }
       })

@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,6 +17,7 @@ const ELEMENT_DATA: any[] = [
 })
 export class TranCarouselLzoneComponent implements OnInit, AfterViewInit {
   public columnValues: any = [];
+  public locationZonesData: any = [];
   dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
   displayedColumns: string[] = [
     'Zone',
@@ -47,6 +48,13 @@ export class TranCarouselLzoneComponent implements OnInit, AfterViewInit {
     columnName: 32,
     sortOrder: 'asc',
   };
+
+  @Input() set locationZonesEvent(event: Event) {
+    if (event) {
+      alert(event)
+      this.locationZonesData = event;
+    }
+  }
   constructor(private router: Router, private seqColumn: SetColumnSeqService) {
     if (this.router.getCurrentNavigation()?.extras?.state?.['searchValue']) {
       this.columnSearch.searchValue =
