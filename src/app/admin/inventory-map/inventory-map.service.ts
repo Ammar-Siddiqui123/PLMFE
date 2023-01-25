@@ -1,6 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
+import { BYPASS_LOG } from '../../../app/init/http-interceptor';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -87,7 +88,8 @@ export class InventoryMapService {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
         'Authorization': 'Basic '
-      })
+      }),
+      context: new HttpContext().set(BYPASS_LOG, true)
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/GetTypeAheadInventoryMap`, reqPaylaod,httpOptions);
   }

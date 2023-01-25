@@ -64,7 +64,12 @@ export class AddInvMapLocationComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   filteredItemNum: Observable<any[]>;
   itemDescription: any;
-  locationNumber: any;
+  autoFillLocNumber: any = '';
+  zone = '';
+  carousel = '';
+  row  = '';
+  shelf = '';
+  bin = '';
 
   getDetailInventoryMapData: InventoryMapDataStructure = {
     invMapID: '',
@@ -130,6 +135,12 @@ export class AddInvMapLocationComponent implements OnInit {
     this.userData = this.authService.userData();
     if (this.data.detailData) {
       this.getDetailInventoryMapData = this.data.detailData;
+      this.zone = this.getDetailInventoryMapData.zone
+      this.carousel = this.getDetailInventoryMapData.carousel
+      this.row = this.getDetailInventoryMapData.row
+      this.shelf = this.getDetailInventoryMapData.shelf
+      this.bin = this.getDetailInventoryMapData.bin
+      this.updateItemNumber();
       this.initializeDataSet();
     } else {
       this.initializeDataSet();
@@ -321,6 +332,7 @@ export class AddInvMapLocationComponent implements OnInit {
   loadZones(zone: any) {
     this.zoneList = this.locZoneList.filter(option => option.locationName.includes(zone.option.value));
     this.addInvMapLocation.controls['zone'].setValue(this.zoneList[0].zone);
+    this.updateItemNumber('zone', this.zoneList[0].zone);
 
   }
   loadItemDetails(item: any) {
@@ -339,11 +351,24 @@ export class AddInvMapLocationComponent implements OnInit {
     // });
   }
 
-  updateItemNumber() {
-    console.log(this.addInvMapLocation.controls['zone'].value);
-    if(this.addInvMapLocation.controls['zone'].value){
-      // this.locationNumber += 
+  updateItemNumber(col?:string, val?:any) {
+    
+    if(col === 'zone'){
+      this.zone = val.toString();
     }
+    if(col === 'carousel'){
+      this.carousel = val.toString();
+    }
+    if(col === 'row'){
+      this.row = val.toString();
+    }
+    if(col === 'shelf'){
+      this.shelf = val.toString();
+    }
+    if(col === 'bin'){
+      this.bin = val.toString();
+    }
+    this.autoFillLocNumber = this.zone + this.carousel + this.row + this.shelf + this.bin;
   }
 
 
