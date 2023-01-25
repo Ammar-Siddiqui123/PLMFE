@@ -1,0 +1,73 @@
+<mat-card class="mat-elevation-z g-card br-14 mb-4 h-100">
+    <mat-card-content>
+        <h2 class="card-header-title mb-0 d-flex align-items-center mb-3">
+            <div style="cursor:pointer;" class="mat-icon-wrap me-lg-3 ">
+                
+                <span  class="material-symbols-outlined ">
+                    arrow_back
+                </span>
+            </div>
+            <div class="mat-icon-wrap me-lg-3">
+                <span class="material-symbols-outlined">
+                    filter_list
+                </span>
+            </div>
+            <span>Filters</span>
+        </h2>
+        <div class="row align-items-center mb-3">
+            <div class="col-md-4 ">
+                <div class="row align-items-center mb-3">
+                    Transaction Type
+               
+                </div>
+                <div class="row">
+                    <div class="col-md-4 ">
+                        <mat-radio-button  color="primary" >
+                            Non-Reel
+                        </mat-radio-button>
+                    </div>
+                    <div class="col-md-4 ">
+                        <mat-radio-button  color="primary" >
+                            Reel
+                        </mat-radio-button>
+                    </div>
+
+                    <div class="col-md-4 ">
+                        <mat-radio-button  color="primary" >
+                            Both
+                        </mat-radio-button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
+                    <mat-label>Enter Filter Type</mat-label>
+                    <mat-select>
+                   
+                        <mat-option>
+                            order number
+                        </mat-option>
+                        <mat-option>
+                            Tote Id.
+                        </mat-option>
+                    </mat-select>
+                    <span class="material-symbols-outlined icon-expand-more">
+                        expand_more
+                    </span>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+                <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
+                    <mat-label>Order Number</mat-label>
+                    <input matInput type="text">
+                </mat-form-field>
+            </div>
+        </div>
+     
+
+    </mat-card-content>
+
+</mat-card>

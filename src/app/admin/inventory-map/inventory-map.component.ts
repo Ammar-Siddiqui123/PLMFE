@@ -201,6 +201,7 @@ export class InventoryMapComponent implements OnInit {
 
   getContentData(){
     this.invMapService.getInventoryMap(this.payload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
+    
       this.itemList =  res.data?.inventoryMaps?.map((arr => {
         return {'itemNumber': arr.itemNumber, 'desc': arr.description}
       }))
@@ -235,6 +236,7 @@ export class InventoryMapComponent implements OnInit {
         autoFocus: '__non_existing_element__',
         data: {
           mode: actionEvent.value,
+          tableName:'Inventory Map'
         }
       })
       dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
@@ -382,6 +384,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   searchData(){
+    
     if( this.columnSearch.searchColumn ||  this.columnSearch.searchColumn == '' ){
       this.initializeApi();
       this.getContentData();

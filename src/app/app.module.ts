@@ -46,6 +46,7 @@ import { HeaderInterceptor } from './init/header-interceptor.interceptor';
     MatCheckboxModule,
     MaterialModule,
     MatTableModule
+    
   ],
   providers: [
     LoginService, 
