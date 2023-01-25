@@ -52,7 +52,7 @@ export class VelocityCodeComponent implements OnInit {
     this.velocity_code_list_Res.forEach(element => {
       if(element == vlcode ) { 
         cond = false;
-       this.toastr.error('Already Exists', 'Error!', {
+       this.toastr.error('Velocity cannot be saved! Another velocity code matches the current. Please save any pending changes before attempting to save this entry.', 'Error!', {
          positionClass: 'toast-bottom-right',
          timeOut: 2000
        });

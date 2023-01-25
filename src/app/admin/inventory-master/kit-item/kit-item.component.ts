@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { InventoryMasterService } from '../inventory-master.service';
@@ -19,7 +19,11 @@ export class KitItemComponent implements OnInit, OnChanges {
   dialogitemNumber: any = '';
   dialogDescription: any = '';
   dialogitemNumberDisplay: any = '';
-  isFormFilled:boolean = false;
+  isFormFilled:any;
+  Ikey:any;
+  @ViewChild('namebutton', { read: ElementRef, static:false }) namebutton: ElementRef;
+
+
 
   searchValue: any = '';
   searchList: any;
@@ -36,7 +40,9 @@ export class KitItemComponent implements OnInit, OnChanges {
   constructor(private invMasterService: InventoryMasterService,
     private toastr: ToastrService,
     private authService: AuthService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private el: ElementRef
+    ) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
@@ -52,13 +58,16 @@ export class KitItemComponent implements OnInit, OnChanges {
 
   }
   addCatRow(e: any) {
-    this.kitItemsList.unshift({
+    this.Ikey =  this.kitItemsList.length;
+    this.kitItemsList.push({
       itemNumber: '',
       description: '',
       specialFeatures: '',
       kitQuantity: ''
+      
     })
-
+    console.log(this.kitItemsList);
+    
   }
 
   dltCategory(e: any) {
@@ -255,9 +264,31 @@ export class KitItemComponent implements OnInit, OnChanges {
   submitFunc(){
     this.dialogitemNumberDisplay = '';
   }
-  checkIfFilled(val: any, input?: any){
+  checkIfFilled(val: any, input?: any, index?:any){
+    //Work need to be continue from here
+    // console.log('kit_'+index);
+    // console.log(this.namebutton.nativeElement.classList);
+    
+    if(this.namebutton.nativeElement.classList.contains('kit_'+index)){
+      this.namebutton.nativeElement.disabled = false;
+      this.namebutton.nativeElement.classList.remove('mat-button-disabled')
+    }
+    if(this.namebutton.nativeElement.classList.contains('kit_push_'+index)){
+      console.log('kit_push_'+index);
+      // const myHtmlEl = document.getElementsByClassName('kit_push_'+index).item(0) as HTMLElement;
+      // myHtmlEl.removeAttribute('disabled');
+      
+      this.namebutton.nativeElement.disabled = false;
+      this.namebutton.nativeElement.classList.remove('mat-button-disabled')
+    }
+    // this.namebutton.nativeElement.classList.remove('mat-button-disabled')
+    // let myTag = this.el.nativeElement.querySelector("kit_"+index); 
+    // myTag.classList.remove('mat-button-disabled');
+
     if(input === 'kitQuantity'){
       if(val > 0){
+        console.log(index);
+        // console.log(val.target.dataset.index);
         this.isFormFilled = true;
       }
     }
@@ -265,12 +296,11 @@ export class KitItemComponent implements OnInit, OnChanges {
         this.isFormFilled = true;
     }
 
-    if(val.trim() !== ''){
+    if(val.toString().trim() !== ''){
       this.isFormFilled = true;
     } 
     else{
       this.isFormFilled = false;
-
     }  
   }
 
