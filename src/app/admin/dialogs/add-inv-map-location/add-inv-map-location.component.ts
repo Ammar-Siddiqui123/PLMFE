@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CellSizeComponent } from '../cell-size/cell-size.component';
 import { VelocityCodeComponent } from '../velocity-code/velocity-code.component';
 import { WarehouseComponent } from '../warehouse/warehouse.component';
@@ -116,7 +116,8 @@ export class AddInvMapLocationComponent implements OnInit {
     private invMapService: InvMapLocationService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public dialogRef: MatDialogRef<any>
   ) {
     if (data.mode == "addInvMapLocation") {
       this.headerLable = 'Add Location';
@@ -344,6 +345,12 @@ export class AddInvMapLocationComponent implements OnInit {
   //     this.locationNumber += 
   //   }
   // }
+
+
+
+  dialogClose(){
+    this.dialogRef.close('close');
+  }
 
 
 

@@ -224,7 +224,10 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-      this.getContentData();
+      if(result!='close'){
+        this.getContentData();
+      }
+        
     })
   }
   inventoryMapAction(actionEvent: any) {
@@ -278,7 +281,9 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-      this.getContentData();
+      if(result!='close'){
+        this.getContentData();
+      }
     })
   }
 
