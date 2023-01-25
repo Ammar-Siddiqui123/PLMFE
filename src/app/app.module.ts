@@ -20,12 +20,14 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { CustomHttpInterceptor } from './init/http-interceptor';
 import { ChangePasswordComponent } from './login/change-password/change-password.component';
 import { HeaderInterceptor } from './init/header-interceptor.interceptor';
+// import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ChangePasswordComponent,
+    // ActionDisableDirective,
 
   ],
   imports: [
@@ -44,6 +46,7 @@ import { HeaderInterceptor } from './init/header-interceptor.interceptor';
     MatCheckboxModule,
     MaterialModule,
     MatTableModule
+    
   ],
   providers: [
     LoginService, 

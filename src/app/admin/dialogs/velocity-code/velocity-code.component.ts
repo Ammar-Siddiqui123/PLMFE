@@ -1,9 +1,10 @@
 import { Component, OnInit , Inject, ViewChild, ElementRef } from '@angular/core';
-import { MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { VelocityCodeService } from '../../../../app/common/services/velocity-code.service';
 import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json'
+import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-velocity-code',
@@ -25,6 +26,7 @@ export class VelocityCodeComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<any>,
+    private dialog: MatDialog,
     ) { }
 
   ngOnInit(): void {
@@ -50,7 +52,7 @@ export class VelocityCodeComponent implements OnInit {
     this.velocity_code_list_Res.forEach(element => {
       if(element == vlcode ) { 
         cond = false;
-       this.toastr.error('Already Exists', 'Error!', {
+       this.toastr.error('Velocity cannot be saved! Another velocity code matches the current. Please save any pending changes before attempting to save this entry.', 'Error!', {
          positionClass: 'toast-bottom-right',
          timeOut: 2000
        });
@@ -78,21 +80,30 @@ export class VelocityCodeComponent implements OnInit {
   }
   dltVlCode(vlCode:any){
     if(vlCode){
-
-    let paylaod = {
-      "velocity": vlCode,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-    }
-    this.velcodeService.dltVelocityCode(paylaod).subscribe((res) => {
-      this.toastr.success(labels.alert.delete, 'Success!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
-
-      this.getVelocity();
-      
-    });
+      const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+        height: 'auto',
+        width: '480px',
+        autoFocus: '__non_existing_element__',
+      })
+      dialogRef.afterClosed().subscribe(result => {
+          if(result === 'Yes'){
+            let paylaod = {
+              "velocity": vlCode,
+              "username": this.userData.userName,
+              "wsid": this.userData.wsid,
+            }
+            this.velcodeService.dltVelocityCode(paylaod).subscribe((res) => {
+              this.toastr.success(labels.alert.delete, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+        
+              this.getVelocity();
+              
+            });
+          }
+      })
+    
   }  else {
     this.velocity_code_list.shift();
   }

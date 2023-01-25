@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CellSizeComponent } from '../cell-size/cell-size.component';
 import { VelocityCodeComponent } from '../velocity-code/velocity-code.component';
 import { WarehouseComponent } from '../warehouse/warehouse.component';
@@ -64,7 +64,12 @@ export class AddInvMapLocationComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   filteredItemNum: Observable<any[]>;
   itemDescription: any;
-  locationNumber: any;
+  autoFillLocNumber: any = '';
+  zone = '';
+  carousel = '';
+  row  = '';
+  shelf = '';
+  bin = '';
 
   getDetailInventoryMapData: InventoryMapDataStructure = {
     invMapID: '',
@@ -116,7 +121,8 @@ export class AddInvMapLocationComponent implements OnInit {
     private invMapService: InvMapLocationService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public dialogRef: MatDialogRef<any>
   ) {
     if (data.mode == "addInvMapLocation") {
       this.headerLable = 'Add Location';
@@ -130,6 +136,12 @@ export class AddInvMapLocationComponent implements OnInit {
     this.userData = this.authService.userData();
     if (this.data.detailData) {
       this.getDetailInventoryMapData = this.data.detailData;
+      this.zone = this.getDetailInventoryMapData.zone
+      this.carousel = this.getDetailInventoryMapData.carousel
+      this.row = this.getDetailInventoryMapData.row
+      this.shelf = this.getDetailInventoryMapData.shelf
+      this.bin = this.getDetailInventoryMapData.bin
+      this.updateItemNumber();
       this.initializeDataSet();
     } else {
       this.initializeDataSet();
@@ -183,8 +195,8 @@ export class AddInvMapLocationComponent implements OnInit {
       item: [this.getDetailInventoryMapData.itemNumber || '', [Validators.maxLength(50)]],
       itemQuantity: [this.getDetailInventoryMapData.itemQuantity || ''],
       description: [this.getDetailInventoryMapData.description || ''],
-      cell: [this.getDetailInventoryMapData.cellSize || '', Validators.required],
-      velocity: [this.getDetailInventoryMapData.goldenZone || '', [Validators.required, Validators.maxLength(9)]],
+      cell: [this.getDetailInventoryMapData.cellSize || ''],
+      velocity: [this.getDetailInventoryMapData.goldenZone || '', [ Validators.maxLength(9)]],
       maximumQuantity: [this.getDetailInventoryMapData.maximumQuantity || 0, [Validators.maxLength(9)]],
       dedicated: [this.getDetailInventoryMapData.dedicated || ''],
       //serialNumber: new FormControl(''),
@@ -321,6 +333,7 @@ export class AddInvMapLocationComponent implements OnInit {
   loadZones(zone: any) {
     this.zoneList = this.locZoneList.filter(option => option.locationName.includes(zone.option.value));
     this.addInvMapLocation.controls['zone'].setValue(this.zoneList[0].zone);
+    this.updateItemNumber('zone', this.zoneList[0].zone);
 
   }
   loadItemDetails(item: any) {
@@ -339,11 +352,31 @@ export class AddInvMapLocationComponent implements OnInit {
     // });
   }
 
-  // updateItemNumber() {
-  //   if(this.myForm.get('mycontrol').value){
-  //     this.locationNumber += 
-  //   }
-  // }
+  updateItemNumber(col?:string, val?:any) {
+    
+    if(col === 'zone'){
+      this.zone = val.toString();
+    }
+    if(col === 'carousel'){
+      this.carousel = val.toString();
+    }
+    if(col === 'row'){
+      this.row = val.toString();
+    }
+    if(col === 'shelf'){
+      this.shelf = val.toString();
+    }
+    if(col === 'bin'){
+      this.bin = val.toString();
+    }
+    this.autoFillLocNumber = this.zone + this.carousel + this.row + this.shelf + this.bin;
+  }
+
+
+
+  dialogClose(){
+    this.dialogRef.close('close');
+  }
 
 
 

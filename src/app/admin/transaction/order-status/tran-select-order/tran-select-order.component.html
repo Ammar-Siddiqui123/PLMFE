@@ -1,0 +1,271 @@
+<mat-card class="mat-elevation-z g-card br-14 mb-4 h-100">
+  <mat-card-content>
+    <div class="row align-items-center ">
+      <div class="col-md-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h2 class="card-header-title mb-0 d-flex align-items-center">
+              <div class="mat-icon-wrap me-lg-3">
+                <span class="material-symbols-outlined">
+                  filter_frames
+                </span>
+              </div>
+              <span>Select Order</span>
+            </h2>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="col-md-4">
+        <button mat-stroked-button color="warn" class="button-remove-all w-100 delete-button">
+          Delete
+        </button>
+      </div>
+    </div>
+
+
+    <div class="row align-items-center">
+      <div class="col-9">
+        <div class="d-flex gap-12 align-items-center">
+          <!-- <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
+            <mat-label>Order No.</mat-label>
+            <input  [(ngModel)]="orderNumber" (ngModelChange)="this.searchByOrderNumber.next($event)" matInput class="" value="" type="text" placeholder="search" aria-label="Number" matInput
+            
+          >
+        </mat-form-field> -->
+
+<!-- 
+        <mat-form-field class="action-dropdown" appearance="outline">
+          <mat-label>Item No.</mat-label>
+          <mat-select class="employees-action">
+              <mat-option value="Order Number">
+                Order No.
+              </mat-option>
+              <mat-option  value="Tote ID" >
+                Tote ID.
+              </mat-option>
+          </mat-select>
+          <span class="material-symbols-outlined icon-expand-more">
+              expand_more
+          </span>
+      </mat-form-field> -->
+
+        <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline" 
+        [floatLabel]="getFloatLabelValue()"
+        [hideRequiredMarker]="hideRequiredControl.value">
+        <span class="material-symbols-outlined icon-search">
+            search
+        </span>
+        <input type="text" placeholder="search" aria-label="Number" matInput
+        [(ngModel)]="orderNumber"  [matAutocomplete]="auto"
+        (ngModelChange)="this.searchByOrderNumber.next($event)" >
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()" >
+            <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
+                {{option}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+          <span class="v-br">-</span>
+          <div class="d-flex g-mini-search-box">
+            <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
+              <mat-label>Tote ID.</mat-label>
+              <input [(ngModel)]="toteID" (ngModelChange)="this.searchByToteId.next($event)" matInput class="" value="" type="text" type="text" placeholder="search" aria-label="Number" matInput
+              
+            >
+          </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <button mat-stroked-button appearance="outline" color="warn"
+          class="button-remove-all w-100 mat-button-base prompt-action-basic-button ">
+          Clear
+        </button>
+      </div>
+      <!-- <div class="col-4">
+
+                  <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
+                    <mat-label>Item No.</mat-label>
+                    <mat-select class="employees-action">
+                      <mat-option>
+                        1
+                      </mat-option>
+                    </mat-select>
+                    <span class="material-symbols-outlined icon-expand-more">
+                      expand_more
+                    </span>
+                  </mat-form-field>
+                  
+
+                </div>
+                <div class="col-1"><span class="v-br">-</span></div>
+                <div class="col-4">
+                  <div class="d-flex g-mini-search-box w-100">
+              
+
+
+                    <mat-form-field class="w-100 bg-white br-8" appearance="fill">
+                      <span class="material-symbols-outlined icon-search">
+                        search
+                      </span>
+                      <input type="text" placeholder="search" aria-label="Number" matInput>
+                    </mat-form-field>
+
+
+                  </div>
+
+                </div> -->
+      <!-- <div class="col-2">
+                  <button mat-stroked-button color="warn" class="button-remove-all w-100 delete-button">
+                    Delete
+                  </button>
+                </div> -->
+    </div>
+    <div class="row align-items-center mb-2">
+      <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center ">
+          <div>
+            <h2 class="card-header-title mb-0 mt-3 d-flex align-items-center">
+
+              <span>Lines</span>
+            </h2>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row d-flex justify-content-between align-items-center ">
+      <div class="col-md-4 ">
+        <div class="d-flex  ">
+          <mat-card class="mat-elevation-z g-card br-14  Compete-cart ">
+            <mat-card-content>
+              <div class="row">
+                <div class="col-12">
+                  Complete
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <strong>{{this.completeOrder}}</strong>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="d-flex ">
+          <mat-card class="mat-elevation-z g-card br-14  Reprocess-card ">
+            <mat-card-content>
+              <div class="row">
+                <div class="col-12">
+                  Re-process
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <strong>{{this.reprocessOrder}}</strong>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="d-flex  ">
+          <mat-card class="mat-elevation-z g-card br-14  Open-card">
+            <mat-card-content>
+              <div class="row">
+                <div class="col-12">
+                  Open
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <strong>{{this.openOrder}}</strong>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+
+        </div>
+      </div>
+    </div>
+    <div class="row d-flex mt-2">
+      <div class="col-md-4 ">
+        <div class="d-flex justify-content-between align-items-center  ">
+          <mat-card class="mat-elevation-z g-card br-14  Order-type ">
+            <mat-card-content>
+              <div class="row">
+                <div class="col-12">
+                  Order type
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                 <strong>{{this.orderTypeOrder}}</strong>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="d-flex justify-content-between align-items-center ">
+          <mat-card class="mat-elevation-z g-card br-14  Total-lines ">
+            <mat-card-content>
+              <div class="row">
+                <div class="col-12">
+                 Total-lines
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                <strong>{{this.totalLinesOrder}}</strong>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="d-flex justify-content-between align-items-center ">
+          <mat-card class="mat-elevation-z g-card br-14  Current-status ">
+            <mat-card-content>
+              <div class="row">
+                <div class="col-12">
+                  Current Status
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <strong>100</strong>  
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+
+        </div>
+      </div>
+    </div>
+
+
+  </mat-card-content>
+</mat-card>

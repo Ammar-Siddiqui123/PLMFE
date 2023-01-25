@@ -5,7 +5,7 @@
     <mat-icon class="close-icon">close</mat-icon>
 </button>
 </div>
-<div class="d-flex gap-12 my-4 justify-content-end" style="">
+<div class="d-flex gap-12 my-4 justify-content-end">
     <button mat-flat-button color="primary" class="add-icon-button" (click)="addwhRow($event)">
       <span class="material-symbols-outlined">
         add
@@ -38,11 +38,11 @@
                                     name="{{warehouse}}" value="{{warehouse}}">
                             </mat-form-field>
                             <div class="d-flex gap-12">
-                                <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveWareHouse(whname.value, warehouse)">
+                                <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveWareHouse(whname.value, warehouse)" actionDisable>
                                     <span class="material-symbols-outlined">save</span>
                                 </button>
                                 <button mat-flat-button color="warn" class="sm-icon-button"
-                                (click)="dltWareHouse(whname.value);">
+                                (click)="dltWareHouse(whname.value);" #inputEl>
                                 <span class="material-symbols-outlined">close</span>
                             </button>
                         

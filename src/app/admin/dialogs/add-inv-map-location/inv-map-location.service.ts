@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../../../../app/init/auth.service';
 import { environment } from '../../../../environments/environment';
+import { BYPASS_LOG } from '../../../../app/init/http-interceptor';
 
 
 @Injectable({
@@ -97,7 +98,8 @@ export class InvMapLocationService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic '
-      })
+      }),
+      context: new HttpContext().set(BYPASS_LOG, true)
     };
     return this.http.post<any>(`${environment.apiUrl}/Common/SearchItem`, query, httpOptions);
   }
