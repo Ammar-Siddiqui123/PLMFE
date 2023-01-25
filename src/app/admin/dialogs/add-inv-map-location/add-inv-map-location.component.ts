@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CellSizeComponent } from '../cell-size/cell-size.component';
 import { VelocityCodeComponent } from '../velocity-code/velocity-code.component';
 import { WarehouseComponent } from '../warehouse/warehouse.component';
@@ -121,7 +121,8 @@ export class AddInvMapLocationComponent implements OnInit {
     private invMapService: InvMapLocationService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public dialogRef: MatDialogRef<any>
   ) {
     if (data.mode == "addInvMapLocation") {
       this.headerLable = 'Add Location';
@@ -194,8 +195,8 @@ export class AddInvMapLocationComponent implements OnInit {
       item: [this.getDetailInventoryMapData.itemNumber || '', [Validators.maxLength(50)]],
       itemQuantity: [this.getDetailInventoryMapData.itemQuantity || ''],
       description: [this.getDetailInventoryMapData.description || ''],
-      cell: [this.getDetailInventoryMapData.cellSize || '', Validators.required],
-      velocity: [this.getDetailInventoryMapData.goldenZone || '', [Validators.required, Validators.maxLength(9)]],
+      cell: [this.getDetailInventoryMapData.cellSize || ''],
+      velocity: [this.getDetailInventoryMapData.goldenZone || '', [ Validators.maxLength(9)]],
       maximumQuantity: [this.getDetailInventoryMapData.maximumQuantity || 0, [Validators.maxLength(9)]],
       dedicated: [this.getDetailInventoryMapData.dedicated || ''],
       //serialNumber: new FormControl(''),
@@ -369,6 +370,12 @@ export class AddInvMapLocationComponent implements OnInit {
       this.bin = val.toString();
     }
     this.autoFillLocNumber = this.zone + this.carousel + this.row + this.shelf + this.bin;
+  }
+
+
+
+  dialogClose(){
+    this.dialogRef.close('close');
   }
 
 
