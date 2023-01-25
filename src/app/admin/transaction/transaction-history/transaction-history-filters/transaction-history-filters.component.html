@@ -1,0 +1,73 @@
+<div class="container-fluid p-0">
+
+    <!-- Filter Component to be separate-->
+    <mat-card class="mat-elevation-z g-card br-14 mb-4">
+        <mat-card-content>
+            <div class="row">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                        <h2 class="card-header-title mb-0 d-flex align-items-center">
+                            <div class="mat-icon-wrap me-lg-3">
+                                <span class="material-symbols-outlined">
+                                    filter_list
+                                </span>
+                            </div>
+                            <span>Filters</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-3">
+                    <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
+                        <mat-label>Import Date(Start)</mat-label>
+                        <input matInput [value]="sdate" [(ngModel)]="sdate" [matDatepicker]="start"
+                            (dateChange)="onDateChange($event.value)">
+                        <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle>
+                        <mat-datepicker #start></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class=" col-3">
+
+
+                    <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
+                        <mat-label>End Date</mat-label>
+                        <input  matInput [matDatepicker]="end"  [(ngModel)]="edate" (dateChange)="onEndDateChange($event.value)">
+                        <mat-datepicker-toggle matSuffix [for]="end" ngDefaultControl></mat-datepicker-toggle>
+                        <mat-datepicker #end></mat-datepicker>
+                    </mat-form-field>
+
+                </div>
+
+                <div class=" col-3">
+
+
+                    <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
+                        <mat-label>Order No.</mat-label>
+                        <input [(ngModel)]="orderNumber" matInput class="" value="" type="text" (ngModelChange)="this.searchByOrderNumber.next($event)" type="text" placeholder="search" aria-label="Number" matInput
+                        
+                      >
+                    </mat-form-field>
+                </div>
+
+                <div class="col-3 d-flex  justify-content-center  ">
+
+                    <button mat-flat-button class="button-primary-i button-sm w-100">
+
+                        <mat-label> Reset to Today's Date</mat-label>
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+
+        </mat-card-content>
+
+    </mat-card>
+    <!-- Filter Component End -->

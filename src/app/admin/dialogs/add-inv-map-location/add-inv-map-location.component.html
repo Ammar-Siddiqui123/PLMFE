@@ -63,7 +63,7 @@
                         <div class="col-6">
                             <mat-form-field class="d-block w-100 " appearance="outline" (click)="loadWarehouse()">
                                 <mat-label>Warehouse</mat-label>
-                                <input matInput formControlName="warehouse"   name="warehouse" readonly="true" >
+                                <input matInput formControlName="warehouse" name="warehouse" (change)="updateItemNumber()">
                                 <span matSuffix>
                                     <mat-icon style="color:#8B8BA3;">open_in_full</mat-icon>
                                 </span>
