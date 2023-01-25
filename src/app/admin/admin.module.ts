@@ -75,6 +75,28 @@ import { ToastrModule } from 'ngx-toastr';
 import { UpdateDescriptionComponent } from './dialogs/update-description/update-description.component';
 import { CreateBatchConfirmationComponent } from './dialogs/create-batch-confirmation/create-batch-confirmation.component';
 import { CreateBatchComponent } from './dialogs/create-batch/create-batch.component';
+import { TransactionComponent } from './transaction/transaction.component';
+import { OpenTransactionComponent } from './transaction/open-transaction/open-transaction.component';
+import { OpenTransactionFiltersComponent } from './transaction/open-transaction/open-transaction-filters/open-transaction-filters.component';
+import { OpenTransactionDataTableComponent } from './transaction/open-transaction/open-transaction-data-table/open-transaction-data-table.component';
+import { TransactionHistoryComponent } from './transaction/transaction-history/transaction-history.component';
+import { TransactionHistoryFiltersComponent } from './transaction/transaction-history/transaction-history-filters/transaction-history-filters.component';
+import { TransactionHistoryListComponent } from './transaction/transaction-history/transaction-history-list/transaction-history-list.component';
+import { OrderStatusComponent } from './transaction/order-status/order-status.component';
+import { TranSelectOrderComponent } from './transaction/order-status/tran-select-order/tran-select-order.component';
+import { TranCarouselLzoneComponent } from './transaction/order-status/tran-carousel-lzone/tran-carousel-lzone.component';
+import { TranOffCarouselLzoneComponent } from './transaction/order-status/tran-off-carousel-lzone/tran-off-carousel-lzone.component';
+import { TranOrderListComponent } from './transaction/order-status/tran-order-list/tran-order-list.component';
+import { OpenTransactionOnHoldComponent } from './transaction/open-transaction/open-transaction-on-hold/open-transaction-on-hold.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { DeleteConfirmationTransactionComponent } from './dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
+import { ReprocessedTransactionComponent } from './transaction/reprocessed-transaction/reprocessed-transaction.component';
+import { ReprocessTransactionComponent } from './transaction/reprocess-transaction/reprocess-transaction.component';
+import { TranInReprocessComponent } from './transaction/reprocess-transaction/tran-in-reprocess/tran-in-reprocess.component';
+import { ReprocessChoiceComponent } from './transaction/reprocess-transaction/reprocess-choice/reprocess-choice.component';
 import { ItemNumUpdateConfirmationComponent } from './dialogs/item-num-update-confirmation/item-num-update-confirmation.component';
 import { ScanTypeCodeComponent } from './dialogs/scan-type-code/scan-type-code.component';
 
@@ -150,6 +172,24 @@ import { ScanTypeCodeComponent } from './dialogs/scan-type-code/scan-type-code.c
     UpdateDescriptionComponent,
     CreateBatchConfirmationComponent,
     CreateBatchComponent,
+    TransactionComponent,
+    OpenTransactionComponent,
+    OpenTransactionFiltersComponent,
+    OpenTransactionDataTableComponent,
+    TransactionHistoryComponent,
+    TransactionHistoryFiltersComponent,
+    TransactionHistoryListComponent,
+    OrderStatusComponent,
+    TranSelectOrderComponent,
+    TranCarouselLzoneComponent,
+    TranOffCarouselLzoneComponent,
+    TranOrderListComponent,
+    OpenTransactionOnHoldComponent,
+    DeleteConfirmationTransactionComponent,
+    ReprocessedTransactionComponent,
+    ReprocessTransactionComponent,
+    TranInReprocessComponent,
+    ReprocessChoiceComponent,
     ItemNumUpdateConfirmationComponent,
     ScanTypeCodeComponent,
 
@@ -161,6 +201,10 @@ import { ScanTypeCodeComponent } from './dialogs/scan-type-code/scan-type-code.c
     GeneralModule,
     CdkTableModule,
     DragDropModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
     ToastrModule.forRoot({
       timeOut: 2000,
       extendedTimeOut: 0,

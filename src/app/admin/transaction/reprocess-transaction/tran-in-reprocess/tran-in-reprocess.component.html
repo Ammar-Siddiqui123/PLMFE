@@ -1,0 +1,128 @@
+<mat-card class="mat-elevation-z g-card br-14 mb-4 h-100">
+    <mat-card-content>
+        <h2 class="card-header-title mb-0 d-flex align-items-center mb-3">
+
+            <div class="mat-icon-wrap me-lg-3">
+                <span class="material-symbols-outlined">
+                    receipt
+                </span>
+            </div>
+            <span>Transactions in Reprocess</span>
+        </h2>
+        <div class="row align-items-center mb-2 ">
+            <div class="col-md-6">
+                <div class="row ">
+                    <div class="d-flex justify-content-between align-items-center ">
+                        <div>
+                            <h2 class="card-header-title mb-0 mt-3 d-flex align-items-center">
+
+                                <span>Records To View</span>
+                            </h2>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-4">
+                        <mat-radio-button color="primary">
+                            Reprocess
+                        </mat-radio-button>
+                    </div>
+                    <div class="col-4">
+                        <mat-radio-button color="primary">
+                            History
+                        </mat-radio-button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="d-flex justify-content-between align-items-center ">
+                        <div>
+                            <h2 class="card-header-title mb-0 mt-3 d-flex align-items-center">
+
+                                <span>Reason Filter</span>
+                            </h2>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-4">
+                        <mat-radio-button color="primary">
+                            None
+                        </mat-radio-button>
+                    </div>
+                    <div class="col-4"> <mat-radio-button color="primary">
+                            Hold
+                        </mat-radio-button></div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center">
+            <div class="col-6">
+                <div class="d-flex gap-12 align-items-center ">
+                    <mat-form-field class="action-dropdown w-100" appearance="outline">
+                        <mat-label>Item No.</mat-label>
+                        <mat-select class="employees-action">
+                            <mat-option>
+                                1
+                            </mat-option>
+                        </mat-select>
+                        <span class="material-symbols-outlined icon-expand-more">
+                            expand_more
+                        </span>
+                    </mat-form-field>
+
+
+                </div>
+            </div>
+
+
+            <div class="col-6">
+                <div class="d-flex g-mini-search-box w-100">
+
+                    <mat-form-field class="w-100 bg-white br-8" appearance="fill">
+                        <span class="material-symbols-outlined icon-search">
+                            search
+                        </span>
+                        <input type="text" placeholder="search" aria-label="Number" matInput [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option>
+                                2
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+
+                </div> 
+            </div>
+        </div>
+    </mat-card-content>
+
+</mat-card>
+<!-- 
+<span class="v-br">-</span>
+<div class="d-flex g-mini-search-box w-100">
+
+
+
+    <mat-form-field class="w-100 bg-white br-8" appearance="fill">
+        <span class="material-symbols-outlined icon-search">
+            search
+        </span>
+        <input type="text" placeholder="search" aria-label="Number" matInput
+            [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option>
+                2
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+
+</div> -->

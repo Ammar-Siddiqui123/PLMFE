@@ -339,11 +339,12 @@ export class AddInvMapLocationComponent implements OnInit {
     // });
   }
 
-  // updateItemNumber() {
-  //   if(this.myForm.get('mycontrol').value){
-  //     this.locationNumber += 
-  //   }
-  // }
+  updateItemNumber() {
+    console.log(this.addInvMapLocation.controls['zone'].value);
+    if(this.addInvMapLocation.controls['zone'].value){
+      // this.locationNumber += 
+    }
+  }
 
 
 

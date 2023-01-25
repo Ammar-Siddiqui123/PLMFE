@@ -7,8 +7,11 @@
 
     </div>
   </div>
+  <div class="container-fluid p-0">
+
+  
   <div class="row">
-    <div class="col-7">
+    <div class="col-7 ">
       <app-batch-order-list   [orderListData]="orderList" [displayedColumns]="displayOrderCols"
         (addOrderEmitter)="addRemoveOrder($event, 1)" (addRemoveAll)="addRemoveAllOrders('add')">
       </app-batch-order-list>
@@ -21,7 +24,7 @@
         (batchCreated)="batchCreated($event)"
         >
       </app-batch-selected-orders>
-
+    </div>
     </div>
  
 </div>
