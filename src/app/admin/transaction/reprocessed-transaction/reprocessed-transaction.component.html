@@ -16,9 +16,9 @@
 
                 <mat-form-field class="action-dropdown w-30" appearance="outline">
                     <mat-label>Action</mat-label>
-                    <mat-select class="employees-action" (selectionChange)="inventoryMapAction($event)"
+                    <mat-select class="employees-action" (selectionChange)="actionDialog($event)"
                     placeholder="Actions">
-                    <mat-option value="print">Print</mat-option>
+                    <!-- <mat-option value="print">Print</mat-option> -->
                     <mat-option value="set_column_sq">Set Column Sequence</mat-option>
                   </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">

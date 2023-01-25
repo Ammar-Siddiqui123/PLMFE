@@ -99,6 +99,7 @@ import { TranInReprocessComponent } from './transaction/reprocess-transaction/tr
 import { ReprocessChoiceComponent } from './transaction/reprocess-transaction/reprocess-choice/reprocess-choice.component';
 import { ItemNumUpdateConfirmationComponent } from './dialogs/item-num-update-confirmation/item-num-update-confirmation.component';
 import { ScanTypeCodeComponent } from './dialogs/scan-type-code/scan-type-code.component';
+import { ColumnSequenceDialogComponent } from './dialogs/column-sequence-dialog/column-sequence-dialog.component';
 
 
 
@@ -192,6 +193,7 @@ import { ScanTypeCodeComponent } from './dialogs/scan-type-code/scan-type-code.c
     ReprocessChoiceComponent,
     ItemNumUpdateConfirmationComponent,
     ScanTypeCodeComponent,
+    ColumnSequenceDialogComponent,
 
   ],
   imports: [

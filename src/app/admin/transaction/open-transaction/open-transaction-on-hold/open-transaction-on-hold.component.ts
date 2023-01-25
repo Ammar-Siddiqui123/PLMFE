@@ -28,6 +28,7 @@ import { TransactionService } from '../../transaction.service';
 import { DeleteConfirmationTransactionComponent } from 'src/app/admin/dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
 import { SetColumnSeqComponent } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.component';
 import { FloatLabelType } from '@angular/material/form-field';
+import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
 
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
@@ -518,14 +519,19 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   /*End of table functions */
   actionDialog(event) {
     if (event == 'set_column_sq') {
-      let dialogRef = this.dialog.open(SetColumnSeqComponent, {
+      let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: '700px',
-        width: '600px',
+        width: '900px',
         data: {
           mode: event,
           tableName: 'Open Transactions',
         },
-      });
+      })
+      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+       if(result.isExecuted){
+        // this.getColumnsData()
+       }
+      })
     }
   }
 
