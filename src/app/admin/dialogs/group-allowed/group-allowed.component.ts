@@ -41,7 +41,7 @@ export class GroupAllowedComponent implements OnInit {
 
   ngOnInit(): void {
     this.controlNameForm = this.fb.group({
-      controlName: ['', [Validators.required,this.cusValidator.specialCharValidator]]
+      controlName: ['', [Validators.required,this.cusValidator.specialCharValidatorExceptSlash]]
     })
     this.userData = this.authService.userData();
     let payload = {
@@ -70,6 +70,30 @@ export class GroupAllowedComponent implements OnInit {
     result =  this.controlNameList.filter(option => option.groupName.toLowerCase().includes(filterValue));
     this.isValid = result.length > 0;
     return result;
+  }
+  alphaNumberOnly(string:any) {
+    // const regex = "^[a-zA-Z0-9_-]*$";
+    const regex = "^[a-zA-Z0-9_//][a-zA-Z0-9_// ]*[a-zA-Z0-9_//]$";
+    //^[a-zA-Z0-9_][a-zA-Z0-9_ ]*[a-zA-Z0-9_]$
+    if(string.match(regex)){
+      return true;
+    }
+      return false;
+  }
+  checkIfValid(input:string){
+    if(this.GroupName.trim() === ''){
+      this.isValid = true;
+    }
+    else{
+      this.isValid =  false;
+      if(this.alphaNumberOnly(input)){
+        this.isValid = false;
+      }
+      else{
+        this.isValid = true;
+      }
+      
+    }
   }
   onSend(form: any) {
     // console.log(this.data.grp_data);

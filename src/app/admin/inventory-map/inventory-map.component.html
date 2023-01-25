@@ -21,6 +21,7 @@
                   <!-- <mat-label>Select</mat-label> -->
                   <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn"
                     (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()" [compareWith]="compareObjects" placeholder="Select">
+                    <mat-option></mat-option>
                     <mat-option *ngFor="let item of displayedColumns" [value]="item">
                       {{item.colDef}}
                     </mat-option>
@@ -127,8 +128,8 @@ filter_list
                     <button *ngIf="seletedRecord.warehouse == 'Quarantine'" mat-menu-item
                       (click)="unQuarantine(seletedRecord)">Unquarantine</button>
                     <button mat-menu-item (click)="adjustQuantity(seletedRecord)">Adjust Quantity</button>
-                    <button mat-menu-item (click)="viewInInventoryMaster()">View in Inventory Master</button>
-                    <button mat-menu-item (click)="viewLocationHistory()">View location history</button>
+                    <button mat-menu-item (click)="viewInInventoryMaster()">View item in Inventory Master</button>
+                    <button mat-menu-item (click)="viewLocationHistory()">View Location History</button>
                   </mat-menu>
 
                 </td>

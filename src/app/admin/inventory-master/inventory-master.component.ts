@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../../app/init/auth.service';
 import { InventoryMasterService } from './inventory-master.service';
@@ -43,6 +43,7 @@ export class InventoryMasterComponent implements OnInit {
   public totalPicks: any;
   public totalPuts: any;
   public wipCount: any;
+  public append: any;
   constructor(
     private invMasterService: InventoryMasterService, 
     private authService: AuthService, 
@@ -57,6 +58,10 @@ export class InventoryMasterComponent implements OnInit {
   @ViewChild('propertiesChanged') propertiesChanged: TemplateRef<any>;
   invMaster: FormGroup;
 
+  @HostListener('window:scroll', ['$event']) // for window scroll events
+  onScroll(event) {
+    alert();
+  }
 
 
   ngOnInit(): void {
@@ -110,6 +115,9 @@ export class InventoryMasterComponent implements OnInit {
       cfCellSize: [ this.getInvMasterData?.cfCellSize , [Validators.maxLength(50)]],
 
       goldenZone: [  this.getInvMasterData?.goldenZone || ""],
+      bulkGoldZone: [  this.getInvMasterData?.bulkGoldZone || ""],
+      CfGoldZone: [  this.getInvMasterData?.CfGoldZone || ""],
+      
       bulkVelocity: [  this.getInvMasterData?.bulkVelocity ],
       cfVelocity: [  this.getInvMasterData?.cfVelocity ],
 
@@ -296,6 +304,8 @@ export class InventoryMasterComponent implements OnInit {
 
   public updateInventoryMaster() {
 
+    
+    console.log(this.invMaster.value);
     
     this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
       if(res.isExecuted){
@@ -713,6 +723,10 @@ export class InventoryMasterComponent implements OnInit {
   })
   }
 
+  checkCheckBoxvalue(event){
+    this.append = event.checked;
+  }
+
   unquarantineDialog(): void {
     const dialogRef = this.dialog.open(this.unquarantineTemp, {
       width: '450px',
@@ -722,7 +736,7 @@ export class InventoryMasterComponent implements OnInit {
       if(x){
         let paylaod = {
           "itemNumber": this.currentPageItemNo,
-          "append": true,
+          "append": this.append,
           "username": this.userData.userName,
           "wsid": this.userData.wsid
         }

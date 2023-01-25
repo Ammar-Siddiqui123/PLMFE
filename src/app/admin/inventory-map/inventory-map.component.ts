@@ -183,11 +183,11 @@ export class InventoryMapComponent implements OnInit {
    }
   }
   getColumnsData(){
-    this.seqColumn.getSetColumnSeq().pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
+    this.invMapService.getSetColumnSeq( this.userData.userName,this.userData.wsid).pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
       this.displayedColumns = INVMAP_DATA;
 
-      if(res?.data?.columnSequence){
-        this.columnValues =  res.data?.columnSequence ;
+      if(res.data){
+        this.columnValues =  res.data;
         this.columnValues.push('actions');
         this.getContentData();
       } else {
@@ -373,7 +373,9 @@ export class InventoryMapComponent implements OnInit {
   }
 
   searchColumn(){
+    this.searchAutocompleteList = [];
     if(this.columnSearch.searchValue){
+      this.columnSearch.searchValue = '';
       this.initializeApi();
       this.getContentData();
     }

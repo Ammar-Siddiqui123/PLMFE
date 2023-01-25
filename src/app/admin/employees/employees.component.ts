@@ -3,12 +3,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { EmployeeService } from 'src/app/employee.service';
 import { AdminEmployeeLookupResponse, EmployeeObject, IEmployee } from 'src/app/Iemployee';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog ,MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AddNewEmployeeComponent } from '../dialogs/add-new-employee/add-new-employee.component';
 import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/delete-confirmation.component';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
@@ -74,6 +74,7 @@ export class EmployeesComponent implements OnInit {
   public demo1TabIndex = 0;
   public userData;
   public updateGrpTable;
+  empForm: FormGroup;
   @ViewChild('zoneDataRefresh', { static: true,read:MatTable }) zoneDataRefresh;
 
 
@@ -91,7 +92,8 @@ export class EmployeesComponent implements OnInit {
     private dialog: MatDialog,
     private toastr: ToastrService, 
     public router: Router,
-    public laoder: SpinnerService
+    public laoder: SpinnerService,
+    private fb: FormBuilder
     ) { 
     // console.log(router.url);
   }
@@ -116,6 +118,20 @@ getgroupAllowedList(){
   //     return data.toLowerCase().includes(filter.trim().toLowerCase());
   // };
   }) 
+}
+
+initialzeEmpForm() {
+  this.empForm = this.fb.group({
+    mi: this.empData.mi,
+    firstName: this.empData.firstName,
+    lastName: this.empData.lastName,
+    username: this.empData.username,
+    password: this.empData.password,
+    emailAddress: this.empData.emailAddress,
+    accessLevel: this.empData.accessLevel,
+    active:this.empData.active,
+    maximumOrders:this.max_orders
+  });
 }
   updateIsLookUp(event: any) {
     this.empData = {};
@@ -250,6 +266,7 @@ getgroupAllowedList(){
     );
 
    this.env =  JSON.parse(localStorage.getItem('env') || '');
+   this.initialzeEmpForm();
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -460,6 +477,33 @@ getgroupAllowedList(){
       }
 
     })
+
+  }
+
+  saveMaximumOrders(){
+    this.initialzeEmpForm();
+    this.empForm.removeControl('password');
+    this.empForm.value.wsid = "TESTWID";
+    this.empForm.value.username = this.empData.username;
+    this.empForm.value.groupName = "";
+      this.employeeService.updateAdminEmployee(this.empForm.value).subscribe((res: any) => {
+        if (res.isExecuted) 
+        {
+          this.toastr.success(labels.alert.update, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+        else 
+        {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
+
+
 
   }
 

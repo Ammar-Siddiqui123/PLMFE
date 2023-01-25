@@ -94,16 +94,16 @@
                 <mat-tab label="Location">
                   <app-location [location]="invMaster" (notifyParent)="getNotification($event)"></app-location>
                 </mat-tab>
-                <mat-tab label="Reel Tracking">
+                <mat-tab label="Reel Tracking" [disabled]="true">
                   <app-reel-tracking [reelTracking]="invMaster"></app-reel-tracking>
                 </mat-tab>
                 <mat-tab label="Scan  Codes">
                   <app-scan-codes [scanCodes]="invMaster"></app-scan-codes>
                 </mat-tab>
-                <mat-tab label="Weigh Scale">
+                <mat-tab label="Weigh Scale" [disabled]="true">
                   <app-weight-scale [weighScale]="invMaster"></app-weight-scale>
                 </mat-tab>
-                <mat-tab label="Other">
+                <mat-tab label="Other" [disabled]="true">
                   <app-others [others]="invMaster"></app-others>
                 </mat-tab>
               </mat-tab-group>
@@ -140,7 +140,7 @@
         </div>
         <div>
             <p class="bold text-tritary-900 mb-4">Click submit to quarantine item {{this.currentPageItemNo}}. This will cause any allocated
-                orders and locations with this item to be deallocated?</p>
+                orders and locations with this item to be deallocated.</p>
             <div class="mb-3">
                 <button mat-flat-button color="warn" class="custom-btn button-delete-flat bg-white w-100 btn-lg" [mat-dialog-close]="true">
                     Submit
@@ -160,7 +160,10 @@
           <mat-icon color="warn">vpn_lock</mat-icon>
       </div>
       <div>
-          <p class="bold text-tritary-900 mb-4">Are you sure you want to Un-quarantine</p>
+          <p class="bold text-tritary-900 mb-4">Are you sure you want to Un-Quarantine item {{this.currentPageItemNo}}.</p>
+          <div class="mb-3">
+          <mat-checkbox (change)="checkCheckBoxvalue($event)">Append Reprocess to Open Transactions?</mat-checkbox>
+          </div>
           <div class="mb-3">
               <button mat-flat-button color="warn" class="custom-btn button-delete-flat bg-white w-100 btn-lg" [mat-dialog-close]="true">
                   Un-Quarantine

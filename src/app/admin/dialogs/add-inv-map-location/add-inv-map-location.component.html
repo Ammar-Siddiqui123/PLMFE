@@ -10,13 +10,12 @@
         <div class="col-6">
             <ng-scrollbar style="height: 500px">
                 <div class="container location_detail">
-                    <h1 mat-dialog-title>Location Detail</h1>
+                    <h1 mat-dialog-title>Location Details</h1>
                     <div class="row">
                         <div class="col-6">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Location Number</mat-label>
-                                <input matInput  disabled name="locationNumber" value="asdasdas"
-                                    >
+                                <input matInput  disabled name="locationNumber" value="{{locationNumber}}">
                             </mat-form-field>
                         </div>
                         <div class="col-6">
@@ -187,16 +186,16 @@
         </div>
         <div class="col-6">
             <div class="container item_detail">
-                <h1 mat-dialog-title>Assigned Item Detail</h1>
+                <h1 mat-dialog-title>Assigned Item Details</h1>
                 <div class="row">
                     <div class="col-6">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Item Number</mat-label>
-                            <input   placeholder="Item Number" aria-label="Item Number" matInput
-                                formControlName="item" [matAutocomplete]="itemNumAuto">
-                            <mat-autocomplete autoActiveFirstOption #itemNumAuto="matAutocomplete" [panelWidth]="400" (optionSelected)="loadItemDetails($event)">
+                            <input placeholder="Item Number" aria-label="Item Number" matInput
+                                formControlName="item" [matAutocomplete]="itemNumAuto" #searchItam (keyup)="searchItemNumber(searchItam)">
+                            <mat-autocomplete  #itemNumAuto="matAutocomplete" [panelWidth]="400" (optionSelected)="loadItemDetails($event.option.value)">
                                 <h6 class="loc_name"><span>Item Number</span> <span>Description</span></h6>
-                                <mat-option *ngFor="let option of filteredItemNum | async"
+                                <mat-option *ngFor="let option of itemNumberList"
                                     [value]="option.itemNumber">
                                     <div class="itemNum">
                                         <span>{{option.itemNumber}}</span> <span>{{option.desc}}</span>
@@ -209,7 +208,7 @@
 
                 <mat-form-field class="d-block w-100" appearance="outline">
                     <mat-label>Description</mat-label>
-                    <input matInput disabled    name="description" value="value">
+                    <input matInput disabled name="description" value="{{itemDescription}}">
                 </mat-form-field>
                 <div class="row">
                     <div class="col-6">
