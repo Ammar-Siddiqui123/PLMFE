@@ -225,7 +225,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   onCompleteOrderChange(event) {
     this.completeOrders.emit(event);
   }
- 
+  getRowClass(row){
+    console.log(row)
+  }
   getTransactionModelIndex() {
     let paylaod = {
       viewToShow: 2,
