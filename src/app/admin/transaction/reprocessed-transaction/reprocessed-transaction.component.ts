@@ -9,6 +9,7 @@ import { Router } from 'angular-routing';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/init/auth.service';
+import { ColumnSequenceDialogComponent } from '../../dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { SetColumnSeqComponent } from '../../dialogs/set-column-seq/set-column-seq.component';
 import { SetColumnSeqService } from '../../dialogs/set-column-seq/set-column-seq.service';
 import { TransactionService } from '../transaction.service';
@@ -184,18 +185,21 @@ export class ReprocessedTransactionComponent implements OnInit {
       );
   }
 
-  inventoryMapAction(actionEvent: any) {
+  actionDialog(actionEvent: any) {
     if (actionEvent.value === 'set_column_sq') {
-      let dialogRef = this.dialog.open(SetColumnSeqComponent, {
+      let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: '700px',
-        width: '600px',
+        width: '900px',
         data: {
           mode: actionEvent.value,
           tableName:'Reprocessed Transactions'
         }
       })
       dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-        this.getColumnsData();
+        if(result.isExecuted){
+          // this.getColumnsData();
+        }
+   
       })
     }
   }
