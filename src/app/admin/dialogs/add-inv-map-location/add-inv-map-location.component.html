@@ -165,16 +165,47 @@
 
                     <mat-form-field class="d-block w-100 mb-3" appearance="outline">
                         <mat-label>Ship Via</mat-label>
-                        <input matInput formControlName="userField1"   name="userField1">
+                        <input matInput type="text" formControlName="userField1"   name="userField1">
                         <!-- <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint> -->
 
                     </mat-form-field>
 
                     <mat-form-field class="d-block w-100 mb-2" appearance="outline">
                         <mat-label>Ship To Name</mat-label>
-                        <input matInput formControlName="userField2"   name="userField2">
+                        <input type="text" matInput formControlName="userField2"   name="userField2">
                     </mat-form-field>
+                    <div class="row mt-2" *ngIf="data.mode == 'editInvMapLocation'">
+                        <div class="col-6 mb-2">
+                            <mat-form-field class="d-block w-100 " appearance="outline">
+                                <mat-label>Quantity Allocated Pick</mat-label>
+                                <input type="text" matInput formControlName="quantityAllocatedPick" name="quantityAllocatedPick">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <mat-form-field class="d-block w-100 " appearance="outline">
+                                <mat-label>Quantity Allocated Put Away</mat-label>
+                                <input type="text" matInput formControlName="quantityAllocatedPutAway" name="quantityAllocatedPutAway">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="data.mode == 'editInvMapLocation'">
+                        <div class="col-6 mb-2">
+                            <mat-form-field class="d-block w-100 " appearance="outline">
+                                <mat-label>Inv Map ID</mat-label>
+                                <input type="text" matInput formControlName="inventoryMapID" name="inventoryMapID">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <mat-form-field class="d-block w-100 " appearance="outline">
+                                <mat-label>Master Inv Map ID</mat-label>
+                                <input type="text" matInput formControlName="masterInventoryMapID" name="masterInventoryMapID">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
                     <section class="ld_checks">
+                        <mat-checkbox *ngIf="data.mode == 'editInvMapLocation'" formControlName="masterLocation" class="ld_checkbox" color="primary">Master Location 
+                        </mat-checkbox>
                         <mat-checkbox formControlName="dedicated" class="ld_checkbox" color="primary">Dedicated
                         </mat-checkbox>
                         <mat-checkbox formControlName="dateSensitive" class="ld_checkbox" color="primary">Date Sensitive
@@ -227,38 +258,38 @@
                             <div class="error" *ngIf="hasError('minQuantity', 'maxlength')">Max number allowed is 9.</div>
                     </div>
                 </div>
-                <!-- <div class="row">
+                <div class="row">
                      <div class="col-6">
-                        <mat-form-field class="d-block w-100 readonly" appearance="outline">
+                        <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Put Away Date</mat-label>
-                            <input matInput class="readonly" formControlName="putAwayDate"   name="putAwayDate">
+                            <input matInput type="text" formControlName="putAwayDate" name="putAwayDate">
                         </mat-form-field>
                     </div>
                     <div class="col-6">
-                        <mat-form-field class="d-block w-100 readonly" appearance="outline">
+                        <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Serial Number</mat-label>
-                            <input matInput class="readonly"  formControlName="serialNumber"   name="serialNumber">
+                            <input type="text" matInput  formControlName="serialNumber" name="serialNumber">
                         </mat-form-field>
                     </div>
-                </div> -->
-                <!-- <div class="row">
+                </div>
+                <div class="row">
                     <div class="col-6">
-                        <mat-form-field class="d-block w-100 readonly" appearance="outline">
+                        <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Lot Number</mat-label>
-                            <input matInput class="readonly"  formControlName="location"   name="emailAddress">
+                            <input matInput formControlName="lotNumber" name="lotNumber" value="0" [disabled]="true">
                         </mat-form-field>
                     </div>
                     <div class="col-6">
-                        <mat-form-field class="d-block w-100 readonly" appearance="outline">
+                        <mat-form-field class="d-block w-100 " appearance="outline">
                             <mat-label>Revision</mat-label>
-                            <input matInput class="readonly" formControlName="lotNumber"   name="lotNumber">
+                            <input matInput formControlName="revision" name="revision" value="0" [disabled]="true">
                         </mat-form-field>
                     </div>
-                </div> -->
-                <!-- <mat-form-field class="d-block w-100 readonly" appearance="outline">
+                </div>
+                <mat-form-field class="d-block w-100 " appearance="outline">
                     <mat-label>Expiration Date</mat-label>
-                    <input matInput class="readonly" formControlName="expirationDate"   name="expirationDate">
-                </mat-form-field> -->
+                    <input matInput formControlName="expirationDate" name="expirationDate" [disabled]="true">
+                </mat-form-field>
             </div>
         </div>
 
