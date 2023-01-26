@@ -59,7 +59,7 @@ export class WarehouseComponent implements OnInit {
      });
   }
   addwhRow(row:any){
-    this.inputEl.nativeElement.disabled = true;
+    // this.inputEl.nativeElement.disabled = true;
     this.warehouse_list.unshift([]);
   }
   saveWareHouse(warehosue:any, oldWh:any){ 
