@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CellSizeComponent } from '../cell-size/cell-size.component';
 import { VelocityCodeComponent } from '../velocity-code/velocity-code.component';
@@ -67,7 +67,7 @@ export class AddInvMapLocationComponent implements OnInit {
   autoFillLocNumber: any = '';
   zone = '';
   carousel = '';
-  row  = '';
+  row = '';
   shelf = '';
   bin = '';
 
@@ -133,6 +133,8 @@ export class AddInvMapLocationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.data);
+    
     this.userData = this.authService.userData();
     if (this.data.detailData) {
       this.getDetailInventoryMapData = this.data.detailData;
@@ -141,6 +143,8 @@ export class AddInvMapLocationComponent implements OnInit {
       this.row = this.getDetailInventoryMapData.row
       this.shelf = this.getDetailInventoryMapData.shelf
       this.bin = this.getDetailInventoryMapData.bin
+      // console.log(this.getDetailInventoryMapData.masterInventoryMapID);
+      
       this.updateItemNumber();
       this.initializeDataSet();
     } else {
@@ -199,21 +203,21 @@ export class AddInvMapLocationComponent implements OnInit {
       velocity: [this.getDetailInventoryMapData.goldenZone || '0'],
       maximumQuantity: [this.getDetailInventoryMapData.maximumQuantity || 0, [Validators.maxLength(9)]],
       dedicated: [this.getDetailInventoryMapData.dedicated || ''],
-      //serialNumber: new FormControl(''),
-      // lotNumber: new FormControl(''),
-      //  expirationDate: new FormControl(''),
+      serialNumber: new FormControl({value: this.getDetailInventoryMapData.serialNumber || 0, disabled: true}),
+      lotNumber: new FormControl({value: this.getDetailInventoryMapData.lotNumber || 0, disabled: true}),
+      expirationDate: new FormControl({value: this.getDetailInventoryMapData.expirationDate || '', disabled: true}),
       unitOfMeasure: [this.getDetailInventoryMapData.unitOfMeasure || ''],
-      quantityAllocatedPick: [this.getDetailInventoryMapData.quantityAllocatedPick || ''],
-      quantityAllocatedPutAway: [this.getDetailInventoryMapData.quantityAllocatedPutAway || ''],
-      //putAwayDate: new FormControl(''),
+      quantityAllocatedPick: new FormControl({value: this.getDetailInventoryMapData.quantityAllocatedPick || 0, disabled: true}),
+      quantityAllocatedPutAway: new FormControl({value: this.getDetailInventoryMapData.quantityAllocatedPutAway || 0, disabled: true}),
+      putAwayDate: new FormControl({value: this.getDetailInventoryMapData.putAwayDate || '', disabled: true}),
       warehouse: [this.getDetailInventoryMapData.warehouse || ''],
-      // revision: new FormControl(''),
-      invMapID: [this.getDetailInventoryMapData.invMapID || ''],
+      revision: new FormControl({value: this.getDetailInventoryMapData.revision || '', disabled: true}),
+      inventoryMapID: new FormControl({value: this.getDetailInventoryMapData.invMapID || '', disabled: false}),
       userField1: [this.getDetailInventoryMapData.userField1 || '', [Validators.maxLength(255)]],
       userField2: [this.getDetailInventoryMapData.userField2 || '', [Validators.maxLength(255)]],
-      masterLocation: [this.getDetailInventoryMapData.masterLocation || ''],
+      masterLocation: [this.getDetailInventoryMapData.masterLocation || false],
       dateSensitive: [this.getDetailInventoryMapData.dateSensitive || false],
-      masterInvMapID: [this.getDetailInventoryMapData.masterInvMapID || ''],
+      masterInventoryMapID: new FormControl({value: this.getDetailInventoryMapData.masterInvMapID || '', disabled: false}),
       minQuantity: [this.getDetailInventoryMapData.minQuantity || 0, [Validators.maxLength(9)]],
       laserX: [this.getDetailInventoryMapData.laserX || 0, [Validators.pattern("^[0-9]*$"), Validators.maxLength(9)]],
       laserY: [this.getDetailInventoryMapData.laserY || 0, [Validators.pattern("^[0-9]*$"), Validators.maxLength(9)]],
@@ -225,21 +229,18 @@ export class AddInvMapLocationComponent implements OnInit {
     });
   }
 
-  onMinChange($event){
+  onMinChange($event) {
     var max = this.addInvMapLocation.get("maximumQuantity")?.value;
     var min = this.addInvMapLocation.get("minQuantity")?.value;
-    if(max=="" || max=="0")
-    {
+    if (max == "" || max == "0") {
       this.addInvMapLocation.get("minQuantity")?.setValue("0");
     }
-    if(min>max)
-    {
+    if (min > max) {
       this.addInvMapLocation.get("minQuantity")?.setValue(this.addInvMapLocation.get("maximumQuantity")?.value.toString().charAt(0));
     }
   }
 
-  onMaxChange($event)
-  {
+  onMaxChange($event) {
     this.addInvMapLocation.get("minQuantity")?.setValue("0");
   }
 
@@ -253,14 +254,14 @@ export class AddInvMapLocationComponent implements OnInit {
       if (this.data.detailData) {
         this.clickSubmit = false;
         this.invMapService.updateInventoryMap(form.value).subscribe((res) => {
-
           this.clickSubmit = true;
+          console.log(res);
           if (res.isExecuted) {
             this.toastr.success("Your details have been updated", 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
-
+            
             this.dialog.closeAll()
           }
         });
@@ -371,21 +372,21 @@ export class AddInvMapLocationComponent implements OnInit {
     // });
   }
 
-  updateItemNumber(col?:string, val?:any) {
-    
-    if(col === 'zone'){
+  updateItemNumber(col?: string, val?: any) {
+
+    if (col === 'zone') {
       this.zone = val.toString();
     }
-    if(col === 'carousel'){
+    if (col === 'carousel') {
       this.carousel = val.toString();
     }
-    if(col === 'row'){
+    if (col === 'row') {
       this.row = val.toString();
     }
-    if(col === 'shelf'){
+    if (col === 'shelf') {
       this.shelf = val.toString();
     }
-    if(col === 'bin'){
+    if (col === 'bin') {
       this.bin = val.toString();
     }
     this.autoFillLocNumber = this.zone + this.carousel + this.row + this.shelf + this.bin;
@@ -393,10 +394,13 @@ export class AddInvMapLocationComponent implements OnInit {
 
 
 
-  dialogClose(){
+  dialogClose() {
     this.dialogRef.close('close');
   }
 
-
+  @HostListener('unloaded')
+  ngOnDestroy() {
+    console.log('Items destroyed');
+  }
 
 }

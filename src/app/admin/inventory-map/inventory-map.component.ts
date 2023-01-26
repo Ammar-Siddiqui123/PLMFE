@@ -100,6 +100,7 @@ export class InventoryMapComponent implements OnInit {
   public columnValues: any = [];
   public itemList: any;
   public filterLoc:any = 'Nothing';
+  public isSearchColumn:boolean = false;
 
   detailDataInventoryMap: any;
 
@@ -386,6 +387,13 @@ export class InventoryMapComponent implements OnInit {
   }
 
   searchColumn(){
+    console.log(this.columnSearch.searchColumn);
+    
+    if(this.columnSearch.searchColumn){
+      this.isSearchColumn = true;
+    }else{
+      this.isSearchColumn = false;
+    }
     this.searchAutocompleteList = [];
     if(this.columnSearch.searchValue){
       this.columnSearch.searchValue = '';
@@ -396,7 +404,7 @@ export class InventoryMapComponent implements OnInit {
 
   searchData(){
     
-    if( this.columnSearch.searchColumn ||  this.columnSearch.searchColumn == '' ){
+    if( this.columnSearch.searchColumn &&  this.columnSearch.searchColumn !== '' ){
       this.initializeApi();
       this.getContentData();
     }
