@@ -41,8 +41,9 @@
                                 <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveWareHouse(whname.value, warehouse)" actionDisable>
                                     <span class="material-symbols-outlined">save</span>
                                 </button>
-                                <button mat-flat-button color="warn" class="sm-icon-button"
-                                (click)="dltWareHouse(whname.value);" #inputEl>
+                                <button mat-flat-button color="warn" class="sm-icon-button" 
+                                (click)="delete(whname.value)"
+                                #inputEl>
                                 <span class="material-symbols-outlined">close</span>
                             </button>
                         
