@@ -209,13 +209,13 @@ export class AddInvMapLocationComponent implements OnInit {
       quantityAllocatedPutAway: new FormControl({value: this.getDetailInventoryMapData.quantityAllocatedPutAway || 0, disabled: true}),
       putAwayDate: [{value: this.getDetailInventoryMapData.putAwayDate, disabled: true}],
       warehouse: [this.getDetailInventoryMapData.warehouse || ''],
-      revision: new FormControl({value: this.getDetailInventoryMapData.revision || 0, disabled: true}),
-      inventoryMapID: new FormControl({value: this.getDetailInventoryMapData.inventoryMapID || '', disabled: true}),
+      // revision: new FormControl(''),
+      inventoryMapID: [this.getDetailInventoryMapData.inventoryMapID || ''],
       userField1: [this.getDetailInventoryMapData.userField1 || '', [Validators.maxLength(255)]],
       userField2: [this.getDetailInventoryMapData.userField2 || '', [Validators.maxLength(255)]],
       masterLocation: [this.getDetailInventoryMapData.masterLocation || ''],
       dateSensitive: [this.getDetailInventoryMapData.dateSensitive || false],
-      masterInventoryMapID: new FormControl({value: this.getDetailInventoryMapData.masterInventoryMapID || '', disabled: true}),
+      masterInventoryMapID: [this.getDetailInventoryMapData.masterInventoryMapID || ''],
       minQuantity: [this.getDetailInventoryMapData.minQuantity || 0, [Validators.maxLength(9)]],
       laserX: [this.getDetailInventoryMapData.laserX || 0, [Validators.pattern("^[0-9]*$"), Validators.maxLength(9)]],
       laserY: [this.getDetailInventoryMapData.laserY || 0, [Validators.pattern("^[0-9]*$"), Validators.maxLength(9)]],
@@ -252,14 +252,14 @@ export class AddInvMapLocationComponent implements OnInit {
       if (this.data.detailData) {
         this.clickSubmit = false;
         this.invMapService.updateInventoryMap(form.value).subscribe((res) => {
-
           this.clickSubmit = true;
+          console.log(res);
           if (res.isExecuted) {
             this.toastr.success("Your details have been updated", 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
-
+            
             this.dialog.closeAll()
           }
         });
