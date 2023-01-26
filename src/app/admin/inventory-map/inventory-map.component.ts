@@ -381,12 +381,12 @@ export class InventoryMapComponent implements OnInit {
   }
 
   searchColumn(){
-    console.log(this.columnSearch.searchColumn);
+    // console.log(this.columnSearch.searchColumn);
     
     if(this.columnSearch.searchColumn === ''){
-      this.isSearchColumn = true;
-    }else{
       this.isSearchColumn = false;
+    }else{
+      this.isSearchColumn = true;
     }
     this.searchAutocompleteList = [];
     if(this.columnSearch.searchValue){
