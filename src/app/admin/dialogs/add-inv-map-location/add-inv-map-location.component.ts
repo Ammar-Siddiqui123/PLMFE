@@ -30,7 +30,7 @@ export interface InventoryMapDataStructure {
   description: string | '',
   itemQuantity: string | '',
   unitOfMeasure: string | '',
-  maximumQuantity: string | '',
+  maxQuantity: string | '',
   cellSize: string | '',
   goldenZone: string | '',
   putAwayDate: string | '',
@@ -89,7 +89,7 @@ export class AddInvMapLocationComponent implements OnInit {
     description: '',
     itemQuantity: '',
     unitOfMeasure: '',
-    maximumQuantity: '',
+    maxQuantity: '',
     cellSize: '',
     goldenZone: '',
     putAwayDate: '',
@@ -201,7 +201,7 @@ export class AddInvMapLocationComponent implements OnInit {
       description: [this.getDetailInventoryMapData.description || ''],
       cell: [this.getDetailInventoryMapData.cellSize || '0'],
       velocity: [this.getDetailInventoryMapData.goldenZone || '0'],
-      maximumQuantity: [this.getDetailInventoryMapData.maximumQuantity || 0, [Validators.maxLength(9)]],
+      maxQuantity: [this.getDetailInventoryMapData.maxQuantity || 0, [Validators.maxLength(9)]],
       dedicated: [this.getDetailInventoryMapData.dedicated || ''],
       serialNumber: new FormControl({ value: this.getDetailInventoryMapData.serialNumber || 0, disabled: true }),
       lotNumber: new FormControl({ value: this.getDetailInventoryMapData.lotNumber || 0, disabled: true }),
@@ -230,13 +230,13 @@ export class AddInvMapLocationComponent implements OnInit {
   }
 
   onMinChange($event) {
-    var max = this.addInvMapLocation.get("maximumQuantity")?.value;
+    var max = this.addInvMapLocation.get("maxQuantity")?.value;
     var min = this.addInvMapLocation.get("minQuantity")?.value;
     if (max == "" || max == "0") {
       this.addInvMapLocation.get("minQuantity")?.setValue("0");
     }
     if (min > max) {
-      this.addInvMapLocation.get("minQuantity")?.setValue(this.addInvMapLocation.get("maximumQuantity")?.value.toString().charAt(0));
+      this.addInvMapLocation.get("minQuantity")?.setValue(this.addInvMapLocation.get("maxQuantity")?.value.toString().charAt(0));
     }
   }
 
@@ -249,7 +249,6 @@ export class AddInvMapLocationComponent implements OnInit {
     this.addInvMapLocation.controls['locationNumber'].setValue(value);
   }
   onSubmit(form: FormGroup) {
-
     if (this.clickSubmit) {
       if (this.data.detailData) {
         this.clickSubmit = false;
@@ -373,7 +372,7 @@ export class AddInvMapLocationComponent implements OnInit {
     // }
     // this.invMapService.getItemNumDetail(payload).subscribe((res) => {
 
-    //  // this.addInvMapLocation.controls['description'].setValue(res.data.maximumQuantity);
+    //  // this.addInvMapLocation.controls['description'].setValue(res.data.maxQuantity);
     // });
   }
 
