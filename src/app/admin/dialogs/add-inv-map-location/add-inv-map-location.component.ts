@@ -303,11 +303,14 @@ export class AddInvMapLocationComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      // console.log(result);
       
-      // if (result != true && result != false) {
+      if (result != true && result != false) {
         this.addInvMapLocation.controls['warehouse'].setValue(result);
-      // }
+      }
+      if(result == 'clear'){
+        this.addInvMapLocation.controls['warehouse'].setValue('');
+      }
     })
   }
   loadCellSize() {

@@ -114,6 +114,6 @@ export class WarehouseComponent implements OnInit {
     this.dialogRef.close(selectedWh);
   }
   clearWareHouse(){
-    this.dialogRef.close('');
+    this.dialogRef.close('clear');
   }
 }
