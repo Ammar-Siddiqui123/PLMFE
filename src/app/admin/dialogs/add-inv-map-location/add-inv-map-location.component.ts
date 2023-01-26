@@ -236,13 +236,11 @@ export class AddInvMapLocationComponent implements OnInit {
     {
       this.addInvMapLocation.get("minQuantity")?.setValue(this.addInvMapLocation.get("maximumQuantity")?.value.toString().charAt(0));
     }
-    //alert($event.target.value);
-    // this.addInvMapLocation.get("maximumQuantity")?.setValue("99");
-    // this.addInvMapLocation.get("minQuantity")?.setValue("99");
-    // alert(this.addInvMapLocation.get("maximumQuantity")?.value);
-    // alert(this.addInvMapLocation.get("minQuantity")?.value);
-    
+  }
 
+  onMaxChange($event)
+  {
+    this.addInvMapLocation.get("minQuantity")?.setValue("0");
   }
 
   onchangeItemNumber() {
