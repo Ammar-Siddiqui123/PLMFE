@@ -184,7 +184,19 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
           this.onReprocessOrderChange(res.data?.compLines)
           this.onOrderTypeOrderChange(res.data?.orderStatus[0]?.transactionType)
           this.totalLinesOrderChange(res.data?.orderStatus?.length)
-          this.onLocationZoneChange(res.data?.onCar)
+          if(res.data?.onCar.length ){
+            res.data.onCar.filter((item) => {
+              return item.carousel='on'
+             });
+            this.onLocationZoneChange(res.data?.onCar)
+          }
+          else if(res.data?.offCar.length){
+            res.data.offCar.filter((item) => {
+              return item.carousel='off'
+             });
+            this.onCompleteOrderChange(res.data?.offCar)
+          }
+
         },
         (error) => {}
       );
@@ -228,11 +240,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.completeOrders.emit(event);
   }
   onLocationZoneChange(event) {
- 
     this.locationZones.emit(event);
   }
   getRowClass(row){
-    console.log(row)
   }
   getTransactionModelIndex() {
     let paylaod = {

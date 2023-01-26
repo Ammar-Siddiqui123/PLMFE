@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { WarehouseService } from 'src/app/common/services/warehouse.service';
@@ -14,6 +14,8 @@ export class WarehouseComponent implements OnInit {
 
   public warehouse_list: any;
   public userData: any;
+  @ViewChild('inputEl') public inputEl: ElementRef;
+
 
   constructor(
     private whService: WarehouseService,
@@ -25,7 +27,6 @@ export class WarehouseComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-
     this.getWarehouse();
   
   }
@@ -36,7 +37,8 @@ export class WarehouseComponent implements OnInit {
      });
   }
   addwhRow(row:any){
-    this.warehouse_list.push([]);
+    this.inputEl.nativeElement.disabled = true;
+    this.warehouse_list.unshift([]);
   }
   saveWareHouse(warehosue:any, oldWh:any){ 
 
@@ -44,7 +46,7 @@ export class WarehouseComponent implements OnInit {
     this.warehouse_list.forEach(element => {
      if(element == warehosue ) {
       cond= false
-      this.toastr.error('Already Exists', 'Error!', {
+      this.toastr.error('Conflict: Warehouse cannot be saved! Another warehouse matches the current. Please save any pending changes before attempting to save this entry.', 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });

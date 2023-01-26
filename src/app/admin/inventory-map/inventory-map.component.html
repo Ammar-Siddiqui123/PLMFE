@@ -58,15 +58,16 @@
 </div> -->
 
               <div class="d-flex align-items-center gap-12">
-                <button class="br-14" mat-mini-fab color="primary" aria-label="Add New Location"
+                <!-- <button class="br-14" mat-mini-fab color="primary" aria-label="Add New Location"
                   style="line-height: 20px;" (click)="addLocDialog()" [hidden]="isAuthorized('Inv Map Add Location')">
                   <mat-icon>add</mat-icon>
-                </button>
+                </button> -->
 
                 <mat-form-field class="action-dropdown" appearance="outline">
                   <mat-label>Actions</mat-label>
                   <mat-select class="employees-action" (selectionChange)="inventoryMapAction($event)"
                     placeholder="Actions">
+                    <mat-option (click)="addLocDialog()" [hidden]="isAuthorized('Inv Map Add Location')">Add Inventory Map</mat-option>
                     <mat-option value="print">Print</mat-option>
                     <mat-option value="set_column_sq">Set Column Sequence</mat-option>
                   </mat-select>

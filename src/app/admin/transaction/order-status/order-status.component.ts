@@ -39,7 +39,7 @@ export class OrderStatusComponent implements OnInit {
     this.totalLinesOrderEvent = event;
   }
   locationZones(event: Event) {
-    alert(event)
+   
     this.locationZonesEvent = event;
   }
   ngOnInit(): void {}

@@ -51,7 +51,7 @@ export class CellSizeComponent implements OnInit {
       this.cellsize_list.forEach(element => {
         if (element.cells.toLowerCase() == cell.toLowerCase()) {
           cond = false;
-          this.toastr.error('Already Exists', 'Error!', {
+          this.toastr.error('Cell Size already exists. Ensure any pending changes are saved before attempting to save this entry.', 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
@@ -113,7 +113,14 @@ export class CellSizeComponent implements OnInit {
   }
 
   selectCellSize(selectedCZ: any) {
-    this.dialogRef.close(selectedCZ);
+    const cellExists =  this.cellsize_list.some(obj => obj.cells === selectedCZ)
+    if(cellExists){
+      this.dialogRef.close(selectedCZ);   
+    }
+    else{
+      this.dialogRef.close();   
+    }
+    
   }
   clearCellSize() {
     this.dialogRef.close('');

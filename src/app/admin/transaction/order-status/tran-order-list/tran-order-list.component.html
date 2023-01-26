@@ -121,7 +121,11 @@
       
       
                     </ng-container>
-      
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell notify-center-table" [attr.colspan]="displayedColumns.length">
+                          No data available in table.
+                        </td>
+                      </tr>
                     <mat-header-row *matHeaderRowDef="columnValues;sticky: true" style=" border: 0"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: columnValues;" [class]="getRowClass(row)"></mat-row>
       

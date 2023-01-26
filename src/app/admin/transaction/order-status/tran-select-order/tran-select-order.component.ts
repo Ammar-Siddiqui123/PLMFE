@@ -99,7 +99,6 @@ export class TranSelectOrderComponent implements OnInit {
     this.toteId.emit(event);
   }
   searchData() {
-    console.log(this.orderNumber);
     this.onOrderNoChange(this.orderNumber);
     
   }

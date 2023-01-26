@@ -228,9 +228,9 @@ background-color: #7B42AC;
   border-color: white;
 }
 
-.mat-list-base{
-padding-top: 36px !important;
-}
+// .mat-list-base{
+// padding-top: 36px !important;
+// }
 .mat-list-item {
   color: #09094899;
   font-size: 0.8rem;
@@ -1189,6 +1189,20 @@ button.add-icon-button {
   max-width: 48px !important;
   min-width: 48px !important;
   border-radius: 14px !important;
+}
+button.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px !important;
+  max-width: 48px !important;
+  min-width: 48px !important;
+  border-radius: 14px !important;
+}
+button.secondary-button{
+  background-color: #fff;
+  color: $primary;
+  border: 1px solid var(--clr-tertiary-50);
 }
 button.sm-icon-button {
   height: 32px!important;

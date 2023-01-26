@@ -520,8 +520,8 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   actionDialog(event) {
     if (event == 'set_column_sq') {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
-        height: '700px',
-        width: '900px',
+        height: '96%',
+        width: '70vw',
         data: {
           mode: event,
           tableName: 'Open Transactions',
