@@ -40,7 +40,7 @@ export class ItemSetupComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+     
       if(result){
       if(param == 'cellSize'){
         this.itemSetup.patchValue({

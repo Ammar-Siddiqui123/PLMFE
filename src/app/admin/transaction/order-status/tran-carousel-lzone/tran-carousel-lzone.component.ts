@@ -1,15 +1,19 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { SetColumnSeqService } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.service';
 
-const ELEMENT_DATA: any[] = [
-  { zone: 1, locationName: 'Hydrogen', totalLines: 1.0079, open: 'H',completed:'1' },
-
-];
+const ELEMENT_DATA: any[] = [];
 @Component({
   selector: 'app-tran-carousel-lzone',
   templateUrl: './tran-carousel-lzone.component.html',
@@ -17,8 +21,10 @@ const ELEMENT_DATA: any[] = [
 })
 export class TranCarouselLzoneComponent implements OnInit, AfterViewInit {
   public columnValues: any = [];
+  public locationZonesData: any = [];
   dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
   displayedColumns: string[] = [
+    'Carousel',
     'Zone',
     'Location Name',
     'Total Lines',
@@ -47,6 +53,13 @@ export class TranCarouselLzoneComponent implements OnInit, AfterViewInit {
     columnName: 32,
     sortOrder: 'asc',
   };
+
+  @Input() set locationZonesEvent(event: any) {
+    if (event) {
+      this.dataSource=event;
+      this.locationZonesData = event;
+    }
+  }
   constructor(private router: Router, private seqColumn: SetColumnSeqService) {
     if (this.router.getCurrentNavigation()?.extras?.state?.['searchValue']) {
       this.columnSearch.searchValue =
