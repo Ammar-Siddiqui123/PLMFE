@@ -118,6 +118,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   @Output() reprocessOrders = new EventEmitter<any>();
   @Output() orderTypeOrders = new EventEmitter<any>();
   @Output() totalLinesOrders = new EventEmitter<any>();
+  @Output() currentOrders = new EventEmitter<any>();
   @Output() locationZones = new EventEmitter<any>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -183,7 +184,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
           this.onCompleteOrderChange(res.data?.compLines)
           this.onReprocessOrderChange(res.data?.compLines)
           this.onOrderTypeOrderChange(res.data?.orderStatus[0]?.transactionType)
-          this.totalLinesOrderChange(res.data?.orderStatus?.length)
+          this.totalLinesOrderChange(res.data?.totalRecords)
           if(res.data?.onCar.length ){
             res.data.onCar.filter((item) => {
               return item.carousel='on'
@@ -235,6 +236,10 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   totalLinesOrderChange(event) {
 
     this.totalLinesOrders.emit(event);
+  }
+  currentStatusChange(event) {
+
+    this.currentOrders.emit(event);
   }
   onCompleteOrderChange(event) {
     this.completeOrders.emit(event);

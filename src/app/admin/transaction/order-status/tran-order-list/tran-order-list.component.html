@@ -16,7 +16,7 @@
                         </span>
                     </mat-form-field> -->
                     <mat-form-field class="action-dropdown" appearance="outline">
-                        <mat-label>Search</mat-label>
+                        <mat-label>Select</mat-label>
                         <mat-select class="employees-action" [(ngModel)]="this.searchCol">
                             <mat-option *ngFor="let item of displayedColumns" [value]="item.colDef">
                                 {{item.colDef}}
@@ -34,7 +34,7 @@
 
                         <mat-form-field class="w-100 bg-white br-8" appearance="fill">
                             <span class="material-symbols-outlined icon-search">
-                                search
+                               Search
                             </span>
                             <input  [(ngModel)]="searchString" (ngModelChange)="this.searchByInput.next($event)"  type="text" placeholder="search" aria-label="Number" matInput>
 

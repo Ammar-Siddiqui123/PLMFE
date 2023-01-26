@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FloatLabelType } from '@angular/material/form-field';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
@@ -13,21 +13,25 @@ import { TransactionService } from '../../transaction.service';
 export class TranSelectOrderComponent implements OnInit {
   orderNumber: any;
   toteID: any;
+  searchText:string;
   openOrder: any = 0;
   completeOrder: any = 0;
   reprocessOrder: any = 0;
-  orderTypeOrder: any = 'not available';
+  orderTypeOrder: any = '-';
   totalLinesOrder: any = 0;
+  currentStatusOrder: any = '-';
   locationZoneData: any = [];
-
+  selectOption='OrderNumber';
   searchByOrderNumber = new Subject<string>();
   searchByToteId = new Subject<string>();
   @Output() orderNo = new EventEmitter<any>();
   @Output() toteId = new EventEmitter<any>();
+  @Input() orderStatNextData =[]; // decorate the property with @Input()
 
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
   searchAutocompleteList: any;
+  searchAutocompleteListOrderNumber: any=[];
   public userData: any;
 
   @Input() set openOrderEvent(event: Event) {
@@ -60,18 +64,34 @@ export class TranSelectOrderComponent implements OnInit {
       
     }
   }
+  @Input() set currentStatusOrderChange(event: Event) {
+alert('asdasd')
+    if (event) {
+      
+      this.currentStatusOrder = event;
+      
+    }
+  }
   constructor(
     private authService: AuthService,
     private transactionService: TransactionService
   ) {}
-
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['orderStatNextData']){
+      this.searchAutocompleteListOrderNumber=changes['orderStatNextData']['currentValue']
+    }
+       
+    
+      }
+    
   ngOnInit(): void {
-    this.searchByOrderNumber
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((value) => {
-        this.autocompleteSearchColumn();
-        this.onOrderNoChange(value);
-      });
+    console.log(this.orderStatNextData)
+    // this.searchByOrderNumber
+    //   .pipe(debounceTime(400), distinctUntilChanged())
+    //   .subscribe((value) => {
+    //     this.autocompleteSearchColumn();
+    //     this.onOrderNoChange(value);
+    //   });
 
     this.searchByToteId
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -87,6 +107,7 @@ export class TranSelectOrderComponent implements OnInit {
     this.reprocessOrder = 0;
     this.orderTypeOrder= 'not available';
    this.totalLinesOrder= 0;
+
   }
 
   getFloatLabelValue(): FloatLabelType {
@@ -99,8 +120,12 @@ export class TranSelectOrderComponent implements OnInit {
     this.toteId.emit(event);
   }
   searchData() {
-    this.onOrderNoChange(this.orderNumber);
+    this.onOrderNoChange(this.searchText);
     
+  }
+
+  clear(){
+    this.resetLines();
   }
 
   async autocompleteSearchColumn() {

@@ -102,7 +102,7 @@ import { ReprocessChoiceComponent } from './transaction/reprocess-transaction/re
 import { ItemNumUpdateConfirmationComponent } from './dialogs/item-num-update-confirmation/item-num-update-confirmation.component';
 import { ScanTypeCodeComponent } from './dialogs/scan-type-code/scan-type-code.component';
 import { ColumnSequenceDialogComponent } from './dialogs/column-sequence-dialog/column-sequence-dialog.component';
-
+import { SearchFilterPipe } from './transaction/pipes/search-filter.pipe';
 
 
 
@@ -196,6 +196,7 @@ import { ColumnSequenceDialogComponent } from './dialogs/column-sequence-dialog/
     ItemNumUpdateConfirmationComponent,
     ScanTypeCodeComponent,
     ColumnSequenceDialogComponent,
+    SearchFilterPipe
 
   ],
   imports: [
