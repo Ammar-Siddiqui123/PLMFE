@@ -111,7 +111,7 @@ export class WarehouseComponent implements OnInit {
   }
 
   selectWearHouse(selectedWh: any){
-    this.dialogRef.close(selectedWh.value);
+    this.dialogRef.close(selectedWh);
   }
   clearWareHouse(){
     this.dialogRef.close('');
