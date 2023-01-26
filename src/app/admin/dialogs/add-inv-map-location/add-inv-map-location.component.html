@@ -190,15 +190,15 @@
                     </div>
                     <div class="row" *ngIf="data.mode == 'editInvMapLocation'">
                         <div class="col-6 mb-2">
-                            <mat-form-field class="d-block w-100 " appearance="outline">
+                            <mat-form-field class="d-block w-100 readonly" appearance="outline">
                                 <mat-label>Inv Map ID</mat-label>
-                                <input type="text" matInput formControlName="inventoryMapID" name="inventoryMapID">
+                                <input type="text" matInput class="readonly" formControlName="inventoryMapID" name="inventoryMapID" readonly>
                             </mat-form-field>
                         </div>
                         <div class="col-6 mb-2">
-                            <mat-form-field class="d-block w-100 " appearance="outline">
+                            <mat-form-field class="d-block w-100 readonly" appearance="outline">
                                 <mat-label>Master Inv Map ID</mat-label>
-                                <input type="text" matInput formControlName="masterInventoryMapID" name="masterInventoryMapID">
+                                <input type="text" class="readonly" matInput formControlName="masterInventoryMapID" name="masterInventoryMapID" readonly>
                             </mat-form-field>
                         </div>
                     </div>
@@ -276,19 +276,19 @@
                     <div class="col-6">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Lot Number</mat-label>
-                            <input matInput formControlName="lotNumber" name="lotNumber" value="0" [disabled]="true">
+                            <input matInput formControlName="lotNumber" name="lotNumber">
                         </mat-form-field>
                     </div>
                     <div class="col-6">
                         <mat-form-field class="d-block w-100 " appearance="outline">
                             <mat-label>Revision</mat-label>
-                            <input matInput formControlName="revision" name="revision" value="0" [disabled]="true">
+                            <input matInput formControlName="revision" name="revision">
                         </mat-form-field>
                     </div>
                 </div>
                 <mat-form-field class="d-block w-100 " appearance="outline">
                     <mat-label>Expiration Date</mat-label>
-                    <input matInput formControlName="expirationDate" name="expirationDate" [disabled]="true">
+                    <input matInput formControlName="expirationDate" name="expirationDate">
                 </mat-form-field>
             </div>
         </div>
