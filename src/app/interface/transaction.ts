@@ -18,3 +18,11 @@ export interface ITransactionModelIndex {
     username:string,
     wsid:string
     }
+    export interface ICarouselZone {
+        carousel:string,
+        zone:string,
+        locationName:string,
+        totalLines:string,
+        open:string,
+        completed:string,
+        }

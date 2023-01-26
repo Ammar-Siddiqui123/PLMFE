@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -6,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -105,7 +104,7 @@ export class InventoryMapComponent implements OnInit {
   detailDataInventoryMap: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
 
   favoriteSeason: string;
@@ -119,8 +118,7 @@ export class InventoryMapComponent implements OnInit {
     private invMapService: InventoryMapService,
     private toastr: ToastrService, 
     private router: Router,
-    private loader: SpinnerService,
-    private _liveAnnouncer: LiveAnnouncer
+    private loader: SpinnerService
   ) {
 
 
@@ -132,10 +130,6 @@ export class InventoryMapComponent implements OnInit {
       }
     }
 
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
   }
 
   ngOnInit(): void {
@@ -275,7 +269,7 @@ export class InventoryMapComponent implements OnInit {
   viewLocFilter(){
     this.initializeApi();
     this.getContentData();
-    this.dialog. closeAll();
+    this.dialog.closeAll();
   }
 
   edit(event: any){
@@ -389,7 +383,7 @@ export class InventoryMapComponent implements OnInit {
   searchColumn(){
     console.log(this.columnSearch.searchColumn);
     
-    if(this.columnSearch.searchColumn){
+    if(this.columnSearch.searchColumn === ''){
       this.isSearchColumn = true;
     }else{
       this.isSearchColumn = false;
@@ -410,7 +404,7 @@ export class InventoryMapComponent implements OnInit {
     }
   }
 
-  announceSortChange(sortState: Sort){
+  announceSortChange(e : any){
     // let index = this.columnValues.findIndex(x => x === e.active );
     // this.sortColumn = {
     //   columnName: index,
@@ -419,16 +413,6 @@ export class InventoryMapComponent implements OnInit {
 
     // this.initializeApi();
     // this.getContentData();
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-    this.dataSource.sort = this.sort;
-
-
-    
-    console.log(this.dataSource.sort);
 
 
   }

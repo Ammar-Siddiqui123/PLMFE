@@ -320,7 +320,6 @@ export class InventoryMasterComponent implements OnInit {
           timeOut: 2000
         });
       }
-      console.log(res.data);
     })
   }
 

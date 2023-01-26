@@ -118,6 +118,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   @Output() reprocessOrders = new EventEmitter<any>();
   @Output() orderTypeOrders = new EventEmitter<any>();
   @Output() totalLinesOrders = new EventEmitter<any>();
+  @Output() currentOrders = new EventEmitter<any>();
+  @Output() locationZones = new EventEmitter<any>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -182,7 +184,20 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
           this.onCompleteOrderChange(res.data?.compLines)
           this.onReprocessOrderChange(res.data?.compLines)
           this.onOrderTypeOrderChange(res.data?.orderStatus[0]?.transactionType)
-          this.totalLinesOrderChange(res.data?.orderStatus?.length)
+          this.totalLinesOrderChange(res.data?.totalRecords)
+          if(res.data?.onCar.length ){
+            res.data.onCar.filter((item) => {
+              return item.carousel='on'
+             });
+            this.onLocationZoneChange(res.data?.onCar)
+          }
+          else if(res.data?.offCar.length){
+            res.data.offCar.filter((item) => {
+              return item.carousel='off'
+             });
+            this.onCompleteOrderChange(res.data?.offCar)
+          }
+
         },
         (error) => {}
       );
@@ -222,11 +237,17 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
 
     this.totalLinesOrders.emit(event);
   }
+  currentStatusChange(event) {
+
+    this.currentOrders.emit(event);
+  }
   onCompleteOrderChange(event) {
     this.completeOrders.emit(event);
   }
+  onLocationZoneChange(event) {
+    this.locationZones.emit(event);
+  }
   getRowClass(row){
-    console.log(row)
   }
   getTransactionModelIndex() {
     let paylaod = {

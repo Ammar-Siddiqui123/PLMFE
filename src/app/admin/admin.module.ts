@@ -31,6 +31,8 @@ import { AddInvMapLocationComponent } from './dialogs/add-inv-map-location/add-i
 import { WarehouseComponent } from './dialogs/warehouse/warehouse.component';
 import { SetColumnSeqComponent } from './dialogs/set-column-seq/set-column-seq.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+
 import { CellSizeComponent } from './dialogs/cell-size/cell-size.component';
 import { VelocityCodeComponent } from './dialogs/velocity-code/velocity-code.component';
 import { InventoryMasterComponent } from './inventory-master/inventory-master.component';
@@ -100,7 +102,7 @@ import { ReprocessChoiceComponent } from './transaction/reprocess-transaction/re
 import { ItemNumUpdateConfirmationComponent } from './dialogs/item-num-update-confirmation/item-num-update-confirmation.component';
 import { ScanTypeCodeComponent } from './dialogs/scan-type-code/scan-type-code.component';
 import { ColumnSequenceDialogComponent } from './dialogs/column-sequence-dialog/column-sequence-dialog.component';
-
+import { SearchFilterPipe } from './transaction/pipes/search-filter.pipe';
 
 
 
@@ -194,6 +196,7 @@ import { ColumnSequenceDialogComponent } from './dialogs/column-sequence-dialog/
     ItemNumUpdateConfirmationComponent,
     ScanTypeCodeComponent,
     ColumnSequenceDialogComponent,
+    SearchFilterPipe
 
   ],
   imports: [

@@ -1,96 +1,102 @@
 <div class="d-flex justify-content-between mb-4 align-items-center">
     <div style="width:48px"></div>
-<h1 class="m-0" mat-dialog-title>Set Column Sequence</h1>
-<button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="false">
-    <mat-icon class="close-icon">close</mat-icon>
-</button>
+    <h1 class="m-0" mat-dialog-title>Set Column Sequence</h1>
+    <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="false">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
 </div>
 
 <div class="d-flex flex-column justify-content-between" style=" height: 89%;">
-<div class=" mb-3">
-    <div class="row">
-        <div class="col-6">
-            <div class="card w-100">
-                <div class="card-header">
-                    Unordered Columns
-                </div>
-                <div class="card-body py-0">
-                    <ng-scrollbar style="height: 63vh">
-                    <mat-list class="zones-list g-card-list list-style-1" *ngFor="let col of unorderedCol; let indexOfelement=index;" role="list">
-                        
-                        <mat-list-item class="pe-0" role="listitem">
-                            <span class="list-label zone-list-label d-flex align-items-center">
-                                <mat-icon class="me-2" matTooltip="Drag" matTooltipPosition="left">drag_indicator</mat-icon>
-                                <span>{{col}}</span> 
-                              </span>
-                              <button mat-icon-button aria-label="Add Function"  (click)="addArr(col,indexOfelement)" matTooltip="Add" matTooltipPosition="right">
-                                <mat-icon class="icon-circle-edit">add</mat-icon>
-                              </button>
-                            </mat-list-item>
-                           
-                    </mat-list>
-                </ng-scrollbar>
-                </div>
-            </div>
-            <!-- <mat-card class="mat-elevation-z g-card">
-                <mat-card-header>
-                    <mat-card-title>Unordered Columns</mat-card-title>
-                </mat-card-header> -->
-                <!-- <mat-card-content>
-                    <div *ngFor="let col of unorderedCol; let indexOfelement=index;">
-                        <mat-form-field class="action-dropdown" appearance="outline">
-                            <p>{{col}}</p> <button (click)="addArr(col,indexOfelement)">+</button>
-                        </mat-form-field>
+    <div class=" mb-3" cdkDropListGroup>
+        <div class="row">
+            <div class="col-6">
+                <div class="card w-100">
+                    <div class="card-header">
+                        Unordered Columns
                     </div>
-                </mat-card-content> -->
-                <!-- <mat-card-content>
-                    <mat-list *ngFor="let col of unorderedCol; let indexOfelement=index;" role="list">
-                        <mat-list-item role="listitem">{{col}} <button
-                                (click)="addArr(col,indexOfelement)">+</button></mat-list-item>
-                    </mat-list>
-                </mat-card-content>
-            </mat-card> -->
-        </div>
-        <div class="col-6">
-            <div class="card w-100">
-                <div class="card-header">
-                    Default Columns
-                </div>
-                <div class="card-body py-0">
-                    <ng-scrollbar style="height: 63vh">
-                    <mat-list class="zones-list g-card-list list-style-1" *ngFor="let col of defaultCol; let indexOfelement=index;" role="list">
-                    
-                        <mat-list-item role="listitem">
-                            <span class="list-label zone-list-label d-flex align-items-center">
-                                <mat-icon class="me-2" matTooltip="Drag" matTooltipPosition="left">drag_indicator</mat-icon>
-                                <span>{{col}}</span> 
-                              </span>
-                              <button mat-icon-button aria-label="Remove Function"  (click)="remove(col,indexOfelement)" matTooltip="Remove" matTooltipPosition="right">
-                                <mat-icon class="icon-circle-cancel">close</mat-icon>
-                              </button>
-                            </mat-list-item>
-                           
-                    </mat-list>
-                </ng-scrollbar>
-                </div>
-            </div>
-            <!-- <mat-card class="mat-elevation-z g-card">
-                <mat-card-title>Default Columns</mat-card-title>
+                    <div class="card-body py-0 example-container">
+                        <ng-scrollbar style="height: 63vh">
 
-                <mat-card-content>
-                    <mat-list *ngFor="let col of defaultCol; let indexOfelement=index;" role="list">
-                        <mat-list-item role="listitem">{{col}} <button (click)="remove(col,indexOfelement)">x</button></mat-list-item>
-                    </mat-list>
-                </mat-card-content>
-                <button (click)="save()">save</button>
-            </mat-card> -->
+                            <mat-list cdkDropList [cdkDropListData]="unorderedCol" class="example-list"
+                                (cdkDropListDropped)="drop($event)" class="zones-list g-card-list list-style-1"
+                                role="list">
+
+                                <mat-list-item *ngFor="let item of unorderedCol ; let indexOfelement=index;" cdkDrag
+                                    class="pe-0" role="listitem">
+                                    <div class="d-flex w-100 justify-content-between __grab_cursor ">
+                                        <span class="list-label zone-list-label d-flex align-items-center">
+                                            <mat-icon class="me-2" matTooltip="Drag"
+                                                matTooltipPosition="left">drag_indicator</mat-icon>
+                                            <span>{{item}}</span>
+                                        </span>
+                                        <button (click)="addArr(indexOfelement)" mat-icon-button
+                                            aria-label="Add Function" matTooltip="Add" matTooltipPosition="right">
+                                            <mat-icon class="icon-circle-edit">add</mat-icon>
+                                        </button>
+                                    </div>
+                                </mat-list-item>
+
+                            </mat-list>
+                        </ng-scrollbar>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-6">
+                <div class="card w-100">
+                    <div class="card-header">
+                        Default Columns
+                    </div>
+                    <div class="card-body py-0 example-container">
+                        <ng-scrollbar style="height: 63vh">
+
+                            <mat-list cdkDropList [cdkDropListData]="defaultCol" class="example-list"
+                                (cdkDropListDropped)="drop($event)" class="zones-list g-card-list list-style-1"
+                                role="list">
+
+                                <mat-list-item *ngFor="let item of defaultCol ; let indexOfelement=index;" cdkDrag
+                                    class="pe-0" role="listitem">
+                                    <div class="d-flex w-100 justify-content-between __grab_cursor ">
+                                        <span class="list-label zone-list-label d-flex align-items-center">
+                                            <mat-icon class="me-2" matTooltip="Drag"
+                                                matTooltipPosition="left">drag_indicator</mat-icon>
+                                            <span>{{item}}</span>
+                                        </span>
+                                        <button (click)="remove(indexOfelement)" mat-icon-button
+                                            aria-label="Remove Function" matTooltip="Remove" matTooltipPosition="right">
+                                            <mat-icon class="icon-circle-cancel">close</mat-icon>
+                                        </button>
+                                    </div>
+                                </mat-list-item>
+
+                            </mat-list>
+                        </ng-scrollbar>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
+    <div class="d-flex gap-12">
+        <button type="submit" mat-stroked-button class="form-button-submit btn-lg" color="warn">Clear All</button>
+        <button type="submit" mat-stroked-button class="form-button-submit btn-lg" color="primary">Autofill
+            Column</button>
+        <button type="submit" mat-stroked-button class="form-button-submit btn-lg" color="primary">Restore To
+            Default</button>
+        <button type="submit" mat-flat-button class="form-button-submit btn-lg" color="primary" style="flex:1">Save as
+            Default</button>
+    </div>
 </div>
-<div class="d-flex gap-12">
-    <button type="submit" mat-stroked-button class="form-button-submit btn-lg" color="warn">Clear All</button>
-    <button type="submit" mat-stroked-button class="form-button-submit btn-lg" color="primary">Autofill Column</button>
-    <button type="submit" mat-stroked-button class="form-button-submit btn-lg" color="primary">Restore To Default</button>
-    <button type="submit" mat-flat-button class="form-button-submit btn-lg" color="primary" style="flex:1">Save as Default</button>
-</div>
-</div>
+
+<!-- 
+<mat-list-item role="listitem">
+    <span class="list-label zone-list-label d-flex align-items-center">
+        <mat-icon class="me-2" matTooltip="Drag"
+            matTooltipPosition="left">drag_indicator</mat-icon>
+        <span>{{col}}</span>
+    </span>
+    <button mat-icon-button aria-label="Remove Function" matTooltip="Remove"
+        matTooltipPosition="right">
+        <mat-icon class="icon-circle-cancel">close</mat-icon>
+    </button>
+</mat-list-item> -->
