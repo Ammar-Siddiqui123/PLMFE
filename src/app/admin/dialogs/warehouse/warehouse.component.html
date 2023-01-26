@@ -26,7 +26,7 @@
         <div class="card-body">
             <ng-container *ngFor="let warehouse of warehouse_list;let i = index">
                 <div class="d-flex align-items-center mb-3">
-                        <mat-radio-button value="{{warehouse}}" color="primary" (change)="selectWearHouse($event)">
+                        <mat-radio-button  value="{{warehouse}}" color="primary" (change)="selectWearHouse(whname.value)">
                         </mat-radio-button>
                         <div class="container w-100">
                             <div class="row">
