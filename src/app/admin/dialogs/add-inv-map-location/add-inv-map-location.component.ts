@@ -195,8 +195,8 @@ export class AddInvMapLocationComponent implements OnInit {
       item: [this.getDetailInventoryMapData.itemNumber || '', [Validators.maxLength(50)]],
       itemQuantity: [this.getDetailInventoryMapData.itemQuantity || ''],
       description: [this.getDetailInventoryMapData.description || ''],
-      cell: [this.getDetailInventoryMapData.cellSize || '', Validators.required],
-      velocity: [this.getDetailInventoryMapData.goldenZone || '', [Validators.required, Validators.maxLength(9)]],
+      cell: [this.getDetailInventoryMapData.cellSize || '0'],
+      velocity: [this.getDetailInventoryMapData.goldenZone || '0'],
       maximumQuantity: [this.getDetailInventoryMapData.maximumQuantity || 0, [Validators.maxLength(9)]],
       dedicated: [this.getDetailInventoryMapData.dedicated || ''],
       //serialNumber: new FormControl(''),
@@ -250,6 +250,7 @@ export class AddInvMapLocationComponent implements OnInit {
         this.clickSubmit = false;
         this.invMapService.createInventoryMap(form.value).subscribe((res) => {
           this.clickSubmit = true;
+          console.log(res);
           if (res.isExecuted) {
             this.toastr.success(res.responseMessage, 'Success!', {
               positionClass: 'toast-bottom-right',

@@ -67,7 +67,7 @@ export class QuarantineConfirmationComponent implements OnInit {
       if (res.isExecuted) {
         console.log(res);
         this.dialog.closeAll();
-        this.toastr.success(labels.alert.quarantine.replace("quarantine","unquarantine"), 'Success!', {
+        this.toastr.success(labels.alert.quarantine.replace("quarantine","unquarantined"), 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
