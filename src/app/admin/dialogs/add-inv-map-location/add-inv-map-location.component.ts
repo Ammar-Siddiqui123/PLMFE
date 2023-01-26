@@ -13,7 +13,7 @@ import { ConditionalExpr } from '@angular/compiler';
 import { AuthService } from '../../../../app/init/auth.service';
 
 export interface InventoryMapDataStructure {
-  inventoryMapID: string | '',
+  invMapID: string | '',
   locationID: string | '',
   location: string | '',
   warehouse: string | '',
@@ -39,7 +39,7 @@ export interface InventoryMapDataStructure {
   masterLocation: string | '',
   dateSensitive: boolean | '',
   dedicated: string | '',
-  masterInventoryMapID: string | '',
+  masterInvMapID: string | '',
   minQuantity: string | '',
   quantityAllocatedPick: string | '',
   quantityAllocatedPutAway: string | '',
@@ -72,7 +72,7 @@ export class AddInvMapLocationComponent implements OnInit {
   bin = '';
 
   getDetailInventoryMapData: InventoryMapDataStructure = {
-    inventoryMapID: '',
+    invMapID: '',
     locationID: '',
     location: '',
     warehouse: '',
@@ -98,7 +98,7 @@ export class AddInvMapLocationComponent implements OnInit {
     masterLocation: '',
     dateSensitive: false,
     dedicated: '',
-    masterInventoryMapID: '',
+    masterInvMapID: '',
     minQuantity: '',
     quantityAllocatedPick: '',
     quantityAllocatedPutAway: '',
@@ -143,6 +143,8 @@ export class AddInvMapLocationComponent implements OnInit {
       this.row = this.getDetailInventoryMapData.row
       this.shelf = this.getDetailInventoryMapData.shelf
       this.bin = this.getDetailInventoryMapData.bin
+      // console.log(this.getDetailInventoryMapData.masterInventoryMapID);
+      
       this.updateItemNumber();
       this.initializeDataSet();
     } else {
@@ -207,15 +209,15 @@ export class AddInvMapLocationComponent implements OnInit {
       unitOfMeasure: [this.getDetailInventoryMapData.unitOfMeasure || ''],
       quantityAllocatedPick: new FormControl({value: this.getDetailInventoryMapData.quantityAllocatedPick || 0, disabled: true}),
       quantityAllocatedPutAway: new FormControl({value: this.getDetailInventoryMapData.quantityAllocatedPutAway || 0, disabled: true}),
-      putAwayDate: [{value: this.getDetailInventoryMapData.putAwayDate, disabled: true}],
+      putAwayDate: new FormControl({value: this.getDetailInventoryMapData.putAwayDate || '', disabled: true}),
       warehouse: [this.getDetailInventoryMapData.warehouse || ''],
-      // revision: new FormControl(''),
-      inventoryMapID: [this.getDetailInventoryMapData.inventoryMapID || ''],
+      revision: new FormControl({value: this.getDetailInventoryMapData.revision || '', disabled: true}),
+      inventoryMapID: new FormControl({value: this.getDetailInventoryMapData.invMapID || '', disabled: false}),
       userField1: [this.getDetailInventoryMapData.userField1 || '', [Validators.maxLength(255)]],
       userField2: [this.getDetailInventoryMapData.userField2 || '', [Validators.maxLength(255)]],
-      masterLocation: [this.getDetailInventoryMapData.masterLocation || ''],
+      masterLocation: [this.getDetailInventoryMapData.masterLocation || false],
       dateSensitive: [this.getDetailInventoryMapData.dateSensitive || false],
-      masterInventoryMapID: [this.getDetailInventoryMapData.masterInventoryMapID || ''],
+      masterInventoryMapID: new FormControl({value: this.getDetailInventoryMapData.masterInvMapID || '', disabled: false}),
       minQuantity: [this.getDetailInventoryMapData.minQuantity || 0, [Validators.maxLength(9)]],
       laserX: [this.getDetailInventoryMapData.laserX || 0, [Validators.pattern("^[0-9]*$"), Validators.maxLength(9)]],
       laserY: [this.getDetailInventoryMapData.laserY || 0, [Validators.pattern("^[0-9]*$"), Validators.maxLength(9)]],
