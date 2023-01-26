@@ -17,6 +17,7 @@ import { SetColumnSeqService } from 'src/app/admin/dialogs/set-column-seq/set-co
 import { TransactionService } from '../../transaction.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 const Order_Table_Config = [
   { colHeader: 'transactionType', colDef: 'Transaction Type' },
@@ -146,7 +147,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
 
   constructor(
     private transactionService: TransactionService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _liveAnnouncer: LiveAnnouncer, 
   ) {}
   getContentData() {
     let payload = {
@@ -185,6 +187,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
           this.onReprocessOrderChange(res.data?.compLines)
           this.onOrderTypeOrderChange(res.data?.orderStatus[0]?.transactionType)
           this.totalLinesOrderChange(res.data?.totalRecords)
+          this.currentStatusChange(res.data?.totalRecords)
           if(res.data?.onCar.length ){
             res.data.onCar.filter((item) => {
               return item.carousel='on'
@@ -234,11 +237,11 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.reprocessOrders.emit(event);
   }
   totalLinesOrderChange(event) {
-
+      
     this.totalLinesOrders.emit(event);
   }
   currentStatusChange(event) {
-
+ 
     this.currentOrders.emit(event);
   }
   onCompleteOrderChange(event) {
@@ -248,6 +251,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.locationZones.emit(event);
   }
   getRowClass(row){
+   
   }
   getTransactionModelIndex() {
     let paylaod = {
@@ -306,14 +310,12 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.getContentData();
   }
 
-  announceSortChange(e: any) {
-    // let index = this.columnValues.findIndex(x => x === e.active );
-    // this.sortColumn = {
-    //   columnName: index,
-    //   sortOrder: e.direction
-    // }
-    // this.initializeApi();
-    // this.getContentData();
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
 
   ngOnInit(): void {

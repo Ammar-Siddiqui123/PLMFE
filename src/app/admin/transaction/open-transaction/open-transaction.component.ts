@@ -38,7 +38,6 @@ export class OpenTransactionComponent implements OnInit {
   }
   returnFromComp(event) {
     this.nextStep();
-
   }
 
   nextStep() {
