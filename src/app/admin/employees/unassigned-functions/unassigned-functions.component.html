@@ -19,7 +19,7 @@
       <div class="card-body">
     <mat-list class="zones-list g-card-list list-style-1" role="list">
       <ng-scrollbar *ngIf="!filterValue" style="height: 380px">
-        <mat-list-item role="listitem"  *ngFor="let groupname of unassignedFunctions | filterUnassignedFunc:filterName">
+        <mat-list-item class="pt-0" role="listitem"  *ngFor="let groupname of unassignedFunctions | filterUnassignedFunc:filterName">
           <span class="list-label zone-list-label">
             {{groupname}}
           </span>
