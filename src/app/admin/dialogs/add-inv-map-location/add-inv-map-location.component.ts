@@ -225,6 +225,24 @@ export class AddInvMapLocationComponent implements OnInit {
     });
   }
 
+  onMinChange($event){
+    var max = this.addInvMapLocation.get("maximumQuantity")?.value;
+    var min = this.addInvMapLocation.get("minQuantity")?.value;
+    if(max=="" || max=="0")
+    {
+      this.addInvMapLocation.get("minQuantity")?.setValue("0");
+    }
+    if(min>max)
+    {
+      this.addInvMapLocation.get("minQuantity")?.setValue(this.addInvMapLocation.get("maximumQuantity")?.value.toString().charAt(0));
+    }
+  }
+
+  onMaxChange($event)
+  {
+    this.addInvMapLocation.get("minQuantity")?.setValue("0");
+  }
+
   onchangeItemNumber() {
     let value = this.addInvMapLocation.controls['zone'].value + this.addInvMapLocation.controls['carousel'].value + this.addInvMapLocation.controls['row'].value + this.addInvMapLocation.controls['shelf'].value + this.addInvMapLocation.controls['bin'].value;
     this.addInvMapLocation.controls['locationNumber'].setValue(value);
@@ -238,7 +256,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
           this.clickSubmit = true;
           if (res.isExecuted) {
-            this.toastr.success(res.responseMessage, 'Success!', {
+            this.toastr.success("Your details have been updated", 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
@@ -252,7 +270,7 @@ export class AddInvMapLocationComponent implements OnInit {
           this.clickSubmit = true;
           console.log(res);
           if (res.isExecuted) {
-            this.toastr.success(res.responseMessage, 'Success!', {
+            this.toastr.success("Your details have been added", 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
