@@ -1,3 +1,4 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -5,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -71,7 +72,7 @@ export class InventoryMapComponent implements OnInit {
 
 
   public displayedColumns: any ;
-  public dataSource: any = new MatTableDataSource;
+  public dataSource: any = [];
   customPagination: any = {
     total : '',
     recordsPerPage : 20,
@@ -104,7 +105,7 @@ export class InventoryMapComponent implements OnInit {
   detailDataInventoryMap: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
 
   favoriteSeason: string;
@@ -118,7 +119,8 @@ export class InventoryMapComponent implements OnInit {
     private invMapService: InventoryMapService,
     private toastr: ToastrService, 
     private router: Router,
-    private loader: SpinnerService
+    private loader: SpinnerService,
+    private _liveAnnouncer: LiveAnnouncer
   ) {
 
 
@@ -130,6 +132,10 @@ export class InventoryMapComponent implements OnInit {
       }
     }
 
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
   }
 
   ngOnInit(): void {
@@ -404,7 +410,7 @@ export class InventoryMapComponent implements OnInit {
     }
   }
 
-  announceSortChange(e : any){
+  announceSortChange(sortState: Sort){
     // let index = this.columnValues.findIndex(x => x === e.active );
     // this.sortColumn = {
     //   columnName: index,
@@ -413,6 +419,16 @@ export class InventoryMapComponent implements OnInit {
 
     // this.initializeApi();
     // this.getContentData();
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+    this.dataSource.sort = this.sort;
+
+
+    
+    console.log(this.dataSource.sort);
 
 
   }
