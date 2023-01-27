@@ -46,12 +46,13 @@ export class ReprocessedTransactionComponent implements OnInit {
   public dataSource: any = new MatTableDataSource();
   public detailDataTransHistory: any;
   onDestroy$: Subject<boolean> = new Subject();
-
+  payload;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
   searchBar = new Subject<string>();
   searchAutocompleteList: any;
-
+  public sortCol:any=5;
+  public sortOrder:any='asc';
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   pageEvent: PageEvent;
@@ -70,7 +71,7 @@ export class ReprocessedTransactionComponent implements OnInit {
     searchValue: '',
   };
   sortColumn: any = {
-    columnName: 32,
+    columnName: 5,
     sortOrder: 'asc',
   };
   constructor(
@@ -78,7 +79,7 @@ export class ReprocessedTransactionComponent implements OnInit {
     private transactionService: TransactionService,
     private authService: AuthService,
     private toastr: ToastrService,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -101,10 +102,34 @@ export class ReprocessedTransactionComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
+  // getColumnsData() {
+  //   this.displayedColumns = TRNSC_DATA;
+  //   this.getContentData();
+  // }
+
   getColumnsData() {
-    this.displayedColumns = TRNSC_DATA;
-    this.getContentData();
+    let payload = {
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+      tableName: 'ReProcessed',
+    };
+    this.transactionService.get(payload, '/Admin/GetColumnSequence').subscribe(
+      (res: any) => {
+        this.displayedColumns = TRNSC_DATA;
+        if (res.data) {
+          this.columnValues = res.data;
+          this.getContentData();
+        } else {
+          this.toastr.error('Something went wrong', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      },
+      (error) => {}
+    );
   }
+
   getTransactionModelIndex() {
     let paylaod = {
       viewToShow: 2,
@@ -128,22 +153,23 @@ export class ReprocessedTransactionComponent implements OnInit {
       );
   }
   getContentData() {
-    let payload = {
+    
+    this.payload = {
       draw: 0,
       searchString: this.columnSearch.searchValue,
       searchColumn: this.columnSearch.searchColumn.colDef,
       start: this.customPagination.startIndex,
       length: this.customPagination.endIndex,
-      sortColumnNumber: 5,
-      sortOrder: 'asc',
+      sortColumnNumber: this.sortCol,
+      sortOrder: this.sortOrder,
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
     this.transactionService
-      .get(payload, '/Admin/ReprocessedTransactionTable')
+      .get(this.payload, '/Admin/ReprocessedTransactionTable')
       .subscribe(
         (res: any) => {
-          this.getTransactionModelIndex();
+          // this.getTransactionModelIndex();
           this.detailDataTransHistory = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
           //  this.dataSource.paginator = this.paginator;
@@ -154,7 +180,7 @@ export class ReprocessedTransactionComponent implements OnInit {
       );
   }
   searchData(event) {
-    if(event==this.columnSearch.searchValue) return
+    if (event == this.columnSearch.searchValue) return;
     if (
       this.columnSearch.searchColumn ||
       this.columnSearch.searchColumn == ''
@@ -184,23 +210,37 @@ export class ReprocessedTransactionComponent implements OnInit {
         (error) => {}
       );
   }
+  sortChange(event) {
+    if (!this.dataSource._data._value || event.direction=='' || event.direction==this.sortOrder) return;
+    let index;
+    this.displayedColumns.find((x, i) => {
+      if (x.colDef === event.active) {
+        index = i;
+      }
+    });
 
+    this.sortCol = index;
+    this.sortOrder = event.direction;
+    this.getContentData();
+  }
   actionDialog(actionEvent: any) {
     if (actionEvent.value === 'set_column_sq') {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
-        height: '700px',
-        width: '900px',
+        height: '96%',
+        width: '70vw',
         data: {
-          mode: actionEvent.value,
-          tableName:'Reprocessed Transactions'
-        }
-      })
-      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-        if(result.isExecuted){
-          // this.getColumnsData();
-        }
-   
-      })
+          mode: event,
+          tableName: 'Reprocessed Transactions',
+        },
+      });
+      dialogRef
+        .afterClosed()
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((result) => {
+          if (result && result.isExecuted) {
+            this.getColumnsData();
+          }
+        });
     }
   }
   handlePageEvent(e: PageEvent) {
