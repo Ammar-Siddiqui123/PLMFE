@@ -1,6 +1,7 @@
 import { Component, OnInit , Inject, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 import { VelocityCodeService } from '../../../../app/common/services/velocity-code.service';
 import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json'
@@ -17,6 +18,7 @@ export class VelocityCodeComponent implements OnInit {
   public velocity_code_list: any;
   public velocity_code_list_Res: any;
   public currentVelocity="";
+  onDestroy$: Subject<boolean> = new Subject();
   public userData: any;
   @ViewChild('btnSave') button;
   constructor(
@@ -107,6 +109,22 @@ export class VelocityCodeComponent implements OnInit {
   }  else {
     this.velocity_code_list.shift();
   }
+  }
+
+  delete(event: any){
+    let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        mode: 'delete-velocity',
+        velocity: event
+      //  grp_data: grp_data
+      }
+    })
+    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+    this.getVelocity();
+    })
   }
 
   valueEntered()

@@ -11,16 +11,45 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { SetColumnSeqService } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.service';
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+export interface CarouselZone {
+  carousel: string;
+  zone: string;
+  locationName: string;
+  totalLines: string;
+  open: string;
+  completed: string;
 }
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
+let dummyData=[
+  {
+      "carousel":'off',
+      "zone": "02",
+      "locationName": "POD 2",
+      "totalLines": "13",
+      "open": "13",
+      "completed": "0"
+  },
+  {
+    "carousel":'off',
+      "zone": "03",
+      "locationName": "POD 3",
+      "totalLines": "33",
+      "open": "33",
+      "completed": "0"
+  },
+  {
+    "carousel":'on',
+      "zone": "04",
+      "locationName": "POD 5",
+      "totalLines": "21",
+      "open": "12",
+      "completed": "1"
+  }
+]
+const ELEMENT_DATA: CarouselZone[] = [
+  { carousel: "off", zone: '02', locationName: "POD 2", totalLines: '13',open: '33',completed: '0' },
+  { carousel: "off", zone: '04', locationName: "POD 65", totalLines: '1',open: '2',completed: '1' },
+  { carousel: "on", zone: '21', locationName: "POD 3", totalLines: '12',open: '52',completed: '0' },
+
 
 ];
 @Component({
@@ -30,10 +59,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class TranOffCarouselLzoneComponent implements OnInit, AfterViewInit {
   public columnValues: any = [];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<CarouselZone>(ELEMENT_DATA);
   
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  displayedColumns: string[] = ['Carousel', 'Zone', 'Location Name', 'Total Lines','Open','Completed'];
+  selection = new SelectionModel<CarouselZone>(true, []);
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
