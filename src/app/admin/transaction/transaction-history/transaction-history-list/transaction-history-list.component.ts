@@ -90,8 +90,6 @@ const TRNSC_DATA = [
   { colHeader: 'cell', colDef: 'Cell' },
   { colHeader: 'hostTransactionID', colDef: 'Host Transaction ID' },
   { colHeader: 'emergency', colDef: 'Emergency' },
-
- 
 ];
 let today = new Date();
 let year = today.getFullYear();
@@ -113,8 +111,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   public endDate: any = new Date().toISOString();
   public orderNo: any = '';
   public payload: any;
-  public sortCol:any=0;
-  public sortOrder:any='asc';
+  public sortCol: any = 0;
+  public sortOrder: any = 'asc';
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
   searchBar = new Subject<string>();
@@ -166,7 +164,6 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     private authService: AuthService,
     private toastr: ToastrService,
     private dialog: MatDialog
-
   ) {}
 
   ngOnInit(): void {
@@ -181,7 +178,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       .subscribe((value) => {
         console.log('=->', value);
         console.log('00', this.searchAutocompleteList);
-        
+
         // this.columnSearch.searchValue = value;
         // if (!this.columnSearch.searchColumn.colDef) return;
 
@@ -287,18 +284,18 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   getContentData() {
     let payload = {
       draw: 0,
-      sDate: this.startDate ,
-      eDate:  this.endDate,
-     searchString:this.columnSearch.searchValue,
-      searchColumn:this.columnSearch.searchColumn.colDef,
+      sDate: this.startDate,
+      eDate: this.endDate,
+      searchString: this.columnSearch.searchValue,
+      searchColumn: this.columnSearch.searchColumn.colDef,
       start: this.customPagination.startIndex,
       length: this.customPagination.recordsPerPage,
-      orderNumber: "",
+      orderNumber: '',
       sortColumnNumber: this.sortCol,
       sortOrder: this.sortOrder,
-      filter: "1=1",
+      filter: '1=1',
       username: this.userData.userName,
-      wsid:this.userData.wsid
+      wsid: this.userData.wsid,
     };
     this.transactionService
       .get(payload, '/Admin/TransactionHistoryTable')
@@ -325,20 +322,19 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
 
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
-    // this.customPagination.startIndex =  e.pageIndex
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
-
     this.customPagination.endIndex = e.pageSize * e.pageIndex + e.pageSize;
-    // this.length = e.length;
     this.customPagination.recordsPerPage = e.pageSize;
-    // this.pageIndex = e.pageIndex;
-
-    // this.initializeApi();
     this.getContentData();
   }
 
   sortChange(event) {
-    if (!this.dataSource._data._value || event.direction=='' || event.direction==this.sortOrder) return;
+    if (
+      !this.dataSource._data._value ||
+      event.direction == '' ||
+      event.direction == this.sortOrder
+    )
+      return;
 
     let index;
     this.displayedColumns.find((x, i) => {
@@ -350,14 +346,5 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     this.sortCol = index;
     this.sortOrder = event.direction;
     this.getContentData();
-  }
-  announceSortChange(e: any) {
-    // let index = this.columnValues.findIndex(x => x === e.active );
-    // this.sortColumn = {
-    //   columnName: index,
-    //   sortOrder: e.direction
-    // }
-    // this.initializeApi();
-    // this.getContentData();
   }
 }

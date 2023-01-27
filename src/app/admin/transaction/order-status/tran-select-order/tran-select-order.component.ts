@@ -72,6 +72,7 @@ export class TranSelectOrderComponent implements OnInit {
     }
   }
   @Input() set currentStatusOrderEvent(event: Event) {
+  
     if (event) {
       this.currentStatusOrder = event;
     }
@@ -109,9 +110,10 @@ export class TranSelectOrderComponent implements OnInit {
     this.openOrder = 0;
     this.completeOrder = 0;
     this.reprocessOrder = 0;
-    this.orderTypeOrder = 'not available';
+    this.orderTypeOrder = '-';
     this.totalLinesOrder = 0;
     this.orderNumber = '';
+    this.currentStatusOrder = '-';
   }
 
   getFloatLabelValue(): FloatLabelType {

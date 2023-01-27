@@ -119,8 +119,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   @Output() reprocessOrders = new EventEmitter<any>();
   @Output() orderTypeOrders = new EventEmitter<any>();
   @Output() totalLinesOrders = new EventEmitter<any>();
-  @Output() currentOrders = new EventEmitter<any>();
   @Output() locationZones = new EventEmitter<any>();
+  @Output() currentStatus = new EventEmitter<any>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -189,10 +189,24 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
           if (res.data) {
             this.onOpenOrderChange(res.data?.opLines);
             this.onCompleteOrderChange(res.data?.compLines);
-            this.onReprocessOrderChange(res.data?.compLines);
+            this.onReprocessOrderChange(res.data?.reLines);
+            if (
+              res.data &&
+              res.data.orderStatus &&
+              res.data.orderStatus.length > 0
+            ) {
+              res.data.orderStatus.find((el) => {
+                
+                return el.completedDate === ''
+                  ? (res.data.completedStatus = 'In Progress')
+                  : (res.data.completedStatus = 'Completed');
+              });
+              this.currentStatusChange(res.data.completedStatus);
+            }
+            this.onOrderTypeOrderChange(res.data && res.data .orderStatus && res.data .orderStatus.length>0 && res.data .orderStatus[0].transactionType)
 
             this.totalLinesOrderChange(res.data?.totalRecords);
-            this.currentStatusChange(res.data?.totalRecords);
+          
           }
 
           if (res.data?.onCar.length) {
@@ -221,6 +235,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.openOrders.emit(event);
   }
   onOrderTypeOrderChange(event) {
+    
     this.orderTypeOrders.emit(event);
   }
   onReprocessOrderChange(event) {
@@ -230,7 +245,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.totalLinesOrders.emit(event);
   }
   currentStatusChange(event) {
-    this.currentOrders.emit(event);
+
+    this.currentStatus.emit(event);
   }
   onCompleteOrderChange(event) {
     this.completeOrders.emit(event);

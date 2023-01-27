@@ -2,7 +2,7 @@
   <div class="row  mb-3">
     <div class="col-5">
       <app-tran-select-order  (orderNo)="orderNoChange($event)" (toteId)="toteIdChange($event)"
-        [openOrderEvent]="openOrderEvent" [orderTypeOrderEvent]="orderTypeOrderEvent" [orderStatNextData]="orderStatusNext" [completeOrderEvent]="completeOrderEvent" [reprocessOrderEvent]="reprocessOrderEvent" [totalLinesOrderEvent]="totalLinesOrderEvent" [completeOrderEvent]="currentStatusOrderEvent" ></app-tran-select-order>
+        [openOrderEvent]="openOrderEvent" [orderTypeOrderEvent]="orderTypeOrderEvent" [orderStatNextData]="orderStatusNext" [completeOrderEvent]="completeOrderEvent" [reprocessOrderEvent]="reprocessOrderEvent" [totalLinesOrderEvent]="totalLinesOrderEvent" [currentStatusOrderEvent]="currentStatusOrderEvent" ></app-tran-select-order>
     </div>
     <div class="col-7">
       <app-tran-carousel-lzone   [locationZonesEvent]="locationZonesEvent"></app-tran-carousel-lzone>
@@ -10,7 +10,7 @@
   </div>
   <div class="row mb-3">
     <div class="col-12">
-      <app-tran-order-list (currentOrders)="currentStatusOrderChange($event)" (totalLinesOrders)="totalLinesOrderChange($event)" (orderTypeOrders)="orderTypeOrderChange($event)"  (reprocessOrders)="reprocessOrderChange($event)"  (completeOrders)="completeOrderChange($event)"   (locationZones)="locationZones($event)" (openOrders)="openOrderChange($event)"
+      <app-tran-order-list (currentStatus)="currentStatusOrderChange($event)" (totalLinesOrders)="totalLinesOrderChange($event)" (orderTypeOrders)="orderTypeOrderChange($event)"  (reprocessOrders)="reprocessOrderChange($event)"  (completeOrders)="completeOrderChange($event)"   (locationZones)="locationZones($event)" (openOrders)="openOrderChange($event)"
         [orderNoEvent]="orderNoEvent" [toteIdEvent]="toteIdEvent"></app-tran-order-list>
     </div>
   </div>
