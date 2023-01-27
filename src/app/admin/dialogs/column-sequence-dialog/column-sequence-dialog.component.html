@@ -78,12 +78,12 @@
         </div>
     </div>
     <div class="d-flex gap-12">
-        <button type="submit" mat-stroked-button class="form-button-submit btn-lg" color="warn">Clear All</button>
-        <button type="submit" mat-stroked-button class="form-button-submit btn-lg" color="primary">Autofill
+        <button (click)="deleteColSeq()"mat-stroked-button class="form-button-submit btn-lg" color="warn">Clear All</button>
+        <button type="submit" (click)="autofill()"  mat-stroked-button class="form-button-submit btn-lg" color="primary">Autofill
             Column</button>
-        <button type="submit" mat-stroked-button class="form-button-submit btn-lg" color="primary">Restore To
+        <button type="submit"  (click)="restoreCol()"  mat-stroked-button class="form-button-submit btn-lg" color="primary">Restore To
             Default</button>
-        <button type="submit" mat-flat-button class="form-button-submit btn-lg" color="primary" style="flex:1">Save as
+        <button type="submit" (click)="save()"  mat-flat-button class="form-button-submit btn-lg" color="primary" style="flex:1">Save as
             Default</button>
     </div>
 </div>

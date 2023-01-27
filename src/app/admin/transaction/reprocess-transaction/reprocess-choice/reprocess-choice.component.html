@@ -1,73 +1,54 @@
-<mat-card class="mat-elevation-z g-card br-14 mb-4 h-100">
+<mat-card class="mat-elevation-z g-card mb-4 h-100">
     <mat-card-content>
         <h2 class="card-header-title mb-0 d-flex align-items-center mb-3">
-            <div style="cursor:pointer;" class="mat-icon-wrap me-lg-3 ">
-                
-                <span  class="material-symbols-outlined ">
-                    arrow_back
-                </span>
-            </div>
             <div class="mat-icon-wrap me-lg-3">
                 <span class="material-symbols-outlined">
-                    filter_list
+                    tab
                 </span>
             </div>
-            <span>Filters</span>
+            <span>Reprocess Choices</span>
         </h2>
-        <div class="row align-items-center mb-3">
-            <div class="col-md-4 ">
-                <div class="row align-items-center mb-3">
-                    Transaction Type
-               
-                </div>
-                <div class="row">
-                    <div class="col-md-4 ">
-                        <mat-radio-button  color="primary" >
-                            Non-Reel
-                        </mat-radio-button>
-                    </div>
-                    <div class="col-md-4 ">
-                        <mat-radio-button  color="primary" >
-                            Reel
-                        </mat-radio-button>
-                    </div>
+        <div class="custom mb-2">
+            <div class="counter bg-white">
+                <div>
+                <div class="d-flex justify-content-evenly">
+                    <div class="employees text-center">
+                    <p class="counter-count mb-1 bg-primary-900">1000</p>
+                    <p class="employee-p text-tertiary-900 mb-1  ">Total</p>
+                    <span>
+                        <mat-checkbox color="primary">
 
-                    <div class="col-md-4 ">
-                        <mat-radio-button  color="primary" >
-                            Both
-                        </mat-radio-button>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
-                    <mat-label>Enter Filter Type</mat-label>
-                    <mat-select>
-                   
-                        <mat-option>
-                            order number
-                        </mat-option>
-                        <mat-option>
-                            Tote Id.
-                        </mat-option>
-                    </mat-select>
-                    <span class="material-symbols-outlined icon-expand-more">
-                        expand_more
+                        </mat-checkbox>
                     </span>
-                </mat-form-field>
-            </div>
+                    
+                    </div>
+                    <div class="customer text-center">
+                    <p class="counter-count mb-1 bg-primary-900">800</p>
+                    <p class="customer-p text-tertiary-900 mb-1  ">WIP</p>
+                    <span>
+                        <mat-checkbox color="primary">
 
-            <div class="col-md-4">
-                <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
-                    <mat-label>Order Number</mat-label>
-                    <input matInput type="text">
-                </mat-form-field>
+                        </mat-checkbox>
+                    </span>
+                    </div>
+                    <div class="customer text-center">
+                        <p class="counter-count mb-1 bg-primary-900">800</p>
+                        <p class="customer-p text-tertiary-900 mb-1  ">WIP</p>
+                        <span>
+                            <mat-checkbox color="primary">
+    
+                            </mat-checkbox>
+                        </span>
+                        </div>
+                </div>
+                </div>
             </div>
         </div>
-     
-
+        <div>
+            <button mat-flat-button color="primary" class="button-primary w-100">
+                Post Transactions
+              </button>
+        </div>
     </mat-card-content>
 
 </mat-card>

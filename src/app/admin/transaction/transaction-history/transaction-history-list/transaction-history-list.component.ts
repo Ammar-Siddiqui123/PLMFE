@@ -30,6 +30,7 @@ import { TransactionService } from '../../transaction.service';
 import { DeleteConfirmationTransactionComponent } from 'src/app/admin/dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
 import { SetColumnSeqComponent } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.component';
 import { FloatLabelType } from '@angular/material/form-field';
+import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
 
 const TRNSC_DATA = [
   { colHeader: 'tH_ID', colDef: 'TH_ID' },
@@ -112,11 +113,13 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   public endDate: any = new Date().toISOString();
   public orderNo: any = '';
   public payload: any;
+  public sortCol:any=0;
+  public sortOrder:any='asc';
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
   searchBar = new Subject<string>();
   searchAutocompleteList: any;
-
+  onDestroy$: Subject<boolean> = new Subject();
   @Input() set startDateEvent(event: Event) {
     if (event) {
       this.startDate = event;
@@ -161,7 +164,9 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     private seqColumn: SetColumnSeqService,
     private transactionService: TransactionService,
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dialog: MatDialog
+
   ) {}
 
   ngOnInit(): void {
@@ -176,8 +181,9 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       .subscribe((value) => {
         console.log('=->', value);
         console.log('00', this.searchAutocompleteList);
-        this.columnSearch.searchValue = value;
-        if (!this.columnSearch.searchColumn.colDef) return;
+        
+        // this.columnSearch.searchValue = value;
+        // if (!this.columnSearch.searchColumn.colDef) return;
 
         this.autocompleteSearchColumn();
         if (!this.searchAutocompleteList.length) {
@@ -193,6 +199,26 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
+  actionDialog(event) {
+    if (event == 'set_column_sq') {
+      let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
+        height: '96%',
+        width: '70vw',
+        data: {
+          mode: event,
+          tableName: 'Transaction History',
+        },
+      });
+      dialogRef
+        .afterClosed()
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((result) => {
+          if (result && result.isExecuted) {
+            this.getColumnsData();
+          }
+        });
+    }
+  }
   async autocompleteSearchColumn() {
     let searchPayload = {
       query: this.columnSearch.searchValue,
@@ -211,8 +237,26 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       );
   }
   getColumnsData() {
-    this.displayedColumns = TRNSC_DATA;
-    this.getContentData();
+    let payload = {
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+      tableName: 'Transaction History',
+    };
+    this.transactionService.get(payload, '/Admin/GetColumnSequence').subscribe(
+      (res: any) => {
+        this.displayedColumns = TRNSC_DATA;
+        if (res.data) {
+          this.columnValues = res.data;
+          this.getContentData();
+        } else {
+          this.toastr.error('Something went wrong', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      },
+      (error) => {}
+    );
   }
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
@@ -233,7 +277,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       .subscribe(
         (res: any) => {
           this.columnValues = res.data?.transactionHistoryColumns;
-          this.columnValues.push('actions');
+          // this.columnValues.push('actions');
           // this.displayOrderCols=res.data.openTransactionColumns;
         },
         (error) => {}
@@ -242,25 +286,25 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
 
   getContentData() {
     let payload = {
-      "draw": 0,
-      "sDate": "1973-01-21T07:32:36.104Z",
-      "eDate": "2023-01-21T07:32:36.104Z",
-      "searchString": "",
-      "searchColumn": "",
-      "start": 0,
-      "length": 10,
-      "orderNumber": "",
-      "sortColumnNumber": 0,
-      "sortOrder": "asc",
-      "filter": "1=1",
-      "username": "1234",
-      "wsid": "TESTWSID"
+      draw: 0,
+      sDate: this.startDate ,
+      eDate:  this.endDate,
+     searchString:this.columnSearch.searchValue,
+      searchColumn:this.columnSearch.searchColumn.colDef,
+      start: this.customPagination.startIndex,
+      length: this.customPagination.recordsPerPage,
+      orderNumber: "",
+      sortColumnNumber: this.sortCol,
+      sortOrder: this.sortOrder,
+      filter: "1=1",
+      username: this.userData.userName,
+      wsid:this.userData.wsid
     };
     this.transactionService
       .get(payload, '/Admin/TransactionHistoryTable')
       .subscribe(
         (res: any) => {
-          this.getTransactionModelIndex();
+          // this.getTransactionModelIndex();
           this.detailDataTransHistory = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
           //  this.dataSource.paginator = this.paginator;
@@ -277,6 +321,35 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     ) {
       this.getContentData();
     }
+  }
+
+  handlePageEvent(e: PageEvent) {
+    this.pageEvent = e;
+    // this.customPagination.startIndex =  e.pageIndex
+    this.customPagination.startIndex = e.pageSize * e.pageIndex;
+
+    this.customPagination.endIndex = e.pageSize * e.pageIndex + e.pageSize;
+    // this.length = e.length;
+    this.customPagination.recordsPerPage = e.pageSize;
+    // this.pageIndex = e.pageIndex;
+
+    // this.initializeApi();
+    this.getContentData();
+  }
+
+  sortChange(event) {
+    if (!this.dataSource._data._value || event.direction=='' || event.direction==this.sortOrder) return;
+
+    let index;
+    this.displayedColumns.find((x, i) => {
+      if (x.colDef === event.active) {
+        index = i;
+      }
+    });
+
+    this.sortCol = index;
+    this.sortOrder = event.direction;
+    this.getContentData();
   }
   announceSortChange(e: any) {
     // let index = this.columnValues.findIndex(x => x === e.active );
