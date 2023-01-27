@@ -91,29 +91,29 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   public detailDataInventoryMap: any;
   public orderNo: any = '';
   public toteId: any = '';
- public searchCol:any='';
- public searchString:any='';
+  public searchCol: any = '';
+  public searchString: any = '';
+  public payload;
+  public sortCol: any = 3;
+  public sortOrder: any = 'asc';
+  searchByInput = new Subject<string>();
 
- 
- searchByInput = new Subject<string>();
- 
   @Input() set orderNoEvent(event: Event) {
-    if(event){
+    if (event) {
       this.orderNo = event;
       this.getContentData();
     }
- 
+
     // this.getContentData();
   }
 
-  
   @Input() set toteIdEvent(event: Event) {
-    if(event){
+    if (event) {
       this.toteId = event;
     }
     // this.getContentData();
   }
-  // Emitters 
+  // Emitters
   @Output() openOrders = new EventEmitter<any>();
   @Output() completeOrders = new EventEmitter<any>();
   @Output() reprocessOrders = new EventEmitter<any>();
@@ -123,7 +123,10 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   @Output() locationZones = new EventEmitter<any>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  // @ViewChild(MatSort, { static: true }) sort: MatSort;
+  // @ViewChild(MatSort) set matSort(sort:MatSort){
+  //   this.dataSource.sort=sort
+  // }
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
   pageEvent: PageEvent;
   cols = [];
@@ -141,84 +144,71 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     searchValue: '',
   };
   sortColumn: any = {
-    columnName: 32,
+    columnName: 3,
     sortOrder: 'asc',
   };
 
   constructor(
     private transactionService: TransactionService,
     private authService: AuthService,
-    private _liveAnnouncer: LiveAnnouncer, 
+    private _liveAnnouncer: LiveAnnouncer
   ) {}
   getContentData() {
-    let payload = {
+    this.payload = {
       draw: 0,
-      compDate: "",
+      compDate: '',
       identify: 0,
       searchString: this.searchString,
-      direct: "asc",
+      direct: 'asc',
       searchColumn: this.searchCol,
       sRow: this.customPagination.startIndex,
       eRow: this.customPagination.endIndex,
       checkValue: true,
       checkColumn: 0,
       orderNumber: this.orderNo,
-      toteID:this.toteId,
-      sortColumnNumber: 0,
-      sortOrder: "asc",
-      filter: "1=1",
+      toteID: this.toteId,
+      sortColumnNumber: this.sortCol,
+      sortOrder: this.sortOrder,
+      filter: '1=1',
       username: this.userData.userName,
-      wsid:this.userData.wsid
+      wsid: this.userData.wsid,
     };
     this.transactionService
-      .get(payload, '/Admin/OrderStatusData')
+      .get(this.payload, '/Admin/OrderStatusData')
       .subscribe(
         (res: any) => {
-         
-          this.getTransactionModelIndex();
+          // this.getTransactionModelIndex();
           this.detailDataInventoryMap = res.data?.orderStatus;
           this.dataSource = new MatTableDataSource(res.data?.orderStatus);
+          this.displayedColumns = Order_Table_Config;
+
           this.columnValues = res.data?.orderStatusColSequence;
           //  this.dataSource.paginator = this.paginator;
           this.customPagination.total = res.data?.totalRecords;
-          this.dataSource.sort = this.sort;
-          this.onOpenOrderChange(res.data?.opLines)
-          this.onCompleteOrderChange(res.data?.compLines)
-          this.onReprocessOrderChange(res.data?.compLines)
-          this.onOrderTypeOrderChange(res.data?.orderStatus[0]?.transactionType)
-          this.totalLinesOrderChange(res.data?.totalRecords)
-          this.currentStatusChange(res.data?.totalRecords)
-          if(res.data?.onCar.length ){
-            res.data.onCar.filter((item) => {
-              return item.carousel='on'
-             });
-            this.onLocationZoneChange(res.data?.onCar)
-          }
-          else if(res.data?.offCar.length){
-            res.data.offCar.filter((item) => {
-              return item.carousel='off'
-             });
-            this.onCompleteOrderChange(res.data?.offCar)
+          // this.dataSource.sort = this.sort;
+          if (res.data) {
+            this.onOpenOrderChange(res.data?.opLines);
+            this.onCompleteOrderChange(res.data?.compLines);
+            this.onReprocessOrderChange(res.data?.compLines);
+
+            this.totalLinesOrderChange(res.data?.totalRecords);
+            this.currentStatusChange(res.data?.totalRecords);
           }
 
+          if (res.data?.onCar.length) {
+            res.data.onCar.filter((item) => {
+              return (item.carousel = 'on');
+            });
+            this.onLocationZoneChange(res.data?.onCar);
+          } else if (res.data?.offCar.length) {
+            res.data.offCar.filter((item) => {
+              return (item.carousel = 'off');
+            });
+            this.onCompleteOrderChange(res.data?.offCar);
+          }
         },
         (error) => {}
       );
-    // this.invMapService
-    //   .getInventoryMap(this.payload)
-    //   .pipe(takeUntil(this.onDestroy$))
-    //   .subscribe((res: any) => {
-    //     debugger;
-    //     this.itemList = res.data?.inventoryMaps?.map((arr) => {
-    //       return { itemNumber: arr.itemNumber, desc: arr.description };
-    //     });
-
-    //     this.detailDataInventoryMap = res.data?.inventoryMaps;
-    //     this.dataSource = new MatTableDataSource(res.data?.inventoryMaps);
-    //     //  this.dataSource.paginator = this.paginator;
-    //     this.customPagination.total = res.data?.recordsFiltered;
-    //     this.dataSource.sort = this.sort;
-    //   });
   }
 
   orderNoChange(event: Event) {
@@ -237,11 +227,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.reprocessOrders.emit(event);
   }
   totalLinesOrderChange(event) {
-      
     this.totalLinesOrders.emit(event);
   }
   currentStatusChange(event) {
- 
     this.currentOrders.emit(event);
   }
   onCompleteOrderChange(event) {
@@ -250,9 +238,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   onLocationZoneChange(event) {
     this.locationZones.emit(event);
   }
-  getRowClass(row){
-   
-  }
+  getRowClass(row) {}
   getTransactionModelIndex() {
     let paylaod = {
       viewToShow: 2,
@@ -278,23 +264,26 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   getColumnsData() {
     this.displayedColumns = Order_Table_Config;
     this.getContentData();
-    // this.seqColumn
-    //   .getSetColumnSeq()
-    //   .pipe(takeUntil(this.onDestroy$))
-    //   .subscribe((res) => {
-    //     this.displayedColumns = TRNSC_DATA;
+  }
 
-    //     if (res?.data?.columnSequence) {
-    //       this.columnValues = res.data?.columnSequence;
-    //       this.columnValues.push('actions');
-    //       this.getContentData();
-    //     } else {
-    //       this.toastr.error('Something went wrong', 'Error!', {
-    //         positionClass: 'toast-bottom-right',
-    //         timeOut: 2000,
-    //       });
-    // }
-    // });
+  sortChange(event) {
+    if (
+      !this.dataSource._data._value ||
+      event.direction == '' ||
+      event.direction == this.sortOrder
+    )
+      return;
+
+    let index;
+    this.displayedColumns.find((x, i) => {
+      if (x.colDef === event.active) {
+        index = i;
+      }
+    });
+
+    this.sortCol = index;
+    this.sortOrder = event.direction;
+    this.getContentData();
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
@@ -321,12 +310,11 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.searchByInput
-    .pipe(debounceTime(400), distinctUntilChanged())
-    .subscribe((value) => {
-      this.searchString=value;
-    this.getColumnsData();
-
-    });
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((value) => {
+        this.searchString = value;
+        this.getColumnsData();
+      });
     this.getColumnsData();
   }
   ngAfterViewInit() {

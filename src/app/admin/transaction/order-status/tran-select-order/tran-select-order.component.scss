@@ -11,7 +11,12 @@
     color:white!important;
     background-color: #DE2654!important;
   }
-
+  
+  .disabled-button {
+    color:white!important;
+    background-color: var(--clr-chrome-600)!important; 
+  }
+  
   .fields-width{
     width: 156px!important;
   }
