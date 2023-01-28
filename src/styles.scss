@@ -1435,6 +1435,13 @@ button.default-btn{
 .mat-table thead{
   background-color: #F9F9FF;
 }
+.borderless{
+  table{
+    td{
+      border: 0;
+    }
+  }
+}
 
 
 //-------------- Table-CLASSES ----END-------------------

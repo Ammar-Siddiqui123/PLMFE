@@ -1,7 +1,35 @@
-<mat-card class="mat-elevation-z g-card br-14 mb-4 h-100">
+<mat-card class="mat-elevation-z g-card mb-4 h-100">
     <mat-card-content>
-  
-       global user account
-  
+      <div class="d-flex justify-content-between align-items-center mb-3">
+         <h2 class="card-header-title mb-0 d-flex align-items-center">
+            <div class="mat-icon-wrap me-lg-3">
+              <span class="material-symbols-outlined">
+               contacts
+              </span>
+            </div>
+            <span>Global User Account</span>
+          </h2>
+      </div>
+      <div class="row">
+         <div class="row">
+            <div class="col-3">
+               <mat-form-field class="d-block w-100 mb-3" appearance="outline">
+                  <mat-label>Username</mat-label>
+                  <input matInput value="Location Assignment Error" type="text">
+              </mat-form-field>
+            </div>
+            <div class="col-3">
+               <mat-form-field class="d-block w-100 mb-3" appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <input matInput value="Location Assignment Error" type="password">
+              </mat-form-field>
+            </div>
+            <div class="col-3 offset-3">
+               <button mat-flat-button color="primary" class="button-primary w-100">
+                  Submit
+              </button>
+            </div>
+         </div>
+      </div>
     </mat-card-content>
   </mat-card>
