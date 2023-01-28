@@ -1072,7 +1072,13 @@ h4.main-section-title {
   background: rgba(123, 66, 172, 0.15);
 }
 
-//-------------- BACKGROUND-COLOR-CLASSES ----START-------------------
+//-------------- BACKGROUND-COLOR-CLASSES ----END-------------------
+
+//-------------- TEXT-COLOR-CLASSES ----START-------------------
+.text-error{
+
+}
+//-------------- TEXT-COLOR-CLASSES ----END-------------------
 
 //-------------- LABEL-CLASSES ----START-------------------
 .label-purple{
@@ -1191,6 +1197,10 @@ button.add-icon-button {
   max-width: 48px !important;
   min-width: 48px !important;
   border-radius: 14px !important;
+  .mat-button-wrapper{
+    display: flex;
+    align-items: center;
+  }
 }
 button.icon-button {
   display: flex;
@@ -1374,6 +1384,12 @@ button.default-btn{
 }
 .text-error{
   color: #DE2654;
+}
+.text-success{
+  color: $success;
+}
+.text-warning{
+  color: $warning;
 }
 //-------------- TEXT-CLASSES ----END-------------------
 .circle-icon-o{
