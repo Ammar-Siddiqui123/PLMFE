@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GlobalConfigComponent } from './global-config.component';
 import { MaterialModule } from '../material-module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GlobalConfigRoutingModule } from './global-config-routing.module';
 import { GlobalDashboardComponent } from './dashboard/dashboard.component';
 import { DashboardModule } from '../dashboard/dashboard.module';
@@ -15,16 +15,26 @@ import { ConfigDatabaseComponent } from './database-connections/config-database/
 import { ConnectionStringsComponent } from './database-connections/connection-strings/connection-strings.component';
 import { LicensingComponent } from './licensing/licensing.component';
 
-
-
 @NgModule({
-  declarations: [GlobalConfigComponent, GlobalDashboardComponent, DatabaseConnectionsComponent, PrintersComponent, WorkstationComponent, UserAccountComponent, ConnectedUsersComponent, ConfigDatabaseComponent, ConnectionStringsComponent, LicensingComponent],
+  declarations: [
+    GlobalConfigComponent,
+    GlobalDashboardComponent,
+    DatabaseConnectionsComponent,
+    PrintersComponent,
+    WorkstationComponent,
+    UserAccountComponent,
+    ConnectedUsersComponent,
+    ConfigDatabaseComponent,
+    ConnectionStringsComponent,
+    LicensingComponent,
+  ],
   imports: [
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
     GlobalConfigRoutingModule,
-    DashboardModule
-  ]
+    DashboardModule,
+    FormsModule,
+  ],
 })
-export class GlobalConfigModule { }
+export class GlobalConfigModule {}

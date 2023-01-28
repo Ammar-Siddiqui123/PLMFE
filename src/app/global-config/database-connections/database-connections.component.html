@@ -13,13 +13,13 @@
 
                             <div class="row mb-3">
                                 <div class="col-12">
-                                    <app-config-database></app-config-database>
+                                    <app-config-database [connectionStringData]="dbConnectionData"></app-config-database>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-12">
-                                    <app-connection-strings></app-connection-strings>
+                                    <app-connection-strings  [connectionStringData]="dbConnectionData"></app-connection-strings>
                                 </div>
                             </div>
                         </div>
