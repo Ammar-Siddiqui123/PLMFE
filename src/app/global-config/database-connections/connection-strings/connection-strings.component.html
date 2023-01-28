@@ -1,7 +1,20 @@
-<mat-card class="mat-elevation-z g-card br-14 mb-4 h-100">
+<mat-card class="mat-elevation-z g-card mb-4 h-100">
     <mat-card-content>
-
-        <div class="py-3">
+        <div class="row">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                    <h2 class="card-header-title mb-0 d-flex align-items-center">
+                        <div class="mat-icon-wrap me-lg-3">
+                            <span class="material-symbols-outlined">
+                                cable
+                            </span>
+                        </div>
+                        <span>Connection Strings</span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="py-1">
 
             <div class="row">
                 <div class="col-6 offset-6">
@@ -34,9 +47,8 @@
 
                     <div class="row">
                         <mat-radio-group aria-label="Select an option" color="primary" class="w-100">
-                            <ng-container
-                                *ngFor="let item of connectionStringData;let index = index;trackBy:trackByIndex;">
-                                <div class="row align-items-center">
+                            <ng-container *ngFor="let item of connectionStringData;let index = index;trackBy:trackByIndex;">
+                                <div class="row align-items-center mb-3">
 
 
 
@@ -73,9 +85,9 @@
                                         </div>
                                     </div>
                                     <div class="col-3">
-                                        <div class="d-flex gap-12">
-                                            <button type="button" mat-flat-button class="button-primary-i button-sm">Set
-                                                SQL Auth</button>
+                                        <div class="d-flex gap-12 align-items-center">
+                                            <button type="button" mat-flat-button
+                                                class="button-primary-i button-sm">Set SQL Auth</button>
 
                                             <button mat-flat-button color="primary" class="xsm-icon-button " [disabled]
                                                (click)="saveString(item)" #namebutton>

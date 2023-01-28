@@ -23,12 +23,12 @@ export class SideNavComponent implements OnInit {
     { icon: 'schema', title: 'FlowRack Replenish', route: '#',permission: 'FlowRack Replenish' }
   ];
   globalMenus: any = [
-    { icon: 'home', title: 'Home', route: '/globalconfig/dashboard' ,permission: 'Home'},
-    { icon: 'electric_bolt', title: 'Database Connections', route: '/globalconfig/database-connections' ,permission: 'Database Connections'},
-    { icon: 'electric_bolt', title: 'Printers', route: '/globalconfig/printers' ,permission: 'Printers'},
-    { icon: 'electric_bolt', title: 'Workstation', route: '/globalconfig/workstation' ,permission: 'Workstations'},
-    { icon: 'electric_bolt', title: 'CCSIF', route: '#' ,permission: 'CCSIF'},
-    { icon: 'electric_bolt', title: 'Licensing', route: '/globalconfig/licensing' ,permission: 'Licensing'},
+    { icon: 'door_front', title: 'Home', route: '/globalconfig/dashboard' ,permission: 'Home'},
+    { icon: 'hub', title: 'Database Connections', route: '/globalconfig/database-connections' ,permission: 'Database Connections'},
+    { icon: 'print', title: 'Printers', route: '/globalconfig/printers' ,permission: 'Printers'},
+    { icon: 'online_prediction', title: 'Workstation', route: '/globalconfig/workstation' ,permission: 'Workstations'},
+    { icon: 'nest_wifi_gale', title: 'CCSIF', route: '#' ,permission: 'CCSIF'},
+    { icon: 'subtitles', title: 'Licensing', route: '/globalconfig/licensing' ,permission: 'Licensing'},
 
   ];
   adminMenus: any = [
