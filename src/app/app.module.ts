@@ -20,6 +20,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { CustomHttpInterceptor } from './init/http-interceptor';
 import { ChangePasswordComponent } from './login/change-password/change-password.component';
 import { HeaderInterceptor } from './init/header-interceptor.interceptor';
+import { GlobalConfigModule } from './global-config/global-config.module';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -45,7 +46,8 @@ import { HeaderInterceptor } from './init/header-interceptor.interceptor';
     MatIconModule,
     MatCheckboxModule,
     MaterialModule,
-    MatTableModule
+    MatTableModule,
+    GlobalConfigModule
     
   ],
   providers: [

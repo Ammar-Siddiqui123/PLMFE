@@ -22,6 +22,15 @@ export class SideNavComponent implements OnInit {
     { icon: 'pending_actions', title: 'Order Manager', route: '#' ,permission: 'Order Manager'},
     { icon: 'schema', title: 'FlowRack Replenish', route: '#',permission: 'FlowRack Replenish' }
   ];
+  globalMenus: any = [
+    { icon: 'home', title: 'Home', route: '/globalconfig/dashboard' ,permission: 'Home'},
+    { icon: 'electric_bolt', title: 'Database Connections', route: '/globalconfig/database-connections' ,permission: 'Database Connections'},
+    { icon: 'electric_bolt', title: 'Printers', route: '/globalconfig/printers' ,permission: 'Printers'},
+    { icon: 'electric_bolt', title: 'Workstation', route: '/globalconfig/workstation' ,permission: 'Workstations'},
+    { icon: 'electric_bolt', title: 'CCSIF', route: '#' ,permission: 'CCSIF'},
+    { icon: 'electric_bolt', title: 'Licensing', route: '/globalconfig/licensing' ,permission: 'Licensing'},
+
+  ];
   adminMenus: any = [
     { icon: 'arrow_back', title: 'Admin', route: '/dashboard', class: 'back-class' ,permission: 'Dashboard'},
     { icon: 'assignment_ind', title: 'Employees', route: '/admin/employees' ,permission: 'Employees'},
@@ -50,21 +59,24 @@ export class SideNavComponent implements OnInit {
   }
 
   loadMenus(menu: any) {
-
     if (menu.route.includes('/admin')) {
       this.childMenus = this.adminMenus;
       this.isParentMenu = false;
       this.isChildMenu = true;
     }
-    if (menu.route === '/dashboard') {
+    else if (menu.route.includes('globalconfig')) {
+      this.childMenus = this.globalMenus;
+      this.isParentMenu = false;
+      this.isChildMenu = true;
+    }
+    if (menu.route === '/dashboard' && !menu.route.includes('/globalconfig')) {
       this.isParentMenu = true;
       this.isChildMenu = false;
-    }
-
+    }    
   }
 
   isAuthorized(controlName:any) {
-     return !this.authService.isAuthorized(controlName);
+    //  return !this.authService.isAuthorized(controlName);
   }
 
 }
