@@ -43,10 +43,17 @@ export class SideNavComponent implements OnInit {
   isParentMenu: boolean = true;
   isChildMenu: boolean = false;
   childMenus: any;
-  constructor(private router: Router,private authService: AuthService) { }
+  constructor(private router: Router,private authService: AuthService,private sharedService:SharedService) { }
 
   ngOnInit(): void {
     this.loadMenus({route: this.router.url});
+    this.sharedService.updateAdminMenuObserver.subscribe(adminMenu => {
+      if (adminMenu){
+        this.childMenus = this.adminMenus;
+        this.isParentMenu = false;
+        this.isChildMenu = true;
+      }
+    });
   }
 
   loadMenus(menu: any) {
