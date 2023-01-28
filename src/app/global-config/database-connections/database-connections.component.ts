@@ -8,7 +8,7 @@ import { GlobalconfigService } from '../globalconfig.service';
 })
 export class DatabaseConnectionsComponent implements OnInit {
   constructor(private globalConfService: GlobalconfigService) {}
-  dbConnectionData=[];
+  dbConnectionData = [];
   ngOnInit(): void {
     this.getMenuData();
   }
@@ -27,5 +27,10 @@ export class DatabaseConnectionsComponent implements OnInit {
       },
       (error) => {}
     );
+  }
+  updateListEventRec(event) {
+    if (event) {
+      this.ngOnInit();
+    }
   }
 }
