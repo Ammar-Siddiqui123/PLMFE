@@ -1,0 +1,50 @@
+<div class="f-container">
+    <app-header>
+    </app-header>
+    <mat-sidenav-container class="main-container">
+        <mat-sidenav #sidenav mode="side" disableClose="true" [opened]="true">
+            <app-side-nav [sideBarOpen]="true"></app-side-nav>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <div class="dashboard-section" [ngClass]="{'side-bar-opened' : true}">
+                <div class="breadcrumb-menu">
+                    <nav aria-label="breadcrumb" class="breadcrumb">
+
+                        <div class="container-fluid p-0" style="height: auto;">
+
+                            <div class="row mb-3">
+                                <div class="col-12">
+
+                                    <mat-card class="mat-elevation-z g-card br-14 mb-4 h-100">
+                                        <mat-card-content>
+
+                                            Licensing
+
+                                        </mat-card-content>
+                                    </mat-card>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <!-- <div *ngFor="let item of breadcrumbList; index as i;">
+              
+                <div *ngIf="i<(breadcrumbList.length-1)">
+                  <li class="breadcrumb-item" [routerLink]="item.value"  style="cursor:pointer;">{{item.name}}
+                    &nbsp; {{"/"}} &nbsp;
+                  </li>
+                </div>
+                <div *ngIf="i>=(breadcrumbList.length-1)">
+                  <li class="breadcrumb-item"  style="cursor:pointer;">{{item.name}}
+                  </li>
+                </div>
+              </div> -->
+                        <!-- <li class="breadcrumb-item active" aria-current="page">Library</li> -->
+                    </nav>
+                </div>
+                <router-outlet></router-outlet>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
