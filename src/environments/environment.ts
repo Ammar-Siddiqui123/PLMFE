@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://40.77.0.219:9010/api",
+  // apiUrl: "http://40.77.0.219:9010/api",
+  apiUrl: "https://staging-e64.com:9010/api",
   userName: "pickpro",
   password: "Admin$11"
  

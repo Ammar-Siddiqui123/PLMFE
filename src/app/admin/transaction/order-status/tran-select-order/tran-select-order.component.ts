@@ -1,7 +1,16 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { TransactionService } from '../../transaction.service';
 
@@ -13,7 +22,7 @@ import { TransactionService } from '../../transaction.service';
 export class TranSelectOrderComponent implements OnInit {
   orderNumber: any;
   toteID: any;
-  searchText:string;
+  searchText: string;
   openOrder: any = 0;
   completeOrder: any = 0;
   reprocessOrder: any = 0;
@@ -21,17 +30,17 @@ export class TranSelectOrderComponent implements OnInit {
   totalLinesOrder: any = 0;
   currentStatusOrder: any = '-';
   locationZoneData: any = [];
-  selectOption='OrderNumber';
+  selectOption = 'OrderNumber';
   searchByOrderNumber = new Subject<string>();
   searchByToteId = new Subject<string>();
   @Output() orderNo = new EventEmitter<any>();
   @Output() toteId = new EventEmitter<any>();
-  @Input() orderStatNextData =[]; // decorate the property with @Input()
+  @Input() orderStatNextData = []; // decorate the property with @Input()
 
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
   searchAutocompleteList: any;
-  searchAutocompleteListOrderNumber: any=[];
+  searchAutocompleteListOrderNumber: any = [];
   public userData: any;
 
   @Input() set openOrderEvent(event: Event) {
@@ -58,34 +67,29 @@ export class TranSelectOrderComponent implements OnInit {
   }
 
   @Input() set totalLinesOrderEvent(event: Event) {
-
     if (event) {
       this.totalLinesOrder = event;
-      
     }
   }
-  @Input() set currentStatusOrderChange(event: Event) {
-alert('asdasd')
+  @Input() set currentStatusOrderEvent(event: Event) {
     if (event) {
-      
       this.currentStatusOrder = event;
-      
     }
   }
   constructor(
     private authService: AuthService,
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
+    private dialog: MatDialog
   ) {}
   ngOnChanges(changes: SimpleChanges) {
-    if(changes['orderStatNextData']){
-      this.searchAutocompleteListOrderNumber=changes['orderStatNextData']['currentValue']
+    if (changes['orderStatNextData']) {
+      this.searchAutocompleteListOrderNumber =
+        changes['orderStatNextData']['currentValue'];
     }
-       
-    
-      }
-    
+  }
+
   ngOnInit(): void {
-    console.log(this.orderStatNextData)
+    console.log(this.orderStatNextData);
     // this.searchByOrderNumber
     //   .pipe(debounceTime(400), distinctUntilChanged())
     //   .subscribe((value) => {
@@ -101,13 +105,13 @@ alert('asdasd')
     this.userData = this.authService.userData();
   }
 
-  resetLines(){
-    this.openOrder= 0;
+  resetLines() {
+    this.openOrder = 0;
     this.completeOrder = 0;
     this.reprocessOrder = 0;
-    this.orderTypeOrder= 'not available';
-   this.totalLinesOrder= 0;
-
+    this.orderTypeOrder = 'not available';
+    this.totalLinesOrder = 0;
+    this.orderNumber = '';
   }
 
   getFloatLabelValue(): FloatLabelType {
@@ -120,14 +124,38 @@ alert('asdasd')
     this.toteId.emit(event);
   }
   searchData() {
-    this.onOrderNoChange(this.searchText);
-    
+    this.onOrderNoChange(this.orderNumber);
   }
 
-  clear(){
+  clear() {
     this.resetLines();
   }
-
+  deleteOrder() {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res == 'Yes') {
+        let paylaod = {
+          orderNumber: this.orderNumber,
+          TotalLines: this.totalLinesOrder,
+          UserName: this.userData.userName,
+          WSID: this.userData.wsid
+        };
+        this.transactionService
+          .get(paylaod, '/Admin/DeleteOrderStatus')
+          .subscribe(
+            (res: any) => {
+              // this.columnValues = res.data?.openTransactionColumns;
+              // this.columnValues.push('actions');
+              // this.displayOrderCols=res.data.openTransactionColumns;
+            },
+            (error) => {}
+          );
+      }
+    });
+  }
   async autocompleteSearchColumn() {
     let searchPayload = {
       orderNumber: this.orderNumber,
@@ -143,7 +171,7 @@ alert('asdasd')
         (error) => {}
       );
   }
-  
+
   ngOnDestroy() {
     this.searchByOrderNumber.unsubscribe();
     this.searchByToteId.unsubscribe();

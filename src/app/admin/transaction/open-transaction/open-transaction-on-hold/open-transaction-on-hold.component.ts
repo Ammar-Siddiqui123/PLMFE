@@ -29,6 +29,7 @@ import { DeleteConfirmationTransactionComponent } from 'src/app/admin/dialogs/de
 import { SetColumnSeqComponent } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.component';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
+import { FunctionAllocationComponent } from 'src/app/admin/dialogs/function-allocation/function-allocation.component';
 
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
@@ -117,6 +118,9 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   public displayedColumns: any;
   public dataSource: any = new MatTableDataSource();
   public payload: any;
+  public sortCol:any=5;
+  public sortOrder:any='asc';
+  
   public filterLoc: any = 'Nothing';
   public itemList: any;
   transTypeSelect = 'All Transactions';
@@ -229,8 +233,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onEndDate(event) {
-  }
+  onEndDate(event) {}
   rowClick(row, event) {
     console.log(row);
   }
@@ -247,14 +250,14 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     };
     // Search by Tote Id Debounce values
     this.searchByToteId
-      .pipe(debounceTime(400), distinctUntilChanged())
+      .pipe(debounceTime(600), distinctUntilChanged())
       .subscribe((value) => {
         this.toteId = value;
         this.getContentData();
       });
     // Search by Order Number Debounce values
     this.searchByOrderNumber
-      .pipe(debounceTime(400), distinctUntilChanged())
+      .pipe(debounceTime(600), distinctUntilChanged())
       .subscribe((value) => {
         this.orderNumber = value;
         this.getContentData();
@@ -262,7 +265,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
 
     // Search Bar  Debounce values
     this.searchBar
-      .pipe(debounceTime(500), distinctUntilChanged())
+      .pipe(debounceTime(600), distinctUntilChanged())
       .subscribe((value) => {
         console.log('=->', value);
         console.log('00', this.searchAutocompleteList);
@@ -354,7 +357,19 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   viewInInventoryMaster() {
     this.router.navigate(['/admin/inventoryMaster']);
   }
-
+  sendComp(event) {
+    let dialogRef = this.dialog.open(FunctionAllocationComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        target: 'assigned',
+        function: ''
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+    })
+  }
   adjustQuantity(event) {
     let dialogRef = this.dialog.open(AdjustQuantityComponent, {
       height: 'auto',
@@ -398,27 +413,42 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   }
 
   getColumnsData() {
-    this.displayedColumns = TRNSC_DATA;
-    this.getContentData();
-    // this.seqColumn
-    //   .getSetColumnSeq()
-    //   .pipe(takeUntil(this.onDestroy$))
-    //   .subscribe((res) => {
-    //     this.displayedColumns = TRNSC_DATA;
-
-    //     if (res?.data?.columnSequence) {
-    //       this.columnValues = res.data?.columnSequence;
-    //       this.columnValues.push('actions');
-    //       this.getContentData();
-    //     } else {
-    //       this.toastr.error('Something went wrong', 'Error!', {
-    //         positionClass: 'toast-bottom-right',
-    //         timeOut: 2000,
-    //       });
-    // }
-    // });
+    let payload = {
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+      tableName: 'Open Transactions',
+    };
+    this.transactionService.get(payload, '/Admin/GetColumnSequence').subscribe(
+      (res: any) => {
+        this.displayedColumns = TRNSC_DATA;
+        if (res.data) {
+          this.columnValues = res.data;
+          this.columnValues.push('actions');
+          this.getContentData();
+        } else {
+          this.toastr.error('Something went wrong', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      },
+      (error) => {}
+    );
   }
+  sortChange(event) {
+    if (!this.dataSource._data._value || event.direction=='' || event.direction==this.sortOrder) return;
 
+    let index;
+    this.displayedColumns.find((x, i) => {
+      if (x.colDef === event.active) {
+        index = i;
+      }
+    });
+
+    this.sortCol = index;
+    this.sortOrder = event.direction;
+    this.getContentData();
+  }
   announceSortChange(e: any) {
     // let index = this.columnValues.findIndex(x => x === e.active );
     // this.sortColumn = {
@@ -430,7 +460,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   }
 
   getContentData() {
-    let payload = {
+    this.payload = {
       draw: 0,
       sDate: this.sdate,
       eDate: this.edate,
@@ -442,17 +472,17 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       length: this.customPagination.recordsPerPage,
       orderNumber: this.orderNumber,
       toteID: this.toteId,
-      sortColumnNumber: 5,
-      sortOrder: 'asc',
+      sortColumnNumber: this.sortCol,
+      sortOrder: this.sortOrder,
       filter: '1=1',
       username: this.userData.userName,
       wsid: 'TESTWSID',
     };
     this.transactionService
-      .get(payload, '/Admin/OpenTransactionTable')
+      .get(this.payload, '/Admin/OpenTransactionTable')
       .subscribe(
         (res: any) => {
-          this.getTransactionModelIndex();
+          // this.getTransactionModelIndex();
           this.detailDataInventoryMap = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
           //  this.dataSource.paginator = this.paginator;
@@ -526,12 +556,15 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
           mode: event,
           tableName: 'Open Transactions',
         },
-      })
-      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-       if(result && result.isExecuted){
-        // this.getColumnsData()
-       }
-      })
+      });
+      dialogRef
+        .afterClosed()
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((result) => {
+          if (result && result.isExecuted) {
+            this.getColumnsData();
+          }
+        });
     }
   }
 
