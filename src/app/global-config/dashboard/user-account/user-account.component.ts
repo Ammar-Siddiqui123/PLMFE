@@ -66,7 +66,7 @@ export class UserAccountComponent implements OnInit {
           }
         },
         (error) => {
-          this.toastr.success(labels.alert.went_worng, 'Success!', {
+          this.toastr.error(labels.alert.went_worng, 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000,
           });

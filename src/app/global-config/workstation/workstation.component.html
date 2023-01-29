@@ -48,10 +48,9 @@
                                         <mat-form-field class="action-dropdown" appearance="outline">
                                             <mat-label>Actions</mat-label>
                                             <mat-select class="employees-action">
-                                                <mat-option>Add Employee</mat-option>
-                                                <mat-option value="edit">Edit</mat-option>
-                                                <mat-option value="delete">Delete</mat-option>
-                                                <mat-option value="print">Print</mat-option>
+                                                <mat-option [disabled]="!wsid" (click)="clearDefaultApp()" >Clear Default App</mat-option>
+                                                <mat-option value="edit">Get Client Certificate Copy</mat-option>
+                                                <mat-option (click)="deleteWorkStation()"  [disabled]="!wsid" value="delete">Delete Workstations</mat-option>
                                                 <!-- <mat-option value="back">Back</mat-option> -->
                                             </mat-select>
                                             <span class="material-symbols-outlined icon-expand-more">
@@ -121,7 +120,7 @@
                                                             Can Access?
                                                         </th>
                                                         <td *matCellDef="let element">
-                                                            <mat-checkbox [value]="element" (change)="onChangeCheckbox($event,element)"
+                                                            <mat-checkbox  [disabled]="!wsid" [value]="element" (change)="onChangeCheckbox($event,element)"
                                                                 [checked]="element.canAccess" color="primary">
                                                             </mat-checkbox>
                                                         </td>
@@ -141,7 +140,7 @@
                                                         </th>
 
                                                         <td mat-cell  *matCellDef="let element">
-                                                            <mat-radio-button [value]="element"
+                                                            <mat-radio-button [value]="element" [disabled]="!wsid" [checked]="element.defaultApp" (change)="onChangeRadio($event,element)"
                                                                 color="primary">
                                                             </mat-radio-button>
                                                         </td>

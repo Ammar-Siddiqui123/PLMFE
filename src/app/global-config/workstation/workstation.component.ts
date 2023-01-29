@@ -1,8 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/services/shared.service';
 import { GlobalconfigService } from '../globalconfig.service';
+import labels from '../../labels/labels.json';
 
 export interface PeriodicElement {
   position: string;
@@ -20,7 +22,7 @@ export class WorkstationComponent implements OnInit {
   workstationData: any = [];
   selectedItem: any;
   canAccessAppList: any = [];
-  defaultAccessAppList: any = [];
+  defaultAccessApp;
   licAppNames: any = [];
   licAppObj: any;
   wsid: any;
@@ -31,7 +33,7 @@ export class WorkstationComponent implements OnInit {
     return numSelected === numRows;
   }
   async radioChange(item) {
-   this.wsid=item.wsid;
+    this.wsid = item.wsid;
     // this.filter['property'] = event.value;
     this.selectedItem = item;
 
@@ -67,7 +69,8 @@ export class WorkstationComponent implements OnInit {
 
   constructor(
     private sharedService: SharedService,
-    private globalConfService: GlobalconfigService
+    private globalConfService: GlobalconfigService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -165,20 +168,24 @@ export class WorkstationComponent implements OnInit {
       .get(payload, '/GlobalConfig/WorkStationDefaultAppSelect')
       .subscribe(
         (res: any) => {
-          if (res && res.data) {
-            this.defaultAccessAppList = res.data;
-          }
+          this.defaultAccessApp = res && res.data ? res.data : '';
+
           if (this.licAppObj.length) {
+            // reset to default
             this.licAppObj.map((itm) => {
               itm.canAccess = false;
+              itm.defaultApp = false;
             });
           }
           if (canAccessArr.length) {
+            // find and map check boxes of selected apps
             this.licAppObj.map((obj, i) => {
+              if (this.defaultAccessApp === obj.appName) {
+                this.licAppObj[i].defaultApp = true;
+              }
               canAccessArr.find((item, j) => {
                 if (item === obj.appName) {
                   this.licAppObj[i].canAccess = true;
-                } else if (item != obj.appName) {
                 }
               });
             });
@@ -198,6 +205,24 @@ export class WorkstationComponent implements OnInit {
     } else {
       this.removeCanAccess(payload);
     }
+  }
+  onChangeRadio(event, item) {
+    let payload = {
+      WSID: this.wsid,
+      AppName: item.appName,
+    };
+    this.defaultAppAdd(payload);
+  }
+
+  defaultAppAdd(payload) {
+    this.globalConfService
+      .get(payload, '/GlobalConfig/WorkStationDefaultAppAdd')
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+        },
+        (error) => {}
+      );
   }
 
   removeCanAccess(payload) {
@@ -220,5 +245,34 @@ export class WorkstationComponent implements OnInit {
         },
         (error) => {}
       );
+  }
+  deleteWorkStation() {
+    if (!this.wsid) return;
+    let payload = {
+      WSID: this.wsid,
+    };
+    this.globalConfService
+      .get(payload, '/GlobalConfig/WorkStationDelete')
+      .subscribe(
+        (res: any) => {
+        if(res.isExecuted){
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+        },
+        (error) => {
+          this.toastr.error(labels.alert.went_worng, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      );
+  }
+  clearDefaultApp(){
+    this.licAppObj.map((itm) => {
+      itm.defaultApp = false;
+    });
   }
 }
