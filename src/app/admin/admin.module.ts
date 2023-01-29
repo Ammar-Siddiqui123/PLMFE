@@ -103,6 +103,7 @@ import { ItemNumUpdateConfirmationComponent } from './dialogs/item-num-update-co
 import { ScanTypeCodeComponent } from './dialogs/scan-type-code/scan-type-code.component';
 import { ColumnSequenceDialogComponent } from './dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { SearchFilterPipe } from './transaction/pipes/search-filter.pipe';
+import { GlobalConfigSetSqlComponent } from './dialogs/global-config-set-sql/global-config-set-sql.component';
 
 
 
@@ -196,7 +197,8 @@ import { SearchFilterPipe } from './transaction/pipes/search-filter.pipe';
     ItemNumUpdateConfirmationComponent,
     ScanTypeCodeComponent,
     ColumnSequenceDialogComponent,
-    SearchFilterPipe
+    SearchFilterPipe,
+    GlobalConfigSetSqlComponent
 
   ],
   imports: [

@@ -5,6 +5,7 @@ import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confir
 import { IConnectionString } from 'src/app/interface/transaction';
 import { GlobalconfigService } from '../../globalconfig.service';
 import { Output, EventEmitter } from '@angular/core';
+import { GlobalConfigSetSqlComponent } from 'src/app/admin/dialogs/global-config-set-sql/global-config-set-sql.component';
 
 const newConnString = {} as IConnectionString;
 newConnString.connectionName = '';
@@ -65,14 +66,14 @@ export class ConnectionStringsComponent implements OnInit {
         }
       );
   }
-  deleteString(item){
+  deleteString(item) {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
       data: {
         mode: 'delete-connection-string',
         connectionName: item.connectionName,
-        message:`Connection Name .${item.connectionName}`
+        message: `Connection Name .${item.connectionName}`,
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
@@ -81,7 +82,21 @@ export class ConnectionStringsComponent implements OnInit {
       }
     });
   }
-
+  openSqlAuth(item) {
+    const dialogRef = this.dialog.open(GlobalConfigSetSqlComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        mode: 'sql-auth-string',
+        connectionName:item.connectionName
+      },
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res.isExecuted) {
+        this.connectionUpdateEvent.emit(res.isExecuted);
+      }
+    });
+  }
   trackByIndex(index: number, obj: any): any {
     return index;
   }

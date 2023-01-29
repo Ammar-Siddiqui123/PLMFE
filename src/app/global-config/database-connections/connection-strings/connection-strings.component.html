@@ -86,8 +86,8 @@
                                     </div>
                                     <div class="col-3">
                                         <div class="d-flex gap-12 align-items-center">
-                                            <button type="button" mat-flat-button
-                                                class="button-primary-i button-sm">Set SQL Auth</button>
+                                            <button type="button" mat-flat-button 
+                                               (click)="openSqlAuth(item)" class="button-primary-i button-sm">Set SQL Auth</button>
 
                                             <button mat-flat-button color="primary" class="xsm-icon-button " [disabled]
                                                (click)="saveString(item)" #namebutton>
