@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/services/shared.service';
 import { GlobalconfigService } from '../globalconfig.service';
 
 @Component({
@@ -7,10 +8,18 @@ import { GlobalconfigService } from '../globalconfig.service';
   styleUrls: ['./database-connections.component.scss'],
 })
 export class DatabaseConnectionsComponent implements OnInit {
-  constructor(private globalConfService: GlobalconfigService) {}
+  constructor(
+    private globalConfService: GlobalconfigService,
+    private sharedService: SharedService
+  ) {}
   dbConnectionData = [];
   ngOnInit(): void {
-    this.getMenuData();
+    let sharedData = this.sharedService.getData();
+    if (sharedData && sharedData['connectionString']) {
+      this.dbConnectionData = sharedData;
+    } else {
+      this.getMenuData();
+    }
   }
 
   getMenuData() {
@@ -24,13 +33,14 @@ export class DatabaseConnectionsComponent implements OnInit {
     this.globalConfService.get(payload, '/GlobalConfig/Menu').subscribe(
       (res: any) => {
         this.dbConnectionData = res && res.data;
+        this.sharedService.setData(this.dbConnectionData);
       },
       (error) => {}
     );
   }
   updateListEventRec(event) {
     if (event) {
-      this.ngOnInit();
+      this.getMenuData();
     }
   }
 }

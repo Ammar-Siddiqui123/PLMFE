@@ -15,17 +15,17 @@
             <div class="col-3">
                <mat-form-field class="d-block w-100 mb-3" appearance="outline">
                   <mat-label>Username</mat-label>
-                  <input matInput value="Location Assignment Error" type="text">
+                  <input  [(ngModel)]="username" [value]="username"   matInput value="Location Assignment Error" type="text">
               </mat-form-field>
             </div>
             <div class="col-3">
                <mat-form-field class="d-block w-100 mb-3" appearance="outline">
                   <mat-label>Password</mat-label>
-                  <input matInput value="Location Assignment Error" type="password">
+                  <input  [(ngModel)]="password" [value]="password"  matInput value="Location Assignment Error">
               </mat-form-field>
             </div>
             <div class="col-3 offset-3">
-               <button mat-flat-button color="primary" class="button-primary w-100">
+               <button mat-flat-button color="primary" class="button-primary w-100" (click)="changeGlobalAcc()">
                   Submit
               </button>
             </div>

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CdkTableModule} from '@angular/cdk/table';
 import { GlobalConfigComponent } from './global-config.component';
 import { MaterialModule } from '../material-module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -14,6 +15,7 @@ import { ConnectedUsersComponent } from './dashboard/connected-users/connected-u
 import { ConfigDatabaseComponent } from './database-connections/config-database/config-database.component';
 import { ConnectionStringsComponent } from './database-connections/connection-strings/connection-strings.component';
 import { LicensingComponent } from './licensing/licensing.component';
+import { GeneralModule } from '../gen-module';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { LicensingComponent } from './licensing/licensing.component';
     ConfigDatabaseComponent,
     ConnectionStringsComponent,
     LicensingComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -35,6 +38,8 @@ import { LicensingComponent } from './licensing/licensing.component';
     GlobalConfigRoutingModule,
     DashboardModule,
     FormsModule,
+    CdkTableModule,
+    GeneralModule
   ],
 })
 export class GlobalConfigModule {}

@@ -22,10 +22,10 @@
             <div class="row">
                 <div class="col-5">
                     <div class="d-flex gap-12 align-items-center justify-content-between">
-                        <mat-form-field class="action-dropdown" appearance="outline"   name="connectionName"  ngDefaultControl [(ngModel)]="connectionNameSelect">
+                        <mat-form-field class="action-dropdown" appearance="outline"   name="connectionName"  ngDefaultControl >
                             <mat-label>Connection Name</mat-label>
-                            <mat-select class="employees-action" (selectionChange)="onSelectionChange($event)" >
-                                <mat-option *ngFor="let item of connectionStringData" [value]="item.connectionName">
+                            <mat-select [(ngModel)]="connectionNameSelect" class="employees-action" (selectionChange)="onSelectionChange($event)" >
+                                <mat-option *ngFor="let item of connectionStringData.connectionString" [value]="item.connectionName">
                                     {{item.connectionName}}
                                 </mat-option>
                             </mat-select>

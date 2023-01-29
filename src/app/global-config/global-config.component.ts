@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 // import { ChangePasswordComponent } from './change-password/change-password.component';
 import { SpinnerService } from '../init/spinner.service';
 import { AuthService } from '../init/auth.service';
+import { GlobalconfigService } from './globalconfig.service';
 
 @Component({
   selector: 'global-config',
@@ -31,7 +32,8 @@ export class GlobalConfigComponent {
     private toastr: ToastrService,
     private dialog: MatDialog,
     public loader: SpinnerService,
-    private auth: AuthService
+    private auth: AuthService,
+   
   ) { 
     this.url = this.router.url;
   }
@@ -85,6 +87,7 @@ export class GlobalConfigComponent {
   // }
 
   ngOnInit() {
+ 
     if(this.auth.IsloggedIn()){
       this.router.navigate(['/dashboard']);
     }
