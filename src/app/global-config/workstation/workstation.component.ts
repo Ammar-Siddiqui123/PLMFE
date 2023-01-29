@@ -261,6 +261,8 @@ export class WorkstationComponent implements OnInit {
             timeOut: 2000,
           });
         }
+        this.getMenuData();
+        this.wsid=null
         },
         (error) => {
           this.toastr.error(labels.alert.went_worng, 'Error!', {
