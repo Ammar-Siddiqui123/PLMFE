@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardGuard } from '../guard/auth-guard.guard';
 import { InductionManagerComponent } from './induction-manager.component';
+import { ProcessPutAwaysComponent } from './process-put-aways/process-put-aways.component';
 import { SuperBatchComponent } from './super-batch/super-batch.component';
 
 const routes: Routes = [
@@ -9,6 +10,11 @@ const routes: Routes = [
   {
     path: 'SuperBatch',
     component: SuperBatchComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'ProcessPutAways',
+    component: ProcessPutAwaysComponent,
     canActivate: [AuthGuardGuard],
   },
 ];
