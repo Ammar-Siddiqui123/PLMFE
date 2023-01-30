@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
   breadcrumbList: any = [];
   userData: any;
 
-  public user_data  = JSON.parse(localStorage.getItem('user') || '');
+  // public user_data  = JSON.parse(localStorage.getItem('user') || '');
   constructor(
     private router: Router,
     public spinnerService: SpinnerService,
