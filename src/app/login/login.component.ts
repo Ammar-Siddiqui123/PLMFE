@@ -85,6 +85,7 @@ export class LoginComponent {
   }
 
   ngOnInit() {
+    localStorage.clear();
     if(this.auth.IsloggedIn()){
       this.router.navigate(['/dashboard']);
     }

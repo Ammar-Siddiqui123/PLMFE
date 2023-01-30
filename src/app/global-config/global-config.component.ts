@@ -92,6 +92,11 @@ export class GlobalConfigComponent {
       this.router.navigate(['/dashboard']);
     }
     else{
+    this.route.url.forEach((res) => {
+      if(res[0].path.includes('globalconfig')){
+          localStorage.setItem('isConfigUser', JSON.stringify(true))
+      }
+    })
       this.loginService.getSecurityEnvironment().subscribe((res:any) => {
         this.env = res.data.securityEnvironment;
         if(this.env){
