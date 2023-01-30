@@ -22,7 +22,7 @@ export class LoginComponent {
   returnUrl: string;
   public env;
   public toggle_password = true;
-
+  url = '';
 
   constructor(
     public loginService: LoginService,
@@ -32,7 +32,9 @@ export class LoginComponent {
     private dialog: MatDialog,
     public loader: SpinnerService,
     private auth: AuthService
-  ) { }
+  ) { 
+    this.url = this.router.url;
+  }
 
   addLoginForm = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
