@@ -239,7 +239,7 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterLocation').subscribe((res: any) => {
-      this.invMasterLocations ='asdsad';
+      this.invMasterLocations = res.data;
 
       console.log(this.getInvMasterData);
 

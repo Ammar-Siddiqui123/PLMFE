@@ -21,7 +21,6 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
     exports: [
@@ -46,8 +45,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
         MatPaginatorModule,
         MatRadioModule,
         MatProgressSpinnerModule,
-        MatTooltipModule,
-        MatFormFieldModule,
+        MatTooltipModule
     ]
 })
 export class MaterialModule { }

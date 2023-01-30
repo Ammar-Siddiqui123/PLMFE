@@ -17,24 +17,24 @@ export class DashboardComponent implements OnInit {
   breadcrumbList: any = [];
   constructor(public employeeService: EmployeeService,  public router: Router) {
 
-  //   router.events.subscribe((val: any) => {
-  //     this.breadcrumbList = [];
-  //     this.breadcrumbList.push({
-  //       name:'Home',
-  //       value:'/dashboard'
-  //     })
-  //     if(val instanceof NavigationEnd){
-  //       let res = val.url.substring(1);
-  //       let splittedArray = res.split('/');
-  //       splittedArray.forEach(element => {
-  //       this.breadcrumbList.push({
-  //         name: this.capitalizeFirstLetter(element),
-  //         value:'/'+element
-  //       })
-  //     });
-  //     }
-  //     // console.log(val instanceof NavigationEnd) 
-  // });
+    router.events.subscribe((val: any) => {
+      this.breadcrumbList = [];
+      this.breadcrumbList.push({
+        name:'Home',
+        value:'/dashboard'
+      })
+      if(val instanceof NavigationEnd){
+        let res = val.url.substring(1);
+        let splittedArray = res.split('/');
+        splittedArray.forEach(element => {
+        this.breadcrumbList.push({
+          name: this.capitalizeFirstLetter(element),
+          value:'/'+element
+        })
+      });
+      }
+      // console.log(val instanceof NavigationEnd) 
+  });
    }
 
   capitalizeFirstLetter(string) {

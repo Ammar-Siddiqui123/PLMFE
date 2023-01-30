@@ -20,7 +20,6 @@ export class MainComponent implements OnInit {
     {
       this.sharedService.updateAdminMenu();
     }
-    // console.log(this.sharedService.updateSidebar());
     this.sharedService.updateSidebar();
   }
 
