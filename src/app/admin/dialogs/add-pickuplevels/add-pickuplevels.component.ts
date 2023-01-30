@@ -13,7 +13,7 @@ import { AuthService } from '../../../../app/init/auth.service';
 })
 export class AddPickuplevelsComponent implements OnInit {
 
-  form_heading: string = 'Add Pick Label';
+  form_heading: string = 'Add Pick Level';
   form_btn_label: string = 'Add';
   levelId: any;
   startShelf: any;

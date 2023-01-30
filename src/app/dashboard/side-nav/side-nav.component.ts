@@ -52,7 +52,7 @@ export class SideNavComponent implements OnInit {
   inductionMenus: any = [
     { icon: 'arrow_back', title: 'Induction Manager', route: '/dashboard', class: 'back-class' , permission: 'Induction Manager'},
     { icon: 'grid_view', title: 'Dashboard', route: '#' ,permission:'Induction Manager'},
-    { icon: 'swipe_down_alt', title: 'Process Put Aways', route: '#' ,permission:'Induction Manager'},
+    { icon: 'swipe_down_alt', title: 'Process Put Aways', route: '/InductionManager/ProcessPutAways' ,permission:'Induction Manager'},
     { icon: 'swipe_up_alt', title: 'Process Picks', route: '#' ,permission:'Induction Manager'},
     { icon: 'line_style', title: 'Super Batch', route: '/InductionManager/SuperBatch' ,permission:'Induction Manager'},
     { icon: 'linear_scale', title: 'Pallet Receiving', route: '#' ,permission:'Induction Manager'},
