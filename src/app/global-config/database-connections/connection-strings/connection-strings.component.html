@@ -52,11 +52,11 @@
 
 
 
-                                    <div class="col-3">
+                                    <div class="col-3" >
                                         <!-- (click)="openAddItemNumDialog(kitItem)" -->
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
 
-                                            <input matInput type="text" #specialFeature maxlength="255"
+                                            <input matInput type="text" [(ngModel)]="item.connectionName" (ngModelChange)="onInputValueChange($event,item,index)" #specialFeature maxlength="255"
                                                 [value]="item.connectionName">
                                         </mat-form-field>
                                     </div>
@@ -66,7 +66,7 @@
 
                                             <mat-form-field class="custom-form-field w-100" appearance="outline">
 
-                                                <input matInput type="text" #specialFeature maxlength="255"
+                                                <input matInput type="text" #specialFeature maxlength="255" [(ngModel)]="item.databaseName" (ngModelChange)="onInputValueChange($event,item,index)"
                                                     [value]="item.databaseName">
                                             </mat-form-field>
 
@@ -76,7 +76,7 @@
                                         <div class="d-flex gap-12 align-items-center">
                                             <mat-form-field class="custom-form-field w-100" appearance="outline">
 
-                                                <input matInput type="text" #specialFeature maxlength="255"
+                                                <input matInput type="text" #specialFeature maxlength="255" [(ngModel)]="item.serverName" (ngModelChange)="onInputValueChange($event,item,index)"
                                                     [value]="item.serverName">
                                             </mat-form-field>
 
@@ -87,9 +87,9 @@
                                     <div class="col-3">
                                         <div class="d-flex gap-12 align-items-center">
                                             <button type="button" mat-flat-button 
-                                               (click)="openSqlAuth(item)" class="button-primary-i button-sm">Set SQL Auth</button>
+                                               (click)="openSqlAuth(item)" class="button-primary-i button-sm"  [disabled]="item.isSqlButtonDisable" > Set SQL Auth</button>
 
-                                            <button mat-flat-button color="primary" class="xsm-icon-button " [disabled]
+                                            <button mat-flat-button color="primary" class="xsm-icon-button " [disabled]="item.isButtonDisable"
                                                (click)="saveString(item)" #namebutton>
                                                 <mat-icon class="material-symbols-outlined">save</mat-icon>
                                             </button>

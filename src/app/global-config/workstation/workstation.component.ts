@@ -83,6 +83,7 @@ export class WorkstationComponent implements OnInit {
       sharedData.workstations.length
     ) {
       this.workstationData = sharedData.workstations;
+      
     } else {
       this.getMenuData();
     }
