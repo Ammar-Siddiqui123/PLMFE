@@ -1,0 +1,49 @@
+.mat-column-appName {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+  .mat-column-canAccess {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 124px !important;
+    width: 124px !important;
+    min-width: 124px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    text-align: center;
+  }
+  .mat-column-defaultApp {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 124px !important;
+    width: 124px !important;
+    min-width: 124px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    text-align: center;
+  }
