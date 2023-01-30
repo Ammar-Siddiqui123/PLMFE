@@ -69,7 +69,7 @@
 
                 <mat-form-field class="action-dropdown" appearance="outline">
                   <mat-label>Actions</mat-label>
-                  <mat-select class="employees-action" (selectionChange)="inventoryMapAction($event)"
+                  <mat-select  #matRef class="employees-action" (selectionChange)="inventoryMapAction($event)" 
                     placeholder="Actions">
                     <mat-option (click)="addLocDialog()" [hidden]="isAuthorized('Inv Map Add Location')">Add Location</mat-option>
                     <mat-option value="print">Print</mat-option>
