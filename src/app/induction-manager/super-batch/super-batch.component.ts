@@ -33,6 +33,7 @@ export class SuperBatchComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    
   }
 
   openReqDataStatus(){
