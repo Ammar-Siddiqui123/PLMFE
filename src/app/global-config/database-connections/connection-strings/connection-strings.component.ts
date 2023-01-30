@@ -15,7 +15,7 @@ import { GlobalConfigSetSqlComponent } from 'src/app/admin/dialogs/global-config
 export class ConnectionStringsComponent implements OnInit {
   @Input() connectionStringData: IConnectionString[] = [];
   @Output() connectionUpdateEvent = new EventEmitter<string>();
-  
+  isAddedNewRow = false;
   constructor(
     private globalConfService: GlobalconfigService,
     private toastr: ToastrService,
@@ -45,18 +45,33 @@ export class ConnectionStringsComponent implements OnInit {
     return newConnString;
   }
   addConnString() {
+    this.isAddedNewRow = true;
     this.connectionStringData.push(this.createObjectNewConn());
   }
 
-  
   onInputValueChange(event, item, index) {
-    this.connectionStringData[index].isButtonDisable = false;
-    this.connectionStringData[index].isSqlButtonDisable = false;
+    if (item.isNewConn) {
+      if (
+        item.connectionName == '' ||
+        item.databaseName == '' ||
+        item.serverName == ''
+      ) {
+        return;
+      } else {
+        this.connectionStringData[index].isButtonDisable = false;
+        this.connectionStringData[index].isSqlButtonDisable = false;
+      }
+    } else {
+      this.connectionStringData[index].isButtonDisable = false;
+      this.connectionStringData[index].isSqlButtonDisable = false;
+    }
   }
   saveString(item) {
-
+    if (item.isNewConn) {
+      this.isAddedNewRow = false;
+    }
     let payload = {
-      OldConnection: item.isNewConn?'New':item.connectionName,
+      OldConnection: item.isNewConn ? 'New' : item.connectionName,
       ConnectionName: item.connectionName,
       DatabaseName: item.databaseName,
       ServerName: item.serverName,
@@ -91,6 +106,9 @@ export class ConnectionStringsComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
+      if (item.isNewConn) {
+        this.isAddedNewRow = false;
+      }
       if (res.isExecuted) {
         this.connectionUpdateEvent.emit(res.isExecuted);
       }

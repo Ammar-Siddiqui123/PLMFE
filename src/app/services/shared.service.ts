@@ -29,5 +29,6 @@ export class SharedService {
   getApp() {
     return this.appData;
 
+
   }
 }
