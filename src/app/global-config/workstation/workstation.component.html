@@ -64,7 +64,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-5">
-                                            <div class="card br-14 table-responsive p-3" style="height: 500px ;">
+                                            <div class="card br-14 table-responsive p-3">
+                                                <ng-scrollbar style="height: 500px;"  class="mat-table-scrollbar">
                                                 <mat-radio-group color="primary" [(ngModel)]="selectedItem">
                                                     <div *ngFor="let item of workstationData; let i = index"
                                                         class="d-flex flex-column gap-12 mb-2">
@@ -75,12 +76,13 @@
 
                                                     </div>
                                                 </mat-radio-group>
+                                                </ng-scrollbar>
                                             </div>
                                         </div>
                                         <div class="col-7">
                                             <div class="card br-14 table-responsive borderless px-0"
-                                                style="height:500px;">
-                                                <!-- <ng-scrollbar style="height: 500px;"> -->
+                                               >
+                                                <ng-scrollbar style="height: 500px;"  class="mat-table-scrollbar">
                                                 <!-- <table>
                                                     <thead class="card-header">
                                                         <tr>
@@ -153,12 +155,12 @@
                                                         </td> -->
                                                     </ng-container>
 
-                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true" ></tr>
                                                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"
                                                         (click)="selection.toggle(row)">
                                                     </tr>
                                                 </table>
-                                                <!-- </ng-scrollbar> -->
+                                                </ng-scrollbar>
                                             </div>
                                         </div>
                                     </div>

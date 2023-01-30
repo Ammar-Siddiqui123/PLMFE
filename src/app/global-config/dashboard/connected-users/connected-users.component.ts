@@ -29,9 +29,9 @@ export class ConnectedUsersComponent implements OnInit {
     this.globalConfService.get(null, '/GlobalConfig/ConnectedUser').subscribe(
       (res: any) => {
         if (res.isExecuted) {
-          this.user_connected_datasource = new MatTableDataSource(
-            res.data && res.data.length > 0 ? res.data : dummy_data
-          );
+            // res.data && res.data.length > 0 ? res.data : dummy_data
+
+          this.user_connected_datasource = new MatTableDataSource(dummy_data);
         } 
       },
       (error) => {}
