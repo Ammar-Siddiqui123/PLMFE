@@ -85,7 +85,8 @@ export class SideNavComponent implements OnInit {
       this.isParentMenu = false;
       this.isChildMenu = true;
     }
-    if (menu.route === '/dashboard' || !menu.route.includes('/globalconfig')) {
+    // || !menu.route.includes('/globalconfig')
+    if (menu.route === '/dashboard') {
       this.isParentMenu = true;
       this.isChildMenu = false;
     }    
