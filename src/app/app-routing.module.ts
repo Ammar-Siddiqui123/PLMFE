@@ -28,10 +28,16 @@ const routes: Routes = [
         loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
         canActivate:[AuthGuardGuard]
       },
+      { 
+        path: 'InductionManager', 
+        loadChildren: () => import('./induction-manager/induction-manager.module').then(m => m.InductionManagerModule),
+        canActivate:[AuthGuardGuard]
+      },
 
     ]
 
   },
+
 
   
 

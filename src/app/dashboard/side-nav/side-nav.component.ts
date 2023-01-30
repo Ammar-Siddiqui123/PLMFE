@@ -16,7 +16,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'},
     { icon: 'electric_bolt', title: 'Import Export', route: '#' ,permission: 'Import Export'},
     { icon: 'manage_accounts', title: 'Admin', route: '/admin', permission: 'Admin Menu'},
-    { icon: 'checklist', title: 'Induction Manager', route: '#' ,permission: 'Induction Manager'},
+    { icon: 'checklist', title: 'Induction Manager', route: '/InductionManager' ,permission: 'Induction Manager'},
     { icon: 'fact_check', title: 'Work Manager', route: '#' ,permission: 'Work Manager'},
     { icon: 'insert_chart', title: 'Consolidation Manager', route: '#' ,permission: 'Consolidation Manager'},
     { icon: 'pending_actions', title: 'Order Manager', route: '#' ,permission: 'Order Manager'},
@@ -40,6 +40,17 @@ export class SideNavComponent implements OnInit {
     { icon: 'dashboard', title: 'Inventory', route: '/admin/inventoryMaster',permission: 'Inventory' },
 
   ];
+  inductionMenus: any = [
+    { icon: 'arrow_back', title: 'Induction Manager', route: '/dashboard', class: 'back-class' , permission: 'Induction Manager'},
+    { icon: 'grid_view', title: 'Dashboard', route: '#' ,permission:'Induction Manager'},
+    { icon: 'swipe_down_alt', title: 'Process Put Aways', route: '#' ,permission:'Induction Manager'},
+    { icon: 'swipe_up_alt', title: 'Process Picks', route: '#' ,permission:'Induction Manager'},
+    { icon: 'line_style', title: 'Super Batch', route: '/InductionManager/SuperBatch' ,permission:'Induction Manager'},
+    { icon: 'linear_scale', title: 'Pallet Receiving', route: '#' ,permission:'Induction Manager'},
+    { icon: 'edit_attributes', title: 'Mark Empty Reels', route: '#' ,permission:'Induction Manager'},
+    { icon: 'manage_accounts', title: 'Admin', route: '#' ,permission:'Induction Manager'},
+
+  ];
   isParentMenu: boolean = true;
   isChildMenu: boolean = false;
   childMenus: any;
@@ -53,6 +64,11 @@ export class SideNavComponent implements OnInit {
 
     if (menu.route.includes('/admin')) {
       this.childMenus = this.adminMenus;
+      this.isParentMenu = false;
+      this.isChildMenu = true;
+    }
+    if (menu.route.includes('/InductionManager')) {
+      this.childMenus = this.inductionMenus;
       this.isParentMenu = false;
       this.isChildMenu = true;
     }

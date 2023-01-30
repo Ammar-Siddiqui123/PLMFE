@@ -16,7 +16,7 @@ export class MainComponent implements OnInit {
   }
 
   updateMenu(){
-    console.log(this.sharedService.updateSidebar());
+    // console.log(this.sharedService.updateSidebar());
     this.sharedService.updateSidebar();
   }
 
