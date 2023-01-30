@@ -6,12 +6,16 @@ import { InductionManagerComponent } from './induction-manager.component';
 import { MaterialModule } from '../material-module';
 import { GeneralModule } from '../gen-module';
 import { SuperBatchComponent } from './super-batch/super-batch.component';
+import { RequiredDateStatusComponent } from '../dialogs/required-date-status/required-date-status.component';
+import { ProcessPutAwaysComponent } from './process-put-aways/process-put-aways.component';
 
 
 @NgModule({
   declarations: [
     InductionManagerComponent,
-    SuperBatchComponent
+    SuperBatchComponent,
+    RequiredDateStatusComponent,
+    ProcessPutAwaysComponent
   ],
   imports: [
     CommonModule,
