@@ -92,7 +92,7 @@ import { TranOrderListComponent } from './transaction/order-status/tran-order-li
 import { OpenTransactionOnHoldComponent } from './transaction/open-transaction/open-transaction-on-hold/open-transaction-on-hold.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
+// import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DeleteConfirmationTransactionComponent } from './dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
 import { ReprocessedTransactionComponent } from './transaction/reprocessed-transaction/reprocessed-transaction.component';
@@ -211,7 +211,7 @@ import { GlobalConfigSetSqlComponent } from './dialogs/global-config-set-sql/glo
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatFormFieldModule,
+    // MatFormFieldModule,
     ToastrModule.forRoot({
       timeOut: 2000,
       extendedTimeOut: 0,

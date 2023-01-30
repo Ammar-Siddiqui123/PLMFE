@@ -21,29 +21,36 @@ const routes: Routes = [
   {
     path: 'globalconfig',
     component: GlobalConfigComponent,
+    children: []
+    
   },
   {
     path: 'globalconfig/dashboard',
     component: GlobalDashboardComponent,
+    canActivate:[AuthGuardGuard]
     
   },
   {
     path: 'globalconfig/printers',
     component: PrintersComponent,
+    canActivate:[AuthGuardGuard]
     
   },
   {
     path: 'globalconfig/workstation',
     component: WorkstationComponent,
+    canActivate:[AuthGuardGuard]
     
   },
   {
     path: 'globalconfig/database-connections',
     component: DatabaseConnectionsComponent,
+    canActivate:[AuthGuardGuard]
   },
   {
     path: 'globalconfig/licensing',
     component: LicensingComponent,
+    canActivate:[AuthGuardGuard]
   },
   {
     path: '',
@@ -66,8 +73,18 @@ const routes: Routes = [
           import('./admin/admin.module').then((m) => m.AdminModule),
         canActivate: [AuthGuardGuard],
       },
-    ],
+      { 
+        path: 'InductionManager', 
+        loadChildren: () => import('./induction-manager/induction-manager.module').then(m => m.InductionManagerModule),
+        canActivate:[AuthGuardGuard]
+      },
+
+    ]
+
   },
+
+
+  
 
   // {
   //   path:'dashboard',

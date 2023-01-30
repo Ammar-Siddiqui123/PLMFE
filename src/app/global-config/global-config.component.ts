@@ -78,7 +78,7 @@ export class GlobalConfigComponent {
           let userRights = res.data.userRights;
                   // userRights = this.addCustomPermission(userRights);
                   this.addLoginForm.reset();
-                  localStorage.setItem('global-config-user', JSON.stringify(data));
+                  localStorage.setItem('user', JSON.stringify(data));
                   // localStorage.setItem('global-config-userRights', JSON.stringify(userRights));
           this.router.navigate(['/globalconfig/dashboard']);
         } else {
@@ -130,8 +130,14 @@ export class GlobalConfigComponent {
   ngOnInit() {
     if (this.auth.IsloggedIn()) {
       this.router.navigate(['/dashboard']);
-    } else {
-      this.loginService.getSecurityEnvironment().subscribe((res: any) => {
+    }
+    else{
+    this.route.url.forEach((res) => {
+      if(res[0].path.includes('globalconfig')){
+          localStorage.setItem('isConfigUser', JSON.stringify(true))
+      }
+    })
+      this.loginService.getSecurityEnvironment().subscribe((res:any) => {
         this.env = res.data.securityEnvironment;
         if (this.env) {
           const { workStation } = res.data;

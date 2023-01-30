@@ -15,8 +15,12 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  updateMenu(){
-    console.log(this.sharedService.updateSidebar());
+  updateMenu(menu=''){
+    if(menu=='admin')
+    {
+      this.sharedService.updateAdminMenu();
+    }
+    // console.log(this.sharedService.updateSidebar());
     this.sharedService.updateSidebar();
   }
 

@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
   breadcrumbList: any = [];
   userData: any;
 
-  // public user_data  = JSON.parse(localStorage.getItem('user') || '');
+  public user_data  = JSON.parse(localStorage.getItem('user') || '');
   constructor(
     private router: Router,
     public spinnerService: SpinnerService,
@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
     router.events.subscribe((val: any) => {
       this.breadcrumbList = [];
       this.breadcrumbList.push({
-        name:'PickPro',
+        name:'LogixPro',
         value:'/dashboard'
       })
       if(val instanceof NavigationEnd){
