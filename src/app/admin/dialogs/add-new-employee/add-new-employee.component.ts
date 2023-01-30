@@ -89,7 +89,7 @@ export class AddNewEmployeeComponent implements OnInit {
   initialzeEmpForm() {
     this.empForm = this.fb.group({
       mi: [this.mi || '', []],
-      firstName: [this.firstName || '', []],
+      firstName: [this.firstName || '',[Validators.required, this.cusValidator.customTrim]],
       lastName: [this.lastName || '', [Validators.required, this.cusValidator.customTrim]],
       username: [{ value: this.username, disabled: this.isDisabledPassword } || '', [Validators.required]],
       password: [{ value: '', disabled: this.isDisabledPassword }, [Validators.required]],
