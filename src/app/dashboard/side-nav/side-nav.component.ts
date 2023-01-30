@@ -20,7 +20,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'fact_check', title: 'Work Manager', route: '#' ,permission: 'Work Manager'},
     { icon: 'insert_chart', title: 'Consolidation Manager', route: '#' ,permission: 'Consolidation Manager'},
     { icon: 'pending_actions', title: 'Order Manager', route: '#' ,permission: 'Order Manager'},
-    { icon: 'schema', title: 'FlowRack Replenish', route: '#',permission: 'FlowRack Replenish' }
+    { icon: 'schema', title: 'FlowRack Replenishment', route: '#',permission: 'FlowRack Replenish' }
   ];
   globalMenus: any = [
     { icon: 'door_front', title: 'Home', route: '/globalconfig/dashboard' ,permission: 'Home'},
@@ -63,10 +63,17 @@ export class SideNavComponent implements OnInit {
   isParentMenu: boolean = true;
   isChildMenu: boolean = false;
   childMenus: any;
-  constructor(private router: Router,private authService: AuthService) { }
+  constructor(private router: Router,private authService: AuthService,private sharedService:SharedService) { }
 
   ngOnInit(): void {
     this.loadMenus({route: this.router.url});
+    this.sharedService.updateAdminMenuObserver.subscribe(adminMenu => {
+      if (adminMenu){
+        this.childMenus = this.adminMenus;
+        this.isParentMenu = false;
+        this.isChildMenu = true;
+      }
+    });
   }
 
   loadMenus(menu: any) {
