@@ -133,6 +133,7 @@ export class LicensingComponent implements OnInit {
       .subscribe(
         (res: any) => {
           if (res.isExecuted) {
+            this.getAppLicense();
             this.toastr.success(res.responseMessage, 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
@@ -147,17 +148,19 @@ export class LicensingComponent implements OnInit {
         }
       );
   }
-  
+  addLincenseRow() {
+    this.dataSource.filteredData.push(this.createObjectNewConn());
+    this.dataSource = new MatTableDataSource(this.dataSource.filteredData);
+  }
   createObjectNewConn() {
     const newLicenceObj: any = {};
     newLicenceObj.appname = '';
     newLicenceObj.displayname = '';
     newLicenceObj.license = '';
-    newLicenceObj.numlicense = true;
+    newLicenceObj.numlicense = '';
     newLicenceObj.status = true;
-    newLicenceObj.appurl = true;
+    newLicenceObj.appurl = '';
     newLicenceObj.isButtonDisable = true;
-
     newLicenceObj.isNewConn = true;
     return newLicenceObj;
   }
