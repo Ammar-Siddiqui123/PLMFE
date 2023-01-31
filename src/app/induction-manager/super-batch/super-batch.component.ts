@@ -13,13 +13,16 @@ import { SuperBatchService } from './super-batch.service';
   styleUrls: ['./super-batch.component.scss']
 })
 export class SuperBatchComponent implements OnInit {
-  displayedColumns: string[] = ['zone', 'totalTransactions', 'weight', 'symbol', 'actions'];
-  dataSource:any;
+  displayedColumns: string[] = ['zone', 'totalTransactions', 'orderToBatch', 'newToteID', 'actions'];
+  dataSource: any;
   user_data: any;
   totalTransHeading = 'Single Line Orders';
-  defaultSuperBatchSize:any;
-  isItemNumber:boolean = true;
-  itemNumbers:any;
+  defaultSuperBatchSize: any;
+  isItemNumber: boolean = true;
+  itemNumbers: any;
+  order_to_batch: any;
+  type: any = 'Order';
+  tote_id: any;
   constructor(
     private authService: AuthService,
     private dialog: MatDialog,
@@ -35,7 +38,7 @@ export class SuperBatchComponent implements OnInit {
     }
     this.sb_service.get(payload, '/Induction/SuperBatchIndex').subscribe(res => {
       const { preferences } = res.data;
-      console.log(res.data.itemNums);
+      console.log(res.data);
       this.itemNumbers = res.data.itemNums;
       this.defaultSuperBatchSize = preferences.defaultSuperBatchSize;
       this.getSuperBatchBy('Order');
@@ -50,25 +53,67 @@ export class SuperBatchComponent implements OnInit {
     })
   }
 
-  getSuperBatchBy(type: any) {
+  getSuperBatchBy(type: any, itemNumber?: any) {
+    this.type = type;
     let payload = {
       "Type": type,
-      "ItemNumber": ""
+      "ItemNumber": itemNumber
     }
     this.sb_service.get(payload, '/Induction/ItemZoneDataSelect').subscribe(res => {
-        console.log(res);
-        this.dataSource = res.data;
+      const batchTableData = res.data.map((v,key) => ({ ...v,'key':key, 'orderToBatch': this.defaultSuperBatchSize, 'newToteID': '' }))
+      this.dataSource = batchTableData;
     });
   }
-  onChangeBatch($event: MatRadioChange){
+  onChangeBatch($event: MatRadioChange) {
     console.log($event.source.name, $event.value);
-    if($event.value === 'Item'){
+    if ($event.value === 'Item') {
       this.dataSource = [];
       this.isItemNumber = false;
     }
-    else{
+    else if ($event.value === 'Tote') {
+      this.totalTransHeading = 'Single Line Tote Order';
+    }
+    else {
+      this.isItemNumber = true;
+      this.totalTransHeading = 'Single Line Orders';
       this.getSuperBatchBy($event.value);
     }
+  }
+  onItemSelectChange(itemNumber: any) {
+    this.getSuperBatchBy('Item', itemNumber.value)
+  }
+  onCreateBtach(element: any) {
+    console.log(element);
+    let BatchByOrder;
+    if (this.type === 'Order') {
+      BatchByOrder = 1;
+    } else if (this.type === 'Tote') {
+      BatchByOrder = 0;
+    }
+    else {
+      BatchByOrder = 2;
+    }
+    let payload = {
+      "Zone": element.zone,
+      "ToBatch": element.orderToBatch.toString(),
+      "ToteID": element.newToteID,
+      "ItemNum": '',
+      "BatchByOrder": BatchByOrder.toString()
+    }
+    this.sb_service.create(payload, '/Induction/SuperBatchCreate').subscribe(res => {
+        console.log(res);
+        if(res.isExecuted){
+          this.sb_service.create({"ToteID": element.newToteID}, '/Induction/TotePrintTableInsert').subscribe(res => {
+              console.log(res);
+              
+          });
+
+          this.dataSource = this.dataSource.filter(item => item.key !== element.key);
+        }
+        // console.log(this.dataSource);
+        
+    });
+
   }
 
 }
