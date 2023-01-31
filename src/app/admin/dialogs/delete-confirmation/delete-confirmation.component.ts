@@ -4,9 +4,12 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { EmployeeService } from 'src/app/employee.service';
+import { WarehouseService } from 'src/app/common/services/warehouse.service';
 import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json';
 import { InventoryMapService } from '../../inventory-map/inventory-map.service';
+import { VelocityCodeService } from 'src/app/common/services/velocity-code.service';
+import { GlobalconfigService } from 'src/app/global-config/globalconfig.service';
 
 @Component({
   selector: 'app-delete-confirmation',
@@ -23,7 +26,10 @@ export class DeleteConfirmationComponent implements OnInit {
     private invMapService: InventoryMapService,
     public dialogRef: MatDialogRef<DeleteConfirmationComponent>,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private whService: WarehouseService,
+    private velcodeService: VelocityCodeService,
+    private globalconfigService:GlobalconfigService
     ) { }
 
   ngOnInit(): void {
@@ -122,6 +128,32 @@ export class DeleteConfirmationComponent implements OnInit {
             });
           }
         });
+      }
+      else if (this.data.mode === 'delete-connection-string') {
+
+      
+        let payload = {
+          ConnectionName: this.data.connectionName,
+        };
+        this.globalconfigService
+          .get(payload, '/GlobalConfig/ConnectionDelete')
+          .subscribe(
+            (res: any) => {
+              if (res.isExecuted) {
+                this.toastr.success(res.responseMessage, 'Success!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+                this.dialogRef.close({isExecuted:true})
+              }
+            },
+            (error) => {
+              this.toastr.error(labels.alert.went_worng, 'Error!!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            }
+          );
       }
       else if (this.data.mode === 'delete-group') {
         let groupData = {
@@ -227,6 +259,60 @@ export class DeleteConfirmationComponent implements OnInit {
           }
         });
       }
+      else if (this.data.mode === 'delete-warehouse') {
+        let emp_data = {
+          "warehouse": this.data.warehouse,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
+        };
+        this.whService.dltWareHouse(emp_data).subscribe((res: any) => {
+          if (res.isExecuted) {
+            //this.dialog.closeAll();
+            this.dialogRef.close("Yes");
+            this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+         //   this.reloadCurrentRoute();
+          }else{
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        });
+      }
+      else if (this.data.mode === 'delete-velocity') {
+        let emp_data = {
+          "velocity": this.data.velocity,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
+        };
+        this.velcodeService.dltVelocityCode(emp_data).subscribe((res: any) => {
+          if (res.isExecuted) {
+            //this.dialog.closeAll();
+            this.dialogRef.close("Yes");
+            this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+         //   this.reloadCurrentRoute();
+          }else{
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        });
+      }
+
+
+      
+
+
+      
+
+
       else {
         this.dialogRef.close("Yes");
         // this.dialog.closeAll();

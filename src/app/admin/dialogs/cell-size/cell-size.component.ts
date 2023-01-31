@@ -33,6 +33,9 @@ export class CellSizeComponent implements OnInit {
 
   getCellSizeList() {
     this.cellSizeService.getCellSize().subscribe((res) => {
+      for(var i=0;i<res.data.length;i++){
+        res.data[i].isInserted = 1;
+      }
       this.cellsize_list = res.data;
     });
   }
@@ -44,20 +47,24 @@ export class CellSizeComponent implements OnInit {
     console.log($event);
 
   }
-  saveCellSize(cell: any, cellType: any, i) {
+  saveCellSize(cell: any, cellType: any, i,isInserted:any) {
 
     if (cell) {
       let cond = true;
-      this.cellsize_list.forEach(element => {
-        if (element.cells.toLowerCase() == cell.toLowerCase()) {
-          cond = false;
-          this.toastr.error('Cell Size already exists. Ensure any pending changes are saved before attempting to save this entry.', 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-          return;
-        }
-      });
+      if(isInserted!=1)
+      {
+        this.cellsize_list.forEach(element => {
+          if (element.cells.toLowerCase() == cell.toLowerCase()) {
+            cond = false;
+            this.toastr.error('Cell Size already exists. Ensure any pending changes are saved before attempting to save this entry.', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+            return;
+          }
+        });
+      }
+      
 
       if (cond) {
         let oldVal = this.cellsize_list[i].cells;
@@ -73,6 +80,12 @@ export class CellSizeComponent implements OnInit {
           if (res.isExecuted) {
             this.getCellSizeList();
             this.toastr.success(labels.alert.success, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+          else {
+            this.toastr.error('Cell Size already exists. Ensure any pending changes are saved before attempting to save this entry.', 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });

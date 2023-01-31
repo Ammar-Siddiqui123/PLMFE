@@ -9,7 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+// import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,6 +20,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { CustomHttpInterceptor } from './init/http-interceptor';
 import { ChangePasswordComponent } from './login/change-password/change-password.component';
 import { HeaderInterceptor } from './init/header-interceptor.interceptor';
+import { GlobalConfigModule } from './global-config/global-config.module';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -39,13 +40,14 @@ import { HeaderInterceptor } from './init/header-interceptor.interceptor';
     AppRoutingModule,
     DashboardModule,
     MatButtonModule,
-    MatFormFieldModule,
+    // MatFormFieldModule,
     MatInputModule,
     MatRippleModule,
     MatIconModule,
     MatCheckboxModule,
     MaterialModule,
-    MatTableModule
+    MatTableModule,
+    GlobalConfigModule
     
   ],
   providers: [

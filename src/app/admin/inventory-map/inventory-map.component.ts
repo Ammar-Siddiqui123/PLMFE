@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -64,6 +65,7 @@ const INVMAP_DATA = [
   templateUrl: './inventory-map.component.html',
   styleUrls: ['./inventory-map.component.scss']
 })
+
 export class InventoryMapComponent implements OnInit {
   onDestroy$: Subject<boolean> = new Subject();
   hideRequiredControl = new FormControl(false);
@@ -71,7 +73,7 @@ export class InventoryMapComponent implements OnInit {
 
 
   public displayedColumns: any ;
-  public dataSource: any = new MatTableDataSource;
+  public dataSource: any = [];
   customPagination: any = {
     total : '',
     recordsPerPage : 20,
@@ -99,11 +101,13 @@ export class InventoryMapComponent implements OnInit {
   public columnValues: any = [];
   public itemList: any;
   public filterLoc:any = 'Nothing';
+  public isSearchColumn:boolean = false;
 
   detailDataInventoryMap: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('matRef') matRef: MatSelect;
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
 
   favoriteSeason: string;
@@ -167,6 +171,10 @@ export class InventoryMapComponent implements OnInit {
    
   }
 
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
+
   initializeApi(){
     this.userData = this.authService.userData();
     this.payload = {
@@ -225,7 +233,10 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-      this.getContentData();
+      if(result!='close'){
+        this.getContentData();
+      }
+        
     })
   }
   inventoryMapAction(actionEvent: any) {
@@ -240,7 +251,10 @@ export class InventoryMapComponent implements OnInit {
         }
       })
       dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-        this.getColumnsData();
+        this.clearMatSelectList();
+        if(result!='close'){
+          this.getContentData();
+        }
       })
     }
   }
@@ -265,7 +279,7 @@ export class InventoryMapComponent implements OnInit {
   viewLocFilter(){
     this.initializeApi();
     this.getContentData();
-    this.dialog. closeAll();
+    this.dialog.closeAll();
   }
 
   edit(event: any){
@@ -280,7 +294,9 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-      this.getContentData();
+      if(result!='close'){
+        this.getContentData();
+      }
     })
   }
 
@@ -375,6 +391,13 @@ export class InventoryMapComponent implements OnInit {
   }
 
   searchColumn(){
+    // console.log(this.columnSearch.searchColumn);
+    
+    if(this.columnSearch.searchColumn === ''){
+      this.isSearchColumn = false;
+    }else{
+      this.isSearchColumn = true;
+    }
     this.searchAutocompleteList = [];
     if(this.columnSearch.searchValue){
       this.columnSearch.searchValue = '';
@@ -385,7 +408,7 @@ export class InventoryMapComponent implements OnInit {
 
   searchData(){
     
-    if( this.columnSearch.searchColumn ||  this.columnSearch.searchColumn == '' ){
+    if( this.columnSearch.searchColumn &&  this.columnSearch.searchColumn !== '' ){
       this.initializeApi();
       this.getContentData();
     }

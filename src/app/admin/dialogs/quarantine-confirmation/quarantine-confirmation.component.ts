@@ -39,12 +39,14 @@ export class QuarantineConfirmationComponent implements OnInit {
     this.invMapService.quarantineInventoryMap(payload).subscribe((res: any) => {
 
       if (res.isExecuted) {
+        console.log(res);
         this.dialog.closeAll();
         this.toastr.success(labels.alert.quarantine, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
       } else {
+        console.log(res);
         this.dialog.closeAll();
         this.toastr.error(labels.alert.went_worng, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -63,12 +65,14 @@ export class QuarantineConfirmationComponent implements OnInit {
     this.invMapService.unQuarantineInventoryMap(payload).subscribe((res: any) => {
 
       if (res.isExecuted) {
+        console.log(res);
         this.dialog.closeAll();
-        this.toastr.success(labels.alert.quarantine, 'Success!', {
+        this.toastr.success(labels.alert.quarantine.replace("quarantine","unquarantined"), 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
       } else {
+        console.log(res);
         this.dialog.closeAll();
         this.toastr.error(labels.alert.went_worng, 'Error!', {
           positionClass: 'toast-bottom-right',

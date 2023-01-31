@@ -26,7 +26,7 @@
         <div class="card-body">
             <ng-container *ngFor="let warehouse of warehouse_list;let i = index">
                 <div class="d-flex align-items-center mb-3">
-                        <mat-radio-button value="{{warehouse}}" color="primary" (change)="selectWearHouse($event)">
+                        <mat-radio-button  value="{{warehouse}}" color="primary" (change)="selectWearHouse(whname.value)">
                         </mat-radio-button>
                         <div class="container w-100">
                             <div class="row">
@@ -38,11 +38,12 @@
                                     name="{{warehouse}}" value="{{warehouse}}">
                             </mat-form-field>
                             <div class="d-flex gap-12">
-                                <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveWareHouse(whname.value, warehouse)" actionDisable>
+                                <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveWareHouse(whname.value, warehouse)">
                                     <span class="material-symbols-outlined">save</span>
                                 </button>
-                                <button mat-flat-button color="warn" class="sm-icon-button"
-                                (click)="dltWareHouse(whname.value);" #inputEl>
+                                <button mat-flat-button color="warn" class="sm-icon-button" 
+                                (click)="delete(whname.value)"
+                                #inputEl>
                                 <span class="material-symbols-outlined">close</span>
                             </button>
                         
