@@ -30,9 +30,9 @@
                                 <mat-form-field class="action-dropdown" style="margin-left: 50px;" appearance="outline"
                                     [hidden]="isItemNumber">
                                     <mat-label>Item No.</mat-label>
-                                    <mat-select class="me-4" placeholder="Item No.">
+                                    <mat-select class="me-4" placeholder="Item No." (selectionChange)="onItemSelectChange($event)">
                                         <mat-option></mat-option>
-                                        <mat-option *ngFor="let item of itemNumbers">{{item.itemNumber}} ({{item.itemCount}})</mat-option>
+                                        <mat-option *ngFor="let item of itemNumbers" [value]="item.itemNumber">{{item.itemNumber}} ({{item.itemCount}})</mat-option>
                                     </mat-select>
                                     <span class="material-symbols-outlined icon-expand-more">
                                         expand_more
@@ -116,23 +116,23 @@
                                 disabled value="{{element.totalTransactions}}" /> </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="weight">
+                    <ng-container matColumnDef="orderToBatch">
                         <th mat-header-cell *matHeaderCellDef> Orders to Batch </th>
                         <td mat-cell *matCellDef="let element"><input type="text" class="form-control sb_tbl_width"
-                                value="{{defaultSuperBatchSize}}" />
+                                [(ngModel)]="element.orderToBatch" />
                         </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="symbol">
+                    <ng-container matColumnDef="newToteID">
                         <th mat-header-cell *matHeaderCellDef> New Tote ID</th>
-                        <td mat-cell *matCellDef="let element"><input type="text" class="form-control sb_tbl_width" />
+                        <td mat-cell *matCellDef="let element"><input type="text" [(ngModel)]="element.newToteID" class="form-control sb_tbl_width" />
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef>Actions</th>
                         <td mat-cell *matCellDef="let element">
                             <div>
-                                <button type="button" mat-flat-button class="button-primary-i">Batch
+                                <button type="button" mat-flat-button class="button-primary-i" (click)="onCreateBtach(element)">Batch
                                     Order</button>
                             </div>
                         </td>
