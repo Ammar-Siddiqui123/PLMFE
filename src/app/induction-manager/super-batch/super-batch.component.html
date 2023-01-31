@@ -32,7 +32,7 @@
                                     <mat-label>Item No.</mat-label>
                                     <mat-select class="me-4" placeholder="Item No.">
                                         <mat-option></mat-option>
-                                        <mat-option *ngFor="let item of itemNumbers">{{item.itemNumber}} ({{item.itemCount}})</mat-option>
+                                        <mat-option *ngFor="let item of itemNumbers" [value]="{{item.itemNumber}}">{{item.itemNumber}} ({{item.itemCount}})</mat-option>
                                     </mat-select>
                                     <span class="material-symbols-outlined icon-expand-more">
                                         expand_more
