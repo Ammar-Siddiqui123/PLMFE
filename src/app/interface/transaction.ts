@@ -27,6 +27,8 @@ export interface IConnectionString {
     connectionName: string;
     serverName: string;
     databaseName: string;
- 
+    isButtonDisable:boolean;
+    isSqlButtonDisable:boolean;
+    isNewConn:boolean;
   }
   

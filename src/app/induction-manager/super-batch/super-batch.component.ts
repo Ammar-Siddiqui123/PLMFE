@@ -35,7 +35,7 @@ export class SuperBatchComponent implements OnInit {
     }
     this.sb_service.get(payload, '/Induction/SuperBatchIndex').subscribe(res => {
       const { preferences } = res.data;
-      console.log(res.data);
+      console.log(res.data.itemNums);
       this.itemNumbers = res.data.itemNums;
       this.defaultSuperBatchSize = preferences.defaultSuperBatchSize;
       this.getSuperBatchBy('Order');

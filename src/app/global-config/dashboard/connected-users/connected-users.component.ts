@@ -11,7 +11,7 @@ import { GlobalconfigService } from '../../globalconfig.service';
   styleUrls: ['./connected-users.component.scss'],
 })
 export class ConnectedUsersComponent implements OnInit {
-  displayedColumns: string[] = ['user', 'pcname', 'appname'];
+  displayedColumns: string[] = ['username', 'wsid', 'appname'];
   user_connected_datasource: any = [];
   constructor(
     private globalConfService: GlobalconfigService,
@@ -24,22 +24,22 @@ export class ConnectedUsersComponent implements OnInit {
   }
   getConnectedUsers() {
     let dummy_data = [
-      { user: 'a', pcname: 'test pc', appname: 'Appname test' },
+      { username: 'a', wsid: 'test pc', appname: 'Appname test' },
     ];
     this.globalConfService.get(null, '/GlobalConfig/ConnectedUser').subscribe(
       (res: any) => {
         if (res.isExecuted) {
-            // res.data && res.data.length > 0 ? res.data : dummy_data
-
-          this.user_connected_datasource = new MatTableDataSource(dummy_data);
-        } 
+          res.data.map((obj) => ({
+            ...obj,
+            appname: obj && obj.appname ? obj.appname : 'no app',
+          }));
+          this.user_connected_datasource = new MatTableDataSource(res.data);
+        }
       },
       (error) => {}
     );
   }
-  handlePageEvent(e: PageEvent) {
-   
-  }
+  handlePageEvent(e: PageEvent) {}
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);

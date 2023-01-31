@@ -65,7 +65,7 @@ export class GlobalConfigSetSqlComponent implements OnInit {
           }
         },
         (error) => {
-          this.toastr.success(labels.alert.went_worng, 'Success!', {
+          this.toastr.success(labels.alert.went_worng, 'Errpr!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000,
           });

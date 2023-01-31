@@ -7,10 +7,6 @@ import { GlobalconfigService } from '../../globalconfig.service';
 import { Output, EventEmitter } from '@angular/core';
 import { GlobalConfigSetSqlComponent } from 'src/app/admin/dialogs/global-config-set-sql/global-config-set-sql.component';
 
-const newConnString = {} as IConnectionString;
-newConnString.connectionName = '';
-newConnString.databaseName = '';
-newConnString.serverName = '';
 @Component({
   selector: 'app-connection-strings',
   templateUrl: './connection-strings.component.html',
@@ -19,6 +15,7 @@ newConnString.serverName = '';
 export class ConnectionStringsComponent implements OnInit {
   @Input() connectionStringData: IConnectionString[] = [];
   @Output() connectionUpdateEvent = new EventEmitter<string>();
+  isAddedNewRow = false;
   constructor(
     private globalConfService: GlobalconfigService,
     private toastr: ToastrService,
@@ -27,7 +24,6 @@ export class ConnectionStringsComponent implements OnInit {
 
   ngOnInit(): void {}
   ngOnChanges(changes: SimpleChanges) {
-    console.log('OnChanges');
     if (
       changes['connectionStringData'] &&
       changes['connectionStringData']['currentValue'] &&
@@ -35,14 +31,47 @@ export class ConnectionStringsComponent implements OnInit {
     )
       this.connectionStringData =
         changes['connectionStringData']['currentValue']['connectionString'];
-    console.log('asdsadsad', this.connectionStringData);
+    console.log('asdsadsda', this.connectionStringData);
+  }
+
+  createObjectNewConn() {
+    const newConnString = {} as IConnectionString;
+    newConnString.connectionName = '';
+    newConnString.databaseName = '';
+    newConnString.serverName = '';
+    newConnString.isButtonDisable = true;
+    newConnString.isSqlButtonDisable = true;
+    newConnString.isNewConn = true;
+    return newConnString;
   }
   addConnString() {
-    this.connectionStringData.push(newConnString);
+    this.isAddedNewRow = true;
+    this.connectionStringData.push(this.createObjectNewConn());
+  }
+
+  onInputValueChange(event, item, index) {
+    if (item.isNewConn) {
+      if (
+        item.connectionName == '' ||
+        item.databaseName == '' ||
+        item.serverName == ''
+      ) {
+        return;
+      } else {
+        this.connectionStringData[index].isButtonDisable = false;
+        this.connectionStringData[index].isSqlButtonDisable = false;
+      }
+    } else {
+      this.connectionStringData[index].isButtonDisable = false;
+      this.connectionStringData[index].isSqlButtonDisable = false;
+    }
   }
   saveString(item) {
+    if (item.isNewConn) {
+      this.isAddedNewRow = false;
+    }
     let payload = {
-      OldConnection: item.connectionName,
+      OldConnection: item.isNewConn ? 'New' : item.connectionName,
       ConnectionName: item.connectionName,
       DatabaseName: item.databaseName,
       ServerName: item.serverName,
@@ -77,6 +106,9 @@ export class ConnectionStringsComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
+      if (item.isNewConn) {
+        this.isAddedNewRow = false;
+      }
       if (res.isExecuted) {
         this.connectionUpdateEvent.emit(res.isExecuted);
       }
@@ -88,7 +120,7 @@ export class ConnectionStringsComponent implements OnInit {
       width: '480px',
       data: {
         mode: 'sql-auth-string',
-        connectionName:item.connectionName
+        connectionName: item.connectionName,
       },
     });
     dialogRef.afterClosed().subscribe((res) => {

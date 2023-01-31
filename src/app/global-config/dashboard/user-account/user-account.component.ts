@@ -3,6 +3,9 @@ import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/services/shared.service';
 import { GlobalconfigService } from '../../globalconfig.service';
 import labels from '../../../labels/labels.json';
+import { Router,NavigationEnd  } from '@angular/router';
+import { FormControl, FormGroup, Validators, } from '@angular/forms';
+
 
 @Component({
   selector: 'app-user-account',
@@ -13,12 +16,13 @@ export class UserAccountComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
     private globalConfService: GlobalconfigService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router,
   ) {}
 
   username: any;
   password: any;
-
+  constUser:any;
   ngOnInit(): void {
     let sharedData = this.sharedService.getData();
     if (sharedData && sharedData.loginInfo) {
@@ -28,7 +32,10 @@ export class UserAccountComponent implements OnInit {
       this.getMenuData();
     }
   }
-
+  addLoginForm = new FormGroup({
+    username: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
+    password: new FormControl('', [Validators.required]),
+  });
   getMenuData() {
     let payload = {
       LicenseString:
@@ -44,6 +51,7 @@ export class UserAccountComponent implements OnInit {
           this.sharedService.setData(res.data);
           this.username = res.data.loginInfo[0].user;
           this.password = res.data.loginInfo[0].password;
+          this.constUser=res.data.loginInfo[0].user;
         }
       },
       (error) => {}
@@ -51,7 +59,7 @@ export class UserAccountComponent implements OnInit {
   }
   changeGlobalAcc() {
     let payload = {
-      userName: this.username,
+      userName: this.constUser,
       password: this.password,
     };
     this.globalConfService
@@ -64,6 +72,8 @@ export class UserAccountComponent implements OnInit {
               timeOut: 2000,
             });
           }
+          localStorage.clear();
+          this.router.navigate(['/globalconfig']);
         },
         (error) => {
           this.toastr.error(labels.alert.went_worng, 'Error!', {

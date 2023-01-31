@@ -1,24 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 // import { ILogin, ILoginInfo } from './Ilogin';
 import { LoginService } from '../login.service';
-import { FormControl, FormGroup, Validators, } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import labels from '../labels/labels.json'
+import labels from '../labels/labels.json';
 import { MatDialog } from '@angular/material/dialog';
 // import { ChangePasswordComponent } from './change-password/change-password.component';
 import { SpinnerService } from '../init/spinner.service';
 import { AuthService } from '../init/auth.service';
 import { GlobalconfigService } from './globalconfig.service';
+import { ILogin } from '../login/Ilogin';
 
 @Component({
   selector: 'global-config',
   templateUrl: './global-config.component.html',
   providers: [LoginService],
-  styleUrls: ['./global-config.component.scss']
+  styleUrls: ['./global-config.component.scss'],
 })
 export class GlobalConfigComponent {
-  // login: ILogin;
+  login: ILogin;
 
   returnUrl: string;
   public env;
@@ -33,62 +34,101 @@ export class GlobalConfigComponent {
     private dialog: MatDialog,
     public loader: SpinnerService,
     private auth: AuthService,
-   
-  ) { 
+    private globalConfService: GlobalconfigService
+  ) {
     this.url = this.router.url;
   }
 
   addLoginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
+    username: new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.maxLength(50),
+    ]),
     password: new FormControl('', [Validators.required]),
   });
 
-
   public noWhitespaceValidator(control: FormControl) {
     const isSpace = (control.value || '').match(/\s/g);
-    return isSpace ? { 'whitespace': true } : null;
+    return isSpace ? { whitespace: true } : null;
   }
 
-  // loginUser() {
-  //   this.loader.show();
-  //   this.addLoginForm.get("username")?.setValue(this.addLoginForm.value.username?.replace(/\s/g, "")||null);
-  //   this.login = this.addLoginForm.value;
-  //   const workStation:any = JSON.parse(localStorage.getItem('workStation') || '');
-  //   this.login.wsid = workStation.workStationID;
-  //   this.loginService
-  //     .login(this.login)
-  //     .subscribe((response: any) => {
-  //       const exe = response.isExecuted
-  //       if (exe == true) {
-  //         let data = {
-  //           '_token': response.data.token,
-  //           'userName': response.data.userName,
-  //           'accessLevel': response.data.accessLevel,
-  //           'wsid': response.data.wsid,
-  //           'loginTime': response.data.loginTime,
-  //         }
-  //         let userRights = response.data.userRights;
-  //         userRights = this.addCustomPermission(userRights);
-  //         this.addLoginForm.reset();
-  //         localStorage.setItem('user', JSON.stringify(data));
-  //         localStorage.setItem('userRights', JSON.stringify(userRights));
-          // this.router.navigate(['/dashboard']);
-  //       }
-  //       else {
-  //         const errorMessage = response.responseMessage;
-  //         this.toastr.error(errorMessage?.toString(), 'Error!', {
-  //           positionClass: 'toast-bottom-right',
-  //           timeOut: 2000
-  //         });
-  //       }
+  loginUser() {
+    this.loader.show();
+    this.addLoginForm
+      .get('username')
+      ?.setValue(this.addLoginForm.value.username?.replace(/\s/g, '') || null);
+    this.login = this.addLoginForm.value;
+    const workStation: any = JSON.parse(
+      localStorage.getItem('workStation') || ''
+    );
+    this.login.wsid = workStation.workStationID;
+    this.globalConfService.get(this.login, '/GlobalConfig/LoginUser').subscribe(
+      (res: any) => {
+        console.log('from login', res);
 
+        if (res.isExecuted) {
+          let data = {
+            _token: res.data.token,
+            userName: res.data.userName,
+            accessLevel: res.data.accessLevel,
+            wsid: res.data.wsid,
+            loginTime: res.data.loginTime,
+          };
+          let userRights = res.data.userRights;
+                  // userRights = this.addCustomPermission(userRights);
+                  this.addLoginForm.reset();
+                  localStorage.setItem('user', JSON.stringify(data));
+                  // localStorage.setItem('global-config-userRights', JSON.stringify(userRights));
+          this.router.navigate(['/globalconfig/dashboard']);
+        } else {
+          const errorMessage = res.responseMessage;
+          this.toastr.error(errorMessage?.toString(), 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      },
+      (error) => {
+        const errorMessage = error.responseMessage;
+        this.toastr.error(errorMessage?.toString(), 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000,
+        });
+      }
+    );
+    //   this.loginService
+    //     .login(this.login)
+    //     .subscribe((response: any) => {
+    //       const exe = response.isExecuted
+    //       if (exe == true) {
+    //         let data = {
+    //           '_token': response.data.token,
+    //           'userName': response.data.userName,
+    //           'accessLevel': response.data.accessLevel,
+    //           'wsid': response.data.wsid,
+    //           'loginTime': response.data.loginTime,
+    //         }
+    //         let userRights = response.data.userRights;
+    //         userRights = this.addCustomPermission(userRights);
+    //         this.addLoginForm.reset();
+    //         localStorage.setItem('user', JSON.stringify(data));
+    //         localStorage.setItem('userRights', JSON.stringify(userRights));
+    // this.router.navigate(['/dashboard']);
+    //       }
+    //       else {
+    //         const errorMessage = response.responseMessage;
+    //         this.toastr.error(errorMessage?.toString(), 'Error!', {
+    //           positionClass: 'toast-bottom-right',
+    //           timeOut: 2000
+    //         });
+    //       }
 
-  //     });
-  // }
+    // });
+  }
 
   ngOnInit() {
- 
-    if(this.auth.IsloggedIn()){
+    if (this.auth.IsloggedIn()) {
       this.router.navigate(['/dashboard']);
     }
     else{
@@ -99,21 +139,22 @@ export class GlobalConfigComponent {
     })
       this.loginService.getSecurityEnvironment().subscribe((res:any) => {
         this.env = res.data.securityEnvironment;
-        if(this.env){
+        if (this.env) {
           const { workStation } = res.data;
           localStorage.setItem('env', JSON.stringify(this.env));
           localStorage.setItem('workStation', JSON.stringify(workStation));
-        }
-        else{
-          this.toastr.error('Kindly contact to administrator', 'Workstation is not set!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
+        } else {
+          this.toastr.error(
+            'Kindly contact to administrator',
+            'Workstation is not set!',
+            {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            }
+          );
         }
       });
     }
-    
-
   }
 
   changePass() {
@@ -124,7 +165,6 @@ export class GlobalConfigComponent {
     // });
     // dialogRef.afterClosed().subscribe(result => {
     //   console.log(result);
-
     // });
   }
   private addCustomPermission(userRights: any) {
@@ -153,5 +193,4 @@ export class GlobalConfigComponent {
     ];
     return [...userRights, ...customPerm];
   }
-
 }

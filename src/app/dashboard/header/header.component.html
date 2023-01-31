@@ -10,7 +10,7 @@
 
 
         <li *ngIf="i<(breadcrumbList.length-1)" class="breadcrumb-item" [routerLink]="item.value"
-          style="cursor:pointer;">{{item.name}}
+          style="cursor:pointer;">{{item?.name}}
           <!-- &nbsp; {{"."}} &nbsp; -->
         </li>
         <li *ngIf="i>=(breadcrumbList.length-1)" class="breadcrumb-item active" style="cursor:pointer;">{{item.name}}
