@@ -12,13 +12,16 @@ export class BaseService {
     constructor(private http: HttpClient) {
     }
 
-    public get(reqPaylaod: any, endPoint: string): Observable<any> {
+    public get(reqPaylaod: any, endPoint: string, method?: string): Observable<any> {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': 'Basic '
             })
         };
+        // if(method === 'get'){
+        // return this.http.get<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod);
+        // }
         return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
     }
     public create(reqPaylaod: any, endPoint: string): Observable<any> {

@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { RequiredDateStatusComponent } from '../../../app/dialogs/required-date-status/required-date-status.component';
 import { AuthService } from '../../../app/init/auth.service';
+import { SuperBatchService } from './super-batch.service';
 
 @Component({
   selector: 'app-super-batch',
@@ -25,14 +26,23 @@ export class SuperBatchComponent implements OnInit {
   ];
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'actions'];
   dataSource = this.ELEMENT_DATA;
+  user_data:any;
   constructor(
     private authService: AuthService,
     private dialog: MatDialog,
     private toastr: ToastrService,
+    private sb_service: SuperBatchService
 
   ) { }
 
   ngOnInit(): void {
+    this.user_data = this.authService.userData(); 
+    let payload = {
+      "WSID": this.user_data.wsid
+    }
+    this.sb_service.get(payload, '/Induction/SuperBatchIndex', 'get').subscribe(res => {
+      console.log(res);
+    })
   }
 
   openReqDataStatus(){
