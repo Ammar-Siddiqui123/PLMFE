@@ -16,17 +16,17 @@
                 <table style="width: 100%;" mat-table matSort [dataSource]="user_connected_datasource"
                     (matSortChange)="announceSortChange($event)"
                     class="g-card-table employee-location-table action-clickable-table">
-                    <ng-container matColumnDef="user">
+                    <ng-container matColumnDef="username">
                         <th width="30%" mat-header-cell *matHeaderCellDef mat-sort-header>User</th>
-                        <td width="25%" mat-cell *matCellDef="let element"> {{element?.user}} </td>
+                        <td width="25%" mat-cell *matCellDef="let element"> {{element?.username}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="pcname">
+                    <ng-container matColumnDef="wsid">
                         <th width="30" mat-header-cell *matHeaderCellDef mat-sort-header>Pc Name</th>
                         <td width="25%" style="    max-width: 15ch;
                   text-overflow: ellipsis;
                   overflow: hidden;
-                  white-space: nowrap;" mat-cell *matCellDef="let element"> {{element.pcname}} </td>
+                  white-space: nowrap;" mat-cell *matCellDef="let element"> {{element.wsid}} </td>
                     </ng-container>
 
                     <!-- End Location Column -->

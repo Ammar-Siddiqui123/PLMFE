@@ -22,7 +22,7 @@
                   <h1 class="text-32 text-tertiary-900 fw-bold pb-3">LogixPro</h1>
                 </div>
                 <!-- (ngSubmit)="loginUser()" -->
-                <form [formGroup]="addLoginForm"  name="addLoginForm">
+                <form [formGroup]="addLoginForm" (ngSubmit)="loginUser()" name="addLoginForm">
 
                   <!-- <div class="d-flex align-items-center mb-3 pb-1" style="justify-content: center;">
                     <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
@@ -79,7 +79,7 @@
                     <!-- <button class="btn btn-dark btn-lg btn-block" [disabled]="!addLoginForm.valid"
                       type="submit">Login</button> -->
                       <div class="d-flex justify-content-center my-3">
-                        <button class="form-button-submit w-100" [disabled]="!addLoginForm.valid" mat-flat-button color="primary">Login</button>
+                        <button class="form-button-submit w-100"  [disabled]="!addLoginForm.valid" mat-flat-button color="primary">Login</button>
                       </div>
                   <!-- </div> -->
 

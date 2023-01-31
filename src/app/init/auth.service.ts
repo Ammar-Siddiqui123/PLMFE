@@ -35,6 +35,11 @@ export class AuthService {
     return JSON.parse(localStorage.getItem('user') || '{}');
   }
 
+  
+  isConfigUser(){
+    return localStorage.getItem('isConfigUser') ;
+  }
+
   private userPermission(){
     if(localStorage.getItem('userRights')){
       return JSON.parse(localStorage.getItem('userRights') || '{}');
