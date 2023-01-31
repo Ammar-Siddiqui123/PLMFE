@@ -31,7 +31,8 @@
                                     [hidden]="isItemNumber">
                                     <mat-label>Item No.</mat-label>
                                     <mat-select class="me-4" placeholder="Item No.">
-                                        <mat-option>Add Location</mat-option>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of itemNumbers">{{item.itemNumber}} ({{item.itemCount}})</mat-option>
                                     </mat-select>
                                     <span class="material-symbols-outlined icon-expand-more">
                                         expand_more
