@@ -23,7 +23,8 @@ export class SuperBatchComponent implements OnInit {
   order_to_batch: any;
   type: any = 'Order';
   tote_id: any;
-  batchRowData:any;
+  batchRowData: any;
+  isConfirmation: boolean = false;
   @ViewChild('batchOrderConfirmation') batchOrderConfirmation: TemplateRef<any>;
   constructor(
     private authService: AuthService,
@@ -62,12 +63,12 @@ export class SuperBatchComponent implements OnInit {
       "ItemNumber": itemNumber
     }
     this.sb_service.get(payload, '/Induction/ItemZoneDataSelect').subscribe(res => {
-      const batchTableData = res.data.map((v,key) => ({ ...v,'key':key, 'orderToBatch': this.defaultSuperBatchSize, 'newToteID': '' }))
+      const batchTableData = res.data.map((v, key) => ({ ...v, 'key': key, 'orderToBatch': this.defaultSuperBatchSize, 'newToteID': '' }))
       this.dataSource = batchTableData;
     });
   }
   onChangeBatch($event: MatRadioChange) {
-    console.log($event.source.name, $event.value);
+    // console.log($event.source.name, $event.value);
     if ($event.value === 'Item') {
       this.dataSource = [];
       this.isItemNumber = false;
@@ -84,22 +85,22 @@ export class SuperBatchComponent implements OnInit {
   onItemSelectChange(itemNumber: any) {
     this.getSuperBatchBy('Item', itemNumber.value)
   }
-  
+
   onCreateBtach(element: any) {
     this.batchRowData = element;
-    if(element.orderToBatch < 1){
-      this.toastr.error('Batch Size must be greater than 1', 'Error!',{
+    if (element.orderToBatch < 1) {
+      this.toastr.error('Batch Size must be greater than 1', 'Error!', {
         positionClass: 'toast-bottom-right',
-        timeOut:2000
-     });
-     return;
+        timeOut: 2000
+      });
+      return;
     }
-    if(!element.newToteID){
-      this.toastr.error('Must enter a tote id to batch orders', 'Error!',{
+    if (!element.newToteID) {
+      this.toastr.error('Must enter a tote id to batch orders', 'Error!', {
         positionClass: 'toast-bottom-right',
-        timeOut:2000
-     });
-     return;
+        timeOut: 2000
+      });
+      return;
     }
 
     const dialogRef = this.dialog.open(this.batchOrderConfirmation, {
@@ -107,42 +108,48 @@ export class SuperBatchComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     });
 
-    dialogRef.afterClosed().subscribe((res) => {
-      console.log(res);
-      
+    dialogRef.afterClosed().subscribe(() => {
+      if (this.isConfirmation) {
+        this.saveBatch(element);
+      }
     });
+  }
 
 
-    // let BatchByOrder;
-    // if (this.type === 'Order') {
-    //   BatchByOrder = 1;
-    // } else if (this.type === 'Tote') {
-    //   BatchByOrder = 0;
-    // }
-    // else {
-    //   BatchByOrder = 2;
-    // }
-    // let payload = {
-    //   "Zone": element.zone,
-    //   "ToBatch": element.orderToBatch.toString(),
-    //   "ToteID": element.newToteID,
-    //   "ItemNum": '',
-    //   "BatchByOrder": BatchByOrder.toString()
-    // }
-    // this.sb_service.create(payload, '/Induction/SuperBatchCreate').subscribe(res => {
-    //     console.log(res);
-    //     if(res.isExecuted){
-    //       this.sb_service.create({"ToteID": element.newToteID}, '/Induction/TotePrintTableInsert').subscribe(res => {
-    //           console.log(res);
-              
-    //       });
+  saveBatch(element: any) {
+    let BatchByOrder;
+    if (this.type === 'Order') {
+      BatchByOrder = 1;
+    } else if (this.type === 'Tote') {
+      BatchByOrder = 0;
+    }
+    else {
+      BatchByOrder = 2;
+    }
+    let payload = {
+      "Zone": element.zone,
+      "ToBatch": element.orderToBatch.toString(),
+      "ToteID": element.newToteID,
+      "ItemNum": '',
+      "BatchByOrder": BatchByOrder.toString()
+    }
+    this.sb_service.create(payload, '/Induction/SuperBatchCreate').subscribe(res => {
+      console.log(res);
+      if (res.isExecuted) {
+        this.sb_service.create({ "ToteID": element.newToteID }, '/Induction/TotePrintTableInsert').subscribe(res => {
+          console.log(res);
 
-    //       this.dataSource = this.dataSource.filter(item => item.key !== element.key);
-    //     }
-    //     // console.log(this.dataSource);
-        
-    // });
+        });
 
+        this.dataSource = this.dataSource.filter(item => item.key !== element.key);
+      }
+      // console.log(this.dataSource);
+
+    });
+  }
+
+  isConfirm(val: boolean) {
+    this.isConfirmation = val;
   }
 
 }

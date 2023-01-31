@@ -137,10 +137,13 @@
                             </div>
                         </td>
                     </ng-container>
-
+                    
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
+                <div class="d-flex justify-content-center p-3">
+                    <div *ngIf="dataSource?.length === 0">No data found</div>
+                  </div>
 
             </div>
         </mat-card-content>
@@ -156,12 +159,12 @@
       <div>
           <p class="bold text-primary-900 mb-4">Are you sure you want to batch {{batchRowData.zone}} orders from Zone {{batchRowData.zone}} in Tote {{batchRowData.newToteID}}</p>
           <div class="mb-3">
-          <button mat-flat-button color="primary" class="custom-btn button-primary-flat" [mat-dialog-close]="true">
+          <button mat-flat-button color="primary" class="custom-btn button-primary-flat" (click)="isConfirm(true)" [mat-dialog-close]="true">
               Yes
           </button>
           </div>
           <div>
-            <button mat-stroked-button color="basic" class="custom-btn bg-white" [mat-dialog-close]="true">
+            <button mat-stroked-button color="basic" class="custom-btn bg-white" [mat-dialog-close]="true" (click)="isConfirm(false)">
               Cancel
             </button>
           </div>

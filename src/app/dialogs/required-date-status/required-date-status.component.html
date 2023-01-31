@@ -7,15 +7,15 @@
 </div>
 <div>
     <table mat-table [dataSource]="dataSource" matSort>
-        <ng-container matColumnDef="position">
+        <ng-container matColumnDef="reqDate">
             <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.position}} </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="name">
+        <ng-container matColumnDef="zone">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Progress </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.progress}}% </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="weight">
+        <ng-container matColumnDef="countToInduct">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.weight}} </mat-cell>
         </ng-container>
