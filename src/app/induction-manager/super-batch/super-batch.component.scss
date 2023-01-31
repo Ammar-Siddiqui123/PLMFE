@@ -1,0 +1,17 @@
+table {
+    width: 100%;
+  }
+
+  td.mat-cell {
+    border-bottom-style: none;
+  }
+  .sb_tbl_width{
+    width: 80%;
+  }
+
+tr.mat-row, tr.mat-footer-row {
+    height: 50px;
+}
+td.mat-cell{
+    padding-top: 10px;
+}

@@ -40,6 +40,17 @@ export class SideNavComponent implements OnInit {
     { icon: 'dashboard', title: 'Inventory', route: '/admin/inventoryMaster',permission: 'Inventory' },
 
   ];
+  inductionMenus: any = [
+    { icon: 'arrow_back', title: 'Induction Manager', route: '/dashboard', class: 'back-class' , permission: 'Induction Manager'},
+    { icon: 'grid_view', title: 'Dashboard', route: '#' ,permission:'Induction Manager'},
+    { icon: 'swipe_down_alt', title: 'Process Put Aways', route: '/InductionManager/ProcessPutAways' ,permission:'Induction Manager'},
+    { icon: 'swipe_up_alt', title: 'Process Picks', route: '#' ,permission:'Induction Manager'},
+    { icon: 'line_style', title: 'Super Batch', route: '/InductionManager/SuperBatch' ,permission:'Induction Manager'},
+    { icon: 'linear_scale', title: 'Pallet Receiving', route: '#' ,permission:'Induction Manager'},
+    { icon: 'edit_attributes', title: 'Mark Empty Reels', route: '#' ,permission:'Induction Manager'},
+    { icon: 'manage_accounts', title: 'Admin', route: '#' ,permission:'Induction Manager'},
+
+  ];
   isParentMenu: boolean = true;
   isChildMenu: boolean = false;
   childMenus: any;

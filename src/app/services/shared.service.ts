@@ -8,6 +8,8 @@ export class SharedService {
 
   constructor() { }
   loadMenu : boolean = false;
+  private data: any;
+  private appData:any;
   updateAdminMenuObserver: Subject<boolean> = new Subject<boolean>(); // observing that bool
   updateSidebar(){
     this.loadMenu = !this.loadMenu;
