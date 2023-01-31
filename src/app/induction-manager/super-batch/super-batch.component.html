@@ -19,15 +19,16 @@
                             <div class="d-flex align-items-center">
                                 <div>
                                     <h5>Super Batch By</h5>
-                                    <mat-radio-group class="d-flex">
-                                        <mat-radio-button class="me-4" color="primary" value="1" checked>Order
+                                    <mat-radio-group class="d-flex" (change)="onChangeBatch($event)">
+                                        <mat-radio-button class="me-4" color="primary" value="Order" checked>Order
                                             Number</mat-radio-button>
-                                        <mat-radio-button class="me-4" color="primary" value="2">Tote
+                                        <mat-radio-button class="me-4" color="primary" value="Tote">Tote
                                             ID</mat-radio-button>
-                                        <mat-radio-button color="primary" value="3">Item Number</mat-radio-button>
+                                        <mat-radio-button color="primary" value="Item">Item Number</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
-                                <mat-form-field class="action-dropdown" style="margin-left: 50px;" appearance="outline">
+                                <mat-form-field class="action-dropdown" style="margin-left: 50px;" appearance="outline"
+                                    [hidden]="isItemNumber">
                                     <mat-label>Item No.</mat-label>
                                     <mat-select class="me-4" placeholder="Item No.">
                                         <mat-option>Add Location</mat-option>
@@ -102,21 +103,22 @@
 
                 </div>
                 <table mat-table [dataSource]="dataSource">
-                    <ng-container matColumnDef="position">
+                    <ng-container matColumnDef="zone">
                         <th mat-header-cell *matHeaderCellDef> Zone </th>
                         <td mat-cell *matCellDef="let element"> <input type="text" class="form-control sb_tbl_width"
-                                disabled /> </td>
+                                disabled value="{{element.zone}}" /> </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef> Single Line Orders </th>
+                    <ng-container matColumnDef="totalTransactions">
+                        <th mat-header-cell *matHeaderCellDef>{{totalTransHeading}}</th>
                         <td mat-cell *matCellDef="let element"> <input type="text" class="form-control sb_tbl_width"
-                                disabled /> </td>
+                                disabled value="{{element.totalTransactions}}" /> </td>
                     </ng-container>
 
                     <ng-container matColumnDef="weight">
                         <th mat-header-cell *matHeaderCellDef> Orders to Batch </th>
-                        <td mat-cell *matCellDef="let element"><input type="text" class="form-control sb_tbl_width" />
+                        <td mat-cell *matCellDef="let element"><input type="text" class="form-control sb_tbl_width"
+                                value="{{defaultSuperBatchSize}}" />
                         </td>
                     </ng-container>
 
