@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardGuard } from '../guard/auth-guard.guard';
 import { InductionManagerComponent } from './induction-manager.component';
+import { ProcessPicksComponent } from './process-picks/process-picks.component';
 import { ProcessPutAwaysComponent } from './process-put-aways/process-put-aways.component';
 import { SuperBatchComponent } from './super-batch/super-batch.component';
 
@@ -15,6 +16,11 @@ const routes: Routes = [
   {
     path: 'ProcessPutAways',
     component: ProcessPutAwaysComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'ProcessPicks',
+    component: ProcessPicksComponent,
     canActivate: [AuthGuardGuard],
   },
 ];
