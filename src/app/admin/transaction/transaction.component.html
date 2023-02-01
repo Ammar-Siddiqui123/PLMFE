@@ -3,7 +3,7 @@
         <app-order-status></app-order-status>
     </mat-tab>
     <mat-tab label="Open Transactions" >
-        <app-open-transaction ></app-open-transaction>
+        <app-open-transaction (emitOrderTab)="switchToOrder($event)" ></app-open-transaction>
     </mat-tab>
     <mat-tab label="Transaction History">
         <app-transaction-history></app-transaction-history>

@@ -48,7 +48,7 @@
                                 </mat-form-field>
                             </div>
                             <div class="d-flex gap-12">
-                                <button mat-flat-button color="primary" class="primary-button btn-regular w-100">
+                                <button mat-flat-button color="primary" class="primary-button btn-regular w-100" (click)="openSelectZonesDialogue()">
                                     Select Zones
                                 </button>
                                 <button mat-flat-button color="primary" class="primary-button btn-regular w-100">
@@ -117,8 +117,10 @@
                           <th mat-header-cell *matHeaderCellDef> Tote ID</th>
                           <td mat-cell *matCellDef="let element">
                             <div class="pe-2">
-                              <mat-form-field class="custom-form-field" appearance="outline">
-
+                              <mat-form-field class="custom-form-field" appearance="outline" (click)="openTotesDialogue()">
+                                <span matSuffix>
+                                    <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
+                                  </span>
                                 <input matInput type="text" #specialFeature maxlength="255" [value]="element.license">
                               </mat-form-field>
                             </div>

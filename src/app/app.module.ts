@@ -21,6 +21,9 @@ import { CustomHttpInterceptor } from './init/http-interceptor';
 import { ChangePasswordComponent } from './login/change-password/change-password.component';
 import { HeaderInterceptor } from './init/header-interceptor.interceptor';
 import { GlobalConfigModule } from './global-config/global-config.module';
+import { SelectZonesComponent } from './dialogs/select-zones/select-zones.component';
+import { TotesAddEditComponent } from './dialogs/totes-add-edit/totes-add-edit.component';
+import { GeneralModule } from './gen-module';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -28,6 +31,8 @@ import { GlobalConfigModule } from './global-config/global-config.module';
     AppComponent,
     LoginComponent,
     ChangePasswordComponent,
+    SelectZonesComponent,
+    TotesAddEditComponent,
     // ActionDisableDirective,
 
   ],
@@ -36,6 +41,7 @@ import { GlobalConfigModule } from './global-config/global-config.module';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    GeneralModule,
     HttpClientModule,
     AppRoutingModule,
     DashboardModule,

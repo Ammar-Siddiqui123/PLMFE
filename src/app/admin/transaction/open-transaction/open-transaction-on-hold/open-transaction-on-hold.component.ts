@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
+  Input,
   OnInit,
   Output,
   TemplateRef,
@@ -30,6 +31,7 @@ import { SetColumnSeqComponent } from 'src/app/admin/dialogs/set-column-seq/set-
 import { FloatLabelType } from '@angular/material/form-field';
 import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { FunctionAllocationComponent } from 'src/app/admin/dialogs/function-allocation/function-allocation.component';
+import { SendTranHistoryComponent } from 'src/app/admin/dialogs/send-tran-history/send-tran-history.component';
 
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
@@ -101,10 +103,14 @@ let backDate = new Date(year - 50, month, day);
 })
 export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   @Output() back = new EventEmitter<string>();
+  @Output() returnToOrder = new EventEmitter<string>();
   @Output() startdateChange: EventEmitter<MatDatepickerInputEvent<any>> =
     new EventEmitter();
   @Output() enddateChange: EventEmitter<MatDatepickerInputEvent<any>> =
     new EventEmitter();
+  @Output() viewOrderChange: EventEmitter<MatDatepickerInputEvent<any>> =
+    new EventEmitter();
+
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
   searchByToteId = new Subject<string>();
@@ -118,9 +124,9 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   public displayedColumns: any;
   public dataSource: any = new MatTableDataSource();
   public payload: any;
-  public sortCol:any=5;
-  public sortOrder:any='asc';
-  
+  public sortCol: any = 5;
+  public sortOrder: any = 'asc';
+
   public filterLoc: any = 'Nothing';
   public itemList: any;
   transTypeSelect = 'All Transactions';
@@ -244,9 +250,9 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.customPagination = {
       total: '',
-      recordsPerPage: 20,
+      recordsPerPage: 10,
       startIndex: 0,
-      endIndex: 20,
+      endIndex: 10,
     };
     // Search by Tote Id Debounce values
     this.searchByToteId
@@ -280,6 +286,9 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
 
     this.userData = this.authService.userData();
     this.getColumnsData();
+  }
+  viewOrderInOrder() {
+    this.returnToOrder.emit();
   }
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
@@ -342,7 +351,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       tableName: 2,
       column: this.columnSearch.searchColumn.colDef,
       username: this.userData.userName,
-      wsid: 'TESTWSID',
+      wsid: this.userData.wsid,
     };
     this.transactionService
       .get(searchPayload, '/Admin/NextSuggestedTransactions')
@@ -364,11 +373,10 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       autoFocus: '__non_existing_element__',
       data: {
         target: 'assigned',
-        function: ''
-      }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-    })
+        function: '',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
   adjustQuantity(event) {
     let dialogRef = this.dialog.open(AdjustQuantityComponent, {
@@ -436,7 +444,12 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     );
   }
   sortChange(event) {
-    if (!this.dataSource._data._value || event.direction=='' || event.direction==this.sortOrder) return;
+    if (
+      !this.dataSource._data._value ||
+      event.direction == '' ||
+      event.direction == this.sortOrder
+    )
+      return;
 
     let index;
     this.displayedColumns.find((x, i) => {
@@ -590,6 +603,25 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     this.transTypeSelect = value;
     // this.initializeApi();
     this.getContentData();
+  }
+  sendCompletedToHistory() {
+    let dialogRef = this.dialog.open(SendTranHistoryComponent, {
+      height: 'auto',
+      width: '800px',
+      data: {
+        user: this.userData.userName,
+        wsid: this.userData.wsid,
+      },
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((result) => {
+        if (result.isExecuted) {
+          this.getContentData();
+        }
+        // this.getContentData();
+      });
   }
 
   ngOnDestroy() {

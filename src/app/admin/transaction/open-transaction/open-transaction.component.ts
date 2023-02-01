@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { AuthService } from 'src/app/init/auth.service';
 import {
@@ -17,7 +17,7 @@ export class OpenTransactionComponent implements OnInit {
   userData: any;
   transactionIndex: ITransactionModelIndex;
   selectedIndex: number = 0;
-
+  @Output() emitOrderTab = new EventEmitter<string>();
   // displayOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "minOfPriority", "detail", "action"];
   displayOrderCols: any = []; //'position', 'name', 'weight', 'symbol'
   constructor(
@@ -31,7 +31,6 @@ export class OpenTransactionComponent implements OnInit {
   }
   nexScreen(event) {
     this.previousStep();
-
   }
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.selectedIndex = tabChangeEvent.index;
@@ -39,12 +38,13 @@ export class OpenTransactionComponent implements OnInit {
   returnFromComp(event) {
     this.nextStep();
   }
-
+  returnToOrder(event) {
+   this.emitOrderTab.emit()
+  }
   nextStep() {
     if (this.selectedIndex != 2) {
       this.selectedIndex = this.selectedIndex + 1;
     }
-    console.log(this.selectedIndex);
   }
 
   previousStep() {
@@ -53,5 +53,4 @@ export class OpenTransactionComponent implements OnInit {
     }
     console.log(this.selectedIndex);
   }
-
 }
