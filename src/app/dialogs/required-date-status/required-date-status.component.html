@@ -1,11 +1,26 @@
 <div class="d-flex justify-content-between mb-4 align-items-center">
     <div style="width:48px"></div>
-<h1 class="m-0" mat-dialog-title>Super Batch Required Date Status</h1>
-<button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
-    <mat-icon class="close-icon">close</mat-icon>
-</button>
+    <h1 class="m-0" mat-dialog-title>Super Batch Required Date Status</h1>
+    <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
 </div>
 <div>
-    <div mat-dialog-content>
-    </div>
+    <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="position">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.position}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Progress </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.progress}}% </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="weight">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.weight}} </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;">
+        </mat-row>
+    </table>
 </div>

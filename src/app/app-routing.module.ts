@@ -21,29 +21,36 @@ const routes: Routes = [
   {
     path: 'globalconfig',
     component: GlobalConfigComponent,
+    children: []
+    
   },
   {
     path: 'globalconfig/dashboard',
     component: GlobalDashboardComponent,
+    canActivate:[AuthGuardGuard]
     
   },
   {
     path: 'globalconfig/printers',
     component: PrintersComponent,
+    canActivate:[AuthGuardGuard]
     
   },
   {
     path: 'globalconfig/workstation',
     component: WorkstationComponent,
+    canActivate:[AuthGuardGuard]
     
   },
   {
     path: 'globalconfig/database-connections',
     component: DatabaseConnectionsComponent,
+    canActivate:[AuthGuardGuard]
   },
   {
     path: 'globalconfig/licensing',
     component: LicensingComponent,
+    canActivate:[AuthGuardGuard]
   },
   {
     path: '',

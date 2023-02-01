@@ -100,7 +100,7 @@ export class SideNavComponent implements OnInit {
   }
 
   isAuthorized(controlName:any) {
-    //  return !this.authService.isAuthorized(controlName);
+     return !this.authService.isAuthorized(controlName);
   }
 
 }

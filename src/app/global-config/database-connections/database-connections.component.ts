@@ -16,6 +16,8 @@ export class DatabaseConnectionsComponent implements OnInit {
   ngOnInit(): void {
     let sharedData = this.sharedService.getData();
     if (sharedData && sharedData['connectionString']) {
+      sharedData['connectionString'].map((obj) => {obj.isButtonDisable=true,obj.isSqlButtonDisable=false,obj.isNewConn=false});
+
       this.dbConnectionData = sharedData;
     } else {
       this.getMenuData();
@@ -32,7 +34,10 @@ export class DatabaseConnectionsComponent implements OnInit {
     };
     this.globalConfService.get(payload, '/GlobalConfig/Menu').subscribe(
       (res: any) => {
+
         this.dbConnectionData = res && res.data;
+        this.dbConnectionData['connectionString'].map((obj) => {obj.isButtonDisable=true,obj.isSqlButtonDisable=false,obj.isNewConn=false});
+        
         this.sharedService.setData(this.dbConnectionData);
       },
       (error) => {}
