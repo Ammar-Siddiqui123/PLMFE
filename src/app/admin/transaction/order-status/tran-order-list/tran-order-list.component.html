@@ -63,7 +63,7 @@
         </div>
 
 
-        <div class="row align-items-center mb-3 mt-3 ">
+        <div class="row align-items-center mt-3 ">
             <div class="col-12">
                 <!-- <div class="card br-14 table-responsive px-0" style="overflow-x: auto;"> -->
                     <!-- 1 -->
@@ -389,20 +389,24 @@
                     </ng-scrollbar>
                     </div>
                 <!-- </div> -->
-                <div class="row">
+                <div class="row align-items-center">
                   <div class="col-xl-6">
-                    <button mat-flat-button color="primary" class="btn-regular mt-2">
-                     Shipping Complete
-                  </button>
-                  </div>
-                  <div class="col-xl-6">
-                    <div class="table-pagination" *ngIf="columnValues.length>0 && displayedColumns && dataSource">
+                    <div class="table-pagination d-flex justify-content-start" *ngIf="columnValues.length>0 && displayedColumns && dataSource">
                       <mat-paginator [length]="this.customPagination.total" [pageSize]="20"
                           [pageSizeOptions]="[10, 20, 100]" (page)="handlePageEvent($event)"></mat-paginator>
                    
   
                   </div>
                   </div>
+                  <div class="col-xl-3 offset-xl-3">
+                    <div class="d-flex justify-content-end">
+                      <button mat-flat-button color="primary" class="btn-regular w-100">
+                        Shipping Complete
+                     </button>
+                    </div>
+                    
+                  </div>
+                  
                 </div>
           
 
