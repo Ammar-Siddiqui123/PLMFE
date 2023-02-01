@@ -51,7 +51,7 @@
 
                     <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
                         <mat-label>By Status</mat-label>
-                        <mat-select [(ngModel)]="statusType" (selectionChange)="selectStatus($event.value)">
+                        <mat-select [(ngModel)]="statusType" (selectionChange)="selectStatus($event.value)" >
                             <mat-option *ngFor="let option of transStatus" [value]="option.value">
                                 {{option.type}}
                             </mat-option>
@@ -64,11 +64,27 @@
                 </div>
 
                 <div class="col-3 d-flex  justify-content-center ">
-                    <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
+
+
+                    <mat-form-field c class="custom-form-field w-100 __grab_cursor" appearance="outline" 
+                    [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
+                    <mat-label>Order Number</mat-label>
+                    <input type="text" placeholder="Search" aria-label="Number" matInput
+                        [(ngModel)]='orderNumber' [matAutocomplete]="auto"
+                        (ngModelChange)="this.searchByOrderNumber.next($event)">
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
+                        <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+        
+
+                    <!-- <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
                         <mat-label>Order Number</mat-label>
                         <input [(ngModel)]="orderNumber" matInput class="" value="" type="text"
                             (ngModelChange)="this.searchByOrderNumber.next($event)">
-                    </mat-form-field>
+                    </mat-form-field> -->
                 </div>
 
             </div>
@@ -149,8 +165,8 @@
                         <div class="d-flex gap-12 align-items-center ">
                             <mat-form-field class="action-dropdown" appearance="outline">
                                 <mat-label>Search</mat-label>
-                                <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn">
-                                    <mat-option *ngFor="let item of displayedColumns" [value]="item">
+                                <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn.colDef" (selectionChange)="resetFields($event.value)">
+                                    <mat-option *ngFor="let item of displayedColumns" [value]="item.colDef">
                                         {{item.colDef}}
                                     </mat-option>
                                 </mat-select>
@@ -178,17 +194,22 @@
 
 
 
+
+                                
+           
+
+
                                 <mat-form-field class="w-100 bg-white br-8" appearance="fill"
-                                    [floatLabel]="getFloatLabelValue()"
-                                    [hideRequiredMarker]="hideRequiredControl.value">
+                                    [floatLabel]="getFloatFormabelValue()"
+                                    [hideRequiredMarker]="hideRequiredFormControl.value">
                                     <span class="material-symbols-outlined icon-search">
                                         Search
                                     </span>
-                                    <input type="text" placeholder="search" aria-label="Number" matInput
-                                        [(ngModel)]='this.columnSearch.searchValue' [matAutocomplete]="auto"
-                                        (ngModelChange)="this.searchBar.next($event)">
-                                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
-                                        <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
+                                    <input type="text" placeholder="Search" aria-label="Search" matInput
+                                        [(ngModel)]='this.columnSearch.searchValue' [matAutocomplete]="search" 
+                                        (ngModelChange)="this.searchByColumn.next($event)">
+                                    <mat-autocomplete #search="matAutocomplete" (optionSelected)="searchData()">
+                                        <mat-option *ngFor="let option of searchAutocompleteListByCol" [value]="option">
                                             {{option}}
                                         </mat-option>
                                     </mat-autocomplete>
@@ -201,8 +222,8 @@
                     <div class="col-7 d-flex flex-row-reverse">
                         <mat-form-field class="action-dropdown w-30" appearance="outline">
                             <mat-label>Action</mat-label>
-                            <mat-select class="employees-action" (selectionChange)="actionDialog($event.value)">
-                                <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
+                            <mat-select [(value)]="selectedVariable" class="employees-action" (openedChange)="actionDialog($event)">
+                                <mat-option  value="pagesNumber">Preview 50 Pages Only</mat-option>
                                 <mat-option value="set_column_sq">Set Column Sequence</mat-option>
                             </mat-select>
                             <span class="material-symbols-outlined icon-expand-more">

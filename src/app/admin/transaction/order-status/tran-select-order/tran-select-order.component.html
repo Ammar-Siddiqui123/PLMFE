@@ -18,7 +18,9 @@
 
       </div>
       <div class="col-md-4">
-        <button (click)="deleteOrder()" [disabled]="totalLinesOrder==0"  mat-flat-button color="warn"  class="btn-md w-100 " [ngClass]="{'disabled-button' : totalLinesOrder==0, 'delete-button' : totalLinesOrder>0 }" >
+        <button (click)="deleteOrder()" [disabled]="totalLinesOrder==0" mat-flat-button color="warn"
+          class="btn-md w-100 "
+          [ngClass]="{'disabled-button' : totalLinesOrder==0, 'delete-button' : totalLinesOrder>0 }">
           Delete
         </button>
       </div>
@@ -46,7 +48,8 @@
 
           <mat-form-field class="action-dropdown" appearance="outline">
             <mat-label>Select</mat-label>
-            <mat-select class="employees-action" [(ngModel)]="columnSelect" (selectionChange)="actionDialog($event.value)" >
+            <mat-select class="employees-action" [(ngModel)]="columnSelect"
+              (selectionChange)="actionDialog($event.value)">
               <mat-option selected value="Order Number">
                 Order No.
               </mat-option>
@@ -62,22 +65,21 @@
           <span class="v-br">-</span>
           <div class="d-flex g-mini-search-box w-100">
 
-            <mat-form-field class="w-100 bg-white br-8" appearance="fill"
-            [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
-            <span class="material-symbols-outlined icon-search">
+            <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
+              [hideRequiredMarker]="hideRequiredControl.value">
+              <span class="material-symbols-outlined icon-search">
                 Search
-            </span>
-            <input type="text" placeholder="search" aria-label="Number" matInput [disabled]="!columnSelect"
-                [(ngModel)]='searchField' [matAutocomplete]="auto"
-                (ngModelChange)="this.searchBar.next($event)">
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
+              </span>
+              <input type="text" placeholder="search" aria-label="Number" matInput [disabled]="!columnSelect"
+                [(ngModel)]='searchField' [matAutocomplete]="auto" (ngModelChange)="this.searchBar.next($event)">
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
-                    {{option}}
+                  {{option}}
                 </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
+              </mat-autocomplete>
+            </mat-form-field>
 
-            
+
             <!-- <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
               [hideRequiredMarker]="hideRequiredControl.value">
               <span class="material-symbols-outlined icon-search">
@@ -122,7 +124,8 @@
 
           </div> -->
           <div>
-            <button (click)="clear()" mat-stroked-button appearance="outline" color="warn" class="button-remove-all-w-stroke  ">
+            <button (click)="clear()" mat-stroked-button appearance="outline" color="warn"
+              class="button-remove-all-w-stroke  ">
               Clear
             </button>
           </div>
@@ -138,7 +141,10 @@
           <div>
             <h2 class="card-header-title mb-0 mt-3 d-flex align-items-center">
 
-              <span>Lines</span>
+              <span>Lines        <mat-checkbox class="example-margin custom-checkbox" color="primary"
+                formControlName="dateSensitive">Filter Info by Tote</mat-checkbox>
+            
+              </span>
             </h2>
           </div>
 
