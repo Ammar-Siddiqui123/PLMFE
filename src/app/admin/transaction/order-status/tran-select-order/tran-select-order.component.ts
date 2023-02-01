@@ -10,11 +10,13 @@ import {
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
+import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { BYPASS_LOG } from 'src/app/init/http-interceptor';
 import { TransactionService } from '../../transaction.service';
+import labels from '../../../../labels/labels.json';
 
 @Component({
   selector: 'app-tran-select-order',
@@ -50,6 +52,7 @@ export class TranSelectOrderComponent implements OnInit {
   searchAutocompleteList: any;
   searchAutocompleteListOrderNumber: any = [];
   public userData: any;
+  @Output() deleteEvent = new EventEmitter<Event>();
 
   @Input() set openOrderEvent(event: Event) {
     if (event) {
@@ -87,7 +90,8 @@ export class TranSelectOrderComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private transactionService: TransactionService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private toastr: ToastrService
   ) {}
   ngOnChanges(changes: SimpleChanges) {
     if (changes['orderStatNextData']) {
@@ -128,10 +132,10 @@ export class TranSelectOrderComponent implements OnInit {
     this.openOrder = 0;
     this.completeOrder = 0;
     this.reprocessOrder = 0;
-    this.orderTypeOrder = '-';
+    this.orderTypeOrder = '';
     this.totalLinesOrder = 0;
     this.orderNumber = '';
-    this.currentStatusOrder = '-';
+    this.currentStatusOrder = '';
   }
 
   getFloatLabelValue(): FloatLabelType {
@@ -165,21 +169,36 @@ export class TranSelectOrderComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (res == 'Yes') {
+        // this.deleteEvent.emit(res);
+
         let paylaod = {
-          orderNumber: this.orderNumber,
-          TotalLines: this.totalLinesOrder,
-          UserName: this.userData.userName,
+          OrderNumber: this.searchField,
+          TotalLines:JSON.stringify(this.totalLinesOrder),
+          xferBy: this.userData.userName,
           WSID: this.userData.wsid,
+  
         };
         this.transactionService
           .get(paylaod, '/Admin/DeleteOrderStatus')
           .subscribe(
             (res: any) => {
-              // this.columnValues = res.data?.openTransactionColumns;
-              // this.columnValues.push('actions');
-              // this.displayOrderCols=res.data.openTransactionColumns;
+              if (res.isExecuted) {
+                this.toastr.success(labels.alert.success, 'Success!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+                this.deleteEvent.emit(res.isExecuted);
+              } else {
+                this.toastr.error(labels.alert.went_worng, 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+              }
             },
             (error) => {}
+            // this.columnValues = res.data?.openTransactionColumns;
+            // this.columnValues.push('actions');
+            // this.displayOrderCols=res.data.openTransactionColumns;
           );
       }
     });
@@ -189,9 +208,9 @@ export class TranSelectOrderComponent implements OnInit {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': 'Basic '
+        Authorization: 'Basic ',
       }),
-      context: new HttpContext().set(BYPASS_LOG, true)
+      context: new HttpContext().set(BYPASS_LOG, true),
     };
     let searchPayload;
     if (this.columnSelect == 'Order Number') {
@@ -209,11 +228,19 @@ export class TranSelectOrderComponent implements OnInit {
         wsid: this.userData.wsid,
       };
     }
-    
+
     // NextSuggestedTransactions
     // OrderNumberNext
     this.transactionService
-      .get(searchPayload, `/Admin/${this.columnSelect=='Order Number'?'OrderNumberNext':'NextSuggestedTransactions'}`,true)
+      .get(
+        searchPayload,
+        `/Admin/${
+          this.columnSelect == 'Order Number'
+            ? 'OrderNumberNext'
+            : 'NextSuggestedTransactions'
+        }`,
+        true
+      )
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;

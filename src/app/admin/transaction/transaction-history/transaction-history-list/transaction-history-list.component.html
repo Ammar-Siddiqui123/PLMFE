@@ -1,8 +1,8 @@
-<mat-card class="mat-elevation-z g-card br-14 mb-4 h-100">
+<mat-card class="mat-elevation-z g-card mb-4 h-100">
     <mat-card-content>
 
         <div class="row">
-            <div class="col-5">
+            <div class="col-xl-5">
                 <div class="d-flex gap-12 align-items-center ">
                     <mat-form-field class="action-dropdown" appearance="outline">
                         <mat-label>Search</mat-label>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-7 d-flex flex-row-reverse">
+            <div class="col-xl-7 d-flex flex-row-reverse">
                 <mat-form-field class="action-dropdown w-30" appearance="outline">
                     <mat-label>Action</mat-label>
                     <mat-select class="employees-action"  (openedChange)="actionDialog($event)" [(value)]="selectedVariable" >
