@@ -23,4 +23,8 @@ export class TransactionComponent implements OnInit {
     const tabCount = 3;
     this.TabIndex = (this.TabIndex + 1) % tabCount;
   }
+
+  switchToOrder(event){
+    this.TabIndex=0;
+  }
 }

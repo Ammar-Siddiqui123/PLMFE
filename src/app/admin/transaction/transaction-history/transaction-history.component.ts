@@ -27,7 +27,6 @@ export class TransactionHistoryComponent implements OnInit {
     this.endDateEvent = event;
   }
  orderNoChange(event: Event) {
- 
     this.orderNoEvent = event;
   }
   ngOnInit(): void {}

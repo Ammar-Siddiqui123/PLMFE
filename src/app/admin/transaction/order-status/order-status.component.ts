@@ -18,6 +18,7 @@ export class OrderStatusComponent implements OnInit {
   currentStatusOrderEvent: Event;
   locationZonesEvent: Event;
   orderStatusNext = [];
+  clearEvent: Event;
 userData;
   constructor(
     private authService: AuthService,
@@ -25,8 +26,11 @@ userData;
   ) {}
   ngOnInit(): void {
     this.userData=this.authService.userData();
-    this.autocompleteSearchColumn();
+    // this.autocompleteSearchColumn();
 
+  }
+  onClearFromStatus(event: Event) {
+    this.clearEvent = event;
   }
   orderNoChange(event: Event) {
     this.orderNoEvent = event;
@@ -57,20 +61,21 @@ userData;
   locationZones(event: Event) {
     this.locationZonesEvent = event;
   }
-  async autocompleteSearchColumn() {
-    let searchPayload = {
-      orderNumber: '',
-      username:this.userData.userName,
-      wsid: this.userData.wsid,
-    };
-    this.transactionService
-      .get(searchPayload, '/Admin/OrderNumberNext')
-      .subscribe(
-        (res: any) => {
-        this.orderStatusNext=res && res.data
+  // async autocompleteSearchColumn() {
+  //   let searchPayload = {
+  //     orderNumber: '',
+  //     username:this.userData.userName,
+  //     wsid: this.userData.wsid,
+  //   };
+  //   this.transactionService
+  //     .get(searchPayload, '/Admin/OrderNumberNext')
+  //     .subscribe(
+  //       (res: any) => {
+  //       this.orderStatusNext=res && res.data
         
-        },
-        (error) => {}
-      );
-  }
+  //       },
+  //       (error) => {}
+  //     );
+  // }
+
 }
