@@ -45,6 +45,7 @@ export class ReprocessedTransactionComponent implements OnInit {
   public displayedColumns: any;
   public dataSource: any = new MatTableDataSource();
   public detailDataTransHistory: any;
+  selectedVariable: any;
   onDestroy$: Subject<boolean> = new Subject();
   payload;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
@@ -223,14 +224,16 @@ export class ReprocessedTransactionComponent implements OnInit {
     this.sortOrder = event.direction;
     this.getContentData();
   }
-  actionDialog(actionEvent: any) {
-    if (actionEvent.value === 'set_column_sq') {
+
+  
+  actionDialog(opened: boolean) {
+    if (!opened && this.selectedVariable) {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: '96%',
         width: '70vw',
         data: {
           mode: event,
-          tableName: 'Reprocessed Transactions',
+          tableName: 'ReProcessed',
         },
       });
       dialogRef
@@ -241,7 +244,7 @@ export class ReprocessedTransactionComponent implements OnInit {
             this.getColumnsData();
           }
         });
-    }
+      }
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
