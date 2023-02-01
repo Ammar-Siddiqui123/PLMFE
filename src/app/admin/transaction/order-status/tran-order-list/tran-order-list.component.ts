@@ -19,65 +19,7 @@ import { AuthService } from 'src/app/init/auth.service';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 
-const Order_Table_Config = [
-  { colHeader: 'transactionType', colDef: 'Transaction Type' },
-  { colHeader: 'completedDate', colDef: 'Completed Date' },
-  { colHeader: 'location', colDef: 'Location' },
-  { colHeader: 'transactionQuantity', colDef: 'Transaction Quantity' },
-  { colHeader: 'itemNumber', colDef: 'Item Number' },
-  { colHeader: 'lineNumber', colDef: 'Line Number' },
-  { colHeader: 'requiredDate', colDef: 'Required Date' },
-  { colHeader: 'description', colDef: 'Description' },
-  { colHeader: 'completedQuantity', colDef: 'Completed Quantity' },
-  { colHeader: 'toteID', colDef: 'Tote ID' },
-  { colHeader: 'priority', colDef: 'Priority' },
-  { colHeader: 'completedBy', colDef: 'Completed By' },
-  { colHeader: 'unitOfMeasure', colDef: 'Unit of Meure' },
-  { colHeader: 'lotNumber', colDef: 'Lot Number' },
-  { colHeader: 'expirationDate', colDef: 'Expiration Date' },
-  { colHeader: 'serialNumber', colDef: 'Serial Number' },
-  { colHeader: 'revision', colDef: 'Revision' },
-  { colHeader: 'wareHouse', colDef: 'Warehouse' },
-  { colHeader: 'importDate', colDef: 'Import Date' },
-  { colHeader: 'batchPickID', colDef: 'Batch Pick ID' },
-  { colHeader: 'userField1', colDef: 'User Field1' },
-  { colHeader: 'userField2', colDef: 'User Field2' },
-  { colHeader: 'userField3', colDef: 'User Field3' },
-  { colHeader: 'userField4', colDef: 'User Field4' },
-  { colHeader: 'userField5', colDef: 'User Field5' },
-  { colHeader: 'userField6', colDef: 'User Field6' },
-  { colHeader: 'userField7', colDef: 'User Field7' },
-  { colHeader: 'userField8', colDef: 'User Field8' },
-  { colHeader: 'userField9', colDef: 'User Field9' },
-  { colHeader: 'userField10', colDef: 'User Field10' },
-  { colHeader: 'toteNumber', colDef: 'Tote Number' },
-  { colHeader: 'cell', colDef: 'Cell' },
-  { colHeader: 'hostTransactionID', colDef: 'Host Transaction ID' },
-  { colHeader: 'zone', colDef: 'Zone' },
-  { colHeader: 'emergency', colDef: 'Emergency' },
-  { colHeader: 'id', colDef: 'ID' },
-  { colHeader: 'importBy', colDef: 'Import By' },
-  { colHeader: 'fileFrom', colDef: 'filefrom' },
-  { colHeader: 'orderNumber', colDef: 'Order Number' },
-  { colHeader: 'lineSequence', colDef: 'Line Sequence' },
-  { colHeader: 'carousel', colDef: 'Carousel' },
-  { colHeader: 'row', colDef: 'Row' },
-  { colHeader: 'shelf', colDef: 'Shelf' },
-  { colHeader: 'bin', colDef: 'Bin' },
-  { colHeader: 'invMapID', colDef: 'Inv Map ID' },
-  { colHeader: 'notes', colDef: 'Notes' },
-  { colHeader: 'exportFileName', colDef: 'Export File Name' },
-  { colHeader: 'exportDate', colDef: 'Export Date' },
-  { colHeader: 'exportedBy', colDef: 'Exported By' },
-  { colHeader: 'exportBatchID', colDef: 'Export Batch ID' },
-  { colHeader: 'tableType', colDef: 'Table Type' },
 
-  { colHeader: 'statusCode', colDef: 'Status Code' },
-  { colHeader: 'masterRecord', colDef: 'Mter Record' },
-  { colHeader: 'masterRecordID', colDef: 'Mter Record ID' },
-  { colHeader: 'label', colDef: 'Label' },
-  { colHeader: 'inProcess', colDef: 'In Process' },
-];
 @Component({
   selector: 'app-tran-order-list',
   templateUrl: './tran-order-list.component.html',
@@ -85,6 +27,65 @@ const Order_Table_Config = [
 })
 export class TranOrderListComponent implements OnInit, AfterViewInit {
   public columnValues: any = [];
+  public Order_Table_Config = [
+    { colHeader: 'transactionType', colDef: 'Transaction Type' },
+    { colHeader: 'completedDate', colDef: 'Completed Date' },
+    { colHeader: 'location', colDef: 'Location' },
+    { colHeader: 'transactionQuantity', colDef: 'Transaction Quantity' },
+    { colHeader: 'itemNumber', colDef: 'Item Number' },
+    { colHeader: 'lineNumber', colDef: 'Line Number' },
+    { colHeader: 'requiredDate', colDef: 'Required Date' },
+    { colHeader: 'description', colDef: 'Description' },
+    { colHeader: 'completedQuantity', colDef: 'Completed Quantity' },
+    { colHeader: 'toteID', colDef: 'Tote ID' },
+    { colHeader: 'priority', colDef: 'Priority' },
+    { colHeader: 'completedBy', colDef: 'Completed By' },
+    { colHeader: 'unitOfMeasure', colDef: 'Unit of Meure' },
+    { colHeader: 'lotNumber', colDef: 'Lot Number' },
+    { colHeader: 'expirationDate', colDef: 'Expiration Date' },
+    { colHeader: 'serialNumber', colDef: 'Serial Number' },
+    { colHeader: 'revision', colDef: 'Revision' },
+    { colHeader: 'wareHouse', colDef: 'Warehouse' },
+    { colHeader: 'importDate', colDef: 'Import Date' },
+    { colHeader: 'batchPickID', colDef: 'Batch Pick ID' },
+    { colHeader: 'userField1', colDef: 'User Field1' },
+    { colHeader: 'userField2', colDef: 'User Field2' },
+    { colHeader: 'userField3', colDef: 'User Field3' },
+    { colHeader: 'userField4', colDef: 'User Field4' },
+    { colHeader: 'userField5', colDef: 'User Field5' },
+    { colHeader: 'userField6', colDef: 'User Field6' },
+    { colHeader: 'userField7', colDef: 'User Field7' },
+    { colHeader: 'userField8', colDef: 'User Field8' },
+    { colHeader: 'userField9', colDef: 'User Field9' },
+    { colHeader: 'userField10', colDef: 'User Field10' },
+    { colHeader: 'toteNumber', colDef: 'Tote Number' },
+    { colHeader: 'cell', colDef: 'Cell' },
+    { colHeader: 'hostTransactionID', colDef: 'Host Transaction ID' },
+    { colHeader: 'zone', colDef: 'Zone' },
+    { colHeader: 'emergency', colDef: 'Emergency' },
+    { colHeader: 'id', colDef: 'ID' },
+    { colHeader: 'importBy', colDef: 'Import By' },
+    { colHeader: 'fileFrom', colDef: 'filefrom' },
+    { colHeader: 'orderNumber', colDef: 'Order Number' },
+    { colHeader: 'lineSequence', colDef: 'Line Sequence' },
+    { colHeader: 'carousel', colDef: 'Carousel' },
+    { colHeader: 'row', colDef: 'Row' },
+    { colHeader: 'shelf', colDef: 'Shelf' },
+    { colHeader: 'bin', colDef: 'Bin' },
+    { colHeader: 'invMapID', colDef: 'Inv Map ID' },
+    { colHeader: 'notes', colDef: 'Notes' },
+    { colHeader: 'exportFileName', colDef: 'Export File Name' },
+    { colHeader: 'exportDate', colDef: 'Export Date' },
+    { colHeader: 'exportedBy', colDef: 'Exported By' },
+    { colHeader: 'exportBatchID', colDef: 'Export Batch ID' },
+    { colHeader: 'tableType', colDef: 'Table Type' },
+  
+    { colHeader: 'statusCode', colDef: 'Status Code' },
+    { colHeader: 'masterRecord', colDef: 'Mter Record' },
+    { colHeader: 'masterRecordID', colDef: 'Mter Record ID' },
+    { colHeader: 'label', colDef: 'Label' },
+    { colHeader: 'inProcess', colDef: 'In Process' },
+  ];
   public displayedColumns: string[] = ["transactionType","completedDate","location","transactionQuantity","itemNumber",
   "lineNumber","requiredDate","description",
   "completedQuantity","toteID","priority","completedBy","unitOfMeasure","lotNumber","expirationDate","serialNumber"
@@ -192,7 +193,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       wsid: this.userData.wsid,
     };
     this.transactionService
-      .get(this.payload, '/Admin/OrderStatusData')
+      .get(this.payload, '/Admin/OrderStatusData',true)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();
@@ -219,10 +220,10 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
                   ? (res.data.completedStatus = 'In Progress')
                   : (res.data.completedStatus = 'Completed');
               });
-              this.currentStatusChange(res.data.completedStatus);
+            
             }
             this.onOrderTypeOrderChange(res.data && res.data .orderStatus && res.data .orderStatus.length>0 && res.data .orderStatus[0].transactionType)
-
+            this.currentStatusChange(res.data.completedStatus);
             this.totalLinesOrderChange(res.data?.totalRecords);
           
           }
@@ -267,7 +268,6 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.totalLinesOrders.emit(event);
   }
   currentStatusChange(event) {
-
     this.currentStatus.emit(event);
   }
   onCompleteOrderChange(event) {

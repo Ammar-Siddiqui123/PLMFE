@@ -1,3 +1,4 @@
+import { HttpContext, HttpHeaders } from '@angular/common/http';
 import {
   Component,
   EventEmitter,
@@ -12,6 +13,7 @@ import { FloatLabelType } from '@angular/material/form-field';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { AuthService } from 'src/app/init/auth.service';
+import { BYPASS_LOG } from 'src/app/init/http-interceptor';
 import { TransactionService } from '../../transaction.service';
 
 @Component({
@@ -40,7 +42,7 @@ export class TranSelectOrderComponent implements OnInit {
   @Output() clearField = new EventEmitter<any>();
   @Output() clearData = new EventEmitter<Event>();
 
-searchBar = new Subject<string>();
+  searchBar = new Subject<string>();
   @Input() orderStatNextData = []; // decorate the property with @Input()
 
   floatLabelControl = new FormControl('auto' as FloatLabelType);
@@ -78,7 +80,6 @@ searchBar = new Subject<string>();
     }
   }
   @Input() set currentStatusOrderEvent(event: Event) {
-  
     if (event) {
       this.currentStatusOrder = event;
     }
@@ -97,19 +98,17 @@ searchBar = new Subject<string>();
 
   ngOnInit(): void {
     this.searchBar
-    .pipe(debounceTime(500), distinctUntilChanged())
-    .subscribe((value) => {
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((value) => {
+        // this.columnSearch.searchValue = value;
+        // if (!this.columnSearch.searchColumn.colDef) return;
 
-
-      // this.columnSearch.searchValue = value;
-      // if (!this.columnSearch.searchColumn.colDef) return;
-
-      this.autocompleteSearchColumn();
-      this.onOrderNoChange();
-      // if (!this.searchAutocompleteList.length) {
+        this.autocompleteSearchColumn();
+        this.onOrderNoChange();
+        // if (!this.searchAutocompleteList.length) {
         // this.getContentData();
-      // }
-    });
+        // }
+      });
     // this.searchByOrderNumber
     //   .pipe(debounceTime(400), distinctUntilChanged())
     //   .subscribe((value) => {
@@ -139,26 +138,25 @@ searchBar = new Subject<string>();
     return this.floatLabelControl.value || 'auto';
   }
   onOrderNoChange() {
-    let obj={
-      searchField:this.searchField,
-      columnFIeld:this.columnSelect
-    }
+    let obj = {
+      searchField: this.searchField,
+      columnFIeld: this.columnSelect,
+    };
     this.orderNo.emit(obj);
   }
   onToteIdChange(event) {
     this.toteId.emit(event);
   }
   searchData() {
-      this.onOrderNoChange();
+    this.onOrderNoChange();
   }
 
   clear() {
     this.clearData.emit(event);
     this.resetLines();
-    this.searchAutocompleteList=[];
-    this.searchField='';
-    this.columnSelect='';
-    this.clearField.emit(true);
+    this.searchAutocompleteList = [];
+    this.searchField = '';
+    this.columnSelect = '';
   }
   deleteOrder() {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
@@ -171,7 +169,7 @@ searchBar = new Subject<string>();
           orderNumber: this.orderNumber,
           TotalLines: this.totalLinesOrder,
           UserName: this.userData.userName,
-          WSID: this.userData.wsid
+          WSID: this.userData.wsid,
         };
         this.transactionService
           .get(paylaod, '/Admin/DeleteOrderStatus')
@@ -188,15 +186,34 @@ searchBar = new Subject<string>();
   }
 
   async autocompleteSearchColumn() {
-    let searchPayload = {
-      query: this.searchField,
-      tableName: 1,
-      column: this.columnSelect,
-      username: this.userData.userName,
-      wsid:  this.userData.wsid,
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic '
+      }),
+      context: new HttpContext().set(BYPASS_LOG, true)
     };
+    let searchPayload;
+    if (this.columnSelect == 'Order Number') {
+      searchPayload = {
+        orderNumber: this.searchField,
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
+    } else {
+      searchPayload = {
+        query: this.searchField,
+        tableName: 1,
+        column: this.columnSelect,
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
+    }
+    
+    // NextSuggestedTransactions
+    // OrderNumberNext
     this.transactionService
-      .get(searchPayload, '/Admin/NextSuggestedTransactions')
+      .get(searchPayload, `/Admin/${this.columnSelect=='Order Number'?'OrderNumberNext':'NextSuggestedTransactions'}`,true)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
@@ -219,11 +236,10 @@ searchBar = new Subject<string>();
   //       (error) => {}
   //     );
   // }
-  actionDialog(event){
-    this.searchField=''
-    this.searchAutocompleteList=[]
+  actionDialog(event) {
+    this.searchField = '';
+    this.searchAutocompleteList = [];
     this.resetLines();
-
   }
   ngOnDestroy() {
     this.searchByOrderNumber.unsubscribe();
