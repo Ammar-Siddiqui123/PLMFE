@@ -85,7 +85,14 @@ const Order_Table_Config = [
 })
 export class TranOrderListComponent implements OnInit, AfterViewInit {
   public columnValues: any = [];
-  public displayedColumns: any;
+  public displayedColumns: string[] = ["transactionType","completedDate","location","transactionQuantity","itemNumber",
+  "lineNumber","requiredDate","description",
+  "completedQuantity","toteID","priority","completedBy","unitOfMeasure","lotNumber","expirationDate","serialNumber"
+  ,"revision","wareHouse","importDate","batchPickID","userField1","userField2","userField3","userField4","userField5",
+  "userField6","userField7","userField8","userField9","userField10","toteNumber","cell","zone","hostTransactionID","emergency"
+  ,"id","importBy","fileFrom","orderNumber","lineSequence","carousel","row","shelf","bin","invMapID","notes","exportFileName"
+  ,"exportDate","exportedBy","exportBatchID","tableType","statusCode","masterRecord","masterRecordID","label","inProcess","rn"
+  ];
   public dataSource: any = new MatTableDataSource();
   public userData: any;
   public detailDataInventoryMap: any;
@@ -98,9 +105,11 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   public sortOrder: any = 'asc';
   searchByInput = new Subject<string>();
 
-  @Input() set orderNoEvent(event: Event) {
+  @Input() set orderNoEvent(event: any) {
+    this.toteId='';
+    this.orderNo='';
     if (event) {
-      this.orderNo = event;
+      event.columnFIeld && event.columnFIeld ==='Order Number'?this.orderNo = event.searchField:this.toteId=event.searchField
       this.getContentData();
     }
 
@@ -148,6 +157,15 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     sortOrder: 'asc',
   };
 
+
+  @Input()
+  set clearEvent(event: Event) {
+    if (event) {
+      this.dataSource = new MatTableDataSource();
+    }
+  }
+
+
   constructor(
     private transactionService: TransactionService,
     private authService: AuthService,
@@ -180,7 +198,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
           // this.getTransactionModelIndex();
           this.detailDataInventoryMap = res.data?.orderStatus;
           this.dataSource = new MatTableDataSource(res.data?.orderStatus);
-          this.displayedColumns = Order_Table_Config;
+          // this.displayedColumns = Order_Table_Config;
 
           this.columnValues = res.data?.orderStatusColSequence;
           //  this.dataSource.paginator = this.paginator;
@@ -218,7 +236,11 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
             res.data.offCar.filter((item) => {
               return (item.carousel = 'off');
             });
-            this.onCompleteOrderChange(res.data?.offCar);
+            this.onLocationZoneChange(res.data?.offCar);
+            // this.onCompleteOrderChange(res.data?.offCar);
+          }
+          else{
+            this.onLocationZoneChange(res.data?.onCar);
           }
         },
         (error) => {}
@@ -278,11 +300,12 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       );
   }
   getColumnsData() {
-    this.displayedColumns = Order_Table_Config;
+    // this.displayedColumns = Order_Table_Config;
     this.getContentData();
   }
 
   sortChange(event) {
+    
     if (
       !this.dataSource._data._value ||
       event.direction == '' ||
@@ -292,7 +315,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
 
     let index;
     this.displayedColumns.find((x, i) => {
-      if (x.colDef === event.active) {
+      if (x === event.active) {
         index = i;
       }
     });
@@ -329,9 +352,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
         this.searchString = value;
-        this.getColumnsData();
+    this.getContentData();
       });
-    this.getColumnsData();
+    this.getContentData();
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

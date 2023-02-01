@@ -109,10 +109,12 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   public detailDataTransHistory: any;
   public startDate: any = backDate.toISOString();
   public endDate: any = new Date().toISOString();
-  public orderNo: any = '';
+  public orderNo: any ;
   public payload: any;
   public sortCol: any = 0;
   public sortOrder: any = 'asc';
+  selectedVariable: any;
+
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
   searchBar = new Subject<string>();
@@ -131,8 +133,17 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     }
   }
   @Input() set orderNoEvent(event: Event) {
-    this.orderNo = event;
-    this.getContentData();
+   
+    if(event){
+      this.columnSearch.searchValue= event;
+      this.columnSearch.searchColumn.colDef='Order Number'
+      this.getContentData();
+    }else{
+      this.columnSearch.searchValue= '';
+      this.columnSearch.searchColumn.colDef=''
+      this.getContentData()
+    }
+  
   }
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -196,8 +207,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  actionDialog(event) {
-    if (event == 'set_column_sq') {
+  actionDialog(opened: boolean) {
+    if (!opened && this.selectedVariable === 'set_column_sq') {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: '96%',
         width: '70vw',

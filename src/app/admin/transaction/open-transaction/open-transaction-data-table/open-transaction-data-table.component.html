@@ -79,13 +79,13 @@
                   <button mat-menu-item (click)="edit(seletedRecord)">Edit</button>
                   <button mat-menu-item (click)="delete(seletedRecord)"
                     [hidden]="isAuthorized('Inv Map Delete')">Delete</button>
-                  <button *ngIf="seletedRecord.warehouse != 'Quarantine'" mat-menu-item
-                    (click)="quarantine(seletedRecord)">Quarantine</button>
-                  <button *ngIf="seletedRecord.warehouse == 'Quarantine'" mat-menu-item
-                    (click)="unQuarantine(seletedRecord)">Unquarantine</button>
-                  <button mat-menu-item (click)="adjustQuantity(seletedRecord)">Adjust Quantity</button>
-                  <button mat-menu-item (click)="viewInInventoryMaster()">View in Inventory Master</button>
-                  <button mat-menu-item (click)="viewLocationHistory()">View location history</button>
+         <button *ngIf="seletedRecord.warehouse != 'Quarantine'" mat-menu-item
+         (click)="quarantine(seletedRecord)">Quarantine</button>
+       <button *ngIf="seletedRecord.warehouse == 'Quarantine'" mat-menu-item
+         (click)="unQuarantine(seletedRecord)">Unquarantine</button>
+       <button mat-menu-item (click)="adjustQuantity(seletedRecord)">Adjust Quantity</button>
+       <button mat-menu-item (click)="viewInInventoryMaster()">View in Inventory Master</button>
+       <button mat-menu-item (click)="viewLocationHistory()">View location history</button>
                 </mat-menu>
 
               </td>

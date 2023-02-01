@@ -29,13 +29,28 @@
       <div class="col-12">
         <div class="d-flex gap-12 align-items-center">
 
+          <!-- <mat-form-field class="w-100 bg-white br-8" appearance="fill"
+          [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
+          <span class="material-symbols-outlined icon-search">
+              search
+          </span>
+          <input type="text" placeholder="search" aria-label="Number" matInput
+              [(ngModel)]='this.columnSearch.searchValue' [matAutocomplete]="auto"
+              (ngModelChange)="this.searchBar.next($event)">
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
+              <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
+                  {{option}}
+              </mat-option>
+          </mat-autocomplete>
+      </mat-form-field> -->
+
           <mat-form-field class="action-dropdown" appearance="outline">
             <mat-label>Select</mat-label>
-            <mat-select class="employees-action" [(ngModel)]="this.selectOption">
-              <mat-option selected value="OrderNumber">
+            <mat-select class="employees-action" [(ngModel)]="columnSelect" (selectionChange)="actionDialog($event.value)" >
+              <mat-option selected value="Order Number">
                 Order No.
               </mat-option>
-              <mat-option value="ToteID">
+              <mat-option value="Tote ID">
                 Tote ID
               </mat-option>
             </mat-select>
@@ -47,7 +62,23 @@
           <span class="v-br">-</span>
           <div class="d-flex g-mini-search-box w-100">
 
-            <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
+            <mat-form-field class="w-100 bg-white br-8" appearance="fill"
+            [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
+            <span class="material-symbols-outlined icon-search">
+                Search
+            </span>
+            <input type="text" placeholder="search" aria-label="Number" matInput [disabled]="!columnSelect"
+                [(ngModel)]='searchField' [matAutocomplete]="auto"
+                (ngModelChange)="this.searchBar.next($event)">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
+                <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
+                    {{option}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+            
+            <!-- <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
               [hideRequiredMarker]="hideRequiredControl.value">
               <span class="material-symbols-outlined icon-search">
                 Search
@@ -61,7 +92,10 @@
                   {{option}}
                 </mat-option>
               </mat-autocomplete>
-            </mat-form-field>
+            </mat-form-field> -->
+
+
+
           </div>
           <!-- 
           <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline"

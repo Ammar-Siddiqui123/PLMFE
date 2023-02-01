@@ -30,11 +30,17 @@ export class TranSelectOrderComponent implements OnInit {
   totalLinesOrder: any = 0;
   currentStatusOrder: any = '-';
   locationZoneData: any = [];
-  selectOption = 'OrderNumber';
+  selectOption;
+  columnSelect;
+  searchField;
   searchByOrderNumber = new Subject<string>();
   searchByToteId = new Subject<string>();
   @Output() orderNo = new EventEmitter<any>();
   @Output() toteId = new EventEmitter<any>();
+  @Output() clearField = new EventEmitter<any>();
+  @Output() clearData = new EventEmitter<Event>();
+
+searchBar = new Subject<string>();
   @Input() orderStatNextData = []; // decorate the property with @Input()
 
   floatLabelControl = new FormControl('auto' as FloatLabelType);
@@ -90,7 +96,20 @@ export class TranSelectOrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.orderStatNextData);
+    this.searchBar
+    .pipe(debounceTime(500), distinctUntilChanged())
+    .subscribe((value) => {
+
+
+      // this.columnSearch.searchValue = value;
+      // if (!this.columnSearch.searchColumn.colDef) return;
+
+      this.autocompleteSearchColumn();
+      this.onOrderNoChange();
+      // if (!this.searchAutocompleteList.length) {
+        // this.getContentData();
+      // }
+    });
     // this.searchByOrderNumber
     //   .pipe(debounceTime(400), distinctUntilChanged())
     //   .subscribe((value) => {
@@ -98,11 +117,11 @@ export class TranSelectOrderComponent implements OnInit {
     //     this.onOrderNoChange(value);
     //   });
 
-    this.searchByToteId
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((value) => {
-        this.onToteIdChange(value);
-      });
+    // this.searchByToteId
+    //   .pipe(debounceTime(400), distinctUntilChanged())
+    //   .subscribe((value) => {
+    //     this.onToteIdChange(value);
+    //   });
     this.userData = this.authService.userData();
   }
 
@@ -119,18 +138,27 @@ export class TranSelectOrderComponent implements OnInit {
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
   }
-  onOrderNoChange(event) {
-    this.orderNo.emit(event);
+  onOrderNoChange() {
+    let obj={
+      searchField:this.searchField,
+      columnFIeld:this.columnSelect
+    }
+    this.orderNo.emit(obj);
   }
   onToteIdChange(event) {
     this.toteId.emit(event);
   }
   searchData() {
-    this.onOrderNoChange(this.orderNumber);
+      this.onOrderNoChange();
   }
 
   clear() {
+    this.clearData.emit(event);
     this.resetLines();
+    this.searchAutocompleteList=[];
+    this.searchField='';
+    this.columnSelect='';
+    this.clearField.emit(true);
   }
   deleteOrder() {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
@@ -158,14 +186,17 @@ export class TranSelectOrderComponent implements OnInit {
       }
     });
   }
+
   async autocompleteSearchColumn() {
     let searchPayload = {
-      orderNumber: this.orderNumber,
+      query: this.searchField,
+      tableName: 1,
+      column: this.columnSelect,
       username: this.userData.userName,
-      wsid: this.userData.wsid,
+      wsid:  this.userData.wsid,
     };
     this.transactionService
-      .get(searchPayload, '/Admin/OrderNumberNext')
+      .get(searchPayload, '/Admin/NextSuggestedTransactions')
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
@@ -173,7 +204,27 @@ export class TranSelectOrderComponent implements OnInit {
         (error) => {}
       );
   }
+  // async autocompleteSearchColumn() {
+  //   let searchPayload = {
+  //     orderNumber: this.orderNumber,
+  //     username: this.userData.userName,
+  //     wsid: this.userData.wsid,
+  //   };
+  //   this.transactionService
+  //     .get(searchPayload, '/Admin/OrderNumberNext')
+  //     .subscribe(
+  //       (res: any) => {
+  //         this.searchAutocompleteList = res.data;
+  //       },
+  //       (error) => {}
+  //     );
+  // }
+  actionDialog(event){
+    this.searchField=''
+    this.searchAutocompleteList=[]
+    this.resetLines();
 
+  }
   ngOnDestroy() {
     this.searchByOrderNumber.unsubscribe();
     this.searchByToteId.unsubscribe();
