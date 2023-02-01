@@ -18,6 +18,7 @@ export class SuperBatchComponent implements OnInit {
   user_data: any;
   totalTransHeading = 'Single Line Orders';
   defaultSuperBatchSize: any;
+  superBatches: any;
   isItemNumber: boolean = true;
   itemNumbers: any;
   order_to_batch: any;
@@ -44,6 +45,7 @@ export class SuperBatchComponent implements OnInit {
       console.log(res.data);
       this.itemNumbers = res.data.itemNums;
       this.defaultSuperBatchSize = preferences.defaultSuperBatchSize;
+      this.superBatches = res.data.superBatches;
       this.getSuperBatchBy('Order');
     })
   }
@@ -140,8 +142,8 @@ export class SuperBatchComponent implements OnInit {
           console.log(res);
 
         });
-
         this.dataSource = this.dataSource.filter(item => item.key !== element.key);
+        // this.superBatches.push();
       }
       // console.log(this.dataSource);
 
