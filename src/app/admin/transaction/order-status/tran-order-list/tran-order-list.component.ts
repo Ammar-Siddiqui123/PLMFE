@@ -18,7 +18,10 @@ import { TransactionService } from '../../transaction.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-
+import { FormControl } from '@angular/forms';
+import { FloatLabelType } from '@angular/material/form-field';
+import { HttpContext, HttpHeaders } from '@angular/common/http';
+import { BYPASS_LOG } from 'src/app/init/http-interceptor';
 
 @Component({
   selector: 'app-tran-order-list',
@@ -79,20 +82,71 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     { colHeader: 'exportedBy', colDef: 'Exported By' },
     { colHeader: 'exportBatchID', colDef: 'Export Batch ID' },
     { colHeader: 'tableType', colDef: 'Table Type' },
-  
+
     { colHeader: 'statusCode', colDef: 'Status Code' },
     { colHeader: 'masterRecord', colDef: 'Mter Record' },
     { colHeader: 'masterRecordID', colDef: 'Mter Record ID' },
     { colHeader: 'label', colDef: 'Label' },
     { colHeader: 'inProcess', colDef: 'In Process' },
   ];
-  public displayedColumns: string[] = ["transactionType","completedDate","location","transactionQuantity","itemNumber",
-  "lineNumber","requiredDate","description",
-  "completedQuantity","toteID","priority","completedBy","unitOfMeasure","lotNumber","expirationDate","serialNumber"
-  ,"revision","wareHouse","importDate","batchPickID","userField1","userField2","userField3","userField4","userField5",
-  "userField6","userField7","userField8","userField9","userField10","toteNumber","cell","zone","hostTransactionID","emergency"
-  ,"id","importBy","fileFrom","orderNumber","lineSequence","carousel","row","shelf","bin","invMapID","notes","exportFileName"
-  ,"exportDate","exportedBy","exportBatchID","tableType","statusCode","masterRecord","masterRecordID","label","inProcess","rn"
+  public displayedColumns: string[] = [
+    'transactionType',
+    'completedDate',
+    'location',
+    'transactionQuantity',
+    'itemNumber',
+    'lineNumber',
+    'requiredDate',
+    'description',
+    'completedQuantity',
+    'toteID',
+    'priority',
+    'completedBy',
+    'unitOfMeasure',
+    'lotNumber',
+    'expirationDate',
+    'serialNumber',
+    'revision',
+    'wareHouse',
+    'importDate',
+    'batchPickID',
+    'userField1',
+    'userField2',
+    'userField3',
+    'userField4',
+    'userField5',
+    'userField6',
+    'userField7',
+    'userField8',
+    'userField9',
+    'userField10',
+    'toteNumber',
+    'cell',
+    'zone',
+    'hostTransactionID',
+    'emergency',
+    'id',
+    'importBy',
+    'fileFrom',
+    'orderNumber',
+    'lineSequence',
+    'carousel',
+    'row',
+    'shelf',
+    'bin',
+    'invMapID',
+    'notes',
+    'exportFileName',
+    'exportDate',
+    'exportedBy',
+    'exportBatchID',
+    'tableType',
+    'statusCode',
+    'masterRecord',
+    'masterRecordID',
+    'label',
+    'inProcess',
+    'rn',
   ];
   public dataSource: any = new MatTableDataSource();
   public userData: any;
@@ -105,12 +159,24 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   public sortCol: any = 3;
   public sortOrder: any = 'asc';
   searchByInput = new Subject<string>();
+  @Input()
+  set deleteEvnt(event: Event) {
+    if (event) {
+      this.getContentData();
+      console.log(this.detailDataInventoryMap);
+    }
+  }
 
   @Input() set orderNoEvent(event: any) {
-    this.toteId='';
-    this.orderNo='';
+    this.toteId = '';
+    this.orderNo = '';
+    this.searchCol='';
+    this.searchString=''
     if (event) {
-      event.columnFIeld && event.columnFIeld ==='Order Number'?this.orderNo = event.searchField:this.toteId=event.searchField
+      event.columnFIeld && event.columnFIeld === 'Order Number'
+        ? (this.orderNo = event.searchField)
+        : (this.toteId = event.searchField);
+      
       this.getContentData();
     }
 
@@ -138,7 +204,10 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   //   this.dataSource.sort=sort
   // }
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
+  hideRequiredControl = new FormControl(false);
+  floatLabelControl = new FormControl('auto' as FloatLabelType);
   pageEvent: PageEvent;
+  searchAutocompleteList;
   cols = [];
   customPagination: any = {
     total: '',
@@ -158,14 +227,12 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     sortOrder: 'asc',
   };
 
-
   @Input()
   set clearEvent(event: Event) {
     if (event) {
       this.dataSource = new MatTableDataSource();
     }
   }
-
 
   constructor(
     private transactionService: TransactionService,
@@ -193,7 +260,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       wsid: this.userData.wsid,
     };
     this.transactionService
-      .get(this.payload, '/Admin/OrderStatusData',true)
+      .get(this.payload, '/Admin/OrderStatusData', true)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();
@@ -215,17 +282,19 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
               res.data.orderStatus.length > 0
             ) {
               res.data.orderStatus.find((el) => {
-                
                 return el.completedDate === ''
                   ? (res.data.completedStatus = 'In Progress')
                   : (res.data.completedStatus = 'Completed');
               });
-            
             }
-            this.onOrderTypeOrderChange(res.data && res.data .orderStatus && res.data .orderStatus.length>0 && res.data .orderStatus[0].transactionType)
+            this.onOrderTypeOrderChange(
+              res.data &&
+                res.data.orderStatus &&
+                res.data.orderStatus.length > 0 &&
+                res.data.orderStatus[0].transactionType
+            );
             this.currentStatusChange(res.data.completedStatus);
             this.totalLinesOrderChange(res.data?.totalRecords);
-          
           }
 
           if (res.data?.onCar.length) {
@@ -239,15 +308,36 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
             });
             this.onLocationZoneChange(res.data?.offCar);
             // this.onCompleteOrderChange(res.data?.offCar);
-          }
-          else{
+          } else {
             this.onLocationZoneChange(res.data?.onCar);
           }
         },
         (error) => {}
       );
   }
+  getFloatLabelValue(): FloatLabelType {
+    return this.floatLabelControl.value || 'auto';
+  }
+  deleteSelectedOrder() {
+    this.detailDataInventoryMap.this.payload = {
+      transType: '',
+      orderNumber: '',
+      id: 0,
+      itemNumber: '',
+      lineNumber: '',
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+    };
 
+    this.transactionService
+      .get(this.payload, '/Admin/DeleteOrder', true)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+        },
+        (error) => {}
+      );
+  }
   orderNoChange(event: Event) {
     this.orderNoEvent = event;
   }
@@ -258,7 +348,6 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.openOrders.emit(event);
   }
   onOrderTypeOrderChange(event) {
-    
     this.orderTypeOrders.emit(event);
   }
   onReprocessOrderChange(event) {
@@ -303,9 +392,35 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     // this.displayedColumns = Order_Table_Config;
     this.getContentData();
   }
+  async autocompleteSearchColumn() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ',
+      }),
+      context: new HttpContext().set(BYPASS_LOG, true),
+    };
+    let searchPayload = {
+      query: this.searchString,
+      tableName: 1,
+      column: this.searchCol,
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+    };
 
+    // NextSuggestedTransactions
+    // OrderNumberNext
+    this.transactionService
+      .get(searchPayload, `/Admin/NextSuggestedTransactions`, true)
+      .subscribe(
+        (res: any) => {
+          this.searchAutocompleteList = res.data;
+        },
+        (error) => {}
+      );
+  }
+  searchData() {}
   sortChange(event) {
-    
     if (
       !this.dataSource._data._value ||
       event.direction == '' ||
@@ -323,6 +438,15 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.sortCol = index;
     this.sortOrder = event.direction;
     this.getContentData();
+  }
+
+  actionDialog(event) {
+    this.toteId = '';
+    // this.orderNo = '';
+    this.searchCol = event;
+   this.searchString='';
+   this.searchAutocompleteList=[];
+
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
@@ -348,11 +472,14 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+    this.orderNo='';
+    this.toteId='';
     this.searchByInput
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
         this.searchString = value;
-    this.getContentData();
+        this.autocompleteSearchColumn();
+        this.getContentData();
       });
     this.getContentData();
   }
