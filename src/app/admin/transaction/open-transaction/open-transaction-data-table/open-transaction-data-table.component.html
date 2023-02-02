@@ -32,8 +32,8 @@
             <table style="width: 100%;" mat-table [dataSource]="datasource" matSort (matSortChange)="sortChange($event)"
               class="g-card-table employee-location-table ">
               <ng-container matColumnDef="orderNumber">
-                <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Order Number</th>
-                <td width="25%" mat-cell *matCellDef="let element">{{element?.orderNumber}} </td>
+                <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Order Number</th>
+                <td width="15%" mat-cell *matCellDef="let element">{{element?.orderNumber}} </td>
               </ng-container>
 
               <ng-container matColumnDef="itemNumber">
@@ -67,10 +67,7 @@
 
               <ng-container matColumnDef="transactionQuantity">
                 <th width="40%" mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Quantity</th>
-                <td width="40%" style="    max-width: 15ch;
-              text-overflow: ellipsis;
-              overflow: hidden;
-              white-space: nowrap;" mat-cell *matCellDef="let element">{{element?.transactionQuantity}}  </td>
+                <td width="40%" style="max-width: 15ch; text-overflow: ellipsis; overflow: hidden;white-space: nowrap;" mat-cell *matCellDef="let element">{{element?.transactionQuantity}}  </td>
               </ng-container>
 
               <ng-container matColumnDef="serialNumber">
@@ -113,8 +110,10 @@
 
 
 
-              <ng-container matColumnDef="actions" stickyEnd>
-                <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+              <ng-container matColumnDef="actions" stickyEnd >
+                <th mat-header-cell *matHeaderCellDef style="border: 0;height: 67px; padding-left:65px; border-bottom: 1px solid var(--clr-tertiary-50);">
+                </th>
+                <!-- <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Action</th> -->
                 <td width="25%" mat-cell *matCellDef="let element">
                   <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o"
                     appearance="outline">
