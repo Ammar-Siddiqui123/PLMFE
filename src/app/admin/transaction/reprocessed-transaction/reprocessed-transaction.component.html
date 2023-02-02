@@ -50,7 +50,7 @@
                             <span class="material-symbols-outlined icon-search">
                                 search
                             </span>
-                            <input type="text" placeholder="search" aria-label="Number" matInput
+                            <input type="text" placeholder="Search" aria-label="Number" matInput
                                 [(ngModel)]='this.columnSearch.searchValue' [matAutocomplete]="auto"
                                 (ngModelChange)="this.searchBar.next($event)">
                             <mat-autocomplete #auto="matAutocomplete"
@@ -69,7 +69,7 @@
         </div>
 
         <div class="card br-14 table-responsive my-3">
-            <!-- <ng-scrollbar style="height: 200px;"></ng-scrollbar> -->
+            <ng-scrollbar class="mat-table-scrollbar" track="all" style="height: 500px;">
 
             <mat-table class="custom-table table-fix" #table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)">
 
@@ -105,6 +105,7 @@
                 <mat-row *matRowDef="let row; columns: columnValues;"></mat-row>
 
             </mat-table>
+            </ng-scrollbar>
         </div>
 
         <div class="table-pagination d-flex justify-content-start" *ngIf="columnValues.length>0 && displayedColumns && dataSource">

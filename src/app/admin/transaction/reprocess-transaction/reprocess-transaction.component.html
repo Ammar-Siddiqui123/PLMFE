@@ -37,7 +37,7 @@
                                         <span class="material-symbols-outlined icon-search">
                                             search
                                         </span>
-                                        <input type="text" placeholder="search" aria-label="Number" matInput
+                                        <input type="text" placeholder="Search" aria-label="Number" matInput
                                             [matAutocomplete]="auto">
                                         <mat-autocomplete #auto="matAutocomplete">
                                             <mat-option>
@@ -70,7 +70,7 @@
 
                     </div>
                     <div class="card br-14 table-responsive px-0">
-                        <ng-scrollbar style="height: 620px;">
+                        <ng-scrollbar class="mat-table-scrollbar" track="all" style="height: 550px;">
                             <mat-table *ngIf="tableEvent=='reprocess'" class="custom-table table-fix" #table
                                 [dataSource]="dataSource" matSort>
 
@@ -146,7 +146,7 @@
                         </mat-form-field>
                     </div>
                     <div>
-                        <button mat-flat-button color="primary" class="button-primary w-100">
+                        <button mat-flat-button color="primary" class="button-primary w-100" (click)="openReprocessTransactionDialogue()">
                             Edit This Transaction
                             <mat-icon style="color:#fff; transform: rotate(45deg);">unfold_more</mat-icon>
                         </button>
