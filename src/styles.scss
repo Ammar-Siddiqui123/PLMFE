@@ -936,6 +936,7 @@ table.g-card-table th.mat-header-cell {
 
 .action-clickable-table .mat-row:hover td {
   color: #fff;
+  z-index: 1;
 }
 
 .action-clickable-table .mat-row:hover:after {

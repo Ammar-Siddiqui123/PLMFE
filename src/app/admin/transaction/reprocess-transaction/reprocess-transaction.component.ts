@@ -156,6 +156,12 @@ export class ReprocessTransactionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.customPagination = {
+      total: '',
+      recordsPerPage: 10,
+      startIndex: 0,
+      endIndex: 10,
+    };
     this.userData = this.authService.userData();
     this.getColumnsData();
 
@@ -179,7 +185,7 @@ export class ReprocessTransactionComponent implements OnInit {
     } else {
       searchPayload = {
         query: this.columnSearch.searchValue,
-        tableName: 2,
+        tableName: 4,
         column: this.columnSearch.searchColumn.colDef,
         username: this.userData.userName,
         wsid: this.userData.wsid,
@@ -283,10 +289,10 @@ export class ReprocessTransactionComponent implements OnInit {
   getContentData() {
     let payload = {
       draw: 0,
-      searchString: "",
-      searchColumn: "",
-      start: 1,
-      length: 11,
+      searchString: this.columnSearch.searchValue,
+      searchColumn: this.columnSearch.searchColumn.colDef,
+      start: this.customPagination.startIndex,
+      length: this.customPagination.recordsPerPage,
       orderNumber: "",
       sortColumnNumber: this.sortCol,
       sortOrder: this.sortOrder,
@@ -296,7 +302,7 @@ export class ReprocessTransactionComponent implements OnInit {
       wsid: this.userData.wsid
     };
     this.transactionService
-      .get(payload, '/Admin/ReprocessTransactionTable')
+      .get(payload, '/Admin/ReprocessTransactionTable',true)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();
@@ -310,8 +316,6 @@ export class ReprocessTransactionComponent implements OnInit {
       );
   }
   handlePageEvent(e: PageEvent) {
-    console.log(e);
-    
     this.pageEvent = e;
     // this.customPagination.startIndex =  e.pageIndex
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
