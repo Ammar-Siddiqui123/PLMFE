@@ -105,6 +105,7 @@ import { ColumnSequenceDialogComponent } from './dialogs/column-sequence-dialog/
 import { SearchFilterPipe } from './transaction/pipes/search-filter.pipe';
 import { GlobalConfigSetSqlComponent } from './dialogs/global-config-set-sql/global-config-set-sql.component';
 import { SendTranHistoryComponent } from './dialogs/send-tran-history/send-tran-history.component';
+import { ReprocessTransactionDetailComponent } from './dialogs/reprocess-transaction-detail/reprocess-transaction-detail.component';
 
 
 
@@ -200,7 +201,8 @@ import { SendTranHistoryComponent } from './dialogs/send-tran-history/send-tran-
     ColumnSequenceDialogComponent,
     SearchFilterPipe,
     GlobalConfigSetSqlComponent,
-    SendTranHistoryComponent
+    SendTranHistoryComponent,
+    ReprocessTransactionDetailComponent
 
   ],
   imports: [
