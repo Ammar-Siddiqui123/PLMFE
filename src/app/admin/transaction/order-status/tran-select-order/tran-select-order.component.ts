@@ -174,7 +174,7 @@ export class TranSelectOrderComponent implements OnInit {
         let paylaod = {
           OrderNumber: this.searchField,
           TotalLines:JSON.stringify(this.totalLinesOrder),
-          xferBy: this.userData.userName,
+          UserName: this.userData.userName,
           WSID: this.userData.wsid,
   
         };

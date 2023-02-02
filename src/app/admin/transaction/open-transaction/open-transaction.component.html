@@ -9,12 +9,12 @@
       <div class="container-fluid p-0">
         <div class="row align-items-center mb-3">
           <div class="col-12">
-            <app-open-transaction-filters (nextScreen)="nexScreen($event)"></app-open-transaction-filters>
+            <app-open-transaction-filters (filterEventChange)="onFilterChange($event)" (nextScreen)="nexScreen($event)"></app-open-transaction-filters>
           </div>
         </div>
         <div class="row align-items-center mb-3 mt-3">
           <div class="col-12">
-            <app-open-transaction-data-table ></app-open-transaction-data-table>
+            <app-open-transaction-data-table  [receivedFromFilterEvent]="filterEvent" ></app-open-transaction-data-table>
           </div>
         </div>
       </div>

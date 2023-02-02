@@ -112,11 +112,15 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     new EventEmitter();
 
   floatLabelControl = new FormControl('auto' as FloatLabelType);
+  floatLabelControlColumn = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
+  hideRequiredFormControl = new FormControl(false);
   searchByToteId = new Subject<string>();
+  searchByColumn = new Subject<string>();
   searchByOrderNumber = new Subject<string>();
   searchBar = new Subject<string>();
   searchAutocompleteList: any;
+  searchAutocompleteListByCol: any;
   /*for data col. */
   public columnValues: any = [];
   onDestroy$: Subject<boolean> = new Subject();
@@ -126,7 +130,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   public payload: any;
   public sortCol: any = 5;
   public sortOrder: any = 'asc';
-
+  selectedVariable;
   public filterLoc: any = 'Nothing';
   public itemList: any;
   transTypeSelect = 'All Transactions';
@@ -256,7 +260,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     };
     // Search by Tote Id Debounce values
     this.searchByToteId
-      .pipe(debounceTime(600), distinctUntilChanged())
+      .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
         this.toteId = value;
         this.getContentData();
@@ -265,23 +269,29 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     this.searchByOrderNumber
       .pipe(debounceTime(600), distinctUntilChanged())
       .subscribe((value) => {
-        this.orderNumber = value;
+        // this.orderNumber = value;
+        this.autocompleteSearchColumn(true);
         this.getContentData();
       });
 
     // Search Bar  Debounce values
-    this.searchBar
-      .pipe(debounceTime(600), distinctUntilChanged())
-      .subscribe((value) => {
-        console.log('=->', value);
-        console.log('00', this.searchAutocompleteList);
-        this.columnSearch.searchValue = value;
-        if (!this.columnSearch.searchColumn.colDef) return;
+    // this.searchBar
+    //   .pipe(debounceTime(600), distinctUntilChanged())
+    //   .subscribe((value) => {
+    //     this.columnSearch.searchValue = value;
+    //     if (!this.columnSearch.searchColumn.colDef) return;
 
-        this.autocompleteSearchColumn();
-        if (!this.searchAutocompleteList.length) {
-          this.getContentData();
-        }
+    //     this.autocompleteSearchColumn(false);
+    //     if (!this.searchAutocompleteListByCol.length) {
+    //       this.getContentData();
+    //     }
+    //   });
+
+    this.searchByColumn
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((value) => {
+        this.autocompleteSearchColumn(false);
+        this.getContentData();
       });
 
     this.userData = this.authService.userData();
@@ -293,6 +303,9 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
   }
+  getFloatFormabelValue(): FloatLabelType {
+    return this.floatLabelControlColumn.value || 'auto';
+  }
   changeTableRowColor(idx: any) {
     if (this.rowClicked === idx) {
       this.rowClicked = -1;
@@ -300,6 +313,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       this.rowClicked = idx;
     }
   }
+
   retunrToPrev() {
     this.back.emit('back');
   }
@@ -345,19 +359,35 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
 
   //   });
   // }
-  async autocompleteSearchColumn() {
-    let searchPayload = {
-      query: this.columnSearch.searchValue,
-      tableName: 2,
-      column: this.columnSearch.searchColumn.colDef,
-      username: this.userData.userName,
-      wsid: this.userData.wsid,
-    };
+  async autocompleteSearchColumn(isSearchByOrder: boolean = false) {
+    let searchPayload;
+    if (isSearchByOrder) {
+      searchPayload = {
+        query: this.orderNumber,
+        tableName: 2,
+        column: 'Order Number',
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
+    } else {
+      searchPayload = {
+        query: this.columnSearch.searchValue,
+        tableName: 2,
+        column: this.columnSearch.searchColumn.colDef,
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
+    }
+
     this.transactionService
-      .get(searchPayload, '/Admin/NextSuggestedTransactions')
+      .get(searchPayload, '/Admin/NextSuggestedTransactions', true)
       .subscribe(
         (res: any) => {
-          this.searchAutocompleteList = res.data;
+          if (isSearchByOrder) {
+            this.searchAutocompleteList = res.data;
+          } else {
+            this.searchAutocompleteListByCol = res.data;
+          }
         },
         (error) => {}
       );
@@ -416,6 +446,9 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   resetToTodaysDate() {
     this.edate = new Date().toISOString();
     this.sdate = new Date().toISOString();
+    this.columnSearch.searchColumn.colDef='';
+    this.columnSearch.searchValue='';
+    this.orderNumber='';
     // this.initializeApi();
     this.getContentData();
   }
@@ -452,8 +485,8 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       return;
 
     let index;
-    this.displayedColumns.find((x, i) => {
-      if (x.colDef === event.active) {
+    this.columnValues.find((x, i) => {
+      if (x === event.active) {
         index = i;
       }
     });
@@ -489,10 +522,10 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       sortOrder: this.sortOrder,
       filter: '1=1',
       username: this.userData.userName,
-      wsid: 'TESTWSID',
+      wsid: this.userData.wsid,
     };
     this.transactionService
-      .get(this.payload, '/Admin/OpenTransactionTable')
+      .get(this.payload, '/Admin/OpenTransactionTable', true)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();
@@ -560,8 +593,8 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       );
   }
   /*End of table functions */
-  actionDialog(event) {
-    if (event == 'set_column_sq') {
+  actionDialog(opened: boolean) {
+    if (!opened && this.selectedVariable && this.selectedVariable==='set_column_sq') {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: '96%',
         width: '70vw',
@@ -574,6 +607,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
         .afterClosed()
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((result) => {
+          this.selectedVariable='';
           if (result && result.isExecuted) {
             this.getColumnsData();
           }
@@ -581,7 +615,17 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     }
   }
 
+  resetFields(event?) {
+    // this.orderNo = '';
+    this.columnSearch.searchValue = '';
+    this.searchAutocompleteListByCol = [];
+  }
+  resetColumn() {
+    this.columnSearch.searchColumn.colDef = '';
+  }
   onDateChange(event): void {
+    this.resetColumn();
+    this.resetFields();
     this.startdateChange.emit();
     this.sdate = new Date(event).toISOString();
     // this.initializeApi();
@@ -589,17 +633,23 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   }
 
   onEndDateChange(event): void {
+    this.resetColumn();
+    this.resetFields();
     this.enddateChange.emit();
     this.edate = new Date(event).toISOString();
     // this.initializeApi();
     this.getContentData();
   }
   selectStatus(event) {
+    this.resetColumn();
+    this.resetFields();
     this.transStatusSelect = event;
     // this.initializeApi();
     this.getContentData();
   }
   selectTransType(value) {
+    this.resetColumn();
+    this.resetFields();
     this.transTypeSelect = value;
     // this.initializeApi();
     this.getContentData();
@@ -627,5 +677,6 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   ngOnDestroy() {
     this.searchByToteId.unsubscribe();
     this.searchByOrderNumber.unsubscribe();
+    this.searchByColumn.unsubscribe();
   }
 }
