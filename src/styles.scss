@@ -285,7 +285,7 @@ mat-toolbar {
 }
 .mat-toolbar {
   background-color: #090948;
-  background-image: url('./assets/Brand Flourish.png');
+  // background-image: url('./assets/Brand Flourish.png');
   background-position: 6% 37%;
   background-size: auto;
   background-repeat: no-repeat;
@@ -593,7 +593,7 @@ mat-toolbar {
   min-width: 180px;
 }
 .mat-form-field-label{
-  top: 27px;
+  top: 28px;
 }  
 }
 
@@ -936,6 +936,7 @@ table.g-card-table th.mat-header-cell {
 
 .action-clickable-table .mat-row:hover td {
   color: #fff;
+  z-index: 1;
 }
 
 .action-clickable-table .mat-row:hover:after {
@@ -1036,6 +1037,10 @@ h4.main-section-title {
 .f-16{
   font-size: 16px;
 }
+.f-14{
+  font-size: 14px;
+}
+
 
 //-------------- FONT-SIZES-CLASSES ----END-------------------
 
@@ -1072,7 +1077,13 @@ h4.main-section-title {
   background: rgba(123, 66, 172, 0.15);
 }
 
-//-------------- BACKGROUND-COLOR-CLASSES ----START-------------------
+//-------------- BACKGROUND-COLOR-CLASSES ----END-------------------
+
+//-------------- TEXT-COLOR-CLASSES ----START-------------------
+.text-error{
+
+}
+//-------------- TEXT-COLOR-CLASSES ----END-------------------
 
 //-------------- LABEL-CLASSES ----START-------------------
 .label-purple{
@@ -1100,10 +1111,16 @@ h4.main-section-title {
   background: rgba(#CACAEE, 0.8);
   color:#00004D;
 }
+.label-gray{
+  background: var(--clr-tertiary-10);
+  color:var(--clr-tertiary-900);
+}
 .label{
   border-radius: 999px;
   height: 28px;
   cursor: default;
+  display: inline-flex;
+  align-items: center;
 }
 
 //-------------- LABEL-CLASSES ----END-------------------
@@ -1191,6 +1208,10 @@ button.add-icon-button {
   max-width: 48px !important;
   min-width: 48px !important;
   border-radius: 14px !important;
+  .mat-button-wrapper{
+    display: flex;
+    align-items: center;
+  }
 }
 button.icon-button {
   display: flex;
@@ -1337,6 +1358,15 @@ button.default-btn{
 .checkbox-background{
   background: rgba(255, 196, 88, 0.2);
 }
+
+.custom-horizontal-radio{
+  .mat-radio-label-content{
+    flex: 1;
+  }
+}
+
+
+
 //-------------- RADIO BUTTOM-CLASSES ----END-------------------
 .custom{
 .counter
@@ -1374,6 +1404,12 @@ button.default-btn{
 }
 .text-error{
   color: #DE2654;
+}
+.text-success{
+  color: $success;
+}
+.text-warning{
+  color: $warning;
 }
 //-------------- TEXT-CLASSES ----END-------------------
 .circle-icon-o{
@@ -1434,6 +1470,13 @@ button.default-btn{
 }
 .mat-table thead{
   background-color: #F9F9FF;
+}
+.borderless{
+  table{
+    td{
+      border: 0;
+    }
+  }
 }
 
 
@@ -1712,3 +1755,4 @@ mat-row{
     }
   }
 }
+

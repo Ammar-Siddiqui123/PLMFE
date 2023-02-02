@@ -81,6 +81,8 @@ import { GeneralModule } from '../gen-module';
   ],
   exports:[
     // RouterModule
+    HeaderComponent,
+    SideNavComponent,
   ]
 })
 export class DashboardModule { }

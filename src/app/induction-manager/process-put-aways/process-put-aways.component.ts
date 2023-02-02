@@ -1,6 +1,9 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { SelectZonesComponent } from 'src/app/dialogs/select-zones/select-zones.component';
+import { TotesAddEditComponent } from 'src/app/dialogs/totes-add-edit/totes-add-edit.component';
 
 export interface PeriodicElement {
   position: string;
@@ -38,9 +41,27 @@ export class ProcessPutAwaysComponent implements OnInit {
     return numSelected === numRows;
   }
 
-  constructor() { }
+  constructor(
+    private dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  openSelectZonesDialogue(){
+    const dialogRef =  this.dialog.open(SelectZonesComponent, {
+      height: '96vh',
+      width: '100%',
+      autoFocus: '__non_existing_element__'
+    })
+  }
+
+  openTotesDialogue(){
+    const dialogRef =  this.dialog.open(TotesAddEditComponent, {
+      height: 'auto',
+      width: '50vw',
+      autoFocus: '__non_existing_element__'
+    })
   }
 
 }

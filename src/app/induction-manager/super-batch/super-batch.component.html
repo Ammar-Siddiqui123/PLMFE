@@ -19,18 +19,23 @@
                             <div class="d-flex align-items-center">
                                 <div>
                                     <h5>Super Batch By</h5>
-                                    <mat-radio-group class="d-flex">
-                                        <mat-radio-button class="me-4" color="primary" value="1" checked>Order
+                                    <mat-radio-group class="d-flex" (change)="onChangeBatch($event)">
+                                        <mat-radio-button class="me-4" color="primary" value="Order" checked>Order
                                             Number</mat-radio-button>
-                                        <mat-radio-button class="me-4" color="primary" value="2">Tote
+                                        <mat-radio-button class="me-4" color="primary" value="Tote">Tote
                                             ID</mat-radio-button>
-                                        <mat-radio-button color="primary" value="3">Item Number</mat-radio-button>
+                                        <mat-radio-button color="primary" value="Item">Item Number</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
-                                <mat-form-field class="action-dropdown" style="margin-left: 50px;" appearance="outline">
+                                <mat-form-field class="action-dropdown" style="margin-left: 50px;" appearance="outline"
+                                    [hidden]="isItemNumber">
                                     <mat-label>Item No.</mat-label>
-                                    <mat-select class="me-4" placeholder="Item No.">
-                                        <mat-option>Add Location</mat-option>
+                                    <mat-select class="me-4" placeholder="Item No."
+                                        (selectionChange)="onItemSelectChange($event)">
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of itemNumbers"
+                                            [value]="item.itemNumber">{{item.itemNumber}}
+                                            ({{item.itemCount}})</mat-option>
                                     </mat-select>
                                     <span class="material-symbols-outlined icon-expand-more">
                                         expand_more
@@ -39,7 +44,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-12">
                                 <div>
-                                    <button type="button" mat-flat-button class="button-primary-i button-sm"
+                                    <button mat-flat-button class="form-button-submit" color="primary"
                                         (click)="openReqDataStatus()">Required
                                         Date Status</button>
                                 </div>
@@ -76,9 +81,8 @@
                             <mat-form-field class="action-dropdown" style="width: 18rem;" appearance="outline">
                                 <mat-label>Print Labels for Batch</mat-label>
                                 <mat-select class="me-4" placeholder="Actions">
-                                    <mat-option>Add Location</mat-option>
-                                    <mat-option value="print">Print</mat-option>
-                                    <mat-option value="set_column_sq">Set Column Sequence</mat-option>
+                                    <!-- <mat-option></mat-option> -->
+                                    <mat-option *ngFor="let batch of superBatches">{{batch}}</mat-option>
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
                                     expand_more
@@ -102,34 +106,37 @@
 
                 </div>
                 <table mat-table [dataSource]="dataSource">
-                    <ng-container matColumnDef="position">
+                    <ng-container matColumnDef="zone">
                         <th mat-header-cell *matHeaderCellDef> Zone </th>
                         <td mat-cell *matCellDef="let element"> <input type="text" class="form-control sb_tbl_width"
-                                disabled /> </td>
+                                disabled value="{{element.zone}}" /> </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef> Single Line Orders </th>
+                    <ng-container matColumnDef="totalTransactions">
+                        <th mat-header-cell *matHeaderCellDef>{{totalTransHeading}}</th>
                         <td mat-cell *matCellDef="let element"> <input type="text" class="form-control sb_tbl_width"
-                                disabled /> </td>
+                                disabled value="{{element.totalTransactions}}" /> </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="weight">
+                    <ng-container matColumnDef="orderToBatch">
                         <th mat-header-cell *matHeaderCellDef> Orders to Batch </th>
-                        <td mat-cell *matCellDef="let element"><input type="text" class="form-control sb_tbl_width" />
+                        <td mat-cell *matCellDef="let element"><input type="number" class="form-control sb_tbl_width"
+                                [(ngModel)]="element.orderToBatch" min="1" />
                         </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="symbol">
+                    <ng-container matColumnDef="newToteID">
                         <th mat-header-cell *matHeaderCellDef> New Tote ID</th>
-                        <td mat-cell *matCellDef="let element"><input type="text" class="form-control sb_tbl_width" />
+                        <td mat-cell *matCellDef="let element"><input type="text" [(ngModel)]="element.newToteID"
+                                class="form-control sb_tbl_width" />
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef>Actions</th>
                         <td mat-cell *matCellDef="let element">
                             <div>
-                                <button type="button" mat-flat-button class="button-primary-i">Batch
+                                <button type="button" mat-flat-button class="button-primary-i"
+                                    (click)="onCreateBtach(element)">Batch
                                     Order</button>
                             </div>
                         </td>
@@ -138,8 +145,36 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
+                <div class="d-flex justify-content-center p-3">
+                    <div *ngIf="dataSource?.length === 0">No data found</div>
+                </div>
 
             </div>
         </mat-card-content>
     </mat-card>
 </div>
+
+<ng-template #batchOrderConfirmation>
+
+    <div class="d-flex flex-column align-items-center justify-content-center text-center py-4">
+        <div color="warn" class="circle-icon circle-66 circle-primary mb-4 text-primary-900">
+            <mat-icon color="primary">add</mat-icon>
+        </div>
+        <div>
+            <p class="bold text-primary-900 mb-4">Are you sure you want to batch {{batchRowData.zone}} orders from Zone
+                {{batchRowData.zone}} in Tote {{batchRowData.newToteID}}</p>
+            <div class="mb-3">
+                <button mat-flat-button color="primary" class="custom-btn button-primary-flat" (click)="isConfirm(true)"
+                    [mat-dialog-close]="true">
+                    Yes
+                </button>
+            </div>
+            <div>
+                <button mat-stroked-button color="basic" class="custom-btn bg-white" [mat-dialog-close]="true"
+                    (click)="isConfirm(false)">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

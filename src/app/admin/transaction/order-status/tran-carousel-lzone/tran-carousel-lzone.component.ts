@@ -35,6 +35,8 @@ export class TranCarouselLzoneComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
+  @ViewChild('zoneSort') zoneSort = new MatSort();
+
   customPagination: any = {
     total: '',
     recordsPerPage: 20,
@@ -56,10 +58,21 @@ export class TranCarouselLzoneComponent implements OnInit, AfterViewInit {
 
   @Input() set locationZonesEvent(event: any) {
     if (event) {
-      this.dataSource=event;
+      this.dataSource = event;
       this.locationZonesData = event;
     }
   }
+
+  @Input()
+  set clearEvent(event: Event) {
+       if (event) {
+          if (this.dataSource) {
+            this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
+          }
+        }
+  }
+
+
   constructor(private router: Router, private seqColumn: SetColumnSeqService) {
     if (this.router.getCurrentNavigation()?.extras?.state?.['searchValue']) {
       this.columnSearch.searchValue =
@@ -71,7 +84,9 @@ export class TranCarouselLzoneComponent implements OnInit, AfterViewInit {
       };
     }
   }
-
+  sortChange(event) {
+    this.dataSource.sort = this.zoneSort;
+  }
   ngOnInit(): void {
     this.customPagination = {
       total: '',

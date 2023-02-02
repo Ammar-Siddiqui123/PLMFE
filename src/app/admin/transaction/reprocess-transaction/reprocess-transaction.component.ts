@@ -13,8 +13,10 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
-import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/init/auth.service';
+import { ColumnSequenceDialogComponent } from '../../dialogs/column-sequence-dialog/column-sequence-dialog.component';
+import { ReprocessTransactionDetailComponent } from '../../dialogs/reprocess-transaction-detail/reprocess-transaction-detail.component';
 import { SetColumnSeqService } from '../../dialogs/set-column-seq/set-column-seq.service';
 import { InventoryMapService } from '../../inventory-map/inventory-map.service';
 import { TransactionService } from '../transaction.service';
@@ -79,23 +81,6 @@ const TRNSC_DATA = [
   { colHeader: 'dateStamp', colDef: 'Date Stamp' },
   { colHeader: 'reason', colDef: 'Reason' },
   { colHeader: 'nameStamp', colDef: 'Name Stamp' },
-
-
-  
-
-                // "toteID": 0,
-                // "toteNumber": "0",
-                // "cell": null,
-                // "hostTransactionID": "",
-                // "emergency": "False",
-                // "": "Location Assignment Error",
-                // "": "No Available Quantity in Stock to Allocate to this transaction.",
-                // "": "11/16/2022 8:31:00 PM",
-                // "": "MILLER, ROGER",
-                // "reprocess": "False",
-                // "postAsComplete": "False",
-                // "sendToHistory": "False",
-                // "rn": 2
 ];
 @Component({
   selector: 'app-reprocess-transaction',
@@ -136,6 +121,9 @@ export class ReprocessTransactionComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
   pageEvent: PageEvent;
+  searchAutocompleteListByCol: any;
+  public sortCol: any = 5;
+  public sortOrder: any = 'asc';
 
   cols = [];
   customPagination: any = {
@@ -159,6 +147,7 @@ export class ReprocessTransactionComponent implements OnInit {
   /* End */
   statusType: string = 'All Transactions';
   orderNumber: string = '';
+  selectedVariable;
   toteId: string = '';
   searchByToteId = new Subject<string>();
   searchByOrderNumber = new Subject<string>();
@@ -167,6 +156,9 @@ export class ReprocessTransactionComponent implements OnInit {
   tableEvent="reprocess";
   isEnabled=false;
   transactionID=782699;
+  floatLabelControlColumn = new FormControl('auto' as FloatLabelType);
+  hideRequiredFormControl = new FormControl(false);
+  searchByColumn = new Subject<string>();
   /*for data col. */
 
   constructor(
@@ -179,9 +171,108 @@ export class ReprocessTransactionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.customPagination = {
+      total: '',
+      recordsPerPage: 10,
+      startIndex: 0,
+      endIndex: 10,
+    };
     this.userData = this.authService.userData();
     this.getColumnsData();
     this.getOrdersWithStatus();
+
+    this.searchByColumn
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((value) => {
+        this.autocompleteSearchColumn(false);
+        this.getContentData();
+      });
+  }
+  async autocompleteSearchColumn(isSearchByOrder: boolean = false) {
+    let searchPayload;
+    if (isSearchByOrder) {
+      searchPayload = {
+        query: this.orderNumber,
+        tableName: 2,
+        column: 'Order Number',
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
+    } else {
+      searchPayload = {
+        query: this.columnSearch.searchValue,
+        tableName: 4,
+        column: this.columnSearch.searchColumn.colDef,
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
+    }
+
+    this.transactionService
+      .get(searchPayload, '/Admin/NextSuggestedTransactions', true)
+      .subscribe(
+        (res: any) => {
+          if (isSearchByOrder) {
+            this.searchAutocompleteList = res.data;
+          } else {
+            this.searchAutocompleteListByCol = res.data;
+          }
+        },
+        (error) => {}
+      );
+  }
+
+  actionDialog(opened: boolean) {
+    if (!opened && this.selectedVariable && this.selectedVariable==='set_column_sq') {
+      let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
+        height: '96%',
+        width: '70vw',
+        data: {
+          mode: event,
+          tableName: 'Open Transactions',
+        },
+      });
+      dialogRef
+        .afterClosed()
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((result) => {
+          this.selectedVariable='';
+          if (result && result.isExecuted) {
+            this.getColumnsData();
+          }
+        });
+    }
+  }
+  sortChange(event) {
+    if (
+      !this.dataSource._data._value ||
+      event.direction == '' ||
+      event.direction == this.sortOrder
+    )
+      return;
+
+    let index;
+    this.columnValues.find((x, i) => {
+      if (x === event.active) {
+        index = i;
+      }
+    });
+
+    this.sortCol = index;
+    this.sortOrder = event.direction;
+    this.getContentData();
+  }
+
+  searchData() {
+    if (
+      this.columnSearch.searchColumn ||
+      this.columnSearch.searchColumn == ''
+    ) {
+      this.getContentData();
+    }
+  }
+  getFloatFormabelValue(): FloatLabelType {
+    return this.floatLabelControlColumn.value || 'auto';
   }
   getProcessSelection(checkValues) {
     this.tableEvent=checkValues
@@ -228,6 +319,7 @@ export class ReprocessTransactionComponent implements OnInit {
         this.displayedColumns = TRNSC_DATA;
         if (res.data) {
           this.columnValues = res.data;
+
           this.getContentData();
         } else {
           this.toastr.error('Something went wrong', 'Error!', {
@@ -239,23 +331,25 @@ export class ReprocessTransactionComponent implements OnInit {
       (error) => {}
     );
   }
+
+  
   getContentData() {
     let payload = {
       draw: 0,
-      searchString: "",
-      searchColumn: "",
-      start: 1,
-      length: 11,
-      sortColumnNumber: 5,
-      sortOrder: "asc",
+      searchString: this.columnSearch.searchValue,
+      searchColumn: this.columnSearch.searchColumn.colDef,
+      start: this.customPagination.startIndex,
+      length: this.customPagination.recordsPerPage,
       orderNumber: "",
+      sortColumnNumber: this.sortCol,
+      sortOrder: this.sortOrder,
       itemNumber: "",
       hold: false,
       username: this.userData.userName,
       wsid: this.userData.wsid
     };
     this.transactionService
-      .get(payload, '/Admin/ReprocessTransactionTable')
+      .get(payload, '/Admin/ReprocessTransactionTable',true)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();
@@ -280,5 +374,20 @@ export class ReprocessTransactionComponent implements OnInit {
 
     // this.initializeApi();
     this.getContentData();
+  }
+
+
+  resetFields(event?) {
+    // this.orderNo = '';
+    this.columnSearch.searchValue = '';
+    this.searchAutocompleteListByCol = [];
+  }
+  
+  openReprocessTransactionDialogue(){
+    const dialogRef =  this.dialog.open(ReprocessTransactionDetailComponent, {
+      height: 'auto',
+      width: '100%',
+      autoFocus: '__non_existing_element__'
+    })
   }
 }

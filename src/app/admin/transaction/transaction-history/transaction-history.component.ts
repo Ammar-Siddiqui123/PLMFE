@@ -18,6 +18,7 @@ export class TransactionHistoryComponent implements OnInit {
   startDateEvent: Event;
   endDateEvent: Event;
   orderNoEvent:Event;
+  resetDateEvent:Event;
 
   constructor() {}
   startDateChange(event: Event) {
@@ -27,8 +28,10 @@ export class TransactionHistoryComponent implements OnInit {
     this.endDateEvent = event;
   }
  orderNoChange(event: Event) {
- 
     this.orderNoEvent = event;
+  }
+  resetDate(event: Event){
+    this.resetDateEvent=event;
   }
   ngOnInit(): void {}
 }

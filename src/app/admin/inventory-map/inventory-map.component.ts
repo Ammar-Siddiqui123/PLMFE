@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -64,6 +65,7 @@ const INVMAP_DATA = [
   templateUrl: './inventory-map.component.html',
   styleUrls: ['./inventory-map.component.scss']
 })
+
 export class InventoryMapComponent implements OnInit {
   onDestroy$: Subject<boolean> = new Subject();
   hideRequiredControl = new FormControl(false);
@@ -105,6 +107,7 @@ export class InventoryMapComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('matRef') matRef: MatSelect;
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
 
   favoriteSeason: string;
@@ -166,6 +169,10 @@ export class InventoryMapComponent implements OnInit {
    this.initializeApi();
    this.getContentData()
    
+  }
+
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
 
   initializeApi(){
@@ -244,7 +251,10 @@ export class InventoryMapComponent implements OnInit {
         }
       })
       dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-        this.getColumnsData();
+        this.clearMatSelectList();
+        if(result!='close'){
+          this.getContentData();
+        }
       })
     }
   }
