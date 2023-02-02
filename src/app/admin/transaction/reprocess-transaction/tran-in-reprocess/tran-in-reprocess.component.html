@@ -22,13 +22,14 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div >
-                        <mat-radio-group class="d-flex align-items-center gap-12" aria-label="Select an option" [(ngModel)]="selectedOption"  (change)="radioButtonChange($event)">
+                    <div>
+                        <mat-radio-group class="d-flex align-items-center gap-12" aria-label="Select an option"
+                            [(ngModel)]="selectedOption" (change)="radioButtonChange($event)">
 
-                            <mat-radio-button  value="reprocess" color="primary">
+                            <mat-radio-button value="reprocess" color="primary">
                                 Reprocess
                             </mat-radio-button>
-                            <mat-radio-button color="primary" value="history" >
+                            <mat-radio-button color="primary" value="history">
                                 History
                             </mat-radio-button>
                         </mat-radio-group>
@@ -64,16 +65,21 @@
         <div class="row align-items-center mb-3">
             <div class="d-flex align-items-center gap-12">
                 <div class="w-100">
-                    <mat-form-field class="action-dropdown w-100" appearance="outline">
-                        <mat-label>Item No.</mat-label>
-                        <mat-select class="employees-action">
-                            <mat-option>
-                                1
+                    <mat-form-field class="w-100 bg-white br-8" appearance="outline">
+                        <mat-label>Order Nummber</mat-label>
+                        <input type="text" aria-label="Number" matInput
+                            [matAutocomplete]="autoOrder" [(ngModel)]="orderNumber" (keypress)="getFilteredList()">
+                        <mat-autocomplete class="autocomplete-center" panelWidth="auto" autoActiveFirstOption
+                            #autoOrder="matAutocomplete">
+                            <h6 class="ctl_name ac-dropdown-label"><span>Order Number</span> <span>Date</span>
+                                <span>Transaction Type</span> <span>Item Number</span> <span>Transaction Quantity</span>
+                            </h6>
+                            <mat-option style="width:900px !important;" value="abc">
+                                <div class="ctl_option ac-dropdown-option">
+                                    <span>abc</span> <span>def</span> <span>def</span><span>def</span><span>def</span>
+                                </div>
                             </mat-option>
-                        </mat-select>
-                        <span class="material-symbols-outlined icon-expand-more">
-                            expand_more
-                        </span>
+                        </mat-autocomplete>
                     </mat-form-field>
 
 
@@ -81,7 +87,7 @@
                 <span class="bg-tertiary-900" style="width: 14px; height:2px;"></span>
                 <div class="d-flex g-mini-search-box w-100">
 
-                    <mat-form-field class="w-100 bg-white br-8" appearance="fill">
+                    <!-- <mat-form-field class="w-100 bg-white br-8" appearance="fill">
                         <span class="material-symbols-outlined icon-search">
                             search
                         </span>
@@ -90,6 +96,15 @@
                             <mat-option>
                                 2
                             </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field> -->
+                    <mat-form-field class="w-100 bg-white br-8" appearance="outline">
+                        <mat-label>Control Name</mat-label>
+                        <input type="text" placeholder="Control Name" aria-label="Number" matInput [matAutocomplete]="auto">
+                        <mat-autocomplete class="autocomplete-center" panelWidth="auto" autoActiveFirstOption
+                            #auto="matAutocomplete">
+                            <h6 class="ctl_name ac-dropdown-label"><span>Control Name</span> <span>Function</span></h6>
+                            <mat-option value="abc">adasd</mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
 
