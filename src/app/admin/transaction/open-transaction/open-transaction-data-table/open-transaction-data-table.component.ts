@@ -50,144 +50,39 @@ const TRNSC_DATA = [
 export class OpenTransactionDataTableComponent
   implements OnInit, AfterViewInit
 {
-  public columnValues: any = [];
-  userData: any;
-  onDestroy$: Subject<boolean> = new Subject();
-  public displayedColumns=TRNSC_DATA;
-  public dataSource: any = new MatTableDataSource();
-  payload: any;
-  public filterLoc: any = 'Nothing';
-  public itemList: any;
-  detailDataInventoryMap: any;
+  displayedColumns: string[] = [
+    'orderNumber',
+    'itemNumber',
+    'wareHouse',
+    'location',
+    'transactionType',
+    'transactionQuantity',
+    'serialNumber',
+    'lotNumber',
+    'lineNumber',
+    'hostTransactionID',
+    'toteID',
+    'id',
+    'actions'
+  ];
+  
+  payload:any;
+  datasource: any = [];
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  cols = [];
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
-  customPagination: any = {
-    total: '',
-    recordsPerPage: 20,
-    startIndex: '',
-    endIndex: '',
-  };
-  columnSearch: any = {
-    searchColumn: {
-      colHeader: '',
-      colDef: '',
-    },
-    searchValue: '',
-  };
+  ngAfterViewInit() {}
 
-  sortColumn: any = {
-    columnName: 32,
-    sortOrder: 'asc',
-  };
-
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
-  pageEvent: PageEvent;
-
-  constructor(
-    private router: Router,
-    private seqColumn: SetColumnSeqService,
-    private transactionService: TransactionService,
-    private authService: AuthService,
-    private toastr: ToastrService,
-    private invMapService: InventoryMapService,
-    private dialog: MatDialog
-  ) {
-    if (this.router.getCurrentNavigation()?.extras?.state?.['searchValue']) {
-      this.columnSearch.searchValue =
-        this.router.getCurrentNavigation()?.extras?.state?.['searchValue'];
-      this.columnSearch.searchColumn = {
-        colDef: this.router.getCurrentNavigation()?.extras?.state?.['colDef'],
-        colHeader:
-          this.router.getCurrentNavigation()?.extras?.state?.['colHeader'],
-      };
+  constructor(    private transactionService: TransactionService,) {}
+  @Input()
+  set receivedFromFilterEvent(event: Event) {
+    if (event) {
+      alert('123213')
     }
   }
-
   ngOnInit(): void {
-    this.customPagination = {
-      total: '',
-      recordsPerPage: 20,
-      startIndex: 0,
-      endIndex: 20,
-    };
-
-    this.userData = this.authService.userData();
-    // this.cols = this.displayedColumns.map(c => c);
-
-    // this.getTransactionModelIndex;
-
-    // this.getColumnsData();
-
-    // this.initializeApi();
-     this.getContentData();
-  }
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   debugger
-  //   // this.displayedColumns = [];
-
-  //   this.displayedColumns = changes['displayedColumns']['currentValue']
-  //   console.log(this.displayedColumns);
-
-  // }
-  isAuthorized(controlName: any) {
-    return !this.authService.isAuthorized(controlName);
-  }
-
-  handlePageEvent(e: PageEvent) {
-    this.pageEvent = e;
-
-    this.customPagination.startIndex = e.pageSize * e.pageIndex;
-
-    this.customPagination.endIndex = e.pageSize * e.pageIndex + e.pageSize;
-    // this.length = e.length;
-    this.customPagination.recordsPerPage = e.pageSize;
-    // this.pageIndex = e.pageIndex;
-
+    // this.datasource = new MatTableDataSource(this.employees_details_data);
     this.getContentData();
   }
-
-  getColumnsData() {
-    let payload = {
-      username: this.userData.userName,
-      wsid: this.userData.wsid,
-      tableName: 'Hold Transactions ',
-    };
-    this.transactionService
-      .get(payload, '/Admin/GetColumnSequence', true)
-      .subscribe(
-        (res: any) => {
-          this.displayedColumns = TRNSC_DATA;
-          if (res.data) {
-            this.columnValues = res.data;
-            this.columnValues.push('actions');
-            this.getContentData();
-          } else {
-            this.toastr.error('Something went wrong', 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000,
-            });
-          }
-        },
-        (error) => {}
-      );
-  }
-
-  announceSortChange(e: any) {
-    // let index = this.columnValues.findIndex(x => x === e.active );
-    // this.sortColumn = {
-    //   columnName: index,
-    //   sortOrder: e.direction
-    // }
-    // this.initializeApi();
-    // this.getContentData();
-  }
-
+  
   getContentData() {
     this.payload = {
       draw: 0,
@@ -205,16 +100,24 @@ export class OpenTransactionDataTableComponent
       .get(this.payload, '/Admin/HoldTransactionsData', true)
       .subscribe(
         (res: any) => {
+
+
+          this.datasource =res.data.holdTransactions
           // this.getTransactionModelIndex();
 
-          this.columnValues.push('actions');
-          this.detailDataInventoryMap = res.data?.transactions;
-          this.dataSource = new MatTableDataSource(res.data?.holdTransactions);
-          //  this.dataSource.paginator = this.paginator;
-          this.customPagination.total = res.data?.recordsFiltered;
-          this.dataSource.sort = this.sort;
+          // this.columnValues.push('actions');
+          // this.detailDataInventoryMap = res.data?.transactions;
+          // this.dataSource = new MatTableDataSource(res.data?.holdTransactions);
+          // //  this.dataSource.paginator = this.paginator;
+          // this.customPagination.total = res.data?.recordsFiltered;
+          // this.dataSource.sort = this.sort;
         },
         (error) => {}
       );
   }
+  sortChange(event){
+   
+  }
+
+  
 }
