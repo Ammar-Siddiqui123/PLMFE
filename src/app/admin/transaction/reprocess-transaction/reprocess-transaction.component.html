@@ -4,7 +4,12 @@
             <app-tran-in-reprocess (reprocessSelectionEvent)="getProcessSelection($event)"></app-tran-in-reprocess>
         </div>
         <div class="col-xl-4 h-100">
-            <app-reprocess-choice></app-reprocess-choice>
+            <app-reprocess-choice (newItemEvent)="itemUpdatedEvent($event)" [reprocessCount]="orders"
+             [isEnabled]="isEnabled" [transactionID]="transactionID" [userData]="this.userData"
+             [isReprocessedChecked]="isReprocessedChecked" 
+             [isCompleteChecked]="isCompleteChecked" 
+             [isHistoryChecked]="isHistoryChecked" 
+             ></app-reprocess-choice>
 
         </div>
     </div>
@@ -166,7 +171,7 @@
                     </h2>
                     <div>
                         <mat-tab-group dynamicHeight>
-                            <mat-tab label="Reprocess (2)">
+                            <mat-tab label="Reprocess ({{orders.reprocess}})">
                                 <div class="d-flex gap-12 my-2">
                                     <button mat-stroked-button color="primary" class="button-add-all w-100">
                                         Mark All
@@ -184,12 +189,12 @@
                                     </ng-scrollbar>
                                 </div>
                             </mat-tab>
-                            <mat-tab label="Complete (20)">
+                            <mat-tab label="Complete ({{orders.complete}})">
                                 <div>
 
                                 </div>
                             </mat-tab>
-                            <mat-tab label="History (20)">
+                            <mat-tab label="History ({{orders.history}})">
                                 <div>
 
                                 </div>

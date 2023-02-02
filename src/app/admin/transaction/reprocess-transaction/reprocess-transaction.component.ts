@@ -117,6 +117,19 @@ export class ReprocessTransactionComponent implements OnInit {
   public itemList: any;
   transTypeSelect = 'All Transactions';
   transStatusSelect = 'All Transactions';
+
+  isReprocessedChecked = false;
+  isCompleteChecked= false;
+  isHistoryChecked= false;
+
+
+
+  orders=
+  {
+  reprocess:0,
+  complete:0,
+  history:0
+  };
   rowClicked;
   public detailDataInventoryMap: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -152,6 +165,8 @@ export class ReprocessTransactionComponent implements OnInit {
   searchBar = new Subject<string>();
   searchAutocompleteList: any;
   tableEvent="reprocess";
+  isEnabled=false;
+  transactionID=782699;
   /*for data col. */
 
   constructor(
@@ -166,10 +181,42 @@ export class ReprocessTransactionComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getColumnsData();
+    this.getOrdersWithStatus();
   }
   getProcessSelection(checkValues) {
     this.tableEvent=checkValues
   }
+  getOrdersWithStatus()
+  {
+    let payload = {
+      username: this.userData.userName,
+      wsid: this.userData.wsid
+    };
+    this.transactionService.get(payload, '/Admin/OrderToPost').subscribe(
+      (res: any) => {
+        if (res.data) {
+        this.orders.reprocess = res.data.reprocessCount;
+        this.orders.complete = res.data.completeCount
+        this.orders.history = res.data.historyCount
+
+        } else {
+          this.toastr.error('Something went wrong', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      },
+      (error) => {}
+    );
+    
+  }
+
+  itemUpdatedEvent(event:any)
+  {
+    alert('FROM PARENT '+event);
+  }
+
+
   getColumnsData() {
     let payload = {
       username: this.userData.userName,
