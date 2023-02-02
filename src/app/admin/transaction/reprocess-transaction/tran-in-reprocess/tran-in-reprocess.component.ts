@@ -11,9 +11,14 @@ import { TransactionService } from '../../transaction.service';
 export class TranInReprocessComponent implements OnInit {
   selectedOption = "reprocess";
   public userData : any;
+  public orderList : any;
+  public itemNumberList : any;
   public itemNumber : string = '';
   public orderNumber : string = '';
+  public history : boolean = false;
   @Output() reprocessSelectionEvent = new EventEmitter<string>();
+  @Output() selectedOrderNumber = new EventEmitter<string>();
+  @Output() selectedItemNum = new EventEmitter<string>();
 
   constructor(
     private transService: TransactionService,
@@ -26,6 +31,12 @@ export class TranInReprocessComponent implements OnInit {
     this.getFilteredList();
   }
   radioButtonChange(event) {
+    if(event.value === 'history'){
+      this.history = true;
+    }
+    else{
+      this.history = false;
+    }
     this.reprocessSelectionEvent.emit(event.value);
   }
 
@@ -33,17 +44,41 @@ export class TranInReprocessComponent implements OnInit {
 
   getFilteredList() {
     let payload = {
-      "itemNumber": this.itemNumber,
-      "orderNumber": this.orderNumber,
-      "holds": false,
-      "history": false,
-      "username":  this.userData.username,
+      "ItemNumber": this.itemNumber,
+      "OrderNumber": this.orderNumber,
+      "History": this.history,
+      "username":  this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.transService.get(payload, '/Admin/FilterdOrdersList').subscribe(res => {
-      console.log(res);
-      
+    this.transService.get(payload, '/Admin/ReprocessTypeahead').subscribe(res => {
+      // console.log(res);
+      this.orderList = res.data;
     });
   }
+
+  orderSelected(){
+    console.log(this.orderNumber);
+    this.selectedOrderNumber.emit(this.orderNumber);
+    this.getItemList();
+  }
+  listSelected(){
+    // console.log(this.orderNumber);
+    this.selectedItemNum.emit(this.itemNumber);
+    // this.getItemList();
+  }
+  getItemList(){
+    let payload = {
+      "ItemNumber": this.itemNumber,
+      "OrderNumber": this.orderNumber,
+      "History": this.history,
+      "username":  this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.transService.get(payload, '/Admin/ReprocessTypeahead').subscribe(res => {
+      console.log(res.data);
+      this.itemNumberList = res.data;
+    });
+  }
+
 
 }

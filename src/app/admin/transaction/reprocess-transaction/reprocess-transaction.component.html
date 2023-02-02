@@ -1,15 +1,20 @@
 <div class="container-fluid p-0 mt-2">
     <div class="row row-flex">
-        <div class="col-xl-8 mb-4">
-            <app-tran-in-reprocess (reprocessSelectionEvent)="getProcessSelection($event)"></app-tran-in-reprocess>
+        <div class="mb-4" [ngClass]="isHistory === true ? 'col-xl-12' : 'col-xl-8'">
+            <app-tran-in-reprocess 
+            (reprocessSelectionEvent)="getProcessSelection($event)" 
+            (selectedOrderNumber)="selectedOrderNumber($event)" 
+            (selectedItemNum)="selectedItemNum($event)" 
+            
+            ></app-tran-in-reprocess>
         </div>
-        <div class="col-xl-4 mb-4">
+        <div class="col-xl-4 mb-4" [hidden]="isHistory">
             <app-reprocess-choice></app-reprocess-choice>
 
         </div>
     </div>
     <div class="row">
-        <div class="col-xl-8">
+        <div [ngClass]="isHistory === true ? 'col-xl-12' : 'col-xl-8'">
             <mat-card class="mat-elevation-z g-card  mb-4 h-100">
                 <mat-card-content>
     
@@ -122,7 +127,7 @@
                 </mat-card-content>
             </mat-card>
         </div>
-        <div class="col-xl-4">
+        <div class="col-xl-4" [hidden]="isHistory">
             <mat-card class="mat-elevation-z g-card mb-4">
                 <mat-card-content>
                     <h2 class="card-header-title mb-4 d-flex align-items-center">

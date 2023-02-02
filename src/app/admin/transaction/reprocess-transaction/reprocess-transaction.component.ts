@@ -134,13 +134,15 @@ export class ReprocessTransactionComponent implements OnInit {
   /* End */
   statusType: string = 'All Transactions';
   orderNumber: string = '';
+  itemNumber: string = '';
   selectedVariable;
+  isHistory : boolean = false;
   toteId: string = '';
   searchByToteId = new Subject<string>();
   searchByOrderNumber = new Subject<string>();
   searchBar = new Subject<string>();
   searchAutocompleteList: any;
-  tableEvent="reprocess";
+  tableEvent = "reprocess";
   floatLabelControlColumn = new FormControl('auto' as FloatLabelType);
   hideRequiredFormControl = new FormControl(false);
   searchByColumn = new Subject<string>();
@@ -153,7 +155,7 @@ export class ReprocessTransactionComponent implements OnInit {
     private toastr: ToastrService,
     private invMapService: InventoryMapService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.customPagination = {
@@ -191,7 +193,6 @@ export class ReprocessTransactionComponent implements OnInit {
         wsid: this.userData.wsid,
       };
     }
-
     this.transactionService
       .get(searchPayload, '/Admin/NextSuggestedTransactions', true)
       .subscribe(
@@ -202,12 +203,21 @@ export class ReprocessTransactionComponent implements OnInit {
             this.searchAutocompleteListByCol = res.data;
           }
         },
-        (error) => {}
+        (error) => { }
       );
   }
 
+  selectedOrderNumber(value:any) {
+    this.orderNumber = value;
+    this.getContentData();
+  }
+  selectedItemNum(value:any) {
+    this.itemNumber = value;
+    this.getContentData();
+  }
+
   actionDialog(opened: boolean) {
-    if (!opened && this.selectedVariable && this.selectedVariable==='set_column_sq') {
+    if (!opened && this.selectedVariable && this.selectedVariable === 'set_column_sq') {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: '96%',
         width: '70vw',
@@ -220,7 +230,7 @@ export class ReprocessTransactionComponent implements OnInit {
         .afterClosed()
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((result) => {
-          this.selectedVariable='';
+          this.selectedVariable = '';
           if (result && result.isExecuted) {
             this.getColumnsData();
           }
@@ -259,7 +269,13 @@ export class ReprocessTransactionComponent implements OnInit {
     return this.floatLabelControlColumn.value || 'auto';
   }
   getProcessSelection(checkValues) {
-    this.tableEvent=checkValues
+    this.tableEvent = checkValues
+    if(this.tableEvent === 'history'){
+      this.isHistory = true;
+    }
+    else{
+      this.isHistory = false;
+    }
   }
   getColumnsData() {
     let payload = {
@@ -281,11 +297,11 @@ export class ReprocessTransactionComponent implements OnInit {
           });
         }
       },
-      (error) => {}
+      (error) => { }
     );
   }
 
-  
+
   getContentData() {
     let payload = {
       draw: 0,
@@ -293,16 +309,16 @@ export class ReprocessTransactionComponent implements OnInit {
       searchColumn: this.columnSearch.searchColumn.colDef,
       start: this.customPagination.startIndex,
       length: this.customPagination.recordsPerPage,
-      orderNumber: "",
+      orderNumber: this.orderNumber,
       sortColumnNumber: this.sortCol,
       sortOrder: this.sortOrder,
-      itemNumber: "",
+      itemNumber: this.itemNumber,
       hold: false,
       username: this.userData.userName,
       wsid: this.userData.wsid
     };
     this.transactionService
-      .get(payload, '/Admin/ReprocessTransactionTable',true)
+      .get(payload, '/Admin/ReprocessTransactionTable', true)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();
@@ -312,7 +328,7 @@ export class ReprocessTransactionComponent implements OnInit {
           this.customPagination.total = res.data?.recordsFiltered;
           this.dataSource.sort = this.sort;
         },
-        (error) => {}
+        (error) => { }
       );
   }
   handlePageEvent(e: PageEvent) {
@@ -335,9 +351,9 @@ export class ReprocessTransactionComponent implements OnInit {
     this.columnSearch.searchValue = '';
     this.searchAutocompleteListByCol = [];
   }
-  
-  openReprocessTransactionDialogue(){
-    const dialogRef =  this.dialog.open(ReprocessTransactionDetailComponent, {
+
+  openReprocessTransactionDialogue() {
+    const dialogRef = this.dialog.open(ReprocessTransactionDetailComponent, {
       height: 'auto',
       width: '100%',
       autoFocus: '__non_existing_element__'
