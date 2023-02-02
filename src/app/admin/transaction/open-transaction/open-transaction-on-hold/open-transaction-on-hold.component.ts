@@ -446,7 +446,9 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   resetToTodaysDate() {
     this.edate = new Date().toISOString();
     this.sdate = new Date().toISOString();
-
+    this.columnSearch.searchColumn.colDef='';
+    this.columnSearch.searchValue='';
+    this.orderNumber='';
     // this.initializeApi();
     this.getContentData();
   }

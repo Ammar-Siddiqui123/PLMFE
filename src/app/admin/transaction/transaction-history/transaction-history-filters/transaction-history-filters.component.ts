@@ -17,9 +17,10 @@ let backDate = new Date(year - 50, month, day);
   styleUrls: ['./transaction-history-filters.component.scss'],
 })
 export class TransactionHistoryFiltersComponent implements OnInit {
-  @Output() startDate = new EventEmitter<Event>();
-  @Output() endDate = new EventEmitter<Event>();
+  @Output() startDate = new EventEmitter<any>();
+  @Output() endDate = new EventEmitter<any>();
   @Output() orderNo = new EventEmitter<any>();
+  @Output() resetDates = new EventEmitter<any>();
   searchByOrderNumber = new Subject<string>();
   orderNumber: any;
   searchAutocompleteList: any;
@@ -54,6 +55,13 @@ export class TransactionHistoryFiltersComponent implements OnInit {
     return this.floatLabelControl.value || 'auto';
   }
 
+  resetToTodaysDate() {
+    this.edate=new Date().toISOString()
+    this.sdate=new Date().toISOString()
+    this.resetDates.emit({endDate : new Date().toISOString(),startDate : new Date().toISOString()})
+   
+  }
+
   searchData(event) {
     this.onOrderNoChange(event);
     // if (event == this.columnSearch.searchValue) return;
@@ -74,7 +82,7 @@ export class TransactionHistoryFiltersComponent implements OnInit {
       wsid: this.userData.wsid,
     };
     this.transactionService
-      .get(searchPayload, '/Admin/NextSuggestedTransactions')
+      .get(searchPayload, '/Admin/NextSuggestedTransactions',true)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;

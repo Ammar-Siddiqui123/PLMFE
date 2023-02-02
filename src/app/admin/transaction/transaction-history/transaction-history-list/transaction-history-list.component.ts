@@ -109,12 +109,12 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   public detailDataTransHistory: any;
   public startDate: any = backDate.toISOString();
   public endDate: any = new Date().toISOString();
-  public orderNo: any ;
+  public orderNo: any;
   public payload: any;
   public sortCol: any = 0;
   public sortOrder: any = 'asc';
   selectedVariable: any;
-
+  selectedDropdown='';
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
   searchBar = new Subject<string>();
@@ -132,18 +132,25 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       this.getContentData();
     }
   }
-  @Input() set orderNoEvent(event: Event) {
-   
-    if(event){
-      this.columnSearch.searchValue= event;
-      this.columnSearch.searchColumn.colDef='Order Number'
+  @Input() set resetEvent(event: any) {
+    if (event) {
+      this.startDate = event.endDate;
+      this.endDate = event.startDate;
       this.getContentData();
-    }else{
-      this.columnSearch.searchValue= '';
-      this.columnSearch.searchColumn.colDef=''
-      this.getContentData()
     }
-  
+  }
+  @Input() set orderNoEvent(event: Event) {
+    if (event) {
+      this.orderNo = event;
+      // this.columnSearch.searchValue= event;
+      // this.columnSearch.searchColumn.colDef='Order Number'
+      this.getContentData();
+    }
+    // else{
+    //   this.columnSearch.searchValue= '';
+    //   this.columnSearch.searchColumn.colDef=''
+    //   this.getContentData()
+    // }
   }
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -221,6 +228,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
         .afterClosed()
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((result) => {
+          this.selectedDropdown='';
           if (result && result.isExecuted) {
             this.getColumnsData();
           }
@@ -230,13 +238,13 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   async autocompleteSearchColumn() {
     let searchPayload = {
       query: this.columnSearch.searchValue,
-      tableName: 2,
-      column: this.columnSearch.searchColumn.colDef,
+      tableName: 3,
+      column: this.selectedDropdown,
       username: this.userData.userName,
-      wsid: 'TESTWSID',
+      wsid: this.userData.wsid,
     };
     this.transactionService
-      .get(searchPayload, '/Admin/NextSuggestedTransactions')
+      .get(searchPayload, '/Admin/NextSuggestedTransactions', true)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
@@ -250,21 +258,23 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       wsid: this.userData.wsid,
       tableName: 'Transaction History',
     };
-    this.transactionService.get(payload, '/Admin/GetColumnSequence').subscribe(
-      (res: any) => {
-        this.displayedColumns = TRNSC_DATA;
-        if (res.data) {
-          this.columnValues = res.data;
-          this.getContentData();
-        } else {
-          this.toastr.error('Something went wrong', 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000,
-          });
-        }
-      },
-      (error) => {}
-    );
+    this.transactionService
+      .get(payload, '/Admin/GetColumnSequence', true)
+      .subscribe(
+        (res: any) => {
+          this.displayedColumns = TRNSC_DATA;
+          if (res.data) {
+            this.columnValues = res.data;
+            this.getContentData();
+          } else {
+            this.toastr.error('Something went wrong', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        },
+        (error) => {}
+      );
   }
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
@@ -298,10 +308,10 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       sDate: this.startDate,
       eDate: this.endDate,
       searchString: this.columnSearch.searchValue,
-      searchColumn: this.columnSearch.searchColumn.colDef,
+      searchColumn: this.selectedDropdown,
       start: this.customPagination.startIndex,
       length: this.customPagination.recordsPerPage,
-      orderNumber: '',
+      orderNumber: this.orderNo,
       sortColumnNumber: this.sortCol,
       sortOrder: this.sortOrder,
       filter: '1=1',
@@ -309,7 +319,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       wsid: this.userData.wsid,
     };
     this.transactionService
-      .get(payload, '/Admin/TransactionHistoryTable')
+      .get(payload, '/Admin/TransactionHistoryTable', true)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();
@@ -331,6 +341,22 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     }
   }
 
+  resetColumn() {
+    this.columnSearch.searchColumn.colDef = '';
+  }
+
+  resetFields(event?) {
+    // this.orderNo = '';
+    this.columnSearch.searchValue = '';
+    this.searchAutocompleteList = [];
+  }
+  selectStatus(event) {
+    this.resetColumn();
+    this.resetFields();
+
+    // this.initializeApi();
+    this.getContentData();
+  }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
@@ -348,8 +374,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       return;
 
     let index;
-    this.displayedColumns.find((x, i) => {
-      if (x.colDef === event.active) {
+    this.columnValues.find((x, i) => {
+      if (x === event.active) {
         index = i;
       }
     });
