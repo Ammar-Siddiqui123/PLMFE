@@ -213,8 +213,7 @@
                 *ngIf="columnValues?.length>0 && displayedColumns && dataSource?.data?.length>0"> -->
 
                 <div class="card br-14 table-responsive my-3">
-                    <!-- <ng-scrollbar style="height: 200px;"></ng-scrollbar> -->
-                    <ng-scrollbar style="height:300px" track="all" class="mat-table-scrollbar">
+                    <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 400px;">
 
                         <mat-table class="custom-table table-fix" #table [dataSource]="dataSource" matSort
                             (matSortChange)="sortChange($event)">

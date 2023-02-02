@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/init/auth.service';
 import { ColumnSequenceDialogComponent } from '../../dialogs/column-sequence-dialog/column-sequence-dialog.component';
+import { ReprocessTransactionDetailComponent } from '../../dialogs/reprocess-transaction-detail/reprocess-transaction-detail.component';
 import { SetColumnSeqService } from '../../dialogs/set-column-seq/set-column-seq.service';
 import { InventoryMapService } from '../../inventory-map/inventory-map.service';
 import { TransactionService } from '../transaction.service';
@@ -329,5 +330,13 @@ export class ReprocessTransactionComponent implements OnInit {
     // this.orderNo = '';
     this.columnSearch.searchValue = '';
     this.searchAutocompleteListByCol = [];
+  }
+  
+  openReprocessTransactionDialogue(){
+    const dialogRef =  this.dialog.open(ReprocessTransactionDetailComponent, {
+      height: 'auto',
+      width: '100%',
+      autoFocus: '__non_existing_element__'
+    })
   }
 }

@@ -171,7 +171,7 @@
                 <mat-label>Actions</mat-label>
                 <mat-select class="employees-action"
                   placeholder="Actions">
-                  <mat-option value="print">Fill All Empty Tote IDs</mat-option>
+                  <mat-option value="print"><b class="text-tertiary-900">Fill All Empty Tote IDs</b></mat-option>
                   <mat-option value="set_column_sq">Fill Next Empty Tote ID</mat-option>
                   <mat-option value="set_column_sq">Clear All Totes</mat-option>
                   <mat-option value="set_column_sq">Clear All Orders</mat-option>
@@ -249,9 +249,10 @@
                             </button>
           
                             <mat-menu #appMenu="matMenu">
-                              <button mat-menu-item>Print</button>
+                              <button mat-menu-item><b class="text-tertiary-900">View Order</b></button>
                               <button mat-menu-item>Clear</button>
-                              <button mat-menu-item>Assign Next ID</button>
+                              <button mat-menu-item>Print Tote Labels</button>
+                              <button mat-menu-item>Print Pick Labels</button>
                             </mat-menu>
                       </div>
                     </td>
@@ -268,4 +269,9 @@
             </ng-scrollbar>
         </div>
     </mat-card-content>
-</mat-card>        
+</mat-card>   
+<div class="d-flex">
+    <button mat-flat-button color="primary" class="primary-button btn-lg w-100" style="min-width: 150px;">
+        Process Batch
+    </button>
+</div>
