@@ -75,6 +75,10 @@ const TRNSC_DATA = [
   { colHeader: 'cell', colDef: 'Cell' },
   { colHeader: 'hostTransactionID', colDef: 'Host Transaction ID' },
   { colHeader: 'emergency', colDef: 'Emergency' },
+  { colHeader: 'reasonMessage', colDef: 'Reason Message' },
+  { colHeader: 'dateStamp', colDef: 'Date Stamp' },
+  { colHeader: 'reason', colDef: 'Reason' },
+  { colHeader: 'nameStamp', colDef: 'Name Stamp' },
 ];
 @Component({
   selector: 'app-reprocess-transaction',
@@ -153,7 +157,7 @@ export class ReprocessTransactionComponent implements OnInit {
     let payload = {
       username: this.userData.userName,
       wsid: this.userData.wsid,
-      tableName: 'Open Transactions',
+      tableName: 'Open Transactions Temp',
     };
     this.transactionService.get(payload, '/Admin/GetColumnSequence').subscribe(
       (res: any) => {
@@ -174,25 +178,21 @@ export class ReprocessTransactionComponent implements OnInit {
   }
   getContentData() {
     let payload = {
-      draw: 3,
-      sDate: '2022-12-19T07:25:04.661Z',
-      eDate: '2023-01-19T07:25:04.661Z',
-      transType: 'All Transactions',
-      transStatus: 'All Transactions',
-      searchString: '',
-      searchColumn: '',
+      draw: 0,
+      searchString: "",
+      searchColumn: "",
       start: 1,
-      length: 100,
-      orderNumber: '',
-      toteID: '',
-      sortColumnNumber: 0,
-      sortOrder: 'asc',
-      filter: '1=1',
-      username: '1234',
-      wsid: 'TESTWSID',
+      length: 11,
+      sortColumnNumber: 5,
+      sortOrder: "asc",
+      orderNumber: "",
+      itemNumber: "",
+      hold: false,
+      username: this.userData.userName,
+      wsid: this.userData.wsid
     };
     this.transactionService
-      .get(payload, '/Admin/OpenTransactionTable')
+      .get(payload, '/Admin/ReprocessTransactionTable')
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();
