@@ -114,7 +114,7 @@ export class ReprocessedTransactionComponent implements OnInit {
       wsid: this.userData.wsid,
       tableName: 'ReProcessed',
     };
-    this.transactionService.get(payload, '/Admin/GetColumnSequence').subscribe(
+    this.transactionService.get(payload, '/Admin/GetColumnSequence',true).subscribe(
       (res: any) => {
         this.displayedColumns = TRNSC_DATA;
         if (res.data) {
@@ -202,7 +202,7 @@ export class ReprocessedTransactionComponent implements OnInit {
       wsid: this.userData.wsid,
     };
     this.transactionService
-      .get(searchPayload, '/Admin/NextSuggestedTransactions')
+      .get(searchPayload, '/Admin/NextSuggestedTransactions',true)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
