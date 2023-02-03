@@ -667,9 +667,9 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       .afterClosed()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((result) => {
-        if (result.isExecuted) {
+        // if (result.isExecuted) {
           this.getContentData();
-        }
+        // }
         // this.getContentData();
       });
   }
