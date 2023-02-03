@@ -14,7 +14,7 @@
                 <div class="d-flex justify-content-evenly">
                     <div class="employees text-center">
                     <p class="counter-count mb-1 bg-primary-900">{{reprocessCount.reprocess}}</p>
-                    <p class="employee-p text-tertiary-900 mb-1  ">Reprocess({{reprocessCount.complete}})</p>
+                    <p class="employee-p text-tertiary-900 mb-1  ">Reprocess</p>
                     <span>
                         <mat-checkbox color="primary" [checked]='isReprocessedChecked'  [disabled]="isEnabled" (change)="changeOrderStatus($event,'Reprocess')">
 
@@ -26,17 +26,27 @@
                     <p class="counter-count mb-1 bg-primary-900">{{reprocessCount.complete}}</p>
                     <p class="customer-p text-tertiary-900 mb-1  ">Complete</p>
                         <span>
-                            <mat-checkbox color="primary" [checked]='isHistoryChecked' [disabled]="isEnabled" (change)="changeOrderStatus($event,'History')">
+                            <mat-checkbox color="primary" [checked]='isCompleteChecked' [disabled]="isEnabled" (change)="changeOrderStatus($event,'Complete')">
     
                             </mat-checkbox>
                         </span>
                         </div>
+                        <div class="employees text-center">
+                            <p class="counter-count mb-1 bg-primary-900">{{reprocessCount.history}}</p>
+                            <p class="employee-p text-tertiary-900 mb-1  ">History</p>
+                            <span>
+                                <mat-checkbox color="primary" [checked]='isHistoryChecked'  [disabled]="isEnabled" (change)="changeOrderStatus($event,'History')">
+        
+                                </mat-checkbox>
+                            </span>
+                            
+                            </div>
                 </div>
                 </div>
             </div>
         </div>
         <div>
-            <button mat-flat-button color="primary" class="w-100" [disabled]="isEnabled" >
+            <button mat-flat-button color="primary" class="w-100" [disabled]="isEnabled" (click)="postTransaction()">
                 Post Transactions
               </button>
         </div>

@@ -26,6 +26,33 @@ export class ReprocessChoiceComponent implements OnInit {
    
   }
 
+  postTransaction()
+  {
+    //Admin/PostReprocessTransaction
+    var payload={
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+      }
+    this.transactionService.get(payload, '/Admin/PostReprocessTransaction').subscribe(
+      (res: any) => {
+        if (res.data && res.isExecuted) {
+          this.toastr.success(res.responseMessage, 'Success!',{
+            positionClass: 'toast-bottom-right',
+            timeOut:2000
+         });
+         this.itemUpdatedEvent.emit(true);
+        } else {
+          console.log(res);
+          this.toastr.error('Something went wrong', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      },
+      (error) => {}
+    );
+  }
+
   changeOrderStatus(event:MatCheckboxChange,status): void {
     if(status=='Reprocess')
     {
@@ -41,8 +68,7 @@ export class ReprocessChoiceComponent implements OnInit {
     this.isReprocessedChecked = false;
     this.isCompleteChecked= false;
     }
-    if(event.checked)
-    {
+    
       var payload={
         id: this.transactionID,
         reprocess: (status=='Reprocess' && event.checked)?1:0,
@@ -70,7 +96,7 @@ export class ReprocessChoiceComponent implements OnInit {
           },
           (error) => {}
         );
-    }
+    
 
 
   }

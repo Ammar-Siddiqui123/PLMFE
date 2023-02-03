@@ -7,6 +7,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import labels from '../../../labels/labels.json';
+import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -20,6 +22,7 @@ import { ReprocessTransactionDetailComponent } from '../../dialogs/reprocess-tra
 import { SetColumnSeqService } from '../../dialogs/set-column-seq/set-column-seq.service';
 import { InventoryMapService } from '../../inventory-map/inventory-map.service';
 import { TransactionService } from '../transaction.service';
+import { DialogConfig } from '@angular/cdk/dialog';
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
   { colHeader: 'importDate', colDef: 'Import Date' },
@@ -107,13 +110,18 @@ export class ReprocessTransactionComponent implements OnInit {
   isCompleteChecked= false;
   isHistoryChecked= false;
 
+  idx:any;
+
 
 
   orders=
   {
   reprocess:0,
   complete:0,
-  history:0
+  history:0,
+  reprocessOrders:[{orderNumber:0,itemNumber:0,id:0}],
+  completeOrders:[{orderNumber:0,itemNumber:0,id:0}],
+  historyOrders:[{orderNumber:0,itemNumber:0,id:0}]
   };
   rowClicked;
   public detailDataInventoryMap: any;
@@ -154,8 +162,8 @@ export class ReprocessTransactionComponent implements OnInit {
   searchBar = new Subject<string>();
   searchAutocompleteList: any;
   tableEvent="reprocess";
-  isEnabled=false;
-  transactionID=782699;
+  isEnabled=true;
+  transactionID=0;
   floatLabelControlColumn = new FormControl('auto' as FloatLabelType);
   hideRequiredFormControl = new FormControl(false);
   searchByColumn = new Subject<string>();
@@ -188,6 +196,26 @@ export class ReprocessTransactionComponent implements OnInit {
         this.getContentData();
       });
   }
+
+  getTransaction(row:any){
+  this.isEnabled = false;
+  this.transactionID=row.id;
+  this.isReprocessedChecked = row.reprocess=='False'?false:true;
+  this.isCompleteChecked= row.postAsComplete=='False'?false:true;
+  this.isHistoryChecked= row.sendToHistory=='False'?false:true;
+  
+  
+  
+  
+  }
+
+
+  changeTableRowColor(idx: any) { 
+  this.rowClicked = idx;
+  }
+
+
+  
   async autocompleteSearchColumn(isSearchByOrder: boolean = false) {
     let searchPayload;
     if (isSearchByOrder) {
@@ -277,6 +305,97 @@ export class ReprocessTransactionComponent implements OnInit {
   getProcessSelection(checkValues) {
     this.tableEvent=checkValues
   }
+  deleteOrder(id:any,event)
+  {
+    if(id==0||id==-1)
+    {
+    var MarkAsTrue=(id==0?true:false);
+    var column="";
+    if(event=='reprocess')
+    {
+      column='Reprocess';
+    }
+    else if(event=='complete')
+    {
+      column='Post as Complete';
+    }
+    else 
+    {
+      //history
+      column='Send to History';
+    }
+    var payload={
+      Column:column,
+      MarkAsTrue:MarkAsTrue,
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+      }
+      console.log(payload);
+      this.transactionService.get(payload, '/Admin/HoldTransactionsData').subscribe(
+        (res: any) => {
+          if (res.data && res.isExecuted) {
+            console.log(res);
+            this.getContentData();
+            this.getOrdersWithStatus();
+            this.toastr.success(labels.alert.update, 'Success!',{
+              positionClass: 'toast-bottom-right',
+              timeOut:2000
+           });
+          } else {
+            this.toastr.error('Something went wrong', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        },
+        (error) => {}
+      );
+
+    }
+    else 
+    {
+      const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+        height: 'auto',
+        width: '480px',
+        autoFocus: '__non_existing_element__',
+      })
+      dialogRef.afterClosed().subscribe(result => {
+          if(result === 'Yes'){
+            var payloadForReprocess={
+              id: id,
+              reprocess:0,
+              postComplete: 0,
+              sendHistory:0,
+              field: "",
+              username: this.userData.userName,
+              wsid: this.userData.wsid,
+              }
+              this.transactionService.get(payloadForReprocess, '/Admin/ReprocessIncludeSet').subscribe(
+                (res: any) => {
+                  if (res.data && res.isExecuted) {
+                    this.getContentData();
+                    this.getOrdersWithStatus();
+                    this.toastr.success(labels.alert.update, 'Success!',{
+                      positionClass: 'toast-bottom-right',
+                      timeOut:2000
+                   });
+                  } else {
+                    this.toastr.error('Something went wrong', 'Error!', {
+                      positionClass: 'toast-bottom-right',
+                      timeOut: 2000,
+                    });
+                  }
+                },
+                (error) => {}
+              );
+  
+  
+  
+          }
+      })
+    }
+    
+  }
   getOrdersWithStatus()
   {
     let payload = {
@@ -287,8 +406,17 @@ export class ReprocessTransactionComponent implements OnInit {
       (res: any) => {
         if (res.data) {
         this.orders.reprocess = res.data.reprocessCount;
-        this.orders.complete = res.data.completeCount
-        this.orders.history = res.data.historyCount
+        this.orders.complete = res.data.completeCount;
+        this.orders.history = res.data.historyCount;
+        
+        this.orders.reprocessOrders.shift();
+        this.orders.completeOrders.shift();
+        this.orders.historyOrders.shift();
+
+        this.orders.reprocessOrders = res.data.reprocess;
+
+        this.orders.completeOrders = res.data.complete;
+        this.orders.historyOrders = res.data.history;
 
         } else {
           this.toastr.error('Something went wrong', 'Error!', {
@@ -302,9 +430,22 @@ export class ReprocessTransactionComponent implements OnInit {
     
   }
 
+  deleteReprocessOrder(record:any){}
+
   itemUpdatedEvent(event:any)
   {
-    alert('FROM PARENT '+event);
+    this.getContentData();
+    this.getOrdersWithStatus();
+    this.clearTransactionData();
+  }
+
+  clearTransactionData()
+  {
+  this.isEnabled=true;
+  this.transactionID=0;
+  this.isReprocessedChecked = false;
+  this.isCompleteChecked= false;
+  this.isHistoryChecked= false;
   }
 
 
@@ -334,6 +475,7 @@ export class ReprocessTransactionComponent implements OnInit {
 
   
   getContentData() {
+    this.rowClicked="";
     let payload = {
       draw: 0,
       searchString: this.columnSearch.searchValue,
