@@ -29,7 +29,6 @@ export class BatchOrderListComponent implements OnInit {
   constructor(private _liveAnnouncer: LiveAnnouncer) { }
 
   ngOnInit(): void {
-    // console.log(this.orderListData);
   }
 
   ngAfterViewInit() {

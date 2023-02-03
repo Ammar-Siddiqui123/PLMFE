@@ -1453,6 +1453,7 @@ button.default-btn{
 .custom-table{
   border-radius: 14px;
   th.mat-header-cell{
+   
   background: #F9F9FF;
   font-size:16px;
   font-weight: 800;
@@ -1461,6 +1462,7 @@ button.default-btn{
     border-top-left-radius: 14px;
   }
   &:last-child{
+    width: 100%!important  ;   //  cover width of table last  by umer aslam
     border-top-right-radius: 14px;
   }
   }
