@@ -66,6 +66,7 @@ export class TranCarouselLzoneComponent implements OnInit, AfterViewInit {
   @Input()
   set clearEvent(event: Event) {
        if (event) {
+     
           if (this.dataSource) {
             this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
           }

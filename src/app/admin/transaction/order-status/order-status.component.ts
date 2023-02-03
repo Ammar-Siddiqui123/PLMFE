@@ -19,7 +19,7 @@ export class OrderStatusComponent implements OnInit {
   locationZonesEvent: Event;
   orderStatusNext = [];
   clearEvent: Event;
-
+  clearFromList: Event;
   event: Event;
   userData;
   constructor(
@@ -63,6 +63,9 @@ export class OrderStatusComponent implements OnInit {
   }
   onChange(event: Event) {
     this.event = event;
+  }
+  onClearList(event: Event) {
+    this.clearFromList = event;
   }
   // async autocompleteSearchColumn() {
   //   let searchPayload = {

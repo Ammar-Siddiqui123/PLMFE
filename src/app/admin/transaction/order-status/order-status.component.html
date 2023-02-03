@@ -1,7 +1,7 @@
 <div class="container-fluid p-0 pt-2" style="height: auto;">
   <div class="row  mb-3">
     <div class="col-xl-5">
-      <app-tran-select-order (deleteEvent)="onChange($event)" (clearData)="onClearFromStatus($event)"  (orderNo)="orderNoChange($event)" (toteId)="toteIdChange($event)"
+      <app-tran-select-order [clearFromListEvent]="clearFromList" (deleteEvent)="onChange($event)" (clearData)="onClearFromStatus($event)"  (orderNo)="orderNoChange($event)" (toteId)="toteIdChange($event)"
         [openOrderEvent]="openOrderEvent" [orderTypeOrderEvent]="orderTypeOrderEvent" [orderStatNextData]="orderStatusNext" [completeOrderEvent]="completeOrderEvent" [reprocessOrderEvent]="reprocessOrderEvent" [totalLinesOrderEvent]="totalLinesOrderEvent" [currentStatusOrderEvent]="currentStatusOrderEvent" ></app-tran-select-order>
     </div>
     <div class="col-xl-7">
@@ -11,7 +11,7 @@
   </div>
   <div class="row mb-3">
     <div class="col-12">
-      <app-tran-order-list [deleteEvnt]="event" [clearEvent]="clearEvent"     (currentStatus)="currentStatusOrderChange($event)" (totalLinesOrders)="totalLinesOrderChange($event)" (orderTypeOrders)="orderTypeOrderChange($event)"  (reprocessOrders)="reprocessOrderChange($event)"  (completeOrders)="completeOrderChange($event)"   (locationZones)="locationZones($event)" (openOrders)="openOrderChange($event)"
+      <app-tran-order-list [deleteEvnt]="event" [clearEvent]="clearEvent"  (clearFromListChange)="onClearList($event)"   (currentStatus)="currentStatusOrderChange($event)" (totalLinesOrders)="totalLinesOrderChange($event)" (orderTypeOrders)="orderTypeOrderChange($event)"  (reprocessOrders)="reprocessOrderChange($event)"  (completeOrders)="completeOrderChange($event)"   (locationZones)="locationZones($event)" (openOrders)="openOrderChange($event)"
         [orderNoEvent]="orderNoEvent" [toteIdEvent]="toteIdEvent"></app-tran-order-list>
     </div>
   </div>
