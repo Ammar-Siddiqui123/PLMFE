@@ -147,7 +147,6 @@ export class BatchManagerComponent implements OnInit {
 
         }
        
-        console.log('ORDER LIST_--<>',this.orderList)
       });
     } catch (error) {
       console.log(error);

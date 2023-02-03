@@ -285,7 +285,7 @@ mat-toolbar {
 }
 .mat-toolbar {
   background-color: #090948;
-  background-image: url('./assets/Brand Flourish.png');
+  // background-image: url('./assets/Brand Flourish.png');
   background-position: 6% 37%;
   background-size: auto;
   background-repeat: no-repeat;
@@ -936,6 +936,7 @@ table.g-card-table th.mat-header-cell {
 
 .action-clickable-table .mat-row:hover td {
   color: #fff;
+  z-index: 1;
 }
 
 .action-clickable-table .mat-row:hover:after {
@@ -1036,6 +1037,10 @@ h4.main-section-title {
 .f-16{
   font-size: 16px;
 }
+.f-14{
+  font-size: 14px;
+}
+
 
 //-------------- FONT-SIZES-CLASSES ----END-------------------
 
@@ -1106,10 +1111,16 @@ h4.main-section-title {
   background: rgba(#CACAEE, 0.8);
   color:#00004D;
 }
+.label-gray{
+  background: var(--clr-tertiary-10);
+  color:var(--clr-tertiary-900);
+}
 .label{
   border-radius: 999px;
   height: 28px;
   cursor: default;
+  display: inline-flex;
+  align-items: center;
 }
 
 //-------------- LABEL-CLASSES ----END-------------------
@@ -1347,6 +1358,15 @@ button.default-btn{
 .checkbox-background{
   background: rgba(255, 196, 88, 0.2);
 }
+
+.custom-horizontal-radio{
+  .mat-radio-label-content{
+    flex: 1;
+  }
+}
+
+
+
 //-------------- RADIO BUTTOM-CLASSES ----END-------------------
 .custom{
 .counter
@@ -1433,6 +1453,7 @@ button.default-btn{
 .custom-table{
   border-radius: 14px;
   th.mat-header-cell{
+   
   background: #F9F9FF;
   font-size:16px;
   font-weight: 800;
@@ -1441,6 +1462,7 @@ button.default-btn{
     border-top-left-radius: 14px;
   }
   &:last-child{
+    width: 100%!important  ;   //  cover width of table last  by umer aslam
     border-top-right-radius: 14px;
   }
   }
@@ -1735,3 +1757,4 @@ mat-row{
     }
   }
 }
+

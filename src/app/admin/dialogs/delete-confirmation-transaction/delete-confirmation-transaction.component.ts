@@ -33,11 +33,9 @@ export class DeleteConfirmationTransactionComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    console.log(this.data);
   }
 
   selectOption() {
-    console.log(this.accessLevel);
   }
   onConfirmdelete() {
     let deletePayload = {

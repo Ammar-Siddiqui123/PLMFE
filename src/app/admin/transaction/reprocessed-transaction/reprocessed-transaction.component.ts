@@ -45,6 +45,7 @@ export class ReprocessedTransactionComponent implements OnInit {
   public displayedColumns: any;
   public dataSource: any = new MatTableDataSource();
   public detailDataTransHistory: any;
+  selectedVariable: any;
   onDestroy$: Subject<boolean> = new Subject();
   payload;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
@@ -113,7 +114,7 @@ export class ReprocessedTransactionComponent implements OnInit {
       wsid: this.userData.wsid,
       tableName: 'ReProcessed',
     };
-    this.transactionService.get(payload, '/Admin/GetColumnSequence').subscribe(
+    this.transactionService.get(payload, '/Admin/GetColumnSequence',true).subscribe(
       (res: any) => {
         this.displayedColumns = TRNSC_DATA;
         if (res.data) {
@@ -166,7 +167,7 @@ export class ReprocessedTransactionComponent implements OnInit {
       wsid: this.userData.wsid,
     };
     this.transactionService
-      .get(this.payload, '/Admin/ReprocessedTransactionTable')
+      .get(this.payload, '/Admin/ReprocessedTransactionTable',true)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();
@@ -195,13 +196,13 @@ export class ReprocessedTransactionComponent implements OnInit {
   async autocompleteSearchColumn() {
     let searchPayload = {
       query: this.columnSearch.searchValue,
-      tableName: 6,
+      tableName: 5,
       column: this.columnSearch.searchColumn.colDef,
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
     this.transactionService
-      .get(searchPayload, '/Admin/NextSuggestedTransactions')
+      .get(searchPayload, '/Admin/NextSuggestedTransactions',true)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
@@ -223,14 +224,16 @@ export class ReprocessedTransactionComponent implements OnInit {
     this.sortOrder = event.direction;
     this.getContentData();
   }
-  actionDialog(actionEvent: any) {
-    if (actionEvent.value === 'set_column_sq') {
+
+  
+  actionDialog(opened: boolean) {
+    if (!opened && this.selectedVariable) {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: '96%',
         width: '70vw',
         data: {
           mode: event,
-          tableName: 'Reprocessed Transactions',
+          tableName: 'ReProcessed',
         },
       });
       dialogRef
@@ -241,7 +244,7 @@ export class ReprocessedTransactionComponent implements OnInit {
             this.getColumnsData();
           }
         });
-    }
+      }
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;

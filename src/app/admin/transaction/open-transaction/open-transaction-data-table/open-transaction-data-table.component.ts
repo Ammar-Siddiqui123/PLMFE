@@ -26,45 +26,21 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { QuarantineConfirmationComponent } from 'src/app/admin/dialogs/quarantine-confirmation/quarantine-confirmation.component';
 import { AdjustQuantityComponent } from 'src/app/admin/dialogs/adjust-quantity/adjust-quantity.component';
+import { HoldReasonComponent } from 'src/app/admin/dialogs/hold-reason/hold-reason.component';
 
-const INVMAP_DATA = [
-  { colHeader: 'location', colDef: 'Location' },
-  { colHeader: 'zone', colDef: 'Zone' },
-  { colHeader: 'carousel', colDef: 'Carousel' },
-  { colHeader: 'row', colDef: 'Row' },
-  { colHeader: 'shelf', colDef: 'Shelf' },
-  { colHeader: 'bin', colDef: 'Bin' },
+const TRNSC_DATA = [
+  { colHeader: 'orderNumber', colDef: 'Order Number' },
   { colHeader: 'itemNumber', colDef: 'Item Number' },
-  { colHeader: 'itemQuantity', colDef: 'Item Quantity' },
-  { colHeader: 'description', colDef: 'Description' },
-  { colHeader: 'cellSize', colDef: 'Cell Size' },
-  { colHeader: 'goldenZone', colDef: 'Velocity Code' },
-  { colHeader: 'maximumQuantity', colDef: 'Maximum Quantity' },
-  { colHeader: 'dedicated', colDef: 'Dedicated' },
+  { colHeader: 'wareHouse', colDef: 'Warehouse' },
+  { colHeader: 'location', colDef: 'Location' },
+  { colHeader: 'transactionType', colDef: 'Transaction Type' },
+  { colHeader: 'transactionQuantity', colDef: 'Transaction Quantity' },
   { colHeader: 'serialNumber', colDef: 'Serial Number' },
   { colHeader: 'lotNumber', colDef: 'Lot Number' },
-  { colHeader: 'expirationDate', colDef: 'Expiration Date' },
-  { colHeader: 'unitOfMeasure', colDef: 'Unit of Measure' },
-  { colHeader: 'quantityAllocatedPick', colDef: 'Quantity Allocated Pick' },
-  {
-    colHeader: 'quantityAllocatedPutAway',
-    colDef: 'Quantity Allocated Put Awa',
-  },
-  { colHeader: 'putAwayDate', colDef: 'Put Away Date' },
-  { colHeader: 'warehouse', colDef: 'Warehouse' },
-  { colHeader: 'revision', colDef: 'Revision' },
-  { colHeader: 'invMapID', colDef: 'Inv Map ID' },
-  { colHeader: 'userField1', colDef: 'User Field1' },
-  { colHeader: 'userField2', colDef: 'User Field2' },
-  { colHeader: 'masterLocation', colDef: 'Master Location' },
-  { colHeader: 'dateSensitive', colDef: 'Date Sensitive' },
-  { colHeader: 'masterInvMapID', colDef: 'Master Inv Map ID' },
-  { colHeader: 'minQuantity', colDef: 'Min Quantity' },
-  { colHeader: 'laserX', colDef: 'Laser X' },
-  { colHeader: 'laserY', colDef: 'Laser Y' },
-  { colHeader: 'locationNumber', colDef: 'Location Number' },
-  { colHeader: 'locationID', colDef: 'Alternate Light' },
-  { colHeader: 'qtyAlcPutAway', colDef: 'Quantity Allocated Put Away' },
+  { colHeader: 'lineNumber', colDef: 'Line Number' },
+  { colHeader: 'hostTransactionID', colDef: 'Host Transaction ID' },
+  { colHeader: 'toteID', colDef: 'Tote ID' },
+  { colHeader: 'id', colDef: 'ID' },
 ];
 
 @Component({
@@ -75,283 +51,147 @@ const INVMAP_DATA = [
 export class OpenTransactionDataTableComponent
   implements OnInit, AfterViewInit
 {
-  public columnValues: any = [];
-  userData: any;
-  onDestroy$: Subject<boolean> = new Subject();
-  public displayedColumns: any;
-  public dataSource: any = new MatTableDataSource();
+  displayedColumns: string[] = [
+    'orderNumber',
+    'itemNumber',
+    'wareHouse',
+    'location',
+    'transactionType',
+    'transactionQuantity',
+    'serialNumber',
+    'lotNumber',
+    'lineNumber',
+    'hostTransactionID',
+    'toteID',
+    'id',
+    'actions',
+  ];
+  identify='Order Number';
+  reels='non';
+  orderItem='';
   payload: any;
-  public filterLoc: any = 'Nothing';
-  public itemList: any;
-  detailDataInventoryMap: any;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  cols = [];
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
+  datasource: any = [];
+  userData;
   customPagination: any = {
     total: '',
-    recordsPerPage: 20,
-    startIndex: '',
-    endIndex: '',
+    recordsPerPage:10,
+    startIndex: 0,
+    endIndex: 10,
   };
-  columnSearch: any = {
-    searchColumn: {
-      colHeader: '',
-      colDef: '',
-    },
-    searchValue: '',
-  };
-
-  sortColumn: any = {
-    columnName: 32,
-    sortOrder: 'asc',
-  };
-
-
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
+  public sortCol: any = 5;
+  public sortOrder: any = 'asc';
+  public columnValues: any = [];
+  ngAfterViewInit() {}
   pageEvent: PageEvent;
-
   constructor(
-    private router: Router,
-    private seqColumn: SetColumnSeqService,
     private transactionService: TransactionService,
     private authService: AuthService,
-    private toastr: ToastrService,
-    private invMapService: InventoryMapService,
     private dialog: MatDialog
-  ) {
-    if (this.router.getCurrentNavigation()?.extras?.state?.['searchValue']) {
-      this.columnSearch.searchValue =
-        this.router.getCurrentNavigation()?.extras?.state?.['searchValue'];
-      this.columnSearch.searchColumn = {
-        colDef: this.router.getCurrentNavigation()?.extras?.state?.['colDef'],
-        colHeader:
-          this.router.getCurrentNavigation()?.extras?.state?.['colHeader'],
-      };
+
+  ) {}
+  @Input()
+  set event(event: any) {
+    if (event) {
+    this.identify=event.selectedOption;
+    this.orderItem=event.searchValue;
+    this.reels=event.selectedCheck;
+    this.getContentData();
     }
   }
-
   ngOnInit(): void {
     this.customPagination = {
       total: '',
-      recordsPerPage: 20,
+      recordsPerPage: 10,
       startIndex: 0,
-      endIndex: 20,
+      endIndex: 10,
     };
-
     this.userData = this.authService.userData();
-    // this.cols = this.displayedColumns.map(c => c);
-
-    // this.getTransactionModelIndex;
-
-    this.initializeApi();
-    this.getColumnsData();
-
-    // this.initializeApi();
-    //  this.getContentData();
+    // this.datasource = new MatTableDataSource(this.employees_details_data);
+    this.getContentData();
   }
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   debugger
-  //   // this.displayedColumns = [];
+  getContentData() {
+    this.payload = {
+      draw: 0,
+      sRow: this.customPagination.startIndex,
+      eRow: this.customPagination.endIndex,
+      sortColumnNumber:  this.sortCol,
+      sortOrder: this.sortOrder,
+      username: this.userData.userName,
+      identify: this.identify,
+      reels: this.reels,
+      orderItem: this.orderItem,
+      wsid: this.userData.wsid,
+    };
+    this.transactionService
+      .get(this.payload, '/Admin/HoldTransactionsData', true)
+      .subscribe(
+        (res: any) => {
+          this.datasource = res.data.holdTransactions;
+          // this.getTransactionModelIndex();
 
-  //   this.displayedColumns = changes['displayedColumns']['currentValue']
-  //   console.log(this.displayedColumns);
-
-  // }
-  isAuthorized(controlName: any) {
-    return !this.authService.isAuthorized(controlName);
+          // this.columnValues.push('actions');
+          // this.detailDataInventoryMap = res.data?.transactions;
+          // this.dataSource = new MatTableDataSource(res.data?.holdTransactions);
+          // //  this.dataSource.paginator = this.paginator;
+          // this.customPagination.total = res.data?.recordsFiltered;
+          // this.dataSource.sort = this.sort;
+        },
+        (error) => {}
+      );
   }
 
+  sortChange(event) {
+    if (
+      !this.datasource ||
+      event.direction == ''
+    )
+      return;
+
+    let index;
+    this.displayedColumns.find((x, i) => {
+      if (x === event.active) {
+        index = i;
+      }
+    });
+
+    this.sortCol = index;
+    this.sortOrder = event.direction;
+    this.getContentData();
+  }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
-
+    // this.customPagination.startIndex =  e.pageIndex
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
 
     this.customPagination.endIndex = e.pageSize * e.pageIndex + e.pageSize;
     // this.length = e.length;
     this.customPagination.recordsPerPage = e.pageSize;
-    // this.pageIndex = e.pageIndex;
-
-    this.initializeApi();
+    
     this.getContentData();
   }
-  viewLocationHistory() {}
-  viewInInventoryMaster() {
-    this.router.navigate(['/admin/inventoryMaster']);
-  }
+  holdDeallocate(row){
 
-  adjustQuantity(event) {
-    let dialogRef = this.dialog.open(AdjustQuantityComponent, {
-      height: 'auto',
-      width: '800px',
-      data: {
-        id: event.invMapID,
-      },
-    });
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((result) => {
-        this.getContentData();
-      });
-  }
-  unQuarantine(event) {
-    let dialogRef = this.dialog.open(QuarantineConfirmationComponent, {
+    const dialogRef = this.dialog.open(HoldReasonComponent, {
       height: 'auto',
       width: '480px',
       data: {
-        mode: 'inventory-map-unquarantine',
-        id: event.invMapID,
-        //   grp_data: grp_data
+        mode: 'hold-trans',
+        reel:this.reels,
+       
+        orderItem: this.orderItem,
+        Order:this.identify==='Order Number'?true:false,
+        id:row.id
       },
     });
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((result) => {
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res.isExecuted) {
         this.getContentData();
-      });
-  }
-  quarantine(event) {
-    let dialogRef = this.dialog.open(QuarantineConfirmationComponent, {
-      height: 'auto',
-      width: '480px',
-      data: {
-        mode: 'inventory-map-quarantine',
-        id: event.invMapID,
-        //   grp_data: grp_data
-      },
+  
+      }
     });
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((result) => {
-        this.getContentData();
-      });
-  }
-  delete(event: any) {
-    let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '480px',
-      data: {
-        mode: 'delete-inventory-map',
-        id: event.invMapID,
-        //  grp_data: grp_data
-      },
-    });
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((result) => {
-        this.getContentData();
-      });
+
   }
 
-  getColumnsData() {
-    this.seqColumn
-      .getSetColumnSeq()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((res) => {
-        this.displayedColumns = INVMAP_DATA;
 
-        if (res?.data?.columnSequence) {
-          this.columnValues = res.data?.columnSequence;
-          this.columnValues.push('actions');
-          this.getContentData();
-        } else {
-          this.toastr.error('Something went wrong', 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000,
-          });
-        }
-      });
-  }
-
-  announceSortChange(e: any) {
-    // let index = this.columnValues.findIndex(x => x === e.active );
-    // this.sortColumn = {
-    //   columnName: index,
-    //   sortOrder: e.direction
-    // }
-    // this.initializeApi();
-    // this.getContentData();
-  }
-
-  edit(event: any) {
-    let dialogRef = this.dialog.open(AddInvMapLocationComponent, {
-      height: '750px',
-      width: '100%',
-      data: {
-        mode: 'editInvMapLocation',
-        itemList: this.itemList,
-        detailData: event,
-      },
-    });
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((result) => {
-        this.getContentData();
-      });
-  }
-  getContentData() {
-    this.invMapService
-      .getInventoryMap(this.payload)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((res: any) => {
-      
-        this.itemList = res.data?.inventoryMaps?.map((arr) => {
-          return { itemNumber: arr.itemNumber, desc: arr.description };
-        });
-
-        this.detailDataInventoryMap = res.data?.inventoryMaps;
-        this.dataSource = new MatTableDataSource(res.data?.inventoryMaps);
-        //  this.dataSource.paginator = this.paginator;
-        this.customPagination.total = res.data?.recordsFiltered;
-        this.dataSource.sort = this.sort;
-      });
-  }
-
-  initializeApi() {
-    this.userData = this.authService.userData();
-    this.payload = {
-      username: this.userData.userName,
-      wsid: this.userData.wsid,
-      oqa: this.filterLoc,
-      searchString: this.columnSearch.searchValue,
-      searchColumn: this.columnSearch.searchColumn.colDef,
-      sortColumnIndex: this.sortColumn.columnName,
-      sRow: this.customPagination.startIndex,
-      eRow: this.customPagination.endIndex,
-      sortOrder: this.sortColumn.sortOrder,
-      filter: '1 = 1',
-    };
-  }
-
-  getTransactionModelIndex() {
-    let paylaod = {
-      viewToShow: 2,
-      location: '',
-      itemNumber: '',
-      holds: false,
-      orderStatusOrder: '',
-      app: 'Admin',
-      username: this.userData.userName,
-      wsid: this.userData.wsid,
-    };
-    this.transactionService
-      .get(paylaod, '/Admin/TransactionModelIndex')
-      .subscribe(
-        (res: any) => {
-          // this.displayOrderCols=res.data.openTransactionColumns;
-        },
-        (error) => {
-         
-        }
-      );
-  }
 }
