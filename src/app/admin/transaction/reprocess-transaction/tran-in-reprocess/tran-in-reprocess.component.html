@@ -50,12 +50,15 @@
                 </div>
                 <div class="row mb-3">
                     <div class="d-flex align-items-center gap-12">
-                        <mat-radio-button color="primary">
-                            None
-                        </mat-radio-button>
-                        <mat-radio-button color="primary">
-                            Hold
-                        </mat-radio-button>
+                        <mat-radio-group class="d-flex align-items-center gap-12" aria-label="Select an option"
+                        [(ngModel)]="reasonFilter" (change)="reasonFilterChange($event)" [disabled]="history">
+                            <mat-radio-button color="primary" value="none">
+                                None
+                            </mat-radio-button>
+                            <mat-radio-button color="primary" value="hold">
+                                Hold
+                            </mat-radio-button>
+                        </mat-radio-group>
                     </div>
 
                 </div>
@@ -66,18 +69,20 @@
             <div class="d-flex align-items-center gap-12">
                 <div class="w-100">
                     <mat-form-field class="w-100 bg-white br-8" appearance="outline">
-                        <mat-label>Order Nummber</mat-label>
-                        <input type="text" aria-label="Number" matInput
-                            [matAutocomplete]="autoOrder" [(ngModel)]="orderNumber" (keypress)="getFilteredList()" (keyup)="orderSelected()">
+                        <mat-label>Order Number</mat-label>
+                        <input type="text" aria-label="Number" matInput [matAutocomplete]="autoOrder"
+                            [(ngModel)]="orderNumber" (keypress)="getFilteredList()" (keyup)="orderSelected()">
                         <mat-autocomplete class="autocomplete-center" panelWidth="auto" autoActiveFirstOption
                             #autoOrder="matAutocomplete" (optionSelected)="orderSelected()">
                             <h6 class="ctl_name ac-dropdown-label">
                                 <span>Order Number</span> <span>Date</span>
                                 <span>Transaction Type</span> <span>Item Number</span> <span>Transaction Quantity</span>
                             </h6>
-                            <mat-option style="width:900px !important;" *ngFor="let option of orderList" [value]="option.orderNumber">
+                            <mat-option style="width:900px !important;" *ngFor="let option of orderList"
+                                [value]="option.orderNumber">
                                 <div class="ctl_option ac-dropdown-option">
-                                    <span>{{option.orderNumber}}</span> <span>{{option.dateField}}</span> <span>{{option.transType}}</span><span>{{option.itemNumber}}</span><span>{{option.qty}}</span>
+                                    <span>{{option.orderNumber}}</span> <span>{{option.dateField}}</span>
+                                    <span>{{option.transType}}</span><span>{{option.itemNumber}}</span><span>{{option.qty}}</span>
                                 </div>
                             </mat-option>
                         </mat-autocomplete>
@@ -94,11 +99,14 @@
                             #auto="matAutocomplete" (optionSelected)="listSelected()">
                             <h6 class="ctl_name ac-dropdown-label">
                                 <span>Item Number</span> <span>Date</span>
-                                <span>Transaction Type</span> <span>Order Number</span> <span>Transaction Quantity</span>
+                                <span>Transaction Type</span> <span>Order Number</span> <span>Transaction
+                                    Quantity</span>
                             </h6>
-                            <mat-option style="width:900px !important;" *ngFor="let option of itemNumberList" [value]="option.orderNumber">
+                            <mat-option style="width:900px !important;" *ngFor="let option of itemNumberList"
+                                [value]="option.orderNumber">
                                 <div class="ctl_option ac-dropdown-option">
-                                    <span>{{option.itemNumber}}</span> <span>{{option.dateField}}</span> <span>{{option.transType}}</span><span>{{option.orderNumber}}</span><span>{{option.qty}}</span>
+                                    <span>{{option.itemNumber}}</span> <span>{{option.dateField}}</span>
+                                    <span>{{option.transType}}</span><span>{{option.orderNumber}}</span><span>{{option.qty}}</span>
                                 </div>
                             </mat-option>
                         </mat-autocomplete>
