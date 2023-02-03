@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 export interface PeriodicElement {
   zone: string;
   trans_type: number;
@@ -45,9 +46,12 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class AdminComponent implements OnInit {
   displayedColumns: string[] = ['zone', 'trans_type', 'warehouse', 'location', 'lines'];
   dataSource = ELEMENT_DATA;
-  constructor() { }
+  constructor() {
+
+   }
 
   ngOnInit(): void {
+
   }
 
 
