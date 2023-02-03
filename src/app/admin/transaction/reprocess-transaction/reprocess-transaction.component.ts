@@ -290,6 +290,16 @@ export class ReprocessTransactionComponent implements OnInit {
     this.getContentData();
   }
 
+  filterCleared(evt:any)
+  {
+    //this.getColumnsData();
+    //this.clearTransactionData();
+    //this.getOrdersWithStatus();
+    //this.getContentData();
+    
+
+  }
+
   actionDialog(opened: boolean) {
     if (!opened && this.selectedVariable && this.selectedVariable === 'set_column_sq') {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
