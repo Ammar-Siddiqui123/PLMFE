@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminComponent } from '../admin/admin.component';
 import { AuthGuardGuard } from '../guard/auth-guard.guard';
 import { InductionManagerComponent } from './induction-manager.component';
 import { ProcessPicksComponent } from './process-picks/process-picks.component';
@@ -24,6 +25,12 @@ const routes: Routes = [
     component: ProcessPicksComponent,
     canActivate: [AuthGuardGuard],
   },
+  // {
+  //   path: 'admin',
+  //   component: AdminComponent,
+  //   canActivate: [AuthGuardGuard],
+  // },
+  
 ];
 
 @NgModule({

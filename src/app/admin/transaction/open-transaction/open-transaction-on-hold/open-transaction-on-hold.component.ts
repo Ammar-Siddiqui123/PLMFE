@@ -426,7 +426,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   deleteItem(event) {
     const dialogRef = this.dialog.open(DeleteConfirmationTransactionComponent, {
       height: 'auto',
-      width: '480px',
+      width: '600px',
       data: {
         mode: 'delete-transaction',
         id: event.id,
