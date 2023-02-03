@@ -158,6 +158,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   public payload;
   public sortCol: any = 3;
   public sortOrder: any = 'asc';
+
   searchByInput = new Subject<string>();
   @Input()
   set deleteEvnt(event: Event) {
@@ -197,6 +198,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   @Output() totalLinesOrders = new EventEmitter<any>();
   @Output() locationZones = new EventEmitter<any>();
   @Output() currentStatus = new EventEmitter<any>();
+  @Output() clearFromListChange = new EventEmitter<Event>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -230,6 +232,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   @Input()
   set clearEvent(event: Event) {
     if (event) {
+      this.searchCol='';
+      this.searchString='';
       this.dataSource = new MatTableDataSource();
     }
   }
@@ -243,7 +247,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.payload = {
       draw: 0,
       compDate: '',
-      identify: 0,
+      identify:this.orderNo? 0:1,
       searchString: this.searchString,
       direct: 'asc',
       searchColumn: this.searchCol,
@@ -388,10 +392,11 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
         (error) => {}
       );
   }
-  clearData(){
+  clearData(event){
      this.dataSource = new MatTableDataSource();
     this.searchCol='';
     this.searchString='';
+    this.clearFromListChange.emit(event)
   }
   getColor(element){
    

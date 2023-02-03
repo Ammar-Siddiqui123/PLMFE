@@ -18,6 +18,7 @@ const routes: Routes = [
     component: ProcessPutAwaysComponent,
     canActivate: [AuthGuardGuard],
   },
+  
   {
     path: 'ProcessPicks',
     component: ProcessPicksComponent,

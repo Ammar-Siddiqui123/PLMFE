@@ -87,6 +87,17 @@ export class TranSelectOrderComponent implements OnInit {
       this.currentStatusOrder = event;
     }
   }
+  @Input()
+  set clearEvent(event: any) {
+    if (event) {
+    }
+  }
+
+  @Input() set clearFromListEvent(event: Event) {
+    if (event) {
+      this.clear();
+    }
+  }
   constructor(
     private authService: AuthService,
     private transactionService: TransactionService,
@@ -106,11 +117,11 @@ export class TranSelectOrderComponent implements OnInit {
       .subscribe((value) => {
         // this.columnSearch.searchValue = value;
         // if (!this.columnSearch.searchColumn.colDef) return;
-console.log(value);
-if(!value) {
-  this.resetLines()
-  this.columnSelect='';
-}
+        console.log(value);
+        if (!value) {
+          this.resetLines();
+          this.columnSelect = '';
+        }
         this.autocompleteSearchColumn();
         this.onOrderNoChange();
         // if (!this.searchAutocompleteList.length) {
@@ -142,7 +153,6 @@ if(!value) {
     this.currentStatusOrder = '';
   }
 
-
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
   }
@@ -152,7 +162,6 @@ if(!value) {
       columnFIeld: this.columnSelect,
     };
     this.orderNo.emit(obj);
-    
   }
   onToteIdChange(event) {
     this.toteId.emit(event);
@@ -161,33 +170,32 @@ if(!value) {
     this.onOrderNoChange();
   }
 
-  selectFieldsReset(){
-    this.columnSelect='';
-    
+  selectFieldsReset() {
+    this.columnSelect = '';
   }
   clear() {
     this.clearData.emit(event);
     this.resetLines();
     this.searchAutocompleteList = [];
-
+    this.searchField = '';
+    this.columnSelect = '';
   }
   deleteOrder() {
     let paylaod = {
       OrderNumber: this.searchField,
-      TotalLines:JSON.stringify(this.totalLinesOrder),
+      TotalLines: JSON.stringify(this.totalLinesOrder),
       UserName: this.userData.userName,
       WSID: this.userData.wsid,
-
     };
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-order-status',
-        paylaod:paylaod
+        paylaod: paylaod,
         //itemList : this.itemList,
-      //  detailData : event
-      }
+        //  detailData : event
+      },
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (res.isExecuted) {
@@ -195,7 +203,6 @@ if(!value) {
         this.resetLines();
         // this.deleteEvent.emit(res);
 
- 
         // this.transactionService
         //   .get(paylaod, '/Admin/DeleteOrderStatus')
         //   .subscribe(
