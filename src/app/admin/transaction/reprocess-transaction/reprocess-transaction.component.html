@@ -221,7 +221,7 @@
                                         Mark All
                                     </button>
 
-                                    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100" (click)="deleteOrder(0,'complete')">
+                                    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100" (click)="deleteOrder(-1,'complete')">
                                         Unmark All
                                     </button>
                                 </div>
@@ -251,7 +251,7 @@
                                         Mark All
                                     </button>
 
-                                    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100" (click)="deleteOrder(0,'history')">
+                                    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100" (click)="deleteOrder(-1,'history')">
                                         Unmark All
                                     </button>
                                 </div>

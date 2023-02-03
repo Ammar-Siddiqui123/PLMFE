@@ -331,7 +331,7 @@ export class ReprocessTransactionComponent implements OnInit {
       wsid: this.userData.wsid,
       }
       console.log(payload);
-      this.transactionService.get(payload, '/Admin/HoldTransactionsData').subscribe(
+      this.transactionService.get(payload, '/Admin/SetAllReprocessColumn').subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
             console.log(res);
@@ -409,10 +409,18 @@ export class ReprocessTransactionComponent implements OnInit {
         this.orders.complete = res.data.completeCount;
         this.orders.history = res.data.historyCount;
         
-        this.orders.reprocessOrders.shift();
-        this.orders.completeOrders.shift();
-        this.orders.historyOrders.shift();
-
+        // if(this.orders.reprocessOrders.length&&this.orders.reprocessOrders.length>0)
+        // {
+        //   this.orders.reprocessOrders.shift();
+        // }
+        // if(this.orders.completeOrders.length&&this.orders.completeOrders.length>0)
+        // {
+        //   this.orders.completeOrders.shift();
+        // }
+        // if(this.orders.historyOrders.length&&this.orders.historyOrders.length>0)
+        // {
+        //   this.orders.historyOrders.shift();
+        // }
         this.orders.reprocessOrders = res.data.reprocess;
 
         this.orders.completeOrders = res.data.complete;
@@ -436,7 +444,6 @@ export class ReprocessTransactionComponent implements OnInit {
   {
     this.getContentData();
     this.getOrdersWithStatus();
-    this.clearTransactionData();
   }
 
   clearTransactionData()
@@ -503,6 +510,9 @@ export class ReprocessTransactionComponent implements OnInit {
         },
         (error) => {}
       );
+
+      
+    this.clearTransactionData();
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
