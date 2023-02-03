@@ -106,6 +106,7 @@ import { SearchFilterPipe } from './transaction/pipes/search-filter.pipe';
 import { GlobalConfigSetSqlComponent } from './dialogs/global-config-set-sql/global-config-set-sql.component';
 import { SendTranHistoryComponent } from './dialogs/send-tran-history/send-tran-history.component';
 import { ReprocessTransactionDetailComponent } from './dialogs/reprocess-transaction-detail/reprocess-transaction-detail.component';
+import { HoldReasonComponent } from './dialogs/hold-reason/hold-reason.component';
 
 
 
@@ -202,7 +203,8 @@ import { ReprocessTransactionDetailComponent } from './dialogs/reprocess-transac
     SearchFilterPipe,
     GlobalConfigSetSqlComponent,
     SendTranHistoryComponent,
-    ReprocessTransactionDetailComponent
+    ReprocessTransactionDetailComponent,
+    HoldReasonComponent
 
   ],
   imports: [

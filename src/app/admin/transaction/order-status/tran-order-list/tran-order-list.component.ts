@@ -388,6 +388,28 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
         (error) => {}
       );
   }
+  clearData(){
+     this.dataSource = new MatTableDataSource();
+    this.searchCol='';
+    this.searchString='';
+  }
+  getColor(element){
+   
+    if((element.tableType==="Open"||element.tableType==="open"||element.tableType==="OPEN")&&element.completedDate=='')
+    {
+
+      return 'background-color: #FFF0D6;color:#4D3B1A'
+    }else if(element.completedDate!='' ) {
+      return 'background-color: #C8E2D8;color:#114D35' 
+    }
+    else if(element.fileFrom!='open' || element.fileFrom!='Open' ||  element.fileFrom!='OPEN') {
+      return 'background-color: #F7D0DA;color:#4D0D1D' 
+    }
+    else{
+      return
+    }
+
+  }
   getColumnsData() {
     // this.displayedColumns = Order_Table_Config;
     this.getContentData();

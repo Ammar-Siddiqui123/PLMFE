@@ -17,7 +17,7 @@ export class OpenTransactionComponent implements OnInit {
   userData: any;
   transactionIndex: ITransactionModelIndex;
   selectedIndex: number = 0;
-  filterEvent: Event;
+  event: any;
   @Output() emitOrderTab = new EventEmitter<string>();
   // displayOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "minOfPriority", "detail", "action"];
   displayOrderCols: any = []; //'position', 'name', 'weight', 'symbol'
@@ -47,13 +47,13 @@ export class OpenTransactionComponent implements OnInit {
       this.selectedIndex = this.selectedIndex + 1;
     }
   }
-  onFilterChange(event: Event) {
-    this.filterEvent = event;
+  onFilterChange(event: any) {
+    this.event = event;
   }
   previousStep() {
     if (this.selectedIndex != 0) {
       this.selectedIndex = this.selectedIndex - 1;
     }
-    console.log(this.selectedIndex);
+
   }
 }

@@ -86,42 +86,72 @@ export class ColumnSequenceDialogComponent implements OnInit {
     // this.dialogRef.close({ isExecuted: true });
   }
   deleteColSeq() {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '480px',
-      autoFocus: '__non_existing_element__',
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'Yes') {
-        let payload = {
-          username: this.userData.userName,
-          wsid: this.userData.wsid,
-          viewName:this.dialogData.tableName,
-        };
-        this.columnseqService
-          .get(this.payload, '/Admin/DeleteColumns')
-          .subscribe(
-            (res: any) => {
-              if (res.isExecuted) {
-                this.toastr.success(labels.alert.success, 'Success!', {
-                  positionClass: 'toast-bottom-right',
-                  timeOut: 2000,
-                });
-                this.dialogRef.close({ isExecuted: false });
-              } else {
-                this.dialogRef.close('');
-              }
-            },
-            (error) => {
-              this.toastr.error(labels.alert.went_worng, 'Error!', {
-                positionClass: 'toast-bottom-right',
-                timeOut: 2000,
-              });
-              this.dialogRef.close({ isExecuted: false });
-            }
-          );
-      }
-    });
+
+    this.restoreCol();
+    let payload = {
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+      viewName:this.dialogData.tableName,
+    };
+    
+    this.columnseqService
+      .get(this.payload, '/Admin/DeleteColumns')
+      .subscribe(
+        (res: any) => {
+          if (res.isExecuted) {
+            this.toastr.success(labels.alert.success, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+           
+          } 
+        },
+        (error) => {
+          this.toastr.error(labels.alert.went_worng, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+       
+        }
+      );
+
+      
+    // const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+    //   height: 'auto',
+    //   width: '480px',
+    //   autoFocus: '__non_existing_element__',
+    // });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   if (result === 'Yes') {
+    //     let payload = {
+    //       username: this.userData.userName,
+    //       wsid: this.userData.wsid,
+    //       viewName:this.dialogData.tableName,
+    //     };
+    //     this.columnseqService
+    //       .get(this.payload, '/Admin/DeleteColumns')
+    //       .subscribe(
+    //         (res: any) => {
+    //           if (res.isExecuted) {
+    //             this.toastr.success(labels.alert.success, 'Success!', {
+    //               positionClass: 'toast-bottom-right',
+    //               timeOut: 2000,
+    //             });
+    //             this.dialogRef.close({ isExecuted: false });
+    //           } else {
+    //             this.dialogRef.close('');
+    //           }
+    //         },
+    //         (error) => {
+    //           this.toastr.error(labels.alert.went_worng, 'Error!', {
+    //             positionClass: 'toast-bottom-right',
+    //             timeOut: 2000,
+    //           });
+    //           this.dialogRef.close({ isExecuted: false });
+    //         }
+    //       );
+    //   }
+    // });
   }
   initializePayload(tableName) {
     let userData = this.authService.userData();
