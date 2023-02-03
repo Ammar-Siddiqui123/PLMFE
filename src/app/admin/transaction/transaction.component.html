@@ -8,10 +8,10 @@
     <mat-tab label="Transaction History">
         <app-transaction-history></app-transaction-history>
     </mat-tab>
-    <mat-tab label="Reprocess Transactions">
-        <app-reprocess-transaction></app-reprocess-transaction>
-    </mat-tab>
-    <mat-tab label="Reprocessed Transactions">
+    <mat-tab label="Reprocess Transactions" *ngIf="!showReprocess">
+        <app-reprocess-transaction ></app-reprocess-transaction >
+    </mat-tab> 
+    <mat-tab label="Reprocessed Transactions" *ngIf="!showReprocessed">
         <app-reprocessed-transaction></app-reprocessed-transaction>
     </mat-tab>
 </mat-tab-group>
