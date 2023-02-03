@@ -121,7 +121,7 @@
                                     </div>
                                 </tr>
                                 <mat-header-row *matHeaderRowDef="columnValues; sticky: true"></mat-header-row>
-                                <mat-row  *matRowDef="let row; columns: columnValues;" (click)="getTransaction(row);changeTableRowColor(row.id);" [style.background-color]="rowClicked == row.id ? '#6e6eef' :'white'"></mat-row>
+                                <mat-row  *matRowDef="let row; columns: columnValues;" (click)="getTransaction(row);changeTableRowColor(row.id);getTransactionInfo(false)" [style.background-color]="rowClicked == row.id ? '#6e6eef' :'white'"></mat-row>
 
                             </mat-table>
                         </ng-scrollbar>
@@ -147,17 +147,17 @@
                     <div>
                         <mat-form-field class="d-block w-100 mb-3" appearance="outline">
                             <mat-label>Record Created By</mat-label>
-                            <input matInput name="maximumQuantity" type="text" value="1234" disabled>
+                            <input matInput name="maximumQuantity" type="text" value="{{createdBy}}" [disabled]='isEnabled'>
                         </mat-form-field>
 
                         <mat-form-field class="d-block w-100 mb-3" appearance="outline">
                             <mat-label>Transaction Date/Time</mat-label>
-                            <input matInput name="maximumQuantity" type="text" value="2022-11-11T00:14:20.38" disabled>
+                            <input matInput name="maximumQuantity" type="text" value="{{transactionDateTime}}" [disabled]='isEnabled'>
                         </mat-form-field>
 
                         <mat-form-field class="d-block w-100 mb-3" appearance="outline">
                             <mat-label>Reason</mat-label>
-                            <input matInput value="Location Assignment Error" type="text" disabled>
+                            <input matInput value="{{reason}}" type="text" [disabled]='isEnabled'>
                         </mat-form-field>
 
                         <mat-form-field class="d-block w-100 mb-3" appearance="outline">
@@ -165,11 +165,11 @@
                             <span matSuffix>
                                 <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
                             </span>
-                            <input matInput value="Invalid Item ID - NOT in inventory" type="text" disabled>
+                            <input matInput value="{{reasonMessage}}" type="text" [disabled]='isEnabled' (click)="openReprocessTransactionDialogue(transactionID)">
                         </mat-form-field>
                     </div>
                     <div>
-                        <button mat-flat-button color="primary" class="button-primary w-100" (click)="openReprocessTransactionDialogue()">
+                        <button mat-flat-button color="primary" class="w-100" [disabled]='isEnabled' (click)="openReprocessTransactionDialogue(transactionID)">
                             Edit This Transaction
                             <mat-icon style="color:#fff; transform: rotate(45deg);">unfold_more</mat-icon>
                         </button>

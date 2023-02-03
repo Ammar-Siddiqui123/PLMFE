@@ -194,8 +194,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     this.searchBar
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        console.log('=->', value);
-        console.log('00', this.searchAutocompleteList);
+ 
 
         // this.columnSearch.searchValue = value;
         // if (!this.columnSearch.searchColumn.colDef) return;

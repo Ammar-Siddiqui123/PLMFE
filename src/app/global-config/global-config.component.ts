@@ -65,7 +65,6 @@ export class GlobalConfigComponent {
     this.login.wsid = workStation.workStationID;
     this.globalConfService.get(this.login, '/GlobalConfig/LoginUser').subscribe(
       (res: any) => {
-        console.log('from login', res);
 
         if (res.isExecuted) {
           let data = {

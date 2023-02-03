@@ -245,7 +245,6 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
 
   onEndDate(event) {}
   rowClick(row, event) {
-    console.log(row);
   }
   filterVals: any = {
     transactions: '',
