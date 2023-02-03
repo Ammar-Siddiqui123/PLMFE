@@ -5,6 +5,7 @@
             (reprocessSelectionEvent)="getProcessSelection($event)" 
             (selectedOrderNumber)="selectedOrderNumber($event)" 
             (selectedItemNum)="selectedItemNum($event)" 
+            (filterCleared)="filterCleared($event)"
             
             ></app-tran-in-reprocess>
         </div>
@@ -147,17 +148,17 @@
                     <div>
                         <mat-form-field class="d-block w-100 mb-3" appearance="outline">
                             <mat-label>Record Created By</mat-label>
-                            <input matInput name="maximumQuantity" type="text" value="{{createdBy}}" [disabled]='isEnabled'>
+                            <input matInput name="maximumQuantity" type="text" value="{{createdBy}}" [disabled]='true'>
                         </mat-form-field>
 
                         <mat-form-field class="d-block w-100 mb-3" appearance="outline">
                             <mat-label>Transaction Date/Time</mat-label>
-                            <input matInput name="maximumQuantity" type="text" value="{{transactionDateTime}}" [disabled]='isEnabled'>
+                            <input matInput name="maximumQuantity" type="text" value="{{transactionDateTime}}" [disabled]='true'>
                         </mat-form-field>
 
                         <mat-form-field class="d-block w-100 mb-3" appearance="outline">
                             <mat-label>Reason</mat-label>
-                            <input matInput value="{{reason}}" type="text" [disabled]='isEnabled'>
+                            <input matInput value="{{reason}}" type="text" [disabled]='true'>
                         </mat-form-field>
 
                         <mat-form-field class="d-block w-100 mb-3" appearance="outline">
@@ -165,7 +166,7 @@
                             <span matSuffix>
                                 <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
                             </span>
-                            <input matInput value="{{reasonMessage}}" type="text" [disabled]='isEnabled' (click)="openReprocessTransactionDialogue(transactionID)">
+                            <input matInput value="{{reasonMessage}}" type="text" [disabled]='isEnabled' readonly>
                         </mat-form-field>
                     </div>
                     <div>
