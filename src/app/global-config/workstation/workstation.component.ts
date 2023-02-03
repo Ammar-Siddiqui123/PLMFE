@@ -220,7 +220,6 @@ export class WorkstationComponent implements OnInit {
       .get(payload, '/GlobalConfig/WorkStationDefaultAppAdd')
       .subscribe(
         (res: any) => {
-          console.log(res);
         },
         (error) => {}
       );
@@ -242,7 +241,6 @@ export class WorkstationComponent implements OnInit {
       .get(payload, '/GlobalConfig/WorkStationAppAdd')
       .subscribe(
         (res: any) => {
-          console.log(res);
         },
         (error) => {}
       );
