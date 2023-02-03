@@ -112,7 +112,10 @@ export class ReprocessTransactionComponent implements OnInit {
 
   idx:any;
 
-
+  createdBy = "";
+  transactionDateTime = "";
+  reason = "";
+  reasonMessage = "";
 
   orders=
   {
@@ -205,12 +208,39 @@ export class ReprocessTransactionComponent implements OnInit {
   this.isReprocessedChecked = row.reprocess=='False'?false:true;
   this.isCompleteChecked= row.postAsComplete=='False'?false:true;
   this.isHistoryChecked= row.sendToHistory=='False'?false:true;
-  
-  
-  
-  
   }
 
+  getTransactionInfo(completeInfo:boolean)
+  {
+    if(!completeInfo)
+    {
+      var payload={
+        id:''+this.transactionID+'',
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+        }
+        this.transactionService.get(payload, '/Admin/ReprocessTransactionData').subscribe(
+          (res: any) => {
+            if (res.data && res.isExecuted) {
+              this.createdBy = res.data[0].nameStamp;
+              this.transactionDateTime = res.data[0].dateStamp;
+              this.reason = res.data[0].reason;
+              this.reasonMessage = res.data[0].reasonMessage;
+            } else {
+              this.toastr.error('Something went wrong', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            }
+          },
+          (error) => {}
+        );
+    }
+    else 
+    {
+      //Get complete info for edit popup
+    }
+  }
 
   changeTableRowColor(idx: any) { 
   this.rowClicked = idx;
