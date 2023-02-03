@@ -581,11 +581,15 @@ export class ReprocessTransactionComponent implements OnInit {
     this.searchAutocompleteListByCol = [];
   }
 
-  openReprocessTransactionDialogue() {
+  openReprocessTransactionDialogue(id:any) {
     const dialogRef = this.dialog.open(ReprocessTransactionDetailComponent, {
       height: 'auto',
       width: '100%',
-      autoFocus: '__non_existing_element__'
+      autoFocus: '__non_existing_element__',
+      data: {
+        transactionID: id,
+        history:this.isHistory
+      }
     })
   }
 }
