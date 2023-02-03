@@ -23,81 +23,72 @@
     </div>
 
 
-    <div class="row align-items-center mb-3 ">
+    <div class="row align-items-center  mt-3 ">
       <div class="col-12">
         <div class="card br-14 table-responsive my-3">
-          <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 300px" >
+          <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 300px">
 
 
-            <table style="width: 100%;" mat-table [dataSource]="datasource" matSort (matSortChange)="sortChange($event)"
+            <table style="width: 100% ;min-height: 150px;" mat-table [dataSource]="datasource" matSort (matSortChange)="sortChange($event)"
               class="g-card-table employee-location-table ">
               <ng-container matColumnDef="orderNumber">
-                <th width="15%" mat-header-cell *matHeaderCellDef mat-sort-header>Order Number</th>
-                <td width="15%" mat-cell *matCellDef="let element">{{element?.orderNumber}} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Order Number</th>
+                <td mat-cell *matCellDef="let element">{{element?.orderNumber}} </td>
               </ng-container>
 
               <ng-container matColumnDef="itemNumber">
-                <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Item Number</th>
-                <td width="25%" style="    max-width: 15ch;
-              text-overflow: ellipsis;
-              overflow: hidden;
-              white-space: nowrap;" mat-cell *matCellDef="let element">{{element?.itemNumber}} </td>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>Item Number</th>
+                <td mat-cell *matCellDef="let element">{{element?.itemNumber}} </td>
               </ng-container>
 
               <!-- End Location Column -->
               <ng-container matColumnDef="wareHouse">
-                <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Warehouse</th>
-                <td width="25%" style="    max-width: 15ch;
-              text-overflow: ellipsis;
-              overflow: hidden;
-              white-space: nowrap;" mat-cell *matCellDef="let element">{{element?.wareHouse}} </td>
+                <th  mat-header-cell *matHeaderCellDef mat-sort-header>Warehouse</th>
+                <td  mat-cell *matCellDef="let element">{{element?.wareHouse}} </td>
               </ng-container>
 
               <ng-container matColumnDef="location">
-                <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
-                <td width="25%" mat-cell *matCellDef="let element">{{element?.location}} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+                <td mat-cell *matCellDef="let element">{{element?.location}} </td>
               </ng-container>
               <ng-container matColumnDef="transactionType">
-                <th width="40%" mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Type</th>
-                <td width="40%" style="    max-width: 15ch;
-              text-overflow: ellipsis;
-              overflow: hidden;
-              white-space: nowrap;" mat-cell *matCellDef="let element">{{element?.transactionType}} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Type</th>
+                <td mat-cell *matCellDef="let element">{{element?.transactionType}} </td>
               </ng-container>
 
               <ng-container matColumnDef="transactionQuantity">
-                <th width="40%" mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Quantity</th>
-                <td width="40%" style="max-width: 15ch; text-overflow: ellipsis; overflow: hidden;white-space: nowrap;" mat-cell *matCellDef="let element">{{element?.transactionQuantity}}  </td>
+                <th  mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Quantity</th>
+                <td   mat-cell *matCellDef="let element">{{element?.transactionQuantity}} </td>
               </ng-container>
 
               <ng-container matColumnDef="serialNumber">
-                <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Serial Number</th>
-                <td width="25%" mat-cell *matCellDef="let element">{{element?.serialNumber}}  </td>
+                <th  mat-header-cell *matHeaderCellDef mat-sort-header>Serial Number</th>
+                <td  mat-cell *matCellDef="let element">{{element?.serialNumber}} </td>
               </ng-container>
 
               <ng-container matColumnDef="lotNumber">
-                <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Lot Number</th>
-                <td width="25%" mat-cell *matCellDef="let element">{{element?.lotNumber}} </td>
+                <th  mat-header-cell *matHeaderCellDef mat-sort-header>Lot Number</th>
+                <td  mat-cell *matCellDef="let element">{{element?.lotNumber}} </td>
               </ng-container>
 
               <ng-container matColumnDef="lineNumber">
-                <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Line Number</th>
-                <td width="25%" mat-cell *matCellDef="let element"> {{element?.lineNumber}}</td>
+                <th  mat-header-cell *matHeaderCellDef mat-sort-header>Line Number</th>
+                <td  mat-cell *matCellDef="let element"> {{element?.lineNumber}}</td>
               </ng-container>
 
               <ng-container matColumnDef="hostTransactionID">
-                <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Host Transaction ID</th>
-                <td width="25%" mat-cell *matCellDef="let element"> {{element?.hostTransactionID}} </td>
+                <th  mat-header-cell *matHeaderCellDef mat-sort-header>Host Transaction ID</th>
+                <td  mat-cell *matCellDef="let element"> {{element?.hostTransactionID}} </td>
               </ng-container>
 
               <ng-container matColumnDef="toteID">
-                <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Tote ID</th>
-                <td width="25%" mat-cell *matCellDef="let element">{{element?.toteID}} </td>
+                <th  mat-header-cell *matHeaderCellDef mat-sort-header>Tote ID</th>
+                <td   mat-cell *matCellDef="let element">{{element?.toteID}} </td>
               </ng-container>
 
               <ng-container matColumnDef="id">
-                <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-                <td width="25%" mat-cell *matCellDef="let element"> {{element?.id}} </td>
+                <th   mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                <td   mat-cell *matCellDef="let element"> {{element?.id}} </td>
               </ng-container>
 
 
@@ -110,25 +101,20 @@
 
 
 
-              <ng-container matColumnDef="actions" stickyEnd >
-                <th mat-header-cell *matHeaderCellDef style="border: 0;height: 67px; padding-left:65px; border-bottom: 1px solid var(--clr-tertiary-50);">
+              <ng-container matColumnDef="actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef
+                  style="border: 0;height: 67px; padding-left:65px; border-bottom: 1px solid var(--clr-tertiary-50);">
                 </th>
                 <!-- <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Action</th> -->
-                <td width="25%" mat-cell *matCellDef="let element">
+                <td  mat-cell *matCellDef="let element">
                   <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o"
                     appearance="outline">
                     <mat-icon>more_horiz</mat-icon>
                   </button>
                   <mat-menu #appMenu="matMenu">
-                    <button mat-menu-item>View Item in Inventory
-                      Master</button>
-                    <button mat-menu-item>View Order in Order
-                      Status</button>
-                    <button mat-menu-item>Delete
-                      Transaction</button>
-                    <button mat-menu-item>Send Completed to
-                      History</button>
-
+                    <span mat-menu-item>Hold and deallocate </span>
+                    <button mat-menu-item (click)="holdDeallocate(element)">Selected Only</button>
+                    <button mat-menu-item (click)="holdDeallocate(element)">All by order no.</button>
                   </mat-menu>
                 </td>
               </ng-container>
@@ -162,12 +148,13 @@
 
             </ng-container> -->
 
-              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+          
               <tr class="mat-row" *matNoDataRow>
                 <td class="mat-cell" [attr.colspan]="displayedColumns.length">
                   No data matching the filter.
                 </td>
               </tr>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
               <tr mat-row class="table-row" tabindex="1" *matRowDef="let row; columns: displayedColumns;"></tr>
 
             </table>
@@ -175,8 +162,19 @@
 
 
           </ng-scrollbar>
+       
+
         </div>
+        <div class="table-pagination d-flex justify-content-start"
+        *ngIf="  displayedColumns && datasource">
+        <mat-paginator [length]="this.customPagination.total" [pageSize]="20" [pageSizeOptions]="[10, 20, 100]"
+          (page)="handlePageEvent($event)"></mat-paginator>
+    
+    
+      </div>
       </div>
     </div>
+
+
   </mat-card-content>
 </mat-card>
