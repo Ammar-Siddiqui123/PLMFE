@@ -500,6 +500,7 @@ export class ReprocessTransactionComponent implements OnInit {
   {
     this.getContentData();
     this.getOrdersWithStatus();
+    this.isEnabled = false;
   }
 
   clearTransactionData()
