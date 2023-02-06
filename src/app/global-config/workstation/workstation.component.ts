@@ -247,6 +247,9 @@ export class WorkstationComponent implements OnInit {
       .get(payload, '/GlobalConfig/WorkStationAppAdd')
       .subscribe(
         (res: any) => {
+          if(res.isExecuted){
+            // this.getCanAccessList(this.wsid)
+          }
         },
         (error) => {}
       );
