@@ -11,6 +11,8 @@ import { AuthService } from '../../../app/init/auth.service';
 export class SideNavComponent implements OnInit {
 
   @Input() sideBarOpen: Boolean;
+  isConfigUser:any = false;
+
 
   menus: any = [
     { icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'},
@@ -23,12 +25,12 @@ export class SideNavComponent implements OnInit {
     { icon: 'schema', title: 'FlowRack Replenishment', route: '#',permission: 'FlowRack Replenish' }
   ];
   globalMenus: any = [
-    { icon: 'door_front', title: 'Home', route: '/globalconfig/dashboard' ,permission: 'Home'},
-    { icon: 'hub', title: 'Database Connections', route: '/globalconfig/database-connections' ,permission: 'Database Connections'},
-    { icon: 'print', title: 'Printers', route: '/globalconfig/printers' ,permission: 'Printers'},
-    { icon: 'online_prediction', title: 'Workstation', route: '/globalconfig/workstation' ,permission: 'Workstations'},
+    { icon: 'door_front', title: 'Home', route: '/globalconfig/dashboard' ,permission: ''},
+    { icon: 'hub', title: 'Database Connections', route: '/globalconfig/database-connections' ,permission: ''},
+    { icon: 'print', title: 'Printers', route: '/globalconfig/printers' ,permission: ''},
+    { icon: 'online_prediction', title: 'Workstation', route: '/globalconfig/workstation' ,permission: ''},
     { icon: 'nest_wifi_gale', title: 'CCSIF', route: '#' ,permission: 'CCSIF'},
-    { icon: 'subtitles', title: 'Licensing', route: '/globalconfig/licensing' ,permission: 'Licensing'},
+    { icon: 'subtitles', title: 'Licensing', route: '/globalconfig/licensing' ,permission: ''},
 
   ];
   adminMenus: any = [
@@ -66,6 +68,11 @@ export class SideNavComponent implements OnInit {
   constructor(private router: Router,private authService: AuthService,private sharedService:SharedService) { }
 
   ngOnInit(): void {
+   this.isConfigUser =  localStorage.getItem('isConfigUser') ?? false;
+
+  console.log(this.isConfigUser);
+    
+
     this.loadMenus({route: this.router.url});
     this.sharedService.updateAdminMenuObserver.subscribe(adminMenu => {
       if (adminMenu){
@@ -87,15 +94,14 @@ export class SideNavComponent implements OnInit {
       this.isParentMenu = false;
       this.isChildMenu = true;
     }
-    if (menu.route.includes('globalconfig')) {
-      this.childMenus = this.globalMenus;
-      this.isParentMenu = false;
-      this.isChildMenu = true;
-    }
-    // || !menu.route.includes('/globalconfig')
     if (menu.route === '/dashboard') {
       this.isParentMenu = true;
       this.isChildMenu = false;
+    }
+    if (menu.route.includes('/globalconfig')) {
+      this.childMenus = this.globalMenus;
+      this.isParentMenu = false;
+      this.isChildMenu = true;
     }    
   }
 

@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/services/shared.service';
 import { GlobalconfigService } from '../globalconfig.service';
 import labels from '../../labels/labels.json';
+import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface PeriodicElement {
   position: string;
@@ -26,6 +28,9 @@ export class WorkstationComponent implements OnInit {
   licAppNames: any = [];
   licAppObj: any;
   wsid: any;
+  appName:any='';
+  selectedVariable: any;
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -70,7 +75,8 @@ export class WorkstationComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
     private globalConfService: GlobalconfigService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -245,6 +251,36 @@ export class WorkstationComponent implements OnInit {
         (error) => {}
       );
   }
+
+
+
+  actionDialog(opened: boolean) {
+    if (!opened && this.selectedVariable) {
+      if(this.selectedVariable==='delete_workstation'){
+        const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+          height: 'auto',
+          width: '480px',
+          autoFocus: '__non_existing_element__',
+          data: {
+            mode: 'delete_workstation',
+            wsid:this.wsid
+          },
+        })
+        dialogRef.afterClosed().subscribe(result => {
+         
+            if(result.isExecuted){
+              this.getMenuData();
+            }
+           
+        })
+      }
+      
+      if(this.selectedVariable==='clear_disabled'){
+       this.clearDefaultApp();
+      }
+   
+    }
+  }
   deleteWorkStation() {
     if (!this.wsid) return;
     let payload = {
@@ -273,7 +309,17 @@ export class WorkstationComponent implements OnInit {
   }
   clearDefaultApp(){
     this.licAppObj.map((itm) => {
+      if(itm.defaultApp==true){
+        this.appName=itm.appName;
+      }
       itm.defaultApp = false;
     });
+
+    let payload = {
+      WSID: this.wsid,
+      AppName: ''
+    };
+    this.defaultAppAdd(payload);
+
   }
 }

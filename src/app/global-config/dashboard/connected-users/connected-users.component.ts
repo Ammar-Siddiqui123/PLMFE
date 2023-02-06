@@ -23,9 +23,17 @@ export class ConnectedUsersComponent implements OnInit {
     this.getConnectedUsers();
   }
   getConnectedUsers() {
-    let dummy_data = [
-      { username: 'a', wsid: 'test pc', appname: 'Appname test' },
-    ];
+    // let dummy_data = [
+    //   { username: 'a', wsid: 'test pc', appname: 'Appname test' },
+    //   { username: 'waleed', wsid: 'TESTWSID', appname: 'yuiui' },
+    //   { username: 'ovais', wsid: 'TESTWSID', appname: 'ytt' },
+    //   { username: 'Arif', wsid: 'Acc', appname: 't' },
+    //   { username: 'Srfaraz', wsid: 'azxc', appname: 'rrr' },
+    //   { username: 'Zohaib', wsid: 'hgfdg', appname: 'e' },
+    //   { username: 'Dennis', wsid: 'xcvsq', appname: 'w' },
+    //   { username: 'Loyal', wsid: 'cxv', appname: 'q' },
+    //   { username: 'Jupiter', wsid: 'q', appname: 'asad' },
+    // ];
     this.globalConfService.get(null, '/GlobalConfig/ConnectedUser').subscribe(
       (res: any) => {
         if (res.isExecuted) {

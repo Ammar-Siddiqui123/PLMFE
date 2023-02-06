@@ -5,6 +5,7 @@ import { GlobalconfigService } from '../../globalconfig.service';
 import labels from '../../../labels/labels.json';
 import { Router,NavigationEnd  } from '@angular/router';
 import { FormControl, FormGroup, Validators, } from '@angular/forms';
+import { AuthService } from 'src/app/init/auth.service';
 
 
 @Component({
@@ -18,11 +19,13 @@ export class UserAccountComponent implements OnInit {
     private globalConfService: GlobalconfigService,
     private toastr: ToastrService,
     private router: Router,
+    private authService:AuthService
   ) {}
 
   username: any;
   password: any;
   constUser:any;
+  public toggle_password = true;
   ngOnInit(): void {
     let sharedData = this.sharedService.getData();
     if (sharedData && sharedData.loginInfo) {
@@ -33,7 +36,7 @@ export class UserAccountComponent implements OnInit {
     }
   }
   addLoginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
+    username: new FormControl({value: '', disabled: true}, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
     password: new FormControl('', [Validators.required]),
   });
   getMenuData() {
@@ -59,7 +62,8 @@ export class UserAccountComponent implements OnInit {
   }
   changeGlobalAcc() {
     let payload = {
-      userName: this.constUser,
+      // userName: this.constUser,
+      userName:this.authService.userData().userName,
       password: this.password,
     };
     this.globalConfService
