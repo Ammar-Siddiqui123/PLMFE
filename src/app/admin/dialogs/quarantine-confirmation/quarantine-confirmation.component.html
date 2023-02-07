@@ -1,0 +1,9 @@
+<mat-dialog-content>
+    <p>
+        Are you sure you want to {{this.action}}?
+    </p>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button color="primary" mat-flat-button (click)="onConfirmQuarantine()" tabindex="1">{{this.action}}</button>
+    <button  mat-button mat-dialog-close tabindex="-1">Close</button>
+</mat-dialog-actions>

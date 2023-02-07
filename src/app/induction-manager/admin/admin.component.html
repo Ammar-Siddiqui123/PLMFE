@@ -1,0 +1,94 @@
+<div class="main-section-options">
+    <div class="container-fluid">
+      <div class="row g-4">
+        <!-- Main Section Option (Import Export) -->
+        <div class="col-xl-3 col-lg-6">
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
+            <a class="main-section-option-link" href="#"></a>
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">
+                swipe_down_alt
+              </span>
+            </div>
+            <h4 class="main-section-title" style="font-size:22px;">Inventory Map</h4>
+          </div>
+        </div>
+  
+        <!-- Main Section Option (Admin) -->
+        <div class="col-xl-3 col-lg-6">
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white" routerLink="#">
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">
+                swipe_up_alt
+              </span>
+            </div>
+            <h4 class="main-section-title" style="font-size:22px;">Inventory</h4>
+          </div>
+        </div>
+  
+        <!-- Main Section Option (Induction Manager) -->
+        <div class="col-xl-3 col-lg-6">
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
+            <a class="main-section-option-link" href="#"></a>
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">
+                line_style
+              </span>
+            </div>
+            <h4 class="main-section-title" style="font-size:22px;">Tote Transaction Manager</h4>
+          </div>
+        </div>
+  
+        <!-- Main Section Option (Work Manager) -->
+        <div class="col-xl-3 col-lg-6">
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
+            <a class="main-section-option-link" href="#"></a>
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">
+                linear_scale
+              </span>
+            </div>
+            <h4 class="main-section-title" style="font-size:22px;">Manual Transactions</h4>
+          </div>
+        </div>
+  
+        <!-- Main Section Option (Consolidation Manager) -->
+        <div class="col-xl-3 col-lg-6" routerLink="/admin/transaction">
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
+            <a class="main-section-option-link" href="#"></a>
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">
+                edit_attributes
+              </span>
+            </div>
+            <h4 class="main-section-title" style="font-size:22px;">Transaction Journal</h4>
+          </div>
+        </div>
+  
+        <!-- Main Section Option (Order Manager) -->
+        <div class="col-xl-3 col-lg-6">
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
+            <a class="main-section-option-link" href="#"></a>
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">
+                manage_accounts
+              </span>
+            </div>
+            <h4 class="main-section-title" style="font-size:22px;">Reports </h4>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-6">
+            <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
+              <a class="main-section-option-link" href="#"></a>
+              <div class="main-section-icon">
+                <span class="material-symbols-outlined">
+                  manage_accounts
+                </span>
+              </div>
+              <h4 class="main-section-title" style="font-size:22px;">Preferences </h4>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,113 @@
+<div class="col-12">
+  <mat-card class="mat-elevation-z g-card">
+    <mat-card-content>
+      <div class="d-flex justify-content-between align-items-center">
+        <h2 class="card-header-title mb-0 d-flex align-items-center">
+          <div class="mat-icon-wrap me-lg-3">
+            <span class="material-symbols-outlined">
+              monitoring
+            </span>
+          </div>
+          <span>Statistics</span>
+        </h2>
+        <div class="row">
+          <div class="col mt-2">
+            <button mat-button>
+              <span class="material-symbols-outlined">
+                filter_list
+              </span>
+              <mat-label>Filter</mat-label>
+            </button>
+          </div>
+          <div class="col">
+            <mat-form-field class="action-dropdown" appearance="fill">
+              <mat-label>Actions</mat-label>
+              <mat-select class="employees-action">
+                <mat-option value="delete">Delete</mat-option>
+                <mat-option value="back">Back</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="groups-details details-wrap g-details-wrap">
+        <ng-scrollbar style="height: 500px">
+          <table mat-table [dataSource]="dataSource" matSortDirection="asc" matSortActive="carbs">
+            <ng-container matColumnDef="work_done_by">
+              <th class="header" mat-header-cell *matHeaderCellDef>
+                <h6><strong> Work Done By</strong></h6>
+                <mat-form-field class="filter w-100 stats-filters" appearance="outline">
+                  <mat-label>Search</mat-label>
+                  <input matInput type="text" [formControl]="workDoneByFilter">
+                </mat-form-field>
+              </th>
+              <td mat-cell *matCellDef="let work_done_by">{{work_done_by.name}}</td>
+            </ng-container>
+            <ng-container matColumnDef="start_time">
+              <th class="header" mat-header-cell *matHeaderCellDef>
+                <h6><strong>Start Time</strong></h6>
+                <mat-form-field class="filter w-100 stats-filters" appearance="outline">
+                  <mat-label>Search</mat-label>
+                  <input matInput type="text" [formControl]="idFilter">
+                </mat-form-field>
+              </th>
+              <td mat-cell *matCellDef="let person">{{person.id}}</td>
+            </ng-container>
+            <ng-container matColumnDef="end_time">
+              <th class="header" mat-header-cell *matHeaderCellDef>
+                <h6><strong>End Time</strong></h6>
+                <mat-form-field class="filter w-100 stats-filters" appearance="outline">
+                  <mat-label>Search</mat-label>
+                  <input matInput type="text" [formControl]="colourFilter">
+                </mat-form-field>
+              </th>
+              <td mat-cell *matCellDef="let person">{{person.colour}}</td>
+            </ng-container>
+            <ng-container matColumnDef="mins_worked">
+              <th class="header" mat-header-cell *matHeaderCellDef>
+                <h6><strong>Mins. Worked</strong></h6>
+                <mat-form-field class="filter w-100 stats-filters" appearance="outline">
+                  <mat-label>Search</mat-label>
+                  <input matInput type="text" [formControl]="petFilter">
+                </mat-form-field>
+              </th>
+              <td mat-cell *matCellDef="let person">{{person.pet}}</td>
+            </ng-container>
+            <ng-container matColumnDef="picks">
+              <th class="header" mat-header-cell *matHeaderCellDef>
+                <h6><strong>Picks</strong></h6>
+                <mat-form-field class="filter w-100 stats-filters" appearance="outline">
+                  <mat-label>Search</mat-label>
+                  <input matInput type="text" [formControl]="petFilter">
+                </mat-form-field>
+              </th>
+              <td mat-cell *matCellDef="let person">{{person.pet}}</td>
+            </ng-container>
+            <ng-container matColumnDef="puts">
+              <th class="header" mat-header-cell *matHeaderCellDef>
+                <h6><strong>Puts</strong></h6>
+                <mat-form-field class="filter w-100 stats-filters" appearance="outline">
+                  <mat-label>Search</mat-label>
+                  <input matInput type="text" [formControl]="petFilter">
+                </mat-form-field>
+              </th>
+              <td mat-cell *matCellDef="let person">{{person.pet}}</td>
+            </ng-container>
+            <ng-container matColumnDef="counts">
+              <th class="header" mat-header-cell *matHeaderCellDef>
+                <h6><strong>Counts</strong></h6>
+                <mat-form-field class="filter w-100 stats-filters" appearance="outline">
+                  <mat-label>Search</mat-label>
+                  <input matInput type="text" [formControl]="petFilter">
+                </mat-form-field>
+              </th>
+              <td mat-cell *matCellDef="let person">{{person.pet}}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+            <tr mat-row *matRowDef="let person; columns: columnsToDisplay"></tr>
+          </table>
+        </ng-scrollbar>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

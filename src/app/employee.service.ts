@@ -5,10 +5,12 @@ import {
   HttpEvent,
   HttpParams,
   HttpResponse,
-  HttpHeaders
+  HttpHeaders,
+  HttpContext
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IEmployee,EmployeeObject,AdminEmployeeLookupResponse,AccessGroupObject, ResponseData,AllGroup,AllAccess } from './Iemployee';
+import { BYPASS_LOG } from './init/http-interceptor';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,18 @@ export class EmployeeService {
 
   }
 
+  public getLocationList(url, payload ): Observable<EmployeeObject> {
+    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`);
+    
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + basicAuth
+      }),
+      context: new HttpContext().set(BYPASS_LOG, true)
+    };
+    return this.http.post<any>(`${environment.apiUrl}`+ url, payload, httpOptions);
+  }
 
   //Test Later
   public getEmployeeData(employee: IEmployee ): Observable<EmployeeObject> {
@@ -30,6 +44,16 @@ export class EmployeeService {
       })
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/GetEmployeeData`, employee,httpOptions);
+  }
+  public getUserGroupNames(employee: any ): Observable<any> {
+    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + basicAuth
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Admin/GetUserGroupNames`, employee,httpOptions);
   }
 
 
@@ -79,6 +103,16 @@ export class EmployeeService {
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/DeleteEmployee`, employee,httpOptions);
   }
+  public deleteUserGroup(employee: any ): Observable<any> {
+    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + basicAuth
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Admin/DeleteUserGroup`, employee,httpOptions);
+  }
 
 
   public updateAdminEmployee(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
@@ -90,6 +124,16 @@ export class EmployeeService {
       })
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/UpdateEmployee`, employee,httpOptions);
+  }
+  public cloneGroup(employee: any ): Observable<AdminEmployeeLookupResponse> {
+    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + basicAuth
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Admin/CloneGroup`, employee,httpOptions);
   }
 
   public getAdminEmployeeDetails(employee: IEmployee ): Observable<EmployeeObject> {
@@ -146,6 +190,16 @@ export class EmployeeService {
       })
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/SubmitControlResponse`, employee,httpOptions);
+  }
+  public insertUserGroup(employee: any): Observable<EmployeeObject> {
+    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + basicAuth
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Admin/InsertUserGroup`, employee,httpOptions);
   }
 
 //zone
@@ -208,9 +262,6 @@ public insertEmployeeLocation(employee: IEmployee ): Observable<EmployeeObject> 
   };
   return this.http.post<any>(`${environment.apiUrl}/Admin/InsertEmployeeLocation`, employee,httpOptions);
 }
-
-
-
 
 public updateEmployeeLocation(employee: IEmployee ): Observable<EmployeeObject> {
   let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
@@ -276,6 +327,7 @@ public deletePickLevels(employee: IEmployee ): Observable<EmployeeObject> {
   };
   return this.http.post<any>(`${environment.apiUrl}/Admin/DeletePickLevels`, employee,httpOptions);
 }
+
 
 
 //updateAccessGroup

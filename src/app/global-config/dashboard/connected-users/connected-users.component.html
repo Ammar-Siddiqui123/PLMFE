@@ -1,0 +1,61 @@
+<mat-card class="mat-elevation-z g-card mb-4 h-100">
+    <mat-card-content>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="card-header-title mb-0 d-flex align-items-center">
+                <div class="mat-icon-wrap me-lg-3">
+                    <span class="material-symbols-outlined">
+                        supervised_user_circle
+                    </span>
+                </div>
+                <span>Connected Users</span>
+            </h2>
+        </div>
+        <div class="card br-14 table-responsive px-0 mt-2">
+            <ng-scrollbar style="height: 500px;">
+
+                <table style="width: 100%;" mat-table matSort [dataSource]="user_connected_datasource"
+                    (matSortChange)="announceSortChange($event)"
+                    class="g-card-table employee-location-table action-clickable-table">
+                    <ng-container matColumnDef="username">
+                        <th width="30%" mat-header-cell *matHeaderCellDef mat-sort-header>User</th>
+                        <td width="25%" mat-cell *matCellDef="let element"> {{element?.username}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="wsid">
+                        <th width="30" mat-header-cell *matHeaderCellDef mat-sort-header>Pc Name</th>
+                        <td width="25%" style="    max-width: 15ch;
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+                  white-space: nowrap;" mat-cell *matCellDef="let element"> {{element?.wsid}} </td>
+                    </ng-container>
+
+                    <!-- End Location Column -->
+                    <ng-container matColumnDef="appname">
+                        <th width="40%" mat-header-cell *matHeaderCellDef mat-sort-header>App Name</th>
+                        <td width="25%" style="    max-width: 15ch;
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+                  white-space: nowrap;" mat-cell *matCellDef="let element"> {{element?.appname}} </td>
+                    </ng-container>
+
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <!-- <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                                No User Connected !.
+                            </td>
+                        </tr> -->
+                    <tr mat-row class="table-row" tabindex="1" *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                </table>
+
+            </ng-scrollbar>
+        </div>
+        <div class="d-flex justify-content-between bg-white">
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>

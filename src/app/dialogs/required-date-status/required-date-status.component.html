@@ -1,0 +1,35 @@
+<div class="d-flex justify-content-between mb-4 align-items-center">
+    <div style="width:48px"></div>
+    <h1 class="m-0" mat-dialog-title>Super Batch Required Date Status</h1>
+    <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
+</div>
+<div>
+    <div class="d-flex justify-content-end mb-3">
+        <button mat-stroked-button color="primary" class="btn-regular" (click)="getReqDateDataSelect()">
+          <mat-icon>cached</mat-icon>
+          Refresh
+        </button>
+      </div>
+    <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="reqDate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Required Date </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.reqDate}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="zone">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Zone </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.zone}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="countToInduct">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> SB Transactions to Induct</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.countToInduct}} </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;">
+        </mat-row>
+    </table>
+    <div class="d-flex justify-content-center p-3">
+        <div *ngIf="dataSource.data?.length === 0">No data found</div>
+      </div>
+</div>

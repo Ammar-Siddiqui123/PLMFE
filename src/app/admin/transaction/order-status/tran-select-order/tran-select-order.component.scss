@@ -1,0 +1,53 @@
+.success-button {
+    width: 72px;
+    height: 20px;
+    color: #1d865c;
+    background: rgba(29, 134, 92, 0.15);
+    border-radius: 14px;
+    padding: 4px 12px;
+    
+  }
+  .delete-button {
+    color:white!important;
+    background-color: #DE2654!important;
+  }
+  
+  .disabled-button {
+    color:white!important;
+    background-color: var(--clr-chrome-600)!important; 
+  }
+  
+  .fields-width{
+    width: 156px!important;
+  }
+  .Compete-cart{
+    background-color: #C8E2D8;
+    color:#114D35
+   
+  }
+  .Reprocess-card{
+    background-color: #F7D0DA;
+    color:#4D0D1D
+   
+  }
+  .Open-card{
+    background-color: #FFF0D6;
+    color:#4D3B1A
+   
+  }
+  .Order-type{
+    background-color: #F1D4EC;
+    color:#4D2045
+   
+  }
+  .Total-lines{
+    background-color: #F2F2FF;
+    color:#090948
+   
+  }
+  .Current-status{
+    background-color: #F2F2FF;
+    color:#090948;
+    font-size: 12px!important;
+   
+  }

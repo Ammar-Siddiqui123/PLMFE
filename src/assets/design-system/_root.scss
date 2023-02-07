@@ -1,0 +1,22 @@
+@use 'colors'as c;
+@import 'typography';
+
+
+:root{
+    /*Color shades*/
+        @each $color, $shades in $colors {
+            @each $shade, $value in $shades {
+                --clr-#{$color}-#{$shade}: #{$value};
+            }
+        }
+}
+
+/*TEXT-SIZES---START*/
+@each $text, $sizes in $text-size {
+    @each $size, $value in $sizes {
+        .text-#{$size}{
+            font-size:#{$size}#{px} !important;
+        }
+    }
+}
+/*TEXT-SIZES---END*/

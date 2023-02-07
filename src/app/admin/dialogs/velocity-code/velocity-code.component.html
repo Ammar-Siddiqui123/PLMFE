@@ -1,0 +1,108 @@
+<div class="d-flex justify-content-between mb-4 align-items-center">
+    <div style="width:48px"></div>
+<h1 class="m-0" mat-dialog-title>Velocity - Add, Delete, Edit and Set</h1>
+<button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="false">
+    <mat-icon class="close-icon">close</mat-icon>
+</button>
+</div>
+
+<div class="d-flex gap-12 my-4 justify-content-end">
+    <button mat-flat-button color="primary" class="add-icon-button" (click)="addVLRow($event)">
+      <span class="material-symbols-outlined">
+        add
+      </span>
+    </button>
+  </div>
+
+<div class="warehouse">
+    <div class="card w-100">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-6" style="padding-left:64px;">
+                    Velocity Code
+                </div>
+            </div>
+        </div>
+
+        <ng-scrollbar style="height: 250px;">
+        <div class="card-body">
+            <!-- <div class="d-flex justify-content-end">
+                <button mat-mini-fab color="primary" aria-label="Add Warehouse" style="border-radius: 10px;float: right;"
+                    (click)="addVLRow($event)">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div> -->
+            <ng-container *ngFor="let vlcode of velocity_code_list;let i = index">
+                <div class="d-flex align-items-center mb-3">
+                    <mat-radio-group color="primary">
+                        <mat-radio-button class="custom-radio-btn" [checked]="vlcode==currentVelocity" value="{{vlcode}}" (change)="selectVlCode($event)">
+                        </mat-radio-button>
+                    </mat-radio-group>
+                        <div class="container w-100">
+                            <div class="row">
+                    <div class="col-12" style="font-size: 12px">
+                        <div class="d-flex justify-content-between align-items-center gap-12">
+                        <mat-form-field class="d-block w-100" appearance="outline">
+                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #vlname
+                                name="{{vlcode}}" value="{{vlcode}}">
+                        </mat-form-field>
+                        <div class="d-flex gap-12">
+                            <button mat-flat-button color="primary" class="xsm-icon-button" (click)="saveVlCode(vlname.value, vlcode)">
+                                <mat-icon class="material-symbols-outlined">save</mat-icon>
+                            </button>
+                            <button mat-flat-button color="warn" class="xsm-icon-button"
+                            (click)="delete(vlname.value);">
+                            <mat-icon class="material-symbols-outlined">close</mat-icon>
+                        </button>
+                    
+                        
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                        
+                    
+                </div>
+            </ng-container>
+        </div>
+    </ng-scrollbar>
+    </div>
+
+    <!-- <h1 mat-dialog-title>Velocity</h1>
+    <div class="col">
+        <button mat-mini-fab color="primary" aria-label="Add Warehouse" style="border-radius: 10px;float: right;"
+            (click)="addVLRow($event)">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <div class="row">
+        <ng-container *ngFor="let vlcode of velocity_code_list;let i = index">
+            <div class="row mt-3">
+                <div class="col-1" style="margin-top: 20px;">
+                    <mat-radio-button value="{{vlcode}}" color="primary" (change)="selectVlCode($event)">
+                    </mat-radio-button>
+                </div>
+                <div class="col-8" style="font-size: 12px">
+                    <mat-form-field class="d-block w-100" appearance="outline">
+                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #vlname
+                            name="{{vlcode}}" value="{{vlcode}}">
+                    </mat-form-field>
+                </div>
+                <div class="col-1"><button style="color:#DE2654;margin-top: 20px;"
+                        (click)="dltVlCode(vlname.value);">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </div>
+                <div class="col-1">
+                    <button style="color:#000080;margin-top: 20px;" (click)="saveVlCode(vlname.value, vlcode)">
+                        <mat-icon>save</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+    </div> -->
+    <!-- <mat-dialog-actions align="end">
+        <button type="button" (click)="clearVlCode()" mat-stroked-button class="form-button-submit btn-lg w-100" color="warning">Clear Velocity Code</button>
+    </mat-dialog-actions> -->
+</div>

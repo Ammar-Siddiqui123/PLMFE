@@ -29,6 +29,27 @@ export class LoginService {
     };
     return this.http.post<any>(`${environment.apiUrl}/Login/LoginUser`, login, httpOptions);
   }
+
+  public getSecurityEnvironment(): Observable<ILoginInfo> {
+    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + basicAuth
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Login/GetSecurityEnvironment`, '', httpOptions);
+  }
+  public changePassword(FormData): Observable<ILoginInfo> {
+    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + basicAuth
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Login/ChangePassword`, FormData, httpOptions);
+  }
   
 }
 

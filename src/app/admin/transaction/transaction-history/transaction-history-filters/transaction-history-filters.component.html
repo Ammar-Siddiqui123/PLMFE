@@ -1,0 +1,92 @@
+<div class="container-fluid p-0">
+
+    <!-- Filter Component to be separate-->
+    <mat-card class="mat-elevation-z g-card mb-4">
+        <mat-card-content>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="card-header-title mb-0 d-flex align-items-center">
+                            <div class="mat-icon-wrap me-lg-3">
+                                <span class="material-symbols-outlined">
+                                    filter_list
+                                </span>
+                            </div>
+                            <span>Filters</span>
+                        </h2>
+                    </div>
+                </div>
+
+            <div class="row align-items-center">
+
+                <div class="col-xl-3">
+                    <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                        <mat-label>Completed Date (Start)</mat-label>
+                        <input matInput [value]="sdate" [(ngModel)]="sdate" [matDatepicker]="start"
+                            (dateChange)="onDateChange($event.value)">
+                        <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle>
+                        <mat-datepicker #start></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class=" col-xl-3">
+
+
+                    <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                        <mat-label>End Date</mat-label>
+                        <input matInput [matDatepicker]="end" [(ngModel)]="edate"
+                            (dateChange)="onEndDateChange($event.value)">
+                        <mat-datepicker-toggle matSuffix [for]="end" ngDefaultControl></mat-datepicker-toggle>
+                        <mat-datepicker #end></mat-datepicker>
+                    </mat-form-field>
+
+                </div>
+
+                <div class=" col-xl-3">
+
+
+                    <mat-form-field class=" custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                        <mat-label>Order No.</mat-label>
+                        <input [(ngModel)]="orderNumber" [matAutocomplete]="auto" matInput class="" value="" type="text" (ngModelChange)="this.searchByOrderNumber.next($event)" type="text" placeholder="Search" aria-label="Number" matInput >
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData($event.option.value)">
+                            <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                    <!-- <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
+                        [hideRequiredMarker]="hideRequiredControl.value">
+                        <span class="material-symbols-outlined icon-search">
+                            search
+                        </span>
+                        <input type="text" placeholder="search" aria-label="Number" matInput
+                            [(ngModel)]='this.columnSearch.searchValue' [matAutocomplete]="auto"
+                            (ngModelChange)="this.searchBar.next($event)">
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData($event.option.value)">
+                            <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field> -->
+
+
+                </div>
+
+                <div class="col-xl-3  justify-content-center  ">
+
+                    <button mat-stroked-button class="btn-regular w-100 mb-3" (click)="resetToTodaysDate()">
+
+                        <mat-label> Reset to Today's Date</mat-label>
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+
+        </mat-card-content>
+
+    </mat-card>
+    <!-- Filter Component End -->

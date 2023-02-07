@@ -1,0 +1,40 @@
+<div class="assigned-functions functions-list-wrap mt-3 p-3 br-14" style="border: 1px solid var(--clr-tertiary-50);">
+  <div class="search-box zone-search-box">
+    <div class="d-flex g-mini-search-box pb-4">
+      <mat-form-field class="w-100" appearance="fill">
+        <span class="material-symbols-outlined icon-search">
+          search
+        </span>
+        <input type="text" placeholder="Search Assigned Function"
+          aria-label="Search Groups Allowed" matInput [(ngModel)]="filterName" maxlength="50">
+      </mat-form-field>
+    </div>
+
+    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100 mb-3" (click)="unassignFunction(assignedFunctions)" [disabled]="!isGroupLookUp">
+      Remove All
+    </button>
+    <div class="card w-100">
+      <div class="card-header">
+        Assigned
+      </div>
+      <div class="card-body">
+    <mat-list class="zones-list g-card-list list-style-1" role="list">
+      <ng-scrollbar *ngIf="!filterValue" style="height: 380px">
+        <mat-list-item role="listitem" *ngFor="let groupname of assignedFunctions | filterUnassignedFunc:filterName">
+          <span class="list-label zone-list-label">
+            {{groupname}}
+          </span>
+          <button mat-icon-button aria-label="Delete Function" (click)="unassignFunction(groupname)" matTooltip="Remove" matTooltipPosition="above">
+            <mat-icon class="icon-circle-cancel">close</mat-icon>
+          </button>
+        </mat-list-item>
+      </ng-scrollbar>
+    </mat-list>
+    </div>
+    </div>
+
+
+
+  </div>
+
+</div>

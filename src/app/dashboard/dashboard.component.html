@@ -1,20 +1,32 @@
+<div class="f-container">
 <app-header (toggleSidebarForMe)="sideBarToggler()">
 </app-header>
-<mat-sidenav-container autosize>
-  <mat-sidenav #sidenav mode="side" [opened]="sideBarOpen">
-    <app-side-nav></app-side-nav>
+<mat-sidenav-container class="main-container">
+  <mat-sidenav #sidenav mode="side" disableClose="true" [opened]="sideBarOpen">
+    <app-side-nav [sideBarOpen]="sideBarOpen"></app-side-nav>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="dashboard-section">
+    <div class="dashboard-section" [ngClass]="{'side-bar-opened' : sideBarOpen}">
       <div class="breadcrumb-menu">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">Home</li>
-            <li class="breadcrumb-item active" aria-current="page">Library</li>
-          </ol>
+        <nav aria-label="breadcrumb" class="breadcrumb" >
+       
+          <!-- <div *ngFor="let item of breadcrumbList; index as i;">
+          
+            <div *ngIf="i<(breadcrumbList.length-1)">
+              <li class="breadcrumb-item" [routerLink]="item.value"  style="cursor:pointer;">{{item.name}}
+                &nbsp; {{"/"}} &nbsp;
+              </li>
+            </div>
+            <div *ngIf="i>=(breadcrumbList.length-1)">
+              <li class="breadcrumb-item"  style="cursor:pointer;">{{item.name}}
+              </li>
+            </div>
+          </div> -->
+            <!-- <li class="breadcrumb-item active" aria-current="page">Library</li> -->
         </nav>
       </div>
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+</div>

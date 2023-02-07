@@ -1,0 +1,41 @@
+@import 'colors';
+@import 'typography';
+
+/*TEXT AND BACKGROUND CLASSES---START*/
+@each $color, $shades in $colors {
+    @each $shade, $value in $shades {
+        .text-#{$color}-#{$shade}{
+            color:$value !important;
+        }
+        .bg-#{$color}-#{$shade}{
+            background:$value !important;
+        }
+    }
+}
+/*Theme colors*/
+@each $theme-color, $value in $theme-colors {
+    .text-#{$theme-color}{
+        color:$value !important;
+    }
+}
+/*TEXT AND BACKGROUND CLASSES---END*/
+
+/*TEXT-SIZES---START*/
+@each $text, $sizes in $text-size {
+    @each $size, $value in $sizes {
+        .text-#{$size}{
+            font-size:#{$size}#{px} !important;
+        }
+    }
+}
+/*TEXT-SIZES---END*/
+
+/*LINE-HEIGHT---START*/
+@each $size, $heights in $lineheight {
+    @each $height, $value in $heights {
+        .lh-#{$height}{
+            line-height:#{$height}#{px} !important;
+        }
+    }
+}
+/*LINE-HEIGHT---END*/

@@ -1,0 +1,19 @@
+.btn-custom-color-blue{
+    color:#1A1AD3
+}
+.paginator-left-align{
+    float: left, !important;
+}
+.mat-table {
+    th {
+      white-space: nowrap;
+      padding-right: 20px;
+    }
+    td {
+      max-width: 15ch;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      padding-right: 20px;
+    }
+  }
