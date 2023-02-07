@@ -50,7 +50,7 @@ export class UserAccountComponent implements OnInit {
     this.globalConfService.get(payload, '/GlobalConfig/Menu').subscribe(
       (res: any) => {
         res && res.data;
-        if (res && res.data) {
+        if (res && res.data ) {
           this.sharedService.setData(res.data);
           this.username = res.data.loginInfo[0].user;
           this.password = res.data.loginInfo[0].password;

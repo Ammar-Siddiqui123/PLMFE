@@ -16,7 +16,7 @@ export class DatabaseConnectionsComponent implements OnInit {
   ngOnInit(): void {
     let sharedData = this.sharedService.getData();
     if (sharedData && sharedData['connectionString']) {
-      sharedData['connectionString'].map((obj) => {obj.isButtonDisable=true,obj.isSqlButtonDisable=false,obj.isNewConn=false});
+      sharedData['connectionString'].map((obj) => {obj.isButtonDisable=true,obj.isSqlButtonDisable=false,obj.isNewConn=false,obj.isDuplicate=false});
 
       this.dbConnectionData = sharedData;
     } else {
@@ -36,7 +36,7 @@ export class DatabaseConnectionsComponent implements OnInit {
       (res: any) => {
 
         this.dbConnectionData = res && res.data;
-        this.dbConnectionData['connectionString'].map((obj) => {obj.isButtonDisable=true,obj.isSqlButtonDisable=false,obj.isNewConn=false});
+        this.dbConnectionData['connectionString'].map((obj) => {obj.isButtonDisable=true,obj.isSqlButtonDisable=false,obj.isNewConn=false,obj.isDuplicate=false});
         
         this.sharedService.setData(this.dbConnectionData);
       },
