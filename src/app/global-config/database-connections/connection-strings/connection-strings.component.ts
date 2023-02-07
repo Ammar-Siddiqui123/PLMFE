@@ -59,14 +59,19 @@ export class ConnectionStringsComponent implements OnInit {
         item.databaseName == '' ||
         item.serverName == ''
       ) {
-        return;
+        this.connectionStringData[index].isButtonDisable = true;
       } else {
         this.connectionStringData[index].isButtonDisable = false;
-        this.connectionStringData[index].isSqlButtonDisable = false;
+        // this.connectionStringData[index].isSqlButtonDisable = false;
       }
-    } else {
+    } else if(   item.connectionName == '' ||
+    item.databaseName == '' ||
+    item.serverName == '')  {
+      this.connectionStringData[index].isButtonDisable = true;
+      // this.connectionStringData[index].isSqlButtonDisable = false;
+    }else{
       this.connectionStringData[index].isButtonDisable = false;
-      this.connectionStringData[index].isSqlButtonDisable = false;
+
     }
   }
   saveString(item,index?) {
@@ -115,6 +120,9 @@ export class ConnectionStringsComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
             });
+        this.connectionStringData[index].isSqlButtonDisable = false;
+        this.connectionStringData[index].isButtonDisable = true;
+
           }
         },
         (error) => {

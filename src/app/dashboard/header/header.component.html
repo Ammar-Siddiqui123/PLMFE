@@ -6,14 +6,19 @@
 
 
     <nav aria-label="breadcrumb" class="breadcrumb m-0">
+      <li style="cursor:pointer;" *ngIf="isConfigUser" (click)="routeToLogin()">
+        LogixPro
+      </li>
+      
       <ng-container *ngFor="let item of breadcrumbList; index as i;">
 
+      
 
-        <li *ngIf="i<(breadcrumbList.length-1)" class="breadcrumb-item" [routerLink]="item.value"
+        <li *ngIf="i<(breadcrumbList.length-1)  && !isConfigUser " class="breadcrumb-item" [routerLink]="item.value"
           style="cursor:pointer;">{{item?.name}}
           <!-- &nbsp; {{"."}} &nbsp; -->
         </li>
-        <li *ngIf="i>=(breadcrumbList.length-1)" class="breadcrumb-item active" style="cursor:pointer;">{{item.name}}
+        <li *ngIf="i>=(breadcrumbList.length-1) " class="breadcrumb-item active" style="cursor:pointer;">{{item.name}}
         </li>
 
       </ng-container>
