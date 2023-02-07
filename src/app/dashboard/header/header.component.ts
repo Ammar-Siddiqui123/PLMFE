@@ -29,10 +29,10 @@ isConfigUser
     router.events.subscribe((val: any) => {
       this.breadcrumbList = [];
       if(this.authService.isConfigUser()){
-        this.breadcrumbList.push({
-          name:'',
-          value:'/globalconfig/dashboard'
-        })
+        // this.breadcrumbList.push({
+        //   name:'',
+        //   value:'/globalconfig/dashboard'
+        // })
       }else{
         this.breadcrumbList.push({
           name:'LogixPro',

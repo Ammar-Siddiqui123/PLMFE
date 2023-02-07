@@ -25,7 +25,7 @@ const routes: Routes = [
     
   },
   {
-    path: 'globalconfig/dashboard',
+    path: 'globalconfig/home',
     component: GlobalDashboardComponent,
     canActivate:[AuthGuardGuard]
     

@@ -25,7 +25,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'schema', title: 'FlowRack Replenishment', route: '#',permission: 'FlowRack Replenish' }
   ];
   globalMenus: any = [
-    { icon: 'door_front', title: 'Home', route: '/globalconfig/dashboard' ,permission: ''},
+    { icon: 'door_front', title: 'Home', route: '/globalconfig/home' ,permission: ''},
     { icon: 'hub', title: 'Database Connections', route: '/globalconfig/database-connections' ,permission: ''},
     { icon: 'print', title: 'Printers', route: '/globalconfig/printers' ,permission: ''},
     { icon: 'online_prediction', title: 'Workstation', route: '/globalconfig/workstation' ,permission: ''},
