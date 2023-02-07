@@ -16,6 +16,7 @@ export class ConnectionStringsComponent implements OnInit {
   @Input() connectionStringData: IConnectionString[] = [];
   @Output() connectionUpdateEvent = new EventEmitter<string>();
   isAddedNewRow = false;
+  isDuplicateAllow=false;
   constructor(
     private globalConfService: GlobalconfigService,
     private toastr: ToastrService,
@@ -43,16 +44,14 @@ export class ConnectionStringsComponent implements OnInit {
     newConnString.isSqlButtonDisable = true;
     newConnString.isNewConn = true;
     newConnString.isDuplicate = false;
-    
+
     return newConnString;
   }
   addConnString() {
     this.isAddedNewRow = true;
     this.connectionStringData.push(this.createObjectNewConn());
   }
-  onFocusOutEvent(event){
-console.log(event.target.value)
-  }
+
   onInputValueChange(event, item, index) {
     if (item.isNewConn) {
       if (
@@ -71,27 +70,42 @@ console.log(event.target.value)
     }
   }
   saveString(item,index?) {
+  
+    // this.connectionStringData.map((el,i)=>{
+    //   if(i!=index){
+    //     if(el.connectionName===item.connectionName){
+    //       this.connectionStringData[index].isDuplicate=true
+    //     }
+    //   }
+    // })
+
+
+    // this.connectionStringData.filter((el,i)=>{
+      
+    //   if(i!=index){
+    //     if(el.connectionName===item.connectionName){
+    //       this.connectionStringData[index].isDuplicate=true
+    //       console.log(this.connectionStringData[index].isDuplicate);
+    //     }else if(el.connectionName!=item.connectionName){
+    //       this.connectionStringData[i].isDuplicate=false;
+    //   console.log(this.connectionStringData[i].isDuplicate);
+      
+    //     }
+    //   }
+
+      
+    // })
     if (item.isNewConn) {
       this.isAddedNewRow = false;
-      // this.connectionStringData.filter((el) => {
-      //   if (item.connectionName === el.connectionName) {
-      //     item.isDuplicate = true;
-
-      //   } else {
-          
-        
-      //   }
-      // });
-      // this.connectionStringData['connectionName'].includes(item.connectionName)
+   
     }
+
     let payload = {
       OldConnection: item.isNewConn ? 'New' : item.connectionName,
       ConnectionName: item.connectionName,
       DatabaseName: item.databaseName,
       ServerName: item.serverName,
     };
-
-    return 
     this.globalConfService
       .get(payload, '/GlobalConfig/ConnectionSave')
       .subscribe(
@@ -131,20 +145,38 @@ console.log(event.target.value)
     });
   }
   openSqlAuth(item) {
-    const dialogRef = this.dialog.open(GlobalConfigSetSqlComponent, {
-      height: 'auto',
-      width: '480px',
-      data: {
-        mode: 'sql-auth-string',
-        connectionName: item.connectionName,
-      },
-    });
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res.isExecuted) {
-        this.connectionUpdateEvent.emit(res.isExecuted);
-      }
-    });
+
+    let payload = {
+      ConnectionName: item.connectionName,
+    };
+    this.globalConfService
+      .get(payload, '/GlobalConfig/ConnectionUserPassword')
+      .subscribe(
+        (res: any) => {
+   
+          
+          if (res.isExecuted) {
+         
+            const dialogRef = this.dialog.open(GlobalConfigSetSqlComponent, {
+              height: 'auto',
+              width: '480px',
+              data: {
+                mode: 'sql-auth-string',
+                userName: res.data?.user,
+                password: res.data?.password,
+                ConnectionName: item.connectionName,
+              },
+            });
+            dialogRef.afterClosed().subscribe((res) => {
+              if (res && res.isExecuted) {
+                this.connectionUpdateEvent.emit(res.isExecuted);
+              }
+            });
+          }
+       
   }
+)}
+   
   trackByIndex(index: number, obj: any): any {
     return index;
   }

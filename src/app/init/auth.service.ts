@@ -69,7 +69,7 @@ export class AuthService {
 
   isAuthorized(perm:any){
     // console.log(this.userPermission());
-    return this.userPermission().includes(perm)
+    return this.userPermission()?.includes(perm)
     // console.log(this.userPermission().includes('Admin Menu'))
   }
   isAllowedUrl(){
@@ -78,5 +78,9 @@ export class AuthService {
 
   public logout(userData:any): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/Login/Logout`, userData);
+  }
+
+  public configLogout(userData:any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/Logout`, userData);
   }
 }

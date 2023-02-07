@@ -56,10 +56,12 @@
                                         <!-- (click)="openAddItemNumDialog(kitItem)" -->
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
                                             <input matInput type="text" [(ngModel)]="item.connectionName" name="connectionName" (ngModelChange)="onInputValueChange($event,item,index)" #specialFeature maxlength="255"
-                                                [value]="item.connectionName" (focusout)="onFocusOutEvent($event)">
+                                                [value]="item.connectionName">
+                                                <mat-hint class="error-message" style="color: red;font-size: 14px;padding-top:5%"
+                                                *ngIf="item.isDuplicate">
+                                                Field can not be duplicate
+                                              </mat-hint>
                                         </mat-form-field >
-                                                <mat-error *ngIf="item && item.isDuplicate">duplicate </mat-error>
-                                        
                                     </div>
 
                                     <div class="col-3">

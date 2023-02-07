@@ -15,40 +15,52 @@ import labels from '../../../labels/labels.json';
 })
 export class GlobalConfigSetSqlComponent implements OnInit {
   form_heading = 'SQL Auth Username and Password';
-  userName: any = '';
-  password: any = '';
-
+  userName: any ;
+  password: any;
+  connectionName:any;
+  public toggle_password = true;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<any>,
     private toastr: ToastrService,
     private globalConfService: GlobalconfigService
-  ) {}
+  ) {
+
+    this.userName=data.userName
+    this.password=data.password;
+    this.connectionName=data.ConnectionName;
+  }
 
   ngOnInit(): void {
-    this.getConnectionUser();
+   
+    // this.getConnectionUser();
   }
 
   getConnectionUser() {
-    let payload = {
-      ConnectionName: this.data.connectionName,
-    };
-    this.globalConfService
-      .get(payload, '/GlobalConfig/ConnectionUserPassword')
-      .subscribe(
-        (res: any) => {
-          if (res.isExecuted) {
-            this.userName = res.data.user;
-            this.password = res.data.password;
-          }
-        },
-        (error) => {}
-      );
+    // let payload = {
+    //   ConnectionName: this.data.connectionName,
+    // };
+    // this.globalConfService
+    //   .get(payload, '/GlobalConfig/ConnectionUserPassword')
+    //   .subscribe(
+    //     (res: any) => {
+   
+          
+    //       if (res.isExecuted) {
+         
+    //         this.userName='';
+    //         this.password='';
+    //         this.userName = res.data && res.data.user?res.data.user:'';
+    //         this.password = res.data && res.data.password?res.data.password:'';
+    //       }
+    //     },
+    //     (error) => {}
+    //   );
   }
   saveLogin() {
     let payload = {
-      ConnectionName: this.data.connectionName,
+      ConnectionName: this.connectionName,
       UserName: this.userName,
       Password: this.password,
     };
@@ -61,7 +73,8 @@ export class GlobalConfigSetSqlComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
             });
-            this.dialog.closeAll();
+            this.dialogRef.close({isExecuted:true})
+
           }
         },
         (error) => {
@@ -69,7 +82,8 @@ export class GlobalConfigSetSqlComponent implements OnInit {
             positionClass: 'toast-bottom-right',
             timeOut: 2000,
           });
-          this.dialog.closeAll();
+          this.dialogRef.close({isExecuted:true})
+
         }
       );
   }

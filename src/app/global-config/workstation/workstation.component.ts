@@ -248,7 +248,7 @@ export class WorkstationComponent implements OnInit {
       .subscribe(
         (res: any) => {
           if(res.isExecuted){
-            // this.getCanAccessList(this.wsid)
+            this.getCanAccessList(this.wsid)
           }
         },
         (error) => {}
