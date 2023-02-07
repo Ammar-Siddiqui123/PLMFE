@@ -126,28 +126,29 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     'hostTransactionID',
     'emergency',
     'id',
-    'importBy',
-    'fileFrom',
-    'orderNumber',
-    'lineSequence',
-    'carousel',
-    'row',
-    'shelf',
-    'bin',
-    'invMapID',
-    'notes',
-    'exportFileName',
-    'exportDate',
-    'exportedBy',
-    'exportBatchID',
-    'tableType',
-    'statusCode',
-    'masterRecord',
-    'masterRecordID',
-    'label',
-    'inProcess',
-    'rn',
+    
   ];
+  // 'importBy',
+  //   'fileFrom',
+  //   'orderNumber',
+  //   'lineSequence',
+  //   'carousel',
+  //   'row',
+  //   'shelf',
+  //   'bin',
+  //   'invMapID',
+  //   'notes',
+  //   'exportFileName',
+  //   'exportDate',
+  //   'exportedBy',
+  //   'exportBatchID',
+  //   'tableType',
+  //   'statusCode',
+  //   'masterRecord',
+  //   'masterRecordID',
+  //   'label',
+  //   'inProcess',
+  //   'rn',
   public dataSource: any = new MatTableDataSource();
   public userData: any;
   public detailDataInventoryMap: any;
@@ -158,6 +159,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   public payload;
   public sortCol: any = 3;
   public sortOrder: any = 'asc';
+public catchToteId;
 
   searchByInput = new Subject<string>();
   @Input()
@@ -169,18 +171,20 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   }
 
   @Input() set orderNoEvent(event: any) {
-    this.toteId = '';
-    this.orderNo = '';
+    if(event){
+
+    this.toteId =  event.columnFIeld != 'Order Number'?event.searchField:'';
+    this.orderNo =   event.columnFIeld === 'Order Number'?event.searchField:'';
     this.searchCol='';
     this.searchString=''
-    if (event) {
-      event.columnFIeld && event.columnFIeld === 'Order Number'
-        ? (this.orderNo = event.searchField)
-        : (this.toteId = event.searchField);
+    // if (event) {
+    //   event.columnFIeld && event.columnFIeld === 'Order Number'
+    //     ? (this.orderNo = event.searchField)
+    //     : (this.toteId = event.searchField);
       
       this.getContentData();
-    }
-
+    // }
+  }
     // this.getContentData();
   }
 
@@ -243,7 +247,11 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     private authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer
   ) {}
+
   getContentData() {
+    if(this.searchCol==='Tote ID'){
+      
+    }
     this.payload = {
       draw: 0,
       compDate: '',
@@ -468,7 +476,13 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   }
 
   actionDialog(event) {
-    this.toteId = '';
+    if(this.toteId!=''){
+      this.catchToteId=this.toteId;
+    }else{
+      this.toteId = '';
+    }
+
+
     // this.orderNo = '';
     this.searchCol = event;
    this.searchString='';

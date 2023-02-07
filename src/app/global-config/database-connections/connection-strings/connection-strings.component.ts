@@ -42,13 +42,17 @@ export class ConnectionStringsComponent implements OnInit {
     newConnString.isButtonDisable = true;
     newConnString.isSqlButtonDisable = true;
     newConnString.isNewConn = true;
+    newConnString.isDuplicate = false;
+    
     return newConnString;
   }
   addConnString() {
     this.isAddedNewRow = true;
     this.connectionStringData.push(this.createObjectNewConn());
   }
-
+  onFocusOutEvent(event){
+console.log(event.target.value)
+  }
   onInputValueChange(event, item, index) {
     if (item.isNewConn) {
       if (
@@ -66,9 +70,19 @@ export class ConnectionStringsComponent implements OnInit {
       this.connectionStringData[index].isSqlButtonDisable = false;
     }
   }
-  saveString(item) {
+  saveString(item,index?) {
     if (item.isNewConn) {
       this.isAddedNewRow = false;
+      // this.connectionStringData.filter((el) => {
+      //   if (item.connectionName === el.connectionName) {
+      //     item.isDuplicate = true;
+
+      //   } else {
+          
+        
+      //   }
+      // });
+      // this.connectionStringData['connectionName'].includes(item.connectionName)
     }
     let payload = {
       OldConnection: item.isNewConn ? 'New' : item.connectionName,
@@ -76,6 +90,8 @@ export class ConnectionStringsComponent implements OnInit {
       DatabaseName: item.databaseName,
       ServerName: item.serverName,
     };
+
+    return 
     this.globalConfService
       .get(payload, '/GlobalConfig/ConnectionSave')
       .subscribe(

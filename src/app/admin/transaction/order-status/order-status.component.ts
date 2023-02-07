@@ -27,6 +27,7 @@ export class OrderStatusComponent implements OnInit {
     private transactionService: TransactionService
   ) {}
   ngOnInit(): void {
+   
     this.userData = this.authService.userData();
     // this.autocompleteSearchColumn();
   }

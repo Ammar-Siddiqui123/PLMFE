@@ -57,16 +57,16 @@ export class ReprocessChoiceComponent implements OnInit {
     if(status=='Reprocess')
     {
     this.isCompleteChecked= false;
-    this.isHistoryChecked= false;
+    //this.isHistoryChecked= false;
     }else if(status=='Complete')
     {
     this.isReprocessedChecked = false;
-    this.isHistoryChecked= false;
+    //this.isHistoryChecked= false;
     }
     else 
     {
-    this.isReprocessedChecked = false;
-    this.isCompleteChecked= false;
+    //this.isReprocessedChecked = false;
+    //this.isCompleteChecked= false;
     }
     
       var payload={

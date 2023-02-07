@@ -21,6 +21,7 @@ export class TranInReprocessComponent implements OnInit {
   @Output() reasonFilterEvent = new EventEmitter<string>();
   @Output() selectedOrderNumber = new EventEmitter<string>();
   @Output() selectedItemNum = new EventEmitter<string>();
+  @Output() filterCleared = new EventEmitter<string>();
 
   constructor(
     private transService: TransactionService,
@@ -45,7 +46,12 @@ export class TranInReprocessComponent implements OnInit {
     this.reasonFilterEvent.emit(event.value);
   }
 
-
+  clear()
+  {
+    this.orderNumber="";
+    this.itemNumber="";
+    this.filterCleared.emit("cleared");
+  }
 
   getFilteredList() {
     let payload = {

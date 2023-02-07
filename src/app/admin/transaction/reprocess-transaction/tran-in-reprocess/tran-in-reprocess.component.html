@@ -70,8 +70,8 @@
                 <div class="w-100">
                     <mat-form-field class="w-100 bg-white br-8" appearance="outline">
                         <mat-label>Order Number</mat-label>
-                        <input type="text" aria-label="Number" matInput [matAutocomplete]="autoOrder"
-                            [(ngModel)]="orderNumber" (keypress)="getFilteredList()" (keyup)="orderSelected()">
+                        <input type="text" aria-label="Number" matInput
+                            [matAutocomplete]="autoOrder" [(ngModel)]="orderNumber" (keypress)="getFilteredList()" (keyup)="orderSelected()">
                         <mat-autocomplete class="autocomplete-center" panelWidth="auto" autoActiveFirstOption
                             #autoOrder="matAutocomplete" (optionSelected)="orderSelected()">
                             <h6 class="ctl_name ac-dropdown-label">
@@ -94,7 +94,7 @@
                 <div class="d-flex g-mini-search-box w-100">
                     <mat-form-field class="w-100 bg-white" appearance="outline">
                         <mat-label>Item Number</mat-label>
-                        <input type="text" matInput [matAutocomplete]="auto" [(ngModel)]="itemNumber">
+                        <input type="text" matInput [matAutocomplete]="auto" [(ngModel)]="itemNumber" style="padding-left: 0px !important;">
                         <mat-autocomplete class="autocomplete-center" panelWidth="auto" autoActiveFirstOption
                             #auto="matAutocomplete" (optionSelected)="listSelected()">
                             <h6 class="ctl_name ac-dropdown-label">
@@ -118,7 +118,7 @@
 
         </div>
         <div>
-            <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100">
+            <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100" (click)="clear()">
                 Clear
             </button>
         </div>

@@ -290,6 +290,16 @@ export class ReprocessTransactionComponent implements OnInit {
     this.isHistory ? this.getHistoryData() : this.getContentData();
   }
 
+  filterCleared(evt:any)
+  {
+    //this.getColumnsData();
+    //this.clearTransactionData();
+    //this.getOrdersWithStatus();
+    //this.getContentData();
+    
+
+  }
+
   actionDialog(opened: boolean) {
     if (!opened && this.selectedVariable && this.selectedVariable === 'set_column_sq') {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
@@ -495,6 +505,7 @@ export class ReprocessTransactionComponent implements OnInit {
   itemUpdatedEvent(event: any) {
     this.getContentData();
     this.getOrdersWithStatus();
+    this.isEnabled = false;
   }
 
   clearTransactionData() {

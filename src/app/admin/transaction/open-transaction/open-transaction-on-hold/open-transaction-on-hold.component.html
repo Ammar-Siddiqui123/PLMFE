@@ -113,13 +113,24 @@
                 <div class=" col-6"></div>
             </div>
 
-            <div class="row">
+
+            <div class="row" *ngIf="hideDelete">
+                <div class="col-xl-3 offset-xl-6">
+                    
+                </div>
+                <div class="col-xl-3" >
+                    <button mat-stroked-button color="primary" class="btn-regular w-100 mb-3" (click)="resetToTodaysDate()">
+                        Reset to Today's Date
+                    </button>
+                </div>
+            </div>
+            <div class="row" *ngIf="!hideDelete">
                 <div class="col-xl-3 offset-xl-6">
                     <button mat-stroked-button color="primary" class="btn-regular w-100 mb-3" (click)="resetToTodaysDate()">
                         Reset to Today's Date
                     </button>
                 </div>
-                <div class="col-xl-3">
+                <div class="col-xl-3" >
                     <button (click)="retunrToPrev()" mat-flat-button color="primary" class="btn-regular w-100 mb-3">
                         Place Trans. on Hold
                     </button>
@@ -251,9 +262,9 @@
                                             Master</button>
                                         <button mat-menu-item (click)="viewOrderInOrder()">View Order in Order
                                             Status</button>
-                                        <button mat-menu-item (click)="deleteItem(seletedRecord)">Delete
+                                        <button mat-menu-item  *ngIf="!hideDelete" (click)="deleteItem(seletedRecord)">Delete
                                             Transaction</button>
-                                        <button mat-menu-item (click)="sendCompletedToHistory()">Send Completed to
+                                        <button mat-menu-item disabled  *ngIf="!hideDelete" (click)="sendCompletedToHistory()">Send Completed to
                                             History</button>
                                         <!-- <button mat-menu-item (click)="adjustQuantity(seletedRecord)">Adjust
                                         Quantity</button>

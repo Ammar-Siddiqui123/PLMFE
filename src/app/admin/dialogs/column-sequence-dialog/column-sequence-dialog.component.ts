@@ -99,18 +99,18 @@ export class ColumnSequenceDialogComponent implements OnInit {
       .subscribe(
         (res: any) => {
           if (res.isExecuted) {
-            this.toastr.success(labels.alert.success, 'Success!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000,
-            });
+            // this.toastr.success(labels.alert.success, 'Success!', {
+            //   positionClass: 'toast-bottom-right',
+            //   timeOut: 2000,
+            // });
            
           } 
         },
         (error) => {
-          this.toastr.error(labels.alert.went_worng, 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000,
-          });
+          // this.toastr.error(labels.alert.went_worng, 'Error!', {
+          //   positionClass: 'toast-bottom-right',
+          //   timeOut: 2000,
+          // });
        
         }
       );

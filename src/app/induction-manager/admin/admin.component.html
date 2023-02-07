@@ -10,7 +10,7 @@
                 swipe_down_alt
               </span>
             </div>
-            <h4 class="main-section-title" style="font-size:22px;">Process Put Aways</h4>
+            <h4 class="main-section-title" style="font-size:22px;">Inventory Map</h4>
           </div>
         </div>
   
@@ -22,7 +22,7 @@
                 swipe_up_alt
               </span>
             </div>
-            <h4 class="main-section-title" style="font-size:22px;">Process Picks</h4>
+            <h4 class="main-section-title" style="font-size:22px;">Inventory</h4>
           </div>
         </div>
   
@@ -35,7 +35,7 @@
                 line_style
               </span>
             </div>
-            <h4 class="main-section-title" style="font-size:22px;">Super Batch</h4>
+            <h4 class="main-section-title" style="font-size:22px;">Tote Transaction Manager</h4>
           </div>
         </div>
   
@@ -48,12 +48,12 @@
                 linear_scale
               </span>
             </div>
-            <h4 class="main-section-title" style="font-size:22px;">Pallet Receiving</h4>
+            <h4 class="main-section-title" style="font-size:22px;">Manual Transactions</h4>
           </div>
         </div>
   
         <!-- Main Section Option (Consolidation Manager) -->
-        <div class="col-xl-3 col-lg-6">
+        <div class="col-xl-3 col-lg-6" routerLink="/admin/transaction">
           <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
@@ -61,12 +61,12 @@
                 edit_attributes
               </span>
             </div>
-            <h4 class="main-section-title" style="font-size:22px;">Mark Empty Reels</h4>
+            <h4 class="main-section-title" style="font-size:22px;">Transaction Journal</h4>
           </div>
         </div>
   
         <!-- Main Section Option (Order Manager) -->
-        <div class="col-xl-3 col-lg-6" routerLink="Admin">
+        <div class="col-xl-3 col-lg-6">
           <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
@@ -74,9 +74,21 @@
                 manage_accounts
               </span>
             </div>
-            <h4 class="main-section-title" style="font-size:22px;">Admin</h4>
+            <h4 class="main-section-title" style="font-size:22px;">Reports </h4>
           </div>
         </div>
+
+        <div class="col-xl-3 col-lg-6">
+            <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
+              <a class="main-section-option-link" href="#"></a>
+              <div class="main-section-icon">
+                <span class="material-symbols-outlined">
+                  manage_accounts
+                </span>
+              </div>
+              <h4 class="main-section-title" style="font-size:22px;">Preferences </h4>
+            </div>
+          </div>
       </div>
     </div>
   </div>

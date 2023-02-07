@@ -17,8 +17,9 @@
                <div class="mb-3">
                   <mat-form-field class="w-100 " formControlName="username" appearance="outline">
                      <mat-label>Username</mat-label>
-                     <input [(ngModel)]="username" [value]="username" matInput value="Location Assignment Error"
-                        type="text">
+                     <input disabled [(ngModel)]="username" readonly [value]="username" matInput value="Location Assignment Error"
+                    type="text">
+                       
                   </mat-form-field>
                   <mat-hint class="error-message" style="color: red;font-size: 14px;"
                      *ngIf="addLoginForm.controls['username'].invalid && (addLoginForm.controls['username'].dirty || addLoginForm.controls['username'].touched)">
@@ -35,8 +36,12 @@
                <div class="mb-3">
                <mat-form-field class="d-block w-100" appearance="outline">
                   <mat-label>Password</mat-label>
-                  <input [(ngModel)]="password" [value]="password" formControlName="password" type="password" matInput
+                  <input [(ngModel)]="password" [value]="password" formControlName="password"  matInput  [type]="toggle_password ? 'password' : 'text'"
                      value="Location Assignment Error">
+                     <mat-icon matPrefix style="color: #090948;">lock</mat-icon>
+                     <button type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
+                       <mat-icon>{{toggle_password ? 'visibility_off' : 'visibility'}}</mat-icon>
+                     </button>
                </mat-form-field>
                <mat-hint class="error-message" style="color: red;font-size: 14px;"
                   *ngIf="addLoginForm.controls['password'].invalid && (addLoginForm.controls['password'].dirty || addLoginForm.controls['password'].touched)">
