@@ -56,8 +56,10 @@
                                         <!-- (click)="openAddItemNumDialog(kitItem)" -->
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
                                             <input matInput type="text" [(ngModel)]="item.connectionName" name="connectionName" (ngModelChange)="onInputValueChange($event,item,index)" #specialFeature maxlength="255"
-                                                [value]="item.connectionName">
-                                        </mat-form-field>
+                                                [value]="item.connectionName" (focusout)="onFocusOutEvent($event)">
+                                        </mat-form-field >
+                                                <mat-error *ngIf="item && item.isDuplicate">duplicate </mat-error>
+                                        
                                     </div>
 
                                     <div class="col-3">
@@ -89,7 +91,7 @@
                                                (click)="openSqlAuth(item)" class="button-primary-i button-sm"  [disabled]="item.isSqlButtonDisable" > Set SQL Auth</button>
 
                                             <button mat-flat-button color="primary" class="xsm-icon-button " [disabled]="item.isButtonDisable"
-                                               (click)="saveString(item)" #namebutton>
+                                               (click)="saveString(item,index)" #namebutton>
                                                 <mat-icon class="material-symbols-outlined">save</mat-icon>
                                             </button>
 

@@ -30,5 +30,6 @@ export interface IConnectionString {
     isButtonDisable:boolean;
     isSqlButtonDisable:boolean;
     isNewConn:boolean;
+    isDuplicate:boolean;
   }
   
