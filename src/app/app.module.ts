@@ -24,6 +24,7 @@ import { GlobalConfigModule } from './global-config/global-config.module';
 import { SelectZonesComponent } from './dialogs/select-zones/select-zones.component';
 import { TotesAddEditComponent } from './dialogs/totes-add-edit/totes-add-edit.component';
 import { GeneralModule } from './gen-module';
+import { PickToteManagerComponent } from './dialogs/pick-tote-manager/pick-tote-manager.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { GeneralModule } from './gen-module';
     ChangePasswordComponent,
     SelectZonesComponent,
     TotesAddEditComponent,
+    PickToteManagerComponent,
     // ActionDisableDirective,
 
   ],
