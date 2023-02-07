@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../../../app/init/auth.service';
 import { ProcessPicksService } from './process-picks.service';
+import { PickToteManagerComponent } from 'src/app/dialogs/pick-tote-manager/pick-tote-manager.component';
 
 export interface PeriodicElement {
   name: string;
@@ -102,6 +103,14 @@ export class ProcessPicksComponent implements OnInit {
   closeBatchDialog() {
     this.dialogClose = false;
     this.dialog.closeAll();
+  }
+
+  openPickToteDialogue(){
+    const dialogRef =  this.dialog.open(PickToteManagerComponent, {
+      height: '90%',
+      width: '100vw',
+      autoFocus: '__non_existing_element__'
+    })
   }
 
 }
