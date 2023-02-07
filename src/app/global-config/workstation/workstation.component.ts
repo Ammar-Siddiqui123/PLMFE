@@ -30,6 +30,7 @@ export class WorkstationComponent implements OnInit {
   wsid: any;
   appName:any='';
   selectedVariable: any;
+  sideBarOpen: boolean = true;
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -166,6 +167,11 @@ export class WorkstationComponent implements OnInit {
         (error) => {}
       );
   }
+
+  sideBarToggler() {
+    this.sideBarOpen = !this.sideBarOpen;
+  }
+
   async getDefaultAppList(wsid, canAccessArr) {
     // get can access
     let payload = {
