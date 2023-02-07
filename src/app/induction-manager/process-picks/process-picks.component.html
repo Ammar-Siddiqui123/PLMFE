@@ -13,26 +13,28 @@
                 <mat-icon class="material-symbols-outlined">print</mat-icon>
                 <span class="material-symbols-outlined icon-expand-more">
                     expand_more
-                  </span>
+                </span>
             </button>
             <mat-menu #appMenu="matMenu">
                 <button mat-menu-item><b>Print Tote/Location Labels</b></button>
                 <button mat-menu-item>Print Pick Labels</button>
                 <button mat-menu-item>Print Pick List</button>
-              </mat-menu>
+            </mat-menu>
         </div>
         <div class="row">
             <div class="col-xl-4">
                 <div class="card p-3 mb-2">
                     <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                         <mat-label>Batch ID</mat-label>
-                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
+                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="">
                     </mat-form-field>
                     <div class="d-flex gap-12">
-                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100" style="min-width: 150px;">
+                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
+                            style="min-width: 150px;" (click)="onAddBatch('batchWithID')">
                             New Batch with ID
                         </button>
-                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100" style="min-width: 150px;">
+                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
+                            style="min-width: 150px;" (click)="onAddBatch('newBatch')">
                             New Batch
                         </button>
                     </div>
@@ -44,27 +46,32 @@
                         <mat-radio-button class="d-flex w-100 pe-2 custom-horizontal-radio">
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                                 <mat-label>Mixed Zones</mat-label>
-                                <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
+                                <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+                                    value="">
                             </mat-form-field>
                         </mat-radio-button>
                         <mat-radio-button class=" d-flex w-100 pe-2 custom-horizontal-radio">
-                            <mat-form-field class="custom-form-field w-100" appearance="outline" >
+                            <mat-form-field class="custom-form-field w-100" appearance="outline">
                                 <mat-label>Off - Carousel </mat-label>
-                                <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
+                                <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+                                    value="">
                             </mat-form-field>
                         </mat-radio-button>
                         <mat-radio-button class="d-flex w-100 pe-2 custom-horizontal-radio">
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                                 <mat-label>Carousel</mat-label>
-                                <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
+                                <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+                                    value="">
                             </mat-form-field>
                         </mat-radio-button>
                     </mat-radio-group>
                     <div class="d-flex gap-12 mt-2">
-                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100" style="min-width: 150px;">
+                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
+                            style="min-width: 150px;">
                             Refresh Order Count
                         </button>
-                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100" style="min-width: 150px;">
+                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
+                            style="min-width: 150px;">
                             Pick Batch Manager
                         </button>
                     </div>
@@ -86,7 +93,8 @@
                         </div>
                         <span>Print Existing Pick Batches</span>
                     </h2>
-                    <button type="submit" mat-stroked-button class="btn-regular" color="primary" [matMenuTriggerFor]="appMenu1">
+                    <button type="submit" mat-stroked-button class="btn-regular" color="primary"
+                        [matMenuTriggerFor]="appMenu1">
                         <mat-icon class="material-symbols-outlined">print</mat-icon>
                         <span class="material-symbols-outlined icon-expand-more">
                             expand_more
@@ -101,17 +109,18 @@
                     </mat-menu>
                 </div>
                 <div class="card p-3 mb-2">
-                <div class="row">
-                    <div class="col-xl-5">
-                        
-                        <mat-form-field class="custom-form-field w-100" appearance="outline">
-                            <mat-label>Batch ID</mat-label>
-                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
-                        </mat-form-field>
-                        
+                    <div class="row">
+                        <div class="col-xl-5">
+
+                            <mat-form-field class="custom-form-field w-100" appearance="outline">
+                                <mat-label>Batch ID</mat-label>
+                                <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+                                    value="000000">
+                            </mat-form-field>
+
+                        </div>
                     </div>
                 </div>
-            </div>
             </mat-card-content>
         </mat-card>
     </div>
@@ -127,26 +136,29 @@
                         </div>
                         <span>Order Number Select</span>
                     </h2>
-                    <div class="text-center"> <span class="label label-gray px-2 f-14">Zones:&nbsp;<b>000 00 00 00 000 542 2565</b></span></div>
+                    <div class="text-center"> <span class="label label-gray px-2 f-14">Zones:&nbsp;<b>000 00 00 00 000
+                                542 2565</b></span></div>
                 </div>
 
                 <div class="row align-items-center">
                     <div class="col-xl-8">
-                        
+
                         <mat-form-field class="custom-form-field w-100" appearance="outline">
                             <mat-label>Order No.</mat-label>
                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
                         </mat-form-field>
-                        
+
                     </div>
                     <div class="col-xl-4">
-                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100" style="min-width: 150px;">
+                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
+                            style="min-width: 150px;">
                             View Orders
                         </button>
                     </div>
                 </div>
                 <div class="mt-2">
-                    <button mat-flat-button color="primary" class="primary-button btn-regular w-100" style="min-width: 150px;">
+                    <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
+                        style="min-width: 150px;">
                         View Orders
                     </button>
                 </div>
@@ -169,109 +181,129 @@
             </h2>
             <mat-form-field class="action-dropdown" appearance="outline">
                 <mat-label>Actions</mat-label>
-                <mat-select class="employees-action"
-                  placeholder="Actions">
-                  <mat-option value="print"><b class="text-tertiary-900">Fill All Empty Tote IDs</b></mat-option>
-                  <mat-option value="set_column_sq">Fill Next Empty Tote ID</mat-option>
-                  <mat-option value="set_column_sq">Clear All Totes</mat-option>
-                  <mat-option value="set_column_sq">Clear All Orders</mat-option>
+                <mat-select class="employees-action" placeholder="Actions">
+                    <mat-option value="print"><b class="text-tertiary-900">Fill All Empty Tote IDs</b></mat-option>
+                    <mat-option value="set_column_sq">Fill Next Empty Tote ID</mat-option>
+                    <mat-option value="set_column_sq">Clear All Totes</mat-option>
+                    <mat-option value="set_column_sq">Clear All Orders</mat-option>
                 </mat-select>
                 <span class="material-symbols-outlined icon-expand-more">
-                  expand_more
+                    expand_more
                 </span>
-              </mat-form-field>
+            </mat-form-field>
         </div>
         <div class="card br-14 table-responsive borderless px-0 mb-3">
             <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 280px;">
-            <table mat-table [dataSource]="dataSource" class="w-100">
-            
-                  <!-- Position Column -->
-                  <ng-container matColumnDef="position">
-                    <th mat-header-cell *matHeaderCellDef> Position </th>
-                    <td mat-cell *matCellDef="let element">
-                      <div class="pe-2">
-                        <mat-form-field class="custom-form-field w-100" appearance="outline">
-      
-                          <input matInput type="text" #specialFeature maxlength="255"
-                            value="000000" disabled>
-                        </mat-form-field>
-                      </div>
-                    </td>
-                  </ng-container>
-                
-                  <!-- Name Column -->
-                  <ng-container matColumnDef="toteid">
-                    <th mat-header-cell *matHeaderCellDef> Tote ID </th>
-                    <td mat-cell *matCellDef="let element">
-                      <div class="pe-2">
-                        <mat-form-field class="custom-form-field w-100" appearance="outline">
-      
-                          <input matInput type="text" #specialFeature maxlength="255"
-                            [value]="element.displayname">
-                        </mat-form-field>
-                      </div>
-                    </td>
-                  </ng-container>
+                <table mat-table [dataSource]="dataSource" class="w-100">
 
-                  <!-- Name Column -->
-                  <ng-container matColumnDef="orderno">
-                    <th mat-header-cell *matHeaderCellDef> Order No. </th>
-                    <td mat-cell *matCellDef="let element">
-                      <div class="pe-2">
-                        <mat-form-field class="custom-form-field w-100" appearance="outline">
-      
-                          <input matInput type="text" #specialFeature maxlength="255"
-                            [value]="element.displayname">
-                        </mat-form-field>
-                      </div>
-                    </td>
-                  </ng-container>
-                   <!-- Name Column -->
-                   <ng-container matColumnDef="priority">
-                    <th mat-header-cell *matHeaderCellDef> Priority </th>
-                    <td mat-cell *matCellDef="let element">
-                      <div class="pe-2">
-                        <mat-form-field class="custom-form-field w-100" appearance="outline">
-      
-                          <input matInput type="text" #specialFeature maxlength="255"
-                          value="000000" disabled>
-                        </mat-form-field>
-                      </div>
-                    </td>
-                  </ng-container>
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="position">
+                        <th mat-header-cell *matHeaderCellDef> Position </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="pe-2">
+                                <mat-form-field class="custom-form-field w-100" appearance="outline">
 
-                  <ng-container matColumnDef="other">
-                    <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let element">
-                      <div class="d-flex justify-content-end">
-                          <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o" appearance="outline">
-                              <mat-icon>more_horiz</mat-icon>
-                            </button>
-          
-                            <mat-menu #appMenu="matMenu">
-                              <button mat-menu-item><b class="text-tertiary-900">View Order</b></button>
-                              <button mat-menu-item>Clear</button>
-                              <button mat-menu-item>Print Tote Labels</button>
-                              <button mat-menu-item>Print Pick Labels</button>
-                            </mat-menu>
-                      </div>
-                    </td>
-                  </ng-container>
-                  
-                
-                
-                
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-                      (click)="selection.toggle(row)">
-                  </tr>
+                                    <input matInput type="text" #specialFeature maxlength="255" value="000000" disabled>
+                                </mat-form-field>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="toteid">
+                        <th mat-header-cell *matHeaderCellDef> Tote ID </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="pe-2">
+                                <mat-form-field class="custom-form-field w-100" appearance="outline">
+
+                                    <input matInput type="text" #specialFeature maxlength="255"
+                                        [value]="element.displayname">
+                                </mat-form-field>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="orderno">
+                        <th mat-header-cell *matHeaderCellDef> Order No. </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="pe-2">
+                                <mat-form-field class="custom-form-field w-100" appearance="outline">
+
+                                    <input matInput type="text" #specialFeature maxlength="255"
+                                        [value]="element.displayname">
+                                </mat-form-field>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="priority">
+                        <th mat-header-cell *matHeaderCellDef> Priority </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="pe-2">
+                                <mat-form-field class="custom-form-field w-100" appearance="outline">
+
+                                    <input matInput type="text" #specialFeature maxlength="255" value="000000" disabled>
+                                </mat-form-field>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="other">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="d-flex justify-content-end">
+                                <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label=""
+                                    class="circle-icon-o" appearance="outline">
+                                    <mat-icon>more_horiz</mat-icon>
+                                </button>
+
+                                <mat-menu #appMenu="matMenu">
+                                    <button mat-menu-item><b class="text-tertiary-900">View Order</b></button>
+                                    <button mat-menu-item>Clear</button>
+                                    <button mat-menu-item>Print Tote Labels</button>
+                                    <button mat-menu-item>Print Pick Labels</button>
+                                </mat-menu>
+                            </div>
+                        </td>
+                    </ng-container>
+
+
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                    </tr>
                 </table>
             </ng-scrollbar>
         </div>
     </mat-card-content>
-</mat-card>   
+</mat-card>
 <div class="d-flex">
     <button mat-flat-button color="primary" class="primary-button btn-lg w-100" style="min-width: 150px;">
         Process Batch
     </button>
 </div>
+
+<ng-template #batchPickID>
+
+    <div class="d-flex flex-column align-items-center justify-content-center text-center py-4">
+        <div color="warn" class="circle-icon circle-66 circle-primary mb-4 text-primary-900">
+            <mat-icon color="primary">ballot</mat-icon>
+        </div>
+        <div>
+            <h4 class="bold text-primary-900 mb-4">New Batch</h4>
+            <p class="bold mb-4">Create a New Batch with the next Batch Pick ID ?</p>
+            <div class="mb-3">
+                <button mat-flat-button color="primary" class="custom-btn w-100" (click)="confirmAddBatchDialog()">
+                    Ok
+                </button>
+            </div>
+            <div>
+                <button mat-stroked-button color="basic" class="custom-btn bg-white w-100" (click)="closeBatchDialog()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
