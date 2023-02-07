@@ -26,7 +26,8 @@
                 <div class="card p-3 mb-2">
                     <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                         <mat-label>Batch ID</mat-label>
-                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="">
+                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+                            [(ngModel)]="batchID">
                     </mat-form-field>
                     <div class="d-flex gap-12">
                         <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
@@ -43,27 +44,46 @@
             <div class="col-xl-8">
                 <div class="card p-3 mb-2">
                     <mat-radio-group color="primary" class="d-flex">
-                        <mat-radio-button class="d-flex w-100 pe-2 custom-horizontal-radio">
+                        <div class="d-flex w-100 pe-2 align-items-center">
+                            <mat-radio-button class=" custom-horizontal-radio" value="mixed_zone">
+                            </mat-radio-button>
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                                 <mat-label>Mixed Zones</mat-label>
                                 <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
-                                    value="">
+                                    value="{{countInfo?.mixed}}" disabled="true">
                             </mat-form-field>
-                        </mat-radio-button>
-                        <mat-radio-button class=" d-flex w-100 pe-2 custom-horizontal-radio">
+                        </div>
+                        <div class="d-flex w-100 pe-2 align-items-center">
+                            <mat-radio-button class=" custom-horizontal-radio" value="off_carousel">
+                            </mat-radio-button>
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                <mat-label>Off - Carousel </mat-label>
+                                <mat-label>Off - Carousel</mat-label>
                                 <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
-                                    value="">
+                                    value="{{countInfo?.offCarousel}}" disabled="true">
                             </mat-form-field>
-                        </mat-radio-button>
-                        <mat-radio-button class="d-flex w-100 pe-2 custom-horizontal-radio">
+                        </div>
+                        <div class="d-flex w-100 pe-2 align-items-center">
+                            <mat-radio-button class=" custom-horizontal-radio" value="caroussel">
+                            </mat-radio-button>
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                                 <mat-label>Carousel</mat-label>
                                 <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
-                                    value="">
+                                    value="{{countInfo?.carousel}}" disabled="true">
+                            </mat-form-field>
+                        </div>
+
+                        <!-- <mat-radio-button class="  custom-horizontal-radio">
+                            <mat-form-field class="custom-form-field w-100" appearance="outline">
+                                <mat-label>Off - Carousel </mat-label>
+                                <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="">
                             </mat-form-field>
                         </mat-radio-button>
+                        <mat-radio-button class=" custom-horizontal-radio">
+                            <mat-form-field class="custom-form-field w-100" appearance="outline">
+                                <mat-label>Carousel</mat-label>
+                                <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="">
+                            </mat-form-field>
+                        </mat-radio-button> -->
                     </mat-radio-group>
                     <div class="d-flex gap-12 mt-2">
                         <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
@@ -111,11 +131,26 @@
                 <div class="card p-3 mb-2">
                     <div class="row">
                         <div class="col-xl-5">
-
-                            <mat-form-field class="custom-form-field w-100" appearance="outline">
+                            <!-- <mat-form-field class="custom-form-field w-100" appearance="outline">
                                 <mat-label>Batch ID</mat-label>
                                 <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
                                     value="000000">
+                            </mat-form-field> -->
+                            <mat-form-field class="d-block w-100" appearance="outline">
+                                <mat-label>Control Name</mat-label>
+                                <input type="text" placeholder="Control Name" aria-label="Number" matInput
+                                    formControlName="controlName" [matAutocomplete]="auto">
+                                <mat-autocomplete class="autocomplete-center" panelWidth="auto" autoActiveFirstOption
+                                    #auto="matAutocomplete">
+                                    <h6 class="ctl_name ac-dropdown-label"><span>Control Name</span>
+                                        <span>Function</span></h6>
+                                    <mat-option *ngFor="let option of filteredOptions | async"
+                                        [value]="option.controlName" style="width:900px !important;">
+                                        <div class="ctl_option ac-dropdown-option">
+                                            <span>{{option.controlName}}</span> <span>{{option.function}}</span>
+                                        </div>
+                                    </mat-option>
+                                </mat-autocomplete>
                             </mat-form-field>
 
                         </div>

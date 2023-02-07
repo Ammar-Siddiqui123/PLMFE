@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.loading = false;
     this.userData = this.authService.userData();
-    console.log(this.userData);
+    // console.log(this.userData);
   }
 
   toggleSidebar() {

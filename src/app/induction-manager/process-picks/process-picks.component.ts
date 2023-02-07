@@ -2,6 +2,9 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs/internal/Observable';
+import { AuthService } from '../../../app/init/auth.service';
 import { ProcessPicksService } from './process-picks.service';
 
 export interface PeriodicElement {
@@ -30,6 +33,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class ProcessPicksComponent implements OnInit {
 
   dialogClose: boolean = false;
+  public userData: any;
+  batchID: any = '';
+  countInfo:any;
+  pickBatches:any;
+  filteredOptions: Observable<any[]>;
   displayedColumns: string[] = ['position', 'toteid', 'orderno', 'priority', 'other'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
@@ -37,10 +45,28 @@ export class ProcessPicksComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private pPickService: ProcessPicksService
+    private pPickService: ProcessPicksService,
+    private toastr: ToastrService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
+    this.userData = this.authService.userData();
+    this.pickToteSetupIndex()
+  }
+
+  pickToteSetupIndex(){
+    let paylaod = {
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    this.pPickService.get(paylaod, '/Induction/PickToteSetupIndex').subscribe(res => {
+      this.countInfo = res.data.countInfo;
+      this.pickBatches = res.data.pickBatches;
+      
+      console.log(res.data);
+      console.log(this.countInfo);
+    });
   }
 
   onAddBatch(val: string) {
@@ -51,9 +77,21 @@ export class ProcessPicksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(() => {
       console.log(val);
       console.log(this.dialogClose);
-      this.pPickService.get('','/Induction/NextBatchID').subscribe(res => {
-          console.log(res);
-      });
+      if (this.dialogClose) {
+        if(val === 'batchWithID'){
+          this.pPickService.get('', '/Induction/NextBatchID').subscribe(res => {
+            this.batchID = res.data;
+          });
+        }
+        else{
+          if(this.batchID === ''){
+            this.toastr.error('Batch id is required.', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        }
+      }
     });
   }
 
