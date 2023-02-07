@@ -1,8 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { PickToteManagerComponent } from 'src/app/dialogs/pick-tote-manager/pick-tote-manager.component';
 
 export interface PeriodicElement {
   name: string;
@@ -22,29 +20,21 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
+
 @Component({
-  selector: 'app-process-picks',
-  templateUrl: './process-picks.component.html',
-  styleUrls: ['./process-picks.component.scss']
+  selector: 'app-pick-tote-manager',
+  templateUrl: './pick-tote-manager.component.html',
+  styleUrls: ['./pick-tote-manager.component.scss']
 })
-export class ProcessPicksComponent implements OnInit {
+export class PickToteManagerComponent implements OnInit {
 
-
-  displayedColumns: string[] = ['position', 'toteid', 'orderno', 'priority', 'other'];
+  displayedColumns: string[] = ['position', 'toteid', 'orderno', 'priority','options', 'other'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
 
-  constructor(private dialog: MatDialog,) { }
+  constructor() { }
 
   ngOnInit(): void {
-  }
-
-  openPickToteDialogue(){
-    const dialogRef =  this.dialog.open(PickToteManagerComponent, {
-      height: '90%',
-      width: '100vw',
-      autoFocus: '__non_existing_element__'
-    })
   }
 
 }
