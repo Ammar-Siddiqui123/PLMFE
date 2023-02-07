@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
   breadcrumbList: any = [];
   userData: any;
 
-  public user_data  = JSON.parse(localStorage.getItem('user') || '');
+  // public user_data  = JSON.parse(localStorage.getItem('user') || '');
   constructor(
     private router: Router,
     public spinnerService: SpinnerService,
@@ -53,9 +53,9 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // console.log(this.user_data.userName);
     this.loading = false;
     this.userData = this.authService.userData();
+    console.log(this.userData);
   }
 
   toggleSidebar() {
