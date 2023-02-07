@@ -28,10 +28,18 @@ export class HeaderComponent implements OnInit {
 
     router.events.subscribe((val: any) => {
       this.breadcrumbList = [];
-      this.breadcrumbList.push({
-        name:'LogixPro',
-        value:'/dashboard'
-      })
+      if(this.authService.isConfigUser()){
+        this.breadcrumbList.push({
+          name:'',
+          value:'/dashboard'
+        })
+      }else{
+        this.breadcrumbList.push({
+          name:'LogixPro',
+          value:'/dashboard'
+        })
+      }
+  
       if(val instanceof NavigationEnd){
         let res = val.url.substring(1);
         let splittedArray = res.split('/');
@@ -67,24 +75,46 @@ export class HeaderComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    localStorage.clear();
-    this.authService.logout(paylaod).subscribe((res:any) => {
-      if (res.isExecuted) 
-      {
-        // this.toastr.success(res.responseMessage, 'Success!', {
-        //   positionClass: 'toast-bottom-right',
-        //   timeOut: 2000
-        // });
-        this.router.navigate(['/login']);
-      }
-      else 
-      {
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }
-    })
+    if(this.authService.isConfigUser()){
+      localStorage.clear();
+      this.authService.configLogout(paylaod).subscribe((res:any) => {
+        if (res.isExecuted) 
+        {
+     
+          this.router.navigate(['/globalconfig']);
+        }
+        else 
+        {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      })
+      // this.router.navigate(['/globalconfig']);
+     
+    }else{
+      localStorage.clear();
+      this.authService.logout(paylaod).subscribe((res:any) => {
+        if (res.isExecuted) 
+        {
+          // this.toastr.success(res.responseMessage, 'Success!', {
+          //   positionClass: 'toast-bottom-right',
+          //   timeOut: 2000
+          // });
+     
+          this.router.navigate(['/login']);
+        }
+        else 
+        {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      })
+    }
+  
     // this.deleteAllCookies();
 
   }
