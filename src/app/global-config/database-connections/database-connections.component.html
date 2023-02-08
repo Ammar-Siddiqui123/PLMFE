@@ -1,12 +1,12 @@
 <div class="f-container">
-    <app-header (toggleSidebarForMe)="sideBarToggler()" >
+    <app-header>
     </app-header>
     <mat-sidenav-container class="main-container">
-        <mat-sidenav #sidenav mode="side" disableClose="true" [opened]="sideBarOpen">
-            <app-side-nav [sideBarOpen]="sideBarOpen"></app-side-nav>
-          </mat-sidenav>
+        <mat-sidenav #sidenav mode="side" disableClose="true" [opened]="true">
+            <app-side-nav [sideBarOpen]="true"></app-side-nav>
+        </mat-sidenav>
         <mat-sidenav-content>
-            <div class="dashboard-section" [ngClass]="{'side-bar-opened' : sideBarOpen}">
+            <div class="dashboard-section" [ngClass]="{'side-bar-opened' : true}">
                 <div class="breadcrumb-menu">
                     <nav aria-label="breadcrumb" class="breadcrumb">
                         <!-- <div class="container-fluid p-0" style="height: auto;">

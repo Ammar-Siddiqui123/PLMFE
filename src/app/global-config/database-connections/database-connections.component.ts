@@ -8,7 +8,6 @@ import { GlobalconfigService } from '../globalconfig.service';
   styleUrls: ['./database-connections.component.scss'],
 })
 export class DatabaseConnectionsComponent implements OnInit {
-  sideBarOpen: boolean = true;
   constructor(
     private globalConfService: GlobalconfigService,
     private sharedService: SharedService
@@ -23,10 +22,6 @@ export class DatabaseConnectionsComponent implements OnInit {
     } else {
       this.getMenuData();
     }
-  }
-
-  sideBarToggler() {
-    this.sideBarOpen = !this.sideBarOpen;
   }
 
   getMenuData() {

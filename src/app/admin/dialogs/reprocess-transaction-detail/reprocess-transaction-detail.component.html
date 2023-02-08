@@ -19,8 +19,8 @@
             <span>Editable Fields</span>
         </h2>
         <div class="d-flex gap-12">
-        <mat-checkbox color="primary" formControlName="label" [checked]="label">Label</mat-checkbox>
-        <mat-checkbox color="primary" formControlName="emergency" [checked]="emergency"  >Emergency</mat-checkbox>
+        <mat-checkbox color="primary" [(ngModel)] ="label">Label</mat-checkbox>
+        <mat-checkbox color="primary" [(ngModel)] ="emergency" >Emergency</mat-checkbox>
         </div>
         </div>
        
@@ -57,39 +57,23 @@
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
                     <mat-label>Serial Number</mat-label>
-                    <input matInput type="text" value="Label" formControlName="serialNumber" (keydown)="onNumberValueChange()" (keyup)="onNumberValueChange()" (change)="onNumberValueChange()" (keypress)="onNumberValueChange()">
+                    <input matInput type="text" value="Label" formControlName="serialNumber">
                 </mat-form-field>
             </div>
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
                     <mat-label>Lot number</mat-label>
-                    <input matInput type="text" value="Label" formControlName="lotNumber" (keydown)="onNumberValueChange()" (keyup)="onNumberValueChange()" (change)="onNumberValueChange()" (keypress)="onNumberValueChange()">
+                    <input matInput type="text" value="Label" formControlName="lotNumber">
                 </mat-form-field>
             </div>
         </div>
 
         <div class="row">
             <div class="col-xl-3">
-                <!-- <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
+                <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
                     <mat-label>Expiration Date</mat-label>
                     <input matInput type="text" value="Label"  formControlName="expirationDate">
-                </mat-form-field> -->
-
-
-                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
-                    <mat-label>Expiration Date</mat-label>
-                    <input matInput [value]="expDate" [(ngModel)]="expDate" [matDatepicker]="start"
-                        (dateChange)="onDateChange($event.value,'1')" readonly>
-                    <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle>
-                    <mat-datepicker #start></mat-datepicker>
                 </mat-form-field>
-
-
-
-
-
-
-
             </div>
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
@@ -104,22 +88,10 @@
                 </mat-form-field>
             </div>
             <div class="col-xl-3">
-                <!-- <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
+                <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
                     <mat-label>Required Date</mat-label>
                     <input matInput type="text" value="Label" formControlName="requiredDate">
-                </mat-form-field> -->
-
-
-                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
-                    <mat-label>Required Date</mat-label>
-                    <input matInput [value]="reqDate" [(ngModel)]="reqDate" [matDatepicker]="req"
-                        (dateChange)="onDateChange($event.value)" readonly>
-                    <mat-datepicker-toggle matSuffix [for]="req" ngDefaultControl></mat-datepicker-toggle>
-                    <mat-datepicker #req></mat-datepicker>
                 </mat-form-field>
-
-
-
             </div>
         </div>
 
@@ -295,7 +267,7 @@
 </ng-scrollbar>
 </div>
 <div mat-dialog-actions>
-    <button type="button" (click)="closeWindow()" mat-stroked-button color="primary" class="btn-lg">Close Without Saving Changes</button>
+    <button mat-stroked-button color="primary" class="btn-lg">Close Without Saving Changes</button>
     <button type="submit" style="flex:1" mat-flat-button color="primary" class="btn-lg" [disabled]="!editTransactionForm.valid">Save</button>
 </div>
 </form>

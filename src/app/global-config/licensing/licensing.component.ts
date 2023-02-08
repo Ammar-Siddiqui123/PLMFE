@@ -25,7 +25,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./licensing.component.scss'],
 })
 export class LicensingComponent implements OnInit {
-  sideBarOpen: boolean = true;
   displayedColumns: string[] = [
     'appname',
     'displayname',
@@ -53,10 +52,6 @@ export class LicensingComponent implements OnInit {
     }
 
     this.selection.select(...this.dataSource.data);
-  }
-
-  sideBarToggler() {
-    this.sideBarOpen = !this.sideBarOpen;
   }
 
   /** The label for the checkbox on the passed row */
