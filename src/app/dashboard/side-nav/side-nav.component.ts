@@ -70,7 +70,7 @@ export class SideNavComponent implements OnInit {
   ngOnInit(): void {
    this.isConfigUser =  localStorage.getItem('isConfigUser') ?? false;
 
-  console.log(this.isConfigUser);
+  // console.log(this.isConfigUser);
     
 
     this.loadMenus({route: this.router.url});

@@ -14,7 +14,7 @@
 
       
         <!-- && !isConfigUser  -->
-        <li *ngIf="i<(breadcrumbList.length-1)  " class="breadcrumb-item" [routerLink]="item.value"
+        <li *ngIf="i<(breadcrumbList.length-1) && !isConfigUser  " class="breadcrumb-item" [routerLink]="item.value"
           style="cursor:pointer;">{{item?.name}}
           <!-- &nbsp; {{"."}} &nbsp; -->
         </li>

@@ -242,7 +242,7 @@ export class WorkstationComponent implements OnInit {
       .get(payload, '/GlobalConfig/WorkStationAppDelete')
       .subscribe(
         (res: any) => {
-          console.log(res);
+          // console.log(res);
         },
         (error) => {}
       );
