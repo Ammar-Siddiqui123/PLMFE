@@ -17,6 +17,7 @@ export class ConnectionStringsComponent implements OnInit {
   @Output() connectionUpdateEvent = new EventEmitter<string>();
   isAddedNewRow = false;
   isDuplicateAllow=false;
+  duplicateIndex;
   constructor(
     private globalConfService: GlobalconfigService,
     private toastr: ToastrService,
@@ -32,7 +33,6 @@ export class ConnectionStringsComponent implements OnInit {
     )
       this.connectionStringData =
         changes['connectionStringData']['currentValue']['connectionString'];
-    console.log('asdsadsda', this.connectionStringData);
   }
 
   createObjectNewConn() {
@@ -59,47 +59,52 @@ export class ConnectionStringsComponent implements OnInit {
         item.databaseName == '' ||
         item.serverName == ''
       ) {
-        return;
+        this.connectionStringData[index].isButtonDisable = true;
       } else {
         this.connectionStringData[index].isButtonDisable = false;
-        this.connectionStringData[index].isSqlButtonDisable = false;
+        // this.connectionStringData[index].isSqlButtonDisable = false;
       }
-    } else {
+    } else if(   item.connectionName == '' ||
+    item.databaseName == '' ||
+    item.serverName == '')  {
+      this.connectionStringData[index].isButtonDisable = true;
+      // this.connectionStringData[index].isSqlButtonDisable = false;
+    }else{
       this.connectionStringData[index].isButtonDisable = false;
-      this.connectionStringData[index].isSqlButtonDisable = false;
+
     }
   }
   saveString(item,index?) {
-  
-    // this.connectionStringData.map((el,i)=>{
-    //   if(i!=index){
-    //     if(el.connectionName===item.connectionName){
-    //       this.connectionStringData[index].isDuplicate=true
-    //     }
-    //   }
-    // })
-
-
-    // this.connectionStringData.filter((el,i)=>{
-      
-    //   if(i!=index){
-    //     if(el.connectionName===item.connectionName){
-    //       this.connectionStringData[index].isDuplicate=true
-    //       console.log(this.connectionStringData[index].isDuplicate);
-    //     }else if(el.connectionName!=item.connectionName){
-    //       this.connectionStringData[i].isDuplicate=false;
-    //   console.log(this.connectionStringData[i].isDuplicate);
-      
-    //     }
-    //   }
-
-      
-    // })
+    let indexesToShow:any = [];
+    let indexesToHide:any = [];
+    this.connectionStringData.map((el,i)=>{
+      // if(i!=index){
+        if(el.connectionName===item.connectionName && i === index && !this.duplicateIndex){
+          // this.connectionStringData[index].isDuplicate=true;
+          indexesToShow.push(i);
+          this.duplicateIndex = i;
+          
+        }
+        else{
+          // this.connectionStringData[index].isDuplicate=false;
+          indexesToHide.push(i);
+          if(this.duplicateIndex !== undefined && this.duplicateIndex === i){
+              this.duplicateIndex = undefined;
+        }}
+      // } else{
+      //   indexesToHide.push(i);
+      // }
+    });
+    indexesToShow.forEach(x => {
+      this.connectionStringData[x].isDuplicate = true;      
+    });
+    indexesToHide.forEach(x => {
+      this.connectionStringData[x].isDuplicate = false;
+    });
+    if(!this.duplicateIndex){
     if (item.isNewConn) {
       this.isAddedNewRow = false;
-   
     }
-
     let payload = {
       OldConnection: item.isNewConn ? 'New' : item.connectionName,
       ConnectionName: item.connectionName,
@@ -115,6 +120,9 @@ export class ConnectionStringsComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
             });
+        this.connectionStringData[index].isSqlButtonDisable = false;
+        this.connectionStringData[index].isButtonDisable = true;
+
           }
         },
         (error) => {
@@ -124,6 +132,7 @@ export class ConnectionStringsComponent implements OnInit {
           });
         }
       );
+    }
   }
   deleteString(item) {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
