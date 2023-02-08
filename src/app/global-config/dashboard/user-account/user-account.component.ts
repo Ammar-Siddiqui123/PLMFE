@@ -25,12 +25,14 @@ export class UserAccountComponent implements OnInit {
   username: any;
   password: any;
   constUser:any;
+  passwordCompare:any;
   public toggle_password = true;
   ngOnInit(): void {
     let sharedData = this.sharedService.getData();
     if (sharedData && sharedData.loginInfo) {
       this.username = sharedData.loginInfo[0].user;
       this.password = sharedData.loginInfo[0].password;
+      this.passwordCompare = sharedData.loginInfo[0].password;
     } else {
       this.getMenuData();
     }
@@ -54,12 +56,17 @@ export class UserAccountComponent implements OnInit {
           this.sharedService.setData(res.data);
           this.username = res.data.loginInfo[0].user;
           this.password = res.data.loginInfo[0].password;
+          this.passwordCompare= res.data.loginInfo[0].password;
+
           this.constUser=res.data.loginInfo[0].user;
         }
       },
       (error) => {}
     );
   }
+  
+
+ 
   changeGlobalAcc() {
     let payload = {
       // userName: this.constUser,
@@ -76,6 +83,7 @@ export class UserAccountComponent implements OnInit {
               timeOut: 2000,
             });
           }
+          this.getMenuData();
           localStorage.clear();
           this.router.navigate(['/globalconfig']);
         },
