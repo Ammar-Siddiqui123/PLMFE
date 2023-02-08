@@ -22,6 +22,7 @@ import { ReprocessTransactionDetailComponent } from '../../dialogs/reprocess-tra
 import { SetColumnSeqService } from '../../dialogs/set-column-seq/set-column-seq.service';
 import { InventoryMapService } from '../../inventory-map/inventory-map.service';
 import { TransactionService } from '../transaction.service';
+import { SharedService } from '../../../services/shared.service';
 import { DialogConfig } from '@angular/cdk/dialog';
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
@@ -106,9 +107,9 @@ export class ReprocessTransactionComponent implements OnInit {
   transTypeSelect = 'All Transactions';
   transStatusSelect = 'All Transactions';
 
-  isReprocessedChecked = false;
-  isCompleteChecked = false;
-  isHistoryChecked = false;
+  isReprocessedChecked = {flag:false};
+  isCompleteChecked = {flag:false};
+  isHistoryChecked = {flag:false};
   isHold = false;
 
   idx: any;
@@ -181,7 +182,8 @@ export class ReprocessTransactionComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService,
     private invMapService: InventoryMapService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit(): void {
@@ -206,9 +208,17 @@ export class ReprocessTransactionComponent implements OnInit {
   getTransaction(row: any) {
     this.isEnabled = false;
     this.transactionID = row.id;
-    this.isReprocessedChecked = row.reprocess == 'False' ? false : true;
-    this.isCompleteChecked = row.postAsComplete == 'False' ? false : true;
-    this.isHistoryChecked = row.sendToHistory == 'False' ? false : true;
+
+    this.isReprocessedChecked.flag = row.reprocess == 'False' ? false : true;
+    this.isCompleteChecked.flag = row.postAsComplete == 'False' ? false : true;
+    this.isHistoryChecked.flag = row.sendToHistory == 'False' ? false : true;
+
+    // this.sharedService.ReprocessedChecked =this.isReprocessedChecked; 
+    // this.sharedService.CompleteChecked =this.isCompleteChecked; 
+    // this.sharedService.HistoryChecked =this.isHistoryChecked; 
+    // this.sharedService.updateTransaction();
+
+
   }
 
   getTransactionInfo(completeInfo: boolean) {
@@ -505,15 +515,15 @@ export class ReprocessTransactionComponent implements OnInit {
   itemUpdatedEvent(event: any) {
     this.getContentData();
     this.getOrdersWithStatus();
-    this.isEnabled = false;
+    this.isEnabled = false; 
   }
 
   clearTransactionData() {
     this.isEnabled = true;
-    this.transactionID = 0;
-    this.isReprocessedChecked = false;
-    this.isCompleteChecked = false;
-    this.isHistoryChecked = false;
+    //this.transactionID = 0;
+    // this.isReprocessedChecked.flag = false;
+    // this.isCompleteChecked.flag = false;
+    // this.isHistoryChecked.flag = false;
   }
 
 
