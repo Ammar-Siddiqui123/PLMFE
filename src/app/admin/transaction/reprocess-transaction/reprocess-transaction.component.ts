@@ -24,6 +24,8 @@ import { InventoryMapService } from '../../inventory-map/inventory-map.service';
 import { TransactionService } from '../transaction.service';
 import { SharedService } from '../../../services/shared.service';
 import { DialogConfig } from '@angular/cdk/dialog';
+import { FunctionAllocationComponent } from '../../dialogs/function-allocation/function-allocation.component';
+import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
   { colHeader: 'importDate', colDef: 'Import Date' },
@@ -384,67 +386,56 @@ export class ReprocessTransactionComponent implements OnInit {
     }
   }
   deleteOrder(id: any, event) {
-    if (id == 0 || id == -1) {
-      var MarkAsTrue = (id == 0 ? true : false);
-      var column = "";
-      if (event == 'reprocess') {
-        column = 'Reprocess';
-      }
-      else if (event == 'complete') {
-        column = 'Post as Complete';
-      }
-      else {
-        //history
-        column = 'Send to History';
-      }
-      var payload = {
-        Column: column,
-        MarkAsTrue: MarkAsTrue,
-        username: this.userData.userName,
-        wsid: this.userData.wsid,
-      }
-      console.log(payload);
-      this.transactionService.get(payload, '/Admin/SetAllReprocessColumn').subscribe(
-        (res: any) => {
-          if (res.data && res.isExecuted) {
-            console.log(res);
-            this.getContentData();
-            this.getOrdersWithStatus();
-            this.toastr.success(labels.alert.update, 'Success!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-          } else {
-            this.toastr.error('Something went wrong', 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000,
-            });
-          }
-        },
-        (error) => { }
-      );
 
-    }
-    else {
-      const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+    if (id == 0 || id == -1) {
+
+
+      
+      var message = "";
+
+      if(id==0)
+      {
+      message = "Click OK to mark ALL transactions as reprocess";
+      }
+      else 
+      {
+      message = "Click OK to unmark ALL transactions as reprocess";
+      }
+
+
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
-        width: '480px',
+        width: '560px',
         autoFocus: '__non_existing_element__',
+        data: {
+          message: message
+        }
       })
       dialogRef.afterClosed().subscribe(result => {
-        if (result === 'Yes') {
-          var payloadForReprocess = {
-            id: id,
-            reprocess: 0,
-            postComplete: 0,
-            sendHistory: 0,
-            field: "",
+        if(result=='Yes'){
+
+          var MarkAsTrue = (id == 0 ? true : false);
+          var column = "";
+          if (event == 'reprocess') {
+            column = 'Reprocess';
+          }
+          else if (event == 'complete') {
+            column = 'Post as Complete';
+          }
+          else {
+            //history
+            column = 'Send to History';
+          }
+          var payload = {
+            Column: column,
+            MarkAsTrue: MarkAsTrue,
             username: this.userData.userName,
             wsid: this.userData.wsid,
           }
-          this.transactionService.get(payloadForReprocess, '/Admin/ReprocessIncludeSet').subscribe(
+          this.transactionService.get(payload, '/Admin/SetAllReprocessColumn').subscribe(
             (res: any) => {
               if (res.data && res.isExecuted) {
+                console.log(res);
                 this.getContentData();
                 this.getOrdersWithStatus();
                 this.toastr.success(labels.alert.update, 'Success!', {
@@ -462,10 +453,65 @@ export class ReprocessTransactionComponent implements OnInit {
           );
 
 
+        }
+        
 
+      })
+
+    }
+    else 
+    {
+
+
+      let dialogRef = this.dialog.open(FunctionAllocationComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          target: 'unassigned',
+          function: null
         }
       })
+      dialogRef.afterClosed().subscribe(result => {
+            var payloadForReprocess = {
+              id: id,
+              reprocess: 0,
+              postComplete: 0,
+              sendHistory: 0,
+              field: "",
+              username: this.userData.userName,
+              wsid: this.userData.wsid,
+            }
+            this.transactionService.get(payloadForReprocess, '/Admin/ReprocessIncludeSet').subscribe(
+              (res: any) => {
+                if (res.data && res.isExecuted) {
+                  this.getContentData();
+                  this.getOrdersWithStatus();
+                  this.toastr.success(labels.alert.update, 'Success!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000
+                  });
+                } else {
+                  this.toastr.error('Something went wrong', 'Error!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000,
+                  });
+                }
+              },
+              (error) => { }
+            );
+  
+  
+  
+          
+      
+      })
+  
+  
+  
     }
+
+
 
   }
   getOrdersWithStatus() {

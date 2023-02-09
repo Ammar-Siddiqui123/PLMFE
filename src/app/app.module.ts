@@ -25,6 +25,7 @@ import { SelectZonesComponent } from './dialogs/select-zones/select-zones.compon
 import { TotesAddEditComponent } from './dialogs/totes-add-edit/totes-add-edit.component';
 import { GeneralModule } from './gen-module';
 import { PickToteManagerComponent } from './dialogs/pick-tote-manager/pick-tote-manager.component';
+import { ConfirmationDialogComponent } from './admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -35,6 +36,7 @@ import { PickToteManagerComponent } from './dialogs/pick-tote-manager/pick-tote-
     SelectZonesComponent,
     TotesAddEditComponent,
     PickToteManagerComponent,
+    ConfirmationDialogComponent,
     // ActionDisableDirective,
 
   ],
