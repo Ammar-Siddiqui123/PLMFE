@@ -41,7 +41,7 @@
                         <div class="col-xl-5">
                             <div class="d-flex gap-12 align-items-center ">
                                 <mat-form-field class="action-dropdown" appearance="outline">
-                                    <mat-label>Search</mat-label>
+                                    <mat-label>Select</mat-label>
                                     <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn.colDef"
                                         (selectionChange)="resetFields($event.value)">
                                         <mat-option *ngFor="let item of displayedColumns" [value]="item.colDef">

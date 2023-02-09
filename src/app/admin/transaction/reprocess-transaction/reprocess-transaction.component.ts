@@ -302,10 +302,9 @@ export class ReprocessTransactionComponent implements OnInit {
 
   filterCleared(evt:any)
   {
-    //this.getColumnsData();
-    //this.clearTransactionData();
-    //this.getOrdersWithStatus();
-    //this.getContentData();
+    //sdfsdf
+    //this.getHistoryData();
+    this.getContentData();
     
 
   }
