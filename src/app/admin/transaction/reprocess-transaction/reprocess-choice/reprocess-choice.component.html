@@ -16,7 +16,7 @@
                     <p class="counter-count mb-1 bg-primary-900">{{reprocessCount.reprocess}}</p>
                     <p class="employee-p text-tertiary-900 mb-1  ">Reprocess</p>
                     <span>
-                        <mat-checkbox color="primary" [checked]='isReprocessedChecked'  [disabled]="isEnabled" (change)="changeOrderStatus($event,'Reprocess')">
+                        <mat-checkbox color="primary" [(ngModel)] = "isReprocessedChecked.flag"   [disabled]="isEnabled" (change)="changeOrderStatus($event,'Reprocess')">
 
                         </mat-checkbox>
                     </span>
@@ -26,7 +26,7 @@
                     <p class="counter-count mb-1 bg-primary-900">{{reprocessCount.complete}}</p>
                     <p class="customer-p text-tertiary-900 mb-1  ">Complete</p>
                         <span>
-                            <mat-checkbox color="primary" [checked]='isCompleteChecked' [disabled]="isEnabled" (change)="changeOrderStatus($event,'Complete')">
+                            <mat-checkbox color="primary" [(ngModel)]= "isCompleteChecked.flag" [disabled]="isEnabled" (change)="changeOrderStatus($event,'Complete')">
     
                             </mat-checkbox>
                         </span>
@@ -35,7 +35,7 @@
                             <p class="counter-count mb-1 bg-primary-900">{{reprocessCount.history}}</p>
                             <p class="employee-p text-tertiary-900 mb-1  ">History</p>
                             <span>
-                                <mat-checkbox color="primary" [checked]='isHistoryChecked'  [disabled]="isEnabled" (change)="changeOrderStatus($event,'History')">
+                                <mat-checkbox color="primary" [(ngModel)]= "isHistoryChecked.flag" [disabled]="isEnabled" (change)="changeOrderStatus($event,'History')">
         
                                 </mat-checkbox>
                             </span>
