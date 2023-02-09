@@ -193,11 +193,11 @@
                         <mat-tab-group dynamicHeight>
                             <mat-tab label="Reprocess ({{orders.reprocess}})">
                                 <div class="d-flex gap-12 my-2">
-                                    <button mat-stroked-button color="primary" class="button-add-all w-100" (click)="deleteOrder(0,'reprocess')">
+                                    <button mat-stroked-button color="primary" [disabled]="this.orders.reprocess<=0" class="button-add-all w-100" (click)="deleteOrder(0,'reprocess')">
                                         Mark All
                                     </button>
 
-                                    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100" (click)="deleteOrder(-1,'reprocess')">
+                                    <button mat-stroked-button color="warn" [disabled]="this.orders.reprocess<=0" class="button-remove-all-w-stroke w-100" (click)="deleteOrder(-1,'reprocess')">
                                         Unmark All
                                     </button>
                                 </div>
@@ -224,11 +224,11 @@
                             </mat-tab>
                             <mat-tab label="Complete ({{orders.complete}})">
                                 <div class="d-flex gap-12 my-2">
-                                    <button mat-stroked-button color="primary" class="button-add-all w-100" (click)="deleteOrder(0,'complete')">
+                                    <button mat-stroked-button color="primary" [disabled]="this.orders.complete<=0" class="button-add-all w-100" (click)="deleteOrder(0,'complete')">
                                         Mark All
                                     </button>
 
-                                    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100" (click)="deleteOrder(-1,'complete')">
+                                    <button mat-stroked-button color="warn" [disabled]="this.orders.complete<=0" class="button-remove-all-w-stroke w-100" (click)="deleteOrder(-1,'complete')">
                                         Unmark All
                                     </button>
                                 </div>
@@ -254,11 +254,11 @@
                             </mat-tab>
                             <mat-tab label="History ({{orders.history}})">
                                 <div class="d-flex gap-12 my-2">
-                                    <button mat-stroked-button color="primary" class="button-add-all w-100" (click)="deleteOrder(0,'history')">
+                                    <button mat-stroked-button color="primary" [disabled]="this.orders.history<=0" class="button-add-all w-100" (click)="deleteOrder(0,'history')">
                                         Mark All
                                     </button>
 
-                                    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100" (click)="deleteOrder(-1,'history')">
+                                    <button mat-stroked-button color="warn" [disabled]="this.orders.history<=0" class="button-remove-all-w-stroke w-100" (click)="deleteOrder(-1,'history')">
                                         Unmark All
                                     </button>
                                 </div>
