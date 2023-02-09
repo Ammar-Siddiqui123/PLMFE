@@ -393,7 +393,7 @@ export class ReprocessTransactionComponent implements OnInit {
       
       var message = "";
 
-      if(id==0)
+      if(id==0) 
       {
       message = "Click OK to mark ALL transactions as reprocess";
       }
