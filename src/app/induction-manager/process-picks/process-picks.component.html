@@ -90,7 +90,8 @@
                             style="min-width: 150px;">
                             Refresh Order Count
                         </button>
-                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100" style="min-width: 150px;" (click)="openPickToteDialogue()">
+                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
+                            style="min-width: 150px;" (click)="openPickToteDialogue()">
                             Pick Batch Manager
                         </button>
                     </div>
@@ -130,23 +131,17 @@
                 <div class="card p-3 mb-2">
                     <div class="row">
                         <div class="col-xl-5">
-                            <!-- <mat-form-field class="custom-form-field w-100" appearance="outline">
+                            <mat-form-field class="custom-form-field w-100" appearance="outline">
                                 <mat-label>Batch ID</mat-label>
-                                <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
-                                    value="000000">
-                            </mat-form-field> -->
-                            <mat-form-field class="d-block w-100" appearance="outline">
-                                <mat-label>Control Name</mat-label>
-                                <input type="text" placeholder="Control Name" aria-label="Number" matInput
-                                    formControlName="controlName" [matAutocomplete]="auto">
+                                <input type="text" [formControl]="pickBatches" aria-label="Number" matInput
+                                    [matAutocomplete]="auto">
                                 <mat-autocomplete class="autocomplete-center" panelWidth="auto" autoActiveFirstOption
                                     #auto="matAutocomplete">
-                                    <h6 class="ctl_name ac-dropdown-label"><span>Control Name</span>
-                                        <span>Function</span></h6>
+                                    <h6 class="ctl_name ac-dropdown-label"><span>Batch ID</span></h6>
                                     <mat-option *ngFor="let option of filteredOptions | async"
-                                        [value]="option.controlName" style="width:900px !important;">
+                                        [value]="option">
                                         <div class="ctl_option ac-dropdown-option">
-                                            <span>{{option.controlName}}</span> <span>{{option.function}}</span>
+                                            <span>{{option}}</span>
                                         </div>
                                     </mat-option>
                                 </mat-autocomplete>
