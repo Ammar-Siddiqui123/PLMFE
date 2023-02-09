@@ -25,6 +25,8 @@ import { SelectZonesComponent } from './dialogs/select-zones/select-zones.compon
 import { TotesAddEditComponent } from './dialogs/totes-add-edit/totes-add-edit.component';
 import { GeneralModule } from './gen-module';
 import { PickToteManagerComponent } from './dialogs/pick-tote-manager/pick-tote-manager.component';
+import { ViewOrdersComponent } from './dialogs/view-orders/view-orders.component';
+import { BlossomToteComponent } from './dialogs/blossom-tote/blossom-tote.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -35,6 +37,8 @@ import { PickToteManagerComponent } from './dialogs/pick-tote-manager/pick-tote-
     SelectZonesComponent,
     TotesAddEditComponent,
     PickToteManagerComponent,
+    ViewOrdersComponent,
+    BlossomToteComponent,
     // ActionDisableDirective,
 
   ],

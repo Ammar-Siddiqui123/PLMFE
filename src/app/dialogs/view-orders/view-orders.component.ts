@@ -22,37 +22,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 @Component({
-  selector: 'app-pick-tote-manager',
-  templateUrl: './pick-tote-manager.component.html',
-  styleUrls: ['./pick-tote-manager.component.scss']
+  selector: 'app-view-orders',
+  templateUrl: './view-orders.component.html',
+  styleUrls: ['./view-orders.component.scss']
 })
-export class PickToteManagerComponent implements OnInit {
-isFilter:string='filter'
-    /** Whether the number of selected elements matches the total number of rows. */
-    isAllSelected() {
-      const numSelected = this.selection.selected.length;
-      const numRows = this.dataSource.data.length;
-      return numSelected === numRows;
-    }
-  
-    /** Selects all rows if they are not all selected; otherwise clear selection. */
-    toggleAllRows() {
-      if (this.isAllSelected()) {
-        this.selection.clear();
-        return;
-      }
-  
-      this.selection.select(...this.dataSource.data);
-    }
-  
-    /** The label for the checkbox on the passed row */
-    checkboxLabel(row?: PeriodicElement): string {
-      if (!row) {
-        return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-      }
-      return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
-    }
-
+export class ViewOrdersComponent implements OnInit {
   displayedColumns: string[] = ['position', 'toteid', 'orderno', 'priority','options', 'other'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
@@ -60,12 +34,9 @@ isFilter:string='filter'
   displayedColumns1: string[] = ['position', 'toteid', 'orderno', 'other'];
   dataSource1 = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
-  displayedColumns2: string[] = ['orderno', 'requireddate', 'priority'];
+  displayedColumns2: string[] = ['orderno'];
 
-  displayedColumns3: string[] = ['orderno', 'itemno', 'transaction', 'location'];
-
-  displayedColumns4: string[] = ['select', 'zone', 'batchtype', 'totalorders', 'totallocations', 'other'];
-
+  displayedColumns3: string[] = ['orderno', 'itemno', 'transaction', 'location', 'completed'];
   constructor() { }
 
   ngOnInit(): void {
