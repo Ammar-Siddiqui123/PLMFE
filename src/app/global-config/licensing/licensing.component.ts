@@ -5,6 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/services/shared.service';
 import { GlobalconfigService } from '../globalconfig.service';
 import labels from '../../labels/labels.json';
+import { MatDialog } from '@angular/material/dialog';
+import { LicensingInvalidComponent } from 'src/app/admin/dialogs/licensing-invalid/licensing-invalid.component';
+import { Subject, takeUntil } from 'rxjs';
 
 export interface PeriodicElement {
   position: string;
@@ -26,6 +29,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class LicensingComponent implements OnInit {
   sideBarOpen: boolean = true;
+  onDestroy$: Subject<boolean> = new Subject();
   displayedColumns: string[] = [
     'appname',
     'displayname',
@@ -80,6 +84,7 @@ export class LicensingComponent implements OnInit {
     private globalConfService: GlobalconfigService,
     private sharedService: SharedService,
     private toastr: ToastrService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -143,6 +148,21 @@ export class LicensingComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
             });
+          }else if(!res.isExecuted){
+           
+
+            let dialogRef = this.dialog.open(LicensingInvalidComponent, {
+              width: '550px',
+              data: {
+                mode: '',
+              },
+            });
+            dialogRef
+              .afterClosed()
+              .pipe(takeUntil(this.onDestroy$))
+              .subscribe((result) => {
+               
+              });
           }
         },
         (error) => {
