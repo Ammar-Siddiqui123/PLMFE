@@ -28,11 +28,6 @@ export class ReprocessChoiceComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  ngOnChanges() {
-  console.log("parent changed me ");
-  console.log(this.isReprocessedChecked.flag);
-  }  
-
   postTransaction()
   {
     var payload={
@@ -72,26 +67,19 @@ export class ReprocessChoiceComponent implements OnInit {
 
   changeOrderStatus(event:MatCheckboxChange,status): void {
     console.log("CHANGE======");
-    // if(status=='Reprocess')
-    // {
-    // this.CompleteChecked= false;
-    // //this.isHistoryChecked= false;
-    // }else if(status=='Complete')
-    // {
-    // this.ReprocessedChecked = false;
-    // //this.isHistoryChecked= false;
-    // }
-    // else 
-    // {
-    // //this.isReprocessedChecked = false;
-    // //this.isCompleteChecked= false;
-    // }
+    if(status=='Reprocess')
+    {
+    this.isCompleteChecked.flag = false;
+    }else if(status=='Complete')
+    {
+    this.isReprocessedChecked.flag = false;
+    }
     
       var payload={
         id: this.transactionID,
-        reprocess: (status=='Reprocess' && event.checked)?1:0,
-        postComplete: (status=='Complete'&& event.checked)?1:0,
-        sendHistory: (status=='History'&& event.checked)?1:0,
+        reprocess: (this.isReprocessedChecked.flag)?1:0,
+        postComplete: (this.isCompleteChecked.flag)?1:0,
+        sendHistory: (this.isHistoryChecked.flag)?1:0,
         field: "",
         username: this.userData.userName,
         wsid: this.userData.wsid,
