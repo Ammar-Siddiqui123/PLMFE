@@ -388,9 +388,6 @@ export class ReprocessTransactionComponent implements OnInit {
   deleteOrder(id: any, event) {
 
     if (id == 0 || id == -1) {
-
-
-      
       var message = "";
 
       if(id==0) 
