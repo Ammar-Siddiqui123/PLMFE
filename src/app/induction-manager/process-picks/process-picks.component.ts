@@ -13,33 +13,25 @@ import { BlossomToteComponent } from 'src/app/dialogs/blossom-tote/blossom-tote.
 import { PickToteManagerComponent } from 'src/app/dialogs/pick-tote-manager/pick-tote-manager.component';
 import { ViewOrdersComponent } from 'src/app/dialogs/view-orders/view-orders.component';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-];
 @Component({
   selector: 'app-process-picks',
   templateUrl: './process-picks.component.html',
   styleUrls: ['./process-picks.component.scss']
 })
 export class ProcessPicksComponent implements OnInit {
-
+  TOTE_SETUP: any = [];
   dialogClose: boolean = false;
   public userData: any;
   batchID: any = '';
+  pickBatchQuantity: any = '';
   countInfo:any;
   pickBatchesList:any[] = [];;
   pickBatches = new FormControl('');
   // pickBatches:any = '';
   filteredOptions: Observable<any[]>;
   displayedColumns: string[] = ['position', 'toteid', 'orderno', 'priority', 'other'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  dataSource:any;
+  selection = new SelectionModel<any>(true, []);
   @ViewChild('batchPickID') batchPickID: TemplateRef<any>;
 
   constructor(
@@ -62,6 +54,8 @@ export class ProcessPicksComponent implements OnInit {
     this.pPickService.get(paylaod, '/Induction/PickToteSetupIndex').subscribe(res => {
       this.countInfo = res.data.countInfo;
       this.pickBatchesList = res.data.pickBatches;
+      this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
+      this.createToteSetupTable(this.pickBatchQuantity);
       console.log(this.pickBatches);
       
       this.filteredOptions = this.pickBatches.valueChanges.pipe(
@@ -73,6 +67,13 @@ export class ProcessPicksComponent implements OnInit {
       console.log(res.data);
       console.log(this.countInfo);
     });
+  }
+
+  createToteSetupTable(pickBatchQuantity: any){
+    for (let index = 0; index < pickBatchQuantity; index++) {
+      this.TOTE_SETUP.push({ position: index+1, toteID: '', orderNumber: '', priority: '' },);
+    }
+    this.dataSource = new MatTableDataSource<any>(this.TOTE_SETUP);
   }
 
   private _filter(name: string): any[] {
@@ -139,6 +140,28 @@ export class ProcessPicksComponent implements OnInit {
       width: '786px',
       autoFocus: '__non_existing_element__'
     })
+  }
+
+  onToteAction(val: any){
+    
+    if(val === 'fill_all_tote'){
+      this.getAllToteIds();
+    }
+  }
+
+  getAllToteIds(){
+    let paylaod = {
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    this.pPickService.get(paylaod, '/Induction/NextTote').subscribe(res => {
+      
+      console.log(this.TOTE_SETUP.length);
+      // array.forEach(element => {
+        
+      // });
+      
+    });
   }
 
 }

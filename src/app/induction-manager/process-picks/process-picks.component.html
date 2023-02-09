@@ -214,11 +214,11 @@
             </h2>
             <mat-form-field class="action-dropdown" appearance="outline">
                 <mat-label>Actions</mat-label>
-                <mat-select class="employees-action" placeholder="Actions">
-                    <mat-option value="print"><b class="text-tertiary-900">Fill All Empty Tote IDs</b></mat-option>
-                    <mat-option value="set_column_sq">Fill Next Empty Tote ID</mat-option>
-                    <mat-option value="set_column_sq">Clear All Totes</mat-option>
-                    <mat-option value="set_column_sq">Clear All Orders</mat-option>
+                <mat-select class="employees-action" placeholder="Actions" (selectionChange)="onToteAction($event.value)">
+                    <mat-option value="fill_all_tote"><b class="text-tertiary-900">Fill All Empty Tote IDs</b></mat-option>
+                    <mat-option value="fill_next_tote">Fill Next Empty Tote ID</mat-option>
+                    <mat-option value="clear_all_totes">Clear All Totes</mat-option>
+                    <mat-option value="clear_all_orders">Clear All Orders</mat-option>
                 </mat-select>
                 <span class="material-symbols-outlined icon-expand-more">
                     expand_more
@@ -235,8 +235,7 @@
                         <td mat-cell *matCellDef="let element">
                             <div class="pe-2">
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
-
-                                    <input matInput type="text" #specialFeature maxlength="255" value="000000" disabled>
+                                    <input matInput type="text" #specialFeature maxlength="255" value="{{element.position}}" disabled>
                                 </mat-form-field>
                             </div>
                         </td>
@@ -250,7 +249,7 @@
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
 
                                     <input matInput type="text" #specialFeature maxlength="255"
-                                        [value]="element.displayname">
+                                        [value]="">
                                 </mat-form-field>
                             </div>
                         </td>
@@ -264,7 +263,7 @@
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
 
                                     <input matInput type="text" #specialFeature maxlength="255"
-                                        [value]="element.displayname">
+                                        [value]="">
                                 </mat-form-field>
                             </div>
                         </td>
@@ -275,8 +274,7 @@
                         <td mat-cell *matCellDef="let element">
                             <div class="pe-2">
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
-
-                                    <input matInput type="text" #specialFeature maxlength="255" value="000000" disabled>
+                                    <input matInput type="text" #specialFeature maxlength="255" value="" disabled>
                                 </mat-form-field>
                             </div>
                         </td>
