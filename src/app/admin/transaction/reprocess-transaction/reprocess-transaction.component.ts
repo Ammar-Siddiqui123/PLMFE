@@ -394,7 +394,19 @@ export class ReprocessTransactionComponent implements OnInit {
           }
           else if (!opened && this.selectedVariable && this.selectedVariable =='deleteSelected') 
           {
-          
+            deletePayload = 
+            {
+              "id": this.transactionID,
+              "history": false,
+              "reason": "",
+              "message": "",
+              "dateStamp": "",
+              "itemNumber": "",
+              "orderNumber": "",
+              "replenishments": false,
+              "username": this.userData.userName,
+              "wsid": this.userData.wsid
+            }
           }
           else if (!opened && this.selectedVariable && this.selectedVariable =='deleteBySelectedReason') 
           {
