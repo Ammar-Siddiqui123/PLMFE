@@ -114,12 +114,22 @@ export class ReprocessTransactionComponent implements OnInit {
   isHistoryChecked = {flag:false};
   isHold = false;
 
+  deleteReplenishment=true;
+  deleteSelected=false;
+  deleteBySelectedReason=false;
+  deleteBySelectedMessage=false;
+  deleteByDateTime=false;
+  deleteByItemNumber=false; //Only visible if searched
+  deleteByOrderNumber=false; //Only visible if searched
+
+
   idx: any;
 
   createdBy = "";
   transactionDateTime = "";
   reason = "";
   reasonMessage = "";
+
 
   orders =
     {
@@ -176,6 +186,8 @@ export class ReprocessTransactionComponent implements OnInit {
   floatLabelControlColumn = new FormControl('auto' as FloatLabelType);
   hideRequiredFormControl = new FormControl(false);
   searchByColumn = new Subject<string>();
+
+
   /*for data col. */
 
   constructor(
@@ -185,7 +197,7 @@ export class ReprocessTransactionComponent implements OnInit {
     private toastr: ToastrService,
     private invMapService: InventoryMapService,
     private dialog: MatDialog,
-    private sharedService: SharedService
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
@@ -207,6 +219,33 @@ export class ReprocessTransactionComponent implements OnInit {
       });
   }
 
+  clearDelete(showOptions="")
+  {
+  if(showOptions=="")
+  {
+    this.deleteReplenishment=true;
+    this.deleteSelected=false;
+    this.deleteBySelectedReason=false;
+    this.deleteBySelectedMessage=false;
+    this.deleteByDateTime=false;
+  
+    this.deleteByItemNumber=false; //Only visible if searched
+    this.deleteByOrderNumber=false; //Only visible if searched
+  }
+  else 
+  {
+  this.deleteReplenishment=true;
+  this.deleteSelected=true;
+  this.deleteBySelectedReason=true;
+  this.deleteBySelectedMessage=true;
+  this.deleteByDateTime=true;
+
+  this.deleteByItemNumber=true; //Only visible if searched
+  this.deleteByOrderNumber=true; //Only visible if searched
+  }
+  
+  }
+
   getTransaction(row: any) {
     this.isEnabled = false;
     this.transactionID = row.id;
@@ -215,12 +254,11 @@ export class ReprocessTransactionComponent implements OnInit {
     this.isCompleteChecked.flag = row.postAsComplete == 'False' ? false : true;
     this.isHistoryChecked.flag = row.sendToHistory == 'False' ? false : true;
 
-    // this.sharedService.ReprocessedChecked =this.isReprocessedChecked; 
-    // this.sharedService.CompleteChecked =this.isCompleteChecked; 
-    // this.sharedService.HistoryChecked =this.isHistoryChecked; 
-    // this.sharedService.updateTransaction();
 
+    this.itemNumber   = row.itemNumber;
+    this.orderNumber  = row.orderNumber;
 
+    this.clearDelete("1");
   }
 
   getTransactionInfo(completeInfo: boolean) {
@@ -312,6 +350,7 @@ export class ReprocessTransactionComponent implements OnInit {
   }
 
   actionDialog(opened: boolean) {
+    console.log(this.userData);
     if (!opened && this.selectedVariable && this.selectedVariable === 'set_column_sq') {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: '96%',
@@ -331,7 +370,138 @@ export class ReprocessTransactionComponent implements OnInit {
           }
         });
     }
+    else
+    {
+      let deletePayload ;
+      if (!opened && this.selectedVariable && this.selectedVariable =='deleteReplenishment') 
+      {
+      deletePayload = 
+      {
+        "id": 0,
+        "history": false,
+        "reason": "",
+        "message": "",
+        "dateStamp": "",
+        "itemNumber": "",
+        "orderNumber": "",
+        "replenishments": true,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid
+      }
+      }
+      else if (!opened && this.selectedVariable && this.selectedVariable =='deleteSelected') 
+      {
+      alert(this.selectedVariable);
+      }
+      else if (!opened && this.selectedVariable && this.selectedVariable =='deleteBySelectedReason') 
+      {
+        deletePayload = 
+        {
+          "id": 0,
+          "history": false,
+          "reason": this.reason,
+          "message": "",
+          "dateStamp": "",
+          "itemNumber": "",
+          "orderNumber": "",
+          "replenishments": false,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
+        }
+      }
+      else if (!opened && this.selectedVariable && this.selectedVariable =='deleteBySelectedMessage') 
+      {
+        deletePayload = 
+        {
+          "id": 0,
+          "history": false,
+          "reason": "",
+          "message": this.reasonMessage,
+          "dateStamp": "",
+          "itemNumber": "",
+          "orderNumber": "",
+          "replenishments": false,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
+        }
+      }
+      else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByDateTime') 
+      {
+        deletePayload = 
+        {
+          "id": 0,
+          "history": false,
+          "reason": "",
+          "message": "",
+          "dateStamp": this.transactionDateTime,
+          "itemNumber": "",
+          "orderNumber": "",
+          "replenishments": false,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
+        }
+      }
+      else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByItemNumber') 
+      {
+        deletePayload = 
+        {
+          "id": 0,
+          "history": false,
+          "reason": "",
+          "message": "",
+          "dateStamp": "",
+          "itemNumber": this.itemNumber,
+          "orderNumber": "",
+          "replenishments": false,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
+        }
+      }
+      else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByOrderNumber') 
+      {
+        deletePayload = 
+        {
+          "id": 0,
+          "history": false,
+          "reason": "",
+          "message": "",
+          "dateStamp": "",
+          "itemNumber": "",
+          "orderNumber": this.orderNumber,
+          "replenishments": false,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
+        }
+      }
+
+
+      this.seqColumn.delete(deletePayload).subscribe((res: any) => {
+
+
+              this.toastr.success(labels.alert.update, 'Success!',{
+                positionClass: 'toast-bottom-right',
+                timeOut:2000
+             });
+
+             this.getContentData("1");
+             this.getOrdersWithStatus();
+    
+        (error) => {
+          this.toastr.error('Something went wrong', 'Error!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000,
+                  });
+        }
+      });
+
+    } 
+   
+
   }
+
+
+
+
   sortChange(event) {
     if (
       !this.dataSource._data._value ||
@@ -594,7 +764,7 @@ export class ReprocessTransactionComponent implements OnInit {
   }
 
 
-  getContentData() {
+  getContentData(clear="") {
     this.rowClicked = "";
     let payload = {
       draw: 0,
@@ -602,10 +772,10 @@ export class ReprocessTransactionComponent implements OnInit {
       searchColumn: this.columnSearch.searchColumn.colDef,
       start: this.customPagination.startIndex,
       length: this.customPagination.recordsPerPage,
-      orderNumber: this.orderNumber,
+      orderNumber: clear==""?this.orderNumber:"",
       sortColumnNumber: this.sortCol,
       sortOrder: this.sortOrder,
-      itemNumber: this.itemNumber,
+      itemNumber: clear==""?this.itemNumber:"" ,
       hold: this.isHold,
       username: this.userData.userName,
       wsid: this.userData.wsid
@@ -626,6 +796,7 @@ export class ReprocessTransactionComponent implements OnInit {
 
 
     this.clearTransactionData();
+    this.clearDelete();
   }
 
   getHistoryData() {
