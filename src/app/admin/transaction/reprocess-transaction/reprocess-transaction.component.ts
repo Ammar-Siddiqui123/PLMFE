@@ -562,14 +562,20 @@ export class ReprocessTransactionComponent implements OnInit {
 
     if (id == 0 || id == -1) {
       var message = "";
+      var command = "";
+
+
+      if(event=='reprocess'){command = "reprocess"}
+      else if(event=='complete'){command = "complete"}
+      else if(event=='history'){command = "history"}
 
       if(id==0) 
       {
-      message = "Click OK to mark ALL transactions as reprocess";
+      message = "Click ok to mark all transactions as "+command;
       }
       else 
       {
-      message = "Click OK to unmark ALL transactions as reprocess";
+      message = "Click ok to unmark all transactions";
       }
 
 
