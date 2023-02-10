@@ -7,6 +7,7 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { GlobalconfigService } from 'src/app/global-config/globalconfig.service';
 import labels from '../../../labels/labels.json';
+import { SqlAuthConfirmationComponent } from '../sql-auth-confirmation/sql-auth-confirmation.component';
 
 @Component({
   selector: 'app-global-config-set-sql',
@@ -59,33 +60,48 @@ export class GlobalConfigSetSqlComponent implements OnInit {
     //   );
   }
   saveLogin() {
-    let payload = {
-      ConnectionName: this.connectionName,
-      UserName: this.userName,
-      Password: this.password,
-    };
-    this.globalConfService
-      .get(payload, '/GlobalConfig/ConnectionUserPasswordUpdate')
-      .subscribe(
-        (res: any) => {
-          if (res.isExecuted) {
-            this.toastr.success(labels.alert.success, 'Success!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000,
-            });
-            this.dialogRef.close({isExecuted:true})
 
-          }
-        },
-        (error) => {
-          this.toastr.success(labels.alert.went_worng, 'Errpr!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000,
-          });
-          this.dialogRef.close({isExecuted:true})
+    const dialogRef = this.dialog.open(SqlAuthConfirmationComponent, {
+      height: 'auto',
+      width: '560px',
+    
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+    
 
-        }
-      );
+      if(res.isExecuted){
+        let payload = {
+          ConnectionName: this.connectionName,
+          UserName: this.userName,
+          Password: this.password,
+        };
+        this.globalConfService
+          .get(payload, '/GlobalConfig/ConnectionUserPasswordUpdate')
+          .subscribe(
+            (res: any) => {
+              if (res.isExecuted) {
+                this.toastr.success(labels.alert.success, 'Success!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+                this.dialogRef.close({isExecuted:true})
+    
+              }
+            },
+            (error) => {
+              this.toastr.success(labels.alert.went_worng, 'Errpr!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+              this.dialogRef.close({isExecuted:true})
+    
+            }
+          );
+      }
+    });
+
+   
+   
   }
   clearLoginInfo() {
     this.userName = '';

@@ -204,7 +204,8 @@ export class ConnectionStringsComponent implements OnInit {
          
             const dialogRef = this.dialog.open(GlobalConfigSetSqlComponent, {
               height: 'auto',
-              width: '480px',
+              width: '600px',
+              autoFocus: '__non_existing_element__',
               data: {
                 mode: 'sql-auth-string',
                 userName: res.data?.user,

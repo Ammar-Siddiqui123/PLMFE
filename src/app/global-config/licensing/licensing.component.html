@@ -131,7 +131,7 @@
                             <div class="pe-2">
                               <mat-form-field class="custom-form-field w-100" appearance="outline">
 
-                                <input matInput type="text" #specialFeature maxlength="255" [value]="element.appurl" [(ngModel)]="element.appurl" (ngModelChange)="onInputValueChange($event,element,index)"  [value]="element.appurl">
+                                <input matInput type="text" disabled #specialFeature maxlength="255" [value]="element.appurl" [(ngModel)]="element.appurl" (ngModelChange)="onInputValueChange($event,element,index)"  [value]="element.appurl">
                               </mat-form-field>
                             </div>
                           </td>

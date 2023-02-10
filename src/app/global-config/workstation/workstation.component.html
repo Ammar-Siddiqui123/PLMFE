@@ -64,8 +64,11 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-5">
-                                            <div class="card br-14 table-responsive p-3">
-                                                <ng-scrollbar style="height: 500px;"  class="mat-table-scrollbar">
+                                            <div class="card br-14 table-responsive ">
+                                                <div class="card-header">Workstations</div>
+                                               
+                                                <ng-scrollbar style="height: 500px;">
+                                                    <div class="card-body">
                                                 <mat-radio-group color="primary" [(ngModel)]="selectedItem">
                                                     <div *ngFor="let item of workstationData; let i = index"
                                                         class="d-flex flex-column gap-12 mb-2">
@@ -76,13 +79,15 @@
 
                                                     </div>
                                                 </mat-radio-group>
+                                            </div>
                                                 </ng-scrollbar>
+                                        
                                             </div>
                                         </div>
                                         <div class="col-7">
                                             <div class="card br-14 table-responsive borderless px-0"
                                                >
-                                                <ng-scrollbar style="height: 500px;"  class="mat-table-scrollbar">
+                                                <ng-scrollbar style="height: 557px;"  class="mat-table-scrollbar">
                                                 <!-- <table>
                                                     <thead class="card-header">
                                                         <tr>

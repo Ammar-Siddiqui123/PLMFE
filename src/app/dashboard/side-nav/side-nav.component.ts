@@ -33,7 +33,7 @@ export class SideNavComponent implements OnInit {
   globalMenus: any = [
     { icon: 'door_front', title: 'Home', route: '/globalconfig/home' ,permission: ''},
     { icon: 'hub', title: 'Database Connections', route: '/globalconfig/database-connections' ,permission: ''},
-    { icon: 'print', title: 'Printers', route: '/globalconfig/printers' ,permission: ''},
+    { icon: 'print', title: 'Printers', route: '#' ,permission: ''},
     { icon: 'online_prediction', title: 'Workstation', route: '/globalconfig/workstation' ,permission: ''},
     { icon: 'nest_wifi_gale', title: 'CCSIF', route: '#' ,permission: 'CCSIF'},
     { icon: 'subtitles', title: 'Licensing', route: '/globalconfig/licensing' ,permission: ''},

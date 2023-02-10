@@ -109,6 +109,7 @@ import { ReprocessTransactionDetailComponent } from './dialogs/reprocess-transac
 import { HoldReasonComponent } from './dialogs/hold-reason/hold-reason.component';
 import { ClearAppGlobalconfigComponent } from './dialogs/clear-app-globalconfig/clear-app-globalconfig.component';
 import { LicensingInvalidComponent } from './dialogs/licensing-invalid/licensing-invalid.component';
+import { SqlAuthConfirmationComponent } from './dialogs/sql-auth-confirmation/sql-auth-confirmation.component';
 
 
 
@@ -208,7 +209,8 @@ import { LicensingInvalidComponent } from './dialogs/licensing-invalid/licensing
     ReprocessTransactionDetailComponent,
     HoldReasonComponent,
     ClearAppGlobalconfigComponent,
-    LicensingInvalidComponent
+    LicensingInvalidComponent,
+    SqlAuthConfirmationComponent
 
   ],
   imports: [
