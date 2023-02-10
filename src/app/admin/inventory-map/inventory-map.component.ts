@@ -8,7 +8,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { Router,RoutesRecognized } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { Subject } from 'rxjs/internal/Subject';
@@ -21,6 +21,7 @@ import { QuarantineConfirmationComponent } from '../dialogs/quarantine-confirmat
 import { SetColumnSeqComponent } from '../dialogs/set-column-seq/set-column-seq.component';
 import { SetColumnSeqService } from '../dialogs/set-column-seq/set-column-seq.service';
 import { InventoryMapService } from './inventory-map.service';
+import { filter, pairwise } from 'rxjs/operators';
 
 
 const INVMAP_DATA = [
@@ -70,8 +71,8 @@ export class InventoryMapComponent implements OnInit {
   onDestroy$: Subject<boolean> = new Subject();
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto' as FloatLabelType);
-
-
+  setStorage;
+  routeFromIM:boolean=false;
   public displayedColumns: any ;
   public dataSource: any = [];
   customPagination: any = {
@@ -133,6 +134,25 @@ export class InventoryMapComponent implements OnInit {
       }
     }
 
+
+    router.events
+      .pipe(
+        filter((evt: any) => evt instanceof RoutesRecognized),
+        pairwise()
+      )
+      .subscribe((events: RoutesRecognized[]) => {
+      
+        if (events[0].urlAfterRedirects == '/InductionManager/Admin') {
+          localStorage.setItem('routeFromInduction','true')
+            // this.showReprocess=false;
+            // this.showReprocessed=false;
+         
+        }else{
+          localStorage.setItem('routeFromInduction','false')
+          // this.showReprocess=true;
+          // this.showReprocessed=true;
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -154,6 +174,11 @@ export class InventoryMapComponent implements OnInit {
 
   }
 
+
+  ngAfterViewInit() {
+    this.setStorage =localStorage.getItem('routeFromInduction')
+   this.routeFromIM=JSON.parse(this.setStorage)
+    }
   pageEvent: PageEvent;
 
   handlePageEvent(e: PageEvent) {
