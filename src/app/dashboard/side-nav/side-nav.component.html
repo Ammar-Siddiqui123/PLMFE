@@ -1,6 +1,6 @@
 <div *ngIf="!isConfigUser">
   <mat-nav-list *ngIf="isParentMenu">
-    <ng-container *ngFor="let menu of menus;">
+    <ng-container *ngFor="let menu of dynamicMenu;">
       <mat-list-item routerLinkActive="active" routerLink="{{menu.route}}" (click)="loadMenus(menu)"
         [disabled]="isAuthorized(menu.permission)">
         <span mat-list-icon class="material-symbols-outlined">
