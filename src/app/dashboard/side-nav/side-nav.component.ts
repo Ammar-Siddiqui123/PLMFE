@@ -79,6 +79,8 @@ export class SideNavComponent implements OnInit {
     { icon: '      manage_accounts       ', title: 'Preferences ', route: '#' ,permission:'Induction Manager'},
   ];
 
+  
+
   isParentMenu: boolean = true;
   isChildMenu: boolean = false;
   childMenus: any;
@@ -97,8 +99,12 @@ export class SideNavComponent implements OnInit {
     });
 
     this.sharedService.updateInductionAdminObserver.subscribe(InvadminMenu => {
-      if (InvadminMenu){
+      if (InvadminMenu==='transaction-admin'){
         this.childMenus = this.inductionAdminMenus;
+        this.isParentMenu = false;  
+        this.isChildMenu = true;
+      }else if(InvadminMenu==='induction'){
+        this.childMenus = this.inductionMenus;
         this.isParentMenu = false;
         this.isChildMenu = true;
       }
