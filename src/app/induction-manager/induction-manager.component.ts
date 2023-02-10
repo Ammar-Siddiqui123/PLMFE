@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router,RoutesRecognized } from '@angular/router';
 import { filter, pairwise } from 'rxjs/operators';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-induction-manager',
@@ -9,7 +10,7 @@ import { filter, pairwise } from 'rxjs/operators';
 })
 export class InductionManagerComponent implements OnInit {
   tab_hover_color:string = '#cf9bff3d';
-  constructor(private router: Router,) { 
+  constructor(private router: Router, private sharedService: SharedService,) { 
     router.events
       .pipe(
         filter((evt: any) => evt instanceof RoutesRecognized),
@@ -33,5 +34,10 @@ export class InductionManagerComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  updateMenu(menu=''){
+    if (menu == 'transaction-admin') {
+      this.sharedService.updateInductionAdminMenu();
+    }
 
+  }
 }

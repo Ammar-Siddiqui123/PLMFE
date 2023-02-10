@@ -55,21 +55,32 @@ export class SideNavComponent implements OnInit {
     { icon: 'trolley', title: 'Move Items', route: '#' ,permission: 'Move Items'},
     { icon: 'tune', title: 'Preferences', route: '#' ,permission: 'Preferences'},
     { icon: 'published_with_changes', title: 'System Replenishment', route: '#' ,permission: 'Replenishment'},
-
-
   ];
+
+
   inductionMenus: any = [
     { icon: 'arrow_back', title: 'Induction Manager', route: '/dashboard', class: 'back-class' , permission: 'Induction Manager'},
     { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
     { icon: 'swipe_up_alt', title: 'Process Picks', route: '/InductionManager/ProcessPicks' ,permission:'Induction Manager'},
     { icon: 'swipe_down_alt', title: 'Process Put Aways', route: '/InductionManager/ProcessPutAways' ,permission:'Induction Manager'},
-    { icon: 'manage_accounts', title: 'Admin', route: '/admin' ,permission:'Induction Manager'},
+    { icon: 'manage_accounts', title: 'Admin', route: '/InductionManager/Admin' ,permission:'Induction Manager'},
     { icon: 'edit_attributes', title: 'Mark Empty Reels', route: '#' ,permission:'Induction Manager'},
     { icon: 'linear_scale', title: 'Pallet Receiving', route: '#' ,permission:'Induction Manager'},
     { icon: 'line_style', title: 'Super Batch', route: '/InductionManager/SuperBatch' ,permission:'Induction Manager'},
-
-
   ];
+
+  inductionAdminMenus: any = [
+    { icon: 'arrow_back', title: 'Induction Manager', route: '/InductionManager', class: 'back-class' , permission: 'Induction Manager'},
+    { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
+    { icon: ' directions_alt', title: 'Inventory Map', route: '/admin/inventoryMap' ,permission:'Induction Manager'},
+    { icon: ' dashboard ', title: 'Inventory ', route: '/admin/inventoryMaster' ,permission:'Induction Manager'},
+    { icon: '  line_style  ', title: 'Tote Transaction Manager ', route: '#' ,permission:'Induction Manager'},
+    { icon: 'linear_scale   ', title: 'Manual Transactions ', route: '#' ,permission:'Induction Manager'},
+    { icon: 'edit_attributes ', title: 'Transaction Journal ', route: 'admin/transaction' ,permission:'Induction Manager'},
+    { icon: '     manage_accounts     ', title: 'Reports ', route: '#' ,permission:'Induction Manager'},
+    { icon: '      manage_accounts       ', title: 'Preferences ', route: '#' ,permission:'Induction Manager'},
+  ];
+
   isParentMenu: boolean = true;
   isChildMenu: boolean = false;
   childMenus: any;
@@ -83,6 +94,14 @@ export class SideNavComponent implements OnInit {
     this.sharedService.updateAdminMenuObserver.subscribe(adminMenu => {
       if (adminMenu){
         this.childMenus = this.adminMenus;
+        this.isParentMenu = false;
+        this.isChildMenu = true;
+      }
+    });
+
+    this.sharedService.updateInductionAdminObserver.subscribe(InvadminMenu => {
+      if (InvadminMenu){
+        this.childMenus = this.inductionAdminMenus;
         this.isParentMenu = false;
         this.isChildMenu = true;
       }
@@ -199,10 +218,25 @@ export class SideNavComponent implements OnInit {
   
       
     }
-
-
-
-   
+    if (menu.route.includes('/InductionManager')) {
+      this.childMenus = this.inductionMenus;
+      this.isParentMenu = false;
+      this.isChildMenu = true;
+    }
+    if (menu.route.includes('/InductionManager/Admin')) {
+      this.childMenus = this.inductionAdminMenus;
+      this.isParentMenu = false;
+      this.isChildMenu = true;
+    }
+    if (menu.route === '/dashboard') {
+      this.isParentMenu = true;
+      this.isChildMenu = false;
+    }
+    if (menu.route.includes('/globalconfig')) {
+      this.childMenus = this.globalMenus;
+      this.isParentMenu = false;
+      this.isChildMenu = true;
+    }    
   }
 
   isAuthorized(controlName:any) {
