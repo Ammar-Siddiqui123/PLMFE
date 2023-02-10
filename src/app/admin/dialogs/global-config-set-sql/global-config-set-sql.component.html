@@ -16,7 +16,7 @@
   
   
   
-      <strong>{{connectionName}}</strong>
+     <div class="mb-3"> <strong>{{connectionName}}</strong></div>
       <mat-form-field class="mb-3 w-100" appearance="outline">
         <mat-label>Username</mat-label>
         <input [(ngModel)]="userName" [value]="userName" matInput type="text" maxlength="30">
@@ -37,7 +37,7 @@
         
       </mat-dialog-actions>
       <mat-dialog-actions   dialog-actions align="end">
-        <button (click)="clearLoginInfo()" mat-flat-button class="form-button-submit btn-lg w-100 mb-3" color="primary">Clear Login Info</button>
+        <button (click)="clearLoginInfo()" mat-stroked-button class="form-button-submit btn-lg w-100 mb-3" color="primary">Clear Login Info</button>
         
       </mat-dialog-actions>
   
