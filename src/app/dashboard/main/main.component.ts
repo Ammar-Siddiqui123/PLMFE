@@ -204,6 +204,12 @@ export class MainComponent implements OnInit {
     });
   }
   updateMenu(menu = '') {
+   
+    if(menu!='')
+    {
+      this.sharedService.updateLoggedInUser(this.authService.userData().username,this.authService.userData().wsid,menu);
+    }
+    
     if (menu == 'admin') {
       this.sharedService.updateAdminMenu();
     }
