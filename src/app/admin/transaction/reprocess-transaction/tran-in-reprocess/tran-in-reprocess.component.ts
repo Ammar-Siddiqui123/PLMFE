@@ -41,9 +41,11 @@ export class TranInReprocessComponent implements OnInit {
       this.history = false;
     }
     this.reprocessSelectionEvent.emit(event.value);
+    this.clear();
   }
   reasonFilterChange(event) {
     this.reasonFilterEvent.emit(event.value);
+    this.clear();
   }
 
   clear()
