@@ -1,6 +1,21 @@
 .btn-color-blue {
   color: #1a1ad3 !important;
 }
+.Compete-cart{
+  background-color: #C8E2D8;
+  color:#114D35
+ 
+}
+.Reprocess-card{
+  background-color: #F7D0DA;
+  color:#4D0D1D
+ 
+}
+.Open-card{
+  background-color: #FFF0D6;
+  color:#4D3B1A
+ 
+}
 .notify-center-table {
   text-align: center;
   color: rgba(0, 0, 0, 0.54);
@@ -32,4 +47,10 @@
     white-space: nowrap;
     padding-right: 20px;
   }
+}
+.btn-custom-color-blue{
+  color:#1A1AD3
+}
+.paginator-left-align{
+  float: left, !important;
 }

@@ -22,7 +22,6 @@ export class ConfigDatabaseComponent implements OnInit {
 
   ngOnInit(): void {}
   ngOnChanges(changes: SimpleChanges) {
-    console.log('OnChanges');
     if (
       changes['connectionStringData'] &&
       changes['connectionStringData']['currentValue'] &&

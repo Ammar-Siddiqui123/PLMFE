@@ -121,6 +121,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   searchBar = new Subject<string>();
   searchAutocompleteList: any;
   searchAutocompleteListByCol: any;
+  isDeleteVisible:any=localStorage.getItem('routeFromInduction')
   /*for data col. */
   public columnValues: any = [];
   onDestroy$: Subject<boolean> = new Subject();
@@ -136,6 +137,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   transTypeSelect = 'All Transactions';
   transStatusSelect = 'All Transactions';
   rowClicked;
+  hideDelete
   public detailDataInventoryMap: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -245,13 +247,13 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
 
   onEndDate(event) {}
   rowClick(row, event) {
-    console.log(row);
   }
   filterVals: any = {
     transactions: '',
   };
 
   ngOnInit(): void {
+    this.hideDelete=JSON.parse(this.isDeleteVisible);
     this.customPagination = {
       total: '',
       recordsPerPage: 10,
@@ -427,7 +429,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   deleteItem(event) {
     const dialogRef = this.dialog.open(DeleteConfirmationTransactionComponent, {
       height: 'auto',
-      width: '480px',
+      width: '600px',
       data: {
         mode: 'delete-transaction',
         id: event.id,
@@ -667,9 +669,9 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       .afterClosed()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((result) => {
-        if (result.isExecuted) {
+        // if (result.isExecuted) {
           this.getContentData();
-        }
+        // }
         // this.getContentData();
       });
   }

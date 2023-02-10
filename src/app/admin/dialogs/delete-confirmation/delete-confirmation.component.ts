@@ -10,6 +10,7 @@ import labels from '../../../labels/labels.json';
 import { InventoryMapService } from '../../inventory-map/inventory-map.service';
 import { VelocityCodeService } from 'src/app/common/services/velocity-code.service';
 import { GlobalconfigService } from 'src/app/global-config/globalconfig.service';
+import { TransactionService } from '../../transaction/transaction.service';
 
 @Component({
   selector: 'app-delete-confirmation',
@@ -29,7 +30,8 @@ export class DeleteConfirmationComponent implements OnInit {
     private router: Router,
     private whService: WarehouseService,
     private velcodeService: VelocityCodeService,
-    private globalconfigService:GlobalconfigService
+    private globalconfigService:GlobalconfigService,
+    private transactionService:TransactionService
     ) { }
 
   ngOnInit(): void {
@@ -305,9 +307,79 @@ export class DeleteConfirmationComponent implements OnInit {
           }
         });
       }
-
-
+      else if (this.data.mode === 'delete-order-status') {
       
+    
+        this.transactionService
+          .get(this.data.paylaod, '/Admin/DeleteOrderStatus')
+          .subscribe(
+            (res: any) => {
+              if (res.isExecuted) {
+                this.toastr.success(labels.alert.success, 'Success!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+                this.dialogRef.close({isExecuted:true})
+            
+              } else {
+                this.toastr.error(labels.alert.went_worng, 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+                this.dialogRef.close({isExecuted:false})
+              }
+            },
+            (error) => {}
+            // this.columnValues = res.data?.openTransactionColumns;
+            // this.columnValues.push('actions');
+            // this.displayOrderCols=res.data.openTransactionColumns;
+          );
+      }
+
+
+      else if (this.data.mode === 'delete_workstation') {
+        let payload={
+          WSID: this.data.wsid,
+        }
+   
+   
+          this.globalconfigService.get(payload,'/GlobalConfig/WorkStationDelete').subscribe((res: any)=>{
+            if(res.isExecuted){
+              this.toastr.success(labels.alert.success, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+              this.dialogRef.close({isExecuted:true})
+            }else{
+              this.toastr.error(labels.alert.went_worng, 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            }
+            this.dialogRef.close({isExecuted:false})
+          },(err)=>{
+            this.toastr.error(labels.alert.went_worng, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          })
+     
+        // this.employeeService.deleteEmployeeLocation(locationData).subscribe((res: any) => {
+        //   // if (res.isExecuted) {
+        //   //   this.dialog.closeAll();
+        //   //   this.toastr.success(labels.alert.delete, 'Success!', {
+        //   //     positionClass: 'toast-bottom-right',
+        //   //     timeOut: 2000
+        //   //   });
+        //   // } else {
+        //   //   this.dialog.closeAll();
+        //   //   this.toastr.error(labels.alert.went_worng, 'Error!', {
+        //   //     positionClass: 'toast-bottom-right',
+        //   //     timeOut: 2000
+        //   //   });
+        //   // }
+        // });
+      }
 
 
       

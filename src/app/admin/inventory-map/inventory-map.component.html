@@ -71,7 +71,7 @@
                   <mat-label>Actions</mat-label>
                   <mat-select  #matRef class="employees-action" (selectionChange)="inventoryMapAction($event)" 
                     placeholder="Actions">
-                    <mat-option (click)="addLocDialog()" [hidden]="isAuthorized('Inv Map Add Location')">Add Location</mat-option>
+                    <mat-option (click)="addLocDialog()" [hidden]="isAuthorized('Inv Map Add Location')" *ngIf="!routeFromIM">Add Location</mat-option>
                     <mat-option value="print">Print</mat-option>
                     <mat-option value="set_column_sq">Set Column Sequence</mat-option>
                   </mat-select>
@@ -80,7 +80,7 @@
                   </span>
                 </mat-form-field>
                 <div>
-                  <button type="button" mat-flat-button (click)="viewAllLocDialog()" class="button-primary-i button-sm">View All Location</button>
+                  <button type="button" mat-flat-button (click)="viewAllLocDialog()" color="primary" class="button-primary-i button-sm">View All Location</button>
                 </div>
               </div>
             </div>
@@ -121,7 +121,7 @@
 
                   <mat-menu #appMenu="matMenu">
                     <button mat-menu-item (click)="edit(seletedRecord)">Edit</button>
-                    <button mat-menu-item (click)="delete(seletedRecord)"  [hidden]="isAuthorized('Inv Map Delete')">Delete</button>
+                    <button mat-menu-item (click)="delete(seletedRecord)"  [hidden]="isAuthorized('Inv Map Delete')" *ngIf="!routeFromIM">Delete</button>
                     <button *ngIf="!seletedRecord.warehouse.includes('Quarantine')" mat-menu-item
                       (click)="quarantine(seletedRecord)">Quarantine</button>
                     <button *ngIf="seletedRecord.warehouse.includes('Quarantine')" mat-menu-item

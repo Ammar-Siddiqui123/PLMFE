@@ -106,6 +106,10 @@ import { SearchFilterPipe } from './transaction/pipes/search-filter.pipe';
 import { GlobalConfigSetSqlComponent } from './dialogs/global-config-set-sql/global-config-set-sql.component';
 import { SendTranHistoryComponent } from './dialogs/send-tran-history/send-tran-history.component';
 import { ReprocessTransactionDetailComponent } from './dialogs/reprocess-transaction-detail/reprocess-transaction-detail.component';
+import { HoldReasonComponent } from './dialogs/hold-reason/hold-reason.component';
+import { ClearAppGlobalconfigComponent } from './dialogs/clear-app-globalconfig/clear-app-globalconfig.component';
+import { LicensingInvalidComponent } from './dialogs/licensing-invalid/licensing-invalid.component';
+import { SqlAuthConfirmationComponent } from './dialogs/sql-auth-confirmation/sql-auth-confirmation.component';
 
 
 
@@ -202,7 +206,11 @@ import { ReprocessTransactionDetailComponent } from './dialogs/reprocess-transac
     SearchFilterPipe,
     GlobalConfigSetSqlComponent,
     SendTranHistoryComponent,
-    ReprocessTransactionDetailComponent
+    ReprocessTransactionDetailComponent,
+    HoldReasonComponent,
+    ClearAppGlobalconfigComponent,
+    LicensingInvalidComponent,
+    SqlAuthConfirmationComponent
 
   ],
   imports: [

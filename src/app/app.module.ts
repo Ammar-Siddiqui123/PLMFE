@@ -28,6 +28,7 @@ import { PickToteManagerComponent } from './dialogs/pick-tote-manager/pick-tote-
 import { ViewOrdersComponent } from './dialogs/view-orders/view-orders.component';
 import { BlossomToteComponent } from './dialogs/blossom-tote/blossom-tote.component';
 import { BatchDeleteComponent } from './dialogs/batch-delete/batch-delete.component';
+import { ConfirmationDialogComponent } from './admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -41,6 +42,7 @@ import { BatchDeleteComponent } from './dialogs/batch-delete/batch-delete.compon
     ViewOrdersComponent,
     BlossomToteComponent,
     BatchDeleteComponent,
+    ConfirmationDialogComponent,
     // ActionDisableDirective,
 
   ],

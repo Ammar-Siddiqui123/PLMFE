@@ -13,9 +13,8 @@ export class DashboardComponent implements OnInit {
   sideBarOpen: boolean = true;
   emp: IEmployee;
   empRes:EmployeeObject;
-
   breadcrumbList: any = [];
-  constructor(public employeeService: EmployeeService,  public router: Router) {
+  constructor(public employeeService: EmployeeService,  public router: Router,) {
 
   //   router.events.subscribe((val: any) => {
   //     this.breadcrumbList = [];
@@ -42,7 +41,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     
     //get employee
   //   this.getEmployee()
@@ -80,6 +78,9 @@ export class DashboardComponent implements OnInit {
     // this.deletePickLevels()
     // this.updateAccessGroup()
   }
+
+
+  
 
   sideBarToggler() {
     this.sideBarOpen = !this.sideBarOpen;

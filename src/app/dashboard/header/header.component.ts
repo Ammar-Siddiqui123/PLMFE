@@ -17,21 +17,29 @@ export class HeaderComponent implements OnInit {
 
   breadcrumbList: any = [];
   userData: any;
-
-  public user_data  = JSON.parse(localStorage.getItem('user') || '');
+isConfigUser
+  // public user_data  = JSON.parse(localStorage.getItem('user') || '');
   constructor(
     private router: Router,
     public spinnerService: SpinnerService,
     private authService: AuthService,
     private toastr: ToastrService
     ) {
-
+   this.isConfigUser=  this.authService.isConfigUser()
     router.events.subscribe((val: any) => {
       this.breadcrumbList = [];
-      this.breadcrumbList.push({
-        name:'LogixPro',
-        value:'/dashboard'
-      })
+      if(this.authService.isConfigUser()){
+        // this.breadcrumbList.push({
+        //   name:'',
+        //   value:'/globalconfig/dashboard'
+        // })
+      }else{
+        this.breadcrumbList.push({
+          name:'LogixPro',
+          value:'/dashboard'
+        })
+      }
+  
       if(val instanceof NavigationEnd){
         let res = val.url.substring(1);
         let splittedArray = res.split('/');
@@ -53,38 +61,63 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // console.log(this.user_data.userName);
     this.loading = false;
     this.userData = this.authService.userData();
+
   }
 
   toggleSidebar() {
     this.toggleSidebarForMe.emit();
   }
-
+  routeToLogin(){
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
   logout(){   
     let paylaod = {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    localStorage.clear();
-    this.authService.logout(paylaod).subscribe((res:any) => {
-      if (res.isExecuted) 
-      {
-        // this.toastr.success(res.responseMessage, 'Success!', {
-        //   positionClass: 'toast-bottom-right',
-        //   timeOut: 2000
-        // });
-        this.router.navigate(['/login']);
-      }
-      else 
-      {
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }
-    })
+    if(this.authService.isConfigUser()){
+      localStorage.clear();
+      this.authService.configLogout(paylaod).subscribe((res:any) => {
+        if (res.isExecuted) 
+        {
+     
+          this.router.navigate(['/globalconfig']);
+        }
+        else 
+        {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      })
+      // this.router.navigate(['/globalconfig']);
+     
+    }else{
+      localStorage.clear();
+      this.authService.logout(paylaod).subscribe((res:any) => {
+        if (res.isExecuted) 
+        {
+          // this.toastr.success(res.responseMessage, 'Success!', {
+          //   positionClass: 'toast-bottom-right',
+          //   timeOut: 2000
+          // });
+     
+          this.router.navigate(['/login']);
+        }
+        else 
+        {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      })
+    }
+  
     // this.deleteAllCookies();
 
   }

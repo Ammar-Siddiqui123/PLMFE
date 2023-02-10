@@ -87,6 +87,17 @@ export class TranSelectOrderComponent implements OnInit {
       this.currentStatusOrder = event;
     }
   }
+  @Input()
+  set clearEvent(event: any) {
+    if (event) {
+    }
+  }
+
+  @Input() set clearFromListEvent(event: Event) {
+    if (event) {
+      this.clear();
+    }
+  }
   constructor(
     private authService: AuthService,
     private transactionService: TransactionService,
@@ -106,7 +117,11 @@ export class TranSelectOrderComponent implements OnInit {
       .subscribe((value) => {
         // this.columnSearch.searchValue = value;
         // if (!this.columnSearch.searchColumn.colDef) return;
-
+        console.log(value);
+        if (!value) {
+          this.resetLines();
+          this.columnSelect = '';
+        }
         this.autocompleteSearchColumn();
         this.onOrderNoChange();
         // if (!this.searchAutocompleteList.length) {
@@ -155,6 +170,9 @@ export class TranSelectOrderComponent implements OnInit {
     this.onOrderNoChange();
   }
 
+  selectFieldsReset() {
+    this.columnSelect = '';
+  }
   clear() {
     this.clearData.emit(event);
     this.resetLines();
@@ -163,43 +181,50 @@ export class TranSelectOrderComponent implements OnInit {
     this.columnSelect = '';
   }
   deleteOrder() {
+    let paylaod = {
+      OrderNumber: this.searchField,
+      TotalLines: JSON.stringify(this.totalLinesOrder),
+      UserName: this.userData.userName,
+      WSID: this.userData.wsid,
+    };
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      data: {
+        mode: 'delete-order-status',
+        paylaod: paylaod,
+        //itemList : this.itemList,
+        //  detailData : event
+      },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      if (res == 'Yes') {
+      if (res.isExecuted) {
+        this.deleteEvent.emit(res);
+        this.resetLines();
         // this.deleteEvent.emit(res);
 
-        let paylaod = {
-          OrderNumber: this.searchField,
-          TotalLines:JSON.stringify(this.totalLinesOrder),
-          UserName: this.userData.userName,
-          WSID: this.userData.wsid,
-  
-        };
-        this.transactionService
-          .get(paylaod, '/Admin/DeleteOrderStatus')
-          .subscribe(
-            (res: any) => {
-              if (res.isExecuted) {
-                this.toastr.success(labels.alert.success, 'Success!', {
-                  positionClass: 'toast-bottom-right',
-                  timeOut: 2000,
-                });
-                this.deleteEvent.emit(res.isExecuted);
-              } else {
-                this.toastr.error(labels.alert.went_worng, 'Error!', {
-                  positionClass: 'toast-bottom-right',
-                  timeOut: 2000,
-                });
-              }
-            },
-            (error) => {}
-            // this.columnValues = res.data?.openTransactionColumns;
-            // this.columnValues.push('actions');
-            // this.displayOrderCols=res.data.openTransactionColumns;
-          );
+        // this.transactionService
+        //   .get(paylaod, '/Admin/DeleteOrderStatus')
+        //   .subscribe(
+        //     (res: any) => {
+        //       if (res.isExecuted) {
+        //         this.toastr.success(labels.alert.success, 'Success!', {
+        //           positionClass: 'toast-bottom-right',
+        //           timeOut: 2000,
+        //         });
+        //         this.deleteEvent.emit(res.isExecuted);
+        //       } else {
+        //         this.toastr.error(labels.alert.went_worng, 'Error!', {
+        //           positionClass: 'toast-bottom-right',
+        //           timeOut: 2000,
+        //         });
+        //       }
+        //     },
+        //     (error) => {}
+        //     // this.columnValues = res.data?.openTransactionColumns;
+        //     // this.columnValues.push('actions');
+        //     // this.displayOrderCols=res.data.openTransactionColumns;
+        //   );
       }
     });
   }

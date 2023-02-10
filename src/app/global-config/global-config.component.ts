@@ -65,7 +65,6 @@ export class GlobalConfigComponent {
     this.login.wsid = workStation.workStationID;
     this.globalConfService.get(this.login, '/GlobalConfig/LoginUser').subscribe(
       (res: any) => {
-        console.log('from login', res);
 
         if (res.isExecuted) {
           let data = {
@@ -78,9 +77,9 @@ export class GlobalConfigComponent {
           let userRights = res.data.userRights;
                   // userRights = this.addCustomPermission(userRights);
                   this.addLoginForm.reset();
-                  localStorage.setItem('user', JSON.stringify(data));
+                  localStorage.setItem('userConfig', JSON.stringify(data));
                   // localStorage.setItem('global-config-userRights', JSON.stringify(userRights));
-          this.router.navigate(['/globalconfig/dashboard']);
+          this.router.navigate(['/globalconfig/home']);
         } else {
           const errorMessage = res.responseMessage;
           this.toastr.error(errorMessage?.toString(), 'Error!', {
@@ -177,6 +176,7 @@ export class GlobalConfigComponent {
       'Order Manager',
       'Admin Menu',
       'FlowRack Replenish',
+      'Markout',
 
       //Admin Menus
       'Dashboard',

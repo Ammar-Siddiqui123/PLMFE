@@ -6,14 +6,19 @@
 
 
     <nav aria-label="breadcrumb" class="breadcrumb m-0">
+      <li style="cursor:pointer;" *ngIf="isConfigUser" (click)="routeToLogin()">
+        LogixPro
+      </li>
+      
       <ng-container *ngFor="let item of breadcrumbList; index as i;">
 
-
-        <li *ngIf="i<(breadcrumbList.length-1)" class="breadcrumb-item" [routerLink]="item.value"
+      
+        <!-- && !isConfigUser  -->
+        <li *ngIf="i<(breadcrumbList.length-1) && !isConfigUser  " class="breadcrumb-item" [routerLink]="item.value"
           style="cursor:pointer;">{{item?.name}}
           <!-- &nbsp; {{"."}} &nbsp; -->
         </li>
-        <li *ngIf="i>=(breadcrumbList.length-1)" class="breadcrumb-item active" style="cursor:pointer;">{{item.name}}
+        <li *ngIf="i>=(breadcrumbList.length-1) " class="breadcrumb-item active" style="cursor:pointer;">{{item.name}}
         </li>
 
       </ng-container>
@@ -72,7 +77,7 @@
       <li>
         <button mat-button [matMenuTriggerFor]="menu" class="user">
           <mat-icon class="material-symbols-outlined me-1">account_circle</mat-icon>
-          {{user_data.userName}}
+          {{userData.userName}}
           <mat-icon class="user-image-icon" style="height: 18px ;">keyboard_arrow_down</mat-icon>
         </button>
         <mat-menu #menu="matMenu" class="custom mat-menu-panel " xPosition="before">

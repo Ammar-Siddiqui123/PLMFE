@@ -55,7 +55,6 @@ export class BatchSelectedOrdersComponent implements OnInit {
     // this.dataSource.sort = this.sort;
   }
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes['selectedOrderList']?.currentValue);
     let toteLimit=0;
 
     if(changes['selectedOrderList']){

@@ -9,6 +9,7 @@ import { SuperBatchComponent } from './super-batch/super-batch.component';
 import { RequiredDateStatusComponent } from '../dialogs/required-date-status/required-date-status.component';
 import { ProcessPutAwaysComponent } from './process-put-aways/process-put-aways.component';
 import { ProcessPicksComponent } from './process-picks/process-picks.component';
+import { AdminComponent } from './admin/admin.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ProcessPicksComponent } from './process-picks/process-picks.component';
     SuperBatchComponent,
     RequiredDateStatusComponent,
     ProcessPutAwaysComponent,
-    ProcessPicksComponent
+    ProcessPicksComponent,
+    AdminComponent
   ],
   imports: [
     CommonModule,

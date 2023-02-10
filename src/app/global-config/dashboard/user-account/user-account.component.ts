@@ -5,6 +5,7 @@ import { GlobalconfigService } from '../../globalconfig.service';
 import labels from '../../../labels/labels.json';
 import { Router,NavigationEnd  } from '@angular/router';
 import { FormControl, FormGroup, Validators, } from '@angular/forms';
+import { AuthService } from 'src/app/init/auth.service';
 
 
 @Component({
@@ -18,22 +19,26 @@ export class UserAccountComponent implements OnInit {
     private globalConfService: GlobalconfigService,
     private toastr: ToastrService,
     private router: Router,
+    private authService:AuthService
   ) {}
 
   username: any;
   password: any;
   constUser:any;
+  passwordCompare:any;
+  public toggle_password = true;
   ngOnInit(): void {
     let sharedData = this.sharedService.getData();
     if (sharedData && sharedData.loginInfo) {
       this.username = sharedData.loginInfo[0].user;
       this.password = sharedData.loginInfo[0].password;
+      this.passwordCompare = sharedData.loginInfo[0].password;
     } else {
       this.getMenuData();
     }
   }
   addLoginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
+    username: new FormControl({value: '', disabled: true}, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
     password: new FormControl('', [Validators.required]),
   });
   getMenuData() {
@@ -47,19 +52,25 @@ export class UserAccountComponent implements OnInit {
     this.globalConfService.get(payload, '/GlobalConfig/Menu').subscribe(
       (res: any) => {
         res && res.data;
-        if (res && res.data) {
+        if (res && res.data ) {
           this.sharedService.setData(res.data);
           this.username = res.data.loginInfo[0].user;
           this.password = res.data.loginInfo[0].password;
+          this.passwordCompare= res.data.loginInfo[0].password;
+
           this.constUser=res.data.loginInfo[0].user;
         }
       },
       (error) => {}
     );
   }
+  
+
+ 
   changeGlobalAcc() {
     let payload = {
-      userName: this.constUser,
+      // userName: this.constUser,
+      userName:this.authService.userData().userName,
       password: this.password,
     };
     this.globalConfService
@@ -72,6 +83,7 @@ export class UserAccountComponent implements OnInit {
               timeOut: 2000,
             });
           }
+          this.getMenuData();
           localStorage.clear();
           this.router.navigate(['/globalconfig']);
         },

@@ -167,7 +167,7 @@ export class ReprocessedTransactionComponent implements OnInit {
       wsid: this.userData.wsid,
     };
     this.transactionService
-      .get(this.payload, '/Admin/ReprocessedTransactionTable')
+      .get(this.payload, '/Admin/ReprocessedTransactionTable',true)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();
@@ -196,7 +196,7 @@ export class ReprocessedTransactionComponent implements OnInit {
   async autocompleteSearchColumn() {
     let searchPayload = {
       query: this.columnSearch.searchValue,
-      tableName: 6,
+      tableName: 5,
       column: this.columnSearch.searchColumn.colDef,
       username: this.userData.userName,
       wsid: this.userData.wsid,
