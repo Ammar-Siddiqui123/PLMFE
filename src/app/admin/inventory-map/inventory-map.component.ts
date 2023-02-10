@@ -143,11 +143,13 @@ export class InventoryMapComponent implements OnInit {
       .subscribe((events: RoutesRecognized[]) => {
       
         if (events[0].urlAfterRedirects == '/InductionManager/Admin') {
+          console.log('TRIGGERED');
           localStorage.setItem('routeFromInduction','true')
             // this.showReprocess=false;
             // this.showReprocessed=false;
          
         }else{
+          console.log('TRIGGERED 2');
           localStorage.setItem('routeFromInduction','false')
           // this.showReprocess=true;
           // this.showReprocessed=true;
