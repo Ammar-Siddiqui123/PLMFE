@@ -478,7 +478,7 @@ export class ReprocessTransactionComponent implements OnInit {
   
         this.seqColumn.delete(deletePayload).subscribe((res: any) => {
   
-  
+                this.selectedVariable = "";
                 this.toastr.success(labels.alert.update, 'Success!',{
                   positionClass: 'toast-bottom-right',
                   timeOut:2000

@@ -77,6 +77,7 @@ export class SideNavComponent implements OnInit {
   constructor(private http: HttpClient,private router: Router,private authService: AuthService,private sharedService:SharedService, private globalService: GlobalconfigService) { }
 
   ngOnInit(): void {
+    this.userData = this.authService.userData();
    this.isConfigUser =  localStorage.getItem('isConfigUser') ?? false;
   // console.log(this.isConfigUser);
     this.loadMenus({route: this.router.url});
@@ -195,7 +196,7 @@ export class SideNavComponent implements OnInit {
           this.isChildMenu = true;
         }    
 
-        this.sharedService.updateLoggedInUser(this.authService.userData().userName,this.authService.userData().wsid,menu.route);
+        this.sharedService.updateLoggedInUser(this.userData.username,this.userData.wsid,menu.route);
   
       
     }
