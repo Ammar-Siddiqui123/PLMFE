@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { SetColumnSeqService } from '../admin/dialogs/set-column-seq/set-column-seq.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SharedService {
 
-  constructor() { }
+  constructor(private columnSequence : SetColumnSeqService) { }
   loadMenu : boolean = false;
   private data: any;
   private menuData = new Subject<any>();
@@ -39,6 +40,18 @@ export class SharedService {
   getApp() {
     return this.appData;
   }
+
+
+  updateLoggedInUser(userName:any,wsid:any,menu:any)
+  {
+    this.columnSequence.updateAppName(userName,wsid,menu.replace(/[^a-z]/gi, '')).subscribe((res: any) => {
+      //alert('DONE');
+      (error) => {
+        // alert(error);
+         }
+         });
+  }
+
   setMenuData(value: any) {
     
 

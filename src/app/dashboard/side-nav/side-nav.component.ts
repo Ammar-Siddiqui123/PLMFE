@@ -7,6 +7,7 @@ import { of, from } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-side-nav',
   templateUrl: './side-nav.component.html',
@@ -16,6 +17,8 @@ export class SideNavComponent implements OnInit {
   menuData: any=[];
   @Input() sideBarOpen: Boolean;
   isConfigUser:any = false;
+
+  public userData: any;
 
   dynamicMenu: any=[]
   menus: any = [
@@ -72,7 +75,7 @@ export class SideNavComponent implements OnInit {
   isParentMenu: boolean = true;
   isChildMenu: boolean = false;
   childMenus: any;
-  constructor(private http: HttpClient,private router: Router,private authService: AuthService,private sharedService:SharedService, private globalService: GlobalconfigService,) { }
+  constructor(private http: HttpClient,private router: Router,private authService: AuthService,private sharedService:SharedService, private globalService: GlobalconfigService) { }
 
   ngOnInit(): void {
    this.isConfigUser =  localStorage.getItem('isConfigUser') ?? false;
@@ -171,25 +174,36 @@ export class SideNavComponent implements OnInit {
     );
   }
   loadMenus(menu: any) {
-    if (menu.route.includes('/admin')) {
-      this.childMenus = this.adminMenus;
-      this.isParentMenu = false;
-      this.isChildMenu = true;
+    if(menu.route!='')
+    {
+        if (menu.route.includes('/admin')) {
+          this.childMenus = this.adminMenus;
+          this.isParentMenu = false;
+          this.isChildMenu = true;
+        }
+        if (menu.route.includes('/InductionManager')) {
+          this.childMenus = this.inductionMenus;
+          this.isParentMenu = false;
+          this.isChildMenu = true;
+        }
+        if (menu.route === '/dashboard') {
+          this.isParentMenu = true;
+          this.isChildMenu = false;
+        }
+        if (menu.route.includes('/globalconfig')) {
+          this.childMenus = this.globalMenus;
+          this.isParentMenu = false;
+          this.isChildMenu = true;
+        }    
+
+        this.sharedService.updateLoggedInUser(this.authService.userData().username,this.authService.userData().wsid,menu.route);
+  
+      
     }
-    if (menu.route.includes('/InductionManager')) {
-      this.childMenus = this.inductionMenus;
-      this.isParentMenu = false;
-      this.isChildMenu = true;
-    }
-    if (menu.route === '/dashboard') {
-      this.isParentMenu = true;
-      this.isChildMenu = false;
-    }
-    if (menu.route.includes('/globalconfig')) {
-      this.childMenus = this.globalMenus;
-      this.isParentMenu = false;
-      this.isChildMenu = true;
-    }    
+
+
+
+   
   }
 
   isAuthorized(controlName:any) {
