@@ -10,6 +10,7 @@ import { RequiredDateStatusComponent } from '../dialogs/required-date-status/req
 import { ProcessPutAwaysComponent } from './process-put-aways/process-put-aways.component';
 import { ProcessPicksComponent } from './process-picks/process-picks.component';
 import { AdminComponent } from './admin/admin.component';
+import { AdminPrefrencesComponent } from './admin-prefrences/admin-prefrences.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { AdminComponent } from './admin/admin.component';
     RequiredDateStatusComponent,
     ProcessPutAwaysComponent,
     ProcessPicksComponent,
-    AdminComponent
+    AdminComponent,
+    AdminPrefrencesComponent
   ],
   imports: [
     CommonModule,
