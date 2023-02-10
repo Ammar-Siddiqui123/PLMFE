@@ -373,7 +373,7 @@ export class ReprocessTransactionComponent implements OnInit {
       }
       else
       {
-        if(this.selectedVariable =='deleteReplenishment')
+        if(this.selectedVariable.includes('delete'))
         {
           let deletePayload ;
           if (!opened && this.selectedVariable && this.selectedVariable =='deleteReplenishment') 
@@ -462,6 +462,7 @@ export class ReprocessTransactionComponent implements OnInit {
           }
           else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByOrderNumber') 
           {
+            
             deletePayload = 
             {
               "id": 0,
