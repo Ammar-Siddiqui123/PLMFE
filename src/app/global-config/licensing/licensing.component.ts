@@ -157,6 +157,7 @@ export class LicensingComponent implements OnInit {
 
 
               data: {
+                displayName:item.displayname,
                 mode: '',
               },
             });
@@ -164,7 +165,7 @@ export class LicensingComponent implements OnInit {
               .afterClosed()
               .pipe(takeUntil(this.onDestroy$))
               .subscribe((result) => {
-               
+                this.getAppLicense();
               });
           }
         },
