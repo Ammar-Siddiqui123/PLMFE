@@ -350,151 +350,154 @@ export class ReprocessTransactionComponent implements OnInit {
   }
 
   actionDialog(opened: boolean) {
-    console.log(this.userData);
-    if (!opened && this.selectedVariable && this.selectedVariable === 'set_column_sq') {
-      let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
-        height: '96%',
-        width: '70vw',
-        data: {
-          mode: event,
-          tableName: 'Open Transactions',
-        },
-      });
-      dialogRef
-        .afterClosed()
-        .pipe(takeUntil(this.onDestroy$))
-        .subscribe((result) => {
-          this.selectedVariable = '';
-          if (result && result.isExecuted) {
-            this.getColumnsData();
+    if(this.selectedVariable!=undefined)
+    {
+      if (!opened && this.selectedVariable && this.selectedVariable === 'set_column_sq') {
+        let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
+          height: '96%',
+          width: '70vw',
+          data: {
+            mode: event,
+            tableName: 'Open Transactions',
+          },
+        });
+        dialogRef
+          .afterClosed()
+          .pipe(takeUntil(this.onDestroy$))
+          .subscribe((result) => {
+            this.selectedVariable = '';
+            if (result && result.isExecuted) {
+              this.getColumnsData();
+            }
+          });
+      }
+      else
+      {
+        let deletePayload ;
+        if (!opened && this.selectedVariable && this.selectedVariable =='deleteReplenishment') 
+        {
+        deletePayload = 
+        {
+          "id": 0,
+          "history": false,
+          "reason": "",
+          "message": "",
+          "dateStamp": "",
+          "itemNumber": "",
+          "orderNumber": "",
+          "replenishments": true,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
+        }
+        }
+        else if (!opened && this.selectedVariable && this.selectedVariable =='deleteSelected') 
+        {
+        
+        }
+        else if (!opened && this.selectedVariable && this.selectedVariable =='deleteBySelectedReason') 
+        {
+          deletePayload = 
+          {
+            "id": 0,
+            "history": false,
+            "reason": this.reason,
+            "message": "",
+            "dateStamp": "",
+            "itemNumber": "",
+            "orderNumber": "",
+            "replenishments": false,
+            "username": this.userData.userName,
+            "wsid": this.userData.wsid
+          }
+        }
+        else if (!opened && this.selectedVariable && this.selectedVariable =='deleteBySelectedMessage') 
+        {
+          deletePayload = 
+          {
+            "id": 0,
+            "history": false,
+            "reason": "",
+            "message": this.reasonMessage,
+            "dateStamp": "",
+            "itemNumber": "",
+            "orderNumber": "",
+            "replenishments": false,
+            "username": this.userData.userName,
+            "wsid": this.userData.wsid
+          }
+        }
+        else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByDateTime') 
+        {
+          deletePayload = 
+          {
+            "id": 0,
+            "history": false,
+            "reason": "",
+            "message": "",
+            "dateStamp": this.transactionDateTime,
+            "itemNumber": "",
+            "orderNumber": "",
+            "replenishments": false,
+            "username": this.userData.userName,
+            "wsid": this.userData.wsid
+          }
+        }
+        else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByItemNumber') 
+        {
+          deletePayload = 
+          {
+            "id": 0,
+            "history": false,
+            "reason": "",
+            "message": "",
+            "dateStamp": "",
+            "itemNumber": this.itemNumber,
+            "orderNumber": "",
+            "replenishments": false,
+            "username": this.userData.userName,
+            "wsid": this.userData.wsid
+          }
+        }
+        else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByOrderNumber') 
+        {
+          deletePayload = 
+          {
+            "id": 0,
+            "history": false,
+            "reason": "",
+            "message": "",
+            "dateStamp": "",
+            "itemNumber": "",
+            "orderNumber": this.orderNumber,
+            "replenishments": false,
+            "username": this.userData.userName,
+            "wsid": this.userData.wsid
+          }
+        }
+  
+  
+        this.seqColumn.delete(deletePayload).subscribe((res: any) => {
+  
+  
+                this.toastr.success(labels.alert.update, 'Success!',{
+                  positionClass: 'toast-bottom-right',
+                  timeOut:2000
+               });
+  
+               this.getContentData("1");
+               this.getOrdersWithStatus();
+      
+          (error) => {
+            this.toastr.error('Something went wrong', 'Error!', {
+                      positionClass: 'toast-bottom-right',
+                      timeOut: 2000,
+                    });
           }
         });
+  
+      } 
     }
-    else
-    {
-      let deletePayload ;
-      if (!opened && this.selectedVariable && this.selectedVariable =='deleteReplenishment') 
-      {
-      deletePayload = 
-      {
-        "id": 0,
-        "history": false,
-        "reason": "",
-        "message": "",
-        "dateStamp": "",
-        "itemNumber": "",
-        "orderNumber": "",
-        "replenishments": true,
-        "username": this.userData.userName,
-        "wsid": this.userData.wsid
-      }
-      }
-      else if (!opened && this.selectedVariable && this.selectedVariable =='deleteSelected') 
-      {
-      alert(this.selectedVariable);
-      }
-      else if (!opened && this.selectedVariable && this.selectedVariable =='deleteBySelectedReason') 
-      {
-        deletePayload = 
-        {
-          "id": 0,
-          "history": false,
-          "reason": this.reason,
-          "message": "",
-          "dateStamp": "",
-          "itemNumber": "",
-          "orderNumber": "",
-          "replenishments": false,
-          "username": this.userData.userName,
-          "wsid": this.userData.wsid
-        }
-      }
-      else if (!opened && this.selectedVariable && this.selectedVariable =='deleteBySelectedMessage') 
-      {
-        deletePayload = 
-        {
-          "id": 0,
-          "history": false,
-          "reason": "",
-          "message": this.reasonMessage,
-          "dateStamp": "",
-          "itemNumber": "",
-          "orderNumber": "",
-          "replenishments": false,
-          "username": this.userData.userName,
-          "wsid": this.userData.wsid
-        }
-      }
-      else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByDateTime') 
-      {
-        deletePayload = 
-        {
-          "id": 0,
-          "history": false,
-          "reason": "",
-          "message": "",
-          "dateStamp": this.transactionDateTime,
-          "itemNumber": "",
-          "orderNumber": "",
-          "replenishments": false,
-          "username": this.userData.userName,
-          "wsid": this.userData.wsid
-        }
-      }
-      else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByItemNumber') 
-      {
-        deletePayload = 
-        {
-          "id": 0,
-          "history": false,
-          "reason": "",
-          "message": "",
-          "dateStamp": "",
-          "itemNumber": this.itemNumber,
-          "orderNumber": "",
-          "replenishments": false,
-          "username": this.userData.userName,
-          "wsid": this.userData.wsid
-        }
-      }
-      else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByOrderNumber') 
-      {
-        deletePayload = 
-        {
-          "id": 0,
-          "history": false,
-          "reason": "",
-          "message": "",
-          "dateStamp": "",
-          "itemNumber": "",
-          "orderNumber": this.orderNumber,
-          "replenishments": false,
-          "username": this.userData.userName,
-          "wsid": this.userData.wsid
-        }
-      }
 
-
-      this.seqColumn.delete(deletePayload).subscribe((res: any) => {
-
-
-              this.toastr.success(labels.alert.update, 'Success!',{
-                positionClass: 'toast-bottom-right',
-                timeOut:2000
-             });
-
-             this.getContentData("1");
-             this.getOrdersWithStatus();
-    
-        (error) => {
-          this.toastr.error('Something went wrong', 'Error!', {
-                    positionClass: 'toast-bottom-right',
-                    timeOut: 2000,
-                  });
-        }
-      });
-
-    } 
    
 
   }

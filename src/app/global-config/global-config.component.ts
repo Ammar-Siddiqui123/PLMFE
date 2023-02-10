@@ -176,6 +176,7 @@ export class GlobalConfigComponent {
       'Order Manager',
       'Admin Menu',
       'FlowRack Replenish',
+      'Markout',
 
       //Admin Menus
       'Dashboard',

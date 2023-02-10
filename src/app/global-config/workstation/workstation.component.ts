@@ -698,7 +698,13 @@ export class WorkstationComponent implements OnInit {
     this.globalConfService
       .get(payload, '/GlobalConfig/WorkStationDefaultAppAdd')
       .subscribe(
-        (res: any) => {},
+        (res: any) => {
+
+
+          if(res.isExecuted){
+            this.getCanAccessList(this.wsid);
+          }
+        },
         (error) => {}
       );
   }

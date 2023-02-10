@@ -9,6 +9,9 @@ export class SharedService {
   constructor() { }
   loadMenu : boolean = false;
   private data: any;
+  private menuData = new Subject<any>();
+  menuData$ = this.menuData.asObservable();
+
   private appData:any;
   updateAdminMenuObserver: Subject<boolean> = new Subject<boolean>(); // observing that bool
   updateSidebar(){
@@ -35,6 +38,12 @@ export class SharedService {
   }
   getApp() {
     return this.appData;
+  }
+  setMenuData(value: any) {
+    
+
+    
+    this.menuData.next(value);
   }
   
 }

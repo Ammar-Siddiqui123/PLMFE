@@ -5,9 +5,11 @@
   <mat-sidenav #sidenav mode="side" disableClose="true" [opened]="sideBarOpen">
     <app-side-nav [sideBarOpen]="sideBarOpen"></app-side-nav>
   </mat-sidenav>
-  <mat-sidenav-content>
+ 
+  <mat-sidenav-content [ngClass]="{'default-margin' : sideBarOpen}">
     <div class="dashboard-section" [ngClass]="{'side-bar-opened' : sideBarOpen}">
       <div class="breadcrumb-menu">
+   
         <nav aria-label="breadcrumb" class="breadcrumb" >
        
           <!-- <div *ngFor="let item of breadcrumbList; index as i;">
