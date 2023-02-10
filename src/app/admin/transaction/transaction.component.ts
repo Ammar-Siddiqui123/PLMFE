@@ -14,24 +14,24 @@ export class TransactionComponent implements OnInit ,AfterViewInit {
   public showReprocessed;
   public setval;
   constructor(router: Router) {
-    router.events
-      .pipe(
-        filter((evt: any) => evt instanceof RoutesRecognized),
-        pairwise()
-      )
-      .subscribe((events: RoutesRecognized[]) => {
+    // router.events
+    //   .pipe(
+    //     filter((evt: any) => evt instanceof RoutesRecognized),
+    //     pairwise()
+    //   )
+    //   .subscribe((events: RoutesRecognized[]) => {
       
-        if (events[0].urlAfterRedirects == '/InductionManager/Admin') {
-          localStorage.setItem('routeFromInduction','true')
-            // this.showReprocess=false;
-            // this.showReprocessed=false;
+    //     if (events[0].urlAfterRedirects == '/InductionManager/Admin') {
+    //       localStorage.setItem('routeFromInduction','true')
+    //         // this.showReprocess=false;
+    //         // this.showReprocessed=false;
          
-        }else{
-          localStorage.setItem('routeFromInduction','false')
-          // this.showReprocess=true;
-          // this.showReprocessed=true;
-        }
-      });
+    //     }else{
+    //       localStorage.setItem('routeFromInduction','false')
+    //       // this.showReprocess=true;
+    //       // this.showReprocessed=true;
+    //     }
+    //   });
   }
   ngAfterViewInit() {
   
