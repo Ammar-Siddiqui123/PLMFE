@@ -373,93 +373,11 @@ export class ReprocessTransactionComponent implements OnInit {
       }
       else
       {
-        let deletePayload ;
-        if (!opened && this.selectedVariable && this.selectedVariable =='deleteReplenishment') 
+        if(this.selectedVariable =='deleteReplenishment')
         {
-        deletePayload = 
-        {
-          "id": 0,
-          "history": false,
-          "reason": "",
-          "message": "",
-          "dateStamp": "",
-          "itemNumber": "",
-          "orderNumber": "",
-          "replenishments": true,
-          "username": this.userData.userName,
-          "wsid": this.userData.wsid
-        }
-        }
-        else if (!opened && this.selectedVariable && this.selectedVariable =='deleteSelected') 
-        {
-        
-        }
-        else if (!opened && this.selectedVariable && this.selectedVariable =='deleteBySelectedReason') 
-        {
-          deletePayload = 
+          let deletePayload ;
+          if (!opened && this.selectedVariable && this.selectedVariable =='deleteReplenishment') 
           {
-            "id": 0,
-            "history": false,
-            "reason": this.reason,
-            "message": "",
-            "dateStamp": "",
-            "itemNumber": "",
-            "orderNumber": "",
-            "replenishments": false,
-            "username": this.userData.userName,
-            "wsid": this.userData.wsid
-          }
-        }
-        else if (!opened && this.selectedVariable && this.selectedVariable =='deleteBySelectedMessage') 
-        {
-          deletePayload = 
-          {
-            "id": 0,
-            "history": false,
-            "reason": "",
-            "message": this.reasonMessage,
-            "dateStamp": "",
-            "itemNumber": "",
-            "orderNumber": "",
-            "replenishments": false,
-            "username": this.userData.userName,
-            "wsid": this.userData.wsid
-          }
-        }
-        else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByDateTime') 
-        {
-          deletePayload = 
-          {
-            "id": 0,
-            "history": false,
-            "reason": "",
-            "message": "",
-            "dateStamp": this.transactionDateTime,
-            "itemNumber": "",
-            "orderNumber": "",
-            "replenishments": false,
-            "username": this.userData.userName,
-            "wsid": this.userData.wsid
-          }
-        }
-        else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByItemNumber') 
-        {
-          deletePayload = 
-          {
-            "id": 0,
-            "history": false,
-            "reason": "",
-            "message": "",
-            "dateStamp": "",
-            "itemNumber": this.itemNumber,
-            "orderNumber": "",
-            "replenishments": false,
-            "username": this.userData.userName,
-            "wsid": this.userData.wsid
-          }
-        }
-        else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByOrderNumber') 
-        {
           deletePayload = 
           {
             "id": 0,
@@ -468,16 +386,109 @@ export class ReprocessTransactionComponent implements OnInit {
             "message": "",
             "dateStamp": "",
             "itemNumber": "",
-            "orderNumber": this.orderNumber,
-            "replenishments": false,
+            "orderNumber": "",
+            "replenishments": true,
             "username": this.userData.userName,
             "wsid": this.userData.wsid
           }
-        }
-  
-  
-        this.seqColumn.delete(deletePayload).subscribe((res: any) => {
-  
+          }
+          else if (!opened && this.selectedVariable && this.selectedVariable =='deleteSelected') 
+          {
+          
+          }
+          else if (!opened && this.selectedVariable && this.selectedVariable =='deleteBySelectedReason') 
+          {
+            deletePayload = 
+            {
+              "id": 0,
+              "history": false,
+              "reason": this.reason,
+              "message": "",
+              "dateStamp": "",
+              "itemNumber": "",
+              "orderNumber": "",
+              "replenishments": false,
+              "username": this.userData.userName,
+              "wsid": this.userData.wsid
+            }
+          }
+          else if (!opened && this.selectedVariable && this.selectedVariable =='deleteBySelectedMessage') 
+          {
+            deletePayload = 
+            {
+              "id": 0,
+              "history": false,
+              "reason": "",
+              "message": this.reasonMessage,
+              "dateStamp": "",
+              "itemNumber": "",
+              "orderNumber": "",
+              "replenishments": false,
+              "username": this.userData.userName,
+              "wsid": this.userData.wsid
+            }
+          }
+          else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByDateTime') 
+          {
+            deletePayload = 
+            {
+              "id": 0,
+              "history": false,
+              "reason": "",
+              "message": "",
+              "dateStamp": this.transactionDateTime,
+              "itemNumber": "",
+              "orderNumber": "",
+              "replenishments": false,
+              "username": this.userData.userName,
+              "wsid": this.userData.wsid
+            }
+          }
+          else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByItemNumber') 
+          {
+            deletePayload = 
+            {
+              "id": 0,
+              "history": false,
+              "reason": "",
+              "message": "",
+              "dateStamp": "",
+              "itemNumber": this.itemNumber,
+              "orderNumber": "",
+              "replenishments": false,
+              "username": this.userData.userName,
+              "wsid": this.userData.wsid
+            }
+          }
+          else if (!opened && this.selectedVariable && this.selectedVariable =='deleteByOrderNumber') 
+          {
+            deletePayload = 
+            {
+              "id": 0,
+              "history": false,
+              "reason": "",
+              "message": "",
+              "dateStamp": "",
+              "itemNumber": "",
+              "orderNumber": this.orderNumber,
+              "replenishments": false,
+              "username": this.userData.userName,
+              "wsid": this.userData.wsid
+            }
+          }
+          const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
+            height: 'auto',
+            width: '480px',
+            autoFocus: '__non_existing_element__',
+            data: {
+              mode: '',
+            }
+          })
+          dialogRef.afterClosed().subscribe(result => {
+            if(result=='Yes')
+            {
+              this.seqColumn.delete(deletePayload).subscribe((res: any) => {
+    
                 this.selectedVariable = "";
                 this.toastr.success(labels.alert.update, 'Success!',{
                   positionClass: 'toast-bottom-right',
@@ -494,6 +505,13 @@ export class ReprocessTransactionComponent implements OnInit {
                     });
           }
         });
+            }
+      
+          })
+        }
+
+  
+        
   
       } 
     }
@@ -501,7 +519,6 @@ export class ReprocessTransactionComponent implements OnInit {
    
 
   }
-
 
 
 
