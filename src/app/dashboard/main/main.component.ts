@@ -213,6 +213,9 @@ export class MainComponent implements OnInit {
     if (menu == 'admin') {
       this.sharedService.updateAdminMenu();
     }
+    else if(menu=='induction'){
+      this.sharedService.updateInductionAdminMenu(menu)
+    }
     
     // console.log(this.sharedService.updateSidebar());
     this.sharedService.updateSidebar();
