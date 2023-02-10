@@ -70,6 +70,9 @@ export class AddInvMapLocationComponent implements OnInit {
   row = '';
   shelf = '';
   bin = '';
+  setStorage;
+  routeFromIM:boolean=false;
+
 
   getDetailInventoryMapData: InventoryMapDataStructure = {
     invMapID: '',
@@ -166,6 +169,10 @@ export class AddInvMapLocationComponent implements OnInit {
       // );
 
     });
+
+
+    this.setStorage =localStorage.getItem('routeFromInduction')
+    this.routeFromIM=JSON.parse(this.setStorage)
 
   }
 

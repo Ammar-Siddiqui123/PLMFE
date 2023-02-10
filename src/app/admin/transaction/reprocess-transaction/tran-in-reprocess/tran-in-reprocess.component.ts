@@ -10,6 +10,7 @@ import { TransactionService } from '../../transaction.service';
 })
 export class TranInReprocessComponent implements OnInit {
   selectedOption = "reprocess";
+  reasonFilter = "none";
   public userData : any;
   public orderList : any;
   public itemNumberList : any;
@@ -17,6 +18,7 @@ export class TranInReprocessComponent implements OnInit {
   public orderNumber : string = '';
   public history : boolean = false;
   @Output() reprocessSelectionEvent = new EventEmitter<string>();
+  @Output() reasonFilterEvent = new EventEmitter<string>();
   @Output() selectedOrderNumber = new EventEmitter<string>();
   @Output() selectedItemNum = new EventEmitter<string>();
   @Output() filterCleared = new EventEmitter<string>();
@@ -39,6 +41,11 @@ export class TranInReprocessComponent implements OnInit {
       this.history = false;
     }
     this.reprocessSelectionEvent.emit(event.value);
+    this.clear();
+  }
+  reasonFilterChange(event) {
+    this.reasonFilterEvent.emit(event.value);
+    this.clear();
   }
 
   clear()

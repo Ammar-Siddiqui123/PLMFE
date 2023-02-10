@@ -2,19 +2,24 @@
   <div class="container-fluid">
     <div class="row g-4">
       <!-- Main Section Option (Import Export) -->
-      <div class="col-xl-3 col-lg-6">
-        <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
-          <a class="main-section-option-link" href="#"></a>
-          <div class="main-section-icon">
-            <span class="material-symbols-outlined">
-              electric_bolt
-            </span>
-          </div>
-          <h4 class="main-section-title" style="font-size:22px;">Import Export</h4>
-        </div>
-      </div>
+      <ng-container *ngFor="let item of applicationData" >
+        <div class="col-xl-3 col-lg-6"  [routerLink]="item.info.route" (click)="updateMenu(item.info.updateMenu)">
 
-      <!-- Main Section Option (Admin) -->
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
+            <a class="main-section-option-link" href="#"></a>
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">
+               {{item.info.iconName}}
+              </span>
+            </div>
+            <h4 class="main-section-title" style="font-size:22px;">{{item.displayname}}</h4>
+          </div>
+
+        </div>
+
+      </ng-container>
+
+      <!-- Main Section Option (Admin)
       <div class="col-xl-3 col-lg-6">
         <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white" routerLink="/admin" (click)="updateMenu('admin')">
           <div class="main-section-icon">
@@ -26,7 +31,7 @@
         </div>
       </div>
 
-      <!-- Main Section Option (Induction Manager) -->
+      Main Section Option (Induction Manager)
       <div class="col-xl-3 col-lg-6" routerLink="/InductionManager">
         <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
           <a class="main-section-option-link" href="#"></a>
@@ -39,7 +44,7 @@
         </div>
       </div>
 
-      <!-- Main Section Option (Work Manager) -->
+      Main Section Option (Work Manager)
       <div class="col-xl-3 col-lg-6">
         <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
           <a class="main-section-option-link" href="#"></a>
@@ -52,7 +57,7 @@
         </div>
       </div>
 
-      <!-- Main Section Option (Consolidation Manager) -->
+      Main Section Option (Consolidation Manager)
       <div class="col-xl-3 col-lg-6">
         <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
           <a class="main-section-option-link" href="#"></a>
@@ -65,7 +70,7 @@
         </div>
       </div>
 
-      <!-- Main Section Option (Order Manager) -->
+      Main Section Option (Order Manager)
       <div class="col-xl-3 col-lg-6">
         <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
           <a class="main-section-option-link" href="#"></a>
@@ -78,7 +83,7 @@
         </div>
       </div>
 
-      <!-- Main Section Option (FlowReck Replenish) -->
+      Main Section Option (FlowReck Replenish)
       <div class="col-xl-3 col-lg-6">
         <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
           <a class="main-section-option-link" href="#"></a>
@@ -91,7 +96,7 @@
         </div>
       </div>
 
-      <!-- Main Section Option (Markout) -->
+      Main Section Option (Markout)
       <div class="col-xl-3 col-lg-6">
         <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
           <a class="main-section-option-link" href="#"></a>
@@ -102,7 +107,7 @@
           </div>
           <h4 class="main-section-title" style="font-size:22px;">Markout</h4>
         </div>
-      </div>
+      </div> -->
 
 
     </div>

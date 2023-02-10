@@ -337,7 +337,49 @@ export class DeleteConfirmationComponent implements OnInit {
       }
 
 
-      
+      else if (this.data.mode === 'delete_workstation') {
+        let payload={
+          WSID: this.data.wsid,
+        }
+   
+   
+          this.globalconfigService.get(payload,'/GlobalConfig/WorkStationDelete').subscribe((res: any)=>{
+            if(res.isExecuted){
+              this.toastr.success(labels.alert.success, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+              this.dialogRef.close({isExecuted:true})
+            }else{
+              this.toastr.error(labels.alert.went_worng, 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            }
+            this.dialogRef.close({isExecuted:false})
+          },(err)=>{
+            this.toastr.error(labels.alert.went_worng, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          })
+     
+        // this.employeeService.deleteEmployeeLocation(locationData).subscribe((res: any) => {
+        //   // if (res.isExecuted) {
+        //   //   this.dialog.closeAll();
+        //   //   this.toastr.success(labels.alert.delete, 'Success!', {
+        //   //     positionClass: 'toast-bottom-right',
+        //   //     timeOut: 2000
+        //   //   });
+        //   // } else {
+        //   //   this.dialog.closeAll();
+        //   //   this.toastr.error(labels.alert.went_worng, 'Error!', {
+        //   //     positionClass: 'toast-bottom-right',
+        //   //     timeOut: 2000
+        //   //   });
+        //   // }
+        // });
+      }
 
 
       

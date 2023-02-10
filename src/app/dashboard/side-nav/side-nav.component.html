@@ -1,17 +1,43 @@
-<mat-nav-list *ngIf="isParentMenu">
+<div *ngIf="!isConfigUser">
+  <mat-nav-list *ngIf="isParentMenu">
+    <ng-container *ngFor="let menu of dynamicMenu;">
+      <mat-list-item routerLinkActive="active" routerLink="{{menu.route}}" (click)="loadMenus(menu)"
+        [disabled]="isAuthorized(menu.permission) || menu.route==='#'">
+        <span mat-list-icon class="material-symbols-outlined">
+          {{menu.icon}}
+        </span>
+        <!-- <mat-icon mat-list-icon>{{menu.icon}}</mat-icon> -->
+        <div class="sidenav-item" *ngIf="sideBarOpen">{{menu.title}}</div>
+      </mat-list-item>
+    </ng-container>
+  </mat-nav-list>
+  <mat-nav-list *ngIf="isChildMenu">
+    <ng-container *ngFor="let childMenu of childMenus;">
+      <mat-list-item routerLinkActive="active" routerLink="{{childMenu.route}}" (click)="loadMenus(childMenu)"
+        [disabled]="isAuthorized(childMenu.permission) || childMenu.route==='#'">
+        <span mat-list-icon class="material-symbols-outlined">
+          {{childMenu.icon}}
+        </span>
+        <!-- <mat-icon mat-list-icon>{{childMenu.icon}}</mat-icon> -->
+        <div class="sidenav-item" *ngIf="sideBarOpen">{{childMenu.title}}</div>
+      </mat-list-item>
+    </ng-container>
+  </mat-nav-list>
+</div>
+<!-- <mat-nav-list *ngIf="isParentMenu">
   <ng-container *ngFor="let menu of menus;">
     <mat-list-item  routerLinkActive="active" routerLink="{{menu.route}}" (click)="loadMenus(menu)" [disabled]="isAuthorized(menu.permission)">
       <span mat-list-icon class="material-symbols-outlined">
         {{menu.icon}}
       </span>
-      <!-- <mat-icon mat-list-icon>{{menu.icon}}</mat-icon> -->
       <div class="sidenav-item" *ngIf="sideBarOpen">{{menu.title}}</div>
     </mat-list-item>
   </ng-container>
-</mat-nav-list>
+</mat-nav-list> -->
+<div *ngIf="isConfigUser">
 <mat-nav-list *ngIf="isChildMenu">
   <ng-container *ngFor="let childMenu of childMenus;">
-    <mat-list-item  routerLinkActive="active" routerLink="{{childMenu.route}}" (click)="loadMenus(childMenu)" [disabled]="isAuthorized(childMenu.permission)">
+    <mat-list-item routerLinkActive="active" routerLink="{{childMenu.route}}" (click)="loadMenus(childMenu)">
       <span mat-list-icon class="material-symbols-outlined">
         {{childMenu.icon}}
       </span>
@@ -20,3 +46,4 @@
     </mat-list-item>
   </ng-container>
 </mat-nav-list>
+</div>

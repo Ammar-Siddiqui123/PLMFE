@@ -15,10 +15,11 @@
          <div class="row">
             <div class="col-3">
                <div class="mb-3">
-                  <mat-form-field class="w-100 " formControlName="username" appearance="outline">
+                  <mat-form-field class="w-100 "appearance="outline">
                      <mat-label>Username</mat-label>
-                     <input [(ngModel)]="username" [value]="username" matInput value="Location Assignment Error"
-                        type="text">
+                     <input disabled [value]="username" matInput
+                    type="text">
+                       
                   </mat-form-field>
                   <mat-hint class="error-message" style="color: red;font-size: 14px;"
                      *ngIf="addLoginForm.controls['username'].invalid && (addLoginForm.controls['username'].dirty || addLoginForm.controls['username'].touched)">
@@ -35,8 +36,12 @@
                <div class="mb-3">
                <mat-form-field class="d-block w-100" appearance="outline">
                   <mat-label>Password</mat-label>
-                  <input [(ngModel)]="password" [value]="password" formControlName="password" type="password" matInput
-                     value="Location Assignment Error">
+                  <input [(ngModel)]="password" [value]="password" formControlName="password"   [maxLength]="32" matInput  [type]="toggle_password ? 'password' : 'text'"
+                    >
+                     <mat-icon matPrefix style="color: #090948;">lock</mat-icon>
+                     <button type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
+                       <mat-icon>{{toggle_password ? 'visibility_off' : 'visibility'}}</mat-icon>
+                     </button>
                </mat-form-field>
                <mat-hint class="error-message" style="color: red;font-size: 14px;"
                   *ngIf="addLoginForm.controls['password'].invalid && (addLoginForm.controls['password'].dirty || addLoginForm.controls['password'].touched)">
@@ -51,7 +56,7 @@
             </div>
             <div class="col-3 offset-3">
                <!-- (click)="changeGlobalAcc()" -->
-               <button mat-flat-button color="primary" [disabled]="password===''" class="btn-regular w-100">
+               <button mat-flat-button color="primary" [disabled]="password==='' || password===passwordCompare" class="btn-regular w-100">
                   Submit
                </button>
             </div>
