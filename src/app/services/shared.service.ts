@@ -14,6 +14,8 @@ export class SharedService {
 
   private appData:any;
   updateAdminMenuObserver: Subject<boolean> = new Subject<boolean>(); // observing that bool
+  updateInductionAdminObserver: Subject<boolean> = new Subject<boolean>(); // observing that bool
+
   updateSidebar(){
     this.loadMenu = !this.loadMenu;
     return this.loadMenu;
@@ -21,6 +23,11 @@ export class SharedService {
   updateAdminMenu()
   {
     this.updateAdminMenuObserver.next(true);
+  }
+
+  updateInductionAdminMenu()
+  {
+    this.updateInductionAdminObserver.next(true);
   }
   getSidebarStatus(){
     return this.loadMenu;

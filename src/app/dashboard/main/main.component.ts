@@ -143,7 +143,7 @@ export class MainComponent implements OnInit {
         route: '/InductionManager',
         iconName: 'checklist',
         name: 'Induction Manager',
-        updateMenu: '',
+        updateMenu: 'induction',
         permission: 'Induction Manager',
       },
       {
@@ -207,6 +207,7 @@ export class MainComponent implements OnInit {
     if (menu == 'admin') {
       this.sharedService.updateAdminMenu();
     }
+    
     // console.log(this.sharedService.updateSidebar());
     this.sharedService.updateSidebar();
   }
