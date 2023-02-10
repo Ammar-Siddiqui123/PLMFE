@@ -239,7 +239,6 @@ export class ReprocessTransactionComponent implements OnInit {
   this.deleteBySelectedReason=true;
   this.deleteBySelectedMessage=true;
   this.deleteByDateTime=true;
-
   this.deleteByItemNumber=true; //Only visible if searched
   this.deleteByOrderNumber=true; //Only visible if searched
   }
@@ -342,9 +341,7 @@ export class ReprocessTransactionComponent implements OnInit {
 
   filterCleared(evt:any)
   {
-    //sdfsdf
-    //this.getHistoryData();
-    this.getContentData();
+    this.getContentData("1");
     
 
   }
@@ -518,6 +515,10 @@ export class ReprocessTransactionComponent implements OnInit {
                     });
           }
         });
+            }
+            else 
+            {
+              this.selectedVariable = "";
             }
       
           })
@@ -771,12 +772,7 @@ export class ReprocessTransactionComponent implements OnInit {
 
   clearTransactionData() {
     this.isEnabled = true;
-    //this.transactionID = 0;
-    // this.isReprocessedChecked.flag = false;
-    // this.isCompleteChecked.flag = false;
-    // this.isHistoryChecked.flag = false;
   }
-
 
   getColumnsData() {
     let payload = {
