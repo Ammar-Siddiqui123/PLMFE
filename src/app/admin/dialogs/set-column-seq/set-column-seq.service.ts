@@ -44,4 +44,17 @@ export class SetColumnSeqService {
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/SaveTransaction`, payload,httpOptions);
   }
+
+  public delete(payload:any): Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic '
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Admin/ReprocessTransactionDelete`, payload,httpOptions);
+  }
+
+
+  
 }

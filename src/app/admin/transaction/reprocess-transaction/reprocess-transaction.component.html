@@ -82,6 +82,18 @@
                                     (openedChange)="actionDialog($event)">
                                     <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
                                     <mat-option value="set_column_sq">Set Column Sequence</mat-option>
+
+                                    <mat-option *ngIf="deleteReplenishment" value="deleteReplenishment">Delete Replenishment</mat-option>
+
+                                    <mat-option *ngIf="deleteSelected" value="deleteSelected">Delete Selected</mat-option>
+                                    <mat-option *ngIf="deleteBySelectedReason" value="deleteBySelectedReason">Delete By Selected Reason</mat-option>
+                                    <mat-option *ngIf="deleteBySelectedMessage" value="deleteBySelectedMessage">Delete By Selected Message</mat-option>
+                                    <mat-option *ngIf="deleteByDateTime" value="deleteByDateTime">Delete By Date Time</mat-option>
+                                    <mat-option *ngIf="deleteByItemNumber" value="deleteByItemNumber">Delete By Item Number</mat-option>
+                                    <mat-option *ngIf="deleteByOrderNumber" value="deleteByOrderNumber">Delete By Order Number</mat-option>
+
+
+
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
                                     expand_more
