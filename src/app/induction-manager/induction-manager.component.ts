@@ -36,7 +36,7 @@ export class InductionManagerComponent implements OnInit {
   }
   updateMenu(menu=''){
     if (menu == 'transaction-admin') {
-      this.sharedService.updateInductionAdminMenu();
+      this.sharedService.updateInductionAdminMenu(menu);
     }
 
   }
