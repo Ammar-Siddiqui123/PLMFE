@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { GlobalconfigService } from 'src/app/global-config/globalconfig.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { SharedService } from '../../../app/services/shared.service';
+import { mergeMap, map } from 'rxjs/operators';
+import { forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-main',
@@ -11,6 +13,9 @@ import { SharedService } from '../../../app/services/shared.service';
 export class MainComponent implements OnInit {
   tab_hover_color: string = '#cf9bff3d';
   licenseApp: any = [];
+  index = 0;
+  menuData: any = [];
+  appNames: any = [];
   applicationData: any = [];
   userData: any;
   constructor(
@@ -21,51 +26,99 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+  }
+
+  ngAfterViewInit() {
     this.getAppLicense();
   }
-  async getAppLicense() {
-    // get can access
 
-    this.globalService.get(null, '/GlobalConfig/AppLicense').subscribe(
-      (res: any) => {
-        if (res && res.data) {
-          this.convertToObj(res.data);
+  getAppLicense() {
+    let payload = {
+      WSID: this.userData.wsid,
+    };
+    this.globalService
+      .get(payload, '/GlobalConfig/AppNameByWorkstation')
+      .subscribe(
+        (res: any) => {
+          if (res && res.data) {
+            this.convertToObj(res.data);
+            localStorage.setItem('availableApps',JSON.stringify(this.applicationData))
+            this.sharedService.setMenuData(this.applicationData)
+          }
+        },
+        (error) => {}
+      );
+  }
+
+  convertToObj(data) {
+    data.wsAllAppPermission.forEach((item,i) => {
+      for (const key of Object.keys(data.appLicenses)) {
+        // arrayOfObjects.push({ key, value: this.licAppData[key] });
+        if (item.includes(key)  && data.appLicenses[key].isLicenseValid) {
+          this.applicationData.push({
+            appname: data.appLicenses[key].info.name,
+            displayname: data.appLicenses[key].info.displayName,
+            license: data.appLicenses[key].info.licenseString,
+            numlicense: data.appLicenses[key].numLicenses,
+            info: this.appNameDictionary(item),
+            // status: data[key].isLicenseValid ? 'Valid' : 'Invalid',
+            appurl: data.appLicenses[key].info.url,
+            isButtonDisable: true,
+          });
         }
-      },
-      (error) => {}
-    );
-  }
-  async convertToObj(data) {
-    for await (const key of Object.keys(data)) {
-      // arrayOfObjects.push({
-      //   appname: data[key].info.name,
-      //   license: data[key].info.licenseString,
-
-      // });
-
-      if (data[key].isLicenseValid) {
-        // console.log(data[key].info.name);
-        let payload = {
-          AppName: data[key].info.name,
-          wsid: this.userData.wsid,
-        };
-        this.globalService.get(payload, '/Common/WSAppPermission').subscribe(
-          (res: any) => {
-            if (res && res.data) {
-              this.applicationData.push({
-                appName: res.data.appName,
-                wsid: res.data.wsid,
-                info: this.appNameDictionary(res.data.appName),
-              });
-            }
-              // this.sharedService.setMenuData
-            this.sortAppsData();
-          },
-          (error) => {}
-        );
       }
-    }
+    });
+    this.sortAppsData();
+    
   }
+  // OLD-----
+  // async getAppLicense() {
+  //   // get can access
+
+  //   this.globalService.get(null, '/GlobalConfig/AppLicense').subscribe(
+  //     (res: any) => {
+  //       if (res && res.data) {
+  //         this.appNames=Object.keys(res.data)
+  //         this.convertToObj(res.data);
+  //         // this.sharedService.setMenuData(this.appNames)
+
+  //       }
+  //     },
+  //     (error) => {}
+  //   );
+  // }
+  // async convertToObj(data) {
+
+  //   for await (const key of Object.keys(data)) {
+
+  //     if (data[key].isLicenseValid) {
+  //       let payload = {
+  //         AppName: data[key].info.name,
+  //         wsid: this.userData.wsid,
+  //       };
+  //       this.globalService.get(payload, '/Common/WSAppPermission').subscribe(
+  //         (res: any) => {
+  //           if (res && res.data) {
+  //            this.index++;
+  //             this.applicationData.push({
+  //               appName: res.data.appName,
+  //               wsid: res.data.wsid,
+  //               displayName:data[key].info.displayName,
+  //               info: this.appNameDictionary(res.data.appName),
+  //             });
+
+  //           }
+  //           this.sortAppsData();
+  //         },
+  //         (error) => {}
+  //       );
+  //     }
+
+  //   }
+
+  //           this.sharedService.setMenuData(this.applicationData)
+
+  // }
 
   appNameDictionary(appName) {
     let routes = [
@@ -75,13 +128,15 @@ export class MainComponent implements OnInit {
         iconName: 'manage_accounts',
         name: 'Admin',
         updateMenu: 'admin',
+        permission: 'Admin Menu',
       },
       {
         appName: 'Consolidation Manager',
-        route: '/dashboard',
+        route: '#',
         iconName: 'insert_chart',
         name: 'Consolidation Manager',
         updateMenu: '',
+        permission: 'Consolidation Manager',
       },
       {
         appName: 'Induction',
@@ -89,41 +144,47 @@ export class MainComponent implements OnInit {
         iconName: 'checklist',
         name: 'Induction Manager',
         updateMenu: '',
+        permission: 'Induction Manager',
       },
       {
         appName: 'FlowRackReplenish',
-        route: '/dashboard',
+        route: '#',
         iconName: 'schema',
         name: 'FlowRack Replenishment',
         updateMenu: '',
+        permission: 'FlowRack Replenish',
       },
       {
         appName: 'ImportExport',
-        route: '/dashboard',
+        route: '#',
         iconName: 'electric_bolt',
         name: 'Import Export',
         updateMenu: '',
+        permission: 'Import Export',
       },
       {
         appName: 'Markout',
-        route: '/dashboard',
+        route: '#',
         iconName: 'manage_accounts',
         name: 'Markout',
         updateMenu: '',
+        permission: 'Markout',
       },
       {
         appName: 'OrderManager',
-        route: '/dashboard',
+        route: '#',
         iconName: 'pending_actions',
         name: 'Order Manager',
         updateMenu: '',
+        permission: 'Order Manager',
       },
       {
         appName: 'WorkManager',
-        route: '/dashboard',
+        route: '#',
         iconName: 'fact_check',
         name: 'Work Manager',
         updateMenu: '',
+        permission: 'Work Manager',
       },
     ];
 
