@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router,RoutesRecognized } from '@angular/router';
+import { filter, pairwise } from 'rxjs/operators';
 
 @Component({
   selector: 'app-induction-manager',
@@ -7,7 +9,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InductionManagerComponent implements OnInit {
   tab_hover_color:string = '#cf9bff3d';
-  constructor() { }
+  constructor(private router: Router,) { 
+    router.events
+      .pipe(
+        filter((evt: any) => evt instanceof RoutesRecognized),
+        pairwise()
+      )
+      .subscribe((events: RoutesRecognized[]) => {
+        
+    
+        if (events[0].urlAfterRedirects == '/InductionManager/Admin' || events[1].urlAfterRedirects == '/InductionManager/Admin') {
+          localStorage.setItem('routeFromInduction','true')
+            // this.showReprocess=false;
+            // this.showReprocessed=false;
+         
+        }else{
+          localStorage.setItem('routeFromInduction','false')
+          // this.showReprocess=true;
+          // this.showReprocessed=true;
+        }
+      });
+  }
 
   ngOnInit(): void {
   }
