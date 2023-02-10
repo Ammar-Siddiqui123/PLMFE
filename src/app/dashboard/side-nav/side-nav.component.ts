@@ -17,7 +17,6 @@ export class SideNavComponent implements OnInit {
   menuData: any=[];
   @Input() sideBarOpen: Boolean;
   isConfigUser:any = false;
-
   public userData: any;
 
   dynamicMenu: any=[]
@@ -196,7 +195,7 @@ export class SideNavComponent implements OnInit {
           this.isChildMenu = true;
         }    
 
-        this.sharedService.updateLoggedInUser(this.authService.userData().username,this.authService.userData().wsid,menu.route);
+        this.sharedService.updateLoggedInUser(this.authService.userData().userName,this.authService.userData().wsid,menu.route);
   
       
     }

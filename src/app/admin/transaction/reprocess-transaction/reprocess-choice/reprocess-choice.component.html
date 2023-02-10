@@ -8,45 +8,50 @@
             </div>
             <span>Reprocess Choices</span>
         </h2>
-        <div class="custom mb-2">
-            <div class="counter mt-0 bg-white">
-                <div>
-                <div class="d-flex justify-content-evenly">
-                    <div class="employees text-center">
-                    <p class="counter-count mb-1 bg-primary-900">{{reprocessCount.reprocess}}</p>
-                    <p class="employee-p text-tertiary-900 mb-1  ">Reprocess</p>
-                    <span>
-                        <mat-checkbox color="primary" [(ngModel)] = "isReprocessedChecked.flag"   [disabled]="isEnabled" (change)="changeOrderStatus($event,'Reprocess')">
 
-                        </mat-checkbox>
-                    </span>
-                    
-                    </div>
-                    <div class="customer text-center">
-                    <p class="counter-count mb-1 bg-primary-900">{{reprocessCount.complete}}</p>
-                    <p class="customer-p text-tertiary-900 mb-1  ">Complete</p>
-                        <span>
-                            <mat-checkbox color="primary" [(ngModel)]= "isCompleteChecked.flag" [disabled]="isEnabled" (change)="changeOrderStatus($event,'Complete')">
-    
-                            </mat-checkbox>
-                        </span>
-                        </div>
-                        <div class="employees text-center">
-                            <p class="counter-count mb-1 bg-primary-900">{{reprocessCount.history}}</p>
-                            <p class="employee-p text-tertiary-900 mb-1  ">History</p>
-                            <span>
-                                <mat-checkbox color="primary" [(ngModel)]= "isHistoryChecked.flag" [disabled]="isEnabled" (change)="changeOrderStatus($event,'History')">
+
+
+
         
-                                </mat-checkbox>
-                            </span>
-                            
-                            </div>
-                </div>
-                </div>
-            </div>
-        </div>
+<div class="custom mb-2">
+    <div class="counter mt-0 bg-white">
         <div>
-            <button mat-flat-button color="primary" class="w-100"  color="primary" (click)="postTransaction()">
+        <div class="row">
+            <div class="col-xl-4 employees text-center mb-2">
+            <p class="counter-count mb-1 bg-primary-900">{{reprocessCount.reprocess}}</p>
+            <p class="employee-p text-tertiary-900 mb-1  ">Reprocess<br>&nbsp;</p>
+            <span>
+                <mat-checkbox color="primary" [(ngModel)] = "isReprocessedChecked.flag"   [disabled]="isEnabled" (change)="changeOrderStatus($event,'Reprocess')">
+
+                </mat-checkbox>
+            </span>
+           
+            </div>
+            <div class="col-xl-4 customer text-center  mb-2">
+            <p class="counter-count mb-1 bg-primary-900">{{reprocessCount.complete}}</p>
+            <p class="customer-p text-tertiary-900 mb-1  ">Post as<br>Complete</p>
+            <span>
+                <mat-checkbox color="primary" [(ngModel)]= "isCompleteChecked.flag" [disabled]="isEnabled" (change)="changeOrderStatus($event,'Complete')">
+    
+                </mat-checkbox>
+            </span>
+            </div>
+            <div class="col-xl-4 customer text-center  mb-2">
+                <p class="counter-count mb-1 bg-primary-900">{{reprocessCount.history}}</p>
+                <p class="customer-p text-tertiary-900 mb-1  ">Send to<br>Reprocess History</p>
+                <span>
+                    <mat-checkbox color="primary" [(ngModel)]= "isHistoryChecked.flag" [disabled]="isEnabled" (change)="changeOrderStatus($event,'History')">
+        
+                    </mat-checkbox>
+                </span>
+                </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+        <div>
+            <button mat-flat-button color="primary" class="w-100 btn-regular"  color="primary" (click)="postTransaction()">
                 Post Transactions
               </button>
         </div>

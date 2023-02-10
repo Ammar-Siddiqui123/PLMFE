@@ -207,7 +207,7 @@ export class MainComponent implements OnInit {
    
     if(menu!='')
     {
-      this.sharedService.updateLoggedInUser(this.authService.userData().username,this.authService.userData().wsid,menu);
+      this.sharedService.updateLoggedInUser(this.authService.userData().userName,this.authService.userData().wsid,menu);
     }
     
     if (menu == 'admin') {
