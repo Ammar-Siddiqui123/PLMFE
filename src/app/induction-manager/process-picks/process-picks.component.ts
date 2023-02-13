@@ -2,11 +2,13 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { BlossomToteComponent } from 'src/app/dialogs/blossom-tote/blossom-tote.component';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../../../app/init/auth.service';
 import { ProcessPicksService } from './process-picks.service';
 import { PickToteManagerComponent } from 'src/app/dialogs/pick-tote-manager/pick-tote-manager.component';
+import { ViewOrdersComponent } from 'src/app/dialogs/view-orders/view-orders.component';
 
 export interface PeriodicElement {
   name: string;
@@ -107,8 +109,24 @@ export class ProcessPicksComponent implements OnInit {
 
   openPickToteDialogue(){
     const dialogRef =  this.dialog.open(PickToteManagerComponent, {
-      height: '90%',
+      height: '90vh',
       width: '100vw',
+      autoFocus: '__non_existing_element__'
+    })
+  }
+
+  openViewOrdersDialogue(){
+    const dialogRef =  this.dialog.open(ViewOrdersComponent, {
+      height: 'auto',
+      width: '100vw',
+      autoFocus: '__non_existing_element__'
+    })
+  }
+
+  openBlossomToteDialogue(){
+    const dialogRef =  this.dialog.open(BlossomToteComponent, {
+      height: 'auto',
+      width: '786px',
       autoFocus: '__non_existing_element__'
     })
   }

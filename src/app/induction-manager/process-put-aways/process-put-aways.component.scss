@@ -28,3 +28,27 @@
     -webkit-hyphens: auto;
     hyphens: auto;
   }
+
+  .mat-column-status {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 100px !important;
+    width: 100px !important;
+    min-width: 100px !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  table{
+    th{
+      white-space: nowrap;
+      padding-right: 20px;
+    }
+  }

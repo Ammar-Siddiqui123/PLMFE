@@ -1,0 +1,159 @@
+<div class="my-3">
+    <mat-card class="mat-elevation-z g-card mb-4">
+        <mat-card-content>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="card-header-title mb-0 d-flex align-items-center">
+                    <div class="mat-icon-wrap me-lg-3">
+                        <span class="material-symbols-outlined">
+                            not_started
+                        </span>
+                    </div>
+                    <span>Generate Transaction</span>
+                </h2>
+            </div>
+            <div class="header-filter-bar">
+                <div class="row">
+                    <div class="col-xl-3">
+                        <mat-form-field class="action-dropdown custom-form-field-bg-white w-100" appearance="outline">
+                            <mat-label>Transaction Type</mat-label>
+                            <mat-select  #matRef class="employees-action" value="0">
+                              <mat-option value="0">12369854cc</mat-option>
+                              <mat-option value="print">Print</mat-option>
+                              <mat-option value="set_column_sq">Set Column Sequence</mat-option>
+                            </mat-select>
+                            <span class="material-symbols-outlined icon-expand-more">
+                              expand_more
+                            </span>
+                          </mat-form-field>
+                    </div>
+                    <div class="col-xl-3">
+                        <mat-form-field class="custom-form-field custom-form-field-bg-white w-100" appearance="outline">
+                            <mat-label>Order Type</mat-label>
+                            <input matInput type="text" maxlength="255"
+                              value="00000">
+                          </mat-form-field>
+                    </div>
+                    <div class="col-xl-3 offset-xl-3">
+                        <div class="d-flex justify-content-end">
+                        <mat-form-field class="action-dropdown custom-form-field-bg-white" appearance="outline">
+                            <mat-select  #matRef class="employees-action" placeholder="Actions">
+                              <mat-option value="0">12369854cc</mat-option>
+                              <mat-option value="print">Print</mat-option>
+                              <mat-option value="set_column_sq">Set Column Sequence</mat-option>
+                            </mat-select>
+                            <span class="material-symbols-outlined icon-expand-more">
+                              expand_more
+                            </span>
+                          </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="mat-elevation-z g-card mb-4">
+        <mat-card-content>
+            <div class="d-flex align-items-center gap-12 mb-3">
+                <h2 class="card-header-title mb-0 d-flex align-items-center">
+                    <div class="mat-icon-wrap me-lg-3">
+                        <span class="material-symbols-outlined">
+                            dvr
+                        </span>
+                    </div>
+                    <span>Transaction</span>
+                </h2>
+                <span class="label label-gray px-2 f-14">Order Number:&nbsp;<b>000000</b></span>
+                <span class="label label-gray px-2 f-14">Transaction Type:&nbsp;<b>Label</b></span>
+                <span class="label label-gray px-2 f-14">Tote ID for Number:&nbsp;<b>000000</b></span>
+            </div>
+
+            <div class="card br-14 table-responsive borderless px-0 mb-3">
+                <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 350px;">
+                    <table mat-table [dataSource]="dataSource" class="w-100 table1">
+
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="position">
+                          <th mat-header-cell *matHeaderCellDef> Sequence </th>
+                          <td mat-cell *matCellDef="let element">
+                            <div class="pe-2">
+                            1231231231
+                            </div>
+                          </td>
+                        </ng-container>
+                      
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="toteid">
+                          <th mat-header-cell *matHeaderCellDef> Field </th>
+                          <td mat-cell *matCellDef="let element">
+                            <div class="pe-2">
+                              123213213
+                            </div>
+                          </td>
+                        </ng-container>
+      
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="orderno">
+                          <th mat-header-cell *matHeaderCellDef> Criteria </th>
+                          <td mat-cell *matCellDef="let element">
+                            <div class="pe-2">
+                              123213123
+                            </div>
+                          </td>
+                        </ng-container>
+                         <!-- Name Column -->
+                         <ng-container matColumnDef="priority">
+                          <th mat-header-cell *matHeaderCellDef> Value </th>
+                          <td mat-cell *matCellDef="let element">
+                            <div class="pe-2">
+                              12312312
+                            </div>
+                          </td>
+                        </ng-container>
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="options">
+                            <th mat-header-cell *matHeaderCellDef> And/Or </th>
+                            <td mat-cell *matCellDef="let element">
+                              <div class="pe-2">
+                                12312
+                              </div>
+                            </td>
+                          </ng-container>
+      
+                          <ng-container matColumnDef="actions" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef
+                              style="border: 0;height: 58px; padding-left:65px; border-bottom: 1px solid var(--clr-tertiary-50); width: 80px;">
+                            </th>
+                            <!-- <th width="25%" mat-header-cell *matHeaderCellDef mat-sort-header>Action</th> -->
+                            <td  mat-cell *matCellDef="let element">
+                              <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o"
+                                appearance="outline">
+                                <mat-icon>more_horiz</mat-icon>
+                              </button>
+                              <mat-menu #appMenu="matMenu">
+                                <span mat-menu-item>Hold and deallocate </span>
+                                <button mat-menu-item >Selected Only</button>
+                                <button mat-menu-item >All by order no.</button>
+                              </mat-menu>
+                            </td>
+                          </ng-container>
+                        
+                      
+                      
+                      
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                            (click)="selection.toggle(row)">
+                        </tr>
+                      </table>
+                </ng-scrollbar>
+            </div>
+            <div class="d-flex justify-content-start">
+                <mat-paginator>
+
+                </mat-paginator>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
