@@ -112,6 +112,9 @@ import { LicensingInvalidComponent } from './dialogs/licensing-invalid/licensing
 import { SqlAuthConfirmationComponent } from './dialogs/sql-auth-confirmation/sql-auth-confirmation.component';
 import { ManualTransactionsComponent } from './manual-transactions/manual-transactions.component';
 import { GenerateOrderComponent } from './manual-transactions/generate-order/generate-order.component';
+import { GenerateTransactionComponent } from './manual-transactions/generate-transaction/generate-transaction.component';
+import { SetItemLocationComponent } from './dialogs/set-item-location/set-item-location.component';
+import { SupplierItemIdComponent } from './dialogs/supplier-item-id/supplier-item-id.component';
 
 
 
@@ -214,7 +217,10 @@ import { GenerateOrderComponent } from './manual-transactions/generate-order/gen
     LicensingInvalidComponent,
     SqlAuthConfirmationComponent,
     ManualTransactionsComponent,
-    GenerateOrderComponent
+    GenerateOrderComponent,
+    GenerateTransactionComponent,
+    SetItemLocationComponent,
+    SupplierItemIdComponent
 
   ],
   imports: [
