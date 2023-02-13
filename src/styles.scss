@@ -1388,12 +1388,29 @@ button.default-btn{
   background: #fff;
   border-radius: 14px;
 }
+
+
 .mat-form-field-label{
   background: #fff;
   border-radius: 999px;
   width: auto!important;
 }
 }
+
+  .custom-form-field.mat-form-field-appearance-outline{
+    .mat-form-field-prefix{
+      top: 6px !important;
+    }
+    .mat-form-field-suffix{
+      top: 6px !important;
+    }
+  }
+//   .custom-form-field.mat-form-field-appearance-outline .mat-form-field-infix{
+//     min-width: none;
+//     width: auto!important;
+// }
+
+
 
 //-------------- FORM INPUT-CLASSES ----END-------------------
 
