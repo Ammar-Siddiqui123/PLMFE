@@ -81,8 +81,7 @@
                             <mat-form-field class="action-dropdown" style="width: 18rem;" appearance="outline">
                                 <mat-label>Print Labels for Batch</mat-label>
                                 <mat-select class="me-4" placeholder="Actions">
-                                    <!-- <mat-option></mat-option> -->
-                                    <mat-option *ngFor="let batch of superBatches">{{batch}}</mat-option>
+                                    <mat-option *ngFor="let batch of superBatches" value="{{batch}}">{{batch}}</mat-option>
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
                                     expand_more
