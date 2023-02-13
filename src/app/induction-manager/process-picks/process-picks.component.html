@@ -165,7 +165,7 @@
                         </div>
                         <span>Order Number Select</span>
                     </h2>
-                    <div class="text-center"> <span class="label label-gray px-2 f-14">Zones:&nbsp;<b>000 00 00 00 000 542 2565</b></span></div>
+                    <div class="text-center"> <span class="label label-gray px-2 f-14">Zones:&nbsp;<b><span *ngFor="let zone of allZones"> {{zone}} </span></b></span></div>
                 </div>
 
                 <div class="row align-items-center">
@@ -183,9 +183,9 @@
                             <mat-icon matSuffix> expand_more</mat-icon>
                         </button>
                         <mat-menu #orderMenu="matMenu" xPosition="before">
-                            <button mat-menu-item><b class="text-tertiary-900">View All Orders</b></button>
-                            <button mat-menu-item>View Non Replenishment Orders</button>
-                            <button mat-menu-item (click)="openViewOrdersDialogue()">View Replenishment Orders</button>
+                            <button mat-menu-item (click)="openViewOrdersDialogue('All')"><b class="text-tertiary-900">View All Orders</b></button>
+                            <button mat-menu-item (click)="openViewOrdersDialogue('NonReplen')">View Non Replenishment Orders</button>
+                            <button mat-menu-item (click)="openViewOrdersDialogue('Replen')">View Replenishment Orders</button>
                           </mat-menu>
                     </div>
                 </div>
