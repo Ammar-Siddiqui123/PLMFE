@@ -78,6 +78,7 @@ export class SuperBatchComponent implements OnInit {
     }
     else if ($event.value === 'Tote') {
       this.totalTransHeading = 'Single Line Tote Order';
+      this.getSuperBatchBy($event.value);
     }
     else {
       this.isItemNumber = true;
@@ -91,8 +92,17 @@ export class SuperBatchComponent implements OnInit {
 
   onCreateBtach(element: any) {
     this.batchRowData = element;
-    if (element.orderToBatch < 1) {
-      this.toastr.error('Batch Size must be greater than 1', 'Error!', {
+      console.log(element);
+      
+    if (element.newToteID <= 1) {
+      this.toastr.error('Tote ID must be greater than 1 ', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
+    if (element.orderToBatch <= 1) {
+      this.toastr.error('Orders to Batch must be greater than 1 ', 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
