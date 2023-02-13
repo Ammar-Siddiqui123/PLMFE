@@ -43,6 +43,8 @@ import { ConfirmationDialogComponent } from './admin/dialogs/confirmation-dialog
     ViewOrdersComponent,
     BlossomToteComponent,
     WorkstationZonesComponent,
+    BatchDeleteComponent,
+    ConfirmationDialogComponent
     // ActionDisableDirective,
   ],
   imports: [
