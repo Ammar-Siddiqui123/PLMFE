@@ -28,6 +28,7 @@ import { PickToteManagerComponent } from './dialogs/pick-tote-manager/pick-tote-
 import { ViewOrdersComponent } from './dialogs/view-orders/view-orders.component';
 import { BlossomToteComponent } from './dialogs/blossom-tote/blossom-tote.component';
 import { WorkstationZonesComponent } from './dialogs/workstation-zones/workstation-zones.component';
+import { ConfirmationDialogComponent } from './admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -41,6 +42,7 @@ import { WorkstationZonesComponent } from './dialogs/workstation-zones/workstati
     ViewOrdersComponent,
     BlossomToteComponent,
     WorkstationZonesComponent,
+    ConfirmationDialogComponent,
     // ActionDisableDirective,
 
   ],

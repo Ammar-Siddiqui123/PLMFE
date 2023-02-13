@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { SpinnerService } from '../init/spinner.service';
 import { AuthService } from '../init/auth.service';
+import { GlobalconfigService } from '../global-config/globalconfig.service';
 
 @Component({
   selector: 'login',
@@ -31,7 +32,8 @@ export class LoginComponent {
     private toastr: ToastrService,
     private dialog: MatDialog,
     public loader: SpinnerService,
-    private auth: AuthService
+    private auth: AuthService,
+    private globalService: GlobalconfigService,
   ) { 
     this.url = this.router.url;
   }
@@ -67,10 +69,17 @@ export class LoginComponent {
           }
           let userRights = response.data.userRights;
           userRights = this.addCustomPermission(userRights);
-          this.addLoginForm.reset();
+          // this.addLoginForm.reset(); // replaced to api response 
           localStorage.setItem('user', JSON.stringify(data));
           localStorage.setItem('userRights', JSON.stringify(userRights));
-          this.router.navigate(['/dashboard']);
+
+          // ----default app redirection ----
+          this.getDefaultApp(response.data.wsid);
+          // ----end default app redirection ----
+
+
+
+          // this.router.navigate(['/dashboard']);
         }
         else {
           const errorMessage = response.responseMessage;
@@ -83,6 +92,8 @@ export class LoginComponent {
 
       });
   }
+
+
 
   ngOnInit() {
     localStorage.clear();
@@ -109,6 +120,62 @@ export class LoginComponent {
 
   }
 
+  getDefaultApp(wsid){
+    let paylaod={
+      WSID: wsid
+    }
+     this.globalService
+.get(paylaod, '/GlobalConfig/WorkStationDefaultAppSelect')
+.subscribe(
+  (res: any) => {
+  
+    if (res && res.data) {
+      this.redirection(res.data) 
+      this.addLoginForm.reset();
+     }
+    else{
+      this.addLoginForm.reset();
+      this.router.navigate(['/dashboard']);
+    }
+  },
+  (error) => {}
+);
+
+  }
+  redirection(appName){
+
+    switch (appName) {
+      case 'Consolidation Manager':
+        this.router.navigate(['/#']);
+        break;
+      case 'FlowRackReplenish':
+        this.router.navigate(['/#']);
+        break;
+        case 'ICSAdmin':
+        this.router.navigate(['/admin']);
+        break;
+        case 'ImportExport':
+        this.router.navigate(['/#']);
+        break;
+        case 'Induction':
+          this.router.navigate(['/InductionManager']);
+          break;
+        case 'Markout':
+          this.router.navigate(['/#']);
+            break;
+         case 'OrderManager':
+          this.router.navigate(['/#']);
+            break;
+             case 'WorkManager':
+          this.router.navigate(['/#']);
+            break;
+         
+      default:
+        this.router.navigate(['/dashboard']);
+        break;
+    }
+  }
+
   changePass() {
     let dialogRef = this.dialog.open(ChangePasswordComponent, {
       height: 'auto',
@@ -130,6 +197,7 @@ export class LoginComponent {
       'Order Manager',
       'Admin Menu',
       'FlowRack Replenish',
+      'Markout',
 
       //Admin Menus
       'Dashboard',

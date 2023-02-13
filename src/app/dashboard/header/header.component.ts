@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
 
   breadcrumbList: any = [];
   userData: any;
-
+isConfigUser
   // public user_data  = JSON.parse(localStorage.getItem('user') || '');
   constructor(
     private router: Router,
@@ -25,14 +25,14 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService
     ) {
-
+   this.isConfigUser=  this.authService.isConfigUser()
     router.events.subscribe((val: any) => {
       this.breadcrumbList = [];
       if(this.authService.isConfigUser()){
-        this.breadcrumbList.push({
-          name:'',
-          value:'/dashboard'
-        })
+        // this.breadcrumbList.push({
+        //   name:'',
+        //   value:'/globalconfig/dashboard'
+        // })
       }else{
         this.breadcrumbList.push({
           name:'LogixPro',
@@ -63,13 +63,16 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.loading = false;
     this.userData = this.authService.userData();
-    // console.log(this.userData);
+
   }
 
   toggleSidebar() {
     this.toggleSidebarForMe.emit();
   }
-
+  routeToLogin(){
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
   logout(){   
     let paylaod = {
       "username": this.userData.userName,

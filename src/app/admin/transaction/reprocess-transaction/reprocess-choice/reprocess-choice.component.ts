@@ -4,6 +4,7 @@ import { TransactionService } from '../../../transaction/transaction.service';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../../../labels/labels.json';
 import { Output, EventEmitter } from '@angular/core';
+import { SharedService } from '../../../../services/shared.service';
 
 @Component({
   selector: 'app-reprocess-choice',
@@ -16,19 +17,19 @@ export class ReprocessChoiceComponent implements OnInit {
   @Input() isEnabled : any;
   @Input() transactionID:any;
   @Input() userData:any;
+  @Input() isReprocessedChecked : any;
+  @Input() isCompleteChecked : any;
+  @Input() isHistoryChecked : any;
   @Output() itemUpdatedEvent = new EventEmitter<boolean>();
-  @Input() isReprocessedChecked: any;
-  @Input() isCompleteChecked: any;
-  @Input() isHistoryChecked: any;
-  constructor(private transactionService: TransactionService,private toastr: ToastrService) { }
+  
+
+  constructor(private transactionService: TransactionService,private toastr: ToastrService , private sharedService:SharedService) { }
 
   ngOnInit(): void {
-   
   }
 
   postTransaction()
   {
-    //Admin/PostReprocessTransaction
     var payload={
       username: this.userData.userName,
       wsid: this.userData.wsid,
@@ -36,44 +37,49 @@ export class ReprocessChoiceComponent implements OnInit {
     this.transactionService.get(payload, '/Admin/PostReprocessTransaction').subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
+          this.isEnabled=true;
+          this.clearControls();
           this.toastr.success(res.responseMessage, 'Success!',{
             positionClass: 'toast-bottom-right',
             timeOut:2000
          });
          this.itemUpdatedEvent.emit(true);
         } else {
-          console.log(res);
+          this.clearControls();
           this.toastr.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000,
           });
+          this.itemUpdatedEvent.emit(true);
         }
       },
       (error) => {}
     );
   }
 
+  clearControls()
+  {
+    this.isEnabled=true;
+    this.isReprocessedChecked.flag=false;
+    this.isCompleteChecked.flag=false;
+    this.isHistoryChecked.flag=false;
+  }
+
   changeOrderStatus(event:MatCheckboxChange,status): void {
+    console.log("CHANGE======");
     if(status=='Reprocess')
     {
-    this.isCompleteChecked= false;
-    //this.isHistoryChecked= false;
+    this.isCompleteChecked.flag = false;
     }else if(status=='Complete')
     {
-    this.isReprocessedChecked = false;
-    //this.isHistoryChecked= false;
-    }
-    else 
-    {
-    //this.isReprocessedChecked = false;
-    //this.isCompleteChecked= false;
+    this.isReprocessedChecked.flag = false;
     }
     
       var payload={
         id: this.transactionID,
-        reprocess: (status=='Reprocess' && event.checked)?1:0,
-        postComplete: (status=='Complete'&& event.checked)?1:0,
-        sendHistory: (status=='History'&& event.checked)?1:0,
+        reprocess: (this.isReprocessedChecked.flag)?1:0,
+        postComplete: (this.isCompleteChecked.flag)?1:0,
+        sendHistory: (this.isHistoryChecked.flag)?1:0,
         field: "",
         username: this.userData.userName,
         wsid: this.userData.wsid,
@@ -85,7 +91,6 @@ export class ReprocessChoiceComponent implements OnInit {
                 positionClass: 'toast-bottom-right',
                 timeOut:2000
              });
-             console.log(res);
              this.itemUpdatedEvent.emit(true);
             } else {
               this.toastr.error('Something went wrong', 'Error!', {

@@ -1,14 +1,14 @@
 <div class="f-container">
-  <app-header>
+  <app-header (toggleSidebarForMe)="sideBarToggler()" >
   </app-header>
   <mat-sidenav-container class="main-container">
-    <mat-sidenav #sidenav mode="side" disableClose="true" [opened]="true">
-      <app-side-nav [sideBarOpen]="true"></app-side-nav>
+    <mat-sidenav #sidenav mode="side" disableClose="true" [opened]="sideBarOpen">
+      <app-side-nav [sideBarOpen]="sideBarOpen"></app-side-nav>
     </mat-sidenav>
     <mat-sidenav-content>
-      <div class="dashboard-section" [ngClass]="{'side-bar-opened' : true}">
+      <div class="dashboard-section" [ngClass]="{'side-bar-opened' : sideBarOpen}">
         <div class="breadcrumb-menu">
-          <nav aria-label="breadcrumb" class="breadcrumb">
+          <nav aria-label="breadcrumb" class="breadcrumb" >
 
 
 
@@ -131,7 +131,7 @@
                             <div class="pe-2">
                               <mat-form-field class="custom-form-field w-100" appearance="outline">
 
-                                <input matInput type="text" #specialFeature maxlength="255" [value]="element.appurl" [(ngModel)]="element.appurl" (ngModelChange)="onInputValueChange($event,element,index)"  [value]="element.appurl">
+                                <input matInput type="text" disabled #specialFeature maxlength="255" [value]="element.appurl" [(ngModel)]="element.appurl" (ngModelChange)="onInputValueChange($event,element,index)"  [value]="element.appurl">
                               </mat-form-field>
                             </div>
                           </td>
