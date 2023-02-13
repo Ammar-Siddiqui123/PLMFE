@@ -12,6 +12,7 @@ import { map } from 'rxjs/internal/operators/map';
 import { BlossomToteComponent } from 'src/app/dialogs/blossom-tote/blossom-tote.component';
 import { PickToteManagerComponent } from 'src/app/dialogs/pick-tote-manager/pick-tote-manager.component';
 import { ViewOrdersComponent } from 'src/app/dialogs/view-orders/view-orders.component';
+import { WorkstationZonesComponent } from 'src/app/dialogs/workstation-zones/workstation-zones.component';
 
 @Component({
   selector: 'app-process-picks',
@@ -31,6 +32,7 @@ export class ProcessPicksComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   displayedColumns: string[] = ['position', 'toteid', 'orderno', 'priority', 'other'];
   dataSource:any;
+  nxtToteID:any;
   selection = new SelectionModel<any>(true, []);
   @ViewChild('batchPickID') batchPickID: TemplateRef<any>;
 
@@ -142,6 +144,22 @@ export class ProcessPicksComponent implements OnInit {
     })
   }
 
+  openWorkstationZone(){
+    let dialogRef = this.dialog.open(WorkstationZonesComponent, {
+      height: 'auto',
+      width: '750px',
+      autoFocus: '__non_existing_element__',
+      
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+        
+
+      }
+    })
+  }
+
   onToteAction(val: any){
     
     if(val === 'fill_all_tote'){
@@ -155,13 +173,15 @@ export class ProcessPicksComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.pPickService.get(paylaod, '/Induction/NextTote').subscribe(res => {
-      
-      console.log(this.TOTE_SETUP.length);
-      // array.forEach(element => {
-        
-      // });
-      
+      this.nxtToteID = res.data;
+      this.TOTE_SETUP.forEach((element, key) => {
+        element.toteID = this.nxtToteID;
+        this.nxtToteID = this.nxtToteID + 1;
+      });
     });
+    // this.dataSource = new MatTableDataSource<any>(this.TOTE_SETUP);
+    console.log(this.TOTE_SETUP);
+    
   }
 
 }

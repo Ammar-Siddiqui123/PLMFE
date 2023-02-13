@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { RequiredDateStatusComponent } from '../../../app/dialogs/required-date-status/required-date-status.component';
 import { AuthService } from '../../../app/init/auth.service';
 import { SuperBatchService } from './super-batch.service';
+import labels from '../../labels/labels.json';
 
 @Component({
   selector: 'app-super-batch',
@@ -135,15 +136,27 @@ export class SuperBatchComponent implements OnInit {
       "ItemNum": '',
       "BatchByOrder": BatchByOrder.toString()
     }
-    this.sb_service.create(payload, '/Induction/SuperBatchCreate').subscribe(res => {
-      console.log(res);
-      if (res.isExecuted) {
+    this.sb_service.create(payload, '/Induction/SuperBatchCreate').subscribe(response => {
+      console.log(response);
+      if (response.isExecuted) {
         this.sb_service.create({ "ToteID": element.newToteID }, '/Induction/TotePrintTableInsert').subscribe(res => {
           console.log(res);
+          if(res.isExecuted){
+            this.superBatches.push(element.newToteID);
+            this.toastr.success(labels.alert.success, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+          else{
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
 
         });
         this.dataSource = this.dataSource.filter(item => item.key !== element.key);
-        // this.superBatches.push();
       }
       // console.log(this.dataSource);
 

@@ -27,6 +27,7 @@ import { GeneralModule } from './gen-module';
 import { PickToteManagerComponent } from './dialogs/pick-tote-manager/pick-tote-manager.component';
 import { ViewOrdersComponent } from './dialogs/view-orders/view-orders.component';
 import { BlossomToteComponent } from './dialogs/blossom-tote/blossom-tote.component';
+import { WorkstationZonesComponent } from './dialogs/workstation-zones/workstation-zones.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -39,6 +40,7 @@ import { BlossomToteComponent } from './dialogs/blossom-tote/blossom-tote.compon
     PickToteManagerComponent,
     ViewOrdersComponent,
     BlossomToteComponent,
+    WorkstationZonesComponent,
     // ActionDisableDirective,
 
   ],
