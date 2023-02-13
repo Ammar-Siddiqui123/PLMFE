@@ -142,7 +142,7 @@ export class SuperBatchComponent implements OnInit {
     let payload = {
       "Zone": element.zone,
       "ToBatch": element.orderToBatch.toString(),
-      "ToteID": element.newToteID,
+      "ToteID": element.newToteID.toString(),
       "ItemNum": '',
       "BatchByOrder": BatchByOrder.toString()
     }
