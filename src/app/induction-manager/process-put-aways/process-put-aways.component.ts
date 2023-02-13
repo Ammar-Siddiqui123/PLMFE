@@ -2,6 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { BatchDeleteComponent } from 'src/app/dialogs/batch-delete/batch-delete.component';
 import { SelectZonesComponent } from 'src/app/dialogs/select-zones/select-zones.component';
 import { TotesAddEditComponent } from 'src/app/dialogs/totes-add-edit/totes-add-edit.component';
 
@@ -34,6 +35,15 @@ export class ProcessPutAwaysComponent implements OnInit {
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
   licAppData;
+
+  displayedColumns1: string[] = [
+    'status',
+    'orderno',
+    'itemno',
+    'transaction',
+    'location',
+    'completed'
+  ];
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -58,6 +68,14 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   openTotesDialogue(){
     const dialogRef =  this.dialog.open(TotesAddEditComponent, {
+      height: 'auto',
+      width: '50vw',
+      autoFocus: '__non_existing_element__'
+    })
+  }
+
+  openDeleteBatchDialogue(){
+    const dialogRef =  this.dialog.open(BatchDeleteComponent, {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__'
