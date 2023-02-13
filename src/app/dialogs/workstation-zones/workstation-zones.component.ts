@@ -55,7 +55,7 @@ export class WorkstationZonesComponent implements OnInit {
           this.velocity_code_list.push({ 'zone': val, isSaved: true })
         })
       }
-      console.log(this.velocity_code_list);
+      // console.log(this.velocity_code_list);
     });
   }
   getAllZoneList() {
@@ -74,21 +74,15 @@ export class WorkstationZonesComponent implements OnInit {
   addVLRow(row: any) {
     this.allZoneList.unshift([]);
   }
-  saveZone(){
-    console.log(this.selectedZone);
-    
-  }
   dltZone(){
-    console.log(this.selectedZone);
-    
+    this.allZoneList = [];
   }
   onSelectZone(val:string){
     this.selectedZone = val
   }
-  saveVlCode(zone: any, oldVC: any) {
-    if (zone) {
+  saveVlCode() {
       let paylaod = {
-        "zone": zone,
+        "zone": this.selectedZone,
         "wsid": this.userData.wsid,
       }
       this.proPickService.create(paylaod, '/Induction/WSPickZoneInsert').subscribe((res) => {
@@ -97,7 +91,8 @@ export class WorkstationZonesComponent implements OnInit {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
-          this.getVelocity()
+          this.getVelocity();
+          this.allZoneList = [];
         }
         else {
           this.toastr.error(res.sresponseMessage, 'Error!', {
@@ -107,7 +102,6 @@ export class WorkstationZonesComponent implements OnInit {
         }
 
       });
-    }
   }
   dltVlCode(vlCode: any) {
     if (vlCode) {
@@ -184,6 +178,10 @@ export class WorkstationZonesComponent implements OnInit {
   }
   clearVlCode() {
     this.dialogRef.close('');
+  }
+
+  closeBatchDialog(){
+    this.dialogRef.close(this.velocity_code_list);
   }
 
 }
