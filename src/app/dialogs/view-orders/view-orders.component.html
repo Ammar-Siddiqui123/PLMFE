@@ -36,14 +36,14 @@
             <!-- Position Column -->
             <ng-container matColumnDef="orderno">
               <th mat-header-cell *matHeaderCellDef> Order Number </th>
-              <td mat-cell *matCellDef="let element">
+              <td mat-cell *matCellDef="let element" [class.selected]="isOrderExist(element)">
                 <div class="pe-2">
                   {{element}}
                 </div>
               </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns2; sticky:true"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns2;" (click)="onOrderSelect(row)">
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2;" (click)="onOrderSelect(row)" >
             </tr>
           </table>
         </ng-scrollbar>
@@ -69,14 +69,14 @@
       </div>
       <div class="card br-14 table-responsive borderless px-0 mb-3">
         <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 280px;">
-          <table mat-table [dataSource]="dataSource1" class="w-100 table1">
+          <table mat-table [dataSource]="orderTransDataSource" class="w-100 table1">
 
             <!-- Position Column -->
             <ng-container matColumnDef="orderno">
               <th mat-header-cell *matHeaderCellDef> Order Number </th>
               <td mat-cell *matCellDef="let element">
                 <div class="pe-2">
-                  12312
+                  {{element.orderNumber}}
                 </div>
               </td>
             </ng-container>
@@ -86,7 +86,7 @@
               <th mat-header-cell *matHeaderCellDef> Item Number </th>
               <td mat-cell *matCellDef="let element">
                 <div class="pe-2">
-                  123
+                  {{element.itemNumber}}
                 </div>
               </td>
             </ng-container>
@@ -96,7 +96,7 @@
               <th mat-header-cell *matHeaderCellDef> Transaction Quantity </th>
               <td mat-cell *matCellDef="let element">
                 <div class="pe-2">
-                  123
+                  {{element.transactionQuantity}}
                 </div>
               </td>
             </ng-container>
@@ -105,7 +105,7 @@
               <th mat-header-cell *matHeaderCellDef> Location </th>
               <td mat-cell *matCellDef="let element">
                 <div class="pe-2">
-                  123
+                  {{element.location}}
                 </div>
               </td>
             </ng-container>
@@ -115,7 +115,7 @@
               <th mat-header-cell *matHeaderCellDef> Completed Quantity </th>
               <td mat-cell *matCellDef="let element">
                 <div class="pe-2">
-                  123
+                  {{element.completedQuantity}}
                 </div>
               </td>
             </ng-container>
