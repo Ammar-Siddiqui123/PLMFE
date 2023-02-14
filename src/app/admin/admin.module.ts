@@ -115,6 +115,7 @@ import { GenerateOrderComponent } from './manual-transactions/generate-order/gen
 import { GenerateTransactionComponent } from './manual-transactions/generate-transaction/generate-transaction.component';
 import { SetItemLocationComponent } from './dialogs/set-item-location/set-item-location.component';
 import { SupplierItemIdComponent } from './dialogs/supplier-item-id/supplier-item-id.component';
+import { TemporaryManualOrderNumberAddComponent } from './dialogs/temporary-manual-order-number-add/temporary-manual-order-number-add.component';
 
 
 
@@ -220,7 +221,8 @@ import { SupplierItemIdComponent } from './dialogs/supplier-item-id/supplier-ite
     GenerateOrderComponent,
     GenerateTransactionComponent,
     SetItemLocationComponent,
-    SupplierItemIdComponent
+    SupplierItemIdComponent,
+    TemporaryManualOrderNumberAddComponent
 
   ],
   imports: [
