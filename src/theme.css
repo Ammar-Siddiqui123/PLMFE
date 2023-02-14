@@ -380,7 +380,7 @@
 
 .mat-form-field-appearance-outline .mat-form-field-infix {
   /* padding: 1em 0 1em 0 */
-  padding: 6px 0 13px 0;
+  padding: 6px 0 14px 0;
 }
 
 .mat-form-field-appearance-outline .mat-form-field-label {
@@ -2569,7 +2569,7 @@ td.mat-footer-cell {
 }
 
 .mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-thumb {
-  background-color: #00008099
+  background-color: #1A1AD3;
 }
 
 .mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-bar {

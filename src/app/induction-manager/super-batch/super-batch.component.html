@@ -81,8 +81,7 @@
                             <mat-form-field class="action-dropdown" style="width: 18rem;" appearance="outline">
                                 <mat-label>Print Labels for Batch</mat-label>
                                 <mat-select class="me-4" placeholder="Actions">
-                                    <!-- <mat-option></mat-option> -->
-                                    <mat-option *ngFor="let batch of superBatches">{{batch}}</mat-option>
+                                    <mat-option *ngFor="let batch of superBatches" value="{{batch}}">{{batch}}</mat-option>
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
                                     expand_more
@@ -96,8 +95,9 @@
                                 keyboard_arrow_down
                             </span>
                             <mat-menu #menu="matMenu">
-                                <button mat-menu-item>Batch Report</button>
-                                <button mat-menu-item>Item Labels</button>
+                                <button mat-menu-item>Print Batch Labels</button>
+                                <button mat-menu-item>Print Order Labels</button>
+                                <button mat-menu-item>Print Case Labels</button>
                             </mat-menu>
                         </button>
                     </div>
@@ -121,13 +121,13 @@
                     <ng-container matColumnDef="orderToBatch">
                         <th mat-header-cell *matHeaderCellDef> Orders to Batch </th>
                         <td mat-cell *matCellDef="let element"><input type="number" class="form-control sb_tbl_width"
-                                [(ngModel)]="element.orderToBatch" min="1" />
+                                [(ngModel)]="element.orderToBatch" min="2" />
                         </td>
                     </ng-container>
 
                     <ng-container matColumnDef="newToteID">
                         <th mat-header-cell *matHeaderCellDef> New Tote ID</th>
-                        <td mat-cell *matCellDef="let element"><input type="text" [(ngModel)]="element.newToteID"
+                        <td mat-cell *matCellDef="let element"><input type="number" min="2" [(ngModel)]="element.newToteID"
                                 class="form-control sb_tbl_width" />
                         </td>
                     </ng-container>
@@ -161,7 +161,7 @@
             <mat-icon color="primary">add</mat-icon>
         </div>
         <div>
-            <p class="bold text-primary-900 mb-4">Are you sure you want to batch {{batchRowData.zone}} orders from Zone
+            <p class="bold text-primary-900 mb-4">Are you sure you want to batch {{batchRowData.orderToBatch}} orders from Zone
                 {{batchRowData.zone}} in Tote {{batchRowData.newToteID}}</p>
             <div class="mb-3">
                 <button mat-flat-button color="primary" class="custom-btn button-primary-flat" (click)="isConfirm(true)"

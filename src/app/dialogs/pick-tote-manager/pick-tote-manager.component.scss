@@ -1,7 +1,8 @@
 .table1{
+    th{
+        white-space: nowrap ;
+    }
     td{
-        mat-form-field{
-            max-width: 100px;
-        }
+        width: auto;
     }
 }
