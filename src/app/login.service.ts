@@ -20,7 +20,7 @@ export class LoginService {
   }
 
   public login(login: ILogin): Observable<ILoginInfo> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -31,7 +31,7 @@ export class LoginService {
   }
 
   public getSecurityEnvironment(): Observable<ILoginInfo> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -41,7 +41,7 @@ export class LoginService {
     return this.http.post<any>(`${environment.apiUrl}/Login/GetSecurityEnvironment`, '', httpOptions);
   }
   public changePassword(FormData): Observable<ILoginInfo> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
