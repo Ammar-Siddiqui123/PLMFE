@@ -149,7 +149,7 @@ export class SuperBatchComponent implements OnInit {
     this.sb_service.create(payload, '/Induction/SuperBatchCreate').subscribe(response => {
       console.log(response);
       if (response.isExecuted) {
-        this.sb_service.create({ "ToteID": element.newToteID }, '/Induction/TotePrintTableInsert').subscribe(res => {
+        this.sb_service.create({ "ToteID": element.newToteID.toString() }, '/Induction/TotePrintTableInsert').subscribe(res => {
           console.log(res);
           if(res.isExecuted){
             this.superBatches.push(element.newToteID);

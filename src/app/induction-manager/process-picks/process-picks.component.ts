@@ -147,6 +147,9 @@ export class ProcessPicksComponent implements OnInit {
     const dialogRef = this.dialog.open(ViewOrdersComponent, {
       height: 'auto',
       width: '100vw',
+      data:{
+        viewType: viewType
+      },
       autoFocus: '__non_existing_element__'
     })
   }

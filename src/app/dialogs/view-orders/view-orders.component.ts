@@ -1,6 +1,11 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+// import { SelectionModel } from '@angular/cdk/collections';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../../app/init/auth.service';
+import { ProcessPicksService } from '../../../app/induction-manager/process-picks/process-picks.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 
 export interface PeriodicElement {
   name: string;
@@ -29,7 +34,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class ViewOrdersComponent implements OnInit {
   displayedColumns: string[] = ['position', 'toteid', 'orderno', 'priority','options', 'other'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  // selection = new SelectionModel<PeriodicElement>(true, []);
 
   displayedColumns1: string[] = ['position', 'toteid', 'orderno', 'other'];
   dataSource1 = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
@@ -37,9 +42,53 @@ export class ViewOrdersComponent implements OnInit {
   displayedColumns2: string[] = ['orderno'];
 
   displayedColumns3: string[] = ['orderno', 'itemno', 'transaction', 'location', 'completed'];
-  constructor() { }
+  public userData: any;
+  allOrders:any;
+  orderDataSource:any;
+  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('paginatorPageSize') paginatorPageSize: MatPaginator;
+  constructor(
+    private pPickService: ProcessPicksService,
+    private toastr: ToastrService,
+    private authService: AuthService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) { }
 
   ngOnInit(): void {
+    console.log(this.data);
+    
+    this.userData = this.authService.userData();
+    this.getAllOrders();
+  }
+  getAllOrders() {
+    let paylaod = {
+      "OrderView": this.data.viewType,
+      "wsid": this.userData.wsid,
+    }
+    this.pPickService.get(paylaod, '/Induction/OrdersInZone').subscribe((res) => {
+      if (res.data) {
+        this.orderDataSource = new MatTableDataSource<any>(res.data);
+       
+      }
+      console.log(this.allOrders);
+    });
+  }
+
+  ngAfterViewInit() {
+    this.orderDataSource.paginator = this.paginator;
+    this.orderDataSource.paginator = this.paginatorPageSize;
+  }
+
+  onOrderSelect(row:any){
+    console.log(row);
+    this.pPickService.get('paylaod', '/Induction/InZoneTransDT').subscribe((res) => {
+      if (res.data) {
+        this.orderDataSource = new MatTableDataSource<any>(res.data);
+       
+      }
+      console.log(this.allOrders);
+    });
+    
   }
 
 }
