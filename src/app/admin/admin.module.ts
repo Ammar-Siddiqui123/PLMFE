@@ -115,6 +115,9 @@ import { GenerateOrderComponent } from './manual-transactions/generate-order/gen
 import { AddNewTransactionToOrderComponent } from './dialogs/add-new-transaction-to-order/add-new-transaction-to-order.component';
 import { DeleteConfirmationManualTransactionComponent } from './dialogs/delete-confirmation-manual-transaction/delete-confirmation-manual-transaction.component';
 import { ManualTransPostConfirmComponent } from './dialogs/manual-trans-post-confirm/manual-trans-post-confirm.component';
+import { GenerateTransactionComponent } from './manual-transactions/generate-transaction/generate-transaction.component';
+import { SetItemLocationComponent } from './dialogs/set-item-location/set-item-location.component';
+import { SupplierItemIdComponent } from './dialogs/supplier-item-id/supplier-item-id.component';
 
 
 
@@ -221,6 +224,9 @@ import { ManualTransPostConfirmComponent } from './dialogs/manual-trans-post-con
     AddNewTransactionToOrderComponent,
     DeleteConfirmationManualTransactionComponent,
     ManualTransPostConfirmComponent,
+    GenerateTransactionComponent,
+    SetItemLocationComponent,
+    SupplierItemIdComponent
 
   ],
   imports: [
