@@ -12,7 +12,7 @@ import { startWith } from 'rxjs/internal/operators/startWith';
 import { PickToteManagerComponent } from 'src/app/dialogs/pick-tote-manager/pick-tote-manager.component';
 import { ViewOrdersComponent } from 'src/app/dialogs/view-orders/view-orders.component';
 import { WorkstationZonesComponent } from 'src/app/dialogs/workstation-zones/workstation-zones.component';
-import { map } from 'rxjs';
+import { map, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-process-picks',
@@ -25,8 +25,10 @@ export class ProcessPicksComponent implements OnInit {
   public userData: any;
   batchID: any = '';
   pickBatchQuantity: any = '';
+  useInZonePickScreen: any;
   countInfo: any;
   allZones: any;
+  allOrders: any[] = [];
   pickBatchesList: any[] = [];;
   pickBatches = new FormControl('');
   // pickBatches:any = '';
@@ -35,6 +37,7 @@ export class ProcessPicksComponent implements OnInit {
   dataSource: any;
   nxtToteID: any;
   selection = new SelectionModel<any>(true, []);
+  onDestroy$: Subject<boolean> = new Subject();
   @ViewChild('batchPickID') batchPickID: TemplateRef<any>;
 
   constructor(
@@ -72,6 +75,7 @@ export class ProcessPicksComponent implements OnInit {
       this.countInfo = res.data.countInfo;
       this.pickBatchesList = res.data.pickBatches;
       this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
+      this.useInZonePickScreen = res.data.imPreference.useInZonePickScreen;
       this.createToteSetupTable(this.pickBatchQuantity);
       console.log(this.pickBatches);
 
@@ -147,11 +151,25 @@ export class ProcessPicksComponent implements OnInit {
     const dialogRef = this.dialog.open(ViewOrdersComponent, {
       height: 'auto',
       width: '100vw',
-      data:{
+      data: {
         viewType: viewType,
-        pickBatchQuantity: this.pickBatchQuantity
+        pickBatchQuantity: this.pickBatchQuantity,
+        allOrders: this.allOrders,
       },
       autoFocus: '__non_existing_element__'
+    });
+    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+      this.allOrders.push(result);
+      console.log(this.allOrders);
+      
+      this.TOTE_SETUP.forEach((element, key) => {
+        if (element.orderNumber === '') {
+          element.orderNumber = result[key] ?? '';
+        }
+      });
+      // console.log(this.TOTE_SETUP);
+      // this.dataSource = new MatTableDataSource<any>(this.TOTE_SETUP);
+
     })
   }
 
@@ -202,7 +220,7 @@ export class ProcessPicksComponent implements OnInit {
 
   }
 
-  updateNxtTote(){
+  updateNxtTote() {
     let updatePayload = {
       "tote": this.nxtToteID,
       "username": this.userData.userName,

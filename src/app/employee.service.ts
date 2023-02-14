@@ -22,7 +22,7 @@ export class EmployeeService {
   }
 
   public getLocationList(url, payload ): Observable<EmployeeObject> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`);
+    let basicAuth = '';
     
     const httpOptions = {
       headers: new HttpHeaders({
@@ -36,7 +36,7 @@ export class EmployeeService {
 
   //Test Later
   public getEmployeeData(employee: IEmployee ): Observable<EmployeeObject> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -46,7 +46,7 @@ export class EmployeeService {
     return this.http.post<any>(`${environment.apiUrl}/Admin/GetEmployeeData`, employee,httpOptions);
   }
   public getUserGroupNames(employee: any ): Observable<any> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -58,7 +58,7 @@ export class EmployeeService {
 
 
   public getAdminEmployeeLookup(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -71,7 +71,7 @@ export class EmployeeService {
   
 
   public employeeStatsInfo(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -83,7 +83,7 @@ export class EmployeeService {
 
 
   public saveAdminEmployee(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -94,7 +94,7 @@ export class EmployeeService {
   }
 
   public deleteAdminEmployee(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -104,7 +104,7 @@ export class EmployeeService {
     return this.http.post<any>(`${environment.apiUrl}/Admin/DeleteEmployee`, employee,httpOptions);
   }
   public deleteUserGroup(employee: any ): Observable<any> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -116,7 +116,7 @@ export class EmployeeService {
 
 
   public updateAdminEmployee(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -126,7 +126,7 @@ export class EmployeeService {
     return this.http.post<any>(`${environment.apiUrl}/Admin/UpdateEmployee`, employee,httpOptions);
   }
   public cloneGroup(employee: any ): Observable<AdminEmployeeLookupResponse> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -137,7 +137,7 @@ export class EmployeeService {
   }
 
   public getAdminEmployeeDetails(employee: IEmployee ): Observable<EmployeeObject> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -148,7 +148,7 @@ export class EmployeeService {
   }
   
   public getControlName(employee: IEmployee ): Observable<EmployeeObject> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -159,7 +159,7 @@ export class EmployeeService {
   }
 
   public updateControlName(employee: IEmployee ): Observable<EmployeeObject> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -171,7 +171,7 @@ export class EmployeeService {
   
 
   public deleteControlName(employee: IEmployee ): Observable<EmployeeObject> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -182,7 +182,7 @@ export class EmployeeService {
   }
 
   public submitControlResponse(employee: IEmployee ): Observable<EmployeeObject> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -192,7 +192,7 @@ export class EmployeeService {
     return this.http.post<any>(`${environment.apiUrl}/Admin/SubmitControlResponse`, employee,httpOptions);
   }
   public insertUserGroup(employee: any): Observable<EmployeeObject> {
-    let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+    let basicAuth = '';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -205,7 +205,7 @@ export class EmployeeService {
 //zone
 
 public getZones(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -216,7 +216,7 @@ public getZones(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
 }
 
 public updateEmployeeZone(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -229,7 +229,7 @@ public updateEmployeeZone(employee: IEmployee ): Observable<AdminEmployeeLookupR
 //deleteEmployeeZone
 
 public deleteEmployeeZone(employee: IEmployee ): Observable<EmployeeObject> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -241,7 +241,7 @@ public deleteEmployeeZone(employee: IEmployee ): Observable<EmployeeObject> {
 
 //insertAllAccess
 public insertAllAccess(employee: IEmployee ): Observable<EmployeeObject> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -253,7 +253,7 @@ public insertAllAccess(employee: IEmployee ): Observable<EmployeeObject> {
 
 //EmployeeLocation
 public insertEmployeeLocation(employee: IEmployee ): Observable<EmployeeObject> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -264,7 +264,7 @@ public insertEmployeeLocation(employee: IEmployee ): Observable<EmployeeObject> 
 }
 
 public updateEmployeeLocation(employee: IEmployee ): Observable<EmployeeObject> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -278,7 +278,7 @@ public updateEmployeeLocation(employee: IEmployee ): Observable<EmployeeObject> 
 
 
 public deleteEmployeeLocation(employee: IEmployee ): Observable<EmployeeObject> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -295,7 +295,7 @@ public deleteEmployeeLocation(employee: IEmployee ): Observable<EmployeeObject> 
 
 
 public insertPickLevels(employee: IEmployee ): Observable<EmployeeObject> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -306,7 +306,7 @@ public insertPickLevels(employee: IEmployee ): Observable<EmployeeObject> {
 }
 
 public updatePickLevels(employee: IEmployee ): Observable<EmployeeObject> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -318,7 +318,7 @@ public updatePickLevels(employee: IEmployee ): Observable<EmployeeObject> {
 
 
 public deletePickLevels(employee: IEmployee ): Observable<EmployeeObject> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -333,7 +333,7 @@ public deletePickLevels(employee: IEmployee ): Observable<EmployeeObject> {
 //updateAccessGroup
 
 public updateAccessGroup(employee: IEmployee ): Observable<AccessGroupObject> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -345,7 +345,7 @@ public updateAccessGroup(employee: IEmployee ): Observable<AccessGroupObject> {
 
 
 public insertGroup(employee: IEmployee ): Observable<AccessGroupObject> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -356,7 +356,7 @@ public insertGroup(employee: IEmployee ): Observable<AccessGroupObject> {
 }
 
 public insertGroupFunctions(employee: IEmployee ): Observable<AccessGroupObject> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -368,7 +368,7 @@ public insertGroupFunctions(employee: IEmployee ): Observable<AccessGroupObject>
 
 
 public getFunctionByGroup(employee: IEmployee ): Observable<AccessGroupObject> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -379,7 +379,7 @@ public getFunctionByGroup(employee: IEmployee ): Observable<AccessGroupObject> {
 }
 
 public updateEmployeesInGroup(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -390,7 +390,7 @@ public updateEmployeesInGroup(employee: IEmployee ): Observable<AdminEmployeeLoo
 }
 
 public deleteGroup(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
-  let basicAuth = window.btoa(`${environment.userName}`+':'+`${environment.password}`)
+  let basicAuth = '';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
