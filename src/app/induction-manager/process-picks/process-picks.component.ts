@@ -2,17 +2,17 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { BlossomToteComponent } from 'src/app/dialogs/blossom-tote/blossom-tote.component';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../../../app/init/auth.service';
 import { ProcessPicksService } from './process-picks.service';
 import { FormControl } from '@angular/forms';
 import { startWith } from 'rxjs/internal/operators/startWith';
-import { map } from 'rxjs/internal/operators/map';
-import { BlossomToteComponent } from 'src/app/dialogs/blossom-tote/blossom-tote.component';
 import { PickToteManagerComponent } from 'src/app/dialogs/pick-tote-manager/pick-tote-manager.component';
 import { ViewOrdersComponent } from 'src/app/dialogs/view-orders/view-orders.component';
 import { WorkstationZonesComponent } from 'src/app/dialogs/workstation-zones/workstation-zones.component';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-process-picks',
