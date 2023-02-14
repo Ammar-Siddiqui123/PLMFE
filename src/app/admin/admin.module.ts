@@ -110,6 +110,8 @@ import { HoldReasonComponent } from './dialogs/hold-reason/hold-reason.component
 import { ClearAppGlobalconfigComponent } from './dialogs/clear-app-globalconfig/clear-app-globalconfig.component';
 import { LicensingInvalidComponent } from './dialogs/licensing-invalid/licensing-invalid.component';
 import { SqlAuthConfirmationComponent } from './dialogs/sql-auth-confirmation/sql-auth-confirmation.component';
+import { ManualTransactionsComponent } from './manual-transactions/manual-transactions.component';
+import { GenerateOrderComponent } from './manual-transactions/generate-order/generate-order.component';
 
 
 
@@ -210,7 +212,9 @@ import { SqlAuthConfirmationComponent } from './dialogs/sql-auth-confirmation/sq
     HoldReasonComponent,
     ClearAppGlobalconfigComponent,
     LicensingInvalidComponent,
-    SqlAuthConfirmationComponent
+    SqlAuthConfirmationComponent,
+    ManualTransactionsComponent,
+    GenerateOrderComponent
 
   ],
   imports: [

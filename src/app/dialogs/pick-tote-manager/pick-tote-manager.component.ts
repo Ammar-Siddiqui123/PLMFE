@@ -27,10 +27,44 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./pick-tote-manager.component.scss']
 })
 export class PickToteManagerComponent implements OnInit {
+isFilter:string='filter'
+    /** Whether the number of selected elements matches the total number of rows. */
+    isAllSelected() {
+      const numSelected = this.selection.selected.length;
+      const numRows = this.dataSource.data.length;
+      return numSelected === numRows;
+    }
+  
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    toggleAllRows() {
+      if (this.isAllSelected()) {
+        this.selection.clear();
+        return;
+      }
+  
+      this.selection.select(...this.dataSource.data);
+    }
+  
+    /** The label for the checkbox on the passed row */
+    checkboxLabel(row?: PeriodicElement): string {
+      if (!row) {
+        return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+      }
+      return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    }
 
   displayedColumns: string[] = ['position', 'toteid', 'orderno', 'priority','options', 'other'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
+
+  displayedColumns1: string[] = ['position', 'toteid', 'orderno', 'other'];
+  dataSource1 = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+
+  displayedColumns2: string[] = ['orderno', 'requireddate', 'priority'];
+
+  displayedColumns3: string[] = ['orderno', 'itemno', 'transaction', 'location'];
+
+  displayedColumns4: string[] = ['select', 'zone', 'batchtype', 'totalorders', 'totallocations', 'other'];
 
   constructor() { }
 

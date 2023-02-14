@@ -10,6 +10,7 @@ import { EmployeesComponent } from './employees/employees.component';
 import { InventoryMapComponent } from './inventory-map/inventory-map.component';
 import { InventoryMasterComponent } from './inventory-master/inventory-master.component';
 import { LocationAssignmentComponent } from './location-assignment/location-assignment.component';
+import { ManualTransactionsComponent } from './manual-transactions/manual-transactions.component';
 import { TransactionComponent } from './transaction/transaction.component';
 
 const routes: Routes = [
@@ -52,6 +53,11 @@ const routes: Routes = [
   {
     path: 'transaction',
     component: TransactionComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'manualTransactions',
+    component: ManualTransactionsComponent,
     canActivate: [AuthGuardGuard],
   },
 ];

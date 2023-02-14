@@ -25,6 +25,10 @@ import { SelectZonesComponent } from './dialogs/select-zones/select-zones.compon
 import { TotesAddEditComponent } from './dialogs/totes-add-edit/totes-add-edit.component';
 import { GeneralModule } from './gen-module';
 import { PickToteManagerComponent } from './dialogs/pick-tote-manager/pick-tote-manager.component';
+import { ViewOrdersComponent } from './dialogs/view-orders/view-orders.component';
+import { BlossomToteComponent } from './dialogs/blossom-tote/blossom-tote.component';
+import { WorkstationZonesComponent } from './dialogs/workstation-zones/workstation-zones.component';
+import { BatchDeleteComponent } from './dialogs/batch-delete/batch-delete.component';
 import { ConfirmationDialogComponent } from './admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -36,9 +40,12 @@ import { ConfirmationDialogComponent } from './admin/dialogs/confirmation-dialog
     SelectZonesComponent,
     TotesAddEditComponent,
     PickToteManagerComponent,
-    ConfirmationDialogComponent,
+    ViewOrdersComponent,
+    BlossomToteComponent,
+    WorkstationZonesComponent,
+    BatchDeleteComponent,
+    ConfirmationDialogComponent
     // ActionDisableDirective,
-
   ],
   imports: [
     BrowserModule,
