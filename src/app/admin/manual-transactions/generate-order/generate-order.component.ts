@@ -181,6 +181,8 @@ export class GenerateOrderComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe((res) => {
         if (res.isExecuted) {
+          this.clearFields();
+          this.getOrderTableData();
         }
       });
     }
@@ -265,9 +267,9 @@ console.log(element);
       }
     );
     dialogRef.afterClosed().subscribe((res) => {
-      if (res.isExecuted) {
+      // if (res.isExecuted) {
         this.getOrderTableData();
-      }
+      // }
     });
   }
   getOrderTableData() {

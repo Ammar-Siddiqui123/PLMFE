@@ -73,9 +73,7 @@ export class DeleteConfirmationManualTransactionComponent implements OnInit {
           username: this.data.userName,
           wsid: this.data.wsid,
         };
-        console.log(payload);
-        
-        return
+ 
         this.transactionService
           .get(payload, '/Admin/TransactionForOrderDelete')
           .subscribe(

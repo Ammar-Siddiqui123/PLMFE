@@ -48,7 +48,7 @@
               <mat-form-field class="action-dropdown custom-form-field-bg-white" appearance="outline">
                 <mat-select #matRef class="employees-action" placeholder="Actions" [(ngModel)]="selectedOption"
                   (openedChange)="actionDialog($event)">
-                  <mat-option [disabled]="!selectedOrder" value="post_order">Post Order</mat-option>
+                  <mat-option [disabled]="!selectedOrder || toteID===''" value="post_order">Post Order</mat-option>
                   <mat-option [disabled]="!selectedOrder" value="delete_order">Delete Order</mat-option>
                   <mat-option [disabled]="!selectedOrder" value="add_new_transaction">Add New Transaction To
                     Order</mat-option>
