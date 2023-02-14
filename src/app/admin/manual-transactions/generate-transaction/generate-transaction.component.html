@@ -24,7 +24,7 @@
                         <div class="d-flex justify-content-end">
                         <mat-form-field class="action-dropdown custom-form-field-bg-white" appearance="outline">
                             <mat-select  #matRef class="employees-action" placeholder="Actions">
-                              <mat-option value="0">Add New Transaction</mat-option>
+                              <mat-option value="0" (click)="openTemporaryManualOrderDialogue()">Add New Transaction</mat-option>
                               <mat-option value="1">Clear</mat-option>
                               <mat-option value="2">Save Transaction</mat-option>
                               <mat-option value="3">Delete Transaction</mat-option>
@@ -133,9 +133,12 @@
                     </mat-form-field>
                 </div>
                 <div class="col-xl-3">
-                    <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                    <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline" (click)="openUnitOfMeasureDialogue()">
                         <mat-label>Unit Of Measure</mat-label>
                         <input matInput type="text" maxlength="255" value="Value">
+                        <span matSuffix>
+                            <mat-icon style="color:var(--clr-tertiary-900); transform: rotate(45deg);">unfold_more</mat-icon>
+                        </span>
                     </mat-form-field>
                 </div>
             </div>

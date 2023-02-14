@@ -118,6 +118,7 @@ import { ManualTransPostConfirmComponent } from './dialogs/manual-trans-post-con
 import { GenerateTransactionComponent } from './manual-transactions/generate-transaction/generate-transaction.component';
 import { SetItemLocationComponent } from './dialogs/set-item-location/set-item-location.component';
 import { SupplierItemIdComponent } from './dialogs/supplier-item-id/supplier-item-id.component';
+import { TemporaryManualOrderNumberAddComponent } from './dialogs/temporary-manual-order-number-add/temporary-manual-order-number-add.component';
 
 
 
@@ -226,7 +227,8 @@ import { SupplierItemIdComponent } from './dialogs/supplier-item-id/supplier-ite
     ManualTransPostConfirmComponent,
     GenerateTransactionComponent,
     SetItemLocationComponent,
-    SupplierItemIdComponent
+    SupplierItemIdComponent,
+    TemporaryManualOrderNumberAddComponent
 
   ],
   imports: [
