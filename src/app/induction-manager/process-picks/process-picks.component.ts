@@ -148,7 +148,8 @@ export class ProcessPicksComponent implements OnInit {
       height: 'auto',
       width: '100vw',
       data:{
-        viewType: viewType
+        viewType: viewType,
+        pickBatchQuantity: this.pickBatchQuantity
       },
       autoFocus: '__non_existing_element__'
     })
