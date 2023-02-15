@@ -78,7 +78,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'linear_scale   ', title: 'Manual Transactions ', route: '#' ,permission:'Induction Manager'},
     { icon: 'edit_attributes ', title: 'Transaction Journal ', route: 'admin/transaction' ,permission:'Induction Manager'},
     { icon: '     manage_accounts     ', title: 'Reports ', route: '#' ,permission:'Induction Manager'},
-    { icon: '      manage_accounts       ', title: 'Preferences ', route: '#' ,permission:'Induction Manager'},
+    { icon: '      manage_accounts       ', title: 'Preferences ', route: '/InductionManager/AdminPrefrences' ,permission:'Induction Manager'},
   ];
 
   
