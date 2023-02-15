@@ -22,13 +22,18 @@
             </mat-menu>
         </div>
         <div class="row">
-            <div class="col-xl-4">
+            <div [ngClass]="useInZonePickScreen === true ? 'col-xl-4' : 'col-xl-12'">
                 <div class="card p-3 mb-2">
-                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                        <mat-label>Batch ID</mat-label>
-                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
-                            [(ngModel)]="batchID">
-                    </mat-form-field>
+                    <div class="row">
+                        <div [ngClass]="useInZonePickScreen === true ? 'col-xl-12' : 'col-xl-6'">
+                            <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+                                <mat-label>Batch ID</mat-label>
+                                <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+                                    [(ngModel)]="batchID">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
                     <div class="d-flex gap-12">
                         <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
                             style="min-width: 150px;" (click)="onAddBatch('batchWithID')">
@@ -38,10 +43,15 @@
                             style="min-width: 150px;" (click)="onAddBatch('newBatch')">
                             New Batch
                         </button>
+                        <button *ngIf="!useInZonePickScreen" mat-flat-button color="primary"
+                            class="primary-button btn-regular w-100" style="min-width: 150px;"
+                            (click)="openBlossomToteDialogue()">
+                            Blossom
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-8">
+            <div class="col-xl-8" *ngIf="useInZonePickScreen">
                 <div class="card p-3 mb-2">
                     <mat-radio-group color="primary" class="d-flex">
                         <div class="d-flex w-100 pe-2 align-items-center">
@@ -138,8 +148,7 @@
                                 <mat-autocomplete class="autocomplete-center" panelWidth="auto" autoActiveFirstOption
                                     #auto="matAutocomplete">
                                     <h6 class="ctl_name ac-dropdown-label"><span>Batch ID</span></h6>
-                                    <mat-option *ngFor="let option of filteredOptions | async"
-                                        [value]="option">
+                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                                         <div class="ctl_option ac-dropdown-option">
                                             <span>{{option}}</span>
                                         </div>
@@ -165,7 +174,8 @@
                         </div>
                         <span>Order Number Select</span>
                     </h2>
-                    <div class="text-center"> <span class="label label-gray px-2 f-14">Zones:&nbsp;<b><span *ngFor="let zone of allZones"> {{zone}} </span></b></span></div>
+                    <div class="text-center"> <span class="label label-gray px-2 f-14">Zones:&nbsp;<b><span
+                                    *ngFor="let zone of allZones"> {{zone}} </span></b></span></div>
                 </div>
 
                 <div class="row align-items-center">
@@ -178,19 +188,24 @@
 
                     </div>
                     <div class="col-xl-4">
-                        <button mat-flat-button [matMenuTriggerFor]="orderMenu" color="primary" class="primary-button btn-regular w-100" style="min-width: 150px;">
+                        <button mat-flat-button [matMenuTriggerFor]="orderMenu" color="primary"
+                            class="primary-button btn-regular w-100" style="min-width: 150px;">
                             View Orders
                             <mat-icon matSuffix> expand_more</mat-icon>
                         </button>
                         <mat-menu #orderMenu="matMenu" xPosition="before">
-                            <button mat-menu-item (click)="openViewOrdersDialogue('All')"><b class="text-tertiary-900">View All Orders</b></button>
-                            <button mat-menu-item (click)="openViewOrdersDialogue('NonReplen')">View Non Replenishment Orders</button>
-                            <button mat-menu-item (click)="openViewOrdersDialogue('Replen')">View Replenishment Orders</button>
-                          </mat-menu>
+                            <button mat-menu-item (click)="openViewOrdersDialogue('All')"><b
+                                    class="text-tertiary-900">View All Orders</b></button>
+                            <button mat-menu-item (click)="openViewOrdersDialogue('NonReplen')">View Non Replenishment
+                                Orders</button>
+                            <button mat-menu-item (click)="openViewOrdersDialogue('Replen')">View Replenishment
+                                Orders</button>
+                        </mat-menu>
                     </div>
                 </div>
                 <div class="mt-2">
-                    <button mat-flat-button color="primary" class="primary-button btn-regular w-100" style="min-width: 150px;" (click)="openWorkstationZone()">
+                    <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
+                        style="min-width: 150px;" (click)="openWorkstationZone()">
                         Select Workstation Zones
                     </button>
                 </div>
@@ -213,8 +228,10 @@
             </h2>
             <mat-form-field class="action-dropdown" appearance="outline">
                 <mat-label>Actions</mat-label>
-                <mat-select class="employees-action" placeholder="Actions" (selectionChange)="onToteAction($event.value)">
-                    <mat-option value="fill_all_tote"><b class="text-tertiary-900">Fill All Empty Tote IDs</b></mat-option>
+                <mat-select class="employees-action" placeholder="Actions"
+                    (selectionChange)="onToteAction($event.value)">
+                    <mat-option value="fill_all_tote"><b class="text-tertiary-900">Fill All Empty Tote
+                            IDs</b></mat-option>
                     <mat-option value="fill_next_tote">Fill Next Empty Tote ID</mat-option>
                     <mat-option value="clear_all_totes">Clear All Totes</mat-option>
                     <mat-option value="clear_all_orders">Clear All Orders</mat-option>
@@ -234,7 +251,8 @@
                         <td mat-cell *matCellDef="let element">
                             <div class="pe-2">
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                    <input matInput type="text" #specialFeature maxlength="255" value="{{element.position}}" disabled>
+                                    <input matInput type="text" #specialFeature maxlength="255"
+                                        value="{{element.position}}" disabled>
                                 </mat-form-field>
                             </div>
                         </td>
@@ -310,7 +328,8 @@
     </mat-card-content>
 </mat-card>
 <div class="d-flex">
-    <button mat-flat-button color="primary" class="primary-button btn-lg w-100" style="min-width: 150px;" (click)="confirmProcessSetup()">
+    <button mat-flat-button color="primary" class="primary-button btn-lg w-100" style="min-width: 150px;"
+        (click)="confirmProcessSetup()">
         Process Batch
     </button>
 </div>
