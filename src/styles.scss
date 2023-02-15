@@ -35,10 +35,56 @@ $theme-colors: (
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
-@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap');
 // @import 'material-symbols';
 /* DESIGN SYSTEM */
 @import './assets/design-system/d-main.scss';
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../src/assets/font-icon/MaterialIcons-Regular.woff2') format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 100 700;
+  src: url('../src/assets/font-icon/MaterialIconsOutlined-Regular.woff2') format('woff2');
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
  body, html,
 .mat-badge-content, .mat-button,
 .mat-raised-button,
@@ -1337,6 +1383,34 @@ button.default-btn{
 .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-flex {
   background-color: rgba($tertiary-10, $alpha: 0.25)!important
 }
+.custom-form-field-bg-white{
+.mat-form-field-outline{
+  background: #fff;
+  border-radius: 14px;
+}
+
+
+.mat-form-field-label{
+  background: #fff;
+  border-radius: 999px;
+  width: auto!important;
+}
+}
+
+  .custom-form-field.mat-form-field-appearance-outline{
+    .mat-form-field-prefix{
+      top: 6px !important;
+    }
+    .mat-form-field-suffix{
+      top: 6px !important;
+    }
+  }
+//   .custom-form-field.mat-form-field-appearance-outline .mat-form-field-infix{
+//     min-width: none;
+//     width: auto!important;
+// }
+
+
 
 //-------------- FORM INPUT-CLASSES ----END-------------------
 

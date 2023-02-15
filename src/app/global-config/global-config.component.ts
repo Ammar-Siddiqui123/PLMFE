@@ -79,7 +79,7 @@ export class GlobalConfigComponent {
                   this.addLoginForm.reset();
                   localStorage.setItem('userConfig', JSON.stringify(data));
                   // localStorage.setItem('global-config-userRights', JSON.stringify(userRights));
-          this.router.navigate(['/globalconfig/dashboard']);
+          this.router.navigate(['/globalconfig/home']);
         } else {
           const errorMessage = res.responseMessage;
           this.toastr.error(errorMessage?.toString(), 'Error!', {
@@ -176,6 +176,7 @@ export class GlobalConfigComponent {
       'Order Manager',
       'Admin Menu',
       'FlowRack Replenish',
+      'Markout',
 
       //Admin Menus
       'Dashboard',

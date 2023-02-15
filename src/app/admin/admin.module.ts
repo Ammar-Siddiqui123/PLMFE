@@ -108,6 +108,18 @@ import { SendTranHistoryComponent } from './dialogs/send-tran-history/send-tran-
 import { ReprocessTransactionDetailComponent } from './dialogs/reprocess-transaction-detail/reprocess-transaction-detail.component';
 import { HoldReasonComponent } from './dialogs/hold-reason/hold-reason.component';
 import { ClearAppGlobalconfigComponent } from './dialogs/clear-app-globalconfig/clear-app-globalconfig.component';
+import { LicensingInvalidComponent } from './dialogs/licensing-invalid/licensing-invalid.component';
+import { SqlAuthConfirmationComponent } from './dialogs/sql-auth-confirmation/sql-auth-confirmation.component';
+import { ManualTransactionsComponent } from './manual-transactions/manual-transactions.component';
+import { GenerateOrderComponent } from './manual-transactions/generate-order/generate-order.component';
+import { AddNewTransactionToOrderComponent } from './dialogs/add-new-transaction-to-order/add-new-transaction-to-order.component';
+import { DeleteConfirmationManualTransactionComponent } from './dialogs/delete-confirmation-manual-transaction/delete-confirmation-manual-transaction.component';
+import { ManualTransPostConfirmComponent } from './dialogs/manual-trans-post-confirm/manual-trans-post-confirm.component';
+import { GenerateTransactionComponent } from './manual-transactions/generate-transaction/generate-transaction.component';
+import { SetItemLocationComponent } from './dialogs/set-item-location/set-item-location.component';
+import { SupplierItemIdComponent } from './dialogs/supplier-item-id/supplier-item-id.component';
+import { TemporaryManualOrderNumberAddComponent } from './dialogs/temporary-manual-order-number-add/temporary-manual-order-number-add.component';
+import { UserFieldsEditComponent } from './dialogs/user-fields-edit/user-fields-edit.component';
 
 
 
@@ -206,7 +218,19 @@ import { ClearAppGlobalconfigComponent } from './dialogs/clear-app-globalconfig/
     SendTranHistoryComponent,
     ReprocessTransactionDetailComponent,
     HoldReasonComponent,
-    ClearAppGlobalconfigComponent
+    ClearAppGlobalconfigComponent,
+    LicensingInvalidComponent,
+    SqlAuthConfirmationComponent,
+    ManualTransactionsComponent,
+    GenerateOrderComponent,
+    AddNewTransactionToOrderComponent,
+    DeleteConfirmationManualTransactionComponent,
+    ManualTransPostConfirmComponent,
+    GenerateTransactionComponent,
+    SetItemLocationComponent,
+    SupplierItemIdComponent,
+    TemporaryManualOrderNumberAddComponent,
+    UserFieldsEditComponent
 
   ],
   imports: [

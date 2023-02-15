@@ -9,6 +9,7 @@ import { GlobalconfigService } from '../globalconfig.service';
 })
 export class GlobalDashboardComponent implements OnInit {
   licAppNames: any = [];
+  sideBarOpen: boolean = true;
   constructor(
     private globalConfService: GlobalconfigService,
     private sharedService: SharedService
@@ -20,6 +21,10 @@ export class GlobalDashboardComponent implements OnInit {
       this.getAppLicense();
     }
     // this.getAppLicense();
+  }
+
+  sideBarToggler() {
+    this.sideBarOpen = !this.sideBarOpen;
   }
 
   async getAppLicense() {

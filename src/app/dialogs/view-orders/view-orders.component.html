@@ -1,0 +1,141 @@
+<div class="d-flex justify-content-between mb-4 align-items-center">
+  <div style="width:48px"></div>
+  <h1 class="m-0" mat-dialog-title>Orders</h1>
+  <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
+    <mat-icon class="close-icon">close</mat-icon>
+  </button>
+</div>
+
+<div class="row row-flex p-0 mb-3">
+  <div class="col-xl-4">
+    <div class="card p-3">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="card-header-title mb-0 d-flex align-items-center">
+          <div class="mat-icon-wrap me-lg-3">
+            <span class="material-symbols-outlined">
+              filter_frames
+            </span>
+          </div>
+          <span>Orders</span>
+        </h2>
+        <mat-form-field class="action-dropdown" appearance="outline">
+          <mat-label>Actions</mat-label>
+          <mat-select #matRef class="employees-action" placeholder="Actions">
+            <mat-option>Add Location</mat-option>
+            <mat-option value="print">Print</mat-option>
+            <mat-option value="set_column_sq">Set Column Sequence</mat-option>
+          </mat-select>
+          <span class="material-symbols-outlined icon-expand-more">
+            expand_more
+          </span>
+        </mat-form-field>
+      </div>
+      <div class="card br-14 table-responsive borderless px-0 mb-3">
+        <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 280px;">
+          <table mat-table [dataSource]="orderDataSource" class="w-100 table1">
+            <!-- Position Column -->
+            <ng-container matColumnDef="orderno">
+              <th mat-header-cell *matHeaderCellDef> Order Number </th>
+              <td mat-cell *matCellDef="let element" [class.selected]="element.isSelected">
+                <div class="pe-2">
+                  {{element.orderNumber}}
+                </div>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2; sticky:true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2;" (click)="onOrderSelect(row)" >
+            </tr>
+          </table>
+        </ng-scrollbar>
+      </div>
+      <div class="d-flex justify-content-start">
+        <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-8">
+    <div class="card p-3">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="card-header-title mb-0 d-flex align-items-center">
+          <div class="mat-icon-wrap me-lg-3">
+            <span class="material-symbols-outlined">
+              dvr
+            </span>
+          </div>
+          <span>Transactions</span>
+        </h2>
+      </div>
+      <div class="card br-14 table-responsive borderless px-0 mb-3">
+        <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 280px;">
+          <table mat-table [dataSource]="orderTransDataSource" class="w-100 table1">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="orderno">
+              <th mat-header-cell *matHeaderCellDef> Order Number </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="pe-2">
+                  {{element.orderNumber}}
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="itemno">
+              <th mat-header-cell *matHeaderCellDef> Item Number </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="pe-2">
+                  {{element.itemNumber}}
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="transaction">
+              <th mat-header-cell *matHeaderCellDef> Transaction Quantity </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="pe-2">
+                  {{element.transactionQuantity}}
+                </div>
+              </td>
+            </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="location">
+              <th mat-header-cell *matHeaderCellDef> Location </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="pe-2">
+                  {{element.location}}
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="completed">
+              <th mat-header-cell *matHeaderCellDef> Completed Quantity </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="pe-2">
+                  {{element.completedQuantity}}
+                </div>
+              </td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns3; sticky:true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns3;">
+            </tr>
+          </table>
+        </ng-scrollbar>
+      </div>
+      <div class="d-flex justify-content-start">
+        <mat-paginator>
+
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex gap-12">
+  <button type="submit" mat-flat-button class="form-button-submit btn-lg" style="flex:1" color="primary" (click)="onSelectedOrders()">Submit</button>
+</div>
