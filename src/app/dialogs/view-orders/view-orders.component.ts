@@ -66,11 +66,15 @@ export class ViewOrdersComponent implements OnInit {
   }
 
   onOrderSelect(row: any) {
-    console.log(this.data.allOrders.includes(row.orderNumber));
+    // const isMachted = this.data.allOrders.filter((val,key) => {return val[key] === row.orderNumber;});
+    // console.log(isMachted);
+    // if(isMachted){
+    //   this.toastr.error('No open totes in batch', 'Batch is Filled.', {
+    //     positionClass: 'toast-bottom-right',
+    //     timeOut: 2000
+    //   });
+    // }
     
-    if(this.data.allOrders.includes(row.orderNumber)){
-      console.log('Exist'+ row.orderNumber);
-    }
     if (this.selectedOrders.length >= this.data.pickBatchQuantity) {
       this.toastr.error('No open totes in batch', 'Batch is Filled.', {
         positionClass: 'toast-bottom-right',
