@@ -96,7 +96,7 @@
                     </div>
                     <span>Item Details</span>
                 </h2>
-                <button mat-flat-button color="primary" class="btn-regular" color="primary">
+                <button mat-flat-button color="primary" class="btn-regular" color="primary" (click)="openUserFieldsEditDialogue()">
                     View/Set User Fields
                 </button>
             </div>
@@ -105,7 +105,7 @@
                     <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline"
                         (click)="openSetItemLocationDialogue()">
                         <mat-label>Item number</mat-label>
-                        <input [disabled]="!item" [(ngModel)]="itemNumber" matInput type="text" maxlength="255" value="Value">
+                        <input [disabled]="!item || this.orderNumber==''"  [(ngModel)]="itemNumber" matInput type="text" maxlength="255" value="Value">
                         <span matSuffix>
                             <mat-icon
                                 style="color:var(--clr-tertiary-900); transform: rotate(45deg);">unfold_more</mat-icon>

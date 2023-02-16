@@ -8,6 +8,7 @@ import { SetItemLocationComponent } from '../../dialogs/set-item-location/set-it
 import { SupplierItemIdComponent } from '../../dialogs/supplier-item-id/supplier-item-id.component';
 import { TemporaryManualOrderNumberAddComponent } from '../../dialogs/temporary-manual-order-number-add/temporary-manual-order-number-add.component';
 import { UnitMeasureComponent } from '../../dialogs/unit-measure/unit-measure.component';
+import { UserFieldsEditComponent } from '../../dialogs/user-fields-edit/user-fields-edit.component';
 import { TransactionService } from '../../transaction/transaction.service';
 
 @Component({
@@ -161,6 +162,7 @@ export class GenerateTransactionComponent implements OnInit {
       );
   }
   openSetItemLocationDialogue() {
+    if(this.orderNumber=='' || !this.item )return
     const dialogRef = this.dialog.open(SetItemLocationComponent, {
       height: 'auto',
       width: '560px',
@@ -201,8 +203,25 @@ export class GenerateTransactionComponent implements OnInit {
       data: {
         userName: this.userData.userName,
         wsid: this.userData.wsid,
+        orderNumber:this.orderNumber?this.orderNumber:''
       },
     });
-    dialogRef.afterClosed().subscribe((res) => {});
+    dialogRef.afterClosed().subscribe((res) => {
+
+      if(res.isExecuted){
+        this.orderNumber=res.orderNumber;
+        this.itemNumber=res.itemNumber
+        this.getRow(res)
+      }
+      console.log(res)
+    });
+  }
+
+  openUserFieldsEditDialogue() {
+    const dialogRef = this.dialog.open(UserFieldsEditComponent, {
+      height: 'auto',
+      width: '800px',
+      autoFocus: '__non_existing_element__',
+    });
   }
 }

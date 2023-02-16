@@ -58,7 +58,7 @@ export class GenerateOrderComponent implements OnInit {
     this.searchByInput
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
-        if (this.orderNumber === '') return;
+        // if (this.orderNumber === '') return;
         this.autocompleteSearchColumn();
         this.getOrderTableData();
       });
@@ -133,8 +133,11 @@ export class GenerateOrderComponent implements OnInit {
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
+        this.clearFields()
         if (res.isExecuted) {
+          
           this.getOrderTableData();
+          this.clearFields()
         }
       });
     } else if (
@@ -159,8 +162,10 @@ export class GenerateOrderComponent implements OnInit {
         }
       );
       dialogRef.afterClosed().subscribe((res) => {
+        this.clearFields()
         if (res.isExecuted) {
           this.getOrderTableData();
+          
         }
       });
     }else   if (
@@ -180,6 +185,7 @@ export class GenerateOrderComponent implements OnInit {
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
+        this.clearFields()
         if (res.isExecuted) {
           this.clearFields();
           this.getOrderTableData();
@@ -220,6 +226,7 @@ console.log(element);
       dialogRef.afterClosed().subscribe((res) => {
         if (res.isExecuted) {
           this.getOrderTableData();
+          this.clearFields();
         }
       });
   }
