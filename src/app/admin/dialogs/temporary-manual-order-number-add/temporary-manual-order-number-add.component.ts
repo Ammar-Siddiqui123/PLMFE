@@ -176,18 +176,23 @@ this.orderRequired=true
   }
 
   async autocompleteSearchColumnItem() {
+
+   
     let searchPayload = {
       itemNumber: this.itemNumber,
+      beginItem:'---',
+      isEqual:false,
       username: this.data.userName,
       wsid: this.data.wsid,
     };
     this.transactionService
-      .get(searchPayload, '/Admin/GetItemNumber', true)
+      .get(searchPayload, '/Common/SearchItem', true)
       .subscribe(
         (res: any) => {
           if (res.data) {
-            if (this.searchAutocompleteItemNum.includes(res.data)) return;
-            this.searchAutocompleteItemNum.push(res.data);
+            this.searchAutocompleteItemNum=res.data
+            // if (this.searchAutocompleteItemNum.includes(res.data)) return;
+            // this.searchAutocompleteItemNum.push(res.data);
           }
         },
         (error) => {}
