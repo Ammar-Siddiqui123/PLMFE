@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
+import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { AuthService } from 'src/app/init/auth.service';
 import { SetItemLocationComponent } from '../../dialogs/set-item-location/set-item-location.component';
@@ -10,6 +11,10 @@ import { TemporaryManualOrderNumberAddComponent } from '../../dialogs/temporary-
 import { UnitMeasureComponent } from '../../dialogs/unit-measure/unit-measure.component';
 import { UserFieldsEditComponent } from '../../dialogs/user-fields-edit/user-fields-edit.component';
 import { TransactionService } from '../../transaction/transaction.service';
+import labels from '../../../labels/labels.json';
+import { PostManualTransactionComponent } from '../../dialogs/post-manual-transaction/post-manual-transaction.component';
+import { DeleteConfirmationTransactionComponent } from '../../dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
+import { DeleteConfirmationManualTransactionComponent } from '../../dialogs/delete-confirmation-manual-transaction/delete-confirmation-manual-transaction.component';
 
 @Component({
   selector: 'app-generate-transaction',
@@ -17,6 +22,8 @@ import { TransactionService } from '../../transaction/transaction.service';
   styleUrls: ['./generate-transaction.component.scss'],
 })
 export class GenerateTransactionComponent implements OnInit {
+  invMapIDget;
+  transactionID;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
   searchByInput: any = new Subject<string>();
@@ -55,7 +62,8 @@ export class GenerateTransactionComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private transactionService: TransactionService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private toastr: ToastrService
   ) {
     this.userData = this.authService.userData();
   }
@@ -73,8 +81,10 @@ export class GenerateTransactionComponent implements OnInit {
   searchData(event) {
     console.log(event);
   }
+
   getRow(row) {
     this.clear();
+    this.transactionID = row.id;
     console.log(row);
     let payLoad = {
       id: row.id,
@@ -162,6 +172,7 @@ export class GenerateTransactionComponent implements OnInit {
       );
   }
   openSetItemLocationDialogue() {
+    if (this.orderNumber == '' || !this.item) return;
     const dialogRef = this.dialog.open(SetItemLocationComponent, {
       height: 'auto',
       width: '560px',
@@ -172,7 +183,117 @@ export class GenerateTransactionComponent implements OnInit {
         itemNumber: this.itemNumber,
       },
     });
-    dialogRef.afterClosed().subscribe((res) => {});
+    dialogRef.afterClosed().subscribe((res) => {
+      console.log('---', res);
+      if (res && res.invMapID) {
+        this.invMapIDget = res.invMapID;
+        this.itemNumber = res.itemNumber;
+        this.getLocationData();
+      }
+    });
+  }
+
+  clearFields() {
+    this.clear();
+    this.zone = '';
+    this.carousel = '';
+    this.row = '';
+    this.shelf = '';
+    this.totalQuantity = '';
+    this.quantityAllocatedPick = '';
+    this.quantityAllocatedPutAway = '';
+    this.orderNumber = '';
+  }
+
+  postTransaction(type) {
+    const dialogRef = this.dialog.open(PostManualTransactionComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message:
+          type === 'save'
+            ? 'Click OK To Post And Save The Temporary Transaction.'
+            : 'Click OK To Post And Delete the Temporary Transaction',
+      },
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        let payload = {
+          deleteTransaction: type === 'save' ? false : true,
+          transactionID: this.transactionID,
+          username: this.userData.userName,
+          wsid: this.userData.wsid,
+        };
+        this.transactionService
+          .get(payload, '/Admin/PostTransaction')
+          .subscribe(
+            (res: any) => {
+              if (res && res.isExecuted) {
+                this.toastr.success(labels.alert.success, 'Success!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+              } else {
+                this.toastr.error(res.responseMessage, 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+              }
+            },
+            (error) => {}
+          );
+      }
+    });
+  }
+  deleteTransaction() {
+    const dialogRef = this.dialog.open(
+      DeleteConfirmationManualTransactionComponent,
+      {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          mode: 'delete-manual-transaction',
+          heading: 'Delete Transaction',
+          message: `Click OK to delete the current manual transaction.`,
+          userName: this.userData.userName,
+          wsid: this.userData.wsid,
+          orderNumber:this.orderNumber,
+          transID: this.transactionID,
+        }
+      }
+    );
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res.isExecuted) {
+      this.clearFields()
+        
+      }
+    });
+  
+    
+  }
+  getLocationData() {
+    let payload = {
+      invMapID: this.invMapIDget,
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+    };
+    this.transactionService.get(payload, '/Admin/LocationData', true).subscribe(
+      (res: any) => {
+        if (res && res.isExecuted) {
+          let items = res.data.locationTables[0];
+          this.zone = items.zone;
+          this.carousel = items.carousel;
+          this.row = items.row;
+          this.shelf = items.shelf;
+          this.totalQuantity = res.data.totalQuantity;
+          this.quantityAllocatedPick = res.data.pickQuantity;
+          this.quantityAllocatedPutAway = res.data.putQuantity;
+        }
+      },
+      (error) => {}
+    );
   }
   openSupplierItemDialogue() {
     const dialogRef = this.dialog.open(SupplierItemIdComponent, {
@@ -202,9 +323,17 @@ export class GenerateTransactionComponent implements OnInit {
       data: {
         userName: this.userData.userName,
         wsid: this.userData.wsid,
+        orderNumber: this.orderNumber ? this.orderNumber : '',
       },
     });
-    dialogRef.afterClosed().subscribe((res) => {});
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res.isExecuted) {
+        this.orderNumber = res.orderNumber;
+        this.itemNumber = res.itemNumber;
+        this.getRow(res);
+      }
+      console.log(res);
+    });
   }
 
   openUserFieldsEditDialogue() {
