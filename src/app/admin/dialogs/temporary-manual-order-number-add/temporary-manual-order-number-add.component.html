@@ -60,12 +60,24 @@
                     <mat-label>Item No.</mat-label>
                     <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='itemNumber'
                       (focusout)="onFocusOutEvent($event,'item')"    maxlength="255" [matAutocomplete]="item" (ngModelChange)="this.searchByItem.next($event)">
-
+<!-- 
                     <mat-autocomplete #item="matAutocomplete" (optionSelected)="setItem($event)">
-                        <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option">
-                            <div (click)="getRow(option)">{{option}}</div>
+                        <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.itemNumber">
+                            <div (click)="getRow(option)">{{option.itemNumber}}</div>
                         </mat-option>
-                    </mat-autocomplete>
+                    </mat-autocomplete> -->
+
+
+                    <mat-autocomplete class="card custom-scroll" #item="matAutocomplete" (optionSelected)="setItem($event)">
+                            
+                        <h6 class ="card-header matAutoCompHeader "><span style="width:  140px;">Item Number</span> <span  style="width:  140px;">Description</span> </h6>
+                      
+                        <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.itemNumber" class="matAutoCompTableContent">
+                          <div class="loc_option"  (click)="getRow(option)" >
+                            <span  class="searchColumn" style="width:  140px;">{{option.itemNumber}}</span> <span  class="searchColumn" style="width:  140px;">{{option.description}}</span> 
+                        </div>
+                        </mat-option>
+                      </mat-autocomplete>
                 </mat-form-field>
             </div>
         </div>
