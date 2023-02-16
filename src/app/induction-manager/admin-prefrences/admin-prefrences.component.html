@@ -59,7 +59,8 @@
                     (keydown.shift.enter)="$event.preventDefault()" 
                     matInput 
                     type="number" 
-                    matTooltip="Number of totes per batch"/>
+                    matTooltip="Number of totes per batch"
+                    onKeypress="if(event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45) return false;"/>
                 </mat-form-field>
               </div>
             </div>
@@ -76,7 +77,8 @@
                     (keydown.shift.enter)="$event.preventDefault()"
                     matInput
                     type="number"
-                    matTooltip="Number of put away transactions allowed per tote"/>
+                    matTooltip="Number of put away transactions allowed per tote"
+                    onKeypress="if(event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45) return false;"/>
                 </mat-form-field>
               </div>
             </div>
@@ -277,6 +279,7 @@
             </div>
   
             <div class="row pb-5">
+              
               <div class="col-xl-4">
                 <div class="d-flex gap-12 mb-2">
                   <mat-form-field
@@ -294,6 +297,7 @@
                   </mat-form-field>
                 </div>
               </div>
+
               <div class="col-xl-4">
                 <div class="d-flex gap-12 mb-2">
                   <mat-form-field
@@ -306,10 +310,11 @@
                       (keydown.shift.enter)="$event.preventDefault()"
                       matInput
                       type="number"
-                      onKeyPress="if(this.value.length==10) return false;"/>
+                      onKeyPress="if(this.value.length==10 || event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45) return false;"/>
                   </mat-form-field>
                 </div>
               </div>
+
               <div class="col-xl-4">
                 <div class="d-flex gap-12 mb-2">
                   <mat-form-field
@@ -322,10 +327,11 @@
                       (keydown.shift.enter)="$event.preventDefault()"
                       matInput
                       type="number"
-                      onKeyPress="if(this.value.length==10) return false;"/>
+                      onKeyPress="if(this.value.length==10 || event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45) return false;"/>
                   </mat-form-field>
                 </div>
               </div>
+
               <div class="col-xl-4">
                 <div class="d-flex gap-12 mb-2">
                   <mat-form-field
@@ -343,6 +349,7 @@
                   </mat-form-field>
                 </div>
               </div>
+
             </div>
 
           </div>
@@ -364,6 +371,7 @@
           </div>
   
           <div class="row pb-5">
+
             <div class="col-xl-4">
               <div class="d-flex gap-12 mb-2">
                 <div class="col-md-12 text-left admin-prefrences">
@@ -424,8 +432,8 @@
                         formControlName="maxNumberOfPutAwayLabels" 
                         (keydown.shift.enter)="$event.preventDefault()" 
                         matInput 
-                        type="number"
-                        onKeyPress="if(this.value.length==309) return false;"/>
+                        type="number"                        
+                        onKeypress="if(this.value.length == 309 || event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45) return false;"/>
                   </mat-form-field>
                 </div>
               </div>

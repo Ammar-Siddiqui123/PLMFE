@@ -116,16 +116,9 @@ export class AdminPrefrencesComponent implements OnInit {
               private toast                     : ToastrService) {
 
                 this.preferencesForm = this.formBuilder.group({
-                  // goalName: new FormControl('', Validators.compose([
-                  //   Validators.required,
-                  //   Validators.minLength(2),
-                  //   Validators.maxLength(50)
-                  // ])),
 
                   // System Settings
                   useDefault                        : new FormControl('', Validators.compose([])),
-                  //useDefaultFilter                  : new FormControl(false, Validators.compose([])),
-                  //useDefaultZone                    : new FormControl(true, Validators.compose([])),
                   pickBatchQuantity                 : new FormControl(0, Validators.compose([])),
                   defaultCells                      : new FormControl(0, Validators.compose([])),
                   shortMethod                       : new FormControl('', Validators.compose([])),
@@ -190,14 +183,11 @@ export class AdminPrefrencesComponent implements OnInit {
       this.adminPrefrencesService.get(payload, '/Induction/PreferenceIndex').subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
-            // console.log(res.data)
             const values = res.data.imPreference
             this.preferencesForm.patchValue({
 
               // System Settings
               'useDefault'                        : values.useDefaultFilter ? 'filter' : 'zone',
-              // 'useDefaultFilter'                  : values.useDefaultFilter,
-              // 'useDefaultZone'                    : values.useDefaultZone,
               'pickBatchQuantity'                 : values.pickBatchQuantity,
               'defaultCells'                      : values.defaultCells,
               'shortMethod'                       : values.shortMethod,
