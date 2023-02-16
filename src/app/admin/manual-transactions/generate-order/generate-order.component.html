@@ -5,10 +5,10 @@
         <h2 class="card-header-title mb-0 d-flex align-items-center">
           <div class="mat-icon-wrap me-lg-3">
             <span class="material-symbols-outlined">
-              not_started
+              filter_frames
             </span>
           </div>
-          <span>Generate Transaction</span>
+          <span>Select Order</span>
         </h2>
       </div>
       <div class="header-filter-bar">
@@ -50,7 +50,7 @@
                   (openedChange)="actionDialog($event)">
                   <mat-option [disabled]="!selectedOrder || toteID===''" value="post_order">Post Order</mat-option>
                   <mat-option [disabled]="!selectedOrder" value="delete_order">Delete Order</mat-option>
-                  <mat-option [disabled]="!selectedOrder" value="add_new_transaction">Add New Transaction To
+                  <mat-option [disabled]="!orderNumber" value="add_new_transaction">Add New Transaction To
                     Order</mat-option>
                 </mat-select>
                 <span class="material-symbols-outlined icon-expand-more">

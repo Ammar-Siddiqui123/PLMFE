@@ -54,7 +54,7 @@ export class SuperBatchComponent implements OnInit {
   openReqDataStatus() {
     const dialogRef = this.dialog.open(RequiredDateStatusComponent, {
       height: 'auto',
-      width: '100%',
+      width: '932px',
       autoFocus: '__non_existing_element__'
     })
   }
