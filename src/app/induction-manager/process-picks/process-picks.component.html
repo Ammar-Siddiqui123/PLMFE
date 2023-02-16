@@ -248,12 +248,12 @@
                     <!-- Name Column -->
                     <ng-container matColumnDef="toteid">
                         <th mat-header-cell *matHeaderCellDef> Tote ID </th>
-                        <td mat-cell *matCellDef="let element">
+                        <td mat-cell *matCellDef="let element; let i = index;">
                             <div class="pe-2">
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
 
                                     <input matInput type="text" #specialFeature maxlength="255"
-                                        value="{{element.toteID}}">
+                                        [(ngModel)]="element.toteID" (focusout)="checkDuplicateTote(element, i)">
                                 </mat-form-field>
                             </div>
                         </td>
@@ -267,7 +267,7 @@
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
 
                                     <input matInput type="text" #specialFeature maxlength="255"
-                                        value="{{element.orderNumber}}">
+                                    [(ngModel)]="element.orderNumber">
                                 </mat-form-field>
                             </div>
                         </td>
