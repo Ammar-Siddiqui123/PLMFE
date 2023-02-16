@@ -2,6 +2,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit , Inject} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ProcessPutAwayService } from 'src/app/induction-manager/processPutAway.service';
+import { ToastrService } from 'ngx-toastr';
 
 export interface PeriodicElement {
   name: string;
@@ -33,6 +35,11 @@ export class SelectZonesComponent implements OnInit {
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
   batchID="";
+  username="";
+  wsid="";
+  zoneDetails :any;
+
+
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -59,10 +66,37 @@ export class SelectZonesComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
+  getAvailableZones()
+  {
+    var payLoad =
+    {
+      batchID: this.batchID,
+      username: this.username,
+      wsid: this.wsid
+    };
+    this.service.create(payLoad, '/Induction/AvailableZone').subscribe(
+      (res: any) => {
+        if (res.data && res.isExecuted) {
+          this.zoneDetails = res.data.zoneDetails
+        } else {
+          this.toastr.error('Something went wrong', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      },
+      (error) => { }
+    );
+
+  }
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private service: ProcessPutAwayService , private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.batchID = this.data.batchId;
+    this.username= this.data.userId;
+    this.wsid=this.data.wsid;
+    this.getAvailableZones();
   }
 
 }

@@ -98,7 +98,9 @@ export class ProcessPutAwaysComponent implements OnInit {
         width: '100%',
         autoFocus: '__non_existing_element__',
         data: {
-          batchId: this.batchId
+          batchId: this.batchId,
+          userId: this.userData.username,
+          wsid:this.userData.wsid
         }
   
       })
