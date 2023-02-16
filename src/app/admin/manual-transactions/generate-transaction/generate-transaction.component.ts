@@ -161,6 +161,7 @@ export class GenerateTransactionComponent implements OnInit {
       );
   }
   openSetItemLocationDialogue() {
+    if(this.orderNumber=='' || !this.item )return
     const dialogRef = this.dialog.open(SetItemLocationComponent, {
       height: 'auto',
       width: '560px',
@@ -201,8 +202,17 @@ export class GenerateTransactionComponent implements OnInit {
       data: {
         userName: this.userData.userName,
         wsid: this.userData.wsid,
+        orderNumber:this.orderNumber?this.orderNumber:''
       },
     });
-    dialogRef.afterClosed().subscribe((res) => {});
+    dialogRef.afterClosed().subscribe((res) => {
+
+      if(res.isExecuted){
+        this.orderNumber=res.orderNumber;
+        this.itemNumber=res.itemNumber
+        this.getRow(res)
+      }
+      console.log(res)
+    });
   }
 }
