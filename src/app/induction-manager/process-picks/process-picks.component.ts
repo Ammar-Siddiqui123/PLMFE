@@ -78,7 +78,7 @@ export class ProcessPicksComponent implements OnInit {
       this.pickBatchesList = res.data.pickBatches;
       this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
       this.useInZonePickScreen = res.data.imPreference.useInZonePickScreen;
-      // this.useInZonePickScreen = false;
+      this.useInZonePickScreen = false;
       this.createToteSetupTable(this.pickBatchQuantity);
       console.log(this.pickBatches);
 
@@ -88,8 +88,8 @@ export class ProcessPicksComponent implements OnInit {
         map(name => (name ? this._filter(name) : this.pickBatchesList.slice()))
       );
 
-      console.log(res.data);
-      console.log(this.countInfo);
+      // console.log(res.data);
+      // console.log(this.countInfo);
     });
   }
 
@@ -102,10 +102,6 @@ export class ProcessPicksComponent implements OnInit {
 
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
-    // return this.pickBatchesList.filter(
-    //   option => option.toLowerCase().indexOf(filterValue) === 0
-    // );
-
     return this.pickBatchesList.filter(option => option.toLowerCase().includes(filterValue));
   }
 
@@ -115,8 +111,6 @@ export class ProcessPicksComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(() => {
-      // console.log(val);
-      // console.log(this.dialogClose);
       if (this.dialogClose) {
         if (val === 'batchWithID') {
           this.pPickService.get('', '/Induction/NextBatchID').subscribe(res => {
@@ -155,6 +149,9 @@ export class ProcessPicksComponent implements OnInit {
       const dialogRef = this.dialog.open(PickToteManagerComponent, {
         height: '90vh',
         width: '100vw',
+        data: {
+          pickBatchQuantity: this.pickBatchQuantity,
+        },
         autoFocus: '__non_existing_element__'
       })
     }
