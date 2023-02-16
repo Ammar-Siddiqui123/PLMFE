@@ -8,7 +8,7 @@
       <mat-card class="mat-elevation-z g-card mt-3 p-4">
         <mat-card-content>
           
-          <div class="d-flex justify-content-between mb-1 align-items-center mb-3">
+          <div class="d-flex justify-content-between mb-2 align-items-center mb-3">
             <h2 class="card-header-title mb-0 d-flex align-items-center">
               <div class="mat-icon-wrap me-lg-3">
                 <span class="material-symbols-outlined">
@@ -30,14 +30,16 @@
                 <mat-radio-button                  
                   class="p-2"
                   value="filter"
-                  color="primary">
+                  color="primary"
+                  matTooltip="Sets if custom filter or zone is to be used in pick batch manager">
                   Use Default Filter
                 </mat-radio-button>
   
                 <mat-radio-button
                   class="p-2"
                   color="primary"
-                  value="zone">
+                  value="zone"
+                  matTooltip="Sets if custom filter or zone is to be used in pick batch manager">
                   Use Default Zone
                 </mat-radio-button>
   
@@ -53,10 +55,11 @@
                   <mat-label>Default Batch Qty</mat-label>
                   <input 
                     (focusout)="updatePreferences(1)"
-                    formControlName="defaultSuperBatchSize" 
+                    formControlName="pickBatchQuantity" 
                     (keydown.shift.enter)="$event.preventDefault()" 
                     matInput 
-                    type="text" />
+                    type="number" 
+                    matTooltip="Number of totes per batch"/>
                 </mat-form-field>
               </div>
             </div>
@@ -72,7 +75,8 @@
                     formControlName="defaultCells"
                     (keydown.shift.enter)="$event.preventDefault()"
                     matInput
-                    type="text"/>
+                    type="number"
+                    matTooltip="Number of put away transactions allowed per tote"/>
                 </mat-form-field>
               </div>
             </div>
@@ -80,10 +84,10 @@
             <div class="col-xl-4">
               <div class="d-flex gap-12 mb-2">
                 <mat-form-field
-                  class="custom-form-field w-100"
+                  class="custom-form-field w-100 shorting"
                   appearance="outline">
                   <mat-label>Shorting Methodology</mat-label>
-                  <mat-select formControlName="shortMethod" (selectionChange)="updatePreferences(1)">
+                  <mat-select class="shorting" formControlName="shortMethod" (selectionChange)="updatePreferences(1)">
                     <mat-option *ngFor="let sm of shortMethodList" value="{{sm.id}}">
                       {{sm.name}}
                     </mat-option>
@@ -99,53 +103,58 @@
             <div class="col-xl-4">
               <div class="d-flex gap-12 mb-2">
                 <div class="col-md-12 text-left admin-prefrences">
-                  <div class="d-flex justify-content-between mb-1">
-                    Select if One:   <mat-slide-toggle (change)="updatePreferences(1)" formControlName="selectIfOne" class="primary" color="primary" ></mat-slide-toggle>
+                  <div class="d-flex justify-content-between mb-2">
+                    Select if One:   <mat-slide-toggle (change)="updatePreferences(1)" formControlName="selectIfOne" class="primary" color="primary" matTooltip="Controls if transaction select screen is opened if only one transaction exists. If Checked, will auto select an existing transaction if it is the last one"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
-                    Validate Totes: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="validateTotes" color="primary"></mat-slide-toggle>
+                  <div class="d-flex justify-content-between mb-2">
+                    Validate Totes: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="validateTotes" color="primary" matTooltip="Controls if Tote IDs need to be validated"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
-                    Auto Forward Replenish: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="autoForwardReplenish" color="primary"></mat-slide-toggle>
+                  <div class="d-flex justify-content-between mb-2">
+                    Auto Forward Replenish: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="autoForwardReplenish" color="primary" matTooltip="Toggles if Auto Forward Replenishments will be displayed"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
-                    Create Item Master: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="createItemMaster" color="primary"></mat-slide-toggle>
+                  <div class="d-flex justify-content-between mb-2">
+                    Create Item Master: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="createItemMaster" color="primary" matTooltip="Toggles if new items can be created if they do not exist from put away batch manager"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
-                    SAP Location Transactions: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="sapLocationTransactions" color="primary"></mat-slide-toggle>
+                  <div class="d-flex justify-content-between mb-2">
+                    SAP Location Transactions: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="sapLocationTransactions" color="primary" matTooltip="Toggles if SAP location transactions are created"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
-                    Strip Scan: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="stripScan" color="primary"></mat-slide-toggle>
+                  <div class="d-flex justify-content-between mb-2">
+                    Strip Scan: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="stripScan" color="primary" matTooltip="Controls if characters are to be removed from scans"></mat-slide-toggle>
                   </div>
                 </div>
               </div>
             </div>
   
-            <div class="row">
+            <div class="row" *ngIf="preferencesForm.value.stripScan">
               
               <div class="col-xl-4">
                 <div class="d-flex gap-12 mb-2">
-                  <mat-form-field class="custom-form-field w-100" appearance="outline">
+                  <mat-form-field class="custom-form-field w-100 shorting" appearance="outline">
                     <mat-label>Stripe Side</mat-label>
-                      <mat-select formControlName="stripSide" (selectionChange)="updatePreferences(1)">
+                      <mat-select formControlName="stripSide" (selectionChange)="updatePreferences(1)" matTooltip="Remove characters from left or right side of scan">
                         <mat-option *ngFor="let ss of stripSideList" value="{{ss.id}}">
                           {{ss.name}}
                         </mat-option>
                       </mat-select>
+                      <span class="material-symbols-outlined icon-expand-more">
+                        expand_more
+                      </span>
                   </mat-form-field>  
                 </div>
               </div>
               
-              <div class="col-xl-4">
+              <div class="col-xl-4 ps-3">
                 <div class="d-flex gap-12 mb-2">
                   <mat-form-field class="custom-form-field w-100" appearance="outline">
-                    <mat-label>Stripe Number</mat-label>
+                    <mat-label>Strip Number</mat-label>
                     <input
                       (focusout)="updatePreferences(1)"
                       formControlName="stripNumber"
                       (keydown.shift.enter)="$event.preventDefault()"
                       matInput
-                      type="text"/>
+                      type="number"
+                      onKeyPress="if(this.value.length==10) return false;"
+                      matTooltip="Number of characters to remove"/>
                   </mat-form-field>
                 </div>
               </div>
@@ -161,7 +170,7 @@
       <mat-card class="mat-elevation-z g-card mt-3 mb-4 p-4">
         <mat-card-content>
 
-          <div class="d-flex justify-content-between mb-1 align-items-center mb-3">
+          <div class="d-flex justify-content-between mb-2 align-items-center mb-3">
             <h2 class="card-header-title mb-0 d-flex align-items-center">
               <div class="mat-icon-wrap me-lg-3">
                 <span class="material-symbols-outlined"> open_in_browser </span>
@@ -174,31 +183,31 @@
             <div class="col-xl-4">
               <div class="d-flex gap-12 mb-2">
                 <div class="col-md-12 text-left admin-prefrences">
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Auto Select Pick Orders:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="autoPickOrderSelection" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Auto Pick Tote ID's:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="autoPickToteID" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Carousel Pick Tote ID's:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="carouselToteIDPicks" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Off Carousel Pick Tote ID's:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="offCarouselToteIDPicks" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Use Pick Batch Manager:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="usePickBatchManager" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Carousel Batch ID's- Picks:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="carouselBatchIDPicks" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Off Carousel Batch ID's- Picks:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="offCarouselBatchIDPicks" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Use In Zone Pick Screen:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="useInZonePickScreen" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Auto Print Case Label:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="autoPrintCaseLabel" color="primary"></mat-slide-toggle>
                   </div>
                 </div>
@@ -234,7 +243,7 @@
       <mat-card class="mat-elevation-z g-card mt-3 mb-4 p-4">
         <mat-card-content>
           
-          <div class="d-flex justify-content-between mb-1 align-items-center mb-3">
+          <div class="d-flex justify-content-between mb-2 align-items-center mb-3">
             <h2 class="card-header-title mb-0 d-flex align-items-center">
               <div class="mat-icon-wrap me-lg-3">
                 <span class="material-symbols-outlined"> browser_updated </span>
@@ -248,20 +257,20 @@
             <div class="col-xl-4">
               <div class="d-flex gap-12 mb-2">
                 <div class="col-md-12 text-left admin-prefrences">
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Auto Put Away Tote ID's:   <mat-slide-toggle (change)="updatePreferences(1)" formControlName="autoPutAwayToteID" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Split Short Put Away:   <mat-slide-toggle (change)="updatePreferences(1)" formControlName="splitShortPutAway" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Carousel Batch ID's- Put Aways:   <mat-slide-toggle (change)="updatePreferences(1)" formControlName="carouselBatchIDPutAways" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Off Carousel Batch ID's- Put Aways:   <mat-slide-toggle (change)="updatePreferences(1)" formControlName="offCarouselBatchIDAways" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
-                    Create Put Away Adjusments:   <mat-slide-toggle (change)="updatePreferences(1)" formControlName="createPutAwayAdjustments" color="primary"></mat-slide-toggle>
+                  <div class="d-flex justify-content-between mb-2">
+                    Create Put Away Adjustments:   <mat-slide-toggle (change)="updatePreferences(1)" formControlName="createPutAwayAdjustments" color="primary"></mat-slide-toggle>
                   </div>
                 </div>
               </div>
@@ -271,7 +280,7 @@
               <div class="col-xl-4">
                 <div class="d-flex gap-12 mb-2">
                   <mat-form-field
-                    class="custom-form-field w-100"
+                    class="custom-form-field w-100 shorting"
                     appearance="outline">
                     <mat-label>Default Put Away Scan Type</mat-label>
                     <mat-select formControlName="defaultPutAwayScanType" (selectionChange)="updatePreferences(1)">
@@ -318,7 +327,7 @@
               <div class="col-xl-4">
                 <div class="d-flex gap-12 mb-2">
                   <mat-form-field
-                    class="custom-form-field w-100"
+                    class="custom-form-field w-100 shorting"
                     appearance="outline">
                     <mat-label>Put Away Induction Screen</mat-label>
                     <mat-select formControlName="putAwayInductionScreen" (selectionChange)="updatePreferences(1)">
@@ -343,7 +352,7 @@
       <mat-card class="mat-elevation-z g-card mt-3 mb-4 p-4">
         <mat-card-content>
           
-          <div class="d-flex justify-content-between mb-1 align-items-center mb-3">
+          <div class="d-flex justify-content-between mb-2 align-items-center mb-3">
             <h2 class="card-header-title mb-0 d-flex align-items-center">
               <div class="mat-icon-wrap me-lg-3">
                 <span class="material-symbols-outlined"> print </span>
@@ -356,37 +365,37 @@
             <div class="col-xl-4">
               <div class="d-flex gap-12 mb-2">
                 <div class="col-md-12 text-left admin-prefrences">
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Auto Print Cross Dock Label:   <mat-slide-toggle (change)="updatePreferences(0)" formControlName="autoPrintCrossDockLabel" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Auto Print Pick Labels:   <mat-slide-toggle (change)="updatePreferences(0)" formControlName="autoPrintPickLabels" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Pick Labels One Per Qty:   <mat-slide-toggle (change)="updatePreferences(0)" formControlName="pickLabelsOnePerQty" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Auto Print Pick Tote Labels:   <mat-slide-toggle (change)="updatePreferences(0)" formControlName="autoPrintPickToteLabels" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Auto Print Put Away Tote Labels:   <mat-slide-toggle (change)="updatePreferences(0)" formControlName="autoPrintPutAwayToteLabels" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Auto Print Off Carousel Pick List:   <mat-slide-toggle (change)="updatePreferences(0)" formControlName="autoPrintOffCarouselPickList" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Auto Print Off Carousel Put Away List:   <mat-slide-toggle (change)="updatePreferences(0)" formControlName="autoPrintOffCarouselPutAwayList" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Auto Print Put Away Label:   <mat-slide-toggle (change)="updatePreferences(0)" formControlName="autoPrintPutAwayLabels" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Request Number Of Put Away Labels:   <mat-slide-toggle (change)="updatePreferences(0)" formControlName="requestNumberOfPutAwayLabels" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Auto Print Pick Batch List:   <mat-slide-toggle (change)="updatePreferences(0)" formControlName="autoPrintPickBatchList" color="primary"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
+                  <div class="d-flex justify-content-between mb-2">
                     Print Directly to Printer:   <mat-slide-toggle (change)="updatePreferences(0)" formControlName="printDirectly" color="primary"></mat-slide-toggle>
                   </div>
                 </div>

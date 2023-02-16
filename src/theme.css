@@ -3219,3 +3219,10 @@ td.mat-footer-cell {
 .__pointer_cursor{
   cursor:pointer !important;
 }
+
+/* Custom Css Admin-Preference-Tab */
+
+.shorting.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding-bottom: 10px !important;
+}
+
