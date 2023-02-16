@@ -123,6 +123,7 @@ import { TemporaryManualOrderNumberAddComponent } from './dialogs/temporary-manu
 import { ItemExistGenerateOrderComponent } from './dialogs/item-exist-generate-order/item-exist-generate-order.component';
 import { EmptyFieldsComponent } from './dialogs/empty-fields/empty-fields.component';
 import { UserFieldsEditComponent } from './dialogs/user-fields-edit/user-fields-edit.component';
+import { PostManualTransactionComponent } from './dialogs/post-manual-transaction/post-manual-transaction.component';
 
 
 
@@ -235,7 +236,8 @@ import { UserFieldsEditComponent } from './dialogs/user-fields-edit/user-fields-
     TemporaryManualOrderNumberAddComponent,
     ItemExistGenerateOrderComponent,
     EmptyFieldsComponent,
-    UserFieldsEditComponent
+    UserFieldsEditComponent,
+    PostManualTransactionComponent
 
   ],
   imports: [

@@ -12,6 +12,9 @@ import { UnitMeasureComponent } from '../../dialogs/unit-measure/unit-measure.co
 import { UserFieldsEditComponent } from '../../dialogs/user-fields-edit/user-fields-edit.component';
 import { TransactionService } from '../../transaction/transaction.service';
 import labels from '../../../labels/labels.json';
+import { PostManualTransactionComponent } from '../../dialogs/post-manual-transaction/post-manual-transaction.component';
+import { DeleteConfirmationTransactionComponent } from '../../dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
+import { DeleteConfirmationManualTransactionComponent } from '../../dialogs/delete-confirmation-manual-transaction/delete-confirmation-manual-transaction.component';
 
 @Component({
   selector: 'app-generate-transaction',
@@ -184,6 +187,7 @@ export class GenerateTransactionComponent implements OnInit {
       console.log('---', res);
       if (res && res.invMapID) {
         this.invMapIDget = res.invMapID;
+        this.itemNumber = res.itemNumber;
         this.getLocationData();
       }
     });
@@ -202,30 +206,72 @@ export class GenerateTransactionComponent implements OnInit {
   }
 
   postTransaction(type) {
-    let payload = {
-      deleteTransaction: type === 'save' ? false : true,
-      transactionID: this.transactionID,
-      username: this.userData.userName,
-      wsid: this.userData.wsid,
-    };
-    this.transactionService
-      .get(payload, '/Admin/PostTransaction', true)
-      .subscribe(
-        (res: any) => {
-          if (res && res.isExecuted) {
-            this.toastr.success(labels.alert.success, 'Success!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000,
-            });
-          } else {
-            this.toastr.error(res.responseMessage, 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000,
-            });
-          }
-        },
-        (error) => {}
-      );
+    const dialogRef = this.dialog.open(PostManualTransactionComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message:
+          type === 'save'
+            ? 'Click OK To Post And Save The Temporary Transaction.'
+            : 'Click OK To Post And Delete the Temporary Transaction',
+      },
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        let payload = {
+          deleteTransaction: type === 'save' ? false : true,
+          transactionID: this.transactionID,
+          username: this.userData.userName,
+          wsid: this.userData.wsid,
+        };
+        this.transactionService
+          .get(payload, '/Admin/PostTransaction')
+          .subscribe(
+            (res: any) => {
+              if (res && res.isExecuted) {
+                this.toastr.success(labels.alert.success, 'Success!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+              } else {
+                this.toastr.error(res.responseMessage, 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+              }
+            },
+            (error) => {}
+          );
+      }
+    });
+  }
+  deleteTransaction() {
+    const dialogRef = this.dialog.open(
+      DeleteConfirmationManualTransactionComponent,
+      {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          mode: 'delete-manual-transaction',
+          heading: 'Delete Transaction',
+          message: `Click OK to delete the current manual transaction.`,
+          userName: this.userData.userName,
+          wsid: this.userData.wsid,
+          orderNumber:this.orderNumber,
+          transID: this.transactionID,
+        }
+      }
+    );
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res.isExecuted) {
+      this.clearFields()
+        
+      }
+    });
+  
+    
   }
   getLocationData() {
     let payload = {
