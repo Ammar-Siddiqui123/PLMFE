@@ -130,7 +130,7 @@
               <div class="col-xl-4">
                 <div class="d-flex gap-12 mb-2">
                   <mat-form-field class="custom-form-field w-100 shorting" appearance="outline">
-                    <mat-label>Stripe Side</mat-label>
+                    <mat-label>Strip Side</mat-label>
                       <mat-select formControlName="stripSide" (selectionChange)="updatePreferences(1)" matTooltip="Remove characters from left or right side of scan">
                         <mat-option *ngFor="let ss of stripSideList" value="{{ss.id}}">
                           {{ss.name}}
