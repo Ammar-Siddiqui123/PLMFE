@@ -64,7 +64,7 @@ export class ProcessPicksComponent implements OnInit {
       if (res.data) {
         this.allZones = res.data;
       }
-      console.log(this.allZones);
+      // console.log(this.allZones);
     });
   }
 
@@ -78,6 +78,7 @@ export class ProcessPicksComponent implements OnInit {
       this.pickBatchesList = res.data.pickBatches;
       this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
       this.useInZonePickScreen = res.data.imPreference.useInZonePickScreen;
+      // this.useInZonePickScreen = false;
       this.createToteSetupTable(this.pickBatchQuantity);
       console.log(this.pickBatches);
 
@@ -101,9 +102,11 @@ export class ProcessPicksComponent implements OnInit {
 
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
-    return this.pickBatchesList.filter(
-      option => option.toLowerCase().indexOf(filterValue) === 0
-    );
+    // return this.pickBatchesList.filter(
+    //   option => option.toLowerCase().indexOf(filterValue) === 0
+    // );
+
+    return this.pickBatchesList.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   onAddBatch(val: string) {
@@ -142,11 +145,20 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   openPickToteDialogue() {
-    const dialogRef = this.dialog.open(PickToteManagerComponent, {
-      height: '90vh',
-      width: '100vw',
-      autoFocus: '__non_existing_element__'
-    })
+    if(!this.batchID){
+      this.toastr.error('Batch ID cannot be empty when opening the pick batch manager.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+    else{
+      const dialogRef = this.dialog.open(PickToteManagerComponent, {
+        height: '90vh',
+        width: '100vw',
+        autoFocus: '__non_existing_element__'
+      })
+    }
+    
   }
 
   openViewOrdersDialogue(viewType: any) {
