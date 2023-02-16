@@ -1,6 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , Inject} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 export interface PeriodicElement {
   name: string;
@@ -31,6 +32,7 @@ export class SelectZonesComponent implements OnInit {
   displayedColumns: string[] = ['select', 'zone', 'locationdesc', 'locationtype', 'stagingzone'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
+  batchID="";
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -57,9 +59,10 @@ export class SelectZonesComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
+    this.batchID = this.data.batchId;
   }
 
 }
