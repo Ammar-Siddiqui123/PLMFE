@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { BatchDeleteComponent } from 'src/app/dialogs/batch-delete/batch-delete.component';
 import { SelectZonesComponent } from 'src/app/dialogs/select-zones/select-zones.component';
+import { SelectionTransactionForToteComponent } from 'src/app/dialogs/selection-transaction-for-tote/selection-transaction-for-tote.component';
 import { TotesAddEditComponent } from 'src/app/dialogs/totes-add-edit/totes-add-edit.component';
 import { ToastrService } from 'ngx-toastr';
 
@@ -292,6 +293,13 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.ELEMENT_DATA[i].cells = this.cellSize.toString();
     }
     }
-  }
+   }
 
-}
+   openSelectionTransactionDialogue(){
+    const dialogRef =  this.dialog.open(SelectionTransactionForToteComponent, {
+      height: 'auto',
+      width: '1100px',
+      autoFocus: '__non_existing_element__'
+    })
+     }
+  }
