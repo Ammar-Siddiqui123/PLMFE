@@ -10,6 +10,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import labels from '../../../labels/labels.json';
 import { FloatLabelType } from '@angular/material/form-field';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { ItemExistGenerateOrderComponent } from '../item-exist-generate-order/item-exist-generate-order.component';
+import { EmptyFieldsComponent } from '../empty-fields/empty-fields.component';
 
 @Component({
   selector: 'app-add-new-transaction-to-order',
@@ -164,7 +166,61 @@ export class AddNewTransactionToOrderComponent implements OnInit {
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
   }
+
+  onFocusOutItemNum(event){
+
+    if(event.target.value==='')return
+    
+    let payload = {
+      itemNumber: this.itemNumber,
+      username: this.data.userName,
+      wsid: this.data.wsid,
+    }
+
+    this.transactionService
+      .get(
+        payload,
+        `/Common/ItemExists`,true
+      )
+      .subscribe(
+        (res: any) => {
+          if(res.isExecuted){
+              if(res.data==''){
+                const dialogRef = this.dialog.open(ItemExistGenerateOrderComponent, {
+                  height: 'auto',
+                  width: '560px',
+                  autoFocus: '__non_existing_element__',
+                  data: {
+                    itemNumber:this.itemNumber,
+                  },
+                });
+                dialogRef.afterClosed().subscribe((res) => {
+                 this.itemNumber=''
+                });
+              }
+            
+          }
+        },
+        (error) => {
+    
+        }
+      );
+  }
   saveTransaction() {
+    if(this.itemNumber==='' || this.quantity==='' ){
+      const dialogRef = this.dialog.open(EmptyFieldsComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          itemNumber:this.itemNumber,
+        },
+      });
+      dialogRef.afterClosed().subscribe((res) => {
+        
+      });
+      return
+    }
     let payload = {
       // itemNum: this.data.itemNumber,
       transQty: this.quantity,
