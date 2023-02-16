@@ -184,31 +184,31 @@
               <div class="d-flex gap-12 mb-2">
                 <div class="col-md-12 text-left admin-prefrences">
                   <div class="d-flex justify-content-between mb-2">
-                    Auto Select Pick Orders:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="autoPickOrderSelection" color="primary"></mat-slide-toggle>
+                    Auto Select Pick Orders:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="autoPickOrderSelection" color="primary" matTooltip="Toggles if orders are automatically selected when creating a pick batch"></mat-slide-toggle>
                   </div>
                   <div class="d-flex justify-content-between mb-2">
-                    Auto Pick Tote ID's:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="autoPickToteID" color="primary"></mat-slide-toggle>
+                    Auto Pick Tote ID's:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="autoPickToteID" color="primary" matTooltip="Toggles if tote id's are automatically generated for pick batches"></mat-slide-toggle>
                   </div>
                   <div class="d-flex justify-content-between mb-2">
-                    Carousel Pick Tote ID's:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="carouselToteIDPicks" color="primary"></mat-slide-toggle>
+                    Carousel Pick Tote ID's:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="carouselToteIDPicks" color="primary" matTooltip="Toggles if tote ids are required for pick transactions"></mat-slide-toggle>
                   </div>
                   <div class="d-flex justify-content-between mb-2">
-                    Off Carousel Pick Tote ID's:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="offCarouselToteIDPicks" color="primary"></mat-slide-toggle>
+                    Off Carousel Pick Tote ID's:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="offCarouselToteIDPicks" color="primary" matTooltip="Toggles if tote ids are required for pick transactions"></mat-slide-toggle>
                   </div>
                   <div class="d-flex justify-content-between mb-2">
-                    Use Pick Batch Manager:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="usePickBatchManager" color="primary"></mat-slide-toggle>
+                    Use Pick Batch Manager:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="usePickBatchManager" color="primary" matTooltip="Toggles if pick batch manager is used to select pick orders"></mat-slide-toggle>
                   </div>
                   <div class="d-flex justify-content-between mb-2">
-                    Carousel Batch ID's- Picks:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="carouselBatchIDPicks" color="primary"></mat-slide-toggle>
+                    Carousel Batch ID's- Picks:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="carouselBatchIDPicks" color="primary" matTooltip="Toggles if Pick Batch ID is automatically generated"></mat-slide-toggle>
                   </div>
                   <div class="d-flex justify-content-between mb-2">
-                    Off Carousel Batch ID's- Picks:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="offCarouselBatchIDPicks" color="primary"></mat-slide-toggle>
+                    Off Carousel Batch ID's- Picks:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="offCarouselBatchIDPicks" color="primary" matTooltip="Toggles if Pick Batch ID is automatically generated"></mat-slide-toggle>
                   </div>
                   <div class="d-flex justify-content-between mb-2">
-                    Use In Zone Pick Screen:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="useInZonePickScreen" color="primary"></mat-slide-toggle>
+                    Use In Zone Pick Screen:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="useInZonePickScreen" color="primary" matTooltip="Toggles if the In Zone Pick screen is used when processing picks"></mat-slide-toggle>
                   </div>
                   <div class="d-flex justify-content-between mb-2">
-                    Auto Print Case Label:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="autoPrintCaseLabel" color="primary"></mat-slide-toggle>
+                    Auto Print Case Label:  <mat-slide-toggle (change)="updatePreferences(1)" formControlName="autoPrintCaseLabel" color="primary" matTooltip="Toggles if the Case Label will be automatically printed"></mat-slide-toggle>
                   </div>
                 </div>
               </div>
@@ -221,7 +221,7 @@
                     class="custom-form-field w-100"
                     appearance="outline">
                     <mat-label>Pick Order Sort</mat-label>
-                    <mat-select formControlName="orderSort" (selectionChange)="updatePreferences(1)">
+                    <mat-select formControlName="orderSort" (selectionChange)="updatePreferences(1)" matTooltip="Default sort used for selecting pick batch orders">
                       <mat-option *ngFor="let os of pickOrderSortList" value="{{os.id}}">
                         {{os.name}}
                       </mat-option>
@@ -305,7 +305,8 @@
                       formControlName="defaultPutAwayPriority"
                       (keydown.shift.enter)="$event.preventDefault()"
                       matInput
-                      type="text"/>
+                      type="number"
+                      onKeyPress="if(this.value.length==10) return false;"/>
                   </mat-form-field>
                 </div>
               </div>
@@ -320,7 +321,8 @@
                       formControlName="defaultPutAwayQuantity"
                       (keydown.shift.enter)="$event.preventDefault()"
                       matInput
-                      type="text"/>
+                      type="number"
+                      onKeyPress="if(this.value.length==10) return false;"/>
                   </mat-form-field>
                 </div>
               </div>
@@ -422,7 +424,8 @@
                         formControlName="maxNumberOfPutAwayLabels" 
                         (keydown.shift.enter)="$event.preventDefault()" 
                         matInput 
-                        type="text"/>
+                        type="number"
+                        onKeyPress="if(this.value.length==309) return false;"/>
                   </mat-form-field>
                 </div>
               </div>
