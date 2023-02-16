@@ -35,18 +35,35 @@
                 </div>
                 <div class="header-filter-bar mb-3">
                     <div class="d-flex justify-content-between">
-                        <mat-form-field class="custom-form-field custom-form-field-bg-white" appearance="outline">
+                        <!-- <mat-form-field class="custom-form-field custom-form-field-bg-white" appearance="outline">
                             <mat-label>Select Saved filter</mat-label>
                             <input matInput type="text" maxlength="255"
-                              value="00000">
-                          </mat-form-field>
+                              value="">
+                          </mat-form-field> -->
+                          <mat-form-field class="custom-form-field custom-form-field-bg-white" appearance="outline">
+                            <mat-label>Select Saved filter</mat-label>
+                            <input type="text" [formControl]="savedFilter" aria-label="Number" matInput
+                                [matAutocomplete]="auto">
+                            <mat-autocomplete class="autocomplete-center" panelWidth="auto" autoActiveFirstOption
+                                #auto="matAutocomplete">
+                                <h6 class="ctl_name ac-dropdown-label"><span>Batch ID</span></h6>
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                    <div class="ctl_option ac-dropdown-option">
+                                        <span>{{option}}</span>
+                                    </div>
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
                         <mat-form-field class="action-dropdown" appearance="outline">
                             <mat-label>Actions</mat-label>
                             <mat-select  #matRef class="employees-action"
                               placeholder="Actions">
-                              <mat-option>Add Location</mat-option>
-                              <mat-option value="print">Print</mat-option>
-                              <mat-option value="set_column_sq">Set Column Sequence</mat-option>
+                              <mat-option>Rename Filter</mat-option>
+                              <mat-option value="print">View Default</mat-option>
+                              <mat-option value="set_column_sq">Set Default</mat-option>
+                              <mat-option value="set_column_sq">Clear Default</mat-option>
+                              <mat-option value="set_column_sq">Deleted Selected Filter</mat-option>
+                              <mat-option value="set_column_sq">Add New Filter</mat-option>
                             </mat-select>
                             <span class="material-symbols-outlined icon-expand-more">
                               expand_more
