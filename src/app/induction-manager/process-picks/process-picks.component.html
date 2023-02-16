@@ -53,9 +53,10 @@
             </div>
             <div class="col-xl-8" *ngIf="!useInZonePickScreen">
                 <div class="card p-3 mb-2">
-                    <mat-radio-group color="primary" class="d-flex">
+                    <mat-radio-group color="primary" class="d-flex"  name="radioOpt1" 
+                    [(ngModel)]="pickType">
                         <div class="d-flex w-100 pe-2 align-items-center">
-                            <mat-radio-button class=" custom-horizontal-radio" value="mixed_zone">
+                            <mat-radio-button class=" custom-horizontal-radio" value="MixedZones">
                             </mat-radio-button>
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                                 <mat-label>Mixed Zones</mat-label>
