@@ -30,14 +30,16 @@
                 <mat-radio-button                  
                   class="p-2"
                   value="filter"
-                  color="primary">
+                  color="primary"
+                  matTooltip="Sets if custom filter or zone is to be used in pick batch manager">
                   Use Default Filter
                 </mat-radio-button>
   
                 <mat-radio-button
                   class="p-2"
                   color="primary"
-                  value="zone">
+                  value="zone"
+                  matTooltip="Sets if custom filter or zone is to be used in pick batch manager">
                   Use Default Zone
                 </mat-radio-button>
   
@@ -53,10 +55,11 @@
                   <mat-label>Default Batch Qty</mat-label>
                   <input 
                     (focusout)="updatePreferences(1)"
-                    formControlName="defaultSuperBatchSize" 
+                    formControlName="pickBatchQuantity" 
                     (keydown.shift.enter)="$event.preventDefault()" 
                     matInput 
-                    type="text" />
+                    type="number" 
+                    matTooltip="Number of totes per batch"/>
                 </mat-form-field>
               </div>
             </div>
@@ -72,7 +75,8 @@
                     formControlName="defaultCells"
                     (keydown.shift.enter)="$event.preventDefault()"
                     matInput
-                    type="text"/>
+                    type="number"
+                    matTooltip="Number of put away transactions allowed per tote"/>
                 </mat-form-field>
               </div>
             </div>
@@ -100,34 +104,34 @@
               <div class="d-flex gap-12 mb-2">
                 <div class="col-md-12 text-left admin-prefrences">
                   <div class="d-flex justify-content-between mb-1">
-                    Select if One:   <mat-slide-toggle (change)="updatePreferences(1)" formControlName="selectIfOne" class="primary" color="primary" ></mat-slide-toggle>
+                    Select if One:   <mat-slide-toggle (change)="updatePreferences(1)" formControlName="selectIfOne" class="primary" color="primary" matTooltip="Controls if transaction select screen is opened if only one transaction exists. If Checked, will auto select an existing transaction if it is the last one"></mat-slide-toggle>
                   </div>
                   <div class="d-flex justify-content-between mb-1">
-                    Validate Totes: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="validateTotes" color="primary"></mat-slide-toggle>
+                    Validate Totes: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="validateTotes" color="primary" matTooltip="Controls if Tote IDs need to be validated"></mat-slide-toggle>
                   </div>
                   <div class="d-flex justify-content-between mb-1">
-                    Auto Forward Replenish: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="autoForwardReplenish" color="primary"></mat-slide-toggle>
+                    Auto Forward Replenish: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="autoForwardReplenish" color="primary" matTooltip="Toggles if Auto Forward Replenishments will be displayed"></mat-slide-toggle>
                   </div>
                   <div class="d-flex justify-content-between mb-1">
-                    Create Item Master: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="createItemMaster" color="primary"></mat-slide-toggle>
+                    Create Item Master: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="createItemMaster" color="primary" matTooltip="Toggles if new items can be created if they do not exist from put away batch manager"></mat-slide-toggle>
                   </div>
                   <div class="d-flex justify-content-between mb-1">
-                    SAP Location Transactions: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="sapLocationTransactions" color="primary"></mat-slide-toggle>
+                    SAP Location Transactions: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="sapLocationTransactions" color="primary" matTooltip="Toggles if SAP location transactions are created"></mat-slide-toggle>
                   </div>
                   <div class="d-flex justify-content-between mb-1">
-                    Strip Scan: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="stripScan" color="primary"></mat-slide-toggle>
+                    Strip Scan: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="stripScan" color="primary" matTooltip="Controls if characters are to be removed from scans"></mat-slide-toggle>
                   </div>
                 </div>
               </div>
             </div>
   
-            <div class="row">
+            <div class="row" *ngIf="preferencesForm.value.stripScan">
               
               <div class="col-xl-4">
                 <div class="d-flex gap-12 mb-2">
                   <mat-form-field class="custom-form-field w-100" appearance="outline">
                     <mat-label>Stripe Side</mat-label>
-                      <mat-select formControlName="stripSide" (selectionChange)="updatePreferences(1)">
+                      <mat-select formControlName="stripSide" (selectionChange)="updatePreferences(1)" matTooltip="Remove characters from left or right side of scan">
                         <mat-option *ngFor="let ss of stripSideList" value="{{ss.id}}">
                           {{ss.name}}
                         </mat-option>
@@ -145,7 +149,9 @@
                       formControlName="stripNumber"
                       (keydown.shift.enter)="$event.preventDefault()"
                       matInput
-                      type="text"/>
+                      type="number"
+                      onKeyPress="if(this.value.length==10) return false;"
+                      matTooltip="Number of characters to remove"/>
                   </mat-form-field>
                 </div>
               </div>
