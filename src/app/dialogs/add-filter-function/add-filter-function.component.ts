@@ -28,20 +28,14 @@ export class AddFilterFunction implements OnInit {
 
   ngOnInit(): void {  
     this.userData = this.authService.userData();
-    console.log(this.data.savedFilter)
+    console.log(this.data)
     if(this.data.savedFilter){
       this.filter_name = this.data.savedFilter;
     }
-    // if (this.data.addItem) {
-    //   this.addItem = true;
-    //   this.data.itemNumber="";
-    // } else {
-    //   this.addItem = false;
-    // }    
   }
 
   onNoClick(onsubmit: any, status : any): void {
-    if(this.data.savedFilter){
+    if(this.data){
       let paylaod ={
           "OldFilter": this.data.savedFilter,
           "NewFilter":this.filter_name,
