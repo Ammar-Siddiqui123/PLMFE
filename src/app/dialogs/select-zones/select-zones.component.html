@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center">
     <div style="width:48px"></div>
     <h1 class="m-0" mat-dialog-title>Select Zones</h1>
-    <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
+    <button mat-icon-button class="close-button dialog-close-button-fix" (click)="updateZones()">
         <mat-icon class="close-icon">close</mat-icon>
     </button>
 </div>
@@ -20,8 +20,8 @@
           </th>
           <td mat-cell *matCellDef="let row">
             <mat-checkbox (click)="$event.stopPropagation()"
-                          (change)="$event ? selection.toggle(row) : null"
-                          [checked]="row.isChecked||selection.isSelected(row) || (row.selected==false&&row.available==false)"
+                          (change)="selectZone(row)"
+                          [checked]="row.selected||selection.isSelected(row) || (row.selected==false&&row.available==false)"
                           [disabled]="(row.selected==false&&row.available==false)"
                           [aria-label]="checkboxLabel(row)" color="primary">
             </mat-checkbox>
@@ -61,6 +61,6 @@
 <div class="d-flex gap-12">
     <button type="submit" mat-stroked-button class="form-button-submit btn-lg" (click)="selectStaging()" color="primary">Select Non-Staging</button>
     <button type="submit" mat-stroked-button class="btn-lg" color="primary" (click)="selectStaging('1')">Select Staging</button>
-    <button type="submit" mat-stroked-button class="btn-lg" color="primary">Cancel</button>
-    <button type="submit" mat-flat-button class="form-button-submit btn-lg" style="flex:1" color="primary">Continue</button>
+    <button type="submit" mat-stroked-button class="btn-lg" color="primary" (click)="updateZones()">Cancel</button>
+    <button type="submit" mat-flat-button class="form-button-submit btn-lg" style="flex:1" color="primary" (click)="updateZones()">Continue</button>
 </div>

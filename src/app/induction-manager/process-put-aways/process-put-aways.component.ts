@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { ProcessPutAwayService } from './../processPutAway.service';
 import { AuthService } from 'src/app/init/auth.service';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 export interface PeriodicElement {
   position: string;
@@ -41,6 +42,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   public pickBatchQuantity = 0;
   public currentToteID = 0;
   public toteID = "";
+  public assignedZonesArray:any;
 
   displayedColumns1: string[] = [
     'status',
@@ -101,10 +103,22 @@ export class ProcessPutAwaysComponent implements OnInit {
         data: {
           batchId: this.batchId,
           userId: this.userData.username,
-          wsid:this.userData.wsid
+          wsid:this.userData.wsid,
+          assignedZones:this.assignedZonesArray
         }
   
-      })
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if(result){
+        var zones = "Zones:";
+        this.assignedZonesArray = result;
+        for(var i=0;i<result.length;i++)
+        {
+          zones = zones+" "+result[i].zone;
+        }
+        this.assignedZones = zones;
+        }
+      });
     }
     else {
       this.showMessage("Please select batch", 2000, "error");
@@ -137,6 +151,40 @@ export class ProcessPutAwaysComponent implements OnInit {
       this.showMessage("You must provide a Batch ID.", 2000, "error");
     }
     else {
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message: "Batch processed!  Click OK to move onto the next step or cancel to remain on this screen to create/edit more batches."
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        if(result=='Yes'){
+        for(var k=0;k<this.assignedZonesArray.length;k++)
+        {
+          console.log(this.assignedZonesArray[k]);
+        }
+        // var payLoad = [
+        //   {
+
+        //     batchID: "202101110000004",
+        //     zoneLabel: this.assignedZones,
+        //     totes: [
+        //       "1143,1144,1145,1146,1147", toteID
+        //       "1,1,1,1,1", cells
+        //       "1,2,3,4,5" position
+        //     ],
+        //     username: this.userData.username,
+        //     wsid: this.userData.wsid
+        //   }
+        // ];
+
+
+        }
+        
+
+      })
 
     }
   }
