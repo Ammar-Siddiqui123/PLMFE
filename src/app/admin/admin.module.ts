@@ -119,8 +119,10 @@ import { GenerateTransactionComponent } from './manual-transactions/generate-tra
 import { SetItemLocationComponent } from './dialogs/set-item-location/set-item-location.component';
 import { SupplierItemIdComponent } from './dialogs/supplier-item-id/supplier-item-id.component';
 import { TemporaryManualOrderNumberAddComponent } from './dialogs/temporary-manual-order-number-add/temporary-manual-order-number-add.component';
+
 import { ItemExistGenerateOrderComponent } from './dialogs/item-exist-generate-order/item-exist-generate-order.component';
 import { EmptyFieldsComponent } from './dialogs/empty-fields/empty-fields.component';
+import { UserFieldsEditComponent } from './dialogs/user-fields-edit/user-fields-edit.component';
 
 
 
@@ -232,7 +234,8 @@ import { EmptyFieldsComponent } from './dialogs/empty-fields/empty-fields.compon
     SupplierItemIdComponent,
     TemporaryManualOrderNumberAddComponent,
     ItemExistGenerateOrderComponent,
-    EmptyFieldsComponent
+    EmptyFieldsComponent,
+    UserFieldsEditComponent
 
   ],
   imports: [
