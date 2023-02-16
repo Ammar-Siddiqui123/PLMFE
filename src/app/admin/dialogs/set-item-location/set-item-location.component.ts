@@ -56,7 +56,7 @@ export class SetItemLocationComponent implements OnInit {
     
   }
   setLocation(){
-    this.dialogRef.close({ isExecuted: true,invMapID:this.invMapID});
+    this.dialogRef.close({ isExecuted: true,invMapID:this.invMapID,itemNumber:this.itemNumber});
   }
   validateItem(){
     let payLoad = {
