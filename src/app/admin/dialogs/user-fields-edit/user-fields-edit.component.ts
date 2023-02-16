@@ -1,15 +1,203 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { TransactionService } from '../../transaction/transaction.service';
+import labels from '../../../labels/labels.json';
+import { FloatLabelType } from '@angular/material/form-field';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-user-fields-edit',
   templateUrl: './user-fields-edit.component.html',
-  styleUrls: ['./user-fields-edit.component.scss']
+  styleUrls: ['./user-fields-edit.component.scss'],
 })
 export class UserFieldsEditComponent implements OnInit {
+  floatLabelControl: any = new FormControl('auto' as FloatLabelType);
+  floatLabelControlShipName: any = new FormControl(
+    'shipName' as FloatLabelType
+  );
+  hideRequiredControl = new FormControl(false);
+  hideRequiredControlShipName = new FormControl(false);
+  shipVia;
+  shipToName;
+  searchByShipVia: any = new Subject<string>();
+  searchByShipName: any = new Subject<string>();
+  searchAutocompleteShipVia: any = [];
+  searchAutocompleteShipName: any = [];
 
-  constructor() { }
+  userField10 = '';
+  userField9 = '';
+  shipToLine1 = '';
+  shipToCountry = '';
+  isCancel = '';
+  promisedDate = '';
+  shipToZip = '';
+  shipToState = '';
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private toastr: ToastrService,
+    private transactionService: TransactionService,
+    public dialogRef: MatDialogRef<any>
+  ) {}
 
   ngOnInit(): void {
+    this.getUserFields();
+    this.searchByShipVia
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((value) => {
+        this.autocompleteSearchColumn();
+      });
+
+    this.searchByShipName
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((value) => {
+        this.autocompleteSearchColumnShipName();
+      });
   }
 
+  saveUserFields() {
+
+    let userFields:any=[];
+    userFields[0]=this.shipVia;
+    userFields[1]=this.shipToName;
+    userFields[2]= this.shipToLine1;
+    userFields[3]= this.userField9;
+    userFields[4]=this.shipToCountry;
+    userFields[5]= this.shipToState ;
+    userFields[6]=this.shipToZip;
+    userFields[7]= this.promisedDate;
+    userFields[8]= this.isCancel;
+    userFields[9]= this.userField10;
+
+    let payload = {
+      transaction: this.data.transID,
+      userFields: userFields,
+      username: this.data.userName,
+      wsid: this.data.wsid,
+    };
+
+    this.transactionService.get(payload,'/Common/UserFieldMTSave').subscribe((res:any)=>{
+      if(res.isExecuted){
+             this.toastr.success(labels.alert.success, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+            this.dialogRef.close({isExecuted:true})
+      }else{
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000,
+        });
+        this.dialogRef.close({isExecuted:false})
+      }
+    })
+  }
+  getFloatLabelValue(): FloatLabelType {
+    return this.floatLabelControl.value || 'auto';
+  }
+  getFloatLabelValueItem(): FloatLabelType {
+    return this.floatLabelControlShipName.value || 'shipName';
+  }
+  searchData(event) {
+    console.log(event);
+  }
+
+  async autocompleteSearchColumn() {
+    let searchPayload = {
+      value: this.shipVia,
+      uFs: 0,
+
+      username: this.data.userName,
+      wsid: this.data.wsid,
+    };
+    this.transactionService
+      .get(searchPayload, '/Common/UserFieldTypeAhead', true)
+      .subscribe(
+        (res: any) => {
+          this.searchAutocompleteShipVia = res.data;
+        },
+        (error) => {}
+      );
+  }
+
+  getUserFields() {
+    let payload = {
+      transactionID: this.data.transID,
+      username: this.data.userName,
+      wsid: this.data.wsid,
+    };
+    this.transactionService
+      .get(payload, '/Common/UserFieldGetByID')
+      .subscribe((res: any) => {
+        if (res && res.data) {
+          let item = res.data;
+
+          this.shipVia = item.userField1;
+          this.shipToName = item.userField2;
+          this.shipToLine1 = item.userField3;
+          this.userField9 = item.userField4;
+          this.shipToCountry = item.userField5;
+          this.shipToState = item.userField6;
+          this.shipToZip = item.userField7;
+          this.promisedDate = item.userField8;
+          this.isCancel = item.userField9;
+          this.userField10 = item.userField10;
+        }
+      });
+  }
+  async autocompleteSearchColumnShipName() {
+    let searchPayload = {
+      value: this.shipToName,
+      uFs: 1,
+      username: this.data.userName,
+      wsid: this.data.wsid,
+    };
+    this.transactionService
+      .get(searchPayload, '/Common/UserFieldTypeAhead', true)
+      .subscribe(
+        (res: any) => {
+          this.searchAutocompleteShipName = res.data;
+        },
+        (error) => {}
+      );
+  }
+  getRow(row) {}
+  onFocusOutEvent(event, type) {
+    // if (type === 'order') {
+    //   if (event.target.value === '') {
+    //     this.orderRequired = true;
+    //   } else {
+    //     this.orderRequired = false;
+    //   }
+    // } else if (type === 'item') {
+    //   // if(this.itemNumber==='')return;
+    //   let payLoad = {
+    //     itemNumber: this.itemNumber,
+    //     username: this.data.userName,
+    //     wsid: this.data.wsid,
+    //   };
+    //   this.transactionService
+    //     .get(payLoad, '/Common/ItemExists', true)
+    //     .subscribe(
+    //       (res: any) => {
+    //         if (res && res.isExecuted) {
+    //           if (res.data === '') {
+    //             this.itemInvalid = true;
+    //           } else {
+    //             this.itemInvalid = false;
+    //           }
+    //         }
+    //         // this.searchAutocompleteItemNum = res.data;
+    //       },
+    //       (error) => {}
+    //     );
+    // }
+  }
+  ngOnDestroy() {
+    this.searchByShipVia.unsubscribe();
+    this.searchByShipName.unsubscribe();
+    // this.searchByItem.unsubscribe();
+  }
 }
