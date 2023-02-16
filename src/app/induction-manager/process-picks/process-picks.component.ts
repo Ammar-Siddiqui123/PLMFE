@@ -215,6 +215,12 @@ export class ProcessPicksComponent implements OnInit {
     else if (val === 'fill_next_tote') {
       this.getNextToteId();
     }
+    else if (val === 'clear_all_totes') {
+      this.clearAllTotes();
+    }
+    else if (val === 'clear_all_orders') {
+      this.clearAllOrders();
+    }    
   }
 
   getAllToteIds() {
@@ -265,6 +271,32 @@ export class ProcessPicksComponent implements OnInit {
       }
       this.updateNxtTote();
     });
+  }
+
+  clearAllTotes() {
+    this.TOTE_SETUP.forEach((element, key) => {
+      element.toteID = "";
+    });
+  }
+
+  clearAllOrders() {
+    this.TOTE_SETUP.forEach((element, key) => {
+      element.orderNumber = "";
+    });
+  }
+
+  checkDuplicateTote(val :any, i : any) {
+    for (let index = 0; index < this.TOTE_SETUP.length; index++) {
+      const element = this.TOTE_SETUP[index];
+      if (element.toteID == val.toteID && index != i) {
+        this.TOTE_SETUP[i].toteID = "";
+        this.toastr.error('Duplicate Tote ID.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        break;
+      }
+    }
   }
 
   confirmProcessSetup(){
