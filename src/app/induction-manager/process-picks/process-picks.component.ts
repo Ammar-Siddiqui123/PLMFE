@@ -13,6 +13,7 @@ import { PickToteManagerComponent } from 'src/app/dialogs/pick-tote-manager/pick
 import { ViewOrdersComponent } from 'src/app/dialogs/view-orders/view-orders.component';
 import { WorkstationZonesComponent } from 'src/app/dialogs/workstation-zones/workstation-zones.component';
 import { map, Subject, takeUntil } from 'rxjs';
+import labels from '../../labels/labels.json';
 
 @Component({
   selector: 'app-process-picks',
@@ -39,6 +40,7 @@ export class ProcessPicksComponent implements OnInit {
   selection = new SelectionModel<any>(true, []);
   onDestroy$: Subject<boolean> = new Subject();
   @ViewChild('batchPickID') batchPickID: TemplateRef<any>;
+  @ViewChild('processSetup') processSetup: TemplateRef<any>;
 
   constructor(
     private dialog: MatDialog,
@@ -62,7 +64,7 @@ export class ProcessPicksComponent implements OnInit {
       if (res.data) {
         this.allZones = res.data;
       }
-      console.log(this.allZones);
+      // console.log(this.allZones);
     });
   }
 
@@ -76,6 +78,7 @@ export class ProcessPicksComponent implements OnInit {
       this.pickBatchesList = res.data.pickBatches;
       this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
       this.useInZonePickScreen = res.data.imPreference.useInZonePickScreen;
+      // this.useInZonePickScreen = false;
       this.createToteSetupTable(this.pickBatchQuantity);
       console.log(this.pickBatches);
 
@@ -99,9 +102,11 @@ export class ProcessPicksComponent implements OnInit {
 
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
-    return this.pickBatchesList.filter(
-      option => option.toLowerCase().indexOf(filterValue) === 0
-    );
+    // return this.pickBatchesList.filter(
+    //   option => option.toLowerCase().indexOf(filterValue) === 0
+    // );
+
+    return this.pickBatchesList.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   onAddBatch(val: string) {
@@ -110,8 +115,8 @@ export class ProcessPicksComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(() => {
-      console.log(val);
-      console.log(this.dialogClose);
+      // console.log(val);
+      // console.log(this.dialogClose);
       if (this.dialogClose) {
         if (val === 'batchWithID') {
           this.pPickService.get('', '/Induction/NextBatchID').subscribe(res => {
@@ -140,11 +145,20 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   openPickToteDialogue() {
-    const dialogRef = this.dialog.open(PickToteManagerComponent, {
-      height: '90vh',
-      width: '100vw',
-      autoFocus: '__non_existing_element__'
-    })
+    if(!this.batchID){
+      this.toastr.error('Batch ID cannot be empty when opening the pick batch manager.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+    else{
+      const dialogRef = this.dialog.open(PickToteManagerComponent, {
+        height: '90vh',
+        width: '100vw',
+        autoFocus: '__non_existing_element__'
+      })
+    }
+    
   }
 
   openViewOrdersDialogue(viewType: any) {
@@ -159,9 +173,11 @@ export class ProcessPicksComponent implements OnInit {
       autoFocus: '__non_existing_element__'
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+      // console.log(result);
+
       this.allOrders.push(result);
-      console.log(this.allOrders);
-      
+      // console.log(this.allOrders);
+
       this.TOTE_SETUP.forEach((element, key) => {
         if (element.orderNumber === '') {
           element.orderNumber = result[key] ?? '';
@@ -252,6 +268,55 @@ export class ProcessPicksComponent implements OnInit {
       }
       this.updateNxtTote();
     });
+  }
+
+  confirmProcessSetup(){
+    const dialogRef = this.dialog.open(this.processSetup, {
+      width: '450px',
+      autoFocus: '__non_existing_element__',
+    });
+  }
+
+  onPrcessBatch() {
+    if(!this.batchID){
+      this.toastr.error('Please enter in a batch id to proccess.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      this.dialog.closeAll();
+      return
+    }
+    let Positions: any[] = [];
+    let ToteIDs: any[] = [];
+    let OrderNumbers: any[] = [];
+    this.TOTE_SETUP.map(obj => {
+      Positions.push(obj.position.toString());
+      ToteIDs.push(obj.toteID.toString());
+      OrderNumbers.push(obj.orderNumber.toString());
+    });
+    let paylaod = {
+      Positions,
+      ToteIDs,
+      OrderNumbers,
+      "BatchID": this.batchID,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    this.pPickService.create(paylaod, '/Induction/InZoneSetupProcess').subscribe(res => {
+      if(res.isExecuted){
+        this.toastr.success(labels.alert.success, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+      else{
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    });
+
   }
 
 }
