@@ -95,6 +95,32 @@ export class DeleteConfirmationManualTransactionComponent implements OnInit {
             (error) => {}
           );
       }
+      else if (this.data.mode === 'delete-manual-transaction') { 
+        let payload = {
+          transID: this.data.transID,
+          username: this.data.userName,
+          wsid: this.data.wsid,
+        };
+        return
+        this.transactionService.get(payload, '/Admin/TransactionDelete').subscribe(
+          (res: any) => {
+            if (res && res.isExecuted) {
+              this.toastr.success(labels.alert.delete, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+              this.dialogRef.close({ isExecuted: true });
+            }else{
+              this.toastr.error(labels.alert.went_worng, 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+              this.dialogRef.close({ isExecuted: false });
+            }
+          },
+          (error) => {}
+        );
+      }
     }
   }
 }
