@@ -41,12 +41,12 @@
                                 <mat-select #matRef class="employees-action" placeholder="Actions">
                                     <mat-option value="0" (click)="openTemporaryManualOrderDialogue()">Add New
                                         Transaction</mat-option>
-                                    <mat-option value="1">Clear</mat-option>
-                                    <mat-option value="2">Save Transaction</mat-option>
+                                    <mat-option (click)="clearFields()" value="clear">Clear</mat-option>
+                                    <mat-option  value="2">Save Transaction</mat-option>
                                     <mat-option value="3">Delete Transaction</mat-option>
                                     <mat-option value="4">Print Label</mat-option>
-                                    <mat-option value="5">Post and Save Transaction</mat-option>
-                                    <mat-option value="6">Post and Delete Transaction</mat-option>
+                                    <mat-option [disabled]="!item || this.orderNumber==''"  (click)="postTransaction('save')" value="5">Post and Save Transaction</mat-option>
+                                    <mat-option [disabled]="!item || this.orderNumber==''"  (click)="postTransaction('delete')" value="6">Post and Delete Transaction</mat-option>
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
                                     expand_more
