@@ -86,7 +86,7 @@ export class ProcessPicksComponent implements OnInit {
       this.autoPickToteID = res.data.imPreference.autoPickToteID;
       this.useInZonePickScreen = res.data.imPreference.useInZonePickScreen;
       this.usePickBatchManager = res.data.imPreference.usePickBatchManager;
-      // this.useInZonePickScreen = false;
+      this.useInZonePickScreen = false;
       this.createToteSetupTable(this.pickBatchQuantity);
 
       this.filteredOptions = this.pickBatches.valueChanges.pipe(
@@ -94,9 +94,6 @@ export class ProcessPicksComponent implements OnInit {
         map(value => (typeof value === "string" ? value : value)),
         map(name => (name ? this._filter(name) : this.pickBatchesList.slice()))
       );
-
-      // console.log(res.data);
-      // console.log(this.countInfo);
     });
   }
 
@@ -125,18 +122,23 @@ export class ProcessPicksComponent implements OnInit {
           });
           let payload = {
             "wsid": this.userData.wsid,
-            "Type": this.pickType
+            "type": this.pickType
           }
-          if(!this.usePickBatchManager){
-            if(this.autoPickOrderSelection &&  this.autoPickToteID){
-              this.pPickService.get(payload, '/Induction/FillOrderNumber').subscribe(res => {
-                this.TOTE_SETUP.forEach((element, key) => {
-                  element.orderNumber = res.data[key];
+          if(!this.useInZonePickScreen){
+            if(!this.usePickBatchManager){
+              if(this.autoPickOrderSelection &&  this.autoPickToteID){
+                this.pPickService.get(payload, '/Induction/FillOrderNumber').subscribe(res => {
+                  this.TOTE_SETUP.forEach((element, key) => {
+                    element.orderNumber = res.data[key];
+                  });
+                  this.getAllToteIds()
                 });
-                this.getAllToteIds()
-              });
+              }
             }
+          }else{
+            this.getAllToteIds()
           }
+          
           
           
 
@@ -255,8 +257,10 @@ export class ProcessPicksComponent implements OnInit {
     this.pPickService.get(paylaod, '/Induction/NextTote').subscribe(res => {
       this.nxtToteID = res.data;
       this.TOTE_SETUP.forEach((element, key) => {
-        element.toteID = this.nxtToteID;
-        this.nxtToteID = this.nxtToteID + 1;
+        if (!element.toteID) {
+          element.toteID = this.nxtToteID;
+          this.nxtToteID = this.nxtToteID + 1; 
+        }        
       });
       this.updateNxtTote();
     });
@@ -323,6 +327,19 @@ export class ProcessPicksComponent implements OnInit {
     }
   }
 
+  fillNextToteID(i : any) {
+    let paylaod = {
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    this.pPickService.get(paylaod, '/Induction/NextTote').subscribe(res => {
+      this.nxtToteID = res.data;
+      this.TOTE_SETUP[i].toteID = this.nxtToteID;
+      this.nxtToteID = this.nxtToteID + 1;
+      this.updateNxtTote();
+    });
+  }
+
   confirmProcessSetup() {
     const dialogRef = this.dialog.open(this.processSetup, {
       width: '450px',
@@ -347,30 +364,60 @@ export class ProcessPicksComponent implements OnInit {
       ToteIDs.push(obj.toteID.toString() ?? '');
       OrderNumbers.push(obj.orderNumber.toString() ?? '');
     });
-    let paylaod = {
-      Positions,
-      ToteIDs,
-      OrderNumbers,
-      "BatchID": this.batchID,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
+    if(this.useInZonePickScreen){
+      let paylaod = {
+        Positions,
+        ToteIDs,
+        OrderNumbers,
+        "BatchID": this.batchID,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid,
+      }
+      this.pPickService.create(paylaod, '/Induction/InZoneSetupProcess').subscribe(res => {
+        if (res.isExecuted) {
+          this.dialog.closeAll();
+          this.ngOnInit();
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+        else {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
     }
-    this.pPickService.create(paylaod, '/Induction/InZoneSetupProcess').subscribe(res => {
-      if (res.isExecuted) {
-        this.dialog.closeAll();
-        this.ngOnInit();
-        this.toastr.success(labels.alert.success, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
+    else{
+      let paylaod = {
+        Positions,
+        ToteIDs,
+        OrderNumbers,
+        "BatchID": this.batchID,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid,
+        'Count': 0
       }
-      else {
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }
-    });
+      this.pPickService.create(paylaod, '/Induction/PickToteSetupProcess').subscribe(res => {
+        if (res.isExecuted) {
+          this.dialog.closeAll();
+          this.ngOnInit();
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+        else {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
+    }
+    
 
   }
 
