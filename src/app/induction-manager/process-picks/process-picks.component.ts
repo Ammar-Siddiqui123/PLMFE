@@ -125,18 +125,23 @@ export class ProcessPicksComponent implements OnInit {
           });
           let payload = {
             "wsid": this.userData.wsid,
-            "Type": this.pickType
+            "type": this.pickType
           }
-          if(!this.usePickBatchManager){
-            if(this.autoPickOrderSelection &&  this.autoPickToteID){
-              this.pPickService.get(payload, '/Induction/FillOrderNumber').subscribe(res => {
-                this.TOTE_SETUP.forEach((element, key) => {
-                  element.orderNumber = res.data[key];
+          if(!this.useInZonePickScreen){
+            if(!this.usePickBatchManager){
+              if(this.autoPickOrderSelection &&  this.autoPickToteID){
+                this.pPickService.get(payload, '/Induction/FillOrderNumber').subscribe(res => {
+                  this.TOTE_SETUP.forEach((element, key) => {
+                    element.orderNumber = res.data[key];
+                  });
+                  this.getAllToteIds()
                 });
-                this.getAllToteIds()
-              });
+              }
             }
+          }else{
+            this.getAllToteIds()
           }
+          
           
           
 
