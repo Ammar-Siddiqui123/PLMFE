@@ -83,13 +83,13 @@ export class DeleteConfirmationManualTransactionComponent implements OnInit {
                   positionClass: 'toast-bottom-right',
                   timeOut: 2000,
                 });
-                this.dialogRef.close({ isExecuted: true });
+                this.dialogRef.close({isExecuted:true})
               } else {
                 this.toastr.error(labels.alert.went_worng, 'Error!', {
                   positionClass: 'toast-bottom-right',
                   timeOut: 2000,
                 });
-                this.dialogRef.close({ isExecuted: false });
+                this.dialogRef.close({isExecuted:false})
               }
             },
             (error) => {}
@@ -101,7 +101,6 @@ export class DeleteConfirmationManualTransactionComponent implements OnInit {
           username: this.data.userName,
           wsid: this.data.wsid,
         };
-        return
         this.transactionService.get(payload, '/Admin/TransactionDelete').subscribe(
           (res: any) => {
             if (res && res.isExecuted) {

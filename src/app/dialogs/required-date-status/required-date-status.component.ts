@@ -15,7 +15,42 @@ export class RequiredDateStatusComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  ELEMENT_DATA: any[] = [];
+  ELEMENT_DATA: any[] = [
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },    
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" }
+  ];
 
   constructor(private sb_service: SuperBatchService) { }
 
@@ -30,13 +65,14 @@ export class RequiredDateStatusComponent implements OnInit {
 
   getReqDateDataSelect(){
     this.sb_service.get('', '/Induction/ReqDateDataSelect').subscribe(res => {
-      if(res.data.length > 0){
+      if(res.data.length > 0) {
+        // console.log(res.data)
         this.dataSource = new MatTableDataSource(res.data);
       }
-      else{
-        this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+      else {
+       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       }
-      console.log(this.dataSource.data);
+      // console.log(this.dataSource.data);
     });
   }
 

@@ -20,7 +20,7 @@ import { EmptyFieldsComponent } from '../empty-fields/empty-fields.component';
 })
 export class AddNewTransactionToOrderComponent implements OnInit {
   orderNumber;
-  quantity;
+  quantity=0;
   itemNumber:any='';
   expirationDate: any;
   requiredDate: any;
@@ -207,7 +207,7 @@ export class AddNewTransactionToOrderComponent implements OnInit {
       );
   }
   saveTransaction() {
-    if(this.itemNumber==='' || this.quantity==='' ){
+    if(this.itemNumber===''  || this.quantity===0 || this.quantity<0){
       const dialogRef = this.dialog.open(EmptyFieldsComponent, {
         height: 'auto',
         width: '560px',
@@ -223,7 +223,7 @@ export class AddNewTransactionToOrderComponent implements OnInit {
     }
     let payload = {
       // itemNum: this.data.itemNumber,
-      transQty: this.quantity,
+      transQty: this.quantity.toString(),
       reqDate: this.requiredDate ? this.requiredDate.toISOString() : '',
       expDate: this.expirationDate ? this.expirationDate.toISOString() : '',
       lineNum: this.transactionInfo.value.lineNumber?.toString(),
