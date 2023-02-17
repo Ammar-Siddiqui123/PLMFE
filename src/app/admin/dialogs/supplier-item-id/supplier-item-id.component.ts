@@ -1,0 +1,90 @@
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FloatLabelType } from '@angular/material/form-field';
+import { ToastrService } from 'ngx-toastr';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { TransactionService } from '../../transaction/transaction.service';
+
+@Component({
+  selector: 'app-supplier-item-id',
+  templateUrl: './supplier-item-id.component.html',
+  styleUrls: ['./supplier-item-id.component.scss'],
+})
+export class SupplierItemIdComponent implements OnInit {
+  supplierID;
+  floatLabelControlItem: any = new FormControl('item' as FloatLabelType);
+  hideRequiredControlItem = new FormControl(false);
+  searchByItem: any = new Subject<string>();
+  searchAutocompleteItemNum: any = [];
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private toastr: ToastrService,
+    private transactionService: TransactionService,
+    public dialogRef: MatDialogRef<any>
+  ) {
+    this.supplierID = data.supplierID;
+  }
+  getFloatLabelValueItem(): FloatLabelType {
+    return this.floatLabelControlItem.value || 'item';
+  }
+  ngOnInit(): void {
+    this.searchByItem
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((value) => {
+        this.autocompleteSearchColumnItem();
+      });
+  }
+
+  async autocompleteSearchColumnItem() {
+    let searchPayload = {
+      supplierID: this.supplierID,
+      username: this.data.userName,
+      wsid: this.data.wsid,
+    };
+    this.transactionService
+      .get(searchPayload, '/Common/SupplierItemTypeAhead', true)
+      .subscribe(
+        (res: any) => {
+          if (res.data) {
+            this.searchAutocompleteItemNum = res.data;
+          }
+        },
+        (error) => {}
+      );
+  }
+  setItem(e) {
+    this.supplierID=e.option.value;
+  }
+
+  setSupplierID(){
+    this.dialogRef.close({ isExecuted: true,supplierID:this.supplierID});
+
+  }
+  getRow(row) {
+    // console.log(row);
+    // let payLoad = {
+    //   id: row.id,
+    //   username: this.data.userName,
+    //   wsid: this.data.wsid,
+    // };
+    // this.transactionService
+    //   .get(payLoad, '/Admin/ManualTransactionTypeAhead', true)
+    //   .subscribe(
+    //     (res: any) => {
+    //       if(res && res.data){
+    //         this.setLocationByItemList=res.data.map((item)=>{
+    //           return {invMapID:item.invMapID,select:`${item.itemQty}@${item.locationNumber}`}
+    //         })
+    //         console.log(this.setLocationByItemList);
+    //       }
+    //       // this.searchAutocompleteItemNum = res.data;
+    //     },
+    //     (error) => {}
+    //   );
+  }
+  ngOnDestroy() {
+    this.searchByItem.unsubscribe();
+  }
+}

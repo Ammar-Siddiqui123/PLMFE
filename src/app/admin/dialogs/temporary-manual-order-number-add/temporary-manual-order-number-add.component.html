@@ -1,0 +1,134 @@
+<div class="d-flex justify-content-between mb-4 align-items-center">
+    <div style="width:48px"></div>
+    <h1 class="m-0" mat-dialog-title>Temporary Manual Order Number - Add New</h1>
+
+    <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="false">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
+</div>
+
+<div class="">
+
+    <div class="w-100">
+        <div class="col-12 mb-2">
+            <ng-container *ngIf="this.orderRequired">
+                <div class="label-red p-3 d-flex br-8 mb-3">
+                    <mat-icon class="material-symbols-outlined">notification_important</mat-icon>
+                    <span class="ps-2 w-100">Order Number can not be empty</span>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="this.itemInvalid">
+                <div class="label-red p-3 d-flex br-8 mb-3">
+                    <mat-icon class="material-symbols-outlined">notification_important</mat-icon>
+                    <span class="ps-2 w-100">Item No. Not Found</span>
+                </div>
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <!-- <mat-form-field class="custom-form-field w-100" appearance="outline">
+                    <mat-label>Order No.</mat-label>
+                    <input matInput type="text">
+                </mat-form-field> -->
+
+
+                <mat-form-field class="custom-form-field custom-form-field-bg-white w-100" appearance="outline"
+                    [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
+                    <mat-label>Order Number</mat-label>
+                    <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='orderNumber' (focusout)="onFocusOutEvent($event,'order')" 
+                        maxlength="255" [matAutocomplete]="auto" (ngModelChange)="this.searchByOrder.next($event)">
+
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData($event)">
+                        <mat-option *ngFor="let option of searchAutocompleteOrderNum" [value]="option.orderNumber">
+                            <div (click)="getRow(option)">{{option.orderNumber}}</div>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+            <div class="col-6">
+                <!-- <mat-form-field class="custom-form-field w-100" appearance="outline">
+                    <mat-label>Item No.</mat-label>
+                    <input matInput type="text">
+                </mat-form-field> -->
+
+
+
+                <mat-form-field class="custom-form-field w-100" appearance="outline"
+                    [floatLabel]="getFloatLabelValueItem()" [hideRequiredMarker]="hideRequiredControlItem.value">
+                    <mat-label>Item No.</mat-label>
+                    <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='itemNumber'
+                      (focusout)="onFocusOutEvent($event,'item')"    maxlength="255" [matAutocomplete]="item" (ngModelChange)="this.searchByItem.next($event)">
+<!-- 
+                    <mat-autocomplete #item="matAutocomplete" (optionSelected)="setItem($event)">
+                        <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.itemNumber">
+                            <div (click)="getRow(option)">{{option.itemNumber}}</div>
+                        </mat-option>
+                    </mat-autocomplete> -->
+
+
+                    <mat-autocomplete class="card custom-scroll" #item="matAutocomplete" (optionSelected)="setItem($event)">
+                            
+                        <h6 class ="card-header matAutoCompHeader "><span style="width:  140px;">Item Number</span> <span  style="width:  140px;">Description</span> </h6>
+                      
+                        <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.itemNumber" class="matAutoCompTableContent">
+                          <div class="loc_option"  (click)="getRow(option)" >
+                            <span  class="searchColumn" style="width:  140px;">{{option.itemNumber}}</span> <span  class="searchColumn" style="width:  140px; text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;">{{option.description}}</span> 
+                        </div>
+                        </mat-option>
+                      </mat-autocomplete>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+
+
+                <mat-form-field class="action-dropdown custom-form-field custom-form-field-bg-white w-100 mb-3"
+                    appearance="outline">
+                    <mat-label>Transaction Type</mat-label>
+                    <mat-select #matRef class="employees-action" placeholder="Actions" [(ngModel)]="transType">
+                        <mat-option value="Pick">Pick</mat-option>
+                        <mat-option value="Put Away">Put Away</mat-option>
+                        <mat-option value="Count">Count</mat-option>
+                    </mat-select>
+                    <span class="material-symbols-outlined icon-expand-more">
+                        expand_more
+                    </span>
+                </mat-form-field>
+
+            </div>
+            <div class="col-6">
+
+                <mat-form-field class="action-dropdown custom-form-field custom-form-field-bg-white w-100 mb-3"
+                    appearance="outline">
+                    <mat-label>Set Location by Item Quantity</mat-label>
+                    <!-- <mat-select #matRef class="employees-action" placeholder="Actions">
+                    <mat-option value="Pick">Pick</mat-option>
+                    <mat-option value="Put Away">Put Away</mat-option>
+                    <mat-option value="Count">Count</mat-option>
+                </mat-select> -->
+                    <mat-select [disabled]="setLocationByItemList.length==0" #matRef class="employees-action"
+                        placeholder="Actions" [(ngModel)]="inventoryMapID">
+                        <mat-option *ngFor="let item of setLocationByItemList" [value]="item.invMapID">
+                            {{item.select}}
+                        </mat-option>
+                    </mat-select>
+                    <span class="material-symbols-outlined icon-expand-more">
+                        expand_more
+                    </span>
+                </mat-form-field>
+
+            </div>
+        </div>
+        <div class="d-flex justify-content-end pt-3">
+            <button [disabled]="itemInvalid===true || itemInvalid===undefined || orderNumber==='' || itemNumber===''" (click)="saveTransaction()" style="flex:1" mat-flat-button color="primary"
+                class=" btn-lg" cdkFocusInitial>Save
+                New Transaction</button>
+        </div>
+
+    </div>
+
+</div>

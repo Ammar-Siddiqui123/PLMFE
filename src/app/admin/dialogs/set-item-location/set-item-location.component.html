@@ -1,0 +1,93 @@
+<div class="d-flex justify-content-between mb-4 align-items-center">
+    <div style="width:48px"></div>
+    <h1 class="m-0" mat-dialog-title>Set Item Number and Location</h1>
+
+    <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="false">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
+</div>
+
+<div class="">
+
+    <div class="w-100">
+        <div class="col-12 mb-2">
+            <!-- <mat-form-field class="custom-form-field w-100" appearance="outline">
+                <mat-label>Item Number</mat-label>
+                <input [(ngModel)]="itemNumber" matInput type="text">
+            </mat-form-field> -->
+            <ng-container *ngIf="this.itemInvalid">
+                <div class="label-red p-3 d-flex br-8 mb-3">
+                    <mat-icon class="material-symbols-outlined">notification_important</mat-icon>
+                    <span class="ps-2 w-100">Item No. Not Found</span>
+                </div>
+            </ng-container>
+            <mat-form-field class="custom-form-field w-100" appearance="outline" [floatLabel]="getFloatLabelValue()"
+                [hideRequiredMarker]="hideRequiredControlItem.value">
+                <mat-label>Item Number</mat-label>
+                <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]="itemNumber" (focusout)="onFocusOutEvent($event)"
+                    [matAutocomplete]="item" (ngModelChange)="this.searchByItemNumber.next($event)">
+                <mat-autocomplete #item="matAutocomplete" (optionSelected)="searchData()">
+                    <mat-option *ngFor="let option of searchAutocompleteListItem" [value]="option.itemNumber">
+                        {{option.itemNumber}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12">
+            <!-- <mat-form-field class="custom-form-field w-100" appearance="outline">
+                <mat-label>Set Location by Item Quantity</mat-label>
+                <input matInput type="text">
+            </mat-form-field> -->
+
+
+            
+            <mat-form-field class="custom-form-field w-100" appearance="outline" [floatLabel]="getFloatLabelValueLocation()"
+                [hideRequiredMarker]="hideRequiredControl.value">
+                <mat-label>Set Location by Item Quantity</mat-label>
+                <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]="location"
+                    [matAutocomplete]="autoLocation" >
+
+
+                    
+                    <mat-autocomplete #autoLocation="matAutocomplete" class="card custom-scroll" #item="matAutocomplete" (optionSelected)="searchData()">
+                            
+                        <h6 class ="card-header matAutoCompHeader "><span style="width:  140px;">Inv Map ID</span> <span  style="width:  140px;">Qty</span> <span  style="width:  140px;">Location</span> </h6>
+                      
+                        <mat-option *ngFor="let option of searchAutocompleteList" [value]="option.locationNumber" class="matAutoCompTableContent">
+                          <div class="loc_option"  (click)="getRow(option)" >
+                            <span  class="searchColumn" style="width:  140px;">{{option.invMapID}}</span> <span  class="searchColumn" style="width:  140px;">{{option.itemQty}}</span>  <span  class="searchColumn" style="width:  140px;">{{option.locationNumber}}</span> 
+                        </div>
+                        </mat-option>
+                      </mat-autocomplete>
+                <!-- <mat-autocomplete #autoLocation="matAutocomplete" (optionSelected)="searchData()">
+                    <mat-option *ngFor="let option of searchAutocompleteList" [value]="option.locationNumber">
+                        <div (click)="getRow(option)">{{option.locationNumber}}</div> 
+                    </mat-option>
+                </mat-autocomplete> -->
+
+
+
+
+            </mat-form-field>
+
+            <!-- <mat-form-field class="custom-form-field w-100" appearance="outline"
+                [floatLabel]="getFloatLabelValueLocation()" [hideRequiredMarker]="hideRequiredControl.value">
+                <mat-label>Set Location by Item Quantity</mat-label>
+                <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='location'
+                    [matAutocomplete]="location" >
+                <mat-autocomplete #location="matAutocomplete" (optionSelected)="searchData()">
+                    <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
+                        {{option}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field> -->
+        </div>
+
+        <div class="d-flex justify-content-end pt-3">
+            <button style="flex:1" (click)="setLocation()" mat-flat-button color="primary" class="button-primary btn-lg" cdkFocusInitial>Set Item and Location</button>
+        </div>
+
+    </div>
+
+</div>

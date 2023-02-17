@@ -380,7 +380,7 @@
 
 .mat-form-field-appearance-outline .mat-form-field-infix {
   /* padding: 1em 0 1em 0 */
-  padding: 6px 0 14px 0;
+  padding: 4px 0 14px 0;
 }
 
 .mat-form-field-appearance-outline .mat-form-field-label {
@@ -3219,3 +3219,10 @@ td.mat-footer-cell {
 .__pointer_cursor{
   cursor:pointer !important;
 }
+
+/* Custom Css Admin-Preference-Tab */
+
+.shorting.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding-bottom: 10px !important;
+}
+
