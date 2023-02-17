@@ -65,7 +65,7 @@
                             </mat-form-field>
                         </div>
                         <div class="d-flex w-100 pe-2 align-items-center">
-                            <mat-radio-button class=" custom-horizontal-radio" value="off_carousel">
+                            <mat-radio-button class=" custom-horizontal-radio" value="OffCarousel">
                             </mat-radio-button>
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                                 <mat-label>Off - Carousel</mat-label>
@@ -74,7 +74,7 @@
                             </mat-form-field>
                         </div>
                         <div class="d-flex w-100 pe-2 align-items-center">
-                            <mat-radio-button class=" custom-horizontal-radio" value="caroussel">
+                            <mat-radio-button class=" custom-horizontal-radio" value="Carousel">
                             </mat-radio-button>
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                                 <mat-label>Carousel</mat-label>
@@ -268,7 +268,7 @@
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
 
                                     <input matInput type="text" #specialFeature maxlength="255"
-                                    [(ngModel)]="element.orderNumber">
+                                    [(ngModel)]="element.orderNumber" disabled="{{useInZonePickScreen}}">
                                 </mat-form-field>
                             </div>
                         </td>
