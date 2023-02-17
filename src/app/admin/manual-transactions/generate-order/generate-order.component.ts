@@ -163,6 +163,8 @@ export class GenerateOrderComponent implements OnInit {
       );
       dialogRef.afterClosed().subscribe((res) => {
         this.clearFields()
+        this.getOrderTableData();
+
         if (res.isExecuted) {
           this.getOrderTableData();
           
@@ -181,7 +183,7 @@ export class GenerateOrderComponent implements OnInit {
           userName:this.userData.userName,
           wsid:this.userData.wsid,
           orderNumber:this.selectedOrder,
-          toteId:this.toteID
+          toteId:this.toteID?this.toteID:''
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
@@ -200,7 +202,7 @@ export class GenerateOrderComponent implements OnInit {
     this.orderNumber='';
     this.selectedOrder='';
     this.searchAutocompleteList=[];
-
+    this.selectedOption='';
   }
 
   editTransaction(element){
