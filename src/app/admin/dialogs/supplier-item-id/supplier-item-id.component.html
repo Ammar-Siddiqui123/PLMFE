@@ -13,41 +13,34 @@
         <div class="col-12 mb-2">
        
 
-            <!-- <mat-form-field class="custom-form-field w-100" appearance="outline" [floatLabel]="getFloatLabelValue()"
-                [hideRequiredMarker]="hideRequiredControlItem.value">
-                <mat-label>Item Number</mat-label>
-                <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]="itemNumber"
-                    [matAutocomplete]="item" (ngModelChange)="this.searchByItemNumber.next($event)">
-                <mat-autocomplete #item="matAutocomplete" (optionSelected)="searchData()">
-                    <mat-option *ngFor="let option of searchAutocompleteListItem" [value]="option.itemNumber">
-                        {{option.itemNumber}}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field> -->
+ 
         </div>
 
         <div class="col-12">
-            <mat-form-field class="custom-form-field w-100" appearance="outline">
+            <!-- <mat-form-field class="custom-form-field w-100" appearance="outline">
                 <mat-label>Supplier Item ID</mat-label>
                 <input  [(ngModel)]="supplierID" matInput type="text">
-            </mat-form-field>
-
-
-            <!-- <mat-form-field class="custom-form-field w-100" appearance="outline"
-                [floatLabel]="getFloatLabelValueLocation()" [hideRequiredMarker]="hideRequiredControl.value">
-                <mat-label>Set Location by Item Quantity</mat-label>
-                <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='location'
-                    [matAutocomplete]="auto" (ngModelChange)="this.searchByOrderNumber.next($event)">
-                <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let option of searchAutocompleteList" [value]="option.locationNumber">
-                        {{option.locationNumber}}
-                    </mat-option>
-                </mat-autocomplete>
             </mat-form-field> -->
+
+            <mat-form-field class="custom-form-field w-100" appearance="outline"
+            [floatLabel]="getFloatLabelValueItem()" [hideRequiredMarker]="hideRequiredControlItem.value">
+            <mat-label>Supplier Item ID.</mat-label>
+            <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]="supplierID"
+               maxlength="255" [matAutocomplete]="item" (ngModelChange)="this.searchByItem.next($event)">
+
+            <mat-autocomplete class="card custom-scroll" #item="matAutocomplete" (optionSelected)="setItem($event)">
+                <h6 class ="card-header matAutoCompHeader "><span style="width:  140px;">Supplier Item ID</span> <span  style="width:  140px;">Description</span> <span  style="width:  140px;">Item Number</span> </h6>
+                <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.supplierItemID" class="matAutoCompTableContent">
+                  <div class="loc_option"  (click)="getRow(option)" >
+                    <span  class="searchColumn" style="width:  140px;">{{option.supplierItemID}}</span> <span  class="searchColumn" style="width:  140px; text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;">{{option.description}}</span> <span  class="searchColumn" style="width:  140px;">{{option.itemNumber}}</span> 
+                </div>
+                </mat-option>
+              </mat-autocomplete>
+        </mat-form-field>
         </div>
 
         <div class="d-flex justify-content-end pt-3">
-            <button style="flex:1" mat-flat-button color="primary" class="button-primary btn-lg" cdkFocusInitial>Set
+            <button (click)="setSupplierID()" style="flex:1" mat-flat-button color="primary" class="button-primary btn-lg" cdkFocusInitial>Set
                 Supplier Item</button>
         </div>
 

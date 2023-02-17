@@ -26,8 +26,12 @@ export class ProcessPicksComponent implements OnInit {
   public userData: any;
   batchID: any = '';
   pickBatchQuantity: any = '';
+  autoPickOrderSelection: any = '';
+  autoPickToteID: any = '';
+  usePickBatchManager: any = '';
   useInZonePickScreen: any;
   countInfo: any;
+  pickType: any = 'MixedZones';
   allZones: any;
   allOrders: any[] = [];
   pickBatchesList: any[] = [];;
@@ -74,13 +78,16 @@ export class ProcessPicksComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.pPickService.get(paylaod, '/Induction/PickToteSetupIndex').subscribe(res => {
+      console.log(res.data.imPreference);
       this.countInfo = res.data.countInfo;
       this.pickBatchesList = res.data.pickBatches;
       this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
+      this.autoPickOrderSelection = res.data.imPreference.autoPickOrderSelection;
+      this.autoPickToteID = res.data.imPreference.autoPickToteID;
       this.useInZonePickScreen = res.data.imPreference.useInZonePickScreen;
+      this.usePickBatchManager = res.data.imPreference.usePickBatchManager;
       // this.useInZonePickScreen = false;
       this.createToteSetupTable(this.pickBatchQuantity);
-      console.log(this.pickBatches);
 
       this.filteredOptions = this.pickBatches.valueChanges.pipe(
         startWith(""),
@@ -88,8 +95,8 @@ export class ProcessPicksComponent implements OnInit {
         map(name => (name ? this._filter(name) : this.pickBatchesList.slice()))
       );
 
-      console.log(res.data);
-      console.log(this.countInfo);
+      // console.log(res.data);
+      // console.log(this.countInfo);
     });
   }
 
@@ -102,10 +109,6 @@ export class ProcessPicksComponent implements OnInit {
 
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
-    // return this.pickBatchesList.filter(
-    //   option => option.toLowerCase().indexOf(filterValue) === 0
-    // );
-
     return this.pickBatchesList.filter(option => option.toLowerCase().includes(filterValue));
   }
 
@@ -115,13 +118,33 @@ export class ProcessPicksComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(() => {
-      // console.log(val);
-      // console.log(this.dialogClose);
       if (this.dialogClose) {
         if (val === 'batchWithID') {
           this.pPickService.get('', '/Induction/NextBatchID').subscribe(res => {
             this.batchID = res.data;
           });
+          let payload = {
+            "wsid": this.userData.wsid,
+            "type": this.pickType
+          }
+          if(!this.useInZonePickScreen){
+            if(!this.usePickBatchManager){
+              if(this.autoPickOrderSelection &&  this.autoPickToteID){
+                this.pPickService.get(payload, '/Induction/FillOrderNumber').subscribe(res => {
+                  this.TOTE_SETUP.forEach((element, key) => {
+                    element.orderNumber = res.data[key];
+                  });
+                  this.getAllToteIds()
+                });
+              }
+            }
+          }else{
+            this.getAllToteIds()
+          }
+          
+          
+          
+
         }
         else {
           if (this.batchID === '') {
@@ -145,20 +168,23 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   openPickToteDialogue() {
-    if(!this.batchID){
+    if (!this.batchID) {
       this.toastr.error('Batch ID cannot be empty when opening the pick batch manager.', 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
     }
-    else{
+    else {
       const dialogRef = this.dialog.open(PickToteManagerComponent, {
         height: '90vh',
         width: '100vw',
+        data: {
+          pickBatchQuantity: this.pickBatchQuantity,
+        },
         autoFocus: '__non_existing_element__'
       })
     }
-    
+
   }
 
   openViewOrdersDialogue(viewType: any) {
@@ -218,6 +244,12 @@ export class ProcessPicksComponent implements OnInit {
     else if (val === 'fill_next_tote') {
       this.getNextToteId();
     }
+    else if (val === 'clear_all_totes') {
+      this.clearAllTotes();
+    }
+    else if (val === 'clear_all_orders') {
+      this.clearAllOrders();
+    }
   }
 
   getAllToteIds() {
@@ -270,7 +302,33 @@ export class ProcessPicksComponent implements OnInit {
     });
   }
 
-  confirmProcessSetup(){
+  clearAllTotes() {
+    this.TOTE_SETUP.forEach((element, key) => {
+      element.toteID = "";
+    });
+  }
+
+  clearAllOrders() {
+    this.TOTE_SETUP.forEach((element, key) => {
+      element.orderNumber = "";
+    });
+  }
+
+  checkDuplicateTote(val: any, i: any) {
+    for (let index = 0; index < this.TOTE_SETUP.length; index++) {
+      const element = this.TOTE_SETUP[index];
+      if (element.toteID == val.toteID && index != i) {
+        this.TOTE_SETUP[i].toteID = "";
+        this.toastr.error('Duplicate Tote ID.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        break;
+      }
+    }
+  }
+
+  confirmProcessSetup() {
     const dialogRef = this.dialog.open(this.processSetup, {
       width: '450px',
       autoFocus: '__non_existing_element__',
@@ -278,7 +336,7 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   onPrcessBatch() {
-    if(!this.batchID){
+    if (!this.batchID) {
       this.toastr.error('Please enter in a batch id to proccess.', 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
@@ -290,9 +348,9 @@ export class ProcessPicksComponent implements OnInit {
     let ToteIDs: any[] = [];
     let OrderNumbers: any[] = [];
     this.TOTE_SETUP.map(obj => {
-      Positions.push(obj.position.toString());
-      ToteIDs.push(obj.toteID.toString());
-      OrderNumbers.push(obj.orderNumber.toString());
+      Positions.push(obj.position.toString() ?? '');
+      ToteIDs.push(obj.toteID.toString() ?? '');
+      OrderNumbers.push(obj.orderNumber.toString() ?? '');
     });
     let paylaod = {
       Positions,
@@ -303,13 +361,15 @@ export class ProcessPicksComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.pPickService.create(paylaod, '/Induction/InZoneSetupProcess').subscribe(res => {
-      if(res.isExecuted){
+      if (res.isExecuted) {
+        this.dialog.closeAll();
+        this.ngOnInit();
         this.toastr.success(labels.alert.success, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
       }
-      else{
+      else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000

@@ -30,6 +30,7 @@ import { BlossomToteComponent } from './dialogs/blossom-tote/blossom-tote.compon
 import { WorkstationZonesComponent } from './dialogs/workstation-zones/workstation-zones.component';
 import { BatchDeleteComponent } from './dialogs/batch-delete/batch-delete.component';
 import { ConfirmationDialogComponent } from './admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { AddFilterFunction } from './dialogs/add-filter-function/add-filter-function.component';
 import { SelectionTransactionForToteComponent } from './dialogs/selection-transaction-for-tote/selection-transaction-for-tote.component';
 import { SelectionTransactionForToteExtendComponent } from './dialogs/selection-transaction-for-tote-extend/selection-transaction-for-tote-extend.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
@@ -48,7 +49,9 @@ import { SelectionTransactionForToteExtendComponent } from './dialogs/selection-
     BatchDeleteComponent,
     ConfirmationDialogComponent,
     SelectionTransactionForToteComponent,
-    SelectionTransactionForToteExtendComponent
+    SelectionTransactionForToteExtendComponent,
+    AddFilterFunction,
+    SelectionTransactionForToteComponent
     // ActionDisableDirective,
   ],
   imports: [

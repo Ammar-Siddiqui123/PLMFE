@@ -66,7 +66,7 @@ export class ViewOrdersComponent implements OnInit {
   }
 
   onOrderSelect(row: any) {
-    // const isMachted = this.data.allOrders.filter((val,key) => {return val[key] === row.orderNumber;});
+    // const isMachted = this.data.selectedOrders.filter((val,key) => {return val[key] === row.orderNumber;});
     // console.log(isMachted);
     // if(isMachted){
     //   this.toastr.error('No open totes in batch', 'Batch is Filled.', {
@@ -110,7 +110,9 @@ export class ViewOrdersComponent implements OnInit {
 
   }
   onSelectedOrders(){
-    console.log(this.selectedOrders);
+    // console.log(this.selectedOrders);
+    // console.log(this.data.allOrders);
+    
     this.dialogRef.close(this.selectedOrders);
   }
 

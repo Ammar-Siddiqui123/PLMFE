@@ -27,7 +27,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
   transType = 'Pick';
   itemNumber;
   orderRequired:boolean=false;
-  itemInvalid:boolean=false;
+  itemInvalid:boolean;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private toastr: ToastrService,
@@ -72,6 +72,8 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
   }
 
   saveTransaction() {
+
+    if(this.orderRequired || this.itemInvalid ||  !this.setLocationByItemList.length || this.itemNumber==='' || this.itemNumber===undefined)return
     let payLoad = {
       orderNumber: this.orderNumber,
       itemNumber: this.itemNumber,
@@ -176,18 +178,23 @@ this.orderRequired=true
   }
 
   async autocompleteSearchColumnItem() {
+
+   
     let searchPayload = {
       itemNumber: this.itemNumber,
+      beginItem:'---',
+      isEqual:false,
       username: this.data.userName,
       wsid: this.data.wsid,
     };
     this.transactionService
-      .get(searchPayload, '/Admin/GetItemNumber', true)
+      .get(searchPayload, '/Common/SearchItem', true)
       .subscribe(
         (res: any) => {
           if (res.data) {
-            if (this.searchAutocompleteItemNum.includes(res.data)) return;
-            this.searchAutocompleteItemNum.push(res.data);
+            this.searchAutocompleteItemNum=res.data
+            // if (this.searchAutocompleteItemNum.includes(res.data)) return;
+            // this.searchAutocompleteItemNum.push(res.data);
           }
         },
         (error) => {}

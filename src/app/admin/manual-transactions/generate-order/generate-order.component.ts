@@ -133,11 +133,11 @@ export class GenerateOrderComponent implements OnInit {
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
-        this.clearFields()
+      
         if (res.isExecuted) {
-          
+
           this.getOrderTableData();
-          this.clearFields()
+          // this.clearFields()
         }
       });
     } else if (
@@ -163,6 +163,8 @@ export class GenerateOrderComponent implements OnInit {
       );
       dialogRef.afterClosed().subscribe((res) => {
         this.clearFields()
+        this.getOrderTableData();
+
         if (res.isExecuted) {
           this.getOrderTableData();
           
@@ -181,7 +183,7 @@ export class GenerateOrderComponent implements OnInit {
           userName:this.userData.userName,
           wsid:this.userData.wsid,
           orderNumber:this.selectedOrder,
-          toteId:this.toteID
+          toteId:this.toteID?this.toteID:''
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
@@ -200,7 +202,7 @@ export class GenerateOrderComponent implements OnInit {
     this.orderNumber='';
     this.selectedOrder='';
     this.searchAutocompleteList=[];
-
+    this.selectedOption='';
   }
 
   editTransaction(element){
@@ -327,9 +329,18 @@ console.log(element);
           //   },
           // ];
           if (res.isExecuted) {
-            this.dataSource = new MatTableDataSource(
-              res.data && res.data.orderTable
-            );
+            if(res.data.orderTable && res.data.orderTable.length>0){
+              res.data.orderTable.filter((item,i)=>{
+                if(item.expirationDate==='1/1/1900 12:00:00 AM'){
+                  res.data.orderTable[i].expirationDate='';
+                  
+                }
+                 if(item.requiredDate==='1/1/1900 12:00:00 AM'){
+                  res.data.orderTable[i].requiredDate='';
+                }
+              })
+            }
+            this.dataSource = new MatTableDataSource(res.data && res.data.orderTable);
             this.itemNumberForInsertion=res.data && res.data.orderTable && res.data.orderTable[0] &&res.data.orderTable[0].itemNumber
           }
         },

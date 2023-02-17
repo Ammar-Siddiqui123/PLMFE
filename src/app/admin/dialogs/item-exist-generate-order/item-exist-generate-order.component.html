@@ -1,12 +1,38 @@
 
 
 
+<div class="mat-modal-wrap text-center">
+    <mat-dialog-content>
+      <div class="prompt-wrap">
+        <div class="d-flex justify-content-center prompt-icon-wrap ">
+          <span #cancel class="material-symbols-outlined prompt-icon-delete">
+            notification_important
+          </span>
+  
+        </div>
+        <div class=" py-4"> 
+        <p class="text-danger bold card-header-title p-0 mb-2" >
+            Invalid Value Entered
+        </p>
+        <p class="prompt-message mb-0 bold">
+            No item could be found corresponding to the value :{{itemNumber}}
+        </p>
+ </div>
+    
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions class="d-flex flex-column justify-content-center m-0 p-0">
+      <button  class="mat-button-base prompt-action-danger-button  mb-3 btn-lg w-100"  [mat-dialog-close]="false" mat-stroked-button mat-button
+     >OK</button>
+ 
+    </mat-dialog-actions>
+  </div>
+  
 
 
 
 
-
-
+<!-- 
 <div class="d-flex justify-content-between mb-4 align-items-center">
     <div style="width:48px"></div>
     <h1 class="m-0" mat-dialog-title>Invalid Value Entered</h1>
@@ -33,4 +59,4 @@
 
     </div>
 
-</div>
+</div> -->
