@@ -47,9 +47,9 @@ export class RequiredDateStatusComponent implements OnInit {
     { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
     { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
     { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
+    { countToInduct: "1", reqDate: "12/14/2023", zone: "10" },
     { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
-    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" },
-    { countToInduct: "1", reqDate: "12/14/2022", zone: "10" }
+    { countToInduct: "1", reqDate: "12/14/2022", zone: "12" }
   ];
 
   constructor(private sb_service: SuperBatchService) { }
