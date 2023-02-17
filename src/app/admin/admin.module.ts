@@ -124,6 +124,7 @@ import { ItemExistGenerateOrderComponent } from './dialogs/item-exist-generate-o
 import { EmptyFieldsComponent } from './dialogs/empty-fields/empty-fields.component';
 import { UserFieldsEditComponent } from './dialogs/user-fields-edit/user-fields-edit.component';
 import { PostManualTransactionComponent } from './dialogs/post-manual-transaction/post-manual-transaction.component';
+import { InvalidQuantityComponent } from './dialogs/invalid-quantity/invalid-quantity.component';
 
 
 
@@ -237,7 +238,8 @@ import { PostManualTransactionComponent } from './dialogs/post-manual-transactio
     ItemExistGenerateOrderComponent,
     EmptyFieldsComponent,
     UserFieldsEditComponent,
-    PostManualTransactionComponent
+    PostManualTransactionComponent,
+    InvalidQuantityComponent
 
   ],
   imports: [
