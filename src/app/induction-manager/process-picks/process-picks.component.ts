@@ -39,6 +39,7 @@ export class ProcessPicksComponent implements OnInit {
   allOrders: any[] = [];
   pickBatchesList: any[] = [];;
   pickBatches = new FormControl('');
+  batchWithID=false;
   // pickBatches:any = '';
   filteredOptions: Observable<any[]>;
   displayedColumns: string[] = ['position', 'toteid', 'orderno', 'priority', 'other'];
@@ -115,6 +116,14 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   onAddBatch(val: string) {
+    if (val === 'batchWithID') 
+    {
+      this.batchWithID = true;
+    }
+    else 
+    {
+      this.batchWithID = false;
+    }
     const dialogRef = this.dialog.open(this.batchPickID, {
       width: 'auto',
       autoFocus: '__non_existing_element__',
@@ -140,8 +149,11 @@ export class ProcessPicksComponent implements OnInit {
                 });
               }
             }
-          }else{
-            this.getAllToteIds()
+          }
+          else{
+            if(this.autoPickToteID){
+              this.getAllToteIds()
+            }
           }
         }
         else {
@@ -206,10 +218,16 @@ export class ProcessPicksComponent implements OnInit {
       autoFocus: '__non_existing_element__'
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-      // console.log(result);
-
-      this.allOrders.push(result);
-      // console.log(this.allOrders);
+      console.log(result);
+        if(result.length > 0){
+          this.allOrders.push(result);
+        }
+        else{
+          this.allOrders = []
+          this.TOTE_SETUP.forEach((element) => {
+            element.orderNumber = '';
+          });
+        }
 
       this.TOTE_SETUP.forEach((element, key) => {
         if (element.orderNumber === '') {
@@ -377,9 +395,9 @@ export class ProcessPicksComponent implements OnInit {
     let ToteIDs: any[] = [];
     let OrderNumbers: any[] = [];
     this.TOTE_SETUP.map(obj => {
-      Positions.push(obj.position.toString() ?? '');
-      ToteIDs.push(obj.toteID.toString() ?? '');
-      OrderNumbers.push(obj.orderNumber.toString() ?? '');
+      Positions.push(obj.position?.toString() ?? '');
+      ToteIDs.push(obj.toteID?.toString() ?? '');
+      OrderNumbers.push(obj.orderNumber?.toString() ?? '');
     });
     if(this.useInZonePickScreen){
       let paylaod = {
@@ -393,7 +411,6 @@ export class ProcessPicksComponent implements OnInit {
       this.pPickService.create(paylaod, '/Induction/InZoneSetupProcess').subscribe(res => {
         if (res.isExecuted) {
           this.dialog.closeAll();
-          this.ngOnInit();
           this.toastr.success(labels.alert.success, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
@@ -420,7 +437,6 @@ export class ProcessPicksComponent implements OnInit {
       this.pPickService.create(paylaod, '/Induction/PickToteSetupProcess').subscribe(res => {
         if (res.isExecuted) {
           this.dialog.closeAll();
-          this.ngOnInit();
           this.toastr.success(labels.alert.success, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000

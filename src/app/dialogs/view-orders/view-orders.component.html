@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between mb-4 align-items-center">
   <div style="width:48px"></div>
   <h1 class="m-0" mat-dialog-title>Orders</h1>
-  <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
+  <button mat-icon-button class="close-button dialog-close-button-fix" (click)="onSelectedOrders()">
     <mat-icon class="close-icon">close</mat-icon>
   </button>
 </div>
@@ -20,10 +20,9 @@
         </h2>
         <mat-form-field class="action-dropdown" appearance="outline">
           <mat-label>Actions</mat-label>
-          <mat-select #matRef class="employees-action" placeholder="Actions">
-            <mat-option>Add Location</mat-option>
-            <mat-option value="print">Print</mat-option>
-            <mat-option value="set_column_sq">Set Column Sequence</mat-option>
+          <mat-select #matRef class="employees-action" placeholder="Actions" (selectionChange)="onChangeOrderAction($event.value)">
+            <mat-option value="fill_top_orders">Fill With Top Orders</mat-option>
+            <mat-option value="unselect_all_orders">Un-Select All Orders</mat-option>
           </mat-select>
           <span class="material-symbols-outlined icon-expand-more">
             expand_more

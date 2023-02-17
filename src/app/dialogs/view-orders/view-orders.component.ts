@@ -98,7 +98,7 @@ export class ViewOrdersComponent implements OnInit {
     this.getAllOrders();
 
     console.log(this.data);
-    
+
   }
   getAllOrders() {
     let paylaod = {
@@ -110,10 +110,34 @@ export class ViewOrdersComponent implements OnInit {
         res.data.map(val => {
           this.allOrders.push({ 'orderNumber': val, isSelected: false });
         });
+        this.allOrders.filter(element => {
+          this.data.allOrders.map((arr, key) => {
+            if(element.orderNumber === arr[key]){
+              element.isSelected = true;
+              this.onOrderSelect({orderNumber: element.orderNumber })
+            }
+            
+          }) 
+        });
+        
         this.orderDataSource = new MatTableDataSource<any>(this.allOrders);
 
       }
     });
+  }
+  onChangeOrderAction(option: any) {
+    if (option === 'fill_top_orders') {
+      for (let index = 0; index < this.data.pickBatchQuantity; index++) {
+        this.allOrders[index].isSelected = true;
+        this.selectedOrders.push(this.allOrders[index].orderNumber);
+      }
+    }
+    if (option === 'unselect_all_orders') {
+      for (let index = 0; index < this.data.pickBatchQuantity; index++) {
+        this.allOrders[index].isSelected = false;
+        this.selectedOrders = [];
+      }
+    }
   }
 
   ngAfterViewInit() {
@@ -122,20 +146,20 @@ export class ViewOrdersComponent implements OnInit {
   }
 
   onOrderSelect(row: any) {
-    // const isMachted = this.data.selectedOrders.filter((val,key) => {return val[key] === row.orderNumber;});
-    // console.log(isMachted);
-    // if(isMachted){
-    //   this.toastr.error('No open totes in batch', 'Batch is Filled.', {
-    //     positionClass: 'toast-bottom-right',
-    //     timeOut: 2000
-    //   });
-    // }
-    
-    if (this.selectedOrders.length >= this.data.pickBatchQuantity) {
+    if (this.selectedOrders.includes(row.orderNumber)) {
+      this.allOrders.filter(val => {
+        if (val.orderNumber === row.orderNumber) {
+          val.isSelected = false;
+          this.orderTransDataSource = [];
+        }
+      });
+      this.selectedOrders = this.selectedOrders.filter(item => item !== row.orderNumber)
+    }
+    else if (this.selectedOrders.length >= this.data.pickBatchQuantity) {
       this.toastr.error('No open totes in batch', 'Batch is Filled.', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
-      });  
+      });
     }
     else {
       this.selectedOrders.push(row.orderNumber);
@@ -144,7 +168,6 @@ export class ViewOrdersComponent implements OnInit {
           val.isSelected = true;
         }
       });
-
       let paylaod = {
         "Draw": 0,
         "OrderNumber": row.orderNumber,
@@ -162,13 +185,11 @@ export class ViewOrdersComponent implements OnInit {
         }
       });
     }
+   
 
 
   }
-  onSelectedOrders(){
-    // console.log(this.selectedOrders);
-    // console.log(this.data.allOrders);
-    
+  onSelectedOrders() {
     this.dialogRef.close(this.selectedOrders);
   }
 
