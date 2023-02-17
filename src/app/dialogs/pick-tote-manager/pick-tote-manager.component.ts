@@ -51,6 +51,7 @@ export class PickToteManagerComponent implements OnInit {
   FILTER_DATA: any[] = [];
   ORDER_BY_DATA: any[] = [];
   FILTER_BATCH_DATA: any[] = [];
+  FILTER_BATCH_DATA_ZONE: any[] = [];
   BATCH_BY_ZONE_DATA: any[] = [
     { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
   ];
@@ -86,6 +87,7 @@ export class PickToteManagerComponent implements OnInit {
   pickBatchFilter: any;
   batchByZoneSource: any;
   filterBatchOrders: any;
+  filterBatchOrdersZone: any;
   pickBatchOrder: any;
   filterOrderTransactionSource: any;
   selectedOrders: any[] = [];
@@ -182,6 +184,7 @@ export class PickToteManagerComponent implements OnInit {
     this.userData = this.authService.userData();
     this.getSavedFilters();
     this.dataSource = new MatTableDataSource<any>(this.FILTER_DATA);
+    this.dataSource1 = new MatTableDataSource<any>(this.FILTER_DATA);
     this.orderBydataSource = new MatTableDataSource<any>(this.ORDER_BY_DATA);
     this.pickBatchZonesSelect();
   }
@@ -386,26 +389,110 @@ export class PickToteManagerComponent implements OnInit {
       this.ordersFilterZoneSelect();
     }
   }
-  ordersFilterZoneSelect() {
-    let paylaod = {
-      "Filter": this.savedFilter.value,
-      "Zone": "",
-      "BatchType": "",
-      "UseDefFilter": 0,
-      "UseDefZone": 0,
-      "RP": false,
-      "WSID": "TESTWSID"
+  ordersFilterZoneSelect(zone="",rp=false,type="") {
+    let payload;
+    if(zone=="")
+    {
+      payload = {
+        "Filter": this.savedFilter.value,
+        "Zone": "",
+        "BatchType": "",
+        "UseDefFilter": 0,
+        "UseDefZone": 0,
+        "RP": false,
+        "WSID": "TESTWSID"
+      }
+      this.pPickService.get(payload, '/Induction/OrdersFilterZoneSelect').subscribe(res => {
+        if (res.data) {
+          res.data.map(val => {
+            this.FILTER_BATCH_DATA.push({ 'orderNumber': val.orderNumber, 'reqDate': val.reqDate, 'priority': val.priority, isSelected: false });
+          });
+          this.filterBatchOrders = new MatTableDataSource<any>(this.FILTER_BATCH_DATA);
+        }
+      });
     }
-    this.pPickService.get(paylaod, '/Induction/OrdersFilterZoneSelect').subscribe(res => {
+    else 
+    {
+      payload = {
+        "Filter": "",
+        "Zone": zone,
+        "BatchType": type,
+        "UseDefFilter": 0,
+        "UseDefZone": 0,
+        "RP": rp,
+        "WSID": "TESTWSID"
+      }
+      this.pPickService.get(payload, '/Induction/OrdersFilterZoneSelect').subscribe(res => {
+        if (res.data) {
+          console.log(res);
+          res.data.map(val => {
+            this.FILTER_BATCH_DATA_ZONE.push({ 'orderNumber': val.orderNumber, 'reqDate': val.reqDate, 'priority': val.priority, isSelected: false });
+          });
+          this.filterBatchOrdersZone = new MatTableDataSource<any>(this.FILTER_BATCH_DATA_ZONE);
+        }
+      });
+    }
+    
+  }
+
+  viewReplenishZoneRecord(viewReplenish="",element:any,rp:any)
+  {
+  if(viewReplenish=="")
+  {
+    this.ordersFilterZoneSelect(element.zone,true,element.type);
+    
+  }
+  else 
+  {
+    this.ordersFilterZoneSelect(element.zone,false,element.type);
+  }
+  }
+
+
+  onOrderSelect(row: any) {
+    if (this.selectedOrders.includes(row.orderNumber)) {
+      this.FILTER_BATCH_DATA.filter(val => {
+        if (val.orderNumber === row.orderNumber) {
+          val.isSelected = false;
+        }
+      });
+      this.selectedOrders = this.selectedOrders.filter(item => item !== row.orderNumber)
+    }
+    else if (this.selectedOrders.length >= this.data.pickBatchQuantity) {
+      this.toastr.error('No open totes in batch', 'Batch is Filled.', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+    else {
+      this.selectedOrders.push(row.orderNumber);
+      this.FILTER_BATCH_DATA.filter(val => {
+        if (val.orderNumber === row.orderNumber) {
+          val.isSelected = true;
+        }
+      });
+    }
+    console.log(this.selectedOrders);
+    let paylaod = {
+      "Draw": 0,
+      "OrderNumber": row.orderNumber,
+      "sRow": 1,
+      "eRow": 10,
+      "SortColumnNumber": 0,
+      "SortOrder": "asc",
+      "Filter": "1=1",
+      "Username": this.userData.username,
+      "wsid": this.userData.wsid,
+    }
+    this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
       if (res.data) {
-        res.data.map(val => {
-          this.FILTER_BATCH_DATA.push({ 'orderNumber': val.orderNumber, 'reqDate': val.reqDate, 'priority': val.priority, isSelected: false });
-        });
-        this.filterBatchOrders = new MatTableDataSource<any>(this.FILTER_BATCH_DATA);
+        this.filterOrderTransactionSource = res.data.pickToteManTrans;
       }
     });
   }
-  onOrderSelect(row: any) {
+
+
+  onOrderSelectZone(row: any) {
     if (this.selectedOrders.includes(row.orderNumber)) {
       this.FILTER_BATCH_DATA.filter(val => {
         if (val.orderNumber === row.orderNumber) {
