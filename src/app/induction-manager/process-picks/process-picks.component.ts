@@ -255,8 +255,10 @@ export class ProcessPicksComponent implements OnInit {
     this.pPickService.get(paylaod, '/Induction/NextTote').subscribe(res => {
       this.nxtToteID = res.data;
       this.TOTE_SETUP.forEach((element, key) => {
-        element.toteID = this.nxtToteID;
-        this.nxtToteID = this.nxtToteID + 1;
+        if (!element.toteID) {
+          element.toteID = this.nxtToteID;
+          this.nxtToteID = this.nxtToteID + 1; 
+        }        
       });
       this.updateNxtTote();
     });
@@ -321,6 +323,19 @@ export class ProcessPicksComponent implements OnInit {
         break;
       }
     }
+  }
+
+  fillNextToteID(i : any) {
+    let paylaod = {
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    this.pPickService.get(paylaod, '/Induction/NextTote').subscribe(res => {
+      this.nxtToteID = res.data;
+      this.TOTE_SETUP[i].toteID = this.nxtToteID;
+      this.nxtToteID = this.nxtToteID + 1;
+      this.updateNxtTote();
+    });
   }
 
   confirmProcessSetup() {
