@@ -150,9 +150,11 @@ export class ProcessPicksComponent implements OnInit {
               }
             }
           }
-          // else{
-          //   this.getAllToteIds()
-          // }
+          else{
+            if(this.autoPickToteID){
+              this.getAllToteIds()
+            }
+          }
         }
         else {
           if (this.batchID === '') {
