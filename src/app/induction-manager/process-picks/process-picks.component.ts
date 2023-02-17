@@ -81,7 +81,7 @@ export class ProcessPicksComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.pPickService.get(paylaod, '/Induction/PickToteSetupIndex').subscribe(res => {
-      console.log(res.data.imPreference);
+      // console.log(res.data.imPreference);
       this.countInfo = res.data.countInfo;
       this.pickBatchesList = res.data.pickBatches;
       this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
@@ -143,10 +143,6 @@ export class ProcessPicksComponent implements OnInit {
           }else{
             this.getAllToteIds()
           }
-          
-          
-          
-
         }
         else {
           if (this.batchID === '') {
