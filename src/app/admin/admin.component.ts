@@ -1,59 +1,158 @@
-import { Component, OnInit } from '@angular/core';
-
-
-export interface PeriodicElement {
-  zone: string;
-  trans_type: number;
-  warehouse: string;
-  location: string;
-  lines: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {zone: 'Hydrogen',trans_type: 1.0079, warehouse: 'H', location: 'Hydrogen', lines:'H' },
-  {zone: 'Helium',trans_type: 4.0026, warehouse: 'He', location: 'Hydrogen', lines:'H'},
-  {zone: 'Lithium',trans_type: 6.941, warehouse: 'Li', location: 'Hydrogen', lines:'H'},
-  {zone: 'Beryllium',trans_type: 9.0122, warehouse: 'Be', location: 'Hydrogen', lines:'H'},
-  {zone: 'Boron',trans_type: 10.811, warehouse: 'B', location: 'Hydrogen', lines:'H'},
-  {zone: 'Carbon',trans_type: 12.0107, warehouse: 'C', location: 'Hydrogen', lines:'H'},
-  {zone: 'Nitrogen',trans_type: 14.0067, warehouse: 'N', location: 'Hydrogen', lines:'H'},
-  {zone: 'Oxygen',trans_type: 15.9994, warehouse: 'O', location: 'Hydrogen', lines:'H'},
-  {zone: 'Fluorine',trans_type: 18.9984, warehouse: 'F', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-  { zone: 'Neon',trans_type: 20.1797, warehouse: 'Ne', location: 'Hydrogen', lines:'H'},
-];
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { AuthService } from '../init/auth.service';
+import { AdminService } from './admin.service';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { MatSort, Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent implements OnInit {
-  displayedColumns: string[] = ['zone', 'trans_type', 'warehouse', 'location', 'lines'];
-  dataSource = ELEMENT_DATA;
-  constructor() {
+  public columnValues: any = [];
+  public dataSource: any = new MatTableDataSource();
+  public userData: any;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  public sortCol: any = 3;
+  public sortOrder: any = 'asc';
+  pageEvent: PageEvent;
+  private _liveAnnouncer: LiveAnnouncer
+  @ViewChild(MatSort) sort: MatSort;
 
-   }
+    picksOpen=0;
+    picksCompleted=0;
+    picksPerHour=0;
+
+    putsOpen=0;
+    putsCompleted=0;
+    putsPerHour=0;
+
+    countOpen=0;
+    countCompleted=0;
+    countPerHour=0;
+
+    adjustmentOpen=0;
+    adjustmentCompleted=0;
+    adjustmentPerHour=0;
+
+    reprocessOpen=0;
+    reprocessCompleted=0;
+    reprocessPerHour=0;
+
+
+  cols = [];
+  customPagination: any = {
+    total: '',
+    recordsPerPage: 20,
+    startIndex: 0,
+    endIndex: 20,
+  };
+  columnSearch: any = {
+    searchColumn: {
+      colHeader: '',
+      colDef: '',
+    },
+    searchValue: '',
+  };
+  sortColumn: any = {
+    columnName: 3,
+    sortOrder: 'asc',
+  };
+  public Order_Table_Config = [
+    { colHeader: 'zone', colDef: 'Zone' },
+    { colHeader: 'warehouse', colDef: 'Warehouse' },
+    { colHeader: 'locationName', colDef: 'Location' },
+    { colHeader: 'totalPicks', colDef: 'Lines' },
+    { colHeader: 'transactionType', colDef: 'Transaction Type' },
+  ];
+  public displayedColumns: string[] = [
+    'zone',
+    'warehouse',
+    'locationName',
+    'totalPicks',
+    'transactionType',
+  ];
+  constructor(
+    private authService: AuthService,
+    private adminService: AdminService
+  ) {}
 
   ngOnInit(): void {
-
+    this.userData = this.authService.userData();
+    this.getAdminMenu()
   }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+  sortChange(event) {
+    if (
+      !this.dataSource._data._value ||
+      event.direction == '' ||
+      event.direction == this.sortOrder
+    )
+      return;
 
+    let index;
+    this.displayedColumns.find((x, i) => {
+      if (x === event.active) {
+        index = i;
+      }
+    });
 
+    this.sortCol = index;
+    this.sortOrder = event.direction;
+    // this.getContentData();
+  }
+  handlePageEvent(e: PageEvent) {
+    this.pageEvent = e;
+    // this.customPagination.startIndex =  e.pageIndex
+    this.customPagination.startIndex = e.pageSize * e.pageIndex;
 
+    this.customPagination.endIndex = e.pageSize * e.pageIndex + e.pageSize;
+    // this.length = e.length;
+    this.customPagination.recordsPerPage = e.pageSize;
+    // this.pageIndex = e.pageIndex;
+
+    // this.initializeApi();
+    // this.getContentData();
+  }
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+    this.dataSource.sort = this.sort;
+  }
+  getAdminMenu() {
+    let payload = {
+      userName:  this.userData.userName,
+      wsid:this.userData.wsid,
+    };
+
+    this.adminService.get(payload,'/Admin/GetAdminMenu').subscribe((res:any)=>{
+      if(res && res.data.totalOrders){
+        this.dataSource = new MatTableDataSource(res.data.totalOrders.orderTable);
+      }
+      if(res && res.data.totalOrders && res.data.totalOrders.adminValues){
+        let item=res.data.totalOrders.adminValues;
+        this.picksOpen=item.openPicks;
+        this.picksCompleted=item.completedPicksToday;
+        this.picksPerHour=item.completedPickHours;
+
+        this.putsOpen=item.openPuts;
+        this.putsCompleted=item.completedPutsToday;
+        
+        this.countOpen=item.openCounts;
+        this.countCompleted=item.completedCountsToday;
+
+        this.adjustmentOpen=item.adjustmentsToday;
+
+        this.reprocessOpen=item.reprocess;
+      }
+    })
+  }
 }
