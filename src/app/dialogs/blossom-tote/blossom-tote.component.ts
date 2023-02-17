@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ProcessPicksService } from 'src/app/induction-manager/process-picks/process-picks.service';
 import { AuthService } from 'src/app/init/auth.service';
@@ -15,7 +16,8 @@ export class BlossomToteComponent implements OnInit {
   nxtToteID: any;
   oldToteID: any;
 
-  constructor(private toastr: ToastrService,
+  constructor(private dialog: MatDialog,
+              private toastr: ToastrService,
               private pPickService: ProcessPicksService,
               private authService: AuthService) { }
 
@@ -64,7 +66,19 @@ export class BlossomToteComponent implements OnInit {
       "NewTote": this.oldToteID
     }
     this.pPickService.get(paylaod, '/Induction/ProcessBlossom').subscribe(res => {
-      console.log(res.data);      
+      // console.log(res.data);
+      if (res.data) {
+        this.toastr.success('Updated Successfully', 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        this.dialog.closeAll();        
+      } else {
+        this.toastr.error('Old tote ID does not exist', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
     });
   }
 

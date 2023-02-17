@@ -52,6 +52,8 @@ export class PickToteManagerComponent implements OnInit {
   ORDER_BY_DATA: any[] = [];
   FILTER_BATCH_DATA: any[] = [];
   FILTER_BATCH_DATA_ZONE: any[] = [];
+  useDefaultFilter;
+  useDefaultZone;
   BATCH_BY_ZONE_DATA: any[] = [
     { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
   ];
@@ -187,6 +189,12 @@ export class PickToteManagerComponent implements OnInit {
     this.dataSource1 = new MatTableDataSource<any>(this.FILTER_DATA);
     this.orderBydataSource = new MatTableDataSource<any>(this.ORDER_BY_DATA);
     this.pickBatchZonesSelect();
+    if(this.data.useDefaultFilter){
+      this.isFilter = 'filter' 
+    }
+    else{
+      this.isFilter = 'zone' 
+    }
   }
 
   pickBatchZonesSelect(){
@@ -194,7 +202,6 @@ export class PickToteManagerComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.pPickService.get(paylaod, '/Induction/PickBatchZonesSelect').subscribe(res => {
-      console.log(res.data);
       this.BATCH_BY_ZONE_DATA = res.data
       this.batchByZoneSource = new MatTableDataSource<any>(this.BATCH_BY_ZONE_DATA);
     });
