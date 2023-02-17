@@ -70,6 +70,7 @@ export class GenerateTransactionComponent implements OnInit {
   quantityAllocatedPick: '';
   quantityAllocatedPutAway: '';
   invMapID: '';
+  bin:'';
   message = '';
   emergency = false;
   constructor(
@@ -145,6 +146,7 @@ export class GenerateTransactionComponent implements OnInit {
             this.shelf = this.item.shelf;
             this.carousel = this.item.carousel;
             this.invMapID = this.item.invMapID;
+            this.bin=this.item.bin;
             this.quantityAllocatedPick =
               res.data &&
               res.data.quantityAllocated.length &&
@@ -224,6 +226,7 @@ export class GenerateTransactionComponent implements OnInit {
     this.zone = '';
     this.carousel = '';
     this.row = '';
+    this.bin='';
     this.shelf = '';
     this.totalQuantity = '';
     this.quantityAllocatedPick = '';
@@ -334,6 +337,7 @@ export class GenerateTransactionComponent implements OnInit {
           this.carousel = items.carousel;
           this.row = items.row;
           this.shelf = items.shelf;
+          this.bin=items.bin;
           this.totalQuantity = res.data.totalQuantity;
           this.quantityAllocatedPick = res.data.pickQuantity;
           this.quantityAllocatedPutAway = res.data.putQuantity;
@@ -355,7 +359,8 @@ export class GenerateTransactionComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      if (res) {
+      if (res && res!='clear') {
+        
         this.wareHouse = res;
         this.warehouseSensitivity = 'False';
       }
@@ -412,7 +417,7 @@ export class GenerateTransactionComponent implements OnInit {
       updateValsequence[20] = this.shelf; //shelf
       updateValsequence[21] = this.carousel; //carousel
       updateValsequence[22] = this.row; //row
-      updateValsequence[23] = ''; //Bin
+      updateValsequence[23] = this.bin; //Bin
       updateValsequence[24] = this.invMapID.toString(); //InvMapID
 
       let payload = {
