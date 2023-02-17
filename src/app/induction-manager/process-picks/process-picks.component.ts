@@ -92,7 +92,7 @@ export class ProcessPicksComponent implements OnInit {
       this.usePickBatchManager = res.data.imPreference.usePickBatchManager;
       this.useDefaultFilter = res.data.imPreference.useDefaultFilter;
       this.useDefaultZone = res.data.imPreference.useDefaultZone;
-      // this.useInZonePickScreen = false;
+      this.useInZonePickScreen = false;
       this.createToteSetupTable(this.pickBatchQuantity);
 
       this.filteredOptions = this.pickBatches.valueChanges.pipe(

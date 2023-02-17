@@ -98,7 +98,7 @@ export class ViewOrdersComponent implements OnInit {
     this.getAllOrders();
 
     console.log(this.data);
-    
+
   }
   getAllOrders() {
     let paylaod = {
@@ -136,20 +136,20 @@ export class ViewOrdersComponent implements OnInit {
   }
 
   onOrderSelect(row: any) {
-    // const isMachted = this.data.selectedOrders.filter((val,key) => {return val[key] === row.orderNumber;});
-    // console.log(isMachted);
-    // if(isMachted){
-    //   this.toastr.error('No open totes in batch', 'Batch is Filled.', {
-    //     positionClass: 'toast-bottom-right',
-    //     timeOut: 2000
-    //   });
-    // }
-    
-    if (this.selectedOrders.length >= this.data.pickBatchQuantity) {
+    if (this.selectedOrders.includes(row.orderNumber)) {
+      this.allOrders.filter(val => {
+        if (val.orderNumber === row.orderNumber) {
+          val.isSelected = false;
+          this.orderTransDataSource = [];
+        }
+      });
+      this.selectedOrders = this.selectedOrders.filter(item => item !== row.orderNumber)
+    }
+    else if (this.selectedOrders.length >= this.data.pickBatchQuantity) {
       this.toastr.error('No open totes in batch', 'Batch is Filled.', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
-      });  
+      });
     }
     else {
       this.selectedOrders.push(row.orderNumber);
@@ -158,7 +158,6 @@ export class ViewOrdersComponent implements OnInit {
           val.isSelected = true;
         }
       });
-
       let paylaod = {
         "Draw": 0,
         "OrderNumber": row.orderNumber,
@@ -176,13 +175,14 @@ export class ViewOrdersComponent implements OnInit {
         }
       });
     }
+   
 
 
   }
-  onSelectedOrders(){
+  onSelectedOrders() {
     // console.log(this.selectedOrders);
     // console.log(this.data.allOrders);
-    
+
     this.dialogRef.close(this.selectedOrders);
   }
 
