@@ -41,7 +41,7 @@ export class ViewOrdersComponent implements OnInit {
     this.userData = this.authService.userData();
     this.getAllOrders();
 
-    console.log(this.data);
+    // console.log(this.data);
     
   }
   getAllOrders() {

@@ -22,7 +22,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {CdkTableModule} from '@angular/cdk/table';
 
 @NgModule({
     exports: [
@@ -49,7 +50,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
         MatProgressSpinnerModule,
         MatTooltipModule,
         MatFormFieldModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        CdkTableModule
     ]
 })
 export class MaterialModule { }
