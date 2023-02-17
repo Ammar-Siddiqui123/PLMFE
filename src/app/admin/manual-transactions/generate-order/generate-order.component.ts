@@ -1,9 +1,11 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSelect } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
@@ -19,6 +21,8 @@ import { TransactionService } from '../../transaction/transaction.service';
   styleUrls: ['./generate-order.component.scss'],
 })
 export class GenerateOrderComponent implements OnInit {
+  @ViewChild('matRef') matRef: MatSelect;
+
   transType: any = 'Pick';
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
@@ -133,7 +137,7 @@ export class GenerateOrderComponent implements OnInit {
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
-      
+      this.clearMatSelectList()
         if (res.isExecuted) {
 
           this.getOrderTableData();
@@ -163,6 +167,7 @@ export class GenerateOrderComponent implements OnInit {
       );
       dialogRef.afterClosed().subscribe((res) => {
         this.clearFields()
+        this.clearMatSelectList()
         this.getOrderTableData();
 
         if (res.isExecuted) {
@@ -188,6 +193,7 @@ export class GenerateOrderComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe((res) => {
         this.clearFields()
+        this.clearMatSelectList()
         if (res.isExecuted) {
           this.clearFields();
           this.getOrderTableData();
@@ -202,9 +208,10 @@ export class GenerateOrderComponent implements OnInit {
     this.orderNumber='';
     this.selectedOrder='';
     this.searchAutocompleteList=[];
-    this.selectedOption='';
   }
-
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
   editTransaction(element){
 console.log(element);
 
@@ -226,6 +233,7 @@ console.log(element);
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
+        this.clearMatSelectList()
         if (res.isExecuted) {
           this.getOrderTableData();
           this.clearFields();
@@ -276,6 +284,7 @@ console.log(element);
       }
     );
     dialogRef.afterClosed().subscribe((res) => {
+      this.clearMatSelectList()
       // if (res.isExecuted) {
         this.getOrderTableData();
       // }
@@ -331,11 +340,11 @@ console.log(element);
           if (res.isExecuted) {
             if(res.data.orderTable && res.data.orderTable.length>0){
               res.data.orderTable.filter((item,i)=>{
-                if(item.expirationDate==='1/1/1900 12:00:00 AM'){
+                if(item.expirationDate==='1/1/1900 12:00:00 AM' || item.expirationDate==='2/2/1753 12:00:00 AM'){
                   res.data.orderTable[i].expirationDate='';
                   
                 }
-                 if(item.requiredDate==='1/1/1900 12:00:00 AM'){
+                 if(item.requiredDate==='1/1/1900 12:00:00 AM'|| item.requiredDate==='2/2/1753 12:00:00 AM'){
                   res.data.orderTable[i].requiredDate='';
                 }
               })
@@ -348,7 +357,7 @@ console.log(element);
       );
   }
 onSelectionChange(event){
-  this.clearFields();
+  // this.clearFields();
 }
   ngOnDestroy() {
     this.searchByInput.unsubscribe();
