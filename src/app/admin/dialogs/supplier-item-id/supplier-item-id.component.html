@@ -24,7 +24,7 @@
 
             <mat-form-field class="custom-form-field w-100" appearance="outline"
             [floatLabel]="getFloatLabelValueItem()" [hideRequiredMarker]="hideRequiredControlItem.value">
-            <mat-label>Supplier Item ID.</mat-label>
+            <mat-label>Supplier Item ID</mat-label>
             <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]="supplierID"
                maxlength="255" [matAutocomplete]="item" (ngModelChange)="this.searchByItem.next($event)">
 
