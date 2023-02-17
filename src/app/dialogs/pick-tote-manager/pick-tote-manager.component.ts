@@ -405,6 +405,10 @@ export class PickToteManagerComponent implements OnInit {
       });  
     }
     else {
+      this.selectedOrders.map(arr => {
+        console.log(arr);
+        
+      });
       this.selectedOrders.push(row.orderNumber);
       this.FILTER_BATCH_DATA.filter(val => {
         if (val.orderNumber === row.orderNumber) {
@@ -425,7 +429,7 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
         if (res.data) {
-          console.log(res.data);
+          // console.log(res.data);
           this.filterOrderTransactionSource = res.data.pickToteManTrans;
           // this.orderTransDataSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
         }
@@ -472,7 +476,6 @@ export class PickToteManagerComponent implements OnInit {
   }
 
   onSaveSingleFilter(element: any) {
-    console.log(element);
     if (element.value === '') {
       this.toastr.error('Some of the inputs are missing values. Cannot add row to filter.', 'Error!', {
         positionClass: 'toast-bottom-right',
@@ -501,7 +504,6 @@ export class PickToteManagerComponent implements OnInit {
     }
   }
   onSaveSingleOrder(element: any) {
-    console.log(element);
     let payload = {
       "Sequence": element.sequence,
       "Field": element.field,
@@ -509,7 +511,6 @@ export class PickToteManagerComponent implements OnInit {
       "Description": this.savedFilter.value,
       "wsid": this.userData.wsid,
     }
-    console.log(payload);
 
     this.pPickService.create(payload, '/Induction/PickBatchOrderInsert').subscribe(res => {
       if (res.isExecuted) {
@@ -555,8 +556,6 @@ export class PickToteManagerComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'Yes') {
-        // console.log(element);
-
         let payload = {
           "id": element.id,
           "wsid": this.userData.wsid,

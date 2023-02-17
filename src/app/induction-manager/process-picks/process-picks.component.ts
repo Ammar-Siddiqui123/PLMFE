@@ -86,7 +86,7 @@ export class ProcessPicksComponent implements OnInit {
       this.autoPickToteID = res.data.imPreference.autoPickToteID;
       this.useInZonePickScreen = res.data.imPreference.useInZonePickScreen;
       this.usePickBatchManager = res.data.imPreference.usePickBatchManager;
-      // this.useInZonePickScreen = false;
+      this.useInZonePickScreen = false;
       this.createToteSetupTable(this.pickBatchQuantity);
 
       this.filteredOptions = this.pickBatches.valueChanges.pipe(
@@ -94,9 +94,6 @@ export class ProcessPicksComponent implements OnInit {
         map(value => (typeof value === "string" ? value : value)),
         map(name => (name ? this._filter(name) : this.pickBatchesList.slice()))
       );
-
-      // console.log(res.data);
-      // console.log(this.countInfo);
     });
   }
 
