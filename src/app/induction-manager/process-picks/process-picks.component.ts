@@ -14,6 +14,7 @@ import { ViewOrdersComponent } from 'src/app/dialogs/view-orders/view-orders.com
 import { WorkstationZonesComponent } from 'src/app/dialogs/workstation-zones/workstation-zones.component';
 import { map, Subject, takeUntil } from 'rxjs';
 import labels from '../../labels/labels.json';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-process-picks',
@@ -224,7 +225,7 @@ export class ProcessPicksComponent implements OnInit {
       height: 'auto',
       width: '786px',
       autoFocus: '__non_existing_element__'
-    })
+    });
   }
 
   openWorkstationZone() {
@@ -242,18 +243,21 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   onToteAction(val: any) {
-    if (val === 'fill_all_tote') {
+    if (val.value === 'fill_all_tote') {
       this.getAllToteIds();
     }
-    else if (val === 'fill_next_tote') {
+    else if (val.value === 'fill_next_tote') {
       this.getNextToteId();
     }
-    else if (val === 'clear_all_totes') {
+    else if (val.value === 'clear_all_totes') {
       this.clearAllTotes();
     }
-    else if (val === 'clear_all_orders') {
+    else if (val.value === 'clear_all_orders') {
       this.clearAllOrders();
     }
+
+    const matSelect: MatSelect = val.source;
+    matSelect.writeValue(null);
   }
 
   getAllToteIds() {
