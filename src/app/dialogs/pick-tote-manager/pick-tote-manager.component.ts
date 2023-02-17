@@ -463,6 +463,7 @@ export class PickToteManagerComponent implements OnInit {
       this.FILTER_BATCH_DATA.filter(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = false;
+          this.filterOrderTransactionSource = []
         }
       });
       this.selectedOrders = this.selectedOrders.filter(item => item !== row.orderNumber)
@@ -480,24 +481,25 @@ export class PickToteManagerComponent implements OnInit {
           val.isSelected = true;
         }
       });
+      let paylaod = {
+        "Draw": 0,
+        "OrderNumber": row.orderNumber,
+        "sRow": 1,
+        "eRow": 10,
+        "SortColumnNumber": 0,
+        "SortOrder": "asc",
+        "Filter": "1=1",
+        "Username": this.userData.username,
+        "wsid": this.userData.wsid,
+      }
+      this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
+        if (res.data) {
+          this.filterOrderTransactionSource = res.data.pickToteManTrans;
+        }
+      });
     }
     // console.log(this.selectedOrders);
-    let paylaod = {
-      "Draw": 0,
-      "OrderNumber": row.orderNumber,
-      "sRow": 1,
-      "eRow": 10,
-      "SortColumnNumber": 0,
-      "SortOrder": "asc",
-      "Filter": "1=1",
-      "Username": this.userData.username,
-      "wsid": this.userData.wsid,
-    }
-    this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
-      if (res.data) {
-        this.filterOrderTransactionSource = res.data.pickToteManTrans;
-      }
-    });
+    
   }
 
 
@@ -506,6 +508,7 @@ export class PickToteManagerComponent implements OnInit {
       this.FILTER_BATCH_DATA_ZONE.filter(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = false;
+          this.zoneOrderTransactionSource = [];
         }
       });
       this.selectedOrders = this.selectedOrders.filter(item => item !== row.orderNumber)
@@ -523,24 +526,24 @@ export class PickToteManagerComponent implements OnInit {
           val.isSelected = true;
         }
       });
-    }
-    console.log(this.selectedOrders);
-    let paylaod = {
-      "Draw": 0,
-      "OrderNumber": row.orderNumber,
-      "sRow": 1,
-      "eRow": 10,
-      "SortColumnNumber": 0,
-      "SortOrder": "asc",
-      "Filter": "1=1",
-      "Username": this.userData.username,
-      "wsid": this.userData.wsid,
-    }
-    this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
-      if (res.data) {
-        this.zoneOrderTransactionSource = res.data.pickToteManTrans;
+      let paylaod = {
+        "Draw": 0,
+        "OrderNumber": row.orderNumber,
+        "sRow": 1,
+        "eRow": 10,
+        "SortColumnNumber": 0,
+        "SortOrder": "asc",
+        "Filter": "1=1",
+        "Username": this.userData.username,
+        "wsid": this.userData.wsid,
       }
-    });
+      this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
+        if (res.data) {
+          this.zoneOrderTransactionSource = res.data.pickToteManTrans;
+        }
+      });
+    }
+    
   }
   pickBatchFilterOrderData(filter: string | null) {
     let paylaod = {
