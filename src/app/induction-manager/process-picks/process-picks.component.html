@@ -216,7 +216,7 @@
             </h2>
             <mat-form-field class="action-dropdown" appearance="outline">
                 <mat-label>Actions</mat-label>
-                <mat-select class="employees-action" placeholder="Actions" (selectionChange)="onToteAction($event.value)">
+                <mat-select class="employees-action" placeholder="Actions" (selectionChange)="onToteAction($event)">
                     <mat-option value="fill_all_tote"><b class="text-tertiary-900">Fill All Empty Tote IDs</b></mat-option>
                     <mat-option value="fill_next_tote">Fill Next Empty Tote ID</mat-option>
                     <mat-option value="clear_all_totes">Clear All Totes</mat-option>
@@ -294,7 +294,7 @@
 
                                 <mat-menu #appMenu="matMenu">
                                     <button mat-menu-item><b class="text-tertiary-900">View Order</b></button>
-                                    <button mat-menu-item>Clear</button>
+                                    <button mat-menu-item (click)="clearOrderNumber(i)">Clear</button>
                                     <button mat-menu-item>Print Tote Labels</button>
                                     <button mat-menu-item>Print Pick Labels</button>
                                     <button mat-menu-item (click)="fillNextToteID(i)">Next Tote ID</button>
