@@ -1,7 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/internal/Observable';
@@ -173,6 +173,7 @@ export class PickToteManagerComponent implements OnInit {
     private pPickService: ProcessPicksService,
     private toastr: ToastrService,
     private authService: AuthService,
+    public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
 
@@ -182,7 +183,18 @@ export class PickToteManagerComponent implements OnInit {
     this.getSavedFilters();
     this.dataSource = new MatTableDataSource<any>(this.FILTER_DATA);
     this.orderBydataSource = new MatTableDataSource<any>(this.ORDER_BY_DATA);
-    this.batchByZoneSource = new MatTableDataSource<any>(this.BATCH_BY_ZONE_DATA);
+    this.pickBatchZonesSelect();
+  }
+
+  pickBatchZonesSelect(){
+    let paylaod = {
+      "wsid": this.userData.wsid,
+    }
+    this.pPickService.get(paylaod, '/Induction/PickBatchZonesSelect').subscribe(res => {
+      console.log(res.data);
+      this.BATCH_BY_ZONE_DATA = res.data
+      this.batchByZoneSource = new MatTableDataSource<any>(this.BATCH_BY_ZONE_DATA);
+    });
   }
 
 
@@ -201,7 +213,6 @@ export class PickToteManagerComponent implements OnInit {
           map(name => (name ? this._filter(name) : this.savedFilterList.slice()))
         );
       }
-      // console.log(this.allZones);
     });
   }
 
@@ -213,7 +224,7 @@ export class PickToteManagerComponent implements OnInit {
   }
 
   onAddFilter(filterData?: any) {
-    console.log(filterData);
+    // console.log(filterData);
     if (filterData) {
       filterData.map(obj => {
         this.FILTER_DATA.push({ sequence: obj.sequence, field: obj.field, criteria: obj.criteria, value: obj.value, andOr: obj.andOr });
@@ -229,7 +240,7 @@ export class PickToteManagerComponent implements OnInit {
     }
   }
   onAddOrderBy(filterData?: any) {
-    console.log(filterData);
+    // console.log(filterData);
     if (filterData) {
       filterData.map(obj => {
         this.ORDER_BY_DATA.push({ id: obj.id, sequence: obj.sequence, field: obj.field, sortOrder: obj.order });
@@ -431,69 +442,101 @@ export class PickToteManagerComponent implements OnInit {
     }
     this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
       if (res.data) {
-        // console.log(res.data);
         this.filterOrderTransactionSource = res.data.pickToteManTrans;
-        // this.orderTransDataSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
       }
     });
   }
-pickBatchFilterOrderData(filter: string | null) {
-  let paylaod = {
-    "filter": filter,
-    "wsid": this.userData.wsid,
+  pickBatchFilterOrderData(filter: string | null) {
+    let paylaod = {
+      "filter": filter,
+      "wsid": this.userData.wsid,
+    }
+    this.pPickService.get(paylaod, '/Induction/PickBatchFilterOrderData').subscribe(res => {
+      if (res.data) {
+        this.FILTER_DATA = [];
+        this.ORDER_BY_DATA = [];
+        this.pickBatchFilter = res.data.pickBatchFilter
+        this.pickBatchOrder = res.data.pickBatchOrder
+        if (!this.pickBatchFilter) {
+          this.onAddFilter();
+        } else {
+          this.onAddFilter(this.pickBatchFilter);
+        }
+
+        if (!this.pickBatchOrder) {
+          // this.onAddOrderBy();
+        } else {
+          this.onAddOrderBy(this.pickBatchOrder);
+        }
+      }
+    });
   }
-  this.pPickService.get(paylaod, '/Induction/PickBatchFilterOrderData').subscribe(res => {
-    if (res.data) {
+  savedFilClosed() {
+    if (!this.savedFilter.value) {
+      this.isFilterAdd = false;
+      this.isOrderByAdd = false;
       this.FILTER_DATA = [];
       this.ORDER_BY_DATA = [];
-      this.pickBatchFilter = res.data.pickBatchFilter
-      this.pickBatchOrder = res.data.pickBatchOrder
-      if (!this.pickBatchFilter) {
-        this.onAddFilter();
-      } else {
-        this.onAddFilter(this.pickBatchFilter);
-      }
+      this.orderBydataSource = new MatTableDataSource<any>(this.ORDER_BY_DATA);
+      this.dataSource = new MatTableDataSource<any>(this.FILTER_DATA);
+    }
 
-      if (!this.pickBatchOrder) {
-        // this.onAddOrderBy();
-      } else {
-        this.onAddOrderBy(this.pickBatchOrder);
+  }
+  onChangeOrderAction(option: any) {
+    if (option === 'fill_top_orders') {
+      for (let index = 0; index < this.data.pickBatchQuantity; index++) {
+        this.FILTER_BATCH_DATA[index].isSelected = true;
+        this.selectedOrders.push(this.FILTER_BATCH_DATA[index].orderNumber);
       }
     }
-  });
-}
-savedFilClosed() {
-  if (!this.savedFilter.value) {
-    this.isFilterAdd = false;
-    this.isOrderByAdd = false;
-    this.FILTER_DATA = [];
-    this.ORDER_BY_DATA = [];
-    this.orderBydataSource = new MatTableDataSource<any>(this.ORDER_BY_DATA);
-    this.dataSource = new MatTableDataSource<any>(this.FILTER_DATA);
+    if (option === 'unselect_all_orders') {
+      for (let index = 0; index < this.data.pickBatchQuantity; index++) {
+        this.FILTER_BATCH_DATA[index].isSelected = false;
+        this.selectedOrders = [];
+      }
+    }
   }
 
-}
-
-onSaveSingleFilter(element: any) {
-  if (element.value === '') {
-    this.toastr.error('Some of the inputs are missing values. Cannot add row to filter.', 'Error!', {
-      positionClass: 'toast-bottom-right',
-      timeOut: 2000
-    });
+  onSaveSingleFilter(element: any) {
+    if (element.value === '') {
+      this.toastr.error('Some of the inputs are missing values. Cannot add row to filter.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+    else {
+      let payload = {
+        "Sequence": element.sequence,
+        "Field": element.field,
+        "Criteria": element.criteria,
+        "Value": element.value,
+        "AndOr": element.andOr,
+        "Description": this.savedFilter.value,
+        "wsid": this.userData.wsid,
+      }
+      this.pPickService.create(payload, '/Induction/PickBatchFilterInsert').subscribe(res => {
+        if (res.isExecuted) {
+          this.isFilterAdd = true;
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
+    }
   }
-  else {
+  onSaveSingleOrder(element: any) {
     let payload = {
       "Sequence": element.sequence,
       "Field": element.field,
-      "Criteria": element.criteria,
-      "Value": element.value,
-      "AndOr": element.andOr,
+      "Order": "DESC",
       "Description": this.savedFilter.value,
       "wsid": this.userData.wsid,
     }
-    this.pPickService.create(payload, '/Induction/PickBatchFilterInsert').subscribe(res => {
+
+    this.pPickService.create(payload, '/Induction/PickBatchOrderInsert').subscribe(res => {
       if (res.isExecuted) {
-        this.isFilterAdd = true;
+        this.isOrderByAdd = true;
         this.toastr.success(labels.alert.success, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
@@ -501,77 +544,65 @@ onSaveSingleFilter(element: any) {
       }
     });
   }
-}
-onSaveSingleOrder(element: any) {
-  let payload = {
-    "Sequence": element.sequence,
-    "Field": element.field,
-    "Order": "DESC",
-    "Description": this.savedFilter.value,
-    "wsid": this.userData.wsid,
+  onDeleteSingleFilter(element: any) {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'Yes') {
+        let payload = {
+          "Sequence": element.sequence,
+          "Description": this.savedFilter.value,
+          "wsid": this.userData.wsid,
+        }
+        this.pPickService.delete(payload, '/Induction/PickBatchFilterDelete').subscribe(res => {
+          if (res.isExecuted) {
+            this.isFilterAdd = true;
+            this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+            this.pickBatchFilterOrderData(this.savedFilter.value);
+          }
+        });
+      }
+    });
+  }
+  onDeleteSingleOrder(element: any) {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'Yes') {
+        let payload = {
+          "id": element.id,
+          "wsid": this.userData.wsid,
+        }
+        this.pPickService.delete(payload, '/Induction/PickBatchOrderDelete').subscribe(res => {
+          if (res.isExecuted) {
+            this.isFilterAdd = true;
+            this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+            this.pickBatchFilterOrderData(this.savedFilter.value);
+          }
+        });
+      }
+    });
   }
 
-  this.pPickService.create(payload, '/Induction/PickBatchOrderInsert').subscribe(res => {
-    if (res.isExecuted) {
-      this.isOrderByAdd = true;
-      this.toastr.success(labels.alert.success, 'Success!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
-    }
-  });
-}
-onDeleteSingleFilter(element: any) {
-  const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-    height: 'auto',
-    width: '480px',
-    autoFocus: '__non_existing_element__',
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    if (result === 'Yes') {
-      let payload = {
-        "Sequence": element.sequence,
-        "Description": this.savedFilter.value,
-        "wsid": this.userData.wsid,
-      }
-      this.pPickService.delete(payload, '/Induction/PickBatchFilterDelete').subscribe(res => {
-        if (res.isExecuted) {
-          this.isFilterAdd = true;
-          this.toastr.success(labels.alert.delete, 'Success!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-          this.pickBatchFilterOrderData(this.savedFilter.value);
-        }
-      });
-    }
-  });
-}
-onDeleteSingleOrder(element: any) {
-  const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-    height: 'auto',
-    width: '480px',
-    autoFocus: '__non_existing_element__',
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    if (result === 'Yes') {
-      let payload = {
-        "id": element.id,
-        "wsid": this.userData.wsid,
-      }
-      this.pPickService.delete(payload, '/Induction/PickBatchOrderDelete').subscribe(res => {
-        if (res.isExecuted) {
-          this.isFilterAdd = true;
-          this.toastr.success(labels.alert.delete, 'Success!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-          this.pickBatchFilterOrderData(this.savedFilter.value);
-        }
-      });
-    }
-  });
-}
+  onClosePickToteManager() {
+    this.dialogRef.close(this.selectedOrders);
+  }
+
+  onSelectBatchZone(row){
+    console.log(row);
+  }
 
 }
 
