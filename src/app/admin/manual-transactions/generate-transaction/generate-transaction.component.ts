@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
@@ -16,6 +16,9 @@ import { PostManualTransactionComponent } from '../../dialogs/post-manual-transa
 import { DeleteConfirmationTransactionComponent } from '../../dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
 import { DeleteConfirmationManualTransactionComponent } from '../../dialogs/delete-confirmation-manual-transaction/delete-confirmation-manual-transaction.component';
 import { WarehouseComponent } from '../../dialogs/warehouse/warehouse.component';
+import { InvalidQuantityComponent } from '../../dialogs/invalid-quantity/invalid-quantity.component';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-generate-transaction',
@@ -23,6 +26,8 @@ import { WarehouseComponent } from '../../dialogs/warehouse/warehouse.component'
   styleUrls: ['./generate-transaction.component.scss'],
 })
 export class GenerateTransactionComponent implements OnInit {
+  @ViewChild('openAction') openAction: MatSelect;
+  
   selectedAction='';
   
   invMapIDget;
@@ -37,7 +42,7 @@ export class GenerateTransactionComponent implements OnInit {
   item;
   itemNumber;
   supplierID;
-  expDate: any='';
+  expDate:any='';
   revision;
   description;
   lotNumber;
@@ -89,7 +94,9 @@ export class GenerateTransactionComponent implements OnInit {
   searchData(event) {
     // this.selectedOrder = event.target.value;
   }
-
+  clearMatSelectList(){
+    this.openAction.options.forEach((data: MatOption) => data.deselect());
+  }
   getRow(row) {
     console.log(this.selectedAction);
     
@@ -226,6 +233,8 @@ export class GenerateTransactionComponent implements OnInit {
     this.searchAutocompleteList? this.searchAutocompleteList.length=0:[];
     this.item=null;
     this.selectedAction='';
+    this.clearMatSelectList();
+    
   }
 
   postTransaction(type) {
@@ -352,14 +361,31 @@ export class GenerateTransactionComponent implements OnInit {
       }
     });
   }
+  
   updateTransaction() {
-    if (this.transQuantity === '0' || this.transQuantity === 0) {
+    if(this.transQuantity>this.totalQuantity){
+      const dialogRef = this.dialog.open(InvalidQuantityComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+      
+      });
+      dialogRef.afterClosed().subscribe((res) => {
+        this.clearMatSelectList();
+        return 
+      });
+     
+    }
+    if (this.transQuantity === '0' || this.transQuantity === 0 || this.transQuantity<0) {
       this.transactionQtyInvalid = true;
       this.message = `Transaction Quantity must be a positive integer for transaction type ${this.transType} `;
     } else if (this.warehouseSensitivity === 'True' && this.wareHouse == '') {
       this.transactionQtyInvalid = true;
       this.message = 'Specified Item Number must have a Warehouse';
-    } else {
+    }else if(this.transQuantity>this.totalQuantity || this.transQuantity<0 ) {
+      return
+    }
+    else {
       this.transactionQtyInvalid = false;
       //following sequence must follow to update
       let updateValsequence: any = [];
@@ -404,6 +430,7 @@ export class GenerateTransactionComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
             });
+            this.clearMatSelectList();
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -427,6 +454,7 @@ export class GenerateTransactionComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((res) => {
       this.supplierID = res.supplierID;
+      this.clearMatSelectList();
     });
   }
   openUnitOfMeasureDialogue() {
@@ -438,6 +466,7 @@ export class GenerateTransactionComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((res) => {
       this.uom = res;
+      this.clearMatSelectList();
     });
   }
   openTemporaryManualOrderDialogue() {
@@ -456,7 +485,10 @@ export class GenerateTransactionComponent implements OnInit {
         this.orderNumber = res.orderNumber;
         this.itemNumber = res.itemNumber;
         this.getRow(res);
+        this.clearMatSelectList();
+        
       }
+
       console.log(res);
     });
   }
@@ -473,6 +505,7 @@ export class GenerateTransactionComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
+      this.clearMatSelectList();
       if (res.isExecuted) {
       }
       console.log(res);
