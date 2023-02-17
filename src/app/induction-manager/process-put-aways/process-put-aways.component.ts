@@ -11,6 +11,9 @@ import { ToastrService } from 'ngx-toastr';
 import { ProcessPutAwayService } from './../processPutAway.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { FloatLabelType } from '@angular/material/form-field';
+import { FormControl } from '@angular/forms';
 
 export interface PeriodicElement {
   position: string;
@@ -43,6 +46,10 @@ export class ProcessPutAwaysComponent implements OnInit {
   public currentToteID = 0;
   public toteID = "";
   public assignedZonesArray:any;
+  searchAutocompleteItemNum: any = [];
+  searchByItem: any = new Subject<string>();
+  floatLabelControlItem: any = new FormControl('item' as FloatLabelType);
+  hideRequiredControlItem = new FormControl(false);
 
   displayedColumns1: string[] = [
     'status',
@@ -71,6 +78,12 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.userData = this.authService.userData();
     this.getCurrentToteID();
     this.getProcessPutAwayIndex();
+
+    this.searchByItem
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((value) => {
+        this.autocompleteSearchColumnItem();
+      });
   }
 
   getCurrentToteID()
@@ -92,6 +105,37 @@ export class ProcessPutAwaysComponent implements OnInit {
       },
       (error) => { }
     );
+  }
+
+  setItem(event) {
+    //console.log(event);
+  }
+
+  getFloatLabelValueItem(): FloatLabelType {
+    return this.floatLabelControlItem.value || 'item';
+  }
+
+  getRow(row) {
+     console.log(row);
+    // let payLoad = {
+    //   id: row.id,
+    //   username: this.data.userName,
+    //   wsid: this.data.wsid,
+    // };
+    // this.transactionService
+    //   .get(payLoad, '/Admin/ManualTransactionTypeAhead', true)
+    //   .subscribe(
+    //     (res: any) => {
+    //       if(res && res.data){
+    //         this.setLocationByItemList=res.data.map((item)=>{
+    //           return {invMapID:item.invMapID,select:`${item.itemQty}@${item.locationNumber}`}
+    //         })
+    //         console.log(this.setLocationByItemList);
+    //       }
+    //       // this.searchAutocompleteItemNum = res.data;
+    //     },
+    //     (error) => {}
+    //   );
   }
 
   openSelectZonesDialogue() {
@@ -298,6 +342,29 @@ export class ProcessPutAwaysComponent implements OnInit {
   {
     this.ELEMENT_DATA[(position)-1].toteid = $event.target.value;
   }
+  }
+
+  async autocompleteSearchColumnItem() {
+    let searchPayload = {
+      batchID: this.batchId,
+      username: this.userData.userName,
+      wsid: this.userData.wsid
+    }
+    this.service.create(searchPayload, '/Induction/BatchIDTypeAhead').subscribe(
+      (res: any) => {
+        if (res.data) {
+          this.searchAutocompleteItemNum=res.data;
+          console.log(this.searchAutocompleteItemNum);
+        } else {
+          this.toastr.error('Something went wrong', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      },
+      (error) => { }
+    );
+
   }
 
 
