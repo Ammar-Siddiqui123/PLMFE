@@ -149,9 +149,10 @@ export class ProcessPicksComponent implements OnInit {
                 });
               }
             }
-          }else{
-            this.getAllToteIds()
           }
+          // else{
+          //   this.getAllToteIds()
+          // }
         }
         else {
           if (this.batchID === '') {
@@ -215,10 +216,16 @@ export class ProcessPicksComponent implements OnInit {
       autoFocus: '__non_existing_element__'
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-      // console.log(result);
-
-      this.allOrders.push(result);
-      // console.log(this.allOrders);
+      console.log(result);
+        if(result.length > 0){
+          this.allOrders.push(result);
+        }
+        else{
+          this.allOrders = []
+          this.TOTE_SETUP.forEach((element) => {
+            element.orderNumber = '';
+          });
+        }
 
       this.TOTE_SETUP.forEach((element, key) => {
         if (element.orderNumber === '') {

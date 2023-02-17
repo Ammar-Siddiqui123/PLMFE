@@ -110,6 +110,16 @@ export class ViewOrdersComponent implements OnInit {
         res.data.map(val => {
           this.allOrders.push({ 'orderNumber': val, isSelected: false });
         });
+        this.allOrders.filter(element => {
+          this.data.allOrders.map((arr, key) => {
+            if(element.orderNumber === arr[key]){
+              element.isSelected = true;
+              this.onOrderSelect({orderNumber: element.orderNumber })
+            }
+            
+          }) 
+        });
+        
         this.orderDataSource = new MatTableDataSource<any>(this.allOrders);
 
       }
@@ -180,9 +190,6 @@ export class ViewOrdersComponent implements OnInit {
 
   }
   onSelectedOrders() {
-    // console.log(this.selectedOrders);
-    // console.log(this.data.allOrders);
-
     this.dialogRef.close(this.selectedOrders);
   }
 
