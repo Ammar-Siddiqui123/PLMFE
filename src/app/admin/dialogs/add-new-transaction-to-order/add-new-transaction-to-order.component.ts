@@ -20,7 +20,7 @@ import { EmptyFieldsComponent } from '../empty-fields/empty-fields.component';
 })
 export class AddNewTransactionToOrderComponent implements OnInit {
   orderNumber;
-  quantity;
+  quantity=0;
   itemNumber:any='';
   expirationDate: any;
   requiredDate: any;
@@ -146,17 +146,24 @@ export class AddNewTransactionToOrderComponent implements OnInit {
   }
   async autocompleteSearchColumn() {
     let searchPayload = {
+      // itemNumber: this.itemNumber,
+      // username: this.data.userName,
+      // wsid: this.data.wsid,
+
       itemNumber: this.itemNumber,
+      beginItem:'---',
+      isEqual:false,
       username: this.data.userName,
       wsid: this.data.wsid,
     };
     this.transactionService
-      .get(searchPayload, '/Admin/GetItemNumber', true)
+      .get(searchPayload, '/Common/SearchItem', true)
       .subscribe(
         (res: any) => {
           if(res.data){
-            if( this.searchAutocompleteList.includes(res.data))return 
-            this.searchAutocompleteList.push(res.data)
+            this.searchAutocompleteList=res.data
+            // if( this.searchAutocompleteList.includes(res.data))return 
+            // this.searchAutocompleteList.push(res.data)
           }
      
         },
@@ -207,7 +214,7 @@ export class AddNewTransactionToOrderComponent implements OnInit {
       );
   }
   saveTransaction() {
-    if(this.itemNumber==='' || this.quantity==='' ){
+    if(this.itemNumber===''  || this.quantity===0 || this.quantity<0){
       const dialogRef = this.dialog.open(EmptyFieldsComponent, {
         height: 'auto',
         width: '560px',
@@ -223,7 +230,7 @@ export class AddNewTransactionToOrderComponent implements OnInit {
     }
     let payload = {
       // itemNum: this.data.itemNumber,
-      transQty: this.quantity,
+      transQty: this.quantity.toString(),
       reqDate: this.requiredDate ? this.requiredDate.toISOString() : '',
       expDate: this.expirationDate ? this.expirationDate.toISOString() : '',
       lineNum: this.transactionInfo.value.lineNumber?.toString(),
@@ -251,7 +258,7 @@ export class AddNewTransactionToOrderComponent implements OnInit {
       wsid: this.data.wsid,
     };
 
-    console.log(payload);
+   
     // TransactionForOrderInsert
     if (this.data.mode === 'add-trans') {
       (payload['orderNumber'] = this.data.orderNumber),
@@ -277,7 +284,7 @@ export class AddNewTransactionToOrderComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
             });
-            this.dialogRef.close({ isExecuted: true });
+            this.dialogRef.close({ isExecuted: true,orderNumber:this.orderNumber });
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
