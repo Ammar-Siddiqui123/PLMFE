@@ -92,7 +92,9 @@ export class PickToteManagerComponent implements OnInit {
   filterBatchOrdersZone: any;
   pickBatchOrder: any;
   filterOrderTransactionSource: any;
+  zoneOrderTransactionSource: any;
   selectedOrders: any[] = [];
+  selectedZoneOrders: any[] = [];
   filterSeq: any = '0';
   orderBySeq: any = '0';
   isFilterAdd: boolean = false;
@@ -479,7 +481,7 @@ export class PickToteManagerComponent implements OnInit {
         }
       });
     }
-    console.log(this.selectedOrders);
+    // console.log(this.selectedOrders);
     let paylaod = {
       "Draw": 0,
       "OrderNumber": row.orderNumber,
@@ -501,7 +503,7 @@ export class PickToteManagerComponent implements OnInit {
 
   onOrderSelectZone(row: any) {
     if (this.selectedOrders.includes(row.orderNumber)) {
-      this.FILTER_BATCH_DATA.filter(val => {
+      this.FILTER_BATCH_DATA_ZONE.filter(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = false;
         }
@@ -516,7 +518,7 @@ export class PickToteManagerComponent implements OnInit {
     }
     else {
       this.selectedOrders.push(row.orderNumber);
-      this.FILTER_BATCH_DATA.filter(val => {
+      this.FILTER_BATCH_DATA_ZONE.filter(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = true;
         }
@@ -536,7 +538,7 @@ export class PickToteManagerComponent implements OnInit {
     }
     this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
       if (res.data) {
-        this.filterOrderTransactionSource = res.data.pickToteManTrans;
+        this.zoneOrderTransactionSource = res.data.pickToteManTrans;
       }
     });
   }
@@ -586,6 +588,20 @@ export class PickToteManagerComponent implements OnInit {
     if (option === 'unselect_all_orders') {
       for (let index = 0; index < this.data.pickBatchQuantity; index++) {
         this.FILTER_BATCH_DATA[index].isSelected = false;
+        this.selectedOrders = [];
+      }
+    }
+  }
+  onChangeOrderActionZone(option: any) {
+    if (option === 'fill_top_orders') {
+      for (let index = 0; index < this.data.pickBatchQuantity; index++) {
+        this.FILTER_BATCH_DATA_ZONE[index].isSelected = true;
+        this.selectedOrders.push(this.FILTER_BATCH_DATA_ZONE[index].orderNumber);
+      }
+    }
+    if (option === 'unselect_all_orders') {
+      for (let index = 0; index < this.data.pickBatchQuantity; index++) {
+        this.FILTER_BATCH_DATA_ZONE[index].isSelected = false;
         this.selectedOrders = [];
       }
     }

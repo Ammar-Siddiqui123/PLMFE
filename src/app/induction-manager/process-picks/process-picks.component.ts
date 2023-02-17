@@ -90,10 +90,9 @@ export class ProcessPicksComponent implements OnInit {
       this.autoPickToteID = res.data.imPreference.autoPickToteID;
       this.useInZonePickScreen = res.data.imPreference.useInZonePickScreen;
       this.usePickBatchManager = res.data.imPreference.usePickBatchManager;
-      //this.useInZonePickScreen = false;
       this.useDefaultFilter = res.data.imPreference.useDefaultFilter;
       this.useDefaultZone = res.data.imPreference.useDefaultZone;
-      // this.useInZonePickScreen = false;
+      this.useInZonePickScreen = false;
       this.createToteSetupTable(this.pickBatchQuantity);
 
       this.filteredOptions = this.pickBatches.valueChanges.pipe(

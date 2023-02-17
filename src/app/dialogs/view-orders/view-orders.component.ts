@@ -115,6 +115,20 @@ export class ViewOrdersComponent implements OnInit {
       }
     });
   }
+  onChangeOrderAction(option: any) {
+    if (option === 'fill_top_orders') {
+      for (let index = 0; index < this.data.pickBatchQuantity; index++) {
+        this.allOrders[index].isSelected = true;
+        this.selectedOrders.push(this.allOrders[index].orderNumber);
+      }
+    }
+    if (option === 'unselect_all_orders') {
+      for (let index = 0; index < this.data.pickBatchQuantity; index++) {
+        this.allOrders[index].isSelected = false;
+        this.selectedOrders = [];
+      }
+    }
+  }
 
   ngAfterViewInit() {
     this.orderDataSource.paginator = this.paginator;
