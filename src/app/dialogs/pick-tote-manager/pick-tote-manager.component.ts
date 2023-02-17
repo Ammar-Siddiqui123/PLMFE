@@ -100,8 +100,8 @@ export class PickToteManagerComponent implements OnInit {
 
   displayedColumns1: string[] = ['position', 'toteid', 'orderno', 'other'];
   dataSource1 = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  
- 
+
+
 
 
   displayedColumns2: string[] = ['orderno', 'requireddate', 'priority'];
@@ -109,57 +109,57 @@ export class PickToteManagerComponent implements OnInit {
 
   displayedColumns3: string[] = ['orderno', 'itemno', 'transaction', 'location'];
   filterBatchTransColumns = [
-    { columnDef: 'orderNumber',  header: 'orderNumber',    cell: (element: any) => `${element.orderNumber}` },
-    { columnDef: 'itemNumber',  header: 'itemNumber',    cell: (element: any) => `${element.itemNumber}` },
-    { columnDef: 'transactionQuantity',  header: 'transactionQuantity',    cell: (element: any) => `${element.transactionQuantity}` },
-    { columnDef: 'location', header: 'location',    cell: (element: any) => `${element.location}` },
-    { columnDef: 'completedQuantity', header: 'completedQuantity',    cell: (element: any) => `${element.completedQuantity}` },
-    { columnDef: 'description', header: 'description',    cell: (element: any) => `${element.description}` },
-    { columnDef: 'batchPickID', header: 'batchPickID',    cell: (element: any) => `${element.batchPickID}` },
-    { columnDef: 'bin', header: 'bin',    cell: (element: any) => `${element.bin}` },
-    { columnDef: 'carousel', header: 'carousel',    cell: (element: any) => `${element.carousel}` },
-    { columnDef: 'cell', header: 'cell',    cell: (element: any) => `${element.cell}` },
-    { columnDef: 'completedBy', header: 'completedBy',    cell: (element: any) => `${element.completedBy}` },
-    { columnDef: 'completedDate', header: 'completedDate',    cell: (element: any) => `${element.completedDate}` },
-    { columnDef: 'emergency', header: 'emergency',    cell: (element: any) => `${element.emergency}` },
-    { columnDef: 'expirationDate', header: 'expirationDate',    cell: (element: any) => `${element.expirationDate}` },
-    { columnDef: 'exportBatchID', header: 'exportBatchID',    cell: (element: any) => `${element.exportBatchID}` },
-    { columnDef: 'exportDate', header: 'exportDate',    cell: (element: any) => `${element.exportDate}` },
-    { columnDef: 'exportedBy', header: 'exportedBy',    cell: (element: any) => `${element.exportedBy}` },
-    { columnDef: 'hostTransactionID', header: 'hostTransactionID',    cell: (element: any) => `${element.hostTransactionID}` },
-    { columnDef: 'id', header: 'id',    cell: (element: any) => `${element.id}` },
-    { columnDef: 'importBy', header: 'importBy',    cell: (element: any) => `${element.importBy}` },
-    { columnDef: 'importDate', header: 'importDate',    cell: (element: any) => `${element.importDate}` },
-    { columnDef: 'importFilename', header: 'importFilename',    cell: (element: any) => `${element.importFilename}` },
-    { columnDef: 'invMapID', header: 'invMapID',    cell: (element: any) => `${element.invMapID}` },
-    { columnDef: 'lineNumber', header: 'lineNumber',    cell: (element: any) => `${element.lineNumber}` },
-    { columnDef: 'lineSequence', header: 'lineSequence',    cell: (element: any) => `${element.lineSequence}` },
-    { columnDef: 'lotNumber', header: 'lotNumber',    cell: (element: any) => `${element.lotNumber}` },
-    { columnDef: 'masterRecord', header: 'masterRecord',    cell: (element: any) => `${element.masterRecord}` },
-    { columnDef: 'masterRecordID', header: 'masterRecordID',    cell: (element: any) => `${element.masterRecordID}` },
-    { columnDef: 'notes', header: 'notes',    cell: (element: any) => `${element.notes}` },
-    { columnDef: 'priority', header: 'priority',    cell: (element: any) => `${element.priority}` },
-    { columnDef: 'requiredDate', header: 'requiredDate',    cell: (element: any) => `${element.requiredDate}` },
-    { columnDef: 'revision', header: 'revision',    cell: (element: any) => `${element.revision}` },
-    { columnDef: 'row', header: 'row',    cell: (element: any) => `${element.row}` },
-    { columnDef: 'serialNumber', header: 'serialNumber',    cell: (element: any) => `${element.serialNumber}` },
-    { columnDef: 'shelf', header: 'shelf',    cell: (element: any) => `${element.shelf}` },
-    { columnDef: 'statusCode', header: 'statusCode',    cell: (element: any) => `${element.statusCode}` },
-    { columnDef: 'toteID', header: 'toteID',    cell: (element: any) => `${element.toteID}` },
-    { columnDef: 'toteNumber', header: 'toteNumber',    cell: (element: any) => `${element.toteNumber}` },
-    { columnDef: 'unitOfMeasure', header: 'unitOfMeasure',    cell: (element: any) => `${element.unitOfMeasure}` },
-    { columnDef: 'userField1', header: 'userField1',    cell: (element: any) => `${element.userField1}` },
-    { columnDef: 'userField2', header: 'userField2',    cell: (element: any) => `${element.userField2}` },
-    { columnDef: 'userField3', header: 'userField3',    cell: (element: any) => `${element.userField3}` },
-    { columnDef: 'userField4', header: 'userField4',    cell: (element: any) => `${element.userField4}` },
-    { columnDef: 'userField5', header: 'userField5',    cell: (element: any) => `${element.userField5}` },
-    { columnDef: 'userField6', header: 'userField6',    cell: (element: any) => `${element.userField6}` },
-    { columnDef: 'userField7', header: 'userField7',    cell: (element: any) => `${element.userField7}` },
-    { columnDef: 'userField8', header: 'userField8',    cell: (element: any) => `${element.userField8}` },
-    { columnDef: 'userField9', header: 'userField9',    cell: (element: any) => `${element.userField9}` },
-    { columnDef: 'userField10', header: 'userField10',    cell: (element: any) => `${element.userField10}` },
-    { columnDef: 'warehouse', header: 'warehouse',    cell: (element: any) => `${element.warehouse}` },
-    { columnDef: 'zone', header: 'zone',    cell: (element: any) => `${element.zone}` },
+    { columnDef: 'orderNumber', header: 'orderNumber', cell: (element: any) => `${element.orderNumber}` },
+    { columnDef: 'itemNumber', header: 'itemNumber', cell: (element: any) => `${element.itemNumber}` },
+    { columnDef: 'transactionQuantity', header: 'transactionQuantity', cell: (element: any) => `${element.transactionQuantity}` },
+    { columnDef: 'location', header: 'location', cell: (element: any) => `${element.location}` },
+    { columnDef: 'completedQuantity', header: 'completedQuantity', cell: (element: any) => `${element.completedQuantity}` },
+    { columnDef: 'description', header: 'description', cell: (element: any) => `${element.description}` },
+    { columnDef: 'batchPickID', header: 'batchPickID', cell: (element: any) => `${element.batchPickID}` },
+    { columnDef: 'bin', header: 'bin', cell: (element: any) => `${element.bin}` },
+    { columnDef: 'carousel', header: 'carousel', cell: (element: any) => `${element.carousel}` },
+    { columnDef: 'cell', header: 'cell', cell: (element: any) => `${element.cell}` },
+    { columnDef: 'completedBy', header: 'completedBy', cell: (element: any) => `${element.completedBy}` },
+    { columnDef: 'completedDate', header: 'completedDate', cell: (element: any) => `${element.completedDate}` },
+    { columnDef: 'emergency', header: 'emergency', cell: (element: any) => `${element.emergency}` },
+    { columnDef: 'expirationDate', header: 'expirationDate', cell: (element: any) => `${element.expirationDate}` },
+    { columnDef: 'exportBatchID', header: 'exportBatchID', cell: (element: any) => `${element.exportBatchID}` },
+    { columnDef: 'exportDate', header: 'exportDate', cell: (element: any) => `${element.exportDate}` },
+    { columnDef: 'exportedBy', header: 'exportedBy', cell: (element: any) => `${element.exportedBy}` },
+    { columnDef: 'hostTransactionID', header: 'hostTransactionID', cell: (element: any) => `${element.hostTransactionID}` },
+    { columnDef: 'id', header: 'id', cell: (element: any) => `${element.id}` },
+    { columnDef: 'importBy', header: 'importBy', cell: (element: any) => `${element.importBy}` },
+    { columnDef: 'importDate', header: 'importDate', cell: (element: any) => `${element.importDate}` },
+    { columnDef: 'importFilename', header: 'importFilename', cell: (element: any) => `${element.importFilename}` },
+    { columnDef: 'invMapID', header: 'invMapID', cell: (element: any) => `${element.invMapID}` },
+    { columnDef: 'lineNumber', header: 'lineNumber', cell: (element: any) => `${element.lineNumber}` },
+    { columnDef: 'lineSequence', header: 'lineSequence', cell: (element: any) => `${element.lineSequence}` },
+    { columnDef: 'lotNumber', header: 'lotNumber', cell: (element: any) => `${element.lotNumber}` },
+    { columnDef: 'masterRecord', header: 'masterRecord', cell: (element: any) => `${element.masterRecord}` },
+    { columnDef: 'masterRecordID', header: 'masterRecordID', cell: (element: any) => `${element.masterRecordID}` },
+    { columnDef: 'notes', header: 'notes', cell: (element: any) => `${element.notes}` },
+    { columnDef: 'priority', header: 'priority', cell: (element: any) => `${element.priority}` },
+    { columnDef: 'requiredDate', header: 'requiredDate', cell: (element: any) => `${element.requiredDate}` },
+    { columnDef: 'revision', header: 'revision', cell: (element: any) => `${element.revision}` },
+    { columnDef: 'row', header: 'row', cell: (element: any) => `${element.row}` },
+    { columnDef: 'serialNumber', header: 'serialNumber', cell: (element: any) => `${element.serialNumber}` },
+    { columnDef: 'shelf', header: 'shelf', cell: (element: any) => `${element.shelf}` },
+    { columnDef: 'statusCode', header: 'statusCode', cell: (element: any) => `${element.statusCode}` },
+    { columnDef: 'toteID', header: 'toteID', cell: (element: any) => `${element.toteID}` },
+    { columnDef: 'toteNumber', header: 'toteNumber', cell: (element: any) => `${element.toteNumber}` },
+    { columnDef: 'unitOfMeasure', header: 'unitOfMeasure', cell: (element: any) => `${element.unitOfMeasure}` },
+    { columnDef: 'userField1', header: 'userField1', cell: (element: any) => `${element.userField1}` },
+    { columnDef: 'userField2', header: 'userField2', cell: (element: any) => `${element.userField2}` },
+    { columnDef: 'userField3', header: 'userField3', cell: (element: any) => `${element.userField3}` },
+    { columnDef: 'userField4', header: 'userField4', cell: (element: any) => `${element.userField4}` },
+    { columnDef: 'userField5', header: 'userField5', cell: (element: any) => `${element.userField5}` },
+    { columnDef: 'userField6', header: 'userField6', cell: (element: any) => `${element.userField6}` },
+    { columnDef: 'userField7', header: 'userField7', cell: (element: any) => `${element.userField7}` },
+    { columnDef: 'userField8', header: 'userField8', cell: (element: any) => `${element.userField8}` },
+    { columnDef: 'userField9', header: 'userField9', cell: (element: any) => `${element.userField9}` },
+    { columnDef: 'userField10', header: 'userField10', cell: (element: any) => `${element.userField10}` },
+    { columnDef: 'warehouse', header: 'warehouse', cell: (element: any) => `${element.warehouse}` },
+    { columnDef: 'zone', header: 'zone', cell: (element: any) => `${element.zone}` },
   ];
 
   displayedTransColumns = this.filterBatchTransColumns.map(c => c.columnDef);
@@ -167,14 +167,14 @@ export class PickToteManagerComponent implements OnInit {
   displayedColumns4: string[] = ['select', 'zone', 'batchtype', 'totalorders', 'totallocations', 'other'];
   batchByOrderColumns: string[] = ['default', 'zone', 'batchtype', 'totalorders', 'totallocations', 'actions'];
 
-  
+
   constructor(
     private dialog: MatDialog,
     private pPickService: ProcessPicksService,
     private toastr: ToastrService,
     private authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.savedFilterList = [];
@@ -375,146 +375,125 @@ export class PickToteManagerComponent implements OnInit {
       this.ordersFilterZoneSelect();
     }
   }
-  ordersFilterZoneSelect(){
+  ordersFilterZoneSelect() {
     let paylaod = {
-        "Filter": this.savedFilter.value,
-        "Zone": "",
-        "BatchType": "",
-        "UseDefFilter": 0,
-        "UseDefZone": 0,
-        "RP": false,
-        "WSID": "TESTWSID"
+      "Filter": this.savedFilter.value,
+      "Zone": "",
+      "BatchType": "",
+      "UseDefFilter": 0,
+      "UseDefZone": 0,
+      "RP": false,
+      "WSID": "TESTWSID"
     }
     this.pPickService.get(paylaod, '/Induction/OrdersFilterZoneSelect').subscribe(res => {
-      console.log(res.data);
-      if(res.data){
+      if (res.data) {
         res.data.map(val => {
-          console.log(val);
-          this.FILTER_BATCH_DATA.push({ 'orderNumber': val.orderNumber,'reqDate': val.reqDate,'priority': val.priority, isSelected: false });
+          this.FILTER_BATCH_DATA.push({ 'orderNumber': val.orderNumber, 'reqDate': val.reqDate, 'priority': val.priority, isSelected: false });
         });
         this.filterBatchOrders = new MatTableDataSource<any>(this.FILTER_BATCH_DATA);
       }
     });
   }
   onOrderSelect(row: any) {
-    
-    if (this.selectedOrders.length >= this.data.pickBatchQuantity) {
+    if (this.selectedOrders.includes(row.orderNumber)) {
+      this.FILTER_BATCH_DATA.filter(val => {
+        if (val.orderNumber === row.orderNumber) {
+          val.isSelected = false;
+        }
+      });
+      this.selectedOrders = this.selectedOrders.filter(item => item !== row.orderNumber)
+    }
+    else if (this.selectedOrders.length >= this.data.pickBatchQuantity) {
       this.toastr.error('No open totes in batch', 'Batch is Filled.', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
-      });  
+      });
     }
     else {
-      this.selectedOrders.map(arr => {
-        console.log(arr);
-        
-      });
       this.selectedOrders.push(row.orderNumber);
       this.FILTER_BATCH_DATA.filter(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = true;
         }
       });
-
-      let paylaod = {
-        "Draw": 0,
-        "OrderNumber": row.orderNumber,
-        "sRow": 1,
-        "eRow": 10,
-        "SortColumnNumber": 0,
-        "SortOrder": "asc",
-        "Filter": "1=1",
-        "Username": this.userData.username,
-        "wsid": this.userData.wsid,
-      }
-      this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
-        if (res.data) {
-          // console.log(res.data);
-          this.filterOrderTransactionSource = res.data.pickToteManTrans;
-          // this.orderTransDataSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
-        }
-      });
     }
-
-
-  }
-  pickBatchFilterOrderData(filter: string | null) {
+    console.log(this.selectedOrders);
     let paylaod = {
-      "filter": filter,
+      "Draw": 0,
+      "OrderNumber": row.orderNumber,
+      "sRow": 1,
+      "eRow": 10,
+      "SortColumnNumber": 0,
+      "SortOrder": "asc",
+      "Filter": "1=1",
+      "Username": this.userData.username,
       "wsid": this.userData.wsid,
     }
-    this.pPickService.get(paylaod, '/Induction/PickBatchFilterOrderData').subscribe(res => {
+    this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
       if (res.data) {
-        this.FILTER_DATA = [];
-        this.ORDER_BY_DATA = [];
-        this.pickBatchFilter = res.data.pickBatchFilter
-        this.pickBatchOrder = res.data.pickBatchOrder
-        if (!this.pickBatchFilter) {
-          this.onAddFilter();
-        } else {
-          this.onAddFilter(this.pickBatchFilter);
-        }
-
-        if (!this.pickBatchOrder) {
-          // this.onAddOrderBy();
-        } else {
-          this.onAddOrderBy(this.pickBatchOrder);
-        }
+        // console.log(res.data);
+        this.filterOrderTransactionSource = res.data.pickToteManTrans;
+        // this.orderTransDataSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
       }
     });
   }
-  savedFilClosed() {
-    if (!this.savedFilter.value) {
-      this.isFilterAdd = false;
-      this.isOrderByAdd = false;
+pickBatchFilterOrderData(filter: string | null) {
+  let paylaod = {
+    "filter": filter,
+    "wsid": this.userData.wsid,
+  }
+  this.pPickService.get(paylaod, '/Induction/PickBatchFilterOrderData').subscribe(res => {
+    if (res.data) {
       this.FILTER_DATA = [];
       this.ORDER_BY_DATA = [];
-      this.orderBydataSource = new MatTableDataSource<any>(this.ORDER_BY_DATA);
-      this.dataSource = new MatTableDataSource<any>(this.FILTER_DATA);
-    }
-
-  }
-
-  onSaveSingleFilter(element: any) {
-    if (element.value === '') {
-      this.toastr.error('Some of the inputs are missing values. Cannot add row to filter.', 'Error!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
-    }
-    else {
-      let payload = {
-        "Sequence": element.sequence,
-        "Field": element.field,
-        "Criteria": element.criteria,
-        "Value": element.value,
-        "AndOr": element.andOr,
-        "Description": this.savedFilter.value,
-        "wsid": this.userData.wsid,
+      this.pickBatchFilter = res.data.pickBatchFilter
+      this.pickBatchOrder = res.data.pickBatchOrder
+      if (!this.pickBatchFilter) {
+        this.onAddFilter();
+      } else {
+        this.onAddFilter(this.pickBatchFilter);
       }
-      this.pPickService.create(payload, '/Induction/PickBatchFilterInsert').subscribe(res => {
-        if (res.isExecuted) {
-          this.isFilterAdd = true;
-          this.toastr.success(labels.alert.success, 'Success!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-        }
-      });
+
+      if (!this.pickBatchOrder) {
+        // this.onAddOrderBy();
+      } else {
+        this.onAddOrderBy(this.pickBatchOrder);
+      }
     }
+  });
+}
+savedFilClosed() {
+  if (!this.savedFilter.value) {
+    this.isFilterAdd = false;
+    this.isOrderByAdd = false;
+    this.FILTER_DATA = [];
+    this.ORDER_BY_DATA = [];
+    this.orderBydataSource = new MatTableDataSource<any>(this.ORDER_BY_DATA);
+    this.dataSource = new MatTableDataSource<any>(this.FILTER_DATA);
   }
-  onSaveSingleOrder(element: any) {
+
+}
+
+onSaveSingleFilter(element: any) {
+  if (element.value === '') {
+    this.toastr.error('Some of the inputs are missing values. Cannot add row to filter.', 'Error!', {
+      positionClass: 'toast-bottom-right',
+      timeOut: 2000
+    });
+  }
+  else {
     let payload = {
       "Sequence": element.sequence,
       "Field": element.field,
-      "Order": "DESC",
+      "Criteria": element.criteria,
+      "Value": element.value,
+      "AndOr": element.andOr,
       "Description": this.savedFilter.value,
       "wsid": this.userData.wsid,
     }
-
-    this.pPickService.create(payload, '/Induction/PickBatchOrderInsert').subscribe(res => {
+    this.pPickService.create(payload, '/Induction/PickBatchFilterInsert').subscribe(res => {
       if (res.isExecuted) {
-        this.isOrderByAdd = true;
+        this.isFilterAdd = true;
         this.toastr.success(labels.alert.success, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
@@ -522,57 +501,77 @@ export class PickToteManagerComponent implements OnInit {
       }
     });
   }
-  onDeleteSingleFilter(element: any) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '480px',
-      autoFocus: '__non_existing_element__',
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'Yes') {
-        let payload = {
-          "Sequence": element.sequence,
-          "Description": this.savedFilter.value,
-          "wsid": this.userData.wsid,
-        }
-        this.pPickService.delete(payload, '/Induction/PickBatchFilterDelete').subscribe(res => {
-          if (res.isExecuted) {
-            this.isFilterAdd = true;
-            this.toastr.success(labels.alert.delete, 'Success!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-            this.pickBatchFilterOrderData(this.savedFilter.value);
-          }
-        });
-      }
-    });
+}
+onSaveSingleOrder(element: any) {
+  let payload = {
+    "Sequence": element.sequence,
+    "Field": element.field,
+    "Order": "DESC",
+    "Description": this.savedFilter.value,
+    "wsid": this.userData.wsid,
   }
-  onDeleteSingleOrder(element: any) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '480px',
-      autoFocus: '__non_existing_element__',
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'Yes') {
-        let payload = {
-          "id": element.id,
-          "wsid": this.userData.wsid,
-        }
-        this.pPickService.delete(payload, '/Induction/PickBatchOrderDelete').subscribe(res => {
-          if (res.isExecuted) {
-            this.isFilterAdd = true;
-            this.toastr.success(labels.alert.delete, 'Success!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-            this.pickBatchFilterOrderData(this.savedFilter.value);
-          }
-        });
+
+  this.pPickService.create(payload, '/Induction/PickBatchOrderInsert').subscribe(res => {
+    if (res.isExecuted) {
+      this.isOrderByAdd = true;
+      this.toastr.success(labels.alert.success, 'Success!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+  });
+}
+onDeleteSingleFilter(element: any) {
+  const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+    height: 'auto',
+    width: '480px',
+    autoFocus: '__non_existing_element__',
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    if (result === 'Yes') {
+      let payload = {
+        "Sequence": element.sequence,
+        "Description": this.savedFilter.value,
+        "wsid": this.userData.wsid,
       }
-    });
-  }
+      this.pPickService.delete(payload, '/Induction/PickBatchFilterDelete').subscribe(res => {
+        if (res.isExecuted) {
+          this.isFilterAdd = true;
+          this.toastr.success(labels.alert.delete, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+          this.pickBatchFilterOrderData(this.savedFilter.value);
+        }
+      });
+    }
+  });
+}
+onDeleteSingleOrder(element: any) {
+  const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+    height: 'auto',
+    width: '480px',
+    autoFocus: '__non_existing_element__',
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    if (result === 'Yes') {
+      let payload = {
+        "id": element.id,
+        "wsid": this.userData.wsid,
+      }
+      this.pPickService.delete(payload, '/Induction/PickBatchOrderDelete').subscribe(res => {
+        if (res.isExecuted) {
+          this.isFilterAdd = true;
+          this.toastr.success(labels.alert.delete, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+          this.pickBatchFilterOrderData(this.savedFilter.value);
+        }
+      });
+    }
+  });
+}
 
 }
 

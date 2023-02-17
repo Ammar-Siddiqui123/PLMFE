@@ -364,30 +364,60 @@ export class ProcessPicksComponent implements OnInit {
       ToteIDs.push(obj.toteID.toString() ?? '');
       OrderNumbers.push(obj.orderNumber.toString() ?? '');
     });
-    let paylaod = {
-      Positions,
-      ToteIDs,
-      OrderNumbers,
-      "BatchID": this.batchID,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
+    if(this.useInZonePickScreen){
+      let paylaod = {
+        Positions,
+        ToteIDs,
+        OrderNumbers,
+        "BatchID": this.batchID,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid,
+      }
+      this.pPickService.create(paylaod, '/Induction/InZoneSetupProcess').subscribe(res => {
+        if (res.isExecuted) {
+          this.dialog.closeAll();
+          this.ngOnInit();
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+        else {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
     }
-    this.pPickService.create(paylaod, '/Induction/InZoneSetupProcess').subscribe(res => {
-      if (res.isExecuted) {
-        this.dialog.closeAll();
-        this.ngOnInit();
-        this.toastr.success(labels.alert.success, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
+    else{
+      let paylaod = {
+        Positions,
+        ToteIDs,
+        OrderNumbers,
+        "BatchID": this.batchID,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid,
+        'Count': 0
       }
-      else {
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }
-    });
+      this.pPickService.create(paylaod, '/Induction/PickToteSetupProcess').subscribe(res => {
+        if (res.isExecuted) {
+          this.dialog.closeAll();
+          this.ngOnInit();
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+        else {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
+    }
+    
 
   }
 
