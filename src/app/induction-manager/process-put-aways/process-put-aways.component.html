@@ -161,8 +161,7 @@
                           <td mat-cell *matCellDef="let element">
                             <div class="pe-2">
                               <mat-form-field class="custom-form-field" appearance="outline">
-
-                                <input matInput type="text" #specialFeature maxlength="255" [value]="element.cells">
+                                <input matInput type="text" #specialFeature maxlength="255" [value]="element.cells" (keydown)="onToteChange($event,element.position,'1')" (keyup)="onToteChange($event,element.position,'1')" (change)="onToteChange($event,element.position,'1')" (keypress)="onToteChange($event,element.position,'1')"  (keypress)="onToteChange($event,element.position,'1')">
                               </mat-form-field>
                             </div>
                           </td>

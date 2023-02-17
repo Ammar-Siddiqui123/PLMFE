@@ -205,24 +205,55 @@ export class ProcessPutAwaysComponent implements OnInit {
       })
       dialogRef.afterClosed().subscribe(result => {
         if(result=='Yes'){
-        for(var k=0;k<this.assignedZonesArray.length;k++)
+        console.log("HURRA!!!!");
+        // console.log(this.ELEMENT_DATA);
+        var toteID="",cells="",position="";
+        for(var i=0;i<this.ELEMENT_DATA.length;i++)
         {
-          console.log(this.assignedZonesArray[k]);
+          if(i==0)
+          {
+            toteID = toteID+this.ELEMENT_DATA[i].toteid;
+            cells = cells+this.ELEMENT_DATA[i].cells;
+            position = position+this.ELEMENT_DATA[i].position;
+          }
+          else 
+          {
+            toteID = toteID+  ","+this.ELEMENT_DATA[i].toteid;
+            cells = cells+","+this.ELEMENT_DATA[i].cells;
+            position = position+","+this.ELEMENT_DATA[i].position;
+          }
+          
         }
-        // var payLoad = [
-        //   {
+        var payLoad = 
+          {
+            batchID: this.batchId,
+            zoneLabel: this.assignedZones,
+            totes: [
+              toteID, 
+              cells, 
+              position 
+            ],
+            username: this.userData.userName,
+            wsid: this.userData.wsid
+          }
+        ;
+        this.service.create(payLoad, '/Induction/ProcessBatch').subscribe(
+          (res: any) => {
+            if (res.data && res.isExecuted) {
+              this.toastr.success(res.responseMessage, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+            } else {
+              this.toastr.error('Something went wrong', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            }
+          },
+          (error) => { }
+        );
 
-        //     batchID: "202101110000004",
-        //     zoneLabel: this.assignedZones,
-        //     totes: [
-        //       "1143,1144,1145,1146,1147", toteID
-        //       "1,1,1,1,1", cells
-        //       "1,2,3,4,5" position
-        //     ],
-        //     username: this.userData.username,
-        //     wsid: this.userData.wsid
-        //   }
-        // ];
 
 
         }
@@ -307,7 +338,20 @@ export class ProcessPutAwaysComponent implements OnInit {
         this.showMessage("You must assign a Batch ID before creating a new batch.", 2000, "error");
       }
       else {
-
+        this.ELEMENT_DATA.length=0;
+        for (let index = 0; index < this.pickBatchQuantity; index++) 
+        { 
+        if (!this.autoPutToteIDS) {
+          this.ELEMENT_DATA.push({ position: index + 1, cells: this.cellSize, toteid: '' } ); 
+        }
+        else 
+        {
+          this.ELEMENT_DATA.push({ position: index + 1, cells: this.cellSize, toteid: this.currentToteID.toString()} ); 
+          this.currentToteID++;
+        }
+        
+        } 
+        this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
       }
     }
     else {
@@ -336,12 +380,25 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   }
 
-  onToteChange($event,position)
+  onToteChange($event,position,cells="")
   {
-  if(this.ELEMENT_DATA[(position)-1].toteid!=$event.target.value)
+  if(cells=="")
   {
-    this.ELEMENT_DATA[(position)-1].toteid = $event.target.value;
+    if(this.ELEMENT_DATA[(position)-1].toteid!=$event.target.value)
+    {
+      this.ELEMENT_DATA[(position)-1].toteid = $event.target.value;
+    }
+
   }
+  else 
+  {
+    if(this.ELEMENT_DATA[(position)-1].cells!=$event.target.value)
+    {
+    this.ELEMENT_DATA[(position)-1].cells = $event.target.value;
+    }
+  }
+  
+  
   }
 
   async autocompleteSearchColumnItem() {
