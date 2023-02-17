@@ -167,7 +167,7 @@ export class SuperBatchComponent implements OnInit {
 
         });
         // this.dataSource = this.dataSource.filter(item => item.key !== element.key);
-        this.getSuperBatchBy('Order');
+        this.getSuperBatchBy(this.type);
       }
       // console.log(this.dataSource);
 
