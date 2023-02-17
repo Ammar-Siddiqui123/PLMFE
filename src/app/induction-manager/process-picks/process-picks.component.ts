@@ -340,6 +340,10 @@ export class ProcessPicksComponent implements OnInit {
     });
   }
 
+  clearOrderNumber(i : any) {
+    this.TOTE_SETUP[i].orderNumber = "";
+  }
+
   confirmProcessSetup() {
     const dialogRef = this.dialog.open(this.processSetup, {
       width: '450px',

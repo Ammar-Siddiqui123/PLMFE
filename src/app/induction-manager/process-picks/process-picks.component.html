@@ -294,7 +294,7 @@
 
                                 <mat-menu #appMenu="matMenu">
                                     <button mat-menu-item><b class="text-tertiary-900">View Order</b></button>
-                                    <button mat-menu-item>Clear</button>
+                                    <button mat-menu-item (click)="clearOrderNumber(i)">Clear</button>
                                     <button mat-menu-item>Print Tote Labels</button>
                                     <button mat-menu-item>Print Pick Labels</button>
                                     <button mat-menu-item (click)="fillNextToteID(i)">Next Tote ID</button>
