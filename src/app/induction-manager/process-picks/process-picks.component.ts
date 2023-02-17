@@ -395,9 +395,9 @@ export class ProcessPicksComponent implements OnInit {
     let ToteIDs: any[] = [];
     let OrderNumbers: any[] = [];
     this.TOTE_SETUP.map(obj => {
-      Positions.push(obj.position.toString() ?? '');
-      ToteIDs.push(obj.toteID.toString() ?? '');
-      OrderNumbers.push(obj.orderNumber.toString() ?? '');
+      Positions.push(obj.position?.toString() ?? '');
+      ToteIDs.push(obj.toteID?.toString() ?? '');
+      OrderNumbers.push(obj.orderNumber?.toString() ?? '');
     });
     if(this.useInZonePickScreen){
       let paylaod = {
@@ -411,7 +411,6 @@ export class ProcessPicksComponent implements OnInit {
       this.pPickService.create(paylaod, '/Induction/InZoneSetupProcess').subscribe(res => {
         if (res.isExecuted) {
           this.dialog.closeAll();
-          this.ngOnInit();
           this.toastr.success(labels.alert.success, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
@@ -438,7 +437,6 @@ export class ProcessPicksComponent implements OnInit {
       this.pPickService.create(paylaod, '/Induction/PickToteSetupProcess').subscribe(res => {
         if (res.isExecuted) {
           this.dialog.closeAll();
-          this.ngOnInit();
           this.toastr.success(labels.alert.success, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
