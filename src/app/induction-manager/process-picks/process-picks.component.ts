@@ -31,6 +31,8 @@ export class ProcessPicksComponent implements OnInit {
   autoPickToteID: any = '';
   usePickBatchManager: any = '';
   useInZonePickScreen: any;
+  useDefaultFilter: any;
+  useDefaultZone: any;
   countInfo: any;
   pickType: any = 'MixedZones';
   allZones: any;
@@ -87,6 +89,8 @@ export class ProcessPicksComponent implements OnInit {
       this.autoPickToteID = res.data.imPreference.autoPickToteID;
       this.useInZonePickScreen = res.data.imPreference.useInZonePickScreen;
       this.usePickBatchManager = res.data.imPreference.usePickBatchManager;
+      this.useDefaultFilter = res.data.imPreference.useDefaultFilter;
+      this.useDefaultZone = res.data.imPreference.useDefaultZone;
       // this.useInZonePickScreen = false;
       this.createToteSetupTable(this.pickBatchQuantity);
 
@@ -178,6 +182,8 @@ export class ProcessPicksComponent implements OnInit {
         width: '100vw',
         data: {
           pickBatchQuantity: this.pickBatchQuantity,
+          useDefaultFilter: this.useDefaultFilter,
+          useDefaultZone: this.useDefaultZone,
         },
         autoFocus: '__non_existing_element__'
       });
