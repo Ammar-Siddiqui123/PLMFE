@@ -23,6 +23,8 @@ import { WarehouseComponent } from '../../dialogs/warehouse/warehouse.component'
   styleUrls: ['./generate-transaction.component.scss'],
 })
 export class GenerateTransactionComponent implements OnInit {
+  selectedAction='';
+  
   invMapIDget;
   transactionID;
   selectedOrder;
@@ -35,7 +37,7 @@ export class GenerateTransactionComponent implements OnInit {
   item;
   itemNumber;
   supplierID;
-  expDate: any;
+  expDate: any='';
   revision;
   description;
   lotNumber;
@@ -43,7 +45,7 @@ export class GenerateTransactionComponent implements OnInit {
   notes;
   serialNumber;
   transType;
-  reqDate;
+  reqDate: any='';
   lineNumber;
   transQuantity;
   priority;
@@ -52,6 +54,8 @@ export class GenerateTransactionComponent implements OnInit {
   batchPickID;
   wareHouse;
   toteID;
+  transactionQtyInvalid = false;
+  warehouseSensitivity;
 
   totalQuantity: '';
   zone: '';
@@ -61,7 +65,7 @@ export class GenerateTransactionComponent implements OnInit {
   quantityAllocatedPick: '';
   quantityAllocatedPutAway: '';
   invMapID: '';
-
+  message = '';
   emergency = false;
   constructor(
     private authService: AuthService,
@@ -87,6 +91,8 @@ export class GenerateTransactionComponent implements OnInit {
   }
 
   getRow(row) {
+    console.log(this.selectedAction);
+    
     this.clear();
     this.transactionID = row.id;
     console.log(row);
@@ -104,7 +110,7 @@ export class GenerateTransactionComponent implements OnInit {
 
             this.itemNumber = this.item.itemNumber;
             this.supplierID = this.item.supplierItemID;
-            this.expDate = this.item.expirationDate;
+            this.expDate = new Date(this.item.expirationDate);
             this.revision = this.item.revision;
             this.description = this.item.description;
             this.lotNumber = this.item.lotNumber;
@@ -112,7 +118,7 @@ export class GenerateTransactionComponent implements OnInit {
             this.notes = this.item.notes;
             this.serialNumber = this.item.serialNumber;
             this.transType = this.item.transactionType;
-            this.reqDate = this.item.requiredDate;
+            this.reqDate = new Date(this.item.requiredDate);
             this.lineNumber = this.item.lineNumber;
             this.transQuantity = this.item.transactionQuantity;
             this.priority = this.item.priority;
@@ -121,18 +127,26 @@ export class GenerateTransactionComponent implements OnInit {
             this.batchPickID = this.item.batchPickID;
             this.wareHouse = this.item.warehouse;
             this.toteID = this.item.toteID;
-            this.emergency=this.item.emergency==='False'  || this.item.emergency==='false' ?false:true
-
+            this.emergency =
+              this.item.emergency === 'False' || this.item.emergency === 'false'
+                ? false
+                : true;
+            this.warehouseSensitivity = this.item.wareHouseSensitive;
             this.totalQuantity = res.data.totalQuantity;
             this.zone = this.item.zone;
             this.row = this.item.row;
             this.shelf = this.item.shelf;
             this.carousel = this.item.carousel;
             this.invMapID = this.item.invMapID;
-            this.quantityAllocatedPick =res.data && res.data.quantityAllocated.length &&   res.data.quantityAllocated[0].quantityAllocatedPick;
-      
-            this.quantityAllocatedPutAway =res.data &&  res.data.quantityAllocated.length &&   res.data.quantityAllocated[0].quantityAllocatedPutAway;
-            
+            this.quantityAllocatedPick =
+              res.data &&
+              res.data.quantityAllocated.length &&
+              res.data.quantityAllocated[0].quantityAllocatedPick;
+
+            this.quantityAllocatedPutAway =
+              res.data &&
+              res.data.quantityAllocated.length &&
+              res.data.quantityAllocated[0].quantityAllocatedPutAway;
           } else {
             this.item = '';
           }
@@ -208,6 +222,10 @@ export class GenerateTransactionComponent implements OnInit {
     this.quantityAllocatedPick = '';
     this.quantityAllocatedPutAway = '';
     this.orderNumber = '';
+    this.emergency = false;
+    this.searchAutocompleteList? this.searchAutocompleteList.length=0:[];
+    this.item=null;
+    this.selectedAction='';
   }
 
   postTransaction(type) {
@@ -231,6 +249,7 @@ export class GenerateTransactionComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
+
       if (res) {
         let payload = {
           deleteTransaction: type === 'save' ? false : true,
@@ -238,6 +257,7 @@ export class GenerateTransactionComponent implements OnInit {
           username: this.userData.userName,
           wsid: this.userData.wsid,
         };
+
         this.transactionService
           .get(payload, '/Admin/PostTransaction')
           .subscribe(
@@ -247,11 +267,17 @@ export class GenerateTransactionComponent implements OnInit {
                   positionClass: 'toast-bottom-right',
                   timeOut: 2000,
                 });
+                this.clearFields();
+                this.invMapID = '';
+                this.getRow(this.transactionID);
               } else {
                 this.toastr.error(res.responseMessage, 'Error!', {
                   positionClass: 'toast-bottom-right',
                   timeOut: 2000,
                 });
+                this.clearFields();
+                this.invMapID = '';
+                this.getRow(this.transactionID);
               }
             },
             (error) => {}
@@ -280,7 +306,9 @@ export class GenerateTransactionComponent implements OnInit {
     dialogRef.afterClosed().subscribe((res) => {
       if (res.isExecuted) {
         this.clearFields();
+
       }
+      this.clearFields();
     });
   }
   getLocationData() {
@@ -305,7 +333,8 @@ export class GenerateTransactionComponent implements OnInit {
       (error) => {}
     );
   }
-  openWareHouse(){
+  openWareHouse() {
+    if (this.orderNumber == '' || !this.item) return;
     const dialogRef = this.dialog.open(WarehouseComponent, {
       height: 'auto',
       width: '560px',
@@ -317,66 +346,75 @@ export class GenerateTransactionComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-     this.wareHouse=res;
-      
+      if (res) {
+        this.wareHouse = res;
+        this.warehouseSensitivity = 'False';
+      }
     });
-  
-
   }
   updateTransaction() {
-    //following sequence must follow to update
-    let updateValsequence: any = [];
-    updateValsequence[0] = this.itemNumber; //itemNumber
-    updateValsequence[1] = this.transType; //TransType 
-    updateValsequence[2] = this.expDate; //expDate
-    updateValsequence[3] = this.revision; //revision 
-    updateValsequence[4] = this.description; //description
-    updateValsequence[5] = this.lotNumber; //lotNumber
-    updateValsequence[6] = this.uom; //UoM  
-    updateValsequence[7] = this.notes; //notes
-    updateValsequence[8] = this.serialNumber; //serialNumber
-    updateValsequence[9] = this.reqDate; //RequiredDate
-    updateValsequence[10] = this.lineNumber; //lineNumber
-    updateValsequence[11] = this.transQuantity.toString(); //transQuantity
-    updateValsequence[12] = this.priority.toString(); //priority 
-    updateValsequence[13] = this.lineSeq.toString(); //lineSeq
-    updateValsequence[14] = this.hostTransID.toString(); //hostTransID
-    updateValsequence[15] = this.batchPickID.toString(); //batchPickID
-    updateValsequence[16] = this.emergency.toString(); //emergency
-    updateValsequence[17] = this.wareHouse; //wareHouse
-    updateValsequence[18] = this.toteID.toString(); //toteID
-    updateValsequence[19] = this.zone; //Zone
-    updateValsequence[20] = this.shelf ; //shelf 
-    updateValsequence[21] = this.carousel; //carousel 
-    updateValsequence[22] = this.row; //row
-    updateValsequence[23] = ''; //Bin
-    updateValsequence[24] = this.invMapID.toString(); //InvMapID
-  
+    if (this.transQuantity === '0' || this.transQuantity === 0) {
+      this.transactionQtyInvalid = true;
+      this.message = `Transaction Quantity must be a positive integer for transaction type ${this.transType} `;
+    } else if (this.warehouseSensitivity === 'True' && this.wareHouse == '') {
+      this.transactionQtyInvalid = true;
+      this.message = 'Specified Item Number must have a Warehouse';
+    } else {
+      this.transactionQtyInvalid = false;
+      //following sequence must follow to update
+      let updateValsequence: any = [];
+      updateValsequence[0] = this.itemNumber; //itemNumber
+      updateValsequence[1] = this.transType; //TransType
+      updateValsequence[2] = this.expDate ?this.expDate:''; //expDate
+      updateValsequence[3] = this.revision; //revision
+      updateValsequence[4] = this.description; //description
+      updateValsequence[5] = this.lotNumber; //lotNumber
+      updateValsequence[6] = this.uom; //UoM
+      updateValsequence[7] = this.notes; //notes
+      updateValsequence[8] = this.serialNumber; //serialNumber
+      updateValsequence[9] = this.reqDate ? this.reqDate  :''; //RequiredDate
+      updateValsequence[10] = this.lineNumber; //lineNumber
+      updateValsequence[11] = this.transQuantity.toString(); //transQuantity
+      updateValsequence[12] = this.priority.toString(); //priority
+      updateValsequence[13] = this.lineSeq.toString(); //lineSeq
+      updateValsequence[14] = this.hostTransID.toString(); //hostTransID
+      updateValsequence[15] = this.batchPickID.toString(); //batchPickID
+      updateValsequence[16] = this.emergency.toString(); //emergency
+      updateValsequence[17] = this.wareHouse; //wareHouse
+      updateValsequence[18] = this.toteID.toString(); //toteID
+      updateValsequence[19] = this.zone; //Zone
+      updateValsequence[20] = this.shelf; //shelf
+      updateValsequence[21] = this.carousel; //carousel
+      updateValsequence[22] = this.row; //row
+      updateValsequence[23] = ''; //Bin
+      updateValsequence[24] = this.invMapID.toString(); //InvMapID
 
-    let payload = {
-      newValues: updateValsequence,
-      transID: this.transactionID,
-      userName: this.userData.userName,
-      wsid: this.userData.wsid,
-    };
+      let payload = {
+        newValues: updateValsequence,
+        transID: this.transactionID,
+        userName: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
 
-    this.transactionService
-      .get(payload, '/Admin/UpdateTransaction')
-      .subscribe((res: any) => {
-        if (res && res.isExecuted) {
-          this.toastr.success(labels.alert.success, 'Success!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000,
-          });
-        } else {
-          this.toastr.error(res.responseMessage, 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000,
-          });
-        }
-      });
+      this.transactionService
+        .get(payload, '/Admin/UpdateTransaction')
+        .subscribe((res: any) => {
+          if (res && res.isExecuted) {
+            this.toastr.success(labels.alert.success, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          } else {
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        });
+    }
   }
   openSupplierItemDialogue() {
+    if (this.orderNumber == '' || !this.item) return;
     const dialogRef = this.dialog.open(SupplierItemIdComponent, {
       height: 'auto',
       width: '560px',
@@ -388,18 +426,18 @@ export class GenerateTransactionComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      this.supplierID=res.supplierID;
+      this.supplierID = res.supplierID;
     });
   }
   openUnitOfMeasureDialogue() {
+    if (this.orderNumber == '' || !this.item) return;
     const dialogRef = this.dialog.open(UnitMeasureComponent, {
       height: 'auto',
       width: '800px',
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((res) => {
-     this.uom=res;
-
+      this.uom = res;
     });
   }
   openTemporaryManualOrderDialogue() {
@@ -429,14 +467,13 @@ export class GenerateTransactionComponent implements OnInit {
       width: '800px',
       autoFocus: '__non_existing_element__',
       data: {
-        transID:this.transactionID,
+        transID: this.transactionID,
         userName: this.userData.userName,
         wsid: this.userData.wsid,
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (res.isExecuted) {
-
       }
       console.log(res);
     });

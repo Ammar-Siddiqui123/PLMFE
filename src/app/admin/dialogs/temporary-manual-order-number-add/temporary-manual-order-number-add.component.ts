@@ -27,7 +27,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
   transType = 'Pick';
   itemNumber;
   orderRequired:boolean=false;
-  itemInvalid:boolean=false;
+  itemInvalid:boolean;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private toastr: ToastrService,
@@ -72,6 +72,8 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
   }
 
   saveTransaction() {
+
+    if(this.orderRequired || this.itemInvalid ||  !this.setLocationByItemList.length || this.itemNumber==='' || this.itemNumber===undefined)return
     let payLoad = {
       orderNumber: this.orderNumber,
       itemNumber: this.itemNumber,
