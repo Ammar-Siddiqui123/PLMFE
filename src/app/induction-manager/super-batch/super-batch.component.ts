@@ -102,7 +102,7 @@ export class SuperBatchComponent implements OnInit {
       console.log(element);
       
     if (element.newToteID <= 1) {
-      this.toastr.error('Tote ID must be greater than 1 ', 'Error!', {
+      this.toastr.error('Must enter the tote ID to batch ID', 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
