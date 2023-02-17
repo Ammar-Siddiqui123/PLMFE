@@ -20,10 +20,9 @@
         </h2>
         <mat-form-field class="action-dropdown" appearance="outline">
           <mat-label>Actions</mat-label>
-          <mat-select #matRef class="employees-action" placeholder="Actions">
-            <mat-option>Add Location</mat-option>
-            <mat-option value="print">Print</mat-option>
-            <mat-option value="set_column_sq">Set Column Sequence</mat-option>
+          <mat-select #matRef class="employees-action" placeholder="Actions" (selectionChange)="onChangeOrderAction($event.value)">
+            <mat-option value="fill_top_orders">Fill With Top Orders</mat-option>
+            <mat-option value="unselect_all_orders">Un-Select All Orders</mat-option>
           </mat-select>
           <span class="material-symbols-outlined icon-expand-more">
             expand_more

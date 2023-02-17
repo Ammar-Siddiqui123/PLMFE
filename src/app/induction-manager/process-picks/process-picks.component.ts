@@ -39,6 +39,7 @@ export class ProcessPicksComponent implements OnInit {
   allOrders: any[] = [];
   pickBatchesList: any[] = [];;
   pickBatches = new FormControl('');
+  batchWithID=false;
   // pickBatches:any = '';
   filteredOptions: Observable<any[]>;
   displayedColumns: string[] = ['position', 'toteid', 'orderno', 'priority', 'other'];
@@ -115,6 +116,14 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   onAddBatch(val: string) {
+    if (val === 'batchWithID') 
+    {
+      this.batchWithID = true;
+    }
+    else 
+    {
+      this.batchWithID = false;
+    }
     const dialogRef = this.dialog.open(this.batchPickID, {
       width: 'auto',
       autoFocus: '__non_existing_element__',
