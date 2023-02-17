@@ -31,6 +31,7 @@ import { WorkstationZonesComponent } from './dialogs/workstation-zones/workstati
 import { BatchDeleteComponent } from './dialogs/batch-delete/batch-delete.component';
 import { ConfirmationDialogComponent } from './admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { SelectionTransactionForToteComponent } from './dialogs/selection-transaction-for-tote/selection-transaction-for-tote.component';
+import { SelectionTransactionForToteExtendComponent } from './dialogs/selection-transaction-for-tote-extend/selection-transaction-for-tote-extend.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -46,7 +47,8 @@ import { SelectionTransactionForToteComponent } from './dialogs/selection-transa
     WorkstationZonesComponent,
     BatchDeleteComponent,
     ConfirmationDialogComponent,
-    SelectionTransactionForToteComponent
+    SelectionTransactionForToteComponent,
+    SelectionTransactionForToteExtendComponent
     // ActionDisableDirective,
   ],
   imports: [

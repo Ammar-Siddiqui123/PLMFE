@@ -1210,6 +1210,12 @@ button.button-delete-flat {
   border-radius: 14px;
   background-color: rgba(222, 38, 84, 0.1) !important;
 }
+button.button-default-i{
+  color: var(--clr-tertiary-900);
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--clr-tertiary-50);
+}
 button.button-primary-i{
   color: var(--clr-primary-500);
   border-radius: 999px;
@@ -1268,6 +1274,17 @@ button.icon-button {
   min-width: 48px !important;
   border-radius: 14px !important;
 }
+button.icon-button-8br {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px !important;
+  max-width: 48px !important;
+  min-width: 48px !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
 button.secondary-button{
   background-color: #fff;
   color: $primary;
