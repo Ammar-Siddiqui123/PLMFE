@@ -26,6 +26,62 @@ export class ViewOrdersComponent implements OnInit {
   orderDataSource: any;
   selectedTd: any;
 
+  filterTransColumns = [
+    { columnDef: 'orderNumber', header: 'orderNumber', cell: (element: any) => `${element.orderNumber}` },
+    { columnDef: 'itemNumber', header: 'itemNumber', cell: (element: any) => `${element.itemNumber}` },
+    { columnDef: 'transactionQuantity', header: 'transactionQuantity', cell: (element: any) => `${element.transactionQuantity}` },
+    { columnDef: 'location', header: 'location', cell: (element: any) => `${element.location}` },
+    { columnDef: 'completedQuantity', header: 'completedQuantity', cell: (element: any) => `${element.completedQuantity}` },
+    { columnDef: 'description', header: 'description', cell: (element: any) => `${element.description}` },
+    { columnDef: 'batchPickID', header: 'batchPickID', cell: (element: any) => `${element.batchPickID}` },
+    { columnDef: 'bin', header: 'bin', cell: (element: any) => `${element.bin}` },
+    { columnDef: 'carousel', header: 'carousel', cell: (element: any) => `${element.carousel}` },
+    { columnDef: 'cell', header: 'cell', cell: (element: any) => `${element.cell}` },
+    { columnDef: 'completedBy', header: 'completedBy', cell: (element: any) => `${element.completedBy}` },
+    { columnDef: 'completedDate', header: 'completedDate', cell: (element: any) => `${element.completedDate}` },
+    { columnDef: 'emergency', header: 'emergency', cell: (element: any) => `${element.emergency}` },
+    { columnDef: 'expirationDate', header: 'expirationDate', cell: (element: any) => `${element.expirationDate}` },
+    { columnDef: 'exportBatchID', header: 'exportBatchID', cell: (element: any) => `${element.exportBatchID}` },
+    { columnDef: 'exportDate', header: 'exportDate', cell: (element: any) => `${element.exportDate}` },
+    { columnDef: 'exportedBy', header: 'exportedBy', cell: (element: any) => `${element.exportedBy}` },
+    { columnDef: 'hostTransactionID', header: 'hostTransactionID', cell: (element: any) => `${element.hostTransactionID}` },
+    { columnDef: 'id', header: 'id', cell: (element: any) => `${element.id}` },
+    { columnDef: 'importBy', header: 'importBy', cell: (element: any) => `${element.importBy}` },
+    { columnDef: 'importDate', header: 'importDate', cell: (element: any) => `${element.importDate}` },
+    { columnDef: 'importFilename', header: 'importFilename', cell: (element: any) => `${element.importFilename}` },
+    { columnDef: 'invMapID', header: 'invMapID', cell: (element: any) => `${element.invMapID}` },
+    { columnDef: 'lineNumber', header: 'lineNumber', cell: (element: any) => `${element.lineNumber}` },
+    { columnDef: 'lineSequence', header: 'lineSequence', cell: (element: any) => `${element.lineSequence}` },
+    { columnDef: 'lotNumber', header: 'lotNumber', cell: (element: any) => `${element.lotNumber}` },
+    { columnDef: 'masterRecord', header: 'masterRecord', cell: (element: any) => `${element.masterRecord}` },
+    { columnDef: 'masterRecordID', header: 'masterRecordID', cell: (element: any) => `${element.masterRecordID}` },
+    { columnDef: 'notes', header: 'notes', cell: (element: any) => `${element.notes}` },
+    { columnDef: 'priority', header: 'priority', cell: (element: any) => `${element.priority}` },
+    { columnDef: 'requiredDate', header: 'requiredDate', cell: (element: any) => `${element.requiredDate}` },
+    { columnDef: 'revision', header: 'revision', cell: (element: any) => `${element.revision}` },
+    { columnDef: 'row', header: 'row', cell: (element: any) => `${element.row}` },
+    { columnDef: 'serialNumber', header: 'serialNumber', cell: (element: any) => `${element.serialNumber}` },
+    { columnDef: 'shelf', header: 'shelf', cell: (element: any) => `${element.shelf}` },
+    { columnDef: 'statusCode', header: 'statusCode', cell: (element: any) => `${element.statusCode}` },
+    { columnDef: 'toteID', header: 'toteID', cell: (element: any) => `${element.toteID}` },
+    { columnDef: 'toteNumber', header: 'toteNumber', cell: (element: any) => `${element.toteNumber}` },
+    { columnDef: 'unitOfMeasure', header: 'unitOfMeasure', cell: (element: any) => `${element.unitOfMeasure}` },
+    { columnDef: 'userField1', header: 'userField1', cell: (element: any) => `${element.userField1}` },
+    { columnDef: 'userField2', header: 'userField2', cell: (element: any) => `${element.userField2}` },
+    { columnDef: 'userField3', header: 'userField3', cell: (element: any) => `${element.userField3}` },
+    { columnDef: 'userField4', header: 'userField4', cell: (element: any) => `${element.userField4}` },
+    { columnDef: 'userField5', header: 'userField5', cell: (element: any) => `${element.userField5}` },
+    { columnDef: 'userField6', header: 'userField6', cell: (element: any) => `${element.userField6}` },
+    { columnDef: 'userField7', header: 'userField7', cell: (element: any) => `${element.userField7}` },
+    { columnDef: 'userField8', header: 'userField8', cell: (element: any) => `${element.userField8}` },
+    { columnDef: 'userField9', header: 'userField9', cell: (element: any) => `${element.userField9}` },
+    { columnDef: 'userField10', header: 'userField10', cell: (element: any) => `${element.userField10}` },
+    { columnDef: 'warehouse', header: 'warehouse', cell: (element: any) => `${element.warehouse}` },
+    { columnDef: 'zone', header: 'zone', cell: (element: any) => `${element.zone}` },
+  ];
+
+  displayedTransColumns = this.filterTransColumns.map(c => c.columnDef);
+
   orderTransDataSource: any;
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild('paginatorPageSize') paginatorPageSize: MatPaginator;
@@ -41,8 +97,8 @@ export class ViewOrdersComponent implements OnInit {
     this.userData = this.authService.userData();
     this.getAllOrders();
 
-    // console.log(this.data);
-    
+    console.log(this.data);
+
   }
   getAllOrders() {
     let paylaod = {
@@ -54,10 +110,34 @@ export class ViewOrdersComponent implements OnInit {
         res.data.map(val => {
           this.allOrders.push({ 'orderNumber': val, isSelected: false });
         });
+        this.allOrders.filter(element => {
+          this.data.allOrders.map((arr, key) => {
+            if(element.orderNumber === arr[key]){
+              element.isSelected = true;
+              this.onOrderSelect({orderNumber: element.orderNumber })
+            }
+            
+          }) 
+        });
+        
         this.orderDataSource = new MatTableDataSource<any>(this.allOrders);
 
       }
     });
+  }
+  onChangeOrderAction(option: any) {
+    if (option === 'fill_top_orders') {
+      for (let index = 0; index < this.data.pickBatchQuantity; index++) {
+        this.allOrders[index].isSelected = true;
+        this.selectedOrders.push(this.allOrders[index].orderNumber);
+      }
+    }
+    if (option === 'unselect_all_orders') {
+      for (let index = 0; index < this.data.pickBatchQuantity; index++) {
+        this.allOrders[index].isSelected = false;
+        this.selectedOrders = [];
+      }
+    }
   }
 
   ngAfterViewInit() {
@@ -66,20 +146,20 @@ export class ViewOrdersComponent implements OnInit {
   }
 
   onOrderSelect(row: any) {
-    // const isMachted = this.data.allOrders.filter((val,key) => {return val[key] === row.orderNumber;});
-    // console.log(isMachted);
-    // if(isMachted){
-    //   this.toastr.error('No open totes in batch', 'Batch is Filled.', {
-    //     positionClass: 'toast-bottom-right',
-    //     timeOut: 2000
-    //   });
-    // }
-    
-    if (this.selectedOrders.length >= this.data.pickBatchQuantity) {
+    if (this.selectedOrders.includes(row.orderNumber)) {
+      this.allOrders.filter(val => {
+        if (val.orderNumber === row.orderNumber) {
+          val.isSelected = false;
+          this.orderTransDataSource = [];
+        }
+      });
+      this.selectedOrders = this.selectedOrders.filter(item => item !== row.orderNumber)
+    }
+    else if (this.selectedOrders.length >= this.data.pickBatchQuantity) {
       this.toastr.error('No open totes in batch', 'Batch is Filled.', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
-      });  
+      });
     }
     else {
       this.selectedOrders.push(row.orderNumber);
@@ -88,7 +168,6 @@ export class ViewOrdersComponent implements OnInit {
           val.isSelected = true;
         }
       });
-
       let paylaod = {
         "Draw": 0,
         "OrderNumber": row.orderNumber,
@@ -106,11 +185,11 @@ export class ViewOrdersComponent implements OnInit {
         }
       });
     }
+   
 
 
   }
-  onSelectedOrders(){
-    console.log(this.selectedOrders);
+  onSelectedOrders() {
     this.dialogRef.close(this.selectedOrders);
   }
 
