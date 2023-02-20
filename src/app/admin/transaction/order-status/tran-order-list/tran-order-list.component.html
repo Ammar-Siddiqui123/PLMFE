@@ -133,11 +133,8 @@
               style=" min-height: 150px;">
               <ng-container matColumnDef="transactionType">
                 <th mat-header-cell mat-sort-header *matHeaderCellDef> Transaction Type </th>
-                <!-- <td mat-cell *matCellDef="let element" style="padding-left: 10px;"> {{element.transactionType}} </td> -->
                 <td mat-cell *matCellDef="let element">
                   <div class="d-flex align-items-center ">
-                    <!-- <span class="br-14  label px-3 f-16"
-                      [ngClass]="{'Compete-cart': element.completedDate!=''||element.completedDate!=null , 'Open-card' : element.tableType === 'Open'||element.tableType === 'OPEN' ||element.tableType === 'open' ,'Reprocess-card': element.location==='' &&  element.tableType === 'open'   || element.tableType=='Open'  || element.tableType=='OPEN' }">{{element.transactionType}}</span> -->
                       <span class="br-14  label px-3 f-16" [style]="getColor(element)">{{element.transactionType}}</span>
                     </div>
                 </td>
