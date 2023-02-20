@@ -58,6 +58,7 @@
                         <div class="d-flex justify-content-end">
                             <mat-form-field class="action-dropdown custom-form-field-bg-white" appearance="outline">
                                 <mat-select #openAction [(ngModel)]="selectedAction" class="employees-action" placeholder="Actions" >
+                                    
                                     <mat-option value="0" (click)="openTemporaryManualOrderDialogue()">Add New Transaction</mat-option>
                                     <mat-option (click)="clearFields()" value="clear">Clear</mat-option>
                                     <mat-option [disabled]="!item || this.orderNumber==''" (click)="updateTransaction()"   value="2">Save Transaction</mat-option>
@@ -95,6 +96,8 @@
                 <span class="label label-gray px-2 f-14">Row:&nbsp;<b>{{row}}</b></span>
                 <span class="label label-gray px-2 f-14">Shelf:&nbsp;<b>{{shelf}}</b></span>
                 <span class="label label-gray px-2 f-14">Carousel:&nbsp;<b>{{carousel}}</b></span>
+                <span class="label label-gray px-2 f-14">Bin:&nbsp;<b>{{bin}}</b></span>
+                
                 <span class="label label-gray px-2 f-14">Quantity Allocated Pick:&nbsp;<b>{{quantityAllocatedPick}}</b></span>
                 <span class="label label-gray px-2 f-14">Quantity Allocated Put Away:&nbsp;<b>{{quantityAllocatedPutAway}}</b></span>
                 <span class="label label-gray px-2 f-14">Total Quantity:&nbsp;<b>{{totalQuantity}}</b></span>
@@ -159,7 +162,7 @@
                     <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"
                         appearance="outline">
                         <mat-label>Revision</mat-label>
-                        <input [disabled]="!item" [(ngModel)]="revision" matInput type="text" maxlength="255" value="Value">
+                        <input [disabled]="!item" [(ngModel)]="revision" matInput type="text" maxlength="50" value="Value">
                     </mat-form-field>
                 </div>
             </div>
@@ -168,11 +171,11 @@
                     <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"
                         appearance="outline">
                         <mat-label>Description</mat-label>
-                        <input [disabled]="!item" [(ngModel)]="description" matInput type="text" maxlength="255" value="Value">
-                        <span matSuffix>
+                        <input readonly [disabled]="!item" [(ngModel)]="description" matInput type="text" maxlength="255" value="Value">
+                        <!-- <span matSuffix>
                             <mat-icon
                                 style="color:var(--clr-tertiary-900); transform: rotate(45deg);">unfold_more</mat-icon>
-                        </span>
+                        </span> -->
                     </mat-form-field>
                 </div>
                 <div class="col-xl-3">
@@ -262,14 +265,14 @@
                     <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"
                         appearance="outline">
                         <mat-label>Line number</mat-label>
-                        <input [disabled]="!item" [(ngModel)]="lineNumber" matInput type="text" maxlength="255" value="Value">
+                        <input [disabled]="!item" [(ngModel)]="lineNumber" matInput type="text" maxlength="9" value="Value">
                     </mat-form-field>
                 </div>
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"
                         appearance="outline">
                         <mat-label>Transaction Quantity</mat-label>
-                        <input [disabled]="!item" [(ngModel)]="transQuantity" matInput type="text" maxlength="255" value="Value">
+                        <input [disabled]="!item" [(ngModel)]="transQuantity" matInput type="number" min="0" maxlength="9" value="Value">
                     </mat-form-field>
                 </div>
             </div>
@@ -278,28 +281,28 @@
                     <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"
                         appearance="outline">
                         <mat-label>Priority</mat-label>
-                        <input [disabled]="!item" [(ngModel)]="priority" matInput type="text" maxlength="255" value="Value">
+                        <input [disabled]="!item" [(ngModel)]="priority" matInput type="text" maxlength="9" value="Value">
                     </mat-form-field>
                 </div>
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"
                         appearance="outline">
                         <mat-label>Line Sequence</mat-label>
-                        <input [disabled]="!item" [(ngModel)]="lineSeq" matInput type="text" maxlength="255" value="Value">
+                        <input [disabled]="!item" [(ngModel)]="lineSeq" matInput type="text" maxlength="9" value="Value">
                     </mat-form-field>
                 </div>
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"
                         appearance="outline">
                         <mat-label>Host Transaction ID</mat-label>
-                        <input [disabled]="!item" [(ngModel)]="hostTransID" matInput type="text" maxlength="255" value="Value">
+                        <input [disabled]="!item" [(ngModel)]="hostTransID" matInput type="text" maxlength="50" value="Value">
                     </mat-form-field>
                 </div>
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"
                         appearance="outline">
                         <mat-label>Batch Pick ID</mat-label>
-                        <input [disabled]="!item" [(ngModel)]="batchPickID" matInput type="text" maxlength="255" value="Value">
+                        <input [disabled]="!item" [(ngModel)]="batchPickID" matInput type="text" maxlength="50" value="Value">
                     </mat-form-field>
                 </div>
             </div>
@@ -319,7 +322,7 @@
                     <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"
                         appearance="outline">
                         <mat-label>Tote ID</mat-label>
-                        <input [disabled]="!item" [(ngModel)]="toteID" matInput type="text" maxlength="255" value="Value">
+                        <input [disabled]="!item" [(ngModel)]="toteID" matInput type="text" maxlength="50" value="Value">
                     </mat-form-field>
                 </div>
             </div>

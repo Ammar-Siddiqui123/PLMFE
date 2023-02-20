@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { BlossomToteComponent } from 'src/app/dialogs/blossom-tote/blossom-tote.component';
@@ -14,6 +14,7 @@ import { ViewOrdersComponent } from 'src/app/dialogs/view-orders/view-orders.com
 import { WorkstationZonesComponent } from 'src/app/dialogs/workstation-zones/workstation-zones.component';
 import { map, Subject, takeUntil } from 'rxjs';
 import labels from '../../labels/labels.json';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-process-picks',
@@ -30,12 +31,15 @@ export class ProcessPicksComponent implements OnInit {
   autoPickToteID: any = '';
   usePickBatchManager: any = '';
   useInZonePickScreen: any;
+  useDefaultFilter: any;
+  useDefaultZone: any;
   countInfo: any;
   pickType: any = 'MixedZones';
   allZones: any;
   allOrders: any[] = [];
   pickBatchesList: any[] = [];;
   pickBatches = new FormControl('');
+  batchWithID=false;
   // pickBatches:any = '';
   filteredOptions: Observable<any[]>;
   displayedColumns: string[] = ['position', 'toteid', 'orderno', 'priority', 'other'];
@@ -45,6 +49,7 @@ export class ProcessPicksComponent implements OnInit {
   onDestroy$: Subject<boolean> = new Subject();
   @ViewChild('batchPickID') batchPickID: TemplateRef<any>;
   @ViewChild('processSetup') processSetup: TemplateRef<any>;
+  @ViewChild('batch_id') batch_id :ElementRef;
 
   constructor(
     private dialog: MatDialog,
@@ -57,6 +62,10 @@ export class ProcessPicksComponent implements OnInit {
     this.userData = this.authService.userData();
     this.pickToteSetupIndex();
     this.getAllZones();
+  }
+
+  ngAfterViewChecked(): void {
+    this.batch_id.nativeElement.focus();
   }
 
   getAllZones() {
@@ -78,7 +87,7 @@ export class ProcessPicksComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.pPickService.get(paylaod, '/Induction/PickToteSetupIndex').subscribe(res => {
-      console.log(res.data.imPreference);
+      // console.log(res.data.imPreference);
       this.countInfo = res.data.countInfo;
       this.pickBatchesList = res.data.pickBatches;
       this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
@@ -86,6 +95,8 @@ export class ProcessPicksComponent implements OnInit {
       this.autoPickToteID = res.data.imPreference.autoPickToteID;
       this.useInZonePickScreen = res.data.imPreference.useInZonePickScreen;
       this.usePickBatchManager = res.data.imPreference.usePickBatchManager;
+      this.useDefaultFilter = res.data.imPreference.useDefaultFilter;
+      this.useDefaultZone = res.data.imPreference.useDefaultZone;
       // this.useInZonePickScreen = false;
       this.createToteSetupTable(this.pickBatchQuantity);
 
@@ -94,9 +105,6 @@ export class ProcessPicksComponent implements OnInit {
         map(value => (typeof value === "string" ? value : value)),
         map(name => (name ? this._filter(name) : this.pickBatchesList.slice()))
       );
-
-      // console.log(res.data);
-      // console.log(this.countInfo);
     });
   }
 
@@ -113,6 +121,14 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   onAddBatch(val: string) {
+    if (val === 'batchWithID') 
+    {
+      this.batchWithID = true;
+    }
+    else 
+    {
+      this.batchWithID = false;
+    }
     const dialogRef = this.dialog.open(this.batchPickID, {
       width: 'auto',
       autoFocus: '__non_existing_element__',
@@ -138,13 +154,12 @@ export class ProcessPicksComponent implements OnInit {
                 });
               }
             }
-          }else{
-            this.getAllToteIds()
           }
-          
-          
-          
-
+          else{
+            if(this.autoPickToteID){
+              this.getAllToteIds()
+            }
+          }
         }
         else {
           if (this.batchID === '') {
@@ -180,9 +195,18 @@ export class ProcessPicksComponent implements OnInit {
         width: '100vw',
         data: {
           pickBatchQuantity: this.pickBatchQuantity,
+          useDefaultFilter: this.useDefaultFilter,
+          useDefaultZone: this.useDefaultZone,
         },
         autoFocus: '__non_existing_element__'
-      })
+      });
+      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+        this.TOTE_SETUP.forEach((element, key) => {
+          if (element.orderNumber === '') {
+            element.orderNumber = result[key] ?? '';
+          }
+        });
+      });
     }
 
   }
@@ -199,10 +223,16 @@ export class ProcessPicksComponent implements OnInit {
       autoFocus: '__non_existing_element__'
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-      // console.log(result);
-
-      this.allOrders.push(result);
-      // console.log(this.allOrders);
+      console.log(result);
+        if(result.length > 0){
+          this.allOrders.push(result);
+        }
+        else{
+          this.allOrders = []
+          this.TOTE_SETUP.forEach((element) => {
+            element.orderNumber = '';
+          });
+        }
 
       this.TOTE_SETUP.forEach((element, key) => {
         if (element.orderNumber === '') {
@@ -220,7 +250,7 @@ export class ProcessPicksComponent implements OnInit {
       height: 'auto',
       width: '786px',
       autoFocus: '__non_existing_element__'
-    })
+    });
   }
 
   openWorkstationZone() {
@@ -238,18 +268,21 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   onToteAction(val: any) {
-    if (val === 'fill_all_tote') {
+    if (val.value === 'fill_all_tote') {
       this.getAllToteIds();
     }
-    else if (val === 'fill_next_tote') {
+    else if (val.value === 'fill_next_tote') {
       this.getNextToteId();
     }
-    else if (val === 'clear_all_totes') {
+    else if (val.value === 'clear_all_totes') {
       this.clearAllTotes();
     }
-    else if (val === 'clear_all_orders') {
+    else if (val.value === 'clear_all_orders') {
       this.clearAllOrders();
     }
+
+    const matSelect: MatSelect = val.source;
+    matSelect.writeValue(null);
   }
 
   getAllToteIds() {
@@ -321,7 +354,7 @@ export class ProcessPicksComponent implements OnInit {
       const element = this.TOTE_SETUP[index];
       if (element.toteID == val.toteID && index != i) {
         this.TOTE_SETUP[i].toteID = "";
-        this.toastr.error('Duplicate Tote ID.', 'Error!', {
+        this.toastr.error('This tote id is already in this batch. Enter a new one', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
@@ -341,6 +374,10 @@ export class ProcessPicksComponent implements OnInit {
       this.nxtToteID = this.nxtToteID + 1;
       this.updateNxtTote();
     });
+  }
+
+  clearOrderNumber(i : any) {
+    this.TOTE_SETUP[i].orderNumber = "";
   }
 
   confirmProcessSetup() {
@@ -363,34 +400,72 @@ export class ProcessPicksComponent implements OnInit {
     let ToteIDs: any[] = [];
     let OrderNumbers: any[] = [];
     this.TOTE_SETUP.map(obj => {
-      Positions.push(obj.position.toString() ?? '');
-      ToteIDs.push(obj.toteID.toString() ?? '');
-      OrderNumbers.push(obj.orderNumber.toString() ?? '');
+      Positions.push(obj.position?.toString() ?? '');
+      ToteIDs.push(obj.toteID?.toString() ?? '');
+      OrderNumbers.push(obj.orderNumber?.toString() ?? '');
     });
-    let paylaod = {
-      Positions,
-      ToteIDs,
-      OrderNumbers,
-      "BatchID": this.batchID,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
+    if(this.useInZonePickScreen){
+      let paylaod = {
+        Positions,
+        ToteIDs,
+        OrderNumbers,
+        "BatchID": this.batchID,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid,
+      }
+      this.pPickService.create(paylaod, '/Induction/InZoneSetupProcess').subscribe(res => {
+        if (res.isExecuted) {
+          this.dialog.closeAll();
+          this.TOTE_SETUP.map(obj => {
+            obj.toteID = '';
+            obj.orderNumber = '';
+          });
+          this.batchID = '';
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+        else {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
     }
-    this.pPickService.create(paylaod, '/Induction/InZoneSetupProcess').subscribe(res => {
-      if (res.isExecuted) {
-        this.dialog.closeAll();
-        this.ngOnInit();
-        this.toastr.success(labels.alert.success, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
+    else{
+      let paylaod = {
+        Positions,
+        ToteIDs,
+        OrderNumbers,
+        "BatchID": this.batchID,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid,
+        'Count': 0
       }
-      else {
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }
-    });
+      this.pPickService.create(paylaod, '/Induction/PickToteSetupProcess').subscribe(res => {
+        if (res.isExecuted) {
+          this.dialog.closeAll();
+          this.TOTE_SETUP.map(obj => {
+            obj.toteID = '';
+            obj.orderNumber = '';
+          });
+          this.batchID = '';
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+        else {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
+    }
+    
 
   }
 
