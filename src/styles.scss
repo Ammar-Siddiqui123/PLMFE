@@ -1407,11 +1407,17 @@ button.default-btn{
 }
 
 
+
+
+
 .mat-form-field-label{
   background: #fff;
   border-radius: 999px;
   width: auto!important;
 }
+}
+.custom-form-field-bg-white.mat-form-field-disabled .mat-form-field-label mat-label{
+  background: var(--clr-tertiary-10);
 }
 
   .custom-form-field.mat-form-field-appearance-outline{
