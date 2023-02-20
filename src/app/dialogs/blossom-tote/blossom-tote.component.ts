@@ -62,8 +62,8 @@ export class BlossomToteComponent implements OnInit {
 
   submitBlosom() {
     let paylaod = {
-      "OldTote": this.oldToteID,
-      "NewTote": this.nxtToteID
+      "OldTote": this.oldToteID.toString(),
+      "NewTote": this.nxtToteID.toString()
     }
     this.pPickService.get(paylaod, '/Induction/ProcessBlossom').subscribe(res => {
       // console.log(res.data);

@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { BlossomToteComponent } from 'src/app/dialogs/blossom-tote/blossom-tote.component';
@@ -49,6 +49,7 @@ export class ProcessPicksComponent implements OnInit {
   onDestroy$: Subject<boolean> = new Subject();
   @ViewChild('batchPickID') batchPickID: TemplateRef<any>;
   @ViewChild('processSetup') processSetup: TemplateRef<any>;
+  @ViewChild('batch_id') batch_id :ElementRef;
 
   constructor(
     private dialog: MatDialog,
@@ -61,6 +62,10 @@ export class ProcessPicksComponent implements OnInit {
     this.userData = this.authService.userData();
     this.pickToteSetupIndex();
     this.getAllZones();
+  }
+
+  ngAfterViewChecked(): void {
+    this.batch_id.nativeElement.focus();
   }
 
   getAllZones() {
@@ -349,7 +354,7 @@ export class ProcessPicksComponent implements OnInit {
       const element = this.TOTE_SETUP[index];
       if (element.toteID == val.toteID && index != i) {
         this.TOTE_SETUP[i].toteID = "";
-        this.toastr.error('Duplicate Tote ID.', 'Error!', {
+        this.toastr.error('This tote id is already in this batch. Enter a new one', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
@@ -411,6 +416,11 @@ export class ProcessPicksComponent implements OnInit {
       this.pPickService.create(paylaod, '/Induction/InZoneSetupProcess').subscribe(res => {
         if (res.isExecuted) {
           this.dialog.closeAll();
+          this.TOTE_SETUP.map(obj => {
+            obj.toteID = '';
+            obj.orderNumber = '';
+          });
+          this.batchID = '';
           this.toastr.success(labels.alert.success, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
@@ -437,6 +447,11 @@ export class ProcessPicksComponent implements OnInit {
       this.pPickService.create(paylaod, '/Induction/PickToteSetupProcess').subscribe(res => {
         if (res.isExecuted) {
           this.dialog.closeAll();
+          this.TOTE_SETUP.map(obj => {
+            obj.toteID = '';
+            obj.orderNumber = '';
+          });
+          this.batchID = '';
           this.toastr.success(labels.alert.success, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
