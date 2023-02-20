@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center">
     <div style="width:48px"></div>
     <h1 class="m-0" mat-dialog-title>Select Zones</h1>
-    <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
+    <button mat-icon-button class="close-button dialog-close-button-fix" (click)="updateZones()">
         <mat-icon class="close-icon">close</mat-icon>
     </button>
 </div>
@@ -20,8 +20,9 @@
           </th>
           <td mat-cell *matCellDef="let row">
             <mat-checkbox (click)="$event.stopPropagation()"
-                          (change)="$event ? selection.toggle(row) : null"
-                          [checked]="selection.isSelected(row)"
+                          (change)="selectZone(row)"
+                          [checked]="row.selected||selection.isSelected(row) || (row.selected==false&&row.available==false)"
+                          [disabled]="(row.selected==false&&row.available==false)"
                           [aria-label]="checkboxLabel(row)" color="primary">
             </mat-checkbox>
           </td>
@@ -30,25 +31,25 @@
         <!-- Position Column -->
         <ng-container matColumnDef="zone">
           <th mat-header-cell *matHeaderCellDef> Zone </th>
-          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.zone}} </td>
         </ng-container>
       
         <!-- Name Column -->
         <ng-container matColumnDef="locationdesc">
           <th mat-header-cell *matHeaderCellDef> Location Description </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.locationName}} </td>
         </ng-container>
       
         <!-- Weight Column -->
         <ng-container matColumnDef="locationtype">
           <th mat-header-cell *matHeaderCellDef> Location Type </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.locationType}} </td>
         </ng-container>
       
         <!-- Symbol Column -->
         <ng-container matColumnDef="stagingzone">
           <th mat-header-cell *matHeaderCellDef> Staging Zone </th>
-          <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+          <td mat-cell *matCellDef="let element"> <ng-container *ngIf="element.stagingZone!='False'" >Yes</ng-container> <ng-container *ngIf="element.stagingZone=='False'" >No</ng-container> </td>
         </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
@@ -58,8 +59,8 @@
       </table>
 </div>
 <div class="d-flex gap-12">
-    <button type="submit" mat-stroked-button class="form-button-submit btn-lg" color="primary">Select Non-Staging</button>
-    <button type="submit" mat-stroked-button class="btn-lg" color="primary">Select Staging</button>
-    <button type="submit" mat-stroked-button class="btn-lg" color="primary">Cancel</button>
-    <button type="submit" mat-flat-button class="form-button-submit btn-lg" style="flex:1" color="primary">Continue</button>
+    <button type="submit" mat-stroked-button class="form-button-submit btn-lg" (click)="selectStaging()" color="primary">Select Non-Staging</button>
+    <button type="submit" mat-stroked-button class="btn-lg" color="primary" (click)="selectStaging('1')">Select Staging</button>
+    <button type="submit" mat-stroked-button class="btn-lg" color="primary" (click)="updateZones()">Cancel</button>
+    <button type="submit" mat-flat-button class="form-button-submit btn-lg" style="flex:1" color="primary" (click)="updateZones()">Continue</button>
 </div>
