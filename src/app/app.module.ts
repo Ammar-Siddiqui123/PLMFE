@@ -48,7 +48,7 @@ import { SelectionTransactionForToteComponent } from './dialogs/selection-transa
     BatchDeleteComponent,
     ConfirmationDialogComponent,
     AddFilterFunction,
-    SelectionTransactionForToteComponent
+    SelectionTransactionForToteComponent,
     // ActionDisableDirective,
   ],
   imports: [
