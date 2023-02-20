@@ -60,6 +60,14 @@ export class ProcessPutAwaysComponent implements OnInit {
     'location',
     'completed'
   ];
+
+  // Process Put Away 
+  batchId2 : string = "";
+  searchAutocompleteItemNum2: any = [];
+
+  // Global 
+  processPutAwayIndex : any;
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -83,7 +91,12 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.searchByItem
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
-        this.autocompleteSearchColumnItem();
+        if (value == 1) {
+          // console.log(value);
+          this.autocompleteSearchColumnItem2();
+        } else {
+          this.autocompleteSearchColumnItem(); 
+        }        
       });
   }
 
@@ -327,6 +340,7 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.cellSize = res.data.imPreference.defaultCells;
           this.autoPutToteIDS = res.data.imPreference.autoPutAwayToteID;
           this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
+          this.processPutAwayIndex = res.data;
         } else {
           this.toastr.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
@@ -457,6 +471,27 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   }
 
+  async autocompleteSearchColumnItem2() {
+    let searchPayload = {
+      batchID: this.batchId2,
+      username: this.userData.userName,
+      wsid: this.userData.wsid
+    }
+    this.service.create(searchPayload, '/Induction/BatchIDTypeAhead').subscribe(
+      (res: any) => {
+        if (res.data) {
+          this.searchAutocompleteItemNum2 = res.data;
+        } else {
+          this.toastr.error('Something went wrong', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      },
+      (error) => { }
+    );
+
+  }
 
   updateToteID($event)
   {
@@ -470,8 +505,6 @@ export class ProcessPutAwaysComponent implements OnInit {
     }
     }
   }
-
-
 
   assignToteAtPosition(element:any,clear=0)
   {
@@ -497,13 +530,62 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.ELEMENT_DATA[i].cells = this.cellSize.toString();
     }
     }
-   }
+  }
 
-   openSelectionTransactionDialogue(){
+  openSelectionTransactionDialogue(){
     const dialogRef =  this.dialog.open(SelectionTransactionForToteComponent, {
       height: 'auto',
       width: '1100px',
       autoFocus: '__non_existing_element__'
     })
-     }
   }
+
+  fillToteTable() {}
+
+  completeBatch() {
+    try {
+
+      if (this.batchId2 == "") {
+        this.showMessage("You must provide a Batch ID.", 2000, "error");
+      } else {
+        let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+          height: 'auto',
+          width: '560px',
+          autoFocus: '__non_existing_element__',
+          data: {
+            message: "Click OK to complete this batch."
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if(result == 'Yes') {
+            var payLoad = {
+              "batchID"   : this.batchId2,
+              "username"  : this.userData.username,
+              "wsid"      : this.userData.wsid
+            };
+        
+            this.service.create(payLoad, '/Induction/CompleteBatch').subscribe(
+              (res: any) => {
+                if (res.data && res.isExecuted) {
+                  this.toastr.success('Batch Completed Successfully', 'Success!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000
+                  });
+                } else {
+                  this.toastr.error('Something went wrong', 'Error!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000,
+                  });
+                }
+              },
+              (error) => { }
+            );
+          }
+        });        
+      }       
+    } catch (error) {
+      console.log(error);
+    }    
+  }
+}
