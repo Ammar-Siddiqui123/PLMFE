@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { BlossomToteComponent } from 'src/app/dialogs/blossom-tote/blossom-tote.component';
@@ -39,7 +39,7 @@ export class ProcessPicksComponent implements OnInit {
   allOrders: any[] = [];
   pickBatchesList: any[] = [];;
   pickBatches = new FormControl('');
-  batchWithID=false;
+  batchWithID = false;
   // pickBatches:any = '';
   filteredOptions: Observable<any[]>;
   displayedColumns: string[] = ['position', 'toteid', 'orderno', 'priority', 'other'];
@@ -49,7 +49,9 @@ export class ProcessPicksComponent implements OnInit {
   onDestroy$: Subject<boolean> = new Subject();
   @ViewChild('batchPickID') batchPickID: TemplateRef<any>;
   @ViewChild('processSetup') processSetup: TemplateRef<any>;
-  @ViewChild('batch_id') batch_id :ElementRef;
+  @ViewChild('batch_id') batch_id: ElementRef;
+
+  public ifAllowed: boolean = false
 
   constructor(
     private dialog: MatDialog,
@@ -67,6 +69,19 @@ export class ProcessPicksComponent implements OnInit {
   ngAfterViewChecked(): void {
     this.batch_id.nativeElement.focus();
   }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onbeforeunload(event) {
+    if (this.ifAllowed) {
+      event.preventDefault();
+      event.returnValue = false;
+    }
+  }
+
+  @HostListener('click')
+    documentClick(event: MouseEvent) {
+       this.ifAllowed = true
+    }
 
   getAllZones() {
     let paylaod = {
@@ -121,12 +136,10 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   onAddBatch(val: string) {
-    if (val === 'batchWithID') 
-    {
+    if (val === 'batchWithID') {
       this.batchWithID = true;
     }
-    else 
-    {
+    else {
       this.batchWithID = false;
     }
     const dialogRef = this.dialog.open(this.batchPickID, {
@@ -143,9 +156,9 @@ export class ProcessPicksComponent implements OnInit {
             "wsid": this.userData.wsid,
             "type": this.pickType
           }
-          if(!this.useInZonePickScreen){
-            if(!this.usePickBatchManager){
-              if(this.autoPickOrderSelection &&  this.autoPickToteID){
+          if (!this.useInZonePickScreen) {
+            if (!this.usePickBatchManager) {
+              if (this.autoPickOrderSelection && this.autoPickToteID) {
                 this.pPickService.get(payload, '/Induction/FillOrderNumber').subscribe(res => {
                   this.TOTE_SETUP.forEach((element, key) => {
                     element.orderNumber = res.data[key];
@@ -155,8 +168,8 @@ export class ProcessPicksComponent implements OnInit {
               }
             }
           }
-          else{
-            if(this.autoPickToteID){
+          else {
+            if (this.autoPickToteID) {
               this.getAllToteIds()
             }
           }
@@ -224,15 +237,15 @@ export class ProcessPicksComponent implements OnInit {
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
       console.log(result);
-        if(result.length > 0){
-          this.allOrders.push(result);
-        }
-        else{
-          this.allOrders = []
-          this.TOTE_SETUP.forEach((element) => {
-            element.orderNumber = '';
-          });
-        }
+      if (result.length > 0) {
+        this.allOrders.push(result);
+      }
+      else {
+        this.allOrders = []
+        this.TOTE_SETUP.forEach((element) => {
+          element.orderNumber = '';
+        });
+      }
 
       this.TOTE_SETUP.forEach((element, key) => {
         if (element.orderNumber === '') {
@@ -295,8 +308,8 @@ export class ProcessPicksComponent implements OnInit {
       this.TOTE_SETUP.forEach((element, key) => {
         if (!element.toteID) {
           element.toteID = this.nxtToteID;
-          this.nxtToteID = this.nxtToteID + 1; 
-        }        
+          this.nxtToteID = this.nxtToteID + 1;
+        }
       });
       this.updateNxtTote();
     });
@@ -363,7 +376,7 @@ export class ProcessPicksComponent implements OnInit {
     }
   }
 
-  fillNextToteID(i : any) {
+  fillNextToteID(i: any) {
     let paylaod = {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
@@ -376,7 +389,7 @@ export class ProcessPicksComponent implements OnInit {
     });
   }
 
-  clearOrderNumber(i : any) {
+  clearOrderNumber(i: any) {
     this.TOTE_SETUP[i].orderNumber = "";
   }
 
@@ -404,7 +417,7 @@ export class ProcessPicksComponent implements OnInit {
       ToteIDs.push(obj.toteID?.toString() ?? '');
       OrderNumbers.push(obj.orderNumber?.toString() ?? '');
     });
-    if(this.useInZonePickScreen){
+    if (this.useInZonePickScreen) {
       let paylaod = {
         Positions,
         ToteIDs,
@@ -434,7 +447,7 @@ export class ProcessPicksComponent implements OnInit {
         }
       });
     }
-    else{
+    else {
       let paylaod = {
         Positions,
         ToteIDs,
@@ -465,7 +478,7 @@ export class ProcessPicksComponent implements OnInit {
         }
       });
     }
-    
+
 
   }
 
