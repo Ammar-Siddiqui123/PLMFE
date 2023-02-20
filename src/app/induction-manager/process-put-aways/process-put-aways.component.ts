@@ -45,7 +45,8 @@ export class ProcessPutAwaysComponent implements OnInit {
   public pickBatchQuantity = 0;
   public currentToteID = 0;
   public toteID = "";
-  public assignedZonesArray:any;
+  public actionDropDown:any;
+  public assignedZonesArray=[{zone:''}];
   searchAutocompleteItemNum: any = [];
   searchByItem: any = new Subject<string>();
   floatLabelControlItem: any = new FormControl('item' as FloatLabelType);
@@ -107,35 +108,72 @@ export class ProcessPutAwaysComponent implements OnInit {
     );
   }
 
-  setItem(event) {
-    //console.log(event);
-  }
-
   getFloatLabelValueItem(): FloatLabelType {
     return this.floatLabelControlItem.value || 'item';
   }
 
-  getRow(row) {
-     console.log(row);
-    // let payLoad = {
-    //   id: row.id,
-    //   username: this.data.userName,
-    //   wsid: this.data.wsid,
-    // };
-    // this.transactionService
-    //   .get(payLoad, '/Admin/ManualTransactionTypeAhead', true)
-    //   .subscribe(
-    //     (res: any) => {
-    //       if(res && res.data){
-    //         this.setLocationByItemList=res.data.map((item)=>{
-    //           return {invMapID:item.invMapID,select:`${item.itemQty}@${item.locationNumber}`}
-    //         })
-    //         console.log(this.setLocationByItemList);
-    //       }
-    //       // this.searchAutocompleteItemNum = res.data;
-    //     },
-    //     (error) => {}
-    //   );
+  gridAction(action:any)
+  {
+  if(action=="assignAll")
+  {
+    for (let index = 0; index < this.pickBatchQuantity; index++) 
+    {
+    this.ELEMENT_DATA[index].toteid = this.currentToteID.toString();
+    this.currentToteID++;
+    } 
+    
+    this.actionDropDown=null;
+  }
+  else 
+  {
+    this.actionDropDown=null;
+  }
+  }
+
+  getRow(batchID) {
+    var payLoad = {
+      "batchID":batchID,
+      "username": this.userData.username,
+      "wsid": this.userData.wsid
+    };
+    this.service.create(payLoad, '/Induction/BatchTotes').subscribe(
+      (res: any) => {
+        if (res.data && res.isExecuted) {
+          this.ELEMENT_DATA.length=0;
+          for(var i=0;i<res.data.length;i++)
+          {
+            this.ELEMENT_DATA.push({ position: parseInt(res.data[i].totePosition), cells:res.data[i].cells, toteid: res.data[i].toteID.toString()} ); 
+            
+            if(i==0)
+            {
+              try{
+
+              this.assignedZones =  res.data[i].zoneLabel;
+              var zones  = res.data[i].zoneLabel.split(" ");
+              for(var i=1;i<zones.length;i++)
+              {
+              //console.log({zone:zones[i]});
+              this.assignedZonesArray.push({zone:zones[i]});
+              }
+
+              }catch(e){}
+              
+            }
+            
+
+
+          }
+          this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+        } else {
+          this.toastr.error('Something went wrong', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      },
+      (error) => { }
+    );
+    
   }
 
   openSelectZonesDialogue() {
@@ -205,8 +243,6 @@ export class ProcessPutAwaysComponent implements OnInit {
       })
       dialogRef.afterClosed().subscribe(result => {
         if(result=='Yes'){
-        console.log("HURRA!!!!");
-        // console.log(this.ELEMENT_DATA);
         var toteID="",cells="",position="";
         for(var i=0;i<this.ELEMENT_DATA.length;i++)
         {
@@ -291,7 +327,6 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.cellSize = res.data.imPreference.defaultCells;
           this.autoPutToteIDS = res.data.imPreference.autoPutAwayToteID;
           this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
-          //console.log(this.pickBatchQuantity);
         } else {
           this.toastr.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
@@ -374,7 +409,6 @@ export class ProcessPutAwaysComponent implements OnInit {
       
       } 
       this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
-
       
     }
 
@@ -411,7 +445,6 @@ export class ProcessPutAwaysComponent implements OnInit {
       (res: any) => {
         if (res.data) {
           this.searchAutocompleteItemNum=res.data;
-          console.log(this.searchAutocompleteItemNum);
         } else {
           this.toastr.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
@@ -449,7 +482,6 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
   else 
   {
-    console.log(this.ELEMENT_DATA[(element.position)-1].toteid);
     this.ELEMENT_DATA[(element.position)-1].toteid = "";
   }
   
