@@ -50,6 +50,7 @@ export class ProcessPicksComponent implements OnInit {
   @ViewChild('batchPickID') batchPickID: TemplateRef<any>;
   @ViewChild('processSetup') processSetup: TemplateRef<any>;
   @ViewChild('batch_id') batch_id: ElementRef;
+  isBatchIdFocus:boolean = false;
 
   public ifAllowed: boolean = false
 
@@ -64,10 +65,14 @@ export class ProcessPicksComponent implements OnInit {
     this.userData = this.authService.userData();
     this.pickToteSetupIndex();
     this.getAllZones();
+    this.isBatchIdFocus = true;
   }
 
   ngAfterViewChecked(): void {
-    this.batch_id.nativeElement.focus();
+    if(this.isBatchIdFocus){
+      this.batch_id.nativeElement.focus();
+      this.isBatchIdFocus = false;
+    }
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -158,13 +163,15 @@ export class ProcessPicksComponent implements OnInit {
           }
           if (!this.useInZonePickScreen) {
             if (!this.usePickBatchManager) {
-              if (this.autoPickOrderSelection && this.autoPickToteID) {
+              if (this.autoPickOrderSelection) {
                 this.pPickService.get(payload, '/Induction/FillOrderNumber').subscribe(res => {
                   this.TOTE_SETUP.forEach((element, key) => {
                     element.orderNumber = res.data[key];
                   });
-                  this.getAllToteIds()
                 });
+              }
+              if(this.autoPickToteID){
+                this.getAllToteIds()
               }
             }
           }
