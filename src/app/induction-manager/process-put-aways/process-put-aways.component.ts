@@ -441,7 +441,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid
     }
-    this.service.create(searchPayload, '/Induction/BatchIDTypeAhead').subscribe(
+    this.service.get(searchPayload, '/Induction/BatchIDTypeAhead', true).subscribe(
       (res: any) => {
         if (res.data) {
           this.searchAutocompleteItemNum=res.data;
