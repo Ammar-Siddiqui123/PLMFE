@@ -544,6 +544,10 @@ export class ProcessPutAwaysComponent implements OnInit {
     })
   }
 
+  selectTotes(i : any) {
+    this.dataSource2.data[i].isSelected = !this.dataSource2.data[i].isSelected;
+  }
+
   fillToteTable(batchID : string = "") {
     try {
       var payLoad = {
@@ -557,7 +561,12 @@ export class ProcessPutAwaysComponent implements OnInit {
       this.service.create(payLoad, '/Induction/TotesTable').subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
+            for (const iterator of res.data.totesTable) {
+              iterator.isSelected = false;
+            }
+            
             this.dataSource2 = new MatTableDataSource<any>(res.data.totesTable);
+            console.log(this.dataSource2);
             // this.toastr.success('Batch Completed Successfully', 'Success!', {
             //   positionClass: 'toast-bottom-right',
             //   timeOut: 2000
