@@ -175,7 +175,7 @@
                                 <span matSuffix>
                                     <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
                                   </span>
-                                <input matInput type="text" #specialFeature maxlength="255" [value]="element.toteid" (keydown)="onToteChange($event,element.position)" (keyup)="onToteChange($event,element.position)" (change)="onToteChange($event,element.position)" (keypress)="onToteChange($event,element.position)"  (keypress)="onToteChange($event,element.position)">
+                                <input matInput readonly="readonly" type="text" #specialFeature maxlength="255" [value]="element.toteid" (keydown)="onToteChange($event,element.position)" (keyup)="onToteChange($event,element.position)" (change)="onToteChange($event,element.position)" (keypress)="onToteChange($event,element.position)"  (keypress)="onToteChange($event,element.position)">
                               </mat-form-field>
                             </div>
                           </td>
