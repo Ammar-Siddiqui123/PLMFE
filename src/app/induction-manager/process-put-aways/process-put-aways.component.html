@@ -333,13 +333,13 @@
                 <div class="card p-3 mb-2">
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Select Position</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="number" value="000000">
+                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="number" [(ngModel)]="postion" (keypress)="selectPosOrTote(0)">
                   </mat-form-field>
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Select Tote</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
+                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="tote" (keypress)="selectPosOrTote(1)">
                   </mat-form-field>
-                  <button mat-flat-button color="primary" class="btn-regular w-100">
+                  <button mat-flat-button color="primary" class="btn-regular w-100" (click)="selectPosOrTote(2)">
                     Select
                   </button>
                 </div>
@@ -390,7 +390,7 @@
                 <!-- Position Column -->
                 <ng-container matColumnDef="totesPosition">
                   <th mat-header-cell *matHeaderCellDef> Position </th>
-                  <td mat-cell *matCellDef="let element">
+                  <td mat-cell *matCellDef="let element" [class.selected]="element.isSelected">
                     <div class="pe-2">
                       {{element.totesPosition}}
                     </div>
@@ -400,7 +400,7 @@
                 <!-- Name Column -->
                 <ng-container matColumnDef="toteID">
                   <th mat-header-cell *matHeaderCellDef> Tote ID </th>
-                  <td mat-cell *matCellDef="let element">
+                  <td mat-cell *matCellDef="let element" [class.selected]="element.isSelected">
                     <div class="pe-2">
                       {{element.toteID}}
                     </div>
@@ -410,7 +410,7 @@
                 <!-- Name Column -->
                 <ng-container matColumnDef="cells">
                   <th mat-header-cell *matHeaderCellDef> Tote Capacity </th>
-                  <td mat-cell *matCellDef="let element">
+                  <td mat-cell *matCellDef="let element" [class.selected]="element.isSelected">
                     <div class="pe-2">
                       {{element.cells}}
                     </div>
@@ -419,7 +419,7 @@
                 <!-- Name Column -->
                 <ng-container matColumnDef="toteQuantity">
                   <th mat-header-cell *matHeaderCellDef> Current Qty </th>
-                  <td mat-cell *matCellDef="let element">
+                  <td mat-cell *matCellDef="let element" [class.selected]="element.isSelected">
                     <div class="pe-2">
                       {{element.toteQuantity}}
                     </div>
@@ -429,7 +429,7 @@
                 <!-- Name Column -->
                 <ng-container matColumnDef="zoneLabel">
                   <th mat-header-cell *matHeaderCellDef> Zone To Put Away </th>
-                  <td mat-cell *matCellDef="let element">
+                  <td mat-cell *matCellDef="let element" [class.selected]="element.isSelected">
                     <div class="pe-2">
                       {{element.zoneLabel}}
                     </div>

@@ -66,6 +66,9 @@ export class ProcessPutAwaysComponent implements OnInit {
   searchAutocompleteItemNum2: any = [];
   dataSource2: any;
 
+  postion: any;
+  tote: any;
+
   // Global 
   processPutAwayIndex : any;
 
@@ -563,10 +566,9 @@ export class ProcessPutAwaysComponent implements OnInit {
           if (res.data && res.isExecuted) {
             for (const iterator of res.data.totesTable) {
               iterator.isSelected = false;
-            }
-            
+            }            
+            res.data.totesTable[0].isSelected = true;
             this.dataSource2 = new MatTableDataSource<any>(res.data.totesTable);
-            console.log(this.dataSource2);
             // this.toastr.success('Batch Completed Successfully', 'Success!', {
             //   positionClass: 'toast-bottom-right',
             //   timeOut: 2000
@@ -630,5 +632,26 @@ export class ProcessPutAwaysComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }    
+  }
+
+  goToNext() {
+    
+  }
+
+  selectPosOrTote(type : number) {
+
+    if (type == 0) {
+      
+    } else if (type == 1) {
+      
+    } else {
+      var fil = this.dataSource2.data.filter((e : any) => { e.totesPosition == this.postion && e.toteID == this.tote });
+      if (fil.length > 0) {
+        
+      } else {
+        this.showMessage("The selected position and/or tote ID was not found in the table.", 2000, "error");
+      }
+    }
+
   }
 }
