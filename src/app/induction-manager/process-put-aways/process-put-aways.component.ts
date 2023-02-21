@@ -60,6 +60,8 @@ export class ProcessPutAwaysComponent implements OnInit {
     'location',
     'completed'
   ];
+
+  selectedIndex : number = 0;
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -280,6 +282,7 @@ export class ProcessPutAwaysComponent implements OnInit {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
+              this.selectedIndex = 1;
             } else {
               this.toastr.error('Something went wrong', 'Error!', {
                 positionClass: 'toast-bottom-right',
