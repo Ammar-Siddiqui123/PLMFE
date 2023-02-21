@@ -234,10 +234,27 @@ export class ProcessPutAwaysComponent implements OnInit {
         position: position
       }
     });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+      if(result.toteID!="")
+      {
+        this.ELEMENT_DATA[(result.position)-1].toteid = result.toteID.toString();
+        //this.ELEMENT_DATA[(result.position)-1].cells = result.cellID.toString();
+        for(var i=0;i<this.ELEMENT_DATA.length;i++)
+        {
+        this.ELEMENT_DATA[i].cells = result.cellID.toString();
+        }
+        
+      }
+
+      }
+    });
+
+
+
   }
-  
   openToteTransactionViewDialogue() {
-    const dialogRef = this.dialog.open(ToteTransactionViewComponent, {
+    const dialogRef = this.dialog.open(TotesAddEditComponent, {
       height: 'auto',
       width: '80vw',
       autoFocus: '__non_existing_element__'
@@ -245,7 +262,6 @@ export class ProcessPutAwaysComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-
       if(result.toteID!="")
       {
         this.ELEMENT_DATA[(result.position)-1].toteid = result.toteID.toString();
