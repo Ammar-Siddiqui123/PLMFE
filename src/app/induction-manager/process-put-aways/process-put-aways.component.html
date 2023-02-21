@@ -447,7 +447,7 @@
           
           
                 <tr mat-header-row *matHeaderRowDef="displayedColumns1; sticky:true"></tr>
-                <tr mat-row class="table-row"  tabindex="2"  *matRowDef="let row; columns: displayedColumns1; let i = index" (click)="selectTotes(i)">
+                <tr mat-row *matRowDef="let row; columns: displayedColumns1; let i = index" (click)="selectTotes(i)">
                 </tr>
               </table>
             </ng-scrollbar>
