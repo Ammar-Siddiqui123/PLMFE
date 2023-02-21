@@ -281,11 +281,18 @@
                 <div class="card p-3 mb-2">
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Input Type</mat-label>
-                    <mat-select #matRef class="employees-action" value="0">
-                      <mat-option value="0"><b>Any</b></mat-option>
+                    <mat-select #matRef class="employees-action" value="Any">
+                      <!-- <mat-option value="0"><b>Any</b></mat-option>
                       <mat-option value="print">Item No.</mat-option>
                       <mat-option value="print">Serial No.</mat-option>
-                      <mat-option value="print">Lot No.</mat-option>
+                      <mat-option value="print">Lot No.</mat-option> -->
+                      <mat-option value="Any">Any</mat-option>
+                      <mat-option value="Item Number">Item Number</mat-option>
+                      <mat-option value="Serial Number">Serial Number</mat-option>
+                      <mat-option value="Lot Number">Lot Number</mat-option>
+                      <mat-option value="Host Transaction ID">Host Transaction ID</mat-option>
+                      <mat-option value="Scan Code">Scan Code</mat-option>
+                      <mat-option value="Supplier Item ID">Supplier Item ID</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
                       expand_more
@@ -293,7 +300,7 @@
                   </mat-form-field>
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Input Value</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
+                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="inputType">
                   </mat-form-field>
                   <button mat-flat-button color="primary" class="btn-regular w-100" (click)="openSelectionTransactionDialogue()">
                     Assign Transaction To Selected Tote
@@ -304,24 +311,24 @@
                 <div class="card p-3 mb-2">
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Next Put To Location</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
+                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="nextPutLoc" disabled />
                   </mat-form-field>
                   <div class="row">
                     <div class="col-xl-6">
                     <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                       <mat-label>Position</mat-label>
-                      <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
+                      <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="nextPos" disabled />
                     </mat-form-field>
                     </div>
                     <div class="col-xl-6">
                     <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                       <mat-label>Next Cell</mat-label>
-                      <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
+                      <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="nextCell" disabled />
                     </mat-form-field>
                     </div>
                   </div>
                   
-                  <button mat-flat-button color="primary" class="btn-regular w-100">
+                  <button mat-flat-button color="primary" class="btn-regular w-100" (click)="goToNext()">
                     Go To Next
                   </button>
                 </div>
@@ -330,11 +337,11 @@
                 <div class="card p-3 mb-2">
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Select Position</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="number" [(ngModel)]="postion" (keypress)="selectPosOrTote(0)">
+                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="number" [(ngModel)]="postion" #pos (keyup)="selectPosOrTote(0, pos.value)">
                   </mat-form-field>
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Select Tote</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="tote" (keypress)="selectPosOrTote(1)">
+                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="tote" #tote1 (keyup)="selectPosOrTote(1, tote1.value)">
                   </mat-form-field>
                   <button mat-flat-button color="primary" class="btn-regular w-100" (click)="selectPosOrTote(2)">
                     Select
@@ -378,8 +385,11 @@
                 <ng-container matColumnDef="status">
                   <th mat-header-cell *matHeaderCellDef> Status </th>
                   <td mat-cell *matCellDef="let element" [class.selected]="element.isSelected">
-                    <div class="label label-yellow px-2 me-2">
+                    <div class="label label-yellow px-2 me-2" *ngIf="!element.status">
                       Open
+                    </div>
+                    <div class="label label-green px-2 me-2" *ngIf="element.status">
+                      Complete
                     </div>
                   </td>
                 </ng-container>
