@@ -37,6 +37,7 @@ import { CrossDockTransactionComponent } from './dialogs/cross-dock-transaction/
 import { ReprocessTransactionDetailViewComponent } from './dialogs/reprocess-transaction-detail-view/reprocess-transaction-detail-view.component';
 import { ToteTransactionViewComponent } from './dialogs/tote-transaction-view/tote-transaction-view.component';
 import { BatchDeleteConfirmationComponent } from './dialogs/batch-delete-confirmation/batch-delete-confirmation.component';
+import { MarkToteFullComponent } from './dialogs/mark-tote-full/mark-tote-full.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -59,7 +60,8 @@ import { BatchDeleteConfirmationComponent } from './dialogs/batch-delete-confirm
     CrossDockTransactionComponent,
     ReprocessTransactionDetailViewComponent,
     ToteTransactionViewComponent,
-    BatchDeleteConfirmationComponent
+    BatchDeleteConfirmationComponent,
+    MarkToteFullComponent
     // ActionDisableDirective,
   ],
   imports: [

@@ -366,10 +366,10 @@
             </h2>
             <mat-form-field class="action-dropdown" appearance="outline">
               <mat-label>Actions</mat-label>
-              <mat-select class="employees-action">
-                <mat-option value="0" (click)="openToteTransactionViewDialogue()">View Tote Contents</mat-option>
-                <mat-option value="1">Mark Tote as Full</mat-option>
-                <mat-option value="2">Print</mat-option>
+              <mat-select class="employees-action"  [(ngModel)]="selectedOption"  #actionRef (openedChange)="actionDialog($event)">
+                <mat-option  value="ViewTote" (click)="openToteTransactionViewDialogue()">View Tote Contents</mat-option>
+                <mat-option value="markTote" [disabled]="!rowSelected">Mark Tote as Full</mat-option>
+                <mat-option value="print">Print</mat-option>
                 <!-- <mat-option value="back">Back</mat-option> -->
               </mat-select>
               <span class="material-symbols-outlined icon-expand-more">
