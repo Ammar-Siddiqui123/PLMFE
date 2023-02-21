@@ -33,13 +33,13 @@
     </div>
 </div>
 <div class="d-flex gap-12">
-    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke btn-lg">
+    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke btn-lg" (click)="batchTotesDelete(true)">
         Deallocate & Clear
     </button>
-    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke btn-lg">
+    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke btn-lg"  (click)="batchTotesDelete(false)">
         Clear Only
     </button>
-    <button mat-flat-button color="warn" class="btn-lg" style="flex:1">
+    <button mat-flat-button color="warn" class="btn-lg" style="flex:1" (click)="allBatchDelete()">
         Delete All Batches
     </button>
 </div>

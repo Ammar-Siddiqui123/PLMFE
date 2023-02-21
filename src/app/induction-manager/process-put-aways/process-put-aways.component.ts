@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { BatchDeleteComponent } from 'src/app/dialogs/batch-delete/batch-delete.component';
@@ -14,6 +14,9 @@ import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
+import { MatSort, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { MatPaginator } from '@angular/material/paginator';
 
 export interface PeriodicElement {
   position: string;
@@ -36,6 +39,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   dataSource: any;
   selection = new SelectionModel<PeriodicElement>(true, []);
   licAppData;
+  rowSelected=false;
   public userData: any;
   public cellSize = "0";
   public batchId = "";
@@ -51,6 +55,8 @@ export class ProcessPutAwaysComponent implements OnInit {
   searchByItem: any = new Subject<string>();
   floatLabelControlItem: any = new FormControl('item' as FloatLabelType);
   hideRequiredControlItem = new FormControl(false);
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   displayedColumns1: string[] = [
     'status',
@@ -81,7 +87,9 @@ export class ProcessPutAwaysComponent implements OnInit {
     private dialog: MatDialog,
     private toastr: ToastrService,
     private service: ProcessPutAwayService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _liveAnnouncer: LiveAnnouncer
+
   ) { }
 
   ngOnInit(): void {
@@ -237,9 +245,17 @@ export class ProcessPutAwaysComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         batchId : this.batchId2,
-        toteId  : this.toteID?this.toteID:''
+        toteId  : this.toteID?this.toteID:'',
+        userName:this.userData.userName,
+        wsid:this.userData.wsid
       }
+      
     })
+    dialogRef.afterClosed().subscribe((res) => {
+      if(res.isExecuted){
+        
+      }
+    });
   }
 
   clearBatch() {
@@ -547,7 +563,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   selectTotes(i : any) {
-  
+    this.rowSelected=true;
     this.dataSource2.data[i].isSelected = !this.dataSource2.data[i].isSelected;
       this.toteID= this.dataSource2.data[i].toteID; 
   }
@@ -570,6 +586,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             }
             
             this.dataSource2 = new MatTableDataSource<any>(res.data.totesTable);
+            this.dataSource2.paginator = this.paginator;
             console.log(this.dataSource2);
             // this.toastr.success('Batch Completed Successfully', 'Success!', {
             //   positionClass: 'toast-bottom-right',
@@ -634,5 +651,14 @@ export class ProcessPutAwaysComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }    
+  }
+
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+    this.dataSource2.sort = this.sort;
   }
 }

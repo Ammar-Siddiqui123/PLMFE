@@ -253,7 +253,7 @@
                   </mat-form-field>
                 </div>
                 <div class="col-xl-3 offset-xl-5">
-                  <button mat-flat-button color="warn" class="btn-regular w-100" (click)="openDeleteBatchDialogue()">
+                  <button [disabled]="!rowSelected"  mat-flat-button color="warn" class="btn-regular w-100" (click)="openDeleteBatchDialogue()">
                     Delete Batch
                   </button>
                 </div>
@@ -373,10 +373,12 @@
           </div>
           <div class="card br-14 table-responsive borderless px-0 mb-3">
             <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 280px;">
-              <table mat-table [dataSource]="dataSource2" class="w-100 table1 employee-location-table action-clickable-table">
+
+
+              <table mat-table [dataSource]="dataSource2" class="w-100 table1 employee-location-table action-clickable-table" matSort (matSortChange)="announceSortChange($event)">
 
                 <ng-container matColumnDef="status">
-                  <th mat-header-cell *matHeaderCellDef> Status </th>
+                  <th style="width:200px!important" mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
                   <td mat-cell *matCellDef="let element" [class.selected]="element.isSelected">
                     <div class="label label-yellow px-2 me-2">
                       Open
@@ -386,7 +388,7 @@
           
                 <!-- Position Column -->
                 <ng-container matColumnDef="totesPosition">
-                  <th mat-header-cell *matHeaderCellDef> Position </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Position </th>
                   <td mat-cell *matCellDef="let element">
                     <div class="pe-2">
                       {{element.totesPosition}}
@@ -396,7 +398,7 @@
           
                 <!-- Name Column -->
                 <ng-container matColumnDef="toteID">
-                  <th mat-header-cell *matHeaderCellDef> Tote ID </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Tote ID </th>
                   <td mat-cell *matCellDef="let element">
                     <div class="pe-2">
                       {{element.toteID}}
@@ -406,7 +408,7 @@
           
                 <!-- Name Column -->
                 <ng-container matColumnDef="cells">
-                  <th mat-header-cell *matHeaderCellDef> Tote Capacity </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Tote Capacity </th>
                   <td mat-cell *matCellDef="let element">
                     <div class="pe-2">
                       {{element.cells}}
@@ -415,7 +417,7 @@
                 </ng-container>
                 <!-- Name Column -->
                 <ng-container matColumnDef="toteQuantity">
-                  <th mat-header-cell *matHeaderCellDef> Current Qty </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Current Qty </th>
                   <td mat-cell *matCellDef="let element">
                     <div class="pe-2">
                       {{element.toteQuantity}}
@@ -425,7 +427,7 @@
           
                 <!-- Name Column -->
                 <ng-container matColumnDef="zoneLabel">
-                  <th mat-header-cell *matHeaderCellDef> Zone To Put Away </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Zone To Put Away </th>
                   <td mat-cell *matCellDef="let element">
                     <div class="pe-2">
                       {{element.zoneLabel}}
@@ -435,16 +437,16 @@
           
           
                 <tr mat-header-row *matHeaderRowDef="displayedColumns1; sticky:true"></tr>
-                <tr mat-row class="table-row"  tabindex="1"  *matRowDef="let row; columns: displayedColumns1; let i = index" (click)="selectTotes(i)">
+                <tr mat-row class="table-row"  tabindex="2"  *matRowDef="let row; columns: displayedColumns1; let i = index" (click)="selectTotes(i)">
                 </tr>
               </table>
             </ng-scrollbar>
           </div>
-          <div class="d-flex justify-content-start">
-            <mat-paginator>
-          
+          <div class="d-flex justify-content-between bg-white">
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
             </mat-paginator>
-          </div>
+        </div>
         </mat-card-content>
       </mat-card>
 
