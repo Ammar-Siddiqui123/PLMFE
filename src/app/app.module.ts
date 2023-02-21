@@ -58,7 +58,7 @@ import { BatchDeleteConfirmationComponent } from './dialogs/batch-delete-confirm
     SelectionTransactionForToteComponent,
     CrossDockTransactionComponent,
     ReprocessTransactionDetailViewComponent,
-    ToteTransactionViewComponent
+    ToteTransactionViewComponent,
     BatchDeleteConfirmationComponent
     // ActionDisableDirective,
   ],
