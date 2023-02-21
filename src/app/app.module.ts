@@ -36,6 +36,7 @@ import { SelectionTransactionForToteExtendComponent } from './dialogs/selection-
 import { CrossDockTransactionComponent } from './dialogs/cross-dock-transaction/cross-dock-transaction.component';
 import { ReprocessTransactionDetailViewComponent } from './dialogs/reprocess-transaction-detail-view/reprocess-transaction-detail-view.component';
 import { ToteTransactionViewComponent } from './dialogs/tote-transaction-view/tote-transaction-view.component';
+import { BatchDeleteConfirmationComponent } from './dialogs/batch-delete-confirmation/batch-delete-confirmation.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -58,6 +59,7 @@ import { ToteTransactionViewComponent } from './dialogs/tote-transaction-view/to
     CrossDockTransactionComponent,
     ReprocessTransactionDetailViewComponent,
     ToteTransactionViewComponent
+    BatchDeleteConfirmationComponent
     // ActionDisableDirective,
   ],
   imports: [
