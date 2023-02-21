@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CrossDockTransactionComponent } from '../cross-dock-transaction/cross-dock-transaction.component';
 
 @Component({
   selector: 'app-selection-transaction-for-tote-extend',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SelectionTransactionForToteExtendComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
+  }
+  openCrossDockTransactionDialogue() {
+    const dialogRef = this.dialog.open(CrossDockTransactionComponent, {
+      height: 'auto',
+      width: '70vw',
+      autoFocus: '__non_existing_element__'
+    })
   }
 
 }

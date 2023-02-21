@@ -1858,3 +1858,15 @@ mat-row{
   }
 }
 
+
+.divider-1{
+  border-color: var(--clr-tertiary-50);
+}
+
+
+.overflow-limit-20{
+  text-overflow: ellipsis; 
+        overflow: hidden; 
+        max-width: 20ch; 
+        white-space: nowrap;
+}
