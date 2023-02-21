@@ -72,10 +72,12 @@ export class ProcessPutAwaysComponent implements OnInit {
   selectedIndex: number = 0;
   // Process Put Away
   batchId2: string = '';
+
   searchAutocompleteItemNum2: any = [];
   dataSource2: any;
 
-  inputType: any;
+  inputType="Any";
+  inputValue="";
 
   nextPos: any;
   nextPutLoc: any;
@@ -343,6 +345,8 @@ export class ProcessPutAwaysComponent implements OnInit {
                   timeOut: 2000,
                 });
                 this.selectedIndex = 1;
+                this.batchId2 = this.batchId;
+                this.fillToteTable(this.batchId);
               } else {
                 this.toastr.error('Something went wrong', 'Error!', {
                   positionClass: 'toast-bottom-right',
@@ -564,12 +568,38 @@ export class ProcessPutAwaysComponent implements OnInit {
     }
   }
 
+  selectionChanged(value:any)
+  {
+    this.inputType = value;
+  }
+
   openSelectionTransactionDialogue() {
-    const dialogRef = this.dialog.open(SelectionTransactionForToteComponent, {
-      height: 'auto',
-      width: '1100px',
-      autoFocus: '__non_existing_element__',
-    });
+    if(this.inputValue=="")
+    {
+      this.toastr.error('Please enter input value', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000,
+      });
+
+    }
+    else 
+    {
+      const dialogRef = this.dialog.open(SelectionTransactionForToteComponent, {
+        height: 'auto',
+        width: '1100px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          inputType:  this.inputType,
+          inputValue: this.inputValue,
+          userName:   this.userData.userName,
+          wsid:       this.userData.wsid,
+          batchID:    this.batchId,
+          zones:      this.assignedZones,  
+          totes:      this.dataSource2.data
+        }
+      });
+    }
+    
   }
 
   selectTotes(i: any) {
