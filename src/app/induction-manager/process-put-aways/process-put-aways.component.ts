@@ -236,7 +236,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         batchId : this.batchId2,
-        toteId  : ""
+        toteId  : this.toteID?this.toteID:''
       }
     })
   }
@@ -545,7 +545,9 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   selectTotes(i : any) {
+  
     this.dataSource2.data[i].isSelected = !this.dataSource2.data[i].isSelected;
+      this.toteID= this.dataSource2.data[i].toteID; 
   }
 
   fillToteTable(batchID : string = "") {
