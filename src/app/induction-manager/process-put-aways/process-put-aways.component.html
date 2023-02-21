@@ -367,10 +367,9 @@
             <mat-form-field class="action-dropdown" appearance="outline">
               <mat-label>Actions</mat-label>
               <mat-select class="employees-action">
-                <mat-option>Add Employee</mat-option>
-                <mat-option value="edit">Edit</mat-option>
-                <mat-option value="delete">Delete</mat-option>
-                <mat-option value="print">Print</mat-option>
+                <mat-option value="0" (click)="openToteTransactionViewDialogue()">View Tote Contents</mat-option>
+                <mat-option value="1">Mark Tote as Full</mat-option>
+                <mat-option value="2">Print</mat-option>
                 <!-- <mat-option value="back">Back</mat-option> -->
               </mat-select>
               <span class="material-symbols-outlined icon-expand-more">

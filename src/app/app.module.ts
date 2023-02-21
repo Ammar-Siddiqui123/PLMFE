@@ -33,6 +33,9 @@ import { ConfirmationDialogComponent } from './admin/dialogs/confirmation-dialog
 import { AddFilterFunction } from './dialogs/add-filter-function/add-filter-function.component';
 import { SelectionTransactionForToteComponent } from './dialogs/selection-transaction-for-tote/selection-transaction-for-tote.component';
 import { SelectionTransactionForToteExtendComponent } from './dialogs/selection-transaction-for-tote-extend/selection-transaction-for-tote-extend.component';
+import { CrossDockTransactionComponent } from './dialogs/cross-dock-transaction/cross-dock-transaction.component';
+import { ReprocessTransactionDetailViewComponent } from './dialogs/reprocess-transaction-detail-view/reprocess-transaction-detail-view.component';
+import { ToteTransactionViewComponent } from './dialogs/tote-transaction-view/tote-transaction-view.component';
 import { BatchDeleteConfirmationComponent } from './dialogs/batch-delete-confirmation/batch-delete-confirmation.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -53,6 +56,9 @@ import { BatchDeleteConfirmationComponent } from './dialogs/batch-delete-confirm
     SelectionTransactionForToteExtendComponent,
     AddFilterFunction,
     SelectionTransactionForToteComponent,
+    CrossDockTransactionComponent,
+    ReprocessTransactionDetailViewComponent,
+    ToteTransactionViewComponent,
     BatchDeleteConfirmationComponent
     // ActionDisableDirective,
   ],
