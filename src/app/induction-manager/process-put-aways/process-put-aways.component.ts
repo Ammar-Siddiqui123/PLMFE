@@ -61,6 +61,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     'zoneLabel'
   ];
 
+  selectedIndex : number = 0;
   // Process Put Away 
   batchId2 : string = "";
   searchAutocompleteItemNum2: any = [];
@@ -297,6 +298,7 @@ export class ProcessPutAwaysComponent implements OnInit {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
+              this.selectedIndex = 1;
             } else {
               this.toastr.error('Something went wrong', 'Error!', {
                 positionClass: 'toast-bottom-right',
