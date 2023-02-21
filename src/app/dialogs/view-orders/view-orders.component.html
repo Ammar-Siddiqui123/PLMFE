@@ -20,7 +20,8 @@
         </h2>
         <mat-form-field class="action-dropdown" appearance="outline">
           <mat-label>Actions</mat-label>
-          <mat-select #matRef class="employees-action" placeholder="Actions" (selectionChange)="onChangeOrderAction($event.value)">
+          <mat-select #matRef class="employees-action" placeholder="Actions"
+            (selectionChange)="onChangeOrderAction($event.value)">
             <mat-option value="fill_top_orders">Fill With Top Orders</mat-option>
             <mat-option value="unselect_all_orders">Un-Select All Orders</mat-option>
           </mat-select>
@@ -42,14 +43,13 @@
               </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns2; sticky:true"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns2;" (click)="onOrderSelect(row)" >
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2;" (click)="onOrderSelect(row)">
             </tr>
           </table>
         </ng-scrollbar>
       </div>
       <div class="d-flex justify-content-start">
-        <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
-
+        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
         </mat-paginator>
       </div>
     </div>
@@ -80,8 +80,7 @@
         </ng-scrollbar>
       </div>
       <div class="d-flex justify-content-start">
-        <mat-paginator>
-
+        <mat-paginator #paginatorTrans [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
         </mat-paginator>
       </div>
     </div>
@@ -89,5 +88,6 @@
 </div>
 
 <div class="d-flex gap-12">
-  <button type="submit" mat-flat-button class="form-button-submit btn-lg" style="flex:1" color="primary" (click)="onSelectedOrders()">Submit</button>
+  <button type="submit" mat-flat-button class="form-button-submit btn-lg" style="flex:1" color="primary"
+    (click)="onSelectedOrders()">Submit</button>
 </div>
