@@ -34,6 +34,7 @@ import { AddFilterFunction } from './dialogs/add-filter-function/add-filter-func
 import { SelectionTransactionForToteComponent } from './dialogs/selection-transaction-for-tote/selection-transaction-for-tote.component';
 import { SelectionTransactionForToteExtendComponent } from './dialogs/selection-transaction-for-tote-extend/selection-transaction-for-tote-extend.component';
 import { BatchDeleteConfirmationComponent } from './dialogs/batch-delete-confirmation/batch-delete-confirmation.component';
+import { MarkToteFullComponent } from './dialogs/mark-tote-full/mark-tote-full.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -53,7 +54,8 @@ import { BatchDeleteConfirmationComponent } from './dialogs/batch-delete-confirm
     SelectionTransactionForToteExtendComponent,
     AddFilterFunction,
     SelectionTransactionForToteComponent,
-    BatchDeleteConfirmationComponent
+    BatchDeleteConfirmationComponent,
+    MarkToteFullComponent
     // ActionDisableDirective,
   ],
   imports: [

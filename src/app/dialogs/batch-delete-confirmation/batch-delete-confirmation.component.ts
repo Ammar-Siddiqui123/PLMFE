@@ -24,7 +24,9 @@ export class BatchDeleteConfirmationComponent implements OnInit {
     this.message = data.message;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
   checkOptions(event: MatCheckboxChange): void {
     if (event.checked) {
       this.isChecked = false;
