@@ -33,6 +33,9 @@ import { ConfirmationDialogComponent } from './admin/dialogs/confirmation-dialog
 import { AddFilterFunction } from './dialogs/add-filter-function/add-filter-function.component';
 import { SelectionTransactionForToteComponent } from './dialogs/selection-transaction-for-tote/selection-transaction-for-tote.component';
 import { SelectionTransactionForToteExtendComponent } from './dialogs/selection-transaction-for-tote-extend/selection-transaction-for-tote-extend.component';
+import { CrossDockTransactionComponent } from './dialogs/cross-dock-transaction/cross-dock-transaction.component';
+import { ReprocessTransactionDetailViewComponent } from './dialogs/reprocess-transaction-detail-view/reprocess-transaction-detail-view.component';
+import { ToteTransactionViewComponent } from './dialogs/tote-transaction-view/tote-transaction-view.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -51,7 +54,10 @@ import { SelectionTransactionForToteExtendComponent } from './dialogs/selection-
     SelectionTransactionForToteComponent,
     SelectionTransactionForToteExtendComponent,
     AddFilterFunction,
-    SelectionTransactionForToteComponent
+    SelectionTransactionForToteComponent,
+    CrossDockTransactionComponent,
+    ReprocessTransactionDetailViewComponent,
+    ToteTransactionViewComponent
     // ActionDisableDirective,
   ],
   imports: [

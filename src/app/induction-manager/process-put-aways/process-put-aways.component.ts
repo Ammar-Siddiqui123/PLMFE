@@ -14,6 +14,7 @@ import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
+import { ToteTransactionViewComponent } from 'src/app/dialogs/tote-transaction-view/tote-transaction-view.component';
 
 export interface PeriodicElement {
   position: string;
@@ -212,6 +213,14 @@ export class ProcessPutAwaysComponent implements OnInit {
     const dialogRef = this.dialog.open(TotesAddEditComponent, {
       height: 'auto',
       width: '50vw',
+      autoFocus: '__non_existing_element__'
+    })
+  }
+  
+  openToteTransactionViewDialogue() {
+    const dialogRef = this.dialog.open(ToteTransactionViewComponent, {
+      height: 'auto',
+      width: '80vw',
       autoFocus: '__non_existing_element__'
     })
   }
