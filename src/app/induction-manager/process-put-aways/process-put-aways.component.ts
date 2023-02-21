@@ -594,7 +594,8 @@ export class ProcessPutAwaysComponent implements OnInit {
           userName:   this.userData.userName,
           wsid:       this.userData.wsid,
           batchID:    this.batchId,
-          zones:      this.assignedZones  
+          zones:      this.assignedZones,  
+          totes:      this.dataSource2.data
         }
       });
     }

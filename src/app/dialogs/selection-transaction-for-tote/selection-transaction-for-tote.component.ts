@@ -43,7 +43,18 @@ export class SelectionTransactionForToteComponent implements OnInit {
 
   selectOrder(id:any,itemNumber:any)
   {
-    alert("ID:"+id+ " , Item Number: "+itemNumber);
+    const dialogRef = this.dialog.open(SelectionTransactionForToteExtendComponent, {
+      height: 'auto',
+      width: '100vw',
+      autoFocus: '__non_existing_element__',
+      data: {
+        otid        : id,
+        itemNumber  : itemNumber,
+        zones       : this.data.zones,
+        batchID     : this.data.batchID,
+        totes       : this.data.totes
+      }
+    });
   }
 
   getTransactions()
@@ -83,8 +94,15 @@ export class SelectionTransactionForToteComponent implements OnInit {
     const dialogRef = this.dialog.open(SelectionTransactionForToteExtendComponent, {
       height: 'auto',
       width: '100vw',
-      autoFocus: '__non_existing_element__'
-    })
+      autoFocus: '__non_existing_element__',
+      data: {
+        otid        : '',
+        itemNumber  : this.itemNumber,
+        zones       : this.data.zones,
+        batchID     : this.data.batchID,
+        totes       : this.data.totes
+      }
+    });
   }
 
 }
