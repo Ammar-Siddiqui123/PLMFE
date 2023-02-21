@@ -222,12 +222,33 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   }
 
-  openTotesDialogue() {
+  openTotesDialogue(position:any) {
     const dialogRef = this.dialog.open(TotesAddEditComponent, {
       height: 'auto',
       width: '50vw',
-      autoFocus: '__non_existing_element__'
+      autoFocus: '__non_existing_element__',
+      data:
+      {
+        position: position
+      }
     })
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+
+      if(result.toteID!="")
+      {
+        this.ELEMENT_DATA[(result.position)-1].toteid = result.toteID.toString();
+        //this.ELEMENT_DATA[(result.position)-1].cells = result.cellID.toString();
+        for(var i=0;i<this.ELEMENT_DATA.length;i++)
+        {
+        this.ELEMENT_DATA[i].cells = result.cellID.toString();
+        }
+        
+      }
+
+      }
+    });
   }
 
   openDeleteBatchDialogue() {
