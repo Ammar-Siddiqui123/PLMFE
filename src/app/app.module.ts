@@ -33,6 +33,7 @@ import { ConfirmationDialogComponent } from './admin/dialogs/confirmation-dialog
 import { AddFilterFunction } from './dialogs/add-filter-function/add-filter-function.component';
 import { SelectionTransactionForToteComponent } from './dialogs/selection-transaction-for-tote/selection-transaction-for-tote.component';
 import { SelectionTransactionForToteExtendComponent } from './dialogs/selection-transaction-for-tote-extend/selection-transaction-for-tote-extend.component';
+import { BatchDeleteConfirmationComponent } from './dialogs/batch-delete-confirmation/batch-delete-confirmation.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -51,7 +52,8 @@ import { SelectionTransactionForToteExtendComponent } from './dialogs/selection-
     SelectionTransactionForToteComponent,
     SelectionTransactionForToteExtendComponent,
     AddFilterFunction,
-    SelectionTransactionForToteComponent
+    SelectionTransactionForToteComponent,
+    BatchDeleteConfirmationComponent
     // ActionDisableDirective,
   ],
   imports: [
