@@ -54,16 +54,17 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   displayedColumns1: string[] = [
     'status',
-    'orderno',
-    'itemno',
-    'transaction',
-    'location',
-    'completed'
+    'totesPosition',
+    'toteID',
+    'cells',
+    'toteQuantity',
+    'zoneLabel'
   ];
 
   // Process Put Away 
   batchId2 : string = "";
   searchAutocompleteItemNum2: any = [];
+  dataSource2: any;
 
   // Global 
   processPutAwayIndex : any;
@@ -92,7 +93,6 @@ export class ProcessPutAwaysComponent implements OnInit {
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
         if (value == 1) {
-          // console.log(value);
           this.autocompleteSearchColumnItem2();
         } else {
           this.autocompleteSearchColumnItem(); 
@@ -233,7 +233,11 @@ export class ProcessPutAwaysComponent implements OnInit {
     const dialogRef = this.dialog.open(BatchDeleteComponent, {
       height: 'auto',
       width: '50vw',
-      autoFocus: '__non_existing_element__'
+      autoFocus: '__non_existing_element__',
+      data: {
+        batchId : this.batchId2,
+        toteId  : ""
+      }
     })
   }
 
@@ -540,7 +544,37 @@ export class ProcessPutAwaysComponent implements OnInit {
     })
   }
 
-  fillToteTable() {}
+  fillToteTable(batchID : string = "") {
+    try {
+      var payLoad = {
+        "batchID"   : batchID ? batchID : this.batchId2,
+        "sortOrder": "asc",
+        "sortColumn": 0,
+        "username"  : this.userData.username,
+        "wsid"      : this.userData.wsid
+      };
+  
+      this.service.create(payLoad, '/Induction/TotesTable').subscribe(
+        (res: any) => {
+          if (res.data && res.isExecuted) {
+            this.dataSource2 = new MatTableDataSource<any>(res.data.totesTable);
+            // this.toastr.success('Batch Completed Successfully', 'Success!', {
+            //   positionClass: 'toast-bottom-right',
+            //   timeOut: 2000
+            // });
+          } else {
+            this.toastr.error('Something went wrong', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        },
+        (error) => { }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   completeBatch() {
     try {
