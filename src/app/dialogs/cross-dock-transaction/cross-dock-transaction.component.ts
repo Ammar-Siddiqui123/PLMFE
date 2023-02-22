@@ -47,13 +47,14 @@ export class CrossDockTransactionComponent implements OnInit {
   {
     this.lowerBound = (this.lowerBound-5)<=0?1:this.lowerBound-5;
     this.upperBound =  this.upperBound-5;
+    if(this.upperBound<5){this.upperBound=5;}
     this.getCrossDock();
   }
 
   rightClick()
   { 
     this.lowerBound = this.upperBound+1;
-    this.upperBound = (this.lowerBound+4)<=this.crossDock.numberOfRecords?(this.lowerBound+4):this.crossDock.numberOfRecords;
+    this.upperBound = (this.lowerBound+4)<=this.crossDock.numberRecords?(this.lowerBound+4):this.crossDock.numberRecords;
     this.getCrossDock();
   }
 
@@ -70,7 +71,8 @@ export class CrossDockTransactionComponent implements OnInit {
       ],
       username: this.userId,
       wsid: this.wsid
-    }
+    };
+    console.log(payLoad);
     this.service
       .get(payLoad, '/Induction/CrossDock')
       .subscribe(
