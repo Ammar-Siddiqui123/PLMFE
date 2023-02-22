@@ -1870,3 +1870,23 @@ mat-row{
         max-width: 20ch; 
         white-space: nowrap;
 }
+
+// List Row Seperator Styles --------START
+
+
+.list-row-seperator{
+  .list-item{  
+    border-top: 1px solid var(--clr-tertiary-50);
+    padding-top: 24px;
+      &:first-child{
+        border: none;
+        padding-top: 0px;
+      }
+      // &:first-child{
+      //   border: none;
+      // }
+
+    }
+
+}
+// List Row Seperator Styles --------END
