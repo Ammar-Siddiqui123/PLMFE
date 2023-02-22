@@ -29,6 +29,7 @@ export class CrossDockTransactionComponent implements OnInit {
 
 
   public selectedRow;
+  public selectedRowObj;
 
 
 
@@ -49,7 +50,9 @@ export class CrossDockTransactionComponent implements OnInit {
 
   selectRow(i:any,t:any)
   {
-  this.selectedRow = i;
+    this.selectedRow = i;
+    this.selectedRowObj = t;
+    console.log(this.selectedRowObj);
   }
 
   leftClick()
@@ -81,7 +84,7 @@ export class CrossDockTransactionComponent implements OnInit {
       username: this.userId,
       wsid: this.wsid
     };
-    console.log(payLoad);
+    
     this.service
       .get(payLoad, '/Induction/CrossDock')
       .subscribe(
@@ -111,7 +114,8 @@ export class CrossDockTransactionComponent implements OnInit {
     const dialogRef = this.dialog.open(UserFieldsComponent, {
       height: 'auto',
       width: '70vw',
-      autoFocus: '__non_existing_element__'
+      autoFocus: '__non_existing_element__',
+      data: this.selectedRowObj
     })
   }
 

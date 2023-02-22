@@ -44,6 +44,7 @@ export class UserFieldsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userData = this.authService.userData();
     this.setValues();
   }
 
