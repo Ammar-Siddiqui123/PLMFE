@@ -125,6 +125,7 @@ export class ToteTransactionViewComponent implements OnInit {
   toteID: any;
   selectedOption: any;
   cell:any;
+  isData:any;
   @ViewChild('actionRef') actionRef: MatSelect;
   pageEvent: PageEvent;
   public sortCol:any=0;
@@ -209,9 +210,16 @@ export class ToteTransactionViewComponent implements OnInit {
     };
 
     this.service.get(payLoad,'/Induction/TransTableView').subscribe((res:any)=>{
-  
+      
+      if(res && res.data){
+        this.isData=true
       // this.dataSource = new MatTableDataSource<any>(res.data);
-      this.dataSource = new MatTableDataSource<any>(res.data);
+
+      this.dataSource = new MatTableDataSource<any>(this.dummy_data.data);
+
+      }else{
+        this.isData=false
+      }
     }, (error) => {})
   }
   actionDialog(opened: boolean) {

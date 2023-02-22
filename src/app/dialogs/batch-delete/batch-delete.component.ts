@@ -68,6 +68,7 @@ export class BatchDeleteComponent implements OnInit {
 
   allBatchDelete() {
     var payLoad = {
+
       wsid: this.data.wsid,
       username: this.data.userName,
     };
@@ -83,9 +84,7 @@ export class BatchDeleteComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      console.log(res);
-      
-
+    this.dialogRef.close({isExecuted:true})
     });
   }
 }

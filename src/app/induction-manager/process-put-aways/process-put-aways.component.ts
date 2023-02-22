@@ -272,6 +272,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (res.isExecuted) {
+        this.fillToteTable();
       }
     });
   }
