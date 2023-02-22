@@ -7,7 +7,7 @@
 </div>
 <div class="pb-3">
     <mat-radio-group color="primary" [(ngModel)]="clearBatchTote" >
-        <mat-radio-button class="me-3" value="clearBatch"  >Clear Batch</mat-radio-button>
+        <mat-radio-button class="me-3" value="clearBatch" [disabled]="deleteAllDisable"  >Clear Batch</mat-radio-button>
         <mat-radio-button value="clearTote"  >Clear Tote</mat-radio-button>
     </mat-radio-group>
 </div>
@@ -39,7 +39,7 @@
     <button mat-stroked-button color="warn" class="button-remove-all-w-stroke btn-lg"  (click)="batchTotesDelete(false)">
         Clear Only
     </button>
-    <button mat-flat-button color="warn" class="btn-lg" style="flex:1" (click)="allBatchDelete()">
+    <button mat-flat-button color="warn" class="btn-lg" style="flex:1" [disabled]="deleteAllDisable" (click)="allBatchDelete()">
         Delete All Batches
     </button>
 </div>

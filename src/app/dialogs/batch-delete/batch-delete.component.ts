@@ -16,7 +16,8 @@ export class BatchDeleteComponent implements OnInit {
   toteID = '';
   batchID = '';
   transType = 'Put Away';
-  clearBatchTote: string = 'clearBatch';
+  clearBatchTote: string = '';
+  deleteAllDisable:any;
   constructor(
     public dialogRef: MatDialogRef<BatchDeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -25,9 +26,11 @@ export class BatchDeleteComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
+   
     this.toteID = this.data.toteId;
     this.batchID = this.data.batchId;
+    this.deleteAllDisable=this.data.deleteAllDisable;
+    this.clearBatchTote=this.data.deleteAllDisable?'clearTote':'clearBatch'
   }
 
   batchTotesDelete(deAllocate?) {
