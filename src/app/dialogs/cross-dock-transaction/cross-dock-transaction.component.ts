@@ -27,6 +27,9 @@ export class CrossDockTransactionComponent implements OnInit {
   public upperBound=5;
 
 
+  public selectedRow;
+
+
 
   constructor(private dialog: MatDialog , @Inject(MAT_DIALOG_DATA) public data: any, private service: ProcessPutAwayService,private toastr: ToastrService,) { }
 
@@ -41,6 +44,12 @@ export class CrossDockTransactionComponent implements OnInit {
     this.description =  this.data.description;
 
     this.getCrossDock();
+  }
+
+  selectRow(i:any,t:any)
+  {
+  console.log(t);
+  this.selectedRow = i;
   }
 
   leftClick()
