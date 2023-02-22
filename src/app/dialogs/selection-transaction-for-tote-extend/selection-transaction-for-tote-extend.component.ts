@@ -28,6 +28,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   cellSizeList      : any = [];
   velocityCodeList  : any = [];
   orderNum          : any;
+  totes             : any = [];
 
 
   constructor(public dialogRef                  : MatDialogRef<SelectionTransactionForToteExtendComponent>,
@@ -90,8 +91,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       // Complete Transaction
       toteID                            : new FormControl('', Validators.compose([])),
       totePos                           : new FormControl('', Validators.compose([])),
-      toteCells                         : new FormControl('', Validators.compose([])),
-      toteQty                           : new FormControl('', Validators.compose([]))
+      toteCells                         : new FormControl({value : '', disabled : true}, Validators.compose([])),
+      toteQty                           : new FormControl(0, Validators.compose([]))
 
     });
 
@@ -118,6 +119,9 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
             const values = res.data[0];  
 
             this.orderNum = values.orderNumber;
+            this.totes = this.data.totes;
+
+            var fil = this.totes.filter((e: any) => e.isSelected == true);
 
             this.toteForm.patchValue({
 
@@ -167,10 +171,10 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               quantityAllocatedPutAway          : values.quantityAllocatedPutAway,
 
               // Complete Transaction
-              toteID                            : this.data.toteID,
-              totePos                           : this.data.totePos,
-              toteCells                         : this.data.toteCells,
-              toteQty                           : this.data.toteQty
+              toteID                            : fil[0].toteID,
+              totePos                           : fil[0].totesPosition,
+              toteCells                         : fil[0].cells,
+              toteQty                           : 0
 
             });
           } else {
@@ -411,20 +415,20 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       );
 
       var payload2 = { 
-        "otid": 0,
+        "otid": this.data.otid,
         "splitQty": 0,
         "qty": 0,
-        "toteID": "string",
-        "batchID": "string",
-        "item": "string",
-        "uF1": "string",
-        "uF2": "string",
-        "lot": "string",
-        "ser": "string",
+        "toteID": values.toteID,
+        "batchID": this.data.batchID,
+        "item": values.itemNumber,
+        "uF1": values.userField1,
+        "uF2": values.userField2,
+        "lot": values.lotNumber,
+        "ser": values.serialNumber,
         "totePos": 0,
-        "cell": "string",
-        "warehouse": "string",
-        "expDate": "string",
+        "cell": values.cell,
+        "warehouse": values.warehouse,
+        "expDate": values.expirationDate,
         "revision": "string",
         "zone": "string",
         "carousel": "string",
