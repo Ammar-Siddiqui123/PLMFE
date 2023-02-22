@@ -396,9 +396,8 @@
                 <div class="d-flex align-items-center mb-2">
                     <mat-form-field class="w-100 action-dropdown custom-form-field-bg-white" appearance="outline">
                         <mat-label>Tote ID</mat-label>
-                        <mat-select class="employees-action" value="0" disabled>
-                          <mat-option value="0">ABC</mat-option>
-                          <mat-option value="1">XYZ</mat-option>
+                        <mat-select formControlName="toteID" class="employees-action">
+                          <mat-option *ngFor="let tote of totes" value="{{tote.toteID}}">{{tote.toteID}}</mat-option>
                           <!-- <mat-option value="back">Back</mat-option> -->
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
@@ -411,9 +410,8 @@
                 <div class="d-flex align-items-center mb-2">
                     <mat-form-field class="w-100 action-dropdown custom-form-field-bg-white" appearance="outline">
                         <mat-label>Tote Position</mat-label>
-                        <mat-select class="employees-action" value="0">
-                          <mat-option value="0">ABC</mat-option>
-                          <mat-option value="1">XYZ</mat-option>
+                        <mat-select formControlName="totePos" class="employees-action">
+                          <mat-option *ngFor="let tote of totes" value="{{tote.totesPosition}}">{{tote.totesPosition}}</mat-option>
                           <!-- <mat-option value="back">Back</mat-option> -->
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
@@ -425,13 +423,13 @@
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2" appearance="outline">
                     <mat-label>Available Cells In Tote </mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="0" disabled>
+                    <input formControlName="toteCells" (keydown.shift.enter)="$event.preventDefault()" matInput type="number">
                   </mat-form-field>
             </div>
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2" appearance="outline">
                     <mat-label>Quantity To Assign</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="0">
+                    <input formControlName="toteQty" (keydown.shift.enter)="$event.preventDefault()" matInput type="number">
                   </mat-form-field>
             </div>
         </div>

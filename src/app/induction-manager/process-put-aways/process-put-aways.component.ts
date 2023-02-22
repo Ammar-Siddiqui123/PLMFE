@@ -681,13 +681,13 @@ export class ProcessPutAwaysComponent implements OnInit {
           if (result == 'Yes') {
             var payLoad = {
               batchID: this.batchId2,
-              username: this.userData.username,
+              username: this.userData.userName,
               wsid: this.userData.wsid,
             };
 
             this.service.create(payLoad, '/Induction/CompleteBatch').subscribe(
               (res: any) => {
-                if (res.data && res.isExecuted) {
+                if (res.isExecuted) {
                   this.toastr.success(
                     'Batch Completed Successfully',
                     'Success!',
