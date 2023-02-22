@@ -22,6 +22,11 @@ export class SelectionTransactionForToteComponent implements OnInit {
   public itemNumber;
   public description;
 
+  public lowerBound=1;
+  public upperBound=5;
+
+
+
   constructor(private dialog: MatDialog,public dialogRef: MatDialogRef<SelectionTransactionForToteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,private service: ProcessPutAwayService,private toastr: ToastrService) { }
 
@@ -57,11 +62,25 @@ export class SelectionTransactionForToteComponent implements OnInit {
     });
   }
 
+  rightClick()
+  { 
+    this.lowerBound = this.upperBound+1;
+    this.upperBound = (this.lowerBound+4)<=this.apiResponse.numberOfRecords?(this.lowerBound+4):this.apiResponse.numberOfRecords;
+    this.getTransactions();
+  }
+
+  leftClick()
+  {
+    this.lowerBound = (this.lowerBound-5)<=0?1:this.lowerBound-5;
+    this.upperBound =  this.upperBound-5;
+    this.getTransactions();
+  }
+
   getTransactions()
   {
     let getTransaction = {
-      lowerBound: 1,
-      upperBound: 5,
+      lowerBound: this.lowerBound,
+      upperBound: this.upperBound,
       input: [
         this.inputValue,
         this.inputType,
@@ -70,6 +89,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
       username: this.userName,
       wsid: this.wsid
     };
+    console.log(getTransaction);
     this.service
       .get(getTransaction, '/Induction/TransactionForTote')
       .subscribe(
@@ -80,6 +100,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
               this.dialogRef.close("NO");
             }
             this.apiResponse = res.data;
+            this.apiResponse.numberOfRecords=10;//remove
             this.itemNumber = this.apiResponse.itemNumber;
             this.description = this.apiResponse.description;
           } else {
