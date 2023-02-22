@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,6 +15,7 @@ import { AddFilterFunction } from '../add-filter-function/add-filter-function.co
 import labels from '../../labels/labels.json';
 import { DeleteConfirmationComponent } from '../../../app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { MatPaginator } from '@angular/material/paginator';
 
 export interface PeriodicElement {
   name: string;
@@ -172,7 +173,10 @@ export class PickToteManagerComponent implements OnInit {
 
   displayedColumns4: string[] = ['select', 'zone', 'batchtype', 'totalorders', 'totallocations', 'other'];
   batchByOrderColumns: string[] = ['default', 'zone', 'batchtype', 'totalorders', 'totallocations', 'actions'];
-
+  @ViewChild('filterBatchOrder') filterBatchOrder: MatPaginator;
+  @ViewChild('filterBatchTrans') filterBatchTrans: MatPaginator;
+  @ViewChild('zoneBatchOrder') zoneBatchOrder: MatPaginator;
+  @ViewChild('zoneBatchTrans') zoneBatchTrans: MatPaginator;
 
   constructor(
     private dialog: MatDialog,
@@ -417,6 +421,7 @@ export class PickToteManagerComponent implements OnInit {
             this.FILTER_BATCH_DATA.push({ 'orderNumber': val.orderNumber, 'reqDate': val.reqDate, 'priority': val.priority, isSelected: false });
           });
           this.filterBatchOrders = new MatTableDataSource<any>(this.FILTER_BATCH_DATA);
+          this.filterBatchOrders.paginator = this.filterBatchOrder;
         }
       });
     }
@@ -438,6 +443,7 @@ export class PickToteManagerComponent implements OnInit {
             this.FILTER_BATCH_DATA_ZONE.push({ 'orderNumber': val.orderNumber, 'reqDate': val.reqDate, 'priority': val.priority, isSelected: false });
           });
           this.filterBatchOrdersZone = new MatTableDataSource<any>(this.FILTER_BATCH_DATA_ZONE);
+          this.filterBatchOrdersZone.paginator = this.zoneBatchOrder;
         }
       });
     }
@@ -494,7 +500,8 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
         if (res.data) {
-          this.filterOrderTransactionSource = res.data.pickToteManTrans;
+          this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
+          this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
         }
       });
     }
@@ -539,7 +546,8 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
         if (res.data) {
-          this.zoneOrderTransactionSource = res.data.pickToteManTrans;
+          this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
+          this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
         }
       });
     }

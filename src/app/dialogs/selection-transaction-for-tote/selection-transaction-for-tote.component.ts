@@ -95,7 +95,10 @@ export class SelectionTransactionForToteComponent implements OnInit {
       .subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
-            this.transactionTable = res.data.transactionTable ;
+            this.transactionTable = res.data.transactionTable;
+            if (!res.data.transactionTable || res.data.transactionTable.length == 0) {
+              this.dialogRef.close("NO");
+            }
             this.apiResponse = res.data;
             this.apiResponse.numberOfRecords=10;//remove
             this.itemNumber = this.apiResponse.itemNumber;

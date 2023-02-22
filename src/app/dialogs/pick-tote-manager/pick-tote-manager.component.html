@@ -205,10 +205,6 @@
                             </div>
                           </td>
                         </ng-container>
-
-
-
-
                         <tr mat-header-row *matHeaderRowDef="disFilterColumns; sticky:true"></tr>
                         <tr mat-row *matRowDef="let row; columns: disFilterColumns;" (click)="selection.toggle(row)">
                         </tr>
@@ -427,8 +423,7 @@
                     </ng-scrollbar>
                   </div>
                   <div class="d-flex justify-content-start">
-                    <mat-paginator>
-
+                    <mat-paginator #filterBatchOrder [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
                     </mat-paginator>
                   </div>
                 </div>
@@ -460,8 +455,7 @@
                     </ng-scrollbar>
                   </div>
                   <div class="d-flex justify-content-start">
-                    <mat-paginator>
-
+                    <mat-paginator #filterBatchTrans [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
                     </mat-paginator>
                   </div>
                 </div>
@@ -648,8 +642,7 @@
                     </ng-scrollbar>
                   </div>
                   <div class="d-flex justify-content-start">
-                    <mat-paginator>
-
+                    <mat-paginator #zoneBatchOrder [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
                     </mat-paginator>
                   </div>
                 </div>
@@ -668,52 +661,6 @@
                   </div>
                   <div class="card br-14 table-responsive borderless px-0 mb-3">
                     <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 280px;">
-                      <!-- <table mat-table [dataSource]="zoneOrderTransactionSource" class="w-100 table1">
-
-                        
-                        <ng-container matColumnDef="orderno">
-                          <th mat-header-cell *matHeaderCellDef> Order Number </th>
-                          <td mat-cell *matCellDef="let element">
-                            <div class="pe-2">
-                              12312
-                            </div>
-                          </td>
-                        </ng-container>
-
-                        
-                        <ng-container matColumnDef="itemno">
-                          <th mat-header-cell *matHeaderCellDef> Item Number </th>
-                          <td mat-cell *matCellDef="let element">
-                            <div class="pe-2">
-                              123
-                            </div>
-                          </td>
-                        </ng-container>
-
-                        
-                        <ng-container matColumnDef="transaction">
-                          <th mat-header-cell *matHeaderCellDef> Transaction Quantity </th>
-                          <td mat-cell *matCellDef="let element">
-                            <div class="pe-2">
-                              123
-                            </div>
-                          </td>
-                        </ng-container>
-                        
-                        <ng-container matColumnDef="location">
-                          <th mat-header-cell *matHeaderCellDef> Location </th>
-                          <td mat-cell *matCellDef="let element">
-                            <div class="pe-2">
-                              123
-                            </div>
-                          </td>
-                        </ng-container>
-
-
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns3; sticky:true"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns3;"  (click)="selection.toggle(row)">
-                        </tr>
-                      </table> -->
                       <mat-table #table [dataSource]="zoneOrderTransactionSource">
 
                         <ng-container *ngFor="let column of filterBatchTransColumns" [cdkColumnDef]="column.columnDef">
@@ -726,8 +673,7 @@
                     </ng-scrollbar>
                   </div>
                   <div class="d-flex justify-content-start">
-                    <mat-paginator>
-
+                    <mat-paginator #zoneBatchTrans [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
                     </mat-paginator>
                   </div>
                 </div>

@@ -29,7 +29,7 @@
                             <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                                 <mat-label>Batch ID</mat-label>
                                 <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
-                                    [(ngModel)]="batchID" #batch_id>
+                                    [(ngModel)]="batchID" #batch_id required="required">
                             </mat-form-field>
                         </div>
                     </div>
@@ -43,8 +43,8 @@
                             style="min-width: 150px;" (click)="onAddBatch('newBatch')">
                             New Batch
                         </button>
-                        <button *ngIf="useInZonePickScreen" mat-stroked-button color="primary" class="button-primary-o bg-white w-100" style="min-width: 150px;"
-                            (click)="openBlossomToteDialogue()">
+                        <button *ngIf="useInZonePickScreen" mat-stroked-button color="primary" class="w-100"
+                            style="min-width: 150px;" (click)="openBlossomToteDialogue()">
                             Blossom
                         </button>
                     </div>
@@ -52,8 +52,7 @@
             </div>
             <div class="col-xl-8" *ngIf="!useInZonePickScreen">
                 <div class="card p-3 mb-2">
-                    <mat-radio-group color="primary" class="d-flex"  name="radioOpt1" 
-                    [(ngModel)]="pickType">
+                    <mat-radio-group color="primary" class="d-flex" name="radioOpt1" [(ngModel)]="pickType">
                         <div class="d-flex w-100 pe-2 align-items-center">
                             <mat-radio-button class=" custom-horizontal-radio" value="MixedZones">
                             </mat-radio-button>
@@ -132,8 +131,7 @@
                                 <mat-label>Batch ID</mat-label>
                                 <input type="text" [formControl]="pickBatches" aria-label="Number" matInput
                                     [matAutocomplete]="auto">
-                                <mat-autocomplete autoActiveFirstOption
-                                    #auto="matAutocomplete">
+                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                                     <h6 class="ctl_name ac-dropdown-label"><span>Batch ID</span></h6>
                                     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                                         <div class="ctl_option ac-dropdown-option">
@@ -167,31 +165,39 @@
 
                 <div class="row align-items-center">
                     <div class="col-xl-8">
-
-                        <mat-form-field class="custom-form-field w-100" appearance="outline">
+                        <mat-form-field class="custom-form-field w-100 position-relative" appearance="outline">
                             <mat-label>Order No.</mat-label>
-                            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" placeholder="Order No.">
+                            <input type="text" [formControl]="orderNumber" aria-label="Number" matInput
+                                [matAutocomplete]="auto" (focusout)="ifOrderExits(inputVal.value)" #inputVal>
+                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                <h6 class="ctl_name ac-dropdown-label"><span>Batch ID</span></h6>
+                                <mat-option *ngFor="let option of filteredOrderNum | async" [value]="option">
+                                    <div class="ctl_option ac-dropdown-option">
+                                        <span>{{option}}</span>
+                                    </div>
+                                </mat-option>
+                            </mat-autocomplete>
                         </mat-form-field>
 
                     </div>
                     <div class="col-xl-4">
-                        <button mat-flat-button [matMenuTriggerFor]="orderMenu" color="primary"
+                        <a mat-flat-button [matMenuTriggerFor]="orderMenu" color="primary"
                             class="primary-button btn-regular w-100" style="min-width: 150px;">
                             View Orders
                             <mat-icon matSuffix> expand_more</mat-icon>
-                        </button>
+                        </a>
                         <mat-menu #orderMenu="matMenu" xPosition="before">
-                            <button mat-menu-item (click)="openViewOrdersDialogue('All')"><b
+                            <button type="button" mat-menu-item (click)="openViewOrdersDialogue('All')"><b
                                     class="text-tertiary-900">View All Orders</b></button>
-                            <button mat-menu-item (click)="openViewOrdersDialogue('NonReplen')">View Non Replenishment
+                            <button type="button" mat-menu-item (click)="openViewOrdersDialogue('NonReplen')">View Non Replenishment
                                 Orders</button>
-                            <button mat-menu-item (click)="openViewOrdersDialogue('Replen')">View Replenishment
+                            <button type="button" mat-menu-item (click)="openViewOrdersDialogue('Replen')">View Replenishment
                                 Orders</button>
                         </mat-menu>
                     </div>
                 </div>
                 <div class="mt-2">
-                    <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
+                    <button type="button" mat-flat-button color="primary" class="primary-button btn-regular w-100"
                         style="min-width: 150px;" (click)="openWorkstationZone()">
                         Select Workstation Zones
                     </button>
@@ -216,7 +222,8 @@
             <mat-form-field class="action-dropdown" appearance="outline">
                 <mat-label>Actions</mat-label>
                 <mat-select class="employees-action" placeholder="Actions" (selectionChange)="onToteAction($event)">
-                    <mat-option value="fill_all_tote"><b class="text-tertiary-900">Fill All Empty Tote IDs</b></mat-option>
+                    <mat-option value="fill_all_tote"><b class="text-tertiary-900">Fill All Empty Tote
+                            IDs</b></mat-option>
                     <mat-option value="fill_next_tote">Fill Next Empty Tote ID</mat-option>
                     <mat-option value="clear_all_totes">Clear All Totes</mat-option>
                     <mat-option value="clear_all_orders">Clear All Orders</mat-option>
@@ -265,7 +272,7 @@
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
 
                                     <input matInput type="text" #specialFeature maxlength="255"
-                                    [(ngModel)]="element.orderNumber" disabled="{{useInZonePickScreen}}">
+                                        [(ngModel)]="element.orderNumber" disabled="{{useInZonePickScreen}}">
                                 </mat-form-field>
                             </div>
                         </td>
@@ -286,17 +293,17 @@
                         <th mat-header-cell *matHeaderCellDef></th>
                         <td mat-cell *matCellDef="let element; let i = index;">
                             <div class="d-flex justify-content-end">
-                                <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label=""
+                                <button type="button" mat-icon-button [matMenuTriggerFor]="appMenu" aria-label=""
                                     class="circle-icon-o" appearance="outline">
                                     <mat-icon>more_horiz</mat-icon>
                                 </button>
 
                                 <mat-menu #appMenu="matMenu">
-                                    <button mat-menu-item><b class="text-tertiary-900">View Order</b></button>
-                                    <button mat-menu-item (click)="clearOrderNumber(i)">Clear</button>
-                                    <button mat-menu-item>Print Tote Labels</button>
-                                    <button mat-menu-item>Print Pick Labels</button>
-                                    <button mat-menu-item (click)="fillNextToteID(i)">Next Tote ID</button>
+                                    <a mat-menu-item><b class="text-tertiary-900" (click)="onViewOrder()">View Order</b></a>
+                                    <button type="button" mat-menu-item (click)="clearOrderNumber(i)">Clear</button>
+                                    <button type="button" mat-menu-item>Print Tote Labels</button>
+                                    <button type="button" mat-menu-item>Print Pick Labels</button>
+                                    <button type="button" mat-menu-item (click)="fillNextToteID(i)">Next Tote ID</button>
                                 </mat-menu>
                             </div>
                         </td>
@@ -327,10 +334,20 @@
             <mat-icon color="primary">ballot</mat-icon>
         </div>
         <div>
-            <h4 class="bold text-primary-900 mb-4"><ng-container *ngIf="!batchWithID">New Batch</ng-container> <ng-container *ngIf="batchWithID">New Batch With ID</ng-container></h4>
+            <h4 class="bold text-primary-900 mb-4"><ng-container *ngIf="!batchWithID">New Batch</ng-container>
+                <ng-container *ngIf="batchWithID">New Batch With ID</ng-container>
+            </h4>
             <p class="bold mb-4">
-            <ng-container *ngIf="!batchWithID">     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create a New Batch? &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </ng-container>
-            <ng-container *ngIf="batchWithID">     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create a New Batch with next Batch Pick ID? &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </ng-container>
+                <ng-container *ngIf="!batchWithID">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create
+                    a New Batch?
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </ng-container>
+                <ng-container *ngIf="batchWithID">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create
+                    a New Batch with next Batch Pick ID?
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </ng-container>
             </p>
             <div class="mb-3">
                 <button mat-flat-button color="primary" class="custom-btn w-100" (click)="confirmAddBatchDialog()">

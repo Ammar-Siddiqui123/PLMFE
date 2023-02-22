@@ -201,8 +201,8 @@ export class ProcessPutAwaysComponent implements OnInit {
   openSelectZonesDialogue() {
     if (this.batchId != '') {
       const dialogRef = this.dialog.open(SelectZonesComponent, {
-        height: '96vh',
-        width: '100%',
+        height: 'auto',
+        width: '60%',
         autoFocus: '__non_existing_element__',
         data: {
           batchId: this.batchId,
@@ -598,6 +598,16 @@ export class ProcessPutAwaysComponent implements OnInit {
           totes:      this.dataSource2.data
         }
       });
+
+      dialogRef.afterClosed().subscribe((result) => {        
+        if (result == 'NO') {
+          this.toastr.error('The input code provided was not recognized as an Item Number, Lot Number, Serial Number, Host Transaction ID, Scan Code or Supplier Item ID.', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });        
+        }
+      });
+
     }
     
   }
