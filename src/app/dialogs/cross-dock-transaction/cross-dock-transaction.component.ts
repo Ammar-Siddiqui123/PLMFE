@@ -48,7 +48,6 @@ export class CrossDockTransactionComponent implements OnInit {
 
   selectRow(i:any,t:any)
   {
-  console.log(t);
   this.selectedRow = i;
   }
 

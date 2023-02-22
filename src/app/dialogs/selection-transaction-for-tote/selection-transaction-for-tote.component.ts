@@ -70,6 +70,8 @@ export class SelectionTransactionForToteComponent implements OnInit {
   { 
     this.lowerBound = this.upperBound+1;
     this.upperBound = (this.lowerBound+4)<=this.apiResponse.numberOfRecords?(this.lowerBound+4):this.apiResponse.numberOfRecords;
+    
+
     this.getTransactions();
   }
 
@@ -105,7 +107,6 @@ export class SelectionTransactionForToteComponent implements OnInit {
               this.dialogRef.close("NO");
             }
             this.apiResponse = res.data;
-            this.apiResponse.numberOfRecords=10;//remove
             this.itemNumber = this.apiResponse.itemNumber;
             this.description = this.apiResponse.description;
           } else {
