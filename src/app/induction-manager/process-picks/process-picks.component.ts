@@ -15,6 +15,8 @@ import { WorkstationZonesComponent } from 'src/app/dialogs/workstation-zones/wor
 import { map, Subject, takeUntil } from 'rxjs';
 import labels from '../../labels/labels.json';
 import { MatSelect } from '@angular/material/select';
+import { Router } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-process-picks',
@@ -37,11 +39,14 @@ export class ProcessPicksComponent implements OnInit {
   pickType: any = 'MixedZones';
   allZones: any;
   allOrders: any[] = [];
-  pickBatchesList: any[] = [];;
+  pickBatchesList: any[] = [];
+  orderNumberList: any[] = [];
   pickBatches = new FormControl('');
+  orderNumber = new FormControl('');
   batchWithID = false;
   // pickBatches:any = '';
   filteredOptions: Observable<any[]>;
+  filteredOrderNum: Observable<any[]>;
   displayedColumns: string[] = ['position', 'toteid', 'orderno', 'priority', 'other'];
   dataSource: any;
   nxtToteID: any;
@@ -50,7 +55,7 @@ export class ProcessPicksComponent implements OnInit {
   @ViewChild('batchPickID') batchPickID: TemplateRef<any>;
   @ViewChild('processSetup') processSetup: TemplateRef<any>;
   @ViewChild('batch_id') batch_id: ElementRef;
-  isBatchIdFocus:boolean = false;
+  isBatchIdFocus: boolean = false;
 
   public ifAllowed: boolean = false
 
@@ -59,17 +64,52 @@ export class ProcessPicksComponent implements OnInit {
     private pPickService: ProcessPicksService,
     private toastr: ToastrService,
     private authService: AuthService,
+    private router: Router,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.pickToteSetupIndex();
     this.getAllZones();
+    this.getAllOrders();
     this.isBatchIdFocus = true;
+  }
+  getAllOrders() {
+    let paylaod = {
+      "OrderView": 'All',
+      "wsid": this.userData.wsid,
+    }
+    this.pPickService.get(paylaod, '/Induction/OrdersInZone').subscribe((res) => {
+      if (res.data) {
+        this.orderNumberList = res.data
+      }
+      this.filteredOrderNum = this.orderNumber.valueChanges.pipe(
+        startWith(""),
+        map(value => (typeof value === "string" ? value : value)),
+        map(name => (name ? this._orderFilter(name) : this.orderNumberList.slice()))
+      );
+    });
+  }
+
+  ifOrderExits(orderNum: any) {
+    if (orderNum != '') {
+      const val = this.orderNumberList.includes(orderNum);
+      if (!val) {
+        let zone = '';
+        this.allZones.map(i => {
+          zone += i + ' ';
+        })
+        this.toastr.error(`Order ${val} does not have a line go to Zones: ${zone} `, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    }
   }
 
   ngAfterViewChecked(): void {
-    if(this.isBatchIdFocus){
+    if (this.isBatchIdFocus) {
       this.batch_id.nativeElement.focus();
       this.isBatchIdFocus = false;
     }
@@ -84,9 +124,9 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   @HostListener('click')
-    documentClick(event: MouseEvent) {
-       this.ifAllowed = true
-    }
+  documentClick(event: MouseEvent) {
+    this.ifAllowed = true
+  }
 
   getAllZones() {
     let paylaod = {
@@ -140,6 +180,11 @@ export class ProcessPicksComponent implements OnInit {
     return this.pickBatchesList.filter(option => option.toLowerCase().includes(filterValue));
   }
 
+  private _orderFilter(name: string): any[] {
+    const filterValue = name.toLowerCase();
+    return this.orderNumberList.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
   onAddBatch(val: string) {
     if (val === 'batchWithID') {
       this.batchWithID = true;
@@ -170,14 +215,18 @@ export class ProcessPicksComponent implements OnInit {
                   });
                 });
               }
-              if(this.autoPickToteID){
-                this.getAllToteIds()
+              if (this.autoPickToteID) {
+                this.getAllToteIds(true)
               }
             }
+            this.TOTE_SETUP.map(obj => {
+              obj.toteID = '';
+              obj.orderNumber = '';
+            });
           }
           else {
             if (this.autoPickToteID) {
-              this.getAllToteIds()
+              this.getAllToteIds(true)
             }
           }
         }
@@ -192,6 +241,14 @@ export class ProcessPicksComponent implements OnInit {
       }
     });
   }
+
+  onViewOrder() {
+    // this.sharedService.updateInductionAdminMenu('induction')
+    // this.router.navigate([]).then((result) => {
+    //   window.open('/#/InductionManager/TransactionJournal?q=2', '_blank');
+    // });
+  }
+  
 
   confirmAddBatchDialog() {
     this.dialogClose = true;
@@ -305,7 +362,7 @@ export class ProcessPicksComponent implements OnInit {
     matSelect.writeValue(null);
   }
 
-  getAllToteIds() {
+  getAllToteIds(autoToteIds: boolean = false) {
     let paylaod = {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
@@ -314,6 +371,10 @@ export class ProcessPicksComponent implements OnInit {
       this.nxtToteID = res.data;
       this.TOTE_SETUP.forEach((element, key) => {
         if (!element.toteID) {
+          element.toteID = this.nxtToteID;
+          this.nxtToteID = this.nxtToteID + 1;
+        }
+        if (autoToteIds) {
           element.toteID = this.nxtToteID;
           this.nxtToteID = this.nxtToteID + 1;
         }
@@ -424,6 +485,23 @@ export class ProcessPicksComponent implements OnInit {
       ToteIDs.push(obj.toteID?.toString() ?? '');
       OrderNumbers.push(obj.orderNumber?.toString() ?? '');
     });
+    console.log(this.TOTE_SETUP);
+    if (this.TOTE_SETUP.filter(e => e.toteID).length == 0) {
+      this.toastr.error('Please enter in at least 1 tote id to process.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      this.dialog.closeAll();
+      return
+    }
+    if (this.TOTE_SETUP.filter(e => e.orderNumber).length == 0) {
+      this.toastr.error('Please enter in at least 1 order number to process.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      this.dialog.closeAll();
+      return
+    }
     if (this.useInZonePickScreen) {
       let paylaod = {
         Positions,
