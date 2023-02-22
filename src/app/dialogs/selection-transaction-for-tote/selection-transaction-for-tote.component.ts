@@ -62,7 +62,9 @@ export class SelectionTransactionForToteComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((res) => {
-      this.dialogRef.close(res);
+      if (res) {
+        this.dialogRef.close(res); 
+      }      
     });
   }
 
@@ -135,7 +137,10 @@ export class SelectionTransactionForToteComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((res) => {
-      this.dialogRef.close(res);
+      if (res) {
+        this.dialogRef.close(res);  
+      }
+      
     });
   }
 

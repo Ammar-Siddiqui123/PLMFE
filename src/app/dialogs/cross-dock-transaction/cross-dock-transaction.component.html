@@ -49,7 +49,7 @@
                 <mat-select #openAction class="employees-action" placeholder="Actions" >
                     
                     <mat-option value="0">Next Tote</mat-option>
-                    <mat-option value="clear">User Fields</mat-option>
+                    <mat-option value="clear" (click)="openUserFieldsDialogue()">User Fields</mat-option>
                     <mat-option value="2">View Order Status</mat-option>
                     <mat-option value="3" (click)="openReprocessTransactionViewDialogue()">View Reprocess</mat-option>
                     <mat-option value="4">Print Tote Label</mat-option>
@@ -135,7 +135,7 @@
     <button mat-stroked-button color="primary" class="btn-lg" (click)="refresh()">
         Refresh
     </button>
-    <button mat-flat-button color="primary" class="btn-lg" style="flex:1">
+    <button mat-flat-button color="primary" class="btn-lg" style="flex:1" (click)="submit()">
         Send Transaction To Tote Batch
     </button>
 </div>

@@ -3,6 +3,7 @@ import { MatDialog , MatDialogRef, MAT_DIALOG_DATA  } from '@angular/material/di
 import { ReprocessTransactionDetailViewComponent } from '../reprocess-transaction-detail-view/reprocess-transaction-detail-view.component';
 import { ProcessPutAwayService } from '../../../app/induction-manager/processPutAway.service';
 import { ToastrService } from 'ngx-toastr';
+import { UserFieldsComponent } from '../user-fields/user-fields.component';
 import { TotesAddEditComponent } from '../totes-add-edit/totes-add-edit.component';
 
 @Component({
@@ -29,10 +30,11 @@ export class CrossDockTransactionComponent implements OnInit {
 
 
   public selectedRow;
+  public selectedRowObj;
 
 
 
-  constructor(private dialog: MatDialog , @Inject(MAT_DIALOG_DATA) public data: any, private service: ProcessPutAwayService,private toastr: ToastrService,) { }
+  constructor(public dialogRef : MatDialogRef<CrossDockTransactionComponent>, private dialog: MatDialog , @Inject(MAT_DIALOG_DATA) public data: any, private service: ProcessPutAwayService,private toastr: ToastrService,) { }
 
   ngOnInit(): void {
     this.itemWhse = this.data.itemWhse;
@@ -84,7 +86,9 @@ export class CrossDockTransactionComponent implements OnInit {
 
   selectRow(i:any,t:any)
   {
-  this.selectedRow = i;
+    this.selectedRow = i;
+    this.selectedRowObj = t;
+    console.log(this.selectedRowObj);
   }
 
   leftClick()
@@ -116,7 +120,7 @@ export class CrossDockTransactionComponent implements OnInit {
       username: this.userId,
       wsid: this.wsid
     };
-    console.log(payLoad);
+    
     this.service
       .get(payLoad, '/Induction/CrossDock')
       .subscribe(
@@ -142,11 +146,24 @@ export class CrossDockTransactionComponent implements OnInit {
     this.getCrossDock();
   }
 
+  openUserFieldsDialogue() {
+    const dialogRef = this.dialog.open(UserFieldsComponent, {
+      height: 'auto',
+      width: '70vw',
+      autoFocus: '__non_existing_element__',
+      data: this.selectedRowObj
+    })
+  }
+
   openReprocessTransactionViewDialogue() {
     const dialogRef = this.dialog.open(ReprocessTransactionDetailViewComponent, {
       height: 'auto',
       width: '70vw',
       autoFocus: '__non_existing_element__'
     })
+  }
+
+  submit() {
+    this.dialogRef.close("Submit");
   }
 }

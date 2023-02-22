@@ -39,6 +39,8 @@ import { ToteTransactionViewComponent } from './dialogs/tote-transaction-view/to
 import { BatchDeleteConfirmationComponent } from './dialogs/batch-delete-confirmation/batch-delete-confirmation.component';
 import { MarkToteFullComponent } from './dialogs/mark-tote-full/mark-tote-full.component';
 import { AlertConfirmationComponent } from './dialogs/alert-confirmation/alert-confirmation.component';
+import { UserFieldsComponent } from './dialogs/user-fields/user-fields.component';
+import { ChooseLocationComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -63,7 +65,9 @@ import { AlertConfirmationComponent } from './dialogs/alert-confirmation/alert-c
     ToteTransactionViewComponent,
     BatchDeleteConfirmationComponent,
     MarkToteFullComponent,
-    AlertConfirmationComponent
+    AlertConfirmationComponent,
+    UserFieldsComponent,
+    ChooseLocationComponent
     // ActionDisableDirective,
   ],
   imports: [
