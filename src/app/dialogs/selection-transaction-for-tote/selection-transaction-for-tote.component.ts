@@ -77,6 +77,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
   {
     this.lowerBound = (this.lowerBound-5)<=0?1:this.lowerBound-5;
     this.upperBound =  this.upperBound-5;
+    if(this.upperBound<5){this.upperBound=5;}
     this.getTransactions();
   }
 
