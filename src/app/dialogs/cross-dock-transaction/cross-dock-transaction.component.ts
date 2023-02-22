@@ -34,7 +34,7 @@ export class CrossDockTransactionComponent implements OnInit {
 
 
 
-  constructor(private dialog: MatDialog , @Inject(MAT_DIALOG_DATA) public data: any, private service: ProcessPutAwayService,private toastr: ToastrService,) { }
+  constructor(public dialogRef : MatDialogRef<CrossDockTransactionComponent>, private dialog: MatDialog , @Inject(MAT_DIALOG_DATA) public data: any, private service: ProcessPutAwayService,private toastr: ToastrService,) { }
 
   ngOnInit(): void {
     this.itemWhse = this.data.itemWhse;
@@ -161,5 +161,9 @@ export class CrossDockTransactionComponent implements OnInit {
       width: '70vw',
       autoFocus: '__non_existing_element__'
     })
+  }
+
+  submit() {
+    this.dialogRef.close("Submit");
   }
 }

@@ -396,7 +396,14 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         zone: values.zones,
         description: values.description
       }
-    })
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res == "Submit") {
+        this.completeTransaction();
+      }
+      
+    });
   }
 
   completeTransaction() {
