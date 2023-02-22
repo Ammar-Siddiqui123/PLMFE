@@ -9,23 +9,23 @@
     <div class="row">
         <div class="col-xl-8 offset-xl-2">
             <div class="d-flex align-items-center justify-content-center flex-wrap gap-12 mb-3">
-                <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Item No.:&nbsp;<b>000000</b></span></div>
-                <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Batch ID:&nbsp;<b>000000</b></span></div>
-                <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Zones:&nbsp;<b>00000000000000000000000000000000000000</b></span></div>
-                <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Description:&nbsp;<b>Macanudo Prince Phillip Cafe - Box Of 25</b></span></div>
+                <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Item No.:&nbsp;<b>{{itemWhse}}</b></span></div>
+                <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Batch ID:&nbsp;<b>{{batchID}}</b></span></div>
+                <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Zones:&nbsp;<b>{{zone}}</b></span></div>
+                <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Description:&nbsp;<b>{{description}}</b></span></div>
             </div>
         </div>
     </div>
 
     <div class="d-flex justify-content-end mb-3">
         <div class="d-flex align-items-center gap-12">
-            <button mat-flat-button color="primary" class="sm-icon-button">
+            <button mat-flat-button color="primary" class="sm-icon-button" (click)="leftClick()" class="sm-icon-button" *ngIf="lowerBound!=1">
                 <span class="material-symbols-outlined">
                     keyboard_arrow_left
                 </span>
             </button>
-            <div class="text-chrome-600"><b>12</b> of 200</div>
-            <button mat-flat-button color="primary" class="sm-icon-button">
+            <div class="text-chrome-600"><b>{{upperBound}}</b> of {{crossDock.numberRecords}}</div>
+            <button mat-flat-button color="primary" (click)="rightClick()" class="sm-icon-button" *ngIf="upperBound!=crossDock.numberRecords">
                 <span class="material-symbols-outlined">
                     keyboard_arrow_right
                 </span>
@@ -49,7 +49,7 @@
                 <mat-select #openAction class="employees-action" placeholder="Actions" >
                     
                     <mat-option value="0">Next Tote</mat-option>
-                    <mat-option value="clear">User Fields</mat-option>
+                    <mat-option value="clear" (click)="openUserFieldsDialogue()">User Fields</mat-option>
                     <mat-option value="2">View Order Status</mat-option>
                     <mat-option value="3" (click)="openReprocessTransactionViewDialogue()">View Reprocess</mat-option>
                     <mat-option value="4">Print Tote Label</mat-option>
@@ -61,132 +61,81 @@
             </mat-form-field>
         </div>
         
-        <div class="row">
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Order No.</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
-                  </mat-form-field>
+        <ng-container *ngFor="let t of transactions;let i = index">
+        <div (click)="selectRow(i,t)" [style.background-color]="selectedRow==i ? '#5555ec' : null" >
+            <!-- onmouseover="this.style.background='#5555ec';" onmouseout="this.style.background='white';" -->
+            <div class="row">
+                <div class="col-xl-3">
+                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+                        <mat-label>Order No.</mat-label>
+                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="{{t.orderNumber}}" disabled>
+                      </mat-form-field>
+                </div>
+                <div class="col-xl-3">
+                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+                        <mat-label>Host Transaction ID</mat-label>
+                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="{{t.hostTransactionID}}" disabled>
+                      </mat-form-field>
+                </div>
+                <div class="col-xl-3">
+                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+                        <mat-label>Transaction Qty</mat-label>
+                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="{{t.transactionQuantity}}" disabled>
+                      </mat-form-field>
+                </div>
+                <div class="col-xl-3">
+                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+                        <mat-label>Completed Qty</mat-label>
+                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="{{t.completedQuantity}}">
+                        <!-- <span matSuffix>
+                            <mat-icon style="color: var(--clr-tertiary-900); transform: rotate(45deg);">unfold_more</mat-icon>
+                        </span> -->
+                      </mat-form-field>
+                </div>
             </div>
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Host Transaction ID</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
-                  </mat-form-field>
+            <div class="row">
+                <div class="col-xl-3">
+                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+                        <mat-label>Import Date</mat-label>
+                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="{{t.importDate}}" disabled>
+                      </mat-form-field>
+                </div>
+                <div class="col-xl-3">
+                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+                        <mat-label>Required Date</mat-label>
+                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="{{t.requiredDate}}" disabled>
+                      </mat-form-field>
+                </div>
+                <div class="col-xl-3">
+                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+                        <mat-label>Priority</mat-label>
+                        <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="{{t.priority}}" disabled>
+                      </mat-form-field>
+                </div>
+                <div class="col-xl-3" (click)="selectTote(i)">
+                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline" >
+                        <mat-label>Tote ID</mat-label>
+                        <input  matInput type="text" readonly value="{{t.toteID}}">
+                        <span matSuffix>
+                            <mat-icon style="color: var(--clr-tertiary-900); transform: rotate(45deg);">unfold_more</mat-icon>
+                        </span>
+                      </mat-form-field>
+                </div>
             </div>
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Transaction Qty</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
-                  </mat-form-field>
-            </div>
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Completed Qty</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
-                    <span matSuffix>
-                        <mat-icon style="color: var(--clr-tertiary-900); transform: rotate(45deg);">unfold_more</mat-icon>
-                    </span>
-                  </mat-form-field>
-            </div>
+            <mat-divider class="mt-3 mb-4 divider-1"></mat-divider>
         </div>
-        <div class="row">
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Import Date</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
-                  </mat-form-field>
-            </div>
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Required Date</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
-                  </mat-form-field>
-            </div>
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Priority</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
-                  </mat-form-field>
-            </div>
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Tote ID</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
-                    <span matSuffix>
-                        <mat-icon style="color: var(--clr-tertiary-900); transform: rotate(45deg);">unfold_more</mat-icon>
-                    </span>
-                  </mat-form-field>
-            </div>
-        </div>
-        <mat-divider class="mt-3 mb-4 divider-1"></mat-divider>
-        <div class="row">
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Order No.</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
-                  </mat-form-field>
-            </div>
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Host Transaction ID</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
-                  </mat-form-field>
-            </div>
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Transaction Qty</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
-                  </mat-form-field>
-            </div>
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Completed Qty</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
-                    <span matSuffix>
-                        <mat-icon style="color: var(--clr-tertiary-900); transform: rotate(45deg);">unfold_more</mat-icon>
-                    </span>
-                  </mat-form-field>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Import Date</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
-                  </mat-form-field>
-            </div>
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Required Date</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
-                  </mat-form-field>
-            </div>
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Priority</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
-                  </mat-form-field>
-            </div>
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-                    <mat-label>Tote ID</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
-                    <span matSuffix>
-                        <mat-icon style="color: var(--clr-tertiary-900); transform: rotate(45deg);">unfold_more</mat-icon>
-                    </span>
-                  </mat-form-field>
-            </div>
-        </div>
+        </ng-container>
+        
+
     
     </div>
 </div>
 
 <div class="d-flex gap-12 mb-1" mat-dialog-actions>
-    <button mat-stroked-button color="primary" class="btn-lg">
+    <button mat-stroked-button color="primary" class="btn-lg" (click)="refresh()">
         Refresh
     </button>
-    <button mat-flat-button color="primary" class="btn-lg" style="flex:1">
+    <button mat-flat-button color="primary" class="btn-lg" style="flex:1" (click)="submit()">
         Send Transaction To Tote Batch
     </button>
 </div>

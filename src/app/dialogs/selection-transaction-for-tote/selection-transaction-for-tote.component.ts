@@ -62,7 +62,9 @@ export class SelectionTransactionForToteComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((res) => {
-      this.dialogRef.close(res);
+      if (res) {
+        this.dialogRef.close(res); 
+      }      
     });
   }
 
@@ -70,6 +72,8 @@ export class SelectionTransactionForToteComponent implements OnInit {
   { 
     this.lowerBound = this.upperBound+1;
     this.upperBound = (this.lowerBound+4)<=this.apiResponse.numberOfRecords?(this.lowerBound+4):this.apiResponse.numberOfRecords;
+    
+
     this.getTransactions();
   }
 
@@ -77,6 +81,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
   {
     this.lowerBound = (this.lowerBound-5)<=0?1:this.lowerBound-5;
     this.upperBound =  this.upperBound-5;
+    if(this.upperBound<5){this.upperBound=5;}
     this.getTransactions();
   }
 
@@ -104,7 +109,6 @@ export class SelectionTransactionForToteComponent implements OnInit {
               this.dialogRef.close("NO");
             }
             this.apiResponse = res.data;
-            this.apiResponse.numberOfRecords=10;//remove
             this.itemNumber = this.apiResponse.itemNumber;
             this.description = this.apiResponse.description;
           } else {
@@ -133,7 +137,10 @@ export class SelectionTransactionForToteComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((res) => {
-      this.dialogRef.close(res);
+      if (res) {
+        this.dialogRef.close(res);  
+      }
+      
     });
   }
 

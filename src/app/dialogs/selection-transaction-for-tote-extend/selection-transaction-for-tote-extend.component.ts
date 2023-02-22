@@ -39,7 +39,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               private toast                     : ToastrService,
               private service                   : ProcessPutAwayService,
               private cellSizeService           : CellSizeService,
-              private velocityCodeService       : VelocityCodeService) {
+              private velocityCodeService       : VelocityCodeService,
+              private toastr: ToastrService) {
 
     this.toteForm = this.formBuilder.group({
 
@@ -381,11 +382,28 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   }
 
   openCrossDockTransactionDialogue() {
+    const values = this.toteForm.value;
     const dialogRef = this.dialog.open(CrossDockTransactionComponent, {
       height: 'auto',
       width: '70vw',
-      autoFocus: '__non_existing_element__'
-    })
+      autoFocus: '__non_existing_element__',
+      data: {
+        itemWhse: values.itemNumber,
+        userId: this.userData.userName,
+        wsid: this.userData.wsid,
+        warehouse: values.warehouse,
+        batchID: this.data.batchID,
+        zone: values.zones,
+        description: values.description
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res == "Submit") {
+        this.completeTransaction();
+      }
+      
+    });
   }
 
   completeTransaction() {
@@ -400,81 +418,95 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         });
       } else {
 
-        // var payload = { 
-        //   "sRow": 0,
-        //   "eRow": 0,
-        //   "itemWhse": [
-        //     values.itemNumber
-        //   ],
-        //   "username": this.userData.username,
-        //   wsid: this.userData.wsid 
-        // }
-        
-        // this.service.create(payload, '/Induction/CrossDock').subscribe(
-        //   (res: any) => {
-        //     if (res.data && res.isExecuted) {
-        //       this.toast.success(labels.alert.update, 'Success!',{
-        //         positionClass: 'toast-bottom-right',
-        //         timeOut:2000
-        //       });            
-        //     } else {
-        //       this.toast.error('Something went wrong', 'Error!', {
-        //         positionClass: 'toast-bottom-right',
-        //         timeOut: 2000,
-        //       });
-        //     }
-        //   },
-        //   (error) => { }
-        // );
 
-        var payload2 = { 
-          "otid": this.data.otid,
-          "splitQty": (values.toteQty ? parseInt(values.toteQty) : 0) - (values.quantityAllocatedPutAway ? parseInt(values.quantityAllocatedPutAway) : 0),
-          "qty": values.toteQty,
-          "toteID": values.toteID,
-          "batchID": this.data.batchID,
-          "item": values.itemNumber,
-          "uF1": values.userField1,
-          "uF2": values.userField2,
-          "lot": values.lotNumber,
-          "ser": values.serialNumber,
-          "totePos": values.totePos ? parseInt(values.totePos) : 0,
-          "cell": values.cellSize,
-          "warehouse": values.warehouse,
-          "expDate": values.expirationDate,
-          "revision": "",
-          "zone": values.zone,
-          "carousel": values.carousel,
-          "row": values.row,
-          "shelf": values.shelf,
-          "bin": values.bin,
-          "invMapID": values.invMapID,
-          "locMaxQty": values.maximumQuantity ? parseInt(values.maximumQuantity) : 0,
-          "reel": false,
-          "dedicate": values.dedicated,
-          "orderNumber": values.orderNumber,
-          "username": this.userData.userName,
+        let payLoad = {
+          sRow: 1,
+          eRow: 5,
+          itemWhse: [
+            //values.itemNumber,
+            "238562",
+            values.warehouse,
+            "1=1"
+          ],
+          username: this.userData.userName,
           wsid: this.userData.wsid 
-        }
+        };
+        console.log(payLoad);
+        this.service
+          .get(payLoad, '/Induction/CrossDock')
+          .subscribe(
+            (res: any) => {
+              if (res.data && res.isExecuted) 
+              {
+                if(res.data.transaction.length>0)
+                {
+                this.openCrossDockTransactionDialogue();
+                }
+                else 
+                {
+
+                  var payload2 = { 
+                    "otid": this.data.otid,
+                    "splitQty": (values.toteQty ? parseInt(values.toteQty) : 0) - (values.quantityAllocatedPutAway ? parseInt(values.quantityAllocatedPutAway) : 0),
+                    "qty": values.toteQty,
+                    "toteID": values.toteID,
+                    "batchID": this.data.batchID,
+                    "item": values.itemNumber,
+                    "uF1": values.userField1,
+                    "uF2": values.userField2,
+                    "lot": values.lotNumber,
+                    "ser": values.serialNumber,
+                    "totePos": values.totePos ? parseInt(values.totePos) : 0,
+                    "cell": values.cellSize,
+                    "warehouse": values.warehouse,
+                    "expDate": values.expirationDate,
+                    "revision": "",
+                    "zone": values.zone,
+                    "carousel": values.carousel,
+                    "row": values.row,
+                    "shelf": values.shelf,
+                    "bin": values.bin,
+                    "invMapID": values.invMapID,
+                    "locMaxQty": values.maximumQuantity ? parseInt(values.maximumQuantity) : 0,
+                    "reel": false,
+                    "dedicate": values.dedicated,
+                    "orderNumber": values.orderNumber,
+                    "username": this.userData.userName,
+                    wsid: this.userData.wsid 
+                  }
+                  
+                  this.service.create(payload2, '/Induction/TaskComplete').subscribe(
+                    (res: any) => {
+                      console.log(res)
+                      if (res.data && res.isExecuted) {
+                        this.dialogRef.close("Task Completed");
+                        this.toast.success(labels.alert.update, 'Success!',{
+                          positionClass: 'toast-bottom-right',
+                          timeOut:2000
+                        });            
+                      } else {
+                        this.toast.error('Something went wrong', 'Error!', {
+                          positionClass: 'toast-bottom-right',
+                          timeOut: 2000,
+                        });
+                      }
+                    },
+                    (error) => { }
+                  );
+
+
+
+                }
+              } else {
+                this.toastr.error('Something went wrong', 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+              }
+            },
+            (error) => {}
+          );
         
-        this.service.create(payload2, '/Induction/TaskComplete').subscribe(
-          (res: any) => {
-            console.log(res)
-            if (res.data && res.isExecuted) {
-              this.dialogRef.close("Task Completed");
-              this.toast.success(labels.alert.update, 'Success!',{
-                positionClass: 'toast-bottom-right',
-                timeOut:2000
-              });            
-            } else {
-              this.toast.error('Something went wrong', 'Error!', {
-                positionClass: 'toast-bottom-right',
-                timeOut: 2000,
-              });
-            }
-          },
-          (error) => { }
-        );
         
       }            
       
