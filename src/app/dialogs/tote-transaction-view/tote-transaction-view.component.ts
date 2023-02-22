@@ -215,7 +215,7 @@ export class ToteTransactionViewComponent implements OnInit {
         this.isData=true
       // this.dataSource = new MatTableDataSource<any>(res.data);
 
-      this.dataSource = new MatTableDataSource<any>(this.dummy_data.data);
+      this.dataSource = new MatTableDataSource<any>(res.data);
 
       }else{
         this.isData=false
