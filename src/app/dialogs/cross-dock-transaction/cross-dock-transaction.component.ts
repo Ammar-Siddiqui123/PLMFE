@@ -108,7 +108,7 @@ export class CrossDockTransactionComponent implements OnInit {
 
   getCrossDock()
   {
-    this.itemWhse = "238562";
+    // this.itemWhse = "238562";
     let payLoad = {
       sRow: this.lowerBound,
       eRow: this.upperBound,
