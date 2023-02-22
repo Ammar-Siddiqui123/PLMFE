@@ -308,7 +308,9 @@ export class ToteTransactionViewComponent implements OnInit {
     }
   }
 
-  clear(type) {
+  clear(type,item) {
+   
+    let itemId=item.id
     const dialogRef = this.dialog.open(AlertConfirmationComponent, {
       height: 'auto',
       width: '50vw',
@@ -325,8 +327,30 @@ export class ToteTransactionViewComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      if (res.isExecuted) {
+      if (res) {
+        let payLoad={
+          id:itemId,
+          username: this.data.userName,
+          wsid: this.data.wsid,
+        }
+        let baseUrl=type==='clear'?'/Induction/ClearItemFromTote':'/Induction/DeAllocateItemFromTote'
+        this.service.get(payLoad,baseUrl).subscribe((res:any)=>{
+          if (res && res.isExecuted) {
+            this.toastr.success(labels.alert.success, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+            this.getTransactionTable();
+          } else {
+            this.toastr.error(labels.alert.went_worng, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        })
       }
     });
   }
+
+
 }

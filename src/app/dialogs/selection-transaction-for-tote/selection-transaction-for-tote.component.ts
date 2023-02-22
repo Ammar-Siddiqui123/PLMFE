@@ -60,6 +60,10 @@ export class SelectionTransactionForToteComponent implements OnInit {
         totes       : this.data.totes
       }
     });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      this.dialogRef.close(res);
+    });
   }
 
   rightClick()
@@ -126,6 +130,10 @@ export class SelectionTransactionForToteComponent implements OnInit {
         batchID     : this.data.batchID,
         totes       : this.data.totes
       }
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      this.dialogRef.close(res);
     });
   }
 
