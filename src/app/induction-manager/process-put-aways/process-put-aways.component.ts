@@ -201,8 +201,8 @@ export class ProcessPutAwaysComponent implements OnInit {
   openSelectZonesDialogue() {
     if (this.batchId != '') {
       const dialogRef = this.dialog.open(SelectZonesComponent, {
-        height: '96vh',
-        width: '100%',
+        height: 'auto',
+        width: '60%',
         autoFocus: '__non_existing_element__',
         data: {
           batchId: this.batchId,
