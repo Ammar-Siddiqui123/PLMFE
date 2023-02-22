@@ -201,8 +201,8 @@ export class ProcessPutAwaysComponent implements OnInit {
   openSelectZonesDialogue() {
     if (this.batchId != '') {
       const dialogRef = this.dialog.open(SelectZonesComponent, {
-        height: '96vh',
-        width: '100%',
+        height: 'auto',
+        width: '60%',
         autoFocus: '__non_existing_element__',
         data: {
           batchId: this.batchId,
@@ -255,29 +255,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
 
   }
-  openToteTransactionViewDialogue() {
-    const dialogRef = this.dialog.open(TotesAddEditComponent, {
-      height: 'auto',
-      width: '80vw',
-      autoFocus: '__non_existing_element__'
-    })
 
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-      if(result.toteID!="")
-      {
-        this.ELEMENT_DATA[(result.position)-1].toteid = result.toteID.toString();
-        //this.ELEMENT_DATA[(result.position)-1].cells = result.cellID.toString();
-        for(var i=0;i<this.ELEMENT_DATA.length;i++)
-        {
-        this.ELEMENT_DATA[i].cells = result.cellID.toString();
-        }
-        
-      }
-
-      }
-    });
-  }
 
   openDeleteBatchDialogue() {
     const dialogRef = this.dialog.open(BatchDeleteComponent, {
@@ -285,6 +263,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       width: '50vw',
       autoFocus: '__non_existing_element__',
       data: {
+        deleteAllDisable:false,
         batchId: this.batchId2,
         toteId: this.toteNumber ? this.toteNumber : '',
         userName: this.userData.userName,
@@ -293,6 +272,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (res.isExecuted) {
+        this.fillToteTable();
       }
     });
   }
@@ -836,6 +816,26 @@ export class ProcessPutAwaysComponent implements OnInit {
       this.selectedOption === 'ViewTote'
     ) {
     this.clearMatSelectList();
+    const dialogRef = this.dialog.open(ToteTransactionViewComponent, {
+      height: 'auto',
+      width: '80vw',
+      autoFocus: '__non_existing_element__',
+      data:{
+        batchID:this.batchId2,
+        tote:this.postion,
+        toteID:this.toteNumber,
+        cell:this.cell,
+        userName:this.userData.userName,
+        wsid:this.userData.wsid
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+   
+
+      }
+    });
     }
   }
 }
