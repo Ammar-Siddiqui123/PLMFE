@@ -4,6 +4,7 @@ import { ReprocessTransactionDetailViewComponent } from '../reprocess-transactio
 import { ProcessPutAwayService } from '../../../app/induction-manager/processPutAway.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserFieldsComponent } from '../user-fields/user-fields.component';
+import { TotesAddEditComponent } from '../totes-add-edit/totes-add-edit.component';
 
 @Component({
   selector: 'app-cross-dock-transaction',
@@ -46,6 +47,41 @@ export class CrossDockTransactionComponent implements OnInit {
     this.description =  this.data.description;
 
     this.getCrossDock();
+  }
+
+  selectTote(i:any)
+  {
+  this.openTotesDialogue(i);
+  }
+
+  openTotesDialogue(position:any) {
+    const dialogRef = this.dialog.open(TotesAddEditComponent, {
+      height: 'auto',
+      width: '50vw',
+      autoFocus: '__non_existing_element__',
+      data:
+      {
+        position: position
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+      if(result.toteID!="")
+      {
+        // alert(result.toteID.toString());
+        // alert(result.cellID.toString());
+        // gfhgf
+
+
+        this.transactions[position].toteID = result.toteID.toString();
+        
+      }
+
+      }
+    });
+
+
+
   }
 
   selectRow(i:any,t:any)
