@@ -24,7 +24,7 @@
                           (change)="selectZone(row)"
                           [checked]="row.selected||selection.isSelected(row) || (row.selected==false&&row.available==false)"
                           [disabled]="(row.selected==false&&row.available==false)"
-                          [aria-label]="checkboxLabel(row)" color="primary"  matTooltip="Assigned to Another Batch" matTooltipPosition="above">
+                          [aria-label]="checkboxLabel(row)" color="primary" [matTooltip]="(row.selected==false&&row.available==false) ? 'Assigned to Another Batch!' : ''"  matTooltipPosition="above">
             </mat-checkbox>
           </td>
         </ng-container>
