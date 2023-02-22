@@ -1,4 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ProcessPutAwayService } from 'src/app/induction-manager/processPutAway.service';
+import { AuthService } from 'src/app/init/auth.service';
+import { CrossDockTransactionComponent } from '../cross-dock-transaction/cross-dock-transaction.component';
+import labels from '../../labels/labels.json';
+import { CellSizeComponent } from 'src/app/admin/dialogs/cell-size/cell-size.component';
+import { VelocityCodeComponent } from 'src/app/admin/dialogs/velocity-code/velocity-code.component';
+import { CellSizeService } from 'src/app/common/services/cell-size.service';
+import { VelocityCodeService } from 'src/app/common/services/velocity-code.service';
 
 @Component({
   selector: 'app-selection-transaction-for-tote-extend',
@@ -7,9 +23,443 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SelectionTransactionForToteExtendComponent implements OnInit {
 
-  constructor() { }
+  public userData   : any;
+  toteForm          : FormGroup;
+  cellSizeList      : any = [];
+  velocityCodeList  : any = [];
+  orderNum          : any;
+
+
+  constructor(public dialogRef                  : MatDialogRef<SelectionTransactionForToteExtendComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              private dialog                    : MatDialog,
+              public formBuilder                : FormBuilder,
+              private authService               : AuthService,
+              private toast                     : ToastrService,
+              private service                   : ProcessPutAwayService,
+              private cellSizeService           : CellSizeService,
+              private velocityCodeService       : VelocityCodeService) {
+
+    this.toteForm = this.formBuilder.group({
+
+      // Header
+      itemNumber                        : new FormControl('', Validators.compose([])),
+      description                       : new FormControl('', Validators.compose([])),
+      batchID                           : new FormControl('', Validators.compose([])),
+      zones                             : new FormControl('', Validators.compose([])),
+
+      // Trans Info
+      orderNumber                       : new FormControl('', Validators.compose([])),
+      category                          : new FormControl('', Validators.compose([])),
+      subCategory                       : new FormControl('', Validators.compose([])),
+      userField1                        : new FormControl('', Validators.compose([])),
+      userField2                        : new FormControl('', Validators.compose([])),
+      lotNumber                         : new FormControl('', Validators.compose([])),                  
+      expirationDate                    : new FormControl('', Validators.compose([])),
+      serialNumber                      : new FormControl('', Validators.compose([])),
+      transactionQuantity               : new FormControl('', Validators.compose([])),
+      warehouse                         : new FormControl('', Validators.compose([])),
+
+      // Item Info
+      supplierItemID                    : new FormControl('', Validators.compose([])),
+      warehouseSensitive                : new FormControl({value : false, disabled : true}, Validators.compose([])),
+      dateSensitive                     : new FormControl({value : false, disabled : true}, Validators.compose([])),
+      fifo                              : new FormControl({value : false, disabled : true}, Validators.compose([])),
+      unitOfMeasure                     : new FormControl('', Validators.compose([])),
+      carouselCellSize                  : new FormControl('', Validators.compose([])),
+      bulkCellSize                      : new FormControl('', Validators.compose([])),
+      cfCellSize                        : new FormControl('', Validators.compose([])),
+      carouselVelocity                  : new FormControl('', Validators.compose([])),
+      bulkVelocity                      : new FormControl('', Validators.compose([])),
+      cfVelocity                        : new FormControl('', Validators.compose([])),
+      primaryPickZone                   : new FormControl('', Validators.compose([])),
+      secondaryPickZone                 : new FormControl('', Validators.compose([])),
+
+      // Location Info
+      zone                              : new FormControl('', Validators.compose([])),
+      carousel                          : new FormControl('', Validators.compose([])),
+      row                               : new FormControl('', Validators.compose([])),
+      shelf                             : new FormControl('', Validators.compose([])),
+      bin                               : new FormControl('', Validators.compose([])),
+      cellSize                          : new FormControl('', Validators.compose([])),
+      velocityCode                      : new FormControl('', Validators.compose([])),
+      itemQuantity                      : new FormControl('', Validators.compose([])),
+      maximumQuantity                   : new FormControl('', Validators.compose([])),
+      quantityAllocatedPutAway          : new FormControl('', Validators.compose([])),
+
+      // Complete Transaction
+      toteID                            : new FormControl('', Validators.compose([])),
+      totePos                           : new FormControl('', Validators.compose([])),
+      toteCells                         : new FormControl('', Validators.compose([])),
+      toteQty                           : new FormControl('', Validators.compose([]))
+
+    });
+
+  }
 
   ngOnInit(): void {
+    this.userData = this.authService.userData();
+    this.getCellSizeList();
+    this.getVelocityCodeList();
+    this.getDetails();    
+  }
+
+  getDetails() {
+    try {
+      var payload = { 
+        "otid": this.data.otid,
+        "itemNumber": this.data.itemNumber,
+        "username": this.userData.username,
+        wsid: this.userData.wsid 
+      }
+      this.service.get(payload, '/Induction/ItemDetails').subscribe(
+        (res: any) => {
+          if (res.data && res.isExecuted) {
+            const values = res.data[0];  
+
+            this.orderNum = values.orderNumber;
+
+            this.toteForm.patchValue({
+
+              // Header
+              itemNumber                        : values.itemNumber,
+              description                       : values.description,
+              batchID                           : this.data.batchID,
+              zones                             : this.data.zones,
+
+              // Trans Info
+              orderNumber                       : values.orderNumber,
+              category                          : values.category,
+              subCategory                       : values.subCategory,
+              userField1                        : values.userField1,
+              userField2                        : values.userField2,
+              lotNumber                         : values.lotNumber,                  
+              expirationDate                    : values.expirationDate,
+              serialNumber                      : values.serialNumber,
+              transactionQuantity               : values.transactionQuantity,
+              warehouse                         : values.warehouse,
+
+              // Item Info
+              supplierItemID                    : values.supplierItemID,
+              warehouseSensitive                : values.warehouseSensitive,
+              dateSensitive                     : values.dateSensitive,
+              fifo                              : values.fifo,
+              unitOfMeasure                     : values.unitOfMeasure,
+              carouselCellSize                  : values.carouselCellSize,
+              bulkCellSize                      : values.bulkCellSize,
+              cfCellSize                        : values.cfCellSize,
+              carouselVelocity                  : values.carouselVelocity,
+              bulkVelocity                      : values.bulkVelocity,
+              cfVelocity                        : values.cfVelocity,
+              primaryPickZone                   : values.primaryPickZone,
+              secondaryPickZone                 : values.secondaryPickZone,
+
+              // Location Info
+              zone                              : values.zone,
+              carousel                          : values.carousel,
+              row                               : values.row,
+              shelf                             : values.shelf,
+              bin                               : values.bin,
+              cellSize                          : values.cellSize,
+              velocityCode                      : values.velocityCode,
+              itemQuantity                      : values.itemQuantity,
+              maximumQuantity                   : values.maximumQuantity,
+              quantityAllocatedPutAway          : values.quantityAllocatedPutAway,
+
+              // Complete Transaction
+              toteID                            : this.data.toteID,
+              totePos                           : this.data.totePos,
+              toteCells                         : this.data.toteCells,
+              toteQty                           : this.data.toteQty
+
+            });
+          } else {
+            this.toast.error('Something went wrong', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        },
+        (error) => { }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  clearTransInfo() {
+
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: 'Click OK to clear serial number, lot number, expiration date, warehouse, Ship VIA, and Ship To Name',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'Yes') {
+        this.toteForm.patchValue({
+          userField1                        : '',
+          userField2                        : '',
+          lotNumber                         : '',                  
+          expirationDate                    : '',
+          serialNumber                      : '',
+          warehouse                         : '',
+        }); 
+      }
+    });    
+  }
+
+  getCellSizeList() {
+    this.cellSizeService.getCellSize().subscribe((res) => {
+      this.cellSizeList = res.data;
+    });
+  }
+
+  getVelocityCodeList() {
+    this.velocityCodeService.getVelocityCode().subscribe((res) => {
+      this.velocityCodeList = res.data;
+    });
+  }
+
+  updateItemInfo() {
+    try {
+
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message: 'Click OK to save current cell sizes and velocity codes for this item to the inventory master.',
+        },
+      });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result == 'Yes') {
+
+          const values = this.toteForm.value;
+
+          var payload = { 
+            "itemNumber": values.itemNumber,
+            "ccell": values.carouselCellSize,
+            "bcell": values.bulkCellSize,
+            "cFcell": values.cfCellSize,
+            "cvel": values.carouselVelocity,
+            "bvel": values.bulkVelocity,
+            "cFvel": values.cfVelocity,
+            "pzone": values.primaryPickZone,
+            "szone": values.secondaryPickZone,
+            wsid: this.userData.wsid 
+          }
+          
+          this.service.update(payload, '/Induction/IMUpdate').subscribe(
+            (res: any) => {
+              if (res.data && res.isExecuted) {
+                this.toast.success(labels.alert.update, 'Success!',{
+                  positionClass: 'toast-bottom-right',
+                  timeOut:2000
+               });            
+              } else {
+                this.toast.error('Something went wrong', 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+              }
+            },
+            (error) => { }
+          );
+          
+        }
+      }); 
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  public openCellSizeDialog(param : any) {
+
+    let currentValue="";
+
+    if(param == 'cellSize') {
+      currentValue  = this.toteForm.controls['carouselCellSize'].value
+    } else if(param == 'bulkCellSize'){
+      currentValue  = this.toteForm.controls['bulkCellSize'].value
+    } else if(param == 'cfCellSize'){
+      currentValue  = this.toteForm.controls['cfCellSize'].value
+    }
+    
+    let dialogRef = this.dialog.open(CellSizeComponent, {
+      height: 'auto',
+      width: '750px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        mode: '',
+        cs:currentValue
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+     
+      if(result){
+        if(param == 'cellSize'){
+          this.toteForm.patchValue({
+            'carouselCellSize' : result
+          });
+        } else if(param == 'bulkCellSize'){
+          this.toteForm.patchValue({
+            'bulkCellSize' : result
+          });
+        } else if(param == 'cfCellSize'){
+          this.toteForm.patchValue({
+            'cfCellSize' : result
+          });
+        }
+      }
+
+
+    });
+
+  }
+
+  public openVelocityCodeDialog(param : any) {
+    
+    let currentValue="";
+
+    if(param == 'goldenZone') {
+      currentValue  = this.toteForm.controls['carouselVelocity'].value
+    } else if(param == 'bulkVelocity') {
+      currentValue  = this.toteForm.controls['bulkVelocity'].value
+    } else if(param == 'cfVelocity') {
+      currentValue  = this.toteForm.controls['cfVelocity'].value
+    }
+    
+    let dialogRef = this.dialog.open(VelocityCodeComponent, {
+      height: 'auto',
+      width: '750px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        mode: '',
+        vc: currentValue
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(param == 'goldenZone'){
+          this.toteForm.patchValue({
+            'carouselVelocity' : result
+          });
+        } else if(param == 'bulkVelocity'){
+          this.toteForm.patchValue({
+            'bulkVelocity' : result
+          });
+        } else if(param == 'cfVelocity'){
+          this.toteForm.patchValue({
+            'cfVelocity' : result
+          });
+        }
+      }
+    });
+    
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  openCrossDockTransactionDialogue() {
+    const dialogRef = this.dialog.open(CrossDockTransactionComponent, {
+      height: 'auto',
+      width: '70vw',
+      autoFocus: '__non_existing_element__'
+    })
+  }
+
+  completeTransaction() {
+    try {
+
+      const values = this.toteForm.value;
+
+      var payload = { 
+        "sRow": 0,
+        "eRow": 0,
+        "itemWhse": [
+          values.itemNumber
+        ],
+        "username": this.userData.username,
+        wsid: this.userData.wsid 
+      }
+      
+      this.service.create(payload, '/Induction/CrossDock').subscribe(
+        (res: any) => {
+          if (res.data && res.isExecuted) {
+            this.toast.success(labels.alert.update, 'Success!',{
+              positionClass: 'toast-bottom-right',
+              timeOut:2000
+            });            
+          } else {
+            this.toast.error('Something went wrong', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        },
+        (error) => { }
+      );
+
+      var payload2 = { 
+        "otid": 0,
+        "splitQty": 0,
+        "qty": 0,
+        "toteID": "string",
+        "batchID": "string",
+        "item": "string",
+        "uF1": "string",
+        "uF2": "string",
+        "lot": "string",
+        "ser": "string",
+        "totePos": 0,
+        "cell": "string",
+        "warehouse": "string",
+        "expDate": "string",
+        "revision": "string",
+        "zone": "string",
+        "carousel": "string",
+        "row": "string",
+        "shelf": "string",
+        "bin": "string",
+        "invMapID": 0,
+        "locMaxQty": 0,
+        "reel": true,
+        "dedicate": true,
+        "orderNumber": "string",
+        "username": this.userData.username,
+        wsid: this.userData.wsid 
+      }
+      
+      this.service.create(payload2, '/Induction/TaskComplete').subscribe(
+        (res: any) => {
+          if (res.data && res.isExecuted) {
+            this.toast.success(labels.alert.update, 'Success!',{
+              positionClass: 'toast-bottom-right',
+              timeOut:2000
+            });            
+          } else {
+            this.toast.error('Something went wrong', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        },
+        (error) => { }
+      );
+      
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 }

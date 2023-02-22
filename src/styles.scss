@@ -1407,11 +1407,17 @@ button.default-btn{
 }
 
 
+
+
+
 .mat-form-field-label{
   background: #fff;
   border-radius: 999px;
   width: auto!important;
 }
+}
+.custom-form-field-bg-white.mat-form-field-disabled .mat-form-field-label mat-label{
+  background: var(--clr-tertiary-10);
 }
 
   .custom-form-field.mat-form-field-appearance-outline{
@@ -1852,3 +1858,15 @@ mat-row{
   }
 }
 
+
+.divider-1{
+  border-color: var(--clr-tertiary-50);
+}
+
+
+.overflow-limit-20{
+  text-overflow: ellipsis; 
+        overflow: hidden; 
+        max-width: 20ch; 
+        white-space: nowrap;
+}

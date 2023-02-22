@@ -1,4 +1,4 @@
-<mat-tab-group dynamicHeight>
+<mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex">
     <mat-tab label="Tote Setup">
         <mat-card class="mat-elevation-z g-card mt-3 mb-4">
             <mat-card-content>
@@ -161,7 +161,7 @@
                           <td mat-cell *matCellDef="let element">
                             <div class="pe-2">
                               <mat-form-field class="custom-form-field" appearance="outline">
-                                <input matInput type="text" #specialFeature maxlength="255" [value]="element.cells" (keydown)="onToteChange($event,element.position,'1')" (keyup)="onToteChange($event,element.position,'1')" (change)="onToteChange($event,element.position,'1')" (keypress)="onToteChange($event,element.position,'1')"  (keypress)="onToteChange($event,element.position,'1')">
+                                <input matInput type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" #specialFeature maxlength="255" [value]="element.cells" (keydown)="onToteChange($event,element.position,'1')" (keyup)="onToteChange($event,element.position,'1')" (change)="onToteChange($event,element.position,'1')" (keypress)="onToteChange($event,element.position,'1')"  (keypress)="onToteChange($event,element.position,'1')">
                               </mat-form-field>
                             </div>
                           </td>
@@ -170,11 +170,11 @@
                           <th mat-header-cell *matHeaderCellDef> Tote ID</th>
                           <td mat-cell *matCellDef="let element">
                             <div class="pe-2">
-                              <mat-form-field class="custom-form-field" appearance="outline" (click)="openTotesDialogue()">
+                              <mat-form-field class="custom-form-field" appearance="outline" (click)="openTotesDialogue(element.position)">
                                 <span matSuffix>
                                     <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
                                   </span>
-                                <input matInput type="text" #specialFeature maxlength="255" [value]="element.toteid" (keydown)="onToteChange($event,element.position)" (keyup)="onToteChange($event,element.position)" (change)="onToteChange($event,element.position)" (keypress)="onToteChange($event,element.position)"  (keypress)="onToteChange($event,element.position)">
+                                <input matInput readonly="readonly" type="text" #specialFeature maxlength="255" [value]="element.toteid" (keydown)="onToteChange($event,element.position)" (keyup)="onToteChange($event,element.position)" (change)="onToteChange($event,element.position)" (keypress)="onToteChange($event,element.position)"  (keypress)="onToteChange($event,element.position)">
                               </mat-form-field>
                             </div>
                           </td>
@@ -212,9 +212,10 @@
           </button>
         </div>
     </mat-tab>
-    <mat-tab label="Process Put Aways">
+    <mat-tab label="Process Put Aways" #secondTab>
       <mat-card class="mat-elevation-z g-card mt-3 mb-4">
         <mat-card-content>
+          
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="card-header-title mb-0 d-flex align-items-center">
                     <div class="mat-icon-wrap me-lg-3">
@@ -231,11 +232,29 @@
                 <div class="col-xl-4">
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Batch ID</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
+                    <!-- <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000"> -->
+                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="batchId2" [matAutocomplete]="item2" (ngModelChange)="this.searchByItem.next(1)">
+
+                    <mat-autocomplete class="card custom-scroll" #item2="matAutocomplete">
+            
+                      <h6 class="card-header matAutoCompHeader">
+                        <span style="width: 140px;">Batch ID</span>
+                        <span style="width: 140px;">Description</span>
+                      </h6>
+                    
+                      <mat-option *ngFor="let option of searchAutocompleteItemNum2" [value]="option.batchID" class="matAutoCompTableContent">
+                        <div class="loc_option" (click)="fillToteTable(option.batchID)">
+                          <span class="searchColumn" style="width: 140px;">{{option.batchID}}</span> 
+                          <span class="searchColumn" style="width:  140px;">{{option.zoneLabel}}</span> 
+                        </div>
+                      </mat-option>
+
+                    </mat-autocomplete>
+
                   </mat-form-field>
                 </div>
                 <div class="col-xl-3 offset-xl-5">
-                  <button mat-flat-button color="warn" class="btn-regular w-100" (click)="openDeleteBatchDialogue()">
+                  <button [disabled]="!rowSelected"  mat-flat-button color="warn" class="btn-regular w-100" (click)="openDeleteBatchDialogue()">
                     Delete Batch
                   </button>
                 </div>
@@ -244,6 +263,7 @@
 
         </mat-card-content>
       </mat-card>
+
       <mat-card class="mat-elevation-z g-card mt-3 mb-4">
         <mat-card-content>
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -262,11 +282,18 @@
                 <div class="card p-3 mb-2">
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Input Type</mat-label>
-                    <mat-select #matRef class="employees-action" value="0">
-                      <mat-option value="0"><b>Any</b></mat-option>
+                    <mat-select #matRef class="employees-action" value="Any" (selectionChange)="selectionChanged($event.value)">
+                      <!-- <mat-option value="0"><b>Any</b></mat-option>
                       <mat-option value="print">Item No.</mat-option>
                       <mat-option value="print">Serial No.</mat-option>
-                      <mat-option value="print">Lot No.</mat-option>
+                      <mat-option value="print">Lot No.</mat-option> -->
+                      <mat-option value="Any">Any</mat-option>
+                      <mat-option value="Item Number">Item Number</mat-option>
+                      <mat-option value="Serial Number">Serial Number</mat-option>
+                      <mat-option value="Lot Number">Lot Number</mat-option>
+                      <mat-option value="Host Transaction ID">Host Transaction ID</mat-option>
+                      <mat-option value="Scan Code">Scan Code</mat-option>
+                      <mat-option value="Supplier Item ID">Supplier Item ID</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
                       expand_more
@@ -274,7 +301,7 @@
                   </mat-form-field>
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Input Value</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
+                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="inputValue">
                   </mat-form-field>
                   <button mat-flat-button color="primary" class="btn-regular w-100" (click)="openSelectionTransactionDialogue()">
                     Assign Transaction To Selected Tote
@@ -285,24 +312,24 @@
                 <div class="card p-3 mb-2">
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Next Put To Location</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
+                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="nextPutLoc" disabled />
                   </mat-form-field>
                   <div class="row">
                     <div class="col-xl-6">
                     <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                       <mat-label>Position</mat-label>
-                      <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
+                      <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="nextPos" disabled />
                     </mat-form-field>
                     </div>
                     <div class="col-xl-6">
                     <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                       <mat-label>Next Cell</mat-label>
-                      <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
+                      <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="nextCell" disabled />
                     </mat-form-field>
                     </div>
                   </div>
                   
-                  <button mat-flat-button color="primary" class="btn-regular w-100">
+                  <button mat-flat-button color="primary" class="btn-regular w-100" (click)="goToNext()">
                     Go To Next
                   </button>
                 </div>
@@ -311,13 +338,13 @@
                 <div class="card p-3 mb-2">
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Select Position</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="number" value="000000">
+                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="number" [(ngModel)]="postion" #pos (keyup)="selectPosOrTote(0, pos.value)">
                   </mat-form-field>
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Select Tote</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000">
+                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="tote" #tote1 (keyup)="selectPosOrTote(1, tote1.value)">
                   </mat-form-field>
-                  <button mat-flat-button color="primary" class="btn-regular w-100">
+                  <button mat-flat-button color="primary" class="btn-regular w-100" (click)="selectPosOrTote(2)">
                     Select
                   </button>
                 </div>
@@ -340,10 +367,9 @@
             </h2>
             <mat-form-field class="action-dropdown" appearance="outline">
               <mat-label>Actions</mat-label>
-              <mat-select class="employees-action">
-                <mat-option>Add Employee</mat-option>
-                <mat-option value="edit">Edit</mat-option>
-                <mat-option value="delete">Delete</mat-option>
+              <mat-select class="employees-action"  [(ngModel)]="selectedOption"  #actionRef (openedChange)="actionDialog($event)">
+                <mat-option  value="ViewTote" (click)="openToteTransactionViewDialogue()">View Tote Contents</mat-option>
+                <mat-option value="markTote" [disabled]="!rowSelected">Mark Tote as Full</mat-option>
                 <mat-option value="print">Print</mat-option>
                 <!-- <mat-option value="back">Back</mat-option> -->
               </mat-select>
@@ -354,84 +380,91 @@
           </div>
           <div class="card br-14 table-responsive borderless px-0 mb-3">
             <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 280px;">
-              <table mat-table [dataSource]="dataSource" class="w-100 table1">
+
+
+              <table mat-table [dataSource]="dataSource2" class="w-100 table1 employee-location-table action-clickable-table" matSort (matSortChange)="announceSortChange($event)">
 
                 <ng-container matColumnDef="status">
-                  <th mat-header-cell *matHeaderCellDef> Status </th>
-                  <td mat-cell *matCellDef="let element">
-                    <div class="label label-yellow px-2 me-2">
-                      hello
+                  <th style="width:200px!important" mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                  <td mat-cell *matCellDef="let element" [class.selected]="element.isSelected">
+                    <div class="label label-yellow px-2 me-2" *ngIf="!element.status">
+                      Open
+                    </div>
+                    <div class="label label-green px-2 me-2" *ngIf="element.status">
+                      Complete
                     </div>
                   </td>
                 </ng-container>
           
                 <!-- Position Column -->
-                <ng-container matColumnDef="orderno">
-                  <th mat-header-cell *matHeaderCellDef> Position </th>
-                  <td mat-cell *matCellDef="let element">
+                <ng-container matColumnDef="totesPosition">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Position </th>
+                  <td mat-cell *matCellDef="let element" [class.selected]="element.isSelected">
                     <div class="pe-2">
-                      12312
+                      {{element.totesPosition}}
                     </div>
                   </td>
                 </ng-container>
           
                 <!-- Name Column -->
-                <ng-container matColumnDef="itemno">
-                  <th mat-header-cell *matHeaderCellDef> Tote ID </th>
-                  <td mat-cell *matCellDef="let element">
+                <ng-container matColumnDef="toteID">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Tote ID </th>
+                  <td mat-cell *matCellDef="let element" [class.selected]="element.isSelected">
                     <div class="pe-2">
-                      123
+                      {{element.toteID}}
                     </div>
                   </td>
                 </ng-container>
           
                 <!-- Name Column -->
-                <ng-container matColumnDef="transaction">
-                  <th mat-header-cell *matHeaderCellDef> Tote Capacity </th>
-                  <td mat-cell *matCellDef="let element">
+                <ng-container matColumnDef="cells">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Tote Capacity </th>
+                  <td mat-cell *matCellDef="let element" [class.selected]="element.isSelected">
                     <div class="pe-2">
-                      123
+                      {{element.cells}}
                     </div>
                   </td>
                 </ng-container>
                 <!-- Name Column -->
-                <ng-container matColumnDef="location">
-                  <th mat-header-cell *matHeaderCellDef> Current Qty </th>
-                  <td mat-cell *matCellDef="let element">
+                <ng-container matColumnDef="toteQuantity">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Current Qty </th>
+                  <td mat-cell *matCellDef="let element" [class.selected]="element.isSelected">
                     <div class="pe-2">
-                      123
+                      {{element.toteQuantity}}
                     </div>
                   </td>
                 </ng-container>
           
                 <!-- Name Column -->
-                <ng-container matColumnDef="completed">
-                  <th mat-header-cell *matHeaderCellDef  style="width:100%"> Zone To Put Away </th>
-                  <td mat-cell *matCellDef="let element"  style="width:100%">
+                <ng-container matColumnDef="zoneLabel">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Zone To Put Away </th>
+                  <td mat-cell *matCellDef="let element" [class.selected]="element.isSelected">
                     <div class="pe-2">
-                      05 03 025 AS FO 33 924 CAS 666 987 555 221 222 
+                      {{element.zoneLabel}}
                     </div>
                   </td>
                 </ng-container>
           
           
                 <tr mat-header-row *matHeaderRowDef="displayedColumns1; sticky:true"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns1;" (click)="selection.toggle(row)">
+                <tr mat-row *matRowDef="let row; columns: displayedColumns1; let i = index" (click)="selectTotes(i)">
                 </tr>
               </table>
             </ng-scrollbar>
           </div>
-          <div class="d-flex justify-content-start">
-            <mat-paginator>
-          
+          <div class="d-flex justify-content-between bg-white">
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
             </mat-paginator>
-          </div>
+        </div>
         </mat-card-content>
       </mat-card>
+
       <div class="d-flex">
-        <button mat-flat-button color="primary" class="primary-button btn-lg w-100" style="min-width: 150px;">
+        <button mat-flat-button color="primary" class="primary-button btn-lg w-100" style="min-width: 150px;" (click)="completeBatch()">
           Complete Batch
         </button>
       </div>
     </mat-tab>
+    
 </mat-tab-group>
