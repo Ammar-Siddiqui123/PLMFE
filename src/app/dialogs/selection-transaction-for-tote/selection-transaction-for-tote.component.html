@@ -27,8 +27,8 @@
         </button>
       </div>
 </div>
-<div class="card p-4 mb-3">
-    <div class="mb-3" style="border-bottom: 1px solid var(--clr-tertiary-50);" *ngFor="let col of transactionTable; let indexOfelement=index;">
+<div class="card p-4 mb-3 list-row-seperator">
+    <div class="mb-3 list-item" *ngFor="let col of transactionTable; let indexOfelement=index;">
     <mat-radio-button color="primary" (click)="selectOrder(col.id,itemNumber)" >
         <div class="card-header-title">Order {{col.orderNumber}}</div>
     </mat-radio-button>

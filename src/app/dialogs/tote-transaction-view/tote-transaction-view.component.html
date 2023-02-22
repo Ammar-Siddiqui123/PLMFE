@@ -156,9 +156,9 @@
                                 </button>
 
                                 <mat-menu #appMenu="matMenu">
-                                    <button mat-menu-item (click)="clear('clear')"><b
+                                    <button mat-menu-item (click)="clear('clear',element)"><b
                                             class="text-tertiary-900">Clear</b></button>
-                                    <button mat-menu-item (click)="clear('clearAndDeallocate')">Clear &
+                                    <button mat-menu-item (click)="clear('clearAndDeallocate',element)">Clear &
                                         Deallocate</button>
                                     <button mat-menu-item>Print Tote Label</button>
                                 </mat-menu>

@@ -584,7 +584,9 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.toastr.error('The input code provided was not recognized as an Item Number, Lot Number, Serial Number, Host Transaction ID, Scan Code or Supplier Item ID.', 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000,
-          });        
+          });
+        } else if (result == "Task Completed") {
+          this.fillToteTable(this.batchId2);
         }
       });
 
