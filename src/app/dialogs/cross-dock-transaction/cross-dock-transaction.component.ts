@@ -3,6 +3,7 @@ import { MatDialog , MatDialogRef, MAT_DIALOG_DATA  } from '@angular/material/di
 import { ReprocessTransactionDetailViewComponent } from '../reprocess-transaction-detail-view/reprocess-transaction-detail-view.component';
 import { ProcessPutAwayService } from '../../../app/induction-manager/processPutAway.service';
 import { ToastrService } from 'ngx-toastr';
+import { UserFieldsComponent } from '../user-fields/user-fields.component';
 
 @Component({
   selector: 'app-cross-dock-transaction',
@@ -96,6 +97,14 @@ export class CrossDockTransactionComponent implements OnInit {
   refresh()
   {
     this.getCrossDock();
+  }
+
+  openUserFieldsDialogue() {
+    const dialogRef = this.dialog.open(UserFieldsComponent, {
+      height: 'auto',
+      width: '70vw',
+      autoFocus: '__non_existing_element__'
+    })
   }
 
   openReprocessTransactionViewDialogue() {
