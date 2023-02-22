@@ -42,7 +42,7 @@ export class BatchDeleteConfirmationComponent implements OnInit {
           .get(this.data.payload, '/Induction/BatchTotesDelete')
           .subscribe(
             (res: any) => {
-              if (res.data && res.isExecuted) {
+              if (res && res.isExecuted) {
                 this.toastr.success(labels.alert.delete, 'Success!', {
                   positionClass: 'toast-bottom-right',
                   timeOut: 2000,
@@ -61,10 +61,10 @@ export class BatchDeleteConfirmationComponent implements OnInit {
       } else if (this.data.mode === 'delete_all_batch') {
      
         this.service
-          .get(this.data.payload, '/Induction/BatchTotesDelete')
+          .get(this.data.payload, '/Induction/AllBatchDelete')
           .subscribe(
             (res: any) => {
-              if (res.data && res.isExecuted) {
+              if (res && res.isExecuted) {
                 this.toastr.success(labels.alert.delete, 'Success!', {
                   positionClass: 'toast-bottom-right',
                   timeOut: 2000,
