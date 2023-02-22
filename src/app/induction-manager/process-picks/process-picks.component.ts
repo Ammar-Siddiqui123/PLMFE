@@ -243,17 +243,10 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   onViewOrder() {
-    // window.open(`/admin/transaction`, "_blank");
-    // this.router.navigate(['/admin/transaction'])
-    // , { queryParams: { id: 3 } }
-    // const url = this.router.serializeUrl(this.router.createUrlTree(['http://localhost:4200/#/admin/transaction']));
-    // console.log(url)
-    
-    // window.open(url, '_blank');
-    this.sharedService.updateInductionAdminMenu('induction')
-    this.router.navigate([]).then((result) => {
-      window.open('/#/InductionManager/TransactionJournal?q=2', '_blank');
-    });
+    // this.sharedService.updateInductionAdminMenu('induction')
+    // this.router.navigate([]).then((result) => {
+    //   window.open('/#/InductionManager/TransactionJournal?q=2', '_blank');
+    // });
   }
   
 
