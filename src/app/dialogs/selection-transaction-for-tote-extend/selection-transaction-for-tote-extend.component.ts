@@ -463,7 +463,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           eRow: 5,
           itemWhse: [
             values.itemNumber,
-            //"238562",
+            // "238562",
             values.warehouse,
             "1=1"
           ],
