@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UserFieldsComponent } from '../user-fields/user-fields.component';
 import { TotesAddEditComponent } from '../totes-add-edit/totes-add-edit.component';
 import { UserFieldsEditComponent } from '../../../app/admin/dialogs/user-fields-edit/user-fields-edit.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cross-dock-transaction',
@@ -35,7 +36,7 @@ export class CrossDockTransactionComponent implements OnInit {
 
 
 
-  constructor(public dialogRef : MatDialogRef<CrossDockTransactionComponent>, private dialog: MatDialog , @Inject(MAT_DIALOG_DATA) public data: any, private service: ProcessPutAwayService,private toastr: ToastrService,) { }
+  constructor(public router:Router,public dialogRef : MatDialogRef<CrossDockTransactionComponent>, private dialog: MatDialog , @Inject(MAT_DIALOG_DATA) public data: any, private service: ProcessPutAwayService,private toastr: ToastrService,) { }
 
   ngOnInit(): void {
     this.itemWhse = this.data.itemWhse;
@@ -186,5 +187,12 @@ export class CrossDockTransactionComponent implements OnInit {
 
   submit() {
     this.dialogRef.close("Submit");
+  }
+
+  viewOrderStatus(){
+    console.log(this.selectedRowObj);
+    this.router.navigate([]).then((result) => {   
+          window.open(`/#/InductionManager/TransactionJournal?orderStatus=${this.selectedRowObj.orderNumber}`, '_blank');  
+          });
   }
 }

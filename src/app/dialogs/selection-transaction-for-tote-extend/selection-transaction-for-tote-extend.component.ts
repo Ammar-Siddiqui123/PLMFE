@@ -423,7 +423,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           sRow: 1,
           eRow: 5,
           itemWhse: [
-            //values.itemNumber,
+            // values.itemNumber,
             "238562",
             values.warehouse,
             "1=1"
@@ -431,7 +431,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           username: this.userData.userName,
           wsid: this.userData.wsid 
         };
-        console.log(payLoad);
+
         this.service
           .get(payLoad, '/Induction/CrossDock')
           .subscribe(

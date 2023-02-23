@@ -50,7 +50,7 @@
                     
                     <mat-option value="0">Next Tote</mat-option>
                     <mat-option value="clear" (click)="openUserFieldsDialogue()">User Fields</mat-option>
-                    <mat-option value="2">View Order Status</mat-option>
+                    <mat-option [disabled]="!selectedRowObj" value="viewOrderStatus" (click)="viewOrderStatus()">View Order Status</mat-option>
                     <mat-option value="3" (click)="openReprocessTransactionViewDialogue()">View Reprocess</mat-option>
                     <mat-option value="4">Print Tote Label</mat-option>
                     <mat-option value="5">Print Item Label</mat-option>
