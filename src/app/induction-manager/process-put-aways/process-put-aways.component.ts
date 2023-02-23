@@ -631,6 +631,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.dataSource2 = new MatTableDataSource<any>(res.data.totesTable);
             this.dataSource2.paginator = this.paginator;
             this.selectTotes(0)
+            this.goToNext();
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -697,7 +698,9 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   goToNext() {
     var fil = this.dataSource2.data.filter((e: any) => e.status == 0);
+    console.log(this.dataSource2.data);
     if (fil.length > 0) {
+      this.selectTotes(this.dataSource2.data.indexOf(fil[0]));
       this.nextPutLoc = fil[0].toteID;
       this.nextPos = fil[0].totesPosition;
       this.nextCell = fil[0].cells;
