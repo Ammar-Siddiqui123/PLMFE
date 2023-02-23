@@ -516,6 +516,27 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   completeTransaction() {
     try {
 
+
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message: 'Click OK to complete this transaction and assign it to the selected batch and tote.',
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result == 'Yes') {
+
+          
+
+
+
+
+
+
+
       const values = this.toteForm.value;
 
       if (!values.zone || !values.row || !values.shelf || !values.bin) {
@@ -638,7 +659,37 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           );
         
         
-      }            
+      }    
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+      });
+        
       
     } catch (error) {
       console.log(error);
