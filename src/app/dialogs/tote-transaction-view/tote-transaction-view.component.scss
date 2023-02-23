@@ -1,0 +1,17 @@
+table{
+    th{
+       white-space:nowrap;
+       padding-right: 20px;
+       min-width: 140px;
+        &:nth-last-child(2){
+            width: 100%;
+        }
+    }
+    td{
+        border: 0; 
+        text-overflow: ellipsis; 
+        overflow: hidden; 
+        max-width: 20ch; 
+        white-space: nowrap;
+    }
+}

@@ -24,10 +24,10 @@ export class OrderStatusComponent implements OnInit {
   userData;
   constructor(
     private authService: AuthService,
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
   ) {}
   ngOnInit(): void {
-   
+
     this.userData = this.authService.userData();
     // this.autocompleteSearchColumn();
   }

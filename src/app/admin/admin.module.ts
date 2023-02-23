@@ -90,8 +90,8 @@ import { TranCarouselLzoneComponent } from './transaction/order-status/tran-caro
 import { TranOffCarouselLzoneComponent } from './transaction/order-status/tran-off-carousel-lzone/tran-off-carousel-lzone.component';
 import { TranOrderListComponent } from './transaction/order-status/tran-order-list/tran-order-list.component';
 import { OpenTransactionOnHoldComponent } from './transaction/open-transaction/open-transaction-on-hold/open-transaction-on-hold.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+// import { MatDatepickerModule } from '@angular/material/datepicker';
+// import { MatNativeDateModule } from '@angular/material/core';
 // import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DeleteConfirmationTransactionComponent } from './dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
@@ -250,8 +250,7 @@ import { InvalidQuantityComponent } from './dialogs/invalid-quantity/invalid-qua
     CdkTableModule,
     DragDropModule,
     MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
+    // MatNativeDateModule,
     // MatFormFieldModule,
     ToastrModule.forRoot({
       timeOut: 2000,

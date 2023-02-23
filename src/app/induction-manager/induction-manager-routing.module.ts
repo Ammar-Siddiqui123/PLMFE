@@ -7,6 +7,8 @@ import { ProcessPicksComponent } from './process-picks/process-picks.component';
 import { ProcessPutAwaysComponent } from './process-put-aways/process-put-aways.component';
 import { SuperBatchComponent } from './super-batch/super-batch.component';
 import { AdminPrefrencesComponent } from './admin-prefrences/admin-prefrences.component';
+import { ConfirmationGuard } from '../guard/confirmation-guard.guard';
+import { TransactionComponent } from '../admin/transaction/transaction.component';
 
 const routes: Routes = [
   { path: '', component: InductionManagerComponent },
@@ -25,6 +27,7 @@ const routes: Routes = [
     path: 'ProcessPicks',
     component: ProcessPicksComponent,
     canActivate: [AuthGuardGuard],
+    canDeactivate: [ConfirmationGuard]
   },
   {
     path: 'AdminPrefrences',
@@ -36,13 +39,22 @@ const routes: Routes = [
     component: AdminComponent,
     canActivate: [AuthGuardGuard],
     children:[
-      { 
-        path: 'Transaction',
-        loadChildren: () =>
-          import('../admin/admin.module').then((m) => m.AdminModule),
-      },
+      // { 
+      //   path: 'Transaction',
+      //   loadChildren: () =>
+      //     import('../admin/admin.module').then((m) => m.AdminModule),
+      // },
+      // { 
+      //   path: 'TransactionJournal',
+      //   component: TransactionComponent
+      // },
       
     ]
+  },
+
+  {
+    path: 'TransactionJournal',
+    component: TransactionComponent
   },
   
   
