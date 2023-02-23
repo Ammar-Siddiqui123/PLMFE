@@ -9,6 +9,7 @@ import { UserFieldsEditComponent } from '../../../app/admin/dialogs/user-fields-
 import { Router } from '@angular/router';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { ConfirmationDialogComponent } from '../../../app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-cross-dock-transaction',
@@ -115,7 +116,7 @@ export class CrossDockTransactionComponent implements OnInit {
   }
 
   getCrossDock() {
-    // this.itemWhse = "238562";
+    this.itemWhse = "238562";
     let payLoad = {
       sRow: this.lowerBound,
       eRow: this.upperBound,
@@ -252,7 +253,20 @@ export class CrossDockTransactionComponent implements OnInit {
   }
 
   submit() {
-    this.dialogRef.close("Submit");
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: 'Click OK to proceed without a tote ID. Click Cancel to provide a tote ID.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'Yes') {
+        this.dialogRef.close("Submit");
+      }
+    });
   }
 
   viewOrderStatus() {
