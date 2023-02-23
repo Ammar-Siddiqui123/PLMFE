@@ -462,6 +462,22 @@ export class ProcessPutAwaysComponent implements OnInit {
     );
   }
 
+  updateNxtTote() {
+    let updatePayload = {
+      "tote": this.currentToteID,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    this.service.update(updatePayload, '/Induction/NextToteUpdate').subscribe(res => {
+      if (!res.isExecuted) {
+        this.toastr.error('Something is wrong.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+
+    });
+  }
   createNewBatch(withID = '') {
     if (withID == '') {
       if (this.batchId == '') {
@@ -518,6 +534,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         }
       }
       this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+      this.updateNxtTote()
     }
   }
 
@@ -625,6 +642,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
     }
   }
+
 
   selectionChanged(value:any)
   {

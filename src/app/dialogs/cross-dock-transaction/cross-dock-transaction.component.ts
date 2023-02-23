@@ -212,7 +212,7 @@ export class CrossDockTransactionComponent implements OnInit {
     }
     if (this.loopIndex >= 0) {
       this.service.get(paylaod, '/Induction/NextTote').subscribe(res => {
-        this.transactions[this.loopIndex].toteID = res.data;
+        this.transactions[this.loopIndex].toteID = res.data  + '-RT';
         this.nxtToteID = ++res.data;
         this.updateNxtTote();
         this.clearMatSelectList()
