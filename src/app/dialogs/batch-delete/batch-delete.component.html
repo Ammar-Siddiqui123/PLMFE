@@ -32,14 +32,20 @@
         </mat-form-field>
     </div>
 </div>
-<div class="d-flex gap-12">
-    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke btn-lg" (click)="batchTotesDelete(true)">
-        Deallocate & Clear
-    </button>
-    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke btn-lg"  (click)="batchTotesDelete(false)">
-        Clear Only
-    </button>
-    <button mat-flat-button color="warn" class="btn-lg" style="flex:1" [disabled]="deleteAllDisable" (click)="allBatchDelete()">
-        Delete All Batches
-    </button>
+<div class="row">
+    <div class="col-xl-4 mb-2">
+        <button mat-flat-button color="warn" class=" btn-lg w-100" (click)="batchTotesDelete(true)">
+            Deallocate & Clear
+        </button>
+    </div>
+    <div class="col-xl-4 mb-2">
+        <button mat-flat-button color="warn" class=" btn-lg w-100"  (click)="batchTotesDelete(false)">
+            Clear Only
+        </button>
+    </div>
+    <div class="col-xl-4 mb-2">
+        <button mat-flat-button color="warn" class="btn-lg w-100" [disabled]="deleteAllDisable" (click)="allBatchDelete()">
+            Delete All Batches
+        </button>
+    </div>
 </div>
