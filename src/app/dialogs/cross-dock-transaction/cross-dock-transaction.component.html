@@ -10,9 +10,10 @@
         <div class="col-xl-8 offset-xl-2">
             <div class="d-flex align-items-center justify-content-center flex-wrap gap-12 mb-3">
                 <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Item No.:&nbsp;<b>{{itemWhse}}</b></span></div>
-                <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Batch ID:&nbsp;<b>{{batchID}}</b></span></div>
-                <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Zones:&nbsp;<b>{{zone}}</b></span></div>
                 <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Description:&nbsp;<b>{{description}}</b></span></div>
+                <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Backorder Total:&nbsp;<b>{{backOrderTotal}}</b></span></div>
+                <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Allocated Total:&nbsp;<b>{{allocatedTotal}}</b></span></div>
+                <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Qty Available:&nbsp;<b>{{numberRecords}}</b></span></div>
             </div>
         </div>
     </div>
@@ -52,6 +53,7 @@
                     <mat-option [disabled]="!selectedRowObj" value="clear" (click)="openUserFieldsDialogue()">User Fields</mat-option>
                     <mat-option [disabled]="!selectedRowObj" value="viewOrderStatus" (click)="viewOrderStatus()">View Order Status</mat-option>
                     <mat-option [disabled]="!selectedRowObj" value="viewReprocess" (click)="openReprocessTransactionViewDialogue()">View Reprocess</mat-option>
+                    <mat-option value="completePick" (click)="completePick()">Complete Pick</mat-option>
                     <mat-option value="printToteLabel">Print Tote Label</mat-option>
                     <mat-option value="printItemLabel">Print Item Label</mat-option>
                 </mat-select>

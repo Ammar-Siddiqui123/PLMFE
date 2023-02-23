@@ -34,6 +34,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class TotesAddEditComponent implements OnInit {
   ELEMENT_DATA_TOTE = [{toteID:"" , cells:"" , position: 1 ,oldToteID:"",isInserted:1}];
   displayedColumns: string[] = ['select', 'zone', 'locationdesc'];
+  alreadySavedTotesList:any;
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   dataSourceManagedTotes = new MatTableDataSource<ToteElement>(this.ELEMENT_DATA_TOTE);
   selection = new SelectionModel<PeriodicElement>(true, []);
@@ -100,8 +101,8 @@ export class TotesAddEditComponent implements OnInit {
             });
           this.getTotes();
           } else {
-            console.log(searchPayload);
-            this.toastr.error("Already exists", 'Error!', {
+            // console.log(searchPayload);
+            this.toastr.error("Cannot set the selected tote because it is already set in the batch.", 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
             });
@@ -207,18 +208,54 @@ export class TotesAddEditComponent implements OnInit {
 
   selectTote(toteIDs=null,cells=null)
   {
-    let selectedTote;
-    if(toteIDs==null&&cells==null)
+    var exists=false;
+    for(var i=0;i<this.alreadySavedTotesList.length;i++)
     {
-    selectedTote = {toteID:this.toteID , cellID:this.cellID , position: this.position };
-    this.dialogRef.close(selectedTote);
+      if(toteIDs==null)
+      {
+        if(this.alreadySavedTotesList[i].toteid==this.toteID)
+        {
+          exists=true;
+          break;
+        }
+      }
+      else 
+      {
+        
+        
+      if(this.alreadySavedTotesList[i].toteid==toteIDs)
+      {
+        exists=true;
+        break;
+      }
+      }
+
+    }
+
+    if(exists)
+    {
+      this.toastr.error("Cannot set the selected tote because it is already set in the batch.", 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000,
+      });
     }
     else 
     {
-    selectedTote = {toteID:toteIDs , cellID:cells , position: this.position }; 
-    console.log(selectedTote);
-    this.dialogRef.close(selectedTote);
+
+      let selectedTote;
+      if(toteIDs==null&&cells==null)
+      {
+      selectedTote = {toteID:this.toteID , cellID:this.cellID , position: this.position };
+      this.dialogRef.close(selectedTote);
+      }
+      else 
+      {
+      selectedTote = {toteID:toteIDs , cellID:cells , position: this.position }; 
+      console.log(selectedTote);
+      this.dialogRef.close(selectedTote);
+      }
     }
+
     
   }
 
@@ -233,6 +270,7 @@ export class TotesAddEditComponent implements OnInit {
     this.ELEMENT_DATA_TOTE.length=0;
     this.position = this.data.position;
     this.userData = this.authService.userData();
+    this.alreadySavedTotesList = this.data.alreadySavedTotes;
     this.getTotes();
   }
 

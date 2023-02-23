@@ -16,6 +16,7 @@ import { VelocityCodeComponent } from 'src/app/admin/dialogs/velocity-code/veloc
 import { CellSizeService } from 'src/app/common/services/cell-size.service';
 import { VelocityCodeService } from 'src/app/common/services/velocity-code.service';
 import { ChooseLocationComponent } from '../choose-location/choose-location.component';
+import { WarehouseComponent } from 'src/app/admin/dialogs/warehouse/warehouse.component';
 
 @Component({
   selector: 'app-selection-transaction-for-tote-extend',
@@ -461,6 +462,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
   openCrossDockTransactionDialogue() {
     const values = this.toteForm.value;
+    console.log(values);
+    
     const dialogRef = this.dialog.open(CrossDockTransactionComponent, {
       height: 'auto',
       width: '70vw',
@@ -484,10 +487,60 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     });
   }
 
+
+  
+  openWareHouse() {
+    const values = this.toteForm.value;
+    const dialogRef = this.dialog.open(WarehouseComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        userName: this.userData.userName,
+        wsid: this.userData.wsid,
+        supplierID: values.supplierItemID,
+      },
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res && res!='clear') {
+        this.toteForm.patchValue({
+          'warehouse' : res
+        });
+      }
+    });
+  }
+
+
+
+
   completeTransaction() {
     try {
 
       const values = this.toteForm.value;
+
+      if (!values.zone || !values.row || !values.shelf || !values.bin) {
+        this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        return;
+      }
+
+      if (values.warehouseSensitive && !values.warehouse) {
+        this.toast.error('You must select a warehouse for this transaction before it can be processed.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        return;
+      }
+      
+      if (values.dateSensitive && !values.expirationDate) {
+        this.toast.error('This item is date sensitive. You must provide an expiration date.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        return;
+      }
 
       if (values.toteQty <= 0) {
         this.toast.error('Quantity should be greater 0', 'Error!', {
@@ -496,13 +549,12 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         });
       } else {
 
-
         let payLoad = {
           sRow: 1,
           eRow: 5,
           itemWhse: [
-            values.itemNumber,
-            // "238562",
+            // values.itemNumber,
+            "238562",
             values.warehouse,
             "1=1"
           ],
@@ -523,7 +575,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
                 else 
                 {
 
-                  var payload2 = { 
+                  var payload2 = {
                     "otid": this.data.otid,
                     "splitQty": 0, // (values.toteQty ? parseInt(values.toteQty) : 0) - (values.quantityAllocatedPutAway ? parseInt(values.quantityAllocatedPutAway) : 0),
                     "qty": values.toteQty,
