@@ -513,7 +513,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
       const values = this.toteForm.value;
 
-      if (!values.zone || !values.row || !values.shelf || !values.bin) {
+      if (values.invMapID <= 0 || values.invMapID) {
         this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
