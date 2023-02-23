@@ -283,11 +283,7 @@
                 <div class="card p-3 mb-2">
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Input Type</mat-label>
-                    <mat-select #matRef class="employees-action" value="Any" (selectionChange)="selectionChanged($event.value)">
-                      <!-- <mat-option value="0"><b>Any</b></mat-option>
-                      <mat-option value="print">Item No.</mat-option>
-                      <mat-option value="print">Serial No.</mat-option>
-                      <mat-option value="print">Lot No.</mat-option> -->
+                    <mat-select #matRef class="employees-action" value="{{processPutAwayIndex.imPreference.defaultPutAwayScanType}}" (selectionChange)="selectionChanged($event.value)">                      
                       <mat-option value="Any">Any</mat-option>
                       <mat-option value="Item Number">Item Number</mat-option>
                       <mat-option value="Serial Number">Serial Number</mat-option>
