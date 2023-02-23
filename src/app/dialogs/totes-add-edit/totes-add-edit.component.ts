@@ -100,8 +100,8 @@ export class TotesAddEditComponent implements OnInit {
             });
           this.getTotes();
           } else {
-            console.log(searchPayload);
-            this.toastr.error("Already exists", 'Error!', {
+            // console.log(searchPayload);
+            this.toastr.error("Cannot set the selected tote because it is already set in the batch.", 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
             });

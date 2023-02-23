@@ -461,6 +461,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
   openCrossDockTransactionDialogue() {
     const values = this.toteForm.value;
+    console.log(values);
+    
     const dialogRef = this.dialog.open(CrossDockTransactionComponent, {
       height: 'auto',
       width: '70vw',
@@ -524,8 +526,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           sRow: 1,
           eRow: 5,
           itemWhse: [
-            values.itemNumber,
-            // "238562",
+            // values.itemNumber,
+            "238562",
             values.warehouse,
             "1=1"
           ],
