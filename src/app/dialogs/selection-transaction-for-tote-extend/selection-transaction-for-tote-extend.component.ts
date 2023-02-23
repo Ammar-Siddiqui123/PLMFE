@@ -179,7 +179,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               toteID                            : fil[0].toteID,
               totePos                           : fil[0].totesPosition,
               toteCells                         : fil[0].cells,
-              toteQty                           : 0,
+              toteQty                           : this.data.transactionQuantity ? this.data.transactionQuantity : this.data.defaultPutAwayQuantity,
 
               invMapID                          : values.invMapID,
               dedicated                         : values.dedicated,

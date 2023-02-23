@@ -23,102 +23,6 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class ToteTransactionViewComponent implements OnInit {
 
-  public dummy_data={
-    "data": [
-        {
-            "id": 13328205,
-            "cell": "",
-            "itemNumber": "024768586491",
-            "transactionQuantity": 1,
-            "itemLocation": " 08 1 02 02 B1",
-            "hostTransactionID": "",
-            "rn": 1
-        },
-        {
-            "id": 13328230,
-            "cell": "",
-            "itemNumber": "024768578274",
-            "transactionQuantity": 1,
-            "itemLocation": " 08 2 09 05 A1",
-            "hostTransactionID": "024768971587",
-            "rn": 2
-        },
-        {
-            "id": 13333599,
-            "cell": "",
-            "itemNumber": "024768767715",
-            "transactionQuantity": 1,
-            "itemLocation": " 08 1 32 06 A1",
-            "hostTransactionID": "",
-            "rn": 3
-        },
-        {
-            "id": 13347897,
-            "cell": "",
-            "itemNumber": "024768765629",
-            "transactionQuantity": 1,
-            "itemLocation": " 08 1 14 03 A1",
-            "hostTransactionID": "",
-            "rn": 4
-        },
-        {
-            "id": 13347899,
-            "cell": "",
-            "itemNumber": "024768765629",
-            "transactionQuantity": 1,
-            "itemLocation": " 08 1 14 03 A1",
-            "hostTransactionID": "",
-            "rn": 5
-        },
-        {
-            "id": 13362573,
-            "cell": "",
-            "itemNumber": "024768751165",
-            "transactionQuantity": 1,
-            "itemLocation": " 08 1 11 05 A1",
-            "hostTransactionID": "",
-            "rn": 6
-        },
-        {
-            "id": 13362710,
-            "cell": "",
-            "itemNumber": "024768751165",
-            "transactionQuantity": 1,
-            "itemLocation": " 08 1 11 05 A1",
-            "hostTransactionID": "",
-            "rn": 7
-        },
-        {
-            "id": 13362718,
-            "cell": "",
-            "itemNumber": "024768961076",
-            "transactionQuantity": 3,
-            "itemLocation": " 08 1 13 02 C1",
-            "hostTransactionID": "",
-            "rn": 8
-        },
-        {
-            "id": 13366460,
-            "cell": "",
-            "itemNumber": "024768586514",
-            "transactionQuantity": 1,
-            "itemLocation": " 08 2 43 06 A1",
-            "hostTransactionID": "",
-            "rn": 9
-        },
-        {
-            "id": 13366570,
-            "cell": "",
-            "itemNumber": "024768189791",
-            "transactionQuantity": 1,
-            "itemLocation": " 08 1 17 02 C1",
-            "hostTransactionID": "",
-            "rn": 10
-        }
-    ],
-    "responseMessage": "Data Available",
-    "isExecuted": true
-  }
   
   batchID: any;
   tote: any;
@@ -261,7 +165,7 @@ export class ToteTransactionViewComponent implements OnInit {
       dialogRef.afterClosed().subscribe((res) => {
         if (res) {
           let payLoad = {
-            toteNumber: this.toteID,
+            toteNumber: this.tote,
             cell: this.cell,
             batchID: this.batchID,
             username: this.data.userName,
