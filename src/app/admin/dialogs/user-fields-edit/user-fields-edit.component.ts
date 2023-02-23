@@ -134,16 +134,16 @@ export class UserFieldsEditComponent implements OnInit {
         if (res && res.data) {
           let item = res.data;
 
-          this.shipVia = item.userField1;
-          this.shipToName = item.userField2;
-          this.shipToLine1 = item.userField3;
-          this.userField9 = item.userField4;
-          this.shipToCountry = item.userField5;
-          this.shipToState = item.userField6;
-          this.shipToZip = item.userField7;
-          this.promisedDate = item.userField8;
-          this.isCancel = item.userField9;
-          this.userField10 = item.userField10;
+          this.shipVia = item.userField1 ?? "";
+          this.shipToName = item.userField2 ?? "";
+          this.shipToLine1 = item.userField3 ?? "";
+          this.userField9 = item.userField4 ?? "";
+          this.shipToCountry = item.userField5 ?? "";
+          this.shipToState = item.userField6 ?? "";
+          this.shipToZip = item.userField7 ?? "";
+          this.promisedDate = item.userField8 ?? "";
+          this.isCancel = item.userField9 ?? "";
+          this.userField10 = item.userField10 ?? "";
         }
       });
   }

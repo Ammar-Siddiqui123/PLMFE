@@ -5,6 +5,7 @@ import { ProcessPutAwayService } from '../../../app/induction-manager/processPut
 import { ToastrService } from 'ngx-toastr';
 import { UserFieldsComponent } from '../user-fields/user-fields.component';
 import { TotesAddEditComponent } from '../totes-add-edit/totes-add-edit.component';
+import { UserFieldsEditComponent } from '../../../app/admin/dialogs/user-fields-edit/user-fields-edit.component';
 
 @Component({
   selector: 'app-cross-dock-transaction',
@@ -108,7 +109,7 @@ export class CrossDockTransactionComponent implements OnInit {
 
   getCrossDock()
   {
-    // this.itemWhse = "238562";
+    this.itemWhse = "238562";
     let payLoad = {
       sRow: this.lowerBound,
       eRow: this.upperBound,
@@ -147,6 +148,8 @@ export class CrossDockTransactionComponent implements OnInit {
   }
 
   openUserFieldsDialogue() {
+    console.log(this.selectedRowObj);
+    
     const dialogRef = this.dialog.open(UserFieldsComponent, {
       height: 'auto',
       width: '70vw',
@@ -154,6 +157,24 @@ export class CrossDockTransactionComponent implements OnInit {
       data: this.selectedRowObj
     })
   }
+  // openUserFieldsEditDialogue() {
+  //   const dialogRef = this.dialog.open(UserFieldsEditComponent, {
+  //     height: 'auto',
+  //     width: '800px',
+  //     autoFocus: '__non_existing_element__',
+  //     data: {
+  //       transID: this.selectedRowObj.id,
+  //       username: this.userId,
+  //       wsid: this.wsid
+  //     },
+  //   });
+  //   dialogRef.afterClosed().subscribe((res) => {
+  //     // this.clearMatSelectList();
+  //     if (res.isExecuted) {
+  //     }
+  //     console.log(res);
+  //   });
+  // }
 
   openReprocessTransactionViewDialogue() {
     const dialogRef = this.dialog.open(ReprocessTransactionDetailViewComponent, {
