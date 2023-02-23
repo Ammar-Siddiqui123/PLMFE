@@ -46,7 +46,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
     this.getTransactions();
   }
 
-  selectOrder(id:any,itemNumber:any)
+  selectOrder(id:any,itemNumber:any, val : any = [])
   {
     const dialogRef = this.dialog.open(SelectionTransactionForToteExtendComponent, {
       height: 'auto',
@@ -57,7 +57,9 @@ export class SelectionTransactionForToteComponent implements OnInit {
         itemNumber  : itemNumber,
         zones       : this.data.zones,
         batchID     : this.data.batchID,
-        totes       : this.data.totes
+        totes       : this.data.totes,
+        defaultPutAwayQuantity: this.data.defaultPutAwayQuantity,
+        transactionQuantity: val.transactionQuantity
       }
     });
 
@@ -98,16 +100,22 @@ export class SelectionTransactionForToteComponent implements OnInit {
       username: this.userName,
       wsid: this.wsid
     };
-    console.log(getTransaction);
+    //console.log(getTransaction);
     this.service
       .get(getTransaction, '/Induction/TransactionForTote')
       .subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
             this.transactionTable = res.data.transactionTable;
+            
             if (!res.data.transactionTable || res.data.transactionTable.length == 0) {
               this.dialogRef.close("NO");
             }
+
+            if (this.data.selectIfOne && res.data.transactionTable.length == 1) {
+              this.selectOrder(this.transactionTable[0].id, res.data.itemNumber);
+            }
+
             this.apiResponse = res.data;
             this.itemNumber = this.apiResponse.itemNumber;
             this.description = this.apiResponse.description;

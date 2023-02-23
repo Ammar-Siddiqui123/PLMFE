@@ -233,7 +233,8 @@ export class ProcessPutAwaysComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data:
       {
-        position: position
+        position: position,
+        validateTotes : this.processPutAwayIndex.imPreference.validateTotes
       }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -575,7 +576,9 @@ export class ProcessPutAwaysComponent implements OnInit {
           wsid:       this.userData.wsid,
           batchID:    this.batchId,
           zones:      this.assignedZones,  
-          totes:      this.dataSource2.data
+          totes:      this.dataSource2.data,
+          selectIfOne: this.processPutAwayIndex.imPreference.selectIfOne,
+          defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity
         }
       });
 
