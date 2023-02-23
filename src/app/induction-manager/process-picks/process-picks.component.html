@@ -168,8 +168,8 @@
                         <mat-form-field class="custom-form-field w-100 position-relative" appearance="outline">
                             <mat-label>Order No.</mat-label>
                             <input type="text" [formControl]="orderNumber" aria-label="Number" matInput
-                                [matAutocomplete]="auto" (focusout)="ifOrderExits(inputVal.value)" #inputVal>
-                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                [matAutocomplete]="auto" [(ngModel)]="orderInput" (keyup.enter)="ifOrderExits(orderInput)">
+                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="ifOrderExits(orderInput)">
                                 <h6 class="ctl_name ac-dropdown-label"><span>Batch ID</span></h6>
                                 <mat-option *ngFor="let option of filteredOrderNum | async" [value]="option">
                                     <div class="ctl_option ac-dropdown-option">
