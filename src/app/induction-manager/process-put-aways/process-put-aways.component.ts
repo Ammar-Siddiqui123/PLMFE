@@ -244,6 +244,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       data:
       {
         position: position,
+        alreadySavedTotes : this.ELEMENT_DATA,
         validateTotes : this.processPutAwayIndex.imPreference.validateTotes
       }
     });
@@ -251,12 +252,19 @@ export class ProcessPutAwaysComponent implements OnInit {
       if(result){
       if(result.toteID!="")
       {
-        this.ELEMENT_DATA[(result.position)-1].toteid = result.toteID.toString();
-        //this.ELEMENT_DATA[(result.position)-1].cells = result.cellID.toString();
-        for(var i=0;i<this.ELEMENT_DATA.length;i++)
+        if(result.toteID.toString()!='')
         {
-        this.ELEMENT_DATA[i].cells = result.cellID.toString();
+
+          this.ELEMENT_DATA[(result.position)-1].toteid = result.toteID.toString();
         }
+        if(result.cellID.toString()!='')
+        {
+          for(var i=0;i<this.ELEMENT_DATA.length;i++)
+          {
+          this.ELEMENT_DATA[i].cells = result.cellID.toString();
+          }
+        }
+        
         
       }
 
