@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ReprocessTransactionDetailViewComponent } from '../reprocess-transaction-detail-view/reprocess-transaction-detail-view.component';
 import { ProcessPutAwayService } from '../../../app/induction-manager/processPutAway.service';
@@ -7,6 +7,8 @@ import { UserFieldsComponent } from '../user-fields/user-fields.component';
 import { TotesAddEditComponent } from '../totes-add-edit/totes-add-edit.component';
 import { UserFieldsEditComponent } from '../../../app/admin/dialogs/user-fields-edit/user-fields-edit.component';
 import { Router } from '@angular/router';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-cross-dock-transaction',
@@ -36,6 +38,7 @@ export class CrossDockTransactionComponent implements OnInit {
   public nxtToteID;
   public toteID;
   public loopIndex = -1;
+  @ViewChild('openAction') openAction: MatSelect;
 
 
 
@@ -56,6 +59,10 @@ export class CrossDockTransactionComponent implements OnInit {
 
   selectTote(i: any) {
     this.openTotesDialogue(i);
+  }
+
+  clearMatSelectList(){
+    this.openAction.options.forEach((data: MatOption) => data.deselect());
   }
 
   openTotesDialogue(position: any) {
@@ -108,7 +115,7 @@ export class CrossDockTransactionComponent implements OnInit {
   }
 
   getCrossDock() {
-    this.itemWhse = "238562";
+    // this.itemWhse = "238562";
     let payLoad = {
       sRow: this.lowerBound,
       eRow: this.upperBound,
@@ -165,8 +172,11 @@ export class CrossDockTransactionComponent implements OnInit {
         this.selectedRowObj.userField9 = res.userField9
         this.selectedRowObj.userField10 = res.userField10
 
+        this.clearMatSelectList()
+
       });
     }
+    
   }
   // openUserFieldsEditDialogue() {
   //   const dialogRef = this.dialog.open(UserFieldsEditComponent, {
@@ -197,7 +207,15 @@ export class CrossDockTransactionComponent implements OnInit {
         this.transactions[this.loopIndex].toteID = res.data;
         this.nxtToteID = ++res.data;
         this.updateNxtTote();
+        this.clearMatSelectList()
       });
+    }
+    else{
+      this.toastr.error('Order must be selected.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      this.clearMatSelectList()
     }
 
   }
@@ -228,6 +246,9 @@ export class CrossDockTransactionComponent implements OnInit {
         itemID:this.itemWhse
       }
     })
+    dialogRef.afterClosed().subscribe((res) => {
+      this.clearMatSelectList()
+    })
   }
 
   submit() {
@@ -235,7 +256,8 @@ export class CrossDockTransactionComponent implements OnInit {
   }
 
   viewOrderStatus() {
-    console.log(this.selectedRowObj);
+    // console.log(this.selectedRowObj);
+    this.clearMatSelectList()
     this.router.navigate([]).then((result) => {
       window.open(`/#/InductionManager/TransactionJournal?orderStatus=${this.selectedRowObj.orderNumber}`, '_blank');
     });
