@@ -32,7 +32,7 @@ export interface PeriodicElement {
   styleUrls: ['./process-put-aways.component.scss'],
 })
 export class ProcessPutAwaysComponent implements OnInit {
-  ELEMENT_DATA = [{ position: 0, cells: '', toteid: '' }];
+  ELEMENT_DATA = [{ position: 0, cells: '', toteid: '' ,locked:'' }];
   displayedColumns: string[] = ['positions', 'cells', 'toteid', 'save'];
   dataSource: any;
   selection = new SelectionModel<PeriodicElement>(true, []);
@@ -167,12 +167,17 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.service.create(payLoad, '/Induction/BatchTotes').subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
+          if(res.data.length>0)
+          {
+            this.status = "Processed";
+          }
           this.ELEMENT_DATA.length = 0;
           for (var ix = 0; ix < res.data.length; ix++) {          
             this.ELEMENT_DATA.push({
               position: parseInt(res.data[ix].totePosition),
               cells: res.data[ix].cells,
               toteid: res.data[ix].toteID.toString(),
+              locked: res.data[ix].locked.toString()
             });
 
             if (ix == 0) {
@@ -187,6 +192,8 @@ export class ProcessPutAwaysComponent implements OnInit {
             }
           }
           this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+
+
         } else {
           this.toastr.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
@@ -423,12 +430,14 @@ export class ProcessPutAwaysComponent implements OnInit {
               position: index + 1,
               cells: this.cellSize,
               toteid: '',
+              locked: ""
             });
           } else {
             this.ELEMENT_DATA.push({
               position: index + 1,
               cells: this.cellSize,
               toteid: this.currentToteID.toString(),
+              locked:""
             });
             this.currentToteID++;
           }
@@ -448,12 +457,14 @@ export class ProcessPutAwaysComponent implements OnInit {
             position: index + 1,
             cells: this.cellSize,
             toteid: '',
+            locked:""
           });
         } else {
           this.ELEMENT_DATA.push({
             position: index + 1,
             cells: this.cellSize,
             toteid: this.currentToteID.toString(),
+            locked:""
           });
           this.currentToteID++;
         }
@@ -542,9 +553,28 @@ export class ProcessPutAwaysComponent implements OnInit {
     if (this.batchId == '') {
       this.showMessage('You must provide a Batch ID.', 2000, 'error');
     } else {
+
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message: 'Click OK to update all totes (except allocated ones) to have their default cell count.',
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result == 'Yes') {
       for (var i = 0; i < this.pickBatchQuantity; i++) {
         this.ELEMENT_DATA[i].cells = this.cellSize.toString();
       }
+        }
+      });
+
+
+
+
+
     }
   }
 
@@ -678,6 +708,7 @@ export class ProcessPutAwaysComponent implements OnInit {
                       timeOut: 2000,
                     }
                   );
+                  this.getRow(this.batchId);
                 } else {
                   this.toastr.error('Something went wrong', 'Error!', {
                     positionClass: 'toast-bottom-right',
