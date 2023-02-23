@@ -1,6 +1,10 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router, RoutesRecognized } from '@angular/router';
 import { filter, pairwise } from 'rxjs/operators';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-transaction',
@@ -13,7 +17,10 @@ export class TransactionComponent implements OnInit ,AfterViewInit {
   public showReprocess
   public showReprocessed;
   public setval;
-  constructor(router: Router) {
+  orderStatus$: Observable<any>;
+  constructor(router: Router,    private route: ActivatedRoute,private sharedService:SharedService
+    ) {
+    
     // router.events
     //   .pipe(
     //     filter((evt: any) => evt instanceof RoutesRecognized),
@@ -39,8 +46,25 @@ export class TransactionComponent implements OnInit ,AfterViewInit {
     this.setval =localStorage.getItem('routeFromInduction')
    this.showReprocess=JSON.parse(this.setval)
    this.showReprocessed=JSON.parse(this.setval)
+
+   
+   this.orderStatus$ = this.route.queryParamMap.pipe(
+    map((params: ParamMap) => params.get('orderStatus')),
+  );
+
+  this.orderStatus$.subscribe((param) =>{
+    console.log(param)
+    if(param){
+      this.TabIndex=0;
+       this.sharedService.updateOrderStatus(param)
     }
-  ngOnInit(): void {}
+  });
+    }
+  ngOnInit(): void {
+
+
+    
+  }
 
   public demo1BtnClick() {
     const tabCount = 3;
