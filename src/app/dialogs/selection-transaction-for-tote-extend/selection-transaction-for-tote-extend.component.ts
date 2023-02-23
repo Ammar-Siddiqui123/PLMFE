@@ -180,7 +180,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               toteID                            : fil[0].toteID,
               totePos                           : fil[0].totesPosition,
               toteCells                         : fil[0].cells,
-              toteQty                           : 0,
+              toteQty                           : this.data.transactionQuantity ? this.data.transactionQuantity : this.data.defaultPutAwayQuantity,
 
               invMapID                          : values.invMapID,
               dedicated                         : values.dedicated,
@@ -462,6 +462,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
   openCrossDockTransactionDialogue() {
     const values = this.toteForm.value;
+    console.log(values);
+    
     const dialogRef = this.dialog.open(CrossDockTransactionComponent, {
       height: 'auto',
       width: '70vw',
@@ -516,6 +518,30 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
       const values = this.toteForm.value;
 
+      if (!values.zone || !values.row || !values.shelf || !values.bin) {
+        this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        return;
+      }
+
+      if (values.warehouseSensitive && !values.warehouse) {
+        this.toast.error('You must select a warehouse for this transaction before it can be processed.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        return;
+      }
+      
+      if (values.dateSensitive && !values.expirationDate) {
+        this.toast.error('This item is date sensitive. You must provide an expiration date.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        return;
+      }
+
       if (values.toteQty <= 0) {
         this.toast.error('Quantity should be greater 0', 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -523,13 +549,12 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         });
       } else {
 
-
         let payLoad = {
           sRow: 1,
           eRow: 5,
           itemWhse: [
-            values.itemNumber,
-            // "238562",
+            // values.itemNumber,
+            "238562",
             values.warehouse,
             "1=1"
           ],
@@ -550,7 +575,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
                 else 
                 {
 
-                  var payload2 = { 
+                  var payload2 = {
                     "otid": this.data.otid,
                     "splitQty": 0, // (values.toteQty ? parseInt(values.toteQty) : 0) - (values.quantityAllocatedPutAway ? parseInt(values.quantityAllocatedPutAway) : 0),
                     "qty": values.toteQty,

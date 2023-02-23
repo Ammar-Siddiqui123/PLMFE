@@ -21,6 +21,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { MarkToteFullComponent } from 'src/app/dialogs/mark-tote-full/mark-tote-full.component';
+import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 
 export interface PeriodicElement {
   position: string;
@@ -38,6 +39,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   selection = new SelectionModel<PeriodicElement>(true, []);
   licAppData;
   rowSelected = false;
+  isViewTote=true;
   public userData: any;
   public cellSize = '0';
   public batchId = '';
@@ -49,6 +51,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   public toteID = '';
   public cell='';
   public toteNumber='';
+  public toteQuantity:any
   public actionDropDown: any;
   public assignedZonesArray = [{ zone: '' }];
   searchAutocompleteItemNum: any = [];
@@ -241,7 +244,8 @@ export class ProcessPutAwaysComponent implements OnInit {
       data:
       {
         position: position,
-        alreadySavedTotes : this.ELEMENT_DATA
+        alreadySavedTotes : this.ELEMENT_DATA,
+        validateTotes : this.processPutAwayIndex.imPreference.validateTotes
       }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -270,7 +274,43 @@ export class ProcessPutAwaysComponent implements OnInit {
 
 
   }
+  onFocusOutBatchID(event){
+ 
+ 
+    // alert(this.batchId2)
+    let payload={
+      batchID: this.batchId2,
+      username: this.userData.userName,
+      wsid: this.userData.wsid
+    }
 
+    this.service.get(payload,'/Induction/BatchExist').subscribe((res:any)=>{
+      
+      if(res && !res.data){
+        
+        const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+          height: 'auto',
+          width: '50vw',
+          autoFocus: '__non_existing_element__',
+          data: {
+            message:"This Batch ID either does not exists or is assigned to a different workstation.Use the Tote Setup tab to create a new batch or choose an existing batch for this workstation.",
+            heading:'Invalid Batch ID'
+          },
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          this.batchId2='';
+          this.dataSource2='';
+          this.postion='';
+          this.tote='';
+         
+        });
+      }else{
+        this.fillToteTable();
+      }
+
+    })
+
+  }
 
   openDeleteBatchDialogue() {
     const dialogRef = this.dialog.open(BatchDeleteComponent, {
@@ -592,7 +632,63 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   openSelectionTransactionDialogue() {
-    if(this.inputValue=="")
+
+    if(this.cell==this.toteQuantity){
+      const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+        height: 'auto',
+        width: '50vw',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message:"The Tote you've selected is already marked as full. Putting the item in this tote will go over define cells",
+          heading:'Assign Transaction To Selected Tote'
+        },
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if(!result) return
+        if(this.inputValue=="")
+        {
+          this.toastr.error('Please enter input value', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+    
+        }
+        else 
+        {
+          const dialogRef = this.dialog.open(SelectionTransactionForToteComponent, {
+            height: 'auto',
+            width: '1100px',
+            autoFocus: '__non_existing_element__',
+            data: {
+              inputType:  this.inputType,
+              inputValue: this.inputValue,
+              userName:   this.userData.userName,
+              wsid:       this.userData.wsid,
+              batchID:    this.batchId,
+              zones:      this.assignedZones,  
+              totes:      this.dataSource2.data,
+              selectIfOne: this.processPutAwayIndex.imPreference.selectIfOne,
+              defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity
+            }
+          });
+    
+          dialogRef.afterClosed().subscribe((result) => {        
+            if (result == 'NO') {
+              this.toastr.error('The input code provided was not recognized as an Item Number, Lot Number, Serial Number, Host Transaction ID, Scan Code or Supplier Item ID.', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            } else if (result == "Task Completed") {
+              this.fillToteTable(this.batchId2);
+            }
+          });
+    
+        }
+      });
+   
+    }
+
+    else if(this.inputValue=="")
     {
       this.toastr.error('Please enter input value', 'Error!', {
         positionClass: 'toast-bottom-right',
@@ -613,7 +709,9 @@ export class ProcessPutAwaysComponent implements OnInit {
           wsid:       this.userData.wsid,
           batchID:    this.batchId,
           zones:      this.assignedZones,  
-          totes:      this.dataSource2.data
+          totes:      this.dataSource2.data,
+          selectIfOne: this.processPutAwayIndex.imPreference.selectIfOne,
+          defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity
         }
       });
 
@@ -629,7 +727,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       });
 
     }
-    
+ 
   }
 
   selectTotes(i: any) {
@@ -642,6 +740,14 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.cell = this.dataSource2.data[i].cells;
     this.toteNumber=this.dataSource2.data[i].toteID;
     this.rowSelected = true;
+    this.toteQuantity=this.dataSource2.data[i].toteQuantity;
+
+    if(this.toteQuantity==this.cell){
+      this.isViewTote=false;
+
+    }else{
+      this.isViewTote=true;
+    }
   }
 
   fillToteTable(batchID: string = '') {
@@ -669,6 +775,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.dataSource2 = new MatTableDataSource<any>(res.data.totesTable);
             this.dataSource2.paginator = this.paginator;
             this.selectTotes(0)
+            this.goToNext();
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -736,7 +843,9 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   goToNext() {
     var fil = this.dataSource2.data.filter((e: any) => e.status == 0);
+    console.log(this.dataSource2.data);
     if (fil.length > 0) {
+      this.selectTotes(this.dataSource2.data.indexOf(fil[0]));
       this.nextPutLoc = fil[0].toteID;
       this.nextPos = fil[0].totesPosition;
       this.nextCell = fil[0].cells;
@@ -817,11 +926,12 @@ export class ProcessPutAwaysComponent implements OnInit {
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
+        if(this.toteQuantity<=0)
         this.clearMatSelectList();
         if (res) {
           let payLoad = {
-            toteNumber: this.toteNumber,
-            cell: this.cell,
+            toteNumber: this.postion,
+            cell: this.toteQuantity,
             batchID: this.batchId2,
             username: this.userData.userName,
             wsid: this.userData.wsid,
@@ -831,7 +941,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             (res: any) => {
               if (res.data && res.isExecuted) {
                 this.toastr.success(
-                  'Batch Completed Successfully',
+                  'Marked Successfully',
                   'Success!',
                   {
                     positionClass: 'toast-bottom-right',
@@ -862,10 +972,12 @@ export class ProcessPutAwaysComponent implements OnInit {
       width: '80vw',
       autoFocus: '__non_existing_element__',
       data:{
+
+
         batchID:this.batchId2,
         tote:this.postion,
         toteID:this.toteNumber,
-        cell:this.cell,
+        cell:this.toteQuantity,
         userName:this.userData.userName,
         wsid:this.userData.wsid
       }

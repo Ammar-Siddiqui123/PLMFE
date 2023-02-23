@@ -9,6 +9,7 @@ import { UserFieldsEditComponent } from '../../../app/admin/dialogs/user-fields-
 import { Router } from '@angular/router';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { ConfirmationDialogComponent } from '../../../app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-cross-dock-transaction',
@@ -32,7 +33,9 @@ export class CrossDockTransactionComponent implements OnInit {
   public lowerBound = 1;
   public upperBound = 5;
 
-
+  allocatedTotal:any;
+  backOrderTotal:any;
+  numberRecords:any;
   public selectedRow;
   public selectedRowObj;
   public nxtToteID;
@@ -45,6 +48,8 @@ export class CrossDockTransactionComponent implements OnInit {
   constructor(public router: Router, public dialogRef: MatDialogRef<CrossDockTransactionComponent>, private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, private service: ProcessPutAwayService, private toastr: ToastrService,) { }
 
   ngOnInit(): void {
+    console.log(this.data);
+    
     this.itemWhse = this.data.itemWhse;
     this.userId = this.data.userId;
     this.wsid = this.data.wsid;
@@ -115,7 +120,7 @@ export class CrossDockTransactionComponent implements OnInit {
   }
 
   getCrossDock() {
-    // this.itemWhse = "238562";
+    this.itemWhse = "238562";
     let payLoad = {
       sRow: this.lowerBound,
       eRow: this.upperBound,
@@ -135,6 +140,9 @@ export class CrossDockTransactionComponent implements OnInit {
           if (res.data && res.isExecuted) {
             this.crossDock = res.data;
             this.transactions = res.data.transaction;
+            this.allocatedTotal = res.data.allocatedTotal;
+            this.backOrderTotal = res.data.backOrderTotal;
+            this.numberRecords = res.data.numberRecords;
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -252,7 +260,20 @@ export class CrossDockTransactionComponent implements OnInit {
   }
 
   submit() {
-    this.dialogRef.close("Submit");
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: 'Click OK to proceed without a tote ID. Click Cancel to provide a tote ID.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'Yes') {
+        this.dialogRef.close("Submit");
+      }
+    });
   }
 
   viewOrderStatus() {
@@ -261,5 +282,46 @@ export class CrossDockTransactionComponent implements OnInit {
     this.router.navigate([]).then((result) => {
       window.open(`/#/InductionManager/TransactionJournal?orderStatus=${this.selectedRowObj.orderNumber}`, '_blank');
     });
+  }
+
+  completePick() {
+    try {
+
+      var payLoad = {
+        "pick": 0,
+        "put": 75,
+        "reel": false,
+        "ser": "0",
+        "htid": "",
+        "rpid": 11403,
+        "otid": 18414,
+        "item": "10086",
+        "uf1": "",
+        "toteID": "",
+        "order": "CD 1",
+        "invMapID": 9749,
+        "whse": "",
+        "batch": "202101110000004",
+        username: this.userId,
+        wsid: this.wsid
+      };
+
+      this.service.create(payLoad, '/Induction/CompletePick').subscribe(
+        (res: any) => {
+          if (res.data && res.isExecuted) {
+
+          } else {
+            this.toastr.error('Something went wrong', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        },
+        (error) => {}
+      ); 
+      
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
