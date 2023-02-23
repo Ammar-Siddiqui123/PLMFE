@@ -431,7 +431,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           username: this.userData.userName,
           wsid: this.userData.wsid 
         };
-        console.log(payLoad);
+
         this.service
           .get(payLoad, '/Induction/CrossDock')
           .subscribe(
