@@ -263,6 +263,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
             "cFvel": values.cfVelocity,
             "pzone": values.primaryPickZone,
             "szone": values.secondaryPickZone,
+            username: this.userData.userName,
             wsid: this.userData.wsid 
           }
           
@@ -331,6 +332,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         }
       }
 
+      this.getCellSizeList();
+
 
     });
 
@@ -374,7 +377,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           });
         }
       }
-    });
+      this.getVelocityCodeList();
+    });    
     
   }
 
@@ -394,27 +398,62 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
   findLocation() {
     try {
-      try {
-        var payLoad = {
-          username: this.userData.userName,
-          wsid: this.userData.wsid,
-        };
-        this.service.create(payLoad, '/Induction/FindLocation').subscribe(
-          (res: any) => {
-            if (res.data && res.isExecuted) {
 
-            } else {
-              this.toastr.error('Something went wrong', 'Error!', {
-                positionClass: 'toast-bottom-right',
-                timeOut: 2000,
-              });
-            }
-          },
-          (error) => {}
-        );      
-      } catch (error) {
-        console.log(error)
-      }
+      const values = this.toteForm.value;
+
+      var payLoad = {
+        "qtyPut": values.quantityAllocatedPutAway ? parseInt(values.quantityAllocatedPutAway) : 0,
+        "item": "10000", //values.itemNumber,
+        "ccell": values.carouselCellSize,
+        "cvel": values.carouselVelocity,
+        "bcell": values.bulkCellSize,
+        "bvel": values.bulkVelocity,
+        "cfcell": values.cfCellSize,
+        "cfvel": values.cfVelocity,
+        "whse": values.warehouse,
+        "dateSens": values.dateSensitive,
+        "fifo": values.fifo,
+        "isReel": false,
+        "lot": values.lotNumber,
+        "ser": values.serialNumber,
+        "replenfwd": true,
+        "prevZone": values.zones,
+        "dedicate": values.dedicate,
+        "rts": false,
+        "expDate": values.expirationDate,
+        "primaryZone": values.primaryPickZone,
+        "secondaryZone": values.secondaryPickZone,
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
+      this.service.create(payLoad, '/Induction/FindLocation').subscribe(
+        (res: any) => {
+          if (res.data && res.isExecuted) {
+
+            this.toteForm.patchValue({
+              // Location Info
+              zone                              : res.data.zone,
+              carousel                          : res.data.carousel,
+              row                               : res.data.row,
+              shelf                             : res.data.shelf,
+              bin                               : res.data.bin,
+              cellSize                          : res.data.cellSz,
+              velocityCode                      : res.data.velCode,
+              itemQuantity                      : res.data.locQty,
+              maximumQuantity                   : res.data.locMaxQty,
+              quantityAllocatedPutAway          : res.data.qtyAlloc,
+            });
+
+          } else {
+            this.toastr.error('Something went wrong', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        },
+        (error) => {}
+      );      
+
     } catch (error) {
       console.log(error)
     }
@@ -486,7 +525,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
                   var payload2 = { 
                     "otid": this.data.otid,
-                    "splitQty": (values.toteQty ? parseInt(values.toteQty) : 0) - (values.quantityAllocatedPutAway ? parseInt(values.quantityAllocatedPutAway) : 0),
+                    "splitQty": 0, // (values.toteQty ? parseInt(values.toteQty) : 0) - (values.quantityAllocatedPutAway ? parseInt(values.quantityAllocatedPutAway) : 0),
                     "qty": values.toteQty,
                     "toteID": values.toteID,
                     "batchID": this.data.batchID,
