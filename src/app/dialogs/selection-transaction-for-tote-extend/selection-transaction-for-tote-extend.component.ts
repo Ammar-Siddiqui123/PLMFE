@@ -15,6 +15,7 @@ import { CellSizeComponent } from 'src/app/admin/dialogs/cell-size/cell-size.com
 import { VelocityCodeComponent } from 'src/app/admin/dialogs/velocity-code/velocity-code.component';
 import { CellSizeService } from 'src/app/common/services/cell-size.service';
 import { VelocityCodeService } from 'src/app/common/services/velocity-code.service';
+import { ChooseLocationComponent } from '../choose-location/choose-location.component';
 
 @Component({
   selector: 'app-selection-transaction-for-tote-extend',
@@ -381,6 +382,44 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  openChooseLocation() {
+    const values = this.toteForm.value;
+    const dialogRef = this.dialog.open(ChooseLocationComponent, {
+      height: 'auto',
+      width: '70vw',
+      autoFocus: '__non_existing_element__',
+      data: values
+    });
+  }
+
+  findLocation() {
+    try {
+      try {
+        var payLoad = {
+          username: this.userData.userName,
+          wsid: this.userData.wsid,
+        };
+        this.service.create(payLoad, '/Induction/FindLocation').subscribe(
+          (res: any) => {
+            if (res.data && res.isExecuted) {
+
+            } else {
+              this.toastr.error('Something went wrong', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            }
+          },
+          (error) => {}
+        );      
+      } catch (error) {
+        console.log(error)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   openCrossDockTransactionDialogue() {
     const values = this.toteForm.value;
     const dialogRef = this.dialog.open(CrossDockTransactionComponent, {
@@ -424,14 +463,14 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           eRow: 5,
           itemWhse: [
             values.itemNumber,
-            //"238562",
+            // "238562",
             values.warehouse,
             "1=1"
           ],
           username: this.userData.userName,
           wsid: this.userData.wsid 
         };
-        console.log(payLoad);
+
         this.service
           .get(payLoad, '/Induction/CrossDock')
           .subscribe(
