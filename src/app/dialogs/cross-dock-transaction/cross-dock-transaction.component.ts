@@ -181,7 +181,10 @@ export class CrossDockTransactionComponent implements OnInit {
     const dialogRef = this.dialog.open(ReprocessTransactionDetailViewComponent, {
       height: 'auto',
       width: '70vw',
-      autoFocus: '__non_existing_element__'
+      autoFocus: '__non_existing_element__',
+      data:{
+        itemID:this.itemWhse
+      }
     })
   }
 
