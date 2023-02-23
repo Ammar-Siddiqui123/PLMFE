@@ -120,7 +120,7 @@ export class CrossDockTransactionComponent implements OnInit {
   }
 
   getCrossDock() {
-    //this.itemWhse = "238562";
+    // this.itemWhse = "238562";
     let payLoad = {
       sRow: this.lowerBound,
       eRow: this.upperBound,
@@ -288,22 +288,22 @@ export class CrossDockTransactionComponent implements OnInit {
     try {
 
       var payLoad = {
-        "pick": 0,
-        "put": 75,
-        "reel": false,
-        "ser": "0",
-        "htid": "",
-        "rpid": 11403,
-        "otid": 18414,
-        "item": "10086",
-        "uf1": "",
-        "toteID": "",
-        "order": "CD 1",
-        "invMapID": 9749,
-        "whse": "",
-        "batch": "202101110000004",
-        username: this.userId,
-        wsid: this.wsid
+        "pick": this.data.values.transactionQuantity,
+        "put": this.data.values.toteQty,
+        "reel": this.data.values.subCategory == 'reel tracking' ? true : false,
+        "ser": this.data.values.serialNumber,
+        "htid": this.selectedRowObj.hostTransactionID,
+        "rpid": this.selectedRowObj.id,
+        "otid": this.data.otid,
+        "item": this.data.values.itemNumber,
+        "uf1": this.selectedRowObj.userField1,
+        "toteID": this.selectedRowObj.toteID,
+        "order": this.selectedRowObj.orderNumber,
+        "invMapID": this.data.values.invMapID,
+        "whse": this.data.values.warehouse,
+        "batch": this.data.values.batchID,
+        "username": this.userId,
+        "wsid": this.wsid
       };
 
       this.service.create(payLoad, '/Induction/CompletePick').subscribe(
