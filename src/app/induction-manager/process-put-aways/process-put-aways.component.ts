@@ -258,7 +258,43 @@ export class ProcessPutAwaysComponent implements OnInit {
 
 
   }
+  onFocusOutBatchID(event){
+ 
+ 
+    // alert(this.batchId2)
+    let payload={
+      batchID: this.batchId2,
+      username: this.userData.userName,
+      wsid: this.userData.wsid
+    }
 
+    this.service.get(payload,'/Induction/BatchExist').subscribe((res:any)=>{
+      
+      if(res && !res.data){
+        
+        const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+          height: 'auto',
+          width: '50vw',
+          autoFocus: '__non_existing_element__',
+          data: {
+            message:"This Batch ID either does not exists or is assigned to a different workstation.Use the Tote Setup tab to create a new batch or choose an existing batch for this workstation.",
+            heading:'Invalid Batch ID'
+          },
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          this.batchId2='';
+          this.dataSource2='';
+          this.postion='';
+          this.tote='';
+         
+        });
+      }else{
+        this.fillToteTable();
+      }
+
+    })
+
+  }
 
   openDeleteBatchDialogue() {
     const dialogRef = this.dialog.open(BatchDeleteComponent, {
