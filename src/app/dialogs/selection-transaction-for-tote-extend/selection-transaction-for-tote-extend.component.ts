@@ -486,8 +486,6 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       
     });
   }
-
-
   
   openWareHouse() {
     const values = this.toteForm.value;
@@ -510,15 +508,33 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     });
   }
 
-
-
-
   completeTransaction() {
     try {
 
+
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message: 'Click OK to complete this transaction and assign it to the selected batch and tote.',
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result == 'Yes') {
+
+          
+
+
+
+
+
+
+
       const values = this.toteForm.value;
 
-      if (!values.zone || !values.row || !values.shelf || !values.bin) {
+      if (values.invMapID <= 0 || values.invMapID) {
         this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
@@ -526,8 +542,16 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         return;
       }
 
+      if (values.fifo && !values.expirationDate) {
+        this.toast.error('This item is marked as FIFO with Expiration Date and its FIFO Date.You must provide an Expiration Date.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        return;
+      }
+
       if (values.warehouseSensitive && !values.warehouse) {
-        this.toast.error('You must select a warehouse for this transaction before it can be processed.', 'Error!', {
+        this.toast.error('This item is warehouse sensitive and must be assigned a warehouse before process can continue.', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
@@ -638,11 +662,58 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           );
         
         
-      }            
+      }    
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+      });
+        
       
     } catch (error) {
       console.log(error);
     }
+  }
+
+  forSameSKU() {
+    this.toteForm.patchValue({
+      orderNumber                       : '',
+
+      zone                              : '',
+      carousel                          : '',
+      row                               : '',
+      shelf                             : '',
+      bin                               : '',
+      cellSize                          : '',
+      velocityCode                      : '',
+      itemQuantity                      : '',
+      maximumQuantity                   : '',
+      quantityAllocatedPutAway          : '',
+    }); 
   }
 
 }
