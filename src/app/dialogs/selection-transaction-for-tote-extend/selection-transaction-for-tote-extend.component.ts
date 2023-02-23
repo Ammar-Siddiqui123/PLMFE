@@ -403,7 +403,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
       var payLoad = {
         "qtyPut": values.quantityAllocatedPutAway ? parseInt(values.quantityAllocatedPutAway) : 0,
-        "item": "10000", //values.itemNumber,
+        "item": values.itemNumber,
         "ccell": values.carouselCellSize,
         "cvel": values.carouselVelocity,
         "bcell": values.bulkCellSize,
