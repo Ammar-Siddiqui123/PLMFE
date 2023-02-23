@@ -213,7 +213,6 @@ export class TotesAddEditComponent implements OnInit {
     {
       if(toteIDs==null)
       {
-        console.log(this.alreadySavedTotesList[i].toteid);
         if(this.alreadySavedTotesList[i].toteid==this.toteID)
         {
           exists=true;

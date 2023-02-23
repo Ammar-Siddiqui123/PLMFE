@@ -16,6 +16,7 @@ import { VelocityCodeComponent } from 'src/app/admin/dialogs/velocity-code/veloc
 import { CellSizeService } from 'src/app/common/services/cell-size.service';
 import { VelocityCodeService } from 'src/app/common/services/velocity-code.service';
 import { ChooseLocationComponent } from '../choose-location/choose-location.component';
+import { WarehouseComponent } from 'src/app/admin/dialogs/warehouse/warehouse.component';
 
 @Component({
   selector: 'app-selection-transaction-for-tote-extend',
@@ -483,6 +484,32 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       
     });
   }
+
+
+  
+  openWareHouse() {
+    const values = this.toteForm.value;
+    const dialogRef = this.dialog.open(WarehouseComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        userName: this.userData.userName,
+        wsid: this.userData.wsid,
+        supplierID: values.supplierItemID,
+      },
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res && res!='clear') {
+        this.toteForm.patchValue({
+          'warehouse' : res
+        });
+      }
+    });
+  }
+
+
+
 
   completeTransaction() {
     try {
