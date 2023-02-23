@@ -17,6 +17,7 @@ import { AuthService } from 'src/app/init/auth.service';
 import { BYPASS_LOG } from 'src/app/init/http-interceptor';
 import { TransactionService } from '../../transaction.service';
 import labels from '../../../../labels/labels.json';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-tran-select-order',
@@ -102,7 +103,8 @@ export class TranSelectOrderComponent implements OnInit {
     private authService: AuthService,
     private transactionService: TransactionService,
     private dialog: MatDialog,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private sharedService:SharedService
   ) {}
   ngOnChanges(changes: SimpleChanges) {
     if (changes['orderStatNextData']) {
@@ -110,8 +112,18 @@ export class TranSelectOrderComponent implements OnInit {
         changes['orderStatNextData']['currentValue'];
     }
   }
+  ngAfterViewInit() {
+    this.sharedService.orderStatusObserver.subscribe(orderNo => {
+   if(orderNo){
+    this.columnSelect='Order Number';
+    this.searchField=orderNo;
+    this.onOrderNoChange();
 
+   }
+          });
+  }
   ngOnInit(): void {
+
     this.searchBar
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
