@@ -53,6 +53,7 @@
                     <mat-option [disabled]="!selectedRowObj" value="clear" (click)="openUserFieldsDialogue()">User Fields</mat-option>
                     <mat-option [disabled]="!selectedRowObj" value="viewOrderStatus" (click)="viewOrderStatus()">View Order Status</mat-option>
                     <mat-option [disabled]="!selectedRowObj" value="viewReprocess" (click)="openReprocessTransactionViewDialogue()">View Reprocess</mat-option>
+                    <mat-option value="completePick" (click)="completePick()">Complete Pick</mat-option>
                     <mat-option value="printToteLabel">Print Tote Label</mat-option>
                     <mat-option value="printItemLabel">Print Item Label</mat-option>
                 </mat-select>

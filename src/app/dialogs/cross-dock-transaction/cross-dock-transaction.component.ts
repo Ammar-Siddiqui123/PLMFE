@@ -283,4 +283,45 @@ export class CrossDockTransactionComponent implements OnInit {
       window.open(`/#/InductionManager/TransactionJournal?orderStatus=${this.selectedRowObj.orderNumber}`, '_blank');
     });
   }
+
+  completePick() {
+    try {
+
+      var payLoad = {
+        "pick": 0,
+        "put": 75,
+        "reel": false,
+        "ser": "0",
+        "htid": "",
+        "rpid": 11403,
+        "otid": 18414,
+        "item": "10086",
+        "uf1": "",
+        "toteID": "",
+        "order": "CD 1",
+        "invMapID": 9749,
+        "whse": "",
+        "batch": "202101110000004",
+        username: this.userId,
+        wsid: this.wsid
+      };
+
+      this.service.create(payLoad, '/Induction/CompletePick').subscribe(
+        (res: any) => {
+          if (res.data && res.isExecuted) {
+
+          } else {
+            this.toastr.error('Something went wrong', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        },
+        (error) => {}
+      ); 
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
