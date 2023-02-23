@@ -93,7 +93,7 @@ export class ChooseLocationComponent implements OnInit {
           if (res.data && res.isExecuted) {
             this.dialogRef.close("Submit");
           } else {
-            this.toastr.error('Something went wrong', 'Error!', {
+            this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
             });
