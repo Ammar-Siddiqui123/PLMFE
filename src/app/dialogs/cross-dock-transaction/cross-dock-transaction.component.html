@@ -48,7 +48,7 @@
             <mat-form-field class="action-dropdown custom-form-field-bg-white" appearance="outline">
                 <mat-select #openAction class="employees-action" placeholder="Actions" >
                     
-                    <mat-option value="0">Next Tote</mat-option>
+                    <mat-option value="new_tote" (click)="getNxtToteIds()">Next Tote</mat-option>
                     <mat-option value="clear" (click)="openUserFieldsDialogue()">User Fields</mat-option>
                     <mat-option [disabled]="!selectedRowObj" value="viewOrderStatus" (click)="viewOrderStatus()">View Order Status</mat-option>
                     <mat-option value="3" (click)="openReprocessTransactionViewDialogue()">View Reprocess</mat-option>
