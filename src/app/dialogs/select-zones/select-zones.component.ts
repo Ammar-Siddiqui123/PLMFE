@@ -34,7 +34,7 @@ export interface PeriodicElement {
 })
 export class SelectZonesComponent implements OnInit {
   ELEMENT_DATA = [{ zone: '',locationName:'',locationType:'',stagingZone:'',selected: false,available: false}];
-  displayedColumns: string[] = ['select', 'zone', 'locationdesc', 'locationtype', 'stagingzone'];
+  displayedColumns: string[] = ['select', 'zone', 'locationdesc', 'locationtype', 'stagingzone' , 'flag'];
   dataSource = new MatTableDataSource<PeriodicElement>(this.ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
   batchID="";
@@ -67,14 +67,41 @@ export class SelectZonesComponent implements OnInit {
     return numSelected === numRows;
   }
 
+  isAllReadyAssigned()
+  {
+    if(this.alreadyAssignedZones.length==this.ELEMENT_DATA.length)
+    {
+      return true;
+    }
+    else 
+    {
+      return false;
+    }
+  }
+
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   toggleAllRows() {
+    for(var i=0;i<this.ELEMENT_DATA.length;i++)
+    {
+    if(!(this.ELEMENT_DATA[i].selected==false&&this.ELEMENT_DATA[i].available==false))
+    {
+      this.ELEMENT_DATA[i].selected=!this.ELEMENT_DATA[i].selected;
+    }
+    
+    }
+  
     if (this.isAllSelected()) {
       this.selection.clear();
       return;
     }
-
     this.selection.select(...this.dataSource.data);
+
+    
+
+
+
+
+
   }
 
   /** The label for the checkbox on the passed row */
