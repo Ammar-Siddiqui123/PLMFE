@@ -168,17 +168,17 @@ export class ProcessPutAwaysComponent implements OnInit {
       (res: any) => {
         if (res.data && res.isExecuted) {
           this.ELEMENT_DATA.length = 0;
-          for (var i = 0; i < res.data.length; i++) {
+          for (var ix = 0; ix < res.data.length; ix++) {          
             this.ELEMENT_DATA.push({
-              position: parseInt(res.data[i].totePosition),
-              cells: res.data[i].cells,
-              toteid: res.data[i].toteID.toString(),
+              position: parseInt(res.data[ix].totePosition),
+              cells: res.data[ix].cells,
+              toteid: res.data[ix].toteID.toString(),
             });
 
-            if (i == 0) {
+            if (ix == 0) {
               try {
-                this.assignedZones = res.data[i].zoneLabel;
-                var zones = res.data[i].zoneLabel.split(' ');
+                this.assignedZones = res.data[ix].zoneLabel;
+                var zones = res.data[ix].zoneLabel.split(' ');
                 for (var i = 1; i < zones.length; i++) {
                   //console.log({zone:zones[i]});
                   this.assignedZonesArray.push({ zone: zones[i] });
