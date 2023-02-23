@@ -635,11 +635,52 @@ export class ProcessPutAwaysComponent implements OnInit {
           heading:'Assign Transaction To Selected Tote'
         },
       });
-
-      return
+      dialogRef.afterClosed().subscribe((result) => {
+        if(!result) return
+        if(this.inputValue=="")
+        {
+          this.toastr.error('Please enter input value', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+    
+        }
+        else 
+        {
+          const dialogRef = this.dialog.open(SelectionTransactionForToteComponent, {
+            height: 'auto',
+            width: '1100px',
+            autoFocus: '__non_existing_element__',
+            data: {
+              inputType:  this.inputType,
+              inputValue: this.inputValue,
+              userName:   this.userData.userName,
+              wsid:       this.userData.wsid,
+              batchID:    this.batchId,
+              zones:      this.assignedZones,  
+              totes:      this.dataSource2.data,
+              selectIfOne: this.processPutAwayIndex.imPreference.selectIfOne,
+              defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity
+            }
+          });
+    
+          dialogRef.afterClosed().subscribe((result) => {        
+            if (result == 'NO') {
+              this.toastr.error('The input code provided was not recognized as an Item Number, Lot Number, Serial Number, Host Transaction ID, Scan Code or Supplier Item ID.', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            } else if (result == "Task Completed") {
+              this.fillToteTable(this.batchId2);
+            }
+          });
+    
+        }
+      });
+   
     }
-else{
-    if(this.inputValue=="")
+
+    else if(this.inputValue=="")
     {
       this.toastr.error('Please enter input value', 'Error!', {
         positionClass: 'toast-bottom-right',
@@ -678,7 +719,7 @@ else{
       });
 
     }
-  }
+ 
   }
 
   selectTotes(i: any) {
