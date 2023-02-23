@@ -33,7 +33,9 @@ export class CrossDockTransactionComponent implements OnInit {
   public lowerBound = 1;
   public upperBound = 5;
 
-
+  allocatedTotal:any;
+  backOrderTotal:any;
+  numberRecords:any;
   public selectedRow;
   public selectedRowObj;
   public nxtToteID;
@@ -46,6 +48,8 @@ export class CrossDockTransactionComponent implements OnInit {
   constructor(public router: Router, public dialogRef: MatDialogRef<CrossDockTransactionComponent>, private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, private service: ProcessPutAwayService, private toastr: ToastrService,) { }
 
   ngOnInit(): void {
+    console.log(this.data);
+    
     this.itemWhse = this.data.itemWhse;
     this.userId = this.data.userId;
     this.wsid = this.data.wsid;
@@ -136,6 +140,9 @@ export class CrossDockTransactionComponent implements OnInit {
           if (res.data && res.isExecuted) {
             this.crossDock = res.data;
             this.transactions = res.data.transaction;
+            this.allocatedTotal = res.data.allocatedTotal;
+            this.backOrderTotal = res.data.backOrderTotal;
+            this.numberRecords = res.data.numberRecords;
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
               positionClass: 'toast-bottom-right',
