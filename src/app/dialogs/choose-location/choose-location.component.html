@@ -1,1 +1,61 @@
-<p>choose-location works!</p>
+<div class="d-flex justify-content-between align-items-center" mat-dialog-title>
+    <div style="width:48px"></div>
+    <h1 class="m-0" mat-dialog-title>Location Assignment</h1>
+    <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
+</div>
+
+<div mat-dialog-content>
+    <div class="card p-3">
+
+        <div class="row">
+            <div class="col-xl-12">
+                <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
+                    <mat-label>Location</mat-label>
+                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="location" [matAutocomplete]="item" (ngModelChange)="this.searchByItem.next($event)">
+
+                    <mat-autocomplete class="card custom-scroll" #item="matAutocomplete">
+            
+                        <h6 class="card-header matAutoCompHeader">
+                            <span style="width:  140px;">Loc. Number</span> 
+                            <span style="width:  140px;">Whse</span> 
+                            <span style="width:  140px;">Loc.</span> 
+                            <span style="width:  140px;">Item #</span> 
+                            <span style="width:  140px;">Cell</span> 
+                            <span style="width:  140px;">Velocity</span> 
+                            <span style="width:  140px;">Stock</span> 
+                            <span style="width:  140px;">Max Qty</span> 
+                            <span style="width:  140px;">Qty Alloc</span> 
+                        </h6>
+                    
+                        <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.locNum" class="matAutoCompTableContent">
+                            <div class="loc_option" (click)="selectLoc(option)">
+                                <span class="searchColumn" style="width:  140px;">{{option.locNum}}</span> 
+                                <span class="searchColumn" style="width:  140px;">{{option.warehouse}}</span>
+                                <span class="searchColumn" style="width:  140px;">{{option.location}}</span>
+                                <span class="searchColumn" style="width:  140px;">{{option.itemNumber}}</span>
+                                <span class="searchColumn" style="width:  140px;">{{option.cellSize}}</span>
+                                <span class="searchColumn" style="width:  140px;">{{option.velocity}}</span>
+                                <span class="searchColumn" style="width:  140px;">{{option.qty}}</span>
+                                <span class="searchColumn" style="width:  140px;">{{option.max}}</span>
+                                <span class="searchColumn" style="width:  140px;">{{option.qtyPut}}</span>
+                            </div>
+                        </mat-option>
+
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+        </div>  
+       
+    </div>
+</div>
+
+<div class="d-flex gap-12 mb-1" mat-dialog-actions>
+    <button mat-stroked-button color="primary" class="btn-lg" [mat-dialog-close]="true">
+        Close
+    </button>
+    <button mat-flat-button color="primary" class="btn-lg" style="flex:1" (click)="submit()">
+        Submit
+    </button>
+</div>
