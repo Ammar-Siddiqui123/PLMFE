@@ -131,7 +131,7 @@
           </div>
 
           <div class="d-flex gap-12">
-            <button mat-flat-button color="primary" class="btn-regular">
+            <button mat-flat-button color="primary" class="btn-regular" (click)="onViewItemDetail(itemNum.value)">
               View Item Detail
             </button>
             <button mat-flat-button color="primary" class="btn-regular" (click)="updateItemInfo()">
@@ -145,7 +145,7 @@
         <div class="col-xl-3">
             <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                 <mat-label>Item Number</mat-label>
-                <input formControlName="itemNumber" (keydown.shift.enter)="$event.preventDefault()" matInput type="text" readonly>
+                <input formControlName="itemNumber" #itemNum (keydown.shift.enter)="$event.preventDefault()" matInput type="text" readonly>
               </mat-form-field>
         </div>
         <div class="col-xl-3">

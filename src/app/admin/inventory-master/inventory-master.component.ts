@@ -11,7 +11,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { data } from 'jquery';
 import labels from '../../labels/labels.json'
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/internal/operators/map';
+
 
 @Component({
   selector: 'app-inventory-master',
@@ -44,13 +47,15 @@ export class InventoryMasterComponent implements OnInit {
   public totalPuts: any;
   public wipCount: any;
   public append: any;
+  itemNumberParam$: Observable<any>;
   constructor(
     private invMasterService: InventoryMasterService, 
     private authService: AuthService, 
     private dialog: MatDialog,
     private fb: FormBuilder,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
    // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
     ) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
@@ -71,6 +76,19 @@ export class InventoryMasterComponent implements OnInit {
     this.getInventory();
     
   }
+  ngAfterViewInit() {
+   this.itemNumberParam$ = this.route.queryParamMap.pipe(
+    map((params: ParamMap) => params.get('itemNumber')),
+  );
+
+  this.itemNumberParam$.subscribe((param) =>{
+    console.log(param)
+    if(param){
+      this.searchValue = param;
+      this.getInvMasterDetail(param)
+    }
+  });
+    }
 
   initialzeIMFeilds(){
     this.invMaster = this.fb.group({
@@ -260,7 +278,6 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   nextPage(){
-
     if(this.paginationData.position >= 1 && this.paginationData.position <= this.paginationData.total){
     let paylaod = {
       "itemNumber": this.currentPageItemNo,

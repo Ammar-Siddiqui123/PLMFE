@@ -61,9 +61,6 @@ export class TransactionComponent implements OnInit ,AfterViewInit {
   });
     }
   ngOnInit(): void {
-
-
-    
   }
 
   public demo1BtnClick() {
