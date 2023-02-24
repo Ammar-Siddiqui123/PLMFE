@@ -581,8 +581,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           sRow: 1,
           eRow: 5,
           itemWhse: [
-            values.itemNumber,
-            // "238562",
+            // values.itemNumber,
+            "238562",
             values.warehouse,
             "1=1"
           ],

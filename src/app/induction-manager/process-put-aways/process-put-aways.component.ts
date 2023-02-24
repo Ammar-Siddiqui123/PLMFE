@@ -361,9 +361,11 @@ export class ProcessPutAwaysComponent implements OnInit {
             }
           }
           const totePaylaod = {
-            "ToteID": toteID
+            "ToteID": toteID,
+            userName: this.userData.userName,
+            wsid: this.userData.wsid,
           }
-          this.service.get(totePaylaod, '/Induction/ValidateTotes').subscribe(res => {
+          this.service.get(totePaylaod, '/Induction/ValidateTotesForPutAways').subscribe(res => {
             if (res.data != '') {
               this.toastr.success(`The tote id ${res.data} already exists in Open Transactions. Please select another tote`, 'Error!', {
                 positionClass: 'toast-bottom-right',
