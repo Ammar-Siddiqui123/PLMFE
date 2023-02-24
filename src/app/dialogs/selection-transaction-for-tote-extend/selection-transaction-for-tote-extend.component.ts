@@ -443,6 +443,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               itemQuantity                      : res.data.locQty,
               maximumQuantity                   : res.data.locMaxQty,
               quantityAllocatedPutAway          : res.data.qtyAlloc,
+              invMapID                          : res.data.invMapID
             });
 
           } else {
@@ -532,7 +533,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         .subscribe(
           (res: any) => {
             if (res.data && res.isExecuted) 
-            {              
+            {
               if(res.data.transaction.length > 0)
               {
                 let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -574,13 +575,14 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   }
 
   complete(values : any) {
-    // if (values.invMapID <= 0 || values.invMapID) {
-    //   this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
-    //     positionClass: 'toast-bottom-right',
-    //     timeOut: 2000
-    //   });
-    //   return;
-    // }
+    
+    if (values.invMapID <= 0 || values.invMapID) {
+      this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
 
     if (values.fifo && !values.expirationDate) {
       this.toast.error('This item is marked as FIFO with Expiration Date and its FIFO Date.You must provide an Expiration Date.', 'Error!', {
