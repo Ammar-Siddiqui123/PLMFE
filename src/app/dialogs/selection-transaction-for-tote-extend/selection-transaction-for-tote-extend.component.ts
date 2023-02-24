@@ -512,192 +512,171 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   completeTransaction() {
     try {
 
-
-      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        height: 'auto',
-        width: '560px',
-        autoFocus: '__non_existing_element__',
-        data: {
-          message: 'Click OK to complete this transaction and assign it to the selected batch and tote.',
-        },
-      });
-
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result == 'Yes') {
-
-          
-
-
-
-
-
-
-
       const values = this.toteForm.value;
 
-      // if (values.invMapID <= 0 || values.invMapID) {
-      //   this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
-      //     positionClass: 'toast-bottom-right',
-      //     timeOut: 2000
-      //   });
-      //   return;
-      // }
+      let payLoad = {
+        sRow: 1,
+        eRow: 5,
+        itemWhse: [
+          values.itemNumber,
+          // "238562",
+          values.warehouse,
+          "1=1"
+        ],
+        username: this.userData.userName,
+        wsid: this.userData.wsid 
+      };
 
-      if (values.fifo && !values.expirationDate) {
-        this.toast.error('This item is marked as FIFO with Expiration Date and its FIFO Date.You must provide an Expiration Date.', 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-        return;
-      }
+      this.service
+        .get(payLoad, '/Induction/CrossDock')
+        .subscribe(
+          (res: any) => {
+            if (res.data && res.isExecuted) 
+            {              
 
-      if (values.warehouseSensitive && !values.warehouse) {
-        this.toast.error('This item is warehouse sensitive and must be assigned a warehouse before process can continue.', 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-        return;
-      }
-      
-      if (values.dateSensitive && !values.expirationDate) {
-        this.toast.error('This item is date sensitive. You must provide an expiration date.', 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-        return;
-      }
-
-      if (values.toteQty <= 0) {
-        this.toast.error('Quantity should be greater 0', 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000,
-        });
-      } else {
-
-        let payLoad = {
-          sRow: 1,
-          eRow: 5,
-          itemWhse: [
-            values.itemNumber,
-            // "238562",
-            values.warehouse,
-            "1=1"
-          ],
-          username: this.userData.userName,
-          wsid: this.userData.wsid 
-        };
-
-        this.service
-          .get(payLoad, '/Induction/CrossDock')
-          .subscribe(
-            (res: any) => {
-              if (res.data && res.isExecuted) 
+              if(res.data.transaction.length > 0)
               {
-                if(res.data.transaction.length>0)
-                {
-                this.openCrossDockTransactionDialogue();
-                }
-                else 
-                {
+                let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+                  height: 'auto',
+                  width: '560px',
+                  autoFocus: '__non_existing_element__',
+                  data: {
+                    message: 'Cross Dock opportunity!  Click OK to view backorder transactions for the item you are putting away.',
+                  },
+                });
 
-                  var payload2 = {
-                    "otid": this.data.otid,
-                    "splitQty": 0, // (values.toteQty ? parseInt(values.toteQty) : 0) - (values.quantityAllocatedPutAway ? parseInt(values.quantityAllocatedPutAway) : 0),
-                    "qty": values.toteQty,
-                    "toteID": values.toteID,
-                    "batchID": this.data.batchID,
-                    "item": values.itemNumber,
-                    "uF1": values.userField1,
-                    "uF2": values.userField2,
-                    "lot": values.lotNumber,
-                    "ser": values.serialNumber,
-                    "totePos": values.totePos ? parseInt(values.totePos) : 0,
-                    "cell": values.cellSize,
-                    "warehouse": values.warehouse,
-                    "expDate": values.expirationDate,
-                    "revision": "",
-                    "zone": values.zone,
-                    "carousel": values.carousel,
-                    "row": values.row,
-                    "shelf": values.shelf,
-                    "bin": values.bin,
-                    "invMapID": values.invMapID,
-                    "locMaxQty": values.maximumQuantity ? parseInt(values.maximumQuantity) : 0,
-                    "reel": false,
-                    "dedicate": values.dedicated,
-                    "orderNumber": values.orderNumber,
-                    "username": this.userData.userName,
-                    wsid: this.userData.wsid 
+                dialogRef.afterClosed().subscribe((result) => {
+                  if (result == 'Yes') {
+                    this.openCrossDockTransactionDialogue();
                   }
-                  
-                  this.service.create(payload2, '/Induction/TaskComplete').subscribe(
-                    (res: any) => {
-                      console.log(res)
-                      if (res.data && res.isExecuted) {
-                        this.dialogRef.close("Task Completed");
-                        this.toast.success(labels.alert.update, 'Success!',{
-                          positionClass: 'toast-bottom-right',
-                          timeOut:2000
-                        });            
-                      } else {
-                        this.toast.error('Something went wrong', 'Error!', {
-                          positionClass: 'toast-bottom-right',
-                          timeOut: 2000,
-                        });
-                      }
-                    },
-                    (error) => { }
-                  );
+                  else {
+                    this.complete(values);
+                  }
+                });                
+              }
+              else 
+              {
+                this.complete(values);              
+              }
+            } else {
+              this.toastr.error('Something went wrong', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            }
+          },
+          (error) => {}
+        );   
+              
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
+  complete(values : any) {
+    // if (values.invMapID <= 0 || values.invMapID) {
+    //   this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
+    //     positionClass: 'toast-bottom-right',
+    //     timeOut: 2000
+    //   });
+    //   return;
+    // }
 
+    if (values.fifo && !values.expirationDate) {
+      this.toast.error('This item is marked as FIFO with Expiration Date and its FIFO Date.You must provide an Expiration Date.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
 
-                }
+    if (values.warehouseSensitive && !values.warehouse) {
+      this.toast.error('This item is warehouse sensitive and must be assigned a warehouse before process can continue.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
+    
+    if (values.dateSensitive && !values.expirationDate) {
+      this.toast.error('This item is date sensitive. You must provide an expiration date.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
+
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: 'Click OK to complete this transaction and assign it to the selected batch and tote.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'Yes') {                                                              
+
+        if (values.toteQty <= 0) {
+          this.toast.error('Quantity should be greater 0', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        } else {
+
+          var payload2 = {
+            "otid": this.data.otid,
+            "splitQty": 0, // (values.toteQty ? parseInt(values.toteQty) : 0) - (values.quantityAllocatedPutAway ? parseInt(values.quantityAllocatedPutAway) : 0),
+            "qty": values.toteQty,
+            "toteID": values.toteID,
+            "batchID": this.data.batchID,
+            "item": values.itemNumber,
+            "uF1": values.userField1,
+            "uF2": values.userField2,
+            "lot": values.lotNumber,
+            "ser": values.serialNumber,
+            "totePos": values.totePos ? parseInt(values.totePos) : 0,
+            "cell": values.cellSize,
+            "warehouse": values.warehouse,
+            "expDate": values.expirationDate,
+            "revision": "",
+            "zone": values.zone,
+            "carousel": values.carousel,
+            "row": values.row,
+            "shelf": values.shelf,
+            "bin": values.bin,
+            "invMapID": values.invMapID,
+            "locMaxQty": values.maximumQuantity ? parseInt(values.maximumQuantity) : 0,
+            "reel": false,
+            "dedicate": values.dedicated,
+            "orderNumber": values.orderNumber,
+            "username": this.userData.userName,
+            wsid: this.userData.wsid 
+          }
+          
+          this.service.create(payload2, '/Induction/TaskComplete').subscribe(
+            (res: any) => {
+              console.log(res)
+              if (res.data && res.isExecuted) {
+                this.dialogRef.close("Task Completed");
+                this.toast.success(labels.alert.update, 'Success!',{
+                  positionClass: 'toast-bottom-right',
+                  timeOut:2000
+                });            
               } else {
-                this.toastr.error('Something went wrong', 'Error!', {
+                this.toast.error('Something went wrong', 'Error!', {
                   positionClass: 'toast-bottom-right',
                   timeOut: 2000,
                 });
               }
             },
-            (error) => {}
+            (error) => { }
           );
-        
-        
-      }    
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        }
-      });
-        
-      
-    } catch (error) {
-      console.log(error);
-    }
+        }                      
+      }
+    });
   }
 
   forSameSKU() {
