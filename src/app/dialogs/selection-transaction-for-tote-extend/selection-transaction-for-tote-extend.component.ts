@@ -533,7 +533,6 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           (res: any) => {
             if (res.data && res.isExecuted) 
             {              
-
               if(res.data.transaction.length > 0)
               {
                 let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
