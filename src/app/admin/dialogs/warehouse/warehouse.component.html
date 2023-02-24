@@ -38,13 +38,13 @@
                                     name="{{warehouse}}" value="{{warehouse}}">
                             </mat-form-field>
                             <div class="d-flex gap-12">
-                                <button mat-flat-button color="primary" class="sm-icon-button" (click)="saveWareHouse(whname.value, warehouse)">
-                                    <span class="material-symbols-outlined">save</span>
+                                <button mat-flat-button color="primary" class="xsm-icon-button" (click)="saveWareHouse(whname.value, warehouse)">
+                                    <mat-icon class="material-symbols-outlined">save</mat-icon>
                                 </button>
-                                <button mat-flat-button color="warn" class="sm-icon-button" 
+                                <button mat-flat-button color="warn" class="xsm-icon-button" 
                                 (click)="delete(whname.value)"
                                 #inputEl>
-                                <span class="material-symbols-outlined">close</span>
+                                <mat-icon class="material-symbols-outlined">close</mat-icon>
                             </button>
                         
                             
