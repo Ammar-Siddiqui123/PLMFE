@@ -33,10 +33,27 @@
         <div class="card-header-title">Order {{col.orderNumber}}</div>
     </mat-radio-button>
     <div class="d-flex align-items-center flex-wrap gap-12 my-3 ps-4">
-    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Item No.:&nbsp;<b>{{itemNumber}}</b></span></div>
-    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Batch ID:&nbsp;<b>{{batchID}}</b></span></div>
-    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Zones:&nbsp;<b>{{zone.replace("Zones:","")}}</b></span></div>
-    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Description:&nbsp;<b>{{description}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Host Transaction ID:&nbsp;<b>{{col.hostTransactionID}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Warehouse:&nbsp;<b>{{col.warehouse}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Location:&nbsp;<b>{{col.location}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Serial Number:&nbsp;<b>{{col.serialNumber}}</b></span></div>
+
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Lot Number.:&nbsp;<b>{{col.lotNumber}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Transaction Quantity:&nbsp;<b>{{col.transactionQuantity}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Ship via:&nbsp;<b>{{col.userField1}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Ship to name:&nbsp;<b>{{col.userField2}}</b></span></div>
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+  
     </div>
     </div>
 </div>

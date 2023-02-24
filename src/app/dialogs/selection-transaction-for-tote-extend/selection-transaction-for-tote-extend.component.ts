@@ -465,7 +465,6 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
   openCrossDockTransactionDialogue() {
     const values = this.toteForm.value;
-    console.log(values);
     
     const dialogRef = this.dialog.open(CrossDockTransactionComponent, {
       height: 'auto',
@@ -478,7 +477,9 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         warehouse: values.warehouse,
         batchID: this.data.batchID,
         zone: values.zones,
-        description: values.description
+        description: values.description,
+        values,
+        otid : this.data.otid
       }
     });
 
@@ -489,8 +490,6 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       
     });
   }
-
-
   
   openWareHouse() {
     const values = this.toteForm.value;
@@ -513,16 +512,42 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     });
   }
 
-
-
-
   completeTransaction() {
     try {
 
+
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message: 'Click OK to complete this transaction and assign it to the selected batch and tote.',
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result == 'Yes') {
+
+          
+
+
+
+
+
+
+
       const values = this.toteForm.value;
 
-      if (!values.zone || !values.row || !values.shelf || !values.bin) {
-        this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
+      // if (values.invMapID <= 0 || values.invMapID) {
+      //   this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
+      //     positionClass: 'toast-bottom-right',
+      //     timeOut: 2000
+      //   });
+      //   return;
+      // }
+
+      if (values.fifo && !values.expirationDate) {
+        this.toast.error('This item is marked as FIFO with Expiration Date and its FIFO Date.You must provide an Expiration Date.', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
@@ -530,7 +555,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       }
 
       if (values.warehouseSensitive && !values.warehouse) {
-        this.toast.error('You must select a warehouse for this transaction before it can be processed.', 'Error!', {
+        this.toast.error('This item is warehouse sensitive and must be assigned a warehouse before process can continue.', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
@@ -556,8 +581,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           sRow: 1,
           eRow: 5,
           itemWhse: [
-            // values.itemNumber,
-            "238562",
+            values.itemNumber,
+            // "238562",
             values.warehouse,
             "1=1"
           ],
@@ -641,19 +666,62 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           );
         
         
-      }            
+      }    
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+      });
+        
       
     } catch (error) {
       console.log(error);
     }
   }
-
   onViewItemDetail(itemNum:any) { 
     this.router.navigate([]).then(() => {
       window.open(`/#/admin/inventoryMaster?itemNumber=${itemNum}`, '_blank');
     });
   }
+  forSameSKU() {
+    this.toteForm.patchValue({
+      orderNumber                       : '',
 
-
+      zone                              : '',
+      carousel                          : '',
+      row                               : '',
+      shelf                             : '',
+      bin                               : '',
+      cellSize                          : '',
+      velocityCode                      : '',
+      itemQuantity                      : '',
+      maximumQuantity                   : '',
+      quantityAllocatedPutAway          : '',
+    }); 
+  }
 
 }
