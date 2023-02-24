@@ -350,7 +350,7 @@ export class GenerateTransactionComponent implements OnInit {
     if (this.orderNumber == '' || !this.item) return;
     const dialogRef = this.dialog.open(WarehouseComponent, {
       height: 'auto',
-      width: '560px',
+      width: '640px',
       autoFocus: '__non_existing_element__',
       data: {
         userName: this.userData.userName,
