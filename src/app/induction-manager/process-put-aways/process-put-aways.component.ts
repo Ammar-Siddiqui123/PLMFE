@@ -124,6 +124,23 @@ export class ProcessPutAwaysComponent implements OnInit {
       });
   }
 
+  clearFormAndTable() {
+    this.batchId = '';
+    this.status = 'Not Processed';
+    this.assignedZones = '';
+    this.ELEMENT_DATA.length = 0;
+    this.dataSource = [];
+    
+    this.batchId2 = "";
+    this.dataSource2 = [];
+    this.inputValue = "";
+    this.nextPos = "";
+    this.nextPutLoc = "";
+    this.nextCell = "";
+    this.postion = "";
+    this.tote = "";
+  }
+
   getCurrentToteID() {
     var payLoad = {
       username: this.userData.username,
@@ -712,6 +729,8 @@ export class ProcessPutAwaysComponent implements OnInit {
               });
             } else if (result == "Task Completed") {
               this.fillToteTable(this.batchId2);
+            } else if(result == "New Batch") {
+              this.clearFormAndTable();
             }
           });
 
@@ -853,7 +872,9 @@ export class ProcessPutAwaysComponent implements OnInit {
                       timeOut: 2000,
                     }
                   );
-                  this.getRow(this.batchId);
+                  this.clearFormAndTable();
+                  this.selectedIndex = 0;
+                  // this.getRow(this.batchId);
                 } else {
                   this.toastr.error('Something went wrong', 'Error!', {
                     positionClass: 'toast-bottom-right',
@@ -865,7 +886,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             );
           }
         });
-      }
+      }      
     } catch (error) {
       console.log(error);
     }
@@ -873,7 +894,6 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   goToNext() {
     var fil = this.dataSource2.data.filter((e: any) => e.status == 0);
-    console.log(this.dataSource2.data);
     if (fil.length > 0) {
       this.selectTotes(this.dataSource2.data.indexOf(fil[0]));
       this.nextPutLoc = fil[0].toteID;
