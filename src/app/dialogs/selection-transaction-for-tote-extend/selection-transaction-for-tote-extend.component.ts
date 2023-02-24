@@ -17,6 +17,7 @@ import { CellSizeService } from 'src/app/common/services/cell-size.service';
 import { VelocityCodeService } from 'src/app/common/services/velocity-code.service';
 import { ChooseLocationComponent } from '../choose-location/choose-location.component';
 import { WarehouseComponent } from 'src/app/admin/dialogs/warehouse/warehouse.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-selection-transaction-for-tote-extend',
@@ -42,7 +43,9 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               private service                   : ProcessPutAwayService,
               private cellSizeService           : CellSizeService,
               private velocityCodeService       : VelocityCodeService,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              public router: Router,
+              ) {
 
     this.toteForm = this.formBuilder.group({
 
@@ -677,7 +680,11 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       }
     });
   }
-
+  onViewItemDetail(itemNum:any) { 
+    this.router.navigate([]).then(() => {
+      window.open(`/#/admin/inventoryMaster?itemNumber=${itemNum}`, '_blank');
+    });
+  }
   forSameSKU() {
     this.toteForm.patchValue({
       orderNumber                       : '',
