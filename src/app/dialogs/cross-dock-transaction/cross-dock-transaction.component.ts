@@ -120,7 +120,7 @@ export class CrossDockTransactionComponent implements OnInit {
   }
 
   getCrossDock() {
-    // this.itemWhse = "238562";
+    //this.itemWhse = "238562";
     let payLoad = {
       sRow: this.lowerBound,
       eRow: this.upperBound,
@@ -251,7 +251,7 @@ export class CrossDockTransactionComponent implements OnInit {
       width: '70vw',
       autoFocus: '__non_existing_element__',
       data:{
-        itemID:this.itemWhse
+        itemID:this.selectedRowObj.id
       }
     })
     dialogRef.afterClosed().subscribe((res) => {
