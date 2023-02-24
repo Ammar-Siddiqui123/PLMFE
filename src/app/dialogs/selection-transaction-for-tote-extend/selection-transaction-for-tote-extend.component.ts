@@ -496,7 +496,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     const values = this.toteForm.value;
     const dialogRef = this.dialog.open(WarehouseComponent, {
       height: 'auto',
-      width: '560px',
+      width: '640px',
       autoFocus: '__non_existing_element__',
       data: {
         userName: this.userData.userName,
