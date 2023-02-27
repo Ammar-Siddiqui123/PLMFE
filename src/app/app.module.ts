@@ -38,6 +38,9 @@ import { ReprocessTransactionDetailViewComponent } from './dialogs/reprocess-tra
 import { ToteTransactionViewComponent } from './dialogs/tote-transaction-view/tote-transaction-view.component';
 import { BatchDeleteConfirmationComponent } from './dialogs/batch-delete-confirmation/batch-delete-confirmation.component';
 import { MarkToteFullComponent } from './dialogs/mark-tote-full/mark-tote-full.component';
+import { AlertConfirmationComponent } from './dialogs/alert-confirmation/alert-confirmation.component';
+import { UserFieldsComponent } from './dialogs/user-fields/user-fields.component';
+import { ChooseLocationComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -61,7 +64,10 @@ import { MarkToteFullComponent } from './dialogs/mark-tote-full/mark-tote-full.c
     ReprocessTransactionDetailViewComponent,
     ToteTransactionViewComponent,
     BatchDeleteConfirmationComponent,
-    MarkToteFullComponent
+    MarkToteFullComponent,
+    AlertConfirmationComponent,
+    UserFieldsComponent,
+    ChooseLocationComponent
     // ActionDisableDirective,
   ],
   imports: [

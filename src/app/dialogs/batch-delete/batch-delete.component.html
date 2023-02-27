@@ -7,8 +7,8 @@
 </div>
 <div class="pb-3">
     <mat-radio-group color="primary" [(ngModel)]="clearBatchTote" >
-        <mat-radio-button class="me-3" value="clearBatch"  >Clear Batch</mat-radio-button>
-        <mat-radio-button value="clearTote"  >Clear Tote</mat-radio-button>
+        <mat-radio-button class="me-3" value="clearBatch" [disabled]="deleteAllDisable">Clear Batch with Clear Tote</mat-radio-button>
+        <mat-radio-button value="clearTote"  >DeAllocate & Clear with Clear Only</mat-radio-button>
     </mat-radio-group>
 </div>
 
@@ -32,14 +32,20 @@
         </mat-form-field>
     </div>
 </div>
-<div class="d-flex gap-12">
-    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke btn-lg" (click)="batchTotesDelete(true)">
-        Deallocate & Clear
-    </button>
-    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke btn-lg"  (click)="batchTotesDelete(false)">
-        Clear Only
-    </button>
-    <button mat-flat-button color="warn" class="btn-lg" style="flex:1" (click)="allBatchDelete()">
-        Delete All Batches
-    </button>
+<div class="row">
+    <div class="col-xl-4 mb-2">
+        <button mat-flat-button color="warn" class=" btn-lg w-100" (click)="batchTotesDelete(true)">
+           Clear/De-Allocate
+        </button>
+    </div>
+    <div class="col-xl-4 mb-2">
+        <button mat-flat-button color="warn" class=" btn-lg w-100"  (click)="batchTotesDelete(false)">
+            Clear Only
+        </button>
+    </div>
+    <div class="col-xl-4 mb-2">
+        <button mat-flat-button color="warn" class="btn-lg w-100" [disabled]="deleteAllDisable" (click)="allBatchDelete()">
+            Delete All Batches
+        </button>
+    </div>
 </div>

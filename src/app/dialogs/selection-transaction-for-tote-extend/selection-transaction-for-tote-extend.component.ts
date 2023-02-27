@@ -15,6 +15,9 @@ import { CellSizeComponent } from 'src/app/admin/dialogs/cell-size/cell-size.com
 import { VelocityCodeComponent } from 'src/app/admin/dialogs/velocity-code/velocity-code.component';
 import { CellSizeService } from 'src/app/common/services/cell-size.service';
 import { VelocityCodeService } from 'src/app/common/services/velocity-code.service';
+import { ChooseLocationComponent } from '../choose-location/choose-location.component';
+import { WarehouseComponent } from 'src/app/admin/dialogs/warehouse/warehouse.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-selection-transaction-for-tote-extend',
@@ -28,6 +31,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   cellSizeList      : any = [];
   velocityCodeList  : any = [];
   orderNum          : any;
+  totes             : any = [];
 
 
   constructor(public dialogRef                  : MatDialogRef<SelectionTransactionForToteExtendComponent>,
@@ -38,7 +42,10 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               private toast                     : ToastrService,
               private service                   : ProcessPutAwayService,
               private cellSizeService           : CellSizeService,
-              private velocityCodeService       : VelocityCodeService) {
+              private velocityCodeService       : VelocityCodeService,
+              private toastr: ToastrService,
+              public router: Router,
+              ) {
 
     this.toteForm = this.formBuilder.group({
 
@@ -90,8 +97,11 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       // Complete Transaction
       toteID                            : new FormControl('', Validators.compose([])),
       totePos                           : new FormControl('', Validators.compose([])),
-      toteCells                         : new FormControl('', Validators.compose([])),
-      toteQty                           : new FormControl('', Validators.compose([]))
+      toteCells                         : new FormControl({value : '', disabled : true}, Validators.compose([])),
+      toteQty                           : new FormControl(0, Validators.compose([])),
+
+      invMapID                          : new FormControl(0, Validators.compose([])),
+      dedicated                         : new FormControl(false, Validators.compose([])),
 
     });
 
@@ -109,7 +119,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       var payload = { 
         "otid": this.data.otid,
         "itemNumber": this.data.itemNumber,
-        "username": this.userData.username,
+        "username": this.userData.userName,
         wsid: this.userData.wsid 
       }
       this.service.get(payload, '/Induction/ItemDetails').subscribe(
@@ -118,6 +128,9 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
             const values = res.data[0];  
 
             this.orderNum = values.orderNumber;
+            this.totes = this.data.totes;
+
+            var fil = this.totes.filter((e: any) => e.isSelected == true);
 
             this.toteForm.patchValue({
 
@@ -167,10 +180,13 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               quantityAllocatedPutAway          : values.quantityAllocatedPutAway,
 
               // Complete Transaction
-              toteID                            : this.data.toteID,
-              totePos                           : this.data.totePos,
-              toteCells                         : this.data.toteCells,
-              toteQty                           : this.data.toteQty
+              toteID                            : fil[0].toteID,
+              totePos                           : fil[0].totesPosition,
+              toteCells                         : fil[0].cells,
+              toteQty                           : this.data.transactionQuantity ? this.data.transactionQuantity : this.data.defaultPutAwayQuantity,
+
+              invMapID                          : values.invMapID,
+              dedicated                         : values.dedicated,
 
             });
           } else {
@@ -251,6 +267,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
             "cFvel": values.cfVelocity,
             "pzone": values.primaryPickZone,
             "szone": values.secondaryPickZone,
+            username: this.userData.userName,
             wsid: this.userData.wsid 
           }
           
@@ -319,6 +336,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         }
       }
 
+      this.getCellSizeList();
+
 
     });
 
@@ -362,7 +381,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           });
         }
       }
-    });
+      this.getVelocityCodeList();
+    });    
     
   }
 
@@ -370,12 +390,127 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  openChooseLocation() {
+    const values = this.toteForm.value;
+    const dialogRef = this.dialog.open(ChooseLocationComponent, {
+      height: 'auto',
+      width: '70vw',
+      autoFocus: '__non_existing_element__',
+      data: values
+    });
+  }
+
+  findLocation() {
+    try {
+
+      const values = this.toteForm.value;
+
+      var payLoad = {
+        "qtyPut": values.quantityAllocatedPutAway ? parseInt(values.quantityAllocatedPutAway) : 0,
+        "item": values.itemNumber,
+        "ccell": values.carouselCellSize,
+        "cvel": values.carouselVelocity,
+        "bcell": values.bulkCellSize,
+        "bvel": values.bulkVelocity,
+        "cfcell": values.cfCellSize,
+        "cfvel": values.cfVelocity,
+        "whse": values.warehouse,
+        "dateSens": values.dateSensitive,
+        "fifo": values.fifo,
+        "isReel": false,
+        "lot": values.lotNumber,
+        "ser": values.serialNumber,
+        "replenfwd": true,
+        "prevZone": values.zones,
+        "dedicate": values.dedicate,
+        "rts": false,
+        "expDate": values.expirationDate,
+        "primaryZone": values.primaryPickZone,
+        "secondaryZone": values.secondaryPickZone,
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
+      this.service.create(payLoad, '/Induction/FindLocation').subscribe(
+        (res: any) => {
+          if (res.data && res.isExecuted) {
+
+            this.toteForm.patchValue({
+              // Location Info
+              zone                              : res.data.zone,
+              carousel                          : res.data.carousel,
+              row                               : res.data.row,
+              shelf                             : res.data.shelf,
+              bin                               : res.data.bin,
+              cellSize                          : res.data.cellSz,
+              velocityCode                      : res.data.velCode,
+              itemQuantity                      : res.data.locQty,
+              maximumQuantity                   : res.data.locMaxQty,
+              quantityAllocatedPutAway          : res.data.qtyAlloc,
+              invMapID                          : res.data.invMapID
+            });
+
+          } else {
+            this.toastr.error('Something went wrong', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        },
+        (error) => {}
+      );      
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   openCrossDockTransactionDialogue() {
+    const values = this.toteForm.value;
+    
     const dialogRef = this.dialog.open(CrossDockTransactionComponent, {
       height: 'auto',
       width: '70vw',
-      autoFocus: '__non_existing_element__'
-    })
+      autoFocus: '__non_existing_element__',
+      data: {
+        itemWhse: values.itemNumber,
+        userId: this.userData.userName,
+        wsid: this.userData.wsid,
+        warehouse: values.warehouse,
+        batchID: this.data.batchID,
+        zone: values.zones,
+        description: values.description,
+        values,
+        otid : this.data.otid
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res == "Submit") {
+        this.completeTransaction();
+      }
+      
+    });
+  }
+  
+  openWareHouse() {
+    const values = this.toteForm.value;
+    const dialogRef = this.dialog.open(WarehouseComponent, {
+      height: 'auto',
+      width: '640px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        userName: this.userData.userName,
+        wsid: this.userData.wsid,
+        supplierID: values.supplierItemID,
+      },
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res && res!='clear') {
+        this.toteForm.patchValue({
+          'warehouse' : res
+        });
+      }
+    });
   }
 
   completeTransaction() {
@@ -383,83 +518,190 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
       const values = this.toteForm.value;
 
-      var payload = { 
-        "sRow": 0,
-        "eRow": 0,
-        "itemWhse": [
-          values.itemNumber
+      let payLoad = {
+        sRow: 1,
+        eRow: 5,
+        itemWhse: [
+          values.itemNumber,
+          // "238562",
+          values.warehouse,
+          "1=1"
         ],
-        "username": this.userData.username,
+        username: this.userData.userName,
         wsid: this.userData.wsid 
-      }
-      
-      this.service.create(payload, '/Induction/CrossDock').subscribe(
-        (res: any) => {
-          if (res.data && res.isExecuted) {
-            this.toast.success(labels.alert.update, 'Success!',{
-              positionClass: 'toast-bottom-right',
-              timeOut:2000
-            });            
-          } else {
-            this.toast.error('Something went wrong', 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000,
-            });
-          }
-        },
-        (error) => { }
-      );
+      };
 
-      var payload2 = { 
-        "otid": 0,
-        "splitQty": 0,
-        "qty": 0,
-        "toteID": "string",
-        "batchID": "string",
-        "item": "string",
-        "uF1": "string",
-        "uF2": "string",
-        "lot": "string",
-        "ser": "string",
-        "totePos": 0,
-        "cell": "string",
-        "warehouse": "string",
-        "expDate": "string",
-        "revision": "string",
-        "zone": "string",
-        "carousel": "string",
-        "row": "string",
-        "shelf": "string",
-        "bin": "string",
-        "invMapID": 0,
-        "locMaxQty": 0,
-        "reel": true,
-        "dedicate": true,
-        "orderNumber": "string",
-        "username": this.userData.username,
-        wsid: this.userData.wsid 
-      }
-      
-      this.service.create(payload2, '/Induction/TaskComplete').subscribe(
-        (res: any) => {
-          if (res.data && res.isExecuted) {
-            this.toast.success(labels.alert.update, 'Success!',{
-              positionClass: 'toast-bottom-right',
-              timeOut:2000
-            });            
-          } else {
-            this.toast.error('Something went wrong', 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000,
-            });
-          }
-        },
-        (error) => { }
-      );
+      this.service
+        .get(payLoad, '/Induction/CrossDock')
+        .subscribe(
+          (res: any) => {
+            if (res.data && res.isExecuted) 
+            {
+              if(res.data.transaction.length > 0)
+              {
+                let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+                  height: 'auto',
+                  width: '560px',
+                  autoFocus: '__non_existing_element__',
+                  data: {
+                    message: 'Cross Dock opportunity!  Click OK to view backorder transactions for the item you are putting away.',
+                  },
+                });
+
+                dialogRef.afterClosed().subscribe((result) => {
+                  if (result == 'Yes') {
+                    this.openCrossDockTransactionDialogue();
+                  }
+                  else {
+                    this.complete(values);
+                  }
+                });                
+              }
+              else 
+              {
+                this.complete(values);              
+              }
+            } else {
+              this.toastr.error('Something went wrong', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            }
+          },
+          (error) => {}
+        );   
+              
       
     } catch (error) {
       console.log(error);
     }
+  }
+
+  complete(values : any) {
+    
+    if (values.invMapID <= 0 || !values.invMapID) {
+      this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
+
+    if (values.fifo && !values.expirationDate) {
+      this.toast.error('This item is marked as FIFO with Expiration Date and its FIFO Date.You must provide an Expiration Date.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
+
+    if (values.warehouseSensitive && !values.warehouse) {
+      this.toast.error('This item is warehouse sensitive and must be assigned a warehouse before process can continue.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
+    
+    if (values.dateSensitive && !values.expirationDate) {
+      this.toast.error('This item is date sensitive. You must provide an expiration date.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
+
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: 'Click OK to complete this transaction and assign it to the selected batch and tote.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'Yes') {                                                              
+
+        if (values.toteQty <= 0) {
+          this.toast.error('Quantity should be greater 0', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        } else {
+
+          var payload2 = {
+            "otid": this.data.otid,
+            "splitQty": 0, // (values.toteQty ? parseInt(values.toteQty) : 0) - (values.quantityAllocatedPutAway ? parseInt(values.quantityAllocatedPutAway) : 0),
+            "qty": values.toteQty,
+            "toteID": values.toteID,
+            "batchID": this.data.batchID,
+            "item": values.itemNumber,
+            "uF1": values.userField1,
+            "uF2": values.userField2,
+            "lot": values.lotNumber,
+            "ser": values.serialNumber,
+            "totePos": values.totePos ? parseInt(values.totePos) : 0,
+            "cell": values.cellSize,
+            "warehouse": values.warehouse,
+            "expDate": values.expirationDate,
+            "revision": "",
+            "zone": values.zone,
+            "carousel": values.carousel,
+            "row": values.row,
+            "shelf": values.shelf,
+            "bin": values.bin,
+            "invMapID": values.invMapID,
+            "locMaxQty": values.maximumQuantity ? parseInt(values.maximumQuantity) : 0,
+            "reel": false,
+            "dedicate": values.dedicated,
+            "orderNumber": values.orderNumber,
+            "username": this.userData.userName,
+            wsid: this.userData.wsid 
+          }
+          
+          this.service.create(payload2, '/Induction/TaskComplete').subscribe(
+            (res: any) => {
+              console.log(res)
+              if (res.data && res.isExecuted) {
+                this.dialogRef.close("Task Completed");
+                this.toast.success(labels.alert.update, 'Success!',{
+                  positionClass: 'toast-bottom-right',
+                  timeOut:2000
+                });            
+              } else {
+                this.toast.error('Something went wrong', 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+              }
+            },
+            (error) => { }
+          );
+        }                      
+      }
+    });
+  }
+  onViewItemDetail(itemNum:any) { 
+    this.router.navigate([]).then(() => {
+      window.open(`/#/admin/inventoryMaster?itemNumber=${itemNum}`, '_blank');
+    });
+  }
+  forSameSKU() {
+    this.toteForm.patchValue({
+      orderNumber                       : '',
+
+      zone                              : '',
+      carousel                          : '',
+      row                               : '',
+      shelf                             : '',
+      bin                               : '',
+      cellSize                          : '',
+      velocityCode                      : '',
+      itemQuantity                      : '',
+      maximumQuantity                   : '',
+      quantityAllocatedPutAway          : '',
+    }); 
   }
 
 }
