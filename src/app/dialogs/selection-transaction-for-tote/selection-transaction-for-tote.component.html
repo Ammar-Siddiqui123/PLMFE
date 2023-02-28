@@ -12,7 +12,7 @@
     <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Zones:&nbsp;<b>{{zone.replace("Zones:","")}}</b></span></div>
     <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Description:&nbsp;<b>{{description}}</b></span></div>
 </div>
-<div class="d-flex justify-content-end mb-3"  *ngIf="this.apiResponse && this.apiResponse.numberOfRecords>5">
+<div class="d-flex justify-content-end mb-3"  *ngIf="this.apiResponse.numberOfRecords>5">
     <div class="d-flex align-items-center gap-12">
         <button mat-flat-button color="primary"  (click)="leftClick()" class="sm-icon-button" *ngIf="lowerBound!=1">
           <span class="material-symbols-outlined">

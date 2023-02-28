@@ -104,8 +104,6 @@ export class ViewOrdersComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getAllOrders();
-    console.log(this.data);
-    
   }
 
   getAllOrders() {

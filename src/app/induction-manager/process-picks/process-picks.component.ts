@@ -58,7 +58,7 @@ export class ProcessPicksComponent implements OnInit {
   isBatchIdFocus: boolean = false;
 
   public ifAllowed: boolean = false
-  orderInput: any;
+
   constructor(
     private dialog: MatDialog,
     private pPickService: ProcessPicksService,
@@ -93,21 +93,6 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   ifOrderExits(orderNum: any) {
-    let isBatchFull;
-    this.TOTE_SETUP.map(obj => {
-      isBatchFull = false;
-      if (obj.orderNumber != '') {
-        isBatchFull = true;
-      }
-    });
-    if (isBatchFull) {
-      this.toastr.error('No open totes in batch', 'Batch is Filled.', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
-      this.orderNumber.setValue('');
-      return;
-    }
     if (orderNum != '') {
       const val = this.orderNumberList.includes(orderNum);
       if (!val) {
@@ -115,34 +100,12 @@ export class ProcessPicksComponent implements OnInit {
         this.allZones.map(i => {
           zone += i + ' ';
         })
-        this.toastr.error(`Order ${orderNum} does not have a line go to Zones: ${zone} `, 'Error!', {
+        this.toastr.error(`Order ${val} does not have a line go to Zones: ${zone} `, 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
-        this.orderNumber.setValue('');
-        return;
       }
-      else {
-        const isOrderNumExists = this.TOTE_SETUP.filter(val => {
-          return val.orderNumber == orderNum
-        });
-        if (isOrderNumExists.length > 0) {
-          this.orderNumber.setValue('');
-        } else {
-          for (let element of this.TOTE_SETUP) {
-            if (element.orderNumber === '') {
-              element.orderNumber = orderNum;
-              this.orderNumber.setValue('');
-              break;
-            }
-          }
-
-        }
-
-      }
-
     }
-
   }
 
   ngAfterViewChecked(): void {
@@ -285,7 +248,7 @@ export class ProcessPicksComponent implements OnInit {
     //   window.open('/#/InductionManager/TransactionJournal?q=2', '_blank');
     // });
   }
-
+  
 
   confirmAddBatchDialog() {
     this.dialogClose = true;
@@ -339,7 +302,7 @@ export class ProcessPicksComponent implements OnInit {
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
       console.log(result);
       if (result.length > 0) {
-        this.allOrders = result;
+        this.allOrders.push(result);
       }
       else {
         this.allOrders = []
