@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { BatchDeleteComponent } from 'src/app/dialogs/batch-delete/batch-delete.component';
@@ -62,6 +62,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('matRef') matRef: MatSelect;
   @ViewChild('actionRef') actionRef: MatSelect;
+  @ViewChild('inputVal') inputVal: ElementRef;
   selectedOption: any;
   displayedColumns1: string[] = [
     'status',
@@ -347,8 +348,30 @@ export class ProcessPutAwaysComponent implements OnInit {
   clearBatch() {
     this.batchId = '';
   }
+  ngAfterViewChecked(): void {
+    if (this.selectedIndex == 1) {
+      this.inputVal.nativeElement.focus();
+    }
+  }
 
+  processIfZoneSelected(){
+    if(this.assignedZonesArray.length <= 0){
+      const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+        height: 'auto',
+        width: '50vw',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message: "You must select one or more zones. If there are no zones available for selection check your Location Zones settings and/or delete or deallocate a batch to free up a zone.",
+          heading: 'Error'
+        },
+      }); 
+    }
+    else{
+      this.processBath();
+    }
+  }
   processBath() {
+    
     if (this.batchId == '') {
       this.showMessage('You must provide a Batch ID.', 2000, 'error');
     } else {

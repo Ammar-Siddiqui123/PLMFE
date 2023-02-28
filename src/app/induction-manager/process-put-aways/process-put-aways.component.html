@@ -208,7 +208,7 @@
             </mat-card-content>
         </mat-card>
         <div class="d-flex">
-          <button mat-flat-button color="primary" class="primary-button btn-lg w-100" style="min-width: 150px;" (click)="processBath()">
+          <button mat-flat-button color="primary" class="primary-button btn-lg w-100" style="min-width: 150px;" (click)="processIfZoneSelected()">
               Process Batch
           </button>
         </div>
@@ -302,7 +302,7 @@
                   </mat-form-field>
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Input Value</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="inputValue">
+                    <input (keydown.shift.enter)="$event.preventDefault()" #inputVal matInput type="text" [(ngModel)]="inputValue">
                   </mat-form-field>
                   <button mat-flat-button color="primary" class="btn-regular w-100" (click)="openSelectionTransactionDialogue()">
                     Assign Transaction To Selected Tote
