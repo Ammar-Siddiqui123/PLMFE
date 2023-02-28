@@ -160,7 +160,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   public sortCol: any = 3;
   public sortOrder: any = 'asc';
 public catchToteId;
-
+isToolTipDisabled = false;
   searchByInput = new Subject<string>();
   @Input()
   set deleteEvnt(event: Event) {
@@ -248,6 +248,9 @@ public catchToteId;
     private _liveAnnouncer: LiveAnnouncer
   ) {}
 
+  getEleLength(ele){
+    console.log('=----',ele)
+  }
   getContentData() {
     if(this.searchCol==='Tote ID'){
       
