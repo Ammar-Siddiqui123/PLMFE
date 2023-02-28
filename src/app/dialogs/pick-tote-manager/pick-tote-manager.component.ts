@@ -55,7 +55,9 @@ export class PickToteManagerComponent implements OnInit {
   FILTER_BATCH_DATA_ZONE: any[] = [];
   useDefaultFilter;
   useDefaultZone;
-  batchByZoneData: any[] = [];
+  BATCH_BY_ZONE_DATA: any[] = [
+    { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
+  ];
   F_ORDER_TRANS: any[] = [];
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -175,11 +177,7 @@ export class PickToteManagerComponent implements OnInit {
   @ViewChild('filterBatchTrans') filterBatchTrans: MatPaginator;
   @ViewChild('zoneBatchOrder') zoneBatchOrder: MatPaginator;
   @ViewChild('zoneBatchTrans') zoneBatchTrans: MatPaginator;
-  // @ViewChild('batchByZonePaginator', {read: true}) batchByZonePaginator: MatPaginator;
-  @ViewChild('batchByZonePaginator', { static: false })
-  set paginator(value: MatPaginator) {
-    this.batchByZoneSource.paginator = value;
-  }
+
   constructor(
     private dialog: MatDialog,
     private pPickService: ProcessPicksService,
@@ -197,30 +195,24 @@ export class PickToteManagerComponent implements OnInit {
     this.dataSource1 = new MatTableDataSource<any>(this.FILTER_DATA);
     this.orderBydataSource = new MatTableDataSource<any>(this.ORDER_BY_DATA);
     this.pickBatchZonesSelect();
-    if (this.data.useDefaultFilter) {
-      this.isFilter = 'filter'
+    if(this.data.useDefaultFilter){
+      this.isFilter = 'filter' 
     }
-    else {
-      this.isFilter = 'zone'
+    else{
+      this.isFilter = 'zone' 
     }
   }
 
-  pickBatchZonesSelect() {
+  pickBatchZonesSelect(){
     let paylaod = {
       "wsid": this.userData.wsid,
     }
     this.pPickService.get(paylaod, '/Induction/PickBatchZonesSelect').subscribe(res => {
-      if (res.data) {
-        this.batchByZoneData = res.data
-        this.batchByZoneSource = new MatTableDataSource<any>(this.batchByZoneData);
-        // this.batchByZoneSource.paginator = this.batchByZonePaginator;
-      }
+      this.BATCH_BY_ZONE_DATA = res.data
+      this.batchByZoneSource = new MatTableDataSource<any>(this.BATCH_BY_ZONE_DATA);
     });
   }
 
-  ngAfterViewInit() {
-    // this.batchByZoneSource.paginator = this.batchByZonePaginator;
-  }
 
   getSavedFilters() {
     let paylaod = {
@@ -410,9 +402,10 @@ export class PickToteManagerComponent implements OnInit {
       this.ordersFilterZoneSelect();
     }
   }
-  ordersFilterZoneSelect(zone = "", rp = false, type = "") {
+  ordersFilterZoneSelect(zone="",rp=false,type="") {
     let payload;
-    if (zone == "") {
+    if(zone=="")
+    {
       payload = {
         "Filter": this.savedFilter.value,
         "Zone": "",
@@ -432,7 +425,8 @@ export class PickToteManagerComponent implements OnInit {
         }
       });
     }
-    else {
+    else 
+    {
       payload = {
         "Filter": "",
         "Zone": zone,
@@ -453,17 +447,20 @@ export class PickToteManagerComponent implements OnInit {
         }
       });
     }
-
+    
   }
 
-  viewReplenishZoneRecord(viewReplenish = "", element: any, rp: any) {
-    if (viewReplenish == "") {
-      this.ordersFilterZoneSelect(element.zone, true, element.type);
-
-    }
-    else {
-      this.ordersFilterZoneSelect(element.zone, false, element.type);
-    }
+  viewReplenishZoneRecord(viewReplenish="",element:any,rp:any)
+  {
+  if(viewReplenish=="")
+  {
+    this.ordersFilterZoneSelect(element.zone,true,element.type);
+    
+  }
+  else 
+  {
+    this.ordersFilterZoneSelect(element.zone,false,element.type);
+  }
   }
 
 
@@ -509,7 +506,7 @@ export class PickToteManagerComponent implements OnInit {
       });
     }
     // console.log(this.selectedOrders);
-
+    
   }
 
 
@@ -554,7 +551,7 @@ export class PickToteManagerComponent implements OnInit {
         }
       });
     }
-
+    
   }
   pickBatchFilterOrderData(filter: string | null) {
     let paylaod = {
@@ -724,25 +721,8 @@ export class PickToteManagerComponent implements OnInit {
     this.dialogRef.close(this.selectedOrders);
   }
 
-  onSelectBatchZone(row) {
-    let payload = {
-      "zone": row.zone,
-      "type": row.type,
-      "wsid": this.userData.wsid,
-    }
-    this.pPickService.update(payload, '/Induction/PickBatchZoneDefaultMark').subscribe(res => {
-      if(res.isExecuted){
-        this.toastr.success(labels.alert.update, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }else{
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }
-    });
+  onSelectBatchZone(row){
+    console.log(row);
   }
 
 }

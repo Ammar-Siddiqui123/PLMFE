@@ -286,8 +286,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       holds: false,
       orderStatusOrder: '',
       app: 'Admin',
-      username: this.userData.userName,
-      wsid:this.userData.wsid,
+      username: '1234',
+      wsid: 'TESTWSID',
     };
     this.transactionService
       .get(paylaod, '/Admin/TransactionModelIndex')

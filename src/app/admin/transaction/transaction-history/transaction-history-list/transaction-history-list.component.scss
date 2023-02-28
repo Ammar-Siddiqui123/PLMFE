@@ -1,14 +1,4 @@
-.mat-column-ruleType {
-  width: 10% !important;
-}
-.mat-column-modelRestriction {
-  width: 34% !important;
-}
-.mat-column-disabled {
-  width: 5% !important
-}
-
-mat-row, mat-header-row, mat-footer-row{
-  display: table-row;
-  white-space: nowrap;
+.mat-column-email{
+  max-width: 60px !important;
+  min-width: 60px !important;
 }

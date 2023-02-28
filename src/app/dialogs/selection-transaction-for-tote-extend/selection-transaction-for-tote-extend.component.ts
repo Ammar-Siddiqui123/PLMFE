@@ -32,8 +32,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   velocityCodeList  : any = [];
   orderNum          : any;
   totes             : any = [];
-  selectedTotePosition:any='';
-  selectedToteID:any='';
+
 
   constructor(public dialogRef                  : MatDialogRef<SelectionTransactionForToteExtendComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -113,25 +112,6 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     this.getCellSizeList();
     this.getVelocityCodeList();
     this.getDetails();    
-  }
-
-  onToteChange(event,type){
-  // event.value
-    this.totes.filter(item=>{
-      if(type==='toteId'){  // change position on id base
-        if(item.toteID===event.value){
-          this.selectedTotePosition=item.totesPosition
-          return
-        }
-      }else{ //change id on position base
-        if(item.totesPosition===event.value){
-          this.selectedToteID=item.toteID
-          return
-        }
-      }
-    
-    })
-
   }
 
   getDetails() {
@@ -537,7 +517,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     try {
 
       const values = this.toteForm.value;
-   
+
       let payLoad = {
         sRow: 1,
         eRow: 5,

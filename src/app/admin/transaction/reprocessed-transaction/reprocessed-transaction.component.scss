@@ -1,19 +1,13 @@
-// .mat-table {
-//     th {
-//       white-space: nowrap;
-//       padding-right: 20px;
-//     }
-//     td {
-//       max-width: 15ch;
-//       text-overflow: ellipsis;
-//       overflow: hidden;
-//       white-space: nowrap;
-//       padding-right: 20px;
-//     }
-//   }
-
-  mat-row, mat-header-row, mat-footer-row{
-    display: table-row;
-    white-space: nowrap;
+.mat-table {
+    th {
+      white-space: nowrap;
+      padding-right: 20px;
+    }
+    td {
+      max-width: 15ch;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      padding-right: 20px;
+    }
   }
-  
