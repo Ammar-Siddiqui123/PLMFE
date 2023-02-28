@@ -74,7 +74,7 @@
 
                         </th>
 
-                        <td mat-cell *matCellDef="let element" #tooltip="matTooltip" [matTooltip]="element[col.colHeader]"   matTooltipPosition="above"  [matTooltipDisabled]="element[col.colHeader].length>16?false:true"
+                        <td mat-cell *matCellDef="let element" #tooltip="matTooltip" [matTooltip]="element[col.colHeader]"   matTooltipPosition="above"  [matTooltipDisabled]="element[col.colHeader] && element[col.colHeader].length>16?false:true"
                             style="padding: 5px 32px; border: 0; text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;">
                             {{ element[col.colHeader] }}</td>
 
