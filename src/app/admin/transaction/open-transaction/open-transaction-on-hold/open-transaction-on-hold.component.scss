@@ -2,17 +2,66 @@
 // display: none!important;
 // }
 
-
 .selected {
-    background-color: #6c6cdb!important;
-    border-radius: 8px;
-    color:white
-  }
-  
+  background-color: #6c6cdb !important;
+  border-radius: 8px;
+  color: white;
+}
+
 //   .mat-row:nth-child(even){
 //       background-color: #e4f0ec;
 //   }
-  
+
 //   .mat-row:nth-child(odd){
 //       background-color:#ffffff;
 //   }
+table {
+  table-layout: fixed;
+}
+.aaa {
+  min-width: 15%;
+  padding: 5px 32px;
+  border: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 20ch;
+  white-space: nowrap;
+}
+
+.bbb {
+  min-width: 10%;
+  padding: 5px 32px;
+  border: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 20ch;
+  white-space: nowrap;
+}
+.w-75{
+  width: 75px;
+}
+
+.w-100{
+  width: 100%;
+}
+.th-center{
+  text-align: center;
+}
+.th-left{
+  text-align: left;
+}
+.th-right{
+  text-align: right;
+}
+mat-row, mat-header-row, mat-footer-row{
+  display: table-row;
+  white-space: nowrap;
+}
+
+
+//OVAIS FIXES
+
+// mat-row, mat-header-row, mat-footer-row{
+//   display: table-row;
+//   white-space: nowrap;
+// }
