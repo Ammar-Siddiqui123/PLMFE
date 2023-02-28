@@ -1,6 +1,11 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { ProcessPutAwayService } from '../../induction-manager/processPutAway.service';
+import { AuthService } from 'src/app/init/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { DeleteConfirmationComponent } from '../../admin/dialogs/delete-confirmation/delete-confirmation.component';
 
 export interface PeriodicElement {
   name: string;
@@ -9,17 +14,16 @@ export interface PeriodicElement {
   symbol: string;
 }
 
+export interface ToteElement {
+  toteID:string,
+  cells:string,
+  position:number,
+  oldToteID:string,
+  isInserted:number
+}
+
 const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'}
 ];
 
 @Component({
@@ -28,9 +32,17 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./totes-add-edit.component.scss']
 })
 export class TotesAddEditComponent implements OnInit {
+  ELEMENT_DATA_TOTE = [{toteID:"" , cells:"" , position: 1 ,oldToteID:"",isInserted:1}];
   displayedColumns: string[] = ['select', 'zone', 'locationdesc'];
+  alreadySavedTotesList:any;
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  dataSourceManagedTotes = new MatTableDataSource<ToteElement>(this.ELEMENT_DATA_TOTE);
   selection = new SelectionModel<PeriodicElement>(true, []);
+  position:any;
+
+  toteID="";
+  cellID="";
+  userData:any;
 
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -38,6 +50,12 @@ export class TotesAddEditComponent implements OnInit {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
+  }
+
+  addRow()
+  {
+    this.ELEMENT_DATA_TOTE.push({toteID:"" , cells:"" , position: this.ELEMENT_DATA_TOTE.length-1 ,oldToteID:"",isInserted:0});
+    this.dataSourceManagedTotes = new MatTableDataSource<any>(this.ELEMENT_DATA_TOTE);
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
@@ -58,13 +76,202 @@ export class TotesAddEditComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
+
+  saveTote(toteID:any,cells:any,oldToteID:any,isInserted:any,index:any)
+  { 
+      var oldTote = "";
+      var updateMessage="Update Successful";
+      if(isInserted=="1")
+      {
+        oldTote = oldToteID;
+      }
+      let searchPayload = {
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+        oldToteID: oldTote,
+        toteID: toteID,
+        cells: cells
+      }
+      this.service.get(searchPayload, '/Admin/ToteSetupInsert', true).subscribe(
+        (res: any) => {
+          if (res.data && res.isExecuted) {
+            this.toastr.success(isInserted=="1"?updateMessage:res.responseMessage, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          this.getTotes();
+          } else {
+            // console.log(searchPayload);
+            this.toastr.error("Cannot set the selected tote because it is already set in the batch.", 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        },
+        (error) => { }
+      );
+    
+    
+  }
+
+  deleteTote(toteID:any)
+  {  //jhgjhgfhgfh
+    const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        mode: '',
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if(result=='Yes')
+      {
+        let deleteTote = {
+          username: this.userData.userName,
+          wsid: this.userData.wsid,
+          toteID: toteID
+        }
+        this.service.create(deleteTote, '/Admin/ToteSetupDelete').subscribe(
+          (res: any) => {
+            if (res.data && res.isExecuted) {
+              this.toastr.success("Deleted successfuly", 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+      this.getTotes();
+            } else {
+              this.toastr.error("Already exists", 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            }
+          },
+          (error) => { }
+        );
+
+      }
+
+    })
+  }
+
+  getTotes()
+  {
+    this.ELEMENT_DATA_TOTE.length=0;
+    let searchPayload = {
+      username: this.userData.userName,
+      wsid: this.userData.wsid
+    }
+    this.service.get(searchPayload, '/Admin/ToteSetup').subscribe(
+      (res: any) => {
+        if (res.data && res.isExecuted) {
+          this.ELEMENT_DATA_TOTE = res.data;
+          for(var i=0;i<this.ELEMENT_DATA_TOTE.length;i++)
+          {
+          this.ELEMENT_DATA_TOTE[i].isInserted = 1;
+          this.ELEMENT_DATA_TOTE[i].oldToteID   = this.ELEMENT_DATA_TOTE[i].toteID
+          }
+          this.dataSourceManagedTotes = new MatTableDataSource<any>(this.ELEMENT_DATA_TOTE);
+        } else {
+          this.toastr.error('Something went wrong', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      },
+      (error) => { }
+    );
+  }
+
+  onToteChange($event,position,cells="")
+  {
+  if(cells=="")
+  {
+    if(this.ELEMENT_DATA_TOTE[(position)].toteID!=$event.target.value)
+    {
+      this.ELEMENT_DATA_TOTE[(position)].toteID = $event.target.value;
+    }
+
+  }
+  else 
+  {
+
+    if(this.ELEMENT_DATA_TOTE[(position)].cells!=$event.target.value)
+    {
+    this.ELEMENT_DATA_TOTE[(position)].cells = $event.target.value;
+    }
+
+  }
+  
+  
+  }
+
+  selectTote(toteIDs=null,cells=null)
+  {
+    var exists=false;
+    for(var i=0;i<this.alreadySavedTotesList?.length;i++)
+    {
+      if(toteIDs==null)
+      {
+        if(this.alreadySavedTotesList[i].toteid==this.toteID)
+        {
+          exists=true;
+          break;
+        }
+      }
+      else 
+      {
+        
+        
+      if(this.alreadySavedTotesList[i].toteid==toteIDs)
+      {
+        exists=true;
+        break;
+      }
+      }
+
+    }
+
+    if(exists)
+    {
+      this.toastr.error("Cannot set the selected tote because it is already set in the batch.", 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000,
+      });
+    }
+    else 
+    {
+
+      let selectedTote;
+      if(toteIDs==null&&cells==null)
+      {
+      selectedTote = {toteID:this.toteID , cellID:this.cellID , position: this.position };
+      this.dialogRef.close(selectedTote);
+      }
+      else 
+      {
+      selectedTote = {toteID:toteIDs , cellID:cells , position: this.position }; 
+      console.log(selectedTote);
+      this.dialogRef.close(selectedTote);
+      }
+    }
+
+    
+  }
+
   displayedColumns1: string[] = ['select', 'zone', 'locationdesc', 'options'];
   dataSource1 = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection1 = new SelectionModel<PeriodicElement>(true, []);
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<TotesAddEditComponent>,
+    @Inject(MAT_DIALOG_DATA) public data : any,private authService: AuthService,private service: ProcessPutAwayService,private toastr: ToastrService,private dialog: MatDialog,) { }
 
   ngOnInit(): void {
+    this.ELEMENT_DATA_TOTE.length=0;
+    this.position = this.data.position;
+    this.userData = this.authService.userData();
+    this.alreadySavedTotesList = this.data.alreadySavedTotes;
+    this.getTotes();
   }
 
 }

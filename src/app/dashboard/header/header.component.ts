@@ -42,7 +42,8 @@ isConfigUser
   
       if(val instanceof NavigationEnd){
         let res = val.url.substring(1);
-        let splittedArray = res.split('/');
+        let withoutParam = res.split('?')[0]
+        let splittedArray = withoutParam.split('/');
         splittedArray.forEach(element => {
         this.breadcrumbList.push({
           name: this.capitalizeFirstLetter(element),

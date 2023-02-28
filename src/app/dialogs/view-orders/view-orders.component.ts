@@ -25,6 +25,7 @@ export class ViewOrdersComponent implements OnInit {
   selectedOrders: any[] = [];
   orderDataSource: any;
   selectedTd: any;
+  transData:any;
 
   filterTransColumns = [
     { columnDef: 'orderNumber', header: 'orderNumber', cell: (element: any) => `${element.orderNumber}` },
@@ -83,8 +84,15 @@ export class ViewOrdersComponent implements OnInit {
   displayedTransColumns = this.filterTransColumns.map(c => c.columnDef);
 
   orderTransDataSource: any;
-  @ViewChild('paginator') paginator: MatPaginator;
-  @ViewChild('paginatorPageSize') paginatorPageSize: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('paginatorTrans') paginatorTrans: MatPaginator;
+
+  // @ViewChild(MatPaginator, {static: false})
+  // set paginatorTrans(value: MatPaginator) {
+  //   if (this.orderTransDataSource){
+  //     this.orderTransDataSource.paginator = value;
+  //   }
+  // }
   constructor(
     private pPickService: ProcessPicksService,
     private toastr: ToastrService,
@@ -96,10 +104,10 @@ export class ViewOrdersComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getAllOrders();
-
     console.log(this.data);
-
+    
   }
+
   getAllOrders() {
     let paylaod = {
       "OrderView": this.data.viewType,
@@ -121,6 +129,7 @@ export class ViewOrdersComponent implements OnInit {
         });
         
         this.orderDataSource = new MatTableDataSource<any>(this.allOrders);
+        this.orderDataSource.paginator = this.paginator;
 
       }
     });
@@ -142,7 +151,7 @@ export class ViewOrdersComponent implements OnInit {
 
   ngAfterViewInit() {
     this.orderDataSource.paginator = this.paginator;
-    this.orderDataSource.paginator = this.paginatorPageSize;
+    this.orderTransDataSource.paginator = this.paginatorTrans;
   }
 
   onOrderSelect(row: any) {
@@ -181,7 +190,9 @@ export class ViewOrdersComponent implements OnInit {
       }
       this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
         if (res.data) {
-          this.orderTransDataSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
+          this.transData = res.data.pickToteManTrans;
+          this.orderTransDataSource = new MatTableDataSource<any>(this.transData);
+          this.orderTransDataSource.paginator = this.paginatorTrans;
         }
       });
     }

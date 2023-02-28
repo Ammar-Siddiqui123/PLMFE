@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,6 +15,7 @@ import { AddFilterFunction } from '../add-filter-function/add-filter-function.co
 import labels from '../../labels/labels.json';
 import { DeleteConfirmationComponent } from '../../../app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { MatPaginator } from '@angular/material/paginator';
 
 export interface PeriodicElement {
   name: string;
@@ -54,9 +55,7 @@ export class PickToteManagerComponent implements OnInit {
   FILTER_BATCH_DATA_ZONE: any[] = [];
   useDefaultFilter;
   useDefaultZone;
-  BATCH_BY_ZONE_DATA: any[] = [
-    { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  ];
+  batchByZoneData: any[] = [];
   F_ORDER_TRANS: any[] = [];
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -172,8 +171,15 @@ export class PickToteManagerComponent implements OnInit {
 
   displayedColumns4: string[] = ['select', 'zone', 'batchtype', 'totalorders', 'totallocations', 'other'];
   batchByOrderColumns: string[] = ['default', 'zone', 'batchtype', 'totalorders', 'totallocations', 'actions'];
-
-
+  @ViewChild('filterBatchOrder') filterBatchOrder: MatPaginator;
+  @ViewChild('filterBatchTrans') filterBatchTrans: MatPaginator;
+  @ViewChild('zoneBatchOrder') zoneBatchOrder: MatPaginator;
+  @ViewChild('zoneBatchTrans') zoneBatchTrans: MatPaginator;
+  // @ViewChild('batchByZonePaginator', {read: true}) batchByZonePaginator: MatPaginator;
+  @ViewChild('batchByZonePaginator', { static: false })
+  set paginator(value: MatPaginator) {
+    this.batchByZoneSource.paginator = value;
+  }
   constructor(
     private dialog: MatDialog,
     private pPickService: ProcessPicksService,
@@ -191,24 +197,30 @@ export class PickToteManagerComponent implements OnInit {
     this.dataSource1 = new MatTableDataSource<any>(this.FILTER_DATA);
     this.orderBydataSource = new MatTableDataSource<any>(this.ORDER_BY_DATA);
     this.pickBatchZonesSelect();
-    if(this.data.useDefaultFilter){
-      this.isFilter = 'filter' 
+    if (this.data.useDefaultFilter) {
+      this.isFilter = 'filter'
     }
-    else{
-      this.isFilter = 'zone' 
+    else {
+      this.isFilter = 'zone'
     }
   }
 
-  pickBatchZonesSelect(){
+  pickBatchZonesSelect() {
     let paylaod = {
       "wsid": this.userData.wsid,
     }
     this.pPickService.get(paylaod, '/Induction/PickBatchZonesSelect').subscribe(res => {
-      this.BATCH_BY_ZONE_DATA = res.data
-      this.batchByZoneSource = new MatTableDataSource<any>(this.BATCH_BY_ZONE_DATA);
+      if (res.data) {
+        this.batchByZoneData = res.data
+        this.batchByZoneSource = new MatTableDataSource<any>(this.batchByZoneData);
+        // this.batchByZoneSource.paginator = this.batchByZonePaginator;
+      }
     });
   }
 
+  ngAfterViewInit() {
+    // this.batchByZoneSource.paginator = this.batchByZonePaginator;
+  }
 
   getSavedFilters() {
     let paylaod = {
@@ -398,10 +410,9 @@ export class PickToteManagerComponent implements OnInit {
       this.ordersFilterZoneSelect();
     }
   }
-  ordersFilterZoneSelect(zone="",rp=false,type="") {
+  ordersFilterZoneSelect(zone = "", rp = false, type = "") {
     let payload;
-    if(zone=="")
-    {
+    if (zone == "") {
       payload = {
         "Filter": this.savedFilter.value,
         "Zone": "",
@@ -417,11 +428,11 @@ export class PickToteManagerComponent implements OnInit {
             this.FILTER_BATCH_DATA.push({ 'orderNumber': val.orderNumber, 'reqDate': val.reqDate, 'priority': val.priority, isSelected: false });
           });
           this.filterBatchOrders = new MatTableDataSource<any>(this.FILTER_BATCH_DATA);
+          this.filterBatchOrders.paginator = this.filterBatchOrder;
         }
       });
     }
-    else 
-    {
+    else {
       payload = {
         "Filter": "",
         "Zone": zone,
@@ -438,23 +449,21 @@ export class PickToteManagerComponent implements OnInit {
             this.FILTER_BATCH_DATA_ZONE.push({ 'orderNumber': val.orderNumber, 'reqDate': val.reqDate, 'priority': val.priority, isSelected: false });
           });
           this.filterBatchOrdersZone = new MatTableDataSource<any>(this.FILTER_BATCH_DATA_ZONE);
+          this.filterBatchOrdersZone.paginator = this.zoneBatchOrder;
         }
       });
     }
-    
+
   }
 
-  viewReplenishZoneRecord(viewReplenish="",element:any,rp:any)
-  {
-  if(viewReplenish=="")
-  {
-    this.ordersFilterZoneSelect(element.zone,true,element.type);
-    
-  }
-  else 
-  {
-    this.ordersFilterZoneSelect(element.zone,false,element.type);
-  }
+  viewReplenishZoneRecord(viewReplenish = "", element: any, rp: any) {
+    if (viewReplenish == "") {
+      this.ordersFilterZoneSelect(element.zone, true, element.type);
+
+    }
+    else {
+      this.ordersFilterZoneSelect(element.zone, false, element.type);
+    }
   }
 
 
@@ -494,12 +503,13 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
         if (res.data) {
-          this.filterOrderTransactionSource = res.data.pickToteManTrans;
+          this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
+          this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
         }
       });
     }
     // console.log(this.selectedOrders);
-    
+
   }
 
 
@@ -539,11 +549,12 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
         if (res.data) {
-          this.zoneOrderTransactionSource = res.data.pickToteManTrans;
+          this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
+          this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
         }
       });
     }
-    
+
   }
   pickBatchFilterOrderData(filter: string | null) {
     let paylaod = {
@@ -713,8 +724,25 @@ export class PickToteManagerComponent implements OnInit {
     this.dialogRef.close(this.selectedOrders);
   }
 
-  onSelectBatchZone(row){
-    console.log(row);
+  onSelectBatchZone(row) {
+    let payload = {
+      "zone": row.zone,
+      "type": row.type,
+      "wsid": this.userData.wsid,
+    }
+    this.pPickService.update(payload, '/Induction/PickBatchZoneDefaultMark').subscribe(res => {
+      if(res.isExecuted){
+        this.toastr.success(labels.alert.update, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }else{
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    });
   }
 
 }

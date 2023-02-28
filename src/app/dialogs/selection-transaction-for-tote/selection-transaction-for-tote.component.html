@@ -7,66 +7,59 @@
 </div>
 <div mat-dialog-content>
 <div class="d-flex align-items-center justify-content-center flex-wrap px-5 gap-12">
-    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Item No.:&nbsp;<b>000000</b></span></div>
-    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Batch ID:&nbsp;<b>000000</b></span></div>
-    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Zones:&nbsp;<b>00000000000000000000000000000000000000</b></span></div>
-    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Description:&nbsp;<b>Macanudo Prince Phillip Cafe - Box Of 25</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Item No.:&nbsp;<b>{{itemNumber}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Batch ID:&nbsp;<b>{{batchID}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Zones:&nbsp;<b>{{zone.replace("Zones:","")}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Description:&nbsp;<b>{{description}}</b></span></div>
 </div>
-<div class="d-flex justify-content-end mb-3">
+<div class="d-flex justify-content-end mb-3"  *ngIf="this.apiResponse && this.apiResponse.numberOfRecords>5">
     <div class="d-flex align-items-center gap-12">
-        <button mat-flat-button color="primary" class="sm-icon-button">
+        <button mat-flat-button color="primary"  (click)="leftClick()" class="sm-icon-button" *ngIf="lowerBound!=1">
           <span class="material-symbols-outlined">
             keyboard_arrow_left
           </span>
         </button>
-        <div class="text-chrome-600"><b>12</b> of 200</div>
-        <button mat-flat-button color="primary" class="sm-icon-button">
+        <div class="text-chrome-600"><b>{{upperBound}}</b> of {{apiResponse.numberOfRecords}}</div>
+        <button mat-flat-button color="primary" (click)="rightClick()" class="sm-icon-button" *ngIf="upperBound!=apiResponse.numberOfRecords">
           <span class="material-symbols-outlined">
             keyboard_arrow_right
           </span>
         </button>
-        <!-- <mat-paginator>
-        </mat-paginator> -->
       </div>
 </div>
-<div class="card p-4 mb-3">
-    <div class="mb-3" style="border-bottom: 1px solid var(--clr-tertiary-50);">
-    <mat-radio-button color="primary">
-        <div class="card-header-title">Order 00-0000</div>
+<div class="card p-4 mb-3 list-row-seperator">
+    <div class="mb-3 list-item" *ngFor="let col of transactionTable; let indexOfelement=index;">
+    <mat-radio-button color="primary" (click)="selectOrder(col.id,itemNumber, col)" >
+        <div class="card-header-title">Order {{col.orderNumber}}</div>
     </mat-radio-button>
     <div class="d-flex align-items-center flex-wrap gap-12 my-3 ps-4">
-        <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Item No.:&nbsp;<b>000000</b></span></div>
-        <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Batch ID:&nbsp;<b>000000</b></span></div>
-        <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Zones:&nbsp;<b>00000000000000000000000000000000000000</b></span></div>
-        <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Description:&nbsp;<b>Macanudo Prince Phillip Cafe - Box Of 25</b></span></div>
-    </div>
-    </div>
-    <div class="mb-3" style="border-bottom: 1px solid var(--clr-tertiary-50);">
-    <mat-radio-button color="primary">
-        <div class="card-header-title">Order 00-0000</div>
-    </mat-radio-button>
-    <div class="d-flex align-items-center flex-wrap gap-12 my-3 ps-4">
-        <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Item No.:&nbsp;<b>000000</b></span></div>
-        <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Batch ID:&nbsp;<b>000000</b></span></div>
-        <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Zones:&nbsp;<b>00000000000000000000000000000000000000</b></span></div>
-        <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Description:&nbsp;<b>Macanudo Prince Phillip Cafe - Box Of 25</b></span></div>
-    </div>
-    </div>
-    <div>
-    <mat-radio-button color="primary">
-        <div class="card-header-title">Order 00-0000</div>
-    </mat-radio-button>
-    <div class="d-flex align-items-center flex-wrap gap-12 my-3 ps-4">
-        <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Item No.:&nbsp;<b>000000</b></span></div>
-        <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Batch ID:&nbsp;<b>000000</b></span></div>
-        <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Zones:&nbsp;<b>00000000000000000000000000000000000000</b></span></div>
-        <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Description:&nbsp;<b>Macanudo Prince Phillip Cafe - Box Of 25</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Host Transaction ID:&nbsp;<b>{{col.hostTransactionID}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Warehouse:&nbsp;<b>{{col.warehouse}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Location:&nbsp;<b>{{col.location}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Serial Number:&nbsp;<b>{{col.serialNumber}}</b></span></div>
+
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Lot Number.:&nbsp;<b>{{col.lotNumber}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Transaction Quantity:&nbsp;<b>{{col.transactionQuantity}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Ship via:&nbsp;<b>{{col.userField1}}</b></span></div>
+    <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Ship to name:&nbsp;<b>{{col.userField2}}</b></span></div>
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+  
     </div>
     </div>
 </div>
 </div>
 <div class="d-flex gap-12 mb-1" mat-dialog-actions>
-    <button mat-stroked-button color="primary" class="btn-lg">
+    <button mat-stroked-button color="primary" class="btn-lg" (click)="refresh()">
         Refresh
     </button>
     <button mat-flat-button color="primary" class="btn-lg" style="flex:1" (click)="openSelectionExtendDialogue()">
