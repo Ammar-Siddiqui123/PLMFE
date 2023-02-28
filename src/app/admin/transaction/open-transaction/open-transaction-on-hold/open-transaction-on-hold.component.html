@@ -239,9 +239,8 @@
 
                                 </th>
 
-                                <td *matCellDef="let element"  style="min-width: 250px; padding: 5px 32px; border: 0; text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;">
-                                    {{
-                                    element[col.colHeader] }}</td>
+                                <td *matCellDef="let element"  mat-cell style="padding: 5px 32px; border: 0; text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;" [ngClass]="'w-100'" #tooltip="matTooltip" [matTooltip]="element[col.colHeader] " [matTooltipDisabled]="element[col.colHeader] && element[col.colHeader].length>20?false:true" > {{ element[col.colHeader] }}</td>
+                     
 
                             </ng-container>
 
