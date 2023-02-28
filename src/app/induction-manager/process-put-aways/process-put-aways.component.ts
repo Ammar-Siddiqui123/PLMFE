@@ -433,6 +433,7 @@ export class ProcessPutAwaysComponent implements OnInit {
                       positionClass: 'toast-bottom-right',
                       timeOut: 2000,
                     });
+                    this.status = 'Processed';
                     this.selectedIndex = 1;
                     this.batchId2 = this.batchId;
                     this.fillToteTable(this.batchId);
