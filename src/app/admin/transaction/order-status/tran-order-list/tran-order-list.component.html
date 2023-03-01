@@ -53,7 +53,7 @@
               <span class="material-symbols-outlined icon-search">
                 Search
               </span>
-              <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='searchString'
+              <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='searchString' [disabled]="!searchCol"
                 [matAutocomplete]="auto" (ngModelChange)="this.searchByInput.next($event)">
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
