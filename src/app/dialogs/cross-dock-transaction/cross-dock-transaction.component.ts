@@ -309,7 +309,7 @@ export class CrossDockTransactionComponent implements OnInit {
       this.service.create(payLoad, '/Induction/CompletePick').subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
-
+            this.getCrossDock();
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
               positionClass: 'toast-bottom-right',
