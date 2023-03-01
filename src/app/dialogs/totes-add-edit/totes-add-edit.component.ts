@@ -209,7 +209,7 @@ export class TotesAddEditComponent implements OnInit {
   selectTote(toteIDs=null,cells=null)
   {
     var exists=false;
-    for(var i=0;i<this.alreadySavedTotesList.length;i++)
+    for(var i=0;i<this.alreadySavedTotesList?.length;i++)
     {
       if(toteIDs==null)
       {
