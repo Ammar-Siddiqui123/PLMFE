@@ -296,7 +296,7 @@ export class CrossDockTransactionComponent implements OnInit {
         "rpid": this.selectedRowObj.id,
         "otid": this.data.otid,
         "item": this.data.values.itemNumber,
-        "uf1": this.selectedRowObj.userField1,
+        "uf1": this.selectedRowObj.userField1 ? this.selectedRowObj.userField1 : "",
         "toteID": this.selectedRowObj.toteID,
         "order": this.selectedRowObj.orderNumber,
         "invMapID": this.data.values.invMapID,
