@@ -349,9 +349,9 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.batchId = '';
   }
   ngAfterViewChecked(): void {
-    if (this.selectedIndex == 1) {
-      this.inputVal.nativeElement.focus();
-    }
+    // if (this.selectedIndex == 1) {
+    //   this.inputVal.nativeElement.focus();
+    // }
   }
 
   processIfZoneSelected(){
@@ -436,7 +436,10 @@ export class ProcessPutAwaysComponent implements OnInit {
                     this.status = 'Processed';
                     this.selectedIndex = 1;
                     this.batchId2 = this.batchId;
-                    this.fillToteTable(this.batchId);
+                    setTimeout(()=>{
+                      this.inputVal.nativeElement.focus();
+                    },0);
+                    this.fillToteTable(this.batchId);                    
                   } else {
                     this.toastr.error('Something went wrong', 'Error!', {
                       positionClass: 'toast-bottom-right',
