@@ -103,7 +103,7 @@ export class ToteTransactionViewComponent implements OnInit {
   }
   getTransactionTable() {
     let payLoad = {
-      toteNumber: this.toteID,
+      toteNumber: this.tote,
       batchID: this.batchID,
       sRow:  this.customPagination.startIndex,
       eRow: this.customPagination.endIndex,
