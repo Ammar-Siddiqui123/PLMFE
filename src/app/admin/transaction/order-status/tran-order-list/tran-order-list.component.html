@@ -230,7 +230,7 @@
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.wareHouse"   matTooltipPosition="above" [matTooltipDisabled]="element.wareHouse && element.wareHouse.length>15?false:true" > {{element.wareHouse}} </td>
               </ng-container>
 
-              <ng-container matColumnDef="importDate">
+              <ng-container matColumnDef="importDate" >
                 <th mat-header-cell *matHeaderCellDef>Import Date</th>
                 <td mat-cell *matCellDef="let element" #tooltip="matTooltip" [matTooltip]="element.importDate" matTooltipPosition="above"  [matTooltipDisabled]="element.importDate && element.importDate.length>15?false:true"> {{element.importDate}} </td>
               </ng-container>

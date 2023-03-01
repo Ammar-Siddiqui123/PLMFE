@@ -43,7 +43,7 @@ const INVMAP_DATA = [
   { colHeader: "expirationDate", colDef: "Expiration Date" },
   { colHeader: "unitOfMeasure", colDef: "Unit of Measure" },
   { colHeader: "quantityAllocatedPick", colDef: "Quantity Allocated Pick" },
-  { colHeader: "quantityAllocatedPutAway", colDef: "Quantity Allocated Put Awa" },
+  { colHeader: "quantityAllocatedPutAway", colDef: "Quantity Allocated Put Away" },
   { colHeader: "putAwayDate", colDef: "Put Away Date" },
   { colHeader: "warehouse", colDef: "Warehouse" },
   { colHeader: "revision", colDef: "Revision" },
@@ -58,7 +58,7 @@ const INVMAP_DATA = [
   { colHeader: "laserY", colDef: "Laser Y" },
   { colHeader: "locationNumber", colDef: "Location Number" },
   { colHeader: "locationID", colDef: "Alternate Light" },
-  { colHeader: "qtyAlcPutAway", colDef: "Quantity Allocated Put Away" },
+  // { colHeader: "qtyAlcPutAway", colDef: "Quantity Allocated Put Away" },
 ];
 
 @Component({

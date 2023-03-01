@@ -61,15 +61,15 @@
         <div class="card br-14 table-responsive my-3">
             <!-- <ng-scrollbar style="height: 200px;"></ng-scrollbar> -->
             <ng-scrollbar style="height:300px" track="all" class="mat-table-scrollbar">
-                <mat-table class="custom-table table-fix" #table [dataSource]="dataSource" matSort
+                <table  mat-table class="custom-table table-fix" #table [dataSource]="dataSource" matSort 
                     (matSortChange)="sortChange($event)" fixedLayout="true">
-
-                    <ng-container [matColumnDef]="col.colDef"
+ 
+                    <ng-container [matColumnDef]="col.colDef"  style="display: table-row;" 
                         *ngFor="let col of displayedColumns; let indexOfelement=index;">
 
                         <th class="header" mat-header-cell *matHeaderCellDef mat-sort-header
-                            (sortActionDescription)="indexOfelement"
-                            style="width:auto; min-width: 250px;  padding: 5px 32px; border-bottom: 1px solid var(--clr-tertiary-50);">
+                            (sortActionDescription)="indexOfelement" 
+                            style="width:auto; padding: 5px 32px; border-bottom: 1px solid var(--clr-tertiary-50);">
                             {{ col.colDef }}
 
                         </th>
@@ -94,7 +94,7 @@
 
                     <mat-header-row *matHeaderRowDef="columnValues;sticky: true" style=" border: 0"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: columnValues;"></mat-row>
-                </mat-table>
+                </table>
             </ng-scrollbar>
             <!-- 
             <mat-table class="custom-table table-fix" #table [dataSource]="dataSource" matSort
