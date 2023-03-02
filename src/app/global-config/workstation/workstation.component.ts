@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/services/shared.service';
@@ -7,6 +7,8 @@ import { GlobalconfigService } from '../globalconfig.service';
 import labels from '../../labels/labels.json';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 export interface PeriodicElement {
   position: string;
@@ -18,6 +20,7 @@ export interface PeriodicElement {
   styleUrls: ['./workstation.component.scss'],
 })
 export class WorkstationComponent implements OnInit {
+  @ViewChild('matRef') matRef: MatSelect;
   displayedColumns: string[] = ['appName', 'canAccess', 'defaultApp'];
   appName_datasource: any = [];
   selection = new SelectionModel<PeriodicElement>(true, []);
@@ -31,452 +34,7 @@ export class WorkstationComponent implements OnInit {
   appName: any = '';
   selectedVariable: any;
   sideBarOpen: boolean = true;
-  dummy_workstation: any = [
-    {
-      pcName: '',
-      wsid: 'sadsd;                  ',
-    },
-    {
-      pcName: '_ga=GA1.2.1701036510.1514308756;',
-      wsid: '_ga=GA1.2.1701036510.1514308756;                  ',
-    },
-    {
-      pcName: '_ga=GA1.2.421571900.1530666914',
-      wsid: '_ga=GA1.2.421571900.1530666914',
-    },
-    {
-      pcName: '9200-HHWL',
-      wsid: '9200-HHWL',
-    },
-    {
-      pcName: 'AJ_Laptop_20171130',
-      wsid: '00CBD5D95F9EA3CCB6',
-    },
-    {
-      pcName: 'AJD20171026',
-      wsid: '00CF4E5BD1829A053D',
-    },
-    {
-      pcName: 'Ajd7intablet',
-      wsid: 'Ajd7intablet',
-    },
-    {
-      pcName: 'Ajdcell',
-      wsid: 'Ajdcell',
-    },
-    {
-      pcName: 'Ajdipad',
-      wsid: '0094D191515AED0A8D',
-    },
-    {
-      pcName: 'Ajdipad6',
-      wsid: '00BB290A9310C0C616',
-    },
-    {
-      pcName: 'AJ-IPhone',
-      wsid: '00FBC5F2CB7CF464F8',
-    },
-    {
-      pcName: 'AJPC11142017t',
-      wsid: '00894AACE8D7F095CC',
-    },
-    {
-      pcName: 'AndrewLaptop(WIN-INV71VGR833)',
-      wsid: '00A89EF6D57A331DC3',
-    },
-    {
-      pcName: 'AndrewsSurface',
-      wsid: '00D06121F44C2DB1E9',
-    },
-    {
-      pcName: 'ASUS-Tablet',
-      wsid: 'ASUS-Tablet',
-    },
-    {
-      pcName: 'Bing_WareHouse',
-      wsid: '00A10CB6BDA0C183C2',
-    },
-    {
-      pcName: 'BINGSTL009',
-      wsid: '00ECCC6DDCD7220AEE',
-    },
-    {
-      pcName: 'ChrisVPC10272017',
-      wsid: '00FF71D380B4F6BBB1',
-    },
-    {
-      pcName: 'CK71-HHWL                                         ',
-      wsid: 'CK71-HHWL                                         ',
-    },
-    {
-      pcName: 'Consolidation01',
-      wsid: 'Consolidation01',
-    },
-    {
-      pcName: 'Consolidation02',
-      wsid: 'Consolidation02',
-    },
-    {
-      pcName: 'Consolidation03',
-      wsid: 'Consolidation03',
-    },
-    {
-      pcName: 'Consolidation04',
-      wsid: 'Consolidation04',
-    },
-    {
-      pcName: 'DBarrPC',
-      wsid: '00804093F51ABCF30C',
-    },
-    {
-      pcName: 'denny',
-      wsid: '00CBE2540BBD7D3110',
-    },
-    {
-      pcName: 'Denny_10192017',
-      wsid: '00C6C77420C0707CEA',
-    },
-    {
-      pcName: 'DennyTest',
-      wsid: '0093077BEA205F412F',
-    },
-    {
-      pcName: 'DeviceTesting',
-      wsid: 'DeviceTesting',
-    },
-    {
-      pcName: 'DJB-HHWL',
-      wsid: 'DJB-HHWLWSID',
-    },
-    {
-      pcName: 'DJLT',
-      wsid: '00851B42B568D502F1',
-    },
-    {
-      pcName: 'DLX4WL',
-      wsid: 'DLX4WL',
-    },
-    {
-      pcName: 'HMS-RF1',
-      wsid: 'HMS-RF1',
-    },
-    {
-      pcName: 'HMS-RF2',
-      wsid: 'HMS-RF2',
-    },
-    {
-      pcName: 'HMS-RF3',
-      wsid: 'HMS-RF3',
-    },
-    {
-      pcName: 'HMS-RF4',
-      wsid: 'HMS-RF4',
-    },
-    {
-      pcName: 'HMS-RF5',
-      wsid: 'HMS-RF5',
-    },
-    {
-      pcName: 'HMS-RF6',
-      wsid: 'HMS-RF6',
-    },
-    {
-      pcName: 'Ipad',
-      wsid: '00A72423DA43B410DC',
-    },
-    {
-      pcName: 'iPadAjd',
-      wsid: '00C86694F32A1A84A1',
-    },
-    {
-      pcName: 'JMP-HHMOT',
-      wsid: 'JMP-HHMOT',
-    },
-    {
-      pcName: 'JMP-HHWL',
-      wsid: 'JMP-HHWLWSID',
-    },
-    {
-      pcName: 'JMP-PC',
-      wsid: 'JMP-PC',
-    },
-    {
-      pcName: 'JMP-PC1',
-      wsid: '00DA8BD55A576165EC',
-    },
-    {
-      pcName: 'JMP-PCWin7',
-      wsid: '00D6447F07E3E76BD4',
-    },
-    {
-      pcName: 'JON-PC',
-      wsid: 'JON-PC',
-    },
-    {
-      pcName: 'JonPC20171027',
-      wsid: '00E8589B2FD0BB41DD',
-    },
-    {
-      pcName: 'katyLaptop',
-      wsid: '00AE93EB1921B44F6D',
-    },
-    {
-      pcName: 'KimClark',
-      wsid: '00AF0B417AE8BBBE28',
-    },
-    {
-      pcName: 'KUMON',
-      wsid: 'KUMON',
-    },
-    {
-      pcName: 'Kworkstation',
-      wsid: '00E56F3F380C8E902C',
-    },
-    {
-      pcName: 'Kworkstation1',
-      wsid: '00C8C12C8FCB9F4C11',
-    },
-    {
-      pcName: 'LeonMatthews',
-      wsid: '008C09FFB186B3CA4A',
-    },
-    {
-      pcName: 'LMaddy20170611',
-      wsid: '00A68DB0606EABCD84',
-    },
-    {
-      pcName: 'MattWildLaptop',
-      wsid: '00B591309F860E851C',
-    },
-    {
-      pcName: 'MC70-HHWL',
-      wsid: 'MC70-HHWL',
-    },
-    {
-      pcName: 'MC9000',
-      wsid: 'MC9000',
-    },
-    {
-      pcName: 'MikeYezzi',
-      wsid: '008CF6BD69E3CD7A5D',
-    },
-    {
-      pcName: 'MMcvey_10232017',
-      wsid: '00EF5E350C7BE6F02C',
-    },
-    {
-      pcName: 'Mozilla/5.0 (Linux; Android 4.4.4; Falcon-X4 Build',
-      wsid: 'Mozilla/5.0 (Linux; Android 4.4.4; Falcon-X4 Build',
-    },
-    {
-      pcName: 'Mozilla/5.0 (Linux; Android 5.1.1; WT6000 Build/04',
-      wsid: 'Mozilla/5.0 (Linux; Android 5.1.1; WT6000 Build/04',
-    },
-    {
-      pcName: 'Mozilla/5.0 (Linux; Android 6.0.1; PA730 Build/0.1',
-      wsid: 'Mozilla/5.0 (Linux; Android 6.0.1; PA730 Build/0.1',
-    },
-    {
-      pcName: 'Mozilla/5.0 (Linux; Android 7.0; SM-G950U Build/NR',
-      wsid: 'TonyPhone',
-    },
-    {
-      pcName: 'Mozilla/5.0 (Linux; U; Android 4.2.2; en-us; Motor',
-      wsid: 'Mozilla/5.0 (Linux; U; Android 4.2.2; en-us; Motor',
-    },
-    {
-      pcName: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
-      wsid: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
-    },
-    {
-      pcName: 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0;',
-      wsid: 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0;',
-    },
-    {
-      pcName: 'Mozilla/5.0 (Windows NT 6.1; rv:56.0) Gecko/201001',
-      wsid: 'Mozilla/5.0 (Windows NT 6.1; rv:56.0) Gecko/201001',
-    },
-    {
-      pcName: 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0)',
-      wsid: 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0)',
-    },
-    {
-      pcName: 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebK',
-      wsid: 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebK',
-    },
-    {
-      pcName: 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53',
-      wsid: 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53',
-    },
-    {
-      pcName: 'MYezzi_Laptop',
-      wsid: '00DA624E2D99B39980',
-    },
-    {
-      pcName: 'NewDemoBox',
-      wsid: '00DCAA7F257A35C893',
-    },
-    {
-      pcName: 'nickHoefer',
-      wsid: '00E3860CE15147955D',
-    },
-    {
-      pcName: 'PA730',
-      wsid: 'PA730',
-    },
-    {
-      pcName: 'PickPro',
-      wsid: '008BEEDE231C7DD67A',
-    },
-    {
-      pcName: 'pickproajdtablet',
-      wsid: 'pickproajdtablet',
-    },
-    {
-      pcName: 'Pickro',
-      wsid: 'Pickro',
-    },
-    {
-      pcName: 'PP521205',
-      wsid: '00C9FE78A361B697D9',
-    },
-    {
-      pcName: 'ppcert',
-      wsid: '008B1BFDAE0CEC4443',
-    },
-    {
-      pcName: 'PP-Tablet4',
-      wsid: 'PP-Tablet4',
-    },
-    {
-      pcName: 'PPtest1_PC',
-      wsid: '00973CACA308994DA5',
-    },
-    {
-      pcName: 'PRINTSERVER',
-      wsid: 'PRINTSERVER',
-    },
-    {
-      pcName: 'SamDesktop',
-      wsid: '00F994F0A8D53EA7EC',
-    },
-    {
-      pcName: 'SEANBING',
-      wsid: '00C133E1561091F2A6',
-    },
-    {
-      pcName: 'SGPC',
-      wsid: '00AE4BB27545651922',
-    },
-    {
-      pcName: 'SGTestDeviceID',
-      wsid: 'DeviceID1576014282393',
-    },
-    {
-      pcName: 'SpausterPC',
-      wsid: '00AFD953F9AC699076',
-    },
-    {
-      pcName: 'SPZ',
-      wsid: '00BE559BF48AF34E86',
-    },
-    {
-      pcName: 'SPZMain',
-      wsid: '00BA3AD5E701AF3411',
-    },
-    {
-      pcName: 'SPZpc',
-      wsid: '00C2A50DE5417F9CE0',
-    },
-    {
-      pcName: 'SQL2016',
-      wsid: '00D50CED9DF39509B0',
-    },
-    {
-      pcName: 'sqldev2016',
-      wsid: '0083CB8D672CCF29FD',
-    },
-    {
-      pcName: 'STDemo',
-      wsid: '00E988F9A422DE369E',
-    },
-    {
-      pcName: 'STSYRW016-AJ',
-      wsid: '009876048900F5C2BE',
-    },
-    {
-      pcName: 'SYRSTL031(dbarr)',
-      wsid: '0086F1D84EF244041A',
-    },
-    {
-      pcName: 'TestinWithJoe',
-      wsid: '00C66CABBB972F6FC4',
-    },
-    {
-      pcName: 'TESTWSID',
-      wsid: 'TESTWSID',
-    },
-    {
-      pcName: 'THBING',
-      wsid: '00AF5519F0D2724750',
-    },
-    {
-      pcName: "Tim'sPC",
-      wsid: '00E7FB600880AFCD9F',
-    },
-    {
-      pcName: 'Tony',
-      wsid: 'Tony',
-    },
-    {
-      pcName: 'TonyPC20171027',
-      wsid: '00D623BF86BFAD80E1',
-    },
-    {
-      pcName: 'TrueValue',
-      wsid: 'TrueValue',
-    },
-    {
-      pcName: 'WarehouseServer',
-      wsid: '00D9DD9383E5A9CE6A',
-    },
-    {
-      pcName: 'WarehouseServer_warehouse',
-      wsid: '00BBAF655D28CC3D55',
-    },
-    {
-      pcName: 'WarehouseServer_warehouse1',
-      wsid: '00840A3FEEEEC83FED',
-    },
-    {
-      pcName: 'WarehouseServer1',
-      wsid: '00ECD2E483E1406ED9',
-    },
-    {
-      pcName: 'WD100',
-      wsid: 'WD100',
-    },
-    {
-      pcName: 'wildDev',
-      wsid: '00DC88A9AAB15AD1F2',
-    },
-    {
-      pcName: 'WIN-INV71VGR833',
-      wsid: '00C5C77BB2043E15A2',
-    },
-    {
-      pcName: 'WIN-INV71VGR833(AndrewLaptop)',
-      wsid: '00860C9473602002B1',
-    },
-    {
-      pcName: 'WT6000BP',
-      wsid: 'WT6000BP',
-    },
-    {
-      pcName: 'WT6000TV',
-      wsid: 'WT6000TV',
-    },
-  ];
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -500,6 +58,8 @@ export class WorkstationComponent implements OnInit {
     this.selection.select(...this.appName_datasource.data);
   }
 
+
+  
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: PeriodicElement): string {
     if (!row) {
@@ -560,6 +120,11 @@ export class WorkstationComponent implements OnInit {
   //    });
   //    return modifiedLicApp
   //  }
+
+
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
   getMenuData() {
     let payload = {
       LicenseString:
@@ -746,6 +311,7 @@ export class WorkstationComponent implements OnInit {
           },
         });
         dialogRef.afterClosed().subscribe((result) => {
+          this.clearMatSelectList()
           if (result.isExecuted) {
             this.getMenuData();
           }
@@ -754,6 +320,10 @@ export class WorkstationComponent implements OnInit {
 
       if (this.selectedVariable === 'clear_disabled') {
         this.clearDefaultApp();
+        this.clearMatSelectList()
+      }
+      if(this.selectedVariable==='get_client_cert'){
+        this.clearMatSelectList()
       }
     }
   }
@@ -796,5 +366,6 @@ export class WorkstationComponent implements OnInit {
       AppName: '',
     };
     this.defaultAppAdd(payload);
+    this.clearMatSelectList();
   }
 }
