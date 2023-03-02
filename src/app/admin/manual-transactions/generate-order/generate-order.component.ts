@@ -39,6 +39,7 @@ export class GenerateOrderComponent implements OnInit {
   public searchString: any = '';
   public columnValues: any = [];
   selectedOption: any;
+  isPost=false;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   pageEvent: PageEvent;
@@ -339,6 +340,7 @@ console.log(element);
           // ];
           if (res.isExecuted) {
             if(res.data.orderTable && res.data.orderTable.length>0){
+              this.isPost=true;
               res.data.orderTable.filter((item,i)=>{
                 if(item.expirationDate==='1/1/1900 12:00:00 AM' || item.expirationDate==='2/2/1753 12:00:00 AM'){
                   res.data.orderTable[i].expirationDate='';
@@ -348,6 +350,8 @@ console.log(element);
                   res.data.orderTable[i].requiredDate='';
                 }
               })
+            }else{
+              this.isPost=false;
             }
             this.dataSource = new MatTableDataSource(res.data && res.data.orderTable);
             this.itemNumberForInsertion=res.data && res.data.orderTable && res.data.orderTable[0] &&res.data.orderTable[0].itemNumber
