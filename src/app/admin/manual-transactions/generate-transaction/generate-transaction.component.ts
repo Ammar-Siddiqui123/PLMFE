@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
@@ -27,7 +27,8 @@ import { MatOption } from '@angular/material/core';
 })
 export class GenerateTransactionComponent implements OnInit {
   @ViewChild('openAction') openAction: MatSelect;
-  
+  @ViewChild('publicSearchBox') searchBoxField: ElementRef;
+
   selectedAction='';
   
   invMapIDget;
@@ -502,6 +503,8 @@ export class GenerateTransactionComponent implements OnInit {
 
   ngAfterViewInit() {
     this.autocompleteSearchColumn();
+    this.searchBoxField.nativeElement.focus();
+  
 
   }
   openUserFieldsEditDialogue() {
