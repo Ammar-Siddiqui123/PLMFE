@@ -153,7 +153,7 @@ export class ReprocessedTransactionComponent implements OnInit {
         (error) => {}
       );
   }
-  getContentData() {
+  getContentData() {  
     
     this.payload = {
       draw: 0,

@@ -159,10 +159,10 @@ export class TranSelectOrderComponent implements OnInit {
     this.openOrder = 0;
     this.completeOrder = 0;
     this.reprocessOrder = 0;
-    this.orderTypeOrder = '';
+    this.orderTypeOrder = '-';
     this.totalLinesOrder = 0;
     this.orderNumber = '';
-    this.currentStatusOrder = '';
+    this.currentStatusOrder = '-';
   }
 
   getFloatLabelValue(): FloatLabelType {
