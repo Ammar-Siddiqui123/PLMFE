@@ -91,7 +91,7 @@ export class ChooseLocationComponent implements OnInit {
       this.service.create(payLoad, '/Induction/ReserveLocation').subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
-            this.dialogRef.close("Submit");
+            this.dialogRef.close(res);
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
