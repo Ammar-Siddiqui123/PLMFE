@@ -80,12 +80,13 @@ export class InventoryMasterComponent implements OnInit {
    this.itemNumberParam$ = this.route.queryParamMap.pipe(
     map((params: ParamMap) => params.get('itemNumber')),
   );
-
+    
   this.itemNumberParam$.subscribe((param) =>{
     console.log(param)
     if(param){
       this.searchValue = param;
-      this.getInvMasterDetail(param)
+      this.currentPageItemNo=param;
+      this.getInvMasterDetail(this.searchValue)
     }
   });
     }
@@ -188,9 +189,10 @@ export class InventoryMasterComponent implements OnInit {
 
   }
   onSubmit(form: FormGroup){
-    console.log(form.value);
+    // console.log(form.value);
   }
   public getInventory() {
+    
     let paylaod = {
       "itemNumber": this.currentPageItemNo,
       "app": "",
@@ -201,13 +203,13 @@ export class InventoryMasterComponent implements OnInit {
     this.invMasterService.get(paylaod, '/Admin/GetInventory').subscribe((res: any) => {
       
       if(this.currentPageItemNo == ''){
-        this.currentPageItemNo = res.data.firstItemNumber;
+        this.currentPageItemNo = res.data?.firstItemNumber;
       }
       this.searchValue = this.currentPageItemNo;
       this.paginationData ={
-        total: res.data.filterCount.total,
-        position: res.data.filterCount.pos,
-        itemNumber: res.data.filterCount.itemNumber,
+        total: res.data?.filterCount.total,
+        position: res.data?.filterCount.pos,
+        itemNumber: res.data?.filterCount.itemNumber,
       }
 
       this.getInvMasterDetail(this.currentPageItemNo);
@@ -257,10 +259,9 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterLocation').subscribe((res: any) => {
-      this.invMasterLocations ='asdsad';
-
-      console.log(this.getInvMasterData);
-
+      // this.invMasterLocations ='asdsad';
+      this.invMaster.get('inventoryTable')?.setValue(res.data.inventoryTable);
+      // console.log(this.getInvMasterData);
       this.initialzeIMFeilds();
     })
   }

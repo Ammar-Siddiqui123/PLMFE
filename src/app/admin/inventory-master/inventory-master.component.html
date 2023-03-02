@@ -21,7 +21,7 @@
                     keyboard_arrow_left
                   </span>
                 </button>
-                <div class="text-chrome-600"><b>{{paginationData.position}}</b> of {{paginationData.total}}</div>
+                <div class="text-chrome-600"><b>{{paginationData && paginationData.position}}</b> of {{paginationData && paginationData.total}}</div>
                 <button mat-flat-button color="primary" class="sm-icon-button" (click)="nextPage()">
                   <span class="material-symbols-outlined">
                     keyboard_arrow_right

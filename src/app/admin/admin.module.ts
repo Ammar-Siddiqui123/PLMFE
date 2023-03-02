@@ -239,7 +239,8 @@ import { InvalidQuantityComponent } from './dialogs/invalid-quantity/invalid-qua
     EmptyFieldsComponent,
     UserFieldsEditComponent,
     PostManualTransactionComponent,
-    InvalidQuantityComponent
+    InvalidQuantityComponent,
+    
 
   ],
   imports: [

@@ -53,7 +53,7 @@
               <span class="material-symbols-outlined icon-search">
                 Search
               </span>
-              <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='searchString'
+              <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='searchString' [disabled]="!searchCol"
                 [matAutocomplete]="auto" (ngModelChange)="this.searchByInput.next($event)">
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
@@ -308,118 +308,7 @@
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.itemNumber"   matTooltipPosition="above" [matTooltipDisabled]="element.itemNumber && element.itemNumber.length>15?false:true" > {{element.id}} </td>
               </ng-container>
 
-              <!-- <ng-container matColumnDef="importBy">
-                <th mat-header-cell *matHeaderCellDef>Import By</th>
-                <td mat-cell *matCellDef="let element"> {{element.importBy}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="fileFrom">
-                <th mat-header-cell *matHeaderCellDef>filefrom</th>
-                <td mat-cell *matCellDef="let element"> {{element.fileFrom}} </td>
-              </ng-container>
-              <ng-container matColumnDef="orderNumber">
-                <th mat-header-cell *matHeaderCellDef>Order Number</th>
-                <td mat-cell *matCellDef="let element"> {{element.orderNumber}} </td>
-              </ng-container>
-
-
-              <ng-container matColumnDef="lineSequence">
-                <th mat-header-cell *matHeaderCellDef>Line Sequence</th>
-                <td mat-cell *matCellDef="let element"> {{element.lineSequence}} </td>
-              </ng-container>
-
-
-              <ng-container matColumnDef="carousel">
-                <th mat-header-cell *matHeaderCellDef>Carousel</th>
-                <td mat-cell *matCellDef="let element"> {{element.carousel}} </td>
-              </ng-container>
-
-
-              <ng-container matColumnDef="row">
-                <th mat-header-cell *matHeaderCellDef>Row</th>
-                <td mat-cell *matCellDef="let element"> {{element.row}} </td>
-              </ng-container>
-
-
-              <ng-container matColumnDef="shelf">
-                <th mat-header-cell *matHeaderCellDef>Shelf</th>
-                <td mat-cell *matCellDef="let element"> {{element.shelf}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="bin">
-                <th mat-header-cell *matHeaderCellDef>Bin</th>
-                <td mat-cell *matCellDef="let element"> {{element.bin}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="invMapID">
-                <th mat-header-cell *matHeaderCellDef>Inv Map ID</th>
-                <td mat-cell *matCellDef="let element"> {{element.invMapID}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="notes">
-                <th mat-header-cell *matHeaderCellDef>Notes</th>
-                <td mat-cell *matCellDef="let element"> {{element.notes}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="exportFileName">
-                <th mat-header-cell *matHeaderCellDef>Export File Name</th>
-                <td mat-cell *matCellDef="let element"> {{element.exportFileName}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="exportDate">
-                <th mat-header-cell *matHeaderCellDef>Export Date</th>
-                <td mat-cell *matCellDef="let element"> {{element.exportDate}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="exportedBy">
-                <th mat-header-cell *matHeaderCellDef>Exported By</th>
-                <td mat-cell *matCellDef="let element"> {{element.exportedBy}} </td>
-              </ng-container>
-              <ng-container matColumnDef="exportBatchID">
-                <th mat-header-cell *matHeaderCellDef>Export Batch ID</th>
-                <td mat-cell *matCellDef="let element"> {{element.exportBatchID}} </td>
-              </ng-container>
-
-
-              <ng-container matColumnDef="tableType">
-                <th mat-header-cell *matHeaderCellDef>Table Type</th>
-                <td mat-cell *matCellDef="let element"> {{element.tableType}} </td>
-              </ng-container>
-
-
-              <ng-container matColumnDef="statusCode">
-                <th mat-header-cell *matHeaderCellDef>Status Code</th>
-                <td mat-cell *matCellDef="let element"> {{element.statusCode}} </td>
-              </ng-container>
-
-
-              <ng-container matColumnDef="masterRecord">
-                <th mat-header-cell *matHeaderCellDef>Mter Record</th>
-                <td mat-cell *matCellDef="let element"> {{element.masterRecord}} </td>
-              </ng-container>
-
-
-              <ng-container matColumnDef="masterRecordID">
-                <th mat-header-cell *matHeaderCellDef>Mter Record ID</th>
-                <td mat-cell *matCellDef="let element"> {{element.masterRecordID}} </td>
-              </ng-container>
-
-
-              <ng-container matColumnDef="label">
-                <th mat-header-cell *matHeaderCellDef>Label</th>
-                <td mat-cell *matCellDef="let element"> {{element.label}} </td>
-              </ng-container>
-
-
-              <ng-container matColumnDef="inProcess">
-                <th mat-header-cell *matHeaderCellDef>In Process</th>
-                <td mat-cell *matCellDef="let element"> {{element.inProcess}} </td>
-              </ng-container>
               
-              <ng-container matColumnDef="rn">
-                <th mat-header-cell *matHeaderCellDef>rn</th>
-                <td mat-cell *matCellDef="let element"> {{element.rn}} </td>
-              </ng-container> -->
 
 
               <tr class="mat-row" *matNoDataRow>
