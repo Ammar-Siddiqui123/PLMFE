@@ -46,7 +46,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
   searchData(event) {
     console.log(event);
   }
-  setItem(event) {
+  setItem(event?) {
     let payLoad = {
       itemNumber: this.itemNumber,
       username: this.data.userName,
@@ -193,6 +193,7 @@ this.orderRequired=true
         (res: any) => {
           if (res.data) {
             this.searchAutocompleteItemNum=res.data
+            this.setItem()
             // if (this.searchAutocompleteItemNum.includes(res.data)) return;
             // this.searchAutocompleteItemNum.push(res.data);
           }

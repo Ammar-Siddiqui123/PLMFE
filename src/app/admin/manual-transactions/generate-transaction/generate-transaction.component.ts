@@ -80,9 +80,11 @@ export class GenerateTransactionComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.userData = this.authService.userData();
+    
   }
 
   ngOnInit(): void {
+   
     this.searchByInput
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
@@ -92,13 +94,13 @@ export class GenerateTransactionComponent implements OnInit {
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
   }
-  searchData(event) {
+  searchData(event?) {
     // this.selectedOrder = event.target.value;
   }
   clearMatSelectList(){
     this.openAction.options.forEach((data: MatOption) => data.deselect());
   }
-  getRow(row) {
+  getRow(row?) {
     console.log(this.selectedAction);
     
     this.clear();
@@ -498,6 +500,10 @@ export class GenerateTransactionComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    this.autocompleteSearchColumn();
+
+  }
   openUserFieldsEditDialogue() {
     const dialogRef = this.dialog.open(UserFieldsEditComponent, {
       height: 'auto',
