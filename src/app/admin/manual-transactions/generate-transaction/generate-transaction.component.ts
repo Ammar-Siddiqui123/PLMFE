@@ -244,61 +244,75 @@ export class GenerateTransactionComponent implements OnInit {
   }
 
   postTransaction(type) {
+
+
     if (
       this.item === '' ||
       this.item === undefined ||
       this.orderNumber === '' ||
       this.orderNumber === undefined
-    )
+    ){
       return;
-
-    const dialogRef = this.dialog.open(PostManualTransactionComponent, {
-      height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        message:
-          type === 'save'
-            ? 'Click OK To Post And Save The Temporary Transaction.'
-            : 'Click OK To Post And Delete the Temporary Transaction',
-      },
-    });
-    dialogRef.afterClosed().subscribe((res) => {
-
-      if (res) {
-        let payload = {
-          deleteTransaction: type === 'save' ? false : true,
-          transactionID: this.transactionID,
-          username: this.userData.userName,
-          wsid: this.userData.wsid,
-        };
-
-        this.transactionService
-          .get(payload, '/Admin/PostTransaction')
-          .subscribe(
-            (res: any) => {
-              if (res && res.isExecuted) {
-                this.toastr.success(labels.alert.success, 'Success!', {
-                  positionClass: 'toast-bottom-right',
-                  timeOut: 2000,
-                });
-                this.clearFields();
-                this.invMapID = '';
-                this.getRow(this.transactionID);
-              } else {
-                this.toastr.error(res.responseMessage, 'Error!', {
-                  positionClass: 'toast-bottom-right',
-                  timeOut: 2000,
-                });
-                this.clearFields();
-                this.invMapID = '';
-                this.getRow(this.transactionID);
-              }
-            },
-            (error) => {}
-          );
+    }
+    else if (this.warehouseSensitivity === 'True' && this.wareHouse == '') {
+       this.transactionQtyInvalid = true;
+       this.message = 'Specified Item Number must have a Warehouse';
+       return
       }
-    });
+
+      else{
+        this.transactionQtyInvalid = false;
+        const dialogRef = this.dialog.open(PostManualTransactionComponent, {
+          height: 'auto',
+          width: '560px',
+          autoFocus: '__non_existing_element__',
+          data: {
+            message:
+              type === 'save'
+                ? 'Click OK To Post And Save The Temporary Transaction.'
+                : 'Click OK To Post And Delete the Temporary Transaction',
+          },
+        });
+        dialogRef.afterClosed().subscribe((res) => {
+    
+          if (res) {
+            let payload = {
+              deleteTransaction: type === 'save' ? false : true,
+              transactionID: this.transactionID,
+              username: this.userData.userName,
+              wsid: this.userData.wsid,
+            };
+    
+            this.transactionService
+              .get(payload, '/Admin/PostTransaction')
+              .subscribe(
+                (res: any) => {
+                  if (res && res.isExecuted) {
+                    this.toastr.success(labels.alert.success, 'Success!', {
+                      positionClass: 'toast-bottom-right',
+                      timeOut: 2000,
+                    });
+                    this.clearFields();
+                    this.invMapID = '';
+                    this.getRow(this.transactionID);
+                  } else {
+                    this.toastr.error(res.responseMessage, 'Error!', {
+                      positionClass: 'toast-bottom-right',
+                      timeOut: 2000,
+                    });
+                    this.clearFields();
+                    this.invMapID = '';
+                    this.getRow(this.transactionID);
+                  }
+                },
+                (error) => {}
+              );
+          }
+        });
+      }
+      
+
+
   }
   deleteTransaction() {
     const dialogRef = this.dialog.open(
