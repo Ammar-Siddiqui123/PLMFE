@@ -80,13 +80,13 @@ export class InventoryMasterComponent implements OnInit {
    this.itemNumberParam$ = this.route.queryParamMap.pipe(
     map((params: ParamMap) => params.get('itemNumber')),
   );
-    console.log('----->',this.itemNumberParam$);
     
   this.itemNumberParam$.subscribe((param) =>{
     console.log(param)
     if(param){
       this.searchValue = param;
-      this.getInvMasterDetail(param)
+      this.currentPageItemNo=param;
+      this.getInvMasterDetail(this.searchValue)
     }
   });
     }
@@ -192,6 +192,7 @@ export class InventoryMasterComponent implements OnInit {
     // console.log(form.value);
   }
   public getInventory() {
+    
     let paylaod = {
       "itemNumber": this.currentPageItemNo,
       "app": "",
