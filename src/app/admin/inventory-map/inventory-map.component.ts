@@ -411,9 +411,13 @@ export class InventoryMapComponent implements OnInit {
     })
   }
 
-  viewInInventoryMaster(){
+  viewInInventoryMaster(row){
 
-    this.router.navigate(['/admin/inventoryMaster']);
+    // this.router.navigate(['/admin/inventoryMaster']);
+
+    this.router.navigate([]).then((result) => {
+      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_self');
+    });
   }
 
   viewLocationHistory(){
