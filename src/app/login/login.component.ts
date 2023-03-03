@@ -10,6 +10,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { SpinnerService } from '../init/spinner.service';
 import { AuthService } from '../init/auth.service';
 import { GlobalconfigService } from '../global-config/globalconfig.service';
+import packJSON from '../../../package.json'
 
 @Component({
   selector: 'login',
@@ -25,6 +26,7 @@ export class LoginComponent {
   public toggle_password = true;
   url = '';
   isReadOnly: boolean = true;
+  version : string;
 
   constructor(
     public loginService: LoginService,
@@ -106,10 +108,7 @@ export class LoginComponent {
 
 
   ngOnInit() {
-    // setTimeout(() => {
-    //   this.addLoginForm.get("username")?.setValue('');
-    //   this.addLoginForm.get("password")?.setValue('');
-    // }, 1000);
+    this.version = packJSON.version;
     localStorage.clear();
     if(this.auth.IsloggedIn()){
       this.router.navigate(['/dashboard']);

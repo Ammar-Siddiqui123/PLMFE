@@ -32,6 +32,7 @@ import { FloatLabelType } from '@angular/material/form-field';
 import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { FunctionAllocationComponent } from 'src/app/admin/dialogs/function-allocation/function-allocation.component';
 import { SendTranHistoryComponent } from 'src/app/admin/dialogs/send-tran-history/send-tran-history.component';
+import { SharedService } from 'src/app/services/shared.service';
 
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
@@ -143,6 +144,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
   pageEvent: PageEvent;
+  private subscription: Subscription = new Subscription();
 
   cols = [];
   customPagination: any = {
@@ -232,7 +234,8 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     private authService: AuthService,
     private toastr: ToastrService,
     private invMapService: InventoryMapService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private sharedService:SharedService
   ) {
     if (this.router.getCurrentNavigation()?.extras?.state?.['searchValue']) {
       this.columnSearch.searchValue =
@@ -321,6 +324,16 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.subscription.add(
+    this.sharedService.itemObserver.subscribe(itemNo => {
+      if(itemNo){
+        this.columnSearch.searchColumn.colDef='Item Number';
+       this.columnSearch.searchValue=itemNo;
+       
+      //  this.onOrderNoChange();
+      }
+       })
+    )
   }
   /*FUnctions for Table*/
   isAuthorized(controlName: any) {
@@ -680,5 +693,6 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     this.searchByToteId.unsubscribe();
     this.searchByOrderNumber.unsubscribe();
     this.searchByColumn.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

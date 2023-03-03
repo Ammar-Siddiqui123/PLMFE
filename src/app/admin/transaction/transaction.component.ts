@@ -14,26 +14,30 @@ import { SharedService } from 'src/app/services/shared.service';
 export class TransactionComponent implements OnInit, AfterViewInit {
   public TabIndex = 1;
   public userData: any;
-  public showReprocess
+  public showReprocess;
   public showReprocessed;
   public setval;
   orderStatus$: Observable<any>;
+  itemNumber$: Observable<any>;
+  type$: Observable<any>;
+  type:any;
+  itemNumber:any;
   tabIndex$: Observable<any>;
-  constructor(router: Router, private route: ActivatedRoute, private sharedService: SharedService
+  constructor(
+    router: Router,
+    private route: ActivatedRoute,
+    private sharedService: SharedService
   ) {
-
     // router.events
     //   .pipe(
     //     filter((evt: any) => evt instanceof RoutesRecognized),
     //     pairwise()
     //   )
     //   .subscribe((events: RoutesRecognized[]) => {
-
     //     if (events[0].urlAfterRedirects == '/InductionManager/Admin') {
     //       localStorage.setItem('routeFromInduction','true')
     //         // this.showReprocess=false;
     //         // this.showReprocessed=false;
-
     //     }else{
     //       localStorage.setItem('routeFromInduction','false')
     //       // this.showReprocess=true;
@@ -71,9 +75,41 @@ export class TransactionComponent implements OnInit, AfterViewInit {
         this.sharedService.updateOrderStatus(param)
       }
     });
+    
+    this.itemNumber$ = this.route.queryParamMap.pipe(
+      map((params: ParamMap) => params.get('itemNumber'))
+    );
+
+    this.itemNumber$.subscribe((param) => {
+      if (param) {
+        this.itemNumber=param;
+      }
+    });
+
+    this.type$ = this.route.queryParamMap.pipe(
+      map((params: ParamMap) => params.get('type'))
+    );
+
+    this.type$.subscribe((param) => {
+      if (param) {
+        this.type=param;
+
+        if(this.type==='OpenTransaction'){
+          this.TabIndex = 1;
+          this.sharedService.updateItemTransaction(this.itemNumber);
+
+        }else if(this.type==='TransactionHistory'){
+          this.TabIndex = 2;
+          this.sharedService.updateTransactionHistory(this.itemNumber);
+        }
+      else if(this.type==='ReprocessTransaction'){
+        this.TabIndex = 3;
+        this.sharedService.updateTransactionReprocess(this.itemNumber);
+      }
+      }
+    });
   }
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   public demo1BtnClick() {
     const tabCount = 3;

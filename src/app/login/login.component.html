@@ -16,14 +16,14 @@
               <img src="../../assets/images/login_background.png" alt="login form" class="img-fluid w-100"
                 style="border-top-left-radius: 16px; border-bottom-left-radius:16px;" />
             </div>
-            <div class="col-md-5 col-lg-6 d-flex align-items-center">
-              <div class="card-body p-4 text-black mx-auto" style="max-width: 380px;">
+            <div class="col-md-5 col-lg-6 d-flex">
+              <div class="card-body p-4 text-black mx-auto d-flex flex-column" style="max-width: 380px;">
 
-                <div class="text-center mb-3">
+                <div class="text-center mb-3 mt-5 pt-3">
                   <h1 class="text-32 text-tertiary-900 fw-bold pb-3">LogixPro</h1>
                 </div>
 
-                <form [formGroup]="addLoginForm" (ngSubmit)="loginUser()" name="addLoginForm" autocomplete="off">
+                <form [formGroup]="addLoginForm" (ngSubmit)="loginUser()" name="addLoginForm" autocomplete="off" style="flex: 1;">
 
                   <!-- <div class="d-flex align-items-center mb-3 pb-1" style="justify-content: center;">
                     <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
@@ -98,6 +98,10 @@
                   <!-- <a href="#!" class="small text-muted">Terms of use.</a>
                    <a href="#!" class="small text-muted">Privacy policy</a> -->
                 </form>
+
+                <div class="text-center text-14">
+                  v{{version}}
+                </div>
 
               </div>
             </div>
