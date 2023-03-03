@@ -24,6 +24,7 @@ export class LoginComponent {
   public env;
   public toggle_password = true;
   url = '';
+  isReadOnly: boolean = true;
 
   constructor(
     public loginService: LoginService,
@@ -36,6 +37,10 @@ export class LoginComponent {
     private globalService: GlobalconfigService,
   ) { 
     this.url = this.router.url;
+  }
+
+  removeReadOnly(){
+    this.isReadOnly = !this.isReadOnly;
   }
 
   addLoginForm = new FormGroup({
@@ -92,10 +97,19 @@ export class LoginComponent {
 
       });
   }
-
+  ngAfterContentInit(): void {
+    // setTimeout(() => {
+    //   this.addLoginForm.get("username")?.setValue('');
+    //   this.addLoginForm.get("password")?.setValue('');
+    // }, 2000);
+  }
 
 
   ngOnInit() {
+    // setTimeout(() => {
+    //   this.addLoginForm.get("username")?.setValue('');
+    //   this.addLoginForm.get("password")?.setValue('');
+    // }, 1000);
     localStorage.clear();
     if(this.auth.IsloggedIn()){
       this.router.navigate(['/dashboard']);
