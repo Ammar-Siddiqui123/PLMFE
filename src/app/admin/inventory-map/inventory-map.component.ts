@@ -22,6 +22,7 @@ import { SetColumnSeqComponent } from '../dialogs/set-column-seq/set-column-seq.
 import { SetColumnSeqService } from '../dialogs/set-column-seq/set-column-seq.service';
 import { InventoryMapService } from './inventory-map.service';
 import { filter, pairwise } from 'rxjs/operators';
+import { ColumnSequenceDialogComponent } from '../dialogs/column-sequence-dialog/column-sequence-dialog.component';
 
 
 const INVMAP_DATA = [
@@ -91,7 +92,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   sortColumn: any ={
-    columnName: 32,
+    columnName: 0,
     sortOrder: 'asc'
   }
   userData: any;
@@ -111,8 +112,6 @@ export class InventoryMapComponent implements OnInit {
   @ViewChild('matRef') matRef: MatSelect;
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
 
-  favoriteSeason: string;
-  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
 
 
   constructor(
@@ -268,21 +267,40 @@ export class InventoryMapComponent implements OnInit {
   }
   inventoryMapAction(actionEvent: any) {
     if (actionEvent.value === 'set_column_sq') {
-      let dialogRef = this.dialog.open(SetColumnSeqComponent, {
-        height: '700px',
-        width: '600px',
-        autoFocus: '__non_existing_element__',
+
+      let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
+        height: '96%',
+        width: '70vw',
         data: {
-          mode: actionEvent.value,
-          tableName:'Inventory Map'
-        }
-      })
-      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-        this.clearMatSelectList();
-        if(result!='close'){
-          this.getContentData();
-        }
-      })
+          mode: event,
+          tableName: 'Inventory Map',
+        },
+      });
+      dialogRef
+        .afterClosed()
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((result) => {
+          this.clearMatSelectList();
+          // this.selectedVariable='';
+          if (result && result.isExecuted) {
+            this.getColumnsData();
+          }
+        });
+      // let dialogRef = this.dialog.open(SetColumnSeqComponent, {
+      //   height: '700px',
+      //   width: '600px',
+      //   autoFocus: '__non_existing_element__',
+      //   data: {
+      //     mode: actionEvent.value,
+      //     tableName:'Inventory Map'
+      //   }
+      // })
+      // dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+      //   this.clearMatSelectList();
+      //   if(result!='close'){
+      //     this.getContentData();
+      //   }
+      // })
     }
   }
 
@@ -393,9 +411,13 @@ export class InventoryMapComponent implements OnInit {
     })
   }
 
-  viewInInventoryMaster(){
+  viewInInventoryMaster(row){
 
-    this.router.navigate(['/admin/inventoryMaster']);
+    // this.router.navigate(['/admin/inventoryMaster']);
+
+    this.router.navigate([]).then((result) => {
+      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_self');
+    });
   }
 
   viewLocationHistory(){
@@ -468,5 +490,7 @@ export class InventoryMapComponent implements OnInit {
   isAuthorized(controlName:any) {
     return !this.authService.isAuthorized(controlName);
  }
+
+
 
 }

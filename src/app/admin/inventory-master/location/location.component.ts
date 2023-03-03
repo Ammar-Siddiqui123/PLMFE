@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 
@@ -24,7 +24,16 @@ export class LocationComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['location']){
+      if( changes['location'] && changes['location']['previousValue'] &&  changes['location']['previousValue']['controls'] && changes['location']['previousValue']['controls'].inventoryTable.value?.length ){
+        this.location.controls['inventoryTable'].setValue(changes['location']['previousValue']['controls'].inventoryTable.value)
 
+      }else{
+        this.location.controls['inventoryTable'].setValue([])
+      }
+    }
+  }
     
   announceSortChange(sortState: any) {
    this.sendNotification({sortingColumn: this.displayedColumns.indexOf(sortState.active) , sortingSeq: sortState.direction})

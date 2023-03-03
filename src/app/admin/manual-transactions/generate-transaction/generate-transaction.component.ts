@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
@@ -27,7 +27,8 @@ import { MatOption } from '@angular/material/core';
 })
 export class GenerateTransactionComponent implements OnInit {
   @ViewChild('openAction') openAction: MatSelect;
-  
+  @ViewChild('publicSearchBox') searchBoxField: ElementRef;
+
   selectedAction='';
   
   invMapIDget;
@@ -80,9 +81,11 @@ export class GenerateTransactionComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.userData = this.authService.userData();
+    
   }
 
   ngOnInit(): void {
+   
     this.searchByInput
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
@@ -92,13 +95,13 @@ export class GenerateTransactionComponent implements OnInit {
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
   }
-  searchData(event) {
+  searchData(event?) {
     // this.selectedOrder = event.target.value;
   }
   clearMatSelectList(){
     this.openAction.options.forEach((data: MatOption) => data.deselect());
   }
-  getRow(row) {
+  getRow(row?) {
     console.log(this.selectedAction);
     
     this.clear();
@@ -241,61 +244,75 @@ export class GenerateTransactionComponent implements OnInit {
   }
 
   postTransaction(type) {
+
+
     if (
       this.item === '' ||
       this.item === undefined ||
       this.orderNumber === '' ||
       this.orderNumber === undefined
-    )
+    ){
       return;
-
-    const dialogRef = this.dialog.open(PostManualTransactionComponent, {
-      height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        message:
-          type === 'save'
-            ? 'Click OK To Post And Save The Temporary Transaction.'
-            : 'Click OK To Post And Delete the Temporary Transaction',
-      },
-    });
-    dialogRef.afterClosed().subscribe((res) => {
-
-      if (res) {
-        let payload = {
-          deleteTransaction: type === 'save' ? false : true,
-          transactionID: this.transactionID,
-          username: this.userData.userName,
-          wsid: this.userData.wsid,
-        };
-
-        this.transactionService
-          .get(payload, '/Admin/PostTransaction')
-          .subscribe(
-            (res: any) => {
-              if (res && res.isExecuted) {
-                this.toastr.success(labels.alert.success, 'Success!', {
-                  positionClass: 'toast-bottom-right',
-                  timeOut: 2000,
-                });
-                this.clearFields();
-                this.invMapID = '';
-                this.getRow(this.transactionID);
-              } else {
-                this.toastr.error(res.responseMessage, 'Error!', {
-                  positionClass: 'toast-bottom-right',
-                  timeOut: 2000,
-                });
-                this.clearFields();
-                this.invMapID = '';
-                this.getRow(this.transactionID);
-              }
-            },
-            (error) => {}
-          );
+    }
+    else if (this.warehouseSensitivity === 'True' && this.wareHouse == '') {
+       this.transactionQtyInvalid = true;
+       this.message = 'Specified Item Number must have a Warehouse';
+       return
       }
-    });
+
+      else{
+        this.transactionQtyInvalid = false;
+        const dialogRef = this.dialog.open(PostManualTransactionComponent, {
+          height: 'auto',
+          width: '560px',
+          autoFocus: '__non_existing_element__',
+          data: {
+            message:
+              type === 'save'
+                ? 'Click OK To Post And Save The Temporary Transaction.'
+                : 'Click OK To Post And Delete the Temporary Transaction',
+          },
+        });
+        dialogRef.afterClosed().subscribe((res) => {
+    
+          if (res) {
+            let payload = {
+              deleteTransaction: type === 'save' ? false : true,
+              transactionID: this.transactionID,
+              username: this.userData.userName,
+              wsid: this.userData.wsid,
+            };
+    
+            this.transactionService
+              .get(payload, '/Admin/PostTransaction')
+              .subscribe(
+                (res: any) => {
+                  if (res && res.isExecuted) {
+                    this.toastr.success(labels.alert.success, 'Success!', {
+                      positionClass: 'toast-bottom-right',
+                      timeOut: 2000,
+                    });
+                    this.clearFields();
+                    this.invMapID = '';
+                    this.getRow(this.transactionID);
+                  } else {
+                    this.toastr.error(res.responseMessage, 'Error!', {
+                      positionClass: 'toast-bottom-right',
+                      timeOut: 2000,
+                    });
+                    this.clearFields();
+                    this.invMapID = '';
+                    this.getRow(this.transactionID);
+                  }
+                },
+                (error) => {}
+              );
+          }
+        });
+      }
+      
+
+
   }
   deleteTransaction() {
     const dialogRef = this.dialog.open(
@@ -498,6 +515,12 @@ export class GenerateTransactionComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    this.autocompleteSearchColumn();
+    this.searchBoxField.nativeElement.focus();
+  
+
+  }
   openUserFieldsEditDialogue() {
     const dialogRef = this.dialog.open(UserFieldsEditComponent, {
       height: 'auto',
