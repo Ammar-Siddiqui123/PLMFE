@@ -15,7 +15,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, Subscription,takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/init/auth.service';
 import { ColumnSequenceDialogComponent } from '../../dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { ReprocessTransactionDetailComponent } from '../../dialogs/reprocess-transaction-detail/reprocess-transaction-detail.component';
@@ -121,6 +121,7 @@ export class ReprocessTransactionComponent implements OnInit {
   deleteByDateTime=false;
   deleteByItemNumber=false; //Only visible if searched
   deleteByOrderNumber=false; //Only visible if searched
+  private subscription: Subscription = new Subscription();
 
 
   idx: any;
@@ -218,7 +219,18 @@ export class ReprocessTransactionComponent implements OnInit {
         this.getContentData();
       });
   }
-
+  ngAfterViewInit() {
+    this.subscription.add(
+    this.sharedService.reprocessItemObserver.subscribe(itemNo => {
+      if(itemNo){
+        this.columnSearch.searchColumn.colDef='Item Number';
+        this.columnSearch.searchValue=itemNo;
+       
+      //  this.onOrderNoChange();
+      }
+       })
+    )
+  }
   clearDelete(showOptions="")
   {
   if(showOptions=="")
@@ -898,5 +910,9 @@ export class ReprocessTransactionComponent implements OnInit {
         history: this.isHistory
       }
     })
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

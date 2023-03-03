@@ -17,6 +17,9 @@ export class SharedService {
   updateAdminMenuObserver: Subject<boolean> = new Subject<boolean>(); // observing that bool
   updateInductionAdminObserver: Subject<any> = new Subject<any>(); 
   orderStatusObserver: Subject<any> = new Subject<any>(); 
+  itemObserver: Subject<any> = new Subject<any>(); 
+  historyItemObserver: Subject<any> = new Subject<any>(); 
+  reprocessItemObserver: Subject<any> = new Subject<any>(); 
 
   updateSidebar(){
     this.loadMenu = !this.loadMenu;
@@ -34,6 +37,18 @@ export class SharedService {
 
   updateOrderStatus(order){
     this.orderStatusObserver.next(order);
+
+  }
+  updateItemTransaction(item){
+    this.itemObserver.next(item);
+
+  }
+  updateTransactionHistory(item){
+    this.historyItemObserver.next(item);
+
+  }
+  updateTransactionReprocess(item){
+    this.reprocessItemObserver.next(item);
 
   }
   getSidebarStatus(){
