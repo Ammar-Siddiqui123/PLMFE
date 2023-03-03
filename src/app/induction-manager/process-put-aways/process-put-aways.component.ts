@@ -89,6 +89,8 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   postion: any;
   tote: any;
+  minPos: any;
+  maxPos: any;
 
   // Global
   processPutAwayIndex: any;
@@ -287,6 +289,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
 
   }
+
   onFocusOutBatchID(event) {
 
 
@@ -348,6 +351,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   clearBatch() {
     this.batchId = '';
   }
+
   ngAfterViewChecked(): void {
     // if (this.selectedIndex == 1) {
     //   this.inputVal.nativeElement.focus();
@@ -370,6 +374,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       this.processBath();
     }
   }
+
   processBath() {
     
     if (this.batchId == '') {
@@ -539,6 +544,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
     });
   }
+
   createNewBatch(withID = '') {
     if (withID == '') {
       if (this.batchId == '') {
@@ -704,9 +710,14 @@ export class ProcessPutAwaysComponent implements OnInit {
     }
   }
 
-
   selectionChanged(value: any) {
     this.inputType = value;
+  }
+
+  openST(event : KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.openSelectionTransactionDialogue();
+    }
   }
 
   openSelectionTransactionDialogue() {
@@ -744,7 +755,8 @@ export class ProcessPutAwaysComponent implements OnInit {
               zones: this.assignedZones,
               totes: this.dataSource2.data,
               selectIfOne: this.processPutAwayIndex.imPreference.selectIfOne,
-              defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity
+              defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity,
+              autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish
             }
           });
 
@@ -787,7 +799,8 @@ export class ProcessPutAwaysComponent implements OnInit {
           zones: this.assignedZones,
           totes: this.dataSource2.data,
           selectIfOne: this.processPutAwayIndex.imPreference.selectIfOne,
-          defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity
+          defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity,
+          autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish
         }
       });
 
@@ -850,6 +863,8 @@ export class ProcessPutAwaysComponent implements OnInit {
             res.data.totesTable[0].isSelected = true;
             this.dataSource2 = new MatTableDataSource<any>(res.data.totesTable);
             this.dataSource2.paginator = this.paginator;
+            this.minPos = 1;
+            this.maxPos = this.dataSource2.data.length;
             this.selectTotes(0)
             this.goToNext();
           } else {
@@ -934,43 +949,32 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   selectPosOrTote(type: number, value: any = '') {
-    if (type == 0) {
-      var fil = this.dataSource2.data.filter(
-        (e: any) => e.totesPosition == value?.toString()
-      );
+    if (type == 0) 
+    {
+      var fil = this.dataSource2.data.filter((e: any) => e.totesPosition == value?.toString());
+      // fil.length > 0 ? this.tote = fil[0].toteID : this.tote = '';
       if (fil.length > 0) {
-        this.tote = fil[0].toteID;
+        this.tote = fil[0].toteID
       } else {
-        this.tote = '';
+        // value > 0 ? this.postion = value - 1 : this.postion = value + 1;
+        this.tote = ''
       }
-    } else if (type == 1) {
-      var fil = this.dataSource2.data.filter(
-        (e: any) => e.toteID == value?.toString()
-      );
+    } 
+    else if (type == 1) 
+    {
+      var fil = this.dataSource2.data.filter((e: any) => e.toteID == value?.toString());
+      fil.length > 0 ? this.postion = fil[0].totesPosition : this.postion = '';    
+    } 
+    else 
+    {
+      var fil = this.dataSource2.data.filter((e: any) => { return (e.totesPosition == this.postion?.toString() && e.toteID == this.tote) });
       if (fil.length > 0) {
-        this.postion = fil[0].totesPosition;
-      } else {
-        this.postion = '';
-      }
-    } else {
-      var fil = this.dataSource2.data.filter((e: any) => {
-        return (
-          e.totesPosition == this.postion?.toString() && e.toteID == this.tote
-        );
-      });
-      if (fil.length > 0) {
-        for (const iterator of this.dataSource2.data) {
-          iterator.isSelected = false;
-        }
+        for (const iterator of this.dataSource2.data) { iterator.isSelected = false; }
         this.dataSource2.data[
           this.dataSource2.data.indexOf(fil[0])
         ].isSelected = true;
       } else {
-        this.showMessage(
-          'The selected position and/or tote ID was not found in the table.',
-          2000,
-          'error'
-        );
+        this.showMessage('The selected position and/or tote ID was not found in the table.', 2000, 'error');
       }
     }
   }

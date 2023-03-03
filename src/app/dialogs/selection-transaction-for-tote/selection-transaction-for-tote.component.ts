@@ -90,7 +90,8 @@ export class SelectionTransactionForToteComponent implements OnInit {
                   batchID     : this.data.batchID,
                   totes       : this.data.totes,
                   defaultPutAwayQuantity: this.data.defaultPutAwayQuantity,
-                  transactionQuantity: val.transactionQuantity
+                  transactionQuantity: val.transactionQuantity,
+                  autoForwardReplenish: this.data.autoForwardReplenish
                 }
               });
           
