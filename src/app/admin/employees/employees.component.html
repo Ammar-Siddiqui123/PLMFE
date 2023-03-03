@@ -144,7 +144,7 @@
                                             <mat-icon class="icon-circle-edit">border_color</mat-icon>
                                           </button>
                                           <button class="me-0" mat-icon-button aria-label="Delete"
-                                            (click)="deleteZone(element)" matTooltip="Delete zone"
+                                            (click)="deleteZone(element)" matTooltip="Remove zone"
                                             matTooltipPosition="above">
                                             <mat-icon class="icon-circle-cancel">close</mat-icon>
                                           </button>
@@ -320,7 +320,7 @@
                                       <span class="list-label zone-list-label">
                                         {{groups_allowed}}
                                       </span>
-                                      <button mat-icon-button aria-label="Delete Group"
+                                      <button mat-icon-button aria-label="Remove Group"
                                         (click)="deleteGroupAllowed(groups_allowed)">
                                         <mat-icon class="icon-circle-cancel">close</mat-icon>
                                       </button>
@@ -390,7 +390,7 @@
                                           </th>
                                           <td width="20%" class="text-center" mat-cell *matCellDef="let element">
                                             <button mat-icon-button aria-label="Delete"
-                                              (click)="deleteGrpAllowed(element)" matTooltip="Delete group allowed"
+                                              (click)="deleteGrpAllowed(element)" matTooltip="Remove group allowed"
                                               matTooltipPosition="above">
                                               <mat-icon class="icon-circle-cancel">close</mat-icon>
                                             </button>

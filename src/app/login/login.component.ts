@@ -25,6 +25,7 @@ export class LoginComponent {
   public env;
   public toggle_password = true;
   url = '';
+  isReadOnly: boolean = true;
   version : string;
 
   constructor(
@@ -38,6 +39,10 @@ export class LoginComponent {
     private globalService: GlobalconfigService,
   ) { 
     this.url = this.router.url;
+  }
+
+  removeReadOnly(){
+    this.isReadOnly = !this.isReadOnly;
   }
 
   addLoginForm = new FormGroup({
@@ -94,7 +99,12 @@ export class LoginComponent {
 
       });
   }
-
+  ngAfterContentInit(): void {
+    // setTimeout(() => {
+    //   this.addLoginForm.get("username")?.setValue('');
+    //   this.addLoginForm.get("password")?.setValue('');
+    // }, 2000);
+  }
 
 
   ngOnInit() {
