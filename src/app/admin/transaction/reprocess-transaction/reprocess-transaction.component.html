@@ -125,7 +125,7 @@
     
                                     </th>
 
-                                    <td *matCellDef="let element; let i = index"   style=" border: 0;"  #tooltip="matTooltip" [matTooltip]="element[col.colHeader]"   matTooltipPosition="above" [matTooltipDisabled]="element[col.colHeader] && element[col.colHeader].length>25?false:true">
+                                    <td *matCellDef="let element; let i = index"   style=" border: 0;"  #tooltip="matTooltip" [matTooltip]="element[col.colHeader]"   matTooltipPosition="above" [matTooltipDisabled]="element[col.colHeader] && element[col.colHeader].length>=25?false:true">
                                         <span style="text-overflow: ellipsis; overflow: hidden; max-width: 25ch; white-space: nowrap;">
                                         {{element[col.colHeader] }}</span></td>
     
