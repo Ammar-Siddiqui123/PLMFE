@@ -951,6 +951,16 @@ export class ProcessPutAwaysComponent implements OnInit {
   selectPosOrTote(type: number, value: any = '') {
     if (type == 0) 
     {
+
+      if(this.postion===0 ){
+        this.postion=1;
+        value = 1;
+      } 
+      if(this.postion != "" ) {
+        if(parseInt(this.postion) < parseInt(this.minPos)) { this.postion = this.minPos; value = this.minPos; }
+        if(parseInt(this.postion) > parseInt(this.maxPos)) { this.postion = this.maxPos; value = this.maxPos; }
+      }
+
       var fil = this.dataSource2.data.filter((e: any) => e.totesPosition == value?.toString());
       // fil.length > 0 ? this.tote = fil[0].toteID : this.tote = '';
       if (fil.length > 0) {
