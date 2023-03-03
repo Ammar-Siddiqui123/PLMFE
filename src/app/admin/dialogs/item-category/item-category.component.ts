@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/app/common/services/category.service';
 import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json'
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-item-category',
@@ -79,28 +80,42 @@ export class ItemCategoryComponent implements OnInit {
 
   }
 
-  dltCategory(category : any, subCategory : any){
-    if(category && subCategory){
-    let paylaod = {
-      "category": category,
-      "subCategory": subCategory,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-    }
-   // this.category_list.pop(category);
-    
-    this.catService.dltCategory(paylaod).subscribe((res) => {
-      if(res.isExecuted){
-        this.getCategoryList();
-        this.toastr.success(labels.alert.delete, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }
+  dltCategory(category : any, subCategory : any) {
+
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: 'Click OK to delete category ' + category + 'with sub-category ' + subCategory,
+      },
     });
-  } else {
-    this.category_list.shift();
-  }
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'Yes') {
+        if(category && subCategory){
+          let paylaod = {
+            "category": category,
+            "subCategory": subCategory,
+            "username": this.userData.userName,
+            "wsid": this.userData.wsid,
+          }
+          // this.category_list.pop(category);
+          
+          this.catService.dltCategory(paylaod).subscribe((res) => {
+            if(res.isExecuted){
+              this.getCategoryList();
+              this.toastr.success(labels.alert.delete, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+            }
+          });
+        } else {
+          this.category_list.shift();
+        }
+      }
+    });    
   }
 
   selectCategory(selectedCat: any){

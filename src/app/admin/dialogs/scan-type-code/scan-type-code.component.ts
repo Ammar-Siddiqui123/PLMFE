@@ -6,6 +6,7 @@ import { UnitOfMeasureService } from 'src/app/common/services/unit-measure.servi
 import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json';
 import { InventoryMasterService } from '../../inventory-master/inventory-master.service';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-scan-type-code',
@@ -82,25 +83,40 @@ export class ScanTypeCodeComponent implements OnInit {
   }
 
   dltScanTypeCode(newScanTypeCode : any) {
-    if(newScanTypeCode){
-    let paylaod = {
-      "scanCodeType": newScanTypeCode,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-    }
-    
-    this.invMasterService.get(paylaod,'/Common/ScanCodeTypeDelete').subscribe((res) => {
-      if(res.isExecuted){
-        this.getScanCodeType();
-      this.toastr.success(labels.alert.delete, 'Success!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
-    }
+
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: 'Click OK to delete Scan Type ' + newScanTypeCode,
+      },
     });
-  } else {
-    this.scanTypeCode_list.shift();
-  }
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'Yes') {
+        if(newScanTypeCode){
+          let paylaod = {
+            "scanCodeType": newScanTypeCode,
+            "username": this.userData.userName,
+            "wsid": this.userData.wsid,
+          }
+          
+          this.invMasterService.get(paylaod,'/Common/ScanCodeTypeDelete').subscribe((res) => {
+            if(res.isExecuted){
+              this.getScanCodeType();
+            this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+          });
+        } else {
+          this.scanTypeCode_list.shift();
+        }
+      }
+    });
+    
   }
 
   selectScanTypeCode(selectedrecord: any){
