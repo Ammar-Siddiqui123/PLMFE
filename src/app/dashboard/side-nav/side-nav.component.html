@@ -1,6 +1,6 @@
 <div *ngIf="!isConfigUser">
   <mat-nav-list *ngIf="isParentMenu">
-    <ng-container *ngFor="let menu of dynamicMenu;">
+    <ng-container *ngFor="let menu of dynamicMenu;let i = index">
       <mat-list-item routerLinkActive="active" routerLink="{{menu.route}}" (click)="loadMenus(menu)"
         [disabled]="isAuthorized(menu.permission) || menu.route==='#'">
         <span mat-list-icon class="material-symbols-outlined">
@@ -12,7 +12,7 @@
     </ng-container>
   </mat-nav-list>
   <mat-nav-list *ngIf="isChildMenu">
-    <ng-container *ngFor="let childMenu of childMenus;">
+    <ng-container *ngFor="let childMenu of childMenus;let i = index">
       <mat-list-item routerLinkActive="active" routerLink="{{childMenu.route}}" (click)="loadMenus(childMenu)"
         [disabled]="isAuthorized(childMenu.permission) || childMenu.route==='#'">
         <span mat-list-icon class="material-symbols-outlined">
@@ -21,6 +21,13 @@
         <!-- <mat-icon mat-list-icon>{{childMenu.icon}}</mat-icon> -->
         <div class="sidenav-item" *ngIf="sideBarOpen">{{childMenu.title}}</div>
       </mat-list-item>
+      <!-- {{childMenu.route}} -->
+      <span *ngIf="i ===4 && childMenu.route === '/admin/transaction'">
+        <mat-divider style="margin: 8px;"></mat-divider>
+      </span>
+      <span *ngIf="i ===2 && childMenu.route === '/InductionManager/ProcessPutAways'">
+        <mat-divider style="margin: 8px;"></mat-divider>
+      </span>
     </ng-container>
   </mat-nav-list>
 </div>

@@ -118,9 +118,9 @@ export class TranSelectOrderComponent implements OnInit {
     this.columnSelect='Order Number';
     this.searchField=orderNo;
     this.onOrderNoChange();
-
    }
-          });
+    });
+
   }
   ngOnInit(): void {
 
@@ -308,5 +308,8 @@ export class TranSelectOrderComponent implements OnInit {
   ngOnDestroy() {
     this.searchByOrderNumber.unsubscribe();
     this.searchByToteId.unsubscribe();
+    this.searchBar.unsubscribe();
   }
+
+  
 }

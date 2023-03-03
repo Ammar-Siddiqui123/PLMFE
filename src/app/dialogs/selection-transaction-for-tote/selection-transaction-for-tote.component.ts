@@ -61,7 +61,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
       .subscribe(
         (res: any) => {
           if (res.isExecuted) {
-            if (!this.data) {
+            if (!res.data) {
               let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
                 height: 'auto',
                 width: '560px',
@@ -90,7 +90,8 @@ export class SelectionTransactionForToteComponent implements OnInit {
                   batchID     : this.data.batchID,
                   totes       : this.data.totes,
                   defaultPutAwayQuantity: this.data.defaultPutAwayQuantity,
-                  transactionQuantity: val.transactionQuantity
+                  transactionQuantity: val.transactionQuantity,
+                  autoForwardReplenish: this.data.autoForwardReplenish
                 }
               });
           
