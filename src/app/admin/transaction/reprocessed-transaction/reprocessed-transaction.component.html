@@ -87,7 +87,7 @@
                         </th>
 
                         <td *matCellDef="let element"  mat-cell  style="padding: 10px 18px; border: 0; text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;" #tooltip="matTooltip"
-                         [matTooltip]="element[col.colHeader]"   matTooltipPosition="above" [matTooltipDisabled]="element[col.colHeader] && element[col.colHeader].length>18?false:true"> {{
+                         [matTooltip]="element[col.colHeader]"   matTooltipPosition="above" [matTooltipDisabled]="element[col.colHeader] && element[col.colHeader].length>=20?false:true"> {{
                             element[col.colHeader] }}</td>
 
                     </ng-container>
