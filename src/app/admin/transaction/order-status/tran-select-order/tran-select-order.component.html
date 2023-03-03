@@ -12,7 +12,7 @@
       </h2>
       <div class="col-md-4">
         <button (click)="deleteOrder()" [disabled]="totalLinesOrder==0" mat-flat-button color="warn"
-          class="btn-md w-100"
+          class="btn-regular w-100"
           [ngClass]="{'disabled-button' : totalLinesOrder==0, 'delete-button' : totalLinesOrder>0 }">
           Delete Order
         </button>
