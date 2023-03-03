@@ -31,7 +31,8 @@
                         <mat-form-field class="custom-form-field custom-form-field-bg-white w-100" appearance="outline"
                             [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
                             <mat-label>Order Number</mat-label>
-                            <input type="text" placeholder="Search" aria-label="Number" matInput
+                            <input type="text" placeholder="Search" aria-label="Number" matInput autoFocus   #publicSearchBox
+                           
                                 [(ngModel)]='orderNumber' maxlength="255" [matAutocomplete]="auto"
                                 (ngModelChange)="this.searchByInput.next($event)">
 

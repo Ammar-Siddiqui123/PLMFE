@@ -418,6 +418,15 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: values
     });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res.data == "Reserved Successfully") {
+        this.toteForm.patchValue({
+          invMapID : res.data.invMapID
+        });
+      }
+      
+    });
   }
 
   findLocation() {

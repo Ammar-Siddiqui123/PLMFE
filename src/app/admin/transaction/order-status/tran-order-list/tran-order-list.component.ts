@@ -238,6 +238,7 @@ isToolTipDisabled = false;
     if (event) {
       this.searchCol='';
       this.searchString='';
+      this.orderNo='';
       this.dataSource = new MatTableDataSource();
     }
   }
