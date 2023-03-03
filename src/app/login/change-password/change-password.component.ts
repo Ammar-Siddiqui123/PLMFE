@@ -50,11 +50,11 @@ export class ChangePasswordComponent implements OnInit {
         this.dialogRef.close();
       }
       else{
-        this.toastr.error(responseMessage?.toString(), 'Error!', {
+        this.toastr.error(responseMessage?.toString()+ '. Please contact administrator.', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
-        this.dialogRef.close();
+        // this.dialogRef.close();
       }
     })
     
