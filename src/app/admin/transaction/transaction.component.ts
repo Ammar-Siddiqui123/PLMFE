@@ -22,6 +22,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
   type$: Observable<any>;
   type:any;
   itemNumber:any;
+  tabIndex$: Observable<any>;
   constructor(
     router: Router,
     private route: ActivatedRoute,
@@ -45,21 +46,36 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     //   });
   }
   ngAfterViewInit() {
-    this.setval = localStorage.getItem('routeFromInduction');
-    this.showReprocess = JSON.parse(this.setval);
-    this.showReprocessed = JSON.parse(this.setval);
+
+
+    this.setval = localStorage.getItem('routeFromInduction')
+    this.showReprocess = JSON.parse(this.setval)
+    this.showReprocessed = JSON.parse(this.setval)
+
 
     this.orderStatus$ = this.route.queryParamMap.pipe(
-      map((params: ParamMap) => params.get('orderStatus'))
+      map((params: ParamMap) => params.get('orderStatus')),
+    );
+    this.tabIndex$ = this.route.queryParamMap.pipe(
+      map((params: ParamMap) => params.get('tabIndex')),
     );
 
-    this.orderStatus$.subscribe((param) => {
-      if (param  ) {
+    this.tabIndex$.subscribe((param) => {
+      console.log(param)
+      if (param) {
         this.TabIndex = 0;
-        this.sharedService.updateOrderStatus(param);
+        // this.sharedService.updateOrderStatus(param)
       }
     });
 
+    this.orderStatus$.subscribe((param) => {
+      console.log(param)
+      if (param) {
+        this.TabIndex = 0;
+        this.sharedService.updateOrderStatus(param)
+      }
+    });
+    
     this.itemNumber$ = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('itemNumber'))
     );
@@ -92,10 +108,6 @@ export class TransactionComponent implements OnInit, AfterViewInit {
       }
       }
     });
-
-    if(this.type && this.itemNumber){
-    }
-    
   }
   ngOnInit(): void {}
 

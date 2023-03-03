@@ -321,9 +321,7 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   public updateInventoryMaster() {
-
-    
-    console.log(this.invMaster.value);
+    // console.log(this.invMaster.value);
     
     this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
       if(res.isExecuted){
