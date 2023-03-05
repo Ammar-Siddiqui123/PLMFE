@@ -54,7 +54,7 @@
                       <mat-label>Password</mat-label>
                       <input placeholder="Password" formControlName="password" maxlength="50" matInput
                         [type]="toggle_password ? 'password' : 'text'" autocomplete="off" [readonly]="isReadOnly"
-                        (focus)="removeReadOnly()">
+                        (focus)="removeReadOnly()" (focusout)="removeReadOnly()">
                       <mat-icon matPrefix style="color: #090948;">lock</mat-icon>
                       <button type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password"
                         [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
