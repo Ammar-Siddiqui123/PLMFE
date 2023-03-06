@@ -412,14 +412,14 @@ isToolTipDisabled = false;
   }
   getColor(element){
    
-    if((element.tableType==="Open"||element.tableType==="open"||element.tableType==="OPEN")&&element.completedDate=='')
+    if(element.tableType.toLowerCase()==="open" && element.completedDate=='' &&  element.fileFrom.toLowerCase()=='open')
     {
 
       return 'background-color: #FFF0D6;color:#4D3B1A'
     }else if(element.completedDate!='' ) {
       return 'background-color: #C8E2D8;color:#114D35' 
     }
-    else if(element.fileFrom!='open' || element.fileFrom!='Open' ||  element.fileFrom!='OPEN') {
+    else if(element.fileFrom.toLowerCase()!='open') {
       return 'background-color: #F7D0DA;color:#4D0D1D' 
     }
     else{
