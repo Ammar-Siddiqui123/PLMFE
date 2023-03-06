@@ -32,6 +32,8 @@ import { SetColumnSeqComponent } from 'src/app/admin/dialogs/set-column-seq/set-
 import { FloatLabelType } from '@angular/material/form-field';
 import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { SharedService } from 'src/app/services/shared.service';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
 
 const TRNSC_DATA = [
   { colHeader: 'tH_ID', colDef: 'TH_ID' },
@@ -103,6 +105,7 @@ let backDate = new Date(year - 50, month, day);
   styleUrls: ['./transaction-history-list.component.scss'],
 })
 export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
+  @ViewChild('matRef') matRef: MatSelect;
   public columnValues: any = [];
   public userData: any;
   public displayedColumns: any;
@@ -122,7 +125,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   searchAutocompleteList: any;
   onDestroy$: Subject<boolean> = new Subject();
   private subscription: Subscription = new Subscription();
-  
+
   @Input() set startDateEvent(event: Event) {
     if (event) {
       this.startDate = event;
@@ -227,9 +230,12 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     )
 
   }
-
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
   actionDialog(opened: boolean) {
     if (!opened && this.selectedVariable === 'set_column_sq') {
+      this.sortCol=0;
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: '96%',
         width: '70vw',
@@ -242,6 +248,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
         .afterClosed()
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((result) => {
+          this.clearMatSelectList();
           this.selectedDropdown='';
           if (result && result.isExecuted) {
             this.getColumnsData();
