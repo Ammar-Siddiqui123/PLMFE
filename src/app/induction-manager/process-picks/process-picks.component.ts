@@ -274,6 +274,38 @@ export class ProcessPicksComponent implements OnInit {
               timeOut: 2000
             });
           }
+          else 
+          {
+            let payload = {
+              "wsid": this.userData.wsid,
+              "type": this.pickType
+            }
+            if (!this.useInZonePickScreen) {
+              if (!this.usePickBatchManager) {
+                if (this.autoPickOrderSelection) {
+                  this.pPickService.get(payload, '/Induction/FillOrderNumber').subscribe(res => {
+                    this.TOTE_SETUP.forEach((element, key) => {
+                      element.orderNumber = res.data[key];
+                    });
+                  });
+                }
+                if (this.autoPickToteID) {
+                  this.getAllToteIds(true)
+                }
+              }
+              this.TOTE_SETUP.map(obj => {
+                obj.toteID = '';
+                obj.orderNumber = '';
+              });
+            }
+            else {
+              if (this.autoPickToteID) {
+                this.getAllToteIds(true)
+              }
+            }
+
+
+          }
         }
       }
     });
@@ -381,6 +413,22 @@ export class ProcessPicksComponent implements OnInit {
     })
   }
 
+  isValidOrderNumber(element:any){
+    // console.log(element.orderNumber);
+    let payload ={
+      "OrderNumber": element.orderNumber
+    }
+    this.pPickService.get(payload, '/Induction/ValidateOrderNumber').subscribe(res => {
+    if(res.data === 'Invalid'){
+      this.toastr.error('This is not a vaild order number for this pick batch.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      element.orderNumber = ''
+    }
+    });
+  }
+
   onToteAction(val: any) {
     if (val.value === 'fill_all_tote') {
       this.getAllToteIds();
@@ -470,15 +518,18 @@ export class ProcessPicksComponent implements OnInit {
   checkDuplicateTote(val: any, i: any) {
     for (let index = 0; index < this.TOTE_SETUP.length; index++) {
       const element = this.TOTE_SETUP[index];
-      if (element.toteID == val.toteID && index != i) {
-        this.TOTE_SETUP[i].toteID = "";
-        this.toastr.error('This tote id is already in this batch. Enter a new one', 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-        break;
+      if(val.toteID !== ''){
+        if (element.toteID == val.toteID && index != i) {
+          this.TOTE_SETUP[i].toteID = "";
+          this.toastr.error('This tote id is already in this batch. Enter a new one', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+          break;
+        }
       }
-    }
+      }
+      
   }
 
   fillNextToteID(i: any) {
