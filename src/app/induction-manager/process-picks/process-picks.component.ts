@@ -413,6 +413,22 @@ export class ProcessPicksComponent implements OnInit {
     })
   }
 
+  isValidOrderNumber(element:any){
+    // console.log(element.orderNumber);
+    let payload ={
+      "OrderNumber": element.orderNumber
+    }
+    this.pPickService.get(payload, '/Induction/ValidateOrderNumber').subscribe(res => {
+    if(res.data === 'Invalid'){
+      this.toastr.error('This is not a vaild order number for this pick batch.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      element.orderNumber = ''
+    }
+    });
+  }
+
   onToteAction(val: any) {
     if (val.value === 'fill_all_tote') {
       this.getAllToteIds();
@@ -502,15 +518,18 @@ export class ProcessPicksComponent implements OnInit {
   checkDuplicateTote(val: any, i: any) {
     for (let index = 0; index < this.TOTE_SETUP.length; index++) {
       const element = this.TOTE_SETUP[index];
-      if (element.toteID == val.toteID && index != i) {
-        this.TOTE_SETUP[i].toteID = "";
-        this.toastr.error('This tote id is already in this batch. Enter a new one', 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-        break;
+      if(val.toteID !== ''){
+        if (element.toteID == val.toteID && index != i) {
+          this.TOTE_SETUP[i].toteID = "";
+          this.toastr.error('This tote id is already in this batch. Enter a new one', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+          break;
+        }
       }
-    }
+      }
+      
   }
 
   fillNextToteID(i: any) {
