@@ -54,6 +54,27 @@ export class SelectZonesComponent implements OnInit {
     return numSelected === numRows;
   }
 
+  AllRecordsChecked()
+  {
+    var selected=false;
+    for(var i=0;i<this.ELEMENT_DATA.length;i++)
+    {
+      if(!(this.ELEMENT_DATA[i].selected==false&&this.ELEMENT_DATA[i].available==false))
+      {
+        if(this.ELEMENT_DATA[i].selected==false)
+        {
+          selected = false;
+          break;
+        }
+        else 
+        {
+          selected = true;
+        }
+      }
+    }
+    return selected;
+  }
+
   isAllReadyAssigned()
   {
     if(this.alreadyAssignedZones.length==this.ELEMENT_DATA.length)
@@ -67,21 +88,19 @@ export class SelectZonesComponent implements OnInit {
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  toggleAllRows() {
-    
+  toggleAllRows($event:any) {
     for(var i=0;i<this.ELEMENT_DATA.length;i++)
     {
       if(!(this.ELEMENT_DATA[i].selected==false&&this.ELEMENT_DATA[i].available==false))
       {
-        this.ELEMENT_DATA[i].selected=!this.ELEMENT_DATA[i].selected;
+        this.ELEMENT_DATA[i].selected=$event.checked;
       }
-      
     }
     
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
+    // if (this.isAllSelected()) {
+    //   this.selection.clear();
+    //   return;
+    // }
     // console.log(this.dataSource.data);
     // this.selection.select(...this.dataSource.data);
     this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
@@ -160,6 +179,11 @@ export class SelectZonesComponent implements OnInit {
     this.dialogRef.close(selectedRecords);
   }
 
+  close()
+  {
+    this.dialogRef.close();
+  }
+
   getAvailableZones()
   {
     this.ELEMENT_DATA.length=0;
@@ -220,6 +244,8 @@ export class SelectZonesComponent implements OnInit {
     this.wsid=this.data.wsid;
     this.alreadyAssignedZones = this.data.assignedZones;
     this.getAvailableZones();
+
+
 
     
   }
