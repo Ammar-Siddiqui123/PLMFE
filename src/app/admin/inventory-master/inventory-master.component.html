@@ -97,8 +97,8 @@
                 <mat-tab label="Reel Tracking"  [disabled]="true">
                   <app-reel-tracking [reelTracking]="invMaster"></app-reel-tracking>
                 </mat-tab>
-                <mat-tab label="Scan  Codes" >
-                  <app-scan-codes [scanCodes]="invMaster"></app-scan-codes>
+                <mat-tab label="Scan  Codes">
+                  <app-scan-codes [scanCodes]="invMaster" (notifyParent)="getNotification($event)"></app-scan-codes>
                 </mat-tab>
                 <mat-tab label="Weigh Scale" [disabled]="true">
                   <app-weight-scale [weighScale]="invMaster"></app-weight-scale>

@@ -39,7 +39,6 @@ export class SelectionTransactionForToteComponent implements OnInit {
     this.zone       =  this.data.zones;
     this.batchID    =  this.data.batchID
     this.getTransactions();
-
   }
 
   refresh()
@@ -150,12 +149,13 @@ export class SelectionTransactionForToteComponent implements OnInit {
           if (res.data && res.isExecuted) {
             this.transactionTable = res.data.transactionTable;
             
-            if (!res.data.transactionTable || res.data.transactionTable.length == 0) {
+            // !res.data.transactionTable || res.data.transactionTable.length == 0
+            if (res.data.success == "0") {
               this.dialogRef.close("NO");
             }
 
             if (this.data.selectIfOne && res.data.transactionTable.length == 1) {
-              this.selectOrder(this.transactionTable[0].id, res.data.itemNumber);
+              this.selectOrder(this.transactionTable[0].id, res.data.itemNumber, this.transactionTable[0]);
             }
 
             this.apiResponse = res.data;
@@ -182,7 +182,9 @@ export class SelectionTransactionForToteComponent implements OnInit {
         itemNumber  : this.itemNumber,
         zones       : this.data.zones,
         batchID     : this.data.batchID,
-        totes       : this.data.totes
+        totes       : this.data.totes,
+        defaultPutAwayQuantity: this.data.defaultPutAwayQuantity,
+        autoForwardReplenish: this.data.autoForwardReplenish
       }
     });
 
