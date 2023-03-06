@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild,Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild,Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup } from '@angular/forms';
 import { InventoryMasterService } from '../inventory-master.service';
@@ -20,7 +20,11 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   public userData: any;
   scanCodesList: any;
   scanTypeList: any = [];
-  scanRangeList: any =['Yes', 'No']
+  scanRangeList: any =['Yes', 'No'];
+  @Output() notifyParent: EventEmitter<any> = new EventEmitter();
+  sendNotification(e?) {
+    this.notifyParent.emit(e);
+  }
   
 
   constructor( private invMasterService: InventoryMasterService,
@@ -106,6 +110,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
         } else{
           this.scanCodesList.shift();
         }
+        this.sendNotification();
       }
     });    
   }
@@ -151,6 +156,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
           timeOut: 2000
         });
         this.refreshScanCodeList();
+        this.sendNotification();
       } else{
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
