@@ -44,7 +44,7 @@
             <div class="col-xl-7 d-flex flex-row-reverse">
                 <mat-form-field class="action-dropdown w-30" appearance="outline">
                     <mat-label>Action</mat-label>
-                    <mat-select class="employees-action" (openedChange)="actionDialog($event)"
+                    <mat-select   #matRef class="employees-action" (openedChange)="actionDialog($event)"
                         [(value)]="selectedVariable">
                         <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
                         <mat-option value="set_column_sq">Set Column Sequence</mat-option>
