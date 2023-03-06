@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { formatDate } from '@angular/common' 
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -73,6 +74,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       warehouseSensitive                : new FormControl({value : false, disabled : true}, Validators.compose([])),
       dateSensitive                     : new FormControl({value : false, disabled : true}, Validators.compose([])),
       fifo                              : new FormControl({value : false, disabled : true}, Validators.compose([])),
+      fifoDate                          : new FormControl('', Validators.compose([])),
       unitOfMeasure                     : new FormControl('', Validators.compose([])),
       carouselCellSize                  : new FormControl('', Validators.compose([])),
       bulkCellSize                      : new FormControl('', Validators.compose([])),
@@ -94,6 +96,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       itemQuantity                      : new FormControl('', Validators.compose([])),
       maximumQuantity                   : new FormControl('', Validators.compose([])),
       quantityAllocatedPutAway          : new FormControl('', Validators.compose([])),
+      replenishment                     : new FormControl(0, Validators.compose([])),
 
       // Complete Transaction
       toteID                            : new FormControl('', Validators.compose([])),
@@ -130,8 +133,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         }
       }
     
-    })
-
+    });
   }
 
   getDetails() {
@@ -167,7 +169,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               userField1                        : values.userField1,
               userField2                        : values.userField2,
               lotNumber                         : values.lotNumber,                  
-              expirationDate                    : values.expirationDate,
+              expirationDate                    : values.expirationDate ? formatDate(values.expirationDate, 'yyyy-MM-dd', 'en') : '',
               serialNumber                      : values.serialNumber,
               transactionQuantity               : values.transactionQuantity,
               warehouse                         : values.warehouse,
@@ -177,6 +179,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               warehouseSensitive                : values.warehouseSensitive,
               dateSensitive                     : values.dateSensitive,
               fifo                              : values.fifo,
+              fifoDate                          : values.fifoDate,
               unitOfMeasure                     : values.unitOfMeasure,
               carouselCellSize                  : values.carouselCellSize,
               bulkCellSize                      : values.bulkCellSize,
@@ -420,17 +423,83 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((res) => {
-      if (res.data == "Reserved Successfully") {
+      if (res.responseMessage == "Reserved Successfully") {        
         this.toteForm.patchValue({
-          invMapID : res.data.invMapID
+          zone                              : res.zone,
+          carousel                          : res.carousel,
+          row                               : res.row,
+          shelf                             : res.shelf,
+          bin                               : res.bin,
+          cellSize                          : res.cellSize,
+          velocityCode                      : res.velocity,
+          itemQuantity                      : res.qty,
+          maximumQuantity                   : res.max,
+          quantityAllocatedPutAway          : res.qtyPut,
+          invMapID                          : res.invMapID,
+          warehouse                         : res.warehouse ? res.warehouse : values.warehouse
         });
       }
       
     });
   }
 
-  findLocation() {
+  checkRepenishment() {
     try {
+      
+      const values = this.toteForm.value;
+
+      if (!this.validationPopups({...values, type : 0})) {
+        return;
+      }
+
+      var payLoad = {
+        "item": values.itemNumber,        
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
+
+      this.service.get(payLoad, '/Induction/CheckForwardLocations').subscribe(
+        (res: any) => {
+          console.log("Replenishment : ", res);
+          if (res.data > 0 && res.isExecuted && this.data.autoForwardReplenish) {
+            
+            let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+              height: 'auto',
+              width: '560px',
+              autoFocus: '__non_existing_element__',
+              data: {
+                message: 'There is a need for ' + res.data + ' of item: ' + values.itemNumber + '. Press OK to find a location needing replenishment. Otherwise press CANCEL to do a normal location search',
+              }
+            });
+
+            dialogRef.afterClosed().subscribe((result) => {
+              if (result == 'Yes') {
+                this.findLocation(true, res.data);
+              }
+            });
+
+          } else {
+            this.findLocation(false, 0);
+            // this.toastr.error('Something went wrong', 'Error!', {
+            //   positionClass: 'toast-bottom-right',
+            //   timeOut: 2000,
+            // });
+          }
+        },
+        (error) => {}
+      );      
+
+    } catch (error) {
+      console.log(error);
+    }    
+  }
+
+  findLocation(replenfwd : any, repQty : number) {
+    try {
+
+      this.toteForm.patchValue({
+        replenishment : replenfwd ? repQty : 0
+      });
 
       const values = this.toteForm.value;
 
@@ -444,13 +513,13 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         "cfcell": values.cfCellSize,
         "cfvel": values.cfVelocity,
         "whse": values.warehouse,
-        "dateSens": values.dateSensitive,
+        "dateSens": this.toteForm.getRawValue().dateSensitive,
         "fifo": values.fifo,
         "isReel": false,
         "lot": values.lotNumber,
         "ser": values.serialNumber,
-        "replenfwd": true,
-        "prevZone": values.zones,
+        "replenfwd": replenfwd,
+        "prevZone": values.zones.replace("Zones:",""),
         "dedicate": values.dedicate,
         "rts": false,
         "expDate": values.expirationDate,
@@ -533,13 +602,64 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         supplierID: values.supplierItemID,
       },
     });
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res && res!='clear') {
+    dialogRef.afterClosed().subscribe((res) => {      
+      if (res && res != 'clear') {
         this.toteForm.patchValue({
           'warehouse' : res
         });
+      } else if (res == 'clear') {
+        this.toteForm.patchValue({
+          'warehouse' : ''
+        });
       }
     });
+  }
+
+  validationPopups(val : any) {
+
+    if (val.type == 1) {
+      if (val.invMapID <= 0 || !val.invMapID) {
+        this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        return false;
+      } 
+
+      if (this.toteForm.getRawValue().dateSensitive && !val.expirationDate) {
+        this.toast.error('This item is date sensitive. You must provide an expiration date.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        return false;
+      }
+    }    
+
+    if (this.toteForm.getRawValue().fifo && val.fifoDate.toLowerCase() == 'expiration date' && !val.expirationDate) {
+      this.toast.error('This item is marked as FIFO with Expiration Date and its FIFO Date.You must provide an Expiration Date.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return false;
+    }
+
+    if (this.toteForm.getRawValue().warehouseSensitive && !val.warehouse) {
+      this.toast.error('This item is warehouse sensitive and must be assigned a warehouse before process can continue.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return false;
+    }    
+
+    if (val.toteQty <= 0) {
+      this.toast.error('Quantity should be greater 0', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000,
+      });
+      return false;
+    }
+
+    return true;
   }
 
   completeTransaction() {
@@ -607,36 +727,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   }
 
   complete(values : any) {
-    
-    if (values.invMapID <= 0 || !values.invMapID) {
-      this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
-      return;
-    }
 
-    if (values.fifo && !values.expirationDate) {
-      this.toast.error('This item is marked as FIFO with Expiration Date and its FIFO Date.You must provide an Expiration Date.', 'Error!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
-      return;
-    }
-
-    if (values.warehouseSensitive && !values.warehouse) {
-      this.toast.error('This item is warehouse sensitive and must be assigned a warehouse before process can continue.', 'Error!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
-      return;
-    }
-    
-    if (values.dateSensitive && !values.expirationDate) {
-      this.toast.error('This item is date sensitive. You must provide an expiration date.', 'Error!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
+    if (!this.validationPopups({...values, type : 1})) {
       return;
     }
 
@@ -711,11 +803,13 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       }
     });
   }
+
   onViewItemDetail(itemNum:any) { 
     this.router.navigate([]).then(() => {
       window.open(`/#/admin/inventoryMaster?itemNumber=${itemNum}`, '_blank');
     });
   }
+
   forSameSKU() {
     this.toteForm.patchValue({
       orderNumber                       : '',
@@ -730,6 +824,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       itemQuantity                      : '',
       maximumQuantity                   : '',
       quantityAllocatedPutAway          : '',
+
+      toteQty                           : this.data.defaultPutAwayQuantity
     }); 
   }
 
