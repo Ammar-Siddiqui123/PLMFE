@@ -83,7 +83,7 @@ export class ChooseLocationComponent implements OnInit {
     try {
       var payLoad = {
         "invMapID": this.selectedLocation.invMapID,
-        "previousZone": this.data.zones,
+        "previousZone": this.data.zones.replace("Zones:",""),
         "dedicated": this.data.dedicated,
         username: this.userData.userName,
         wsid: this.userData.wsid,
@@ -91,7 +91,7 @@ export class ChooseLocationComponent implements OnInit {
       this.service.create(payLoad, '/Induction/ReserveLocation').subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
-            this.dialogRef.close(res);
+            this.dialogRef.close({responseMessage : res.responseMessage, ...this.selectedLocation});
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
