@@ -160,6 +160,11 @@ export class SelectZonesComponent implements OnInit {
     this.dialogRef.close(selectedRecords);
   }
 
+  close()
+  {
+    this.dialogRef.close();
+  }
+
   getAvailableZones()
   {
     this.ELEMENT_DATA.length=0;

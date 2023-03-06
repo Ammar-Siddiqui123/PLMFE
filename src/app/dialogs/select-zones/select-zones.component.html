@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center">
     <div style="width:48px"></div>
     <h1 class="m-0" mat-dialog-title>Select Zones</h1>
-    <button mat-icon-button class="close-button dialog-close-button-fix" (click)="updateZones()">
+    <button mat-icon-button class="close-button dialog-close-button-fix" (click)="close()">
         <mat-icon class="close-icon">close</mat-icon>
     </button>
 </div>
@@ -80,6 +80,6 @@
 <div class="d-flex gap-12">
     <button type="submit" mat-stroked-button class="form-button-submit btn-lg" (click)="selectStaging()" color="primary">Select Non-Staging</button>
     <button type="submit" mat-stroked-button class="btn-lg" color="primary" (click)="selectStaging('1')">Select Staging</button>
-    <button type="submit" mat-stroked-button class="btn-lg" color="primary" (click)="updateZones()">Cancel</button>
+    <button type="submit" mat-stroked-button class="btn-lg" color="primary" (click)="close()">Cancel</button>
     <button type="submit" mat-flat-button class="form-button-submit btn-lg" style="flex:1" color="primary" (click)="updateZones()">Continue</button>
 </div>
