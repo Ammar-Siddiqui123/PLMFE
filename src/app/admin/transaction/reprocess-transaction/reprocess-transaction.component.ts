@@ -777,6 +777,7 @@ export class ReprocessTransactionComponent implements OnInit {
   deleteReprocessOrder(record: any) { }
 
   itemUpdatedEvent(event: any) {
+    //alert("TRIGGERED");
     this.getContentData();
     this.getOrdersWithStatus();
     this.isEnabled = false; 
