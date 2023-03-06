@@ -204,9 +204,9 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
         // if (!this.columnSearch.searchColumn.colDef) return;
 
         this.autocompleteSearchColumn();
-        if (!this.searchAutocompleteList.length) {
+        // if (!this.searchAutocompleteList.length) {
           this.getContentData();
-        }
+        // }
       });
 
     this.userData = this.authService.userData();
