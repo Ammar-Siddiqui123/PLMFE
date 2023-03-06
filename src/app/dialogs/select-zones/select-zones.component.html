@@ -13,8 +13,8 @@
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                          [checked]="selection.hasValue() && isAllSelected()  || isAllReadyAssigned()"
+            <mat-checkbox (change)="$event ? toggleAllRows($event) : null"
+                          [checked]="selection.hasValue() && isAllSelected()  || isAllReadyAssigned() || AllRecordsChecked()"
                           [indeterminate]="selection.hasValue() && !isAllSelected()"
                           [aria-label]="checkboxLabel()" color="primary">
             </mat-checkbox>
