@@ -443,7 +443,7 @@ export class ProcessPutAwaysComponent implements OnInit {
                     this.batchId2 = this.batchId;
                     setTimeout(()=>{
                       this.inputVal.nativeElement.focus();
-                    },0);
+                    }, 500);
                     this.fillToteTable(this.batchId);                    
                   } else {
                     this.toastr.error('Something went wrong', 'Error!', {
