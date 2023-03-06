@@ -15,6 +15,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 
 @Component({
@@ -36,6 +37,8 @@ export class InventoryMasterComponent implements OnInit {
   public currentPageItemNo: any = '';
   searchList: any;
   searchValue: any = '';
+
+  saveDisabled = false;
 
 
   public locationTable: any;
@@ -809,7 +812,6 @@ export class InventoryMasterComponent implements OnInit {
     this.searchValue = '';
   }
   getNotification(e: any) {
-
     if (e?.newItemNumber) {
       this.currentPageItemNo = e.newItemNumber;
       this.getInventory();
@@ -823,6 +825,18 @@ export class InventoryMasterComponent implements OnInit {
       this.getInventory();
     }
 
+  }
+
+  tabChanged(tabChangeEvent: MatTabChangeEvent)
+  {
+  if(tabChangeEvent.index==2||tabChangeEvent.index==5)
+  {
+    this.saveDisabled=true;
+  }
+  else 
+  {
+    this.saveDisabled=false;
+  }
   }
 
 
