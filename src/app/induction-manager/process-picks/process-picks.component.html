@@ -154,7 +154,7 @@
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
                         <div class="mat-icon-wrap me-lg-3">
                             <span class="material-symbols-outlined">
-                                print
+                                filter_frames
                             </span>
                         </div>
                         <span>Order Number Select</span>
@@ -272,7 +272,7 @@
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
 
                                     <input matInput type="text" #specialFeature maxlength="255"
-                                        [(ngModel)]="element.orderNumber" disabled="{{useInZonePickScreen}}">
+                                        [(ngModel)]="element.orderNumber" disabled="{{useInZonePickScreen}}" (focusout)="isValidOrderNumber(element)">
                                 </mat-form-field>
                             </div>
                         </td>

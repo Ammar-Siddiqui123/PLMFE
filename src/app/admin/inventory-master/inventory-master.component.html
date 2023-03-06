@@ -81,7 +81,7 @@
               </div>
             </div>
             <div class="card bg-white bg-50 px-4 py-4 br-20 mb-3" style="min-height: 450px;">
-              <mat-tab-group dynamicHeight>
+              <mat-tab-group dynamicHeight (selectedTabChange)="onTabChanged($event);">
                 <mat-tab label="Details">
                   <app-detail [details]="invMaster" (notifyParent)="getNotification($event)"></app-detail>
                 </mat-tab>
@@ -98,7 +98,7 @@
                   <app-reel-tracking [reelTracking]="invMaster"></app-reel-tracking>
                 </mat-tab>
                 <mat-tab label="Scan  Codes">
-                  <app-scan-codes [scanCodes]="invMaster"></app-scan-codes>
+                  <app-scan-codes [scanCodes]="invMaster" (notifyParent)="getNotification($event)"></app-scan-codes>
                 </mat-tab>
                 <mat-tab label="Weigh Scale" [disabled]="true">
                   <app-weight-scale [weighScale]="invMaster"></app-weight-scale>

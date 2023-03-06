@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ProcessPicksService } from 'src/app/induction-manager/process-picks/process-picks.service';
 import { AuthService } from 'src/app/init/auth.service';
+import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirmation.component';
 
 @Component({
   selector: 'app-blossom-tote',
@@ -17,15 +19,17 @@ export class BlossomToteComponent implements OnInit {
   oldToteID: any;
 
   constructor(private dialog: MatDialog,
-              private toastr: ToastrService,
-              private pPickService: ProcessPicksService,
-              private authService: AuthService) { }
+    private toastr: ToastrService,
+    private pPickService: ProcessPicksService,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
   }
 
   updateNxtTote() {
+    // console.log(this.nxtToteID);
+    
     let updatePayload = {
       "tote": this.nxtToteID,
       "username": this.userData.userName,
@@ -48,38 +52,58 @@ export class BlossomToteComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.pPickService.get(paylaod, '/Induction/NextTote').subscribe(res => {
-      this.nxtToteID = res.data;
-      for (let element of this.TOTE_SETUP) {
-        if (element.toteID === '') {
-          element.toteID = this.nxtToteID;
-          this.nxtToteID = this.nxtToteID + 1;
-          break;
-        }
+      if(res.data){
+        this.nxtToteID = res.data;
+        this.nxtToteID = this.nxtToteID + 1
+        this.updateNxtTote();
       }
-      this.updateNxtTote();
+      
     });
   }
 
   submitBlosom() {
-    let paylaod = {
-      "OldTote": this.oldToteID.toString(),
-      "NewTote": this.nxtToteID.toString()
+    if(!this.oldToteID || !this.nxtToteID){
+      this.toastr.error('Either the Old or New Tote ID was not supplied.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
     }
-    this.pPickService.get(paylaod, '/Induction/ProcessBlossom').subscribe(res => {
-      // console.log(res.data);
-      if (res.data) {
-        this.toastr.success('Updated Successfully', 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-        this.dialog.closeAll();        
-      } else {
-        this.toastr.error('Old tote ID does not exist', 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }
-    });
+    else{
+      const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+        height: 'auto',
+        width: '786px',
+        data: {
+          message: "Perform the blossom? This will move all open transaction lines from the old tote to the new tote.",
+          heading: 'Perform Blossom'
+        },
+        autoFocus: '__non_existing_element__'
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if(result){
+          let paylaod = {
+            "OldTote": this.oldToteID?.toString(),
+            "NewTote": this.nxtToteID?.toString()
+          }
+          this.pPickService.get(paylaod, '/Induction/ProcessBlossom').subscribe(res => {
+            // console.log(res.data);
+            if (res.data) {
+              this.toastr.success('Updated Successfully', 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+              this.dialog.closeAll();
+            } else {
+              this.toastr.error('Old tote ID does not exist', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+            }
+          });
+        }
+      });
+    }
+
+   
   }
 
 }
