@@ -274,6 +274,38 @@ export class ProcessPicksComponent implements OnInit {
               timeOut: 2000
             });
           }
+          else 
+          {
+            let payload = {
+              "wsid": this.userData.wsid,
+              "type": this.pickType
+            }
+            if (!this.useInZonePickScreen) {
+              if (!this.usePickBatchManager) {
+                if (this.autoPickOrderSelection) {
+                  this.pPickService.get(payload, '/Induction/FillOrderNumber').subscribe(res => {
+                    this.TOTE_SETUP.forEach((element, key) => {
+                      element.orderNumber = res.data[key];
+                    });
+                  });
+                }
+                if (this.autoPickToteID) {
+                  this.getAllToteIds(true)
+                }
+              }
+              this.TOTE_SETUP.map(obj => {
+                obj.toteID = '';
+                obj.orderNumber = '';
+              });
+            }
+            else {
+              if (this.autoPickToteID) {
+                this.getAllToteIds(true)
+              }
+            }
+
+
+          }
         }
       }
     });
