@@ -98,6 +98,7 @@ export class KitItemComponent implements OnInit, OnChanges {
 
   }
 
+
   saveKit(newItem: any, e: any) {
     //  console.log(this.kitItem.controls['kitInventories'].value)
 
@@ -164,6 +165,13 @@ export class KitItemComponent implements OnInit, OnChanges {
 
   }
 
+
+  
+  closeDialog()
+  {
+    this.dialog.closeAll();
+  }
+
   openAddItemNumDialog(e): void {
     const dialogRef = this.dialog.open(this.additemNumber, {
       width: '560px',
@@ -172,8 +180,9 @@ export class KitItemComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe((x) => {
 
       if (x) {
-        e.itemNumber = this.dialogitemNumber;
-        e.description = this.dialogDescription;
+
+        e.itemNumber =  this.dialogitemNumber!=""?this.dialogitemNumber:e.itemNumber;
+        e.description = this.dialogDescription!=""?this.dialogDescription:e.description;
         this.isFormFilled = true;
       }
     })
