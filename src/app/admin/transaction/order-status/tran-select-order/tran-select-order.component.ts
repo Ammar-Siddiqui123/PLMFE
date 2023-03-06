@@ -118,9 +118,9 @@ export class TranSelectOrderComponent implements OnInit {
     this.columnSelect='Order Number';
     this.searchField=orderNo;
     this.onOrderNoChange();
-
    }
-          });
+    });
+
   }
   ngOnInit(): void {
 
@@ -159,10 +159,10 @@ export class TranSelectOrderComponent implements OnInit {
     this.openOrder = 0;
     this.completeOrder = 0;
     this.reprocessOrder = 0;
-    this.orderTypeOrder = '';
+    this.orderTypeOrder = '-';
     this.totalLinesOrder = 0;
     this.orderNumber = '';
-    this.currentStatusOrder = '';
+    this.currentStatusOrder = '-';
   }
 
   getFloatLabelValue(): FloatLabelType {
@@ -308,5 +308,8 @@ export class TranSelectOrderComponent implements OnInit {
   ngOnDestroy() {
     this.searchByOrderNumber.unsubscribe();
     this.searchByToteId.unsubscribe();
+    this.searchBar.unsubscribe();
   }
+
+  
 }

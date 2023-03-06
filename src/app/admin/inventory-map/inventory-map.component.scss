@@ -202,3 +202,18 @@
 mat-row, mat-footer-row{
     min-height: 40px;
 }
+
+
+table{
+    mat-row, mat-header-row{
+        display: table-row!important;
+        white-space: nowrap;
+        th, td{
+            vertical-align: middle;
+            border-bottom: 1px solid #fff;
+            &:first-child{
+                padding-left: 28px !important;
+            }
+        }
+    }
+}

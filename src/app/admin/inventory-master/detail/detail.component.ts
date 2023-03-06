@@ -9,6 +9,7 @@ import { ItemNumberComponent } from '../../dialogs/item-number/item-number.compo
 import { UnitMeasureComponent } from '../../dialogs/unit-measure/unit-measure.component';
 import { UpdateDescriptionComponent } from '../../dialogs/update-description/update-description.component';
 import { InventoryMasterService } from '../inventory-master.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-detail',
@@ -27,6 +28,7 @@ export class DetailComponent implements OnInit {
 
   constructor(   
     private invMasterService: InventoryMasterService, 
+    private router: Router,
     private authService: AuthService, 
     private dialog: MatDialog,
     private toastr: ToastrService,) { }
@@ -134,5 +136,11 @@ export class DetailComponent implements OnInit {
   }
 
 
+ RedirectInv(type){
 
+    this.router.navigate([]).then((result) => {
+      let url = '/#/admin/transaction?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
+      window.open(url, '_blank');
+    });
+  }
 }

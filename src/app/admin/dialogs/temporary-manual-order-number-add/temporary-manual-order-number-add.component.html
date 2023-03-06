@@ -110,7 +110,10 @@
                     <mat-option value="Put Away">Put Away</mat-option>
                     <mat-option value="Count">Count</mat-option>
                 </mat-select> -->
-                    <mat-select [disabled]="setLocationByItemList.length==0" #matRef class="employees-action"
+
+                
+                <!-- [disabled]="setLocationByItemList.length==0"  -->
+                    <mat-select #matRef class="employees-action"
                         placeholder="Actions" [(ngModel)]="inventoryMapID">
                         <mat-option *ngFor="let item of setLocationByItemList" [value]="item.invMapID">
                             {{item.select}}

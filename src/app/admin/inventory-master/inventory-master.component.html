@@ -21,7 +21,7 @@
                     keyboard_arrow_left
                   </span>
                 </button>
-                <div class="text-chrome-600"><b>{{paginationData.position}}</b> of {{paginationData.total}}</div>
+                <div class="text-chrome-600"><b>{{paginationData && paginationData.position}}</b> of {{paginationData && paginationData.total}}</div>
                 <button mat-flat-button color="primary" class="sm-icon-button" (click)="nextPage()">
                   <span class="material-symbols-outlined">
                     keyboard_arrow_right
@@ -124,7 +124,7 @@
           <button *ngIf="invMaster.controls['itemQuarantined'].value == 1" mat-stroked-button color="primary" class="button-primary-o bg-white btn-lg" (click)="unquarantineDialog()">
             Un-Quarantine Item
           </button>
-          <button style="flex:1" mat-flat-button color="primary" class="button-primary btn-lg" (click)="updateInventoryMaster()">
+          <button style="flex:1" mat-flat-button color="primary" class="btn-lg" (click)="updateInventoryMaster()">
             Save
           </button>
         </div>
