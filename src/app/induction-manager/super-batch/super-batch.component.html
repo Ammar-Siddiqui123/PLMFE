@@ -176,7 +176,7 @@
                             <th mat-header-cell *matHeaderCellDef> New Tote ID</th>
                             <td mat-cell *matCellDef="let element">
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                    <input matInput type="number" [(ngModel)]="element.newToteID" min="2"  />
+                                    <input matInput [(ngModel)]="element.newToteID" onkeydown="return /[a-zA-Z0-9-]/i.test(event.key)"/>
                                 </mat-form-field>
                             </td>
                         </ng-container>
