@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,6 +22,7 @@ import { TransactionService } from '../../transaction/transaction.service';
 })
 export class GenerateOrderComponent implements OnInit {
   @ViewChild('matRef') matRef: MatSelect;
+  @ViewChild('inputVal') inputVal: ElementRef;
 
   transType: any = 'Pick';
   floatLabelControl = new FormControl('auto' as FloatLabelType);
@@ -67,6 +68,12 @@ export class GenerateOrderComponent implements OnInit {
         this.autocompleteSearchColumn();
         this.getOrderTableData();
       });
+
+
+      setTimeout(()=>{
+        this.inputVal.nativeElement.focus();
+      }, 500);
+
   }
   public displayedColumns: string[] = [
     'ItemNumber',
