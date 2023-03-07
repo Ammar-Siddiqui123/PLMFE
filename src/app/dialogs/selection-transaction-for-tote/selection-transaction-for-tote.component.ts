@@ -178,7 +178,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
       width: '100vw',
       autoFocus: '__non_existing_element__',
       data: {
-        otid        : '',
+        otid        : 0,
         itemNumber  : this.itemNumber,
         zones       : this.data.zones,
         batchID     : this.data.batchID,

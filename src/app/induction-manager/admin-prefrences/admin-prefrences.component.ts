@@ -343,4 +343,12 @@ export class AdminPrefrencesComponent implements OnInit {
     }
   }
 
+  checkDBQ() {
+    if (this.preferencesForm.value.pickBatchQuantity >= 20) {
+      this.preferencesForm.patchValue({
+        putAwayInductionScreen : 'Unlimited Positions'
+      });
+    }
+  }
+
 }
