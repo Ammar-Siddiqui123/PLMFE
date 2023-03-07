@@ -778,7 +778,7 @@ export class ReprocessTransactionComponent implements OnInit {
 
   itemUpdatedEvent(event: any) {
     //alert("TRIGGERED");
-    this.getContentData();
+    this.getContentData('1');
     this.getOrdersWithStatus();
     this.isEnabled = false; 
   }
@@ -832,11 +832,18 @@ export class ReprocessTransactionComponent implements OnInit {
       .get(payload, '/Admin/ReprocessTransactionTable', true)
       .subscribe(
         (res: any) => {
+          console.log(res)
           // this.getTransactionModelIndex();
           this.detailDataInventoryMap = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
-          //  this.dataSource.paginator = this.paginator;
-          this.customPagination.total = res.data?.recordsFiltered;
+          // this.dataSource.paginator = this.paginator;
+          this.customPagination.total = res.data?.recordsFiltered;        
+          
+          this.pageEvent = this.paginator;          
+          this.customPagination.startIndex = this.paginator.pageIndex;
+          this.customPagination.endIndex = res.data?.recordsFiltered;
+          this.customPagination.recordsPerPage = this.paginator.pageSize;
+
           this.dataSource.sort = this.sort;
         },
         (error) => { }
@@ -880,7 +887,7 @@ export class ReprocessTransactionComponent implements OnInit {
 
     this.clearTransactionData();
   }
-  handlePageEvent(e: PageEvent) {
+  handlePageEvent(e: PageEvent) {    
     this.pageEvent = e;
     // this.customPagination.startIndex =  e.pageIndex
     this.customPagination.startIndex = e.pageSize * e.pageIndex;

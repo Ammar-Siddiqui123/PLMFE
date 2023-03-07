@@ -229,6 +229,15 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
        })
     )
 
+    this.subscription.add(
+      this.sharedService.historyLocObserver.subscribe(loc => {
+        if(loc){
+          this.selectedDropdown='Location';
+          this.columnSearch.searchValue=loc;        
+        }
+      })
+    );
+
   }
   clearMatSelectList(){
     this.matRef.options.forEach((data: MatOption) => data.deselect());
