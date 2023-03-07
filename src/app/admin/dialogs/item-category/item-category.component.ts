@@ -104,7 +104,11 @@ export class ItemCategoryComponent implements OnInit {
   }
 
   selectCategory(selectedCat: any){
-    this.dialogRef.close(selectedCat);
+    if(selectedCat.category!='' && selectedCat.subCategory!='')
+    {
+
+      this.dialogRef.close(selectedCat);
+    }
   }
 
   clearCategory(){
