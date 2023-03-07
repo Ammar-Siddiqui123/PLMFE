@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSelect } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from 'angular-routing';
@@ -56,6 +58,7 @@ export class ReprocessedTransactionComponent implements OnInit {
   public sortOrder:any='asc';
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('matRef') matRef: MatSelect;
   pageEvent: PageEvent;
   cols = [];
   customPagination: any = {
@@ -72,7 +75,7 @@ export class ReprocessedTransactionComponent implements OnInit {
     searchValue: '',
   };
   sortColumn: any = {
-    columnName: 5,
+    columnName: 0,
     sortOrder: 'asc',
   };
   constructor(
@@ -130,7 +133,9 @@ export class ReprocessedTransactionComponent implements OnInit {
       (error) => {}
     );
   }
-
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
   getTransactionModelIndex() {
     let paylaod = {
       viewToShow: 2,
@@ -228,6 +233,7 @@ export class ReprocessedTransactionComponent implements OnInit {
   
   actionDialog(opened: boolean) {
     if (!opened && this.selectedVariable) {
+      this.sortCol=0;
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: '96%',
         width: '70vw',
@@ -240,6 +246,7 @@ export class ReprocessedTransactionComponent implements OnInit {
         .afterClosed()
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((result) => {
+          this.clearMatSelectList();
           if (result && result.isExecuted) {
             this.getColumnsData();
           }

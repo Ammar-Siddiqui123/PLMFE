@@ -117,7 +117,7 @@ export class AddNewEmployeeComponent implements OnInit {
               });
             }
             else {
-              this.toastr.error(res.responseMessage, 'Error!', {
+              this.toastr.error(res.responseMessage?.toString() + '. Please contact your Administrator.', 'Error!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
@@ -136,10 +136,18 @@ export class AddNewEmployeeComponent implements OnInit {
               this.reloadCurrentRoute();
             }
             else {
-              this.toastr.error(response.responseMessage, 'Error!', {
-                positionClass: 'toast-bottom-right',
-                timeOut: 2000
-              });
+              if(response.responseMessage?.toString() === 'User already exists'){
+                this.toastr.error(response.responseMessage, 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000
+                });
+              }
+              else{
+                this.toastr.error(response.responseMessage?.toString() + '. Please contact your Administrator.', 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000
+                });
+              }
             }
           });
       }
