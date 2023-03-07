@@ -746,9 +746,9 @@ export class WorkstationComponent implements OnInit {
           },
         });
         dialogRef.afterClosed().subscribe((result) => {
-          if (result.isExecuted) {
+          //if (result.isExecuted) {
             this.getMenuData();
-          }
+          //}
         });
       }
 
