@@ -176,6 +176,23 @@ export class AddInvMapLocationComponent implements OnInit {
 
   }
 
+  clearFields()
+  {
+    this.addInvMapLocation.patchValue({
+      'userField1':'',
+      'userField2':'',
+      'item':'',
+      'maxQuantity':'',
+      'minQuantity':'',
+      'putAwayDate':'',
+      'serialNumber':'',
+      'lotNumber':'',
+      'revision':'',
+      'expirationDate':''
+    });
+    this.itemDescription = "";
+  }
+
   searchItemNumber(itemNum: any) {
     let payload = {
       "itemNumber": itemNum.value.toString(),

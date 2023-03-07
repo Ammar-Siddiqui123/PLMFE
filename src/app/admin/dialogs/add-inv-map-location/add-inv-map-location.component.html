@@ -296,7 +296,7 @@
     </div>
     <!-- <mat-dialog-actions align="end"> -->
         <div class="d-flex gap-12">
-        <button type="button" mat-stroked-button color="warn" class="form-button-submit btn-lg"  *ngIf="!routeFromIM">Clear</button>
+        <button type="button" mat-stroked-button color="warn" class="form-button-submit btn-lg" (click)="clearFields()"  *ngIf="!routeFromIM">Clear</button>
         <button type="submit" mat-flat-button class="form-button-submit btn-lg w-100" color="primary"  *ngIf="!routeFromIM"  [disabled]="!isValid()">Save Changes</button>
     </div>
     <!-- </mat-dialog-actions> -->
