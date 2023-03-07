@@ -343,14 +343,22 @@ export class ProcessPicksComponent implements OnInit {
           pickBatchQuantity: this.pickBatchQuantity,
           useDefaultFilter: this.useDefaultFilter,
           useDefaultZone: this.useDefaultZone,
+          allOrders: this.allOrders,
         },
         autoFocus: '__non_existing_element__'
       });
       dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+        if (result.length > 0) {
+          this.allOrders = result;
+        }
+        else {
+          this.allOrders = []
+          this.TOTE_SETUP.forEach((element) => {
+            element.orderNumber = '';
+          });
+        } 
         this.TOTE_SETUP.forEach((element, key) => {
-          if (element.orderNumber === '') {
             element.orderNumber = result[key] ?? '';
-          }
         });
       });
     }
@@ -369,7 +377,6 @@ export class ProcessPicksComponent implements OnInit {
       autoFocus: '__non_existing_element__'
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-      console.log(result);
       if (result.length > 0) {
         this.allOrders = result;
       }
@@ -378,15 +385,10 @@ export class ProcessPicksComponent implements OnInit {
         this.TOTE_SETUP.forEach((element) => {
           element.orderNumber = '';
         });
-      }
-
+      }      
       this.TOTE_SETUP.forEach((element, key) => {
-        if (element.orderNumber === '') {
           element.orderNumber = result[key] ?? '';
-        }
       });
-      // console.log(this.TOTE_SETUP);
-      // this.dataSource = new MatTableDataSource<any>(this.TOTE_SETUP);
 
     })
   }
