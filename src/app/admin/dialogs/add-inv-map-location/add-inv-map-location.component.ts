@@ -146,6 +146,7 @@ export class AddInvMapLocationComponent implements OnInit {
       this.row = this.getDetailInventoryMapData.row
       this.shelf = this.getDetailInventoryMapData.shelf
       this.bin = this.getDetailInventoryMapData.bin
+      this.itemDescription = this.getDetailInventoryMapData.description
       // console.log(this.getDetailInventoryMapData.masterInventoryMapID);
 
       this.updateItemNumber();
@@ -159,6 +160,8 @@ export class AddInvMapLocationComponent implements OnInit {
 
     this.invMapService.getLocZTypeInvMap().subscribe((res) => {
       this.locZoneList = res.data;
+      console.log("ZONES===>");
+      console.log(res.data);
       this.filteredOptions = this.addInvMapLocation.controls['location'].valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value || '')),
@@ -174,6 +177,23 @@ export class AddInvMapLocationComponent implements OnInit {
     this.setStorage =localStorage.getItem('routeFromInduction')
     this.routeFromIM=JSON.parse(this.setStorage)
 
+  }
+
+  clearFields()
+  {
+    this.addInvMapLocation.patchValue({
+      'userField1':'',
+      'userField2':'',
+      'item':'',
+      'maxQuantity':'',
+      'minQuantity':'',
+      'putAwayDate':'',
+      'serialNumber':'',
+      'lotNumber':'',
+      'revision':'',
+      'expirationDate':''
+    });
+    this.itemDescription = "";
   }
 
   searchItemNumber(itemNum: any) {

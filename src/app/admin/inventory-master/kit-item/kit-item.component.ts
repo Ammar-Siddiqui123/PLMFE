@@ -5,6 +5,7 @@ import { InventoryMasterService } from '../inventory-master.service';
 import labels from '../../../labels/labels.json'
 import { AuthService } from 'src/app/init/auth.service';
 import { MatDialog } from '@angular/material/dialog';
+import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-kit-item',
@@ -72,29 +73,42 @@ export class KitItemComponent implements OnInit, OnChanges {
 
   dltCategory(e: any) {
 
-    if (e?.itemNumber) {
-      let paylaod = {
-        "itemNumber": this.kitItem.controls['itemNumber'].value,
-        "kitItem": e.itemNumber,
-        "kitQuantity": e.kitQuantity,
-        "specialFeatures": e.specialFeatures,
-        "username": this.userData.userName,
-        "wsid": this.userData.wsid,
-      }
-      this.invMasterService.get(paylaod, '/Admin/DeleteKit').subscribe((res: any) => {
-
-        if (res.isExecuted) {
-          this.toastr.success(labels.alert.delete, 'Success!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-          this.sendNotification();
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe(result => {
+     if(result === 'Yes'){
+      if (e?.itemNumber) {
+        let paylaod = {
+          "itemNumber": this.kitItem.controls['itemNumber'].value,
+          "kitItem": e.itemNumber,
+          "kitQuantity": e.kitQuantity,
+          "specialFeatures": e.specialFeatures,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid,
         }
+        this.invMasterService.get(paylaod, '/Admin/DeleteKit').subscribe((res: any) => {
+  
+          if (res.isExecuted) {
+            this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+            this.sendNotification();
+          }
+  
+        })
+      } else {
+        this.kitItemsList.shift()
+      }
+     }
+    })
 
-      })
-    } else {
-      this.kitItemsList.shift()
-    }
+    
+
+    
 
   }
 
