@@ -116,6 +116,7 @@ export class ReprocessTransactionComponent implements OnInit {
 
   deleteReplenishment=true;
   deleteSelected=false;
+  print=false;
   deleteBySelectedReason=false;
   deleteBySelectedMessage=false;
   deleteByDateTime=false;
@@ -240,6 +241,7 @@ export class ReprocessTransactionComponent implements OnInit {
     this.deleteBySelectedReason=false;
     this.deleteBySelectedMessage=false;
     this.deleteByDateTime=false;
+    this.print = false;
   
     this.deleteByItemNumber=false; //Only visible if searched
     this.deleteByOrderNumber=false; //Only visible if searched
@@ -248,6 +250,7 @@ export class ReprocessTransactionComponent implements OnInit {
   {
   this.deleteReplenishment=true;
   this.deleteSelected=true;
+  this.print=true;
   this.deleteBySelectedReason=true;
   this.deleteBySelectedMessage=true;
   this.deleteByDateTime=true;
@@ -777,6 +780,7 @@ export class ReprocessTransactionComponent implements OnInit {
   deleteReprocessOrder(record: any) { }
 
   itemUpdatedEvent(event: any) {
+    //alert("TRIGGERED");
     this.getContentData();
     this.getOrdersWithStatus();
     this.isEnabled = false; 
