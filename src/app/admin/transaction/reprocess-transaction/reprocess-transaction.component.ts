@@ -832,17 +832,17 @@ export class ReprocessTransactionComponent implements OnInit {
       .get(payload, '/Admin/ReprocessTransactionTable', true)
       .subscribe(
         (res: any) => {
-          console.log(res)
+          //console.log(res)
           // this.getTransactionModelIndex();
           this.detailDataInventoryMap = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
           // this.dataSource.paginator = this.paginator;
           this.customPagination.total = res.data?.recordsFiltered;        
           
-          this.pageEvent = this.paginator;          
-          this.customPagination.startIndex = this.paginator.pageIndex;
-          this.customPagination.endIndex = res.data?.recordsFiltered;
-          this.customPagination.recordsPerPage = this.paginator.pageSize;
+          // this.pageEvent = this.paginator;          
+          // this.customPagination.startIndex = this.paginator.pageIndex;
+          // this.customPagination.endIndex = res.data?.recordsFiltered;
+          // this.customPagination.recordsPerPage = this.paginator.pageSize;
 
           this.dataSource.sort = this.sort;
         },
