@@ -494,7 +494,7 @@ export class GenerateTransactionComponent implements OnInit {
   openTemporaryManualOrderDialogue() {
     const dialogRef = this.dialog.open(TemporaryManualOrderNumberAddComponent, {
       height: 'auto',
-      width: '800px',
+      width: '1000px',
       autoFocus: '__non_existing_element__',
       data: {
         userName: this.userData.userName,
