@@ -624,7 +624,8 @@ initialzeEmpForm() {
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-grpallowed',
-        allowedGroup: allowedGroup
+        allowedGroup: allowedGroup,
+        action: "remove"
       }
     })
     dialogRef.afterClosed().subscribe(result => {

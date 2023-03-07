@@ -18,9 +18,9 @@
                     <mat-autocomplete class="card custom-scroll" #item="matAutocomplete">
             
                         <h6 class="card-header matAutoCompHeader">
-                            <span style="width:  140px;">Loc. Number</span> 
-                            <span style="width:  140px;">Whse</span> 
-                            <span style="width:  140px;">Loc.</span> 
+                            <span style="width:  190px;">Loc. Number</span> 
+                            <span style="width:  190px;">Whse</span> 
+                            <span style="width:  190px;">Loc.</span> 
                             <span style="width:  140px;">Item #</span> 
                             <span style="width:  140px;">Cell</span> 
                             <span style="width:  140px;">Velocity</span> 
@@ -31,9 +31,9 @@
                     
                         <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.locNum" class="matAutoCompTableContent">
                             <div class="loc_option" (click)="selectLoc(option)">
-                                <span class="searchColumn" style="width:  140px;">{{option.locNum}}</span> 
-                                <span class="searchColumn" style="width:  140px;">{{option.warehouse}}</span>
-                                <span class="searchColumn" style="width:  140px;">{{option.location}}</span>
+                                <span class="searchColumn" style="width:  190px;">{{option.locNum}}</span> 
+                                <span class="searchColumn" style="width:  190px;">{{option.warehouse}}</span>
+                                <span class="searchColumn" style="width:  190px;">{{option.location}}</span>
                                 <span class="searchColumn" style="width:  140px;">{{option.itemNumber}}</span>
                                 <span class="searchColumn" style="width:  140px;">{{option.cellSize}}</span>
                                 <span class="searchColumn" style="width:  140px;">{{option.velocity}}</span>
@@ -55,7 +55,7 @@
     <button mat-stroked-button color="primary" class="btn-lg" [mat-dialog-close]="true">
         Close
     </button>
-    <button mat-flat-button color="primary" class="btn-lg" style="flex:1" (click)="submit()">
+    <button [disabled]="selectedLocation ? false : true" mat-flat-button color="primary" class="btn-lg" style="flex:1" (click)="submit()">
         Submit
     </button>
 </div>

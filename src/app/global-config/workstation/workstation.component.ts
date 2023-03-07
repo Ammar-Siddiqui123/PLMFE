@@ -311,10 +311,9 @@ export class WorkstationComponent implements OnInit {
           },
         });
         dialogRef.afterClosed().subscribe((result) => {
-          this.clearMatSelectList()
-          if (result.isExecuted) {
-            this.getMenuData();
-          }
+          this.clearMatSelectList();
+          this.getMenuData();
+          //}
         });
       }
 

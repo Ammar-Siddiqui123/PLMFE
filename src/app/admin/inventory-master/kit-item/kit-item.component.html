@@ -125,7 +125,7 @@
         <div style="width:48px"></div>
         <h1 class="m-0" mat-dialog-title>Item Number</h1>
 
-        <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
+        <button mat-icon-button class="close-button dialog-close-button-fix" (click)="closeDialog()">
             <mat-icon class="close-icon">close</mat-icon>
         </button>
     </div>

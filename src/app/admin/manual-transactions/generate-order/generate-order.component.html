@@ -33,7 +33,7 @@
             <mat-form-field class="custom-form-field custom-form-field-bg-white w-100" appearance="outline"
               [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
               <mat-label>Order Number</mat-label>
-              <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='orderNumber'
+              <input type="text" placeholder="Search"  #inputVal aria-label="Number" matInput [(ngModel)]='orderNumber'
                 maxlength="255" [matAutocomplete]="auto" (ngModelChange)="this.searchByInput.next($event)">
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
@@ -134,8 +134,9 @@
             </ng-container>
 
             <ng-container matColumnDef="RequiredDate">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Required Date </th>
-              <td mat-cell *matCellDef="let element">{{element?.requiredDate}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header > Required Date </th>
+              <td mat-cell *matCellDef="let element" tooltip="matTooltip"
+              [matTooltip]="element?.requiredDate"   matTooltipPosition="above" [matTooltipDisabled]="element?.requiredDate && element?.requiredDate.length>=15?false:true">{{element?.requiredDate}}</td>
             </ng-container>
 
 
@@ -147,7 +148,8 @@
 
             <ng-container matColumnDef="ExpirationDate">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Expiration Date </th>
-              <td mat-cell *matCellDef="let element">{{element?.expirationDate}}</td>
+              <td mat-cell *matCellDef="let element" tooltip="matTooltip"
+              [matTooltip]="element?.expirationDate"   matTooltipPosition="above" [matTooltipDisabled]="element?.expirationDate && element?.expirationDate.length>=15?false:true">{{element?.expirationDate}}</td>
             </ng-container>
 
 

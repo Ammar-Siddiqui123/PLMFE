@@ -429,7 +429,7 @@ export class GenerateTransactionComponent implements OnInit {
       updateValsequence[15] = this.batchPickID.toString(); //batchPickID
       updateValsequence[16] = this.emergency.toString(); //emergency
       updateValsequence[17] = this.wareHouse; //wareHouse
-      updateValsequence[18] = this.toteID.toString(); //toteID
+      updateValsequence[18] = this.toteID==0?"": this.toteID.toString(); //toteID
       updateValsequence[19] = this.zone; //Zone
       updateValsequence[20] = this.shelf; //shelf
       updateValsequence[21] = this.carousel; //carousel

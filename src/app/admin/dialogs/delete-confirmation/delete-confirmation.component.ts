@@ -18,6 +18,7 @@ import { TransactionService } from '../../transaction/transaction.service';
 })
 export class DeleteConfirmationComponent implements OnInit {
   isChecked = true;
+  action="delete";
   public userData;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -36,6 +37,10 @@ export class DeleteConfirmationComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+    if(this.data.action)
+    {
+      this.action = this.data.action;
+    }
   }
 
   onConfirmdelete() {
