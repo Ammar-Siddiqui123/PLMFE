@@ -159,6 +159,8 @@ export class AddInvMapLocationComponent implements OnInit {
 
     this.invMapService.getLocZTypeInvMap().subscribe((res) => {
       this.locZoneList = res.data;
+      console.log("ZONES===>");
+      console.log(res.data);
       this.filteredOptions = this.addInvMapLocation.controls['location'].valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value || '')),

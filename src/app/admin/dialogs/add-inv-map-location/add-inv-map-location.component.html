@@ -71,11 +71,11 @@
                             <div class="error" *ngIf="hasError('warehouse', 'required')">This field is required.</div>
                         </div>
                         <div class="col-6 mb-2">
-                            <mat-form-field class="d-block w-100" appearance="outline">
+                            <!-- <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Zone</mat-label>
                                 <input   placeholder="Zone" aria-label="Zone" matInput
                                     formControlName="zone" [matAutocomplete]="zoneAuto">
-                                <mat-autocomplete autoActiveFirstOption #zoneAuto="matAutocomplete">
+                                <mat-autocomplete autoActiveFirstOption #zoneAuto="matAutocomplete" (optionSelected)="loadZones($event)">
                                     <h6 class="loc_name"><span>Zone</span> <span>Location</span></h6>
                                     <mat-option *ngFor="let option of zoneList"
                                         [value]="option.zone" #szone>
@@ -84,7 +84,32 @@
                                         </div>
                                     </mat-option>
                                 </mat-autocomplete>
+                            </mat-form-field> -->
+
+                            <mat-form-field class="d-block w-100" appearance="outline">
+                                <mat-label>Zone</mat-label>
+                                <input   placeholder="Zone" aria-label="Zone" matInput
+                                    formControlName="zone" [matAutocomplete]="autoZone">
+                                <mat-autocomplete autoActiveFirstOption #autoZone="matAutocomplete"
+                                    (optionSelected)="loadZones($event)">
+
+                                    <h6 class="loc_name"><span>Zone</span> <span>Location</span></h6>
+                                    <mat-option *ngFor="let option of filteredOptions | async"
+                                        [value]="option.zone">
+                                        <div class="loc_option">
+                                            <span>{{option.zone}}  </span> <span>{{option.locationName}}</span>
+                                        </div>
+                                    </mat-option>
+                                </mat-autocomplete>
                             </mat-form-field>
+
+
+
+
+
+
+
+
                             <div class="error" *ngIf="hasError('zone', 'required')">This field is required.</div>
                             <div class="error" *ngIf="hasError('zone', 'maxlength')">Max number allowed is 2.</div>
                         </div>
