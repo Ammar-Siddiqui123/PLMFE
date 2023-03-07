@@ -146,12 +146,12 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     }
   }
   @Input() set orderNoEvent(event: Event) {
-    if (event) {
+    // if (event) {
       this.orderNo = event;
       // this.columnSearch.searchValue= event;
       // this.columnSearch.searchColumn.colDef='Order Number'
       this.getContentData();
-    }
+    // }
     // else{
     //   this.columnSearch.searchValue= '';
     //   this.columnSearch.searchColumn.colDef=''
