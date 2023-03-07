@@ -146,6 +146,7 @@ export class AddInvMapLocationComponent implements OnInit {
       this.row = this.getDetailInventoryMapData.row
       this.shelf = this.getDetailInventoryMapData.shelf
       this.bin = this.getDetailInventoryMapData.bin
+      this.itemDescription = this.getDetailInventoryMapData.description
       // console.log(this.getDetailInventoryMapData.masterInventoryMapID);
 
       this.updateItemNumber();
