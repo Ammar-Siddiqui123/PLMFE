@@ -24,6 +24,7 @@ import { CloneGroupComponent } from '../dialogs/clone-group/clone-group.componen
 import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { SpinnerService } from '../../../app/init/spinner.service';
+import { MatOption } from '@angular/material/core';
 
 export interface location {
   start_location: string;
@@ -76,6 +77,7 @@ export class EmployeesComponent implements OnInit {
   public updateGrpTable;
   empForm: FormGroup;
   @ViewChild('zoneDataRefresh', { static: true,read:MatTable }) zoneDataRefresh;
+  @ViewChild('matRef') matRef: MatSelect;
 
 
 
@@ -347,6 +349,7 @@ initialzeEmpForm() {
       this.groupAllowedList = [];
       this.max_orders = '';
       this.demo1TabIndex = 0;
+      this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
   actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
     // console.log(event.value)
