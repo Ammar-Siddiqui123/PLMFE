@@ -350,11 +350,11 @@
               <div class="mb-2">
                 <mat-label><b>View Order Lines</b></mat-label>
               </div>
-              <mat-radio-group color="primary" class="d-flex">
-                <mat-radio-button class="d-flex pe-4 custom-horizontal-radio"[checked]='true'>
+              <mat-radio-group color="primary" class="d-flex" value="vSelectedOrderFilter" (change)="onViewOrderLineFilter($event)">
+                <mat-radio-button class="d-flex pe-4 custom-horizontal-radio" value="vSelectedOrderFilter">
                   <mat-label>View Selected Order Lines</mat-label>
                 </mat-radio-button>
-                <mat-radio-button class="d-flex pe-2 custom-horizontal-radio">
+                <mat-radio-button class="d-flex pe-2 custom-horizontal-radio" value="vAllOrderFilter">
                   <mat-label>View All Order Lines</mat-label>
                 </mat-radio-button>
               </mat-radio-group>
