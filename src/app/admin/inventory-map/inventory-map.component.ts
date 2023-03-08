@@ -416,6 +416,22 @@ export class InventoryMapComponent implements OnInit {
     })
   }
 
+  duplicate(event){
+  this.invMapService.duplicate( this.userData.userName,this.userData.wsid,event.invMapID).pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
+    this.displayedColumns = INVMAP_DATA;
+
+    if(res.data){
+      this.getContentData();
+    } else {
+      this.toastr.error('Something went wrong', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+  });
+
+  }
+
   viewInInventoryMaster(row){
 
     // this.router.navigate(['/admin/inventoryMaster']);

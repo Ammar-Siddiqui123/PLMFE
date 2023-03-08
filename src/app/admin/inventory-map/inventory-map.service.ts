@@ -94,4 +94,19 @@ export class InventoryMapService {
     return this.http.post<any>(`${environment.apiUrl}/Admin/GetTypeAheadInventoryMap`, reqPaylaod,httpOptions);
   }
 
+  public duplicate(userName:any, wsid: any,inventoryMapID:any): Observable<any>{
+    let payload = {
+      "username": userName,
+      "wsid": wsid,
+      "inventoryMapID": inventoryMapID
+    }
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic '
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Admin/DuplicateItem`, payload,httpOptions);
+  }
+
 }
