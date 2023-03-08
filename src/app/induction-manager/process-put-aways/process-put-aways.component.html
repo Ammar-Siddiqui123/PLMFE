@@ -20,49 +20,21 @@
                                     <mat-label>Batch ID</mat-label>
                                     <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="batchId" [matAutocomplete]="item" (ngModelChange)="this.searchByItem.next($event)">
 
-                                    <mat-autocomplete class="card custom-scroll" #item="matAutocomplete">
-                            
-                                      <h6 class ="card-header matAutoCompHeader "><span style="width:  140px;">Batch ID</span> <span  style="width:  140px;">Zone Label</span> </h6>
+                                    <mat-autocomplete class="card custom-scroll" #item="matAutocomplete">                            
+                                      <h6 class ="card-header matAutoCompHeader ">
+                                        <span style="width:  140px;">Batch ID</span> 
+                                        <span style="width:  140px;">Zone Label</span> 
+                                      </h6>
                                     
-                                      <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.batchID" class="matAutoCompTableContent">
+                                      <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.batchID" class="matAutoCompTableContent" style="line-height: 24px; height:auto ;">
                                         <div class="loc_option"  (click)="getRow(option.batchID)" >
-                                          <span  class="searchColumn" style="width:  140px;">{{option.batchID}}</span> <span  class="searchColumn" style="width:  140px;">{{option.zoneLabel}}</span> 
+                                          <span  class="searchColumn" style="width:  140px;">{{option.batchID}}</span> 
+                                          <span  class="searchColumn" style="width:  140px; white-space: normal;">{{option.zoneLabel}}</span> 
                                         </div>
                                       </mat-option>
                                     </mat-autocomplete>
 
                                 </mat-form-field>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
                                     <mat-label>Status</mat-label>
@@ -117,7 +89,7 @@
                     </h2>
                     <mat-form-field class="action-dropdown" appearance="outline">
                         <mat-label>Actions</mat-label>
-                        <mat-select class="employees-action" [(ngModel)]="actionDropDown"  (selectionChange)="gridAction($event.value)">
+                        <mat-select class="employees-action" [(ngModel)]="actionDropDown" #actionRef1 (selectionChange)="gridAction($event.value)">
                           <mat-option value="assignAll">Assign all IDs</mat-option>
                           <mat-option value="delete">Print Tote/Location Labels</mat-option>
                           <!-- <mat-option value="back">Back</mat-option> -->
@@ -138,10 +110,7 @@
                   </div>
                 </div>
                 <div class="card br-14 table-responsive borderless px-0">
-                    <ng-scrollbar style="height: 620px;" track="all" class="mat-table-scrollbar">
-
-                      
-
+                    <ng-scrollbar style="height: 620px;" track="all" class="mat-table-scrollbar">                  
 
                       <table mat-table [dataSource]="dataSource" class="custom-table table-fix">
 
@@ -162,7 +131,7 @@
                           <td mat-cell *matCellDef="let element">
                             <div class="pe-2">
                               <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                <input matInput type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" #specialFeature maxlength="255" [value]="element.cells" (keydown)="onToteChange($event,element.position,'1')" (keyup)="onToteChange($event,element.position,'1')" (change)="onToteChange($event,element.position,'1')" (keypress)="onToteChange($event,element.position,'1')"  (keypress)="onToteChange($event,element.position,'1')">
+                                <input matInput type="text" [disabled]="element.locked ? true : false" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" #specialFeature maxlength="255" [value]="element.cells" (keydown)="onToteChange($event,element.position,'1')" (keyup)="onToteChange($event,element.position,'1')" (change)="onToteChange($event,element.position,'1')" (keypress)="onToteChange($event,element.position,'1')"  (keypress)="onToteChange($event,element.position,'1')">
                               </mat-form-field>
                             </div>
                           </td>
@@ -170,13 +139,18 @@
                         <ng-container matColumnDef="toteid">
                           <th mat-header-cell *matHeaderCellDef  style="width:35%"> Tote ID</th>
                           <td mat-cell *matCellDef="let element">
-                            <div class="pe-2">
-                              <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="openTotesDialogue(element.position)">
+                            <div class="pe-2 d-flex gap-12 align-items-center">
+                              <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="element.locked ? false : openTotesDialogue(element.position)">
                                 <span matSuffix>
                                     <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
                                   </span>
                                 <input matInput readonly="readonly" type="text" #specialFeature maxlength="255" [value]="element.toteid" (keydown)="onToteChange($event,element.position)" (keyup)="onToteChange($event,element.position)" (change)="onToteChange($event,element.position)" (keypress)="onToteChange($event,element.position)"  (keypress)="onToteChange($event,element.position)">
-                              </mat-form-field>
+                              </mat-form-field>   
+                              
+                              <button *ngIf="element.locked" matTooltip="Allocated in Open Transaction" mat-mini-fab color="Default" class="button-default-i icon-button-8br"> 
+                                <mat-icon style="color:#f0ad4e;">flag</mat-icon>
+                              </button>
+                              
                             </div>
                           </td>
                         </ng-container>
@@ -191,8 +165,8 @@
                 
                                   <mat-menu #appMenu="matMenu">
                                     <button mat-menu-item>Print</button>
-                                    <button mat-menu-item (click)="assignToteAtPosition(element,1)">Clear</button>
-                                    <button mat-menu-item (click)="assignToteAtPosition(element)">Assign Next ID</button>
+                                    <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element,1)">Clear</button>
+                                    <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element)">Assign Next ID</button>
                                   </mat-menu>
                             </div>
                           </td>
@@ -233,8 +207,10 @@
                 <div class="col-xl-4">
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Batch ID</mat-label>
-                    <!-- <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000"> -->
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="batchId2" [matAutocomplete]="item2" (ngModelChange)="this.searchByItem.next(1)">
+                    
+                    <input (keydown.shift.enter)="$event.preventDefault()" matInput 
+                        [(ngModel)]="batchId2" [matAutocomplete]="item2" type="text" #batchVal
+                        (ngModelChange)="this.searchByItem.next(1)" (focusout)="onFocusOutBatchID(batchVal.value)">
 
                     <mat-autocomplete class="card custom-scroll" #item2="matAutocomplete">
             

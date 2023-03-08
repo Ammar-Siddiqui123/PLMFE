@@ -425,11 +425,10 @@ export class InventoryMapComponent implements OnInit {
     });
   }
 
-  viewLocationHistory(row){
-    // this.router.navigate([]).then((result) => {
-    //   window.open(`/#/admin/transaction?itemNumber=${row.itemNumber}`, '_self');
-    // });
-    console.log(row);
+  viewLocationHistory(row : any){
+    this.router.navigate([]).then((result) => {
+      window.open(`/#/admin/transaction?location=${row.locationNumber}`, '_self');
+    });
   }
 
   autocompleteSearchColumn(){
