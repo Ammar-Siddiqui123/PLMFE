@@ -37,7 +37,7 @@
                 <mat-form-field class="custom-form-field custom-form-field-bg-white position-relative" appearance="outline">
                   <mat-label>Select Saved filter</mat-label>
                   <input type="text" [formControl]="savedFilter" aria-label="Number" matInput [matAutocomplete]="auto">
-                  <mat-autocomplete class="autocomplete-center" panelWidth="auto" autoActiveFirstOption
+                  <mat-autocomplete  autoActiveFirstOption
                     #auto="matAutocomplete" (optionSelected)="onSavedFilterChange($event)" (closed)="savedFilClosed()">
                     <h6 class="ctl_name ac-dropdown-label"><span>Batch ID</span></h6>
                     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
@@ -350,8 +350,8 @@
               <div class="mb-2">
                 <mat-label><b>View Order Lines</b></mat-label>
               </div>
-              <mat-radio-group color="primary" class="d-flex" value="0">
-                <mat-radio-button class="d-flex pe-4 custom-horizontal-radio">
+              <mat-radio-group color="primary" class="d-flex">
+                <mat-radio-button class="d-flex pe-4 custom-horizontal-radio"[checked]='true'>
                   <mat-label>View Selected Order Lines</mat-label>
                 </mat-radio-button>
                 <mat-radio-button class="d-flex pe-2 custom-horizontal-radio">
@@ -373,9 +373,10 @@
                     </h2>
                     <mat-form-field class="action-dropdown" appearance="outline">
                       <mat-label>Actions</mat-label>
-                      <mat-select #matRef class="employees-action" placeholder="Actions" (selectionChange)="onChangeOrderAction($event.value)">
-                        <mat-option value="fill_top_orders">Fill With Top Orders</mat-option>
+                      <mat-select #orderRef class="employees-action" placeholder="Actions" (selectionChange)="onChangeOrderAction($event.value)">
+                        <mat-option value="fill_top_orders">Select All</mat-option>
                         <mat-option value="unselect_all_orders">Un-Select All Orders</mat-option>
+                        <mat-option value="select_order" [disabled]="isOrderSelect">Select Order</mat-option>
                       </mat-select>
                       <span class="material-symbols-outlined icon-expand-more">
                         expand_more
@@ -569,11 +570,11 @@
               <div class="mb-2">
                 <mat-label><b>View Order Lines</b></mat-label>
               </div>
-              <mat-radio-group color="primary" class="d-flex" value="0">
-                <mat-radio-button class="d-flex pe-4 custom-horizontal-radio">
+              <mat-radio-group color="primary" class="d-flex" value="vSelectedOrderZone" (change)="onViewOrderLineZone($event)">
+                <mat-radio-button class="d-flex pe-4 custom-horizontal-radio" value="vSelectedOrderZone">
                   <mat-label>View Selected Order Lines</mat-label>
                 </mat-radio-button>
-                <mat-radio-button class="d-flex pe-2 custom-horizontal-radio">
+                <mat-radio-button class="d-flex pe-2 custom-horizontal-radio" value="vAllOrderZone">
                   <mat-label>View All Order Lines</mat-label>
                 </mat-radio-button>
               </mat-radio-group>
@@ -592,9 +593,10 @@
                     </h2>
                     <mat-form-field class="action-dropdown" appearance="outline">
                       <mat-label>Actions</mat-label>
-                      <mat-select #matRef class="employees-action" placeholder="Actions" (selectionChange)="onChangeOrderActionZone($event.value)">
-                        <mat-option value="fill_top_orders">Fill With Top Orders</mat-option>
+                      <mat-select #orderZoneRef class="employees-action" placeholder="Actions" (selectionChange)="onChangeOrderActionZone($event.value)">
+                        <mat-option value="fill_top_orders">Select All</mat-option>
                         <mat-option value="unselect_all_orders">Un-Select All Orders</mat-option>
+                        <mat-option value="select_order" [disabled]="isOrderSelectZone">Select Order</mat-option>
                       </mat-select>
                       <span class="material-symbols-outlined icon-expand-more">
                         expand_more

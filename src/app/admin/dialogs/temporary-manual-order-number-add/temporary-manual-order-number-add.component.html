@@ -74,7 +74,7 @@
                       
                         <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.itemNumber" class="matAutoCompTableContent">
                           <div class="loc_option"  (click)="getRow(option)" >
-                            <span  class="searchColumn" style="width:  140px;">{{option.itemNumber}}</span> <span  class="searchColumn" style="width:  140px; text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;">{{option.description}}</span> 
+                            <span   class="searchColumn" style="width:  140px;">{{option.itemNumber}}</span> <span  class="searchColumn" style="width:  140px; text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;" #tooltip="matTooltip" matTooltipPosition="above" [matTooltip]="option.description" [matTooltipDisabled]="option.description && option.description.length>=20?false:true">{{option.description}}</span> 
                         </div>
                         </mat-option>
                       </mat-autocomplete>

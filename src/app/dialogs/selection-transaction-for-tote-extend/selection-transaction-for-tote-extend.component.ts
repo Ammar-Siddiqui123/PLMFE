@@ -68,6 +68,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       serialNumber                      : new FormControl('', Validators.compose([])),
       transactionQuantity               : new FormControl('', Validators.compose([])),
       warehouse                         : new FormControl('', Validators.compose([])),
+      returnToStock                     : new FormControl(false, Validators.compose([])),
 
       // Item Info
       supplierItemID                    : new FormControl('', Validators.compose([])),
@@ -813,6 +814,11 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   forSameSKU() {
     this.toteForm.patchValue({
       orderNumber                       : '',
+      lotNumber                         : '',                  
+      expirationDate                    : '',
+      serialNumber                      : '',
+      transactionQuantity               : '',
+      warehouse                         : '',
 
       zone                              : '',
       carousel                          : '',
