@@ -220,6 +220,7 @@ export class WorkstationComponent implements OnInit {
             this.licAppObj.map((itm) => {
               itm.canAccess = false;
               itm.defaultApp = false;
+              itm.defaultDisable= itm.appName==='Induction' || itm.appName==='ICSAdmin' ?true:false
             });
           }
           if (canAccessArr.length) {
