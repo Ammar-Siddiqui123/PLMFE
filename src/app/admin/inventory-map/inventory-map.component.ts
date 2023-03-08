@@ -420,8 +420,10 @@ export class InventoryMapComponent implements OnInit {
     });
   }
 
-  viewLocationHistory(){
-    
+  viewLocationHistory(row : any){
+    this.router.navigate([]).then((result) => {
+      window.open(`/#/admin/transaction?location=${row.locationNumber}`, '_self');
+    });
   }
 
   autocompleteSearchColumn(){

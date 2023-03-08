@@ -19,7 +19,8 @@ export class SharedService {
   orderStatusObserver: Subject<any> = new Subject<any>(); 
   itemObserver: Subject<any> = new Subject<any>(); 
   historyItemObserver: Subject<any> = new Subject<any>(); 
-  reprocessItemObserver: Subject<any> = new Subject<any>(); 
+  reprocessItemObserver: Subject<any> = new Subject<any>();
+  historyLocObserver: Subject<any> = new Subject<any>();  
 
   updateSidebar(){
     this.loadMenu = !this.loadMenu;
@@ -45,6 +46,10 @@ export class SharedService {
   }
   updateTransactionHistory(item){
     this.historyItemObserver.next(item);
+
+  }
+  updateTransactionLocHistory(loc){
+    this.historyLocObserver.next(loc);
 
   }
   updateTransactionReprocess(item){
