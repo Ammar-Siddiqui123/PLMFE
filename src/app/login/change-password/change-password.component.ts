@@ -15,6 +15,7 @@ export class ChangePasswordComponent implements OnInit {
   new_toggle = true;
   toggle_password = true;
   resetPassForm: FormGroup;
+  isReadOnly: boolean = true;
   constructor(
     private fb: FormBuilder,  
     public loginService: LoginService,
@@ -58,6 +59,10 @@ export class ChangePasswordComponent implements OnInit {
       }
     })
     
+  }
+
+  removeReadOnly(){
+    this.isReadOnly = !this.isReadOnly;
   }
 
 }
