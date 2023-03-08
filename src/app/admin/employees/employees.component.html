@@ -27,7 +27,7 @@
                   </h2>
                   <mat-form-field class="action-dropdown" appearance="outline">
                     <mat-label>Actions</mat-label>
-                    <mat-select class="employees-action"
+                    <mat-select #matRef class="employees-action"
                       (selectionChange)="actionDialog($event.value, empData, $event)">
                       <mat-option (click)="openDialog()" [hidden]="isLookUp">Add Employee</mat-option>
                       <mat-option value="edit" [hidden]="!isLookUp">Edit</mat-option>
