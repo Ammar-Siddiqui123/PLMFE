@@ -19,13 +19,21 @@ export class ItemNumberComponent implements OnInit {
               private confirmationdialog: MatDialog) { }
 
   ngOnInit(): void {  
-    console.log(this.data)
-    if (this.data.addItem) {
-      this.addItem = true;
-      this.data.itemNumber="";
-    } else {
-      this.addItem = false;
-    }    
+    if(this.data.fromInventoryMaster)
+    {
+      this.data.itemNumber = "";
+      this.data.description = "";
+    }
+    else 
+    {
+      if (this.data.addItem) {
+        this.addItem = true;
+        this.data.itemNumber="";
+      } else {
+        this.addItem = false;
+      }  
+    }
+     
   }
 
   onNoClick(onsubmit: any, status : any): void {
