@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -45,6 +45,14 @@ export class GenerateOrderComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   pageEvent: PageEvent;
 
+  @Input() set tab(event : any) {
+    if (event) {
+      setTimeout(()=>{
+        this.inputVal.nativeElement.focus();
+      }, 500);
+    }
+  }
+
   constructor(
     private authService: AuthService,
     private transactionService: TransactionService,
@@ -67,14 +75,10 @@ export class GenerateOrderComponent implements OnInit {
         // if (this.orderNumber === '') return;
         this.autocompleteSearchColumn();
         this.getOrderTableData();
-      });
-
-
-      setTimeout(()=>{
-        this.inputVal.nativeElement.focus();
-      }, 500);
+      });      
 
   }
+
   public displayedColumns: string[] = [
     'ItemNumber',
     'TransactionQuantity',

@@ -292,9 +292,12 @@ export class GenerateTransactionComponent implements OnInit {
                       positionClass: 'toast-bottom-right',
                       timeOut: 2000,
                     });
+                    this.updateTrans();
+
                     this.clearFields();
                     this.invMapID = '';
                     this.getRow(this.transactionID);
+
                   } else {
                     this.toastr.error(res.responseMessage, 'Error!', {
                       positionClass: 'toast-bottom-right',
@@ -313,6 +316,60 @@ export class GenerateTransactionComponent implements OnInit {
       
 
 
+  }
+
+
+  updateTrans(){
+    let updateValsequence: any = [];
+      updateValsequence[0] = this.itemNumber; //itemNumber
+      updateValsequence[1] = this.transType; //TransType
+      updateValsequence[2] = this.expDate ?this.expDate:''; //expDate
+      updateValsequence[3] = this.revision; //revision
+      updateValsequence[4] = this.description; //description
+      updateValsequence[5] = this.lotNumber; //lotNumber
+      updateValsequence[6] = this.uom; //UoM
+      updateValsequence[7] = this.notes; //notes
+      updateValsequence[8] = this.serialNumber; //serialNumber
+      updateValsequence[9] = this.reqDate ? this.reqDate  :''; //RequiredDate
+      updateValsequence[10] = this.lineNumber; //lineNumber
+      updateValsequence[11] = this.transQuantity.toString(); //transQuantity
+      updateValsequence[12] = this.priority.toString(); //priority
+      updateValsequence[13] = this.lineSeq.toString(); //lineSeq
+      updateValsequence[14] = this.hostTransID.toString(); //hostTransID
+      updateValsequence[15] = this.batchPickID.toString(); //batchPickID
+      updateValsequence[16] = this.emergency.toString(); //emergency
+      updateValsequence[17] = this.wareHouse; //wareHouse
+      updateValsequence[18] = this.toteID==0?"": this.toteID.toString(); //toteID
+      updateValsequence[19] = this.zone; //Zone
+      updateValsequence[20] = this.shelf; //shelf
+      updateValsequence[21] = this.carousel; //carousel
+      updateValsequence[22] = this.row; //row
+      updateValsequence[23] = this.bin; //Bin
+      updateValsequence[24] = this.invMapID.toString(); //InvMapID
+
+      let payload = {
+        newValues: updateValsequence,
+        transID: this.transactionID,
+        userName: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
+
+      this.transactionService
+        .get(payload, '/Admin/UpdateTransaction',true)
+        .subscribe((res: any) => {
+          // if (res && res.isExecuted) {
+          //   this.toastr.success(labels.alert.success, 'Success!', {
+          //     positionClass: 'toast-bottom-right',
+          //     timeOut: 2000,
+          //   });
+          //   this.clearMatSelectList();
+          // } else {
+          //   this.toastr.error(res.responseMessage, 'Error!', {
+          //     positionClass: 'toast-bottom-right',
+          //     timeOut: 2000,
+          //   });
+          // }
+        });
   }
   deleteTransaction() {
     const dialogRef = this.dialog.open(
@@ -494,7 +551,7 @@ export class GenerateTransactionComponent implements OnInit {
   openTemporaryManualOrderDialogue() {
     const dialogRef = this.dialog.open(TemporaryManualOrderNumberAddComponent, {
       height: 'auto',
-      width: '800px',
+      width: '1000px',
       autoFocus: '__non_existing_element__',
       data: {
         userName: this.userData.userName,

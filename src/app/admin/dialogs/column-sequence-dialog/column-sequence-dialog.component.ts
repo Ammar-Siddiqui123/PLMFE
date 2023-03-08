@@ -76,9 +76,10 @@ export class ColumnSequenceDialogComponent implements OnInit {
     this.unorderedCol.length = 0;
   }
   restoreCol() {
-    const autoArray = [...this.defaultCol, ...this.unorderedCol];
-    this.unorderedCol = autoArray;
-    this.defaultCol.length = 0;
+    this.getColumnsSeqDetail();
+    // const autoArray = [...this.defaultCol, ...this.unorderedCol];
+    // this.unorderedCol = autoArray;
+    // this.defaultCol.length = 0;
   }
   save() {
     this.payload.columns = this.defaultCol;

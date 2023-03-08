@@ -21,6 +21,7 @@ export class VelocityCodeComponent implements OnInit {
   onDestroy$: Subject<boolean> = new Subject();
   public userData: any;
   @ViewChild('btnSave') button;
+  disableEnable=[{index:-1,value:false}];
   constructor(
     
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -42,7 +43,18 @@ export class VelocityCodeComponent implements OnInit {
     this.velcodeService.getVelocityCode().subscribe((res) => {
       this.velocity_code_list_Res = [...res.data];
       this.velocity_code_list = res.data;
+      this.disableEnable.shift();
+      for(var i=0;i<this.velocity_code_list.length;i++)
+      {
+      this.disableEnable.push({index:i,value:true});
+      }
      });
+
+  }
+
+  changeDisable(index:any)
+  {
+    this.disableEnable[index].value=false;
   }
 
   addVLRow(row:any){
