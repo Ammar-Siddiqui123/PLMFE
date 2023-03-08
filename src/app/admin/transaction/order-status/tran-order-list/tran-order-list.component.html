@@ -129,7 +129,7 @@
         <!-- OlD -->
         <div class="card br-14 table-responsive my-3">
           <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 300px">
-            <table  style="width: 100%;" mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)"
+            <table  style="width: 100%;" mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
               style=" min-height: 150px;">
               <ng-container matColumnDef="transactionType">
                 <th mat-header-cell mat-sort-header *matHeaderCellDef> Transaction Type </th>
@@ -231,80 +231,80 @@
               </ng-container>
 
               <ng-container matColumnDef="importDate" >
-                <th mat-header-cell *matHeaderCellDef>Import Date</th>
+                <th mat-header-cell mat-sort-header  *matHeaderCellDef>Import Date</th>
                 <td mat-cell *matCellDef="let element" #tooltip="matTooltip" [matTooltip]="element.importDate" matTooltipPosition="above"  [matTooltipDisabled]="element.importDate && element.importDate.length>=15?false:true"> {{element.importDate}} </td>
               </ng-container>
               <ng-container matColumnDef="batchPickID">
-                <th mat-header-cell *matHeaderCellDef>Batch Pick ID</th>
+                <th mat-header-cell mat-sort-header  *matHeaderCellDef>Batch Pick ID</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.batchPickID"   matTooltipPosition="above" [matTooltipDisabled]="element.batchPickID && element.batchPickID.length>=15?false:true" > {{element.batchPickID}} </td>
               </ng-container>
 
               <ng-container matColumnDef="userField1">
-                <th mat-header-cell *matHeaderCellDef>User Field1</th>
+                <th mat-header-cell mat-sort-header  *matHeaderCellDef>User Field1</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.userField1"   matTooltipPosition="above" [matTooltipDisabled]="element.userField1 && element.userField1.length>=15?false:true" > {{element.userField1}} </td>
               </ng-container>
               <ng-container matColumnDef="userField2">
-                <th mat-header-cell *matHeaderCellDef>User Field2</th>
+                <th mat-header-cell mat-sort-header  *matHeaderCellDef>User Field2</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.userField2"   matTooltipPosition="above" [matTooltipDisabled]="element.userField2 && element.userField2.length>=15?false:true" > {{element.userField2}} </td>
               </ng-container>
               <ng-container matColumnDef="userField3">
-                <th mat-header-cell *matHeaderCellDef>User Field3</th>
+                <th mat-header-cell mat-sort-header  *matHeaderCellDef>User Field3</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.userField3"   matTooltipPosition="above" [matTooltipDisabled]="element.userField3 && element.userField3.length>=15?false:true" > {{element.userField3}} </td>
               </ng-container>
               <ng-container matColumnDef="userField4">
-                <th mat-header-cell *matHeaderCellDef>User Field4</th>
+                <th mat-header-cell mat-sort-header  *matHeaderCellDef>User Field4</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.userField4"   matTooltipPosition="above" [matTooltipDisabled]="element.userField4 && element.userField4.length>=15?false:true" > {{element.userField4}} </td>
               </ng-container>
               <ng-container matColumnDef="userField5">
-                <th mat-header-cell *matHeaderCellDef>User Field5</th>
+                <th mat-header-cell mat-sort-header  *matHeaderCellDef>User Field5</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.userField5"   matTooltipPosition="above" [matTooltipDisabled]="element.userField5 && element.userField5.length>=15?false:true" > {{element.userField5}} </td>
               </ng-container>
               <ng-container matColumnDef="userField6">
-                <th mat-header-cell *matHeaderCellDef>User Field6</th>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>User Field6</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.userField6"   matTooltipPosition="above" [matTooltipDisabled]="element.userField6 && element.userField6.length>=15?false:true" > {{element.userField6}} </td>
               </ng-container>
 
               <ng-container matColumnDef="userField7">
-                <th mat-header-cell *matHeaderCellDef>User Field7</th>
+                <th mat-header-cell mat-sort-header  *matHeaderCellDef>User Field7</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.userField7"   matTooltipPosition="above" [matTooltipDisabled]="element.userField7 && element.userField7.length>=15?false:true" > {{element.userField7}} </td>
               </ng-container>
               <ng-container matColumnDef="userField8">
-                <th mat-header-cell *matHeaderCellDef>User Field8</th>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>User Field8</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.userField8"   matTooltipPosition="above" [matTooltipDisabled]="element.userField8 && element.userField8.length>=15?false:true" > {{element.userField8}} </td>
               </ng-container>
               <ng-container matColumnDef="userField9">
-                <th mat-header-cell *matHeaderCellDef>User Field9</th>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>User Field9</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.userField9"   matTooltipPosition="above" [matTooltipDisabled]="element.userField9 && element.userField9.length>=15?false:true" > {{element.userField9}} </td>
               </ng-container>
               <ng-container matColumnDef="userField10">
-                <th mat-header-cell *matHeaderCellDef>User Field10</th>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>User Field10</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.userField10"   matTooltipPosition="above" [matTooltipDisabled]="element.userField10 && element.userField10.length>=15?false:true" > {{element.userField10}} </td>
               </ng-container>
               <ng-container matColumnDef="toteNumber">
-                <th mat-header-cell *matHeaderCellDef>Tote Number</th>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>Tote Number</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.toteNumber"   matTooltipPosition="above" [matTooltipDisabled]="element.toteNumber && element.toteNumber.length>=15?false:true" > {{element.toteNumber}} </td>
               </ng-container>
               <ng-container matColumnDef="cell">
-                <th mat-header-cell *matHeaderCellDef>Cell</th>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>Cell</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.cell"   matTooltipPosition="above" [matTooltipDisabled]="element.cell && element.cell.length>=15?false:true" > {{element.cell}} </td>
               </ng-container>
               <ng-container matColumnDef="zone">
-                <th mat-header-cell *matHeaderCellDef>Zone</th>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>Zone</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.zone"   matTooltipPosition="above" [matTooltipDisabled]="element.zone && element.zone.length>=15?false:true" > {{element.zone}} </td>
               </ng-container>
 
               <ng-container matColumnDef="hostTransactionID">
-                <th mat-header-cell *matHeaderCellDef>Host Transaction ID</th>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>Host Transaction ID</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.hostTransactionID"   matTooltipPosition="above" [matTooltipDisabled]="element.hostTransactionID && element.hostTransactionID.length>=15?false:true" > {{element.hostTransactionID}} </td>
               </ng-container>
 
               <ng-container matColumnDef="emergency">
-                <th mat-header-cell *matHeaderCellDef>Emergency</th>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>Emergency</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.emergency"   matTooltipPosition="above" [matTooltipDisabled]="element.emergency && element.emergency.length>=15?false:true" > {{element.emergency}} </td>
               </ng-container>
 
               <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>ID</th>
                 <td mat-cell *matCellDef="let element"  #tooltip="matTooltip" [matTooltip]="element.itemNumber"   matTooltipPosition="above" [matTooltipDisabled]="element.itemNumber && element.itemNumber.length>=15?false:true" > {{element.id}} </td>
               </ng-container>
 
