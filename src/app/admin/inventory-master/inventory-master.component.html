@@ -92,7 +92,7 @@
                   <app-kit-item [kitItem]="invMaster" (notifyParent)="getNotification($event)"></app-kit-item>
                 </mat-tab>
                 <mat-tab label="Location">
-                  <app-location [location]="invMaster" (notifyParent)="getNotification($event)"></app-location>
+                  <app-location [count]="count" [location]="invMaster" (notifyParent)="getNotification($event)"></app-location>
                 </mat-tab>
                 <mat-tab label="Reel Tracking"  [disabled]="true">
                   <app-reel-tracking [reelTracking]="invMaster"></app-reel-tracking>

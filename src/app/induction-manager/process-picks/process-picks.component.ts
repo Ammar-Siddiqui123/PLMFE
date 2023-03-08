@@ -17,6 +17,7 @@ import labels from '../../labels/labels.json';
 import { MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-process-picks',
@@ -223,6 +224,38 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   onAddBatch(val: string) {
+    let filledTote:boolean = false;
+    this.TOTE_SETUP.map(obj => {
+      if(obj.toteID !== ''){
+        filledTote = true;
+      }
+    });
+    
+    console.log(filledTote);
+    
+    if(filledTote){
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message: 'Press OK to create a new Tote Setup. Press Cancel to keep the current Tote Setup.'
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        if(result=='Yes'){
+          this.addingBatch(val);
+        }
+      })
+
+    }
+    else{
+      this.addingBatch(val);
+    }
+    
+  }
+
+  addingBatch(val:any){
     if (val === 'batchWithID') {
       this.batchWithID = true;
     }

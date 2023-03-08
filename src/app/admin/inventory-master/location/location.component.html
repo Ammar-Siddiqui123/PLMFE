@@ -122,6 +122,6 @@
 
 
 <div class="d-flex justify-content-between bg-white">
-  <mat-paginator [pageSize]="5"  [length]="location.controls['count'].value" [pageSizeOptions]="[5, 10, 20]"  (page)="handlePageEvent($event)"></mat-paginator>          
+  <mat-paginator [pageSize]="5" [length]="count" [pageSizeOptions]="[5, 10, 20]"  (page)="handlePageEvent($event)"></mat-paginator>          
 </div>
 </div>
