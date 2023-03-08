@@ -170,7 +170,7 @@ export class GenerateOrderComponent implements OnInit {
           data: {
             mode: 'delete-order',
             heading: 'Delete Order',
-            message: `Are you sure you want to delete order: ${this.orderNumber} ? This will  remove all manual transaction for this order`,
+            message: `Are you sure you want to remove order: ${this.orderNumber} ? This will  remove all manual transaction for this order`,
             userName: this.userData.userName,
             wsid: this.userData.wsid,
             orderNumber:this.orderNumber
