@@ -92,6 +92,11 @@ export class CellSizeComponent implements OnInit {
           }
         });
       }
+    } else {
+      this.toastr.error('Cell Size cannot be empty', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
     }
   }
   dltCellSize(cell: any, i) {

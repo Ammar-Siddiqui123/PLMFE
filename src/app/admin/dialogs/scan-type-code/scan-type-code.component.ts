@@ -79,6 +79,11 @@ export class ScanTypeCodeComponent implements OnInit {
       }
   
     });
+  } else {
+    this.toastr.error('Scan Codes cannot be empty', 'Error!', {
+      positionClass: 'toast-bottom-right',
+      timeOut: 2000
+    });
   }
   }
 
