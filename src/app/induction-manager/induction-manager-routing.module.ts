@@ -9,6 +9,8 @@ import { SuperBatchComponent } from './super-batch/super-batch.component';
 import { AdminPrefrencesComponent } from './admin-prefrences/admin-prefrences.component';
 import { ConfirmationGuard } from '../guard/confirmation-guard.guard';
 import { TransactionComponent } from '../admin/transaction/transaction.component';
+import { InventoryMapComponent } from '../admin/inventory-map/inventory-map.component';
+import { InventoryMasterComponent } from '../admin/inventory-master/inventory-master.component';
 
 const routes: Routes = [
   { path: '', component: InductionManagerComponent },
@@ -57,7 +59,14 @@ const routes: Routes = [
     component: TransactionComponent
   },
   
-  
+  {
+    path: 'InventoryMap',
+    component: InventoryMapComponent
+  },
+  {
+    path: 'InventoryMaster',
+    component: InventoryMasterComponent
+  },
 
   
 ];
