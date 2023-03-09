@@ -109,6 +109,8 @@ export class ReprocessTransactionComponent implements OnInit {
   transTypeSelect = 'All Transactions';
   transStatusSelect = 'All Transactions';
 
+  
+
   isReprocessedChecked = {flag:false};
   isCompleteChecked = {flag:false};
   isHistoryChecked = {flag:false};
@@ -586,7 +588,7 @@ export class ReprocessTransactionComponent implements OnInit {
     return this.floatLabelControlColumn.value || 'auto';
   }
   getProcessSelection(checkValues) {
-    this.tableEvent = checkValues
+    this.tableEvent = checkValues;
     if (this.tableEvent === 'history') {
       this.isHistory = true;
       this.getHistoryData();
@@ -869,7 +871,7 @@ export class ReprocessTransactionComponent implements OnInit {
       length: this.customPagination.recordsPerPage,
       sortColumnNumber: this.sortCol,
       sortOrder: this.sortOrder,
-      orderNumber: this.orderNumber,
+      orderNumber: "",
       itemNumber: this.itemNumber,
       // hold: false,
       username: this.userData.userName,

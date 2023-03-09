@@ -228,7 +228,9 @@ export class SideNavComponent implements OnInit {
           this.isChildMenu = true;
         }    
 
-        this.sharedService.updateLoggedInUser(this.userData.username,this.userData.wsid,menu.route);
+        //this.userData.username
+        this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route);
+
   
       
     }
