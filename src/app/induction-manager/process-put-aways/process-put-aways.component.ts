@@ -1091,10 +1091,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       })
 
       dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-
-
-        }
+        this.fillToteTable();
       });
     }
   }
