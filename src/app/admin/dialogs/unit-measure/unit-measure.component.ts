@@ -37,6 +37,7 @@ export class UnitMeasureComponent implements OnInit {
 
         for(var i=0;i<this.unitOfMeasure_list.length;i++)
       {
+        this.unitOfMeasure_list.fromDB = true;
         this.enableButton.push({index:i,value:true});
       }
       }
@@ -89,7 +90,7 @@ export class UnitMeasureComponent implements OnInit {
   this.enableButton[i].value=false;
   }
 
-  dltUnitMeasure(um : any) {
+  dltUnitMeasure(um : any,fromDB:any) {
 
 
 
@@ -100,7 +101,7 @@ export class UnitMeasureComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
      if(result === 'Yes'){
-      if(um){
+      if(um && fromDB==true){
         let paylaod = {
           "newValue": um,
           "username": this.userData.userName,
