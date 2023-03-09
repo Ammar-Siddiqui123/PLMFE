@@ -235,7 +235,9 @@ export class InventoryMasterComponent implements OnInit {
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
       this.getInvMasterData = res.data;
-      // console.log(this.getInvMasterData);
+      
+      console.log('====GET INVENTORY MASTER=====');
+      console.log(res.data);
 
       this.initialzeIMFeilds();
     })
@@ -332,7 +334,10 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   public updateInventoryMaster() {
-    // console.log(this.invMaster.value);
+    this.invMaster.patchValue({
+      'bulkGoldZone':this.invMaster.value?.bulkVelocity,
+      'CfGoldZone':this.invMaster.value?.cfVelocity
+    });
 
     this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
       if (res.isExecuted) {
