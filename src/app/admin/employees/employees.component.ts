@@ -352,6 +352,7 @@ initialzeEmpForm() {
       this.groupAllowedList = [];
       this.max_orders = '';
       this.demo1TabIndex = 0;
+      this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
   actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
     // console.log(event.value)

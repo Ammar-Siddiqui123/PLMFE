@@ -107,12 +107,19 @@ export class DetailComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
-
-      this.details.patchValue({        
-        'category': result.category,        
-        'subCategory': result.subCategory,        
-      });
+      if(result.category!='' && result!=true)
+      {
+        this.details.patchValue({        
+          'category': result.category      
+        });
+      }
+      if(result.subCategory!='' && result!=true)
+      {
+        this.details.patchValue({            
+          'subCategory': result.subCategory,        
+        });
+      }
+      
       
     })
   }
@@ -128,10 +135,14 @@ export class DetailComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       // console.log(result);
-      this.details.patchValue({
-        'unitOfMeasure' : result
-      });
+      if(result!='' && result!=true)
+      {
 
+        this.details.patchValue({
+          'unitOfMeasure' : result
+        });
+  
+      }
     })
   }
 

@@ -370,6 +370,7 @@ export class InventoryMasterComponent implements OnInit {
       data: {
         itemNumber: this.currentPageItemNo,
         description: this.getInvMasterData.description,
+        fromInventoryMaster:1,
         newItemNumber: '',
         addItem: true
       }

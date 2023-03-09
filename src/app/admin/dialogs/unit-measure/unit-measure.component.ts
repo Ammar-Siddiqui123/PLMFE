@@ -16,6 +16,7 @@ export class UnitMeasureComponent implements OnInit {
 
   public unitOfMeasure_list: any;
   public userData: any;
+  enableButton=[{index:-1,value:true}];
 
 
   constructor(private dialog: MatDialog,
@@ -29,9 +30,15 @@ export class UnitMeasureComponent implements OnInit {
     this.getUOM()
   }
   getUOM(){
+    this.enableButton.shift();
     this.umService.getUnitOfMeasure().subscribe((res) => {
       if (res.isExecuted) {
         this.unitOfMeasure_list = res.data;
+
+        for(var i=0;i<this.unitOfMeasure_list.length;i++)
+      {
+        this.enableButton.push({index:i,value:true});
+      }
       }
     });
   }
@@ -67,7 +74,7 @@ export class UnitMeasureComponent implements OnInit {
     this.umService.saveUnitOfMeasure(paylaod).subscribe((res) => {
       if(res.isExecuted){
         this.getUOM();
-        this.toastr.success(labels.alert.success, 'Success!', {
+        this.toastr.success( oldUM.toString()==''?labels.alert.success:labels.alert.update, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
@@ -75,6 +82,11 @@ export class UnitMeasureComponent implements OnInit {
   
     });
   }
+  }
+
+  enableDisableButton(i:any)
+  {
+  this.enableButton[i].value=false;
   }
 
   dltUnitMeasure(um : any) {
