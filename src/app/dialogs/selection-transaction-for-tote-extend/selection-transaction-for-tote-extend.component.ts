@@ -172,7 +172,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               lotNumber                         : values.lotNumber,                  
               expirationDate                    : values.expirationDate ? formatDate(values.expirationDate, 'yyyy-MM-dd', 'en') : '',
               serialNumber                      : values.serialNumber,
-              transactionQuantity               : values.transactionQuantity,
+              transactionQuantity               : this.data.transactionQuantity ? this.data.transactionQuantity : this.data.defaultPutAwayQuantity,
               warehouse                         : values.warehouse,
 
               // Item Info
@@ -213,6 +213,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               dedicated                         : values.dedicated,
 
             });
+
+            this.checkRepenishment();
           } else {
             this.toast.error('Something went wrong', 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -461,7 +463,6 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
       this.service.get(payLoad, '/Induction/CheckForwardLocations').subscribe(
         (res: any) => {
-          console.log("Replenishment : ", res);
           if (res.data > 0 && res.isExecuted && this.data.autoForwardReplenish) {
             
             let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -584,7 +585,11 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((res) => {
-      if (res == "Submit") {
+      this.toteForm.patchValue({
+        transactionQuantity    : values.transactionQuantity - (res.qtyToSubtract ? res.qtyToSubtract : 0),
+        toteQty                : values.toteQty - (res.qtyToSubtract ? res.qtyToSubtract : 0),
+      });
+      if (res.data == "Submit") {        
         this.completeTransaction();
       }
       
