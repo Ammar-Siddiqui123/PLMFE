@@ -295,7 +295,13 @@ background-color: #7B42AC;
     }
   }
 }
-
+//  To add label entries in pagination ....
+.mat-paginator-range-label{
+  &::after{
+      position: relative;
+      content: 'Entries';
+  }
+}
 .mat-sidenav .mat-list-item {
   color: #000080;
 }

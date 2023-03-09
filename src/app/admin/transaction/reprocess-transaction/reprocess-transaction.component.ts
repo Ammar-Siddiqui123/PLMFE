@@ -211,7 +211,7 @@ export class ReprocessTransactionComponent implements OnInit {
   ngOnInit(): void {
     this.customPagination = {
       total: '',
-      recordsPerPage: 10,
+      recordsPerPage: 20,
       startIndex: 0,
       endIndex: 10,
     };
@@ -222,13 +222,16 @@ export class ReprocessTransactionComponent implements OnInit {
     this.searchByColumn
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
+        this.customPagination.startIndex=0;
+        this.customPagination.length=20;
+        this.paginator.pageIndex = 0;
         if(this.searchFieldsTrueFalse.indexOf(this.columnSearch.searchColumn.colDef) > -1){
           if(this.trueString.match(value.toLowerCase())){
               this.switchTrueString=true;
           }else if(this.falseString.match(value.toLowerCase())){
             this.switchTrueString=false;
           }
-        }
+        }   
         this.autocompleteSearchColumn(false);
         this.getContentData();
       });
@@ -244,6 +247,7 @@ export class ReprocessTransactionComponent implements OnInit {
       }
        })
     )
+    this.dataSource.paginator = this.paginator;
   }
   clearDelete(showOptions="")
   {
