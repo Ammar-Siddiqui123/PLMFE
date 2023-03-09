@@ -40,7 +40,7 @@ export class BatchDeleteComponent implements OnInit {
       batchID: this.batchID,
       transType: this.transType,
       deAllocate: deAllocate,
-      pageFrom: '',
+      pageFrom: 'Process',
       wsid: this.data.wsid,
       username: this.data.userName,
     };
