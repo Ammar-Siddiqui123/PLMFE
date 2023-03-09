@@ -78,7 +78,6 @@ export class EmployeesComponent implements OnInit {
   public updateGrpTable;
   empForm: FormGroup;
   @ViewChild('zoneDataRefresh', { static: true,read:MatTable }) zoneDataRefresh;
-  @ViewChild('matRef') matRef: MatSelect;
 
 
 
