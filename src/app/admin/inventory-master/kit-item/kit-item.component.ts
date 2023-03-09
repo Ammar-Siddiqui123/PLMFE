@@ -22,6 +22,7 @@ export class KitItemComponent implements OnInit, OnChanges {
   dialogitemNumberDisplay: any = '';
   isFormFilled:any;
   Ikey:any;
+  oldNumber="";
   @ViewChild('namebutton', { read: ElementRef, static:false }) namebutton: ElementRef;
 
 
@@ -114,7 +115,6 @@ export class KitItemComponent implements OnInit, OnChanges {
 
 
   saveKit(newItem: any, e: any) {
-    //  console.log(this.kitItem.controls['kitInventories'].value)
 
     let newRecord = true;
     this.kitItem.controls['kitInventories'].value.forEach(element => {
@@ -152,13 +152,15 @@ export class KitItemComponent implements OnInit, OnChanges {
 
       let paylaod = {
         "itemNumber": this.kitItem.controls['itemNumber'].value,
-        "oldKitItem": e.itemNumber,
+        "oldKitItem": this.oldNumber!=""?this.oldNumber:newItem,
         "newKitItem": newItem,
         "kitQuantity": e.kitQuantity,
         "specialFeatures": e.specialFeatures,
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
       }
+      
+      console.log(paylaod);
       this.invMasterService.get(paylaod, '/Admin/UpdateKit').subscribe((res: any) => {
 
         if (res.isExecuted) {
@@ -194,7 +196,7 @@ export class KitItemComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe((x) => {
 
       if (x) {
-
+        this.oldNumber = e.itemNumber;
         e.itemNumber =  this.dialogitemNumber!=""?this.dialogitemNumber:e.itemNumber;
         e.description = this.dialogDescription!=""?this.dialogDescription:e.description;
         this.isFormFilled = true;
@@ -210,7 +212,7 @@ export class KitItemComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe((x) => {
 
       if (x) {
-        e.description = this.dialogDescription
+        e.description =  this.dialogDescription!=""?this.dialogDescription:e.description 
       }
     })
   }

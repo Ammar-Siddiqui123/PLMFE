@@ -23,6 +23,7 @@ export class ItemNumberComponent implements OnInit {
     if (this.data.addItem) {
       this.addItem = true;
       this.data.itemNumber="";
+      this.data.description="";
     } else {
       this.addItem = false;
     }    

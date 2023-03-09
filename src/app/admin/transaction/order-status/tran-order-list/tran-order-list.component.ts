@@ -159,6 +159,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   public payload;
   public sortCol: any = 3;
   public sortOrder: any = 'asc';
+  @ViewChild(MatSort) sort: MatSort;
 public catchToteId;
 isToolTipDisabled = false;
   searchByInput = new Subject<string>();
@@ -331,6 +332,8 @@ isToolTipDisabled = false;
         (error) => {}
       );
   }
+
+  
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
   }
@@ -508,11 +511,19 @@ isToolTipDisabled = false;
   }
 
   announceSortChange(sortState: Sort) {
+    // if (sortState.direction) {
+    //   this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    // } else {
+    //   this._liveAnnouncer.announce('Sorting cleared');
+    // }
+
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+    this.dataSource.sort = this.sort;
+
   }
 
   ngOnInit(): void {
