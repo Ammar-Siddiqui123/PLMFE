@@ -108,12 +108,16 @@ export class ReprocessTransactionComponent implements OnInit {
   public itemList: any;
   transTypeSelect = 'All Transactions';
   transStatusSelect = 'All Transactions';
-
+  trueString='true';
+  switchTrueString=false;
+  falseString='false';
+  switchFalseString=false;
+  searchFieldsTrueFalse=['Label','Emergency','In Process','Master Record'];
   isReprocessedChecked = {flag:false};
   isCompleteChecked = {flag:false};
   isHistoryChecked = {flag:false};
   isHold = false;
-
+  queryString:any='';
   deleteReplenishment=true;
   deleteSelected=false;
   print=false;
@@ -216,6 +220,13 @@ export class ReprocessTransactionComponent implements OnInit {
     this.searchByColumn
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
+        if(this.searchFieldsTrueFalse.indexOf(this.columnSearch.searchColumn.colDef) > -1){
+          if(this.trueString.match(value.toLowerCase())){
+              this.switchTrueString=true;
+          }else if(this.falseString.match(value.toLowerCase())){
+            this.switchTrueString=false;
+          }
+        }
         this.autocompleteSearchColumn(false);
         this.getContentData();
       });
@@ -311,6 +322,17 @@ export class ReprocessTransactionComponent implements OnInit {
 
 
   async autocompleteSearchColumn(isSearchByOrder: boolean = false) {
+   
+    if(this.searchFieldsTrueFalse.indexOf(this.columnSearch.searchColumn.colDef) > -1 && this.switchTrueString){
+      this.queryString='1';
+    }
+    else if(this.searchFieldsTrueFalse.indexOf(this.columnSearch.searchColumn.colDef) > -1 && !this.switchTrueString){
+      this.queryString='0';
+    }else{
+      this.queryString='';
+    }
+
+
     let searchPayload;
     if (isSearchByOrder) {
       searchPayload = {
@@ -322,7 +344,7 @@ export class ReprocessTransactionComponent implements OnInit {
       };
     } else {
       searchPayload = {
-        query: this.columnSearch.searchValue,
+        query: this.queryString!=''?this.queryString:this.columnSearch.searchValue,
         tableName: 4,
         column: this.columnSearch.searchColumn.colDef,
         username: this.userData.userName,
@@ -819,7 +841,7 @@ export class ReprocessTransactionComponent implements OnInit {
     this.rowClicked = "";
     let payload = {
       draw: 0,
-      searchString: this.columnSearch.searchValue,
+      searchString: this.queryString!=''?this.queryString:this.columnSearch.searchValue,
       searchColumn: this.columnSearch.searchColumn.colDef,
       start: this.customPagination.startIndex,
       length: this.customPagination.recordsPerPage,
