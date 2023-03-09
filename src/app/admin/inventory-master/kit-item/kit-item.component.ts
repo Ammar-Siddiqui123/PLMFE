@@ -65,7 +65,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       itemNumber: '',
       description: '',
       specialFeatures: '',
-      kitQuantity: ''
+      kitQuantity: 0
       
     })
     // console.log(this.kitItemsList);
