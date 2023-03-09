@@ -2,6 +2,12 @@
   <div class="container-fluid">
     <div class="row g-4">
       <!-- Main Section Option (Import Export) -->
+      <ng-container *ngIf="!isDefaultAppVerify.isVerified">
+        <div class="label-red p-3 d-flex br-8 mb-3">
+            <mat-icon class="material-symbols-outlined">notification_important</mat-icon>
+            <span class="ps-2 w-100">This workstation does not have permission to access {{isDefaultAppVerify.appName}}</span>
+        </div>
+    </ng-container>
       <ng-container *ngFor="let item of applicationData" >
         <div class="col-xl-3 col-lg-6"  [routerLink]="item.info.route" (click)="updateMenu(item.info.updateMenu)">
 

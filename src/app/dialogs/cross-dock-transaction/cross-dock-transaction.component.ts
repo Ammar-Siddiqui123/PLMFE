@@ -25,6 +25,7 @@ export class CrossDockTransactionComponent implements OnInit {
 
   crossDock: any;
   transactions: any;
+  qtyToSubtract: number = 0;
 
   public batchID;
   public zone;
@@ -95,6 +96,13 @@ export class CrossDockTransactionComponent implements OnInit {
     });
   }
 
+  compQtyChange(val : any) {
+    if (parseInt(val.compQty) > 0) {
+      this.selectedRowObj.completedQuantity = val.compQty;
+      this.openTotesDialogue(val.i); 
+    }
+  }
+
   selectRow(i: any, t: any) {
     this.loopIndex = i;
     this.selectedRow = i;
@@ -138,6 +146,7 @@ export class CrossDockTransactionComponent implements OnInit {
             this.allocatedTotal = res.data.allocatedTotal;
             this.backOrderTotal = res.data.backOrderTotal;
             this.numberRecords = res.data.numberRecords;
+            this.upperBound = res.data.transaction.length < 5 ? res.data.numberRecords : 5;
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -253,21 +262,26 @@ export class CrossDockTransactionComponent implements OnInit {
     })
   }
 
-  submit() {
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        message: 'Click OK to proceed without a tote ID. Click Cancel to provide a tote ID.',
-      },
-    });
+  onNoClick(): void {
+    this.dialogRef.close({ data : "Close", qtyToSubtract : this.qtyToSubtract });
+  }
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result == 'Yes') {
-        this.dialogRef.close("Submit");
-      }
-    });
+  submit() {
+    // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    //   height: 'auto',
+    //   width: '560px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     message: 'Click OK to proceed without a tote ID. Click Cancel to provide a tote ID.',
+    //   },
+    // });
+
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   if (result == 'Yes') {
+    //     this.dialogRef.close("Submit");
+    //   }
+    // });
+    this.dialogRef.close({ data : "Submit", qtyToSubtract : this.qtyToSubtract });
   }
 
   viewOrderStatus() {
@@ -291,6 +305,7 @@ export class CrossDockTransactionComponent implements OnInit {
       });
   
       dialogRef.afterClosed().subscribe((result) => {
+      
         if (result == 'Yes') {
           var payLoad = {
             "pick": this.data.values.transactionQuantity,
@@ -314,6 +329,7 @@ export class CrossDockTransactionComponent implements OnInit {
           this.service.create(payLoad, '/Induction/CompletePick').subscribe(
             (res: any) => {
               if (res.data && res.isExecuted) {
+                this.qtyToSubtract += this.selectedRowObj.completedQuantity ? parseInt(this.selectedRowObj.completedQuantity) : 0;
                 this.getCrossDock();
               } else {
                 this.toastr.error('Something went wrong', 'Error!', {

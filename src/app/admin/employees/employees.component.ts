@@ -46,6 +46,7 @@ export class EmployeesComponent implements OnInit {
   public isLookUp: boolean = false;
   public isGroupLookUp: boolean = false;
   public env;
+  @ViewChild('matRef') matRef: MatSelect;
  // public searchGrpAllowed = '';
   public searchfuncAllowed = '';
 
@@ -107,7 +108,9 @@ export class EmployeesComponent implements OnInit {
     // this.employee_fetched_zones.sort = this.sort;
   }
 
-
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
 getgroupAllowedList(){
   const emp_grp = {
     "userName": this.grp_data,
@@ -343,6 +346,7 @@ initialzeEmpForm() {
   }
   
   backEmpAction(){
+    this.clearMatSelectList();
     this.isLookUp = false;
       this.employee_fetched_zones = [];
       this.location_data_source = [];

@@ -201,7 +201,7 @@ export class ReprocessedTransactionComponent implements OnInit {
   async autocompleteSearchColumn() {
     let searchPayload = {
       query: this.columnSearch.searchValue,
-      tableName: 5,
+      tableName: 6,
       column: this.columnSearch.searchColumn.colDef,
       username: this.userData.userName,
       wsid: this.userData.wsid,
