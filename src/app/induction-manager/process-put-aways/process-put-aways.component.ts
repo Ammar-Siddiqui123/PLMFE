@@ -491,6 +491,17 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.autoPutToteIDS = res.data.imPreference.autoPutAwayToteID;
           this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
           this.processPutAwayIndex = res.data;
+
+          // if (res.data.batchIDs) {          
+          //   this.batchId = res.data.batchIDs;
+          //   this.selectedIndex = 1;
+          //   this.batchId2 = res.data.batchIDs;
+          //   this.fillToteTable(res.data.batchIDs);            
+          //   setTimeout(()=>{
+          //     this.inputVal.nativeElement.focus();
+          //   }, 500);
+          // }
+
         } else {
           this.toastr.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
