@@ -256,7 +256,7 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   public getInvMasterLocations(itemNum: any, pageSize?, startIndex?, sortingColumnName?, sortingOrder?) {
-    // console.log();
+    // console.log(pageSize);
     
     let paylaod = {
       "draw": 0,
@@ -565,7 +565,10 @@ export class InventoryMasterComponent implements OnInit {
     } else if (e?.refreshLocationGrid) {
       this.getInvMasterLocations(this.currentPageItemNo);
     } else if (e?.locationPageSize) {  //&& e?.startIndex
-      this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex);
+      console.log('erow '+ e.locationPageSize);
+      console.log('srow '+ e.startIndex);
+      
+      this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex );
     } else if (e?.sortingColumn) {
       this.getInvMasterLocations(this.currentPageItemNo, '', '', e.sortingColumn, e.sortingSeq);
     } else {
