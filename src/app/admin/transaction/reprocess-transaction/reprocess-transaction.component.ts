@@ -394,7 +394,7 @@ export class ReprocessTransactionComponent implements OnInit {
           width: '70vw',
           data: {
             mode: event,
-            tableName: 'Open Transactions',
+            tableName: 'Open Transactions Temp',
           },
         });
         dialogRef
