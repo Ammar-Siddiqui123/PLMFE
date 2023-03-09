@@ -161,8 +161,8 @@ export class AddInvMapLocationComponent implements OnInit {
 
     this.invMapService.getLocZTypeInvMap().subscribe((res) => {
       this.locZoneList = res.data;
-      console.log("ZONES===>");
-      console.log(res.data);
+      // console.log("ZONES===>");
+      // console.log(res.data);
       this.filteredOptions = this.addInvMapLocation.controls['location'].valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value || '')),
@@ -298,13 +298,13 @@ export class AddInvMapLocationComponent implements OnInit {
   }
   onSubmit(form: FormGroup) {
 
-    console.log(form.value);
+    //console.log(form.value);
 
     this.invMapService.getItemNumDetail({"itemNumber":form.value.item,"zone":form.value.zone}).subscribe((res) => {
       this.clickSubmit = true;
 
-      console.log(res.data.velocityCode);
-      console.log(res.data.cellSize);
+      //console.log(res.data.velocityCode);
+      //console.log(res.data.cellSize);
 
       if (res.isExecuted) {
 
@@ -331,7 +331,7 @@ export class AddInvMapLocationComponent implements OnInit {
         this.clickSubmit = false;
         this.invMapService.updateInventoryMap(form.value).subscribe((res) => {
           this.clickSubmit = true;
-          console.log(res);
+          //console.log(res);
           if (res.isExecuted) {
             this.toastr.success("Your details have been updated", 'Success!', {
               positionClass: 'toast-bottom-right',
@@ -345,7 +345,7 @@ export class AddInvMapLocationComponent implements OnInit {
         this.clickSubmit = false;
         this.invMapService.createInventoryMap(form.value).subscribe((res) => {
           this.clickSubmit = true;
-          console.log(res);
+          //console.log(res);
           if (res.isExecuted) {
             this.toastr.success("Your details have been added", 'Success!', {
               positionClass: 'toast-bottom-right',
@@ -493,7 +493,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
   @HostListener('unloaded')
   ngOnDestroy() {
-    console.log('Items destroyed');
+    // console.log('Items destroyed');
   }
 
 }

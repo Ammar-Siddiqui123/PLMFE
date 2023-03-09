@@ -60,7 +60,7 @@ export class AddNewTransactionToOrderComponent implements OnInit {
     userField10: new FormControl(''),
   });
   ngOnInit(): void {
-    console.log('data item', this.data.item);
+    //console.log('data item', this.data.item);
 
     // if(this.itemNumber==='')return
     // this.searchByInput

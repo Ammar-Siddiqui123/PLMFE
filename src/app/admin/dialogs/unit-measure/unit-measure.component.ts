@@ -46,7 +46,7 @@ export class UnitMeasureComponent implements OnInit {
 
   addUMRow(row : any){
     this.unitOfMeasure_list.unshift("");
-    console.log(this.unitOfMeasure_list)
+    // console.log(this.unitOfMeasure_list)
   }
 
   saveUnitMeasure(um : any, oldUM : any) {

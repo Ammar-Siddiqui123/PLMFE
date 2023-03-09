@@ -214,7 +214,7 @@ export class PickToteManagerComponent implements OnInit {
     }
 
 
-    console.log(this.data);
+    // console.log(this.data);
 
   }
 
@@ -242,7 +242,7 @@ export class PickToteManagerComponent implements OnInit {
     }
     this.pPickService.get(paylaod, '/Induction/PickBatchFilterTypeAhead').subscribe((res) => {
       if (res.data) {
-        console.log(res.data);
+        // console.log(res.data);
         this.savedFilterList = res.data;
         this.filteredOptions = this.savedFilter.valueChanges.pipe(
           startWith(""),
@@ -372,7 +372,7 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.pPickService.get(paylaod, '/Induction/PickBatchDefaultFilterSelect').subscribe(res => {
         if (res.data) {
-          console.log(res.data);
+          // console.log(res.data);
           this.savedFilter.setValue(res.data);
           this.isFilterAdd = true;
           this.isOrderByAdd = true;
@@ -452,7 +452,7 @@ export class PickToteManagerComponent implements OnInit {
           });
           if (this.data.allOrders.length > 0) {
             const selectedArr = this.FILTER_BATCH_DATA.filter(element => this.data.allOrders.includes(element.orderNumber));
-            console.log('Intersection', selectedArr);
+            // console.log('Intersection', selectedArr);
             selectedArr.map(ele => {
               ele.isSelected = true
               this.selectedOrders.push(ele.orderNumber);
@@ -963,7 +963,7 @@ export class PickToteManagerComponent implements OnInit {
   }
 
   onClosePickToteManager() {
-    console.log(this.selectedOrders);
+    // console.log(this.selectedOrders);
     
     this.dialogRef.close(this.allSelectOrders);
   }

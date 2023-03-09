@@ -240,7 +240,7 @@ export class InventoryMapComponent implements OnInit {
 
   getContentData(){
     this.invMapService.getInventoryMap(this.payload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
-      console.log(res.data);
+      // console.log(res.data);
       this.itemList =  res.data?.inventoryMaps?.map((arr => {
         return {'itemNumber': arr.itemNumber, 'desc': arr.description}
       }))
@@ -322,7 +322,7 @@ export class InventoryMapComponent implements OnInit {
        autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      console.log('The dialog was closed');
+      // console.log('The dialog was closed');
     });
   }
 

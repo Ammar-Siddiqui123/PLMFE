@@ -167,7 +167,7 @@ isToolTipDisabled = false;
   set deleteEvnt(event: Event) {
     if (event) {
       this.getContentData();
-      console.log(this.detailDataInventoryMap);
+      // console.log(this.detailDataInventoryMap);
     }
   }
 
@@ -251,7 +251,7 @@ isToolTipDisabled = false;
   ) {}
 
   getEleLength(ele){
-    console.log('=----',ele)
+    // console.log('=----',ele)
   }
   getContentData() {
     if(this.searchCol==='Tote ID'){
@@ -352,7 +352,7 @@ isToolTipDisabled = false;
       .get(this.payload, '/Admin/DeleteOrder', true)
       .subscribe(
         (res: any) => {
-          console.log(res);
+          // console.log(res);
         },
         (error) => {}
       );

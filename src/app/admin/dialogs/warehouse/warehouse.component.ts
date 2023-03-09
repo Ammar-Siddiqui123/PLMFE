@@ -82,7 +82,7 @@ export class WarehouseComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    console.log(paylaod);
+    // console.log(paylaod);
     
     this.whService.saveWareHouse(paylaod).subscribe((res) => {
       this.toastr.success(labels.alert.success, 'Success!', {

@@ -66,7 +66,7 @@ export class ReprocessChoiceComponent implements OnInit {
   }
 
   changeOrderStatus(event:MatCheckboxChange,status): void {
-    console.log("CHANGE======");
+    // console.log("CHANGE======");
     if(status=='Reprocess')
     {
     this.isCompleteChecked.flag = false;

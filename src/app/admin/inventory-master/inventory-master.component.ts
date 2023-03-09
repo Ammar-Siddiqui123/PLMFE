@@ -91,7 +91,7 @@ export class InventoryMasterComponent implements OnInit {
     );
 
     this.itemNumberParam$.subscribe((param) => {
-      console.log(param)
+      // console.log(param)
       if (param) {
         this.searchValue = param;
         this.currentPageItemNo = param;
@@ -258,7 +258,7 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   public getInvMasterLocations(itemNum: any, pageSize?, startIndex?, sortingColumnName?, sortingOrder?) {
-    console.log(pageSize);
+    // console.log(pageSize);
     
     let paylaod = {
       "draw": 0,
@@ -286,7 +286,7 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.invMasterService.get(paylaod, '/Admin/GetLocationTable').subscribe((res: any) => {
-      console.log(res.data);
+      // console.log(res.data);
       this.locationTable = res.data;
     })
   }
@@ -309,7 +309,7 @@ export class InventoryMasterComponent implements OnInit {
 
   }
   prevPage() {
-    console.log(this.getChangedProperties());
+    //console.log(this.getChangedProperties());
 
     // const dialogRef = this.dialog.open(this.propertiesChanged, {
     //   width: '450px',
@@ -362,7 +362,7 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid
     }
     this.invMasterService.update(paylaod, '/Admin/UpdateItemNumber').subscribe((res: any) => {
-      console.log(res.data);
+      // console.log(res.data);
     })
   }
 
@@ -536,7 +536,7 @@ export class InventoryMasterComponent implements OnInit {
   getSearchList(e: any) {
 
     this.searchValue = e.currentTarget.value;
-    console.log(e.currentTarget.value)
+    // console.log(e.currentTarget.value)
     let paylaod = {
       "stockCode": e.currentTarget.value,
       "username": this.userData.userName,
@@ -562,7 +562,7 @@ export class InventoryMasterComponent implements OnInit {
     this.searchValue = '';
   }
   getNotification(e: any) {
-    console.log(e);
+    // console.log(e);
     
     if (e?.newItemNumber) {
       this.currentPageItemNo = e.newItemNumber;
