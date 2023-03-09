@@ -97,7 +97,6 @@ export class ReprocessTransactionDetailComponent implements OnInit {
     console.log('=====================POST==============================');
     console.log(this.editTransactionForm.get("label")?.value?.toString());
     console.log(this.editTransactionForm.get("emergency")?.value);
-
     var payload = {
       "id":this.transactionID,
       "oldValues": [
@@ -107,13 +106,16 @@ export class ReprocessTransactionDetailComponent implements OnInit {
         this.editTransactionForm.get("unitOfMeasure")?.value,
         this.editTransactionForm.get("serialNumber")?.value,
         this.editTransactionForm.get("lotNumber")?.value?.toString(),
-        (this.expDate!=null&&this.expDate!="1900-01-01T19:31:48.000Z")?this.expDate:" ",
+        // (this.expDate!=null&&this.expDate!="1900-01-01T19:31:48.000Z")?this.expDate:" ",
+        this.dayIncrement(this.expDate),
         this.editTransactionForm.get("revision")?.value,
         this.editTransactionForm.get("notes")?.value,
         this.editTransactionForm.get("userField1")?.value,
         this.editTransactionForm.get("userField2")?.value, 
         this.editTransactionForm.get("hostTransactionID")?.value,
-        (this.reqDate!=null&&this.reqDate!="1900-01-01T19:31:48.000Z")?this.reqDate:" ",
+        // (this.reqDate!=null&&this.reqDate!="1900-01-01T19:31:48.000Z")?this.reqDate:" ",
+        this.dayIncrement(this.reqDate),
+
         this.editTransactionForm.get("batchPickID")?.value,
         this.editTransactionForm.get("lineNumber")?.value?.toString(),
         this.editTransactionForm.get("lineSequence")?.value?.toString(),
@@ -193,14 +195,24 @@ export class ReprocessTransactionDetailComponent implements OnInit {
             let finalExpiryDate,finalReqDate;
             try
             {
-              var expDate = res.data[0].expirationDate.split(" ");
-              var reqDate = res.data[0].requiredDate.split(" ");
-              expDate = expDate[0].split('/');
-              reqDate = reqDate[0].split('/');
-              finalExpiryDate = new Date(expDate[2],expDate[0]-1,parseInt(expDate[1])+1);
-              finalReqDate = new Date(reqDate[2],reqDate[0]-1,parseInt(reqDate[1])+1);
-              this.expDate = finalExpiryDate.toISOString();
-              this.reqDate = finalReqDate.toISOString();
+              if(res.data[0].expirationDate!=''){
+                // var expDate = res.data[0].expirationDate.split(" ");
+                // expDate = expDate[0].split('/');
+                // finalExpiryDate = new Date(expDate[2],expDate[0]-1,parseInt(expDate[1])+1);
+                finalExpiryDate = new Date(res.data[0].expirationDate);
+
+              }
+              if(res.data[0].requiredDate!=''){
+              // var reqDate = res.data[0].requiredDate.split(" ");
+              // reqDate = reqDate[0].split('/');
+              // finalReqDate = new Date(reqDate[2],reqDate[0]-1,parseInt(reqDate[1])+1);
+              finalReqDate = new Date(res.data[0].requiredDate);
+
+
+              }
+          
+              this.expDate = finalExpiryDate?finalExpiryDate.toISOString():'';
+              this.reqDate = finalReqDate?finalReqDate.toISOString():'';
             }
             catch(e){}
             console.log('===========GET===============>');
@@ -262,4 +274,17 @@ export class ReprocessTransactionDetailComponent implements OnInit {
       );
   }
 
+  dayIncrement(date:any){
+
+    // (this.expDate!=null&&this.expDate!="1900-01-01T19:31:48.000Z")?this.expDate:" ",
+    if(date!=null && date!="1900-01-01T19:31:48.000Z"){
+      var newDate = new Date(date);
+      newDate.setDate(newDate.getDate() + 1);
+      return newDate;
+    }else{
+      return '';
+    }
+
+   
+  }
 }
