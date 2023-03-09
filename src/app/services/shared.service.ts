@@ -14,6 +14,7 @@ export class SharedService {
   menuData$ = this.menuData.asObservable();
 
   private appData:any;
+  startMenu: Subject<any> = new Subject<any>(); 
   updateAdminMenuObserver: Subject<boolean> = new Subject<boolean>(); // observing that bool
   updateInductionAdminObserver: Subject<any> = new Subject<any>(); 
   orderStatusObserver: Subject<any> = new Subject<any>(); 
@@ -23,10 +24,15 @@ export class SharedService {
   historyLocObserver: Subject<any> = new Subject<any>();  
   appRestrictionObserver: Subject<any> = new Subject<any>();  
 
+  resetSidebar() {
+    this.startMenu.next(true);
+  }
+
   updateSidebar(){
     this.loadMenu = !this.loadMenu;
     return this.loadMenu;
   }
+  
   updateAdminMenu()
   {
     this.updateAdminMenuObserver.next(true);
