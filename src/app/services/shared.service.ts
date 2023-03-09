@@ -82,7 +82,6 @@ export class SharedService {
   updateLoggedInUser(userName:any,wsid:any,menu:any)
   {
     this.columnSequence.updateAppName(userName,wsid,menu.replace(/[^a-z]/gi, '')).subscribe((res: any) => {
-      //alert('DONE');
       (error) => {
         // alert(error);
          }
