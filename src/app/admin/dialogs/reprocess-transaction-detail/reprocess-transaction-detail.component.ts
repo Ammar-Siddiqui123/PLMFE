@@ -153,6 +153,18 @@ export class ReprocessTransactionDetailComponent implements OnInit {
     this.getTransactionDetail();
     this.getWarehouse();
     this.getUOM();
+
+    if(this.isHistory)
+    {
+    this.clearAllFields();
+    }
+
+    
+  }
+
+  clearAllFields()
+  {
+  this.editTransactionForm.disable();
   }
 
   getUOM(){
