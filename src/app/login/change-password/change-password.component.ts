@@ -35,7 +35,7 @@ export class ChangePasswordComponent implements OnInit {
     return frm.controls['new_password'].value === frm.controls['confirm_password'].value ? null : {'mismatch': true};
   }
   onSend(form: FormGroup){
-    console.log(form.value);
+    // console.log(form.value);
     let payload  = {
       "username": form.value.userName,
       "password":form.value.old_password,

@@ -66,7 +66,7 @@ export class AdjustQuantityComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data.id)
+    //console.log(this.data.id)
     this.getItemQuantity(this.data.id);
     this.getAdjustmentReasons();
     this.initializeDataSet();
@@ -96,7 +96,7 @@ export class AdjustQuantityComponent implements OnInit {
     });
   }
   onSubmit(form: FormGroup) {
-    console.log('create',form);
+    //console.log('create',form);
 
     if(form.valid){
       this.adjustQuantityService.updateItemQuantity(form.value).subscribe((res) => {
@@ -105,7 +105,7 @@ export class AdjustQuantityComponent implements OnInit {
             positionClass: 'toast-bottom-right',
             timeOut:2000
          });
-          console.log(res.responseMessage)
+          //console.log(res.responseMessage)
           this.dialog.closeAll()
         }
       });

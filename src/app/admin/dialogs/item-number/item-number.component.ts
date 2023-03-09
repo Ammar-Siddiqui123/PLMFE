@@ -27,7 +27,7 @@ export class ItemNumberComponent implements OnInit {
     else 
     {
       
-    console.log(this.data)
+    // console.log(this.data)
     if (this.data.addItem) {
       this.addItem = true;
       this.data.itemNumber="";
@@ -40,7 +40,7 @@ export class ItemNumberComponent implements OnInit {
   }
 
   onNoClick(onsubmit: any, status : any): void {
-    console.log();
+    // console.log();
     
     if(status == 'createNew'){
     this.submit= true;

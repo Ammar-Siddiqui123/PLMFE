@@ -94,9 +94,9 @@ export class ReprocessTransactionDetailComponent implements OnInit {
   }
 
   editTransaction() {
-    console.log('=====================POST==============================');
-    console.log(this.editTransactionForm.get("label")?.value?.toString());
-    console.log(this.editTransactionForm.get("emergency")?.value);
+    // console.log('=====================POST==============================');
+    // console.log(this.editTransactionForm.get("label")?.value?.toString());
+    // console.log(this.editTransactionForm.get("emergency")?.value);
     var payload = {
       "id":this.transactionID,
       "oldValues": [
@@ -215,9 +215,9 @@ export class ReprocessTransactionDetailComponent implements OnInit {
               this.reqDate = finalReqDate?finalReqDate.toISOString():'';
             }
             catch(e){}
-            console.log('===========GET===============>');
-            console.log(this.expDate);
-            console.log(this.reqDate);
+            // console.log('===========GET===============>');
+            // console.log(this.expDate);
+            // console.log(this.reqDate);
 
             this.expDate = this.expDate!="1900-01-01T19:31:48.000Z"?this.expDate:" ";
             this.reqDate = this.reqDate!="1900-01-01T19:31:48.000Z"?this.reqDate:" ";
@@ -263,7 +263,7 @@ export class ReprocessTransactionDetailComponent implements OnInit {
 
             
           } else {
-            console.log(res);
+            // console.log(res);
             this.toastr.error('Something went wrong', 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,

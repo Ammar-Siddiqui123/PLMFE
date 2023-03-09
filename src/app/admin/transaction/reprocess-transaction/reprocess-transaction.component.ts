@@ -659,7 +659,7 @@ export class ReprocessTransactionComponent implements OnInit {
           this.transactionService.get(payload, '/Admin/SetAllReprocessColumn').subscribe(
             (res: any) => {
               if (res.data && res.isExecuted) {
-                console.log(res);
+                // console.log(res);
                 this.getContentData();
                 this.getOrdersWithStatus();
                 this.toastr.success(labels.alert.update, 'Success!', {

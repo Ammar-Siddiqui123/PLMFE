@@ -225,7 +225,7 @@ export class GenerateOrderComponent implements OnInit {
     this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
   editTransaction(element){
-console.log(element);
+// console.log(element);
 
 // JSON.stringify(element.batchPickID)
 // JSON.stringify(element.hostTransactionID)

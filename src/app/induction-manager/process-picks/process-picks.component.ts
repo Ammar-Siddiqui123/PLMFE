@@ -231,7 +231,7 @@ export class ProcessPicksComponent implements OnInit {
       }
     });
     
-    console.log(filledTote);
+    // console.log(filledTote);
     
     if(filledTote){
       let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -608,7 +608,7 @@ export class ProcessPicksComponent implements OnInit {
       ToteIDs.push(obj.toteID?.toString() ?? '');
       OrderNumbers.push(obj.orderNumber?.toString() ?? '');
     });
-    console.log(this.TOTE_SETUP);
+    // console.log(this.TOTE_SETUP);
     if (this.TOTE_SETUP.filter(e => e.toteID).length == 0) {
       this.toastr.error('Please enter in at least 1 tote id to process.', 'Error!', {
         positionClass: 'toast-bottom-right',

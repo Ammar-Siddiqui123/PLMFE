@@ -44,7 +44,7 @@ export class CellSizeComponent implements OnInit {
     this.cellsize_list.unshift({ cells: '', cellTypes: '' });
   }
   handleChange($event) {
-    console.log($event);
+    //console.log($event);
 
   }
   saveCellSize(cell: any, cellType: any, i,isInserted:any) {
@@ -76,7 +76,7 @@ export class CellSizeComponent implements OnInit {
           "wsid": this.userData.wsid,
         }
         this.cellSizeService.saveCellSize(paylaod).subscribe((res) => {
-          console.log(res);
+          //console.log(res);
           if (res.isExecuted) {
             this.getCellSizeList();
             this.toastr.success(labels.alert.success, 'Success!', {

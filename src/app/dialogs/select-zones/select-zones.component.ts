@@ -197,8 +197,8 @@ export class SelectZonesComponent implements OnInit {
       (res: any) => {
         if (res.data && res.isExecuted) {
         this.zoneDetails = res.data.zoneDetails;
-        console.log('TEST');
-        console.log(this.alreadyAssignedZones);
+        // console.log('TEST');
+        // console.log(this.alreadyAssignedZones);
         for(var i=0;i<this.zoneDetails.length;i++)
         {
           var isSelected = false;
