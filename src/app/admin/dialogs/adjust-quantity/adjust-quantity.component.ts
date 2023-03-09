@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CellSizeComponent } from '../cell-size/cell-size.component';
 import { VelocityCodeComponent } from '../velocity-code/velocity-code.component';
 import { WarehouseComponent } from '../warehouse/warehouse.component';
@@ -60,7 +60,8 @@ export class AdjustQuantityComponent implements OnInit {
     public fb: FormBuilder,
     private adjustQuantityService: AdjustQuantityService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public dialogRef: MatDialogRef<any>
   ) {
 
   }
@@ -106,7 +107,8 @@ export class AdjustQuantityComponent implements OnInit {
             timeOut:2000
          });
           console.log(res.responseMessage)
-          this.dialog.closeAll()
+         // this.dialog.closeAll(form.value.quantity);
+          this.dialogRef.close(form.value.quantity);   
         }
       });
     }

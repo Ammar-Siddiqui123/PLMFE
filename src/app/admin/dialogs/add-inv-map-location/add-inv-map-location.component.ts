@@ -11,6 +11,7 @@ import { InvMapLocationService } from './inv-map-location.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConditionalExpr } from '@angular/compiler';
 import { AuthService } from '../../../../app/init/auth.service';
+import { AdjustQuantityComponent } from '../adjust-quantity/adjust-quantity.component';
 
 export interface InventoryMapDataStructure {
   invMapID: string | '',
@@ -71,6 +72,7 @@ export class AddInvMapLocationComponent implements OnInit {
   shelf = '';
   bin = '';
   setStorage;
+  quantity: any;
   routeFromIM:boolean=false;
 
 
@@ -136,8 +138,6 @@ export class AddInvMapLocationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data);
-
     this.userData = this.authService.userData();
     if (this.data.detailData) {
       this.getDetailInventoryMapData = this.data.detailData;
@@ -146,7 +146,8 @@ export class AddInvMapLocationComponent implements OnInit {
       this.row = this.getDetailInventoryMapData.row
       this.shelf = this.getDetailInventoryMapData.shelf
       this.bin = this.getDetailInventoryMapData.bin
-      this.itemDescription = this.getDetailInventoryMapData.description
+      this.itemDescription = this.getDetailInventoryMapData.description;
+      this.quantity  = this.getDetailInventoryMapData.itemQuantity;
       // console.log(this.getDetailInventoryMapData.masterInventoryMapID);
 
       this.updateItemNumber();
@@ -194,6 +195,26 @@ export class AddInvMapLocationComponent implements OnInit {
       'expirationDate':''
     });
     this.itemDescription = "";
+  }
+
+  adjustQuantity(){
+    let dialogRef = this.dialog.open(AdjustQuantityComponent, {
+      height: 'auto',
+      width: '800px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        id: this.getDetailInventoryMapData.invMapID
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if(result!=true)
+      {
+
+        this.addInvMapLocation.patchValue({
+          'itemQuantity':result
+        });
+      }
+    })
   }
 
   searchItemNumber(itemNum: any) {
