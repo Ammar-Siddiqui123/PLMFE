@@ -45,13 +45,13 @@ export class SideNavComponent implements OnInit {
     { icon: 'directions_alt', title: 'Inventory Map', route: '/admin/inventoryMap' ,permission: 'Inventory Map'},
     { icon: 'analytics', title: 'Reports', route: '#' ,permission: 'Reports'},
     { icon: 'dvr', title: 'Transactions', route: '/admin/transaction' ,permission: 'Transaction Journal'},
-    { icon: 'list_alt', title: 'Batch Manager', route: '/admin/batchManager' ,permission: 'Batch Manager'},
-    { icon: 'low_priority', title: 'Cycle Count', route: '/admin/cycleCounts' ,permission: 'Cycle Count Manager'},
+    { icon: 'list_alt', title: 'Batch Manager', route: '#' ,permission: 'Batch Manager'},
+    { icon: 'low_priority', title: 'Cycle Count', route: '#' ,permission: 'Cycle Count Manager'},
     { icon: 'airline_stops', title: 'De-Allocate Orders', route: '#' ,permission: 'De-Allocate Orders'},
     { icon: 'assignment_ind', title: 'Employees', route: '/admin/employees' ,permission: 'Employees'},
     { icon: 'event_note', title: 'Event Log', route: '#' ,permission: 'Event Log Manager'},
     { icon: 'my_location', title: 'Location Assignment', route: '#' ,permission: 'Location Assignment'},
-    { icon: 'ads_click', title: 'Manual Transactions', route: '/admin//manualTransactions' ,permission: 'Manual Transactions'},
+    { icon: 'ads_click', title: 'Manual Transactions', route: '#' ,permission: 'Manual Transactions'},
     { icon: 'trolley', title: 'Move Items', route: '#' ,permission: 'Move Items'},
     { icon: 'tune', title: 'Preferences', route: '#' ,permission: 'Preferences'},
     { icon: 'published_with_changes', title: 'System Replenishment', route: '#' ,permission: 'Replenishment'},
@@ -92,6 +92,14 @@ export class SideNavComponent implements OnInit {
     this.userData = this.authService.userData();
    this.isConfigUser =  localStorage.getItem('isConfigUser') ?? false;
   // console.log(this.isConfigUser);
+    
+    this.sharedService.startMenu.subscribe(res => {
+      if (res){
+        this.isParentMenu = true;
+        this.isChildMenu = false;
+      }
+    });
+  
     this.loadMenus({route: this.router.url});
     this.sharedService.updateAdminMenuObserver.subscribe(adminMenu => {
       if (adminMenu){

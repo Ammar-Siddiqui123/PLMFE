@@ -4,6 +4,7 @@ import { LoginService } from '../../../app/login.service';
 import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +24,8 @@ isConfigUser
     private router: Router,
     public spinnerService: SpinnerService,
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private sharedService: SharedService
     ) {
    this.isConfigUser=  this.authService.isConfigUser()
     router.events.subscribe((val: any) => {
@@ -36,6 +38,7 @@ isConfigUser
       }else{
         this.breadcrumbList.push({
           name:'LogixPro',
+          menu: '',
           value:'/dashboard'
         })
       }
@@ -47,6 +50,7 @@ isConfigUser
         splittedArray.forEach(element => {
         this.breadcrumbList.push({
           name: this.capitalizeFirstLetter(element),
+          menu: element,
           value:'/'+element
         })
       });
@@ -74,6 +78,14 @@ isConfigUser
     localStorage.clear();
     this.router.navigate(['/login']);
   }
+
+  breadCrumbClick(menu) {    
+    if (!menu) {
+      // Reverts side bar to it's orignal state
+      this.sharedService.resetSidebar(); 
+    }    
+  }
+
   logout(){   
     let paylaod = {
       "username": this.userData.userName,
