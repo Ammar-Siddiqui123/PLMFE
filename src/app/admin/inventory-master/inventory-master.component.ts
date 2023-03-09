@@ -39,6 +39,7 @@ export class InventoryMasterComponent implements OnInit {
   searchValue: any = '';
 
   saveDisabled = false;
+  count;
 
 
   public locationTable: any;
@@ -255,6 +256,8 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   public getInvMasterLocations(itemNum: any, pageSize?, startIndex?, sortingColumnName?, sortingOrder?) {
+    console.log();
+    
     let paylaod = {
       "draw": 0,
       "itemNumber": itemNum,
@@ -268,6 +271,7 @@ export class InventoryMasterComponent implements OnInit {
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterLocation').subscribe((res: any) => {
       // this.invMasterLocations ='asdsad';
       this.invMaster.get('inventoryTable')?.setValue(res.data.inventoryTable);
+      this.count = res.data.count
       // console.log(this.getInvMasterData);
       this.initialzeIMFeilds();
     })
@@ -366,6 +370,7 @@ export class InventoryMasterComponent implements OnInit {
       data: {
         itemNumber: this.currentPageItemNo,
         description: this.getInvMasterData.description,
+        fromInventoryMaster:1,
         newItemNumber: '',
         addItem: true
       }
@@ -552,13 +557,14 @@ export class InventoryMasterComponent implements OnInit {
     this.searchValue = '';
   }
   getNotification(e: any) {
+    console.log(e);
     
     if (e?.newItemNumber) {
       this.currentPageItemNo = e.newItemNumber;
       this.getInventory();
     } else if (e?.refreshLocationGrid) {
       this.getInvMasterLocations(this.currentPageItemNo);
-    } else if (e?.locationPageSize && e?.startIndex) {
+    } else if (e?.locationPageSize) {  //&& e?.startIndex
       this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex);
     } else if (e?.sortingColumn) {
       this.getInvMasterLocations(this.currentPageItemNo, '', '', e.sortingColumn, e.sortingSeq);

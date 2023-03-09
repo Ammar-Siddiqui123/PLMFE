@@ -18,7 +18,7 @@ import { TransactionService } from '../../transaction/transaction.service';
 })
 export class DeleteConfirmationComponent implements OnInit {
   isChecked = true;
-  action="delete";
+  action="remove";
   public userData;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

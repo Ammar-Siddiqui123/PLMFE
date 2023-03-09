@@ -124,6 +124,8 @@ export class ReprocessTransactionComponent implements OnInit {
   deleteByOrderNumber=false; //Only visible if searched
   private subscription: Subscription = new Subscription();
 
+  @ViewChild('description') description: TemplateRef<any>;
+
 
   idx: any;
 
@@ -909,6 +911,20 @@ export class ReprocessTransactionComponent implements OnInit {
     // this.orderNo = '';
     this.columnSearch.searchValue = '';
     this.searchAutocompleteListByCol = [];
+  }
+
+  openReasonDialog(reasonMessage:any)
+  {
+    const dialogRef = this.dialog.open(this.description, {
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+    });
+    dialogRef.afterClosed().subscribe((x) => {
+
+      if (x) {
+        //e.description =  this.dialogDescription!=""?this.dialogDescription:e.description 
+      }
+    })
   }
 
   openReprocessTransactionDialogue(id: any) {

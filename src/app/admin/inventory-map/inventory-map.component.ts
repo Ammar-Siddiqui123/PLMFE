@@ -416,6 +416,22 @@ export class InventoryMapComponent implements OnInit {
     })
   }
 
+  duplicate(event){
+  this.invMapService.duplicate( this.userData.userName,this.userData.wsid,event.invMapID).pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
+    this.displayedColumns = INVMAP_DATA;
+
+    if(res.data){
+      this.getContentData();
+    } else {
+      this.toastr.error('Something went wrong', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+  });
+
+  }
+
   viewInInventoryMaster(row){
 
     // this.router.navigate(['/admin/inventoryMaster']);
@@ -470,30 +486,31 @@ export class InventoryMapComponent implements OnInit {
     }
   }
 
-  // announceSortChange(e : any){
-  //   // let index = this.columnValues.findIndex(x => x === e.active );
-  //   // this.sortColumn = {
-  //   //   columnName: index,
-  //   //   sortOrder: e.direction
-  //   // }
-
-  //   // this.initializeApi();
-  //   // this.getContentData();
-
-
-  // }
-
-
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+  announceSortChange(e : any){
+    
+    let index = this.columnValues.findIndex(x => x === e.active );
+    this.sortColumn = {
+      columnName: index,
+      sortOrder: e.direction
     }
-    //this.employee_data_source.sort = this.sort;
 
-    this.dataSource.sort = this.sort;
+    this.initializeApi();
+    this.getContentData();
+
+
   }
+
+
+  // announceSortChange(sortState: Sort) {
+  //   if (sortState.direction) {
+  //     this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+  //   } else {
+  //     this._liveAnnouncer.announce('Sorting cleared');
+  //   }
+  //   //this.employee_data_source.sort = this.sort;
+
+  //   this.dataSource.sort = this.sort;
+  // }
 
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';

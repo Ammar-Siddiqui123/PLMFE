@@ -6,6 +6,7 @@ import { AuthService } from '../../../app/init/auth.service';
 import { ProcessPicksService } from '../../../app/induction-manager/process-picks/process-picks.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-view-orders',
@@ -86,6 +87,7 @@ export class ViewOrdersComponent implements OnInit {
   orderTransDataSource: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('paginatorTrans') paginatorTrans: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   // @ViewChild(MatPaginator, {static: false})
   // set paginatorTrans(value: MatPaginator) {
@@ -134,6 +136,7 @@ export class ViewOrdersComponent implements OnInit {
 
         this.orderDataSource = new MatTableDataSource<any>(this.allOrders);
         this.orderDataSource.paginator = this.paginator;
+        this.orderDataSource.sort = this.sort;
 
       }
       else{
@@ -206,6 +209,7 @@ export class ViewOrdersComponent implements OnInit {
           this.transData = res.data.pickToteManTrans;
           this.orderTransDataSource = new MatTableDataSource<any>(this.transData);
           this.orderTransDataSource.paginator = this.paginatorTrans;
+          this.orderTransDataSource.sort = this.sort;
         }
       });
     }

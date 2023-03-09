@@ -276,6 +276,35 @@ export class AddInvMapLocationComponent implements OnInit {
     this.addInvMapLocation.controls['locationNumber'].setValue(value);
   }
   onSubmit(form: FormGroup) {
+
+    console.log(form.value);
+
+    this.invMapService.getItemNumDetail({"itemNumber":form.value.item,"zone":form.value.zone}).subscribe((res) => {
+      this.clickSubmit = true;
+
+      console.log(res.data.velocityCode);
+      console.log(res.data.cellSize);
+
+      if (res.isExecuted) {
+
+        var match = '';
+        var expected='';
+        if (form.value.cell != res.data.cellSize && res.data.cellSize) {
+        match += 'Cell Size';
+        expected+=' Expecting Cell Size: ' + res.data.cellSize;
+        };
+        if (form.value.velocity != res.data.velocityCode && res.data.velocityCode) {
+        if (match != '') { match += ', Velocity Code'; expected+=' and Velocity Code: ' + res.data.velocityCode } else { match += 'Velocity Code'; expected+='Velocity Code: ' + res.data.velocityCode };
+        };
+        if (match != '') 
+        {
+        this.toastr.error('Provided ' + match + ' do not match Inventory Master.'+expected+' for specified Item and Zone', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        }
+        else 
+        {
     if (this.clickSubmit) {
       if (this.data.detailData) {
         this.clickSubmit = false;
@@ -307,6 +336,18 @@ export class AddInvMapLocationComponent implements OnInit {
         });
       }
     }
+
+        }
+
+
+
+
+
+
+      }
+    });
+
+
   }
 
   get f() {

@@ -24,6 +24,7 @@ import { CloneGroupComponent } from '../dialogs/clone-group/clone-group.componen
 import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { SpinnerService } from '../../../app/init/spinner.service';
+import { MatOption } from '@angular/material/core';
 
 export interface location {
   start_location: string;
@@ -45,6 +46,7 @@ export class EmployeesComponent implements OnInit {
   public isLookUp: boolean = false;
   public isGroupLookUp: boolean = false;
   public env;
+  @ViewChild('matRef') matRef: MatSelect;
  // public searchGrpAllowed = '';
   public searchfuncAllowed = '';
 
@@ -76,6 +78,7 @@ export class EmployeesComponent implements OnInit {
   public updateGrpTable;
   empForm: FormGroup;
   @ViewChild('zoneDataRefresh', { static: true,read:MatTable }) zoneDataRefresh;
+  @ViewChild('matRef') matRef: MatSelect;
 
 
 
@@ -105,7 +108,9 @@ export class EmployeesComponent implements OnInit {
     // this.employee_fetched_zones.sort = this.sort;
   }
 
-
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
 getgroupAllowedList(){
   const emp_grp = {
     "userName": this.grp_data,
@@ -341,12 +346,14 @@ initialzeEmpForm() {
   }
   
   backEmpAction(){
+    this.clearMatSelectList();
     this.isLookUp = false;
       this.employee_fetched_zones = [];
       this.location_data_source = [];
       this.groupAllowedList = [];
       this.max_orders = '';
       this.demo1TabIndex = 0;
+      this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
   actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
     // console.log(event.value)

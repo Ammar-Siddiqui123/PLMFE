@@ -17,6 +17,7 @@ export class ItemCategoryComponent implements OnInit {
 
   public category_list: any;
   public userData: any;
+  enableButton=[{index:-1,value:true}];
 
   constructor(private dialog: MatDialog,
               private catService: CategoryService,
@@ -29,9 +30,19 @@ export class ItemCategoryComponent implements OnInit {
     this.getCategoryList();
   }
 
+  enableDisableButton(i:any)
+  {
+  this.enableButton[i].value=false;
+  }
+
  getCategoryList(){
+    this.enableButton.shift();
     this.catService.getCategory().subscribe((res) => {
       this.category_list = res.data;
+      for(var i=0;i<this.category_list.length;i++)
+      {
+        this.enableButton.push({index:i,value:true});
+      }
      });
   }
 
@@ -49,7 +60,7 @@ export class ItemCategoryComponent implements OnInit {
     this.category_list.forEach(element => {
       if(element.category?.toLowerCase() == category?.toLowerCase() && element.subCategory?.toLowerCase() == subCategory?.toLowerCase() ) {
         cond = false;
-       this.toastr.error('Already Exists', 'Error!', {
+       this.toastr.error('Category cannot be saved. Category matches another entry. Save any pending changes before attempting to save this entry.', 'Error!', {
          positionClass: 'toast-bottom-right',
          timeOut: 2000
        });
@@ -71,7 +82,7 @@ export class ItemCategoryComponent implements OnInit {
       this.catService.saveCategory(paylaod).subscribe((res) => {
         if(res.isExecuted){
           this.getCategoryList();
-        this.toastr.success(labels.alert.success, 'Success!', {
+        this.toastr.success(oldCat.toString()==''?labels.alert.success:labels.alert.update, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });

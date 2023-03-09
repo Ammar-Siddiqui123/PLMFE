@@ -96,6 +96,7 @@ export class PickToteManagerComponent implements OnInit {
   filterOrderTransactionSource: any;
   zoneOrderTransactionSource: any;
   selectedOrders: any[] = [];
+  allSelectOrders: any[] = [];
   selectedZoneOrders: any[] = [];
   filterSeq: any = '0';
   orderBySeq: any = '0';
@@ -546,7 +547,7 @@ export class PickToteManagerComponent implements OnInit {
         "Username": this.userData.username,
         "wsid": this.userData.wsid,
       }
-      this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
+      this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
         if (res.data.length > 0) {
           this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
           this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
@@ -597,7 +598,7 @@ export class PickToteManagerComponent implements OnInit {
         "Username": this.userData.username,
         "wsid": this.userData.wsid,
       }
-      this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
+      this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
         if (res.data) {
           this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
           this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
@@ -660,7 +661,7 @@ export class PickToteManagerComponent implements OnInit {
       this.isOrderSelect = true;
     }
     if (option === 'select_order') {
-      this.onClosePickToteManager();
+      this.onCloseAllPickToteManager();
     }
     this.orderActionRefresh();
   }
@@ -682,18 +683,15 @@ export class PickToteManagerComponent implements OnInit {
       this.isOrderSelectZone = true;
     }
     if (option === 'select_order') {
-      this.onClosePickToteManager();
+      this.onCloseAllPickToteManager();
     }
     this.orderActionRefreshZone();
   }
   onViewOrderLineZone(event){
-    console.log(event);
-    console.log(this.FILTER_BATCH_DATA_ZONE);
     let orderNum = '';
     this.FILTER_BATCH_DATA_ZONE.map(val => {
-        orderNum += "'"+val.orderNumber+"',"
+        orderNum += val.orderNumber + ','
     })
-    console.log(orderNum);
     
     if(event.value === 'vAllOrderZone'){
       let paylaod = {
@@ -707,12 +705,102 @@ export class PickToteManagerComponent implements OnInit {
         "Username": this.userData.username,
         "wsid": this.userData.wsid,
       }
-      this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
-        if (res.data.length > 0) {
+      this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
+        if (res.data.pickToteManTrans?.length > 0) {
+          this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
+          this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
+        }
+      });
+    }
+    if(event.value ==='vSelectedOrderZone'){
+      orderNum = '';
+      this.FILTER_BATCH_DATA_ZONE.map(val => {
+        if(val.isSelected){
+          orderNum += val.orderNumber + ','
+        }
+      });
+      if(orderNum !== ''){
+        let paylaod = {
+          "Draw": 0,
+          "OrderNumber":orderNum,
+          "sRow": 1,
+          "eRow": 10,
+          "SortColumnNumber": 0,
+          "SortOrder": "asc",
+          "Filter": "1=1",
+          "Username": this.userData.username,
+          "wsid": this.userData.wsid,
+        }
+        this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
+          if (res.data.pickToteManTrans?.length > 0) {
+            this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
+            this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
+          }
+        });
+      }
+      else{
+        this.zoneOrderTransactionSource = [];
+      }
+      
+      
+    }
+  }
+  onViewOrderLineFilter(event){
+    let orderNum = '';
+    this.FILTER_BATCH_DATA.map(val => {
+        orderNum += val.orderNumber + ','
+    })
+    
+    if(event.value === 'vAllOrderFilter'){
+      let paylaod = {
+        "Draw": 0,
+        "OrderNumber":orderNum,
+        "sRow": 1,
+        "eRow": 10,
+        "SortColumnNumber": 0,
+        "SortOrder": "asc",
+        "Filter": "1=1",
+        "Username": this.userData.username,
+        "wsid": this.userData.wsid,
+      }
+      this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
+        if (res.data.pickToteManTrans?.length > 0) {
           this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
           this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
         }
       });
+    }
+    if(event.value ==='vSelectedOrderFilter'){
+      orderNum = '';
+      this.FILTER_BATCH_DATA.map(val => {
+        if(val.isSelected){
+          orderNum += val.orderNumber + ','
+        }
+      });
+      if(orderNum !== ''){
+        let paylaod = {
+          "Draw": 0,
+          "OrderNumber":orderNum,
+          "sRow": 1,
+          "eRow": 10,
+          "SortColumnNumber": 0,
+          "SortOrder": "asc",
+          "Filter": "1=1",
+          "Username": this.userData.username,
+          "wsid": this.userData.wsid,
+        }
+        this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
+          if (res.data.pickToteManTrans?.length > 0) {
+            this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
+            this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
+          }
+        });
+      }
+      else{
+        this.filterOrderTransactionSource = [];
+      }
+      
+      
     }
   }
 
@@ -859,7 +947,13 @@ export class PickToteManagerComponent implements OnInit {
   }
 
   onClosePickToteManager() {
-    this.dialogRef.close(this.selectedOrders);
+    console.log(this.selectedOrders);
+    
+    this.dialogRef.close(this.allSelectOrders);
+  }
+
+  onCloseAllPickToteManager(){
+    this.allSelectOrders = this.selectedOrders
   }
 
   onSelectBatchZone(row) {
