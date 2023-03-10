@@ -444,10 +444,10 @@
                   <div class="card br-14 table-responsive borderless px-0 mb-3">
                     <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 280px;">
 
-                      <mat-table #table [dataSource]="filterOrderTransactionSource">
+                      <mat-table #table [dataSource]="filterOrderTransactionSource" matSort>
 
                         <ng-container *ngFor="let column of filterBatchTransColumns" [cdkColumnDef]="column.columnDef">
-                          <mat-header-cell *cdkHeaderCellDef style="width:200px;">{{ column.header }}</mat-header-cell>
+                          <mat-header-cell *cdkHeaderCellDef mat-sort-header style="width:200px;">{{ column.header }}</mat-header-cell>
                           <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedTransColumns"></mat-header-row>
@@ -664,10 +664,10 @@
                   </div>
                   <div class="card br-14 table-responsive borderless px-0 mb-3">
                     <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 280px;">
-                      <mat-table #table [dataSource]="zoneOrderTransactionSource">
+                      <mat-table #table [dataSource]="zoneOrderTransactionSource" matSort>
 
                         <ng-container *ngFor="let column of filterBatchTransColumns" [cdkColumnDef]="column.columnDef">
-                          <mat-header-cell *cdkHeaderCellDef style="width:200px;">{{ column.header }}</mat-header-cell>
+                          <mat-header-cell *cdkHeaderCellDef mat-sort-header style="width:200px;">{{ column.header }}</mat-header-cell>
                           <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedTransColumns"></mat-header-row>
