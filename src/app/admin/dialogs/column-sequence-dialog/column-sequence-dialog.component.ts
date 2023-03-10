@@ -76,6 +76,7 @@ export class ColumnSequenceDialogComponent implements OnInit {
     this.unorderedCol.length = 0;
   }
   restoreCol() {
+    this.defaultCol.length=0;
     this.getColumnsSeqDetail();
     // const autoArray = [...this.defaultCol, ...this.unorderedCol];
     // this.unorderedCol = autoArray;
@@ -88,7 +89,7 @@ export class ColumnSequenceDialogComponent implements OnInit {
   }
   deleteColSeq() {
 
-    this.restoreCol();
+    // this.restoreCol();
     let payload = {
       username: this.userData.userName,
       wsid: this.userData.wsid,
@@ -100,6 +101,8 @@ export class ColumnSequenceDialogComponent implements OnInit {
       .subscribe(
         (res: any) => {
           if (res.isExecuted) {
+              this.defaultCol.length=0;
+              this.getColumnsSeqDetail();
             // this.toastr.success(labels.alert.success, 'Success!', {
             //   positionClass: 'toast-bottom-right',
             //   timeOut: 2000,
