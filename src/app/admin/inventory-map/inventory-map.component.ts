@@ -24,6 +24,8 @@ import { InventoryMapService } from './inventory-map.service';
 import { filter, pairwise } from 'rxjs/operators';
 import { ColumnSequenceDialogComponent } from '../dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
+import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 
 const INVMAP_DATA = [
@@ -351,20 +353,34 @@ export class InventoryMapComponent implements OnInit {
   }
 
   delete(event: any){
-    let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '480px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'delete-inventory-map',
-        id: event.invMapID
-      //  grp_data: grp_data
-      }
-    })
-    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-
-      this.getContentData();
-    })
+    // console.log(event);
+    if(event.itemQuantity > 0){
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '786px',
+        data: {
+          message: "This location currently has a positive item quantity and cannot be deleted.",
+        },
+        autoFocus: '__non_existing_element__'
+      });
+    }
+    else{
+      let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+        height: 'auto',
+        width: '480px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          mode: 'delete-inventory-map',
+          id: event.invMapID
+        //  grp_data: grp_data
+        }
+      })
+      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+  
+        this.getContentData();
+      })
+    }
+    
   }
 
 
