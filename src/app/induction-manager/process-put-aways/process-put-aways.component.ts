@@ -64,6 +64,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   @ViewChild('actionRef1') actionRef1: MatSelect;
   @ViewChild('actionRef') actionRef: MatSelect;
   @ViewChild('inputVal') inputVal: ElementRef;
+  @ViewChild('batchVal') batchVal: ElementRef;
   selectedOption: any;
   displayedColumns1: string[] = [
     'status',
@@ -321,7 +322,10 @@ export class ProcessPutAwaysComponent implements OnInit {
           } else {
             this.fillToteTable();
           }
-        });    
+        });
+
+        this.batchVal.nativeElement.blur();
+
       }, 200);
 
     } catch (error) {
@@ -343,10 +347,10 @@ export class ProcessPutAwaysComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      if (res.isExecuted) {
-        this.fillToteTable();
-      } else if(res.isDeleted) {
+      if(res.isDeleted) {
         this.clearFormAndTable();
+      } else if (res.isExecuted) {
+        this.fillToteTable();
       }
     });
   }
@@ -492,15 +496,15 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
           this.processPutAwayIndex = res.data;
 
-          // if (res.data.batchIDs) {          
-          //   this.batchId = res.data.batchIDs;
-          //   this.selectedIndex = 1;
-          //   this.batchId2 = res.data.batchIDs;
-          //   this.fillToteTable(res.data.batchIDs);            
-          //   setTimeout(()=>{
-          //     this.inputVal.nativeElement.focus();
-          //   }, 500);
-          // }
+          if (res.data.batchIDs) {          
+            this.batchId = res.data.batchIDs;
+            this.selectedIndex = 1;
+            this.batchId2 = res.data.batchIDs;
+            this.fillToteTable(res.data.batchIDs);            
+            setTimeout(()=>{
+              this.inputVal.nativeElement.focus();
+            }, 500);
+          }
 
         } else {
           this.toastr.error('Something went wrong', 'Error!', {
