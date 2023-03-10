@@ -21,6 +21,8 @@ export class SharedService {
   itemObserver: Subject<any> = new Subject<any>(); 
   historyItemObserver: Subject<any> = new Subject<any>(); 
   reprocessItemObserver: Subject<any> = new Subject<any>();
+  orderStatusObjObserver: Subject<any> = new Subject<any>();
+  orderStatusSendOrderObserver: Subject<any> = new Subject<any>();
   historyLocObserver: Subject<any> = new Subject<any>();  
   appRestrictionObserver: Subject<any> = new Subject<any>();  
   updateReprocessObserver: Subject<any> = new Subject<any>();  
@@ -64,12 +66,20 @@ export class SharedService {
     this.reprocessItemObserver.next(item);
 
   }
+  updateFilterByTote(obj){
+    this.orderStatusObjObserver.next(obj)
+  }
   updateAppVerification(isVerified?){
     this.appRestrictionObserver.next(isVerified);
   }
 
   updateReprocess(obj?){
     this.updateReprocessObserver.next(obj);
+  }
+
+  
+  updateOrderStatusOrderNo(orderNumber){
+    this.orderStatusSendOrderObserver.next(orderNumber);
   }
   getSidebarStatus(){
     return this.loadMenu;

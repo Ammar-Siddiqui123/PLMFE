@@ -125,6 +125,7 @@ import { EmptyFieldsComponent } from './dialogs/empty-fields/empty-fields.compon
 import { UserFieldsEditComponent } from './dialogs/user-fields-edit/user-fields-edit.component';
 import { PostManualTransactionComponent } from './dialogs/post-manual-transaction/post-manual-transaction.component';
 import { InvalidQuantityComponent } from './dialogs/invalid-quantity/invalid-quantity.component';
+import { FilterToteComponent } from './dialogs/filter-tote/filter-tote.component';
 
 
 
@@ -240,6 +241,7 @@ import { InvalidQuantityComponent } from './dialogs/invalid-quantity/invalid-qua
     UserFieldsEditComponent,
     PostManualTransactionComponent,
     InvalidQuantityComponent,
+    FilterToteComponent,
     
 
   ],

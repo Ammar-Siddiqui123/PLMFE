@@ -216,8 +216,7 @@ export class PickToteManagerComponent implements OnInit {
       this.isFilter = 'zone'
     }
 
-
-    // console.log(this.data);
+    
 
   }
 
@@ -681,7 +680,9 @@ export class PickToteManagerComponent implements OnInit {
     }
     if (option === 'select_order') {
       this.tempHoldEle.isSelected = true;
-      this.selectedOrders.push(this.tempHoldEle.orderNumber);
+      if(!this.selectedOrders.includes(this.tempHoldEle.orderNumber)){
+        this.selectedOrders.push(this.tempHoldEle.orderNumber);
+      }
       this.onCloseAllPickToteManager();
     }
     this.orderActionRefresh();
@@ -705,7 +706,10 @@ export class PickToteManagerComponent implements OnInit {
     }
     if (option === 'select_order') {
       this.tempHoldEle.isSelected = true;
-      this.selectedOrders.push(this.tempHoldEle.orderNumber);
+      if(!this.selectedOrders.includes(this.tempHoldEle.orderNumber)){
+        this.selectedOrders.push(this.tempHoldEle.orderNumber);
+      }
+      // this.selectedOrders.push(this.tempHoldEle.orderNumber);
       this.onCloseAllPickToteManager();
     }
     this.orderActionRefreshZone();
@@ -974,9 +978,17 @@ export class PickToteManagerComponent implements OnInit {
   }
 
   onClosePickToteManager() {
-    // console.log(this.selectedOrders);
+   
+    // this.onCloseAllPickToteManager();
+    // console.log(this.selectedOrders.length);
     
-    this.dialogRef.close(this.allSelectOrders);
+    if(this.selectedOrders.length == 0){
+      // this.selectedOrders = this.data.allOrders;
+      this.dialogRef.close(this.data.allOrders);
+    }
+    else{
+      this.dialogRef.close(this.allSelectOrders);
+    }
   }
 
   onCloseAllPickToteManager(){
