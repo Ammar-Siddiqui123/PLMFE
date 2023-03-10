@@ -16,12 +16,20 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { SetColumnSeqService } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.service';
 import { TransactionService } from '../../transaction.service';
 import { AuthService } from 'src/app/init/auth.service';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  Subject,
+  Subscription,
+} from 'rxjs';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { FormControl } from '@angular/forms';
 import { FloatLabelType } from '@angular/material/form-field';
 import { HttpContext, HttpHeaders } from '@angular/common/http';
 import { BYPASS_LOG } from 'src/app/init/http-interceptor';
+import { SharedService } from 'src/app/services/shared.service';
+import { FilterToteComponent } from 'src/app/admin/dialogs/filter-tote/filter-tote.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tran-order-list',
@@ -126,7 +134,6 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     'hostTransactionID',
     'emergency',
     'id',
-    
   ];
   // 'importBy',
   //   'fileFrom',
@@ -159,10 +166,14 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   public payload;
   public sortCol: any = 3;
   public sortOrder: any = 'asc';
+  public getOrderForTote: any = ''; // get orderNumber from api to pass it to Filter By ToteID
   @ViewChild(MatSort) sort: MatSort;
-public catchToteId;
-isToolTipDisabled = false;
+  private subscription: Subscription = new Subscription();
+  public catchToteId;
+  isToolTipDisabled = false;
   searchByInput = new Subject<string>();
+
+  compDate='';
   @Input()
   set deleteEvnt(event: Event) {
     if (event) {
@@ -172,20 +183,21 @@ isToolTipDisabled = false;
   }
 
   @Input() set orderNoEvent(event: any) {
-    if(event){
+    if (event) {
+      this.toteId =
+        event.columnFIeld != 'Order Number' ? event.searchField : '';
+      this.orderNo =
+        event.columnFIeld === 'Order Number' ? event.searchField : '';
+      this.searchCol = '';
+      this.searchString = '';
+      // if (event) {
+      //   event.columnFIeld && event.columnFIeld === 'Order Number'
+      //     ? (this.orderNo = event.searchField)
+      //     : (this.toteId = event.searchField);
 
-    this.toteId =  event.columnFIeld != 'Order Number'?event.searchField:'';
-    this.orderNo =   event.columnFIeld === 'Order Number'?event.searchField:'';
-    this.searchCol='';
-    this.searchString=''
-    // if (event) {
-    //   event.columnFIeld && event.columnFIeld === 'Order Number'
-    //     ? (this.orderNo = event.searchField)
-    //     : (this.toteId = event.searchField);
-      
       this.getContentData();
-    // }
-  }
+      // }
+    }
     // this.getContentData();
   }
 
@@ -237,9 +249,9 @@ isToolTipDisabled = false;
   @Input()
   set clearEvent(event: Event) {
     if (event) {
-      this.searchCol='';
-      this.searchString='';
-      this.orderNo='';
+      this.searchCol = '';
+      this.searchString = '';
+      this.orderNo = '';
       this.dataSource = new MatTableDataSource();
     }
   }
@@ -247,20 +259,21 @@ isToolTipDisabled = false;
   constructor(
     private transactionService: TransactionService,
     private authService: AuthService,
-    private _liveAnnouncer: LiveAnnouncer
+    private _liveAnnouncer: LiveAnnouncer,
+    private sharedService: SharedService,
+    private dialog: MatDialog
   ) {}
 
-  getEleLength(ele){
+  getEleLength(ele) {
     // console.log('=----',ele)
   }
   getContentData() {
-    if(this.searchCol==='Tote ID'){
-      
+    if (this.searchCol === 'Tote ID') {
     }
     this.payload = {
       draw: 0,
-      compDate: '',
-      identify:this.orderNo? 0:1,
+      compDate: this.compDate,
+      identify: this.orderNo ? 0 : 1,
       searchString: this.searchString,
       direct: 'asc',
       searchColumn: this.searchCol,
@@ -282,12 +295,17 @@ isToolTipDisabled = false;
         (res: any) => {
           // this.getTransactionModelIndex();
           this.detailDataInventoryMap = res.data?.orderStatus;
+          this.getOrderForTote = res.data?.orderNo;
           this.dataSource = new MatTableDataSource(res.data?.orderStatus);
           // this.displayedColumns = Order_Table_Config;
 
           this.columnValues = res.data?.orderStatusColSequence;
           //  this.dataSource.paginator = this.paginator;
           this.customPagination.total = res.data?.totalRecords;
+          this.getOrderForTote =
+            res.data &&
+            res.data.orderStatus &&
+            res.data.orderStatus[0].orderNumber;
           // this.dataSource.sort = this.sort;
           if (res.data) {
             this.onOpenOrderChange(res.data?.opLines);
@@ -333,7 +351,6 @@ isToolTipDisabled = false;
       );
   }
 
-  
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
   }
@@ -407,28 +424,26 @@ isToolTipDisabled = false;
         (error) => {}
       );
   }
-  clearData(event){
-     this.dataSource = new MatTableDataSource();
-    this.searchCol='';
-    this.searchString='';
-    this.clearFromListChange.emit(event)
+  clearData(event) {
+    this.dataSource = new MatTableDataSource();
+    this.searchCol = '';
+    this.searchString = '';
+    this.clearFromListChange.emit(event);
   }
-  getColor(element){
-   
-    if(element.tableType.toLowerCase()==="open" && element.completedDate=='' &&  element.fileFrom.toLowerCase()=='open')
-    {
-
-      return 'background-color: #FFF0D6;color:#4D3B1A'
-    }else if(element.completedDate!='' ) {
-      return 'background-color: #C8E2D8;color:#114D35' 
+  getColor(element) {
+    if (
+      element.tableType.toLowerCase() === 'open' &&
+      element.completedDate == '' &&
+      element.fileFrom.toLowerCase() == 'open'
+    ) {
+      return 'background-color: #FFF0D6;color:#4D3B1A';
+    } else if (element.completedDate != '') {
+      return 'background-color: #C8E2D8;color:#114D35';
+    } else if (element.fileFrom.toLowerCase() != 'open') {
+      return 'background-color: #F7D0DA;color:#4D0D1D';
+    } else {
+      return;
     }
-    else if(element.fileFrom.toLowerCase()!='open') {
-      return 'background-color: #F7D0DA;color:#4D0D1D' 
-    }
-    else{
-      return
-    }
-
   }
   getColumnsData() {
     // this.displayedColumns = Order_Table_Config;
@@ -483,18 +498,16 @@ isToolTipDisabled = false;
   }
 
   actionDialog(event) {
-    if(this.toteId!=''){
-      this.catchToteId=this.toteId;
-    }else{
+    if (this.toteId != '') {
+      this.catchToteId = this.toteId;
+    } else {
       this.toteId = '';
     }
 
-
     // this.orderNo = '';
     this.searchCol = event;
-   this.searchString='';
-   this.searchAutocompleteList=[];
-
+    this.searchString = '';
+    this.searchAutocompleteList = [];
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
@@ -523,13 +536,12 @@ isToolTipDisabled = false;
       this._liveAnnouncer.announce('Sorting cleared');
     }
     this.dataSource.sort = this.sort;
-
   }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.orderNo='';
-    this.toteId='';
+    this.orderNo = '';
+    this.toteId = '';
     this.searchByInput
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
@@ -538,8 +550,66 @@ isToolTipDisabled = false;
         this.getContentData();
       });
     this.getContentData();
+
+
+    // Data coming from select order when user enter / check tote filter by Id it gets object type it tote id selected only
+    // then it will do send back the order number to select order component and set order field and also check if 
+    // scanValidate to check dates available if available it shows popup and when we select date it filters data by passing compdate to 
+    // orderstatus table generation api . 
+    this.subscription.add(
+      this.sharedService.orderStatusObjObserver.subscribe((obj) => {
+        if (obj.type === 'Tote ID') {
+          this.sharedService.updateOrderStatusOrderNo(this.getOrderForTote);
+          this.orderNo = this.getOrderForTote;
+          this.toteId='';
+          this.getContentData();
+          let payload = {
+            orderNumber:this.getOrderForTote, // 1974869 //this.getOrderForTote
+            username: this.userData.userName,
+            wsid: this.userData.wsid,
+          };
+          this.transactionService
+            .get(payload, `/Admin/ScanValidateOrder`, true)
+            .subscribe(
+              (res: any) => {
+                if (res.isExecuted && res.data.length > 0 && res.data[0] != '') {
+                  res.data.unshift('Entire Order');
+                  const dialogRef = this.dialog.open(FilterToteComponent, {
+                    width: '650px',
+                    autoFocus: '__non_existing_element__',
+                    data: {
+                      dates: res.data,
+                      orderName: this.getOrderForTote,
+                    },
+                  });
+                  dialogRef.afterClosed().subscribe((res) => {
+                    if(res.selectedDate!='' && res.selectedDate!=undefined ){
+                      if(res.selectedDate=='Entire Order'){
+                        this.compDate='';
+                      }else{
+                        this.compDate=res.selectedDate;
+                      }
+                   
+                      this.getContentData();
+                    }
+                 
+                  });
+                }
+              },
+              (error) => {}
+            );
+
+
+        }
+
+      
+      })
+    );
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
