@@ -72,13 +72,13 @@ export class SideNavComponent implements OnInit {
   inductionAdminMenus: any = [
     { icon: 'arrow_back', title: 'Induction Manager', route: '/InductionManager', class: 'back-class' , permission: 'Induction Manager'},
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
-    { icon: ' directions_alt', title: 'Inventory Map', route: '/InductionManager/InventoryMap' ,permission:'Induction Manager'},
-    { icon: ' dashboard ', title: 'Inventory ', route: '/admin/inventoryMaster' ,permission:'Induction Manager'},
+    { icon: ' directions_alt', title: 'Inventory Map', route: '/InductionManager/Admin/InventoryMap' ,permission:'Induction Manager'},
+    { icon: ' dashboard ', title: 'Inventory ', route: '/InductionManager/Admin/InventoryMaster' ,permission:'Induction Manager'},
     { icon: '  line_style  ', title: 'Tote Transaction Manager ', route: '#' ,permission:'Induction Manager'},
-    { icon: 'linear_scale   ', title: 'Manual Transactions ', route: '/admin//manualTransactions' ,permission:'Induction Manager'},
-    { icon: 'edit_attributes ', title: 'Transaction Journal ', route: 'admin/transaction' ,permission:'Induction Manager'},
+    { icon: 'linear_scale   ', title: 'Manual Transactions ', route: '/InductionManager/Admin/ManualTransactions' ,permission:'Induction Manager'},
+    { icon: 'edit_attributes ', title: 'Transaction Journal ', route: 'InductionManager/Admin/TransactionJournal' ,permission:'Induction Manager'},
     { icon: '     manage_accounts     ', title: 'Reports ', route: '#' ,permission:'Induction Manager'},
-    { icon: '      manage_accounts       ', title: 'Preferences ', route: '/InductionManager/AdminPrefrences' ,permission:'Induction Manager'},
+    { icon: '      manage_accounts       ', title: 'Preferences ', route: '/InductionManager/Admin/AdminPrefrences' ,permission:'Induction Manager'},
   ];
 
   
