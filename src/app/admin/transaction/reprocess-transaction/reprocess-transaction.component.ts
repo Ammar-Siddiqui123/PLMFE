@@ -613,7 +613,7 @@ export class ReprocessTransactionComponent implements OnInit {
     return this.floatLabelControlColumn.value || 'auto';
   }
   getProcessSelection(checkValues) {
-    this.tableEvent = checkValues
+    this.tableEvent = checkValues;
     if (this.tableEvent === 'history') {
       this.isHistory = true;
       this.getHistoryData();
@@ -686,7 +686,7 @@ export class ReprocessTransactionComponent implements OnInit {
           this.transactionService.get(payload, '/Admin/SetAllReprocessColumn').subscribe(
             (res: any) => {
               if (res.data && res.isExecuted) {
-                console.log(res);
+                // console.log(res);
                 this.getContentData();
                 this.getOrdersWithStatus();
                 this.toastr.success(labels.alert.update, 'Success!', {
@@ -903,7 +903,7 @@ export class ReprocessTransactionComponent implements OnInit {
       length: this.customPagination.recordsPerPage,
       sortColumnNumber: this.sortCol,
       sortOrder: this.sortOrder,
-      orderNumber: this.orderNumber,
+      orderNumber: "",
       itemNumber: this.itemNumber,
       // hold: false,
       username: this.userData.userName,

@@ -102,11 +102,11 @@ export class GenerateTransactionComponent implements OnInit {
     this.openAction.options.forEach((data: MatOption) => data.deselect());
   }
   getRow(row?) {
-    console.log(this.selectedAction);
+    // console.log(this.selectedAction);
     
     this.clear();
     this.transactionID = row.id;
-    console.log(row);
+    // console.log(row);
     let payLoad = {
       id: row.id,
       username: this.userData.userName,
@@ -215,7 +215,7 @@ export class GenerateTransactionComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      console.log('---', res);
+      // console.log('---', res);
       if (res && res.invMapID) {
         this.invMapIDget = res.invMapID;
         this.itemNumber = res.itemNumber;
@@ -568,7 +568,7 @@ export class GenerateTransactionComponent implements OnInit {
         
       }
 
-      console.log(res);
+      // console.log(res);
     });
   }
 
@@ -593,7 +593,7 @@ export class GenerateTransactionComponent implements OnInit {
       this.clearMatSelectList();
       if (res.isExecuted) {
       }
-      console.log(res);
+      // console.log(res);
     });
   }
 }

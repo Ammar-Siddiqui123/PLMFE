@@ -14,6 +14,7 @@ export class SharedService {
   menuData$ = this.menuData.asObservable();
 
   private appData:any;
+  startMenu: Subject<any> = new Subject<any>(); 
   updateAdminMenuObserver: Subject<boolean> = new Subject<boolean>(); // observing that bool
   updateInductionAdminObserver: Subject<any> = new Subject<any>(); 
   orderStatusObserver: Subject<any> = new Subject<any>(); 
@@ -24,10 +25,15 @@ export class SharedService {
   appRestrictionObserver: Subject<any> = new Subject<any>();  
   updateReprocessObserver: Subject<any> = new Subject<any>();  
 
+  resetSidebar() {
+    this.startMenu.next(true);
+  }
+
   updateSidebar(){
     this.loadMenu = !this.loadMenu;
     return this.loadMenu;
   }
+  
   updateAdminMenu()
   {
     this.updateAdminMenuObserver.next(true);
@@ -87,7 +93,6 @@ export class SharedService {
   updateLoggedInUser(userName:any,wsid:any,menu:any)
   {
     this.columnSequence.updateAppName(userName,wsid,menu.replace(/[^a-z]/gi, '')).subscribe((res: any) => {
-      //alert('DONE');
       (error) => {
         // alert(error);
          }

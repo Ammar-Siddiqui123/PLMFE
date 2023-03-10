@@ -85,7 +85,7 @@ export class TranInReprocessComponent implements OnInit {
   }
 
   orderSelected(){
-    console.log(this.orderNumber);
+    // console.log(this.orderNumber);
     this.selectedOrderNumber.emit(this.orderNumber);
     this.getItemList();
   }
@@ -103,7 +103,7 @@ export class TranInReprocessComponent implements OnInit {
       "wsid": this.userData.wsid
     }
     this.transService.get(payload, '/Admin/ReprocessTypeahead').subscribe(res => {
-      console.log(res.data);
+      // console.log(res.data);
       this.itemNumberList = res.data;
     });
   }

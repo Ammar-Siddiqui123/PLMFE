@@ -41,6 +41,7 @@ export class ItemCategoryComponent implements OnInit {
       this.category_list = res.data;
       for(var i=0;i<this.category_list.length;i++)
       {
+        this.category_list.fromDB = true;
         this.enableButton.push({index:i,value:true});
       }
      });
@@ -49,7 +50,8 @@ export class ItemCategoryComponent implements OnInit {
   addCatRow(row : any){
     this.category_list.unshift({
       category : "",
-      subCategory: ""
+      subCategory: "",
+      fromDB:false
   });
   }
 
@@ -92,7 +94,7 @@ export class ItemCategoryComponent implements OnInit {
 
   }
 
-  dltCategory(category : any, subCategory : any){
+  dltCategory(category : any, subCategory : any , fromDb:any){
 
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
@@ -101,7 +103,7 @@ export class ItemCategoryComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
      if(result === 'Yes'){
-      if(category && subCategory){
+      if(category && subCategory && fromDb){
         let paylaod = {
           "category": category,
           "subCategory": subCategory,
@@ -120,6 +122,7 @@ export class ItemCategoryComponent implements OnInit {
           }
         });
       } else {
+        this.enableButton.shift();
         this.category_list.shift();
       }
      }

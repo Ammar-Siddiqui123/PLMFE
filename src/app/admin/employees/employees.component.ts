@@ -337,7 +337,7 @@ initialzeEmpForm() {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      // console.log(result);
       this.updateGrpTable = result.groupName;
       // this.loadEmpData();
     })
@@ -392,7 +392,7 @@ initialzeEmpForm() {
       })
     }
     if (event === 'clone') {
-      console.log(grp_data);
+      // console.log(grp_data);
       let dialogRef = this.dialog.open(CloneGroupComponent, {
         height: 'auto',
         width: '480px',
@@ -470,7 +470,7 @@ initialzeEmpForm() {
     })
     dialogRef.afterClosed().subscribe(result => {
       // this.reloadData();
-      console.log(result);
+      // console.log(result);
       
       if(result.mode === 'editZone'){
         this.employee_fetched_zones.filteredData.push(result.data.zone)
@@ -523,9 +523,9 @@ initialzeEmpForm() {
         if (result !== undefined) {
             if (result !== 'no') {
               const enabled = "Y"
-                console.log(result);
+                // console.log(result);
             } else if (result === 'no') {
-               console.log('User clicked no.');
+               // console.log('User clicked no.');
             }
         }
     })

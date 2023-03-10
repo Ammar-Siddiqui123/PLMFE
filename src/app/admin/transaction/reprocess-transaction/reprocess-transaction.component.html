@@ -52,7 +52,8 @@
                     </div>
                     <div>
                         <button mat-flat-button color="primary" class="w-100 btn-regular" [disabled]='isEnabled' (click)="openReprocessTransactionDialogue(transactionID)">
-                            Edit This Transaction
+                            <ng-container *ngIf="!isHistory">Edit This Transaction</ng-container>
+                            <ng-container *ngIf="isHistory">View This Transaction</ng-container> 
                             <mat-icon style="color:#fff; transform: rotate(45deg);">unfold_more</mat-icon>
                         </button>
                     </div>

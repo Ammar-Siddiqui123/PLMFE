@@ -151,7 +151,7 @@ export class WorkstationZonesComponent implements OnInit {
           "wsid": this.userData.wsid,
         }
         this.proPickService.delete(paylaod, '/Induction/WSPickZoneDelete').subscribe((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.isExecuted) {
             this.toastr.success(labels.alert.delete, 'Success!', {
               positionClass: 'toast-bottom-right',

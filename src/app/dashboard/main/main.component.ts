@@ -220,7 +220,7 @@ private subscription: Subscription = new Subscription();
    
     if(menu!='')
     {
-      this.sharedService.updateLoggedInUser(this.userData.username,this.userData.wsid,menu);
+      this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu);
     }
     
     if (menu == 'admin') {

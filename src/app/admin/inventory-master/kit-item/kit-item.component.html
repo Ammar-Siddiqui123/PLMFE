@@ -91,7 +91,7 @@
                                         <input (keydown.shift.enter)="$event.preventDefault()" matInput type="number"
                                             (ngModelChange)="checkIfFilled($event, 'kitQuantity',i)"
                                             name="{{kitItem.kitQuantity}}" [(ngModel)]="kitItem.kitQuantity"
-                                            #kitQuantity maxlength="9" min="0">
+                                            #kitQuantity maxlength="9" min="0" required>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-2">
