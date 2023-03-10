@@ -294,7 +294,7 @@
     </div>
 </ng-scrollbar>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions *ngIf="!isHistory">
     <button type="button" (click)="closeWindow()" mat-stroked-button color="primary" class="btn-lg">Close Without Saving Changes</button>
     <button type="submit" style="flex:1" mat-flat-button color="primary" class="btn-lg" [disabled]="!editTransactionForm.valid">Save</button>
 </div>

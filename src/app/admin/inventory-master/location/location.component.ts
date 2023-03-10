@@ -24,11 +24,11 @@ export class LocationComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.location.controls['count'].value);
+    // console.log(this.location.controls['count'].value);
     
   }
   ngOnChanges(changes: SimpleChanges) {
-    console.log(this.count);
+    // console.log(this.count);
     if(changes['location']){
       if( changes['location'] && changes['location']['previousValue'] &&  changes['location']['previousValue']['controls'] && changes['location']['previousValue']['controls'].inventoryTable.value?.length ){
         this.location.controls['inventoryTable'].setValue(changes['location']['previousValue']['controls'].inventoryTable.value)
@@ -48,10 +48,10 @@ export class LocationComponent implements OnInit {
   }
 
   handlePageEvent(e: PageEvent) {
-    console.log(e);
+    // console.log(e);
     
-    this.sendNotification({locationPageSize: e.pageSize, startIndex: e.pageSize*e.pageIndex})
-   
+    this.sendNotification({locationPageSize:(e.pageSize*e.pageIndex + e.pageSize), startIndex: e.pageSize*e.pageIndex})
+    
   }
   
 }

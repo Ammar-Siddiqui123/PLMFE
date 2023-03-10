@@ -63,7 +63,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     );
 
     this.tabIndex$.subscribe((param) => {
-      console.log(param)
+      // console.log(param)
       if (param) {
         this.TabIndex = 0;
         // this.sharedService.updateOrderStatus(param)
@@ -71,7 +71,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     });
 
     this.orderStatus$.subscribe((param) => {
-      console.log(param)
+      // console.log(param)
       if (param) {
         this.TabIndex = 0;
         this.sharedService.updateOrderStatus(param)

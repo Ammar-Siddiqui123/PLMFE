@@ -46,7 +46,7 @@ export class SuperBatchComponent implements OnInit {
     }
     this.sb_service.get(payload, '/Induction/SuperBatchIndex').subscribe(res => {
       const { preferences } = res.data;
-      console.log(res.data);
+      // console.log(res.data);
       this.itemNumbers = res.data.itemNums;
       this.defaultSuperBatchSize = preferences.defaultSuperBatchSize;
       this.superBatches = res.data.superBatches;
@@ -99,7 +99,7 @@ export class SuperBatchComponent implements OnInit {
 
   onCreateBtach(element: any) {
     this.batchRowData = element;
-      console.log(element);
+      // console.log(element);
       
     if (element.newToteID <= 1) {
       this.toastr.error('Must enter a tote id to batch orders', 'Error!', {
@@ -153,10 +153,10 @@ export class SuperBatchComponent implements OnInit {
       "BatchByOrder": BatchByOrder.toString()
     }
     this.sb_service.create(payload, '/Induction/SuperBatchCreate').subscribe(response => {
-      console.log(response);
+      // console.log(response);
       if (response.isExecuted) {
         this.sb_service.create({ "ToteID": element.newToteID.toString() }, '/Induction/TotePrintTableInsert').subscribe(res => {
-          console.log(res);
+          // console.log(res);
           if(res.isExecuted){
             this.superBatches.push(element.newToteID);
             this.toastr.success(labels.alert.success, 'Success!', {

@@ -129,7 +129,7 @@ export class TranSelectOrderComponent implements OnInit {
       .subscribe((value) => {
         // this.columnSearch.searchValue = value;
         // if (!this.columnSearch.searchColumn.colDef) return;
-        console.log(value);
+        // console.log(value);
         if (!value) {
           this.resetLines();
           this.columnSelect = '';

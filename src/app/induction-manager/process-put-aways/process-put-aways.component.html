@@ -26,12 +26,15 @@
                                         <span style="width:  140px;">Zone Label</span> 
                                       </h6>
                                     
-                                      <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.batchID" class="matAutoCompTableContent" style="line-height: 24px; height:auto; min-height: auto!important; padding: 12px 16px;">
-                                        <div class="loc_option"  (click)="getRow(option.batchID)" >
-                                          <span  class="searchColumn" style="width:  140px;">{{option.batchID}}</span> 
-                                          <span  class="searchColumn" style="width:  140px; white-space: normal;">{{option.zoneLabel}}</span> 
-                                        </div>
-                                      </mat-option>
+                                      <ng-scrollbar style="height:350px">
+                                        <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.batchID" class="matAutoCompTableContent" style="line-height: 24px; height:auto; min-height: auto!important; padding: 12px 16px; overflow: unset;">
+                                          <div class="loc_option"  (click)="getRow(option.batchID)" >
+                                            <span  class="searchColumn" style="width:  140px;">{{option.batchID}}</span> 
+                                            <span  class="searchColumn" style="width:  140px; white-space: normal;">{{option.zoneLabel}}</span> 
+                                          </div>
+                                        </mat-option>
+                                      </ng-scrollbar>
+                                      
                                     </mat-autocomplete>
 
                                 </mat-form-field>
@@ -219,12 +222,14 @@
                         <span style="width: 140px;">Zone Label</span>
                       </h6>
                     
-                      <mat-option *ngFor="let option of searchAutocompleteItemNum2" [value]="option.batchID" class="matAutoCompTableContent" style="line-height: 24px; height:auto; min-height: auto!important; padding: 12px 16px;">
-                        <div class="loc_option" (click)="fillToteTable(option.batchID)">
-                          <span class="searchColumn" style="width: 140px;">{{option.batchID}}</span> 
-                          <span class="searchColumn" style="width:  140px; white-space: normal;">{{option.zoneLabel}}</span> 
-                        </div>
-                      </mat-option>
+                      <ng-scrollbar style="height:350px">
+                        <mat-option *ngFor="let option of searchAutocompleteItemNum2" [value]="option.batchID" class="matAutoCompTableContent" style="line-height: 24px; height:auto; min-height: auto!important; padding: 12px 16px; overflow: unset;">
+                          <div class="loc_option" (click)="fillToteTable(option.batchID)">
+                            <span class="searchColumn" style="width: 140px;">{{option.batchID}}</span> 
+                            <span class="searchColumn" style="width:  140px; white-space: normal;">{{option.zoneLabel}}</span> 
+                          </div>
+                        </mat-option>
+                      </ng-scrollbar>                      
 
                     </mat-autocomplete>
 

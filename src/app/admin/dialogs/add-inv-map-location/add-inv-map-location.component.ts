@@ -11,6 +11,7 @@ import { InvMapLocationService } from './inv-map-location.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConditionalExpr } from '@angular/compiler';
 import { AuthService } from '../../../../app/init/auth.service';
+import { AdjustQuantityComponent } from '../adjust-quantity/adjust-quantity.component';
 
 export interface InventoryMapDataStructure {
   invMapID: string | '',
@@ -71,6 +72,7 @@ export class AddInvMapLocationComponent implements OnInit {
   shelf = '';
   bin = '';
   setStorage;
+  quantity: any;
   routeFromIM:boolean=false;
 
 
@@ -136,8 +138,6 @@ export class AddInvMapLocationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data);
-
     this.userData = this.authService.userData();
     if (this.data.detailData) {
       this.getDetailInventoryMapData = this.data.detailData;
@@ -146,7 +146,8 @@ export class AddInvMapLocationComponent implements OnInit {
       this.row = this.getDetailInventoryMapData.row
       this.shelf = this.getDetailInventoryMapData.shelf
       this.bin = this.getDetailInventoryMapData.bin
-      this.itemDescription = this.getDetailInventoryMapData.description
+      this.itemDescription = this.getDetailInventoryMapData.description;
+      this.quantity  = this.getDetailInventoryMapData.itemQuantity;
       // console.log(this.getDetailInventoryMapData.masterInventoryMapID);
 
       this.updateItemNumber();
@@ -160,8 +161,8 @@ export class AddInvMapLocationComponent implements OnInit {
 
     this.invMapService.getLocZTypeInvMap().subscribe((res) => {
       this.locZoneList = res.data;
-      console.log("ZONES===>");
-      console.log(res.data);
+      // console.log("ZONES===>");
+      // console.log(res.data);
       this.filteredOptions = this.addInvMapLocation.controls['location'].valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value || '')),
@@ -194,6 +195,26 @@ export class AddInvMapLocationComponent implements OnInit {
       'expirationDate':''
     });
     this.itemDescription = "";
+  }
+
+  adjustQuantity(){
+    let dialogRef = this.dialog.open(AdjustQuantityComponent, {
+      height: 'auto',
+      width: '800px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        id: this.getDetailInventoryMapData.invMapID
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if(result!=true)
+      {
+
+        this.addInvMapLocation.patchValue({
+          'itemQuantity':result
+        });
+      }
+    })
   }
 
   searchItemNumber(itemNum: any) {
@@ -277,13 +298,13 @@ export class AddInvMapLocationComponent implements OnInit {
   }
   onSubmit(form: FormGroup) {
 
-    console.log(form.value);
+    //console.log(form.value);
 
     this.invMapService.getItemNumDetail({"itemNumber":form.value.item,"zone":form.value.zone}).subscribe((res) => {
       this.clickSubmit = true;
 
-      console.log(res.data.velocityCode);
-      console.log(res.data.cellSize);
+      //console.log(res.data.velocityCode);
+      //console.log(res.data.cellSize);
 
       if (res.isExecuted) {
 
@@ -310,7 +331,7 @@ export class AddInvMapLocationComponent implements OnInit {
         this.clickSubmit = false;
         this.invMapService.updateInventoryMap(form.value).subscribe((res) => {
           this.clickSubmit = true;
-          console.log(res);
+          //console.log(res);
           if (res.isExecuted) {
             this.toastr.success("Your details have been updated", 'Success!', {
               positionClass: 'toast-bottom-right',
@@ -324,7 +345,7 @@ export class AddInvMapLocationComponent implements OnInit {
         this.clickSubmit = false;
         this.invMapService.createInventoryMap(form.value).subscribe((res) => {
           this.clickSubmit = true;
-          console.log(res);
+          //console.log(res);
           if (res.isExecuted) {
             this.toastr.success("Your details have been added", 'Success!', {
               positionClass: 'toast-bottom-right',
@@ -472,7 +493,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
   @HostListener('unloaded')
   ngOnDestroy() {
-    console.log('Items destroyed');
+    // console.log('Items destroyed');
   }
 
 }

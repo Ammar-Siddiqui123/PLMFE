@@ -106,7 +106,7 @@ export class ViewOrdersComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getAllOrders();
-    console.log(this.data);
+    // console.log(this.data);
 
   }
 
@@ -116,7 +116,7 @@ export class ViewOrdersComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.pPickService.get(paylaod, '/Induction/OrdersInZone').subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       
       if (res.data.length > 0) {
         res.data.map(val => {
@@ -126,7 +126,7 @@ export class ViewOrdersComponent implements OnInit {
         // console.log(this.data.allOrders);
         if (this.data.allOrders.length > 0) {
           const selectedArr = this.allOrders.filter(element => this.data.allOrders.includes(element.orderNumber));
-          console.log('Intersection', selectedArr);
+          // console.log('Intersection', selectedArr);
           selectedArr.map(ele => {
             ele.isSelected = true
             this.selectedOrders.push(ele.orderNumber);
@@ -168,8 +168,8 @@ export class ViewOrdersComponent implements OnInit {
   }
 
   onOrderSelect(row: any) {
-    console.log(row);
-    console.log(this.selectedOrders);
+    // console.log(row);
+    // console.log(this.selectedOrders);
     
     if (this.selectedOrders.includes(row.orderNumber)) {
       this.allOrders.filter(val => {

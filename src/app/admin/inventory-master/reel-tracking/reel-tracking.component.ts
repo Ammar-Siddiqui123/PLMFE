@@ -22,7 +22,7 @@ export class ReelTrackingComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
+      // console.log('The dialog was closed');
     });
   }
 }
