@@ -73,6 +73,7 @@ export class GenerateTransactionComponent implements OnInit {
   invMapID: '';
   bin:'';
   message = '';
+  isLocation=false;
   emergency = false;
   constructor(
     private authService: AuthService,
@@ -442,7 +443,9 @@ export class GenerateTransactionComponent implements OnInit {
   }
   
   updateTransaction() {
-    if(this.transQuantity>this.totalQuantity){
+    console.log(this.isLocation);
+    
+    if(this.isLocation && this.transQuantity>this.totalQuantity){
       const dialogRef = this.dialog.open(InvalidQuantityComponent, {
         height: 'auto',
         width: '560px',
@@ -455,13 +458,13 @@ export class GenerateTransactionComponent implements OnInit {
       });
      
     }
-    if (this.transQuantity === '0' || this.transQuantity === 0 || this.transQuantity<0) {
+    if (  this.transQuantity === '0' || this.transQuantity === 0 || this.transQuantity<0) {
       this.transactionQtyInvalid = true;
       this.message = `Transaction Quantity must be a positive integer for transaction type ${this.transType} `;
     } else if (this.warehouseSensitivity === 'True' && this.wareHouse == '') {
       this.transactionQtyInvalid = true;
       this.message = 'Specified Item Number must have a Warehouse';
-    }else if(this.transQuantity>this.totalQuantity || this.transQuantity<0 ) {
+    }else if(this.isLocation && this.transQuantity>this.totalQuantity || this.transQuantity<0 ) {
       return
     }
     else {
@@ -560,7 +563,10 @@ export class GenerateTransactionComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
+
+
       if (res.isExecuted) {
+        this.isLocation=res.location!=undefined?true:false;
         this.orderNumber = res.orderNumber;
         this.itemNumber = res.itemNumber;
         this.getRow(res);

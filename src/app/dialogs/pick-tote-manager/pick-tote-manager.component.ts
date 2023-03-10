@@ -18,6 +18,7 @@ import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatPaginator } from '@angular/material/paginator';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatOption } from '@angular/material/core';
+import { MatSort } from '@angular/material/sort';
 
 export interface PeriodicElement {
   name: string;
@@ -117,6 +118,8 @@ export class PickToteManagerComponent implements OnInit {
   @ViewChild('matRef') matRef: MatSelect;
   @ViewChild('orderRef') orderRef: MatSelect;
   @ViewChild('orderZoneRef') orderZoneRef: MatSelect;
+  @ViewChild(MatSort) viewFilterTransSort: MatSort;
+  @ViewChild(MatSort) viewZoneTransSort: MatSort;
 
   displayedColumns2: string[] = ['orderno', 'requireddate', 'priority'];
   filterBatchOrderColums: string[] = ['orderno', 'requireddate', 'priority'];
@@ -554,10 +557,13 @@ export class PickToteManagerComponent implements OnInit {
         "wsid": this.userData.wsid,
       }
       this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
-        if (res.data.length > 0) {
+        // if (res.data.length > 0) {
+          // console.log(res);
+          
           this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
           this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
-        }
+          this.filterOrderTransactionSource.sort = this.viewFilterTransSort;
+        // }
       });
     }
     // console.log(this.selectedOrders);
@@ -610,10 +616,11 @@ export class PickToteManagerComponent implements OnInit {
         "wsid": this.userData.wsid,
       }
       this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
-        if (res.data) {
+        // if (res.data) {
           this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
           this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
-        }
+          this.zoneOrderTransactionSource.sort = this.viewZoneTransSort;
+        // }
       });
     }
 
@@ -725,6 +732,7 @@ export class PickToteManagerComponent implements OnInit {
         if (res.data.pickToteManTrans?.length > 0) {
           this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
           this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
+          this.zoneOrderTransactionSource.sort = this.viewZoneTransSort;
         }
       });
     }
@@ -751,6 +759,7 @@ export class PickToteManagerComponent implements OnInit {
           if (res.data.pickToteManTrans?.length > 0) {
             this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
             this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
+            this.zoneOrderTransactionSource.sort = this.viewZoneTransSort;
           }
         });
       }
@@ -783,6 +792,7 @@ export class PickToteManagerComponent implements OnInit {
         if (res.data.pickToteManTrans?.length > 0) {
           this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
           this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
+          this.filterOrderTransactionSource.sort = this.viewFilterTransSort;
         }
       });
     }
@@ -809,6 +819,7 @@ export class PickToteManagerComponent implements OnInit {
           if (res.data.pickToteManTrans?.length > 0) {
             this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
             this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
+            this.filterOrderTransactionSource.sort = this.viewFilterTransSort;
           }
         });
       }
