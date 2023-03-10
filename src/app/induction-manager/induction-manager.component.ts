@@ -39,10 +39,11 @@ export class InductionManagerComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  updateMenu(menu=''){
-    if (menu == 'transaction-admin') {
-      this.sharedService.updateInductionAdminMenu(menu);
-    }
+  updateMenu(menu = '', route = ''){
+    // if (menu == 'transaction-admin') {
+    //   this.sharedService.updateInductionAdminMenu(menu);
+    // }    
+    this.sharedService.updateInductionAdminMenu({menu , route});
 
   }
   isAuthorized(controlName:any) {
