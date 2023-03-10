@@ -127,7 +127,7 @@ export class ReprocessTransactionComponent implements OnInit {
   deleteByItemNumber=false; //Only visible if searched
   deleteByOrderNumber=false; //Only visible if searched
   private subscription: Subscription = new Subscription();
-
+ 
   @ViewChild('description') description: TemplateRef<any>;
 
 
@@ -191,6 +191,7 @@ export class ReprocessTransactionComponent implements OnInit {
   tableEvent = "reprocess";
   isEnabled = true;
   transactionID = 0;
+  selectedOrderObj={};
   floatLabelControlColumn = new FormControl('auto' as FloatLabelType);
   hideRequiredFormControl = new FormControl(false);
   searchByColumn = new Subject<string>();
@@ -812,12 +813,19 @@ export class ReprocessTransactionComponent implements OnInit {
     this.getContentData('1');
     this.getOrdersWithStatus();
     this.isEnabled = false; 
+    this.clearTransactionData();
   }
 
   clearTransactionData() {
     this.isEnabled = true;
   }
+  selectOrder(row){
+    
+    this.selectedOrderObj['orderNumber']=row.orderNumber;
+    this.selectedOrderObj['itemNumber']=row.itemNumber;
 
+    this.sharedService.updateReprocess(this.selectedOrderObj)
+  }
   getColumnsData() {
     let payload = {
       username: this.userData.userName,

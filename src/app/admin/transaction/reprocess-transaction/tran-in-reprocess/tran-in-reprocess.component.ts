@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Output, EventEmitter } from '@angular/core';
+import { SharedService } from 'src/app/services/shared.service';
 import { AuthService } from '../../../../../app/init/auth.service';
 import { TransactionService } from '../../transaction.service';
 
@@ -11,6 +12,8 @@ import { TransactionService } from '../../transaction.service';
 export class TranInReprocessComponent implements OnInit {
   selectedOption = "reprocess";
   reasonFilter = "none";
+  @Input() selectedOrder: any;
+
   public userData : any;
   public orderList : any;
   public itemNumberList : any;
@@ -25,14 +28,26 @@ export class TranInReprocessComponent implements OnInit {
 
   constructor(
     private transService: TransactionService,
-    private authService: AuthService
+    private authService: AuthService,
+    private sharedService:SharedService
 
   ) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getFilteredList();
+    this.sharedService.updateReprocessObserver.subscribe(selectedOrder => {
+      this.orderNumber='';
+      this.itemNumber='';
+      this.orderNumber=selectedOrder.orderNumber;
+      this.itemNumber=selectedOrder.itemNumber;
+      this.orderSelected();
+      this.listSelected();
+      
+       })
   }
+
+
   radioButtonChange(event) {
     if(event.value === 'history'){
       this.history = true;
