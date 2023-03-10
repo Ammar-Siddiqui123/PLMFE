@@ -48,7 +48,7 @@ export class LocationComponent implements OnInit {
   }
 
   handlePageEvent(e: PageEvent) {
-    console.log(e);
+    // console.log(e);
     
     this.sendNotification({locationPageSize:(e.pageSize*e.pageIndex + e.pageSize), startIndex: e.pageSize*e.pageIndex})
     

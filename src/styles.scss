@@ -1966,4 +1966,10 @@ mat-row{
     }
 
 }
+
+.isDivDisabled{
+  pointer-events:none;
+  cursor: none;
+  // background-color: rgba(0, 0, 0, .38) !important;
+}
 // List Row Seperator Styles --------END

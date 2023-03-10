@@ -554,10 +554,12 @@ export class PickToteManagerComponent implements OnInit {
         "wsid": this.userData.wsid,
       }
       this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
-        if (res.data.length > 0) {
+        // if (res.data.length > 0) {
+          // console.log(res);
+          
           this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
           this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
-        }
+        // }
       });
     }
     // console.log(this.selectedOrders);
@@ -610,10 +612,10 @@ export class PickToteManagerComponent implements OnInit {
         "wsid": this.userData.wsid,
       }
       this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
-        if (res.data) {
+        // if (res.data) {
           this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
           this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
-        }
+        // }
       });
     }
 

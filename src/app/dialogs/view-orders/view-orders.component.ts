@@ -87,7 +87,7 @@ export class ViewOrdersComponent implements OnInit {
   orderTransDataSource: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('paginatorTrans') paginatorTrans: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) viewTransSort: MatSort;
 
   // @ViewChild(MatPaginator, {static: false})
   // set paginatorTrans(value: MatPaginator) {
@@ -136,7 +136,7 @@ export class ViewOrdersComponent implements OnInit {
 
         this.orderDataSource = new MatTableDataSource<any>(this.allOrders);
         this.orderDataSource.paginator = this.paginator;
-        this.orderDataSource.sort = this.sort;
+        // this.orderDataSource.sort = this.sort;
 
       }
       else{
@@ -209,7 +209,7 @@ export class ViewOrdersComponent implements OnInit {
           this.transData = res.data.pickToteManTrans;
           this.orderTransDataSource = new MatTableDataSource<any>(this.transData);
           this.orderTransDataSource.paginator = this.paginatorTrans;
-          this.orderTransDataSource.sort = this.sort;
+          this.orderTransDataSource.sort = this.viewTransSort;
         }
       });
     }
