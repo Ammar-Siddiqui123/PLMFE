@@ -572,8 +572,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
             .get(payload, `/Admin/ScanValidateOrder`, true)
             .subscribe(
               (res: any) => {
-                if (res.isExecuted && res.data.length > 0 && res.data[0] != '') {
-                  res.data.unshift('Entire Order');
+                if (res.isExecuted && res.data.length > 0 && res.data.length>=2) {
+                  res.data[0]='Entire Order';
                   const dialogRef = this.dialog.open(FilterToteComponent, {
                     width: '650px',
                     autoFocus: '__non_existing_element__',
