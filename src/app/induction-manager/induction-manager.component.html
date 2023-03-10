@@ -3,7 +3,13 @@
       <div class="row g-4">
         <!-- Main Section Option (Import Export) -->
         <div class="col-xl-3 col-lg-6">
-          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white" routerLink="/InductionManager/ProcessPutAways">
+          <div 
+          matRipple 
+          [matRippleColor]="tab_hover_color" 
+          class="main-section-option bg-white" 
+          routerLink="/InductionManager/ProcessPutAways"
+          [ngClass]="isAuthorized('Tote Transactions') ? 'isDivDisabled' : ''"
+          >
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
               <span class="material-symbols-outlined">
@@ -16,7 +22,7 @@
   
         <!-- Main Section Option (Admin) -->
         <div class="col-xl-3 col-lg-6">
-          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white" routerLink="/InductionManager/ProcessPicks">
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white" routerLink="/InductionManager/ProcessPicks" [ngClass]="isAuthorized('Tote Transactions') ? 'isDivDisabled' : ''">
             <div class="main-section-icon">
               <span class="material-symbols-outlined">
                 directions_alt 
@@ -66,7 +72,7 @@
         </div>
   
         <!-- Main Section Option (Order Manager) -->
-        <div class="col-xl-3 col-lg-6" routerLink="Admin" (click)="updateMenu('transaction-admin')" >
+        <div class="col-xl-3 col-lg-6" routerLink="Admin" (click)="updateMenu('transaction-admin')" [ngClass]="isAuthorized('Tote Admin Menu') ? 'isDivDisabled' : ''">
           <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">

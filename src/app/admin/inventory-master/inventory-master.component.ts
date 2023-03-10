@@ -570,8 +570,8 @@ export class InventoryMasterComponent implements OnInit {
     } else if (e?.refreshLocationGrid) {
       this.getInvMasterLocations(this.currentPageItemNo);
     } else if (e?.locationPageSize) {  //&& e?.startIndex
-      console.log('erow '+ e.locationPageSize);
-      console.log('srow '+ e.startIndex);
+      // console.log('erow '+ e.locationPageSize);
+      // console.log('srow '+ e.startIndex);
       
       this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex );
     } else if (e?.sortingColumn) {
