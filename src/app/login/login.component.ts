@@ -354,7 +354,7 @@ export class LoginComponent {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      // console.log(result);
 
     });
   }

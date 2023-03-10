@@ -21,7 +21,7 @@ export class FunctionAllocationComponent implements OnInit {
     ) { }
  
   ngOnInit(): void {
-    console.log(this.data?.target);
+    //console.log(this.data?.target);
     
     if(this.data?.target === 'assigned') {this.dialog_msg = 'Are you sure you want to add ?'; this.btn_label = 'Add'} ;
     if(this.data?.target === 'unassigned') {this.dialog_msg = 'Are you sure you want to remove ?'; this.btn_label = 'Remove'} ;

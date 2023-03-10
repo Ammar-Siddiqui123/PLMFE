@@ -44,7 +44,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
     return this.floatLabelControlItem.value || 'item';
   }
   searchData(event) {
-    console.log(event);
+    // console.log(event);
   }
   setItem(event?) {
     let payLoad = {
@@ -62,7 +62,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
             };
           });
 
-          console.log(this.setLocationByItemList);
+          // console.log(this.setLocationByItemList);
         }
 
         // this.searchAutocompleteItemNum = res.data;
@@ -105,7 +105,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
       );
   }
   onFocusOutEvent(event,type){
-console.log(event.target.value)
+// console.log(event.target.value)
 if(type==='order'){
 if(event.target.value===''){
 this.orderRequired=true

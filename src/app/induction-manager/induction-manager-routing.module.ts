@@ -11,6 +11,7 @@ import { ConfirmationGuard } from '../guard/confirmation-guard.guard';
 import { TransactionComponent } from '../admin/transaction/transaction.component';
 import { InventoryMapComponent } from '../admin/inventory-map/inventory-map.component';
 import { InventoryMasterComponent } from '../admin/inventory-master/inventory-master.component';
+import { ManualTransactionsComponent } from '../admin/manual-transactions/manual-transactions.component';
 
 const routes: Routes = [
   { path: '', component: InductionManagerComponent },
@@ -32,7 +33,7 @@ const routes: Routes = [
     canDeactivate: [ConfirmationGuard]
   },
   {
-    path: 'AdminPrefrences',
+    path: 'Admin/AdminPrefrences',
     component: AdminPrefrencesComponent,
     canActivate: [AuthGuardGuard],
   },
@@ -55,17 +56,25 @@ const routes: Routes = [
   },
 
   {
-    path: 'TransactionJournal',
-    component: TransactionComponent
+    path: 'Admin/TransactionJournal',
+    component: TransactionComponent,
+    canActivate: [AuthGuardGuard]
   },
   
   {
-    path: 'InventoryMap',
-    component: InventoryMapComponent
+    path: 'Admin/InventoryMap',
+    component: InventoryMapComponent,
+    canActivate: [AuthGuardGuard]
   },
   {
-    path: 'InventoryMaster',
-    component: InventoryMasterComponent
+    path: 'Admin/InventoryMaster',
+    component: InventoryMasterComponent,
+    canActivate: [AuthGuardGuard]
+  },
+  {
+    path: 'Admin/ManualTransactions',
+    component: ManualTransactionsComponent,
+    canActivate: [AuthGuardGuard]
   },
 
   

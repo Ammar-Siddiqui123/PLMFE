@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TransactionService } from '../../../transaction/transaction.service';
 import { ToastrService } from 'ngx-toastr';
@@ -26,6 +26,7 @@ export class ReprocessChoiceComponent implements OnInit {
   constructor(private transactionService: TransactionService,private toastr: ToastrService , private sharedService:SharedService) { }
 
   ngOnInit(): void {
+
   }
 
   postTransaction()
@@ -66,7 +67,7 @@ export class ReprocessChoiceComponent implements OnInit {
   }
 
   changeOrderStatus(event:MatCheckboxChange,status): void {
-    console.log("CHANGE======");
+    // console.log("CHANGE======");
     if(status=='Reprocess')
     {
     this.isCompleteChecked.flag = false;

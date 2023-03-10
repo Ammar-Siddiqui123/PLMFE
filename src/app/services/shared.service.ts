@@ -23,6 +23,7 @@ export class SharedService {
   reprocessItemObserver: Subject<any> = new Subject<any>();
   historyLocObserver: Subject<any> = new Subject<any>();  
   appRestrictionObserver: Subject<any> = new Subject<any>();  
+  updateReprocessObserver: Subject<any> = new Subject<any>();  
 
   resetSidebar() {
     this.startMenu.next(true);
@@ -66,6 +67,10 @@ export class SharedService {
   updateAppVerification(isVerified?){
     this.appRestrictionObserver.next(isVerified);
   }
+
+  updateReprocess(obj?){
+    this.updateReprocessObserver.next(obj);
+  }
   getSidebarStatus(){
     return this.loadMenu;
   }
@@ -88,7 +93,6 @@ export class SharedService {
   updateLoggedInUser(userName:any,wsid:any,menu:any)
   {
     this.columnSequence.updateAppName(userName,wsid,menu.replace(/[^a-z]/gi, '')).subscribe((res: any) => {
-      //alert('DONE');
       (error) => {
         // alert(error);
          }

@@ -35,7 +35,7 @@ export class DetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    console.log(this.details)
+    // console.log(this.details)
 
   }
 
@@ -124,7 +124,7 @@ export class DetailComponent implements OnInit {
     })
   }
   public openUmDialog() {
-    console.log(this.details.controls['replenishmentLevel'].value)
+    // console.log(this.details.controls['replenishmentLevel'].value)
     let dialogRef = this.dialog.open(UnitMeasureComponent, {
       height: 'auto',
       width: '750px',

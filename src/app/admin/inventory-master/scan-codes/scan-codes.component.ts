@@ -129,6 +129,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+      return;
     }
     this.scanCodes.controls['scanCode'].value.forEach(element => {
       if(element.scanCode== scanCode  ){
@@ -142,6 +143,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+      return;
     }
 
     else if(newRecord && item.scanCode=='' && scanCode !=''){

@@ -72,13 +72,13 @@ export class SideNavComponent implements OnInit {
   inductionAdminMenus: any = [
     { icon: 'arrow_back', title: 'Induction Manager', route: '/InductionManager', class: 'back-class' , permission: 'Induction Manager'},
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
-    { icon: ' directions_alt', title: 'Inventory Map', route: '/admin/inventoryMap' ,permission:'Induction Manager'},
-    { icon: ' dashboard ', title: 'Inventory ', route: '/admin/inventoryMaster' ,permission:'Induction Manager'},
+    { icon: ' directions_alt', title: 'Inventory Map', route: '/InductionManager/Admin/InventoryMap' ,permission:'Induction Manager'},
+    { icon: ' dashboard ', title: 'Inventory ', route: '/InductionManager/Admin/InventoryMaster' ,permission:'Induction Manager'},
     { icon: '  line_style  ', title: 'Tote Transaction Manager ', route: '#' ,permission:'Induction Manager'},
-    { icon: 'linear_scale   ', title: 'Manual Transactions ', route: '/admin//manualTransactions' ,permission:'Induction Manager'},
-    { icon: 'edit_attributes ', title: 'Transaction Journal ', route: 'admin/transaction' ,permission:'Induction Manager'},
+    { icon: 'linear_scale   ', title: 'Manual Transactions ', route: '/InductionManager/Admin/ManualTransactions' ,permission:'Induction Manager'},
+    { icon: 'edit_attributes ', title: 'Transaction Journal ', route: 'InductionManager/Admin/TransactionJournal' ,permission:'Induction Manager'},
     { icon: '     manage_accounts     ', title: 'Reports ', route: '#' ,permission:'Induction Manager'},
-    { icon: '      manage_accounts       ', title: 'Preferences ', route: '/InductionManager/AdminPrefrences' ,permission:'Induction Manager'},
+    { icon: '      manage_accounts       ', title: 'Preferences ', route: '/InductionManager/Admin/AdminPrefrences' ,permission:'Induction Manager'},
   ];
 
   
@@ -198,7 +198,7 @@ export class SideNavComponent implements OnInit {
     this.globalService.get(null, '/GlobalConfig/AppLicense').subscribe(
       (res: any) => {
         if (res && res.data) {
-          console.log(res.data);
+          // console.log(res.data);
           
         }
       },
@@ -228,7 +228,9 @@ export class SideNavComponent implements OnInit {
           this.isChildMenu = true;
         }    
 
-        this.sharedService.updateLoggedInUser(this.userData.username,this.userData.wsid,menu.route);
+        //this.userData.username
+        this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route);
+
   
       
     }

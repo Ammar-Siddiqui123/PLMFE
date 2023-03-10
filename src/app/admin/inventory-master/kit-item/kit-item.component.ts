@@ -65,10 +65,10 @@ export class KitItemComponent implements OnInit, OnChanges {
       itemNumber: '',
       description: '',
       specialFeatures: '',
-      kitQuantity: ''
+      kitQuantity: 0
       
     })
-    console.log(this.kitItemsList);
+    // console.log(this.kitItemsList);
     
   }
 
@@ -116,6 +116,22 @@ export class KitItemComponent implements OnInit, OnChanges {
 
   saveKit(newItem: any, e: any) {
 
+    if (!e.itemNumber || !e.kitQuantity) {            
+      this.toastr.error("Please fill required fields", 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
+
+    if (parseInt(e.kitQuantity) < 0) {
+      this.toastr.error("Qty must be greater than 0", 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;        
+    }
+
     let newRecord = true;
     this.kitItem.controls['kitInventories'].value.forEach(element => {
       if (element.itemNumber == newItem) {
@@ -160,7 +176,7 @@ export class KitItemComponent implements OnInit, OnChanges {
         "wsid": this.userData.wsid,
       }
       
-      console.log(paylaod);
+      // console.log(paylaod);
       this.invMasterService.get(paylaod, '/Admin/UpdateKit').subscribe((res: any) => {
 
         if (res.isExecuted) {
@@ -221,7 +237,7 @@ export class KitItemComponent implements OnInit, OnChanges {
   getSearchList(e: any) {
 
     this.searchValue = e.currentTarget.value;
-    console.log(e.currentTarget.value)
+    // console.log(e.currentTarget.value)
     let paylaod = {
       "itemNumber": e.currentTarget.value,
       "beginItem": "---",
@@ -299,7 +315,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       this.namebutton.nativeElement.classList.remove('mat-button-disabled')
     }
     if(this.namebutton.nativeElement.classList.contains('kit_push_'+index)){
-      console.log('kit_push_'+index);
+      // console.log('kit_push_'+index);
       // const myHtmlEl = document.getElementsByClassName('kit_push_'+index).item(0) as HTMLElement;
       // myHtmlEl.removeAttribute('disabled');
       
@@ -312,7 +328,7 @@ export class KitItemComponent implements OnInit, OnChanges {
 
     if(input === 'kitQuantity'){
       if(val > 0){
-        console.log(index);
+        // console.log(index);
         // console.log(val.target.dataset.index);
         this.isFormFilled = true;
       }

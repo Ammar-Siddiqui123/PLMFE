@@ -150,7 +150,8 @@
 
             <div class="counter">
               <p class="counter-text"><strong>Puts</strong></p>
-              <div class="d-flex jus align-items-center justify-content-center">
+              <div class="d-flex  align-items-right justify-content-center">
+              
                   <div class="employees">
                     <p class="counter-count">{{putsOpen}}</p>
                     <p class="employee-p">Open</p>
@@ -159,16 +160,21 @@
                     <p class="counter-count">{{putsCompleted}}</p>
                     <p class="customer-p">Completed</p>
                   </div>
-                  <div class="design">
+                  <div class="design"  style="visibility:hidden;">
                     <p class="counter-count">{{putsPerHour}}</p>
                     <p class="design-p">Per hour</p>
                   </div>
+                  <!-- <div class="design">
+                    <p class="counter-count">{{putsPerHour}}</p>
+                    <p class="design-p">Per hour</p>
+                  </div> -->
               </div>
           </div>
 
           <div class="counter">
             <p class="counter-text"><strong>Counts</strong></p>
             <div class="d-flex align-items-center justify-content-center">
+           
                 <div class="employees">
                   <p class="counter-count">{{countOpen}}</p>
                   <p class="employee-p">Open</p>
@@ -177,43 +183,53 @@
                   <p class="counter-count">{{countCompleted}}</p>
                   <p class="customer-p">Completed</p>
                 </div>
-                <div class="design">
+                <div class="design" style="visibility:hidden;">
                   <p class="counter-count">{{countPerHour}}</p>
                   <p class="design-p">Per hour</p>
                 </div>
+                <!-- <div class="design">
+                  <p class="counter-count">{{countPerHour}}</p>
+                  <p class="design-p">Per hour</p>
+                </div> -->
             </div>
         </div>
 
         <div class="counter">
           <p class="counter-text"><strong>Adjustments</strong></p>
           <div class="d-flex align-items-center justify-content-center">
-              <div class="employees">
+         
+              <div class="customer">
+                <p class="counter-count">{{adjustmentOpen}}</p>
+                <p class="customer-p">Completed</p>
+              </div>
+              <div class="employees" style="visibility: hidden;">
                 <p class="counter-count">{{adjustmentOpen}}</p>
                 <p class="employee-p">Open</p>
               </div>
-              <div class="customer">
-                <p class="counter-count">{{adjustmentCompleted}}</p>
-                <p class="customer-p">Completed</p>
+              <div class="employees" style="visibility: hidden;">
+                <p class="counter-count">{{adjustmentOpen}}</p>
+                <p class="employee-p">Open</p>
               </div>
-              <div class="design">
+              <!-- <div class="design">
                 <p class="counter-count">{{adjustmentPerHour}}</p>
                 <p class="design-p">Per hour</p>
-              </div>
+              </div> -->
           </div>
       </div>
 
       <div class="counter">
         <p class="counter-text"><strong>Reprocess</strong></p>
         <div class="d-flex align-items-center justify-content-center">
+          
             <div class="employees">
               <p class="counter-count">{{reprocessOpen}}</p>
               <p class="employee-p">Open</p>
             </div>
-            <div class="customer">
+            <div class="customer" style="visibility:hidden">
               <p class="counter-count">{{reprocessCompleted}}</p>
               <p class="customer-p">Completed</p>
             </div>
-            <div class="design">
+            <div class="design"  style="visibility:hidden">
               <p class="counter-count">{{reprocessPerHour}}</p>
               <p class="design-p">Per hour</p>
             </div>
