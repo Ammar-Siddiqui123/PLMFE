@@ -207,9 +207,10 @@ export class TotesAddEditComponent implements OnInit {
   }
 
   selectTote(toteIDs=null,cells=null)
-  {
+  {    
+
     var exists=false;
-    for(var i=0;i<this.alreadySavedTotesList?.length;i++)
+    for(var i=0; i < this.alreadySavedTotesList?.length; i++)
     {
       if(toteIDs==null)
       {
@@ -220,14 +221,12 @@ export class TotesAddEditComponent implements OnInit {
         }
       }
       else 
-      {
-        
-        
-      if(this.alreadySavedTotesList[i].toteid==toteIDs)
-      {
-        exists=true;
-        break;
-      }
+      {                
+        if(this.alreadySavedTotesList[i].toteid==toteIDs)
+        {
+          exists=true;
+          break;
+        }
       }
 
     }
@@ -241,18 +240,30 @@ export class TotesAddEditComponent implements OnInit {
     }
     else 
     {
-
       let selectedTote;
-      if(toteIDs==null&&cells==null)
+      if(toteIDs == null && cells == null)
       {
-      selectedTote = {toteID:this.toteID , cellID:this.cellID , position: this.position };
-      this.dialogRef.close(selectedTote);
+        if (!this.cellID) {
+          this.toastr.error("Cannot set the selected tote because it is cells is empty.", 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+          return;
+        }
+        selectedTote = { toteID : this.toteID, cellID : this.cellID, position : this.position };
+        this.dialogRef.close(selectedTote);
       }
       else 
       {
-      selectedTote = {toteID:toteIDs , cellID:cells , position: this.position }; 
-      console.log(selectedTote);
-      this.dialogRef.close(selectedTote);
+        if (!cells) {
+          this.toastr.error("Cannot set the selected tote because it is cells is empty.", 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+          return;
+        }
+        selectedTote = { toteID : toteIDs, cellID : cells, position : this.position }; 
+        this.dialogRef.close(selectedTote);
       }
     }
 

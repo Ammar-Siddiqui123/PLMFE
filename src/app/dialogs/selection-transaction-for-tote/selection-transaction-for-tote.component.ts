@@ -39,7 +39,6 @@ export class SelectionTransactionForToteComponent implements OnInit {
     this.zone       =  this.data.zones;
     this.batchID    =  this.data.batchID
     this.getTransactions();
-
   }
 
   refresh()
@@ -50,66 +49,93 @@ export class SelectionTransactionForToteComponent implements OnInit {
   selectOrder(id:any,itemNumber:any, val : any = [])
   {
 
-    let payload = {
-      zone: val.zone,      
-      username: this.userName,
-      wsid: this.wsid
-    };
-    
-    this.service
-      .get(payload, '/Induction/BatchByZone')
-      .subscribe(
-        (res: any) => {
-          if (res.isExecuted) {
-            if (!res.data) {
-              let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-                height: 'auto',
-                width: '560px',
-                autoFocus: '__non_existing_element__',
-                data: {
-                  message: 'There are no batches with this zone (' + val.zone + ') assigned.  Click OK to start a new batch or cancel to choose a different location/transaction.',
-                },
-              });
+    if (val.zone) {
 
-              dialogRef.afterClosed().subscribe((res) => {
-                if (res == 'Yes') {
-                  this.dialogRef.close("New Batch"); 
-                }      
-              });
-
-
+      let payload = {
+        zone: val.zone,      
+        username: this.userName,
+        wsid: this.wsid
+      };
+      
+      this.service
+        .get(payload, '/Induction/BatchByZone')
+        .subscribe(
+          (res: any) => {
+            if (res.isExecuted) {
+              if (!res.data) {
+                let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+                  height: 'auto',
+                  width: '560px',
+                  autoFocus: '__non_existing_element__',
+                  data: {
+                    message: 'There are no batches with this zone (' + val.zone + ') assigned.  Click OK to start a new batch or cancel to choose a different location/transaction.',
+                  },
+                });
+  
+                dialogRef.afterClosed().subscribe((res) => {
+                  if (res == 'Yes') {
+                    this.dialogRef.close("New Batch"); 
+                  }      
+                });
+  
+  
+              } else {
+                const dialogRef = this.dialog.open(SelectionTransactionForToteExtendComponent, {
+                  height: 'auto',
+                  width: '100vw',
+                  autoFocus: '__non_existing_element__',
+                  data: {
+                    otid        : id,
+                    itemNumber  : itemNumber,
+                    zones       : this.data.zones,
+                    batchID     : this.data.batchID,
+                    totes       : this.data.totes,
+                    defaultPutAwayQuantity: this.data.defaultPutAwayQuantity,
+                    transactionQuantity: val.transactionQuantity,
+                    autoForwardReplenish: this.data.autoForwardReplenish
+                  }
+                });
+            
+                dialogRef.afterClosed().subscribe((res) => {
+                  if (res) {
+                    this.dialogRef.close(res); 
+                  }      
+                });
+              }
             } else {
-              const dialogRef = this.dialog.open(SelectionTransactionForToteExtendComponent, {
-                height: 'auto',
-                width: '100vw',
-                autoFocus: '__non_existing_element__',
-                data: {
-                  otid        : id,
-                  itemNumber  : itemNumber,
-                  zones       : this.data.zones,
-                  batchID     : this.data.batchID,
-                  totes       : this.data.totes,
-                  defaultPutAwayQuantity: this.data.defaultPutAwayQuantity,
-                  transactionQuantity: val.transactionQuantity,
-                  autoForwardReplenish: this.data.autoForwardReplenish
-                }
-              });
-          
-              dialogRef.afterClosed().subscribe((res) => {
-                if (res) {
-                  this.dialogRef.close(res); 
-                }      
+              this.toastr.error('Something went wrong', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
               });
             }
-          } else {
-            this.toastr.error('Something went wrong', 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000,
-            });
-          }
-        },
-        (error) => {}
-      );    
+          },
+          (error) => {}
+        );    
+      
+    } else {
+      const dialogRef = this.dialog.open(SelectionTransactionForToteExtendComponent, {
+        height: 'auto',
+        width: '100vw',
+        autoFocus: '__non_existing_element__',
+        data: {
+          otid        : id,
+          itemNumber  : itemNumber,
+          zones       : this.data.zones,
+          batchID     : this.data.batchID,
+          totes       : this.data.totes,
+          defaultPutAwayQuantity: this.data.defaultPutAwayQuantity,
+          transactionQuantity: val.transactionQuantity,
+          autoForwardReplenish: this.data.autoForwardReplenish
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe((res) => {
+        if (res) {
+          this.dialogRef.close(res); 
+        }      
+      });
+    }
+    
   }
 
   rightClick()
@@ -150,12 +176,13 @@ export class SelectionTransactionForToteComponent implements OnInit {
           if (res.data && res.isExecuted) {
             this.transactionTable = res.data.transactionTable;
             
-            if (!res.data.transactionTable || res.data.transactionTable.length == 0) {
+            // !res.data.transactionTable || res.data.transactionTable.length == 0
+            if (res.data.success == "0") {
               this.dialogRef.close("NO");
             }
 
             if (this.data.selectIfOne && res.data.transactionTable.length == 1) {
-              this.selectOrder(this.transactionTable[0].id, res.data.itemNumber);
+              this.selectOrder(this.transactionTable[0].id, res.data.itemNumber, this.transactionTable[0]);
             }
 
             this.apiResponse = res.data;
@@ -178,11 +205,13 @@ export class SelectionTransactionForToteComponent implements OnInit {
       width: '100vw',
       autoFocus: '__non_existing_element__',
       data: {
-        otid        : '',
+        otid        : 0,
         itemNumber  : this.itemNumber,
         zones       : this.data.zones,
         batchID     : this.data.batchID,
-        totes       : this.data.totes
+        totes       : this.data.totes,
+        defaultPutAwayQuantity: this.data.defaultPutAwayQuantity,
+        autoForwardReplenish: this.data.autoForwardReplenish
       }
     });
 

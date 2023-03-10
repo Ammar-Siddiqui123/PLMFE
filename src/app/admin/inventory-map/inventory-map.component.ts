@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router,RoutesRecognized } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -23,6 +23,9 @@ import { SetColumnSeqService } from '../dialogs/set-column-seq/set-column-seq.se
 import { InventoryMapService } from './inventory-map.service';
 import { filter, pairwise } from 'rxjs/operators';
 import { ColumnSequenceDialogComponent } from '../dialogs/column-sequence-dialog/column-sequence-dialog.component';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
+import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 
 const INVMAP_DATA = [
@@ -108,7 +111,8 @@ export class InventoryMapComponent implements OnInit {
   detailDataInventoryMap: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  // @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   @ViewChild('matRef') matRef: MatSelect;
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
 
@@ -121,7 +125,8 @@ export class InventoryMapComponent implements OnInit {
     private invMapService: InventoryMapService,
     private toastr: ToastrService, 
     private router: Router,
-    private loader: SpinnerService
+    private loader: SpinnerService,
+    private _liveAnnouncer: LiveAnnouncer,
   ) {
 
 
@@ -192,6 +197,8 @@ export class InventoryMapComponent implements OnInit {
     this.customPagination.recordsPerPage = e.pageSize;
    // this.pageIndex = e.pageIndex;
 
+   this.dataSource.sort = this.sort;
+
    this.initializeApi();
    this.getContentData()
    
@@ -235,7 +242,7 @@ export class InventoryMapComponent implements OnInit {
 
   getContentData(){
     this.invMapService.getInventoryMap(this.payload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
-    
+      // console.log(res.data);
       this.itemList =  res.data?.inventoryMaps?.map((arr => {
         return {'itemNumber': arr.itemNumber, 'desc': arr.description}
       }))
@@ -317,7 +324,7 @@ export class InventoryMapComponent implements OnInit {
        autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      console.log('The dialog was closed');
+      // console.log('The dialog was closed');
     });
   }
 
@@ -346,20 +353,34 @@ export class InventoryMapComponent implements OnInit {
   }
 
   delete(event: any){
-    let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '480px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'delete-inventory-map',
-        id: event.invMapID
-      //  grp_data: grp_data
-      }
-    })
-    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-
-      this.getContentData();
-    })
+    // console.log(event);
+    if(event.itemQuantity > 0){
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '786px',
+        data: {
+          message: "This location currently has a positive item quantity and cannot be deleted.",
+        },
+        autoFocus: '__non_existing_element__'
+      });
+    }
+    else{
+      let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+        height: 'auto',
+        width: '480px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          mode: 'delete-inventory-map',
+          id: event.invMapID
+        //  grp_data: grp_data
+        }
+      })
+      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+  
+        this.getContentData();
+      })
+    }
+    
   }
 
 
@@ -411,6 +432,22 @@ export class InventoryMapComponent implements OnInit {
     })
   }
 
+  duplicate(event){
+  this.invMapService.duplicate( this.userData.userName,this.userData.wsid,event.invMapID).pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
+    this.displayedColumns = INVMAP_DATA;
+
+    if(res.data){
+      this.getContentData();
+    } else {
+      this.toastr.error('Something went wrong', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+  });
+
+  }
+
   viewInInventoryMaster(row){
 
     // this.router.navigate(['/admin/inventoryMaster']);
@@ -420,8 +457,10 @@ export class InventoryMapComponent implements OnInit {
     });
   }
 
-  viewLocationHistory(){
-    
+  viewLocationHistory(row : any){
+    this.router.navigate([]).then((result) => {
+      window.open(`/#/admin/transaction?location=${row.locationNumber}`, '_self');
+    });
   }
 
   autocompleteSearchColumn(){
@@ -464,17 +503,31 @@ export class InventoryMapComponent implements OnInit {
   }
 
   announceSortChange(e : any){
-    // let index = this.columnValues.findIndex(x => x === e.active );
-    // this.sortColumn = {
-    //   columnName: index,
-    //   sortOrder: e.direction
-    // }
+    
+    let index = this.columnValues.findIndex(x => x === e.active );
+    this.sortColumn = {
+      columnName: index,
+      sortOrder: e.direction
+    }
 
-    // this.initializeApi();
-    // this.getContentData();
+    this.initializeApi();
+    this.getContentData();
 
 
   }
+
+
+  // announceSortChange(sortState: Sort) {
+  //   if (sortState.direction) {
+  //     this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+  //   } else {
+  //     this._liveAnnouncer.announce('Sorting cleared');
+  //   }
+  //   //this.employee_data_source.sort = this.sort;
+
+  //   this.dataSource.sort = this.sort;
+  // }
+
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
   }

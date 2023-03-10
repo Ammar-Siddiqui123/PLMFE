@@ -143,6 +143,7 @@ export class ToteTransactionViewComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe((res) => {
         if (res.isExecuted) {
+          this.getTransactionTable();
         }
       });
     } else if (

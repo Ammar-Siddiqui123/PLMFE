@@ -102,7 +102,7 @@ export class GroupsLookupComponent implements OnInit {
 
   // }
   getGrpDetails(grpData: any) {
-    console.log(grpData)
+    // console.log(grpData)
     this.isGroupLookUp = true;
     this.updateGrpLookUp.emit({ groupData: grpData, isGroupLookUp: this.isGroupLookUp });
     // console.log(this.isGroupLookUp)
@@ -125,7 +125,7 @@ export class GroupsLookupComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
    this.group_data_source.filteredData.push({groupName:this.updateGrpTable});
-   console.log(this.group_data_source.filteredData);
+   // console.log(this.group_data_source.filteredData);
    
    this.groupDataRefresh.renderRows();
   }

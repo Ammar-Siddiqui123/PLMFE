@@ -54,7 +54,7 @@
                 <mat-form-field class="custom-form-field w-100" appearance="outline">
                   <mat-label>Default Batch Qty</mat-label>
                   <input 
-                    (focusout)="updatePreferences(1)"
+                    (focusout)="updatePreferences(1); checkDBQ()"
                     formControlName="pickBatchQuantity" 
                     (keydown.shift.enter)="$event.preventDefault()" 
                     matInput 
@@ -338,7 +338,7 @@
                     class="custom-form-field w-100 shorting"
                     appearance="outline">
                     <mat-label>Put Away Induction Screen</mat-label>
-                    <mat-select formControlName="putAwayInductionScreen" (selectionChange)="updatePreferences(1)">
+                    <mat-select formControlName="putAwayInductionScreen" [disabled]="preferencesForm.value.pickBatchQuantity > 20" (selectionChange)="updatePreferences(1)">
                       <mat-option *ngFor="let is of putAwayInductionScreenList" value="{{is.id}}">
                         {{is.name}}
                       </mat-option>

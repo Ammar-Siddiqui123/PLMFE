@@ -1,23 +1,67 @@
 <div class="container-fluid p-0 mt-2">
     <div class="row row-flex">
-        <div class="mb-4" [ngClass]="isHistory === true ? 'col-xl-12' : 'col-xl-8'">
+        <div class="mb-4" [ngClass]="isHistory === true ? 'col-xl-8' : 'col-xl-8'">
             <app-tran-in-reprocess 
+           
             (reprocessSelectionEvent)="getProcessSelection($event)"
             (reasonFilterEvent)="reasonFilterEvent($event)"
             (selectedOrderNumber)="selectedOrderNumber($event)" 
             (selectedItemNum)="selectedItemNum($event)" 
             (filterCleared)="filterCleared($event)"
-            
+          
             ></app-tran-in-reprocess>
         </div>
 
-        <div class="col-xl-4" [hidden]="isHistory">
-            <app-reprocess-choice  (itemUpdatedEvent)="itemUpdatedEvent($event)" [reprocessCount]="orders"
-             [isEnabled]="isEnabled" [transactionID]="transactionID" [userData]="this.userData"
-             [isReprocessedChecked]="isReprocessedChecked" 
-             [isCompleteChecked]="isCompleteChecked" 
-             [isHistoryChecked]="isHistoryChecked" 
-             ></app-reprocess-choice>
+        <div class="col-xl-4">
+
+
+
+            <mat-card class="mat-elevation-z g-card mb-4">
+                <mat-card-content>
+                    <h2 class="card-header-title mb-4 d-flex align-items-center">
+                        <div class="mat-icon-wrap me-lg-3 me-2">
+                            <span class="mat-icon material-symbols-outlined">
+                                backup_table
+                            </span>
+                        </div>
+                        <span>Selected Transaction Info</span>
+                    </h2>
+                    <div>
+                        <mat-form-field class="d-block w-100 mb-3" appearance="outline">
+                            <mat-label>Record Created By</mat-label>
+                            <input matInput name="maximumQuantity" type="text" value="{{createdBy}}" [disabled]='true'>
+                        </mat-form-field>
+
+                        <mat-form-field class="d-block w-100 mb-3" appearance="outline">
+                            <mat-label>Transaction Date/Time</mat-label>
+                            <input matInput name="maximumQuantity" type="text" value="{{transactionDateTime}}" [disabled]='true'>
+                        </mat-form-field>
+
+                        <mat-form-field class="d-block w-100 mb-3" appearance="outline">
+                            <mat-label>Reason</mat-label>
+                            <input matInput value="{{reason}}" type="text" [disabled]='true'>
+                        </mat-form-field>
+
+                        <mat-form-field class="d-block w-100 mb-3" appearance="outline" (click)="openReasonDialog(reasonMessage)">
+                            <mat-label>Reason Message</mat-label>
+                            <span matSuffix>
+                                <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
+                            </span>
+                            <input matInput value="{{reasonMessage}}" type="text" readonly [disabled]='isEnabled'>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <button mat-flat-button color="primary" class="w-100 btn-regular" [disabled]='isEnabled' (click)="openReprocessTransactionDialogue(transactionID)">
+                            <ng-container *ngIf="!isHistory">Edit This Transaction</ng-container>
+                            <ng-container *ngIf="isHistory">View This Transaction</ng-container> 
+                            <mat-icon style="color:#fff; transform: rotate(45deg);">unfold_more</mat-icon>
+                        </button>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+
+            
 
     </div>
     </div>
@@ -84,8 +128,14 @@
                                     <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
                                     <mat-option value="set_column_sq">Set Column Sequence</mat-option>
 
-                                    <mat-option *ngIf="deleteReplenishment" value="deleteReplenishment">Delete Replenishment</mat-option>
+                                    <mat-option *ngIf="print" value="deleteReplenishment">Print Preview Selected</mat-option>
+                                    <mat-option *ngIf="print" value="deleteReplenishment">Print Preview All Records</mat-option>
+                                    <mat-option *ngIf="print" value="deleteReplenishment">Print Preview By Selected Reason</mat-option>
+                                    <mat-option *ngIf="print" value="deleteReplenishment">Print Preview By Selected Message</mat-option>
+                                    <mat-option *ngIf="print" value="deleteReplenishment">Print Preview By Date/Time</mat-option>
+                                    <mat-option *ngIf="print" value="deleteReplenishment">Print Preview By Item Number</mat-option>
 
+                                    <mat-option *ngIf="deleteReplenishment" value="deleteReplenishment">Delete Replenishment</mat-option>
                                     <mat-option *ngIf="deleteSelected" value="deleteSelected">Delete Selected</mat-option>
                                     <mat-option *ngIf="deleteBySelectedReason" value="deleteBySelectedReason">Delete By Selected Reason</mat-option>
                                     <mat-option *ngIf="deleteBySelectedMessage" value="deleteBySelectedMessage">Delete By Selected Message</mat-option>
@@ -152,50 +202,15 @@
             </mat-card>
         </div>
         <div class="col-xl-4" [hidden]="isHistory">
-            <mat-card class="mat-elevation-z g-card mb-4">
-                <mat-card-content>
-                    <h2 class="card-header-title mb-4 d-flex align-items-center">
-                        <div class="mat-icon-wrap me-lg-3 me-2">
-                            <span class="mat-icon material-symbols-outlined">
-                                backup_table
-                            </span>
-                        </div>
-                        <span>Selected Transaction Info</span>
-                    </h2>
-                    <div>
-                        <mat-form-field class="d-block w-100 mb-3" appearance="outline">
-                            <mat-label>Record Created By</mat-label>
-                            <input matInput name="maximumQuantity" type="text" value="{{createdBy}}" [disabled]='true'>
-                        </mat-form-field>
+            <app-reprocess-choice (itemUpdatedEvent)="itemUpdatedEvent($event)" [reprocessCount]="orders"
+            [isEnabled]="isEnabled" [transactionID]="transactionID" [userData]="this.userData"
+            [isReprocessedChecked]="isReprocessedChecked" 
+            [isCompleteChecked]="isCompleteChecked" 
+            [isHistoryChecked]="isHistoryChecked" 
+            
+            ></app-reprocess-choice>
 
-                        <mat-form-field class="d-block w-100 mb-3" appearance="outline">
-                            <mat-label>Transaction Date/Time</mat-label>
-                            <input matInput name="maximumQuantity" type="text" value="{{transactionDateTime}}" [disabled]='true'>
-                        </mat-form-field>
-
-                        <mat-form-field class="d-block w-100 mb-3" appearance="outline">
-                            <mat-label>Reason</mat-label>
-                            <input matInput value="{{reason}}" type="text" [disabled]='true'>
-                        </mat-form-field>
-
-                        <mat-form-field class="d-block w-100 mb-3" appearance="outline">
-                            <mat-label>Reason Message</mat-label>
-                            <span matSuffix>
-                                <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
-                            </span>
-                            <input matInput value="{{reasonMessage}}" type="text" [disabled]='true'>
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <button mat-flat-button color="primary" class="w-100 btn-regular" [disabled]='isEnabled' (click)="openReprocessTransactionDialogue(transactionID)">
-                            Edit This Transaction
-                            <mat-icon style="color:#fff; transform: rotate(45deg);">unfold_more</mat-icon>
-                        </button>
-                    </div>
-                </mat-card-content>
-            </mat-card>
-
-            <mat-card class="mat-elevation-z g-card">
+            <mat-card class="mat-elevation-z g-card mt-4">
                 <mat-card-content>
                     <h2 class="card-header-title mb-4 d-flex align-items-center">
                         <div class="mat-icon-wrap me-lg-3 me-2">
@@ -221,7 +236,7 @@
                                     <ng-scrollbar style="height: 250px;">
                                         <mat-list class="zones-list g-card-list list-style-1" role="list">
                                             <ng-scrollbar style="height: 380px">
-                                              <mat-list-item role="listitem" *ngFor="let order of orders.reprocessOrders">
+                                              <mat-list-item   (click)="selectOrder(order)" role="listitem" *ngFor="let order of orders.reprocessOrders">
                                                 <span class="list-label zone-list-label">
                                                   {{order.orderNumber}}
                                                 </span>
@@ -252,7 +267,7 @@
                                     <ng-scrollbar style="height: 100px;">
                                         <mat-list class="zones-list g-card-list list-style-1" role="list">
                                             <ng-scrollbar style="height: 380px">
-                                              <mat-list-item role="listitem" *ngFor="let order of orders.completeOrders">
+                                              <mat-list-item (click)="selectOrder(order)"  role="listitem" *ngFor="let order of orders.completeOrders">
                                                 <span class="list-label zone-list-label">
                                                   {{order.orderNumber}}
                                                 </span>
@@ -282,7 +297,7 @@
                                     <ng-scrollbar style="height: 100px;">
                                         <mat-list class="zones-list g-card-list list-style-1" role="list">
                                             <ng-scrollbar style="height: 380px">
-                                              <mat-list-item role="listitem" *ngFor="let order of orders.historyOrders">
+                                              <mat-list-item (click)="selectOrder(order)"  role="listitem" *ngFor="let order of orders.historyOrders">
                                                 <span class="list-label zone-list-label">
                                                   {{order.orderNumber}}
                                                 </span>
@@ -306,3 +321,40 @@
     </div>
 
 </div>
+
+
+<ng-template #description>
+
+    <div class="d-flex justify-content-between mb-4 align-items-center">
+        <div style="width:48px"></div>
+        <h1 class="m-0" mat-dialog-title>Description</h1>
+
+        <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
+            <mat-icon class="close-icon">close</mat-icon>
+        </button>
+    </div>
+
+    <div class="">
+        <div class="w-100">
+            <div class="col-12 mb-2">
+                <mat-form-field class="custom-form-field w-100" appearance="outline">
+
+                    <textarea matInput [(ngModel)]="reasonMessage" readonly="true"
+                        style="min-height:100px"></textarea>
+                </mat-form-field>
+            </div>
+            <!-- <div class="d-flex justify-content-end pt-3">
+                <button mat-flat-button color="primary" class="button-primary btn-lg w-100" [mat-dialog-close]="true"
+                    cdkFocusInitial>Submit</button>
+            </div> -->
+
+            <button mat-stroked-button color="basic" class="custom-btn bg-white w-100 btn-lg" [mat-dialog-close]="true">
+                Close
+              </button>
+        </div>
+
+    </div>
+
+          
+
+</ng-template>

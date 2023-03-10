@@ -40,26 +40,31 @@ export class BatchDeleteComponent implements OnInit {
       batchID: this.batchID,
       transType: this.transType,
       deAllocate: deAllocate,
-      pageFrom: '',
+      pageFrom: 'Process',
       wsid: this.data.wsid,
       username: this.data.userName,
     };
+
     const dialogRef = this.dialog.open(BatchDeleteConfirmationComponent, {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'deallocate_clear_batch',
-        heading: deAllocate ? 'Clear & Deallocate Batch' : 'Clear Batch',
-        message: deAllocate
-          ? `Are you sure you want to Clear & Deallocate Batch: ${this.batchID} ?`
-          : `Are you sure you want to Clear Batch: ${this.batchID} ?`,
+        
+        heading: deAllocate 
+          ? `Clear & Deallocate ${this.clearBatchTote === 'clearBatch' ? 'Batch' : 'Tote'}` 
+          : `Clear ${this.clearBatchTote === 'clearBatch' ? 'Batch' : 'Tote'}`,
+        
+          message: deAllocate
+          ? `Are you sure you want to Clear & Deallocate ${this.clearBatchTote === 'clearBatch' ? `Batch: ${this.batchID} ?` : `Tote: ${this.toteID}`}`
+          : `Are you sure you want to Clear ${this.clearBatchTote === 'clearBatch' ? `Batch: ${this.batchID} ?` : `Tote: ${this.toteID}`}`,
         payload: payLoad,
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
       if(res.isExecuted){
-        this.dialogRef.close({isExecuted:true})
+        this.dialogRef.close({isExecuted : true, isDeleted : this.clearBatchTote === 'clearBatch' ? true : false})
       }else{
         return
       }
@@ -84,7 +89,7 @@ export class BatchDeleteComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-    this.dialogRef.close({isExecuted:true})
+      this.dialogRef.close({isDeleted:true})
     });
   }
 }

@@ -73,6 +73,7 @@ export class GenerateTransactionComponent implements OnInit {
   invMapID: '';
   bin:'';
   message = '';
+  isLocation=false;
   emergency = false;
   constructor(
     private authService: AuthService,
@@ -102,11 +103,11 @@ export class GenerateTransactionComponent implements OnInit {
     this.openAction.options.forEach((data: MatOption) => data.deselect());
   }
   getRow(row?) {
-    console.log(this.selectedAction);
+    // console.log(this.selectedAction);
     
     this.clear();
     this.transactionID = row.id;
-    console.log(row);
+    // console.log(row);
     let payLoad = {
       id: row.id,
       username: this.userData.userName,
@@ -215,7 +216,7 @@ export class GenerateTransactionComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      console.log('---', res);
+      // console.log('---', res);
       if (res && res.invMapID) {
         this.invMapIDget = res.invMapID;
         this.itemNumber = res.itemNumber;
@@ -292,9 +293,12 @@ export class GenerateTransactionComponent implements OnInit {
                       positionClass: 'toast-bottom-right',
                       timeOut: 2000,
                     });
+                    this.updateTrans();
+
                     this.clearFields();
                     this.invMapID = '';
                     this.getRow(this.transactionID);
+
                   } else {
                     this.toastr.error(res.responseMessage, 'Error!', {
                       positionClass: 'toast-bottom-right',
@@ -313,6 +317,60 @@ export class GenerateTransactionComponent implements OnInit {
       
 
 
+  }
+
+
+  updateTrans(){
+    let updateValsequence: any = [];
+      updateValsequence[0] = this.itemNumber; //itemNumber
+      updateValsequence[1] = this.transType; //TransType
+      updateValsequence[2] = this.expDate ?this.expDate:''; //expDate
+      updateValsequence[3] = this.revision; //revision
+      updateValsequence[4] = this.description; //description
+      updateValsequence[5] = this.lotNumber; //lotNumber
+      updateValsequence[6] = this.uom; //UoM
+      updateValsequence[7] = this.notes; //notes
+      updateValsequence[8] = this.serialNumber; //serialNumber
+      updateValsequence[9] = this.reqDate ? this.reqDate  :''; //RequiredDate
+      updateValsequence[10] = this.lineNumber; //lineNumber
+      updateValsequence[11] = this.transQuantity.toString(); //transQuantity
+      updateValsequence[12] = this.priority.toString(); //priority
+      updateValsequence[13] = this.lineSeq.toString(); //lineSeq
+      updateValsequence[14] = this.hostTransID.toString(); //hostTransID
+      updateValsequence[15] = this.batchPickID.toString(); //batchPickID
+      updateValsequence[16] = this.emergency.toString(); //emergency
+      updateValsequence[17] = this.wareHouse; //wareHouse
+      updateValsequence[18] = this.toteID==0?"": this.toteID.toString(); //toteID
+      updateValsequence[19] = this.zone; //Zone
+      updateValsequence[20] = this.shelf; //shelf
+      updateValsequence[21] = this.carousel; //carousel
+      updateValsequence[22] = this.row; //row
+      updateValsequence[23] = this.bin; //Bin
+      updateValsequence[24] = this.invMapID.toString(); //InvMapID
+
+      let payload = {
+        newValues: updateValsequence,
+        transID: this.transactionID,
+        userName: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
+
+      this.transactionService
+        .get(payload, '/Admin/UpdateTransaction',true)
+        .subscribe((res: any) => {
+          // if (res && res.isExecuted) {
+          //   this.toastr.success(labels.alert.success, 'Success!', {
+          //     positionClass: 'toast-bottom-right',
+          //     timeOut: 2000,
+          //   });
+          //   this.clearMatSelectList();
+          // } else {
+          //   this.toastr.error(res.responseMessage, 'Error!', {
+          //     positionClass: 'toast-bottom-right',
+          //     timeOut: 2000,
+          //   });
+          // }
+        });
   }
   deleteTransaction() {
     const dialogRef = this.dialog.open(
@@ -380,12 +438,16 @@ export class GenerateTransactionComponent implements OnInit {
         
         this.wareHouse = res;
         this.warehouseSensitivity = 'False';
+      }else if(res && res==='clear'){
+          this.wareHouse='';
       }
     });
   }
   
   updateTransaction() {
-    if(this.transQuantity>this.totalQuantity){
+    console.log(this.isLocation);
+    
+    if(this.isLocation && this.transQuantity>this.totalQuantity){
       const dialogRef = this.dialog.open(InvalidQuantityComponent, {
         height: 'auto',
         width: '560px',
@@ -398,13 +460,13 @@ export class GenerateTransactionComponent implements OnInit {
       });
      
     }
-    if (this.transQuantity === '0' || this.transQuantity === 0 || this.transQuantity<0) {
+    if (  this.transQuantity === '0' || this.transQuantity === 0 || this.transQuantity<0) {
       this.transactionQtyInvalid = true;
       this.message = `Transaction Quantity must be a positive integer for transaction type ${this.transType} `;
     } else if (this.warehouseSensitivity === 'True' && this.wareHouse == '') {
       this.transactionQtyInvalid = true;
       this.message = 'Specified Item Number must have a Warehouse';
-    }else if(this.transQuantity>this.totalQuantity || this.transQuantity<0 ) {
+    }else if(this.isLocation && this.transQuantity>this.totalQuantity || this.transQuantity<0 ) {
       return
     }
     else {
@@ -429,7 +491,7 @@ export class GenerateTransactionComponent implements OnInit {
       updateValsequence[15] = this.batchPickID.toString(); //batchPickID
       updateValsequence[16] = this.emergency.toString(); //emergency
       updateValsequence[17] = this.wareHouse; //wareHouse
-      updateValsequence[18] = this.toteID.toString(); //toteID
+      updateValsequence[18] = this.toteID==0?"": this.toteID.toString(); //toteID
       updateValsequence[19] = this.zone; //Zone
       updateValsequence[20] = this.shelf; //shelf
       updateValsequence[21] = this.carousel; //carousel
@@ -494,7 +556,7 @@ export class GenerateTransactionComponent implements OnInit {
   openTemporaryManualOrderDialogue() {
     const dialogRef = this.dialog.open(TemporaryManualOrderNumberAddComponent, {
       height: 'auto',
-      width: '800px',
+      width: '1000px',
       autoFocus: '__non_existing_element__',
       data: {
         userName: this.userData.userName,
@@ -503,7 +565,10 @@ export class GenerateTransactionComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
+
+
       if (res.isExecuted) {
+        this.isLocation=res.location!=undefined?true:false;
         this.orderNumber = res.orderNumber;
         this.itemNumber = res.itemNumber;
         this.getRow(res);
@@ -511,7 +576,7 @@ export class GenerateTransactionComponent implements OnInit {
         
       }
 
-      console.log(res);
+      // console.log(res);
     });
   }
 
@@ -536,7 +601,7 @@ export class GenerateTransactionComponent implements OnInit {
       this.clearMatSelectList();
       if (res.isExecuted) {
       }
-      console.log(res);
+      // console.log(res);
     });
   }
 }

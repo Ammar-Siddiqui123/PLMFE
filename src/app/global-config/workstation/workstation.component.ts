@@ -220,6 +220,7 @@ export class WorkstationComponent implements OnInit {
             this.licAppObj.map((itm) => {
               itm.canAccess = false;
               itm.defaultApp = false;
+              itm.defaultDisable= itm.appName==='Induction' || itm.appName==='ICSAdmin' ?true:false
             });
           }
           if (canAccessArr.length) {
@@ -311,10 +312,9 @@ export class WorkstationComponent implements OnInit {
           },
         });
         dialogRef.afterClosed().subscribe((result) => {
-          this.clearMatSelectList()
-          if (result.isExecuted) {
-            this.getMenuData();
-          }
+          this.clearMatSelectList();
+          this.getMenuData();
+          //}
         });
       }
 

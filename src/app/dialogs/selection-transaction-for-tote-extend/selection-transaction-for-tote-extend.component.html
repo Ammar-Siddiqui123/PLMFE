@@ -39,7 +39,7 @@
             </div>
             <span>Transaction Info</span>
           </h2>
-          <mat-checkbox color="primary">Return to stock?</mat-checkbox>
+          <mat-checkbox formControlName="returnToStock" color="primary">Return to stock?</mat-checkbox>
         </div>
         <button mat-flat-button color="warn" class="btn-regular" (click)="clearTransInfo()">
           Clear
@@ -341,7 +341,7 @@
           <button mat-flat-button color="primary" class="btn-regular" (click)="openChooseLocation()">
             Choose Location
           </button>
-          <button mat-flat-button color="primary" class="btn-regular" (click)="findLocation()">
+          <button mat-flat-button color="primary" class="btn-regular" (click)="checkRepenishment()">
             Find Location
           </button>
         </div>
@@ -413,6 +413,13 @@
           <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
             <mat-label>Quantity allocated</mat-label>
             <input formControlName="quantityAllocatedPutAway" (keydown.shift.enter)="$event.preventDefault()" matInput
+              type="text" readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3" *ngIf="toteForm.value.replenishment">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Replenishment Needed</mat-label>
+            <input formControlName="replenishment" (keydown.shift.enter)="$event.preventDefault()" matInput
               type="text" readonly>
           </mat-form-field>
         </div>

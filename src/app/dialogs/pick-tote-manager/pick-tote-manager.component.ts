@@ -16,6 +16,9 @@ import labels from '../../labels/labels.json';
 import { DeleteConfirmationComponent } from '../../../app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatPaginator } from '@angular/material/paginator';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { MatOption } from '@angular/material/core';
+import { MatSort } from '@angular/material/sort';
 
 export interface PeriodicElement {
   name: string;
@@ -57,6 +60,7 @@ export class PickToteManagerComponent implements OnInit {
   useDefaultZone;
   batchByZoneData: any[] = [];
   F_ORDER_TRANS: any[] = [];
+  TabIndex: number = 0;
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -90,14 +94,18 @@ export class PickToteManagerComponent implements OnInit {
   filterBatchOrders: any;
   filterBatchOrdersZone: any;
   pickBatchOrder: any;
+  tempHoldEle: any;
   filterOrderTransactionSource: any;
   zoneOrderTransactionSource: any;
   selectedOrders: any[] = [];
+  allSelectOrders: any[] = [];
   selectedZoneOrders: any[] = [];
   filterSeq: any = '0';
   orderBySeq: any = '0';
   isFilterAdd: boolean = false;
   isOrderByAdd: boolean = false;
+  isOrderSelect: boolean = true;
+  isOrderSelectZone: boolean = true;
   onDestroy$: Subject<boolean> = new Subject();
   selection = new SelectionModel<PeriodicElement>(true, []);
   disFilterColumns: string[] = ['sequence', 'field', 'criteria', 'value', 'andOr', 'actions'];
@@ -107,64 +115,68 @@ export class PickToteManagerComponent implements OnInit {
   dataSource1 = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
 
-
+  @ViewChild('matRef') matRef: MatSelect;
+  @ViewChild('orderRef') orderRef: MatSelect;
+  @ViewChild('orderZoneRef') orderZoneRef: MatSelect;
+  @ViewChild(MatSort) viewFilterTransSort: MatSort;
+  @ViewChild(MatSort) viewZoneTransSort: MatSort;
 
   displayedColumns2: string[] = ['orderno', 'requireddate', 'priority'];
   filterBatchOrderColums: string[] = ['orderno', 'requireddate', 'priority'];
 
   displayedColumns3: string[] = ['orderno', 'itemno', 'transaction', 'location'];
   filterBatchTransColumns = [
-    { columnDef: 'orderNumber', header: 'orderNumber', cell: (element: any) => `${element.orderNumber}` },
-    { columnDef: 'itemNumber', header: 'itemNumber', cell: (element: any) => `${element.itemNumber}` },
-    { columnDef: 'transactionQuantity', header: 'transactionQuantity', cell: (element: any) => `${element.transactionQuantity}` },
-    { columnDef: 'location', header: 'location', cell: (element: any) => `${element.location}` },
-    { columnDef: 'completedQuantity', header: 'completedQuantity', cell: (element: any) => `${element.completedQuantity}` },
-    { columnDef: 'description', header: 'description', cell: (element: any) => `${element.description}` },
-    { columnDef: 'batchPickID', header: 'batchPickID', cell: (element: any) => `${element.batchPickID}` },
-    { columnDef: 'bin', header: 'bin', cell: (element: any) => `${element.bin}` },
-    { columnDef: 'carousel', header: 'carousel', cell: (element: any) => `${element.carousel}` },
-    { columnDef: 'cell', header: 'cell', cell: (element: any) => `${element.cell}` },
-    { columnDef: 'completedBy', header: 'completedBy', cell: (element: any) => `${element.completedBy}` },
-    { columnDef: 'completedDate', header: 'completedDate', cell: (element: any) => `${element.completedDate}` },
-    { columnDef: 'emergency', header: 'emergency', cell: (element: any) => `${element.emergency}` },
-    { columnDef: 'expirationDate', header: 'expirationDate', cell: (element: any) => `${element.expirationDate}` },
-    { columnDef: 'exportBatchID', header: 'exportBatchID', cell: (element: any) => `${element.exportBatchID}` },
-    { columnDef: 'exportDate', header: 'exportDate', cell: (element: any) => `${element.exportDate}` },
-    { columnDef: 'exportedBy', header: 'exportedBy', cell: (element: any) => `${element.exportedBy}` },
-    { columnDef: 'hostTransactionID', header: 'hostTransactionID', cell: (element: any) => `${element.hostTransactionID}` },
-    { columnDef: 'id', header: 'id', cell: (element: any) => `${element.id}` },
-    { columnDef: 'importBy', header: 'importBy', cell: (element: any) => `${element.importBy}` },
-    { columnDef: 'importDate', header: 'importDate', cell: (element: any) => `${element.importDate}` },
-    { columnDef: 'importFilename', header: 'importFilename', cell: (element: any) => `${element.importFilename}` },
-    { columnDef: 'invMapID', header: 'invMapID', cell: (element: any) => `${element.invMapID}` },
-    { columnDef: 'lineNumber', header: 'lineNumber', cell: (element: any) => `${element.lineNumber}` },
-    { columnDef: 'lineSequence', header: 'lineSequence', cell: (element: any) => `${element.lineSequence}` },
-    { columnDef: 'lotNumber', header: 'lotNumber', cell: (element: any) => `${element.lotNumber}` },
-    { columnDef: 'masterRecord', header: 'masterRecord', cell: (element: any) => `${element.masterRecord}` },
-    { columnDef: 'masterRecordID', header: 'masterRecordID', cell: (element: any) => `${element.masterRecordID}` },
-    { columnDef: 'notes', header: 'notes', cell: (element: any) => `${element.notes}` },
-    { columnDef: 'priority', header: 'priority', cell: (element: any) => `${element.priority}` },
-    { columnDef: 'requiredDate', header: 'requiredDate', cell: (element: any) => `${element.requiredDate}` },
-    { columnDef: 'revision', header: 'revision', cell: (element: any) => `${element.revision}` },
-    { columnDef: 'row', header: 'row', cell: (element: any) => `${element.row}` },
-    { columnDef: 'serialNumber', header: 'serialNumber', cell: (element: any) => `${element.serialNumber}` },
-    { columnDef: 'shelf', header: 'shelf', cell: (element: any) => `${element.shelf}` },
-    { columnDef: 'statusCode', header: 'statusCode', cell: (element: any) => `${element.statusCode}` },
-    { columnDef: 'toteID', header: 'toteID', cell: (element: any) => `${element.toteID}` },
-    { columnDef: 'toteNumber', header: 'toteNumber', cell: (element: any) => `${element.toteNumber}` },
-    { columnDef: 'unitOfMeasure', header: 'unitOfMeasure', cell: (element: any) => `${element.unitOfMeasure}` },
-    { columnDef: 'userField1', header: 'userField1', cell: (element: any) => `${element.userField1}` },
-    { columnDef: 'userField2', header: 'userField2', cell: (element: any) => `${element.userField2}` },
-    { columnDef: 'userField3', header: 'userField3', cell: (element: any) => `${element.userField3}` },
-    { columnDef: 'userField4', header: 'userField4', cell: (element: any) => `${element.userField4}` },
-    { columnDef: 'userField5', header: 'userField5', cell: (element: any) => `${element.userField5}` },
-    { columnDef: 'userField6', header: 'userField6', cell: (element: any) => `${element.userField6}` },
-    { columnDef: 'userField7', header: 'userField7', cell: (element: any) => `${element.userField7}` },
-    { columnDef: 'userField8', header: 'userField8', cell: (element: any) => `${element.userField8}` },
-    { columnDef: 'userField9', header: 'userField9', cell: (element: any) => `${element.userField9}` },
-    { columnDef: 'userField10', header: 'userField10', cell: (element: any) => `${element.userField10}` },
-    { columnDef: 'warehouse', header: 'warehouse', cell: (element: any) => `${element.warehouse}` },
-    { columnDef: 'zone', header: 'zone', cell: (element: any) => `${element.zone}` },
+    { columnDef: 'orderNumber', header: 'Order Number', cell: (element: any) => `${element.orderNumber}` },
+    { columnDef: 'itemNumber', header: 'Item Number', cell: (element: any) => `${element.itemNumber}` },
+    { columnDef: 'transactionQuantity', header: 'Transaction Quantity', cell: (element: any) => `${element.transactionQuantity}` },
+    { columnDef: 'location', header: 'Location', cell: (element: any) => `${element.location}` },
+    { columnDef: 'completedQuantity', header: 'Completed Quantity', cell: (element: any) => `${element.completedQuantity}` },
+    { columnDef: 'description', header: 'Description', cell: (element: any) => `${element.description}` },
+    { columnDef: 'batchPickID', header: 'Batch Pick ID', cell: (element: any) => `${element.batchPickID}` },
+    { columnDef: 'bin', header: 'Bin', cell: (element: any) => `${element.bin}` },
+    { columnDef: 'carousel', header: 'Carousel', cell: (element: any) => `${element.carousel}` },
+    { columnDef: 'cell', header: 'Cell', cell: (element: any) => `${element.cell}` },
+    { columnDef: 'completedBy', header: 'Completed By', cell: (element: any) => `${element.completedBy}` },
+    { columnDef: 'completedDate', header: 'Completed Date', cell: (element: any) => `${element.completedDate}` },
+    { columnDef: 'emergency', header: 'Emergency', cell: (element: any) => `${element.emergency}` },
+    { columnDef: 'expirationDate', header: 'Expiration Date', cell: (element: any) => `${element.expirationDate}` },
+    { columnDef: 'exportBatchID', header: 'Export Batch ID', cell: (element: any) => `${element.exportBatchID}` },
+    { columnDef: 'exportDate', header: 'Export Date', cell: (element: any) => `${element.exportDate}` },
+    { columnDef: 'exportedBy', header: 'Exported By', cell: (element: any) => `${element.exportedBy}` },
+    { columnDef: 'hostTransactionID', header: 'Host Transaction ID', cell: (element: any) => `${element.hostTransactionID}` },
+    { columnDef: 'id', header: 'ID', cell: (element: any) => `${element.id}` },
+    { columnDef: 'importBy', header: 'Import By', cell: (element: any) => `${element.importBy}` },
+    { columnDef: 'importDate', header: 'Import Date', cell: (element: any) => `${element.importDate}` },
+    { columnDef: 'importFilename', header: 'Import Filename', cell: (element: any) => `${element.importFilename}` },
+    { columnDef: 'invMapID', header: 'Inventory Map ID', cell: (element: any) => `${element.invMapID}` },
+    { columnDef: 'lineNumber', header: 'Line Number', cell: (element: any) => `${element.lineNumber}` },
+    { columnDef: 'lineSequence', header: 'Line Sequence', cell: (element: any) => `${element.lineSequence}` },
+    { columnDef: 'lotNumber', header: 'Lot Number', cell: (element: any) => `${element.lotNumber}` },
+    { columnDef: 'masterRecord', header: 'Master Record', cell: (element: any) => `${element.masterRecord}` },
+    { columnDef: 'masterRecordID', header: 'Master Record ID', cell: (element: any) => `${element.masterRecordID}` },
+    { columnDef: 'notes', header: 'Notes', cell: (element: any) => `${element.notes}` },
+    { columnDef: 'priority', header: 'Priority', cell: (element: any) => `${element.priority}` },
+    { columnDef: 'requiredDate', header: 'Required Date', cell: (element: any) => `${element.requiredDate}` },
+    { columnDef: 'revision', header: 'Revision', cell: (element: any) => `${element.revision}` },
+    { columnDef: 'row', header: 'Row', cell: (element: any) => `${element.row}` },
+    { columnDef: 'serialNumber', header: 'Serial Number', cell: (element: any) => `${element.serialNumber}` },
+    { columnDef: 'shelf', header: 'Shelf', cell: (element: any) => `${element.shelf}` },
+    { columnDef: 'statusCode', header: 'Status Code', cell: (element: any) => `${element.statusCode}` },
+    { columnDef: 'toteID', header: 'Tote ID', cell: (element: any) => `${element.toteID}` },
+    { columnDef: 'toteNumber', header: 'Tote Number', cell: (element: any) => `${element.toteNumber}` },
+    { columnDef: 'unitOfMeasure', header: 'Unit Of Measure', cell: (element: any) => `${element.unitOfMeasure}` },
+    { columnDef: 'userField1', header: 'User Field1', cell: (element: any) => `${element.userField1}` },
+    { columnDef: 'userField2', header: 'User Field2', cell: (element: any) => `${element.userField2}` },
+    { columnDef: 'userField3', header: 'User Field3', cell: (element: any) => `${element.userField3}` },
+    { columnDef: 'userField4', header: 'User Field4', cell: (element: any) => `${element.userField4}` },
+    { columnDef: 'userField5', header: 'User Field5', cell: (element: any) => `${element.userField5}` },
+    { columnDef: 'userField6', header: 'User Field6', cell: (element: any) => `${element.userField6}` },
+    { columnDef: 'userField7', header: 'User Field7', cell: (element: any) => `${element.userField7}` },
+    { columnDef: 'userField8', header: 'User Field8', cell: (element: any) => `${element.userField8}` },
+    { columnDef: 'userField9', header: 'User Field9', cell: (element: any) => `${element.userField9}` },
+    { columnDef: 'userField10', header: 'User Field10', cell: (element: any) => `${element.userField10}` },
+    { columnDef: 'warehouse', header: 'Warehouse', cell: (element: any) => `${element.warehouse}` },
+    { columnDef: 'zone', header: 'Zone', cell: (element: any) => `${element.zone}` },
   ];
 
   displayedTransColumns = this.filterBatchTransColumns.map(c => c.columnDef);
@@ -203,6 +215,9 @@ export class PickToteManagerComponent implements OnInit {
     else {
       this.isFilter = 'zone'
     }
+
+    
+
   }
 
   pickBatchZonesSelect() {
@@ -229,7 +244,7 @@ export class PickToteManagerComponent implements OnInit {
     }
     this.pPickService.get(paylaod, '/Induction/PickBatchFilterTypeAhead').subscribe((res) => {
       if (res.data) {
-        console.log(res.data);
+        // console.log(res.data);
         this.savedFilterList = res.data;
         this.filteredOptions = this.savedFilter.valueChanges.pipe(
           startWith(""),
@@ -251,20 +266,19 @@ export class PickToteManagerComponent implements OnInit {
     // console.log(filterData);
     if (filterData) {
       filterData.map(obj => {
-        this.FILTER_DATA.push({ sequence: obj.sequence, field: obj.field, criteria: obj.criteria, value: obj.value, andOr: obj.andOr });
+        this.FILTER_DATA.push({ sequence: obj.sequence, field: obj.field, criteria: obj.criteria, value: obj.value, andOr: obj.andOr, isSaved: true });
         this.filterSeq = obj.sequence
       });
       this.dataSource = new MatTableDataSource<any>(this.FILTER_DATA);
     }
     else {
-      this.FILTER_DATA.push({ sequence: this.filterSeq + 1, field: 'Emergency', criteria: 'Equals', value: '', andOr: 'And' });
+      this.FILTER_DATA.push({ sequence: this.filterSeq + 1, field: 'Emergency', criteria: 'Equals', value: '', andOr: 'And', isSaved: false });
 
       this.dataSource = new MatTableDataSource<any>(this.FILTER_DATA);
       this.isFilterAdd = false;
     }
   }
   onAddOrderBy(filterData?: any) {
-    // console.log(filterData);
     if (filterData) {
       filterData.map(obj => {
         this.ORDER_BY_DATA.push({ id: obj.id, sequence: obj.sequence, field: obj.field, sortOrder: obj.order });
@@ -277,6 +291,15 @@ export class PickToteManagerComponent implements OnInit {
       this.orderBydataSource = new MatTableDataSource<any>(this.ORDER_BY_DATA);
       this.isOrderByAdd = false;
     }
+  }
+  clearMatSelectList() {
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
+  orderActionRefresh() {
+    this.orderRef.options.forEach((data: MatOption) => data.deselect());
+  }
+  orderActionRefreshZone() {
+    this.orderZoneRef.options.forEach((data: MatOption) => data.deselect());
   }
   onFilterAction(option: any) {
     if (option.value === 'add_new_filter') {
@@ -292,6 +315,7 @@ export class PickToteManagerComponent implements OnInit {
         this.isOrderByAdd = true;
         this.filterSeq = '0';
         this.orderBySeq = '0';
+        this.clearMatSelectList();
         this.pickBatchFilterOrderData(result);
       });
     }
@@ -350,7 +374,7 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.pPickService.get(paylaod, '/Induction/PickBatchDefaultFilterSelect').subscribe(res => {
         if (res.data) {
-          console.log(res.data);
+          // console.log(res.data);
           this.savedFilter.setValue(res.data);
           this.isFilterAdd = true;
           this.isOrderByAdd = true;
@@ -412,6 +436,7 @@ export class PickToteManagerComponent implements OnInit {
   }
   ordersFilterZoneSelect(zone = "", rp = false, type = "") {
     let payload;
+    this.FILTER_BATCH_DATA_ZONE = [];
     if (zone == "") {
       payload = {
         "Filter": this.savedFilter.value,
@@ -427,6 +452,15 @@ export class PickToteManagerComponent implements OnInit {
           res.data.map(val => {
             this.FILTER_BATCH_DATA.push({ 'orderNumber': val.orderNumber, 'reqDate': val.reqDate, 'priority': val.priority, isSelected: false });
           });
+          if (this.data.allOrders.length > 0) {
+            const selectedArr = this.FILTER_BATCH_DATA.filter(element => this.data.allOrders.includes(element.orderNumber));
+            // console.log('Intersection', selectedArr);
+            selectedArr.map(ele => {
+              ele.isSelected = true
+              this.selectedOrders.push(ele.orderNumber);
+            });
+            // this.onOrderSelect(selectedArr[selectedArr.length -1]);
+          }
           this.filterBatchOrders = new MatTableDataSource<any>(this.FILTER_BATCH_DATA);
           this.filterBatchOrders.paginator = this.filterBatchOrder;
         }
@@ -444,12 +478,23 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.pPickService.get(payload, '/Induction/OrdersFilterZoneSelect').subscribe(res => {
         if (res.data) {
-          console.log(res);
+          // console.log(res);
           res.data.map(val => {
             this.FILTER_BATCH_DATA_ZONE.push({ 'orderNumber': val.orderNumber, 'reqDate': val.reqDate, 'priority': val.priority, isSelected: false });
           });
+          if (this.data.allOrders.length > 0) {
+            const selectedArr = this.FILTER_BATCH_DATA_ZONE.filter(element => this.data.allOrders.includes(element.orderNumber));
+            // console.log('Intersection', selectedArr);
+            selectedArr.map(ele => {
+              ele.isSelected = true
+              this.selectedOrders.push(ele.orderNumber);
+            });
+            // this.onOrderSelect(selectedArr[selectedArr.length -1]);
+            this.allSelectOrders = this.selectedOrders;
+          }
           this.filterBatchOrdersZone = new MatTableDataSource<any>(this.FILTER_BATCH_DATA_ZONE);
           this.filterBatchOrdersZone.paginator = this.zoneBatchOrder;
+          this.TabIndex = 1;
         }
       });
     }
@@ -472,10 +517,14 @@ export class PickToteManagerComponent implements OnInit {
       this.FILTER_BATCH_DATA.filter(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = false;
-          this.filterOrderTransactionSource = []
+          this.filterOrderTransactionSource = [];
+          this.isOrderSelect = false;
         }
       });
       this.selectedOrders = this.selectedOrders.filter(item => item !== row.orderNumber)
+      if (this.selectedOrders.length === 0) {
+        this.isOrderSelect = true;
+      }
     }
     else if (this.selectedOrders.length >= this.data.pickBatchQuantity) {
       this.toastr.error('No open totes in batch', 'Batch is Filled.', {
@@ -484,12 +533,17 @@ export class PickToteManagerComponent implements OnInit {
       });
     }
     else {
-      this.selectedOrders.push(row.orderNumber);
+      this.FILTER_BATCH_DATA.map(v => {
+        v.isSelected = false;
+      });
+      this.tempHoldEle = row;
+      // this.selectedOrders.push(row.orderNumber);
       this.FILTER_BATCH_DATA.filter(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = true;
         }
       });
+      this.isOrderSelect = false;
       let paylaod = {
         "Draw": 0,
         "OrderNumber": row.orderNumber,
@@ -501,11 +555,14 @@ export class PickToteManagerComponent implements OnInit {
         "Username": this.userData.username,
         "wsid": this.userData.wsid,
       }
-      this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
-        if (res.data) {
+      this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
+        // if (res.data.length > 0) {
+          // console.log(res);
+          
           this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
           this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
-        }
+          this.filterOrderTransactionSource.sort = this.viewFilterTransSort;
+        // }
       });
     }
     // console.log(this.selectedOrders);
@@ -519,9 +576,13 @@ export class PickToteManagerComponent implements OnInit {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = false;
           this.zoneOrderTransactionSource = [];
+          this.isOrderSelectZone = false;
         }
       });
       this.selectedOrders = this.selectedOrders.filter(item => item !== row.orderNumber)
+      if (this.selectedOrders.length === 0) {
+        this.isOrderSelectZone = true;
+      }
     }
     else if (this.selectedOrders.length >= this.data.pickBatchQuantity) {
       this.toastr.error('No open totes in batch', 'Batch is Filled.', {
@@ -530,12 +591,18 @@ export class PickToteManagerComponent implements OnInit {
       });
     }
     else {
-      this.selectedOrders.push(row.orderNumber);
+      this.FILTER_BATCH_DATA_ZONE.map(v => {
+        v.isSelected = false;
+      });
+      this.tempHoldEle = row;
+      
+      // this.selectedOrders.push(row.orderNumber);
       this.FILTER_BATCH_DATA_ZONE.filter(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = true;
         }
       });
+      this.isOrderSelectZone = false;
       let paylaod = {
         "Draw": 0,
         "OrderNumber": row.orderNumber,
@@ -547,11 +614,12 @@ export class PickToteManagerComponent implements OnInit {
         "Username": this.userData.username,
         "wsid": this.userData.wsid,
       }
-      this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
-        if (res.data) {
+      this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
+        // if (res.data) {
           this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
           this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
-        }
+          this.zoneOrderTransactionSource.sort = this.viewZoneTransSort;
+        // }
       });
     }
 
@@ -562,6 +630,8 @@ export class PickToteManagerComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.pPickService.get(paylaod, '/Induction/PickBatchFilterOrderData').subscribe(res => {
+      // console.log(res.data);
+
       if (res.data) {
         this.FILTER_DATA = [];
         this.ORDER_BY_DATA = [];
@@ -598,26 +668,170 @@ export class PickToteManagerComponent implements OnInit {
         this.FILTER_BATCH_DATA[index].isSelected = true;
         this.selectedOrders.push(this.FILTER_BATCH_DATA[index].orderNumber);
       }
+      this.isOrderSelect = false;
+      this.allSelectOrders = this.selectedOrders 
     }
     if (option === 'unselect_all_orders') {
-      for (let index = 0; index < this.data.pickBatchQuantity; index++) {
-        this.FILTER_BATCH_DATA[index].isSelected = false;
+      this.FILTER_BATCH_DATA.map(ele => {
+        ele.isSelected = false;
         this.selectedOrders = [];
-      }
+      });
+      this.isOrderSelect = true;
     }
+    if (option === 'select_order') {
+      this.tempHoldEle.isSelected = true;
+      if(!this.selectedOrders.includes(this.tempHoldEle.orderNumber)){
+        this.selectedOrders.push(this.tempHoldEle.orderNumber);
+      }
+      this.onCloseAllPickToteManager();
+    }
+    this.orderActionRefresh();
   }
+
+
   onChangeOrderActionZone(option: any) {
     if (option === 'fill_top_orders') {
       for (let index = 0; index < this.data.pickBatchQuantity; index++) {
         this.FILTER_BATCH_DATA_ZONE[index].isSelected = true;
         this.selectedOrders.push(this.FILTER_BATCH_DATA_ZONE[index].orderNumber);
       }
+      this.isOrderSelectZone = true;
     }
     if (option === 'unselect_all_orders') {
-      for (let index = 0; index < this.data.pickBatchQuantity; index++) {
-        this.FILTER_BATCH_DATA_ZONE[index].isSelected = false;
+      this.FILTER_BATCH_DATA_ZONE.map(ele => {
+        ele.isSelected = false;
         this.selectedOrders = [];
+      });
+      this.isOrderSelectZone = true;
+    }
+    if (option === 'select_order') {
+      this.tempHoldEle.isSelected = true;
+      if(!this.selectedOrders.includes(this.tempHoldEle.orderNumber)){
+        this.selectedOrders.push(this.tempHoldEle.orderNumber);
       }
+      // this.selectedOrders.push(this.tempHoldEle.orderNumber);
+      this.onCloseAllPickToteManager();
+    }
+    this.orderActionRefreshZone();
+  }
+  onViewOrderLineZone(event){
+    let orderNum = '';
+    this.FILTER_BATCH_DATA_ZONE.map(val => {
+        orderNum += val.orderNumber + ','
+    })
+    
+    if(event.value === 'vAllOrderZone'){
+      let paylaod = {
+        "Draw": 0,
+        "OrderNumber":orderNum,
+        "sRow": 1,
+        "eRow": 10,
+        "SortColumnNumber": 0,
+        "SortOrder": "asc",
+        "Filter": "1=1",
+        "Username": this.userData.username,
+        "wsid": this.userData.wsid,
+      }
+      this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
+        if (res.data.pickToteManTrans?.length > 0) {
+          this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
+          this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
+          this.zoneOrderTransactionSource.sort = this.viewZoneTransSort;
+        }
+      });
+    }
+    if(event.value ==='vSelectedOrderZone'){
+      orderNum = '';
+      this.FILTER_BATCH_DATA_ZONE.map(val => {
+        if(val.isSelected){
+          orderNum += val.orderNumber + ','
+        }
+      });
+      if(orderNum !== ''){
+        let paylaod = {
+          "Draw": 0,
+          "OrderNumber":orderNum,
+          "sRow": 1,
+          "eRow": 10,
+          "SortColumnNumber": 0,
+          "SortOrder": "asc",
+          "Filter": "1=1",
+          "Username": this.userData.username,
+          "wsid": this.userData.wsid,
+        }
+        this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
+          if (res.data.pickToteManTrans?.length > 0) {
+            this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
+            this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
+            this.zoneOrderTransactionSource.sort = this.viewZoneTransSort;
+          }
+        });
+      }
+      else{
+        this.zoneOrderTransactionSource = [];
+      }
+      
+      
+    }
+  }
+  onViewOrderLineFilter(event){
+    let orderNum = '';
+    this.FILTER_BATCH_DATA.map(val => {
+        orderNum += val.orderNumber + ','
+    })
+    
+    if(event.value === 'vAllOrderFilter'){
+      let paylaod = {
+        "Draw": 0,
+        "OrderNumber":orderNum,
+        "sRow": 1,
+        "eRow": 10,
+        "SortColumnNumber": 0,
+        "SortOrder": "asc",
+        "Filter": "1=1",
+        "Username": this.userData.username,
+        "wsid": this.userData.wsid,
+      }
+      this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
+        if (res.data.pickToteManTrans?.length > 0) {
+          this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
+          this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
+          this.filterOrderTransactionSource.sort = this.viewFilterTransSort;
+        }
+      });
+    }
+    if(event.value ==='vSelectedOrderFilter'){
+      orderNum = '';
+      this.FILTER_BATCH_DATA.map(val => {
+        if(val.isSelected){
+          orderNum += val.orderNumber + ','
+        }
+      });
+      if(orderNum !== ''){
+        let paylaod = {
+          "Draw": 0,
+          "OrderNumber":orderNum,
+          "sRow": 1,
+          "eRow": 10,
+          "SortColumnNumber": 0,
+          "SortOrder": "asc",
+          "Filter": "1=1",
+          "Username": this.userData.username,
+          "wsid": this.userData.wsid,
+        }
+        this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
+          if (res.data.pickToteManTrans?.length > 0) {
+            this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
+            this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
+            this.filterOrderTransactionSource.sort = this.viewFilterTransSort;
+          }
+        });
+      }
+      else{
+        this.filterOrderTransactionSource = [];
+      }
+      
+      
     }
   }
 
@@ -638,35 +852,78 @@ export class PickToteManagerComponent implements OnInit {
         "Description": this.savedFilter.value,
         "wsid": this.userData.wsid,
       }
-      this.pPickService.create(payload, '/Induction/PickBatchFilterInsert').subscribe(res => {
+      this.FILTER_DATA.map(val => {
+        if (val.sequence === element.sequence && val.isSaved === true) {
+          this.pPickService.create(payload, '/Induction/PickBatchFilterUpdate').subscribe(res => {
+            if (res.isExecuted) {
+              this.isFilterAdd = true;
+              this.toastr.success(labels.alert.update, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+              this.filterSeq = element.sequence;
+              this.pickBatchFilterOrderData(this.savedFilter.value);
+            }
+          });
+        }
+        if (val.isSaved === false) {
+          this.pPickService.create(payload, '/Induction/PickBatchFilterInsert').subscribe(res => {
+            if (res.isExecuted) {
+              this.isFilterAdd = true;
+              this.toastr.success(labels.alert.success, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+              this.filterSeq = element.sequence;
+              this.pickBatchFilterOrderData(this.savedFilter.value);
+            }
+          });
+        }
+      })
+
+    }
+  }
+  onSaveSingleOrder(element: any) {
+    if (element.id) {
+      let payload = {
+        "id": +element.id,
+        "Sequence": element.sequence,
+        "Field": element.field,
+        "Order": "DESC",
+        "Description": this.savedFilter.value,
+        "wsid": this.userData.wsid,
+      }
+      this.pPickService.create(payload, '/Induction/PickBatchOrderUpdate').subscribe(res => {
         if (res.isExecuted) {
-          this.isFilterAdd = true;
-          this.toastr.success(labels.alert.success, 'Success!', {
+          this.isOrderByAdd = true;
+          this.toastr.success(labels.alert.update, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
         }
       });
     }
-  }
-  onSaveSingleOrder(element: any) {
-    let payload = {
-      "Sequence": element.sequence,
-      "Field": element.field,
-      "Order": "DESC",
-      "Description": this.savedFilter.value,
-      "wsid": this.userData.wsid,
+    else {
+      let payload = {
+        "Sequence": element.sequence,
+        "Field": element.field,
+        "Order": "DESC",
+        "Description": this.savedFilter.value,
+        "wsid": this.userData.wsid,
+      }
+      this.pPickService.create(payload, '/Induction/PickBatchOrderInsert').subscribe(res => {
+        if (res.isExecuted) {
+          this.isOrderByAdd = true;
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+          element.id = res.data;
+          this.orderBySeq = element.sequence;
+        }
+      });
     }
 
-    this.pPickService.create(payload, '/Induction/PickBatchOrderInsert').subscribe(res => {
-      if (res.isExecuted) {
-        this.isOrderByAdd = true;
-        this.toastr.success(labels.alert.success, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }
-    });
   }
   onDeleteSingleFilter(element: any) {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
@@ -721,28 +978,55 @@ export class PickToteManagerComponent implements OnInit {
   }
 
   onClosePickToteManager() {
-    this.dialogRef.close(this.selectedOrders);
+   
+    // this.onCloseAllPickToteManager();
+    // console.log(this.selectedOrders.length);
+    
+    if(this.selectedOrders.length == 0){
+      // this.selectedOrders = this.data.allOrders;
+      this.dialogRef.close(this.data.allOrders);
+    }
+    else{
+      this.dialogRef.close(this.allSelectOrders);
+    }
+  }
+
+  onCloseAllPickToteManager(){
+    this.allSelectOrders = this.selectedOrders
   }
 
   onSelectBatchZone(row) {
-    let payload = {
-      "zone": row.zone,
-      "type": row.type,
-      "wsid": this.userData.wsid,
-    }
-    this.pPickService.update(payload, '/Induction/PickBatchZoneDefaultMark').subscribe(res => {
-      if(res.isExecuted){
-        this.toastr.success(labels.alert.update, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }else{
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        message: 'Mark this filter as a default one ?'
+      },
+      autoFocus: '__non_existing_element__',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'Yes') {
+        let payload = {
+          "zone": row.zone,
+          "type": row.type,
+          "wsid": this.userData.wsid,
+        }
+        this.pPickService.update(payload, '/Induction/PickBatchZoneDefaultMark').subscribe(res => {
+          if (res.isExecuted) {
+            this.toastr.success(labels.alert.update, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          } else {
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
         });
       }
     });
+
   }
 
 }

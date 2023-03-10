@@ -78,7 +78,7 @@
 
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Expiration Date</mat-label>
-                    <input matInput [value]="expDate" [(ngModel)]="expDate" [matDatepicker]="start"
+                    <input matInput  formControlName="expirationDate" [value]="expDate" [(ngModel)]="expDate" [matDatepicker]="start"
                         (dateChange)="onDateChange($event.value,'1')" readonly>
                     <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle>
                     <mat-datepicker #start></mat-datepicker>
@@ -112,7 +112,7 @@
 
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Required Date</mat-label>
-                    <input matInput [value]="reqDate" [(ngModel)]="reqDate" [matDatepicker]="req"
+                    <input matInput  formControlName="requiredDate" [value]="reqDate" [(ngModel)]="reqDate" [matDatepicker]="req"
                         (dateChange)="onDateChange($event.value)" readonly>
                     <mat-datepicker-toggle matSuffix [for]="req" ngDefaultControl></mat-datepicker-toggle>
                     <mat-datepicker #req></mat-datepicker>
@@ -294,7 +294,7 @@
     </div>
 </ng-scrollbar>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions *ngIf="!isHistory">
     <button type="button" (click)="closeWindow()" mat-stroked-button color="primary" class="btn-lg">Close Without Saving Changes</button>
     <button type="submit" style="flex:1" mat-flat-button color="primary" class="btn-lg" [disabled]="!editTransactionForm.valid">Save</button>
 </div>

@@ -25,6 +25,7 @@ export class CrossDockTransactionComponent implements OnInit {
 
   crossDock: any;
   transactions: any;
+  qtyToSubtract: number = 0;
 
   public batchID;
   public zone;
@@ -45,10 +46,14 @@ export class CrossDockTransactionComponent implements OnInit {
 
 
 
-  constructor(public router: Router, public dialogRef: MatDialogRef<CrossDockTransactionComponent>, private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, private service: ProcessPutAwayService, private toastr: ToastrService,) { }
+  constructor(public router: Router, 
+              public dialogRef: MatDialogRef<CrossDockTransactionComponent>, 
+              private dialog: MatDialog, 
+              @Inject(MAT_DIALOG_DATA) public data: any, 
+              private service: ProcessPutAwayService, 
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    console.log(this.data);
     
     this.itemWhse = this.data.itemWhse;
     this.userId = this.data.userId;
@@ -85,25 +90,23 @@ export class CrossDockTransactionComponent implements OnInit {
         if (result.toteID != "") {
           // alert(result.toteID.toString());
           // alert(result.cellID.toString());
-          // gfhgf
-
-
           this.transactions[position].toteID = result.toteID.toString();
-
         }
-
       }
     });
+  }
 
-
-
+  compQtyChange(val : any) {
+    if (parseInt(val.compQty) > 0) {
+      this.selectedRowObj.completedQuantity = val.compQty;
+      this.openTotesDialogue(val.i); 
+    }
   }
 
   selectRow(i: any, t: any) {
     this.loopIndex = i;
     this.selectedRow = i;
     this.selectedRowObj = t;
-    console.log(this.selectedRowObj);
   }
 
   leftClick() {
@@ -143,6 +146,7 @@ export class CrossDockTransactionComponent implements OnInit {
             this.allocatedTotal = res.data.allocatedTotal;
             this.backOrderTotal = res.data.backOrderTotal;
             this.numberRecords = res.data.numberRecords;
+            this.upperBound = res.data.transaction.length < 5 ? res.data.numberRecords : 5;
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -153,7 +157,6 @@ export class CrossDockTransactionComponent implements OnInit {
         (error) => { }
       );
   }
-
 
   refresh() {
     this.getCrossDock();
@@ -259,21 +262,26 @@ export class CrossDockTransactionComponent implements OnInit {
     })
   }
 
-  submit() {
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        message: 'Click OK to proceed without a tote ID. Click Cancel to provide a tote ID.',
-      },
-    });
+  onNoClick(): void {
+    this.dialogRef.close({ data : "Close", qtyToSubtract : this.qtyToSubtract });
+  }
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result == 'Yes') {
-        this.dialogRef.close("Submit");
-      }
-    });
+  submit() {
+    // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    //   height: 'auto',
+    //   width: '560px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     message: 'Click OK to proceed without a tote ID. Click Cancel to provide a tote ID.',
+    //   },
+    // });
+
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   if (result == 'Yes') {
+    //     this.dialogRef.close("Submit");
+    //   }
+    // });
+    this.dialogRef.close({ data : "Submit", qtyToSubtract : this.qtyToSubtract });
   }
 
   viewOrderStatus() {
@@ -284,41 +292,83 @@ export class CrossDockTransactionComponent implements OnInit {
     });
   }
 
-  completePick() {
+  compPick() {
     try {
 
-      var payLoad = {
-        "pick": this.data.values.transactionQuantity,
-        "put": this.data.values.toteQty,
-        "reel": this.data.values.subCategory == 'reel tracking' ? true : false,
-        "ser": this.data.values.serialNumber,
-        "htid": this.selectedRowObj.hostTransactionID,
-        "rpid": this.selectedRowObj.id,
-        "otid": this.data.otid,
-        "item": this.data.values.itemNumber,
-        "uf1": this.selectedRowObj.userField1 ? this.selectedRowObj.userField1 : "",
-        "toteID": this.selectedRowObj.toteID,
-        "order": this.selectedRowObj.orderNumber,
-        "invMapID": this.data.values.invMapID,
-        "whse": this.data.values.warehouse,
-        "batch": this.data.values.batchID,
-        "username": this.userId,
-        "wsid": this.wsid
-      };
-
-      this.service.create(payLoad, '/Induction/CompletePick').subscribe(
-        (res: any) => {
-          if (res.data && res.isExecuted) {
-            this.getCrossDock();
-          } else {
-            this.toastr.error('Something went wrong', 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000,
-            });
-          }
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message: 'Click OK to complete this Cross Dock transaction.  The pick transaction will be posted as completed for the displayed quantity.  A matching put away record will be created for the Cross Dock quantity.',
         },
-        (error) => {}
-      ); 
+      });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+      
+        if (result == 'Yes') {
+          var payLoad = {
+            "pick": this.data.values.transactionQuantity,
+            "put": this.data.values.toteQty,
+            "reel": this.data.values.subCategory == 'reel tracking' ? true : false,
+            "ser": this.data.values.serialNumber,
+            "htid": this.selectedRowObj.hostTransactionID,
+            "rpid": this.selectedRowObj.id,
+            "otid": this.data.otid,
+            "item": this.data.values.itemNumber,
+            "uf1": this.selectedRowObj.userField1 ? this.selectedRowObj.userField1 : "",
+            "toteID": this.selectedRowObj.toteID,
+            "order": this.selectedRowObj.orderNumber,
+            "invMapID": this.data.values.invMapID,
+            "whse": this.data.values.warehouse,
+            "batch": this.data.values.batchID,
+            "username": this.userId,
+            "wsid": this.wsid
+          };
+    
+          this.service.create(payLoad, '/Induction/CompletePick').subscribe(
+            (res: any) => {
+              if (res.data && res.isExecuted) {
+                this.qtyToSubtract += this.selectedRowObj.completedQuantity ? parseInt(this.selectedRowObj.completedQuantity) : 0;
+                this.getCrossDock();
+              } else {
+                this.toastr.error('Something went wrong', 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+              }
+            },
+            (error) => {}
+          );  
+        }
+      });
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  completePick() {
+    try {
+      
+      if (!this.selectedRowObj.toteID) {
+        let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+          height: 'auto',
+          width: '560px',
+          autoFocus: '__non_existing_element__',
+          data: {
+            message: 'Click OK to proceed without a tote ID. Click Cancel to provide a tote ID.',
+          },
+        });
+    
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result == 'Yes') {
+            this.compPick();
+          }
+        });
+      } else {
+        this.compPick();
+      }
       
     } catch (error) {
       console.log(error)

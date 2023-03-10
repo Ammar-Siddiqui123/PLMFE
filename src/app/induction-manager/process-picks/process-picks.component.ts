@@ -17,6 +17,7 @@ import labels from '../../labels/labels.json';
 import { MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-process-picks',
@@ -223,6 +224,38 @@ export class ProcessPicksComponent implements OnInit {
   }
 
   onAddBatch(val: string) {
+    let filledTote:boolean = false;
+    this.TOTE_SETUP.map(obj => {
+      if(obj.toteID !== ''){
+        filledTote = true;
+      }
+    });
+    
+    // console.log(filledTote);
+    
+    if(filledTote){
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message: 'Press OK to create a new Tote Setup. Press Cancel to keep the current Tote Setup.'
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        if(result=='Yes'){
+          this.addingBatch(val);
+        }
+      })
+
+    }
+    else{
+      this.addingBatch(val);
+    }
+    
+  }
+
+  addingBatch(val:any){
     if (val === 'batchWithID') {
       this.batchWithID = true;
     }
@@ -343,14 +376,22 @@ export class ProcessPicksComponent implements OnInit {
           pickBatchQuantity: this.pickBatchQuantity,
           useDefaultFilter: this.useDefaultFilter,
           useDefaultZone: this.useDefaultZone,
+          allOrders: this.allOrders,
         },
         autoFocus: '__non_existing_element__'
       });
       dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+        if (result.length > 0) {
+          this.allOrders = result;
+        }
+        else {
+          this.allOrders = []
+          this.TOTE_SETUP.forEach((element) => {
+            element.orderNumber = '';
+          });
+        } 
         this.TOTE_SETUP.forEach((element, key) => {
-          if (element.orderNumber === '') {
             element.orderNumber = result[key] ?? '';
-          }
         });
       });
     }
@@ -369,7 +410,6 @@ export class ProcessPicksComponent implements OnInit {
       autoFocus: '__non_existing_element__'
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-      console.log(result);
       if (result.length > 0) {
         this.allOrders = result;
       }
@@ -378,15 +418,10 @@ export class ProcessPicksComponent implements OnInit {
         this.TOTE_SETUP.forEach((element) => {
           element.orderNumber = '';
         });
-      }
-
+      }      
       this.TOTE_SETUP.forEach((element, key) => {
-        if (element.orderNumber === '') {
           element.orderNumber = result[key] ?? '';
-        }
       });
-      // console.log(this.TOTE_SETUP);
-      // this.dataSource = new MatTableDataSource<any>(this.TOTE_SETUP);
 
     })
   }
@@ -411,6 +446,22 @@ export class ProcessPicksComponent implements OnInit {
         this.getAllZones();
       }
     })
+  }
+
+  isValidOrderNumber(element:any){
+    // console.log(element.orderNumber);
+    let payload ={
+      "OrderNumber": element.orderNumber
+    }
+    this.pPickService.get(payload, '/Induction/ValidateOrderNumber').subscribe(res => {
+    if(res.data === 'Invalid'){
+      this.toastr.error('This is not a vaild order number for this pick batch.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      element.orderNumber = ''
+    }
+    });
   }
 
   onToteAction(val: any) {
@@ -502,15 +553,18 @@ export class ProcessPicksComponent implements OnInit {
   checkDuplicateTote(val: any, i: any) {
     for (let index = 0; index < this.TOTE_SETUP.length; index++) {
       const element = this.TOTE_SETUP[index];
-      if (element.toteID == val.toteID && index != i) {
-        this.TOTE_SETUP[i].toteID = "";
-        this.toastr.error('This tote id is already in this batch. Enter a new one', 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-        break;
+      if(val.toteID !== ''){
+        if (element.toteID == val.toteID && index != i) {
+          this.TOTE_SETUP[i].toteID = "";
+          this.toastr.error('This tote id is already in this batch. Enter a new one', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+          break;
+        }
       }
-    }
+      }
+      
   }
 
   fillNextToteID(i: any) {
@@ -554,7 +608,7 @@ export class ProcessPicksComponent implements OnInit {
       ToteIDs.push(obj.toteID?.toString() ?? '');
       OrderNumbers.push(obj.orderNumber?.toString() ?? '');
     });
-    console.log(this.TOTE_SETUP);
+    // console.log(this.TOTE_SETUP);
     if (this.TOTE_SETUP.filter(e => e.toteID).length == 0) {
       this.toastr.error('Please enter in at least 1 tote id to process.', 'Error!', {
         positionClass: 'toast-bottom-right',

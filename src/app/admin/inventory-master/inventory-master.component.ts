@@ -15,6 +15,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 
 @Component({
@@ -37,6 +38,9 @@ export class InventoryMasterComponent implements OnInit {
   searchList: any;
   searchValue: any = '';
 
+  saveDisabled = false;
+  count;
+
 
   public locationTable: any;
   public getItemNum: any;
@@ -50,8 +54,10 @@ export class InventoryMasterComponent implements OnInit {
   public append: any;
   itemNumberParam$: Observable<any>;
   hasChanged: any;
-  initialFormValue:any
-  isDisabledSubmit:boolean = true;
+  initialFormValue: any
+  isDisabledSubmit: boolean = false;
+  kitAttempts: number = 0;
+  scanAttempts: number = 0;
   constructor(
     private invMasterService: InventoryMasterService,
     private authService: AuthService,
@@ -85,7 +91,7 @@ export class InventoryMasterComponent implements OnInit {
     );
 
     this.itemNumberParam$.subscribe((param) => {
-      console.log(param)
+      // console.log(param)
       if (param) {
         this.searchValue = param;
         this.currentPageItemNo = param;
@@ -229,7 +235,9 @@ export class InventoryMasterComponent implements OnInit {
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
       this.getInvMasterData = res.data;
-      // console.log(this.getInvMasterData);
+      
+      console.log('====GET INVENTORY MASTER=====');
+      console.log(res.data);
 
       this.initialzeIMFeilds();
     })
@@ -250,6 +258,8 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   public getInvMasterLocations(itemNum: any, pageSize?, startIndex?, sortingColumnName?, sortingOrder?) {
+    // console.log(pageSize);
+    
     let paylaod = {
       "draw": 0,
       "itemNumber": itemNum,
@@ -263,6 +273,7 @@ export class InventoryMasterComponent implements OnInit {
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterLocation').subscribe((res: any) => {
       // this.invMasterLocations ='asdsad';
       this.invMaster.get('inventoryTable')?.setValue(res.data.inventoryTable);
+      this.count = res.data.count
       // console.log(this.getInvMasterData);
       this.initialzeIMFeilds();
     })
@@ -275,7 +286,7 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.invMasterService.get(paylaod, '/Admin/GetLocationTable').subscribe((res: any) => {
-      console.log(res.data);
+      // console.log(res.data);
       this.locationTable = res.data;
     })
   }
@@ -298,7 +309,7 @@ export class InventoryMasterComponent implements OnInit {
 
   }
   prevPage() {
-    console.log(this.getChangedProperties());
+    //console.log(this.getChangedProperties());
 
     // const dialogRef = this.dialog.open(this.propertiesChanged, {
     //   width: '450px',
@@ -323,7 +334,10 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   public updateInventoryMaster() {
-    // console.log(this.invMaster.value);
+    this.invMaster.patchValue({
+      'bulkGoldZone':this.invMaster.value?.bulkVelocity,
+      'CfGoldZone':this.invMaster.value?.cfVelocity
+    });
 
     this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
       if (res.isExecuted) {
@@ -340,233 +354,6 @@ export class InventoryMasterComponent implements OnInit {
       }
     })
   }
-
-  // public getItemNumber(itemNumber: any) {
-  //   let paylaod = {
-  //     "itemNumber": itemNumber,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid,
-  //   }
-  //   this.invMasterService.get(paylaod, '/Admin/GetItemNumber').subscribe((res: any) => {
-  //     console.log(res.data);
-  //     this.getItemNum = res.data;
-  //   })
-  // }
-  // public addNewItem(form: NgForm) {
-  //   let paylaod = {
-  //     "itemNumber": form.value.itemNumber,
-  //     "description": form.value.description,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid,
-  //   }
-  //   this.invMasterService.create(paylaod, '/Admin/AddNewItem').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-
-  // public updateInvMastOTQuarantine(form: NgForm) {
-  //   let paylaod = {
-  //     "itemNumber": form.value.itemNumber,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid,
-  //     "append": true
-  //   }
-  //   this.invMasterService.create(paylaod, '/Admin/UpdateInventoryMasterOTQuarantine').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public updateInvMastOTUnQuarantine(form: NgForm) {
-  //   let paylaod = {
-  //     "itemNumber": form.value.itemNumber,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid,
-  //     "append": true
-  //   }
-  //   this.invMasterService.create(paylaod, '/Admin/UpdateInventoryMasterOTUnQuarantine').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public deleteItemNum(itemNumber: any) {
-  //   let paylaod = {
-  //     "itemNumber": itemNumber,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid,
-  //     "append": true
-  //   }
-  //   this.invMasterService.delete(paylaod, '/Admin/DeleteItem').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public refreshKits(itemNumber: any) {
-  //   let paylaod = {
-  //     "itemNumber": itemNumber,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.get(paylaod, '/Admin/RefreshKits').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public insertKit(form: any) {
-  //   let paylaod = {
-  //     "itemNumber": form.itemNumber,
-  //     "kitItem": form.kitItem,
-  //     "kitQuantity": form.kitQuantity,
-  //     "specialFeatures": form.specialFeatures,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.create(paylaod, '/Admin/InsertKit').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public updateKit(form: any) {
-  //   let paylaod = {
-  //     "itemNumber": form.itemNumber,
-  //     "oldKitItem": form.oldKitItem,
-  //     "newKitItem": form.newKitItem,
-  //     "kitQuantity": form.kitQuantity,
-  //     "specialFeatures": form.specialFeatures,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.update(paylaod, '/Admin/UpdateKit').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public deleteKit(form: any) {
-  //   let paylaod = {
-  //     "itemNumber": form.itemNumber,
-  //     "kitItem": form.kitItem,
-  //     "kitQuantity": form.kitQuantity,
-  //     "specialFeatures": form.specialFeatures,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.delete(paylaod, '/Admin/DeleteKit').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public getDescriptionByItem(itemNum: any) {
-  //   let paylaod = {
-  //     "itemNumber": itemNum,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.delete(paylaod, '/Admin/DeleteKit').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public refreshScanCodes(itemNum: any) {
-  //   let paylaod = {
-  //     "itemNumber": itemNum,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.get(paylaod, '/Admin/RefreshScanCodes').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public insertScanCodes(form: any) {
-  //   let paylaod = {
-  //     "itemNumber": form.itemNumber,
-  //     "scanCode": form.scanCode,
-  //     "scanType": form.scanType,
-  //     "scanRange": form.scanRange,
-  //     "startPosition": form.startPosition,
-  //     "codeLength": form.codeLength,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.create(paylaod, '/Admin/InsertScanCodes').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public updateScanCodes(form: any) {
-  //   let paylaod = {
-  //     "itemNumber": form.itemNumber,
-  //     "scanCode": form.scanCode,
-  //     "scanType": form.scanType,
-  //     "scanRange": form.scanRange,
-  //     "oldStartPosition": form.oldStartPosition,
-  //     "newStartPosition": form.newStartPosition,
-  //     "oldCodeLength": form.oldCodeLength,
-  //     "newCodeLength": form.newCodeLength,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.update(paylaod, '/Admin/UpdateScanCodes').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public deleteScanCode(form: any) {
-  //   let paylaod = {
-  //     "itemNumber": form.itemNumber,
-  //     "scanCode": form.scanCode,
-  //     "scanType": form.scanType,
-  //     "scanRange": form.scanRange,
-  //     "startPosition": form.startPosition,
-  //     "codeLength": form.codeLength,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.delete(paylaod, '/Admin/DeleteScanCode').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public updateInventoryMaster(form: NgForm) {
-  //   form.value.username = this.userData.userName;
-  //   form.value.wsid = this.userData.wsid;
-  //   this.invMasterService.update(form.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public updateReelQuantity(form: NgForm) {
-
-  //   let paylaod = {
-  //     "itemNumber": form.value.itemNumber,
-  //     "minimumRTS": form.value.minimumRTS,
-  //     "includeAutoRTS": true,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.update(paylaod, '/Admin/UpdateReelQuantity').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public updateReelAll(form: NgForm) {
-
-  //   let paylaod = {
-  //     "rtsAmount": form.value.rtsAmount,
-  //     "rtsQuantity": form.value.rtsAmount,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.update(paylaod, '/Admin/UpdateReelAll').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public refreshRTS(itemNumber: any) {
-  //   let paylaod = {
-  //     "itemNumber": itemNumber,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.update(paylaod, '/Admin/RefreshRTS').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public validateKit(form: any) {
-  //   let paylaod = {
-  //     "kit": form.value.kit,
-  //     "itemNumber": form.value.itemNumber,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.update(paylaod, '/Admin/ValidateKit').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
   public updateItemNumber(form: any) {
     let paylaod = {
       "oldItemNumber": form.oldItemNumber,
@@ -575,45 +362,10 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid
     }
     this.invMasterService.update(paylaod, '/Admin/UpdateItemNumber').subscribe((res: any) => {
-      console.log(res.data);
+      // console.log(res.data);
     })
   }
-  // public previousItemNumber(form: any) {
-  //   let paylaod = {
-  //     "itemNumber": form.itemNumber,
-  //     "filter": form.filter,
-  //     "firstItem": form.firstItem,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.get(paylaod, '/Admin/PreviousItemNumber').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public nextItemNumber(form: any) {
-  //   let paylaod = {
-  //     "itemNumber": form.itemNumber,
-  //     "filter": form.filter,
-  //     "firstItem": form.firstItem,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.get(paylaod, '/Admin/NextItemNumber').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
-  // public getItemNumberCount(form: any) {
-  //   let paylaod = {
-  //     "itemNumber": form.itemNumber,
-  //     "filter": form.filter,
-  //     "firstItem": form.firstItem,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMasterService.get(paylaod, '/Admin/GetItemNumberCount').subscribe((res: any) => {
-  //     console.log(res.data);
-  //   })
-  // }
+
 
   public openAddItemDialog() {
     let dialogRef = this.dialog.open(ItemNumberComponent, {
@@ -623,6 +375,7 @@ export class InventoryMasterComponent implements OnInit {
       data: {
         itemNumber: this.currentPageItemNo,
         description: this.getInvMasterData.description,
+        fromInventoryMaster:1,
         newItemNumber: '',
         addItem: true
       }
@@ -783,7 +536,7 @@ export class InventoryMasterComponent implements OnInit {
   getSearchList(e: any) {
 
     this.searchValue = e.currentTarget.value;
-    console.log(e.currentTarget.value)
+    // console.log(e.currentTarget.value)
     let paylaod = {
       "stockCode": e.currentTarget.value,
       "username": this.userData.userName,
@@ -809,20 +562,35 @@ export class InventoryMasterComponent implements OnInit {
     this.searchValue = '';
   }
   getNotification(e: any) {
-
+    // console.log(e);
+    
     if (e?.newItemNumber) {
       this.currentPageItemNo = e.newItemNumber;
       this.getInventory();
     } else if (e?.refreshLocationGrid) {
       this.getInvMasterLocations(this.currentPageItemNo);
-    } else if (e?.locationPageSize && e?.startIndex) {
-      this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex);
+    } else if (e?.locationPageSize) {  //&& e?.startIndex
+      // console.log('erow '+ e.locationPageSize);
+      // console.log('srow '+ e.startIndex);
+      
+      this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex );
     } else if (e?.sortingColumn) {
       this.getInvMasterLocations(this.currentPageItemNo, '', '', e.sortingColumn, e.sortingSeq);
     } else {
       this.getInventory();
     }
-
+    this.isDisabledSubmit = false;
+  }
+  tabChanged(tabChangeEvent: MatTabChangeEvent)
+  {
+  if(tabChangeEvent.index==2||tabChangeEvent.index==5)
+  {
+    this.saveDisabled=true;
+  }
+  else 
+  {
+    this.saveDisabled=false;
+  }
   }
 
 

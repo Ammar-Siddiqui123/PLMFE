@@ -11,6 +11,7 @@ import { SpinnerService } from '../init/spinner.service';
 import { AuthService } from '../init/auth.service';
 import { GlobalconfigService } from '../global-config/globalconfig.service';
 import packJSON from '../../../package.json'
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'login',
@@ -27,7 +28,8 @@ export class LoginComponent {
   url = '';
   isReadOnly: boolean = true;
   version : string;
-
+  applicationData: any = [];
+  isAppAccess=false;
   constructor(
     public loginService: LoginService,
     private router: Router,
@@ -37,6 +39,7 @@ export class LoginComponent {
     public loader: SpinnerService,
     private auth: AuthService,
     private globalService: GlobalconfigService,
+    private sharedService: SharedService,
   ) { 
     this.url = this.router.url;
   }
@@ -79,10 +82,12 @@ export class LoginComponent {
           // this.addLoginForm.reset(); // replaced to api response 
           localStorage.setItem('user', JSON.stringify(data));
           localStorage.setItem('userRights', JSON.stringify(userRights));
-
+          this.getAppLicense(response.data.wsid);
+          
           // ----default app redirection ----
-          this.getDefaultApp(response.data.wsid);
+          // this.getDefaultApp(response.data.wsid);
           // ----end default app redirection ----
+
 
 
 
@@ -129,8 +134,133 @@ export class LoginComponent {
         }
       });
     }
-    
+   
 
+  }
+
+
+
+  // moved getAppLicense,convertToObj ,sortAppsData,appNameDictionary & setMenuData from Menu Component to handle access to the Apps on login
+  getAppLicense(wsid) {
+    let payload = {
+      WSID:  this.login.wsid,
+    };
+    this.globalService
+      .get(payload, '/GlobalConfig/AppNameByWorkstation')
+      .subscribe(
+        (res: any) => {
+          if (res && res.data) {
+            this.convertToObj(res.data);
+            localStorage.setItem('availableApps',JSON.stringify(this.applicationData))
+            this.sharedService.setMenuData(this.applicationData)
+            this.getDefaultApp(wsid);
+          }
+        },
+        (error) => {}
+      );
+  }
+  convertToObj(data) {
+    data.wsAllAppPermission.forEach((item,i) => {
+      for (const key of Object.keys(data.appLicenses)) {
+        // arrayOfObjects.push({ key, value: this.licAppData[key] });
+        if (item.includes(key)  && data.appLicenses[key].isLicenseValid) {
+          this.applicationData.push({
+            appname: data.appLicenses[key].info.name,
+            displayname: data.appLicenses[key].info.displayName,
+            license: data.appLicenses[key].info.licenseString,
+            numlicense: data.appLicenses[key].numLicenses,
+            info: this.appNameDictionary(item),
+            // status: data[key].isLicenseValid ? 'Valid' : 'Invalid',
+            appurl: data.appLicenses[key].info.url,
+            isButtonDisable: true,
+          });
+        }
+      }
+    });
+    this.sortAppsData();
+    
+  }
+  sortAppsData() {
+    this.applicationData.sort(function (a, b) {
+      var nameA = a.info.name.toLowerCase(),
+        nameB = b.info.name.toLowerCase();
+      if (nameA < nameB)
+        //sort string ascending
+        return -1;
+      if (nameA > nameB) return 1;
+      return 0; //default return value (no sorting)
+    });
+  }
+  appNameDictionary(appName) {
+    let routes = [
+      {
+        appName: 'ICSAdmin',
+        route: '/admin',
+        iconName: 'manage_accounts',
+        name: 'Admin',
+        updateMenu: 'admin',
+        permission: 'Admin Menu',
+      },
+      {
+        appName: 'Consolidation Manager',
+        route: '#',
+        iconName: 'insert_chart',
+        name: 'Consolidation Manager',
+        updateMenu: '',
+        permission: 'Consolidation Manager',
+      },
+      {
+        appName: 'Induction',
+        route: '/InductionManager',
+        iconName: 'checklist',
+        name: 'Induction Manager',
+        updateMenu: 'induction',
+        permission: 'Induction Manager',
+      },
+      {
+        appName: 'FlowRackReplenish',
+        route: '#',
+        iconName: 'schema',
+        name: 'FlowRack Replenishment',
+        updateMenu: '',
+        permission: 'FlowRack Replenish',
+      },
+      {
+        appName: 'ImportExport',
+        route: '#',
+        iconName: 'electric_bolt',
+        name: 'Import Export',
+        updateMenu: '',
+        permission: 'Import Export',
+      },
+      {
+        appName: 'Markout',
+        route: '#',
+        iconName: 'manage_accounts',
+        name: 'Markout',
+        updateMenu: '',
+        permission: 'Markout',
+      },
+      {
+        appName: 'OrderManager',
+        route: '#',
+        iconName: 'pending_actions',
+        name: 'Order Manager',
+        updateMenu: '',
+        permission: 'Order Manager',
+      },
+      {
+        appName: 'WorkManager',
+        route: '#',
+        iconName: 'fact_check',
+        name: 'Work Manager',
+        updateMenu: '',
+        permission: 'Work Manager',
+      },
+    ];
+
+    let obj: any = routes.find((o) => o.appName === appName);
+    return obj;
   }
 
   getDefaultApp(wsid){
@@ -143,10 +273,14 @@ export class LoginComponent {
   (res: any) => {
   
     if (res && res.data) {
-      this.redirection(res.data) 
-      this.addLoginForm.reset();
+      
+     this.checkAppAcess(res.data)
+  
+
+
      }
     else{
+      localStorage.setItem('isAppVerified',JSON.stringify({appName:'',isVerified:true}))
       this.addLoginForm.reset();
       this.router.navigate(['/dashboard']);
     }
@@ -154,6 +288,30 @@ export class LoginComponent {
   (error) => {}
 );
 
+  }
+
+  checkAppAcess(appName){
+    this.applicationData.find(el=>{
+      if(el.appname===appName || this.isAppAccess){
+        this.isAppAccess=true
+      }else{
+        this.isAppAccess=false;
+      }
+
+   
+    })
+       
+    if(this.isAppAccess){
+      localStorage.setItem('isAppVerified',JSON.stringify({appName:appName,isVerified:true}))
+      this.redirection(appName)
+      this.addLoginForm.reset();
+      
+      
+    }else{
+    //  this.sharedService.updateAppVerification({appName:appName,isVerified:false})
+    localStorage.setItem('isAppVerified',JSON.stringify({appName:appName,isVerified:false}))
+      this.router.navigate(['/dashboard']);
+    }
   }
   redirection(appName){
 
@@ -196,7 +354,7 @@ export class LoginComponent {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      // console.log(result);
 
     });
   }

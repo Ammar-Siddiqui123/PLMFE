@@ -63,8 +63,8 @@ export class ScanTypeCodeComponent implements OnInit {
 
     if(newScanCode && cond){
     let paylaod = {      
-      "oldScanCodeType": newScanCode ,
-      "scanCodeType": oldScanCode.toString(),
+      "oldScanCodeType": oldScanCode.toString()  ,
+      "scanCodeType": newScanCode,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
@@ -78,6 +78,11 @@ export class ScanTypeCodeComponent implements OnInit {
         });
       }
   
+    });
+  } else {
+    this.toastr.error('Scan Codes cannot be empty', 'Error!', {
+      positionClass: 'toast-bottom-right',
+      timeOut: 2000
     });
   }
   }

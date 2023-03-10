@@ -6,6 +6,7 @@ import { CategoryService } from 'src/app/common/services/category.service';
 import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json'
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-item-category',
@@ -16,6 +17,7 @@ export class ItemCategoryComponent implements OnInit {
 
   public category_list: any;
   public userData: any;
+  enableButton=[{index:-1,value:true}];
 
   constructor(private dialog: MatDialog,
               private catService: CategoryService,
@@ -28,16 +30,28 @@ export class ItemCategoryComponent implements OnInit {
     this.getCategoryList();
   }
 
+  enableDisableButton(i:any)
+  {
+  this.enableButton[i].value=false;
+  }
+
  getCategoryList(){
+    this.enableButton.shift();
     this.catService.getCategory().subscribe((res) => {
       this.category_list = res.data;
+      for(var i=0;i<this.category_list.length;i++)
+      {
+        this.category_list.fromDB = true;
+        this.enableButton.push({index:i,value:true});
+      }
      });
   }
 
   addCatRow(row : any){
     this.category_list.unshift({
       category : "",
-      subCategory: ""
+      subCategory: "",
+      fromDB:false
   });
   }
 
@@ -48,7 +62,7 @@ export class ItemCategoryComponent implements OnInit {
     this.category_list.forEach(element => {
       if(element.category?.toLowerCase() == category?.toLowerCase() && element.subCategory?.toLowerCase() == subCategory?.toLowerCase() ) {
         cond = false;
-       this.toastr.error('Already Exists', 'Error!', {
+       this.toastr.error('Category cannot be saved. Category matches another entry. Save any pending changes before attempting to save this entry.', 'Error!', {
          positionClass: 'toast-bottom-right',
          timeOut: 2000
        });
@@ -70,7 +84,7 @@ export class ItemCategoryComponent implements OnInit {
       this.catService.saveCategory(paylaod).subscribe((res) => {
         if(res.isExecuted){
           this.getCategoryList();
-        this.toastr.success(labels.alert.success, 'Success!', {
+        this.toastr.success(oldCat.toString()==''?labels.alert.success:labels.alert.update, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
@@ -80,46 +94,59 @@ export class ItemCategoryComponent implements OnInit {
 
   }
 
-  dltCategory(category : any, subCategory : any) {
+  dltCategory(category : any, subCategory : any , fromDb:any){
 
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
-      width: '560px',
+      width: '480px',
       autoFocus: '__non_existing_element__',
-      data: {
-        message: 'Click OK to delete category ' + category + 'with sub-category ' + subCategory,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result == 'Yes') {
-        if(category && subCategory){
-          let paylaod = {
-            "category": category,
-            "subCategory": subCategory,
-            "username": this.userData.userName,
-            "wsid": this.userData.wsid,
-          }
-          // this.category_list.pop(category);
-          
-          this.catService.dltCategory(paylaod).subscribe((res) => {
-            if(res.isExecuted){
-              this.getCategoryList();
-              this.toastr.success(labels.alert.delete, 'Success!', {
-                positionClass: 'toast-bottom-right',
-                timeOut: 2000
-              });
-            }
-          });
-        } else {
-          this.category_list.shift();
+    })
+    dialogRef.afterClosed().subscribe(result => {
+     if(result === 'Yes'){
+      if(category && subCategory && fromDb){
+        let paylaod = {
+          "category": category,
+          "subCategory": subCategory,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid,
         }
+       // this.category_list.pop(category);
+        
+        this.catService.dltCategory(paylaod).subscribe((res) => {
+          if(res.isExecuted){
+            this.getCategoryList();
+            this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        });
+      } else {
+        this.enableButton.shift();
+        this.category_list.shift();
       }
-    });    
+     }
+    })
+
+
+
+
+
+
+
+
+
+
+
+    
   }
 
   selectCategory(selectedCat: any){
-    this.dialogRef.close(selectedCat);
+    if(selectedCat.category!='' && selectedCat.subCategory!='')
+    {
+
+      this.dialogRef.close(selectedCat);
+    }
   }
 
   clearCategory(){

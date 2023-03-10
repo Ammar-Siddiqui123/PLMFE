@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CellSizeComponent } from '../cell-size/cell-size.component';
 import { VelocityCodeComponent } from '../velocity-code/velocity-code.component';
 import { WarehouseComponent } from '../warehouse/warehouse.component';
@@ -60,13 +60,14 @@ export class AdjustQuantityComponent implements OnInit {
     public fb: FormBuilder,
     private adjustQuantityService: AdjustQuantityService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public dialogRef: MatDialogRef<any>
   ) {
 
   }
 
   ngOnInit(): void {
-    console.log(this.data.id)
+    //console.log(this.data.id)
     this.getItemQuantity(this.data.id);
     this.getAdjustmentReasons();
     this.initializeDataSet();
@@ -96,7 +97,7 @@ export class AdjustQuantityComponent implements OnInit {
     });
   }
   onSubmit(form: FormGroup) {
-    console.log('create',form);
+    //console.log('create',form);
 
     if(form.valid){
       this.adjustQuantityService.updateItemQuantity(form.value).subscribe((res) => {
@@ -105,8 +106,9 @@ export class AdjustQuantityComponent implements OnInit {
             positionClass: 'toast-bottom-right',
             timeOut:2000
          });
-          console.log(res.responseMessage)
-          this.dialog.closeAll()
+          // console.log(res.responseMessage)
+         // this.dialog.closeAll(form.value.quantity);
+          this.dialogRef.close(form.value.quantity);   
         }
       });
     }

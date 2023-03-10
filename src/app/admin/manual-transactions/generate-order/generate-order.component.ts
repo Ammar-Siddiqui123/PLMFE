@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,6 +22,7 @@ import { TransactionService } from '../../transaction/transaction.service';
 })
 export class GenerateOrderComponent implements OnInit {
   @ViewChild('matRef') matRef: MatSelect;
+  @ViewChild('inputVal') inputVal: ElementRef;
 
   transType: any = 'Pick';
   floatLabelControl = new FormControl('auto' as FloatLabelType);
@@ -43,6 +44,14 @@ export class GenerateOrderComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   pageEvent: PageEvent;
+
+  @Input() set tab(event : any) {
+    if (event) {
+      setTimeout(()=>{
+        this.inputVal.nativeElement.focus();
+      }, 500);
+    }
+  }
 
   constructor(
     private authService: AuthService,
@@ -66,8 +75,10 @@ export class GenerateOrderComponent implements OnInit {
         // if (this.orderNumber === '') return;
         this.autocompleteSearchColumn();
         this.getOrderTableData();
-      });
+      });      
+
   }
+
   public displayedColumns: string[] = [
     'ItemNumber',
     'TransactionQuantity',
@@ -159,7 +170,7 @@ export class GenerateOrderComponent implements OnInit {
           data: {
             mode: 'delete-order',
             heading: 'Delete Order',
-            message: `Are you sure you want to delete order: ${this.orderNumber} ? This will  remove all manual transaction for this order`,
+            message: `Are you sure you want to remove order: ${this.orderNumber} ? This will  remove all manual transaction for this order`,
             userName: this.userData.userName,
             wsid: this.userData.wsid,
             orderNumber:this.orderNumber
@@ -214,7 +225,7 @@ export class GenerateOrderComponent implements OnInit {
     this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
   editTransaction(element){
-console.log(element);
+// console.log(element);
 
 // JSON.stringify(element.batchPickID)
 // JSON.stringify(element.hostTransactionID)

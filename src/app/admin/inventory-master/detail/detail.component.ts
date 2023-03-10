@@ -35,7 +35,7 @@ export class DetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    console.log(this.details)
+    // console.log(this.details)
 
   }
 
@@ -107,17 +107,24 @@ export class DetailComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
-
-      this.details.patchValue({        
-        'category': result.category,        
-        'subCategory': result.subCategory,        
-      });
+      if(result.category!='' && result!=true)
+      {
+        this.details.patchValue({        
+          'category': result.category      
+        });
+      }
+      if(result.subCategory!='' && result!=true)
+      {
+        this.details.patchValue({            
+          'subCategory': result.subCategory,        
+        });
+      }
+      
       
     })
   }
   public openUmDialog() {
-    console.log(this.details.controls['replenishmentLevel'].value)
+    // console.log(this.details.controls['replenishmentLevel'].value)
     let dialogRef = this.dialog.open(UnitMeasureComponent, {
       height: 'auto',
       width: '750px',
@@ -128,10 +135,14 @@ export class DetailComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       // console.log(result);
-      this.details.patchValue({
-        'unitOfMeasure' : result
-      });
+      if(result!='' && result!=true)
+      {
 
+        this.details.patchValue({
+          'unitOfMeasure' : result
+        });
+  
+      }
     })
   }
 

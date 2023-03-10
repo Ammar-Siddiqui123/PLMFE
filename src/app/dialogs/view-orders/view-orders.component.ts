@@ -6,6 +6,7 @@ import { AuthService } from '../../../app/init/auth.service';
 import { ProcessPicksService } from '../../../app/induction-manager/process-picks/process-picks.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-view-orders',
@@ -25,60 +26,60 @@ export class ViewOrdersComponent implements OnInit {
   selectedOrders: any[] = [];
   orderDataSource: any;
   selectedTd: any;
-  transData:any;
+  transData: any;
 
   filterTransColumns = [
-    { columnDef: 'orderNumber', header: 'orderNumber', cell: (element: any) => `${element.orderNumber}` },
-    { columnDef: 'itemNumber', header: 'itemNumber', cell: (element: any) => `${element.itemNumber}` },
-    { columnDef: 'transactionQuantity', header: 'transactionQuantity', cell: (element: any) => `${element.transactionQuantity}` },
-    { columnDef: 'location', header: 'location', cell: (element: any) => `${element.location}` },
-    { columnDef: 'completedQuantity', header: 'completedQuantity', cell: (element: any) => `${element.completedQuantity}` },
-    { columnDef: 'description', header: 'description', cell: (element: any) => `${element.description}` },
-    { columnDef: 'batchPickID', header: 'batchPickID', cell: (element: any) => `${element.batchPickID}` },
-    { columnDef: 'bin', header: 'bin', cell: (element: any) => `${element.bin}` },
-    { columnDef: 'carousel', header: 'carousel', cell: (element: any) => `${element.carousel}` },
-    { columnDef: 'cell', header: 'cell', cell: (element: any) => `${element.cell}` },
-    { columnDef: 'completedBy', header: 'completedBy', cell: (element: any) => `${element.completedBy}` },
-    { columnDef: 'completedDate', header: 'completedDate', cell: (element: any) => `${element.completedDate}` },
-    { columnDef: 'emergency', header: 'emergency', cell: (element: any) => `${element.emergency}` },
-    { columnDef: 'expirationDate', header: 'expirationDate', cell: (element: any) => `${element.expirationDate}` },
-    { columnDef: 'exportBatchID', header: 'exportBatchID', cell: (element: any) => `${element.exportBatchID}` },
-    { columnDef: 'exportDate', header: 'exportDate', cell: (element: any) => `${element.exportDate}` },
-    { columnDef: 'exportedBy', header: 'exportedBy', cell: (element: any) => `${element.exportedBy}` },
-    { columnDef: 'hostTransactionID', header: 'hostTransactionID', cell: (element: any) => `${element.hostTransactionID}` },
-    { columnDef: 'id', header: 'id', cell: (element: any) => `${element.id}` },
-    { columnDef: 'importBy', header: 'importBy', cell: (element: any) => `${element.importBy}` },
-    { columnDef: 'importDate', header: 'importDate', cell: (element: any) => `${element.importDate}` },
-    { columnDef: 'importFilename', header: 'importFilename', cell: (element: any) => `${element.importFilename}` },
-    { columnDef: 'invMapID', header: 'invMapID', cell: (element: any) => `${element.invMapID}` },
-    { columnDef: 'lineNumber', header: 'lineNumber', cell: (element: any) => `${element.lineNumber}` },
-    { columnDef: 'lineSequence', header: 'lineSequence', cell: (element: any) => `${element.lineSequence}` },
-    { columnDef: 'lotNumber', header: 'lotNumber', cell: (element: any) => `${element.lotNumber}` },
-    { columnDef: 'masterRecord', header: 'masterRecord', cell: (element: any) => `${element.masterRecord}` },
-    { columnDef: 'masterRecordID', header: 'masterRecordID', cell: (element: any) => `${element.masterRecordID}` },
-    { columnDef: 'notes', header: 'notes', cell: (element: any) => `${element.notes}` },
-    { columnDef: 'priority', header: 'priority', cell: (element: any) => `${element.priority}` },
-    { columnDef: 'requiredDate', header: 'requiredDate', cell: (element: any) => `${element.requiredDate}` },
-    { columnDef: 'revision', header: 'revision', cell: (element: any) => `${element.revision}` },
-    { columnDef: 'row', header: 'row', cell: (element: any) => `${element.row}` },
-    { columnDef: 'serialNumber', header: 'serialNumber', cell: (element: any) => `${element.serialNumber}` },
-    { columnDef: 'shelf', header: 'shelf', cell: (element: any) => `${element.shelf}` },
-    { columnDef: 'statusCode', header: 'statusCode', cell: (element: any) => `${element.statusCode}` },
-    { columnDef: 'toteID', header: 'toteID', cell: (element: any) => `${element.toteID}` },
-    { columnDef: 'toteNumber', header: 'toteNumber', cell: (element: any) => `${element.toteNumber}` },
-    { columnDef: 'unitOfMeasure', header: 'unitOfMeasure', cell: (element: any) => `${element.unitOfMeasure}` },
-    { columnDef: 'userField1', header: 'userField1', cell: (element: any) => `${element.userField1}` },
-    { columnDef: 'userField2', header: 'userField2', cell: (element: any) => `${element.userField2}` },
-    { columnDef: 'userField3', header: 'userField3', cell: (element: any) => `${element.userField3}` },
-    { columnDef: 'userField4', header: 'userField4', cell: (element: any) => `${element.userField4}` },
-    { columnDef: 'userField5', header: 'userField5', cell: (element: any) => `${element.userField5}` },
-    { columnDef: 'userField6', header: 'userField6', cell: (element: any) => `${element.userField6}` },
-    { columnDef: 'userField7', header: 'userField7', cell: (element: any) => `${element.userField7}` },
-    { columnDef: 'userField8', header: 'userField8', cell: (element: any) => `${element.userField8}` },
-    { columnDef: 'userField9', header: 'userField9', cell: (element: any) => `${element.userField9}` },
-    { columnDef: 'userField10', header: 'userField10', cell: (element: any) => `${element.userField10}` },
-    { columnDef: 'warehouse', header: 'warehouse', cell: (element: any) => `${element.warehouse}` },
-    { columnDef: 'zone', header: 'zone', cell: (element: any) => `${element.zone}` },
+    { columnDef: 'orderNumber', header: 'Order Number', cell: (element: any) => `${element.orderNumber}` },
+    { columnDef: 'itemNumber', header: 'Item Number', cell: (element: any) => `${element.itemNumber}` },
+    { columnDef: 'transactionQuantity', header: 'Transaction Quantity', cell: (element: any) => `${element.transactionQuantity}` },
+    { columnDef: 'location', header: 'Location', cell: (element: any) => `${element.location}` },
+    { columnDef: 'completedQuantity', header: 'Completed Quantity', cell: (element: any) => `${element.completedQuantity}` },
+    { columnDef: 'description', header: 'Description', cell: (element: any) => `${element.description}` },
+    { columnDef: 'batchPickID', header: 'Batch Pick ID', cell: (element: any) => `${element.batchPickID}` },
+    { columnDef: 'bin', header: 'Bin', cell: (element: any) => `${element.bin}` },
+    { columnDef: 'carousel', header: 'Carousel', cell: (element: any) => `${element.carousel}` },
+    { columnDef: 'cell', header: 'Cell', cell: (element: any) => `${element.cell}` },
+    { columnDef: 'completedBy', header: 'Completed By', cell: (element: any) => `${element.completedBy}` },
+    { columnDef: 'completedDate', header: 'Completed Date', cell: (element: any) => `${element.completedDate}` },
+    { columnDef: 'emergency', header: 'Emergency', cell: (element: any) => `${element.emergency}` },
+    { columnDef: 'expirationDate', header: 'Expiration Date', cell: (element: any) => `${element.expirationDate}` },
+    { columnDef: 'exportBatchID', header: 'Export Batch ID', cell: (element: any) => `${element.exportBatchID}` },
+    { columnDef: 'exportDate', header: 'Export Date', cell: (element: any) => `${element.exportDate}` },
+    { columnDef: 'exportedBy', header: 'Exported By', cell: (element: any) => `${element.exportedBy}` },
+    { columnDef: 'hostTransactionID', header: 'Host Transaction ID', cell: (element: any) => `${element.hostTransactionID}` },
+    { columnDef: 'id', header: 'ID', cell: (element: any) => `${element.id}` },
+    { columnDef: 'importBy', header: 'Import By', cell: (element: any) => `${element.importBy}` },
+    { columnDef: 'importDate', header: 'Import Date', cell: (element: any) => `${element.importDate}` },
+    { columnDef: 'importFilename', header: 'Import Filename', cell: (element: any) => `${element.importFilename}` },
+    { columnDef: 'invMapID', header: 'Inventory Map ID', cell: (element: any) => `${element.invMapID}` },
+    { columnDef: 'lineNumber', header: 'Line Number', cell: (element: any) => `${element.lineNumber}` },
+    { columnDef: 'lineSequence', header: 'Line Sequence', cell: (element: any) => `${element.lineSequence}` },
+    { columnDef: 'lotNumber', header: 'Lot Number', cell: (element: any) => `${element.lotNumber}` },
+    { columnDef: 'masterRecord', header: 'Master Record', cell: (element: any) => `${element.masterRecord}` },
+    { columnDef: 'masterRecordID', header: 'Master Record ID', cell: (element: any) => `${element.masterRecordID}` },
+    { columnDef: 'notes', header: 'Notes', cell: (element: any) => `${element.notes}` },
+    { columnDef: 'priority', header: 'Priority', cell: (element: any) => `${element.priority}` },
+    { columnDef: 'requiredDate', header: 'Required Date', cell: (element: any) => `${element.requiredDate}` },
+    { columnDef: 'revision', header: 'Revision', cell: (element: any) => `${element.revision}` },
+    { columnDef: 'row', header: 'Row', cell: (element: any) => `${element.row}` },
+    { columnDef: 'serialNumber', header: 'Serial Number', cell: (element: any) => `${element.serialNumber}` },
+    { columnDef: 'shelf', header: 'Shelf', cell: (element: any) => `${element.shelf}` },
+    { columnDef: 'statusCode', header: 'Status Code', cell: (element: any) => `${element.statusCode}` },
+    { columnDef: 'toteID', header: 'Tote ID', cell: (element: any) => `${element.toteID}` },
+    { columnDef: 'toteNumber', header: 'Tote Number', cell: (element: any) => `${element.toteNumber}` },
+    { columnDef: 'unitOfMeasure', header: 'Unit Of Measure', cell: (element: any) => `${element.unitOfMeasure}` },
+    { columnDef: 'userField1', header: 'User Field1', cell: (element: any) => `${element.userField1}` },
+    { columnDef: 'userField2', header: 'User Field2', cell: (element: any) => `${element.userField2}` },
+    { columnDef: 'userField3', header: 'User Field3', cell: (element: any) => `${element.userField3}` },
+    { columnDef: 'userField4', header: 'User Field4', cell: (element: any) => `${element.userField4}` },
+    { columnDef: 'userField5', header: 'User Field5', cell: (element: any) => `${element.userField5}` },
+    { columnDef: 'userField6', header: 'User Field6', cell: (element: any) => `${element.userField6}` },
+    { columnDef: 'userField7', header: 'User Field7', cell: (element: any) => `${element.userField7}` },
+    { columnDef: 'userField8', header: 'User Field8', cell: (element: any) => `${element.userField8}` },
+    { columnDef: 'userField9', header: 'User Field9', cell: (element: any) => `${element.userField9}` },
+    { columnDef: 'userField10', header: 'User Field10', cell: (element: any) => `${element.userField10}` },
+    { columnDef: 'warehouse', header: 'Warehouse', cell: (element: any) => `${element.warehouse}` },
+    { columnDef: 'zone', header: 'Zone', cell: (element: any) => `${element.zone}` },
   ];
 
   displayedTransColumns = this.filterTransColumns.map(c => c.columnDef);
@@ -86,6 +87,7 @@ export class ViewOrdersComponent implements OnInit {
   orderTransDataSource: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('paginatorTrans') paginatorTrans: MatPaginator;
+  @ViewChild(MatSort) viewTransSort: MatSort;
 
   // @ViewChild(MatPaginator, {static: false})
   // set paginatorTrans(value: MatPaginator) {
@@ -104,8 +106,8 @@ export class ViewOrdersComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getAllOrders();
-    console.log(this.data);
-    
+    // console.log(this.data);
+
   }
 
   getAllOrders() {
@@ -114,23 +116,34 @@ export class ViewOrdersComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.pPickService.get(paylaod, '/Induction/OrdersInZone').subscribe((res) => {
-      if (res.data) {
+      // console.log(res);
+      
+      if (res.data.length > 0) {
         res.data.map(val => {
           this.allOrders.push({ 'orderNumber': val, isSelected: false });
         });
-        this.allOrders.filter(element => {
-          this.data.allOrders.map((arr, key) => {
-            if(element.orderNumber === arr[key]){
-              element.isSelected = true;
-              this.onOrderSelect({orderNumber: element.orderNumber })
-            }
-            
-          }) 
-        });
-        
+        // console.log(this.allOrders);
+        // console.log(this.data.allOrders);
+        if (this.data.allOrders.length > 0) {
+          const selectedArr = this.allOrders.filter(element => this.data.allOrders.includes(element.orderNumber));
+          // console.log('Intersection', selectedArr);
+          selectedArr.map(ele => {
+            ele.isSelected = true
+            this.selectedOrders.push(ele.orderNumber);
+          });
+          // this.onOrderSelect(selectedArr[selectedArr.length -1]);
+        }
+
         this.orderDataSource = new MatTableDataSource<any>(this.allOrders);
         this.orderDataSource.paginator = this.paginator;
+        // this.orderDataSource.sort = this.sort;
 
+      }
+      else{
+        this.toastr.error('An error has occurred using the selected zone.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
       }
     });
   }
@@ -155,6 +168,9 @@ export class ViewOrdersComponent implements OnInit {
   }
 
   onOrderSelect(row: any) {
+    // console.log(row);
+    // console.log(this.selectedOrders);
+    
     if (this.selectedOrders.includes(row.orderNumber)) {
       this.allOrders.filter(val => {
         if (val.orderNumber === row.orderNumber) {
@@ -193,10 +209,11 @@ export class ViewOrdersComponent implements OnInit {
           this.transData = res.data.pickToteManTrans;
           this.orderTransDataSource = new MatTableDataSource<any>(this.transData);
           this.orderTransDataSource.paginator = this.paginatorTrans;
+          this.orderTransDataSource.sort = this.viewTransSort;
         }
       });
     }
-   
+
 
 
   }

@@ -14,17 +14,28 @@ export class SharedService {
   menuData$ = this.menuData.asObservable();
 
   private appData:any;
+  startMenu: Subject<any> = new Subject<any>(); 
   updateAdminMenuObserver: Subject<boolean> = new Subject<boolean>(); // observing that bool
   updateInductionAdminObserver: Subject<any> = new Subject<any>(); 
   orderStatusObserver: Subject<any> = new Subject<any>(); 
   itemObserver: Subject<any> = new Subject<any>(); 
   historyItemObserver: Subject<any> = new Subject<any>(); 
-  reprocessItemObserver: Subject<any> = new Subject<any>(); 
+  reprocessItemObserver: Subject<any> = new Subject<any>();
+  orderStatusObjObserver: Subject<any> = new Subject<any>();
+  orderStatusSendOrderObserver: Subject<any> = new Subject<any>();
+  historyLocObserver: Subject<any> = new Subject<any>();  
+  appRestrictionObserver: Subject<any> = new Subject<any>();  
+  updateReprocessObserver: Subject<any> = new Subject<any>();  
+
+  resetSidebar() {
+    this.startMenu.next(true);
+  }
 
   updateSidebar(){
     this.loadMenu = !this.loadMenu;
     return this.loadMenu;
   }
+  
   updateAdminMenu()
   {
     this.updateAdminMenuObserver.next(true);
@@ -47,9 +58,28 @@ export class SharedService {
     this.historyItemObserver.next(item);
 
   }
+  updateTransactionLocHistory(loc){
+    this.historyLocObserver.next(loc);
+
+  }
   updateTransactionReprocess(item){
     this.reprocessItemObserver.next(item);
 
+  }
+  updateFilterByTote(obj){
+    this.orderStatusObjObserver.next(obj)
+  }
+  updateAppVerification(isVerified?){
+    this.appRestrictionObserver.next(isVerified);
+  }
+
+  updateReprocess(obj?){
+    this.updateReprocessObserver.next(obj);
+  }
+
+  
+  updateOrderStatusOrderNo(orderNumber){
+    this.orderStatusSendOrderObserver.next(orderNumber);
   }
   getSidebarStatus(){
     return this.loadMenu;
@@ -73,7 +103,6 @@ export class SharedService {
   updateLoggedInUser(userName:any,wsid:any,menu:any)
   {
     this.columnSequence.updateAppName(userName,wsid,menu.replace(/[^a-z]/gi, '')).subscribe((res: any) => {
-      //alert('DONE');
       (error) => {
         // alert(error);
          }

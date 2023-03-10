@@ -302,8 +302,11 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     this.userData = this.authService.userData();
     this.getColumnsData();
   }
-  viewOrderInOrder() {
+  viewOrderInOrder(row) {
     this.returnToOrder.emit();
+    this.router.navigate([]).then((result) => {
+      window.open(`/#/admin/transaction?orderStatus=${row.orderNumber}`, '_self');
+    });
   }
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
@@ -408,8 +411,11 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       );
   }
 
-  viewInInventoryMaster() {
-    this.router.navigate(['/admin/inventoryMaster']);
+  viewInInventoryMaster(row) {
+    // this.router.navigate(['/admin/inventoryMaster']);
+    this.router.navigate([]).then((result) => {
+      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_self');
+    });
   }
   sendComp(event) {
     let dialogRef = this.dialog.open(FunctionAllocationComponent, {

@@ -61,8 +61,10 @@ export class ProcessPutAwaysComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('matRef') matRef: MatSelect;
+  @ViewChild('actionRef1') actionRef1: MatSelect;
   @ViewChild('actionRef') actionRef: MatSelect;
   @ViewChild('inputVal') inputVal: ElementRef;
+  @ViewChild('batchVal') batchVal: ElementRef;
   selectedOption: any;
   displayedColumns1: string[] = [
     'status',
@@ -171,14 +173,17 @@ export class ProcessPutAwaysComponent implements OnInit {
   gridAction(action: any) {
     if (action == 'assignAll') {
       for (let index = 0; index < this.pickBatchQuantity; index++) {
-        this.ELEMENT_DATA[index].toteid = this.currentToteID.toString();
-        this.currentToteID++;
+        if (!this.ELEMENT_DATA[index].locked) {
+          this.ELEMENT_DATA[index].toteid = this.currentToteID.toString();
+          this.currentToteID++; 
+        }        
       }
 
       this.actionDropDown = null;
     } else {
       this.actionDropDown = null;
     }
+    this.clearMatSelectList()
   }
 
   getRow(batchID) {
@@ -290,42 +295,42 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   }
 
-  onFocusOutBatchID(event) {
-
-
-    // alert(this.batchId2)
-    let payload = {
-      batchID: this.batchId2,
-      username: this.userData.userName,
-      wsid: this.userData.wsid
-    }
-
-    this.service.get(payload, '/Induction/BatchExist').subscribe((res: any) => {
-
-      if (res && !res.data) {
-
-        const dialogRef = this.dialog.open(AlertConfirmationComponent, {
-          height: 'auto',
-          width: '50vw',
-          autoFocus: '__non_existing_element__',
-          data: {
-            message: "This Batch ID either does not exists or is assigned to a different workstation.Use the Tote Setup tab to create a new batch or choose an existing batch for this workstation.",
-            heading: 'Invalid Batch ID'
-          },
+  onFocusOutBatchID(val) {
+    try {
+      
+      setTimeout(() => {
+        let payload = {
+          batchID: this.batchId2,
+          username: this.userData.userName,
+          wsid: this.userData.wsid
+        }
+    
+        this.service.get(payload, '/Induction/BatchExist').subscribe((res: any) => {
+          if (res && !res.data) {
+            const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+              height: 'auto',
+              width: '50vw',
+              autoFocus: '__non_existing_element__',
+              data: {
+                message: "This Batch ID either does not exists or is assigned to a different workstation.Use the Tote Setup tab to create a new batch or choose an existing batch for this workstation.",
+                heading: 'Invalid Batch ID'
+              },
+            });
+            dialogRef.afterClosed().subscribe(result => {
+              this.clearFormAndTable();
+            });
+          } else {
+            this.fillToteTable();
+          }
         });
-        dialogRef.afterClosed().subscribe(result => {
-          this.batchId2 = '';
-          this.dataSource2 = '';
-          this.postion = '';
-          this.tote = '';
 
-        });
-      } else {
-        this.fillToteTable();
-      }
+        this.batchVal.nativeElement.blur();
 
-    })
+      }, 200);
 
+    } catch (error) {
+      console.log(error);
+    }  
   }
 
   openDeleteBatchDialogue() {
@@ -342,7 +347,9 @@ export class ProcessPutAwaysComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      if (res.isExecuted) {
+      if(res.isDeleted) {
+        this.clearFormAndTable();
+      } else if (res.isExecuted) {
         this.fillToteTable();
       }
     });
@@ -419,8 +426,8 @@ export class ProcessPutAwaysComponent implements OnInit {
               for (var i = 0; i < this.ELEMENT_DATA.length; i++) {
                 if (this.ELEMENT_DATA[i].toteid == res.data) {
                   this.ELEMENT_DATA[i].toteid = '';
+                  this.ELEMENT_DATA[i].locked = '';
                 }
-
               }
             }
             else {
@@ -488,6 +495,17 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.autoPutToteIDS = res.data.imPreference.autoPutAwayToteID;
           this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
           this.processPutAwayIndex = res.data;
+
+          // if (res.data.batchIDs) {          
+          //   this.batchId = res.data.batchIDs;
+          //   this.selectedIndex = 1;
+          //   this.batchId2 = res.data.batchIDs;
+          //   this.fillToteTable(res.data.batchIDs);            
+          //   setTimeout(()=>{
+          //     this.inputVal.nativeElement.focus();
+          //   }, 500);
+          // }
+
         } else {
           this.toastr.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
@@ -867,6 +885,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.maxPos = this.dataSource2.data.length;
             this.selectTotes(0)
             this.goToNext();
+            this.getRow(batchID ? batchID : this.batchId2);
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -999,6 +1018,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   clearMatSelectList() {
+    this.actionRef1.options.forEach((data: MatOption) => data.deselect());
     this.actionRef.options.forEach((data: MatOption) => data.deselect());
   }
 
@@ -1075,11 +1095,9 @@ export class ProcessPutAwaysComponent implements OnInit {
       })
 
       dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-
-
-        }
+        this.fillToteTable();
       });
     }
   }
+
 }

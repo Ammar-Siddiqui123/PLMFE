@@ -1,4 +1,5 @@
 <div *ngIf="!isConfigUser">
+
   <mat-nav-list *ngIf="isParentMenu">
     <ng-container *ngFor="let menu of dynamicMenu;let i = index">
       <mat-list-item routerLinkActive="active" routerLink="{{menu.route}}" (click)="loadMenus(menu)"
@@ -11,9 +12,12 @@
       </mat-list-item>
     </ng-container>
   </mat-nav-list>
+
   <mat-nav-list *ngIf="isChildMenu">
     <ng-container *ngFor="let childMenu of childMenus;let i = index">
-      <mat-list-item routerLinkActive="active" routerLink="{{childMenu.route}}" (click)="loadMenus(childMenu)"
+      <mat-list-item 
+        routerLinkActive="{{ (childMenu.route != '/InductionManager' && childMenu.route != '/InductionManager/Admin' && childMenu.route != '/admin') ? 'active' : ''}}" 
+        routerLink="{{childMenu.route}}" (click)="loadMenus(childMenu)"
         [disabled]="isAuthorized(childMenu.permission) || childMenu.route==='#'">
         <span mat-list-icon class="material-symbols-outlined">
           {{childMenu.icon}}
@@ -30,6 +34,7 @@
       </span>
     </ng-container>
   </mat-nav-list>
+
 </div>
 <!-- <mat-nav-list *ngIf="isParentMenu">
   <ng-container *ngFor="let menu of menus;">

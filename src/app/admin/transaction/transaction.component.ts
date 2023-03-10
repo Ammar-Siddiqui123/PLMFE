@@ -23,6 +23,8 @@ export class TransactionComponent implements OnInit, AfterViewInit {
   type:any;
   itemNumber:any;
   tabIndex$: Observable<any>;
+  location$: Observable<any>;
+  location: any;
   constructor(
     router: Router,
     private route: ActivatedRoute,
@@ -61,7 +63,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     );
 
     this.tabIndex$.subscribe((param) => {
-      console.log(param)
+      // console.log(param)
       if (param) {
         this.TabIndex = 0;
         // this.sharedService.updateOrderStatus(param)
@@ -69,7 +71,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     });
 
     this.orderStatus$.subscribe((param) => {
-      console.log(param)
+      // console.log(param)
       if (param) {
         this.TabIndex = 0;
         this.sharedService.updateOrderStatus(param)
@@ -106,6 +108,18 @@ export class TransactionComponent implements OnInit, AfterViewInit {
         this.TabIndex = 3;
         this.sharedService.updateTransactionReprocess(this.itemNumber);
       }
+      }
+    });
+
+    this.location$ = this.route.queryParamMap.pipe(
+      map((params: ParamMap) => params.get('location'))
+    );
+
+    this.location$.subscribe((param) => {
+      if (param) {
+        this.TabIndex = 2;
+        this.sharedService.updateTransactionLocHistory(param);
+        // this.location=param;
       }
     });
   }

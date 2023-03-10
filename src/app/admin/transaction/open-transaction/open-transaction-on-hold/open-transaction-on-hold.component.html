@@ -256,13 +256,13 @@
                                     </button>
 
                                     <mat-menu #appMenu="matMenu">
-                                        <button mat-menu-item (click)="viewInInventoryMaster()">View Item in Inventory
+                                        <button mat-menu-item (click)="viewInInventoryMaster(seletedRecord)">View Item in Inventory
                                             Master</button>
-                                        <button mat-menu-item (click)="viewOrderInOrder()">View Order in Order
+                                        <button mat-menu-item (click)="viewOrderInOrder(seletedRecord)">View Order in Order
                                             Status</button>
                                         <button mat-menu-item  *ngIf="!hideDelete" (click)="deleteItem(seletedRecord)">Delete
                                             Transaction</button>
-                                        <button mat-menu-item disabled  *ngIf="!hideDelete" (click)="sendCompletedToHistory()">Send Completed to
+                                        <button mat-menu-item   *ngIf="!hideDelete" (click)="sendCompletedToHistory()">Send Completed to
                                             History</button>
                               
                                     </mat-menu>
