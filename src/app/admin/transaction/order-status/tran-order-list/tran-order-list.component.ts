@@ -609,6 +609,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
+  
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
