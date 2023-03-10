@@ -120,7 +120,7 @@ export class TranSelectOrderComponent implements OnInit {
   }
 
   selectOrderByTote(){
-    if(this.columnSelect==='Tote ID' && this.filterByTote && this.totalLinesOrder>0){  // if data populate and tote id selected then filter only
+    if(this.columnSelect==='Tote ID'  && this.totalLinesOrder>0){  // if data populate and tote id selected then filter only
 
       this.sharedService.updateFilterByTote({filterCheck:this.filterByTote,type:this.columnSelect})
     }
