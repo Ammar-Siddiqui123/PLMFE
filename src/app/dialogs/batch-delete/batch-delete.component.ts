@@ -64,7 +64,7 @@ export class BatchDeleteComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((res) => {
       if(res.isExecuted){
-        this.dialogRef.close({isExecuted:true})
+        this.dialogRef.close({isExecuted : true, isDeleted : this.clearBatchTote === 'clearBatch' ? true : false})
       }else{
         return
       }
@@ -89,7 +89,7 @@ export class BatchDeleteComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-    this.dialogRef.close({isDeleted:true})
+      this.dialogRef.close({isDeleted:true})
     });
   }
 }
