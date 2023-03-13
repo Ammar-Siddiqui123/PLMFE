@@ -5,7 +5,7 @@ import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/services/shared.service';
-import { BroadcastService } from 'src/app/services/broadcastService';
+import { BroadcastService } from 'src/app/services/BroadcastService';
 
 @Component({
   selector: 'app-header',
@@ -82,8 +82,7 @@ isConfigUser
   }
 
   breadCrumbClick(menu,index:any = null) { 
- debugger
-    if(index != null){ 
+     if(index != null){ 
       var Url = "";  
       for (let i = 0; i <= index; i++) {
         if(this.breadcrumbList[i].menu!='') Url += this.breadcrumbList[i].value; 

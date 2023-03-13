@@ -6,7 +6,7 @@ import { GlobalconfigService } from 'src/app/global-config/globalconfig.service'
 import { of, from } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { BroadcastService } from 'src/app/services/broadcastService';
+import { BroadcastService } from 'src/app/services/BroadcastService';
 
 @Component({
   selector: 'app-side-nav',
