@@ -5,6 +5,10 @@ import { AdminService } from './admin.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatSort, Sort } from '@angular/material/sort';
+import { FormControl, FormGroup } from '@angular/forms';
+import { FloatLabelType } from '@angular/material/form-field';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { TransactionService } from './transaction/transaction.service';
 
 @Component({
   selector: 'app-admin',
@@ -19,29 +23,32 @@ export class AdminComponent implements OnInit {
   public sortCol: any = 3;
   public sortOrder: any = 'asc';
   pageEvent: PageEvent;
-  private _liveAnnouncer: LiveAnnouncer
+  searchValue: any = '';
+  searchAutocompleteList: any;
+  private _liveAnnouncer: LiveAnnouncer;
+  searchByInput: any = new Subject<string>();
   @ViewChild(MatSort) sort: MatSort;
+  hideRequiredControl = new FormControl(false);
+  floatLabelControl = new FormControl('auto' as FloatLabelType);
+  picksOpen = 0;
+  picksCompleted = 0;
+  picksPerHour = 0;
 
-    picksOpen=0;
-    picksCompleted=0;
-    picksPerHour=0;
+  putsOpen = 0;
+  putsCompleted = 0;
+  putsPerHour = 0;
 
-    putsOpen=0;
-    putsCompleted=0;
-    putsPerHour=0;
+  countOpen = 0;
+  countCompleted = 0;
+  countPerHour = 0;
 
-    countOpen=0;
-    countCompleted=0;
-    countPerHour=0;
+  adjustmentOpen = 0;
+  adjustmentCompleted = 0;
+  adjustmentPerHour = 0;
 
-    adjustmentOpen=0;
-    adjustmentCompleted=0;
-    adjustmentPerHour=0;
-
-    reprocessOpen=0;
-    reprocessCompleted=0;
-    reprocessPerHour=0;
-
+  reprocessOpen = 0;
+  reprocessCompleted = 0;
+  reprocessPerHour = 0;
 
   cols = [];
   customPagination: any = {
@@ -77,15 +84,99 @@ export class AdminComponent implements OnInit {
   ];
   constructor(
     private authService: AuthService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private transactionService: TransactionService
   ) {}
-
+  inventoryDetail = new FormGroup({
+    item: new FormControl({ value: ' ', disabled: true }),
+    description: new FormControl({ value: '', disabled: true }),
+    supplierNo: new FormControl({ value: '', disabled: true }),
+    minRTSReelQty: new FormControl({ value: '', disabled: true }),
+    primaryPickZone: new FormControl({ value: '', disabled: true }),
+    secondaryPickZone: new FormControl({ value: '', disabled: true }),
+    category: new FormControl({ value: '', disabled: true }),
+    subCategory: new FormControl({ value: '', disabled: true }),
+    manufacture: new FormControl({ value: '', disabled: true }),
+    model: new FormControl({ value: '', disabled: true }),
+    supplierItemID: new FormControl({ value: '', disabled: true }),
+    avgPieceWeight: new FormControl({ value: '', disabled: true }),
+    um: new FormControl({ value: '', disabled: true }),
+    minUseScaleQty: new FormControl({ value: '', disabled: true }),
+    pickSequence: new FormControl({ value: '', disabled: true }),
+    unitCost: new FormControl({ value: '', disabled: true }),
+    caseQty: new FormControl({ value: '', disabled: true }),
+    carouselMaxQty: new FormControl({ value: '', disabled: true }),
+    carouselCellSize: new FormControl({ value: '', disabled: true }),
+    carouselVelocity: new FormControl({ value: '', disabled: true }),
+    carouselMinQty: new FormControl({ value: '', disabled: true }),
+    sampleQty: new FormControl({ value: '', disabled: true }),
+    bulkCellSize: new FormControl({ value: '', disabled: true }),
+    bulkVelocity: new FormControl({ value: '', disabled: true }),
+    bulkMinQty: new FormControl({ value: '', disabled: true }),
+    bulkMaxQty: new FormControl({ value: '', disabled: true }),
+    cfCellSize: new FormControl({ value: '', disabled: true }),
+    cfVelocity: new FormControl({ value: '', disabled: true }),
+    cfMinQty: new FormControl({ value: '', disabled: true }),
+    cfMaxQty: new FormControl({ value: '', disabled: true }),
+  });
   ngOnInit(): void {
+    this.searchByInput
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((value) => {
+        this.searchValue = value;
+        this.autocompleteSearchColumn();
+      });
     this.userData = this.authService.userData();
-    this.getAdminMenu()
+    this.getAdminMenu();
+  }
+  searchData() {
+    if (
+      this.columnSearch.searchColumn ||
+      this.columnSearch.searchColumn == ''
+    ) {
+      this.getInvDetailsList();
+    }
+  }
+
+  async autocompleteSearchColumn() {
+    let searchPayload = {
+     
+      stockCode:this.searchValue,
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+    };
+
+    this.transactionService
+      .get(searchPayload, '/Admin/GetLocationTable', true)
+      .subscribe(
+        (res: any) => {
+          this.searchAutocompleteList = res.data;
+        },
+        (error) => {}
+      );
+  }
+  getFloatLabelValue(): FloatLabelType {
+    return this.floatLabelControl.value || 'auto';
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  getInvDetailsList() {
+    let payload = {
+      itemNumber: this.searchValue,
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+    };
+    this.transactionService
+      .get(payload, '/Admin/GetInventoryMasterData', true)
+      .subscribe(
+        (res: any) => {
+          if (res.isExecuted) {
+          }
+        },
+        (error) => {}
+      );
   }
   sortChange(event) {
     if (
@@ -129,35 +220,43 @@ export class AdminComponent implements OnInit {
   }
   getAdminMenu() {
     let payload = {
-      userName:  this.userData.userName,
-      wsid:this.userData.wsid,
+      userName: this.userData.userName,
+      wsid: this.userData.wsid,
     };
 
-    this.adminService.get(payload,'/Admin/GetAdminMenu').subscribe((res:any)=>{
-      if(res && res.data.totalOrders){
-        this.dataSource = new MatTableDataSource(res.data.totalOrders.orderTable);
-      }
-      if(res && res.data.totalOrders && res.data.totalOrders.adminValues){
-        let item=res.data.totalOrders.adminValues;
-        this.picksOpen=item.openPicks;
-        this.picksCompleted=item.completedPicksToday;
-        this.picksPerHour=item.completedPickHours;
+    this.adminService
+      .get(payload, '/Admin/GetAdminMenu')
+      .subscribe((res: any) => {
+        if (res && res.data.totalOrders) {
+          this.dataSource = new MatTableDataSource(
+            res.data.totalOrders.orderTable
+          );
+        }
+        if (res && res.data.totalOrders && res.data.totalOrders.adminValues) {
+          let item = res.data.totalOrders.adminValues;
+          this.picksOpen = item.openPicks;
+          this.picksCompleted = item.completedPicksToday;
+          this.picksPerHour = item.completedPickHours;
 
-        this.putsOpen=item.openPuts;
-        this.putsCompleted=item.completedPutsToday;
-        
-        this.countOpen=item.openCounts;
-        this.countCompleted=item.completedCountsToday;
+          this.putsOpen = item.openPuts;
+          this.putsCompleted = item.completedPutsToday;
 
-        this.adjustmentOpen=item.adjustmentsToday;
+          this.countOpen = item.openCounts;
+          this.countCompleted = item.completedCountsToday;
 
-        this.reprocessOpen=item.reprocess;
-      }
-    })
+          this.adjustmentOpen = item.adjustmentsToday;
+
+          this.reprocessOpen = item.reprocess;
+        }
+      });
   }
   isLookUp = false;
 
-  backAdminAction(){
-    this.isLookUp= !this.isLookUp;
+  backAdminAction() {
+    this.isLookUp = !this.isLookUp;
+  }
+
+  ngOnDestroy() {
+    this.searchByInput.unsubscribe();
   }
 }
