@@ -76,44 +76,6 @@ export class AdminComponent implements OnInit {
     { colHeader: 'transactionType', colDef: 'Transaction Type' },
   ];
 
-  public form_object = [
-    { colHeader: 'item', colDef: 'Item No.' },
-    { colHeader: 'Description', colDef: 'description' },
-    { colHeader: 'Supplier Number', colDef: 'supplierItemID' },
-    { colHeader: 'Minimum RTS Reel Qty', colDef: 'minimumRTSReelQuantity' },
-    { colHeader: 'Primary Pick Zone', colDef: 'primaryPickZone' },
-    { colHeader: 'Secondary Pick Zone', colDef: 'secondaryPickZone' },
-    { colHeader: 'Category', colDef: 'category' },
-    { colHeader: 'Sub Category', colDef: 'subCategory' },
-    { colHeader: 'Manufacturer', colDef: 'manufacturer' },
-    { colHeader: 'Model', colDef: 'model' },
-    { colHeader: 'Supplier Item ID', colDef: 'supplierItemID' },
-    { colHeader: 'Avg Piece Weight', colDef: 'avgPieceWeight' },
-    { colHeader: 'UM', colDef: 'unitOfMeasure' },
-    { colHeader: 'Min Use Scale Qty', colDef: 'minimumUseScaleQuantity' },
-    { colHeader: 'Pick Sequence', colDef: 'pickSequence' },
-    { colHeader: 'Unit Cost', colDef: 'unitCost' },
-    { colHeader: 'Description', colDef: 'caseQuantity' },
-    { colHeader: 'Description', colDef: 'maximumQuantity' },
-    { colHeader: 'Description', colDef: 'cellSize' },
-    { colHeader: 'Description', colDef: 'goldenZone' },
-    { colHeader: 'Description', colDef: 'minimumQuantity' },
-    { colHeader: 'Description', colDef: 'sampleQuantity' },
-    { colHeader: 'Description', colDef: 'bulkCellSize' },
-    { colHeader: 'Description', colDef: 'bulkMinimumQuantity' },
-    { colHeader: 'Description', colDef: 'bulkMaximumQuantity' },
-    { colHeader: 'Description', colDef: 'cfCellSize' },
-    { colHeader: 'Description', colDef: 'cfVelocity' },
-    { colHeader: 'Description', colDef: 'cfMinimumQuantity' },
-    { colHeader: 'Description', colDef: 'cfMaximumQuantity' },
-    { colHeader: 'Description', colDef: 'reorderPoint' },
-    { colHeader: 'Description', colDef: 'reorderQuantity' },
-    { colHeader: 'Description', colDef: 'reorderPoint' },
-    { colHeader: 'Description', colDef: 'replenishmentLevel' },
-
-   
-  ];
-
 
 
   public displayedColumns: string[] = [
