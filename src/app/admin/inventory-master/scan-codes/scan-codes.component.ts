@@ -123,7 +123,6 @@ export class ScanCodesComponent implements OnInit , OnChanges {
 
   saveCategory(item, scanCode, startPosition, codeLength, scanRange, scanType){
     let newRecord = true;
-
     if(scanCode=='') {
       this.toastr.error('Scan code not saved, scan code field must not be empty.', 'Alert!', {
         positionClass: 'toast-bottom-right',
@@ -146,7 +145,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
       return;
     }
 
-    else if(newRecord && item.scanCode=='' && scanCode !=''){
+    else if(newRecord){
     let paylaod = {
       "itemNumber": this.scanCodes.controls['itemNumber'].value,
       "scanCode": scanCode,

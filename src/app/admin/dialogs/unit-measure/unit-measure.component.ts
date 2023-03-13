@@ -93,7 +93,8 @@ export class UnitMeasureComponent implements OnInit {
   dltUnitMeasure(um : any,fromDB:any) {
 
 
-
+    console.log(um, fromDB);
+    
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
@@ -101,7 +102,7 @@ export class UnitMeasureComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
      if(result === 'Yes'){
-      if(um && fromDB==true){
+      if(um){  //&& fromDB==true
         let paylaod = {
           "newValue": um,
           "username": this.userData.userName,
@@ -109,6 +110,8 @@ export class UnitMeasureComponent implements OnInit {
         }
         
         this.umService.dltUnitOfMeasure(paylaod).subscribe((res) => {
+          console.log(res);
+          
           if(res.isExecuted){
             this.getUOM();
           this.toastr.success(labels.alert.delete, 'Success!', {
