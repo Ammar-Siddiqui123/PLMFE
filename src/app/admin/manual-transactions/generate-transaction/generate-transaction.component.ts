@@ -438,6 +438,8 @@ export class GenerateTransactionComponent implements OnInit {
         
         this.wareHouse = res;
         this.warehouseSensitivity = 'False';
+      }else if(res && res==='clear'){
+          this.wareHouse='';
       }
     });
   }

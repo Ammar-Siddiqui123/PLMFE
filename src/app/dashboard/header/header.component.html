@@ -12,7 +12,8 @@
       
       <ng-container *ngFor="let item of breadcrumbList; index as i;">      
         <!-- && !isConfigUser  -->
-        <li *ngIf="i < (breadcrumbList.length-1) && !isConfigUser" class="breadcrumb-item" [routerLink]="item.value" style="cursor:pointer;" (click)="breadCrumbClick(item.menu)">
+        <!-- [routerLink]="RouterLinkSet(i)"  -->
+        <li *ngIf="i < (breadcrumbList.length-1) && !isConfigUser" class="breadcrumb-item"  style="cursor:pointer;" (click)="breadCrumbClick(item.menu,i)">
           {{item?.name}}
           <!-- &nbsp; {{"."}} &nbsp; -->
         </li>
