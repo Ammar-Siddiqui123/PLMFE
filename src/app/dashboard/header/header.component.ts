@@ -5,6 +5,7 @@ import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/services/shared.service';
+import { BroadcastService } from 'src/app/services/BroadcastService';
 
 @Component({
   selector: 'app-header',
@@ -25,7 +26,8 @@ isConfigUser
     public spinnerService: SpinnerService,
     private authService: AuthService,
     private toastr: ToastrService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private broadcastService :BroadcastService
     ) {
    this.isConfigUser=  this.authService.isConfigUser()
     router.events.subscribe((val: any) => {
@@ -79,12 +81,28 @@ isConfigUser
     this.router.navigate(['/login']);
   }
 
-  breadCrumbClick(menu) {    
+  breadCrumbClick(menu,index:any = null) { 
+     if(index != null){ 
+      var Url = "";  
+      for (let i = 0; i <= index; i++) {
+        if(this.breadcrumbList[i].menu!='') Url += this.breadcrumbList[i].value; 
+      }   
+       this.router.navigate([Url]);
+        
+       this.broadcastService.next(Url.toString());
+    }  
     if (!menu) {
-      // Reverts side bar to it's orignal state
+      // Reverts side bar to it's orignal state 
       this.sharedService.resetSidebar(); 
     }    
   }
+  // RouterLinkSet(index){
+  //   var Url = "";
+  //   for (let i = 0; i <= index; i++) {
+  //         if(this.breadcrumbList[i].menu!='') Url += this.breadcrumbList[i].value; 
+  //       }   
+  //       return Url;
+  // }
 
   logout(){   
     let paylaod = {
