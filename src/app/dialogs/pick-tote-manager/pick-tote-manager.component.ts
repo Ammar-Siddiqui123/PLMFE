@@ -978,12 +978,7 @@ export class PickToteManagerComponent implements OnInit {
   }
 
   onClosePickToteManager() {
-   
-    // this.onCloseAllPickToteManager();
-    // console.log(this.selectedOrders.length);
-    
     if(this.selectedOrders.length == 0){
-      // this.selectedOrders = this.data.allOrders;
       this.dialogRef.close(this.data.allOrders);
     }
     else{
