@@ -41,6 +41,7 @@ import { MarkToteFullComponent } from './dialogs/mark-tote-full/mark-tote-full.c
 import { AlertConfirmationComponent } from './dialogs/alert-confirmation/alert-confirmation.component';
 import { UserFieldsComponent } from './dialogs/user-fields/user-fields.component';
 import { ChooseLocationComponent } from './dialogs/choose-location/choose-location.component';
+import { BroadcastService } from './services/broadcastService';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
 @NgModule({
@@ -92,6 +93,7 @@ import { ChooseLocationComponent } from './dialogs/choose-location/choose-locati
   ],
   providers: [
     LoginService, 
+    BroadcastService,
     { 
       provide: LocationStrategy, 
       useClass: HashLocationStrategy 
