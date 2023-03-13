@@ -548,6 +548,7 @@ export class ProcessPicksComponent implements OnInit {
     this.TOTE_SETUP.forEach((element, key) => {
       element.orderNumber = "";
     });
+    this.allOrders = [];
   }
 
   checkDuplicateTote(val: any, i: any) {
