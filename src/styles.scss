@@ -1329,6 +1329,7 @@ button.default-btn{
   background: #fff;
   border: 1px solid var(--clr-tertiary-50)!important;
   width: 48px !important;
+  min-width: auto !important;
   height: 48px !important;
   border-radius: 999px !important;
   padding: 3px !important;

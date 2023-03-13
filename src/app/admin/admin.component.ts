@@ -155,4 +155,9 @@ export class AdminComponent implements OnInit {
       }
     })
   }
+  isLookUp = false;
+
+  backAdminAction(){
+    this.isLookUp= !this.isLookUp;
+  }
 }
