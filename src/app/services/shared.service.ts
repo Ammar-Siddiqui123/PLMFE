@@ -29,7 +29,7 @@ export class SharedService {
 
   resetSidebar() {
     this.startMenu.next(true);
-  }
+  }     
 
   updateSidebar(){
     this.loadMenu = !this.loadMenu;
