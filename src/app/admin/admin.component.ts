@@ -76,9 +76,7 @@ export class AdminComponent implements OnInit {
     { colHeader: 'transactionType', colDef: 'Transaction Type' },
   ];
 
-  public form_values=[
-    
-  ]
+
   public displayedColumns: string[] = [
     'zone',
     'warehouse',
