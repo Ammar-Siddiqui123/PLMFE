@@ -75,6 +75,10 @@ export class AdminComponent implements OnInit {
     { colHeader: 'totalPicks', colDef: 'Lines' },
     { colHeader: 'transactionType', colDef: 'Transaction Type' },
   ];
+
+  public form_values=[
+    
+  ]
   public displayedColumns: string[] = [
     'zone',
     'warehouse',
@@ -88,7 +92,7 @@ export class AdminComponent implements OnInit {
     private transactionService: TransactionService
   ) {}
   inventoryDetail = new FormGroup({
-    item: new FormControl({ value: ' ', disabled: true }),
+    item: new FormControl({ value: '', disabled: true }),
     description: new FormControl({ value: '', disabled: true }),
     supplierNo: new FormControl({ value: '', disabled: true }),
     minRTSReelQty: new FormControl({ value: '', disabled: true }),
@@ -207,10 +211,10 @@ export class AdminComponent implements OnInit {
             this.inventoryDetail.get("pickSequence")?.setValue(res.data?.pickSequence);
             this.inventoryDetail.get("unitCost")?.setValue(res.data?.unitCost);
             this.inventoryDetail.get("caseQty")?.setValue(res.data?.caseQuantity);
-            this.inventoryDetail.get("carouselMaxQty")?.setValue(res.data?.carouselmaxqty);
-            this.inventoryDetail.get("carouselCellSize")?.setValue(res.data?.carouselcellsize);
-            this.inventoryDetail.get("carouselVelocity")?.setValue(res.data?.carouselvelocity);
-            this.inventoryDetail.get("carouselMinQty")?.setValue(res.data?.carouselminqty);
+            this.inventoryDetail.get("carouselMaxQty")?.setValue(res.data?.maximumQuantity);
+            this.inventoryDetail.get("carouselCellSize")?.setValue(res.data?.cellSize);
+            this.inventoryDetail.get("carouselVelocity")?.setValue(res.data?.goldenZone);
+            this.inventoryDetail.get("carouselMinQty")?.setValue(res.data?.minimumQuantity);
             this.inventoryDetail.get("sampleQty")?.setValue(res.data?.sampleQuantity);
             this.inventoryDetail.get("bulkCellSize")?.setValue(res.data?.bulkCellSize);
             this.inventoryDetail.get("bulkMinQty")?.setValue(res.data?.bulkMinimumQuantity);
