@@ -26,6 +26,7 @@ export class SharedService {
   historyLocObserver: Subject<any> = new Subject<any>();  
   appRestrictionObserver: Subject<any> = new Subject<any>();  
   updateReprocessObserver: Subject<any> = new Subject<any>();  
+  updateToteFilterCheckObserver:Subject<any>=new Subject<any>();
 
   resetSidebar() {
     this.startMenu.next(true);
@@ -41,44 +42,47 @@ export class SharedService {
     this.updateAdminMenuObserver.next(true);
   }
 
-  updateInductionAdminMenu(menu)
+  updateInductionAdminMenu(menu)    // on side menu update induction menu 
   {
     this.updateInductionAdminObserver.next(menu);
   }
-
-  updateOrderStatus(order){
+ 
+  updateOrderStatus(order){    // order status observer for selecting order number when passing toteid and set order fields 
     this.orderStatusObserver.next(order);
 
   }
-  updateItemTransaction(item){
+  updateItemTransaction(item){   // changes select field to item number and passes item number to field in Open Transaction 
     this.itemObserver.next(item);
 
   }
-  updateTransactionHistory(item){
+  updateTransactionHistory(item){   //changes select field to item number and passes item number to field in Transaction History 
     this.historyItemObserver.next(item);
 
   }
-  updateTransactionLocHistory(loc){
+  updateTransactionLocHistory(loc){   //changes select field to location and passes location to field in Transaction History 
     this.historyLocObserver.next(loc);
 
   }
-  updateTransactionReprocess(item){
+  updateTransactionReprocess(item){   //changes select field to item number and passes item number to field in Rreprocess 
     this.reprocessItemObserver.next(item);
 
   }
-  updateFilterByTote(obj){
+  updateFilterByTote(obj){   // passing data of coming from filter of tote passing to order list for filtering
     this.orderStatusObjObserver.next(obj)
   }
   updateAppVerification(isVerified?){
     this.appRestrictionObserver.next(isVerified);
   }
 
-  updateReprocess(obj?){
+  updateReprocess(obj?){   // passing item number and order number in reprocess transaction
     this.updateReprocessObserver.next(obj);
   }
 
+  updateToteFilterCheck(isChecked){  // toggle check box if tote filter present in order status
+    this.updateToteFilterCheckObserver.next(isChecked)
+  }
   
-  updateOrderStatusOrderNo(orderNumber){
+  updateOrderStatusOrderNo(orderNumber){ 
     this.orderStatusSendOrderObserver.next(orderNumber);
   }
   getSidebarStatus(){

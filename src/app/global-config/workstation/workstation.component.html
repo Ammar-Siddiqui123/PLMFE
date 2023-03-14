@@ -47,7 +47,7 @@
 
                                         <mat-form-field class="action-dropdown" appearance="outline">
                                             <mat-label>Actions</mat-label>
-                                            <mat-select class="employees-action" (openedChange)="actionDialog($event)"   [(value)]="selectedVariable">
+                                            <mat-select  #matRef class="employees-action" (openedChange)="actionDialog($event)"   [(value)]="selectedVariable">
                                                 <mat-option value="clear_disabled" [disabled]="!wsid" (click)="clearDefaultApp()" >Clear Default App</mat-option>
                                                 <mat-option value="get_client_cert">Get Client Certificate Copy</mat-option>
                                                 <mat-option value="delete_workstation" [disabled]="!wsid" >Delete Workstations</mat-option>
