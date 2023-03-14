@@ -239,10 +239,10 @@ export class SideNavComponent implements OnInit {
   }
 
   loadMenus(menu: any) {
-debugger
+    // debugger
     // console.log(this.router.url);
     // console.log(menu.route);
-
+    this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route); 
     if(menu.route!='')
     {
       if (menu.route.includes('/admin')) {
@@ -278,7 +278,6 @@ debugger
       }    
 
       //this.userData.username
-      this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route);      
     }
 
     if (menu.route.includes('/InductionManager')) {
@@ -308,7 +307,8 @@ debugger
       this.childMenus = this.globalMenus;
       this.isParentMenu = false;
       this.isChildMenu = true;
-    }    
+    }         
+
   }
 
   isAuthorized(controlName:any) {
