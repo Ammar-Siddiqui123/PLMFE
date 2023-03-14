@@ -37,7 +37,7 @@ export class DeleteConfirmationComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    if(this.data.action)
+    if(this.data?.action)
     {
       this.action = this.data.action;
     }

@@ -68,7 +68,7 @@
                                             <input (keydown)="enableDisableButton(i)" (keydown.shift.enter)="$event.preventDefault()" matInput type="text" name="{{category.subCategory}}" value="{{category.subCategory}}" #subCatName maxlength="50">
                                         </mat-form-field>
 
-                                        <button [disabled]="enableButton[i].value!=null?enableButton[i].value:false" mat-flat-button color="primary" class="xsm-icon-button ms-2" (click)="saveCategory(catName.value, category.category, subCatName.value, category.subCategory)">
+                                        <button [disabled]="(enableButton[i]&&enableButton[i].value!=null)?enableButton[i].value:false" mat-flat-button color="primary" class="xsm-icon-button ms-2" (click)="saveCategory(catName.value, category.category, subCatName.value, category.subCategory)">
                                             <mat-icon class="material-symbols-outlined">save</mat-icon>
                                         </button>
 

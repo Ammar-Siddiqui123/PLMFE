@@ -4,8 +4,7 @@ import { LoginService } from '../../../app/login.service';
 import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from 'src/app/services/shared.service';
-import { BroadcastService } from 'src/app/services/BroadcastService';
+import { SharedService } from 'src/app/services/shared.service'; 
 
 @Component({
   selector: 'app-header',
@@ -26,8 +25,7 @@ isConfigUser
     public spinnerService: SpinnerService,
     private authService: AuthService,
     private toastr: ToastrService,
-    private sharedService: SharedService,
-    private broadcastService :BroadcastService
+    private sharedService: SharedService
     ) {
    this.isConfigUser=  this.authService.isConfigUser()
     router.events.subscribe((val: any) => {
@@ -89,7 +87,7 @@ isConfigUser
       }   
        this.router.navigate([Url]);
         
-       this.broadcastService.next(Url.toString());
+       this.sharedService.BroadCastMenuUpdate(Url.toString());
     }  
     if (!menu) {
       // Reverts side bar to it's orignal state 

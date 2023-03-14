@@ -35,10 +35,11 @@ export class ItemCategoryComponent implements OnInit {
   this.enableButton[i].value=false;
   }
 
- getCategoryList(){
-    this.enableButton.shift();
+ getCategoryList(){ 
+    // this.enableButton.shift();
     this.catService.getCategory().subscribe((res) => {
       this.category_list = res.data;
+      this.enableButton=[];
       for(var i=0;i<this.category_list.length;i++)
       {
         this.category_list.fromDB = true;
@@ -53,6 +54,7 @@ export class ItemCategoryComponent implements OnInit {
       subCategory: "",
       fromDB:false
   });
+  this.enableButton.push({index:-1,value:true})
   }
 
   saveCategory(category : any, oldCat : any, subCategory : any, oldSubCat : any) {

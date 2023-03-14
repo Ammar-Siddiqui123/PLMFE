@@ -11,6 +11,7 @@ export class SharedService {
   loadMenu : boolean = false;
   private data: any;
   private menuData = new Subject<any>();
+  public SidebarMenupdate = new Subject<any>();
   menuData$ = this.menuData.asObservable();
 
   private appData:any;
@@ -127,5 +128,7 @@ export class SharedService {
     
     this.menuData.next(value);
   }
-  
+  BroadCastMenuUpdate(str:any){
+    this.SidebarMenupdate.next(str)
+  }
 }
