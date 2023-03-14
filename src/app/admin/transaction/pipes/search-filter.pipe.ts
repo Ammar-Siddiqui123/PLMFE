@@ -7,8 +7,7 @@ export class SearchFilterPipe implements PipeTransform {
   transform(value: any, args?: any) {
     if (!value) return null;
     if (!args) return value;
-    args = args.toLowerCase();
-    debugger;
+    args = args.toLowerCase(); 
     return value.filter((item) => {
       return JSON.stringify(item).toLowerCase().includes(args);
     });

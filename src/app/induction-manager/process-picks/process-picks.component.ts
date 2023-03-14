@@ -344,11 +344,18 @@ export class ProcessPicksComponent implements OnInit {
     });
   }
 
-  onViewOrder() {
-    // this.sharedService.updateInductionAdminMenu('induction')
-    // this.router.navigate([]).then((result) => {
-    //   window.open('/#/InductionManager/TransactionJournal?q=2', '_blank');
-    // });
+  onViewOrder(ele:any) {
+   if(ele.orderNumber){
+    this.router.navigate([]).then((result) => {
+      window.open(`/#/InductionManager/Admin/TransactionJournal?orderStatus=${ele.orderNumber}`, '_blank');
+    });
+   }
+   else{
+    this.toastr.error('Please enter in an order number.', 'Error!', {
+      positionClass: 'toast-bottom-right',
+      timeOut: 2000
+    });
+   }
   }
 
 
