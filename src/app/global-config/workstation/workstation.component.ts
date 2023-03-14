@@ -314,7 +314,6 @@ export class WorkstationComponent implements OnInit {
         dialogRef.afterClosed().subscribe((result) => {
           this.clearMatSelectList();
           this.getMenuData();
-          //}
         });
       }
 
