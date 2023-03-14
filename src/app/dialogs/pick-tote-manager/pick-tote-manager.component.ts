@@ -459,6 +459,7 @@ export class PickToteManagerComponent implements OnInit {
               ele.isSelected = true
               this.selectedOrders.push(ele.orderNumber);
             });
+            this.selectedOrders = [...new Set(this.selectedOrders)];
             // this.onOrderSelect(selectedArr[selectedArr.length -1]);
           }
           this.filterBatchOrders = new MatTableDataSource<any>(this.FILTER_BATCH_DATA);
@@ -490,6 +491,7 @@ export class PickToteManagerComponent implements OnInit {
               this.selectedOrders.push(ele.orderNumber);
             });
             // this.onOrderSelect(selectedArr[selectedArr.length -1]);
+            this.selectedOrders = [...new Set(this.selectedOrders)];
             this.allSelectOrders = this.selectedOrders;
           }
           this.filterBatchOrdersZone = new MatTableDataSource<any>(this.FILTER_BATCH_DATA_ZONE);
