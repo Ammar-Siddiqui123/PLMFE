@@ -11,7 +11,12 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  Subject,
+  Subscription,
+} from 'rxjs';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { BYPASS_LOG } from 'src/app/init/http-interceptor';
@@ -39,7 +44,7 @@ export class TranSelectOrderComponent implements OnInit {
   selectOption;
   columnSelect;
   searchField;
-  filterByTote:boolean;
+  filterByTote: boolean;
   searchByOrderNumber = new Subject<string>();
   searchByToteId = new Subject<string>();
   @Output() orderNo = new EventEmitter<any>();
@@ -107,7 +112,7 @@ export class TranSelectOrderComponent implements OnInit {
     private transactionService: TransactionService,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private sharedService:SharedService
+    private sharedService: SharedService
   ) {}
   ngOnChanges(changes: SimpleChanges) {
     if (changes['orderStatNextData']) {
@@ -115,29 +120,33 @@ export class TranSelectOrderComponent implements OnInit {
         changes['orderStatNextData']['currentValue'];
     }
   }
-  checkFilter(e){
-    this.filterByTote=e;
+  checkFilter(e) {
+    this.filterByTote = e;
   }
 
-  selectOrderByTote(){
-    if(this.columnSelect==='Tote ID'  && this.totalLinesOrder>0){  // if data populate and tote id selected then filter only
+  selectOrderByTote() {
+    if (this.columnSelect === 'Tote ID' && this.totalLinesOrder > 0) {
+      // if data populate and tote id selected then filter only
 
-      this.sharedService.updateFilterByTote({filterCheck:this.filterByTote,type:this.columnSelect})
+      this.sharedService.updateFilterByTote({
+        filterCheck: this.filterByTote,
+        type: this.columnSelect,
+      });
     }
   }
 
   ngAfterViewInit() {
-    this.sharedService.orderStatusObserver.subscribe(orderNo => {
-   if(orderNo){
-    this.columnSelect='Order Number';
-    this.searchField=orderNo;
-    this.onOrderNoChange();
-   }
-    });
-
+    this.subscription.add(
+      this.sharedService.orderStatusObserver.subscribe((orderNo) => {
+        if (orderNo) {
+          this.columnSelect = 'Order Number';
+          this.searchField = orderNo;
+          this.onOrderNoChange();
+        }
+      })
+    );
   }
   ngOnInit(): void {
-
     this.searchBar
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
@@ -169,16 +178,28 @@ export class TranSelectOrderComponent implements OnInit {
     this.userData = this.authService.userData();
 
     this.subscription.add(
-      this.sharedService.orderStatusSendOrderObserver.subscribe(orderNo => {
-       if(orderNo){
-        this.columnSelect='Order Number';
-        this.searchField=orderNo;
-        this.filterByTote=false;
-       }
+      this.sharedService.orderStatusSendOrderObserver.subscribe((orderNo) => {
+        if (orderNo) {
+          this.columnSelect = 'Order Number';
+          this.searchField = orderNo;
+          this.filterByTote = false;
+          this.searchAutocompleteList.length=0;
+        }
+      })
+
+      
+    );
+
+    this.subscription.add(
+      this.sharedService.updateToteFilterCheckObserver.subscribe((isChecked) => {
+        if(!this.filterByTote) {
+          this.filterByTote=true;
+        }else{
+          return
+        }
+
          })
-    )
-
-
+    );
   }
 
   resetLines() {
@@ -189,7 +210,7 @@ export class TranSelectOrderComponent implements OnInit {
     this.totalLinesOrder = 0;
     this.orderNumber = '';
     this.currentStatusOrder = '-';
-    this.filterByTote=false;
+    this.filterByTote = false;
   }
 
   getFloatLabelValue(): FloatLabelType {
@@ -211,7 +232,7 @@ export class TranSelectOrderComponent implements OnInit {
 
   selectFieldsReset() {
     this.columnSelect = '';
-    this.filterByTote=false;
+    this.filterByTote = false;
   }
   clear() {
     this.clearData.emit(event);
@@ -339,6 +360,4 @@ export class TranSelectOrderComponent implements OnInit {
     this.searchBar.unsubscribe();
     this.subscription.unsubscribe();
   }
-
-  
 }

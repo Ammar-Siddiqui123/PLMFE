@@ -574,6 +574,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
               (res: any) => {
                 if (res.isExecuted && res.data.length > 0 && res.data.length>=2) {
                   res.data[0]='Entire Order';
+                  // add default check for tote id
+                    this.sharedService.updateToteFilterCheck(true);
                   const dialogRef = this.dialog.open(FilterToteComponent, {
                     width: '650px',
                     autoFocus: '__non_existing_element__',
@@ -589,7 +591,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
                       }else{
                         this.compDate=res.selectedDate;
                       }
-                   
+                      
                       this.getContentData();
                     }
                  
