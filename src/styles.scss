@@ -687,7 +687,7 @@ mat-toolbar {
 }
 
 .mat-icon-wrap .mat-icon {
-  font-size: 18px;
+  font-size: 24px;
   width: auto;
   height: auto;
 }
@@ -1004,10 +1004,25 @@ td.dataTables_empty{
 .dataTables_wrapper .dataTables_paginate .paginate_button {
   padding: 0.5em 0.4em !important;
 }
+.isDivDisabled{
+  .main-section-option{
+    background: rgba($color: #fff, $alpha: 0.5);
+    .main-section-icon{
+      background: var(--clr-chrome-100);
+      color: var(--clr-chrome-600);
+      span.material-symbols-outlined{
+        color: var(--clr-chrome-600);
+      }
+    }
+  }
+  h4.main-section-title{
+    color: var(--clr-chrome-600);
+  }
+}
 
 .main-section-option {
     padding: 1.25em;
-    border-radius: 14px;
+    border-radius: 36px;
     min-height: 360px;
     background: #fff;
     transition: 0.7s ease all;
@@ -1329,6 +1344,7 @@ button.default-btn{
   background: #fff;
   border: 1px solid var(--clr-tertiary-50)!important;
   width: 48px !important;
+  min-width: auto !important;
   height: 48px !important;
   border-radius: 999px !important;
   padding: 3px !important;

@@ -6,7 +6,7 @@
           <div 
           matRipple 
           [matRippleColor]="tab_hover_color" 
-          class="main-section-option bg-white" 
+          class="main-section-option" 
           routerLink="/InductionManager/ProcessPutAways"
           [ngClass]="isAuthorized('Tote Transactions') ? 'isDivDisabled' : ''"
           (click)="updateMenu('induction', '/InductionManager/ProcessPutAways')"
@@ -25,7 +25,7 @@
         <div class="col-xl-3 col-lg-6">
           <div matRipple 
             [matRippleColor]="tab_hover_color" 
-            class="main-section-option bg-white" 
+            class="main-section-option" 
             routerLink="/InductionManager/ProcessPicks" 
             (click)="updateMenu('induction', '/InductionManager/ProcessPicks')"
             [ngClass]="isAuthorized('Tote Transactions') ? 'isDivDisabled' : ''">
@@ -42,7 +42,7 @@
         <div class="col-xl-3 col-lg-6">
           <div matRipple 
             [matRippleColor]="tab_hover_color" 
-            class="main-section-option bg-white" 
+            class="main-section-option" 
             (click)="updateMenu('induction', '/InductionManager/SuperBatch')"
             routerLink="/InductionManager/SuperBatch">
             <!-- <a class="main-section-option-link" href="#"></a> -->
@@ -56,8 +56,8 @@
         </div>
   
         <!-- Main Section Option (Work Manager) -->
-        <div class="col-xl-3 col-lg-6">
-          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
+        <div class="col-xl-3 col-lg-6 isDivDisabled">
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
               <span class="material-symbols-outlined">
@@ -69,8 +69,8 @@
         </div>
   
         <!-- Main Section Option (Consolidation Manager) -->
-        <div class="col-xl-3 col-lg-6">
-          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
+        <div class="col-xl-3 col-lg-6 isDivDisabled">
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
               <span class="material-symbols-outlined">
@@ -83,7 +83,7 @@
   
         <!-- Main Section Option (Order Manager) -->
         <div class="col-xl-3 col-lg-6" routerLink="Admin" (click)="updateMenu('transaction-admin')" [ngClass]="isAuthorized('Tote Admin Menu') ? 'isDivDisabled' : ''">
-          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
               <span class="material-symbols-outlined">

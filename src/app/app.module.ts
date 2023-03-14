@@ -91,7 +91,7 @@ import { ChooseLocationComponent } from './dialogs/choose-location/choose-locati
     
   ],
   providers: [
-    LoginService, 
+    LoginService,
     { 
       provide: LocationStrategy, 
       useClass: HashLocationStrategy 
