@@ -330,6 +330,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
             );
             this.currentStatusChange(res.data.completedStatus);
             this.totalLinesOrderChange(res.data?.totalRecords);
+            this.sharedService.updateOrderStatusSelect({totalRecords:res.data?.totalRecords})
           }
 
           if (res.data?.onCar.length) {
@@ -596,6 +597,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
                     }
                  
                   });
+                }else{
+                  this.compDate='';
                 }
               },
               (error) => {}
@@ -607,6 +610,13 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       
       })
     );
+
+
+    this.subscription.add(
+           this.sharedService.updateCompDateObserver.subscribe((obj) => {
+            this.compDate='';
+           })
+    )
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
