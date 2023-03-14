@@ -236,8 +236,7 @@ export class SideNavComponent implements OnInit {
     );
   }
 
-  loadMenus(menu: any) {
-//debugger
+  loadMenus(menu: any) { 
     // console.log(this.router.url);
     // console.log(menu.route);
 
