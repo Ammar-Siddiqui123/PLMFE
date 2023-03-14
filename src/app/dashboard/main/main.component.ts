@@ -237,4 +237,8 @@ private subscription: Subscription = new Subscription();
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+  isAuthorized(controlName:any) {
+    return !this.authService.isAuthorized(controlName);
+ }
+
 }
