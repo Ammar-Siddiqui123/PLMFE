@@ -106,7 +106,15 @@ export class SharedService {
 
   updateLoggedInUser(userName:any,wsid:any,menu:any)
   {
-    this.columnSequence.updateAppName(userName,wsid,menu.replace(/[^a-z]/gi, '')).subscribe((res: any) => {
+    let appName;
+    console.log(userName,wsid,menu);
+    if(menu.includes('/admin')){
+      appName = 'Admin';
+    }
+    if(menu.includes('/InductionManager')){
+      appName = 'Induction Manager';
+    }
+    this.columnSequence.updateAppName(userName,wsid,appName).subscribe((res: any) => {
       (error) => {
         // alert(error);
          }
