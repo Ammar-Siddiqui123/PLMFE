@@ -5,8 +5,7 @@ import { AuthService } from '../../../app/init/auth.service';
 import { GlobalconfigService } from 'src/app/global-config/globalconfig.service';
 import { of, from } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { BroadcastService } from 'src/app/services/BroadcastService';
+import { HttpClient } from '@angular/common/http'; 
 
 @Component({
   selector: 'app-side-nav',
@@ -90,9 +89,8 @@ export class SideNavComponent implements OnInit {
               private router: Router,
               private authService: AuthService,
               private sharedService:SharedService, 
-              private globalService: GlobalconfigService,
-             private broadcastService:BroadcastService) { 
-                this.broadcastService.subscribe((data: any) => {
+              private globalService: GlobalconfigService) { 
+                this.sharedService.SidebarMenupdate.subscribe((data: any) => {
                   var Menuobj = this.menus.find(x=>x.route == data);
                   if(Menuobj==null)Menuobj = this.adminMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.globalMenus.find(x=>x.route == data);
@@ -238,8 +236,7 @@ export class SideNavComponent implements OnInit {
     );
   }
 
-  loadMenus(menu: any) {
-debugger
+  loadMenus(menu: any) { 
     // console.log(this.router.url);
     // console.log(menu.route);
 

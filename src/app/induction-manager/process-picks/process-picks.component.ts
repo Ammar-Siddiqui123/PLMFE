@@ -583,6 +583,7 @@ export class ProcessPicksComponent implements OnInit {
 
   clearOrderNumber(i: any) {
     this.TOTE_SETUP[i].orderNumber = "";
+    this.allOrders[i] = '';
   }
 
   confirmProcessSetup() {

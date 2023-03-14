@@ -11,6 +11,7 @@ export class SharedService {
   loadMenu : boolean = false;
   private data: any;
   private menuData = new Subject<any>();
+  public SidebarMenupdate = new Subject<any>();
   menuData$ = this.menuData.asObservable();
 
   private appData:any;
@@ -115,7 +116,15 @@ export class SharedService {
 
   updateLoggedInUser(userName:any,wsid:any,menu:any)
   {
-    this.columnSequence.updateAppName(userName,wsid,menu.replace(/[^a-z]/gi, '')).subscribe((res: any) => {
+    let appName;
+    console.log(userName,wsid,menu);
+    if(menu.includes('/admin')){
+      appName = 'Admin';
+    }
+    if(menu.includes('/InductionManager')){
+      appName = 'Induction Manager';
+    }
+    this.columnSequence.updateAppName(userName,wsid,appName).subscribe((res: any) => {
       (error) => {
         // alert(error);
          }
@@ -128,5 +137,7 @@ export class SharedService {
     
     this.menuData.next(value);
   }
-  
+  BroadCastMenuUpdate(str:any){
+    this.SidebarMenupdate.next(str)
+  }
 }
