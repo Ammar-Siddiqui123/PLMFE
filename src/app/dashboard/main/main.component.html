@@ -10,7 +10,7 @@
     </ng-container>
       <ng-container *ngFor="let item of applicationData" >
         <div class="col-xl-3 col-lg-6"  [routerLink]="item.info.route" 
-        (click)="updateMenu(item.info.updateMenu)" [ngClass]="(isAuthorized(item.info.permission)||item.info.route == '#') ? 'isDivDisabled' : ''">
+        (click)="updateMenu(item.info.updateMenu,item.info)" [ngClass]="(isAuthorized(item.info.permission)||item.info.route == '#') ? 'isDivDisabled' : ''">
 
           <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option">
             <a class="main-section-option-link" href="#"></a>
