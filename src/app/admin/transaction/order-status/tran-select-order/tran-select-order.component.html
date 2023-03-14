@@ -61,8 +61,9 @@
                 <span class="material-symbols-outlined icon-search">
                   Search
                 </span>
-                <input  (keyup.enter)="selectOrderByTote()" type="text" placeholder="Search" aria-label="Number" matInput [disabled]="!columnSelect"
-                  [(ngModel)]='searchField' [matAutocomplete]="auto" (ngModelChange)="this.searchBar.next($event)">
+                <!-- (ngModelChange)="this.searchBar.next($event)" -->
+                <input  (keyup.enter)="selectOrderByTote()" (keyup)="getNextItemNo($event)" type="text" placeholder="Search" aria-label="Number" matInput [disabled]="!columnSelect"
+                  [(ngModel)]='searchField' [matAutocomplete]="auto">
                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
                   <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
                     {{option}}

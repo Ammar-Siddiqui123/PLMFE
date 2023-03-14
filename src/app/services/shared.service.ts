@@ -27,6 +27,8 @@ export class SharedService {
   appRestrictionObserver: Subject<any> = new Subject<any>();  
   updateReprocessObserver: Subject<any> = new Subject<any>();  
   updateToteFilterCheckObserver:Subject<any>=new Subject<any>();
+  updateCompDateObserver:Subject<any>=new Subject<any>();
+  updateOrderStatusSelectObserver:Subject<any>=new Subject<any>();
 
   resetSidebar() {
     this.startMenu.next(true);
@@ -84,6 +86,13 @@ export class SharedService {
   
   updateOrderStatusOrderNo(orderNumber){ 
     this.orderStatusSendOrderObserver.next(orderNumber);
+  }
+  updateCompDate(selectType){ 
+    this.updateCompDateObserver.next(selectType);
+  }
+
+  updateOrderStatusSelect(obj){
+    this.updateOrderStatusSelectObserver.next(obj)
   }
   getSidebarStatus(){
     return this.loadMenu;
