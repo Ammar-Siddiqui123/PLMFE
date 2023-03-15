@@ -535,10 +535,10 @@ export class PickToteManagerComponent implements OnInit {
     }
     else {
       this.FILTER_BATCH_DATA.map(v => {
-        if(this.selectedOrders.includes(v.orderNumber)){
+        if (this.selectedOrders.includes(v.orderNumber)) {
           v.isSelected = true;
         }
-        else{
+        else {
           v.isSelected = false;
         }
       });
@@ -587,7 +587,7 @@ export class PickToteManagerComponent implements OnInit {
         }
       });
       this.selectedOrders = this.selectedOrders.filter(item => item !== row.orderNumber)
-      
+
       if (this.selectedOrders.length === 0) {
         this.isOrderSelectZone = true;
       }
@@ -600,10 +600,10 @@ export class PickToteManagerComponent implements OnInit {
     }
     else {
       this.FILTER_BATCH_DATA_ZONE.map(v => {
-        if(this.selectedOrders.includes(v.orderNumber)){
+        if (this.selectedOrders.includes(v.orderNumber)) {
           v.isSelected = true;
         }
-        else{
+        else {
           v.isSelected = false;
         }
       });
@@ -678,8 +678,10 @@ export class PickToteManagerComponent implements OnInit {
   onChangeOrderAction(option: any) {
     if (option === 'fill_top_orders') {
       for (let index = 0; index < this.data.pickBatchQuantity; index++) {
-        this.FILTER_BATCH_DATA[index].isSelected = true;
-        this.selectedOrders.push(this.FILTER_BATCH_DATA[index].orderNumber);
+        if (this.FILTER_BATCH_DATA_ZONE[index]) {
+          this.FILTER_BATCH_DATA[index].isSelected = true;
+          this.selectedOrders.push(this.FILTER_BATCH_DATA[index].orderNumber);
+        }
       }
       this.isOrderSelect = false;
       this.allSelectOrders = this.selectedOrders
@@ -707,8 +709,10 @@ export class PickToteManagerComponent implements OnInit {
   onChangeOrderActionZone(option: any) {
     if (option === 'fill_top_orders') {
       for (let index = 0; index < this.data.pickBatchQuantity; index++) {
-        this.FILTER_BATCH_DATA_ZONE[index].isSelected = true;
-        this.selectedOrders.push(this.FILTER_BATCH_DATA_ZONE[index].orderNumber);
+        if (this.FILTER_BATCH_DATA_ZONE[index]) {
+          this.FILTER_BATCH_DATA_ZONE[index].isSelected = true;
+          this.selectedOrders.push(this.FILTER_BATCH_DATA_ZONE[index].orderNumber);
+        }
       }
       this.isOrderSelectZone = true;
       this.onCloseAllPickToteManager();
@@ -999,8 +1003,6 @@ export class PickToteManagerComponent implements OnInit {
   onClosePickToteManager() {
     let selectedObj = this.FILTER_BATCH_DATA_ZONE.filter(element => this.allSelectOrders.includes(element.orderNumber));
     selectedObj = [...new Map(selectedObj.map(item => [item.orderNumber, item])).values()]
-    console.log(selectedObj);
-    
     this.dialogRef.close(selectedObj);
   }
 
