@@ -543,6 +543,8 @@ export class PickToteManagerComponent implements OnInit {
         }
       });
       this.tempHoldEle = row;
+      // console.log(this.tempHoldEle);
+      
       // this.selectedOrders.push(row.orderNumber);
       this.FILTER_BATCH_DATA.filter(val => {
         if (val.orderNumber === row.orderNumber) {
@@ -678,28 +680,32 @@ export class PickToteManagerComponent implements OnInit {
   onChangeOrderAction(option: any) {
     if (option === 'fill_top_orders') {
       for (let index = 0; index < this.data.pickBatchQuantity; index++) {
-        if (this.FILTER_BATCH_DATA_ZONE[index]) {
+        if (this.FILTER_BATCH_DATA[index]) {
           this.FILTER_BATCH_DATA[index].isSelected = true;
           this.selectedOrders.push(this.FILTER_BATCH_DATA[index].orderNumber);
         }
       }
       this.isOrderSelect = false;
-      this.allSelectOrders = this.selectedOrders
       this.onCloseAllPickToteManager();
     }
     if (option === 'unselect_all_orders') {
       this.FILTER_BATCH_DATA.map(ele => {
         ele.isSelected = false;
+        ele.priority = '';
         this.selectedOrders = [];
       });
       this.isOrderSelect = true;
       this.onCloseAllPickToteManager();
     }
     if (option === 'select_order') {
-      this.tempHoldEle.isSelected = true;
-      if (!this.selectedOrders.includes(this.tempHoldEle.orderNumber)) {
-        this.selectedOrders.push(this.tempHoldEle.orderNumber);
+      if (this.tempHoldEle) {
+        this.tempHoldEle.isSelected = true;
+        if (!this.selectedOrders.includes(this.tempHoldEle.orderNumber)) {
+          this.selectedOrders.push(this.tempHoldEle.orderNumber);
+        }
       }
+      // console.log(this.selectedOrders);
+      
       this.onCloseAllPickToteManager();
     }
     this.orderActionRefresh();
@@ -720,6 +726,7 @@ export class PickToteManagerComponent implements OnInit {
     if (option === 'unselect_all_orders') {
       this.FILTER_BATCH_DATA_ZONE.map(ele => {
         ele.isSelected = false;
+        ele.priority = '';
         this.selectedOrders = [];
       });
       this.isOrderSelectZone = true;
@@ -1001,9 +1008,31 @@ export class PickToteManagerComponent implements OnInit {
   }
 
   onClosePickToteManager() {
-    let selectedObj = this.FILTER_BATCH_DATA_ZONE.filter(element => this.allSelectOrders.includes(element.orderNumber));
-    selectedObj = [...new Map(selectedObj.map(item => [item.orderNumber, item])).values()]
-    this.dialogRef.close(selectedObj);
+
+    let selectedObj:any = [];
+    let currentObjArr:any = [];
+    if(this.isFilter === 'filter'){
+      if(this.allSelectOrders.length > 0){
+        selectedObj = this.FILTER_BATCH_DATA.filter(element => this.allSelectOrders.includes(element.orderNumber));
+        selectedObj = [...new Map(selectedObj.map(item => [item.orderNumber, item])).values()]
+    
+        let orderNumbers = new Set(selectedObj.map(d => d.orderNumber));
+        currentObjArr = [...selectedObj, ...this.data.resultObj.filter(d => !orderNumbers.has(d.orderNumber))];  
+      }
+      
+    }
+    else{
+      console.log(this.allSelectOrders);
+      
+      selectedObj = this.FILTER_BATCH_DATA_ZONE.filter(element => this.allSelectOrders.includes(element.orderNumber));
+      selectedObj = [...new Map(selectedObj.map(item => [item.orderNumber, item])).values()]
+  
+      let orderNumbers = new Set(selectedObj.map(d => d.orderNumber));
+      currentObjArr = [...selectedObj, ...this.data.resultObj.filter(d => !orderNumbers.has(d.orderNumber))];
+    }
+    console.log(currentObjArr);
+
+    this.dialogRef.close(currentObjArr);
   }
 
   onCloseAllPickToteManager() {
