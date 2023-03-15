@@ -519,6 +519,7 @@ export class PickToteManagerComponent implements OnInit {
           val.isSelected = false;
           this.filterOrderTransactionSource = [];
           this.isOrderSelect = false;
+          this.onCloseAllPickToteManager();
         }
       });
       this.selectedOrders = this.selectedOrders.filter(item => item !== row.orderNumber)
@@ -582,6 +583,7 @@ export class PickToteManagerComponent implements OnInit {
           val.isSelected = false;
           this.zoneOrderTransactionSource = [];
           this.isOrderSelectZone = false;
+          this.onCloseAllPickToteManager();
         }
       });
       this.selectedOrders = this.selectedOrders.filter(item => item !== row.orderNumber)
@@ -724,11 +726,6 @@ export class PickToteManagerComponent implements OnInit {
         this.tempHoldEle.isSelected = true;
         if (!this.selectedOrders.includes(this.tempHoldEle.orderNumber)) {
           this.selectedOrders.push(this.tempHoldEle.orderNumber);
-          // this.FILTER_BATCH_DATA_ZONE.map(val => {
-          //   if (val.orderNumber === this.tempHoldEle.orderNumber) {
-          //     val.isSelected = true;
-          //   }
-          // });
         }
       }
       // this.selectedOrders.push(this.tempHoldEle.orderNumber);
@@ -1002,7 +999,8 @@ export class PickToteManagerComponent implements OnInit {
   onClosePickToteManager() {
     let selectedObj = this.FILTER_BATCH_DATA_ZONE.filter(element => this.allSelectOrders.includes(element.orderNumber));
     selectedObj = [...new Map(selectedObj.map(item => [item.orderNumber, item])).values()]
-
+    console.log(selectedObj);
+    
     this.dialogRef.close(selectedObj);
   }
 
