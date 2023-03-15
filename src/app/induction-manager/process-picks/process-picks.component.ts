@@ -344,11 +344,18 @@ export class ProcessPicksComponent implements OnInit {
     });
   }
 
-  onViewOrder() {
-    // this.sharedService.updateInductionAdminMenu('induction')
-    // this.router.navigate([]).then((result) => {
-    //   window.open('/#/InductionManager/TransactionJournal?q=2', '_blank');
-    // });
+  onViewOrder(ele:any) {
+   if(ele.orderNumber){
+    this.router.navigate([]).then((result) => {
+      window.open(`/#/InductionManager/Admin/TransactionJournal?orderStatus=${ele.orderNumber}`, '_blank');
+    });
+   }
+   else{
+    this.toastr.error('Please enter in an order number.', 'Error!', {
+      positionClass: 'toast-bottom-right',
+      timeOut: 2000
+    });
+   }
   }
 
 
@@ -380,7 +387,13 @@ export class ProcessPicksComponent implements OnInit {
         },
         autoFocus: '__non_existing_element__'
       });
-      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(resultObj => {
+        console.log(resultObj);
+        
+        let result:any = [];
+        resultObj?.forEach((val: any) => {
+          result.push(val.orderNumber);
+        })
         if (result.length > 0) {
           this.allOrders = result;
         }
@@ -391,7 +404,8 @@ export class ProcessPicksComponent implements OnInit {
           });
         } 
         this.TOTE_SETUP.forEach((element, key) => {
-            element.orderNumber = result[key] ?? '';
+            element.orderNumber = resultObj[key]?.orderNumber ?? '';
+            element.priority = resultObj[key]?.priority ?? '';
         });
       });
     }
@@ -548,6 +562,7 @@ export class ProcessPicksComponent implements OnInit {
     this.TOTE_SETUP.forEach((element, key) => {
       element.orderNumber = "";
     });
+    this.allOrders = [];
   }
 
   checkDuplicateTote(val: any, i: any) {
@@ -582,6 +597,7 @@ export class ProcessPicksComponent implements OnInit {
 
   clearOrderNumber(i: any) {
     this.TOTE_SETUP[i].orderNumber = "";
+    this.allOrders[i] = '';
   }
 
   confirmProcessSetup() {

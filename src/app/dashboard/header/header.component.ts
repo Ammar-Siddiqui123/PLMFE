@@ -4,7 +4,7 @@ import { LoginService } from '../../../app/login.service';
 import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from 'src/app/services/shared.service';
+import { SharedService } from 'src/app/services/shared.service'; 
 
 @Component({
   selector: 'app-header',
@@ -79,12 +79,28 @@ isConfigUser
     this.router.navigate(['/login']);
   }
 
-  breadCrumbClick(menu) {    
+  breadCrumbClick(menu,index:any = null) { 
+     if(index != null){ 
+      var Url = "";  
+      for (let i = 0; i <= index; i++) {
+        if(this.breadcrumbList[i].menu!='') Url += this.breadcrumbList[i].value; 
+      }   
+       this.router.navigate([Url]);
+        
+       this.sharedService.BroadCastMenuUpdate(Url.toString());
+    }  
     if (!menu) {
-      // Reverts side bar to it's orignal state
+      // Reverts side bar to it's orignal state 
       this.sharedService.resetSidebar(); 
     }    
   }
+  // RouterLinkSet(index){
+  //   var Url = "";
+  //   for (let i = 0; i <= index; i++) {
+  //         if(this.breadcrumbList[i].menu!='') Url += this.breadcrumbList[i].value; 
+  //       }   
+  //       return Url;
+  // }
 
   logout(){   
     let paylaod = {

@@ -3,7 +3,7 @@ import { GlobalconfigService } from 'src/app/global-config/globalconfig.service'
 import { AuthService } from 'src/app/init/auth.service';
 import { SharedService } from '../../../app/services/shared.service';
 import { mergeMap, map } from 'rxjs/operators';
-import { forkJoin, of, Subscription } from 'rxjs';
+import { forkJoin, of, Subscription } from 'rxjs'; 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -216,7 +216,7 @@ private subscription: Subscription = new Subscription();
       return 0; //default return value (no sorting)
     });
   }
-  updateMenu(menu = '') {
+  updateMenu(menu = '',obj:any=null) {
    
     if(menu!='')
     {
@@ -227,7 +227,9 @@ private subscription: Subscription = new Subscription();
       this.sharedService.updateAdminMenu();
     }
     else if(menu=='induction'){
-      this.sharedService.updateInductionAdminMenu(menu)
+      debugger
+      this.sharedService.BroadCastMenuUpdate(obj.route);
+      // this.sharedService.updateInductionAdminMenu(menu)
     }
     
     // console.log(this.sharedService.updateSidebar());
@@ -237,4 +239,8 @@ private subscription: Subscription = new Subscription();
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+  isAuthorized(controlName:any) {
+    return !this.authService.isAuthorized(controlName);
+ }
+
 }
