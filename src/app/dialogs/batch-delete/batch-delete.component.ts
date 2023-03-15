@@ -89,7 +89,7 @@ export class BatchDeleteComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      this.dialogRef.close({isDeleted:true})
+       if(res.isExecuted) this.dialogRef.close({isDeleted:true})
     });
   }
 }
