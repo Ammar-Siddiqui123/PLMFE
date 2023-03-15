@@ -404,15 +404,8 @@ export class ProcessPicksComponent implements OnInit {
           });
         } 
         this.TOTE_SETUP.forEach((element, key) => {
-          if(resultObj[key]?.orderNumber){
-            element.orderNumber = resultObj[key].orderNumber ?? '';
-            element.priority = resultObj[key].priority ?? '';
-          }else{
-            element.orderNumber = resultObj[key].orderNumber ?? '';
-            element.priority = resultObj[key].priority ?? '';
-          }
-          console.log(element);
-          
+            element.orderNumber = resultObj[key]?.orderNumber ?? '';
+            element.priority = resultObj[key]?.priority ?? '';
         });
       });
     }
