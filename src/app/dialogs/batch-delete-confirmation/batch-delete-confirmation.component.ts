@@ -86,4 +86,7 @@ export class BatchDeleteConfirmationComponent implements OnInit {
       }
     }
   }
+  CancelPopup(){
+    this.dialogRef.close({isExecuted:false});
+  }
 }

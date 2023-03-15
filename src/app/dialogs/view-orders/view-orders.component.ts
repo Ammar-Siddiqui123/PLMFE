@@ -149,6 +149,7 @@ export class ViewOrdersComponent implements OnInit {
   }
   onChangeOrderAction(option: any) {
     if (option === 'fill_top_orders') {
+      this.selectedOrders = [];
       for (let index = 0; index < this.data.pickBatchQuantity; index++) {
         this.allOrders[index].isSelected = true;
         this.selectedOrders.push(this.allOrders[index].orderNumber);
