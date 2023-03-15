@@ -346,8 +346,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         wsid: this.userData.wsid,
       },
     });
-    dialogRef.afterClosed().subscribe((res) => {
-      debugger
+    dialogRef.afterClosed().subscribe((res) => { 
       if(res.isDeleted) {
         this.clearFormAndTable();
       } else if (res.isExecuted) {
