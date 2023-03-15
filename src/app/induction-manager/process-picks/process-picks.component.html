@@ -283,7 +283,7 @@
                         <td mat-cell *matCellDef="let element" [hidden]="useInZonePickScreen">
                             <div class="pe-2">
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                    <input matInput type="text" #specialFeature maxlength="255" value="" disabled>
+                                    <input matInput [(ngModel)]="element.priority" type="text" #specialFeature maxlength="255" disabled>
                                 </mat-form-field>
                             </div>
                         </td>
