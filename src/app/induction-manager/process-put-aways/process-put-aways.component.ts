@@ -347,6 +347,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
+      debugger
       if(res.isDeleted) {
         this.clearFormAndTable();
       } else if (res.isExecuted) {
