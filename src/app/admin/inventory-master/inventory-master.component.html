@@ -121,7 +121,7 @@
           <button *ngIf="invMaster.controls['itemQuarantined'].value == 0" mat-flat-button color="secondary" class="button-secondary btn-lg" (click)="quarantineDialog()">
             Quarantine Item
           </button>
-          <button *ngIf="invMaster.controls['itemQuarantined'].value == 1" mat-stroked-button color="primary" class="button-primary-o bg-white btn-lg" (click)="unquarantineDialog()">
+          <button *ngIf="invMaster.controls['itemQuarantined'].value == 1" mat-flat-button color="primary" class="button-secondary btn-lg" (click)="unquarantineDialog()">
             Un-Quarantine Item
           </button>
           <button [disabled]="saveDisabled" style="flex:1" mat-flat-button color="primary" class="btn-lg" (click)="updateInventoryMaster()">
