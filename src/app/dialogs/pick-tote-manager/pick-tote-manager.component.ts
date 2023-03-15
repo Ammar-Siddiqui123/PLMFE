@@ -215,9 +215,7 @@ export class PickToteManagerComponent implements OnInit {
     else {
       this.isFilter = 'zone'
     }
-
-    
-
+    this.allSelectOrders = this.data.allOrders;
   }
 
   pickBatchZonesSelect() {
@@ -536,7 +534,12 @@ export class PickToteManagerComponent implements OnInit {
     }
     else {
       this.FILTER_BATCH_DATA.map(v => {
-        v.isSelected = false;
+        if(this.selectedOrders.includes(v.orderNumber)){
+          v.isSelected = true;
+        }
+        else{
+          v.isSelected = false;
+        }
       });
       this.tempHoldEle = row;
       // this.selectedOrders.push(row.orderNumber);
@@ -559,11 +562,11 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
         // if (res.data.length > 0) {
-          // console.log(res);
-          
-          this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
-          this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
-          this.filterOrderTransactionSource.sort = this.viewFilterTransSort;
+        // console.log(res);
+
+        this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
+        this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
+        this.filterOrderTransactionSource.sort = this.viewFilterTransSort;
         // }
       });
     }
@@ -582,6 +585,7 @@ export class PickToteManagerComponent implements OnInit {
         }
       });
       this.selectedOrders = this.selectedOrders.filter(item => item !== row.orderNumber)
+      
       if (this.selectedOrders.length === 0) {
         this.isOrderSelectZone = true;
       }
@@ -594,10 +598,15 @@ export class PickToteManagerComponent implements OnInit {
     }
     else {
       this.FILTER_BATCH_DATA_ZONE.map(v => {
-        v.isSelected = false;
+        if(this.selectedOrders.includes(v.orderNumber)){
+          v.isSelected = true;
+        }
+        else{
+          v.isSelected = false;
+        }
       });
       this.tempHoldEle = row;
-      
+
       // this.selectedOrders.push(row.orderNumber);
       this.FILTER_BATCH_DATA_ZONE.filter(val => {
         if (val.orderNumber === row.orderNumber) {
@@ -618,9 +627,9 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.pPickService.get(paylaod, '/Induction/PickToteTransDT').subscribe((res) => {
         // if (res.data) {
-          this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
-          this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
-          this.zoneOrderTransactionSource.sort = this.viewZoneTransSort;
+        this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
+        this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
+        this.zoneOrderTransactionSource.sort = this.viewZoneTransSort;
         // }
       });
     }
@@ -671,7 +680,8 @@ export class PickToteManagerComponent implements OnInit {
         this.selectedOrders.push(this.FILTER_BATCH_DATA[index].orderNumber);
       }
       this.isOrderSelect = false;
-      this.allSelectOrders = this.selectedOrders 
+      this.allSelectOrders = this.selectedOrders
+      this.onCloseAllPickToteManager();
     }
     if (option === 'unselect_all_orders') {
       this.FILTER_BATCH_DATA.map(ele => {
@@ -679,10 +689,11 @@ export class PickToteManagerComponent implements OnInit {
         this.selectedOrders = [];
       });
       this.isOrderSelect = true;
+      this.onCloseAllPickToteManager();
     }
     if (option === 'select_order') {
       this.tempHoldEle.isSelected = true;
-      if(!this.selectedOrders.includes(this.tempHoldEle.orderNumber)){
+      if (!this.selectedOrders.includes(this.tempHoldEle.orderNumber)) {
         this.selectedOrders.push(this.tempHoldEle.orderNumber);
       }
       this.onCloseAllPickToteManager();
@@ -698,6 +709,7 @@ export class PickToteManagerComponent implements OnInit {
         this.selectedOrders.push(this.FILTER_BATCH_DATA_ZONE[index].orderNumber);
       }
       this.isOrderSelectZone = true;
+      this.onCloseAllPickToteManager();
     }
     if (option === 'unselect_all_orders') {
       this.FILTER_BATCH_DATA_ZONE.map(ele => {
@@ -705,27 +717,35 @@ export class PickToteManagerComponent implements OnInit {
         this.selectedOrders = [];
       });
       this.isOrderSelectZone = true;
+      this.onCloseAllPickToteManager();
     }
     if (option === 'select_order') {
-      this.tempHoldEle.isSelected = true;
-      if(!this.selectedOrders.includes(this.tempHoldEle.orderNumber)){
-        this.selectedOrders.push(this.tempHoldEle.orderNumber);
+      if (this.tempHoldEle) {
+        this.tempHoldEle.isSelected = true;
+        if (!this.selectedOrders.includes(this.tempHoldEle.orderNumber)) {
+          this.selectedOrders.push(this.tempHoldEle.orderNumber);
+          // this.FILTER_BATCH_DATA_ZONE.map(val => {
+          //   if (val.orderNumber === this.tempHoldEle.orderNumber) {
+          //     val.isSelected = true;
+          //   }
+          // });
+        }
       }
       // this.selectedOrders.push(this.tempHoldEle.orderNumber);
       this.onCloseAllPickToteManager();
     }
     this.orderActionRefreshZone();
   }
-  onViewOrderLineZone(event){
+  onViewOrderLineZone(event) {
     let orderNum = '';
     this.FILTER_BATCH_DATA_ZONE.map(val => {
-        orderNum += val.orderNumber + ','
+      orderNum += val.orderNumber + ','
     })
-    
-    if(event.value === 'vAllOrderZone'){
+
+    if (event.value === 'vAllOrderZone') {
       let paylaod = {
         "Draw": 0,
-        "OrderNumber":orderNum,
+        "OrderNumber": orderNum,
         "sRow": 1,
         "eRow": 10,
         "SortColumnNumber": 0,
@@ -742,17 +762,17 @@ export class PickToteManagerComponent implements OnInit {
         }
       });
     }
-    if(event.value ==='vSelectedOrderZone'){
+    if (event.value === 'vSelectedOrderZone') {
       orderNum = '';
       this.FILTER_BATCH_DATA_ZONE.map(val => {
-        if(val.isSelected){
+        if (val.isSelected) {
           orderNum += val.orderNumber + ','
         }
       });
-      if(orderNum !== ''){
+      if (orderNum !== '') {
         let paylaod = {
           "Draw": 0,
-          "OrderNumber":orderNum,
+          "OrderNumber": orderNum,
           "sRow": 1,
           "eRow": 10,
           "SortColumnNumber": 0,
@@ -769,23 +789,23 @@ export class PickToteManagerComponent implements OnInit {
           }
         });
       }
-      else{
+      else {
         this.zoneOrderTransactionSource = [];
       }
-      
-      
+
+
     }
   }
-  onViewOrderLineFilter(event){
+  onViewOrderLineFilter(event) {
     let orderNum = '';
     this.FILTER_BATCH_DATA.map(val => {
-        orderNum += val.orderNumber + ','
+      orderNum += val.orderNumber + ','
     })
-    
-    if(event.value === 'vAllOrderFilter'){
+
+    if (event.value === 'vAllOrderFilter') {
       let paylaod = {
         "Draw": 0,
-        "OrderNumber":orderNum,
+        "OrderNumber": orderNum,
         "sRow": 1,
         "eRow": 10,
         "SortColumnNumber": 0,
@@ -802,17 +822,17 @@ export class PickToteManagerComponent implements OnInit {
         }
       });
     }
-    if(event.value ==='vSelectedOrderFilter'){
+    if (event.value === 'vSelectedOrderFilter') {
       orderNum = '';
       this.FILTER_BATCH_DATA.map(val => {
-        if(val.isSelected){
+        if (val.isSelected) {
           orderNum += val.orderNumber + ','
         }
       });
-      if(orderNum !== ''){
+      if (orderNum !== '') {
         let paylaod = {
           "Draw": 0,
-          "OrderNumber":orderNum,
+          "OrderNumber": orderNum,
           "sRow": 1,
           "eRow": 10,
           "SortColumnNumber": 0,
@@ -829,11 +849,11 @@ export class PickToteManagerComponent implements OnInit {
           }
         });
       }
-      else{
+      else {
         this.filterOrderTransactionSource = [];
       }
-      
-      
+
+
     }
   }
 
@@ -980,15 +1000,13 @@ export class PickToteManagerComponent implements OnInit {
   }
 
   onClosePickToteManager() {
-    if(this.selectedOrders.length == 0){
-      this.dialogRef.close(this.data.allOrders);
-    }
-    else{
-      this.dialogRef.close(this.allSelectOrders);
-    }
+    let selectedObj = this.FILTER_BATCH_DATA_ZONE.filter(element => this.allSelectOrders.includes(element.orderNumber));
+    selectedObj = [...new Map(selectedObj.map(item => [item.orderNumber, item])).values()]
+
+    this.dialogRef.close(selectedObj);
   }
 
-  onCloseAllPickToteManager(){
+  onCloseAllPickToteManager() {
     this.allSelectOrders = this.selectedOrders
   }
 
