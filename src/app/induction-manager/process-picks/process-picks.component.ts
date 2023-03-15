@@ -387,7 +387,13 @@ export class ProcessPicksComponent implements OnInit {
         },
         autoFocus: '__non_existing_element__'
       });
-      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(resultObj => {
+        console.log(resultObj);
+        
+        let result:any = [];
+        resultObj?.forEach((val: any) => {
+          result.push(val.orderNumber);
+        })
         if (result.length > 0) {
           this.allOrders = result;
         }
@@ -398,7 +404,8 @@ export class ProcessPicksComponent implements OnInit {
           });
         } 
         this.TOTE_SETUP.forEach((element, key) => {
-            element.orderNumber = result[key] ?? '';
+            element.orderNumber = resultObj[key]?.orderNumber ?? '';
+            element.priority = resultObj[key]?.priority ?? '';
         });
       });
     }

@@ -21,7 +21,7 @@
     </mat-dialog-content>
     <mat-dialog-actions class="d-flex flex-column justify-content-center">
       <button (click)="onConfirmdelete()" class=" prompt-action-danger-button mb-3 w-100 btn-lg"  [disabled]="isChecked" mat-stroked-button >Ok</button>
-      <button  class=" mb-3 w-100 btn-lg" mat-stroked-button  mat-dialog-close>Cancel</button>
+      <button  class=" mb-3 w-100 btn-lg" (click)="CancelPopup()" mat-stroked-button >Cancel</button>
       
       <!-- <button class="mat-button-base prompt-action-basic-button" mat-button mat-dialog-close>
         Close
