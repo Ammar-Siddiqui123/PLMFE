@@ -2285,7 +2285,8 @@ td.mat-footer-cell {
 .mat-nav-list .mat-list-item:focus,
 .mat-action-list .mat-list-item:hover,
 .mat-action-list .mat-list-item:focus {
-  background: rgba(0, 0, 0, .04)
+  /* background: rgba(0, 0, 0, .04) */
+  background: #D6D6FD;
 }
 
 .mat-list-single-selected-option,
