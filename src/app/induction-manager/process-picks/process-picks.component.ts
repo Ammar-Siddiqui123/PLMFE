@@ -430,22 +430,24 @@ export class ProcessPicksComponent implements OnInit {
       autoFocus: '__non_existing_element__'
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+     
+      
       if(result === true){
 
       }
       else{
         if (result.length > 0) {
-          this.allOrders = result;
+          this.allOrders = result;  
+        this.TOTE_SETUP.forEach((element, key) => {
+            element.orderNumber = result[key] ?? '';
+        });
         }
         else {
           this.allOrders = []
           this.TOTE_SETUP.forEach((element) => {
             element.orderNumber = '';
           });
-        }      
-        this.TOTE_SETUP.forEach((element, key) => {
-            element.orderNumber = result[key] ?? '';
-        });
+        }
   
       }
       

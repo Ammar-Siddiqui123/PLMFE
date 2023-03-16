@@ -544,7 +544,7 @@ export class PickToteManagerComponent implements OnInit {
       });
       this.tempHoldEle = row;
       // console.log(this.tempHoldEle);
-      
+
       // this.selectedOrders.push(row.orderNumber);
       this.FILTER_BATCH_DATA.filter(val => {
         if (val.orderNumber === row.orderNumber) {
@@ -705,7 +705,7 @@ export class PickToteManagerComponent implements OnInit {
         }
       }
       // console.log(this.selectedOrders);
-      
+
       this.onCloseAllPickToteManager();
     }
     this.orderActionRefresh();
@@ -1009,26 +1009,27 @@ export class PickToteManagerComponent implements OnInit {
 
   onClosePickToteManager() {
 
-    let selectedObj:any = [];
-    let currentObjArr:any = [];
-    if(this.isFilter === 'filter'){
-      if(this.allSelectOrders.length > 0){
+    let selectedObj: any = [];
+    let currentObjArr: any = [];
+    if (this.isFilter === 'filter') {
+      if (this.allSelectOrders.length > 0) {
         selectedObj = this.FILTER_BATCH_DATA.filter(element => this.allSelectOrders.includes(element.orderNumber));
         selectedObj = [...new Map(selectedObj.map(item => [item.orderNumber, item])).values()]
-    
+
         let orderNumbers = new Set(selectedObj.map(d => d.orderNumber));
-        currentObjArr = [...selectedObj, ...this.data.resultObj.filter(d => !orderNumbers.has(d.orderNumber))];  
+        currentObjArr = [...selectedObj, ...this.data.resultObj.filter(d => !orderNumbers.has(d.orderNumber))];
       }
-      
+
     }
-    else{
+    else {
       console.log(this.allSelectOrders);
-      
-      selectedObj = this.FILTER_BATCH_DATA_ZONE.filter(element => this.allSelectOrders.includes(element.orderNumber));
-      selectedObj = [...new Map(selectedObj.map(item => [item.orderNumber, item])).values()]
-  
-      let orderNumbers = new Set(selectedObj.map(d => d.orderNumber));
-      currentObjArr = [...selectedObj, ...this.data.resultObj.filter(d => !orderNumbers.has(d.orderNumber))];
+      if (this.allSelectOrders.length > 0) {
+        selectedObj = this.FILTER_BATCH_DATA_ZONE.filter(element => this.allSelectOrders.includes(element.orderNumber));
+        selectedObj = [...new Map(selectedObj.map(item => [item.orderNumber, item])).values()]
+
+        let orderNumbers = new Set(selectedObj.map(d => d.orderNumber));
+        currentObjArr = [...selectedObj, ...this.data.resultObj.filter(d => !orderNumbers.has(d.orderNumber))];
+      }
     }
     console.log(currentObjArr);
 
