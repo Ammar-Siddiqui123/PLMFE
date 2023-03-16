@@ -18,14 +18,16 @@
                             <div class="d-flex gap-12 mb-2">
                                 <mat-form-field class="custom-form-field w-100" appearance="outline" [floatLabel]="getFloatLabelValueItem()" [hideRequiredMarker]="hideRequiredControlItem.value">
                                     <mat-label>Batch ID</mat-label>
-                                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [(ngModel)]="batchId" [matAutocomplete]="item" (ngModelChange)="this.searchByItem.next($event)">
-
-                                    <mat-autocomplete class="card custom-scroll" #item="matAutocomplete">                            
+                                   
+                                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" 
+                                    [(ngModel)]="batchId"[matAutocomplete]="item"
+                                     (ngModelChange)="this.searchByItem.next($event)"> 
+                            
+                                     <mat-autocomplete  class="card custom-scroll"  #item="matAutocomplete"  >                            
                                       <h6 class ="card-header matAutoCompHeader ">
                                         <span style="width:  140px;">Batch ID</span> 
                                         <span style="width:  140px;">Zone Label</span> 
-                                      </h6>
-                                    
+                                      </h6> 
                                       <ng-scrollbar style="height:350px">
                                         <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.batchID" class="matAutoCompTableContent" style="line-height: 24px; height:auto; min-height: auto!important; padding: 12px 16px; overflow: unset;">
                                           <div class="loc_option"  (click)="getRow(option.batchID)" >
@@ -34,9 +36,7 @@
                                           </div>
                                         </mat-option>
                                       </ng-scrollbar>
-                                      
-                                    </mat-autocomplete>
-
+                                    </mat-autocomplete>  
                                 </mat-form-field>
 
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
@@ -45,7 +45,8 @@
                                 </mat-form-field>
                             </div>
                             <div class="d-flex gap-12">
-                                <button mat-flat-button color="primary" class="primary-button btn-regular w-100" (click)="createNewBatch('1')">
+                                <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
+                                 (click)="createNewBatch('1')">
                                     New Batch with ID
                                 </button>
                                 <button mat-flat-button color="primary" class="primary-button btn-regular w-100" (click)="createNewBatch('')">

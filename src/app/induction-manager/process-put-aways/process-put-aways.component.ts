@@ -22,6 +22,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { MarkToteFullComponent } from 'src/app/dialogs/mark-tote-full/mark-tote-full.component';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
+ 
 
 export interface PeriodicElement {
   position: string;
@@ -63,7 +64,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   @ViewChild('matRef') matRef: MatSelect;
   @ViewChild('actionRef1') actionRef1: MatSelect;
   @ViewChild('actionRef') actionRef: MatSelect;
-  @ViewChild('inputVal') inputVal: ElementRef;
+  @ViewChild('inputVal') inputVal: ElementRef; 
   @ViewChild('batchVal') batchVal: ElementRef;
   selectedOption: any;
   displayedColumns1: string[] = [
@@ -294,7 +295,6 @@ export class ProcessPutAwaysComponent implements OnInit {
 
 
   }
-
   onFocusOutBatchID(val) {
     if(val){
     try { 
@@ -1100,5 +1100,5 @@ export class ProcessPutAwaysComponent implements OnInit {
       });
     }
   }
-
+ 
 }
