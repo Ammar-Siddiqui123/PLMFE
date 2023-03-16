@@ -296,8 +296,8 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   onFocusOutBatchID(val) {
-    try {
-      
+    if(val){
+    try { 
       setTimeout(() => {
         let payload = {
           batchID: this.batchId2,
@@ -331,6 +331,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }  
+  }
   }
 
   openDeleteBatchDialogue() {
