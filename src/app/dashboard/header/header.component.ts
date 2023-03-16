@@ -46,10 +46,10 @@ isConfigUser
       if(val instanceof NavigationEnd){
         let res = val.url.substring(1);
         let withoutParam = res.split('?')[0]
-        let splittedArray = withoutParam.split('/');
+        let splittedArray = withoutParam.split('/'); 
         splittedArray.forEach(element => {
         this.breadcrumbList.push({
-          name: this.capitalizeFirstLetter(element),
+          name: element.toLowerCase() !='adminprefrences'? this.capitalizeFirstLetter(element).replace(/([a-z])([A-Z])/g, "$1 $2").replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2"):'Prefrences',
           menu: element,
           value:'/'+element
         })
@@ -91,7 +91,18 @@ isConfigUser
     }  
     if (!menu) {
       // Reverts side bar to it's orignal state 
-      this.sharedService.resetSidebar(); 
+      this.router.navigate(['/dashboard']);
+      this.sharedService.resetSidebar();
+
+      let filter = this.breadcrumbList.filter(e => e.name == "Dashboard");
+
+      if (filter.length == 0) {
+        this.breadcrumbList.push({
+          name:'Dashboard',
+          menu: '',
+          value:'/dashboard'
+        });
+      }
     }    
   }
   // RouterLinkSet(index){
@@ -154,5 +165,6 @@ isConfigUser
   // deleteAllCookies() {
   //   document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
   // }
+  
 
 }

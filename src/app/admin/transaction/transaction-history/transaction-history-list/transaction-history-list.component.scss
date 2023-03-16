@@ -12,3 +12,7 @@ mat-row, mat-header-row, mat-footer-row{
   display: table-row;
   white-space: nowrap;
 }
+
+.mat-column-Order-Number{
+  max-width: 50ch !important;
+}

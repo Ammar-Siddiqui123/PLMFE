@@ -237,8 +237,10 @@ export class SideNavComponent implements OnInit {
   }
 
   loadMenus(menu: any) { 
-    // console.log(this.router.url);
-    // console.log(menu.route);
+    // console.log(this.router.url);    
+    if (!menu) {
+      menu = {route : '/dashboard'};      
+    }
 
     if(menu.route!='')
     {
