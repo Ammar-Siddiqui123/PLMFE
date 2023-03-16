@@ -92,7 +92,18 @@ isConfigUser
     }  
     if (!menu) {
       // Reverts side bar to it's orignal state 
-      this.sharedService.resetSidebar(); 
+      this.router.navigate(['/dashboard']);
+      this.sharedService.resetSidebar();
+
+      let filter = this.breadcrumbList.filter(e => e.name == "Dashboard");
+
+      if (filter.length == 0) {
+        this.breadcrumbList.push({
+          name:'Dashboard',
+          menu: '',
+          value:'/dashboard'
+        });
+      }
     }    
   }
   // RouterLinkSet(index){

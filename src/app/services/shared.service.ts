@@ -117,7 +117,6 @@ export class SharedService {
   updateLoggedInUser(userName:any,wsid:any,menu:any)
   {
     let appName;
-    console.log(userName,wsid,menu);
     if(menu.includes('/admin')){
       appName = 'Admin';
     }
