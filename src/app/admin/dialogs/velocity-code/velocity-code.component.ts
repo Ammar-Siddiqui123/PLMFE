@@ -130,20 +130,29 @@ export class VelocityCodeComponent implements OnInit {
   }
   }
 
-  delete(event: any){
-    let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '480px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'delete-velocity',
-        velocity: event
-      //  grp_data: grp_data
-      }
-    })
-    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-    this.getVelocity();
-    })
+  deleteVC(event: any){
+    console.log(event);
+    
+    if(event != ''){
+      let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+        height: 'auto',
+        width: '480px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          mode: 'delete-velocity',
+          velocity: event
+        //  grp_data: grp_data
+        }
+      })
+      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+      this.getVelocity();
+      })
+    }
+    else{
+      this.velocity_code_list.shift();
+      this.getVelocity();
+    }
+    
   }
 
   valueEntered()
