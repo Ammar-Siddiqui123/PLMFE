@@ -385,7 +385,8 @@ export class ReprocessTransactionComponent implements OnInit {
 
   filterCleared(evt:any)
   {
-    this.getContentData("1");
+    // this.getContentData("1");
+    this.isHistory ? this.getHistoryData() : this.getContentData("1");
     
 
   }
