@@ -282,6 +282,7 @@ export class TotesAddEditComponent implements OnInit {
     this.position = this.data.position;
     this.userData = this.authService.userData();
     this.alreadySavedTotesList = this.data.alreadySavedTotes;
+    this.cellID = this.data.defaultCells ? this.data.defaultCells : 0;
     this.getTotes();
   }
 
