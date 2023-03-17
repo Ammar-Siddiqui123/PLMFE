@@ -187,6 +187,7 @@ export class GenerateTransactionComponent implements OnInit {
     this.batchPickID = '';
     this.wareHouse = '';
     this.toteID = '';
+    this.transactionQtyInvalid = false;
   }
   async autocompleteSearchColumn() {
     let searchPayload = {
@@ -537,9 +538,47 @@ export class GenerateTransactionComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
+      if(!res)return
       this.supplierID = res.supplierID;
+      // this.itemNumber=res.itemNumber;
+      // this.description=res.description;
+      this.getSupplierItemInfo();
       this.clearMatSelectList();
     });
+  }
+
+
+  getSupplierItemInfo(){
+    let payload={
+      ID:  this.supplierID,
+      username: this.userData.userName,
+      wsid: this.userData.wsid
+    }
+    this.transactionService
+    .get(payload, '/Common/SupplierItemIDInfo', true)
+    .subscribe(
+      (res: any) => {
+      if(res && res.isExecuted){
+        this.itemNumber=res.data[0].itemNumber
+        this.description=res.data[0].description
+
+        if(res.data[0].unitofMeasure != this.uom){
+          if(this.uom==''){
+            this.uom=res.data[0].unitofMeasure
+            this.transactionQtyInvalid = false;
+          }else{
+            this.transactionQtyInvalid = true;
+            this.message = 'Unit of Measure does not match Inventory Master. (Expecting)';
+            return
+          }
+        }else{
+          this.transactionQtyInvalid = false;
+        }
+      }
+        
+      })
+
+
   }
   openUnitOfMeasureDialogue() {
     if (this.orderNumber == '' || !this.item) return;

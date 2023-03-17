@@ -270,7 +270,8 @@ export class ProcessPutAwaysComponent implements OnInit {
       {
         position: position,
         alreadySavedTotes: this.ELEMENT_DATA,
-        validateTotes: this.processPutAwayIndex.imPreference.validateTotes
+        validateTotes: this.processPutAwayIndex.imPreference.validateTotes,
+        defaultCells: this.processPutAwayIndex.imPreference.defaultCells
       }
     });
     dialogRef.afterClosed().subscribe(result => {
