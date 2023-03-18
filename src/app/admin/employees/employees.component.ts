@@ -24,6 +24,7 @@ import { CloneGroupComponent } from '../dialogs/clone-group/clone-group.componen
 import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { SpinnerService } from '../../../app/init/spinner.service';
+import { MatOption } from '@angular/material/core';
 
 export interface location {
   start_location: string;
@@ -45,6 +46,7 @@ export class EmployeesComponent implements OnInit {
   public isLookUp: boolean = false;
   public isGroupLookUp: boolean = false;
   public env;
+  @ViewChild('matRef') matRef: MatSelect;
  // public searchGrpAllowed = '';
   public searchfuncAllowed = '';
 
@@ -105,7 +107,9 @@ export class EmployeesComponent implements OnInit {
     // this.employee_fetched_zones.sort = this.sort;
   }
 
-
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
 getgroupAllowedList(){
   const emp_grp = {
     "userName": this.grp_data,
@@ -333,7 +337,7 @@ initialzeEmpForm() {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      // console.log(result);
       this.updateGrpTable = result.groupName;
       // this.loadEmpData();
     })
@@ -341,12 +345,14 @@ initialzeEmpForm() {
   }
   
   backEmpAction(){
+    this.clearMatSelectList();
     this.isLookUp = false;
       this.employee_fetched_zones = [];
       this.location_data_source = [];
       this.groupAllowedList = [];
       this.max_orders = '';
       this.demo1TabIndex = 0;
+      this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
   actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
     // console.log(event.value)
@@ -386,7 +392,7 @@ initialzeEmpForm() {
       })
     }
     if (event === 'clone') {
-      console.log(grp_data);
+      // console.log(grp_data);
       let dialogRef = this.dialog.open(CloneGroupComponent, {
         height: 'auto',
         width: '480px',
@@ -464,7 +470,7 @@ initialzeEmpForm() {
     })
     dialogRef.afterClosed().subscribe(result => {
       // this.reloadData();
-      console.log(result);
+      // console.log(result);
       
       if(result.mode === 'editZone'){
         this.employee_fetched_zones.filteredData.push(result.data.zone)
@@ -517,9 +523,9 @@ initialzeEmpForm() {
         if (result !== undefined) {
             if (result !== 'no') {
               const enabled = "Y"
-                console.log(result);
+                // console.log(result);
             } else if (result === 'no') {
-               console.log('User clicked no.');
+               // console.log('User clicked no.');
             }
         }
     })
@@ -624,7 +630,8 @@ initialzeEmpForm() {
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-grpallowed',
-        allowedGroup: allowedGroup
+        allowedGroup: allowedGroup,
+        action: "remove"
       }
     })
     dialogRef.afterClosed().subscribe(result => {

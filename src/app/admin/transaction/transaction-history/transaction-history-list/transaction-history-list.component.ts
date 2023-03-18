@@ -31,6 +31,9 @@ import { DeleteConfirmationTransactionComponent } from 'src/app/admin/dialogs/de
 import { SetColumnSeqComponent } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.component';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
+import { SharedService } from 'src/app/services/shared.service';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
 
 const TRNSC_DATA = [
   { colHeader: 'tH_ID', colDef: 'TH_ID' },
@@ -102,6 +105,7 @@ let backDate = new Date(year - 50, month, day);
   styleUrls: ['./transaction-history-list.component.scss'],
 })
 export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
+  @ViewChild('matRef') matRef: MatSelect;
   public columnValues: any = [];
   public userData: any;
   public displayedColumns: any;
@@ -120,6 +124,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   searchBar = new Subject<string>();
   searchAutocompleteList: any;
   onDestroy$: Subject<boolean> = new Subject();
+  private subscription: Subscription = new Subscription();
+
   @Input() set startDateEvent(event: Event) {
     if (event) {
       this.startDate = event;
@@ -140,12 +146,12 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     }
   }
   @Input() set orderNoEvent(event: Event) {
-    if (event) {
+    // if (event) {
       this.orderNo = event;
       // this.columnSearch.searchValue= event;
       // this.columnSearch.searchColumn.colDef='Order Number'
       this.getContentData();
-    }
+    // }
     // else{
     //   this.columnSearch.searchValue= '';
     //   this.columnSearch.searchColumn.colDef=''
@@ -181,7 +187,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     private transactionService: TransactionService,
     private authService: AuthService,
     private toastr: ToastrService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private sharedService:SharedService
   ) {}
 
   ngOnInit(): void {
@@ -200,9 +207,9 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
         // if (!this.columnSearch.searchColumn.colDef) return;
 
         this.autocompleteSearchColumn();
-        if (!this.searchAutocompleteList.length) {
+        // if (!this.searchAutocompleteList.length) {
           this.getContentData();
-        }
+        // }
       });
 
     this.userData = this.authService.userData();
@@ -211,10 +218,33 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-  }
+    this.subscription.add(
+    this.sharedService.historyItemObserver.subscribe(itemNo => {
+      if(itemNo){
+        this.selectedDropdown='Item Number';
+        this.columnSearch.searchValue=itemNo;
+       
+      //  this.onOrderNoChange();
+      }
+       })
+    )
 
+    this.subscription.add(
+      this.sharedService.historyLocObserver.subscribe(loc => {
+        if(loc){
+          this.selectedDropdown='Location';
+          this.columnSearch.searchValue=loc;        
+        }
+      })
+    );
+
+  }
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
   actionDialog(opened: boolean) {
     if (!opened && this.selectedVariable === 'set_column_sq') {
+      this.sortCol=0;
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: '96%',
         width: '70vw',
@@ -227,6 +257,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
         .afterClosed()
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((result) => {
+          this.clearMatSelectList();
           this.selectedDropdown='';
           if (result && result.isExecuted) {
             this.getColumnsData();
@@ -286,8 +317,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       holds: false,
       orderStatusOrder: '',
       app: 'Admin',
-      username: '1234',
-      wsid: 'TESTWSID',
+      username: this.userData.userName,
+      wsid:this.userData.wsid,
     };
     this.transactionService
       .get(paylaod, '/Admin/TransactionModelIndex')
@@ -382,5 +413,11 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     this.sortCol = index;
     this.sortOrder = event.direction;
     this.getContentData();
+  }
+
+
+  ngOnDestroy() {
+    this.searchBar.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

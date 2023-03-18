@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { Subject } from 'rxjs/internal/Subject';
 import { ProcessPicksService } from '../../../app/induction-manager/process-picks/process-picks.service';
 import { DeleteConfirmationComponent } from '../../../app/admin/dialogs/delete-confirmation/delete-confirmation.component';
+import { ConfirmationDialogComponent } from '../../admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { VelocityCodeService } from '../../../app/common/services/velocity-code.service';
 import { AuthService } from '../../../app/init/auth.service';
 import labels from '../../labels/labels.json';
@@ -95,7 +96,7 @@ export class WorkstationZonesComponent implements OnInit {
           this.allZoneList = [];
         }
         else {
-          this.toastr.error(res.sresponseMessage, 'Error!', {
+          this.toastr.error("This Zone is already selected for this workstation", 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
@@ -135,10 +136,13 @@ export class WorkstationZonesComponent implements OnInit {
   }
 
   delete(event: any) {
-    let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      data: {
+        message: "Remove Zone "+event+" from picking for this workstation"
+      }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
       if (result === 'Yes') {
@@ -147,7 +151,7 @@ export class WorkstationZonesComponent implements OnInit {
           "wsid": this.userData.wsid,
         }
         this.proPickService.delete(paylaod, '/Induction/WSPickZoneDelete').subscribe((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.isExecuted) {
             this.toastr.success(labels.alert.delete, 'Success!', {
               positionClass: 'toast-bottom-right',

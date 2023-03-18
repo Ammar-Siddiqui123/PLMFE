@@ -11,12 +11,19 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  Subject,
+  Subscription,
+} from 'rxjs';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { BYPASS_LOG } from 'src/app/init/http-interceptor';
 import { TransactionService } from '../../transaction.service';
 import labels from '../../../../labels/labels.json';
+import { SharedService } from 'src/app/services/shared.service';
+import { FilterToteComponent } from 'src/app/admin/dialogs/filter-tote/filter-tote.component';
 
 @Component({
   selector: 'app-tran-select-order',
@@ -36,15 +43,16 @@ export class TranSelectOrderComponent implements OnInit {
   locationZoneData: any = [];
   selectOption;
   columnSelect;
-  searchField;
+  searchField:any;
+  filterByTote: boolean;
   searchByOrderNumber = new Subject<string>();
   searchByToteId = new Subject<string>();
   @Output() orderNo = new EventEmitter<any>();
   @Output() toteId = new EventEmitter<any>();
   @Output() clearField = new EventEmitter<any>();
   @Output() clearData = new EventEmitter<Event>();
-
-  searchBar = new Subject<string>();
+  private subscription: Subscription = new Subscription();
+  searchBar = new Subject<any>();
   @Input() orderStatNextData = []; // decorate the property with @Input()
 
   floatLabelControl = new FormControl('auto' as FloatLabelType);
@@ -52,6 +60,7 @@ export class TranSelectOrderComponent implements OnInit {
   searchAutocompleteList: any;
   searchAutocompleteListOrderNumber: any = [];
   public userData: any;
+
   @Output() deleteEvent = new EventEmitter<Event>();
 
   @Input() set openOrderEvent(event: Event) {
@@ -79,7 +88,7 @@ export class TranSelectOrderComponent implements OnInit {
 
   @Input() set totalLinesOrderEvent(event: Event) {
     if (event) {
-      this.totalLinesOrder = event;
+      // this.totalLinesOrder = event;   // getting it from shared service
     }
   }
   @Input() set currentStatusOrderEvent(event: Event) {
@@ -89,6 +98,7 @@ export class TranSelectOrderComponent implements OnInit {
   }
   @Input()
   set clearEvent(event: any) {
+
     if (event) {
     }
   }
@@ -102,7 +112,8 @@ export class TranSelectOrderComponent implements OnInit {
     private authService: AuthService,
     private transactionService: TransactionService,
     private dialog: MatDialog,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private sharedService: SharedService
   ) {}
   ngOnChanges(changes: SimpleChanges) {
     if (changes['orderStatNextData']) {
@@ -110,47 +121,105 @@ export class TranSelectOrderComponent implements OnInit {
         changes['orderStatNextData']['currentValue'];
     }
   }
+  checkFilter(e) {
+    this.filterByTote = e;
+  }
 
-  ngOnInit(): void {
-    this.searchBar
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((value) => {
-        // this.columnSearch.searchValue = value;
-        // if (!this.columnSearch.searchColumn.colDef) return;
-        console.log(value);
-        if (!value) {
-          this.resetLines();
-          this.columnSelect = '';
-        }
-        this.autocompleteSearchColumn();
-        this.onOrderNoChange();
-        // if (!this.searchAutocompleteList.length) {
-        // this.getContentData();
-        // }
+  selectOrderByTote() {
+    // && this.totalLinesOrder > 0
+    if (this.columnSelect === 'Tote ID' && this.totalLinesOrder > 0) {
+      // if data populate and tote id selected then filter only
+
+      this.sharedService.updateFilterByTote({
+        filterCheck: this.filterByTote,
+        type: this.columnSelect,
       });
-    // this.searchByOrderNumber
-    //   .pipe(debounceTime(400), distinctUntilChanged())
-    //   .subscribe((value) => {
-    //     this.autocompleteSearchColumn();
-    //     this.onOrderNoChange(value);
-    //   });
+    }
+  }
 
-    // this.searchByToteId
-    //   .pipe(debounceTime(400), distinctUntilChanged())
-    //   .subscribe((value) => {
-    //     this.onToteIdChange(value);
-    //   });
+  ngAfterViewInit() {
+    this.subscription.add(
+      this.sharedService.orderStatusObserver.subscribe((orderNo) => {
+        if (orderNo) {
+          this.columnSelect = 'Order Number';
+          this.searchField = orderNo;
+          this.onOrderNoChange();
+        }
+      })
+    );
+  }
+  ngOnInit(): void {
+    
+  
     this.userData = this.authService.userData();
+
+    this.subscription.add(
+      this.sharedService.orderStatusSendOrderObserver.subscribe((orderNo) => {
+        if (orderNo) {
+          this.columnSelect = 'Order Number';
+          this.searchField = orderNo;
+          this.filterByTote = false;
+          this.searchAutocompleteList.length=0;
+        }
+      })
+
+      
+    );
+
+    this.subscription.add(
+      this.sharedService.updateToteFilterCheckObserver.subscribe((isChecked) => {
+        if(!this.filterByTote) {
+          this.filterByTote=true;
+        }else{
+          return
+        }
+
+         })
+    );
+
+    
+    this.subscription.add(
+      this.sharedService.updateOrderStatusSelectObserver.subscribe((obj) => {
+          this.totalLinesOrder=obj.totalRecords?obj.totalRecords:0
+         })
+    );
+
+
+    // this.subscription.add(
+    //   this.searchBar
+    //     .pipe(debounceTime(300), distinctUntilChanged())
+    //     .subscribe((value) => {
+    //       if (!value) {
+    //         this.resetLines();
+    //         this.columnSelect = '';
+    //       }
+    //       this.autocompleteSearchColumn();
+    //       this.onOrderNoChange();
+    //     }));
+
+    
+
+  }
+
+  getNextItemNo(event:any){
+     
+      if(event.target.value==''){
+         this.resetLines();
+            this.columnSelect = '';
+      }
+    this.autocompleteSearchColumn();
+    this.onOrderNoChange();
   }
 
   resetLines() {
     this.openOrder = 0;
     this.completeOrder = 0;
     this.reprocessOrder = 0;
-    this.orderTypeOrder = '';
+    this.orderTypeOrder = '-';
     this.totalLinesOrder = 0;
     this.orderNumber = '';
-    this.currentStatusOrder = '';
+    this.currentStatusOrder = '-';
+    this.filterByTote = false;
   }
 
   getFloatLabelValue(): FloatLabelType {
@@ -172,10 +241,12 @@ export class TranSelectOrderComponent implements OnInit {
 
   selectFieldsReset() {
     this.columnSelect = '';
+    this.filterByTote = false;
   }
   clear() {
     this.clearData.emit(event);
     this.resetLines();
+    this.sharedService.updateCompDate('Order')
     this.searchAutocompleteList = [];
     this.searchField = '';
     this.columnSelect = '';
@@ -292,9 +363,12 @@ export class TranSelectOrderComponent implements OnInit {
     this.searchField = '';
     this.searchAutocompleteList = [];
     this.resetLines();
+    this.sharedService.updateCompDate(event)
   }
   ngOnDestroy() {
     this.searchByOrderNumber.unsubscribe();
     this.searchByToteId.unsubscribe();
+    // this.searchBar.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

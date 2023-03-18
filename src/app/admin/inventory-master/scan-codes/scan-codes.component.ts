@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild,Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild,Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup } from '@angular/forms';
 import { InventoryMasterService } from '../inventory-master.service';
@@ -7,6 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import labels from '../../../labels/labels.json'
 import { ScanTypeCodeComponent } from '../../dialogs/scan-type-code/scan-type-code.component';
 import { CustomValidatorService } from '../../../../app/init/custom-validator.service';
+import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-scan-codes',
@@ -19,7 +21,11 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   public userData: any;
   scanCodesList: any;
   scanTypeList: any = [];
-  scanRangeList: any =['Yes', 'No']
+  scanRangeList: any =['Yes', 'No'];
+  @Output() notifyParent: EventEmitter<any> = new EventEmitter();
+  sendNotification(e?) {
+    this.notifyParent.emit(e);
+  }
   
 
   constructor( private invMasterService: InventoryMasterService,
@@ -65,44 +71,64 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   }
 
   dltCategory(item){
-    if(item.scanCode){
-    let paylaod = {
-      "itemNumber": this.scanCodes.controls['itemNumber'].value,
-      "scanCode": item.scanCode,
-      "scanType": item.scanType,
-      "scanRange": item.scanRange,
-      "startPosition": item.startPosition,
-      "codeLength": item.codeLength,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-    }
-    this.invMasterService.get(paylaod, '/Admin/DeleteScanCode').subscribe((res: any) => {
-      if (res.isExecuted) {
-        this.toastr.success(labels.alert.delete, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-        this.refreshScanCodeList();
-      } else{
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }
+
+
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      autoFocus: '__non_existing_element__',
     })
-  } else{
-    this.scanCodesList.shift();
-  }
+    dialogRef.afterClosed().subscribe(result => {
+     if(result === 'Yes'){
+      if(item.scanCode){
+        let paylaod = {
+          "itemNumber": this.scanCodes.controls['itemNumber'].value,
+          "scanCode": item.scanCode,
+          "scanType": item.scanType,
+          "scanRange": item.scanRange,
+          "startPosition": item.startPosition,
+          "codeLength": item.codeLength,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid,
+        }
+        this.invMasterService.get(paylaod, '/Admin/DeleteScanCode').subscribe((res: any) => {
+          if (res.isExecuted) {
+            this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+            this.refreshScanCodeList();
+          } else{
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        })
+      } else{
+        this.scanCodesList.shift();
+      }
+     }
+    })
+
+
+
+
+
+
+
+
+   
   }
 
   saveCategory(item, scanCode, startPosition, codeLength, scanRange, scanType){
     let newRecord = true;
-
     if(scanCode=='') {
       this.toastr.error('Scan code not saved, scan code field must not be empty.', 'Alert!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+      return;
     }
     this.scanCodes.controls['scanCode'].value.forEach(element => {
       if(element.scanCode== scanCode  ){
@@ -116,9 +142,10 @@ export class ScanCodesComponent implements OnInit , OnChanges {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
+      return;
     }
 
-    else if(newRecord && item.scanCode=='' && scanCode !=''){
+    else if(newRecord){
     let paylaod = {
       "itemNumber": this.scanCodes.controls['itemNumber'].value,
       "scanCode": scanCode,
@@ -136,6 +163,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
           timeOut: 2000
         });
         this.refreshScanCodeList();
+        this.sendNotification();
       } else{
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',

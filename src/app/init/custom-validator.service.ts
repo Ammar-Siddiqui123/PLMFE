@@ -9,7 +9,7 @@ export class CustomValidatorService {
   constructor() { }
 
   specialCharValidator(control: FormControl): any {
-    const nameRegexp: RegExp = /[!@#$%^&*()+=\[\]{};':"\\|,.<>\/?]/;
+    const nameRegexp: RegExp = /[='"]/;
     if (control.value && nameRegexp.test(control.value)) {
        return { invalidInput: true };
     }

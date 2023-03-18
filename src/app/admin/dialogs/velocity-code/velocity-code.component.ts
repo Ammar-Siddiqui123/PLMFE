@@ -21,6 +21,7 @@ export class VelocityCodeComponent implements OnInit {
   onDestroy$: Subject<boolean> = new Subject();
   public userData: any;
   @ViewChild('btnSave') button;
+  disableEnable=[{index:-1,value:false}];
   constructor(
     
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -42,17 +43,29 @@ export class VelocityCodeComponent implements OnInit {
     this.velcodeService.getVelocityCode().subscribe((res) => {
       this.velocity_code_list_Res = [...res.data];
       this.velocity_code_list = res.data;
+      this.disableEnable.shift();
+      for(var i=0;i<this.velocity_code_list.length;i++)
+      {
+      this.disableEnable.push({index:i,value:true});
+      }
      });
+
+  }
+
+  changeDisable(index:any)
+  {
+    this.disableEnable[index].value=false;
   }
 
   addVLRow(row:any){
     this.velocity_code_list.unshift([]);
+    //this.disableEnable.unshift({index:0,value:false});
   }
   saveVlCode(vlcode:any, oldVC:any){ 
     if(vlcode){
     let cond = true;
     this.velocity_code_list_Res.forEach(element => {
-      if(element == vlcode ) { 
+      if(element == vlcode) { 
         cond = false;
        this.toastr.error('Velocity cannot be saved! Another velocity code matches the current. Please save any pending changes before attempting to save this entry.', 'Error!', {
          positionClass: 'toast-bottom-right',
@@ -78,6 +91,12 @@ export class VelocityCodeComponent implements OnInit {
       this.getVelocity()
     });
     } 
+  } else {
+    this.toastr.error('Velocity cannot be empty!.', 'Error!', {
+      positionClass: 'toast-bottom-right',
+      timeOut: 2000
+    });
+    return;
   }
   }
   dltVlCode(vlCode:any){

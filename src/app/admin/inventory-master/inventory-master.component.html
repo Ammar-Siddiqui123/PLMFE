@@ -21,7 +21,7 @@
                     keyboard_arrow_left
                   </span>
                 </button>
-                <div class="text-chrome-600"><b>{{paginationData.position}}</b> of {{paginationData.total}}</div>
+                <div class="text-chrome-600"><b>{{paginationData && paginationData.position}}</b> of {{paginationData && paginationData.total}}</div>
                 <button mat-flat-button color="primary" class="sm-icon-button" (click)="nextPage()">
                   <span class="material-symbols-outlined">
                     keyboard_arrow_right
@@ -81,7 +81,7 @@
               </div>
             </div>
             <div class="card bg-white bg-50 px-4 py-4 br-20 mb-3" style="min-height: 450px;">
-              <mat-tab-group dynamicHeight>
+              <mat-tab-group dynamicHeight (selectedTabChange)="tabChanged($event)">
                 <mat-tab label="Details">
                   <app-detail [details]="invMaster" (notifyParent)="getNotification($event)"></app-detail>
                 </mat-tab>
@@ -92,13 +92,13 @@
                   <app-kit-item [kitItem]="invMaster" (notifyParent)="getNotification($event)"></app-kit-item>
                 </mat-tab>
                 <mat-tab label="Location">
-                  <app-location [location]="invMaster" (notifyParent)="getNotification($event)"></app-location>
+                  <app-location [count]="count" [location]="invMaster" (notifyParent)="getNotification($event)"></app-location>
                 </mat-tab>
-                <mat-tab label="Reel Tracking" [disabled]="true">
+                <mat-tab label="Reel Tracking"  [disabled]="true">
                   <app-reel-tracking [reelTracking]="invMaster"></app-reel-tracking>
                 </mat-tab>
                 <mat-tab label="Scan  Codes">
-                  <app-scan-codes [scanCodes]="invMaster"></app-scan-codes>
+                  <app-scan-codes [scanCodes]="invMaster" (notifyParent)="getNotification($event)"></app-scan-codes>
                 </mat-tab>
                 <mat-tab label="Weigh Scale" [disabled]="true">
                   <app-weight-scale [weighScale]="invMaster"></app-weight-scale>
@@ -121,10 +121,10 @@
           <button *ngIf="invMaster.controls['itemQuarantined'].value == 0" mat-flat-button color="secondary" class="button-secondary btn-lg" (click)="quarantineDialog()">
             Quarantine Item
           </button>
-          <button *ngIf="invMaster.controls['itemQuarantined'].value == 1" mat-stroked-button color="primary" class="button-primary-o bg-white btn-lg" (click)="unquarantineDialog()">
+          <button *ngIf="invMaster.controls['itemQuarantined'].value == 1" mat-flat-button color="primary" class="button-secondary btn-lg" (click)="unquarantineDialog()">
             Un-Quarantine Item
           </button>
-          <button style="flex:1" mat-flat-button color="primary" class="button-primary btn-lg" (click)="updateInventoryMaster()">
+          <button [disabled]="saveDisabled" style="flex:1" mat-flat-button color="primary" class="btn-lg" (click)="updateInventoryMaster()">
             Save
           </button>
         </div>

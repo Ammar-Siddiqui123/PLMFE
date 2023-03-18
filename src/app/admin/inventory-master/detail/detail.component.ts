@@ -9,6 +9,7 @@ import { ItemNumberComponent } from '../../dialogs/item-number/item-number.compo
 import { UnitMeasureComponent } from '../../dialogs/unit-measure/unit-measure.component';
 import { UpdateDescriptionComponent } from '../../dialogs/update-description/update-description.component';
 import { InventoryMasterService } from '../inventory-master.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-detail',
@@ -27,13 +28,14 @@ export class DetailComponent implements OnInit {
 
   constructor(   
     private invMasterService: InventoryMasterService, 
+    private router: Router,
     private authService: AuthService, 
     private dialog: MatDialog,
     private toastr: ToastrService,) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    console.log(this.details)
+    // console.log(this.details)
 
   }
 
@@ -105,17 +107,24 @@ export class DetailComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
-
-      this.details.patchValue({        
-        'category': result.category,        
-        'subCategory': result.subCategory,        
-      });
+      if(result.category!='' && result!=true)
+      {
+        this.details.patchValue({        
+          'category': result.category      
+        });
+      }
+      if(result.subCategory!='' && result!=true)
+      {
+        this.details.patchValue({            
+          'subCategory': result.subCategory,        
+        });
+      }
+      
       
     })
   }
   public openUmDialog() {
-    console.log(this.details.controls['replenishmentLevel'].value)
+    // console.log(this.details.controls['replenishmentLevel'].value)
     let dialogRef = this.dialog.open(UnitMeasureComponent, {
       height: 'auto',
       width: '750px',
@@ -126,13 +135,23 @@ export class DetailComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       // console.log(result);
-      this.details.patchValue({
-        'unitOfMeasure' : result
-      });
+      if(result!='' && result!=true)
+      {
 
+        this.details.patchValue({
+          'unitOfMeasure' : result
+        });
+  
+      }
     })
   }
 
 
+ RedirectInv(type){
 
+    this.router.navigate([]).then((result) => {
+      let url = '/#/admin/transaction?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
+      window.open(url, '_blank');
+    });
+  }
 }

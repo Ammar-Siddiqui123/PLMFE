@@ -4,6 +4,7 @@ import { LoginService } from '../../../app/login.service';
 import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { SharedService } from 'src/app/services/shared.service'; 
 
 @Component({
   selector: 'app-header',
@@ -23,7 +24,8 @@ isConfigUser
     private router: Router,
     public spinnerService: SpinnerService,
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private sharedService: SharedService
     ) {
    this.isConfigUser=  this.authService.isConfigUser()
     router.events.subscribe((val: any) => {
@@ -36,16 +38,19 @@ isConfigUser
       }else{
         this.breadcrumbList.push({
           name:'LogixPro',
+          menu: '',
           value:'/dashboard'
         })
       }
   
       if(val instanceof NavigationEnd){
         let res = val.url.substring(1);
-        let splittedArray = res.split('/');
+        let withoutParam = res.split('?')[0]
+        let splittedArray = withoutParam.split('/');
         splittedArray.forEach(element => {
         this.breadcrumbList.push({
           name: this.capitalizeFirstLetter(element),
+          menu: element,
           value:'/'+element
         })
       });
@@ -73,6 +78,41 @@ isConfigUser
     localStorage.clear();
     this.router.navigate(['/login']);
   }
+
+  breadCrumbClick(menu,index:any = null) { 
+     if(index != null){ 
+      var Url = "";  
+      for (let i = 0; i <= index; i++) {
+        if(this.breadcrumbList[i].menu!='') Url += this.breadcrumbList[i].value; 
+      }   
+       this.router.navigate([Url]);
+        
+       this.sharedService.BroadCastMenuUpdate(Url.toString());
+    }  
+    if (!menu) {
+      // Reverts side bar to it's orignal state 
+      this.router.navigate(['/dashboard']);
+      this.sharedService.resetSidebar();
+
+      let filter = this.breadcrumbList.filter(e => e.name == "Dashboard");
+
+      if (filter.length == 0) {
+        this.breadcrumbList.push({
+          name:'Dashboard',
+          menu: '',
+          value:'/dashboard'
+        });
+      }
+    }    
+  }
+  // RouterLinkSet(index){
+  //   var Url = "";
+  //   for (let i = 0; i <= index; i++) {
+  //         if(this.breadcrumbList[i].menu!='') Url += this.breadcrumbList[i].value; 
+  //       }   
+  //       return Url;
+  // }
+
   logout(){   
     let paylaod = {
       "username": this.userData.userName,

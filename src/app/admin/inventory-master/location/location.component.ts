@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 
@@ -14,6 +14,7 @@ export class LocationComponent implements OnInit {
 'qtyAllPick', 'qtyAllPut', 'unitOfMeasure', 'itemQty',  'stockDate', 'velocity'];
 
   @Input() location: FormGroup;
+  @Input() count: any;
 
   @Output() notifyParent: EventEmitter<any> = new EventEmitter();
   sendNotification(e?) {
@@ -23,8 +24,20 @@ export class LocationComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    // console.log(this.location.controls['count'].value);
+    
   }
+  ngOnChanges(changes: SimpleChanges) {
+    // console.log(this.count);
+    if(changes['location']){
+      if( changes['location'] && changes['location']['previousValue'] &&  changes['location']['previousValue']['controls'] && changes['location']['previousValue']['controls'].inventoryTable.value?.length ){
+        this.location.controls['inventoryTable'].setValue(changes['location']['previousValue']['controls'].inventoryTable.value)
 
+      }else{
+        this.location.controls['inventoryTable'].setValue([])
+      }
+    }
+  }
     
   announceSortChange(sortState: any) {
    this.sendNotification({sortingColumn: this.displayedColumns.indexOf(sortState.active) , sortingSeq: sortState.direction})
@@ -35,8 +48,10 @@ export class LocationComponent implements OnInit {
   }
 
   handlePageEvent(e: PageEvent) {
-    this.sendNotification({locationPageSize: e.pageSize, startIndex: e.pageSize*e.pageIndex})
-   
+    // console.log(e);
+    
+    this.sendNotification({locationPageSize:(e.pageSize*e.pageIndex + e.pageSize), startIndex: e.pageSize*e.pageIndex})
+    
   }
   
 }

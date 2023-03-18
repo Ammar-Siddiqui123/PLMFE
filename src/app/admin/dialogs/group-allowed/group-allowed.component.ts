@@ -41,7 +41,7 @@ export class GroupAllowedComponent implements OnInit {
 
   ngOnInit(): void {
     this.controlNameForm = this.fb.group({
-      controlName: ['', [Validators.required,this.cusValidator.specialCharValidatorExceptSlash]]
+      controlName: ['', [Validators.required]]
     })
     this.userData = this.authService.userData();
     let payload = {

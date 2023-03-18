@@ -27,7 +27,7 @@
                   </h2>
                   <mat-form-field class="action-dropdown" appearance="outline">
                     <mat-label>Actions</mat-label>
-                    <mat-select class="employees-action"
+                    <mat-select #matRef class="employees-action"
                       (selectionChange)="actionDialog($event.value, empData, $event)">
                       <mat-option (click)="openDialog()" [hidden]="isLookUp">Add Employee</mat-option>
                       <mat-option value="edit" [hidden]="!isLookUp">Edit</mat-option>
@@ -144,7 +144,7 @@
                                             <mat-icon class="icon-circle-edit">border_color</mat-icon>
                                           </button>
                                           <button class="me-0" mat-icon-button aria-label="Delete"
-                                            (click)="deleteZone(element)" matTooltip="Delete zone"
+                                            (click)="deleteZone(element)" matTooltip="Remove zone"
                                             matTooltipPosition="above">
                                             <mat-icon class="icon-circle-cancel">close</mat-icon>
                                           </button>
@@ -233,8 +233,8 @@
                                             matTooltipPosition="above">
                                             <mat-icon class="icon-circle-edit">border_color</mat-icon>
                                           </button>
-                                          <button class="me-0" mat-icon-button aria-label="Delete Location"
-                                            (click)="deleteLocation(element)" matTooltip="Delete location"
+                                          <button class="me-0" mat-icon-button aria-label="Remove Location"
+                                            (click)="deleteLocation(element)" matTooltip="Remove location"
                                             matTooltipPosition="above">
                                             <mat-icon class="icon-circle-cancel">close</mat-icon>
                                           </button>
@@ -320,7 +320,7 @@
                                       <span class="list-label zone-list-label">
                                         {{groups_allowed}}
                                       </span>
-                                      <button mat-icon-button aria-label="Delete Group"
+                                      <button mat-icon-button aria-label="Remove Group"
                                         (click)="deleteGroupAllowed(groups_allowed)">
                                         <mat-icon class="icon-circle-cancel">close</mat-icon>
                                       </button>
@@ -339,7 +339,7 @@
 
                     </div>
                   </mat-tab>
-                  <mat-tab label="Group Allowed" [disabled]="!isLookUp" *ngIf="env !== 'DB'">
+                  <mat-tab label="Groups Allowed" [disabled]="!isLookUp" *ngIf="env !== 'DB'">
                     <div class="groups-allowed-tab g-tab bg-white">
 
                       <div class="g-action-card g-action-card-disabled mb-3">
@@ -390,7 +390,7 @@
                                           </th>
                                           <td width="20%" class="text-center" mat-cell *matCellDef="let element">
                                             <button mat-icon-button aria-label="Delete"
-                                              (click)="deleteGrpAllowed(element)" matTooltip="Delete group allowed"
+                                              (click)="deleteGrpAllowed(element)" matTooltip="Remove group allowed"
                                               matTooltipPosition="above">
                                               <mat-icon class="icon-circle-cancel">close</mat-icon>
                                             </button>

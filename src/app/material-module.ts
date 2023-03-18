@@ -14,7 +14,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatTableModule } from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
-import {MatRippleModule} from '@angular/material/core';
+import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -22,7 +22,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {CdkTableModule} from '@angular/cdk/table';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
     exports: [
@@ -49,7 +51,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
         MatProgressSpinnerModule,
         MatTooltipModule,
         MatFormFieldModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        CdkTableModule,
+        MatDatepickerModule,
+        MatNativeDateModule
     ]
 })
 export class MaterialModule { }

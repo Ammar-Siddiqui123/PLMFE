@@ -6,23 +6,24 @@
         <div class="d-flex align-items-center">
           <div class="me-2">
             <img src="../../assets/images/scottech-white.png" alt="">
-        </div>
+          </div>
           <h2 class="app-heading m-0">PickPro</h2>
         </div>
-        
+
         <div class="card bg-tertiary-10" style="border-radius: 16px; border:none">
           <div class="row g-0">
             <div class="col-md-6 col-lg-6 d-none d-md-block">
-              <img src="../../assets/images/login_background.png" alt="login form" class="img-fluid w-100" style="border-top-left-radius: 16px; border-bottom-left-radius:16px;" />
+              <img src="../../assets/images/LogixPro-login-image2.jpg" alt="login form" class="img-fluid w-100"
+                style="border-top-left-radius: 16px; border-bottom-left-radius:16px;" />
             </div>
-            <div class="col-md-5 col-lg-6 d-flex align-items-center">
-              <div class="card-body p-4 text-black mx-auto" style="max-width: 380px;">
+            <div class="col-md-5 col-lg-6 d-flex">
+              <div class="card-body p-4 text-black mx-auto d-flex flex-column" style="max-width: 380px;">
 
-                <div class="text-center mb-3">
+                <div class="text-center mb-3 mt-5 pt-2">
                   <h1 class="text-32 text-tertiary-900 fw-bold pb-3">LogixPro</h1>
                 </div>
 
-                <form [formGroup]="addLoginForm" (ngSubmit)="loginUser()" name="addLoginForm">
+                <form [formGroup]="addLoginForm" (ngSubmit)="loginUser()" name="addLoginForm" autocomplete="off" style="flex: 1;">
 
                   <!-- <div class="d-flex align-items-center mb-3 pb-1" style="justify-content: center;">
                     <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
@@ -34,8 +35,9 @@
                   <div class="form-outline mb-2">
                     <mat-form-field appearance="outline" style=" width: 100%;">
                       <mat-label>Username</mat-label>
-                      <input  type="text" matInput placeholder="Enter Username" formControlName="username" maxlength="50" required />
-                      <mat-icon matPrefix style="color: #090948;" >account_circle</mat-icon>
+                      <input type="text" matInput placeholder="Enter Username" formControlName="username" maxlength="50"
+                        required autocomplete="off" [readonly]="isReadOnly" (focus)="removeReadOnly()" (focusout)="removeReadOnly()" />
+                      <mat-icon matPrefix style="color: #090948;">account_circle</mat-icon>
                     </mat-form-field>
                     <mat-hint class="error-message" style="color: red;font-size: 14px;"
                       *ngIf="addLoginForm.controls['username'].invalid && (addLoginForm.controls['username'].dirty || addLoginForm.controls['username'].touched)">
@@ -50,9 +52,12 @@
                   <div class="form-outline mb-2">
                     <mat-form-field appearance="outline" style=" width: 100%;">
                       <mat-label>Password</mat-label>
-                      <input placeholder="Password" formControlName="password" maxlength="50" matInput [type]="toggle_password ? 'password' : 'text'">
+                      <input placeholder="Password" formControlName="password" maxlength="50" matInput
+                        [type]="toggle_password ? 'password' : 'text'" autocomplete="off" [readonly]="isReadOnly"
+                        (focus)="removeReadOnly()" (focusout)="removeReadOnly()">
                       <mat-icon matPrefix style="color: #090948;">lock</mat-icon>
-                      <button type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
+                      <button type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password"
+                        [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
                         <mat-icon>{{toggle_password ? 'visibility_off' : 'visibility'}}</mat-icon>
                       </button>
                     </mat-form-field>
@@ -69,18 +74,20 @@
                   </div>
                   <ng-container *ngIf="(env === 'DB' || env === 'ADLDS')">
                     <div class="form-outline text-end mb-4">
-                      <button color="primary" type="button" class="small anchor-feel anchor-focus forgotPassword-link" (click)="changePass()">Reset password?</button>
+                      <button color="primary" type="button" class="small anchor-feel anchor-focus forgotPassword-link"
+                        (click)="changePass()">Reset password?</button>
                     </div>
                   </ng-container>
 
 
                   <!-- <div class="form-outline col-9 pt-5" style="margin: 0 auto;">
                     <mat-checkbox color="primary">Remember me</mat-checkbox> -->
-                    <!-- <button class="btn btn-dark btn-lg btn-block" [disabled]="!addLoginForm.valid"
+                  <!-- <button class="btn btn-dark btn-lg btn-block" [disabled]="!addLoginForm.valid"
                       type="submit">Login</button> -->
-                      <div class="d-flex justify-content-center my-3">
-                        <button class="form-button-submit w-100" [disabled]="!addLoginForm.valid" mat-flat-button color="primary">Login</button>
-                      </div>
+                  <div class="d-flex justify-content-center my-3">
+                    <button class="form-button-submit w-100" [disabled]="!addLoginForm.valid" mat-flat-button
+                      color="primary">Login</button>
+                  </div>
                   <!-- </div> -->
 
                   <!-- <div class="form-outline col-9 pt-3" style="text-align: center;float: none;margin: 0 auto;">
@@ -91,6 +98,11 @@
                   <!-- <a href="#!" class="small text-muted">Terms of use.</a>
                    <a href="#!" class="small text-muted">Privacy policy</a> -->
                 </form>
+
+                <div class="text-center text-14">
+                  v{{version}}
+                </div>
+                <mat-icon class="material-symbols-outlined" matPrefix style="color: #090948; visibility: hidden; position: absolute;">lock</mat-icon>
 
               </div>
             </div>

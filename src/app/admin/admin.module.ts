@@ -90,8 +90,8 @@ import { TranCarouselLzoneComponent } from './transaction/order-status/tran-caro
 import { TranOffCarouselLzoneComponent } from './transaction/order-status/tran-off-carousel-lzone/tran-off-carousel-lzone.component';
 import { TranOrderListComponent } from './transaction/order-status/tran-order-list/tran-order-list.component';
 import { OpenTransactionOnHoldComponent } from './transaction/open-transaction/open-transaction-on-hold/open-transaction-on-hold.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+// import { MatDatepickerModule } from '@angular/material/datepicker';
+// import { MatNativeDateModule } from '@angular/material/core';
 // import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DeleteConfirmationTransactionComponent } from './dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
@@ -112,6 +112,20 @@ import { LicensingInvalidComponent } from './dialogs/licensing-invalid/licensing
 import { SqlAuthConfirmationComponent } from './dialogs/sql-auth-confirmation/sql-auth-confirmation.component';
 import { ManualTransactionsComponent } from './manual-transactions/manual-transactions.component';
 import { GenerateOrderComponent } from './manual-transactions/generate-order/generate-order.component';
+import { AddNewTransactionToOrderComponent } from './dialogs/add-new-transaction-to-order/add-new-transaction-to-order.component';
+import { DeleteConfirmationManualTransactionComponent } from './dialogs/delete-confirmation-manual-transaction/delete-confirmation-manual-transaction.component';
+import { ManualTransPostConfirmComponent } from './dialogs/manual-trans-post-confirm/manual-trans-post-confirm.component';
+import { GenerateTransactionComponent } from './manual-transactions/generate-transaction/generate-transaction.component';
+import { SetItemLocationComponent } from './dialogs/set-item-location/set-item-location.component';
+import { SupplierItemIdComponent } from './dialogs/supplier-item-id/supplier-item-id.component';
+import { TemporaryManualOrderNumberAddComponent } from './dialogs/temporary-manual-order-number-add/temporary-manual-order-number-add.component';
+
+import { ItemExistGenerateOrderComponent } from './dialogs/item-exist-generate-order/item-exist-generate-order.component';
+import { EmptyFieldsComponent } from './dialogs/empty-fields/empty-fields.component';
+import { UserFieldsEditComponent } from './dialogs/user-fields-edit/user-fields-edit.component';
+import { PostManualTransactionComponent } from './dialogs/post-manual-transaction/post-manual-transaction.component';
+import { InvalidQuantityComponent } from './dialogs/invalid-quantity/invalid-quantity.component';
+import { FilterToteComponent } from './dialogs/filter-tote/filter-tote.component';
 
 
 
@@ -214,7 +228,21 @@ import { GenerateOrderComponent } from './manual-transactions/generate-order/gen
     LicensingInvalidComponent,
     SqlAuthConfirmationComponent,
     ManualTransactionsComponent,
-    GenerateOrderComponent
+    GenerateOrderComponent,
+    AddNewTransactionToOrderComponent,
+    DeleteConfirmationManualTransactionComponent,
+    ManualTransPostConfirmComponent,
+    GenerateTransactionComponent,
+    SetItemLocationComponent,
+    SupplierItemIdComponent,
+    TemporaryManualOrderNumberAddComponent,
+    ItemExistGenerateOrderComponent,
+    EmptyFieldsComponent,
+    UserFieldsEditComponent,
+    PostManualTransactionComponent,
+    InvalidQuantityComponent,
+    FilterToteComponent,
+    
 
   ],
   imports: [
@@ -225,8 +253,7 @@ import { GenerateOrderComponent } from './manual-transactions/generate-order/gen
     CdkTableModule,
     DragDropModule,
     MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
+    // MatNativeDateModule,
     // MatFormFieldModule,
     ToastrModule.forRoot({
       timeOut: 2000,

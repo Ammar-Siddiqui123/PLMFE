@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-between mb-4 align-items-center">
+    <div style="width:48px"></div>
+<h1 class="m-0" mat-dialog-title>Select a date for Order {{orderName}}</h1>
+<button mat-icon-button class="close-button dialog-close-button-fix" mat-dialog-close>
+    <mat-icon class="close-icon">close</mat-icon>
+</button>
+</div>
+
+
+<div class="card w-100">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-12" style="padding-left:64px;">
+               Date
+            </div>
+        </div>
+    </div>
+
+
+
+    <ng-scrollbar style="height: 250px;">
+    <div class="card-body">
+        <div class="container">
+
+        <div class="row">
+            <mat-radio-group aria-label="Select an option" color="primary" class="w-100">
+
+                <div *ngFor="let item of dateList;let i=index" class="d-flex align-items-center mb-2">
+
+                    <mat-radio-button  [value]="item" class="custom-radio-btn" (change)="selectDate(item)">
+                    </mat-radio-button>
+
+                    <div class="container w-100">
+                        <div class="row">
+                            <div class="">
+                                <div class="d-flex gap-12 align-items-center">
+                                    <mat-form-field class="custom-form-field w-100" appearance="outline" >
+                                        <input  readonly matInput type="text"  [value]="item" >
+                                    </mat-form-field>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </mat-radio-group>
+        </div>
+    </div>
+    </div>
+</ng-scrollbar>
+</div>
+<div class="container">
+
+</div>

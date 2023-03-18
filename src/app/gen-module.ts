@@ -16,11 +16,12 @@ import { NumbersOnlyDirective } from './init/NumbersOnly.directive';
         HttpClientModule,
         ReactiveFormsModule,
         NumbersOnlyDirective,
-        ActionDisableDirective
+        ActionDisableDirective,
+        
     ],
     declarations: [
         NumbersOnlyDirective,
-        ActionDisableDirective
+        ActionDisableDirective,
       ],
 })
 export class GeneralModule { }

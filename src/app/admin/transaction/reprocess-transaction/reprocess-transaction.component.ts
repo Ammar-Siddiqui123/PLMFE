@@ -15,7 +15,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, Subscription,takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/init/auth.service';
 import { ColumnSequenceDialogComponent } from '../../dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { ReprocessTransactionDetailComponent } from '../../dialogs/reprocess-transaction-detail/reprocess-transaction-detail.component';
@@ -108,19 +108,27 @@ export class ReprocessTransactionComponent implements OnInit {
   public itemList: any;
   transTypeSelect = 'All Transactions';
   transStatusSelect = 'All Transactions';
-
+  trueString='true';
+  switchTrueString=false;
+  falseString='false';
+  switchFalseString=false;
+  searchFieldsTrueFalse=['Label','Emergency','In Process','Master Record'];
   isReprocessedChecked = {flag:false};
   isCompleteChecked = {flag:false};
   isHistoryChecked = {flag:false};
   isHold = false;
-
+  queryString:any='';
   deleteReplenishment=true;
   deleteSelected=false;
+  print=false;
   deleteBySelectedReason=false;
   deleteBySelectedMessage=false;
   deleteByDateTime=false;
   deleteByItemNumber=false; //Only visible if searched
   deleteByOrderNumber=false; //Only visible if searched
+  private subscription: Subscription = new Subscription();
+ 
+  @ViewChild('description') description: TemplateRef<any>;
 
 
   idx: any;
@@ -183,6 +191,7 @@ export class ReprocessTransactionComponent implements OnInit {
   tableEvent = "reprocess";
   isEnabled = true;
   transactionID = 0;
+  selectedOrderObj={};
   floatLabelControlColumn = new FormControl('auto' as FloatLabelType);
   hideRequiredFormControl = new FormControl(false);
   searchByColumn = new Subject<string>();
@@ -203,7 +212,7 @@ export class ReprocessTransactionComponent implements OnInit {
   ngOnInit(): void {
     this.customPagination = {
       total: '',
-      recordsPerPage: 10,
+      recordsPerPage: 20,
       startIndex: 0,
       endIndex: 10,
     };
@@ -214,11 +223,33 @@ export class ReprocessTransactionComponent implements OnInit {
     this.searchByColumn
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
+        this.customPagination.startIndex=0;
+        this.customPagination.length=20;
+        this.paginator.pageIndex = 0;
+        if(this.searchFieldsTrueFalse.indexOf(this.columnSearch.searchColumn.colDef) > -1){
+          if(this.trueString.match(value.toLowerCase())){
+              this.switchTrueString=true;
+          }else if(this.falseString.match(value.toLowerCase())){
+            this.switchTrueString=false;
+          }
+        }   
         this.autocompleteSearchColumn(false);
         this.getContentData();
       });
   }
-
+  ngAfterViewInit() {
+    this.subscription.add(
+    this.sharedService.reprocessItemObserver.subscribe(itemNo => {
+      if(itemNo){
+        this.columnSearch.searchColumn.colDef='Item Number';
+        this.columnSearch.searchValue=itemNo;
+       
+      //  this.onOrderNoChange();
+      }
+       })
+    )
+    this.dataSource.paginator = this.paginator;
+  }
   clearDelete(showOptions="")
   {
   if(showOptions=="")
@@ -228,6 +259,7 @@ export class ReprocessTransactionComponent implements OnInit {
     this.deleteBySelectedReason=false;
     this.deleteBySelectedMessage=false;
     this.deleteByDateTime=false;
+    this.print = false;
   
     this.deleteByItemNumber=false; //Only visible if searched
     this.deleteByOrderNumber=false; //Only visible if searched
@@ -236,6 +268,7 @@ export class ReprocessTransactionComponent implements OnInit {
   {
   this.deleteReplenishment=true;
   this.deleteSelected=true;
+  this.print=true;
   this.deleteBySelectedReason=true;
   this.deleteBySelectedMessage=true;
   this.deleteByDateTime=true;
@@ -296,6 +329,17 @@ export class ReprocessTransactionComponent implements OnInit {
 
 
   async autocompleteSearchColumn(isSearchByOrder: boolean = false) {
+   
+    if(this.searchFieldsTrueFalse.indexOf(this.columnSearch.searchColumn.colDef) > -1 && this.switchTrueString){
+      this.queryString='1';
+    }
+    else if(this.searchFieldsTrueFalse.indexOf(this.columnSearch.searchColumn.colDef) > -1 && !this.switchTrueString){
+      this.queryString='0';
+    }else{
+      this.queryString='';
+    }
+
+
     let searchPayload;
     if (isSearchByOrder) {
       searchPayload = {
@@ -307,7 +351,7 @@ export class ReprocessTransactionComponent implements OnInit {
       };
     } else {
       searchPayload = {
-        query: this.columnSearch.searchValue,
+        query: this.queryString!=''?this.queryString:this.columnSearch.searchValue,
         tableName: 4,
         column: this.columnSearch.searchColumn.colDef,
         username: this.userData.userName,
@@ -355,7 +399,7 @@ export class ReprocessTransactionComponent implements OnInit {
           width: '70vw',
           data: {
             mode: event,
-            tableName: 'Open Transactions',
+            tableName: 'Open Transactions Temp',
           },
         });
         dialogRef
@@ -569,7 +613,7 @@ export class ReprocessTransactionComponent implements OnInit {
     return this.floatLabelControlColumn.value || 'auto';
   }
   getProcessSelection(checkValues) {
-    this.tableEvent = checkValues
+    this.tableEvent = checkValues;
     if (this.tableEvent === 'history') {
       this.isHistory = true;
       this.getHistoryData();
@@ -642,7 +686,7 @@ export class ReprocessTransactionComponent implements OnInit {
           this.transactionService.get(payload, '/Admin/SetAllReprocessColumn').subscribe(
             (res: any) => {
               if (res.data && res.isExecuted) {
-                console.log(res);
+                // console.log(res);
                 this.getContentData();
                 this.getOrdersWithStatus();
                 this.toastr.success(labels.alert.update, 'Success!', {
@@ -765,15 +809,23 @@ export class ReprocessTransactionComponent implements OnInit {
   deleteReprocessOrder(record: any) { }
 
   itemUpdatedEvent(event: any) {
-    this.getContentData();
+    //alert("TRIGGERED");
+    this.getContentData('1');
     this.getOrdersWithStatus();
     this.isEnabled = false; 
+    this.clearTransactionData();
   }
 
   clearTransactionData() {
     this.isEnabled = true;
   }
+  selectOrder(row){
+    
+    this.selectedOrderObj['orderNumber']=row.orderNumber;
+    this.selectedOrderObj['itemNumber']=row.itemNumber;
 
+    this.sharedService.updateReprocess(this.selectedOrderObj)
+  }
   getColumnsData() {
     let payload = {
       username: this.userData.userName,
@@ -803,7 +855,7 @@ export class ReprocessTransactionComponent implements OnInit {
     this.rowClicked = "";
     let payload = {
       draw: 0,
-      searchString: this.columnSearch.searchValue,
+      searchString: this.queryString!=''?this.queryString:this.columnSearch.searchValue,
       searchColumn: this.columnSearch.searchColumn.colDef,
       start: this.customPagination.startIndex,
       length: this.customPagination.recordsPerPage,
@@ -819,11 +871,18 @@ export class ReprocessTransactionComponent implements OnInit {
       .get(payload, '/Admin/ReprocessTransactionTable', true)
       .subscribe(
         (res: any) => {
+          //console.log(res)
           // this.getTransactionModelIndex();
           this.detailDataInventoryMap = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
-          //  this.dataSource.paginator = this.paginator;
-          this.customPagination.total = res.data?.recordsFiltered;
+          // this.dataSource.paginator = this.paginator;
+          this.customPagination.total = res.data?.recordsFiltered;        
+          
+          // this.pageEvent = this.paginator;          
+          // this.customPagination.startIndex = this.paginator.pageIndex;
+          // this.customPagination.endIndex = res.data?.recordsFiltered;
+          // this.customPagination.recordsPerPage = this.paginator.pageSize;
+
           this.dataSource.sort = this.sort;
         },
         (error) => { }
@@ -844,7 +903,7 @@ export class ReprocessTransactionComponent implements OnInit {
       length: this.customPagination.recordsPerPage,
       sortColumnNumber: this.sortCol,
       sortOrder: this.sortOrder,
-      orderNumber: this.orderNumber,
+      orderNumber: "",
       itemNumber: this.itemNumber,
       // hold: false,
       username: this.userData.userName,
@@ -867,7 +926,7 @@ export class ReprocessTransactionComponent implements OnInit {
 
     this.clearTransactionData();
   }
-  handlePageEvent(e: PageEvent) {
+  handlePageEvent(e: PageEvent) {    
     this.pageEvent = e;
     // this.customPagination.startIndex =  e.pageIndex
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
@@ -888,6 +947,20 @@ export class ReprocessTransactionComponent implements OnInit {
     this.searchAutocompleteListByCol = [];
   }
 
+  openReasonDialog(reasonMessage:any)
+  {
+    const dialogRef = this.dialog.open(this.description, {
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+    });
+    dialogRef.afterClosed().subscribe((x) => {
+
+      if (x) {
+        //e.description =  this.dialogDescription!=""?this.dialogDescription:e.description 
+      }
+    })
+  }
+
   openReprocessTransactionDialogue(id: any) {
     const dialogRef = this.dialog.open(ReprocessTransactionDetailComponent, {
       height: 'auto',
@@ -898,5 +971,9 @@ export class ReprocessTransactionComponent implements OnInit {
         history: this.isHistory
       }
     })
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

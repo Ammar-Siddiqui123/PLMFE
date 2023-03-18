@@ -15,6 +15,7 @@ export class ChangePasswordComponent implements OnInit {
   new_toggle = true;
   toggle_password = true;
   resetPassForm: FormGroup;
+  isReadOnly: boolean = true;
   constructor(
     private fb: FormBuilder,  
     public loginService: LoginService,
@@ -34,7 +35,7 @@ export class ChangePasswordComponent implements OnInit {
     return frm.controls['new_password'].value === frm.controls['confirm_password'].value ? null : {'mismatch': true};
   }
   onSend(form: FormGroup){
-    console.log(form.value);
+    // console.log(form.value);
     let payload  = {
       "username": form.value.userName,
       "password":form.value.old_password,
@@ -50,14 +51,18 @@ export class ChangePasswordComponent implements OnInit {
         this.dialogRef.close();
       }
       else{
-        this.toastr.error(responseMessage?.toString(), 'Error!', {
+        this.toastr.error(responseMessage?.toString()+ '. Please contact your Administrator.', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
-        this.dialogRef.close();
+        // this.dialogRef.close();
       }
     })
     
+  }
+
+  removeReadOnly(){
+    this.isReadOnly = !this.isReadOnly;
   }
 
 }

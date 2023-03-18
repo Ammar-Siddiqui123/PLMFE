@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router,RoutesRecognized } from '@angular/router';
 import { filter, pairwise } from 'rxjs/operators';
+import { AuthService } from '../init/auth.service';
 import { SharedService } from '../services/shared.service';
 
 @Component({
@@ -10,7 +11,11 @@ import { SharedService } from '../services/shared.service';
 })
 export class InductionManagerComponent implements OnInit {
   tab_hover_color:string = '#cf9bff3d';
-  constructor(private router: Router, private sharedService: SharedService,) { 
+  constructor(
+    private router: Router, 
+    private sharedService: SharedService,
+    private authService: AuthService,
+    ) { 
     router.events
       .pipe(
         filter((evt: any) => evt instanceof RoutesRecognized),
@@ -34,10 +39,14 @@ export class InductionManagerComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  updateMenu(menu=''){
-    if (menu == 'transaction-admin') {
-      this.sharedService.updateInductionAdminMenu(menu);
-    }
+  updateMenu(menu = '', route = ''){
+    // if (menu == 'transaction-admin') {
+    //   this.sharedService.updateInductionAdminMenu(menu);
+    // }    
+    this.sharedService.updateInductionAdminMenu({menu , route});
 
   }
+  isAuthorized(controlName:any) {
+    return !this.authService.isAuthorized(controlName);
+ }
 }

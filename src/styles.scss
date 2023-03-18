@@ -38,53 +38,10 @@ $theme-colors: (
 // @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap');
 // @import 'material-symbols';
 /* DESIGN SYSTEM */
+@import './assets/font-icon/material.css';
 @import './assets/design-system/d-main.scss';
 
-@font-face {
-  font-family: 'Material Icons';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../src/assets/font-icon/MaterialIcons-Regular.woff2') format('woff2');
-}
 
-.material-icons {
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -webkit-font-feature-settings: 'liga';
-  -webkit-font-smoothing: antialiased;
-}
-
-@font-face {
-  font-family: 'Material Symbols Outlined';
-  font-style: normal;
-  font-weight: 100 700;
-  src: url('../src/assets/font-icon/MaterialIconsOutlined-Regular.woff2') format('woff2');
-}
-
-.material-symbols-outlined {
-  font-family: 'Material Symbols Outlined';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -webkit-font-feature-settings: 'liga';
-  -webkit-font-smoothing: antialiased;
-}
  body, html,
 .mat-badge-content, .mat-button,
 .mat-raised-button,
@@ -293,7 +250,13 @@ background-color: #7B42AC;
     }
   }
 }
-
+//  To add label entries in pagination ....
+.mat-paginator-range-label{
+  &::after{
+      position: relative;
+      content: 'Entries';
+  }
+}
 .mat-sidenav .mat-list-item {
   color: #000080;
 }
@@ -724,7 +687,7 @@ mat-toolbar {
 }
 
 .mat-icon-wrap .mat-icon {
-  font-size: 18px;
+  font-size: 24px;
   width: auto;
   height: auto;
 }
@@ -1041,10 +1004,25 @@ td.dataTables_empty{
 .dataTables_wrapper .dataTables_paginate .paginate_button {
   padding: 0.5em 0.4em !important;
 }
+.isDivDisabled{
+  .main-section-option{
+    background: rgba($color: #fff, $alpha: 0.5);
+    .main-section-icon{
+      background: var(--clr-chrome-100);
+      color: var(--clr-chrome-600);
+      span.material-symbols-outlined{
+        color: var(--clr-chrome-600);
+      }
+    }
+  }
+  h4.main-section-title{
+    color: var(--clr-chrome-600);
+  }
+}
 
 .main-section-option {
     padding: 1.25em;
-    border-radius: 14px;
+    border-radius: 36px;
     min-height: 360px;
     background: #fff;
     transition: 0.7s ease all;
@@ -1210,6 +1188,12 @@ button.button-delete-flat {
   border-radius: 14px;
   background-color: rgba(222, 38, 84, 0.1) !important;
 }
+button.button-default-i{
+  color: var(--clr-tertiary-900);
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--clr-tertiary-50);
+}
 button.button-primary-i{
   color: var(--clr-primary-500);
   border-radius: 999px;
@@ -1268,6 +1252,17 @@ button.icon-button {
   min-width: 48px !important;
   border-radius: 14px !important;
 }
+button.icon-button-8br {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px !important;
+  max-width: 48px !important;
+  min-width: 48px !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
 button.secondary-button{
   background-color: #fff;
   color: $primary;
@@ -1349,6 +1344,7 @@ button.default-btn{
   background: #fff;
   border: 1px solid var(--clr-tertiary-50)!important;
   width: 48px !important;
+  min-width: auto !important;
   height: 48px !important;
   border-radius: 999px !important;
   padding: 3px !important;
@@ -1365,7 +1361,7 @@ button.default-btn{
 //-------------- FORM INPUT-CLASSES ----START-------------------
 
 .mat-select-value{
-  padding-left: 8px;
+  // padding-left: 8px;
 }
 .custom-input-number{
   padding-left: 8px !important;
@@ -1390,11 +1386,17 @@ button.default-btn{
 }
 
 
+
+
+
 .mat-form-field-label{
   background: #fff;
   border-radius: 999px;
   width: auto!important;
 }
+}
+.custom-form-field-bg-white.mat-form-field-disabled .mat-form-field-label mat-label{
+  background: var(--clr-tertiary-10);
 }
 
   .custom-form-field.mat-form-field-appearance-outline{
@@ -1433,6 +1435,9 @@ button.default-btn{
   background: rgba(255, 196, 88, 0.2);
 }
 
+.notification-background{
+  background:#F8DAE1;
+}
 .custom-horizontal-radio{
   .mat-radio-label-content{
     flex: 1;
@@ -1552,6 +1557,109 @@ button.default-btn{
     td{
       border: 0;
     }
+  }
+}
+.clickable-table-style-1{
+  thead{
+    tr{
+      th{
+        &:first-child{
+      }
+    }
+    }
+  }
+  tr{
+      position: relative;
+      cursor: pointer;
+      td{
+        position: relative;
+          span{
+            position: relative;
+            height: 50px;
+            display: block;
+            margin-right: -2px;
+            top:0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            padding: 10px 18px;
+            line-height: 28px;
+          }
+        }
+      &:hover{
+        td{
+          position: relative;
+            span{
+              background-color: var(--clr-primary-300);
+            color: #fff;
+            position: relative;
+            height: 50px;
+            display: block;
+            margin-right: -2px;
+            top:0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            padding: 10px 18px;
+            line-height: 28px;
+            }
+            &:first-child{
+              span{
+                left: 10px;
+                border-top-left-radius: 8px;
+                border-bottom-left-radius: 8px;
+                padding: 10px 8px;
+              }
+                
+            }
+            &:last-child{
+              span{
+                border-top-right-radius: 8px;
+                border-bottom-right-radius: 8px;
+                margin-right: 10px;
+                padding: 10px 8px;
+                padding-left: 18px;
+              }
+            }
+        }
+      }
+  }
+  .selected{
+      td{
+        position: relative;
+          span{
+            background-color: var(--clr-primary-300);
+            color: #fff;
+            position: relative;
+            height: 50px;
+            display: block;
+            margin-right: -2px;
+            top:0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            padding: 10px 18px;
+            line-height: 28px;
+          }
+          &:first-child{
+            span{
+              left: 10px;
+              border-top-left-radius: 8px;
+              border-bottom-left-radius: 8px;
+              padding: 10px 8px;
+            }
+              
+          }
+          &:last-child{
+            span{
+              border-top-right-radius: 8px;
+              border-bottom-right-radius: 8px;
+              margin-right: 10px;
+              padding: 10px 8px;
+              padding-left: 18px;
+            }
+          }
+      }
   }
 }
 
@@ -1832,3 +1940,58 @@ mat-row{
   }
 }
 
+
+.divider-1{
+  border-color: var(--clr-tertiary-50);
+}
+
+
+.overflow-limit-20{
+  text-overflow: ellipsis; 
+        overflow: hidden; 
+        max-width: 20ch; 
+        white-space: nowrap;
+}
+
+// List Row Seperator Styles --------START
+
+
+.list-row-seperator{
+  .list-item{  
+    border-top: 1px solid var(--clr-tertiary-50);
+    padding-top: 24px;
+      &:first-child{
+        border: none;
+        padding-top: 0px;
+      }
+      // &:first-child{
+      //   border: none;
+      // }
+
+    }
+    .selection{
+      position: relative;
+      &::before{
+        content:'';
+        position: absolute;
+        left: 0;
+        top:4px;
+        width: 100%;
+        height: 99%;
+        background: var(--clr-secondary-10);
+        z-index: 0;
+        border-radius: 8px;
+      }
+      .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-label mat-label{
+        background: transparent;
+      }
+    }
+
+}
+
+.isDivDisabled{
+  pointer-events:none;
+  cursor: none;
+  // background-color: rgba(0, 0, 0, .38) !important;
+}
+// List Row Seperator Styles --------END

@@ -6,9 +6,9 @@
     </button>
 </div>
 <div class="pb-3">
-    <mat-radio-group color="primary">
-        <mat-radio-button class="me-3" value="filter" >Clear Batch</mat-radio-button>
-        <mat-radio-button value="zone" >Clear Tote</mat-radio-button>
+    <mat-radio-group color="primary" [(ngModel)]="clearBatchTote" >
+        <mat-radio-button class="me-3" value="clearBatch" [disabled]="deleteAllDisable">Clear Batch</mat-radio-button>
+        <mat-radio-button value="clearTote"  >Clear Tote</mat-radio-button>
     </mat-radio-group>
 </div>
 
@@ -16,30 +16,36 @@
     <div class="col-xl-4">
         <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Batch ID</mat-label>
-            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
+            <input [(ngModel)]="batchID" (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [value]="batchID" disabled>
         </mat-form-field>
     </div>
     <div class="col-xl-4">
         <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Tote ID</mat-label>
-            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
+            <input [(ngModel)]="toteID" (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [value]="toteID" disabled>
         </mat-form-field>
     </div>
     <div class="col-xl-4">
         <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Transaction Type</mat-label>
-            <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" value="000000" disabled>
+            <input [(ngModel)]="transType"  (keydown.shift.enter)="$event.preventDefault()" matInput type="text" [value]="transType" disabled>
         </mat-form-field>
     </div>
 </div>
-<div class="d-flex gap-12">
-    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke btn-lg">
-        Deallocate & Clear
-    </button>
-    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke btn-lg">
-        Clear Only
-    </button>
-    <button mat-flat-button color="warn" class="btn-lg" style="flex:1">
-        Delete All Batches
-    </button>
+<div class="row">
+    <div class="col-xl-4 mb-2">
+        <button mat-flat-button color="warn" class=" btn-lg w-100" (click)="batchTotesDelete(true)">
+           Clear/De-Allocate
+        </button>
+    </div>
+    <div class="col-xl-4 mb-2">
+        <button mat-flat-button color="warn" class=" btn-lg w-100"  (click)="batchTotesDelete(true)">
+            Clear Only
+        </button>
+    </div>
+    <div class="col-xl-4 mb-2">
+        <button mat-flat-button color="warn" class="btn-lg w-100" [disabled]="deleteAllDisable" (click)="allBatchDelete()">
+            Delete All Batches 
+        </button>
+    </div>
 </div>

@@ -1,0 +1,490 @@
+<div class="d-flex justify-content-between align-items-center" mat-dialog-title>
+  <div style="width:48px"></div>
+  <h1 class="m-0" mat-dialog-title>Selection Transaction For Tote</h1>
+  <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
+    <mat-icon class="close-icon">close</mat-icon>
+    <!-- (click)="openCrossDockTransactionDialogue()" -->
+  </button>
+</div>
+<div mat-dialog-content>
+
+  <form [formGroup]="toteForm">
+
+    <div class="row">
+      <div class="col-xl-6 offset-xl-3">
+        <div class="d-flex align-items-center justify-content-center flex-wrap gap-12 mb-3">
+          <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Item
+              No.:&nbsp;<b>{{toteForm.value.itemNumber}}</b></span></div>
+          <div class="text-center"> <span class="label label-gray px-2 f-14 mb-1">Batch
+              ID:&nbsp;<b>{{toteForm.value.batchID}}</b></span></div>
+          <div class="text-center"> <span
+              class="label label-gray px-2 f-14 mb-1">Zones:&nbsp;<b>{{toteForm.value.zones.replace("Zones:","")}}</b></span>
+          </div>
+          <div class="text-center"> <span
+              class="label label-gray px-2 f-14 mb-1">Description:&nbsp;<b>{{toteForm.value.description}}</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-3 mb-3">
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center">
+          <h2 class="card-header-title mb-0 d-flex align-items-center me-3">
+            <div class="mat-icon-wrap me-lg-3">
+              <span class="material-symbols-outlined">
+                backup_table
+              </span>
+            </div>
+            <span>Transaction Info</span>
+          </h2>
+          <mat-checkbox formControlName="returnToStock" color="primary">Return to stock?</mat-checkbox>
+        </div>
+        <button mat-flat-button color="warn" class="btn-regular" (click)="clearTransInfo()">
+          Clear
+        </button>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline" [class.mat-form-field-disabled]="orderNum">
+            <mat-label>Order Number</mat-label>
+            <input formControlName="orderNumber" (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+              [readOnly]="orderNum ? true : false">
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Category</mat-label>
+            <input formControlName="category" (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+              readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Sub-Category</mat-label>
+            <input formControlName="subCategory" (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+              readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+            <mat-label>Ship Via</mat-label>
+            <input formControlName="userField1" (keydown.shift.enter)="$event.preventDefault()" matInput type="text">
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+            <mat-label>Ship To Name</mat-label>
+            <input formControlName="userField2" (keydown.shift.enter)="$event.preventDefault()" matInput type="text">
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+            <mat-label>Lot Number</mat-label>
+            <input formControlName="lotNumber" (keydown.shift.enter)="$event.preventDefault()" matInput type="text">
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+            <mat-label>Expiration Date</mat-label>
+            <input formControlName="expirationDate" (keydown.shift.enter)="$event.preventDefault()" matInput
+              type="date">
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+            <mat-label>Serial Number</mat-label>
+            <input formControlName="serialNumber" (keydown.shift.enter)="$event.preventDefault()" matInput type="text">
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Current Transaction Quantity</mat-label>
+            <input formControlName="transactionQuantity" (keydown.shift.enter)="$event.preventDefault()" matInput
+              type="text" readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline" (click)="openWareHouse()">
+            <mat-label>Warehouse</mat-label>
+            <input formControlName="warehouse" (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+              readonly>
+            <span matSuffix>
+              <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
+            </span>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card p-3 mb-3">
+
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex align-items-center">
+
+          <h2 class="card-header-title mb-0 d-flex align-items-center me-3">
+            <div class="mat-icon-wrap me-lg-3">
+              <span class="material-symbols-outlined">
+                category
+              </span>
+            </div>
+            <span>Item Info</span>
+          </h2>
+
+          <div class="d-flex gap-12">
+            <mat-checkbox formControlName="warehouseSensitive" color="primary">Warehouse Sensitive</mat-checkbox>
+            <mat-checkbox formControlName="dateSensitive" color="primary">Date Sensitive</mat-checkbox>
+            <mat-checkbox formControlName="fifo" color="primary">FIFO</mat-checkbox>
+          </div>
+
+        </div>
+
+        <div class="d-flex gap-12">
+          <button mat-flat-button color="primary" class="btn-regular" (click)="onViewItemDetail(itemNum.value)">
+            View Item Detail
+          </button>
+          <button mat-flat-button color="primary" class="btn-regular" (click)="updateItemInfo()">
+            Update Item Info
+          </button>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Item Number</mat-label>
+            <input formControlName="itemNumber" #itemNum (keydown.shift.enter)="$event.preventDefault()" matInput
+              type="text" readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Supplier Item ID</mat-label>
+            <input formControlName="supplierItemID" (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+              readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Description</mat-label>
+            <input formControlName="description" (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+              readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Unit Of Measure</mat-label>
+            <input formControlName="unitOfMeasure" (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+              readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <div class="d-flex align-items-center gap-12 mb-2">
+            <mat-form-field class="w-100 action-dropdown" appearance="outline">
+              <mat-label>Carousel cell size</mat-label>
+              <mat-select formControlName="carouselCellSize" class="employees-action">
+                <mat-option value="{{cell.cells}}" *ngFor="let cell of cellSizeList">{{cell.cells}}</mat-option>
+              </mat-select>
+              <span class="material-symbols-outlined icon-expand-more">
+                expand_more
+              </span>
+            </mat-form-field>
+            <button mat-mini-fab color="Default" class="button-default-i icon-button-8br"
+              (click)="openCellSizeDialog('cellSize')">
+              <mat-icon style="transform: rotate(45deg);">unfold_more</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="col-xl-3">
+          <div class="d-flex align-items-center gap-12 mb-2">
+            <mat-form-field class="w-100 action-dropdown" appearance="outline">
+              <mat-label>Bulk cell size</mat-label>
+              <mat-select formControlName="bulkCellSize" class="employees-action">
+                <mat-option value="{{cell.cells}}" *ngFor="let cell of cellSizeList">{{cell.cells}}</mat-option>
+              </mat-select>
+              <span class="material-symbols-outlined icon-expand-more">
+                expand_more
+              </span>
+            </mat-form-field>
+            <button mat-mini-fab color="Default" class="button-default-i icon-button-8br"
+              (click)="openCellSizeDialog('bulkCellSize')">
+              <mat-icon style="transform: rotate(45deg);">unfold_more</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="col-xl-3">
+          <div class="d-flex align-items-center gap-12 mb-2">
+            <mat-form-field class="w-100 action-dropdown" appearance="outline">
+              <mat-label>Flow rack cell size</mat-label>
+              <mat-select formControlName="cfCellSize" class="employees-action">
+                <mat-option value="{{cell.cells}}" *ngFor="let cell of cellSizeList">{{cell.cells}}</mat-option>
+              </mat-select>
+              <span class="material-symbols-outlined icon-expand-more">
+                expand_more
+              </span>
+            </mat-form-field>
+            <button mat-mini-fab color="Default" class="button-default-i icon-button-8br"
+              (click)="openCellSizeDialog('cfCellSize')">
+              <mat-icon style="transform: rotate(45deg);">unfold_more</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="col-xl-3">
+          <div class="d-flex align-items-center mb-2">
+            <mat-form-field class="w-100 action-dropdown" appearance="outline">
+              <mat-label>Primary Zone</mat-label>
+              <mat-select formControlName="primaryPickZone" class="employees-action">
+                <mat-option value=""></mat-option>
+                <mat-option value="carousel">Carousel</mat-option>
+                <mat-option value="bulk">Bulk</mat-option>
+                <mat-option value="carton flow">Carton Flow</mat-option>
+              </mat-select>
+              <span class="material-symbols-outlined icon-expand-more">
+                expand_more
+              </span>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="col-xl-3">
+          <div class="d-flex align-items-center gap-12 mb-2">
+            <mat-form-field class="w-100 action-dropdown" appearance="outline">
+              <mat-label>Carousel velocity</mat-label>
+              <mat-select formControlName="carouselVelocity" class="employees-action">
+                <mat-option value="{{velocity}}" *ngFor="let velocity of velocityCodeList">{{velocity}}</mat-option>
+              </mat-select>
+              <span class="material-symbols-outlined icon-expand-more">
+                expand_more
+              </span>
+            </mat-form-field>
+            <button mat-mini-fab color="Default" class="button-default-i icon-button-8br"
+              (click)="openVelocityCodeDialog('goldenZone')">
+              <mat-icon style="transform: rotate(45deg);">unfold_more</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="col-xl-3">
+          <div class="d-flex align-items-center gap-12 mb-2">
+            <mat-form-field class="w-100 action-dropdown" appearance="outline">
+              <mat-label>Bulk velocity</mat-label>
+              <mat-select formControlName="bulkVelocity" class="employees-action">
+                <mat-option value="{{velocity}}" *ngFor="let velocity of velocityCodeList">{{velocity}}</mat-option>
+              </mat-select>
+              <span class="material-symbols-outlined icon-expand-more">
+                expand_more
+              </span>
+            </mat-form-field>
+            <button mat-mini-fab color="Default" class="button-default-i icon-button-8br"
+              (click)="openVelocityCodeDialog('bulkVelocity')">
+              <mat-icon style="transform: rotate(45deg);">unfold_more</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="col-xl-3">
+          <div class="d-flex align-items-center gap-12 mb-2">
+            <mat-form-field class="w-100 action-dropdown" appearance="outline">
+              <mat-label>Flow rack velocity</mat-label>
+              <mat-select formControlName="cfVelocity" class="employees-action">
+                <mat-option value="{{velocity}}" *ngFor="let velocity of velocityCodeList">{{velocity}}</mat-option>
+              </mat-select>
+              <span class="material-symbols-outlined icon-expand-more">
+                expand_more
+              </span>
+            </mat-form-field>
+            <button mat-mini-fab color="Default" class="button-default-i icon-button-8br"
+              (click)="openVelocityCodeDialog('cfVelocity')">
+              <mat-icon style="transform: rotate(45deg);">unfold_more</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="col-xl-3">
+          <div class="d-flex align-items-center mb-2">
+            <mat-form-field class="w-100 action-dropdown" appearance="outline">
+              <mat-label>Secondary zone</mat-label>
+              <mat-select formControlName="secondaryPickZone" class="employees-action">
+                <mat-option value=""></mat-option>
+                <mat-option value="carousel">Carousel</mat-option>
+                <mat-option value="bulk">Bulk</mat-option>
+                <mat-option value="carton flow">Carton Flow</mat-option>
+              </mat-select>
+              <span class="material-symbols-outlined icon-expand-more">
+                expand_more
+              </span>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card p-3 mb-3">
+
+      <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div class="d-flex align-items-center">
+          <h2 class="card-header-title mb-0 d-flex align-items-center me-3">
+            <div class="mat-icon-wrap me-lg-3">
+              <span class="material-symbols-outlined">
+                pin_drop
+              </span>
+            </div>
+            <span>Location Info</span>
+          </h2>
+        </div>
+
+        <div class="d-flex gap-12">
+          <button mat-flat-button color="primary" class="btn-regular" (click)="openChooseLocation()">
+            Choose Location
+          </button>
+          <button mat-flat-button color="primary" class="btn-regular" (click)="checkRepenishment()">
+            Find Location
+          </button>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Zone</mat-label>
+            <input formControlName="zone" (keydown.shift.enter)="$event.preventDefault()" matInput type="text" readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Carousel</mat-label>
+            <input formControlName="carousel" (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+              readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Row</mat-label>
+            <input formControlName="row" (keydown.shift.enter)="$event.preventDefault()" matInput type="text" readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Shelf</mat-label>
+            <input formControlName="shelf" (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+              readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Bin</mat-label>
+            <input formControlName="bin" (keydown.shift.enter)="$event.preventDefault()" matInput type="text" readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Location cell size</mat-label>
+            <input formControlName="cellSize" (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+              readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Location velocity code</mat-label>
+            <input formControlName="velocityCode" (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+              readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Location quantity</mat-label>
+            <input formControlName="itemQuantity" (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
+              readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Max quantity</mat-label>
+            <input formControlName="maximumQuantity" (keydown.shift.enter)="$event.preventDefault()" matInput
+              type="text" readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Quantity allocated</mat-label>
+            <input formControlName="quantityAllocatedPutAway" (keydown.shift.enter)="$event.preventDefault()" matInput
+              type="text" readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3" *ngIf="toteForm.value.replenishment">
+          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
+            <mat-label>Replenishment Needed</mat-label>
+            <input formControlName="replenishment" (keydown.shift.enter)="$event.preventDefault()" matInput
+              type="text" readonly>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="header-filter-bar">
+      <div class="row">
+        <div class="col-xl-3">
+          <div class="d-flex align-items-center mb-2">
+            <mat-form-field class="w-100 action-dropdown custom-form-field-bg-white" appearance="outline">
+              <mat-label>Tote ID</mat-label>
+              <mat-select formControlName="toteID" class="employees-action">
+                <mat-option *ngFor="let tote of totes" value="{{tote.toteID}}">{{tote.toteID}}</mat-option>
+                <!-- <mat-option value="back">Back</mat-option> -->
+              </mat-select>
+              <span class="material-symbols-outlined icon-expand-more">
+                expand_more
+              </span>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-xl-3">
+          <div class="d-flex align-items-center mb-2">
+            <mat-form-field class="w-100 action-dropdown custom-form-field-bg-white" appearance="outline">
+              <mat-label>Tote Position</mat-label>
+              <mat-select formControlName="totePos" class="employees-action">
+                <mat-option *ngFor="let tote of totes"
+                  value="{{tote.totesPosition}}">{{tote.totesPosition}}</mat-option>
+                <!-- <mat-option value="back">Back</mat-option> -->
+              </mat-select>
+              <span class="material-symbols-outlined icon-expand-more">
+                expand_more
+              </span>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2" appearance="outline">
+            <mat-label>Available Cells In Tote </mat-label>
+            <input formControlName="toteCells" (keydown.shift.enter)="$event.preventDefault()" matInput type="number">
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2" appearance="outline">
+            <mat-label>Quantity To Assign</mat-label>
+            <input formControlName="toteQty" (keydown.shift.enter)="$event.preventDefault()" matInput type="number">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+
+<div class="d-flex gap-12 mb-1" mat-dialog-actions>
+  <button mat-stroked-button color="primary" class="btn-lg" (click)="onNoClick()">
+    Choose a Different Transaction
+  </button>
+  <button mat-stroked-button color="primary" class="btn-lg" (click)="forSameSKU()">
+    New Put Away For Same SKU
+  </button>
+  <button mat-flat-button color="primary" class="btn-lg" style="flex:1" (click)="completeTransaction()">
+    Complete Transaction
+  </button>
+</div>
