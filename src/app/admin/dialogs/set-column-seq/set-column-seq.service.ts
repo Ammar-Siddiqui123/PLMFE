@@ -55,7 +55,7 @@ export class SetColumnSeqService {
     return this.http.post<any>(`${environment.apiUrl}/Admin/ReprocessTransactionDelete`, payload,httpOptions);
   }
 
-  public updateAppName(userName:any,wsid:any,appName:any): Observable<any>{
+  public updateAppName(userName:any,wsid:any,appName:any = ''): Observable<any>{
     var payLoad = 
     {
       "userName":userName,
