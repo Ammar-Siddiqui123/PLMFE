@@ -40,6 +40,7 @@ export class ProcessPicksComponent implements OnInit {
   pickType: any = 'MixedZones';
   allZones: any;
   allOrders: any[] = [];
+  resultObj: any[] = [];
   pickBatchesList: any[] = [];
   orderNumberList: any[] = [];
   pickBatches = new FormControl('');
@@ -292,7 +293,9 @@ export class ProcessPicksComponent implements OnInit {
             this.TOTE_SETUP.map(obj => {
               obj.toteID = '';
               obj.orderNumber = '';
+              obj.priority = '';
             });
+            this.allOrders = [];
           }
           else {
             if (this.autoPickToteID) {
@@ -384,6 +387,7 @@ export class ProcessPicksComponent implements OnInit {
           useDefaultFilter: this.useDefaultFilter,
           useDefaultZone: this.useDefaultZone,
           allOrders: this.allOrders,
+          resultObj: this.resultObj,
         },
         autoFocus: '__non_existing_element__'
       });
@@ -396,9 +400,11 @@ export class ProcessPicksComponent implements OnInit {
         })
         if (result.length > 0) {
           this.allOrders = result;
+          this.resultObj = resultObj;
         }
         else {
           this.allOrders = []
+          this.resultObj = []
           this.TOTE_SETUP.forEach((element) => {
             element.orderNumber = '';
           });
@@ -424,19 +430,27 @@ export class ProcessPicksComponent implements OnInit {
       autoFocus: '__non_existing_element__'
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-      if (result.length > 0) {
-        this.allOrders = result;
-      }
-      else {
-        this.allOrders = []
-        this.TOTE_SETUP.forEach((element) => {
-          element.orderNumber = '';
-        });
-      }      
-      this.TOTE_SETUP.forEach((element, key) => {
-          element.orderNumber = result[key] ?? '';
-      });
+     
+      
+      if(result === true){
 
+      }
+      else{
+        if (result.length > 0) {
+          this.allOrders = result;  
+        this.TOTE_SETUP.forEach((element, key) => {
+            element.orderNumber = result[key] ?? '';
+        });
+        }
+        else {
+          this.allOrders = []
+          this.TOTE_SETUP.forEach((element) => {
+            element.orderNumber = '';
+          });
+        }
+  
+      }
+      
     })
   }
 

@@ -7,9 +7,9 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "prod-build":"ng build --configuration=production",
-    "dev-build":"ng build --configuration=dev",
-    "qa-build":"ng build --configuration=qa"
+    "prod-build": "ng build --configuration=production",
+    "dev-build": "ng build --configuration=dev",
+    "qa-build": "ng build --configuration=qa"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +23,7 @@
     "@angular/platform-browser": "^14.2.0",
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.4",
+    "@microsoft/signalr": "^7.0.4",
     "@popperjs/core": "^2.10.2",
     "angular-datatables": "^14.0.0",
     "angular-routing": "^0.3.1",

@@ -16,6 +16,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 
 @Component({
@@ -77,13 +78,22 @@ export class InventoryMasterComponent implements OnInit {
   onScroll(event) {
     alert();
   }
+  @ViewChild('alertInput', { read: MatAutocompleteTrigger })
+  autoComplete: MatAutocompleteTrigger;
 
 
   ngOnInit(): void {
+    window.addEventListener('scroll', this.scrollEvent, true);
     this.userData = this.authService.userData();
     this.initialzeIMFeilds();
     this.getInventory();
 
+  }
+
+  scrollEvent = (event: any): void => {
+    if(this.autoComplete.panelOpen)
+      this.autoComplete.closePanel();
+      // this.autoComplete.updatePosition();
   }
   ngAfterViewInit() {
     this.itemNumberParam$ = this.route.queryParamMap.pipe(

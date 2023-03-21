@@ -96,14 +96,14 @@
                         <mat-label>Item Number</mat-label>
                         <input type="text" matInput [matAutocomplete]="auto" [(ngModel)]="itemNumber" style="padding-left: 0px !important;">
                         <mat-autocomplete class="autocomplete-center" panelWidth="auto" autoActiveFirstOption
-                            #auto="matAutocomplete" (optionSelected)="listSelected()">
+                            #auto="matAutocomplete" (optionSelected)="listSelected($event)">
                             <h6 class="ctl_name ac-dropdown-label">
                                 <span>Item Number</span> <span>Date</span>
                                 <span>Transaction Type</span> <span>Order Number</span> <span>Transaction
                                     Quantity</span>
                             </h6>
                             <mat-option style="width:900px !important;" *ngFor="let option of itemNumberList"
-                                [value]="option.orderNumber">
+                                [value]="option.itemNumber">
                                 <div class="ctl_option ac-dropdown-option">
                                     <span>{{option.itemNumber}}</span> <span>{{option.dateField}}</span>
                                     <span>{{option.transType}}</span><span>{{option.orderNumber}}</span><span>{{option.qty}}</span>
