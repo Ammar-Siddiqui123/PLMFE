@@ -49,6 +49,8 @@ export class TranInReprocessComponent implements OnInit {
 
 
   radioButtonChange(event) {
+    this.orderNumber='';
+    this.itemNumber='';
     if(event.value === 'history'){
       this.history = true;
     }
@@ -59,15 +61,33 @@ export class TranInReprocessComponent implements OnInit {
     this.clear();
   }
   reasonFilterChange(event) {
+    this.orderNumber='';
+    this.itemNumber='';
     this.reasonFilterEvent.emit(event.value);
     this.clear();
   }
 
-  clear()
+  clear(reset:boolean=false)
   {
+
+    if(reset){
+      this.setResetValues();
+     this.filterCleared.emit('cleared');
+    //  this.reprocessSelectionEvent.emit('reprocess');
+    //  this.reasonFilterEvent.emit('none');
+    }else{
+      this.filterCleared.emit();
+    }
+    
+  
+  }
+
+  setResetValues(){
     this.orderNumber="";
     this.itemNumber="";
-    this.filterCleared.emit("cleared");
+    this.reasonFilter='none';
+    this.selectedOption='reprocess';
+   this.history=false;
   }
 
   getFilteredList() {

@@ -385,10 +385,36 @@ export class ReprocessTransactionComponent implements OnInit {
 
   filterCleared(evt:any)
   {
-    // this.getContentData("1");
+    if(evt==='cleared'){
+      this.setResetValues();
     this.isHistory ? this.getHistoryData() : this.getContentData("1");
-    
 
+    }
+    else{
+      this.itemNumber='';
+      this.orderNumber='';
+    // this.isHistory ? this.getHistoryData() : this.getContentData("1");
+
+    }
+  
+    // this.getContentData("1");
+  
+  }
+
+
+  setResetValues(){
+    this.itemNumber='';
+    this.orderNumber='';
+    this.isHistory=false;
+    this.isHold = false;
+    this.customPagination = {
+      total: '',
+      recordsPerPage: 20,
+      startIndex: 0,
+      endIndex: 10,
+    };
+     this.sortCol= 5;
+     this.sortOrder= 'asc';
   }
 
   actionDialog(opened: boolean) {
