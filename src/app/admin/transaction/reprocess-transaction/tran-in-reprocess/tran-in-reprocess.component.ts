@@ -89,7 +89,7 @@ export class TranInReprocessComponent implements OnInit {
     this.selectedOrderNumber.emit(this.orderNumber);
     this.getItemList();
   }
-  listSelected(){
+  listSelected(event?){
     // console.log(this.orderNumber);
     this.selectedItemNum.emit(this.itemNumber);
     // this.getItemList();

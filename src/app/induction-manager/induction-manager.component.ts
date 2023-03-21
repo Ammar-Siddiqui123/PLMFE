@@ -22,9 +22,14 @@ export class InductionManagerComponent implements OnInit {
         pairwise()
       )
       .subscribe((events: RoutesRecognized[]) => {
-        
+        const prevRoute= events[0].urlAfterRedirects.split('/');
+        const nextRoute = events[1].urlAfterRedirects.split('/');
+
     
-        if (events[0].urlAfterRedirects == '/InductionManager/Admin' || events[1].urlAfterRedirects == '/InductionManager/Admin') {
+        
+        // if (events[0].urlAfterRedirects == '/InductionManager' || events[1].urlAfterRedirects == '/InductionManager') {
+    
+        if (prevRoute[1]== 'InductionManager' || nextRoute[1] == 'InductionManager') {
           localStorage.setItem('routeFromInduction','true')
             // this.showReprocess=false;
             // this.showReprocessed=false;

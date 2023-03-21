@@ -29,6 +29,7 @@ export class GenerateOrderComponent implements OnInit {
   hideRequiredControl = new FormControl(false);
   userData: any;
   orderNumber = '';
+  orderToPost:any;
   itemNumberForInsertion:'';
   searchByInput: any = new Subject<string>();
   searchAutocompleteList: any;
@@ -151,7 +152,7 @@ export class GenerateOrderComponent implements OnInit {
       dialogRef.afterClosed().subscribe((res) => {
       this.clearMatSelectList()
         if (res.isExecuted) {
-
+          this.selectedOrder=this.orderNumber
           this.getOrderTableData();
           // this.clearFields()
         }
@@ -199,12 +200,12 @@ export class GenerateOrderComponent implements OnInit {
         data: {
           userName:this.userData.userName,
           wsid:this.userData.wsid,
-          orderNumber:this.selectedOrder,
+          orderNumber:this.orderNumber,
           toteId:this.toteID?this.toteID:''
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
-        this.clearFields()
+        // this.clearFields()
         this.clearMatSelectList()
         if (res.isExecuted) {
           this.clearFields();
