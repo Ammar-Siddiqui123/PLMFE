@@ -4,6 +4,7 @@ import { AuthGuardGuard } from '../guard/auth-guard.guard';
 import { AdminComponent } from './admin.component';
 import { BatchManagerComponent } from './batch-manager/batch-manager.component';
 import { CCDiscrepanciesComponent } from './cycle-counts/ccdiscrepancies/ccdiscrepancies.component';
+import { CreateCountBatchesComponent } from './cycle-counts/create-count-batches/create-count-batches.component';
 import { CreateTransactionComponent } from './cycle-counts/create-transaction/create-transaction.component';
 import { CycleCountsComponent } from './cycle-counts/cycle-counts.component';
 import { EmployeesComponent } from './employees/employees.component';
@@ -42,7 +43,7 @@ const routes: Routes = [
   },
   {
     path: 'createCounts',
-    component: CreateTransactionComponent,
+    component: CreateCountBatchesComponent,
     canActivate: [AuthGuardGuard],
   },
   {
