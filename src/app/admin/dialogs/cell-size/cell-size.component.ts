@@ -15,6 +15,7 @@ export class CellSizeComponent implements OnInit {
   public cellsize_list: any;
   public userData: any;
   public currentCellValue = "";
+  enableButton = [{ index: -1, value: true }];
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private cellSizeService: CellSizeService,
@@ -32,9 +33,11 @@ export class CellSizeComponent implements OnInit {
   }
 
   getCellSizeList() {
+    this.enableButton = [];
     this.cellSizeService.getCellSize().subscribe((res) => {
       for(var i=0;i<res.data.length;i++){
         res.data[i].isInserted = 1;
+        this.enableButton.push({ index: i, value: true });
       }
       this.cellsize_list = res.data;
     });
@@ -42,6 +45,10 @@ export class CellSizeComponent implements OnInit {
 
   addczRow(row: any) {
     this.cellsize_list.unshift({ cells: '', cellTypes: '' });
+    this.enableButton.push({ index: -1, value: true })
+  }
+  enableDisableButton(i: any) {
+    this.enableButton[i].value = false;
   }
   handleChange($event) {
     //console.log($event);
@@ -100,7 +107,9 @@ export class CellSizeComponent implements OnInit {
     }
   }
   dltCellSize(cell: any, i) {
-    if (cell) {
+    console.log(cell.cells);
+    
+    if (cell.cells != '') {
       const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
         width: '480px',
@@ -109,7 +118,7 @@ export class CellSizeComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
        if(result === 'Yes'){
         let paylaod = {
-        "cell": cell.toString(),
+        "cell": cell.cells.toString(),
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
       }
@@ -126,7 +135,8 @@ export class CellSizeComponent implements OnInit {
       })
       
     } else {
-      this.cellsize_list.shift()
+      this.cellsize_list.shift();
+      this.getCellSizeList();
     }
   }
 

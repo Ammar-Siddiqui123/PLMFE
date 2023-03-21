@@ -22,6 +22,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { MarkToteFullComponent } from 'src/app/dialogs/mark-tote-full/mark-tote-full.component';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
+ 
 
 export interface PeriodicElement {
   position: string;
@@ -63,7 +64,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   @ViewChild('matRef') matRef: MatSelect;
   @ViewChild('actionRef1') actionRef1: MatSelect;
   @ViewChild('actionRef') actionRef: MatSelect;
-  @ViewChild('inputVal') inputVal: ElementRef;
+  @ViewChild('inputVal') inputVal: ElementRef; 
   @ViewChild('batchVal') batchVal: ElementRef;
   selectedOption: any;
   displayedColumns1: string[] = [
@@ -269,7 +270,8 @@ export class ProcessPutAwaysComponent implements OnInit {
       {
         position: position,
         alreadySavedTotes: this.ELEMENT_DATA,
-        validateTotes: this.processPutAwayIndex.imPreference.validateTotes
+        validateTotes: this.processPutAwayIndex.imPreference.validateTotes,
+        defaultCells: this.processPutAwayIndex.imPreference.defaultCells
       }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -294,10 +296,9 @@ export class ProcessPutAwaysComponent implements OnInit {
 
 
   }
-
   onFocusOutBatchID(val) {
-    try {
-      
+    if(val){
+    try { 
       setTimeout(() => {
         let payload = {
           batchID: this.batchId2,
@@ -331,6 +332,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }  
+  }
   }
 
   openDeleteBatchDialogue() {
@@ -1099,5 +1101,5 @@ export class ProcessPutAwaysComponent implements OnInit {
       });
     }
   }
-
+ 
 }

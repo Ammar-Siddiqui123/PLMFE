@@ -226,8 +226,7 @@ private subscription: Subscription = new Subscription();
     if (menu == 'admin') {
       this.sharedService.updateAdminMenu();
     }
-    else if(menu=='induction'){
-      debugger
+    else if(menu=='induction'){ 
       this.sharedService.BroadCastMenuUpdate(obj.route);
       // this.sharedService.updateInductionAdminMenu(menu)
     }
