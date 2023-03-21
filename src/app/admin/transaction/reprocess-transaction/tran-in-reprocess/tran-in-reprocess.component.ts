@@ -21,6 +21,7 @@ export class TranInReprocessComponent implements OnInit {
   public orderNumber : string = '';
   public history : boolean = false;
   @Output() reprocessSelectionEvent = new EventEmitter<string>();
+  @Output() radioChangeEvent = new EventEmitter<any>();
   @Output() reasonFilterEvent = new EventEmitter<string>();
   @Output() selectedOrderNumber = new EventEmitter<string>();
   @Output() selectedItemNum = new EventEmitter<string>();
@@ -49,6 +50,7 @@ export class TranInReprocessComponent implements OnInit {
 
 
   radioButtonChange(event) {
+
     this.orderNumber='';
     this.itemNumber='';
     if(event.value === 'history'){
@@ -57,12 +59,14 @@ export class TranInReprocessComponent implements OnInit {
     else{
       this.history = false;
     }
+    this.radioChangeEvent.emit({radioChange:true})
     this.reprocessSelectionEvent.emit(event.value);
     this.clear();
   }
   reasonFilterChange(event) {
     this.orderNumber='';
     this.itemNumber='';
+    this.radioChangeEvent.emit({radioChange:true})
     this.reasonFilterEvent.emit(event.value);
     this.clear();
   }
@@ -71,11 +75,16 @@ export class TranInReprocessComponent implements OnInit {
   {
 
     if(reset){
+   
       this.setResetValues();
      this.filterCleared.emit('cleared');
+     this.getFilteredList();
+     this.getItemList();
     //  this.reprocessSelectionEvent.emit('reprocess');
     //  this.reasonFilterEvent.emit('none');
     }else{
+      this.getFilteredList();
+     this.getItemList();
       this.filterCleared.emit();
     }
     

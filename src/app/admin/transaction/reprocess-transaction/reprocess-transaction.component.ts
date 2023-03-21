@@ -999,7 +999,13 @@ export class ReprocessTransactionComponent implements OnInit {
       }
     })
   }
+  getObjChange(event){
+    if(event.radioChange){
+      this.orderNumber='';
+      this.itemNumber='';
+    }
 
+  }
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
