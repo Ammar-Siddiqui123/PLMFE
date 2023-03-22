@@ -126,6 +126,9 @@ import { UserFieldsEditComponent } from './dialogs/user-fields-edit/user-fields-
 import { PostManualTransactionComponent } from './dialogs/post-manual-transaction/post-manual-transaction.component';
 import { InvalidQuantityComponent } from './dialogs/invalid-quantity/invalid-quantity.component';
 import { FilterToteComponent } from './dialogs/filter-tote/filter-tote.component';
+import { CCBCreateCountsComponent } from './cycle-counts/create-count-batches/create-counts/create-counts.component';
+import { CCBCountQueueComponent } from './cycle-counts/create-count-batches/count-queue/count-queue.component';
+import { CreateCountBatchesComponent } from './cycle-counts/create-count-batches/create-count-batches.component';
 
 
 
@@ -242,7 +245,9 @@ import { FilterToteComponent } from './dialogs/filter-tote/filter-tote.component
     PostManualTransactionComponent,
     InvalidQuantityComponent,
     FilterToteComponent,
-    
+    CCBCreateCountsComponent,
+    CCBCountQueueComponent,
+    CreateCountBatchesComponent
 
   ],
   imports: [
