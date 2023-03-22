@@ -267,7 +267,7 @@
                 <div class="card p-3 mb-2">
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Input Type</mat-label>
-                    <mat-select #matRef class="employees-action" value="Any" (selectionChange)="selectionChanged($event.value)">
+                    <mat-select #matRef class="employees-action" [(ngModel)]="inputType" (selectionChange)="selectionChanged($event.value)">
                       <!-- <mat-option value="0"><b>Any</b></mat-option>
                       <mat-option value="print">Item No.</mat-option>
                       <mat-option value="print">Serial No.</mat-option>
@@ -288,7 +288,7 @@
                     <mat-label>Input Value</mat-label>
                     <input (keydown.shift.enter)="$event.preventDefault()" #inputVal matInput type="text" [(ngModel)]="inputValue" (keypress)="openST($event)">
                   </mat-form-field>
-                  <button mat-flat-button color="primary" class="btn-regular w-100" (click)="openSelectionTransactionDialogue()">
+                  <button [disabled]="inputValue ? false : true" mat-flat-button color="primary" class="btn-regular w-100" (click)="openSelectionTransactionDialogue()">
                     Assign Transaction To Selected Tote
                   </button>
                 </div>
@@ -354,7 +354,7 @@
               <mat-label>Actions</mat-label>
               <mat-select class="employees-action"  [(ngModel)]="selectedOption"  #actionRef (openedChange)="actionDialog($event)">
                 <!-- (click)="openToteTransactionViewDialogue()"> -->
-                <mat-option  value="ViewTote" >View Tote Contents</mat-option>
+                <mat-option  value="ViewTote" [disabled]="(cell <= toteQuantity) ? false : true" >View Tote Contents</mat-option>
                 <mat-option value="markTote" [disabled]="!rowSelected">Mark Tote as Full</mat-option>
                 <mat-option value="print">Print</mat-option>
                 <!-- <mat-option value="back">Back</mat-option> -->
