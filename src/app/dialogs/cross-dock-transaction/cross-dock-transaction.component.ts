@@ -331,6 +331,10 @@ export class CrossDockTransactionComponent implements OnInit {
               if (res.data && res.isExecuted) {
                 this.qtyToSubtract += this.selectedRowObj.completedQuantity ? parseInt(this.selectedRowObj.completedQuantity) : 0;
                 this.getCrossDock();
+                this.toastr.success('Pick Completed Successfully', 'Success!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
               } else {
                 this.toastr.error('Something went wrong', 'Error!', {
                   positionClass: 'toast-bottom-right',

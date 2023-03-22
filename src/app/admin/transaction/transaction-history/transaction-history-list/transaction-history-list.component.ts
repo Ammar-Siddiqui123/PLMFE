@@ -166,8 +166,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   customPagination: any = {
     total: '',
     recordsPerPage: 20,
-    startIndex: '',
-    endIndex: '',
+    startIndex: 0,
+    endIndex: 20,
   };
   columnSearch: any = {
     searchColumn: {
@@ -189,9 +189,13 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     private toastr: ToastrService,
     private dialog: MatDialog,
     private sharedService:SharedService
-  ) {}
+  ) {
+    this.userData = this.authService.userData();
+  }
 
   ngOnInit(): void {
+    
+
     this.customPagination = {
       total: '',
       recordsPerPage: 20,
@@ -212,7 +216,6 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
         // }
       });
 
-    this.userData = this.authService.userData();
     this.getColumnsData();
   }
 
@@ -317,8 +320,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       holds: false,
       orderStatusOrder: '',
       app: 'Admin',
-      username: this.userData.userName,
-      wsid:this.userData.wsid,
+      username: this.userData?.userName,
+      wsid:this.userData?.wsid,
     };
     this.transactionService
       .get(paylaod, '/Admin/TransactionModelIndex')
@@ -345,9 +348,11 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       sortColumnNumber: this.sortCol,
       sortOrder: this.sortOrder,
       filter: '1=1',
-      username: this.userData.userName,
-      wsid: this.userData.wsid,
+      username: this.userData?.userName,
+      wsid: this.userData?.wsid,
     };
+    console.log('.:...................>',payload);
+    
     this.transactionService
       .get(payload, '/Admin/TransactionHistoryTable', true)
       .subscribe(

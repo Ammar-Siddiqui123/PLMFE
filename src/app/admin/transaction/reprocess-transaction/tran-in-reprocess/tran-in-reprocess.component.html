@@ -24,7 +24,7 @@
                 <div class="row mb-3">
                     <div>
                         <mat-radio-group class="d-flex align-items-center gap-12" aria-label="Select an option"
-                            [(ngModel)]="selectedOption" (change)="radioButtonChange($event)">
+                        [ngModelOptions]="{standalone: true}"  [(ngModel)]="selectedOption" (change)="radioButtonChange($event)">
 
                             <mat-radio-button value="reprocess" color="primary">
                                 Reprocess
@@ -118,7 +118,7 @@
 
         </div>
         <div>
-            <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100" (click)="clear()">
+            <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100" (click)="clear(true)">
                 Clear
             </button>
         </div>

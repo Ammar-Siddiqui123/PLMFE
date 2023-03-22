@@ -179,6 +179,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
             // !res.data.transactionTable || res.data.transactionTable.length == 0
             if (res.data.success == "0") {
               this.dialogRef.close("NO");
+              return;
             }
 
             if (this.data.selectIfOne && res.data.transactionTable.length == 1) {
