@@ -134,7 +134,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       return;
     }
 
-    if (parseInt(e.kitQuantity) < 0) {
+    if (parseInt(e.kitQuantity) <= 0) {
       this.toastr.error("Qty must be greater than 0", 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
