@@ -53,6 +53,10 @@ export class KitItemComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (this.kitItem.controls['kitInventories'].value) {
       this.kitItemsList = [...this.kitItem.controls['kitInventories'].value];
+      this.kitItemsList.map(item => {
+        item.isSaved = true;
+      });
+      
     }
   }
 
@@ -60,20 +64,26 @@ export class KitItemComponent implements OnInit, OnChanges {
 
   }
   addCatRow(e: any) {
-    this.Ikey =  this.kitItemsList.length;
-    this.kitItemsList.push({
+    // this.Ikey =  this.kitItemsList.length;
+    this.kitItemsList.unshift({
       itemNumber: '',
       description: '',
       specialFeatures: '',
-      kitQuantity: 0
+      kitQuantity: 0,
+      isSaved: false,
       
     })
     // console.log(this.kitItemsList);
     
   }
 
-  dltCategory(e: any) {
+  onRowUpdate(oldVal :any , event: Event, i){
+    if(oldVal !== event){
+      this.kitItemsList[i].isSaved = false;
+    }
+  }
 
+  dltCategory(e: any) {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
@@ -210,7 +220,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((x) => {
-
+      e.isSaved = false;
       if (x) {
         this.oldNumber = e.itemNumber;
         e.itemNumber =  this.dialogitemNumber!=""?this.dialogitemNumber:e.itemNumber;

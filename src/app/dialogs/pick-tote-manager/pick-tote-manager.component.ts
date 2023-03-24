@@ -435,6 +435,8 @@ export class PickToteManagerComponent implements OnInit {
   ordersFilterZoneSelect(zone = "", rp = false, type = "") {
     let payload;
     this.FILTER_BATCH_DATA_ZONE = [];
+    this.filterOrderTransactionSource = [];
+    this.zoneOrderTransactionSource = [];
     if (zone == "") {
       payload = {
         "Filter": this.savedFilter.value,
