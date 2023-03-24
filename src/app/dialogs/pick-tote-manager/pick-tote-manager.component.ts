@@ -986,6 +986,9 @@ export class PickToteManagerComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      data:{
+        ErrorMessage: "Are you sure you want to delete this order by row?"
+     },
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'Yes') {
