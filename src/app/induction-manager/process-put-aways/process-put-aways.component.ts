@@ -493,20 +493,23 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.service.create(payLoad, '/Induction/ProcessPutAwayIndex').subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
+          
           this.cellSize = res.data.imPreference.defaultCells;
           this.autoPutToteIDS = res.data.imPreference.autoPutAwayToteID;
           this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
           this.processPutAwayIndex = res.data;
 
-          // if (res.data.batchIDs) {          
-          //   this.batchId = res.data.batchIDs;
-          //   this.selectedIndex = 1;
-          //   this.batchId2 = res.data.batchIDs;
-          //   this.fillToteTable(res.data.batchIDs);            
-          //   setTimeout(()=>{
-          //     this.inputVal.nativeElement.focus();
-          //   }, 500);
-          // }
+          this.inputType = res.data.imPreference.defaultPutAwayScanType;
+
+          if (res.data.batchIDs) {          
+            this.batchId = res.data.batchIDs;
+            this.selectedIndex = 1;
+            this.batchId2 = res.data.batchIDs;
+            this.fillToteTable(res.data.batchIDs);            
+            setTimeout(()=>{
+              this.inputVal.nativeElement.focus();
+            }, 500);
+          }
 
         } else {
           this.toastr.error('Something went wrong', 'Error!', {
@@ -752,6 +755,7 @@ export class ProcessPutAwaysComponent implements OnInit {
           heading: 'Assign Transaction To Selected Tote'
         },
       });
+
       dialogRef.afterClosed().subscribe((result) => {
         if (!result) return
         if (this.inputValue == "") {
@@ -759,7 +763,6 @@ export class ProcessPutAwaysComponent implements OnInit {
             positionClass: 'toast-bottom-right',
             timeOut: 2000,
           });
-
         }
         else {
           const dialogRef = this.dialog.open(SelectionTransactionForToteComponent, {
@@ -782,10 +785,17 @@ export class ProcessPutAwaysComponent implements OnInit {
 
           dialogRef.afterClosed().subscribe((result) => {
             if (result == 'NO') {
-              this.toastr.error('The input code provided was not recognized as an Item Number, Lot Number, Serial Number, Host Transaction ID, Scan Code or Supplier Item ID.', 'Error!', {
-                positionClass: 'toast-bottom-right',
-                timeOut: 2000,
-              });
+              if (this.inputType == 'Any') {
+                this.toastr.error('The input code provided was not recognized as an Item Number, Lot Number, Serial Number, Host Transaction ID, Scan Code or Supplier Item ID.', 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                }); 
+              } else {
+                this.toastr.error(`The input code provided was not recognized as a ${this.inputType}.`, 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+              }          
             } else if (result == "Task Completed") {
               this.fillToteTable(this.batchId2);
             } else if(result == "New Batch") {
@@ -795,15 +805,12 @@ export class ProcessPutAwaysComponent implements OnInit {
 
         }
       });
-
     }
-
     else if (this.inputValue == "") {
       this.toastr.error('Please enter input value', 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000,
       });
-
     }
     else {
       const dialogRef = this.dialog.open(SelectionTransactionForToteComponent, {
@@ -826,15 +833,21 @@ export class ProcessPutAwaysComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe((result) => {
         if (result == 'NO') {
-          this.toastr.error('The input code provided was not recognized as an Item Number, Lot Number, Serial Number, Host Transaction ID, Scan Code or Supplier Item ID.', 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000,
-          });
+          if (this.inputType == 'Any') {
+            this.toastr.error('The input code provided was not recognized as an Item Number, Lot Number, Serial Number, Host Transaction ID, Scan Code or Supplier Item ID.', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            }); 
+          } else {
+            this.toastr.error(`The input code provided was not recognized as a ${this.inputType}.`, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }  
         } else if (result == "Task Completed") {
           this.fillToteTable(this.batchId2);
         }
       });
-
     }
 
   }
