@@ -76,7 +76,7 @@ export class ReprocessTransactionDetailComponent implements OnInit {
 
   closeWindow()
   {
-    this.dialogRef.close('add'); 
+    this.dialogRef.close('close'); 
   }
 
   onNumberValueChange()
