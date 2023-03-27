@@ -34,9 +34,9 @@ export class ConnectedUsersComponent implements OnInit,AfterViewInit {
     this.signalRService.connect();
     this.ConnectedUserSubscription = this.signalRService.
        ConnectedUsers.subscribe(loc => {
-        //console.log(loc.data);
         this.user_connected_datasource = new MatTableDataSource(loc.data);
-        });
+        this.user_connected_datasource.paginator = this.paginator;
+      });
   }
   getConnectedUsers() {
     let dummy_data = [
@@ -78,7 +78,7 @@ export class ConnectedUsersComponent implements OnInit,AfterViewInit {
             appname: obj && obj.appname ? obj.appname : 'no app',
           }));
           this.user_connected_datasource = new MatTableDataSource(res.data);
-    this.user_connected_datasource.paginator = this.paginator;
+          this.user_connected_datasource.paginator = this.paginator;
 
         }
       },
