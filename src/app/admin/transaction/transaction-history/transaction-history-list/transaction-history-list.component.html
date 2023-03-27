@@ -29,8 +29,8 @@
                             </span>
                             <input type="text" placeholder="Search" aria-label="Number" matInput
                                 [(ngModel)]='this.columnSearch.searchValue' [matAutocomplete]="auto"
-                                (ngModelChange)="this.searchBar.next($event)">
-                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
+                                (ngModelChange)="this.searchBar.next($event)" (input)="onInputChange($event)" [disabled]="!this.selectedDropdown" [min]="0">
+                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()" >
                                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
                                     {{option}}
                                 </mat-option>
@@ -46,7 +46,7 @@
                     <mat-label>Action</mat-label>
                     <mat-select   #matRef class="employees-action" (openedChange)="actionDialog($event)"
                         [(value)]="selectedVariable">
-                        <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
+                        <!-- <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option> -->
                         <mat-option value="set_column_sq">Set Column Sequence</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">

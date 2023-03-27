@@ -964,7 +964,12 @@ export class ReprocessTransactionComponent implements OnInit {
     // this.pageIndex = e.pageIndex;
 
     // this.initializeApi();
-    this.getContentData();
+    if(this.isHistory){
+      this.getHistoryData()
+    }else{
+      this.getContentData();
+    }
+ 
   }
 
 
@@ -997,12 +1002,30 @@ export class ReprocessTransactionComponent implements OnInit {
         transactionID: id,
         history: this.isHistory
       }
+    });
+    dialogRef.afterClosed().subscribe((x) => {
+      
+      if(x==='add'){
+        this.itemNumber='';
+        this.orderNumber='';
+        if(this.isHistory){
+          this.getHistoryData()
+        }else{
+          this.getContentData()
+        }
+      }
+      
     })
   }
   getObjChange(event){
     if(event.radioChange){
       this.orderNumber='';
       this.itemNumber='';
+      this.customPagination.startIndex=0;
+      this.customPagination.total='';
+      this.customPagination.recordsPerPage=20;
+      this.customPagination.endIndex='';
+      this.paginator.pageIndex = 0;
     }
 
   }

@@ -625,6 +625,19 @@ export class GenerateTransactionComponent implements OnInit {
   
 
   }
+
+  // limit number to 9 digits
+  limitNumber(event){
+    if(event.code!='Backspace'){
+      if(this.transQuantity?.toString().length>=9){
+        let val= this.transQuantity.toString().slice(0, -1);
+        this.transQuantity=parseInt(val)    
+        }
+  
+    }
+  
+    
+  }
   openUserFieldsEditDialogue() {
     const dialogRef = this.dialog.open(UserFieldsEditComponent, {
       height: 'auto',
