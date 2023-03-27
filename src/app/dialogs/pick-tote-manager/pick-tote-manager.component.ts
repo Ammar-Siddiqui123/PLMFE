@@ -435,6 +435,8 @@ export class PickToteManagerComponent implements OnInit {
   ordersFilterZoneSelect(zone = "", rp = false, type = "") {
     let payload;
     this.FILTER_BATCH_DATA_ZONE = [];
+    this.filterOrderTransactionSource = [];
+    this.zoneOrderTransactionSource = [];
     if (zone == "") {
       payload = {
         "Filter": this.savedFilter.value,
@@ -986,6 +988,9 @@ export class PickToteManagerComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      data:{
+        ErrorMessage: "Are you sure you want to delete this order by row?"
+     },
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'Yes') {

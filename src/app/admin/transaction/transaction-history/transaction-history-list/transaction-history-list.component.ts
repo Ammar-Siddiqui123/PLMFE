@@ -425,4 +425,10 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     this.searchBar.unsubscribe();
     this.subscription.unsubscribe();
   }
+  onInputChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    if (Number(value) < 0) {
+      this.columnSearch.searchValue = 0;
+    }
+  }
 }
