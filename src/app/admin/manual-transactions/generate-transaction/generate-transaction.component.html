@@ -154,7 +154,7 @@
 
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                         <mat-label>Expiration Date</mat-label>
-                        <input [disabled]="!item" matInput [matDatepicker]="expirationDate" [(ngModel)]="expDate">
+                        <input [disabled]="!item" maxlength="11" matInput [matDatepicker]="expirationDate" [(ngModel)]="expDate">
                         <mat-datepicker-toggle matSuffix [for]="expirationDate" ngDefaultControl></mat-datepicker-toggle>
                         <mat-datepicker #expirationDate></mat-datepicker>
                     </mat-form-field>
@@ -183,7 +183,7 @@
                     <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"
                         appearance="outline">
                         <mat-label>Lot Number</mat-label>
-                        <input [disabled]="!item" [(ngModel)]="lotNumber" matInput type="text" maxlength="255" value="Value">
+                        <input [disabled]="!item" [(ngModel)]="lotNumber" matInput type="text" maxlength="50" value="Value">
                     </mat-form-field>
                 </div>
                 <div class="col-xl-3">
@@ -214,7 +214,7 @@
                     <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"
                         appearance="outline">
                         <mat-label>Serial Number</mat-label>
-                        <input [disabled]="!item" [(ngModel)]="serialNumber" matInput type="text" maxlength="255" value="Value">
+                        <input [disabled]="!item" [(ngModel)]="serialNumber" matInput type="text" maxlength="50" value="Value">
                     </mat-form-field>
                 </div>
             </div>
@@ -257,7 +257,7 @@
 
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                         <mat-label>Required Date</mat-label>
-                        <input [disabled]="!item" matInput [matDatepicker]="requiredDate" [(ngModel)]="reqDate">
+                        <input [disabled]="!item" maxlength="11" matInput [matDatepicker]="requiredDate" [(ngModel)]="reqDate">
                         <mat-datepicker-toggle matSuffix [for]="requiredDate" ngDefaultControl></mat-datepicker-toggle>
                         <mat-datepicker #requiredDate></mat-datepicker>
                     </mat-form-field>
@@ -273,7 +273,8 @@
                     <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"
                         appearance="outline">
                         <mat-label>Transaction Quantity</mat-label>
-                        <input [disabled]="!item" [(ngModel)]="transQuantity" matInput type="number" min="0" maxlength="9" value="Value">
+                        <input [disabled]="!item" (keydown)="limitNumber($event)" [(ngModel)]="transQuantity" matInput type="number" min="0" maxlength="9" value="Value" oninput="this.value = 
+                        !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null">
                     </mat-form-field>
                 </div>
             </div>

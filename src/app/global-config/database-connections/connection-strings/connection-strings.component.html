@@ -56,7 +56,7 @@
                                     <div class="col-3" >
                                         <!-- (click)="openAddItemNumDialog(kitItem)" -->
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                            <input matInput type="text" [(ngModel)]="item.connectionName" name="connectionName" (ngModelChange)="onInputValueChange($event,item,index)" #specialFeature maxlength="255"
+                                            <input matInput type="text" [(ngModel)]="item.connectionName" name="connectionName" (ngModelChange)="onInputValueChange($event,item,index)" #specialFeature maxlength="50"
                                                 [value]="item.connectionName">
                                                 <mat-hint class="error-message" style="color: red;font-size: 14px;padding-top:5%"
                                                 *ngIf="item.isDuplicate">
@@ -70,7 +70,7 @@
 
                                             <mat-form-field class="custom-form-field w-100" appearance="outline">
 
-                                                <input matInput type="text" #specialFeature maxlength="255" name="databaseName" [(ngModel)]="item.databaseName" (ngModelChange)="onInputValueChange($event,item,index)"
+                                                <input matInput type="text" #specialFeature maxlength="50" name="databaseName" [(ngModel)]="item.databaseName" (ngModelChange)="onInputValueChange($event,item,index)"
                                                     [value]="item.databaseName">
                                             </mat-form-field>
 
@@ -80,7 +80,7 @@
                                         <div class="d-flex gap-12 align-items-center">
                                             <mat-form-field class="custom-form-field w-100" appearance="outline">
 
-                                                <input matInput type="text" #specialFeature maxlength="255"  name="databaseName" [(ngModel)]="item.serverName" (ngModelChange)="onInputValueChange($event,item,index)"
+                                                <input matInput type="text" #specialFeature maxlength="50"  name="databaseName" [(ngModel)]="item.serverName" (ngModelChange)="onInputValueChange($event,item,index)"
                                                     [value]="item.serverName">
                                             </mat-form-field>
 

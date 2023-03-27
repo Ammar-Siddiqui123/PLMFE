@@ -37,7 +37,7 @@
                     [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
                     <mat-label>Order Number</mat-label>
                     <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='orderNumber' (focusout)="onFocusOutEvent($event,'order')" 
-                        maxlength="255" [matAutocomplete]="auto" (ngModelChange)="this.searchByOrder.next($event)">
+                        maxlength="50" [matAutocomplete]="auto" (ngModelChange)="this.searchByOrder.next($event)">
 
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData($event)">
                         <mat-option *ngFor="let option of searchAutocompleteOrderNum" [value]="option.orderNumber">
@@ -59,7 +59,7 @@
                     [floatLabel]="getFloatLabelValueItem()" [hideRequiredMarker]="hideRequiredControlItem.value">
                     <mat-label>Item No.</mat-label>
                     <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='itemNumber'
-                      (focusout)="onFocusOutEvent($event,'item')"    maxlength="255" [matAutocomplete]="item" (ngModelChange)="this.searchByItem.next($event)">
+                      (focusout)="onFocusOutEvent($event,'item')"    maxlength="50" [matAutocomplete]="item" (ngModelChange)="this.searchByItem.next($event)">
 <!-- 
                     <mat-autocomplete #item="matAutocomplete" (optionSelected)="setItem($event)">
                         <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.itemNumber">
