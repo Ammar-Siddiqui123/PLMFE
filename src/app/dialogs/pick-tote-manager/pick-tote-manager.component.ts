@@ -958,6 +958,7 @@ export class PickToteManagerComponent implements OnInit {
         }
       });
     }
+    this.pickBatchFilterOrderData(this.savedFilter.value);
 
   }
   isUniqueSeq(element: any) {
