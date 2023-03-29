@@ -29,6 +29,7 @@ import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/conf
 import { ContextMenuFiltersService } from '../../../app/init/context-menu-filters.service';
 import { MatMenuTrigger} from '@angular/material/menu';
 import { InputFilterComponent } from '../../dialogs/input-filter/input-filter.component';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 
 const INVMAP_DATA = [
@@ -43,7 +44,7 @@ const INVMAP_DATA = [
   { colHeader: "description", colDef: "Description" },
   { colHeader: "cellSize", colDef: "Cell Size" },
   { colHeader: "goldenZone", colDef: "Velocity Code" },
-  { colHeader: "maximumQuantity", colDef: "Maximum Quantity" },
+  { colHeader: "maxQuantity", colDef: "Maximum Quantity" },
   { colHeader: "dedicated", colDef: "Dedicated" },
   { colHeader: "serialNumber", colDef: "Serial Number" },
   { colHeader: "lotNumber", colDef: "Lot Number" },
@@ -121,6 +122,7 @@ export class InventoryMapComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('matRef') matRef: MatSelect;
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
+  @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
 
   //---------------------for mat menu start ----------------------------
 
@@ -560,7 +562,10 @@ export class InventoryMapComponent implements OnInit {
       this.getContentData();
     }
   }
-
+  closeautoMenu()
+  {
+    this.autocompleteInventory.closePanel(); 
+  }
   searchData(){
     
     if( this.columnSearch.searchColumn &&  this.columnSearch.searchColumn !== '' ){
