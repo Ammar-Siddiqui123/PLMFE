@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BatchManagerService } from '../batch-manager.service';
 import { AuthService } from '../../../../app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 
 @Component({
@@ -30,6 +31,8 @@ export class BatchDeleteComponent implements OnInit {
   batchList: any = [];
   transType: string = 'Pick';
   batchID: string|undefined = "";
+  isChecked = true;
+
   public userData: any;
   public dltType: any;
   @ViewChild('deleteAction') dltActionTemplate: TemplateRef<any>;
@@ -54,7 +57,14 @@ export class BatchDeleteComponent implements OnInit {
     this.userData = this.authService.userData();
     this.getBatch(this.transType);
   }
-
+  checkOptions(event: MatCheckboxChange): void {
+    if(event.checked){
+     this.isChecked = false;
+    }
+    else{
+     this.isChecked = true;
+    }
+   }
   getBatch(type: any) {
     try {
       let paylaod = {

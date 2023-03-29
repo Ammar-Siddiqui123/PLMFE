@@ -59,7 +59,7 @@
                                         matInput type="text" name="{{unit}}" value="{{unit}}" #unitMeasure>
                                     </mat-form-field>
 
-                                    <button [disabled]="(enableButton[i]&&enableButton[i].value!=null) ? enableButton[i].value:false" mat-flat-button color="primary" class="xsm-icon-button" (click)="saveUnitMeasure(unitMeasure.value, unit)">
+                                    <button [disabled]="(enableButton[i] && enableButton[i].value!=null) ? enableButton[i].value:false" mat-flat-button color="primary" class="xsm-icon-button" (click)="saveUnitMeasure(unitMeasure.value, unit)">
                                         <mat-icon class="material-symbols-outlined">
                                             save
                                         </mat-icon>

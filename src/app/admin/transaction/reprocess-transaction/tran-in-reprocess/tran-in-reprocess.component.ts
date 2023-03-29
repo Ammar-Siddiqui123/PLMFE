@@ -21,6 +21,7 @@ export class TranInReprocessComponent implements OnInit {
   public orderNumber : string = '';
   public history : boolean = false;
   @Output() reprocessSelectionEvent = new EventEmitter<string>();
+  @Output() radioChangeEvent = new EventEmitter<any>();
   @Output() reasonFilterEvent = new EventEmitter<string>();
   @Output() selectedOrderNumber = new EventEmitter<string>();
   @Output() selectedItemNum = new EventEmitter<string>();
@@ -49,25 +50,53 @@ export class TranInReprocessComponent implements OnInit {
 
 
   radioButtonChange(event) {
+
+    this.orderNumber='';
+    this.itemNumber='';
     if(event.value === 'history'){
       this.history = true;
     }
     else{
       this.history = false;
     }
+    this.radioChangeEvent.emit({radioChange:true})
     this.reprocessSelectionEvent.emit(event.value);
     this.clear();
   }
   reasonFilterChange(event) {
+    this.orderNumber='';
+    this.itemNumber='';
+    this.radioChangeEvent.emit({radioChange:true})
     this.reasonFilterEvent.emit(event.value);
     this.clear();
   }
 
-  clear()
+  clear(reset:boolean=false)
   {
+
+    if(reset){
+   
+      this.setResetValues();
+     this.filterCleared.emit('cleared');
+     this.getFilteredList();
+     this.getItemList();
+    //  this.reprocessSelectionEvent.emit('reprocess');
+    //  this.reasonFilterEvent.emit('none');
+    }else{
+      this.getFilteredList();
+     this.getItemList();
+      this.filterCleared.emit();
+    }
+    
+  
+  }
+
+  setResetValues(){
     this.orderNumber="";
     this.itemNumber="";
-    this.filterCleared.emit("cleared");
+    this.reasonFilter='none';
+    this.selectedOption='reprocess';
+   this.history=false;
   }
 
   getFilteredList() {
@@ -89,7 +118,7 @@ export class TranInReprocessComponent implements OnInit {
     this.selectedOrderNumber.emit(this.orderNumber);
     this.getItemList();
   }
-  listSelected(){
+  listSelected(event?){
     // console.log(this.orderNumber);
     this.selectedItemNum.emit(this.itemNumber);
     // this.getItemList();

@@ -13,11 +13,13 @@ import { TransactionService } from '../../transaction/transaction.service';
 })
 export class SupplierItemIdComponent implements OnInit {
   supplierID;
+  description;
+  itemNumber;
   floatLabelControlItem: any = new FormControl('item' as FloatLabelType);
   hideRequiredControlItem = new FormControl(false);
   searchByItem: any = new Subject<string>();
   searchAutocompleteItemNum: any = [];
-
+  
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private toastr: ToastrService,
@@ -56,14 +58,16 @@ export class SupplierItemIdComponent implements OnInit {
   }
   setItem(e) {
     this.supplierID=e.option.value;
+ 
   }
 
   setSupplierID(){
-    this.dialogRef.close({ isExecuted: true,supplierID:this.supplierID});
+    this.dialogRef.close({ isExecuted: true,supplierID:this.supplierID,itemNumber:this.itemNumber,description:this.description});
 
   }
   getRow(row) {
-    // console.log(row);
+    this.description=row.description;
+    this.itemNumber=row.itemNumber;
     // let payLoad = {
     //   id: row.id,
     //   username: this.data.userName,

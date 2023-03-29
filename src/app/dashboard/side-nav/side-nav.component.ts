@@ -238,6 +238,7 @@ export class SideNavComponent implements OnInit {
 
   loadMenus(menu: any) { 
     // console.log(this.router.url);    
+    this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route);
     if (!menu) {
       menu = {route : '/dashboard'};      
     }
@@ -277,7 +278,7 @@ export class SideNavComponent implements OnInit {
       }    
 
       //this.userData.username
-      this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route);      
+         
     }
 
     if (menu.route.includes('/InductionManager')) {

@@ -26,6 +26,7 @@ export class ViewOrdersComponent implements OnInit {
   selectedOrders: any[] = [];
   orderDataSource: any;
   selectedTd: any;
+  isDisableSubmit: boolean = true
   transData: any;
 
   filterTransColumns = [
@@ -106,7 +107,7 @@ export class ViewOrdersComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getAllOrders();
-    // console.log(this.data);
+    console.log(this.selectedOrders);
 
   }
 
@@ -136,7 +137,7 @@ export class ViewOrdersComponent implements OnInit {
 
         this.orderDataSource = new MatTableDataSource<any>(this.allOrders);
         this.orderDataSource.paginator = this.paginator;
-        // this.orderDataSource.sort = this.sort;
+        this.isDisableSubmit = false;
 
       }
       else{
@@ -144,6 +145,7 @@ export class ViewOrdersComponent implements OnInit {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
+        this.isDisableSubmit = true
       }
     });
   }
