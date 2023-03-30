@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import labels from '../../../labels/labels.json';
 import { CreateBatchComponent } from '../../dialogs/create-batch/create-batch.component';
+import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-batch-selected-orders',
@@ -92,6 +93,18 @@ export class BatchSelectedOrdersComponent implements OnInit {
   }
 
   removeOrders(order : any) {
+    // const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
+    //   height: 'auto',
+    //   width: '480px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     mode: 'delete-batch',
+     
+    //   }
+    // })
+    // dialogRef.afterClosed().subscribe(result => {
+      
+    // })
     this.removeOrderEmitter.emit(order);
   }
 
