@@ -68,7 +68,7 @@ export class SetColumnSeqService {
         'Authorization': 'Basic '
       })
     };
-    return this.http.post<any>(`${environment.apiUrl}/Login/UserAppNameAdd`, payLoad,httpOptions);
+    return this.http.post<any>(`${environment.apiUrl}/Common/UserAppNameAdd`, payLoad,httpOptions);
   }
 
 
