@@ -56,6 +56,7 @@ export class SetColumnSeqService {
   }
 
   public updateAppName(userName:any,wsid:any,appName:any = ''): Observable<any>{
+    
     var payLoad = 
     {
       "userName":userName,
@@ -68,7 +69,7 @@ export class SetColumnSeqService {
         'Authorization': 'Basic '
       })
     };
-    return this.http.post<any>(`${environment.apiUrl}/Login/UserAppNameAdd`, payLoad,httpOptions);
+    return this.http.post<any>(`${environment.apiUrl}/Common/UserAppNameAdd`, payLoad,httpOptions);
   }
 
 
