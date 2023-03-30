@@ -16,7 +16,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 
 @Component({
@@ -81,19 +81,54 @@ export class InventoryMasterComponent implements OnInit {
   @ViewChild('alertInput', { read: MatAutocompleteTrigger })
   autoComplete: MatAutocompleteTrigger;
 
+  @ViewChild("searchauto", { static: false }) autocompleteOpened: MatAutocomplete;
+
 
   ngOnInit(): void {
-    window.addEventListener('scroll', this.scrollEvent, true);
+    // window.addEventListener('scroll', this.scrollEvent, true);
     this.userData = this.authService.userData();
     this.initialzeIMFeilds();
     this.getInventory();
 
   }
 
+  // onOutsideSearchBox(e?:any) {
+  //   console.log('working');
+  //    window.addEventListener('scroll', this.scrollEvent, true);
+     
+  //   // if(this.autoComplete.panelOpen){
+  //   //   this.autoComplete.closePanel();
+  //   // }
+  // }
+
+  // openMatAutoComplete(){
+  //   console.log(this.autocompleteOpened.panel);
+  //   if(this.autocompleteOpened._isOpen){
+  //     this.autocompleteOpened.panel.nativeElement.addEventListener('mouseleave', () => {
+  //       this.autoComplete.closePanel();
+  //     })
+  //   }
+  // }
+  // closeMatAutoComplete(){
+  //  console.log('closed');
+   
+  // }
+  // focusinmethod(){
+  //   let b = document.body;
+  //   console.log(b);
+  // }
+  // focusoutmethod(){
+  //   let b = document.body;
+  //   b.style.overflow = "auto";
+  // }
+
   scrollEvent = (event: any): void => {
-    if(this.autoComplete.panelOpen)
-      this.autoComplete.closePanel();
-      // this.autoComplete.updatePosition();
+    // if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
+    //   if (this.autoComplete.panelOpen) {
+    //     this.autoComplete.closePanel();
+    //   }
+    // }
+    if (this.autoComplete.panelOpen) this.autoComplete.updatePosition();
   }
   ngAfterViewInit() {
     this.itemNumberParam$ = this.route.queryParamMap.pipe(
@@ -245,9 +280,9 @@ export class InventoryMasterComponent implements OnInit {
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
       this.getInvMasterData = res.data;
-      
-      console.log('====GET INVENTORY MASTER=====');
-      console.log(res.data);
+
+      // console.log('====GET INVENTORY MASTER=====');
+      // console.log(res.data);
 
       this.initialzeIMFeilds();
     })
@@ -269,7 +304,7 @@ export class InventoryMasterComponent implements OnInit {
 
   public getInvMasterLocations(itemNum: any, pageSize?, startIndex?, sortingColumnName?, sortingOrder?) {
     // console.log(pageSize);
-    
+
     let paylaod = {
       "draw": 0,
       "itemNumber": itemNum,
@@ -345,8 +380,8 @@ export class InventoryMasterComponent implements OnInit {
 
   public updateInventoryMaster() {
     this.invMaster.patchValue({
-      'bulkGoldZone':this.invMaster.value?.bulkVelocity,
-      'CfGoldZone':this.invMaster.value?.cfVelocity
+      'bulkGoldZone': this.invMaster.value?.bulkVelocity,
+      'CfGoldZone': this.invMaster.value?.cfVelocity
     });
 
     this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
@@ -385,7 +420,7 @@ export class InventoryMasterComponent implements OnInit {
       data: {
         itemNumber: this.currentPageItemNo,
         description: this.getInvMasterData.description,
-        fromInventoryMaster:1,
+        fromInventoryMaster: 1,
         newItemNumber: '',
         addItem: true
       }
@@ -573,7 +608,7 @@ export class InventoryMasterComponent implements OnInit {
   }
   getNotification(e: any) {
     // console.log(e);
-    
+
     if (e?.newItemNumber) {
       this.currentPageItemNo = e.newItemNumber;
       this.getInventory();
@@ -582,8 +617,8 @@ export class InventoryMasterComponent implements OnInit {
     } else if (e?.locationPageSize) {  //&& e?.startIndex
       // console.log('erow '+ e.locationPageSize);
       // console.log('srow '+ e.startIndex);
-      
-      this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex );
+
+      this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex);
     } else if (e?.sortingColumn) {
       this.getInvMasterLocations(this.currentPageItemNo, '', '', e.sortingColumn, e.sortingSeq);
     } else {
@@ -591,16 +626,13 @@ export class InventoryMasterComponent implements OnInit {
     }
     this.isDisabledSubmit = false;
   }
-  tabChanged(tabChangeEvent: MatTabChangeEvent)
-  {
-  if(tabChangeEvent.index==2||tabChangeEvent.index==5)
-  {
-    this.saveDisabled=true;
-  }
-  else 
-  {
-    this.saveDisabled=false;
-  }
+  tabChanged(tabChangeEvent: MatTabChangeEvent) {
+    if (tabChangeEvent.index == 2 || tabChangeEvent.index == 5) {
+      this.saveDisabled = true;
+    }
+    else {
+      this.saveDisabled = false;
+    }
   }
 
 
