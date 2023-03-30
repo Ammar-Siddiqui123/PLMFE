@@ -22,7 +22,7 @@ export class WorkstationZonesComponent implements OnInit {
   public currentVelocity = "";
   onDestroy$: Subject<boolean> = new Subject();
   public userData: any;
-  public selectedZone: any;
+  public selectedZone: any = '';
   public allZoneList: any[] = [];
   public zones: any[] = [];
   @ViewChild('btnSave') button;
@@ -73,6 +73,7 @@ export class WorkstationZonesComponent implements OnInit {
   }
 
   addVLRow(row: any) {
+    this.selectedZone = '';
     this.allZoneList.unshift([]);
   }
   dltZone(){
@@ -82,6 +83,7 @@ export class WorkstationZonesComponent implements OnInit {
     this.selectedZone = val
   }
   saveVlCode() {
+    if(this.selectedZone){
       let paylaod = {
         "zone": this.selectedZone,
         "wsid": this.userData.wsid,
@@ -96,13 +98,21 @@ export class WorkstationZonesComponent implements OnInit {
           this.allZoneList = [];
         }
         else {
-          this.toastr.error("This Zone is already selected for this workstation", 'Error!', {
+          this.toastr.error("This Zone is already selected for this workstation.", 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
         }
 
       });
+    }
+    else{
+      this.toastr.error("Please select any zone,", 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+     
   }
   dltVlCode(vlCode: any) {
     if (vlCode) {

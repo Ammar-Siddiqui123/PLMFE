@@ -279,16 +279,19 @@ export class PickToteManagerComponent implements OnInit {
   onAddOrderBy(filterData?: any) {
     if (filterData) {
       filterData.map(obj => {
-        this.ORDER_BY_DATA.push({ id: obj.id, sequence: obj.sequence, field: obj.field, sortOrder: obj.order });
+        this.ORDER_BY_DATA.push({ id: obj.id, sequence: obj.sequence, field: obj.field, sortOrder: obj.order, isSaved: true });
         this.orderBySeq = obj.sequence
       });
       this.orderBydataSource = new MatTableDataSource<any>(this.ORDER_BY_DATA);
     }
     else {
-      this.ORDER_BY_DATA.push({ sequence: this.orderBySeq + 1, field: 'Emergency', sortOrder: 'DESC' });
+      this.ORDER_BY_DATA.push({ sequence: this.orderBySeq + 1, field: 'Emergency', sortOrder: 'DESC', isSaved: false });
       this.orderBydataSource = new MatTableDataSource<any>(this.ORDER_BY_DATA);
       this.isOrderByAdd = false;
     }
+  }
+  onChangeFunctionsFields(elemet: any) {
+    elemet.isSaved = false;
   }
   clearMatSelectList() {
     this.matRef.options.forEach((data: MatOption) => data.deselect());
@@ -435,6 +438,8 @@ export class PickToteManagerComponent implements OnInit {
   ordersFilterZoneSelect(zone = "", rp = false, type = "") {
     let payload;
     this.FILTER_BATCH_DATA_ZONE = [];
+    this.filterOrderTransactionSource = [];
+    this.zoneOrderTransactionSource = [];
     if (zone == "") {
       payload = {
         "Filter": this.savedFilter.value,
@@ -919,7 +924,7 @@ export class PickToteManagerComponent implements OnInit {
         "id": +element.id,
         "Sequence": element.sequence,
         "Field": element.field,
-        "Order": "DESC",
+        "Order": element.sortOrder,
         "Description": this.savedFilter.value,
         "wsid": this.userData.wsid,
       }
@@ -937,7 +942,7 @@ export class PickToteManagerComponent implements OnInit {
       let payload = {
         "Sequence": element.sequence,
         "Field": element.field,
-        "Order": "DESC",
+        "Order": element.sortOrder,
         "Description": this.savedFilter.value,
         "wsid": this.userData.wsid,
       }
@@ -953,6 +958,27 @@ export class PickToteManagerComponent implements OnInit {
         }
       });
     }
+    this.pickBatchFilterOrderData(this.savedFilter.value);
+
+  }
+  isUniqueSeq(element: any) {
+
+    let res: any = [];
+    this.orderBydataSource.filteredData.map( (item) => {
+      var existItem = res.find((x: any) => x.sequence == item.sequence);
+      if (existItem) {
+        console.log("item already exist");
+        console.log(existItem);
+        this.toastr.error('Can\'t have conflicting sequences within the order rows. A new sequence has been provided', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        element.sequence = +existItem.sequence + 1;
+      }
+      else {
+        res.push(item);
+      }
+    });
 
   }
   onDeleteSingleFilter(element: any) {
@@ -986,6 +1012,9 @@ export class PickToteManagerComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      data: {
+        ErrorMessage: "Are you sure you want to delete this order by row?"
+      },
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'Yes') {
