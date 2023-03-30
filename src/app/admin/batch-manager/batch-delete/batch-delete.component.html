@@ -33,14 +33,14 @@
 
           <div class="col-3">
             <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
-              <mat-label>Location No.</mat-label>
+              <mat-label>Current Pick Mode</mat-label>
               <input matInput disabled class="" value="Pick and Pass" type="text">
             </mat-form-field>
           </div>
 
           <div class=" col-3">
             <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
-              <mat-label>Batch ID</mat-label>
+              <mat-label>Delete Batch</mat-label>
               <mat-select [(ngModel)]="batchID">
                 <mat-option *ngFor="let batch of batchList" value="{{batch}}">{{batch}}</mat-option>
               </mat-select>
