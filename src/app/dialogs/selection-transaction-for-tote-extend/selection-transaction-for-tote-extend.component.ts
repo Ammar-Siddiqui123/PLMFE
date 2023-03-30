@@ -534,20 +534,27 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         (res: any) => {
           if (res.data && res.isExecuted) {
 
-            this.toteForm.patchValue({
-              // Location Info
-              zone                              : res.data.zone,
-              carousel                          : res.data.carousel,
-              row                               : res.data.row,
-              shelf                             : res.data.shelf,
-              bin                               : res.data.bin,
-              cellSize                          : res.data.cellSz,
-              velocityCode                      : res.data.velCode,
-              itemQuantity                      : res.data.locQty,
-              maximumQuantity                   : res.data.locMaxQty,
-              quantityAllocatedPutAway          : res.data.qtyAlloc,
-              invMapID                          : res.data.invMapID
-            });
+            if (res.data.success) {
+              this.toteForm.patchValue({
+                // Location Info
+                zone                              : res.data.zone,
+                carousel                          : res.data.carousel,
+                row                               : res.data.row,
+                shelf                             : res.data.shelf,
+                bin                               : res.data.bin,
+                cellSize                          : res.data.cellSz,
+                velocityCode                      : res.data.velCode,
+                itemQuantity                      : res.data.locQty,
+                maximumQuantity                   : res.data.locMaxQty,
+                quantityAllocatedPutAway          : res.data.qtyAlloc,
+                invMapID                          : res.data.invMapID
+              }); 
+            } else {
+              this.toastr.error('No available locations were found for this item.', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            }
 
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
@@ -613,6 +620,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         this.toteForm.patchValue({
           'warehouse' : res
         });
+        this.findLocation(false, 0);
       } else if (res == 'clear') {
         this.toteForm.patchValue({
           'warehouse' : ''
