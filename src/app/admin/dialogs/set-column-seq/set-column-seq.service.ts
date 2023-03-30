@@ -56,6 +56,7 @@ export class SetColumnSeqService {
   }
 
   public updateAppName(userName:any,wsid:any,appName:any = ''): Observable<any>{
+    
     var payLoad = 
     {
       "userName":userName,
