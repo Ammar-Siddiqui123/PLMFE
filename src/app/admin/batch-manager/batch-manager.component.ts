@@ -72,29 +72,38 @@ export class BatchManagerComponent implements OnInit {
   batchUpdater: Event;
   public userData : any;
   orderList : any;
+  transTypeEvent: Event;
   displayOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "minOfPriority", "detail", "action"];
   selOrderList : any = [];
   type:any;
   batchManagerSettings : any = [];
   displaySelOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "action"];
-
+  permissions:any;
+  seeOrderStatus:boolean;
+  pickToTotes:boolean;
   constructor(private batchService : BatchManagerService, 
-              private authService: AuthService) { }
+              private authService: AuthService) { 
+                this.permissions= JSON.parse(localStorage.getItem('userRights') || '');
+              }
 
   ngOnInit(): void {
     this.orderList = [];
     this.selOrderList = [];
     this.userData = this.authService.userData();
     this.getOrders("Pick");
+    this.seeOrderStatus=this.permissions.includes('Order Status')
+    
   }
   onBatchUpdate(event: Event) {
     this.batchUpdater = event;
-  }
+  } 
+
+
   // displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
   // dataSource : any;
 
   getOrders(type : any) {
-   
+    this.transTypeEvent = type;
     this.type = type;
     let paylaod = {
       "transType": type,
@@ -143,6 +152,9 @@ export class BatchManagerComponent implements OnInit {
         const { data, isExecuted } = res
         if (isExecuted) {
           this.batchManagerSettings = data.batchManagerSettings;
+
+          this.pickToTotes=JSON.parse(this.batchManagerSettings[0].pickToTotes.toLowerCase())
+          
         } else {
 
         }

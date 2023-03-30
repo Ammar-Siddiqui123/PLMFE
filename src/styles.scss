@@ -956,6 +956,9 @@ table.g-card-table th.mat-header-cell {
 .mat-table-scrollbar scrollbar-y.scrollbar-control {
   top: 60px !important;
 }
+.mat-table-scrollbar scrollbar-x.scrollbar-control{
+  bottom: 10px;
+}
 
 .card-header {
   font-weight: 700;
