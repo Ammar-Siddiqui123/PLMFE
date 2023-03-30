@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12">
 
-      <app-batch-delete  [batchUpdater]="batchUpdater" (transTypeEmitter)="getOrders($event)" (deleteEmitter)="getDeletedOrder($event)">
+      <app-batch-delete   [batchUpdater]="batchUpdater" (transTypeEmitter)="getOrders($event)" (deleteEmitter)="getDeletedOrder($event)">
       </app-batch-delete>
 
     </div>
@@ -12,7 +12,7 @@
   
   <div class="row">
     <div class="col-7 ">
-      <app-batch-order-list   [orderListData]="orderList" [displayedColumns]="displayOrderCols"
+      <app-batch-order-list  [transTypeEvent]="transTypeEvent" [orderStatus]="seeOrderStatus"  [orderListData]="orderList" [displayedColumns]="displayOrderCols"
         (addOrderEmitter)="addRemoveOrder($event, 1)" (addRemoveAll)="addRemoveAllOrders('add')">
       </app-batch-order-list>
     </div>

@@ -3,6 +3,9 @@ import { Component, OnInit, AfterViewInit, ViewChild, Input, SimpleChanges, Even
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import { Router } from '@angular/router';
+import { BatchManagerService } from '../batch-manager.service';
+import { AuthService } from 'src/app/init/auth.service';
 
 @Component({
   selector: 'app-batch-order-list',
@@ -14,21 +17,33 @@ export class BatchOrderListComponent implements OnInit {
   // @Input() orderListData : any;
   tableData:any;
   toteNumber:number=1;
+  userData:any;
+  transType:any;
   @Input() set orderListData(val: any) {
     this.tableData = new MatTableDataSource(val);
     this.tableData.paginator = this.paginator;
     this.tableData.sort = this.sort;
   }
+  @Input()
+  set transTypeEvent(event: Event) {
+    if (event) {
+      this.transType=event
+    }
+  }
+
   @Input() displayedColumns : any;
+  @Input() orderStatus:any;
   @Output() addOrderEmitter = new EventEmitter<any>();
   @Output() addRemoveAll = new EventEmitter<any>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, private router: Router,private batchService : BatchManagerService,private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.userData = this.authService.userData();
+    
   }
 
   ngAfterViewInit() {
@@ -59,11 +74,40 @@ if(changes['orderListData']){
   }
 
   addRemoveAllOrder(){
+
+
     this.addRemoveAll.emit();
   }
 
-  openView(){
+  openView(element){
+    if(this.orderStatus){
+      this.router.navigate([]).then((result) => {
+        window.open(`/#/admin/transaction?orderStatus=${element.orderNumber}`, '_self');
+      });
+    }else{
+      this.switchToOS(element.orderNumber,this.transType);
+    }
+
     
+  }
+
+  switchToOS(order,transType){
+    let payload={
+      order: order,
+      transType:transType,
+      username: this.userData.userName,
+      wsid: this.userData.wsid
+    }
+    this.batchService.get(payload, '/Admin/DetailView').subscribe((res: any) => {
+        
+      const { data, isExecuted } = res
+      if (isExecuted && data.length > 0) {
+
+      } else {
+      }
+     
+    });
+
   }
 
 }
