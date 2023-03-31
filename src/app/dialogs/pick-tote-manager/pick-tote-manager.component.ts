@@ -889,8 +889,8 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.FILTER_DATA.map(val => {
 
-        // console.log(val);
-        // console.log(element);
+        console.log(val);
+        console.log(element);
         
         if (val.is_db) {
           this.pPickService.create(payload, '/Induction/PickBatchFilterUpdate').subscribe(res => {
