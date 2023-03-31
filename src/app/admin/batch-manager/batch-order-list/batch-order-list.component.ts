@@ -1,11 +1,13 @@
 import {LiveAnnouncer} from '@angular/cdk/a11y';
-import { Component, OnInit, AfterViewInit, ViewChild, Input, SimpleChanges, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Input, SimpleChanges, EventEmitter, Output, ChangeDetectionStrategy, TemplateRef } from '@angular/core';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { Router } from '@angular/router';
 import { BatchManagerService } from '../batch-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { BatchManagerDetailViewComponent } from '../../dialogs/batch-manager-detail-view/batch-manager-detail-view.component';
 
 @Component({
   selector: 'app-batch-order-list',
@@ -39,7 +41,7 @@ export class BatchOrderListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private router: Router,private batchService : BatchManagerService,private authService: AuthService) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, private router: Router,private batchService : BatchManagerService,private authService: AuthService,private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
@@ -108,6 +110,16 @@ if(changes['orderListData']){
      
     });
 
+  }
+
+  openBatchViewDetail(): void {
+    const dialogRef = this.dialog.open(BatchManagerDetailViewComponent, {
+      width: '1100px',
+      autoFocus: '__non_existing_element__',
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      // console.log('The dialog was closed');
+    });
   }
 
 }

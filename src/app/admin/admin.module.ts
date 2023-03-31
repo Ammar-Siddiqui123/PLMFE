@@ -129,6 +129,7 @@ import { FilterToteComponent } from './dialogs/filter-tote/filter-tote.component
 import { CCBCreateCountsComponent } from './cycle-counts/create-count-batches/create-counts/create-counts.component';
 import { CCBCountQueueComponent } from './cycle-counts/create-count-batches/count-queue/count-queue.component';
 import { CreateCountBatchesComponent } from './cycle-counts/create-count-batches/create-count-batches.component';
+import { BatchManagerDetailViewComponent } from './dialogs/batch-manager-detail-view/batch-manager-detail-view.component';
 
 
 
@@ -247,7 +248,8 @@ import { CreateCountBatchesComponent } from './cycle-counts/create-count-batches
     FilterToteComponent,
     CCBCreateCountsComponent,
     CCBCountQueueComponent,
-    CreateCountBatchesComponent
+    CreateCountBatchesComponent,
+    BatchManagerDetailViewComponent
 
   ],
   imports: [
