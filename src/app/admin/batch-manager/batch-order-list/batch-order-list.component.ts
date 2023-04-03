@@ -104,7 +104,7 @@ if(changes['orderListData']){
         
       const { data, isExecuted } = res
       if (isExecuted && data.length > 0) {
-
+        this.openBatchViewDetail(data)
       } else {
       }
      
@@ -112,10 +112,11 @@ if(changes['orderListData']){
 
   }
 
-  openBatchViewDetail(): void {
+  openBatchViewDetail(detailData?): void {
     const dialogRef = this.dialog.open(BatchManagerDetailViewComponent, {
       width: '1100px',
       autoFocus: '__non_existing_element__',
+      data:detailData
     });
     dialogRef.afterClosed().subscribe(() => {
       // console.log('The dialog was closed');

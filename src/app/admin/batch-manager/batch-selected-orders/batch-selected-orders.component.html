@@ -55,8 +55,10 @@
     </div>
 
     <div class="card table-responsive  br-14">
-
-      <table mat-table [dataSource]="tableData" matSort (matSortChange)="announceSortChange($event)">
+      <!-- <div appSort [data]="tableData" [sortBy]="'orderNumber'" >
+        <div *ngFor="let item of tableData">{{ item.orderNumber }}</div>
+      </div> -->
+      <table  mat-table [dataSource]="tableData" matSort (matSortChange)="announceSortChange($event)">
 
         <!-- Position Column -->
         <ng-container matColumnDef="orderNumber">
@@ -108,10 +110,11 @@
             Create Batch
           </button>
         </div> -->
+        
+  
       </div>
 
     </div>
-
 
   </mat-card-content>
 

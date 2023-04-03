@@ -116,36 +116,35 @@ export class BatchManagerComponent implements OnInit {
         const { data, isExecuted } = res
         if (isExecuted && data.length > 0) {
           this.orderList = data;
+
+          // this.orderList = [
+          //   {"orderNumber":"2950310","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950311","minOfPriority":0,"countOfOrderNumber":34,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950312","minOfPriority":0,"countOfOrderNumber":55,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950313","minOfPriority":0,"countOfOrderNumber":6,"includeInAutoBatch":true,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950314","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950315","minOfPriority":0,"countOfOrderNumber":7,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950316","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950317","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950318","minOfPriority":0,"countOfOrderNumber":8,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950319","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950320","minOfPriority":0,"countOfOrderNumber":9,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950321","minOfPriority":0,"countOfOrderNumber":0,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950322","minOfPriority":0,"countOfOrderNumber":3,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950313","minOfPriority":0,"countOfOrderNumber":7,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950314","minOfPriority":0,"countOfOrderNumber":4,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950315","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950316","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950317","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950318","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950319","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950330","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2950331","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          // ];
         } else {
 
         }
-       
-        // this.orderList = [
-        //   {"orderNumber":"2950310","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950311","minOfPriority":0,"countOfOrderNumber":34,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950312","minOfPriority":0,"countOfOrderNumber":55,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950313","minOfPriority":0,"countOfOrderNumber":6,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950314","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950315","minOfPriority":0,"countOfOrderNumber":7,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950316","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950317","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950318","minOfPriority":0,"countOfOrderNumber":8,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950319","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950320","minOfPriority":0,"countOfOrderNumber":9,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950321","minOfPriority":0,"countOfOrderNumber":0,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950322","minOfPriority":0,"countOfOrderNumber":3,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950313","minOfPriority":0,"countOfOrderNumber":7,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950314","minOfPriority":0,"countOfOrderNumber":4,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950315","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950316","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950317","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950318","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950319","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950330","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        //   {"orderNumber":"2950331","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-        
-        
-        // ];
+      
       
       });
       this.batchService.get(paylaod, '/Admin/GetBatchManager').subscribe((res: any) => {
@@ -182,8 +181,25 @@ export class BatchManagerComponent implements OnInit {
   }
   addRemoveAllOrders(operation){
     if(operation === 'add'){
-        this.selOrderList = [...this.selOrderList,...this.orderList];
-        this.orderList = [];
+
+
+      // Filter list on auto batch , values where includeInAutoBatch is true , move to new array
+      let filteredOrderList=this.orderList.filter((el,i)=>{
+        if(el.includeInAutoBatch){
+          return this.orderList[i]
+        }
+      })
+      const namesToDeleteSet = new Set(filteredOrderList);  // creating a new array set 
+      const newArr = this.orderList.filter((name) => { // filtering orderlist with new array set and modify it . 
+        return !namesToDeleteSet.has(name);
+      });
+
+        this.orderList = newArr;
+        this.selOrderList = [...this.selOrderList,...filteredOrderList];
+
+        // previously moving all list to selected order list on autobatch functionality
+        // this.selOrderList = [...this.selOrderList,...this.orderList];
+        // this.orderList = [];
     }
     else if(operation === 'remove'){
       this.orderList = [...this.orderList,...this.selOrderList];
