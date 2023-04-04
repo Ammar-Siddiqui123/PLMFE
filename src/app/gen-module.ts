@@ -6,6 +6,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { ActionDisableDirective } from './init/action-disable.directive';
 import { NumbersOnlyDirective } from './init/NumbersOnly.directive';
+import { SortDirective } from './init/sort.directive';
 
 @NgModule({
     exports: [
@@ -17,11 +18,12 @@ import { NumbersOnlyDirective } from './init/NumbersOnly.directive';
         ReactiveFormsModule,
         NumbersOnlyDirective,
         ActionDisableDirective,
-        
+        SortDirective
     ],
     declarations: [
         NumbersOnlyDirective,
         ActionDisableDirective,
+        SortDirective
       ],
 })
 export class GeneralModule { }
