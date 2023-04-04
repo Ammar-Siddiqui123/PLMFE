@@ -34,7 +34,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
   @Output() batchIdUpdateEmit = new EventEmitter<any>();
 
   public nextOrderNumber:any;
-
+  public batchID:any;
   @Output() removeOrderEmitter = new EventEmitter<any>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -115,6 +115,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
   }
 
   createBatch() {
+    
     let iBactchData:any[] = [];
     this.tableData.data.map((order:any) => {
       // let result = [ order.orderNumber.toString(), order.countOfOrderNumber.toString()];
@@ -126,7 +127,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
     // console.log(this.batchManagerSettings);
     let paylaod = {
       "batch": iBactchData,
-      "nextBatchID": this.nextOrderNumber,
+      "nextBatchID": this.nextOrderNumber!=this.batchID?this.nextOrderNumber:this.batchID,
       "transType": this.type,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
