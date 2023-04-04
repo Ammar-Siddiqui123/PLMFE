@@ -95,12 +95,13 @@
             </span>
 
         </div>
-        <p class="prompt-message py-1 mb-0 " >
-            Select the desired option for deleting the selected batch ?
+        <p class="prompt-message py-1 mb-0 text-error ">
+          <b style="font-size: 22px;">Delete options for Single Batches</b>
+      </p>
+        <p class="prompt-message py-3 mb-2 " >
+            <b>Select the desired option for deleting the selected batch ?</b>
         </p>
-        <p class="prompt-message py-4 mb-0 text-error ">
-            <b>Delete options for single batches</b>
-        </p>
+   
         <!-- <p class="bold text-danger mb-4">This action can not be redone.</p> -->
         <div class="br-14 px-4 py-3 checkbox-background mb-4">
           <mat-checkbox (change)="checkOptions($event)" class="example-margin" color="primary">I understand data cannot be recovered</mat-checkbox>
@@ -130,12 +131,13 @@
             </span>
 
         </div>
-        <p class="prompt-message py-1 mb-0 " >
-          Are you sure you want to delete all batches with a transaction type of {{transType}} ?
-        </p>
-        <p class="prompt-message py-4 mb-0 text-error ">
-            <b>Delete By Transaction Type</b>
-        </p>
+   
+        <p class="prompt-message py-1 mb-0 text-error ">
+          <b style="font-size: 22px;">Batch Manager</b>
+      </p>
+      <p class="prompt-message py-3 mb-0 " >
+      <b>  Are you sure you want to delete all batches with a transaction type of {{transType}} ?</b>
+      </p>
         <!-- <p class="bold text-danger mb-4">This action can not be redone.</p> -->
         <div class="br-14 px-4 py-3 checkbox-background mb-4">
           <mat-checkbox (change)="checkOptions($event)" class="example-margin" color="primary">I understand data cannot be recovered</mat-checkbox>
