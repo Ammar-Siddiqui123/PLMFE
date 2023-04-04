@@ -37,7 +37,7 @@ export class BatchOrderListComponent implements OnInit {
   @Input() orderStatus:any;
   @Output() addOrderEmitter = new EventEmitter<any>();
   @Output() addRemoveAll = new EventEmitter<any>();
-
+  fixedTote=1;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -70,14 +70,12 @@ if(changes['orderListData']){
   }
 
   addOrders(order : any) {
-  
+    order.fixedTote=this.fixedTote>=10?1:this.fixedTote++;
     order.toteNumber= this.toteNumber<=10?this.toteNumber++:this.toteNumber=1; // tote number increment till 10 after 10 restarts to 1
     this.addOrderEmitter.emit(order);
   }
 
   addRemoveAllOrder(){
-
-
     this.addRemoveAll.emit();
   }
 

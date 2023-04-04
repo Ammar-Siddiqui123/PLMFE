@@ -36,11 +36,11 @@
               <span class="material-symbols-outlined">
                 keyboard_arrow_down
               </span>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item>Batch Report</button>
-                <button mat-menu-item>Item Labels</button>
-              </mat-menu>
-            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Batch Report</button>
+              <button mat-menu-item>Item Labels</button>
+            </mat-menu>
+          </button>
           </div>
           <div class="col-6">
             <button mat-stroked-button appearance="outline" color="warn" class="button-remove-all-w-stroke bg-white br-18 w-100"
@@ -103,7 +103,7 @@
       </table>
 
       <div class="d-flex justify-content-between bg-white">
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [hidePageSize]="true"></mat-paginator>
         <!-- <div class="m-3">
           <button mat-flat-button color="primary" class="br-14" [disabled]="this.tableData.data.length == 0"
             (click)="createBatchDialog()">

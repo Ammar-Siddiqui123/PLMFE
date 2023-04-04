@@ -70,12 +70,14 @@ const INVMAP_DATA = [
 })
 export class BatchManagerComponent implements OnInit {  
   batchUpdater: Event;
+
   public userData : any;
   orderList : any;
   transTypeEvent: Event;
   displayOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "minOfPriority", "detail", "action"];
   selOrderList : any = [];
   type:any;
+  isAutoBatch=false;
   batchManagerSettings : any = [];
   displaySelOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "action"];
   permissions:any;
@@ -116,18 +118,17 @@ export class BatchManagerComponent implements OnInit {
         const { data, isExecuted } = res
         if (isExecuted && data.length > 0) {
           this.orderList = data;
-
           // this.orderList = [
-          //   {"orderNumber":"2950310","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-          //   {"orderNumber":"2950311","minOfPriority":0,"countOfOrderNumber":34,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-          //   {"orderNumber":"2950312","minOfPriority":0,"countOfOrderNumber":55,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-          //   {"orderNumber":"2950313","minOfPriority":0,"countOfOrderNumber":6,"includeInAutoBatch":true,"extraField1":"0","extraField2":""},
-          //   {"orderNumber":"2950314","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-          //   {"orderNumber":"2950315","minOfPriority":0,"countOfOrderNumber":7,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-          //   {"orderNumber":"2950316","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-          //   {"orderNumber":"2950317","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-          //   {"orderNumber":"2950318","minOfPriority":0,"countOfOrderNumber":8,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
-          //   {"orderNumber":"2950319","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"1974473","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"1974478","minOfPriority":0,"countOfOrderNumber":34,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"2201","minOfPriority":0,"countOfOrderNumber":55,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"1974841","minOfPriority":0,"countOfOrderNumber":6,"includeInAutoBatch":true,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"Kitord2-0001","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"Kitord2-0002","minOfPriority":0,"countOfOrderNumber":7,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"Order 2","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"Order 3","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"Order 4","minOfPriority":0,"countOfOrderNumber":8,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
+          //   {"orderNumber":"Order 7","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
           //   {"orderNumber":"2950320","minOfPriority":0,"countOfOrderNumber":9,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
           //   {"orderNumber":"2950321","minOfPriority":0,"countOfOrderNumber":0,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
           //   {"orderNumber":"2950322","minOfPriority":0,"countOfOrderNumber":3,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
@@ -173,15 +174,24 @@ export class BatchManagerComponent implements OnInit {
       this.orderList = this.orderList.filter(val => val.orderNumber !== order.orderNumber);
       this.selOrderList = [order, ...this.selOrderList];
       
+      this.selOrderList.sort((a, b) => {
+        const orderNumA = a.orderNumber.toLowerCase();
+        const orderNumB = b.orderNumber.toLowerCase();
+        if (orderNumA < orderNumB) return -1;
+        if (orderNumA > orderNumB) return 1;
+        return 0;
+      });
+      
     } else {
     
       this.selOrderList = this.selOrderList.filter(val => val.orderNumber !== order.orderNumber);
       this.orderList = [order, ...this.orderList];
     }
   }
+   
   addRemoveAllOrders(operation){
     if(operation === 'add'){
-
+      this.isAutoBatch=true;
 
       // Filter list on auto batch , values where includeInAutoBatch is true , move to new array
       let filteredOrderList=this.orderList.filter((el,i)=>{
@@ -202,6 +212,7 @@ export class BatchManagerComponent implements OnInit {
         // this.orderList = [];
     }
     else if(operation === 'remove'){
+      this.isAutoBatch=false;
       this.orderList = [...this.orderList,...this.selOrderList];
       this.selOrderList = [];
     }

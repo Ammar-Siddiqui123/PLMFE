@@ -28,6 +28,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
   @Input() displayedColumns : any;
   @Input() batchManagerSettings : any;
   @Input() type : any;
+  @Input() isAutoBatch : any;
   @Output() addRemoveAll = new EventEmitter<any>();
   @Output() batchCreated = new EventEmitter<any>();
   @Output() batchIdUpdateEmit = new EventEmitter<any>();
@@ -38,7 +39,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
+  toteValue=0;
   constructor(
     private dialog: MatDialog,
     private _liveAnnouncer: LiveAnnouncer, 
@@ -48,7 +49,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.userData = this.authService.userData();
+    this.userData = this.authService.userData(); 
   }
 
   ngAfterViewInit() {
@@ -66,10 +67,15 @@ export class BatchSelectedOrdersComponent implements OnInit {
           toteLimit=1;
         }  
         element['toteNumber']=toteLimit;
-  
+      
       });
     }
   
+    if(changes['isAutoBatch']){
+       this.isAutoBatch=changes['isAutoBatch']['currentValue'];
+
+        
+    }
     this.batchManagerSettings.map(batchSetting => {
         this.nextOrderNumber = batchSetting.batchID
         // console.log(batchSetting.batchID);
@@ -112,7 +118,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
     let iBactchData:any[] = [];
     this.tableData.data.map((order:any) => {
       // let result = [ order.orderNumber.toString(), order.countOfOrderNumber.toString()];
-      let result = [ order.orderNumber.toString(), order.toteNumber.toString()];
+      let result = [ order.orderNumber.toString(), this.isAutoBatch?order.toteNumber.toString() :order.fixedTote.toString()];
       iBactchData.push(result);
     });
     
