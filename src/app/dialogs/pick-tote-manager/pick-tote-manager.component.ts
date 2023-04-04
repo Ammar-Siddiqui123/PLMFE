@@ -264,7 +264,7 @@ export class PickToteManagerComponent implements OnInit {
     // console.log(filterData);
     if (filterData) {
       filterData.map(obj => {
-        this.FILTER_DATA.push({ sequence: obj.sequence, field: obj.field, criteria: obj.criteria, value: obj.value, andOr: obj.andOr, isSaved: true });
+        this.FILTER_DATA.push({ sequence: obj.sequence, field: obj.field, criteria: obj.criteria, value: obj.value, andOr: obj.andOr, isSaved: true,is_db: true });
         this.filterSeq = obj.sequence
       });
       this.dataSource = new MatTableDataSource<any>(this.FILTER_DATA);
@@ -888,7 +888,11 @@ export class PickToteManagerComponent implements OnInit {
         "wsid": this.userData.wsid,
       }
       this.FILTER_DATA.map(val => {
-        if (val.sequence === element.sequence && val.isSaved === true) {
+
+        console.log(val);
+        console.log(element);
+        
+        if (val.is_db) {
           this.pPickService.create(payload, '/Induction/PickBatchFilterUpdate').subscribe(res => {
             if (res.isExecuted) {
               this.isFilterAdd = true;
@@ -901,7 +905,7 @@ export class PickToteManagerComponent implements OnInit {
             }
           });
         }
-        if (val.isSaved === false) {
+        else {
           this.pPickService.create(payload, '/Induction/PickBatchFilterInsert').subscribe(res => {
             if (res.isExecuted) {
               this.isFilterAdd = true;
