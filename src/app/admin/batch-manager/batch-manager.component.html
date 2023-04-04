@@ -17,9 +17,10 @@
       </app-batch-order-list>
     </div>
       <div class="col-5">
-      <app-batch-selected-orders (batchIdUpdateEmit)="onBatchUpdate($event)" [selectedOrderList]="selOrderList" [displayedColumns]="displaySelOrderCols"
+      <app-batch-selected-orders  (batchIdUpdateEmit)="onBatchUpdate($event)" [selectedOrderList]="selOrderList" [displayedColumns]="displaySelOrderCols"
         (removeOrderEmitter)="addRemoveOrder($event, 2)" 
         [batchManagerSettings]="batchManagerSettings" 
+        [isAutoBatch]="isAutoBatch"
         [type]="type" (addRemoveAll)="addRemoveAllOrders('remove')"
         (batchCreated)="batchCreated($event)"
         >

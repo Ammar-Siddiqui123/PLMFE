@@ -1,5 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -10,23 +11,18 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class BatchManagerDetailViewComponent implements OnInit {
 
-  ELEMENT_DATA: any[] = [
-    {item_no: '1005', description: 'tinted glass sticker', location_qty: '1205', uom: 'Each', warehouse: 'Loc 213321', location: 'Main Location'},
-    {item_no: '1008965', description: 'tinted glass sticker', location_qty: '1205', uom: 'Each', warehouse: 'Loc 213321', location: 'Main Location'},
-    {item_no: '1008965', description: 'tinted glass sticker', location_qty: '120', uom: 'Each', warehouse: 'Loc321', location: 'Main Location'},
-    {item_no: '1008965', description: 'tinted glass sticker', location_qty: '1205', uom: 'Each', warehouse: 'Loc 213321', location: 'Main Location'},
-    {item_no: '1008965', description: 'tinted glass sticker', location_qty: '1205', uom: 'Each', warehouse: 'Loc 213321', location: 'Main Location'},
-    {item_no: '1008965', description: 'tinted glass sticker', location_qty: '1205', uom: 'Each', warehouse: 'Loc 213321', location: 'Main Location'},
-    {item_no: '1008965', description: 'tinted glass sticker', location_qty: '1205', uom: 'Each', warehouse: 'Loc 213321', location: 'Main Location'},
-    {item_no: '1008965', description: 'tinted glass sticker', location_qty: '1205', uom: 'Each', warehouse: 'Loc 213321', location: 'Main Location'},
-  ];
-  displayedColumns: string[] = ['item_no', 'description', 'location_qty', 'uom', 'warehouse', 'location'];
+
+  displayedColumns: string[] = ['item_no', 'description','transaction_qty','lotNo', 'expiration_date', 'uom', 'serial_no', 'notes','location','warehouse','userField1','userField2','toteID'];
   dataSource:any = [];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  constructor(private _liveAnnouncer: LiveAnnouncer) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer,@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<any>) { 
+
+
+    
+  }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+    this.dataSource = new MatTableDataSource(this.data);
     // this.dataSource.sort = this.sort
   }
   ngAfterViewInit() {
