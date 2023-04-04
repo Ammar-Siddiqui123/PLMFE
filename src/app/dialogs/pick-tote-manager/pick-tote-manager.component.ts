@@ -338,21 +338,33 @@ export class PickToteManagerComponent implements OnInit {
       });
     }
     if (option.value === 'set_default') {
-      let paylaod = {
-        "Description": this.savedFilter.value,
-        "wsid": this.userData.wsid
-      }
-      this.pPickService.get(paylaod, '/Induction/PickBatchDefaultFilterMark').subscribe(res => {
-        if (res.isExecuted) {
-          this.toastr.success(labels.alert.update, 'Success!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '480px',
+        data: {
+          message: 'Mark this filter as the default one ?',
+        },
+        autoFocus: '__non_existing_element__',
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 'Yes') {
+          let paylaod = {
+            "Description": this.savedFilter.value,
+            "wsid": this.userData.wsid
+          }
+          this.pPickService.get(paylaod, '/Induction/PickBatchDefaultFilterMark').subscribe(res => {
+            if (res.isExecuted) {
+              this.toastr.success(labels.alert.update, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              }); 
+            }
           });
-          const matSelect: MatSelect = option.source;
-          matSelect.writeValue(null);
         }
-
+        const matSelect: MatSelect = option.source;
+        matSelect.writeValue(null);
       });
+     
     }
     if (option.value === 'clear_default') {
       let paylaod = {
@@ -889,8 +901,8 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.FILTER_DATA.map(val => {
 
-        console.log(val);
-        console.log(element);
+        // console.log(val);
+        // console.log(element);
         
         if (val.is_db) {
           this.pPickService.create(payload, '/Induction/PickBatchFilterUpdate').subscribe(res => {

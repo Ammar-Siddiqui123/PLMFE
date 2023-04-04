@@ -299,7 +299,7 @@
                                 </button>
 
                                 <mat-menu #appMenu="matMenu">
-                                    <a mat-menu-item><b class="text-tertiary-900" (click)="onViewOrder(element)">View Order</b></a>
+                                    <button type="button" mat-menu-item (click)="onViewOrder(element)"><b class="text-tertiary-900">View Order</b></button>
                                     <button type="button" mat-menu-item (click)="clearOrderNumber(i)">Clear</button>
                                     <button type="button" mat-menu-item>Print Tote Labels</button>
                                     <button type="button" mat-menu-item>Print Pick Labels</button>
