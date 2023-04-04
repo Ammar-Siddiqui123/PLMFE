@@ -38,7 +38,7 @@ export class DeleteConfirmationComponent implements OnInit {
 
   ngOnInit(): void {
     this.Message = "";
-    console.log(this.data);
+    // console.log(this.data);
     if(this.data.ErrorMessage)
     {
       this.Message = this.data.ErrorMessage;
