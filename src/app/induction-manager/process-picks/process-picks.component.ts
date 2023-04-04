@@ -575,6 +575,7 @@ export class ProcessPicksComponent implements OnInit {
   clearAllOrders() {
     this.TOTE_SETUP.forEach((element, key) => {
       element.orderNumber = "";
+      element.priority = "";
     });
     this.allOrders = [];
   }
@@ -611,6 +612,7 @@ export class ProcessPicksComponent implements OnInit {
 
   clearOrderNumber(i: any) {
     this.TOTE_SETUP[i].orderNumber = "";
+    this.TOTE_SETUP[i].priority = "";
     this.allOrders[i] = '';
   }
 
