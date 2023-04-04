@@ -351,7 +351,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       username: this.userData?.userName,
       wsid: this.userData?.wsid,
     };
-    console.log('.:...................>',payload);
+    // console.log('.:...................>',payload);
     
     this.transactionService
       .get(payload, '/Admin/TransactionHistoryTable', true)
