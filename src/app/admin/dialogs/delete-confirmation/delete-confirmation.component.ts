@@ -19,6 +19,7 @@ import { TransactionService } from '../../transaction/transaction.service';
 export class DeleteConfirmationComponent implements OnInit {
   isChecked = true;
   action="remove";
+  actionMessage="";
   Message:any;
   public userData;
   constructor(
@@ -47,6 +48,8 @@ export class DeleteConfirmationComponent implements OnInit {
     if(this.data?.action)
     {
       this.action = this.data.action;
+    }if(this.data?.actionMessage){
+      this.actionMessage=this.data.actionMessage
     }
   }
 
