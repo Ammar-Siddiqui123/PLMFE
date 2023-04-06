@@ -6,21 +6,21 @@
       <div class="col-md-4 mb-3">
           <mat-form-field class="filter w-100 stats-filters" appearance="outline">
             <mat-label>Average Piece Weight</mat-label>
-            <input matInput type="number" class="custom-input-number" formControlName="avgPieceWeight"  pattern="^[0-9]*$"  >
+            <input matInput type="number" class="custom-input-number" formControlName="avgPieceWeight" (keyup)="changeavgPieceWeight($event)">
           </mat-form-field>
         </div>
 
         <div class="col-md-4 mb-3">
             <mat-form-field class="filter w-100 stats-filters" appearance="outline">
               <mat-label>Sample Quantity</mat-label>
-              <input matInput type="number" class="custom-input-number" formControlName="sampleQuantity"  pattern="^[0-9]*$" >
+              <input matInput type="number" class="custom-input-number" formControlName="sampleQuantity" (keyup)="changesampleQuantity($event)" >
             </mat-form-field>
           </div>
 
           <div class="col-md-4 mb-3">
             <mat-form-field class="filter w-100 stats-filters" appearance="outline">
               <mat-label>Min. Use Scale Trans. Quantity</mat-label>
-              <input matInput type="number" class="custom-input-number" formControlName="minimumUseScaleQuantity" pattern="^[0-9]*$" >
+              <input matInput type="number" class="custom-input-number" formControlName="minimumUseScaleQuantity" (keyup)="changeminimumUseScaleQuantity($event)">
             </mat-form-field>
           </div>
     </div>

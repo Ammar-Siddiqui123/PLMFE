@@ -214,10 +214,10 @@ export class InventoryMasterComponent implements OnInit {
       scanCode: [this.getInvMasterData?.scanCode || '', [Validators.required]],
 
 
-      avgPieceWeight: [this.getInvMasterData?.avgPieceWeight || 0, [Validators.required, Validators.maxLength(11), Validators.pattern("^[0-9]*$")]],
-      sampleQuantity: [this.getInvMasterData?.sampleQuantity || "0", [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
-      minimumUseScaleQuantity: [this.getInvMasterData?.minimumUseScaleQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
-      useScale: [this.getInvMasterData?.useScale || 0, [Validators.required]],
+      avgPieceWeight: [this.getInvMasterData?.avgPieceWeight || 0, [Validators.required]],
+      sampleQuantity: [this.getInvMasterData?.sampleQuantity || 0, [Validators.required]],
+      minimumUseScaleQuantity: [this.getInvMasterData?.minimumUseScaleQuantity || 0, [Validators.required]],
+      useScale: [this.getInvMasterData?.useScale || false, [Validators.required]],
 
 
 
@@ -378,26 +378,41 @@ export class InventoryMasterComponent implements OnInit {
 
   }
 
-  public updateInventoryMaster() {
-    this.invMaster.patchValue({
-      'bulkGoldZone': this.invMaster.value?.bulkVelocity,
-      'CfGoldZone': this.invMaster.value?.cfVelocity
-    });
+  updateInventoryMasterValidate(){
+    // debugger
+    if(this.invMaster.value?.avgPieceWeight == null || this.invMaster.value?.avgPieceWeight < 0 || this.invMaster.value?.avgPieceWeight > 99999999999){
+      return false;
+    }
+    if(this.invMaster.value?.sampleQuantity == null || this.invMaster.value?.sampleQuantity < 0 || this.invMaster.value?.sampleQuantity > 999999999){
+      return false;
+    }
+    if(this.invMaster.value?.minimumUseScaleQuantity == null || this.invMaster.value?.minimumUseScaleQuantity < 0 || this.invMaster.value?.minimumUseScaleQuantity > 999999999){
+      return false;
+    }
+    return true;
+  }
 
-    this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
-      if (res.isExecuted) {
-        this.getInventory();
-        this.toastr.success(labels.alert.update, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      } else {
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }
-    })
+  public updateInventoryMaster() {
+    if(this.updateInventoryMasterValidate()){
+      this.invMaster.patchValue({
+        'bulkGoldZone': this.invMaster.value?.bulkVelocity,
+        'CfGoldZone': this.invMaster.value?.cfVelocity
+      });
+      this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
+        if (res.isExecuted) {
+          this.getInventory();
+          this.toastr.success(labels.alert.update, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        } else {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      })
+    }
   }
   public updateItemNumber(form: any) {
     let paylaod = {
