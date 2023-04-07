@@ -130,6 +130,7 @@ import { CCBCreateCountsComponent } from './cycle-counts/create-count-batches/cr
 import { CCBCountQueueComponent } from './cycle-counts/create-count-batches/count-queue/count-queue.component';
 import { CreateCountBatchesComponent } from './cycle-counts/create-count-batches/create-count-batches.component';
 import { BatchManagerDetailViewComponent } from './dialogs/batch-manager-detail-view/batch-manager-detail-view.component';
+import { SystemReplenishmentComponent } from './system-replenishment/system-replenishment.component';
 
 
 
@@ -249,7 +250,8 @@ import { BatchManagerDetailViewComponent } from './dialogs/batch-manager-detail-
     CCBCreateCountsComponent,
     CCBCountQueueComponent,
     CreateCountBatchesComponent,
-    BatchManagerDetailViewComponent
+    BatchManagerDetailViewComponent,
+    SystemReplenishmentComponent
 
   ],
   imports: [
