@@ -15,14 +15,4 @@ export class OthersComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  changeunitCost(event:any){
-    if(event.target.value > 99999999999){
-      console.log(event.target.value);
-      this.others.patchValue({
-        'unitCost' : Math.floor(event.target.value / 10)
-      });
-    }
-  }
-
 }
