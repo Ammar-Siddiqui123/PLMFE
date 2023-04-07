@@ -11,7 +11,7 @@
                     <mat-icon style="margin-right: 15px;">attach_money</mat-icon> 
                 </div>
                 <div class="col-md-10">
-                    <input matInput type="number" class="custom-input-number" formControlName="unitCost">
+                  <input matInput type="number" class="custom-input-number" formControlName="unitCost" (keyup)="changeunitCost($event)">
                 </div>                               
             </div>
           </mat-form-field>
@@ -20,14 +20,14 @@
         <div class="col-md-4 mb-3">
             <mat-form-field class="filter w-100 stats-filters" appearance="outline">
               <mat-label>Supplier ID</mat-label>
-              <input matInput type="number" class="custom-input-number" formControlName="supplierItemID">
+              <input matInput type="text" class="custom-input-number" formControlName="supplierItemID"  maxlength="50">
             </mat-form-field>
           </div>
 
           <div class="col-md-4 mb-3">
             <mat-form-field class="filter w-100 stats-filters" appearance="outline">
               <mat-label>Manufacturer ID</mat-label>
-              <input matInput type="number" class="custom-input-number" formControlName="manufacturer">
+              <input matInput type="text" class="custom-input-number" formControlName="manufacturer"  maxlength="50">
             </mat-form-field>
           </div>
     </div>
@@ -35,7 +35,7 @@
         <div class="col-md-12 mb-3">
             <mat-form-field class="filter w-100 stats-filters" appearance="outline">
               <mat-label>Special Features</mat-label>
-              <textarea matInput type="number" class="custom-input-number" formControlName="specialFeatures">
+              <textarea matInput type="text" class="custom-input-number" formControlName="specialFeatures"  maxlength="255">
                 </textarea>
             </mat-form-field>
           </div>

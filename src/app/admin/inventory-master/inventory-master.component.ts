@@ -223,8 +223,8 @@ export class InventoryMasterComponent implements OnInit {
 
       unitCost: [this.getInvMasterData?.unitCost || 0, [Validators.required, Validators.maxLength(11), Validators.pattern("^[0-9]*$")]],
       // supplierItemID: [ '', [Validators.required]],
-      manufacturer: [this.getInvMasterData?.manufacturer || '', [Validators.required, Validators.maxLength(11)]],
-      specialFeatures: [this.getInvMasterData?.specialFeatures || '', [Validators.required]],
+      manufacturer: [this.getInvMasterData?.manufacturer || '', [Validators.maxLength(50)]],
+      specialFeatures: [this.getInvMasterData?.specialFeatures || '', [Validators.maxLength(255)]],
 
 
       inventoryTable: [this.invMasterLocations?.inventoryTable || '', [Validators.required]],
@@ -387,6 +387,9 @@ export class InventoryMasterComponent implements OnInit {
       return false;
     }
     if(this.invMaster.value?.minimumUseScaleQuantity == null || this.invMaster.value?.minimumUseScaleQuantity < 0 || this.invMaster.value?.minimumUseScaleQuantity > 999999999){
+      return false;
+    }
+    if(this.invMaster.value?.unitCost == null || this.invMaster.value?.unitCost < 0 || this.invMaster.value?.unitCost > 99999999999){
       return false;
     }
     return true;
