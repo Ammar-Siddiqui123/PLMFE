@@ -15,31 +15,4 @@ export class WeightScaleComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  changeavgPieceWeight(event:any){
-    if(event.target.value > 99999999999){
-      console.log(event.target.value);
-      this.weighScale.patchValue({
-        'avgPieceWeight' : Math.floor(event.target.value / 10)
-      });
-    }
-  }
-
-  changesampleQuantity(event:any){
-    if(event.target.value > 999999999){
-      console.log(event.target.value);
-      this.weighScale.patchValue({
-        'sampleQuantity' : Math.floor(event.target.value / 10)
-      });
-    }
-  }
-
-  changeminimumUseScaleQuantity(event:any){
-    if(event.target.value > 999999999){
-      console.log(event.target.value);
-      this.weighScale.patchValue({
-        'minimumUseScaleQuantity' : Math.floor(event.target.value / 10)
-      });
-    }
-  }
 }
