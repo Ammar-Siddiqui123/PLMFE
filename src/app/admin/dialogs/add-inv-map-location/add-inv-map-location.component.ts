@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CellSizeComponent } from '../cell-size/cell-size.component';
 import { VelocityCodeComponent } from '../velocity-code/velocity-code.component';
@@ -73,7 +73,10 @@ export class AddInvMapLocationComponent implements OnInit {
   bin = '';
   setStorage;
   quantity: any;
-  routeFromIM:boolean=false;
+  routeFromIM: boolean = false;
+
+  @ViewChild('cellSizeVal') cellSizeVal: ElementRef;
+  @ViewChild('velCodeVal') velCodeVal: ElementRef;
 
 
   getDetailInventoryMapData: InventoryMapDataStructure = {
@@ -147,7 +150,7 @@ export class AddInvMapLocationComponent implements OnInit {
       this.shelf = this.getDetailInventoryMapData.shelf
       this.bin = this.getDetailInventoryMapData.bin
       this.itemDescription = this.getDetailInventoryMapData.description;
-      this.quantity  = this.getDetailInventoryMapData.itemQuantity;
+      this.quantity = this.getDetailInventoryMapData.itemQuantity;
       // console.log(this.getDetailInventoryMapData.masterInventoryMapID);
 
       this.updateItemNumber();
@@ -175,29 +178,28 @@ export class AddInvMapLocationComponent implements OnInit {
     });
 
 
-    this.setStorage =localStorage.getItem('routeFromInduction')
-    this.routeFromIM=JSON.parse(this.setStorage)
+    this.setStorage = localStorage.getItem('routeFromInduction')
+    this.routeFromIM = JSON.parse(this.setStorage)
 
   }
 
-  clearFields()
-  {
+  clearFields() {
     this.addInvMapLocation.patchValue({
-      'userField1':'',
-      'userField2':'',
-      'item':'',
-      'maxQuantity':'',
-      'minQuantity':'',
-      'putAwayDate':'',
-      'serialNumber':'',
-      'lotNumber':'',
-      'revision':'',
-      'expirationDate':''
+      'userField1': '',
+      'userField2': '',
+      'item': '',
+      'maxQuantity': '',
+      'minQuantity': '',
+      'putAwayDate': '',
+      'serialNumber': '',
+      'lotNumber': '',
+      'revision': '',
+      'expirationDate': ''
     });
     this.itemDescription = "";
   }
 
-  adjustQuantity(){
+  adjustQuantity() {
     let dialogRef = this.dialog.open(AdjustQuantityComponent, {
       height: 'auto',
       width: '800px',
@@ -207,11 +209,10 @@ export class AddInvMapLocationComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      if(result!=true)
-      {
+      if (result != true) {
 
         this.addInvMapLocation.patchValue({
-          'itemQuantity':result
+          'itemQuantity': result
         });
       }
     })
@@ -297,77 +298,38 @@ export class AddInvMapLocationComponent implements OnInit {
     this.addInvMapLocation.controls['locationNumber'].setValue(value);
   }
   onSubmit(form: FormGroup) {
-
-    //console.log(form.value);
-
-    this.invMapService.getItemNumDetail({"itemNumber":form.value.item,"zone":form.value.zone}).subscribe((res) => {
       this.clickSubmit = true;
+        if (this.clickSubmit) {
+          if (this.data.detailData) {
+            this.clickSubmit = false;
+            this.invMapService.updateInventoryMap(form.value).subscribe((res) => {
+              this.clickSubmit = true;
+              //console.log(res);
+              if (res.isExecuted) {
+                this.toastr.success("Your details have been updated", 'Success!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000
+                });
 
-      //console.log(res.data.velocityCode);
-      //console.log(res.data.cellSize);
-
-      if (res.isExecuted) {
-
-        var match = '';
-        var expected='';
-        if (form.value.cell != res.data.cellSize && res.data.cellSize) {
-        match += 'Cell Size';
-        expected+=' Expecting Cell Size: ' + res.data.cellSize;
-        };
-        if (form.value.velocity != res.data.velocityCode && res.data.velocityCode) {
-        if (match != '') { match += ', Velocity Code'; expected+=' and Velocity Code: ' + res.data.velocityCode } else { match += 'Velocity Code'; expected+='Velocity Code: ' + res.data.velocityCode };
-        };
-        if (match != '') 
-        {
-        this.toastr.error('Provided ' + match + ' do not match Inventory Master.'+expected+' for specified Item and Zone', 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-        }
-        else 
-        {
-    if (this.clickSubmit) {
-      if (this.data.detailData) {
-        this.clickSubmit = false;
-        this.invMapService.updateInventoryMap(form.value).subscribe((res) => {
-          this.clickSubmit = true;
-          //console.log(res);
-          if (res.isExecuted) {
-            this.toastr.success("Your details have been updated", 'Success!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
+                this.dialog.closeAll()
+              }
             });
+          } else {
+            this.clickSubmit = false;
+            this.invMapService.createInventoryMap(form.value).subscribe((res) => {
+              this.clickSubmit = true;
+              //console.log(res);
+              if (res.isExecuted) {
+                this.toastr.success("Your details have been added", 'Success!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000
+                });
 
-            this.dialog.closeAll()
-          }
-        });
-      } else {
-        this.clickSubmit = false;
-        this.invMapService.createInventoryMap(form.value).subscribe((res) => {
-          this.clickSubmit = true;
-          //console.log(res);
-          if (res.isExecuted) {
-            this.toastr.success("Your details have been added", 'Success!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
+                this.dialog.closeAll()
+              }
             });
-
-            this.dialog.closeAll()
           }
-        });
-      }
-    }
-
         }
-
-
-
-
-
-
-      }
-    });
-
 
   }
 
@@ -392,11 +354,11 @@ export class AddInvMapLocationComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       // console.log(result);
-      
+
       if (result != true && result != false) {
         this.addInvMapLocation.controls['warehouse'].setValue(result);
       }
-      if(result == 'clear'){
+      if (result == 'clear') {
         this.addInvMapLocation.controls['warehouse'].setValue('');
       }
     })
@@ -455,14 +417,36 @@ export class AddInvMapLocationComponent implements OnInit {
         this.itemDescription = val.description ?? '';
       }
     })
-    // let payload = {
-    //   "itemNumber": item.option.value,
-    //   "zone": this.addInvMapLocation.get('zone')?.value
-    // }
-    // this.invMapService.getItemNumDetail(payload).subscribe((res) => {
+    let payload = {
+      "itemNumber": item,
+      "zone": this.addInvMapLocation.get('zone')?.value
+    }
 
-    //  // this.addInvMapLocation.controls['description'].setValue(res.data.maxQuantity);
-    // });
+    const cellSizeVal = this.cellSizeVal.nativeElement.value
+    const velCodeVal = this.velCodeVal.nativeElement.value
+    console.log(cellSizeVal);
+
+    this.invMapService.getItemNumDetail(payload).subscribe((res) => {
+      if (res.isExecuted) {
+
+        var match = '';
+        var expected = '';
+        if (cellSizeVal != res.data.cellSize && res.data.cellSize) {
+          match += 'Cell Size';
+          expected += ' Expecting Cell Size: ' + res.data.cellSize;
+        };
+        if (velCodeVal != res.data.velocityCode && res.data.velocityCode) {
+          if (match != '') { match += ', Velocity Code'; expected += ' and Velocity Code: ' + res.data.velocityCode } else { match += 'Velocity Code'; expected += 'Velocity Code: ' + res.data.velocityCode };
+        };
+        if (match != '') {
+          this.toastr.info('Provided ' + match + ' do not match Inventory Master.' + expected + ' for specified Item and Zone', 'Info!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      }
+
+    });
   }
 
   updateItemNumber(col?: string, val?: any) {

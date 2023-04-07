@@ -30,7 +30,7 @@ export class CreateBatchComponent implements OnInit {
     let dialogRef;
     dialogRef = this.dialog.open(CreateBatchConfirmationComponent, {
       height: 'auto',
-      width: '480px',
+      width: '550px',
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((result) => {
