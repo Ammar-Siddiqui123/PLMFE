@@ -11,6 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 import labels from '../../../labels/labels.json';
 import { CreateBatchComponent } from '../../dialogs/create-batch/create-batch.component';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
+import { SharedService } from 'src/app/services/shared.service';
+import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 
 @Component({
   selector: 'app-batch-selected-orders',
@@ -20,6 +22,9 @@ import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/d
 export class BatchSelectedOrdersComponent implements OnInit {
   public userData : any;
   tableData:any;
+  transType:any;
+  pickToTotes:boolean;
+  nextToteID:any;
   @Input() set selectedOrderList(val: any) {
     this.tableData = new MatTableDataSource(val);
     this.tableData.paginator = this.paginator;
@@ -32,7 +37,13 @@ export class BatchSelectedOrdersComponent implements OnInit {
   @Output() addRemoveAll = new EventEmitter<any>();
   @Output() batchCreated = new EventEmitter<any>();
   @Output() batchIdUpdateEmit = new EventEmitter<any>();
-
+  @Input()
+  set transTypeEvent(event: Event) {
+    if (event) {
+      this.transType=event;
+     this.addRemoveAll.emit();
+    }
+  }
   public nextOrderNumber:any;
   public batchID:any;
   @Output() removeOrderEmitter = new EventEmitter<any>();
@@ -45,7 +56,8 @@ export class BatchSelectedOrdersComponent implements OnInit {
     private _liveAnnouncer: LiveAnnouncer, 
     private authService: AuthService,
     private batchService : BatchManagerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private sharedService:SharedService
     ) { }
 
   ngOnInit(): void {
@@ -55,6 +67,12 @@ export class BatchSelectedOrdersComponent implements OnInit {
   ngAfterViewInit() {
     // this.dataSource.paginator = this.paginator;
     // this.dataSource.sort = this.sort;
+    this.sharedService.batchManagerObserver.subscribe((obj) => {
+      if(obj['isCreate']){
+        this.createBatch();
+      }
+      
+    })
   }
   ngOnChanges(changes: SimpleChanges) {
     let toteLimit=0;
@@ -69,6 +87,8 @@ export class BatchSelectedOrdersComponent implements OnInit {
         element['toteNumber']=toteLimit;
       
       });
+    
+        this.sharedService.updateBatchManagerObject({selectedOrderLength:this.tableData['_data']['_value'].length})
     }
   
     if(changes['isAutoBatch']){
@@ -78,6 +98,8 @@ export class BatchSelectedOrdersComponent implements OnInit {
     }
     this.batchManagerSettings.map(batchSetting => {
         this.nextOrderNumber = batchSetting.batchID
+        this.pickToTotes=JSON.parse(batchSetting.pickToTotes.toLowerCase())
+        this.nextToteID=batchSetting.nextToteID;
         // console.log(batchSetting.batchID);
         // console.log(this.tableData.data.length);
         
@@ -116,6 +138,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
 
   createBatch() {
     
+
     let iBactchData:any[] = [];
     this.tableData.data.map((order:any) => {
       // let result = [ order.orderNumber.toString(), order.countOfOrderNumber.toString()];
@@ -152,7 +175,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
   }
 
   addRemoveAllOrder(){
-      console.log();
+  
       if(this.tableData['_data']['_value'].length==0)return
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
@@ -180,15 +203,53 @@ export class BatchSelectedOrdersComponent implements OnInit {
   Result returns true to create a batch and false to defer .  
   */ 
   createBatchDialog(){
-    let dialogRef;
-    dialogRef = this.dialog.open(CreateBatchComponent, {
-      height: 'auto',
-      width: '550px',
-      autoFocus: '__non_existing_element__',
-    })
-    dialogRef.afterClosed().subscribe(result => {
-        if(result){this.createBatch()}
-    })
+
+
+    if(this.nextOrderNumber===''){
+      const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+        height: 'auto',
+        width: '786px',
+        data: {
+          message: "Batch ID must be specified.",
+          heading: 'Batch Manager'
+        },
+        autoFocus: '__non_existing_element__'
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+      
+      });
+    }else if(this.tableData.data.length == 0){
+      const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+        height: 'auto',
+        width: '786px',
+        data: {
+          message: "No Orders Selected.",
+          heading: 'Batch Manager'
+        },
+        autoFocus: '__non_existing_element__'
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+      
+      });
+    }
+    else{
+      let dialogRef;
+      dialogRef = this.dialog.open(CreateBatchComponent, {
+        height: 'auto',
+        width: '550px',
+        autoFocus: '__non_existing_element__',
+        data:{
+          pickToTotes:this.pickToTotes,
+          transType:this.transType,
+          nextToteID:this.nextToteID,
+          selectedOrderList:this.tableData['_data']['_value']
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+          if(result){this.createBatch()}
+      })
+    }
+
   }
 
 }

@@ -64,7 +64,7 @@ export class CCBCountQueueComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    // this.dataSource = new MatTableDataSource();
+    this.dataSource = new MatTableDataSource();
 
     this.getCountQue();
     // this.dataSource.sort = this.sort
@@ -87,7 +87,9 @@ export class CCBCountQueueComponent implements OnInit {
       (res: any) => {
         if (res.isExecuted && res.data.invCycleCount.length > 0) {
           this.dataSource = new MatTableDataSource(res.data.invCycleCount);
-          this.getCount(res.data.extraData);
+          this.customPagination.total = res.data?.recordsFiltered;
+
+          this.getCount(res.data.recordsTotal);
         } else {
         }
       },
@@ -106,11 +108,12 @@ export class CCBCountQueueComponent implements OnInit {
       data: {
         message:
           'Would you like to create count transactions for these locations?',
-        heading: 'Cycle Count',
+        heading: 'Create Cycle Count',
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      if (res.isExecuted) {
+      
+      if (res==='Yes') {
         let payload = {
           userName: this.userData.userName,
           wsid: this.userData.wsid,
@@ -119,11 +122,12 @@ export class CCBCountQueueComponent implements OnInit {
         this.adminService.get(payload, `/Admin/CreateCountRecords`).subscribe(
           (response: any) => {
             if (response.isExecuted) {
-              this.toastr.success(res.responseMessage, 'Success!', {
+              this.toastr.success(response.responseMessage, 'Success!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000,
               });
-              this.getCountQue();
+              this.getCount(0);
+              this.ngOnInit();
             } else {
               this.toastr.error(
                 'Error',
@@ -165,7 +169,13 @@ export class CCBCountQueueComponent implements OnInit {
         this.adminService.get(payload, `/Admin/RemoveccQueueAll`).subscribe(
           (response: any) => {
             if (response.isExecuted) {
-              this.getCountQue();
+              this.toastr.success(response.responseMessage, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+              this.getCount(0);
+              this.ngOnInit();
+
             } else {
               this.toastr.error(
                 'Error',

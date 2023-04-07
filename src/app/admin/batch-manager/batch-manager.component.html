@@ -12,7 +12,7 @@
   
   <div class="row">
     <div class="col-7 ">
-      <app-batch-order-list  [transTypeEvent]="transTypeEvent" [orderStatus]="seeOrderStatus"  [orderListData]="orderList" [displayedColumns]="displayOrderCols"
+      <app-batch-order-list  [extraField]="extraField" [transTypeEvent]="transTypeEvent" [orderStatus]="seeOrderStatus"  [orderListData]="orderList" [displayedColumns]="displayOrderCols"
         (addOrderEmitter)="addRemoveOrder($event, 1)" (addRemoveAll)="addRemoveAllOrders('add')">
       </app-batch-order-list>
     </div>
@@ -23,6 +23,7 @@
         [isAutoBatch]="isAutoBatch"
         [type]="type" (addRemoveAll)="addRemoveAllOrders('remove')"
         (batchCreated)="batchCreated($event)"
+        [transTypeEvent]="transTypeEvent"
         >
       </app-batch-selected-orders>
     </div>

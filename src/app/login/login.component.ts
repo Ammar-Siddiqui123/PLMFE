@@ -383,6 +383,7 @@ export class LoginComponent {
       // 'Dashboard',
       // 'Dashboard',
     ];
+    // localStorage.setItem('customPerm', JSON.stringify(customPerm));
     return [...userRights, ...customPerm];
   }
 
