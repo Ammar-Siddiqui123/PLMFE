@@ -70,7 +70,7 @@ import { InputFilterComponent } from './dialogs/input-filter/input-filter.compon
     AlertConfirmationComponent,
     UserFieldsComponent,
     ChooseLocationComponent,
-    InputFilterComponent
+    InputFilterComponent,
     // ActionDisableDirective,
   ],
   imports: [
