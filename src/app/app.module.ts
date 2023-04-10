@@ -71,7 +71,6 @@ import { InputFilterComponent } from './dialogs/input-filter/input-filter.compon
     UserFieldsComponent,
     ChooseLocationComponent,
     InputFilterComponent,
-    
     // ActionDisableDirective,
   ],
   imports: [

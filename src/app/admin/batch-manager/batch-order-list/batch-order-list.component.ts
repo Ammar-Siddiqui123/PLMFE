@@ -74,7 +74,7 @@ export class BatchOrderListComponent implements OnInit {
   ngAfterViewInit() {
     this.subscription.add(
       this.sharedService.batchManagerObserver.subscribe((obj) => {
-        console.log('----------->>>>',obj);
+     
         
         this.selectedOrderLength=obj.selectedOrderLength;
       })

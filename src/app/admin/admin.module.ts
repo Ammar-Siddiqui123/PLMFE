@@ -132,6 +132,7 @@ import { CreateCountBatchesComponent } from './cycle-counts/create-count-batches
 import { BatchManagerDetailViewComponent } from './dialogs/batch-manager-detail-view/batch-manager-detail-view.component';
 import { InputSpacesPreventDirective } from '../init/input-spaces-prevent.directive';
 import { BmToteidEntryComponent } from './dialogs/bm-toteid-entry/bm-toteid-entry.component';
+import { SystemReplenishmentComponent } from './system-replenishment/system-replenishment.component';
 
 
 
@@ -253,7 +254,8 @@ import { BmToteidEntryComponent } from './dialogs/bm-toteid-entry/bm-toteid-entr
     CreateCountBatchesComponent,
     BatchManagerDetailViewComponent,
     InputSpacesPreventDirective,
-    BmToteidEntryComponent
+    BmToteidEntryComponent,
+    SystemReplenishmentComponent
 
   ],
   imports: [
