@@ -11,6 +11,7 @@ import { catchError, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
@@ -19,6 +20,7 @@ export class HeaderInterceptor implements HttpInterceptor {
     private router: Router,
     private toastr: ToastrService,
     private dialog: MatDialog,
+    private authService: AuthService,
     ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -30,8 +32,7 @@ export class HeaderInterceptor implements HttpInterceptor {
           'Content-Type':  'application/json',
           '_token': _token
         })
-      });
-    
+      });    
     }
     else{
       authReq = request.clone({
@@ -50,13 +51,48 @@ export class HeaderInterceptor implements HttpInterceptor {
 
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
     if (err.status === 401) {
-      this.dialog.closeAll();
-      this.toastr.error('Token Expire', 'Error!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
-      localStorage.clear();
-      this.router.navigate([`/login`]);
+      
+      let userData = this.authService.userData();
+      let paylaod = {
+        "username": userData.userName,
+        "wsid": userData.wsid,
+      }      
+      
+      if(this.authService.isConfigUser()){
+        this.authService.configLogout(paylaod).subscribe((res:any) => {
+          if (res.isExecuted) {       
+            this.dialog.closeAll();
+            this.toastr.error('Token Expire', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+            this.router.navigate(['/globalconfig']);
+          } else {
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        });       
+      } else {
+        this.authService.logout(paylaod).subscribe((res:any) => {
+          if (res.isExecuted) {  
+            localStorage.clear();     
+            this.dialog.closeAll();
+            this.toastr.error('Token Expire', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+            this.router.navigate(['/login']);            
+          } else {
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        })
+      }
+
       return of(err.message);
     }
     throw err;
