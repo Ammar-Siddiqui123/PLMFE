@@ -19,7 +19,6 @@ const ELEMENT_NEWDATA: NewPeriodicElement[] = [
   {transtype: '05', ordernumber: '05', priority: '05', requireddate: '05', userfield1: '05', userfield2: '05', userfield3: '05'},
   {transtype: '10A', ordernumber: '10A', priority: '10A', requireddate: '10A', userfield1: '10A', userfield2: '10A', userfield3: '10A'},
   {transtype: '05', ordernumber: '05', priority: '05', requireddate: '05', userfield1: '05', userfield2: '05', userfield3: '05'},
-  {transtype: '05', ordernumber: '05', priority: '05', requireddate: '05', userfield1: '05', userfield2: '05', userfield3: '05'},
 
 ];
 
@@ -30,7 +29,7 @@ const ELEMENT_NEWDATA: NewPeriodicElement[] = [
 })
 export class SystemReplenishmentComponent implements OnInit {
 
-  displayedColumns2: string[] = ['transtype', 'ordernumber', 'priority', 'requireddate', 'userfield1', 'userfield2', 'userfield3' ];
+  displayedColumns2: string[] = ['transtype', 'ordernumber', 'priority', 'requireddate', 'userfield1', 'userfield2', 'userfield3', 'action' ];
   newData = ELEMENT_NEWDATA;
 
 
