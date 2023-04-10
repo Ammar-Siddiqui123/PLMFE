@@ -28,11 +28,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class SrNewOrderComponent implements OnInit {
 
-  displayedColumns: string[] = ['select','position', 'name', 'weight', 'symbol', 'ex', 'srno','replishment','case','transaction','replenish','exists','allocated_pick','allocated_put', 'action'];
+  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol', 'ex', 'srno', 'replishment', 'case', 'transaction', 'replenish', 'exists', 'allocated_pick', 'allocated_put', 'action'];
   tableData = ELEMENT_DATA;
 
 
-  constructor(private dialog: MatDialog,) { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
