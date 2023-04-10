@@ -1,8 +1,16 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Action } from 'rxjs/internal/scheduler/Action';
+import { AdminService } from 'src/app/admin/admin.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { AuthService } from 'src/app/init/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-ccb-create-counts',
@@ -11,6 +19,9 @@ import { Action } from 'rxjs/internal/scheduler/Action';
 })
 
 export class CCBCreateCountsComponent implements OnInit {
+  selection: any='location';
+  sdate: any = new Date();
+  edate: any = new Date();
    ELEMENT_DATA: any[] =[
      {item_no: '30022', qty_location: '12', warehouse: 'Work 2141',  lot_no: 'Main 52', expiration_date: 'Jan-25-2023', serial_no: '854120'},
      {item_no: '40022', qty_location: 'loc 1212', warehouse: 'Work 2141',  lot_no: '30', expiration_date: 'Jan-25-2023', serial_no: '854120'},
@@ -42,5 +53,7 @@ export class CCBCreateCountsComponent implements OnInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
+
+
 
 }
