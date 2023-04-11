@@ -91,9 +91,10 @@ export class BatchOrderListComponent implements OnInit {
     }
   }
   appendMax() {
+    let dataLength=this.tableData['_data']['_value'].length
       this.max=parseInt(this.extraField)-this.selectedOrderLength;
-      if(this.max>this.selectedOrderLength){
-        this.max=this.selectedOrderLength
+      if(this.max>dataLength){
+        this.max=dataLength
       }
       for (let index = 0; index < this.max; index++) {
         this.addOrders( this.tableData['_data']['_value'][index])
@@ -122,7 +123,10 @@ export class BatchOrderListComponent implements OnInit {
   }
 
   openView(element) {
-    if (this.orderStatus) {
+    let userRights=JSON.parse(localStorage.getItem('userRights') || '');
+    let permissions=userRights.includes('Order Status')
+
+    if (permissions) {
       this.router.navigate([]).then((result) => {
         window.open(
           `/#/admin/transaction?orderStatus=${element.orderNumber}`,
