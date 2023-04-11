@@ -50,7 +50,7 @@ export class ReelTrackingComponent implements OnInit {
  }
   this.invMasterService.update(payload,'/Admin/UpdateReelQuantity').subscribe((res:any)=>{
 
-    console.log(res)
+    // console.log(res)
     if(res.isExecuted){
       // console.log(res.responseMessage)
       this.btnDisabled = false;
@@ -78,7 +78,7 @@ export class ReelTrackingComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         
-        console.log(result)
+        // console.log(result)
 
         let payload = {
           rtsAmount: result.minDollarRTS,
@@ -87,7 +87,7 @@ export class ReelTrackingComponent implements OnInit {
           wsid: this.userData.wsid
         }
         this.invMasterService.update(payload,'/Admin/UpdateReelAll').subscribe((res:any)=>{
-          console.log(res);
+          // console.log(res);
 
           if(res.isExecuted){
 
@@ -98,7 +98,7 @@ export class ReelTrackingComponent implements OnInit {
            }
 
             this.invMasterService.get(payload2,'/Admin/RefreshRTS').subscribe((res:any)=>{
-              console.log(res)
+              // console.log(res)
               if (res.isExecuted) {
                 this.reelTracking.patchValue({
                   'minimumRTSReelQuantity' : res.data[0]
