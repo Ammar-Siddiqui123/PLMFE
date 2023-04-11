@@ -207,7 +207,7 @@ export class InventoryMasterComponent implements OnInit {
 
 
       includeInAutoRTSUpdate: [this.getInvMasterData?.includeInAutoRTSUpdate || false, [Validators.required]],
-      minimumRTSReelQuantity: [this.getInvMasterData?.minimumRTSReelQuantity || 0, [Validators.required]],
+      minimumRTSReelQuantity: [this.getInvMasterData?.minimumRTSReelQuantity || 0, [Validators.maxLength(9),Validators.required]],
 
 
 
