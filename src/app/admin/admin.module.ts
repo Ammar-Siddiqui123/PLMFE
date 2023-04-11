@@ -133,6 +133,7 @@ import { BatchManagerDetailViewComponent } from './dialogs/batch-manager-detail-
 import { InputSpacesPreventDirective } from '../init/input-spaces-prevent.directive';
 import { BmToteidEntryComponent } from './dialogs/bm-toteid-entry/bm-toteid-entry.component';
 import { SystemReplenishmentComponent } from './system-replenishment/system-replenishment.component';
+import { SrNewOrderComponent } from './system-replenishment/sr-new-order/sr-new-order.component';
 
 
 
@@ -255,8 +256,8 @@ import { SystemReplenishmentComponent } from './system-replenishment/system-repl
     BatchManagerDetailViewComponent,
     InputSpacesPreventDirective,
     BmToteidEntryComponent,
-    SystemReplenishmentComponent
-
+    SystemReplenishmentComponent,
+    SrNewOrderComponent
   ],
   imports: [
     CommonModule,

@@ -121,23 +121,11 @@ export class SharedService {
   }
 
   updateLoggedInUser(userName: any, wsid: any, menu: any) {
-    let appName;
-    if (menu.includes('/admin')) {
-      appName = 'Admin';
-    }
-    if (menu.includes('/InductionManager')) {
-      appName = 'Induction Manager';
-    }
+    let appName : any;
+    if (menu.includes('/admin')) appName = 'Admin';    
+    if (menu.includes('/InductionManager')) appName = 'Induction Manager';
     if (menu.includes('/globalconfig')) return;
-    else {
-      this.columnSequence
-        .updateAppName(userName, wsid, appName)
-        .subscribe((res: any) => {
-          (error) => {
-            // alert(error);
-          };
-        });
-    }
+    else this.columnSequence.updateAppName(userName, wsid, appName).subscribe((res: any) => {});
   }
 
   setMenuData(value: any) {

@@ -42,6 +42,7 @@ import { AlertConfirmationComponent } from './dialogs/alert-confirmation/alert-c
 import { UserFieldsComponent } from './dialogs/user-fields/user-fields.component';
 import { ChooseLocationComponent } from './dialogs/choose-location/choose-location.component';
 import { InputFilterComponent } from './dialogs/input-filter/input-filter.component';
+import { TransactionQtyEditComponent } from './dialogs/transaction-qty-edit/transaction-qty-edit.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -71,6 +72,7 @@ import { InputFilterComponent } from './dialogs/input-filter/input-filter.compon
     UserFieldsComponent,
     ChooseLocationComponent,
     InputFilterComponent,
+    TransactionQtyEditComponent,
     // ActionDisableDirective,
   ],
   imports: [
