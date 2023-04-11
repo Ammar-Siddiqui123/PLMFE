@@ -1172,6 +1172,10 @@ h4.main-section-title {
   background: rgba(#CACAEE, 0.8);
   color:#00004D;
 }
+.label-blue3{
+  background: rgba($primary-500, 0.1);
+  color:var(--clr-primary-500);
+}
 .label-gray{
   background: var(--clr-tertiary-10);
   color:var(--clr-tertiary-900);
@@ -1206,6 +1210,7 @@ h4.main-section-title {
 }
 .btn-regular{
   padding: 6px 20px !important;
+  min-height: 48px;
 }
 .primary-btn{
   color: #090948 !important;

@@ -12,6 +12,7 @@ import { InventoryMapComponent } from './inventory-map/inventory-map.component';
 import { InventoryMasterComponent } from './inventory-master/inventory-master.component';
 import { LocationAssignmentComponent } from './location-assignment/location-assignment.component';
 import { ManualTransactionsComponent } from './manual-transactions/manual-transactions.component';
+import { SystemReplenishmentComponent } from './system-replenishment/system-replenishment.component';
 import { TransactionComponent } from './transaction/transaction.component';
 
 const routes: Routes = [
@@ -59,6 +60,11 @@ const routes: Routes = [
   {
     path: 'manualTransactions',
     component: ManualTransactionsComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'systemReplenishment',
+    component: SystemReplenishmentComponent,
     canActivate: [AuthGuardGuard],
   },
 ];

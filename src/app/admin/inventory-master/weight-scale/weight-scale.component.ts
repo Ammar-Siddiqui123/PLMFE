@@ -8,12 +8,11 @@ import { FormGroup } from '@angular/forms';
 })
 export class WeightScaleComponent implements OnInit {
 
-  @Input() weighScale: FormGroup;
+  @Input() weighScale:  FormGroup;
   public userData: any;
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }

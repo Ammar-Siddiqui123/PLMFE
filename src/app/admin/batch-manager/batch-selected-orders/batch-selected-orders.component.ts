@@ -1,7 +1,16 @@
-import {LiveAnnouncer} from '@angular/cdk/a11y';
-import { Component, OnInit, AfterViewInit, ViewChild, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import {MatSort, Sort} from '@angular/material/sort';
-import {MatPaginator} from '@angular/material/paginator';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ViewChild,
+  Input,
+  SimpleChanges,
+  Output,
+  EventEmitter,
+} from '@angular/core';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../../../app/init/auth.service';
 import { BatchManagerService } from '../batch-manager.service';
@@ -11,79 +20,97 @@ import { MatDialog } from '@angular/material/dialog';
 import labels from '../../../labels/labels.json';
 import { CreateBatchComponent } from '../../dialogs/create-batch/create-batch.component';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
+import { SharedService } from 'src/app/services/shared.service';
+import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 
 @Component({
   selector: 'app-batch-selected-orders',
   templateUrl: './batch-selected-orders.component.html',
-  styleUrls: ['./batch-selected-orders.component.scss']
+  styleUrls: ['./batch-selected-orders.component.scss'],
 })
 export class BatchSelectedOrdersComponent implements OnInit {
-  public userData : any;
-  tableData:any;
+  public userData: any;
+  tableData: any;
+  transType: any;
+  pickToTotes: boolean;
+  nextToteID: any;
   @Input() set selectedOrderList(val: any) {
     this.tableData = new MatTableDataSource(val);
     this.tableData.paginator = this.paginator;
     this.tableData.sort = this.sort;
   }
-  @Input() displayedColumns : any;
-  @Input() batchManagerSettings : any;
-  @Input() type : any;
-  @Input() isAutoBatch : any;
+  @Input() displayedColumns: any;
+  @Input() batchManagerSettings: any;
+  @Input() type: any;
+  @Input() isAutoBatch: any;
   @Output() addRemoveAll = new EventEmitter<any>();
   @Output() batchCreated = new EventEmitter<any>();
   @Output() batchIdUpdateEmit = new EventEmitter<any>();
-
-  public nextOrderNumber:any;
-  public batchID:any;
+  @Input()
+  set transTypeEvent(event: Event) {
+    if (event) {
+      this.transType = event;
+      this.addRemoveAll.emit();
+    }
+  }
+  public nextOrderNumber: any;
+  public batchID: any;
   @Output() removeOrderEmitter = new EventEmitter<any>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  toteValue=0;
+  toteValue = 0;
   constructor(
     private dialog: MatDialog,
-    private _liveAnnouncer: LiveAnnouncer, 
+    private _liveAnnouncer: LiveAnnouncer,
     private authService: AuthService,
-    private batchService : BatchManagerService,
-    private toastr: ToastrService
-    ) { }
+    private batchService: BatchManagerService,
+    private toastr: ToastrService,
+    private sharedService: SharedService
+  ) {}
 
   ngOnInit(): void {
-    this.userData = this.authService.userData(); 
+    this.userData = this.authService.userData();
   }
 
   ngAfterViewInit() {
     // this.dataSource.paginator = this.paginator;
     // this.dataSource.sort = this.sort;
-  }
-  ngOnChanges(changes: SimpleChanges) {
-    let toteLimit=0;
-
-    if(changes['selectedOrderList']){
-      this.tableData['_data']['_value'].forEach(element => {
-        if(toteLimit<10){
-          toteLimit++;
-        }else{
-          toteLimit=1;
-        }  
-        element['toteNumber']=toteLimit;
-      
-      });
-    }
-  
-    if(changes['isAutoBatch']){
-       this.isAutoBatch=changes['isAutoBatch']['currentValue'];
-
-        
-    }
-    this.batchManagerSettings.map(batchSetting => {
-        this.nextOrderNumber = batchSetting.batchID
-        // console.log(batchSetting.batchID);
-        // console.log(this.tableData.data.length);
-        
+    this.sharedService.batchManagerObserver.subscribe((obj) => {
+      if (obj['isCreate']) {
+        this.createBatch();
+      }
     });
   }
+  ngOnChanges(changes: SimpleChanges) {
+    let toteLimit = 0;
 
+    if (changes['selectedOrderList']) {
+      this.tableData['_data']['_value'].forEach((element) => {
+        if (toteLimit < 10) {
+          toteLimit++;
+        } else {
+          toteLimit = 1;
+        }
+        element['toteNumber'] = toteLimit;
+      });
+
+      this.sharedService.updateBatchManagerObject({
+        selectedOrderLength: this.tableData['_data']['_value'].length,
+      });
+    }
+
+    if (changes['isAutoBatch']) {
+      this.isAutoBatch = changes['isAutoBatch']['currentValue'];
+    }
+    this.batchManagerSettings.map((batchSetting) => {
+      this.nextOrderNumber = batchSetting.batchID;
+      this.pickToTotes = JSON.parse(batchSetting.pickToTotes.toLowerCase());
+      this.nextToteID = batchSetting.nextToteID;
+      // console.log(batchSetting.batchID);
+      // console.log(this.tableData.data.length);
+    });
+  }
 
   /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {
@@ -98,62 +125,69 @@ export class BatchSelectedOrdersComponent implements OnInit {
     }
   }
 
-  removeOrders(order : any) {
-    // const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
-    //   height: 'auto',
-    //   width: '480px',
-    //   autoFocus: '__non_existing_element__',
-    //   data: {
-    //     mode: 'delete-batch',
-     
-    //   }
-    // })
-    // dialogRef.afterClosed().subscribe(result => {
-      
-    // })
-    this.removeOrderEmitter.emit(order);
+  removeOrders(order: any) {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        mode: 'delete-batch',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      if (result === 'Yes') {
+        this.removeOrderEmitter.emit(order);
+      }
+    });
   }
 
   createBatch() {
-    
-    let iBactchData:any[] = [];
-    this.tableData.data.map((order:any) => {
+    let iBactchData: any[] = [];
+    this.tableData.data.map((order: any) => {
       // let result = [ order.orderNumber.toString(), order.countOfOrderNumber.toString()];
-      let result = [ order.orderNumber.toString(), this.isAutoBatch?order.toteNumber.toString() :order.fixedTote.toString()];
+      let result = [
+        order.orderNumber.toString(),
+        this.isAutoBatch
+          ? order.toteNumber.toString()
+          : order.fixedTote.toString(),
+      ];
       iBactchData.push(result);
     });
-    
+
     // console.log(iBactchData);
     // console.log(this.batchManagerSettings);
     let paylaod = {
-      "batch": iBactchData,
-      "nextBatchID": this.nextOrderNumber!=this.batchID?this.nextOrderNumber:this.batchID,
-      "transType": this.type,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-    }
+      batch: iBactchData,
+      nextBatchID:
+        this.nextOrderNumber != this.batchID
+          ? this.nextOrderNumber
+          : this.batchID,
+      transType: this.type,
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+    };
     try {
-      this.batchService.create(paylaod, '/Admin/BatchInsert').subscribe((res: any) => {
-        const {isExecuted } = res
-        if(isExecuted){
-          this.batchCreated.emit(true);
-          this.batchIdUpdateEmit.emit(true);
-          this.toastr.success(labels.alert.success, 'Success!',{
-            positionClass: 'toast-bottom-right',
-            timeOut:2000
-         });
-        }
-        
-      });
+      this.batchService
+        .create(paylaod, '/Admin/BatchInsert')
+        .subscribe((res: any) => {
+          const { isExecuted } = res;
+          if (isExecuted) {
+            this.batchCreated.emit(true);
+            this.batchIdUpdateEmit.emit(true);
+            this.toastr.success(labels.alert.success, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        });
     } catch (error) {
       console.log(error);
-      
     }
   }
 
-  addRemoveAllOrder(){
-      console.log();
-      if(this.tableData['_data']['_value'].length==0)return
+  addRemoveAllOrder() {
+    if (this.tableData['_data']['_value'].length == 0) return;
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '600px',
@@ -163,32 +197,57 @@ export class BatchSelectedOrdersComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-
-      if(res==='Yes'){
+      if (res === 'Yes') {
         this.addRemoveAll.emit();
-
       }
-
     });
-
   }
 
-
-
-   /*
+  /*
   Open Create batch dialog for first confirmation to create a batch .
   Result returns true to create a batch and false to defer .  
-  */ 
-  createBatchDialog(){
-    let dialogRef;
-    dialogRef = this.dialog.open(CreateBatchComponent, {
-      height: 'auto',
-      width: '550px',
-      autoFocus: '__non_existing_element__',
-    })
-    dialogRef.afterClosed().subscribe(result => {
-        if(result){this.createBatch()}
-    })
+  */
+  createBatchDialog() {
+    if (this.nextOrderNumber === '') {
+      const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+        height: 'auto',
+        width: '786px',
+        data: {
+          message: 'Batch ID must be specified.',
+          heading: 'Batch Manager',
+        },
+        autoFocus: '__non_existing_element__',
+      });
+      dialogRef.afterClosed().subscribe((result) => {});
+    } else if (this.tableData.data.length == 0) {
+      const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+        height: 'auto',
+        width: '786px',
+        data: {
+          message: 'No Orders Selected.',
+          heading: 'Batch Manager',
+        },
+        autoFocus: '__non_existing_element__',
+      });
+      dialogRef.afterClosed().subscribe((result) => {});
+    } else {
+      let dialogRef;
+      dialogRef = this.dialog.open(CreateBatchComponent, {
+        height: 'auto',
+        width: '550px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          pickToTotes: this.pickToTotes,
+          transType: this.transType,
+          nextToteID: this.nextToteID,
+          selectedOrderList: this.tableData['_data']['_value'],
+        },
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.createBatch();
+        }
+      });
+    }
   }
-
 }
