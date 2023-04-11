@@ -6,9 +6,9 @@
                 <app-ccb-create-counts></app-ccb-create-counts>
             </mat-tab>
 
-            <mat-tab label="Count Queue">
-                <app-ccb-count-queue></app-ccb-count-queue>
-            </mat-tab>
+            <mat-tab [label]="'Count Que'+' '+'('+countQueValue+')'"> 
+              <app-ccb-count-queue  (countEvent)="getCount($event)"> </app-ccb-count-queue>
+          </mat-tab>
         </mat-tab-group>
       </div>
     </div>

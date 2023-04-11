@@ -83,6 +83,7 @@ export class BatchManagerComponent implements OnInit {
   permissions:any;
   seeOrderStatus:boolean;
   pickToTotes:boolean;
+  extraField:any="";
   constructor(private batchService : BatchManagerService, 
               private authService: AuthService) { 
                 this.permissions= JSON.parse(localStorage.getItem('userRights') || '');
@@ -154,6 +155,7 @@ export class BatchManagerComponent implements OnInit {
           this.batchManagerSettings = data.batchManagerSettings;
 
           this.pickToTotes=JSON.parse(this.batchManagerSettings[0].pickToTotes.toLowerCase())
+          this.extraField=this.batchManagerSettings[0].extraField1;
           
         } else {
 
