@@ -78,13 +78,15 @@ const routes: Routes = [
         loadChildren: () => import('./induction-manager/induction-manager.module').then(m => m.InductionManagerModule),
         canActivate:[AuthGuardGuard]
       },
+      { 
+        path: 'ConsolidationManager', 
+        loadChildren: () => import('./consolidation-manager/consolidation-manager.module').then(m => m.ConsolidationManagerModule),
+        canActivate:[AuthGuardGuard]
+      },
 
     ]
 
-  },
-
-
-  
+  },  
 
   // {
   //   path:'dashboard',
