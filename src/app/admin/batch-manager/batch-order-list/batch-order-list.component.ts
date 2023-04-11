@@ -122,7 +122,10 @@ export class BatchOrderListComponent implements OnInit {
   }
 
   openView(element) {
-    if (this.orderStatus) {
+    let userRights=JSON.parse(localStorage.getItem('userRights') || '');
+    let permissions=userRights.includes('Order Status')
+
+    if (permissions) {
       this.router.navigate([]).then((result) => {
         window.open(
           `/#/admin/transaction?orderStatus=${element.orderNumber}`,
