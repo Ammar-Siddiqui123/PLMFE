@@ -22,7 +22,7 @@
                         expand_more
                     </span>
                 </mat-form-field> -->
-        <button type="submit" mat-stroked-button class="button-remove-all-w-stroke mb-2" color="warn" (click)="deleteCycleCount($event)">Delete All From
+        <button type="submit" [disabled]="!noData" mat-stroked-button class="button-remove-all-w-stroke mb-2" color="warn" (click)="deleteCycleCount($event)">Delete All From
           Queue</button>
       </div>
     </div>
@@ -117,7 +117,7 @@
 
   </mat-card-content>
 </mat-card>
-<button (click)="createCycleCount()" mat-flat-button="" color="primary"
+<button [disabled]="!noData" (click)="createCycleCount()" mat-flat-button="" color="primary"
   class="mat-focus-indicator w-100 btn-lg mat-flat-button mat-button-base mat-primary mb-3" style="flex: 1;"
   ng-reflect-color="primary" ng-reflect-disabled="false"><span class="mat-button-wrapper"> Create Cycle Count
   </span><span matripple="" class="mat-ripple mat-button-ripple" ng-reflect-disabled="false" ng-reflect-centered="false"
