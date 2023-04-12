@@ -11,6 +11,7 @@
 
         <div class="row">
             <div class="col-xl-3 mb-2">
+                
                 <mat-form-field class="action-dropdown w-100" appearance="outline">
                     <mat-label>Count Type</mat-label>
                     <mat-select [(ngModel)]="selection" #matRef class="employees-action" value="location">
@@ -32,7 +33,7 @@
             <div class="col-xl-3 mb-2">
                 <mat-form-field class="action-dropdown w-100" appearance="outline">
                     <mat-label>Warehouse</mat-label>
-                    <mat-select #matRef class="employees-action" placeholder="Actions">
+                    <mat-select [(ngModel)]="warehouse" #matRef class="employees-action" placeholder="Actions">
                         <mat-option *ngFor="let items of warehouses" [value]="items"> {{items}}</mat-option>
 
                     </mat-select>
@@ -44,26 +45,27 @@
         </div>
 
         <div class="row align-items-center" [ngSwitch]="selection">
+            <form [formGroup]="filtersForm">
             <!--  search by location  -->
             <ng-container *ngSwitchCase="'location'">
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
                         <mat-label>From Location</mat-label>
-                        <input matInput readonly class="__grab_cursor readonly" type="text" maxlength="50">
+                        <input  (ngModelChange)="this.searchField.next($event)"  matInput  class="__grab_cursor " type="text" maxlength="50" formControlName="fromLocation">
                     </mat-form-field>
                 </div>
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
                         <mat-label>To Location</mat-label>
-                        <input matInput readonly class="__grab_cursor readonly" type="text" maxlength="50">
+                        <input (ngModelChange)="this.searchField.next($event)"  matInput  class="__grab_cursor " type="text" maxlength="50" formControlName="toLocation">
                     </mat-form-field>
                 </div>
                 <div class="col-xl-6">
                     <div class="d-flex flex-wrap gap-12 px-3">
-                        <mat-checkbox class="example-margin custom-checkbox mb-2" color="primary">Include Empty
+                        <mat-checkbox (ngModelChange)="this.searchField.next($event)"   formControlName="includeEmpty" class="example-margin custom-checkbox mb-2" color="primary">Include Empty
                             Locations?</mat-checkbox>
 
-                        <mat-checkbox class="example-margin custom-checkbox mb-2" color="primary">Include Other
+                        <mat-checkbox (ngModelChange)="this.searchField.next($event)"   formControlName="includeOther" class="example-margin custom-checkbox mb-2" color="primary">Include Other
                             Locations?</mat-checkbox>
                     </div>
                 </div>
@@ -76,13 +78,13 @@
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
                         <mat-label>From Item Number</mat-label>
-                        <input matInput readonly class="__grab_cursor readonly" type="text" maxlength="50">
+                        <input (ngModelChange)="this.searchField.next($event)"   formControlName="fromItem"  matInput  class="__grab_cursor " type="text" maxlength="50">
                     </mat-form-field>
                 </div>
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
                         <mat-label>To Item Number</mat-label>
-                        <input matInput readonly class="__grab_cursor readonly" type="text" maxlength="50">
+                        <input (ngModelChange)="this.searchField.next($event)"  formControlName="toItem"   matInput  class="__grab_cursor " type="text" maxlength="50">
                     </mat-form-field>
                 </div>
 
@@ -94,7 +96,7 @@
                 <div class="col-xl-6">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
                         <mat-label>Decription</mat-label>
-                        <input matInput readonly class="__grab_cursor readonly" type="text" maxlength="50">
+                        <input  (ngModelChange)="this.searchField.next($event)"  formControlName="description"   matInput  class="__grab_cursor " type="text" maxlength="50">
                     </mat-form-field>
                 </div>
 
@@ -107,13 +109,13 @@
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
                         <mat-label>Category</mat-label>
-                        <input matInput readonly class="__grab_cursor readonly" type="text" maxlength="50">
+                        <input (ngModelChange)="this.searchField.next($event)"  formControlName="category"  matInput  class="__grab_cursor " type="text" maxlength="50">
                     </mat-form-field>
                 </div>
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
                         <mat-label>Sub Category</mat-label>
-                        <input disabled matInput readonly class="__grab_cursor readonly" type="text" maxlength="50">
+                        <input  (ngModelChange)="this.searchField.next($event)"  formControlName="subCategory" readonly  matInput readonly class="__grab_cursor readonly" type="text" maxlength="50">
                     </mat-form-field>
                 </div>
 
@@ -126,9 +128,9 @@
                 <div class="col-xl-6">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                         <mat-label>Select Date</mat-label>
-                        <input matInput [value]="sdate" [(ngModel)]="sdate" [matDatepicker]="start">
-                        <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle>
-                        <mat-datepicker #start></mat-datepicker>
+                        <input matInput (ngModelChange)="this.searchField.next($event)"  (ngModelChange)="this.searchField.next($event)"  formControlName="subCategory" [matDatepicker]="notCounted">
+                        <mat-datepicker-toggle matSuffix [for]="notCounted" ngDefaultControl></mat-datepicker-toggle>
+                        <mat-datepicker #notCounted></mat-datepicker>
                     </mat-form-field>
                 </div>
 
@@ -202,35 +204,61 @@
 
 
             </ng-container>
+            </form> 
         </div>
 
         <div class="card br-14 borderless px-0" style="overflow-x: auto;">
             <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 350px">
-                <table class="w-100 table-borderless" mat-table [dataSource]="tableData" matSort
+                <table class="w-100 table-borderless" mat-table [dataSource]="dataSource" matSort
                     (matSortChange)="announceSortChange($event)">
-                    <ng-container matColumnDef="item_no">
+                    <ng-container matColumnDef="itemNumber">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Item No. </th>
-                        <td mat-cell *matCellDef="let element"> {{element.item_no}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.itemNumber}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="qty_location">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Qty Location </th>
-                        <td mat-cell *matCellDef="let element"> {{element.qty_location}} </td>
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="warehouse">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse </th>
+                    <ng-container matColumnDef="itemQuantity">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Location Quantity </th>
                         <td mat-cell *matCellDef="let element"> {{element.warehouse}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="lot_no">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Lot No. </th>
-                        <td mat-cell *matCellDef="let element"> {{element.lot_no}} </td>
+                    <ng-container matColumnDef="unitofMeasure">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit Of Measure </th>
+                        <td mat-cell *matCellDef="let element"> {{element.unitofMeasure}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="expiration_date">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Expiration Date</th>
-                        <td mat-cell *matCellDef="let element"> {{element.expiration_date}} </td>
+                    <ng-container matColumnDef="warehouse">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse</th>
+                        <td mat-cell *matCellDef="let element"> {{element.warehouse}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="serial_no">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Serial No. </th>
-                        <td mat-cell *matCellDef="let element"> {{element.serial_no}} </td>
+
+                    <ng-container matColumnDef="location">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Location</th>
+                        <td mat-cell *matCellDef="let element"> {{element.location}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="goldenZone">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Velocity Code </th>
+                        <td mat-cell *matCellDef="let element"> {{element.goldenZone}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cellSize">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cell Size. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.cellSize}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="serialNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Serial Number. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.serialNumber}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="lotNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Lot Number. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.lotNumber}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="expirationDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Expiration Date. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.expirationDate}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="actions">

@@ -42,12 +42,13 @@ export class CCBCreateCountsComponent implements OnInit {
   itemNumDiv: boolean = false;
   desDiv: boolean = false;
   catDiv: boolean = false;
+  
   notCouSinDiv: boolean = false;
   pickDateRanDiv: boolean = false;
   putDateRanDiv: boolean = false;
   costRanDiv: boolean = false;
   curCountOrders: any = [];
-
+  searchField = new Subject<string>();
   // variables for mat-sort and mat-paginator with viewChild
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -55,6 +56,7 @@ export class CCBCreateCountsComponent implements OnInit {
   selection: any = 'location';
   sdate: any = new Date();
   edate: any = new Date();
+  notCountSince: any = new Date();
   ELEMENT_DATA: any[] = [
     {
       item_no: '30022',
@@ -115,12 +117,18 @@ export class CCBCreateCountsComponent implements OnInit {
   ];
 
   displayedColumns: string[] = [
-    'item_no',
-    'qty_location',
+   
+    'itemNumber',
+    'description',
+    'itemQuantity',
+    'unitofMeasure',
     'warehouse',
-    'lot_no',
-    'expiration_date',
-    'serial_no',
+    'location',
+    'goldenZone',
+    'cellSize',
+    'serialNumber',
+    'lotNumber',
+    'expirationDate',
     'actions',
   ];
   tableData = this.ELEMENT_DATA;
@@ -143,7 +151,8 @@ export class CCBCreateCountsComponent implements OnInit {
       toItem: new FormControl(''),
       description: new FormControl(''),
       category: new FormControl(''),
-      subCategory: new FormControl({ value: '', disabled: true }),
+      // subCategory: new FormControl({ value: '', disabled: true }),
+      subCategory: new FormControl(''),
       notCounted: new FormControl(''),
       pickedStart: new FormControl(''),
       pickedEnd: new FormControl(''),
@@ -159,6 +168,31 @@ export class CCBCreateCountsComponent implements OnInit {
     this.userData = this.authService.userData();
     this.dataSourceList = new MatTableDataSource(this.tableData);
     this.getWareAndCurOrd();
+
+
+    this.searchField
+    .pipe(debounceTime(500), distinctUntilChanged())
+    .subscribe((value) => {
+      console.log( this.filtersForm.value.fromLocation);
+      console.log( this.filtersForm.value.toLocation);
+      console.log( this.filtersForm.value.includeEmpty);
+      console.log( this.filtersForm.value.includeOther);
+      console.log( this.filtersForm.value.fromItem);
+      console.log( this.filtersForm.value.toItem);
+      console.log( this.filtersForm.value.description);
+      console.log( this.filtersForm.value.category);
+      console.log( this.filtersForm.value.subCategory);
+      console.log( this.filtersForm.value.notCounted);
+      console.log( this.filtersForm.value.sdate);
+      console.log( this.filtersForm.value.pickedEnd);
+      // this.columnSearch.searchValue = value;
+      // if (!this.columnSearch.searchColumn.colDef) return;
+
+      // this.autocompleteSearchColumn();
+      // if (!this.searchAutocompleteList.length) {
+        // this.getContentData();
+      // }
+    });
   }
 
   // function to get warehouses and current orders
@@ -250,7 +284,7 @@ export class CCBCreateCountsComponent implements OnInit {
   // handle with try catch
   fillData() {
     const payload = this.getPayload();
-    this.adminService.get(payload, '/api/CCB/GetItemsForCount').subscribe(
+    this.adminService.get(payload, '/Admin/BatchResultTable').subscribe(
       (res: any) => {
         if (res && res.data && res.isExecuted) {
           this.dataSource = new MatTableDataSource(res);

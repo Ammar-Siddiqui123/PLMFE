@@ -39,6 +39,7 @@ export class CCBCountQueueComponent implements OnInit {
     'action',
   ];
   dataSource: any = [];
+  noData:boolean=false;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
@@ -88,9 +89,11 @@ export class CCBCountQueueComponent implements OnInit {
         if (res.isExecuted && res.data.invCycleCount.length > 0) {
           this.dataSource = new MatTableDataSource(res.data.invCycleCount);
           this.customPagination.total = res.data?.recordsFiltered;
-
+          this.noData=true;
           this.getCount(res.data.recordsTotal);
         } else {
+this.noData  = false;
+this.customPagination.total = 0;
         }
       },
       (error) => {}
@@ -119,6 +122,7 @@ export class CCBCountQueueComponent implements OnInit {
           wsid: this.userData.wsid,
           appName: 'Cycle Count',
         };
+       
         this.adminService.get(payload, `/Admin/CreateCountRecords`).subscribe(
           (response: any) => {
             if (response.isExecuted) {
@@ -126,6 +130,7 @@ export class CCBCountQueueComponent implements OnInit {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000,
               });
+              this.getCountQue();
               this.getCount(0);
               this.ngOnInit();
             } else {
@@ -174,6 +179,7 @@ export class CCBCountQueueComponent implements OnInit {
                 timeOut: 2000,
               });
               this.getCount(0);
+              this.getCountQue();
               this.ngOnInit();
 
             } else {
