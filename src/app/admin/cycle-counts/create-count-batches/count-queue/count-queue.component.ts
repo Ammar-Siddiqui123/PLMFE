@@ -73,7 +73,7 @@ export class CCBCountQueueComponent implements OnInit {
     this.getCountQue();
     // this.dataSource.sort = this.sort
   }
-
+  
   ngOnChanges(changes: SimpleChanges): void {
    
     if (changes['updateData']['currentValue']) {
