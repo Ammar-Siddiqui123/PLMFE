@@ -29,6 +29,7 @@ export class SharedService {
   updateToteFilterCheckObserver: Subject<any> = new Subject<any>();
   updateCompDateObserver: Subject<any> = new Subject<any>();
   updateOrderStatusSelectObserver: Subject<any> = new Subject<any>();
+  batchManagerObserver: Subject<any> = new Subject<any>();
 
   resetSidebar() {
     this.startMenu.next(true);
@@ -96,6 +97,10 @@ export class SharedService {
 
   updateOrderStatusSelect(obj) {
     this.updateOrderStatusSelectObserver.next(obj);
+  }
+
+  updateBatchManagerObject(obj) {
+    this.batchManagerObserver.next(obj);
   }
   getSidebarStatus() {
     return this.loadMenu;
