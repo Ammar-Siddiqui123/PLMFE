@@ -28,7 +28,7 @@ export class ReelTrackingComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     console.log(this.userData)
-    console.log(this.reelTracking.controls['minimumRTSReelQuantity'].value)
+    // console.log(this.reelTracking.controls['minimumRTSReelQuantity'].value)
   }
 
   onFocusOutEvent(event: any){
@@ -52,10 +52,19 @@ export class ReelTrackingComponent implements OnInit {
 
     // console.log(res)
     if(res.isExecuted){
+      // console.log(res)
       // console.log(res.responseMessage)
+      if(event.checked){
+        this.toastr.success(res.responseMessage, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        
+      }
       this.btnDisabled = false;
   }
   else if (res.responseMessage != 'Update Successful'){
+    // console.log(res)
     this.toastr.error("Changes not saved!  Please reenter the information.", 'Error!', {
       positionClass: 'toast-bottom-right',
       timeOut: 2000
@@ -78,16 +87,16 @@ export class ReelTrackingComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         
-        // console.log(result)
+        console.log(result.thresholdQty)
 
         let payload = {
           rtsAmount: result.minDollarRTS,
-          thresholdQty: result.thresholdQty,
+          rtsQuantity: result.thresholdQty,
           username: this.userData.userName,
           wsid: this.userData.wsid
         }
         this.invMasterService.update(payload,'/Admin/UpdateReelAll').subscribe((res:any)=>{
-          // console.log(res);
+          console.log(res);
 
           if(res.isExecuted){
 
@@ -98,7 +107,7 @@ export class ReelTrackingComponent implements OnInit {
            }
 
             this.invMasterService.get(payload2,'/Admin/RefreshRTS').subscribe((res:any)=>{
-              // console.log(res)
+              console.log(res)
               if (res.isExecuted) {
                 this.reelTracking.patchValue({
                   'minimumRTSReelQuantity' : res.data[0]
