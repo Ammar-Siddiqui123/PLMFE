@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { TransactionQtyEditComponent } from 'src/app/dialogs/transaction-qty-edit/transaction-qty-edit.component';
+import { SystemReplenishmentService } from '../system-replenishment.service';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/init/auth.service';
+import labels from '../../../labels/labels.json'
+import { PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 
 export interface PeriodicElement {
   name: string;
@@ -10,16 +17,16 @@ export interface PeriodicElement {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
+  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
+  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
+  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
+  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
+  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
+  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
+  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
+  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
+  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
 ];
 @Component({
   selector: 'app-sr-new-order',
@@ -29,22 +36,165 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class SrNewOrderComponent implements OnInit {
 
   displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol', 'ex', 'srno', 'replishment', 'case', 'transaction', 'replenish', 'exists', 'allocated_pick', 'allocated_put', 'action'];
-  tableData = ELEMENT_DATA;
+  // tableData = ELEMENT_DATA;
+  tableData: any;
+  public userData: any;
+  kanban: boolean = false;
+  numberSelectedRep: number = 2;
+  tablePayloadObj: any = {
+    draw: 0,
+    start: 0,
+    length: 10,
+    searchString: "",
+    sortColumn: 5,
+    searchColumn: "",
+    sortDir: "asc",
+    reOrder: true,
+    filter: "1=1",
+    username: "",
+    wsid: ""
+  };
+  tableDataTotalCount: number = 0;
 
 
-  constructor(private dialog: MatDialog) { }
+  constructor(
+    private dialog: MatDialog,
+    private systemReplenishmentService: SystemReplenishmentService,
+    private toastr: ToastrService,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+    this.userData = this.authService.userData();
+    this.tablePayloadObj.username = this.userData.userName;
+    this.tablePayloadObj.wsid = this.userData.wsid;
   }
 
-  editTransDialog(): void {
+  editTransDialog(element:any): void {
     const dialogRef = this.dialog.open(TransactionQtyEditComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      data: {
+        rP_ID: element.rP_ID, 
+        transactionQuantity: element.transactionQuantity,
+        availableQuantity: element.availableQuantity,
+        replenishmentQuantity: element.replenishmentQuantity
+      },
     });
-    dialogRef.afterClosed().subscribe(() => {
-      // console.log('The dialog was closed');
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result){
+        this.tableData.filter((item: any) => {
+          if (item.rP_ID == result.rP_ID) {
+            item.transactionQuantity = result.transactionQuantity;
+          }
+        });
+      }
     });
   }
 
+  newReplenishmentOrders() {
+    this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentNewTable').subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.tableData = res.data.sysTable;
+        this.tableDataTotalCount = res.data.recordsTotal;
+      } else {
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    });
+  }
+
+  async onChangeKanban(ob: MatCheckboxChange) {
+    if (confirm("Click OK to create a new replenishment list.")) {
+      await this.createNewReplenishments(ob.checked);
+      await this.newReplenishmentOrders();
+    } else {
+      ob.checked = !ob.checked;
+      this.kanban = !ob.checked;
+    }
+  }
+
+  async createNewOrdersList() {
+    if (confirm("Click OK to create a new replenishment list.")) {
+      // await this.createNewReplenishments(this.kanban);
+      await this.newReplenishmentOrders();
+    }
+  }
+
+  async createNewReplenishments(kanban: boolean) {
+    let paylaod = {
+      "kanban": kanban,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.systemReplenishmentService.create(paylaod, '/Admin/ReplenishmentInsert').subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.toastr.success(labels.alert.success, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      } else {
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    });
+  }
+
+  actionChange(event: any) {
+    if (event == '1') {
+
+    }
+    else if (event == '2') {
+
+    }
+    else if (event == '3') {
+
+    }
+    else if (event == '4') {
+
+    }
+    else if (event == '5') {
+
+    }
+    else if (event == '6') {
+
+    }
+  }
+
+  showChange(event: any) {
+    if (event == '1') {
+      this.tablePayloadObj.reOrder = false;
+      this.newReplenishmentOrders();
+    }
+    else if (event == '2') {
+      this.tablePayloadObj.reOrder = true;
+      this.newReplenishmentOrders();
+    }
+  }
+
+  searchChange(event: any) {
+    this.tablePayloadObj.searchColumn = event;
+    // this.newReplenishmentOrders();
+  }
+
+  paginatorChange(event: PageEvent) {
+    if(event.previousPageIndex != undefined && event.pageIndex > event.previousPageIndex) {
+      this.tablePayloadObj.start = this.tablePayloadObj.start + event.pageSize;
+    }
+    else {
+      this.tablePayloadObj.start = this.tablePayloadObj.start - event.pageSize;
+    }
+    this.tablePayloadObj.length = event.pageSize;
+    this.newReplenishmentOrders();
+  }
+
+  viewItemInInventoryMaster(element:any){
+    // window.open(`/admin/inventoryMaster?itemNumber=${element.itemNumber}`, '_blank');
+    this.router.navigate(['/admin/inventoryMaster'], { queryParams: { itemNumber: element.itemNumber } });
+  }
 }
