@@ -33,9 +33,8 @@
                 <mat-form-field class="action-dropdown w-100" appearance="outline">
                     <mat-label>Warehouse</mat-label>
                     <mat-select #matRef class="employees-action" placeholder="Actions">
-                        <mat-option> Add Location</mat-option>
-                        <mat-option value="print">Print</mat-option>
-                        <mat-option value="set_column_sq">Set Column Sequence</mat-option>
+                        <mat-option *ngFor="let items of warehouses" [value]="items"> {{items}}</mat-option>
+
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
                         expand_more
@@ -86,7 +85,7 @@
                         <input matInput readonly class="__grab_cursor readonly" type="text" maxlength="50">
                     </mat-form-field>
                 </div>
-       
+
             </ng-container>
 
             <!-- search by description -->
@@ -98,8 +97,8 @@
                         <input matInput readonly class="__grab_cursor readonly" type="text" maxlength="50">
                     </mat-form-field>
                 </div>
-          
-       
+
+
             </ng-container>
 
             <!-- search by category -->
@@ -112,13 +111,13 @@
                     </mat-form-field>
                 </div>
                 <div class="col-xl-3">
-                    <mat-form-field  class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
+                    <mat-form-field class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
                         <mat-label>Sub Category</mat-label>
                         <input disabled matInput readonly class="__grab_cursor readonly" type="text" maxlength="50">
                     </mat-form-field>
                 </div>
-          
-       
+
+
             </ng-container>
 
             <!-- search by not counted since -->
@@ -127,14 +126,13 @@
                 <div class="col-xl-6">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                         <mat-label>Select Date</mat-label>
-                        <input matInput [value]="sdate" [(ngModel)]="sdate" [matDatepicker]="start"
-                           >
+                        <input matInput [value]="sdate" [(ngModel)]="sdate" [matDatepicker]="start">
                         <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle>
                         <mat-datepicker #start></mat-datepicker>
                     </mat-form-field>
                 </div>
-          
-       
+
+
             </ng-container>
 
             <!-- search by pickdate range -->
@@ -143,8 +141,7 @@
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                         <mat-label>From Date</mat-label>
-                        <input matInput [value]="sdate" [(ngModel)]="sdate" [matDatepicker]="start"
-                           >
+                        <input matInput [value]="sdate" [(ngModel)]="sdate" [matDatepicker]="start">
                         <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle>
                         <mat-datepicker #start></mat-datepicker>
                     </mat-form-field>
@@ -153,14 +150,13 @@
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                         <mat-label>To Date</mat-label>
-                        <input matInput [value]="edate" [(ngModel)]="edate" [matDatepicker]="end"
-                           >
+                        <input matInput [value]="edate" [(ngModel)]="edate" [matDatepicker]="end">
                         <mat-datepicker-toggle matSuffix [for]="end" ngDefaultControl></mat-datepicker-toggle>
                         <mat-datepicker #end></mat-datepicker>
                     </mat-form-field>
                 </div>
-          
-       
+
+
             </ng-container>
 
             <!-- search by putaway range -->
@@ -169,8 +165,7 @@
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                         <mat-label>From Date</mat-label>
-                        <input matInput [value]="sdate" [(ngModel)]="sdate" [matDatepicker]="start"
-                           >
+                        <input matInput [value]="sdate" [(ngModel)]="sdate" [matDatepicker]="start">
                         <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle>
                         <mat-datepicker #start></mat-datepicker>
                     </mat-form-field>
@@ -179,14 +174,13 @@
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                         <mat-label>To Date</mat-label>
-                        <input matInput [value]="edate" [(ngModel)]="edate" [matDatepicker]="end"
-                           >
+                        <input matInput [value]="edate" [(ngModel)]="edate" [matDatepicker]="end">
                         <mat-datepicker-toggle matSuffix [for]="end" ngDefaultControl></mat-datepicker-toggle>
                         <mat-datepicker #end></mat-datepicker>
                     </mat-form-field>
                 </div>
-          
-       
+
+
             </ng-container>
 
             <!-- search by cost range -->
@@ -205,8 +199,8 @@
                         <input matInput readonly class="__grab_cursor readonly" type="text" maxlength="50">
                     </mat-form-field>
                 </div>
-          
-       
+
+
             </ng-container>
         </div>
 
@@ -269,9 +263,16 @@
                         <mat-form-field class="action-dropdown w-100" appearance="outline">
                             <mat-label>Current Count Orders</mat-label>
                             <mat-select #matRef class="employees-action" placeholder="Actions">
-                                <mat-option> Add Location</mat-option>
-                                <mat-option value="print">Print</mat-option>
-                                <mat-option value="set_column_sq">Current Count Orders</mat-option>
+                                <h6 class="ctl_name ac-dropdown-label">
+                                    <span>Order Number</span> <span>Count</span>
+                                </h6>
+                                <mat-option style="width:900px !important;" *ngFor="let currItem of curCountOrders"
+                                    [value]="currItem.orderNumber">
+                                    <div class="ctl_option ac-dropdown-option">
+                                        <span>{{currItem.orderNumber}}</span><span>{{currItem.itemCount}}</span>
+                                    </div>
+                                </mat-option>
+
                             </mat-select>
                             <span class="material-symbols-outlined icon-expand-more">
                                 expand_more
