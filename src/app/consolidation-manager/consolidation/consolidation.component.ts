@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { CmShippingComponent } from 'src/app/dialogs/cm-shipping/cm-shipping.component';
 
 @Component({
   selector: 'app-consolidation',
@@ -77,4 +78,17 @@ hideRow=false;
 clickToHide(){
   this.hideRow=!this.hideRow;
 }
+
+ openCmShipping() {
+  let dialogRef = this.dialog.open(CmShippingComponent, {
+    height: 'auto',
+    width: '96vw',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
+ }
 }
