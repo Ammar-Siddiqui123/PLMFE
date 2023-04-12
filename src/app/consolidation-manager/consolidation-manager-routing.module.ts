@@ -1,12 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ConsolidationManagerComponent } from './consolidation-manager.component';
-import { ConsolidationPreferencesComponent } from './consolidation-preferences/consolidation-preferences.component';
 import { AuthGuardGuard } from '../guard/auth-guard.guard';
+import { ConsolidationManagerComponent } from './consolidation-manager.component';
+import { ConsolidationComponent } from './consolidation/consolidation.component';
+import { ConsolidationPreferencesComponent } from './consolidation-preferences/consolidation-preferences.component';
 
 const routes: Routes = [{ path: '', component: ConsolidationManagerComponent },
-{ path: 'ConsolidationPreferences', component: ConsolidationPreferencesComponent, canActivate: [AuthGuardGuard], }
-];
+{
+  path: 'Consolidation',
+  component: ConsolidationComponent,
+  canActivate: [AuthGuardGuard],
+},
+{ path: 'ConsolidationPreferences', 
+component: ConsolidationPreferencesComponent, 
+canActivate: [AuthGuardGuard], 
+}];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
