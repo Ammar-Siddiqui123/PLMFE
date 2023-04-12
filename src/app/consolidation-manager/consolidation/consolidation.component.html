@@ -1,0 +1,316 @@
+<mat-card class="mat-elevation-z g-card mb-3 mt-2" style="height: 100%;">
+    <mat-card-content>
+        <div class="d-flex justify-content-between">
+            <h2 class="card-header-title mb-3 d-flex align-items-center">
+                <div class="mat-icon-wrap me-lg-3">
+                    <span class="material-symbols-outlined">
+                        filter_frames
+                    </span>
+                </div>
+                <span>Order</span>
+            </h2>
+
+            <div>
+                <mat-form-field class="action-dropdown w-100" appearance="outline">
+                    <mat-label>Actions</mat-label>
+                    <mat-select #matRef class="employees-action" placeholder="Actions">
+                        <mat-option> Add Location</mat-option>
+                        <mat-option value="print">Print</mat-option>
+                        <mat-option value="set_column_sq">Set Column Sequence</mat-option>
+                    </mat-select>
+                    <span class="material-symbols-outlined icon-expand-more">
+                        expand_more
+                    </span>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="col-xl-9 d-flex align-items-center gap-12">
+                <div class="d-flex flex-wrap">
+                    <mat-form-field class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
+                        <mat-label>Order Number/Tote ID</mat-label>
+                        <input matInput readonly class="__grab_cursor readonly" type="text"
+                            maxlength="50">
+                    </mat-form-field>
+                </div>
+                <div class="d-flex flex-wrap">
+                    <button type="button" mat-flat-button color="primary" class="button-primary-i mb-2 button-sm">Next
+                        Order</button>
+                </div>
+            </div>
+            <div class="col-xl-3 d-flex align-items-end justify-content-end">
+                <button type="button" mat-flat-button color="secondary" class="secondary-btn btn-lg"
+                    style="color:#1A1AD3;" (click)="clickToHide()"> Hide Order Data</button>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-between align-items-top" *ngIf="hideRow">
+            <div class="col-lg-2">
+                <div class="">
+                    <mat-card class="mat-card mat-focus-indicator mat-elevation-z g-card br-14 label-yellow w-100 mb-2">
+                        <mat-card-content>
+                            <div>Open</div>
+                            <div><strong>202332</strong></div>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card class="mat-card mat-focus-indicator mat-elevation-z g-card br-14 label-green w-100 mb-2">
+                        <mat-card-content>
+                            <div>Complete</div>
+                            <div><strong>202332</strong></div>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card class="mat-card mat-focus-indicator mat-elevation-z g-card br-14 label-red w-100 mb-2">
+                        <mat-card-content>
+                            <div>Back Order</div>
+                            <div><strong>202332</strong></div>
+                        </mat-card-content>
+                    </mat-card>
+
+                </div>
+            </div>
+
+            <div class="col-lg-10">
+                <div class="card br-14 borderless px-0" style="overflow-x: auto;">
+                    <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 260px">
+                        <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData">
+                            <ng-container matColumnDef="tote_id">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Tote ID </th>
+                                <td mat-cell *matCellDef="let element">{{element.tote_id}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="status">
+                                <th class="" mat-header-cell *matHeaderCellDef>
+                                    Status
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="">
+
+                                    <div class="label label-yellow px-3">Open</div>
+
+                                </td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="location">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
+                                <td mat-cell *matCellDef="let element">{{element.location}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="staged_by">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Staged By </th>
+                                <td mat-cell *matCellDef="let element">{{element.staged_by}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="staged_date">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Staged Date </th>
+                                <td mat-cell *matCellDef="let element">{{element.staged_date}}</td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"
+                                style=" background-color: #F9F9FF;">
+                            </tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </ng-scrollbar>
+                </div>
+                <div class="d-flex justify-content-between bg-white">
+                    <mat-paginator> </mat-paginator>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+
+<div class="row">
+    <div class="col-lg-6">
+    <mat-card class="mat-elevation-z g-card">
+        <mat-card-content>
+            <div class="d-flex justify-content-between">
+                <h2 class="card-header-title mb-3 d-flex align-items-center">
+                    <div class="mat-icon-wrap me-lg-3">
+                        <span class="material-symbols-outlined">
+                            gpp_maybe
+                        </span>
+                    </div>
+                    <span>Unverified Items</span>
+                </h2>
+            </div>
+
+            <div class="row align-items-center">
+                <div class="col-xl-8">
+                    <div class="d-flex gap-12 align-items-center mb-3">
+                        <mat-form-field class="action-dropdown" appearance="outline">
+                            <mat-label>Search</mat-label>
+                            <mat-select class="employees-action">
+                                <mat-option>hh</mat-option>
+                                <mat-option>hh</mat-option>
+                                <mat-option>hh</mat-option>
+                                <mat-option>hh</mat-option>
+                            </mat-select>
+                            <span class="material-symbols-outlined icon-expand-more">
+                                expand_more
+                            </span>
+                        </mat-form-field>
+
+                        <span class="v-br">-</span>
+                        <div class="d-flex g-mini-search-box w-100">
+                            <mat-form-field class="w-100 bg-white br-8" appearance="fill">
+                                <span class="material-symbols-outlined icon-search">
+                                    Search
+                                </span>
+                                <input type="text" placeholder="Search" aria-label="Search" matInput>
+                                <mat-autocomplete>
+                                    <mat-option>
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 d-flex flex-row-reverse">
+                    <button mat-stroked-button color="primary"
+                        class="mat-focus-indicator btn-regular w-80 mb-3 mat-stroked-button mat-button-base mat-primary">
+                        Verify All
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="card br-14 borderless px-0" style="overflow-x: auto;">
+                <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 400px">
+                    <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData_1">
+                        <ng-container matColumnDef="item_no">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Item No. </th>
+                            <td mat-cell *matCellDef="let element">{{element.item_no}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="line_no">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Line No. </th>
+                            <td mat-cell *matCellDef="let element">{{element.line_no}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="completed_qty">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Completed Qty </th>
+                            <td mat-cell *matCellDef="let element">{{element.completed_qty}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="tote_id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tote ID </th>
+                            <td mat-cell *matCellDef="let element">{{element.tote_id}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="status">
+                            <th class="" mat-header-cell *matHeaderCellDef>
+                                Status
+                            </th>
+                            <td mat-cell *matCellDef="let element" class="text-right">
+                                <div class="label label-yellow px-3">Open</div>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="serial_no">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Serial No. </th>
+                            <td mat-cell *matCellDef="let element">{{element.serial_no}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="user_field1">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> User Field 1 </th>
+                            <td mat-cell *matCellDef="let element">{{element.user_field1}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actions" stickyEnd>
+                            <th width="10%" class="text-center px-2" mat-header-cell *matHeaderCellDef>Action
+                            </th>
+                            <td class="pe-0" mat-cell *matCellDef="let element" width="10%">
+                                <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete"
+                                    matTooltip="Remove zone" matTooltipPosition="above" color="primary">
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns_1" style=" background-color: #F9F9FF;">
+                        </tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns_1;"></tr>
+                    </table>
+                </ng-scrollbar>
+            </div>
+            <div class="d-flex justify-content-between bg-white">
+                <mat-paginator> </mat-paginator>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<div class="col-lg-6">
+    <mat-card class="mat-elevation-z g-card">
+        <mat-card-content>
+            <div class="d-flex justify-content-between">
+                <h2 class="card-header-title mb-3 d-flex align-items-center">
+                    <div class="mat-icon-wrap me-lg-3">
+                        <span class="material-symbols-outlined">
+                            verified_user
+                        </span>
+                    </div>
+                    <span>Verified Items</span>
+                </h2>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12 d-flex flex-row-reverse">
+                    <button mat-stroked-button color="warn"
+                        class="mat-focus-indicator button-remove-all-w-stroke w-80 mb-3 mat-stroked-button mat-button-base mat-warn">
+                        Unverify All
+                    </button>
+                </div>
+            </div>
+
+            <div class="card br-14 borderless px-0" style="overflow-x: auto;">
+                <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 400px">
+                    <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData_2">
+                        <ng-container matColumnDef="item_no">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Item No. </th>
+                            <td mat-cell *matCellDef="let element">{{element.item_no}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="supplier_item_id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Supplier Item ID </th>
+                            <td mat-cell *matCellDef="let element">{{element.supplier_item_id}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="line_no">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Line No. </th>
+                            <td mat-cell *matCellDef="let element">{{element.line_no}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="completed_qty">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Completed Qty </th>
+                            <td mat-cell *matCellDef="let element">{{element.completed_qty}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="tote_id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tote ID </th>
+                            <td mat-cell *matCellDef="let element">{{element.tote_id}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="serial_no">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Serial No. </th>
+                            <td mat-cell *matCellDef="let element">{{element.serial_no}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="user_field1">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> User Field 1 </th>
+                            <td mat-cell *matCellDef="let element">{{element.user_field1}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actions" stickyEnd>
+                            <th width="10%" class="text-center px-2" mat-header-cell *matHeaderCellDef>Action
+                            </th>
+                            <td class="pe-0" mat-cell *matCellDef="let element" width="10%">
+                                <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete"
+                                    matTooltip="Remove zone" matTooltipPosition="above" color="warn">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns_2" style=" background-color: #F9F9FF;">
+                        </tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns_2;"></tr>
+                    </table>
+                </ng-scrollbar>
+            </div>
+
+            <div class="d-flex justify-content-between bg-white">
+                <mat-paginator> </mat-paginator>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+</div>

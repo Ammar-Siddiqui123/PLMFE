@@ -5,11 +5,13 @@ import { ConsolidationManagerRoutingModule } from './consolidation-manager-routi
 import { ConsolidationManagerComponent } from './consolidation-manager.component';
 import { GeneralModule } from '../gen-module';
 import { MaterialModule } from '../material-module';
+import { ConsolidationComponent } from './consolidation/consolidation.component';
 
 
 @NgModule({
   declarations: [
-    ConsolidationManagerComponent
+    ConsolidationManagerComponent,
+    ConsolidationComponent
   ],
   imports: [
     CommonModule,
