@@ -3,7 +3,7 @@
       <div class="col-12">
         <mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex"  (selectedTabChange)="tabChanged($event)">
             <mat-tab  label="Create Count">
-                <app-ccb-create-counts  (countsUpdated)="nextStep($event)"></app-ccb-create-counts>
+                <app-ccb-create-counts  [updateTable] = "updateCreateCount" (countsUpdated)="nextStep($event)"></app-ccb-create-counts>
             </mat-tab>
 
             <mat-tab [label]="'Count Queue'+' '+'('+countQueValue+')'"> 

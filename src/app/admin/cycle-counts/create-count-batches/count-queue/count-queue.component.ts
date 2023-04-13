@@ -212,6 +212,8 @@ this.customPagination.total = 0;
   }
 
   deleteRow(rowId) {
+
+    
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '600px',
