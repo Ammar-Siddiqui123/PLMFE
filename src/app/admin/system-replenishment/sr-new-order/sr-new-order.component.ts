@@ -35,10 +35,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class SrNewOrderComponent implements OnInit {
 
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol', 'ex', 'srno', 'replishment', 'case', 'transaction', 'replenish', 'exists', 'allocated_pick', 'allocated_put', 'action'];
+  displayedColumns: string[] = ['position', 'name', 'replenish', 'exists', 'weight', 'symbol', 'ex', 'srno', 'replishment', 'case', 'transaction', 'allocated_pick', 'allocated_put', 'action'];
   // tableData = ELEMENT_DATA;
-  tableData: any;
-  selectedTableData: any;
+  tableData: any = [];
+  filteredTableData: any = [];
   public userData: any;
   kanban: boolean = false;
   numberSelectedRep: number = 0;
@@ -56,7 +56,6 @@ export class SrNewOrderComponent implements OnInit {
     wsid: ""
   };
   tableDataTotalCount: number = 0;
-  view = 'all';
 
 
   constructor(
@@ -100,7 +99,8 @@ export class SrNewOrderComponent implements OnInit {
       if (res.isExecuted && res.data) {
         this.tableData = res.data.sysTable;
         this.tableDataTotalCount = res.data.recordsTotal;
-        this.numberSelectedRep= this.tableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0).length;
+        this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
+        this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0).length;
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -208,30 +208,43 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   selectAll(){
-    this.tableData.forEach((element:any) => {
+    this.filteredTableData.forEach((element:any) => {
       if(element.transactionQuantity > 0){
         element.replenish = true;
       }
     });
+    this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0).length;
   }
 
   unSelectAll(){
-    this.tableData.forEach((element:any) => {
+    this.filteredTableData.forEach((element:any) => {
       if(element.transactionQuantity > 0){
         element.replenish = false;
       }
     });
+    this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0).length;
   }
 
   viewAllItems(){
-    this.view = 'all';
+    this.tableData.forEach((element:any) => {
+      let index:any = this.filteredTableData.findIndex((item:any) => item.rP_ID == element.rP_ID);
+      if(index != -1){
+        element.replenish = this.filteredTableData[index].replenish;
+        element.transactionQuantity = this.filteredTableData[index].transactionQuantity;
+      }
+    });
+    this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
   }
 
   viewSelectedItems(){
-    this.selectedTableData = this.tableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0);
-    this.view = 'selected';
+    this.tableData = JSON.parse(JSON.stringify(this. filteredTableData));
+    this.filteredTableData = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0);
   }
 
   filterItemNo() {
+  }
+
+  changeReplenish(){
+    this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0).length;
   }
 }
