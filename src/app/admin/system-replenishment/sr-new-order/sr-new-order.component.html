@@ -113,8 +113,8 @@
                         <mat-option value="2">Print</mat-option>
                         <mat-option value="3">View All Items</mat-option>
                         <mat-option value="4">View Selected Items</mat-option>
-                        <!-- <mat-option value="5">Select All</mat-option> -->
-                        <!-- <mat-option value="6">Unselect All</mat-option> -->
+                        <mat-option value="5">Select All</mat-option>
+                        <mat-option value="6">Unselect All</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
                         expand_more
@@ -129,7 +129,7 @@
         <div class="card br-14 table-responsive borderless">
             <ng-scrollbar class="mat-table-scrollbar" style="height:340px" track="all">
 
-                <table class="w-100 table-borderless" mat-table [dataSource]="tableData" matSort>
+                <table class="w-100 table-borderless" mat-table [dataSource]="view == 'all' ? tableData : selectedTableData" matSort>
                     <ng-container matColumnDef="select" sticky>
                         <th mat-header-cell *matHeaderCellDef>
                             <mat-checkbox color="primary">

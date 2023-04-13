@@ -38,9 +38,10 @@ export class SrNewOrderComponent implements OnInit {
   displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol', 'ex', 'srno', 'replishment', 'case', 'transaction', 'replenish', 'exists', 'allocated_pick', 'allocated_put', 'action'];
   // tableData = ELEMENT_DATA;
   tableData: any;
+  selectedTableData: any;
   public userData: any;
   kanban: boolean = false;
-  numberSelectedRep: number = 2;
+  numberSelectedRep: number = 0;
   tablePayloadObj: any = {
     draw: 0,
     start: 0,
@@ -55,6 +56,7 @@ export class SrNewOrderComponent implements OnInit {
     wsid: ""
   };
   tableDataTotalCount: number = 0;
+  view = 'all';
 
 
   constructor(
@@ -98,6 +100,7 @@ export class SrNewOrderComponent implements OnInit {
       if (res.isExecuted && res.data) {
         this.tableData = res.data.sysTable;
         this.tableDataTotalCount = res.data.recordsTotal;
+        this.numberSelectedRep= this.tableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0).length;
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -147,22 +150,22 @@ export class SrNewOrderComponent implements OnInit {
 
   actionChange(event: any) {
     if (event == '1') {
-
+      this.filterItemNo();
     }
     else if (event == '2') {
-
+      this.print();
     }
     else if (event == '3') {
-
+      this.viewAllItems();
     }
     else if (event == '4') {
-
+      this.viewSelectedItems();
     }
     else if (event == '5') {
-
+      this.selectAll();
     }
     else if (event == '6') {
-
+      this.unSelectAll();
     }
   }
 
@@ -196,5 +199,39 @@ export class SrNewOrderComponent implements OnInit {
   viewItemInInventoryMaster(element:any){
     // window.open(`/admin/inventoryMaster?itemNumber=${element.itemNumber}`, '_blank');
     this.router.navigate(['/admin/inventoryMaster'], { queryParams: { itemNumber: element.itemNumber } });
+  }
+
+  print(){
+    if(confirm('Click OK to print a replenishment report.')){
+
+    }
+  }
+
+  selectAll(){
+    this.tableData.forEach((element:any) => {
+      if(element.transactionQuantity > 0){
+        element.replenish = true;
+      }
+    });
+  }
+
+  unSelectAll(){
+    this.tableData.forEach((element:any) => {
+      if(element.transactionQuantity > 0){
+        element.replenish = false;
+      }
+    });
+  }
+
+  viewAllItems(){
+    this.view = 'all';
+  }
+
+  viewSelectedItems(){
+    this.selectedTableData = this.tableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0);
+    this.view = 'selected';
+  }
+
+  filterItemNo() {
   }
 }
