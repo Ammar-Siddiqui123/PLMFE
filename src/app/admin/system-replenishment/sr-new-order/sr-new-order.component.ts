@@ -185,7 +185,7 @@ export class SrNewOrderComponent implements OnInit {
 
   print(){
     if(confirm('Click OK to print a replenishment report.')){
-
+      alert('Print Service not availabe.');
     }
   }
 
