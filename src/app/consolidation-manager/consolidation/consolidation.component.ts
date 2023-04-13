@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { CmShippingTransactionComponent } from 'src/app/dialogs/cm-shipping-transaction/cm-shipping-transaction.component';
 import { CmShippingComponent } from 'src/app/dialogs/cm-shipping/cm-shipping.component';
 
 @Component({
@@ -81,6 +82,19 @@ clickToHide(){
 
  openCmShipping() {
   let dialogRef = this.dialog.open(CmShippingComponent, {
+    height: 'auto',
+    width: '96vw',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
+ }
+
+ openCmShippingTransaction() {
+  let dialogRef = this.dialog.open(CmShippingTransactionComponent, {
     height: 'auto',
     width: '96vw',
     autoFocus: '__non_existing_element__',
