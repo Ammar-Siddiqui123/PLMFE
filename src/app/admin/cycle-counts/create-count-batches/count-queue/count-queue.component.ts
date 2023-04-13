@@ -2,8 +2,10 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   Component,
   EventEmitter,
+  Input,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -41,6 +43,7 @@ export class CCBCountQueueComponent implements OnInit {
   dataSource: any = [];
   noData:boolean=false;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @Input() updateData: string;
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
     private adminService: AdminService,
@@ -69,6 +72,14 @@ export class CCBCountQueueComponent implements OnInit {
 
     this.getCountQue();
     // this.dataSource.sort = this.sort
+  }
+  
+  ngOnChanges(changes: SimpleChanges): void {
+   
+    if (changes['updateData']['currentValue']) {
+      this.getCountQue();
+    }
+   
   }
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -201,6 +212,8 @@ this.customPagination.total = 0;
   }
 
   deleteRow(rowId) {
+
+    
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '600px',
