@@ -77,4 +77,11 @@ hideRow=false;
 clickToHide(){
   this.hideRow=!this.hideRow;
 }
+
+// getOrderData(e:any){
+//  console.log(e.target.id.value)
+  
+// }
+
+
 }
