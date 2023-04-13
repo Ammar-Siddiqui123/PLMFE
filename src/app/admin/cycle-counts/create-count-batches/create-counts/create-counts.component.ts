@@ -220,8 +220,15 @@ export class CCBCreateCountsComponent implements OnInit {
   }
   searchData() {
     this.fillData();
-  }
 
+
+  }
+  onSelFunc(item){
+    // this.filtersForm.controls.subCategory.setValue(item.transactionType);
+    this.filtersForm.controls['subCategory'].setValue(item.subCategory);
+    console.log(this.filtersForm.value.subCategory);
+    
+  }
   resetVal() {
     this.filtersForm.value.fromLocation = '';
     this.filtersForm.value.toLocation = '';
@@ -463,16 +470,16 @@ export class CCBCreateCountsComponent implements OnInit {
         fromLocation: this.filtersForm.value.fromLocation
           ? this.filtersForm.value.fromLocation
           : '',
-        toLocation: this.filtersForm.value.toLocation
+          toLocation: this.filtersForm.value.toLocation
           ? this.filtersForm.value.toLocation
           : '',
-        includeEmpty: this.filtersForm.value.includeEmpty,
-        includeOther: this.filtersForm.value.includeOther,
+          includeEmpty: this.filtersForm.value.includeEmpty,
+          includeOther: this.filtersForm.value.includeOther,
         countType: this.selection ? this.selection : 'Description',
         fromItem: this.filtersForm.value.fromItem
           ? this.filtersForm.value.fromItem
           : '',
-        toItem: this.filtersForm.value.toItem
+          toItem: this.filtersForm.value.toItem
           ? this.filtersForm.value.toItem
           : '',
         description: this.filtersForm.value.description,
@@ -486,29 +493,29 @@ export class CCBCreateCountsComponent implements OnInit {
           this.filtersForm.value.notCounted === '1/11/1111'
             ? true
             : this.filtersForm.value.notCounted,
-        pickedStart:
+        pickStart:
           this.filtersForm.value.pickedStart === ''
             ? '1/11/1111'
             : this.filtersForm.value.pickedStart,
-        pickedEnd:
+        pickEnd:
           this.filtersForm.value.pickedEnd === ''
             ? '1/11/1111'
             : this.filtersForm.value.pickedEnd,
-        putStart:
+            putAwayStart:
           this.filtersForm.value.putStart === ''
             ? '1/11/1111'
             : this.filtersForm.value.putStart,
-        putEnd:
+            putAwayEnd:
           this.filtersForm.value.putEnd === ''
             ? '1/11/1111'
             : this.filtersForm.value.putEnd,
-        costStart: this.filtersForm.value.costStart,
-        costEnd: this.filtersForm.value.costEnd,
+            costStart: this.filtersForm.value.costStart,
+            costEnd: this.filtersForm.value.costEnd,
         // warehouseFilter: this.filtersForm.value.warehouse,
         warehouseFilter: this.warehouse,
       },
-      userName: 'Umeraslam123',
-      wsid: 'TESTWSID',
+      userName: this.userData.userName,
+      wsid: this.userData.wsid,
     };
     this.adminService.get(payload, '/Admin/BatchResultTable').subscribe(
       (res: any) => {
@@ -592,7 +599,7 @@ export class CCBCreateCountsComponent implements OnInit {
     });
   }
   ngAfterViewInit() {
-    this.dataSourceList.sort = this.sort;
+    // this.dataSource.sort = this.sort;
   }
   insertCCQueue(ids: any) {
     var payLoad = {
