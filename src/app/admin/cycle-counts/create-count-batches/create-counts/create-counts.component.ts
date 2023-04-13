@@ -3,8 +3,10 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -25,6 +27,7 @@ import {
 } from '@angular/forms';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { FloatLabelType } from '@angular/material/form-field';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-ccb-create-counts',
@@ -37,7 +40,7 @@ export class CCBCreateCountsComponent implements OnInit {
   orderNumber;
   countType: string = '';
   warehouse: string = '';
-
+  @Input() updateTable: boolean;
   warehouses: any = [];
   customPagination: any = {
     total: '',
@@ -128,15 +131,23 @@ export class CCBCreateCountsComponent implements OnInit {
       category: new FormControl(''),
       // subCategory: new FormControl({ value: '', disabled: true }),
       subCategory: new FormControl(''),
-      notCounted: new FormControl(new Date(1/11/1111)),
-      pickedStart: new FormControl(new Date(1/11/1111)),
-      pickedEnd: new FormControl(new Date(1/11/1111)),
-      putStart: new FormControl(new Date(1/11/1111)),
-      putEnd: new FormControl(new Date(1/11/1111)),
+      notCounted: new FormControl(new Date(1 / 11 / 1111)),
+      pickedStart: new FormControl(new Date(1 / 11 / 1111)),
+      pickedEnd: new FormControl(new Date(1 / 11 / 1111)),
+      putStart: new FormControl(new Date(1 / 11 / 1111)),
+      putEnd: new FormControl(new Date(1 / 11 / 1111)),
       costStart: new FormControl(''),
       costEnd: new FormControl(''),
       warehouse: new FormControl(''),
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+   
+    if (changes['updateTable']['currentValue']) {
+        this.resetVal();
+    }
+   
   }
   nextStep() {
     this.countsUpdated.emit('next');
@@ -211,28 +222,24 @@ export class CCBCreateCountsComponent implements OnInit {
     this.fillData();
   }
 
-
-  resetVal(){
- 
-
-    this.filtersForm.value.fromLocation='';
-    this.filtersForm.value.toLocation='';
-    this.filtersForm.value.includeEmpty=false;
-    this.filtersForm.value.includeOther=false;
-    this.filtersForm.value.description='';
-    this.filtersForm.value.category='';
-    this.filtersForm.value.subCategory='';
-    this.filtersForm.value.fromItem='';
-    this.filtersForm.value.toItem='';
-    this.filtersForm.value.notCounted=new Date();
-    this.filtersForm.value.pickedStart=new Date();
-    this.filtersForm.value.pickedEnd=new Date();
-    this.filtersForm.value.putStart=new Date();
-    this.filtersForm.value.putEnd=new Date();
-    this.filtersForm.value.costStart='';
-    this.filtersForm.value.costEnd='';
-    this.filtersForm.value.warehouse='';
-
+  resetVal() {
+    this.filtersForm.value.fromLocation = '';
+    this.filtersForm.value.toLocation = '';
+    this.filtersForm.value.includeEmpty = false;
+    this.filtersForm.value.includeOther = false;
+    this.filtersForm.value.description = '';
+    this.filtersForm.value.category = '';
+    this.filtersForm.value.subCategory = '';
+    this.filtersForm.value.fromItem = '';
+    this.filtersForm.value.toItem = '';
+    this.filtersForm.value.notCounted = new Date();
+    this.filtersForm.value.pickedStart = new Date();
+    this.filtersForm.value.pickedEnd = new Date();
+    this.filtersForm.value.putStart = new Date();
+    this.filtersForm.value.putEnd = new Date();
+    this.filtersForm.value.costStart = '';
+    this.filtersForm.value.costEnd = '';
+    this.filtersForm.value.warehouse = '';
 
     this.fillData();
   }
@@ -421,7 +428,9 @@ export class CCBCreateCountsComponent implements OnInit {
         ? this.filtersForm.value.subCategory
         : '',
       notCounted:
-        this.filtersForm.value.notCounted===''? new Date('1/11/1111'):this.filtersForm.value.notCounted ,
+        this.filtersForm.value.notCounted === ''
+          ? new Date('1/11/1111')
+          : this.filtersForm.value.notCounted,
       pickedStart:
         this.filtersForm.value.pickedStart === ''
           ? new Date('1/11/1111')
@@ -432,7 +441,7 @@ export class CCBCreateCountsComponent implements OnInit {
           : this.filtersForm.value.pickedEnd,
       putStart:
         this.filtersForm.value.putStart === ''
-          ?new Date('1/11/1111')
+          ? new Date('1/11/1111')
           : this.filtersForm.value.putStart,
       putEnd:
         this.filtersForm.value.putEnd === ''
@@ -504,22 +513,18 @@ export class CCBCreateCountsComponent implements OnInit {
     this.adminService.get(payload, '/Admin/BatchResultTable').subscribe(
       (res: any) => {
         if (res && res.data && res.isExecuted) {
-       
           this.dataSource = new MatTableDataSource(res.data);
           this.dataSource.paginator = this.paginator;
-          if(res.data.length > 0){
+          if (res.data.length > 0) {
             this.isDataAvailable = true;
-
-          }else{
-          this.isDataAvailable = false;
-
+          } else {
+            this.isDataAvailable = false;
           }
         } else {
           this.toastService.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000,
           });
-          
         }
       },
       (err) => {
@@ -614,55 +619,73 @@ export class CCBCreateCountsComponent implements OnInit {
 
   insertQueue() {
     try {
-      let invMapIDs = new Array();
-      let finaliter = Math.floor(this.dataSource.data.length / 1000);
-      let curriter = 0;
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '786px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message:
+            'Would you like to Insert into Queue ?',
+          heading: 'Insert Into Queue',
+        },
+      });
+      dialogRef.afterClosed().subscribe((res) => {
+        if (res === 'Yes') {
+          let invMapIDs = new Array();
+          let finaliter = Math.floor(this.dataSource.data.length / 1000);
+          let curriter = 0;
 
-      if (finaliter == 0) {
-        this.dataSource.data.forEach((element) => {
-          console.log(element);
+          if (finaliter == 0) {
+            this.dataSource.data.forEach((element) => {
+              console.log(element);
 
-          invMapIDs.push(element.invMapID);
-        });
+              invMapIDs.push(element.invMapID);
+            });
 
-        this.insertCCQueue(invMapIDs);
-      } else {
-        this.dataSource.data.forEach((element) => {
-          invMapIDs.push(element.invMapID);
+            this.insertCCQueue(invMapIDs);
+          } else {
+            this.dataSource.data.forEach((element) => {
+              invMapIDs.push(element.invMapID);
 
-          if (invMapIDs.length == 1000) {
-            var payLoad = {
-              InvMapIDs: invMapIDs,
-              username: this.userData.username,
-              wsid: this.userData.wsid,
-            };
-            this.adminService
-              .create(payLoad, '/Admin/CycleCountQueueInsert')
-              .subscribe(
-                (res: any) => {
-                  if (res.data && res.isExecuted) {
-                    curriter++;
-                    if (curriter == finaliter) {
-                      if (invMapIDs.length > 0) {
-                        this.insertCCQueue(invMapIDs);
+              if (invMapIDs.length == 1000) {
+                var payLoad = {
+                  InvMapIDs: invMapIDs,
+                  username: this.userData.username,
+                  wsid: this.userData.wsid,
+                };
+                this.adminService
+                  .create(payLoad, '/Admin/CycleCountQueueInsert')
+                  .subscribe(
+                    (res: any) => {
+                      if (res.data && res.isExecuted) {
+                        curriter++;
+                        if (curriter == finaliter) {
+                          if (invMapIDs.length > 0) {
+                            this.insertCCQueue(invMapIDs);
+                          } else {
+                            this.dataSource = [];
+                            this.selectedTabIndex = 1;
+                          }
+                        }
                       } else {
-                        this.dataSource = [];
-                        this.selectedTabIndex = 1;
+                        this.toastService.error(
+                          'Something went wrong',
+                          'Error!',
+                          {
+                            positionClass: 'toast-bottom-right',
+                            timeOut: 2000,
+                          }
+                        );
                       }
-                    }
-                  } else {
-                    this.toastService.error('Something went wrong', 'Error!', {
-                      positionClass: 'toast-bottom-right',
-                      timeOut: 2000,
-                    });
-                  }
-                },
-                (error) => {}
-              );
-            invMapIDs = [];
+                    },
+                    (error) => {}
+                  );
+                invMapIDs = [];
+              }
+            });
           }
-        });
-      }
+        }
+      });
     } catch (error) {
       console.log(error);
     }
@@ -678,8 +701,10 @@ export class CCBCreateCountsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (res === 'Yes') {
-        this.dataSource.data = this.dataSource.data.filter( (value,key)=>{  return value.invMapID != rowId; }); 
-        
+        this.dataSource.data = this.dataSource.data.filter((value, key) => {
+          return value.invMapID != rowId;
+        });
+
         // let payload = {
         //   wsid: this.userData.wsid,
         //   invMapID: rowId.toString(),
