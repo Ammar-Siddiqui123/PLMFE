@@ -37,6 +37,7 @@ export class CCBCreateCountsComponent implements OnInit {
   orderNumber;
   countType: string = '';
   warehouse: string = '';
+
   warehouses: any = [];
   customPagination: any = {
     total: '',
@@ -47,9 +48,15 @@ export class CCBCreateCountsComponent implements OnInit {
   filtersForm: FormGroup;
   searchByItem: any = new Subject<string>();
   searchAutocompleteItemNumber: any = [];
+  searchAutocompleteFromLocation: any = [];
+  searchAutocompleteToLocation: any = [];
   searchAutocompleteDescription: any = [];
+  searchAutocompleteFromItem: any = [];
+  searchAutocompleteToItem: any = [];
+  isDataAvailable: boolean = false;
   searchAutocompletCategory: any = [];
   searchAutocompletBeginCost: any = [];
+  searchAutocompletEndCost: any = [];
 
   dataSource: any;
   time = new Date();
@@ -67,6 +74,11 @@ export class CCBCreateCountsComponent implements OnInit {
   curCountOrders: any = [];
   searchField = new Subject<string>();
   descriptionTA = new Subject<string>();
+  fromLocationTA = new Subject<string>();
+  toLocationTA = new Subject<string>();
+  fromItemTA = new Subject<string>();
+  toItemTA = new Subject<string>();
+
   categoryTA = new Subject<string>();
   beginCostTA = new Subject<string>();
   endCostTA = new Subject<string>();
@@ -80,64 +92,6 @@ export class CCBCreateCountsComponent implements OnInit {
   sdate: any = new Date();
   edate: any = new Date();
   notCountSince: any = new Date();
-  ELEMENT_DATA: any[] = [
-    {
-      item_no: '30022',
-      qty_location: '12',
-      warehouse: 'Work 2141',
-      lot_no: 'Main 52',
-      expiration_date: 'Jan-25-2023',
-      serial_no: '854120',
-    },
-    {
-      item_no: '40022',
-      qty_location: 'loc 1212',
-      warehouse: 'Work 2141',
-      lot_no: '30',
-      expiration_date: 'Jan-25-2023',
-      serial_no: '854120',
-    },
-    {
-      item_no: '50022',
-      qty_location: 'loc 1212',
-      warehouse: 'Work 2141',
-      lot_no: '100',
-      expiration_date: 'Jan-25-2023',
-      serial_no: '854120',
-    },
-    {
-      item_no: '60022',
-      qty_location: 'loc 1212',
-      warehouse: 'Work 2141',
-      lot_no: 'Main 600',
-      expiration_date: 'Jan-25-2023',
-      serial_no: '854120',
-    },
-    {
-      item_no: '70022',
-      qty_location: 'loc 1212',
-      warehouse: 'Work 2141',
-      lot_no: 'Main 600',
-      expiration_date: 'Jan-25-2023',
-      serial_no: '854120',
-    },
-    {
-      item_no: '10022',
-      qty_location: 'loc 1212',
-      warehouse: 'Work 2141',
-      lot_no: 'Main 600',
-      expiration_date: 'Jan-25-2023',
-      serial_no: '854120',
-    },
-    {
-      item_no: '20022',
-      qty_location: 'loc 1212',
-      warehouse: 'Work 2141',
-      lot_no: 'Main 600',
-      expiration_date: 'Jan-25-2023',
-      serial_no: '854120',
-    },
-  ];
 
   displayedColumns: string[] = [
     'itemNumber',
@@ -151,8 +105,8 @@ export class CCBCreateCountsComponent implements OnInit {
     'serialNumber',
     'lotNumber',
     'expirationDate',
+    'actions',
   ];
-  tableData = this.ELEMENT_DATA;
   dataSourceList: any;
   constructor(
     private adminService: AdminService,
@@ -174,11 +128,11 @@ export class CCBCreateCountsComponent implements OnInit {
       category: new FormControl(''),
       // subCategory: new FormControl({ value: '', disabled: true }),
       subCategory: new FormControl(''),
-      notCounted: new FormControl(new Date()),
-      pickedStart: new FormControl(new Date()),
-      pickedEnd: new FormControl(new Date()),
-      putStart: new FormControl(new Date()),
-      putEnd: new FormControl(new Date()),
+      notCounted: new FormControl(new Date(1/11/1111)),
+      pickedStart: new FormControl(new Date(1/11/1111)),
+      pickedEnd: new FormControl(new Date(1/11/1111)),
+      putStart: new FormControl(new Date(1/11/1111)),
+      putEnd: new FormControl(new Date(1/11/1111)),
       costStart: new FormControl(''),
       costEnd: new FormControl(''),
       warehouse: new FormControl(''),
@@ -189,7 +143,6 @@ export class CCBCreateCountsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.dataSourceList = new MatTableDataSource(this.tableData);
     this.getWareAndCurOrd();
 
     this.searchField
@@ -212,6 +165,30 @@ export class CCBCreateCountsComponent implements OnInit {
         this.getTypeAheads('Description');
       });
 
+    this.fromLocationTA
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((value) => {
+        this.getTypeAheads('FromLocation');
+      });
+
+    this.toLocationTA
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((value) => {
+        this.getTypeAheads('ToLocation');
+      });
+
+    this.fromItemTA
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((value) => {
+        this.getTypeAheads('FromItem');
+      });
+
+    this.toItemTA
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((value) => {
+        this.getTypeAheads('ToItem');
+      });
+
     this.categoryTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
@@ -230,7 +207,35 @@ export class CCBCreateCountsComponent implements OnInit {
         this.getTypeAheads('EndCost');
       });
   }
-  searchData() {}
+  searchData() {
+    this.fillData();
+  }
+
+
+  resetVal(){
+ 
+
+    this.filtersForm.value.fromLocation='';
+    this.filtersForm.value.toLocation='';
+    this.filtersForm.value.includeEmpty=false;
+    this.filtersForm.value.includeOther=false;
+    this.filtersForm.value.description='';
+    this.filtersForm.value.category='';
+    this.filtersForm.value.subCategory='';
+    this.filtersForm.value.fromItem='';
+    this.filtersForm.value.toItem='';
+    this.filtersForm.value.notCounted=new Date();
+    this.filtersForm.value.pickedStart=new Date();
+    this.filtersForm.value.pickedEnd=new Date();
+    this.filtersForm.value.putStart=new Date();
+    this.filtersForm.value.putEnd=new Date();
+    this.filtersForm.value.costStart='';
+    this.filtersForm.value.costEnd='';
+    this.filtersForm.value.warehouse='';
+
+
+    this.fillData();
+  }
   getTypeAheads(type) {
     if (type === 'Description') {
       let paylaod = {
@@ -239,11 +244,11 @@ export class CCBCreateCountsComponent implements OnInit {
         wsid: this.userData.wsid,
       };
       this.adminService
-        .create(paylaod, '/Admin/GetCCDescriptionTypeAhead')
+        .get(paylaod, '/Admin/GetCCDescriptionTypeAhead', true)
         .subscribe((res: any) => {
           this.searchAutocompleteDescription = res.data;
         });
-      this.fillData();
+      // this.fillData();
     } else if (type === 'Category') {
       let paylaod = {
         category: this.filtersForm.value.category,
@@ -260,8 +265,8 @@ export class CCBCreateCountsComponent implements OnInit {
         beginCost: this.filtersForm.value.costStart
           ? this.filtersForm.value.costStart
           : '',
-        endCost: this.filtersForm.value.endCost
-          ? this.filtersForm.value.endCost
+        endCost: this.filtersForm.value.costEnd
+          ? this.filtersForm.value.costEnd
           : '',
         userName: this.userData.userName,
         wsid: this.userData.wsId,
@@ -269,7 +274,56 @@ export class CCBCreateCountsComponent implements OnInit {
       this.adminService
         .create(payload, '/Admin/GetCCCountToCostTypeAhead')
         .subscribe((res: any) => {
-          this.searchAutocompletBeginCost = res.data;
+          if (type === 'BeginCost') {
+            this.searchAutocompletBeginCost = res.data;
+          } else {
+            this.searchAutocompletEndCost = res.data;
+          }
+        });
+    } else if (type === 'FromLocation') {
+      let payload = {
+        query: this.filtersForm.value.fromLocation,
+        unique: true,
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
+      this.adminService
+        .get(payload, '/Common/LocationBegin')
+        .subscribe((res: any) => {
+          this.searchAutocompleteFromLocation = res.data;
+        });
+    } else if (type === 'ToLocation') {
+      let payload = {
+        query: this.filtersForm.value.toLocation,
+        beginLocation: this.filtersForm.value.fromLocation,
+        unique: true,
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
+      this.adminService
+        .get(payload, '/Common/LocationEnd')
+        .subscribe((res: any) => {
+          this.searchAutocompleteToLocation = res.data;
+        });
+    } else if (type === 'FromItem' || type === 'ToItem') {
+      let payload = {
+        itemNumber:
+          type === 'FromItem'
+            ? this.filtersForm.value.fromItem
+            : this.filtersForm.value.toItem,
+        beginItem: '---',
+        isEqual: false,
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+      };
+      this.adminService
+        .get(payload, '/Common/SearchItem')
+        .subscribe((res: any) => {
+          if (type === 'FromItem') {
+            this.searchAutocompleteFromItem = res.data;
+          } else {
+            this.searchAutocompleteToItem = res.data;
+          }
         });
     }
   }
@@ -367,24 +421,22 @@ export class CCBCreateCountsComponent implements OnInit {
         ? this.filtersForm.value.subCategory
         : '',
       notCounted:
-        this.filtersForm.value.notCounted === '1/11/1111'
-          ? true
-          : this.filtersForm.value.notCounted,
+        this.filtersForm.value.notCounted===''? new Date('1/11/1111'):this.filtersForm.value.notCounted ,
       pickedStart:
         this.filtersForm.value.pickedStart === ''
-          ? '1/11/1111'
+          ? new Date('1/11/1111')
           : this.filtersForm.value.pickedStart,
       pickedEnd:
         this.filtersForm.value.pickedEnd === ''
-          ? '1/11/1111'
+          ? new Date('1/11/1111')
           : this.filtersForm.value.pickedEnd,
       putStart:
         this.filtersForm.value.putStart === ''
-          ? '1/11/1111'
+          ?new Date('1/11/1111')
           : this.filtersForm.value.putStart,
       putEnd:
         this.filtersForm.value.putEnd === ''
-          ? '1/11/1111'
+          ? new Date('1/11/1111')
           : this.filtersForm.value.putEnd,
       costStart: this.filtersForm.value.costStart,
       costEnd: this.filtersForm.value.costEnd,
@@ -452,13 +504,22 @@ export class CCBCreateCountsComponent implements OnInit {
     this.adminService.get(payload, '/Admin/BatchResultTable').subscribe(
       (res: any) => {
         if (res && res.data && res.isExecuted) {
+       
           this.dataSource = new MatTableDataSource(res.data);
           this.dataSource.paginator = this.paginator;
+          if(res.data.length > 0){
+            this.isDataAvailable = true;
+
+          }else{
+          this.isDataAvailable = false;
+
+          }
         } else {
           this.toastService.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000,
           });
+          
         }
       },
       (err) => {
@@ -487,9 +548,9 @@ export class CCBCreateCountsComponent implements OnInit {
 
       if (res == 'Yes') {
         var payLoad = {
-          ordNum: this.orderNumber,
+          orderNumber: this.orderNumber,
           ident: ident,
-          username: this.userData.username,
+          username: this.userData.userName,
           wsid: this.userData.wsid,
         };
         // Call the API
@@ -502,6 +563,7 @@ export class CCBCreateCountsComponent implements OnInit {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000,
               });
+              this.getWareAndCurOrd();
               // Get the orders again
               // this.getOrders();
             } else {
@@ -605,7 +667,43 @@ export class CCBCreateCountsComponent implements OnInit {
       console.log(error);
     }
   }
-
+  deleteRow(rowId) {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '600px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        mode: 'delete-cycle-count',
+      },
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res === 'Yes') {
+        this.dataSource.data = this.dataSource.data.filter( (value,key)=>{  return value.invMapID != rowId; }); 
+        
+        // let payload = {
+        //   wsid: this.userData.wsid,
+        //   invMapID: rowId.toString(),
+        // };
+        // this.adminService.get(payload, `/Admin/RemoveccQueueRow`).subscribe(
+        //   (res: any) => {
+        //     if (res.isExecuted) {
+        //       this.getCountQue();
+        //     } else {
+        //       this.toastr.error(
+        //         'Error',
+        //         'An Error Occured while trying to remove this row, check the event log for more information',
+        //         {
+        //           positionClass: 'toast-bottom-right',
+        //           timeOut: 2000,
+        //         }
+        //       );
+        //     }
+        //   },
+        //   (error) => {}
+        // );
+      }
+    });
+  }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
