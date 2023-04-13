@@ -244,4 +244,24 @@ export class SrNewOrderComponent implements OnInit {
     this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0).length;
   }
 
+  processReplenishments(){
+    let paylaod = {
+      "kanban": this.kanban,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.toastr.success(labels.alert.success, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      } else {
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    });
+  }
 }

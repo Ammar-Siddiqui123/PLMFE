@@ -21,7 +21,7 @@
                     </div>
                     <div class="col-xl-5">
                         <div class="d-flex gap-20">
-                            <mat-checkbox [checked]="kanban" color="primary" (change)="onChangeKanban($event)">
+                            <mat-checkbox [checked]="kanban" color="primary" (change)="onChangeKanban($event)" [(ngModel)]="kanban">
                                 Kanban
                             </mat-checkbox>
                             <!-- <div class="br-14 d-flex align-items-center label label-yellow px-3 f-16">
@@ -262,7 +262,7 @@
     </mat-card-content>
 </mat-card>
 <div>
-    <button mat-flat-button color="primary" class="w-100 btn-lg">
-        Process Batch
+    <button mat-flat-button color="primary" class="w-100 btn-lg" (click)="processReplenishments()">
+        Process Replenishments
     </button>
 </div>
