@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/init/auth.service';
 import labels from '../../../labels/labels.json'
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { FilterItemNumbersComponent } from '../../dialogs/filter-item-numbers/filter-item-numbers.component';
 
 export interface PeriodicElement {
   name: string;
@@ -56,6 +57,7 @@ export class SrNewOrderComponent implements OnInit {
     wsid: ""
   };
   tableDataTotalCount: number = 0;
+  filterItemNumbersText: string = "";
 
 
   constructor(
@@ -242,6 +244,20 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   filterItemNo() {
+    const dialogRef = this.dialog.open(FilterItemNumbersComponent, {
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: this.filterItemNumbersText,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      debugger;
+      if(result){
+        this.filterItemNumbersText = result.filterItemNumbersText;
+        if(result.filterItemNumbersArray && result.filterItemNumbersArray.length > 0){
+          this.newReplenishmentOrders();
+        }
+      }
+    });
   }
 
   changeReplenish(){
