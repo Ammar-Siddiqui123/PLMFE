@@ -87,7 +87,7 @@
                             <span class="material-symbols-outlined icon-search">
                                 Search
                             </span>
-                            <input type="text" placeholder="Search" aria-label="Search" matInput>
+                            <input type="text" placeholder="Search" aria-label="Search" matInput [(ngModel)]="tablePayloadObj.searchString" (keyup.enter)="newReplenishmentOrders()">
 
                         </mat-form-field>
 
