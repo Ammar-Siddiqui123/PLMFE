@@ -10,25 +10,6 @@ import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { FilterItemNumbersComponent } from '../../dialogs/filter-item-numbers/filter-item-numbers.component';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
 @Component({
   selector: 'app-sr-new-order',
   templateUrl: './sr-new-order.component.html',
@@ -37,7 +18,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class SrNewOrderComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'name', 'replenish', 'exists', 'weight', 'symbol', 'ex', 'srno', 'replishment', 'case', 'transaction', 'allocated_pick', 'allocated_put', 'action'];
-  // tableData = ELEMENT_DATA;
   tableData: any = [];
   filteredTableData: any = [];
   public userData: any;
@@ -263,4 +243,5 @@ export class SrNewOrderComponent implements OnInit {
   changeReplenish(){
     this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0).length;
   }
+
 }
