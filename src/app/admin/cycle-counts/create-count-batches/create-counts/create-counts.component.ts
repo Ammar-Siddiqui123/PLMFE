@@ -152,6 +152,15 @@ export class CCBCreateCountsComponent implements OnInit {
   nextStep() {
     this.countsUpdated.emit('next');
   }
+  onChangeDemo(e,type){
+   if(type==='empty'){
+    this.filtersForm.controls['includeEmpty'].setValue(e.checked);
+   }else{
+    this.filtersForm.controls['includeOther'].setValue(e.checked);
+
+   }
+    this.fillData();
+  }
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getWareAndCurOrd();
@@ -159,6 +168,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.searchField
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        if(value==='') return
         this.fillData();
 
         // this.columnSearch.searchValue = value;
@@ -173,48 +183,64 @@ export class CCBCreateCountsComponent implements OnInit {
     this.descriptionTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        if(value==='') return
+
         this.getTypeAheads('Description');
       });
 
     this.fromLocationTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        if(value==='') return
+
         this.getTypeAheads('FromLocation');
       });
 
     this.toLocationTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        if(value==='') return
+
         this.getTypeAheads('ToLocation');
       });
 
     this.fromItemTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        if(value==='') return
+
         this.getTypeAheads('FromItem');
       });
 
     this.toItemTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        if(value==='') return
+
         this.getTypeAheads('ToItem');
       });
 
     this.categoryTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        if(value==='') return
+
         this.getTypeAheads('Category');
       });
 
     this.beginCostTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        if(value==='') return
+
         this.getTypeAheads('BeginCost');
       });
 
     this.endCostTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        if(value==='') return
+
         this.getTypeAheads('EndCost');
       });
   }
@@ -226,29 +252,49 @@ export class CCBCreateCountsComponent implements OnInit {
   onSelFunc(item){
     // this.filtersForm.controls.subCategory.setValue(item.transactionType);
     this.filtersForm.controls['subCategory'].setValue(item.subCategory);
-    console.log(this.filtersForm.value.subCategory);
     
   }
   resetVal() {
-    this.filtersForm.value.fromLocation = '';
-    this.filtersForm.value.toLocation = '';
-    this.filtersForm.value.includeEmpty = false;
-    this.filtersForm.value.includeOther = false;
-    this.filtersForm.value.description = '';
-    this.filtersForm.value.category = '';
-    this.filtersForm.value.subCategory = '';
-    this.filtersForm.value.fromItem = '';
-    this.filtersForm.value.toItem = '';
-    this.filtersForm.value.notCounted = new Date();
-    this.filtersForm.value.pickedStart = new Date();
-    this.filtersForm.value.pickedEnd = new Date();
-    this.filtersForm.value.putStart = new Date();
-    this.filtersForm.value.putEnd = new Date();
-    this.filtersForm.value.costStart = '';
-    this.filtersForm.value.costEnd = '';
-    this.filtersForm.value.warehouse = '';
 
-    this.fillData();
+    this.filtersForm.controls['fromLocation'].setValue('');
+    this.filtersForm.controls['toLocation'].setValue('');
+    // this.filtersForm.controls['includeEmpty'].setValue(false);
+    // this.filtersForm.controls['includeOther'].setValue(false);
+    this.filtersForm.controls['description'].setValue('');
+    this.filtersForm.controls['category'].setValue('');
+    this.filtersForm.controls['subCategory'].setValue('');
+    this.filtersForm.controls['fromItem'].setValue('');
+    this.filtersForm.controls['toItem'].setValue('');
+    this.filtersForm.controls['notCounted'].setValue(new Date(1 / 11 / 1111));
+    this.filtersForm.controls['pickedStart'].setValue(new Date(1 / 11 / 1111));
+    this.filtersForm.controls['pickedEnd'].setValue(new Date(1 / 11 / 1111));
+    this.filtersForm.controls['putStart'].setValue(new Date(1 / 11 / 1111));
+    this.filtersForm.controls['pickedStart'].setValue(new Date(1 / 11 / 1111));
+    this.filtersForm.controls['putEnd'].setValue(new Date(1 / 11 / 1111));
+    this.filtersForm.controls['costStart'].setValue('');
+    this.filtersForm.controls['costEnd'].setValue('');
+    this.filtersForm.controls['warehouse'].setValue('');
+
+
+    // this.filtersForm.value.fromLocation = '';
+    // this.filtersForm.value.toLocation = '';
+    // this.filtersForm.value.includeEmpty = false;
+    // this.filtersForm.value.includeOther = false;
+    // this.filtersForm.value.description = '';
+    // this.filtersForm.value.category = '';
+    // this.filtersForm.value.subCategory = '';
+    // this.filtersForm.value.fromItem = '';
+    // this.filtersForm.value.toItem = '';
+    // this.filtersForm.value.notCounted = new Date(1 / 11 / 1111);
+    // this.filtersForm.value.pickedStart = new Date(1 / 11 / 1111);
+    // this.filtersForm.value.pickedEnd = new Date(1 / 11 / 1111);
+    // this.filtersForm.value.putStart = new Date(1 / 11 / 1111);
+    // this.filtersForm.value.putEnd = new Date(1 / 11 / 1111);
+    // this.filtersForm.value.costStart = '';
+    // this.filtersForm.value.costEnd = '';
+    // this.filtersForm.value.warehouse = '';
+
+    // this.fillData();
   }
   getTypeAheads(type) {
     if (type === 'Description') {
@@ -270,7 +316,7 @@ export class CCBCreateCountsComponent implements OnInit {
         wsid: this.userData.wsid,
       };
       this.adminService
-        .create(paylaod, '/Admin/GetCCCategoryTypeAhead')
+        .get(paylaod, '/Admin/GetCCCategoryTypeAhead',true)
         .subscribe((res: any) => {
           this.searchAutocompletCategory = res.data;
         });
@@ -286,7 +332,7 @@ export class CCBCreateCountsComponent implements OnInit {
         wsid: this.userData.wsId,
       };
       this.adminService
-        .create(payload, '/Admin/GetCCCountToCostTypeAhead')
+        .get(payload, '/Admin/GetCCCountToCostTypeAhead',true)
         .subscribe((res: any) => {
           if (type === 'BeginCost') {
             this.searchAutocompletBeginCost = res.data;
@@ -302,7 +348,7 @@ export class CCBCreateCountsComponent implements OnInit {
         wsid: this.userData.wsid,
       };
       this.adminService
-        .get(payload, '/Common/LocationBegin')
+        .get(payload, '/Common/LocationBegin',true)
         .subscribe((res: any) => {
           this.searchAutocompleteFromLocation = res.data;
         });
@@ -315,7 +361,7 @@ export class CCBCreateCountsComponent implements OnInit {
         wsid: this.userData.wsid,
       };
       this.adminService
-        .get(payload, '/Common/LocationEnd')
+        .get(payload, '/Common/LocationEnd',true)
         .subscribe((res: any) => {
           this.searchAutocompleteToLocation = res.data;
         });
@@ -331,7 +377,7 @@ export class CCBCreateCountsComponent implements OnInit {
         wsid: this.userData.wsid,
       };
       this.adminService
-        .get(payload, '/Common/SearchItem')
+        .get(payload, '/Common/SearchItem',true)
         .subscribe((res: any) => {
           if (type === 'FromItem') {
             this.searchAutocompleteFromItem = res.data;
@@ -754,5 +800,19 @@ export class CCBCreateCountsComponent implements OnInit {
 
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
+  }
+
+
+  ngOnDestroy() {
+
+    this.searchField.unsubscribe();
+    this.descriptionTA.unsubscribe();
+    this.fromLocationTA.unsubscribe();
+    this.toLocationTA.unsubscribe();
+    this.fromItemTA.unsubscribe();
+    this.toItemTA.unsubscribe();
+    this.categoryTA.unsubscribe();
+    this.beginCostTA.unsubscribe();
+    this.endCostTA.unsubscribe();
   }
 }
