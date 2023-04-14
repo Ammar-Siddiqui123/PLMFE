@@ -14,9 +14,15 @@
                 <mat-form-field class="action-dropdown w-100" appearance="outline">
                     <mat-label>Actions</mat-label>
                     <mat-select #matRef class="employees-action" placeholder="Actions">
-                        <mat-option> Add Location</mat-option>
-                        <mat-option value="print">Print</mat-option>
-                        <mat-option value="set_column_sq">Set Column Sequence</mat-option>
+                        <mat-option value="0"> Staging Location</mat-option>
+                        <mat-option value="1">Packaging</mat-option>
+                        <mat-option value="2" (click)="openCmShipping()">Shipping</mat-option>
+                        <mat-option value="3">Order Status</mat-option>
+                        <mat-option value="4">Print Packaging List</mat-option>
+                        <mat-option value="5">Preview Packaging List</mat-option>
+                        <mat-option value="6">Print Not Verified List</mat-option>
+                        <mat-option value="7">Preview Not Verified List</mat-option>
+                        <mat-option value="8" (click)="openCmShippingTransaction()">Shipping Transaction Dialouge</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
                         expand_more

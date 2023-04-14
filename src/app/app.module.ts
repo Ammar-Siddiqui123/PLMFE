@@ -44,6 +44,8 @@ import { ChooseLocationComponent } from './dialogs/choose-location/choose-locati
 import { InputFilterComponent } from './dialogs/input-filter/input-filter.component';
 import { MinReelQtyComponent } from './dialogs/min-reel-qty/min-reel-qty.component';
 import { TransactionQtyEditComponent } from './dialogs/transaction-qty-edit/transaction-qty-edit.component';
+import { CmShippingComponent } from './dialogs/cm-shipping/cm-shipping.component';
+import { CmShippingTransactionComponent } from './dialogs/cm-shipping-transaction/cm-shipping-transaction.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -75,6 +77,8 @@ import { TransactionQtyEditComponent } from './dialogs/transaction-qty-edit/tran
     InputFilterComponent,
     MinReelQtyComponent,
     TransactionQtyEditComponent,
+    CmShippingComponent,
+    CmShippingTransactionComponent,
     // ActionDisableDirective,
   ],
   imports: [

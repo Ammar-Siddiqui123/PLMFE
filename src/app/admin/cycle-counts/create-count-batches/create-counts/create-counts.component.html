@@ -102,11 +102,11 @@
                     </div>
                     <div class="col-xl-6">
                         <div class="d-flex flex-wrap gap-12 px-3">
-                            <mat-checkbox (ngModelChange)="this.searchField.next($event)" formControlName="includeEmpty"
+                            <mat-checkbox (change)="onChangeDemo($event,'empty')" formControlName="includeEmpty"
                                 class="example-margin custom-checkbox mb-2" color="primary">Include Empty
                                 Locations?</mat-checkbox>
 
-                            <mat-checkbox (ngModelChange)="this.searchField.next($event)" formControlName="includeOther"
+                            <mat-checkbox (change)="onChangeDemo($event,'other')" formControlName="includeOther"
                                 class="example-margin custom-checkbox mb-2" color="primary">Include Other
                                 Locations?</mat-checkbox>
                         </div>
@@ -216,9 +216,9 @@
                                 <h6 class="ctl_name ac-dropdown-label">
                                     <span style="width:70%">Category</span> <span style="width:30%">Sub Category</span>
                                 </h6>
-                                <mat-option style="width:900px !important;" *ngFor="let option of searchAutocompletCategory"   (onSelectionChange)="onSelFunc(option)"
+                                <mat-option  style="width:900px !important;" *ngFor="let option of searchAutocompletCategory"   (onSelectionChange)="onSelFunc(option)"
                                     [value]="option.category">
-                                    <div class="ctl_option ac-dropdown-option">
+                                    <div  class="ctl_option ac-dropdown-option disa">
                                         <span style="width:70%">{{option.category}}</span><span style="width:30%">
                                             &nbsp;{{option.subCategory}}</span>
                                     </div>
@@ -244,10 +244,10 @@
                         </mat-form-field>
                     </div>
                     <div class="col-xl-3">
-                        <mat-form-field class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
+                        <mat-form-field class="custom-form-field w-100 __grab_cursor mb-2 " appearance="outline">
                             <mat-label>Sub Category</mat-label>
-                            <input [disabled]="true" (ngModelChange)="this.searchField.next($event)" formControlName="subCategory"
-                                readonly matInput readonly class="__grab_cursor readonly" type="text" maxlength="50">
+                            <input [disabled]="true"  readonly formControlName="subCategory"
+                                 matInput  class="__grab_cursor readonly" type="text" maxlength="50">
                         </mat-form-field>
                     </div>
 
@@ -386,52 +386,52 @@
                     (matSortChange)="announceSortChange($event)">
                     <ng-container matColumnDef="itemNumber">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Item No </th>
-                        <td mat-cell *matCellDef="let element"> {{element.itemNumber}} </td>
+                        <td mat-cell *matCellDef="let element"  [matTooltip]="element.itemNumber"   matTooltipPosition="above" [matTooltipDisabled]="element.itemNumber && element.itemNumber.length>=12?false:true"> {{element.itemNumber}} </td>
                     </ng-container>
                     <ng-container matColumnDef="description">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-                        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                        <td mat-cell *matCellDef="let element" [matTooltip]="element.description"   matTooltipPosition="above" [matTooltipDisabled]="element.description && element.description.length>=12?false:true" > {{element.description}} </td>
                     </ng-container>
                     <ng-container matColumnDef="itemQuantity">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Location Quantity </th>
-                        <td mat-cell *matCellDef="let element"> {{element.warehouse}} </td>
+                        <td mat-cell *matCellDef="let element" [matTooltip]="element.itemQuantity"   matTooltipPosition="above" [matTooltipDisabled]="element.itemQuantity && element.itemQuantity.length>=12?false:true"> {{element.itemQuantity}} </td>
                     </ng-container>
                     <ng-container matColumnDef="unitofMeasure">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit Of Measure </th>
-                        <td mat-cell *matCellDef="let element"> {{element.unitofMeasure}} </td>
+                        <td mat-cell *matCellDef="let element" [matTooltip]="element.unitofMeasure"   matTooltipPosition="above" [matTooltipDisabled]="element.unitofMeasure && element.unitofMeasure.length>=12?false:true"> {{element.unitofMeasure}} </td>
                     </ng-container>
                     <ng-container matColumnDef="warehouse">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse</th>
-                        <td mat-cell *matCellDef="let element"> {{element.warehouse}} </td>
+                        <td mat-cell *matCellDef="let element" [matTooltip]="element.warehouse"   matTooltipPosition="above" [matTooltipDisabled]="element.warehouse && element.warehouse.length>=12?false:true"> {{element.warehouse}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="location">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Location</th>
-                        <td mat-cell *matCellDef="let element"> {{element.location}} </td>
+                        <td mat-cell *matCellDef="let element" [matTooltip]="element.location"   matTooltipPosition="above" [matTooltipDisabled]="element.location && element.location.length>=12?false:true"> {{element.location}} </td>
                     </ng-container>
                     <ng-container matColumnDef="goldenZone">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Velocity Code </th>
-                        <td mat-cell *matCellDef="let element"> {{element.goldenZone}} </td>
+                        <td mat-cell *matCellDef="let element" [matTooltip]="element.goldenZone"   matTooltipPosition="above" [matTooltipDisabled]="element.goldenZone && element.goldenZone.length>=12?false:true"> {{element.goldenZone}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="cellSize">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Cell Size </th>
-                        <td mat-cell *matCellDef="let element"> {{element.cellSize}} </td>
+                        <td mat-cell *matCellDef="let element" [matTooltip]="element.cellSize"   matTooltipPosition="above" [matTooltipDisabled]="element.cellSize && element.cellSize.length>=12?false:true"> {{element.cellSize}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="serialNumber">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Serial Number </th>
-                        <td mat-cell *matCellDef="let element"> {{element.serialNumber}} </td>
+                        <td mat-cell *matCellDef="let element" [matTooltip]="element.serialNumber"   matTooltipPosition="above" [matTooltipDisabled]="element.serialNumber && element.serialNumber.length>=12?false:true"> {{element.serialNumber}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="lotNumber">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Lot Number </th>
-                        <td mat-cell *matCellDef="let element"> {{element.lotNumber}} </td>
+                        <td mat-cell *matCellDef="let element" [matTooltip]="element.lotNumber"   matTooltipPosition="above" [matTooltipDisabled]="element.lotNumber && element.lotNumber.length>=12?false:true"> {{element.lotNumber}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="expirationDate">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Expiration Date </th>
-                        <td mat-cell *matCellDef="let element"> {{element.expirationDate}} </td>
+                        <td mat-cell *matCellDef="let element" [matTooltip]="element.expirationDate"   matTooltipPosition="above" [matTooltipDisabled]="element.expirationDate && element.expirationDate.length>=12?false:true"> {{element.expirationDate}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="actions">
