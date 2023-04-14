@@ -522,6 +522,7 @@ export class CCBCreateCountsComponent implements OnInit {
         if (res && res.data && res.isExecuted) {
           this.dataSource = new MatTableDataSource(res.data);
           this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
           if (res.data.length > 0) {
             this.isDataAvailable = true;
           } else {
