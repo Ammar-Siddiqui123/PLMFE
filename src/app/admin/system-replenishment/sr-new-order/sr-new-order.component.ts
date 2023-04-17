@@ -266,4 +266,10 @@ export class SrNewOrderComponent implements OnInit {
     //   });
     // }
   }
+
+  search(){
+    if(this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != ""){
+      this.newReplenishmentOrders();
+    }
+  }
 }
