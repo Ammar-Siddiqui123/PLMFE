@@ -179,8 +179,7 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   viewItemInInventoryMaster(element:any){
-    // window.open(`/admin/inventoryMaster?itemNumber=${element.itemNumber}`, '_blank');
-    this.router.navigate(['/admin/inventoryMaster'], { queryParams: { itemNumber: element.itemNumber } });
+    window.open(`/#/admin/inventoryMaster?itemNumber=${element.itemNumber}`, '_blank', "location=yes");
   }
 
   print(){
