@@ -244,26 +244,26 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   processReplenishments(){
-    if(confirm('Click OK to create replenishment orders for all selected items.')){
-      let paylaod = {
-        "kanban": this.kanban,
-        "username": this.userData.userName,
-        "wsid": this.userData.wsid
-      }
-      this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
-        if (res.isExecuted && res.data) {
-          this.toastr.success(labels.alert.success, 'Success!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-          this.newReplenishmentOrders()
-        } else {
-          this.toastr.error(res.responseMessage, 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-        }
-      });
-    }
+    // if(confirm('Click OK to create replenishment orders for all selected items.')){
+    //   let paylaod = {
+    //     "kanban": this.kanban,
+    //     "username": this.userData.userName,
+    //     "wsid": this.userData.wsid
+    //   }
+    //   this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
+    //     if (res.isExecuted && res.data) {
+    //       this.toastr.success(labels.alert.success, 'Success!', {
+    //         positionClass: 'toast-bottom-right',
+    //         timeOut: 2000
+    //       });
+    //       this.newReplenishmentOrders()
+    //     } else {
+    //       this.toastr.error(res.responseMessage, 'Error!', {
+    //         positionClass: 'toast-bottom-right',
+    //         timeOut: 2000
+    //       });
+    //     }
+    //   });
+    // }
   }
 }
