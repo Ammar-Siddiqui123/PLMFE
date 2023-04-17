@@ -68,7 +68,7 @@ export class SrNewOrderComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result){
-        this.tableData.filter((item: any) => {
+        this.filteredTableData.filter((item: any) => {
           if (item.rP_ID == result.rP_ID) {
             item.transactionQuantity = result.transactionQuantity;
           }
