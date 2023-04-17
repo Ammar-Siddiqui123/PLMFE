@@ -100,7 +100,8 @@
           <th class="bg-light-blue" mat-header-cell *matHeaderCellDef mat-sort-header
             sortActionDescription="Sort by action"> Actions </th>
           <td mat-cell *matCellDef="let element">
-            <div class="text-end">
+            <div >
+              <!-- class="text-end" -->
               <button mat-flat-button class="bg-white custom-add-button-color" (click)="addOrders(element)">
                 <mat-icon>add_circle</mat-icon>
               </button>
