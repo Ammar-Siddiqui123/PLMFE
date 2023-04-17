@@ -92,24 +92,23 @@ export class SrNewOrderComponent implements OnInit {
     });
   }
 
-  async onChangeKanban(ob: MatCheckboxChange) {
+  onChangeKanban(ob: MatCheckboxChange) {
+    // if (confirm("Click OK to create a new replenishment list.")) {
+      this.createNewReplenishments(ob.checked);
+      // this.newReplenishmentOrders();
+    // } else {
+    //   ob.checked = !ob.checked;
+    //   this.kanban = !ob.checked;
+    // }
+  }
+
+  createNewOrdersList() {
     if (confirm("Click OK to create a new replenishment list.")) {
-      await this.createNewReplenishments(ob.checked);
-      await this.newReplenishmentOrders();
-    } else {
-      ob.checked = !ob.checked;
-      this.kanban = !ob.checked;
+      this.createNewReplenishments(this.kanban);
     }
   }
 
-  async createNewOrdersList() {
-    if (confirm("Click OK to create a new replenishment list.")) {
-      // await this.createNewReplenishments(this.kanban);
-      await this.newReplenishmentOrders();
-    }
-  }
-
-  async createNewReplenishments(kanban: boolean) {
+  createNewReplenishments(kanban: boolean) {
     let paylaod = {
       "kanban": kanban,
       "username": this.userData.userName,
@@ -121,6 +120,7 @@ export class SrNewOrderComponent implements OnInit {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
+        this.newReplenishmentOrders();
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -245,23 +245,25 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   processReplenishments(){
-    let paylaod = {
-      "kanban": this.kanban,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
-      if (res.isExecuted && res.data) {
-        this.toastr.success(labels.alert.success, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      } else {
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
+    if(confirm('Click OK to create replenishment orders for all selected items.')){
+      let paylaod = {
+        "kanban": this.kanban,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid
       }
-    });
+      this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
+        if (res.isExecuted && res.data) {
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        } else {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
+    }
   }
 }
