@@ -130,7 +130,7 @@ export class CCBCreateCountsComponent implements OnInit {
       description: new FormControl(''),
       category: new FormControl(''),
       // subCategory: new FormControl({ value: '', disabled: true }),
-      subCategory: new FormControl(''),
+      subCategory: new FormControl({ value: '', disabled: true }),
       notCounted: new FormControl(new Date(1 / 11 / 1111)),
       pickedStart: new FormControl(new Date(1 / 11 / 1111)),
       pickedEnd: new FormControl(new Date(1 / 11 / 1111)),
@@ -308,7 +308,10 @@ export class CCBCreateCountsComponent implements OnInit {
         .subscribe((res: any) => {
           this.searchAutocompleteDescription = res.data;
         });
-      // this.fillData();
+
+      // this is the first time the component is rendered
+      // get the data from the server
+      // and display it
     } else if (type === 'Category') {
       let paylaod = {
         category: this.filtersForm.value.category,
