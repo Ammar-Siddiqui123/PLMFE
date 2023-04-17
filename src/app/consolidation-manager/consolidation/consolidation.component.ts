@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { CmConfirmAndPackingComponent } from 'src/app/dialogs/cm-confirm-and-packing/cm-confirm-and-packing.component';
 import { CmShippingTransactionComponent } from 'src/app/dialogs/cm-shipping-transaction/cm-shipping-transaction.component';
 import { CmShippingComponent } from 'src/app/dialogs/cm-shipping/cm-shipping.component';
 
@@ -95,6 +96,18 @@ clickToHide(){
 
  openCmShippingTransaction() {
   let dialogRef = this.dialog.open(CmShippingTransactionComponent, {
+    height: 'auto',
+    width: '96vw',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
+ }
+ openCmConfirmPacking() {
+  let dialogRef = this.dialog.open(CmConfirmAndPackingComponent, {
     height: 'auto',
     width: '96vw',
     autoFocus: '__non_existing_element__',
