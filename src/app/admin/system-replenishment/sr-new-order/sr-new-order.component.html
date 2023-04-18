@@ -61,20 +61,7 @@
                     <mat-form-field class="action-dropdown" appearance="outline">
                         <mat-label>Search</mat-label>
                         <mat-select class="employees-action" (selectionChange)="searchChange($event.value)">
-                            <mat-option value="Item Number">Item Number</mat-option>
-                            <mat-option value="Description">Description</mat-option>
-                            <mat-option value="Warehouse">Warehouse</mat-option>
-                            <mat-option value="Stock Qty">Stock Qty</mat-option>
-                            <mat-option value="Replenishment Point">Repln. Point</mat-option>
-                            <mat-option value="Replenishment Level">Repln. Level</mat-option>
-                            <mat-option value="Available Qty">Avail. Qty</mat-option>
-                            <mat-option value="Replenishment Qty">Repln. Qty</mat-option>
-                            <mat-option value="Case Qty">Case Qty</mat-option>
-                            <mat-option value="Transaction Qty">Trans. Qty</mat-option>
-                            <mat-option value="Replenish">Replenish</mat-option>
-                            <mat-option value="Replenish Exists">Exists</mat-option>
-                            <mat-option value="Alloc Pick">Alloc Pick</mat-option>
-                            <mat-option value="Alloc Put">Alloc Put</mat-option>
+                            <mat-option *ngFor="let option of searchColumnOptions" [value]="option.value">{{option.viewValue}}</mat-option>
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
                             expand_more
