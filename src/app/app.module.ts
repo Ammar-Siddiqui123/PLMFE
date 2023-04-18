@@ -46,6 +46,7 @@ import { MinReelQtyComponent } from './dialogs/min-reel-qty/min-reel-qty.compone
 import { TransactionQtyEditComponent } from './dialogs/transaction-qty-edit/transaction-qty-edit.component';
 import { CmShippingComponent } from './dialogs/cm-shipping/cm-shipping.component';
 import { CmShippingTransactionComponent } from './dialogs/cm-shipping-transaction/cm-shipping-transaction.component';
+import { CmShippingCarrierComponent } from './dialogs/cm-shipping-carrier/cm-shipping-carrier.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -79,6 +80,7 @@ import { CmShippingTransactionComponent } from './dialogs/cm-shipping-transactio
     TransactionQtyEditComponent,
     CmShippingComponent,
     CmShippingTransactionComponent,
+    CmShippingCarrierComponent,
     // ActionDisableDirective,
   ],
   imports: [

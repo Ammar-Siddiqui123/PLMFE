@@ -1,243 +1,137 @@
 <mat-tab-group dynamicHeight>
     <mat-tab label="Consolidation">
-        <mat-card class="mat-elevation-z g-card mt-2 mb-3">
-            <div class="mb-0">
-                <h2 class="card-header-title mb-0 d-flex align-items-center">
-                    <div class="mat-icon-wrap me-lg-3">
-                        <span class="material-symbols-outlined">
-                            tune
-                        </span>
-                    </div>
-                    <span>Preferences</span>
-                </h2>
-                <p class="text-tertiary-800 bold py-3 mb-0"> Select a default Packing List format for printing from the Consolidation window. Press the Reports button to design the desired packing list reports</p>
-            </div>
-
-            <div class="row">
-                <div class="col-xl-6 pb-2">
-                    <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
-                        <mat-label>Packing List Default</mat-label>
-                        <mat-select class="employees-action">
-                            <mat-option>
-                                123456
-                            </mat-option>
-                        </mat-select>
-                        <span class="material-symbols-outlined icon-expand-more">
-                            expand_more
-                        </span>
-                    </mat-form-field>
-                </div>
-                <div class="col-xl-6 pb-2">
-                    <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
-                        <mat-label>Packing List Sort</mat-label>
-                        <mat-select class="employees-action">
-                            <mat-option>
-                                123456
-                            </mat-option>
-                        </mat-select>
-                        <span class="material-symbols-outlined icon-expand-more">
-                            expand_more
-                        </span>
-                    </mat-form-field>
-                </div>
-                <div class="col-xl-6 pb-2">
-                    <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
-                        <mat-label>Blind Verify</mat-label>
-                        <mat-select class="employees-action">
-                            <mat-option>
-                                123456
-                            </mat-option>
-                        </mat-select>
-                        <span class="material-symbols-outlined icon-expand-more">
-                            expand_more
-                        </span>
-                    </mat-form-field>
-                </div>
-                <div class="col-xl-6 pb-2">
-                    <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
-                        <mat-label>Verify Each Item</mat-label>
-                        <mat-select class="employees-action">
-                            <mat-option>
-                                123456
-                            </mat-option>
-                        </mat-select>
-                        <span class="material-symbols-outlined icon-expand-more">
-                            expand_more
-                        </span>
-                    </mat-form-field>
-                </div>
-                <div class="col-xl-6 pb-2">
-                    <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
-                        <mat-label>Allow Print/View a list of un-verified Line Items</mat-label>
-                        <mat-select class="employees-action">
-                            <mat-option>
-                                123456
-                            </mat-option>
-                        </mat-select>
-                        <span class="material-symbols-outlined icon-expand-more">
-                            expand_more
-                        </span>
-                    </mat-form-field>
-                </div>
-                <div class="col-xl-6 pb-2">
-                    <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
-                        <mat-label>Allow Print/View the packing List when un-verified Line Items exist?</mat-label>
-                        <mat-select class="employees-action">
-                            <mat-option>
-                                123456
-                            </mat-option>
-                        </mat-select>
-                        <span class="material-symbols-outlined icon-expand-more">
-                            expand_more
-                        </span>
-                    </mat-form-field>
-                </div>
-                <div class="col-xl-6 pb-2">
-                    <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
-                        <mat-label>Default Lookup Type</mat-label>
-                        <mat-select class="employees-action">
-                            <mat-option>
-                                123456
-                            </mat-option>
-                        </mat-select>
-                        <span class="material-symbols-outlined icon-expand-more">
-                            expand_more
-                        </span>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="row pb-5 mb-5">
-            <div class="col-xl-6">
-                <div class="d-flex gap-12 mb-2 pb-5">
-                  <div class="col-xl-12 text-left admin-prefrences py-2 ps-1">
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                      Email Packing Slip:   <mat-slide-toggle checked class="primary" color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                      Auto Complete Backorders at "Ship Complete": <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                      Stage Non Pickpro Orders: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                      Validate Staging Locations?: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                   
-                  </div>
-                </div>
-              </div>
-            </div>
-
-        </mat-card>
-      
+   
     </mat-tab>
-     <mat-tab label="Shipping">
+
+
+
+    <!-- Shipping tab -->
+    <mat-tab label="Shipping">
         <mat-card class="mat-elevation-z g-card mt-2 mb-3">
             <div class="mb-0">
                 <div class="col-xl-12 d-flex justify-content-between">
-                <h2 class="card-header-title mb-0 d-flex align-items-center">
-                    <div class="mat-icon-wrap me-lg-3">
-                        <span class="material-symbols-outlined">
-                            stacked_bar_chart
-                        </span>
-                    </div>
-                    <span>Desired Consolidation</span>
-                </h2>
-
-                <div class="d-flex gap-12 justify-content-end">
-                    <button mat-flat-button color="primary" class="btn-md px-4">
-                        Carriers
-                    </button>
-               
-                </div>
-            </div>
-                    
-              
-                <p class="text-tertiary-800 bold py-3 mb-0"> Choose the desired Consolidation options for your business.</p>
-            </div>
-
-          
-            <div class="row pb-5 mb-5">
-            <div class="col-xl-6">
-                <div class="d-flex gap-12 mb-2 pb-5">
-                  <div class="col-xl-12 text-left admin-prefrences py-2 ps-1">
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                      Allow Shipping:   <mat-slide-toggle checked class="primary" color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                      Freight: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                        Freight1: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                        Freight2: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                        Weight: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                        Length: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                        Width: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                        Height: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                        Cube: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                   
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xl-6">
-                <div class="d-flex gap-12 mb-2 pb-5">
-                  <div class="col-xl-12 text-left admin-prefrences py-2 ps-1">
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                      Allow Packing:   <mat-slide-toggle checked class="primary" color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                      Confirm and Packing: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                      Auto Print Container PL: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                      Auto Print Order PL: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                        Auto Print Container Label: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                        Enter Container ID: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 text-tertiary-900">
-                        Confirm Quantity: <mat-slide-toggle checked color="primary" matTooltip=""></mat-slide-toggle>
-                    </div>
-                    <div class="d-flex">
-                        <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
-                            <mat-label>Default Text for Container ID</mat-label>
-                            <mat-select class="employees-action">
-                                <mat-option>
-                                    123456
-                                </mat-option>
-                            </mat-select>
-                            <span class="material-symbols-outlined icon-expand-more">
-                                expand_more
+                    <h2 class="card-header-title mb-0 d-flex align-items-center">
+                        <div class="mat-icon-wrap me-lg-3">
+                            <span class="material-symbols-outlined">
+                                stacked_bar_chart
                             </span>
-                        </mat-form-field>
+                        </div>
+                        <span>Desired Consolidation</span>
+                    </h2>
+
+                    <div class="d-flex gap-12 justify-content-end">
+                        <button mat-flat-button color="primary" class="btn-md px-4" (click)="openCarrier()">
+                            Carriers
+                        </button>
+
                     </div>
-                   
-                  </div>
                 </div>
-              </div>
+
+
+                <p class="text-tertiary-800 bold py-3 mb-0"> Choose the desired Consolidation options for your business.
+                </p>
             </div>
+
+            <form [formGroup]="shippingForm">
+            <div class="row pb-5 mb-5">
+                <div class="col-xl-6">
+                    <div class="d-flex gap-12 mb-2 pb-5">
+                        <div class="col-xl-12 text-left admin-prefrences py-2 ps-1">
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Allow Shipping: <mat-slide-toggle  formControlName="allowShip" checked class="primary" color="primary"  (change)="toggleAllowShip()" 
+                                    matTooltip=""></mat-slide-toggle>
+                            </div>
+                            
+                            <ng-container *ngIf="selectionShipping">
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Freight: <mat-slide-toggle  (change)="saveShippingPreferences()" formControlName="freight" checked color="primary" matTooltip=""></mat-slide-toggle>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Freight1: <mat-slide-toggle   (change)="saveShippingPreferences()"  formControlName="freight1" checked color="primary" matTooltip=""></mat-slide-toggle>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Freight2: <mat-slide-toggle   (change)="saveShippingPreferences()" formControlName="freight2" checked color="primary" matTooltip=""></mat-slide-toggle>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Weight: <mat-slide-toggle   (change)="saveShippingPreferences()"  formControlName="weight" checked color="primary" matTooltip=""></mat-slide-toggle>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Length: <mat-slide-toggle  (change)="saveShippingPreferences()"  formControlName="length" checked color="primary" matTooltip=""></mat-slide-toggle>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Width: <mat-slide-toggle  (change)="saveShippingPreferences()"  formControlName="width" checked color="primary" matTooltip=""></mat-slide-toggle>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Height: <mat-slide-toggle  (change)="saveShippingPreferences()"  formControlName="height" checked color="primary" matTooltip=""></mat-slide-toggle>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Cube: <mat-slide-toggle checked   (change)="saveShippingPreferences()"  formControlName="cube" color="primary" matTooltip=""></mat-slide-toggle>
+                            </div>
+                        </ng-container>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6">
+                    <div class="d-flex gap-12 mb-2 pb-5">
+                        <div class="col-xl-12 text-left admin-prefrences py-2 ps-1">
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Allow Packing: <mat-slide-toggle checked class="primary" color="primary"  (change)="toggleAllowPackage()" 
+                                formControlName="allowPack" matTooltip=""></mat-slide-toggle>
+                            </div>
+                            <ng-container *ngIf="selectionPacking">
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Confirm and Packing: <mat-slide-toggle   (change)="toggleConfirmPackage()"   formControlName="confirmPack" checked color="primary"
+                                    matTooltip=""></mat-slide-toggle>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="selectionConfirmPacking">
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Auto Print Container PL: <mat-slide-toggle  (change)="saveShippingPreferences()"  formControlName="printCont" checked color="primary"
+                                    matTooltip=""></mat-slide-toggle>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Auto Print Order PL: <mat-slide-toggle   (change)="saveShippingPreferences()"  formControlName="printOrd" checked color="primary"
+                                    matTooltip=""></mat-slide-toggle>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Auto Print Container Label: <mat-slide-toggle (change)="saveShippingPreferences()"   formControlName="printContLabel" checked color="primary"
+                                    matTooltip=""></mat-slide-toggle>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Enter Container ID: <mat-slide-toggle  (change)="saveShippingPreferences()"  formControlName="contID" checked color="primary"
+                                    matTooltip=""></mat-slide-toggle>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2 text-tertiary-900">
+                                Confirm Quantity: <mat-slide-toggle    (change)="saveShippingPreferences()"  formControlName="confirmQTY"  checked color="primary"
+                                    matTooltip=""></mat-slide-toggle>
+                            </div>
+
+                            <div class="d-flex">
+                                <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
+                                    <mat-label>Default Text for Container ID</mat-label>
+
+                                    <mat-form-field  appearance="outline">
+                                        <input formControlName="contIDText"  matInput type="text" #vlname maxlength="50">
+                                    </mat-form-field>
+                                    <!-- <mat-select  formControlName="contIDText"  class="employees-action">
+                                        <mat-option>
+                                            123456
+                                        </mat-option>
+                                    </mat-select> -->
+                                    <!-- <span class="material-symbols-outlined icon-expand-more">
+                                        expand_more
+                                    </span> -->
+                                </mat-form-field>
+                            </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
 
         </mat-card>
-      </mat-tab> 
-  
-</mat-tab-group>
+    </mat-tab>
 
+</mat-tab-group>

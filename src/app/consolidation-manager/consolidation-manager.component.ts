@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./consolidation-manager.component.scss']
 })
 export class ConsolidationManagerComponent implements OnInit {
-
+  tab_hover_color:string = '#cf9bff3d';
   constructor() { }
 
   ngOnInit(): void {
