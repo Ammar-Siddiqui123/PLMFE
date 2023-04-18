@@ -89,7 +89,11 @@ export class InventoryMasterComponent implements OnInit {
     this.userData = this.authService.userData();
     this.initialzeIMFeilds();
     this.getInventory();
-
+    this.route
+      .paramMap
+      .subscribe(params => {
+        console.log(params.get('itemNumber'));
+      });
   }
 
   // onOutsideSearchBox(e?:any) {
@@ -245,7 +249,6 @@ export class InventoryMasterComponent implements OnInit {
     // console.log(form.value);
   }
   public getInventory() {
-
     let paylaod = {
       "itemNumber": this.currentPageItemNo,
       "app": "",

@@ -134,6 +134,7 @@ import { InputSpacesPreventDirective } from '../init/input-spaces-prevent.direct
 import { BmToteidEntryComponent } from './dialogs/bm-toteid-entry/bm-toteid-entry.component';
 import { SystemReplenishmentComponent } from './system-replenishment/system-replenishment.component';
 import { SrNewOrderComponent } from './system-replenishment/sr-new-order/sr-new-order.component';
+import { FilterItemNumbersComponent } from './dialogs/filter-item-numbers/filter-item-numbers.component';
 
 
 
@@ -257,7 +258,8 @@ import { SrNewOrderComponent } from './system-replenishment/sr-new-order/sr-new-
     InputSpacesPreventDirective,
     BmToteidEntryComponent,
     SystemReplenishmentComponent,
-    SrNewOrderComponent
+    SrNewOrderComponent,
+    FilterItemNumbersComponent
   ],
   imports: [
     CommonModule,
