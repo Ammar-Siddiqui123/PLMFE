@@ -28,6 +28,11 @@ const routes: Routes = [
     canActivate: [AuthGuardGuard],
   },
   {
+    path: 'inventoryMaster/:itemNumber',
+    component: InventoryMasterComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
     path: 'inventoryMaster',
     component: InventoryMasterComponent,
     canActivate: [AuthGuardGuard],
