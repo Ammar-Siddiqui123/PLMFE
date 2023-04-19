@@ -46,6 +46,7 @@ import { MinReelQtyComponent } from './dialogs/min-reel-qty/min-reel-qty.compone
 import { TransactionQtyEditComponent } from './dialogs/transaction-qty-edit/transaction-qty-edit.component';
 import { CmShippingComponent } from './dialogs/cm-shipping/cm-shipping.component';
 import { CmShippingTransactionComponent } from './dialogs/cm-shipping-transaction/cm-shipping-transaction.component';
+import { CmShippingCarrierComponent } from './dialogs/cm-shipping-carrier/cm-shipping-carrier.component';
 import { CmConfirmAndPackingComponent } from './dialogs/cm-confirm-and-packing/cm-confirm-and-packing.component';
 import { DeleteRangeComponent } from './dialogs/delete-range/delete-range.component';
 import { PrintReplenLabelsComponent } from './dialogs/print-replen-labels/print-replen-labels.component';
@@ -89,6 +90,7 @@ import { CmConfirmAndPackingSelectTransactionComponent } from './dialogs/cm-conf
     TransactionQtyEditComponent,
     CmShippingComponent,
     CmShippingTransactionComponent,
+    CmShippingCarrierComponent,
     CmConfirmAndPackingComponent,
     DeleteRangeComponent,
     PrintReplenLabelsComponent,
