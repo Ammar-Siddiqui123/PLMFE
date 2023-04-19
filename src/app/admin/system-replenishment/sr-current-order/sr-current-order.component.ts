@@ -67,7 +67,7 @@ export class SrCurrentOrderComponent implements OnInit {
     username: "",
     wsid: ""
   };
-  selectedOrder:any = {};
+  selectedOrder: any = {};
 
   constructor(
     private dialog: MatDialog,
@@ -89,6 +89,9 @@ export class SrCurrentOrderComponent implements OnInit {
     this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentTable').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.tableData = res.data.sysTable;
+        this.tableData.forEach(element => {
+          element.isSelected = false;
+        });
         this.tableDataTotalCount = res.data.recordsTotal;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
         this.updateCounts();
@@ -199,34 +202,42 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   deleteSelectedOrder() {
-
-    // const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-    //   height: 'auto',
-    //   width: '600px',
-    //   autoFocus: '__non_existing_element__',
-    //   data: {
-    //     mode: 'delete-selected-order',
-    //     // actionMessage: ` all Incomplete count transactions for ${this.orderNumber}`,
-    //   },
-    // });
-    // dialogRef.afterClosed().subscribe((res) => { 
-    //   if (res) {
-    //   }
-    // });
-
-    // const dialogRef2 = this.dialog.open(SrDeleteOrderComponent, {
-    //   height: 'auto',
-    //   width: '600px',
-    //   autoFocus: '__non_existing_element__',
-    //   data: {
-    //     mode: 'delete-selected-order',
-    //     // actionMessage: ` all Incomplete count transactions for ${this.orderNumber}`,
-    //   },
-    // });
-    // dialogRef2.afterClosed().subscribe((res) => { 
-    //   if (res) {
-    //   }
-    // });
+    if (this.selectedOrder.rowNumber == undefined) {
+      const dialogRef = this.dialog.open(SrDeleteOrderComponent, {
+        height: 'auto',
+        width: '600px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          orderNumber: null,
+        },
+      });
+      dialogRef.afterClosed().subscribe((res) => {
+        if (res) {
+        }
+      });
+    }
+    else {
+      const dialogRef2 = this.dialog.open(SrDeleteOrderComponent, {
+        height: 'auto',
+        width: '600px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          orderNumber: this.selectedOrder.orderNumber,
+        },
+      });
+      dialogRef2.afterClosed().subscribe((res) => {
+        if (res) {
+          this.repByDeletePayload.identity = "Shown";
+          this.repByDeletePayload.filter1 = "";
+          this.repByDeletePayload.filter2 = "";
+          this.repByDeletePayload.searchString = this.selectedOrder.orderNumber;
+          this.repByDeletePayload.searchColumn = "Order Number";
+          this.repByDeletePayload.status = "All";
+          this.ReplenishmentsByDelete();
+          this.selectedOrder = {};
+        }
+      });
+    }
   }
 
   viewAllOrders() {
@@ -282,5 +293,9 @@ export class SrCurrentOrderComponent implements OnInit {
         this.dialog.closeAll();
       }
     });
+  }
+
+  selectOrder(element) {
+    this.selectedOrder = element;
   }
 }
