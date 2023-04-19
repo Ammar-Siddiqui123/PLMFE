@@ -39,7 +39,7 @@ export class SrCurrentOrderComponent implements OnInit {
   tableDataTotalCount: number = 0;
   searchColumnOptions: any = [
     { value: 'Item Number', viewValue: 'Item Number', sortColumn: '0' },
-    { value: 'Trans Type', viewValue: 'Trans Type', sortColumn: '1' },
+    { value: 'Transaction Type', viewValue: 'Trans Type', sortColumn: '1' },
     { value: 'Warehouse', viewValue: 'Warehouse', sortColumn: '2' },
     { value: 'Zone', viewValue: 'Zone', sortColumn: '3' },
     { value: 'Carsl', viewValue: 'Carsl', sortColumn: '4' },
