@@ -55,6 +55,7 @@ import { CmCarriersAddDeleteEditComponent } from './dialogs/cm-carriers-add-dele
 import { CmItemSelectedComponent } from './dialogs/cm-item-selected/cm-item-selected.component';
 import { CmConfirmAndPackingProcessTransactionComponent } from './dialogs/cm-confirm-and-packing-process-transaction/cm-confirm-and-packing-process-transaction.component';
 import { CmSplitLineComponent } from './dialogs/cm-split-line/cm-split-line.component';
+import { CmConfirmAndPackingSelectTransactionComponent } from './dialogs/cm-confirm-and-packing-select-transaction/cm-confirm-and-packing-select-transaction.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -97,6 +98,7 @@ import { CmSplitLineComponent } from './dialogs/cm-split-line/cm-split-line.comp
     CmItemSelectedComponent,
     CmConfirmAndPackingProcessTransactionComponent,
     CmSplitLineComponent,
+    CmConfirmAndPackingSelectTransactionComponent,
     // ActionDisableDirective,
   ],
   imports: [
