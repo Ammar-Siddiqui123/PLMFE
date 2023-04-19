@@ -9,6 +9,7 @@ import {
   startWith,
 } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { CmCarriersAddDeleteEditComponent } from 'src/app/dialogs/cm-carriers-add-delete-edit/cm-carriers-add-delete-edit.component';
 
 @Component({
   selector: 'app-consolidation-preferences',
@@ -29,6 +30,18 @@ export class ConsolidationPreferencesComponent implements OnInit {
 
    
   }
+  openCmCarriers() {
+    let dialogRef = this.dialog.open(CmCarriersAddDeleteEditComponent, {
+      height: 'auto',
+      width: '720px',
+      autoFocus: '__non_existing_element__',
+     
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+   }
 
   ngOnInit(): void {
     // this.subscription.add(

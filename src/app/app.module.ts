@@ -51,6 +51,9 @@ import { CmConfirmAndPackingComponent } from './dialogs/cm-confirm-and-packing/c
 import { DeleteRangeComponent } from './dialogs/delete-range/delete-range.component';
 import { PrintReplenLabelsComponent } from './dialogs/print-replen-labels/print-replen-labels.component';
 import { SrDeleteOrderComponent } from './dialogs/sr-delete-order/sr-delete-order.component';
+import { CmOrderNumberComponent } from './dialogs/cm-order-number/cm-order-number.component';
+import { CmCarriersAddDeleteEditComponent } from './dialogs/cm-carriers-add-delete-edit/cm-carriers-add-delete-edit.component';
+import { CmItemSelectedComponent } from './dialogs/cm-item-selected/cm-item-selected.component';
 import { CmConfirmAndPackingProcessTransactionComponent } from './dialogs/cm-confirm-and-packing-process-transaction/cm-confirm-and-packing-process-transaction.component';
 import { CmSplitLineComponent } from './dialogs/cm-split-line/cm-split-line.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
@@ -91,6 +94,9 @@ import { CmSplitLineComponent } from './dialogs/cm-split-line/cm-split-line.comp
     DeleteRangeComponent,
     PrintReplenLabelsComponent,
     SrDeleteOrderComponent,
+    CmOrderNumberComponent,
+    CmCarriersAddDeleteEditComponent,
+    CmItemSelectedComponent,
     CmConfirmAndPackingProcessTransactionComponent,
     CmSplitLineComponent,
     // ActionDisableDirective,

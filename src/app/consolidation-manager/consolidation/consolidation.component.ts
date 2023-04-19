@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CmConfirmAndPackingComponent } from 'src/app/dialogs/cm-confirm-and-packing/cm-confirm-and-packing.component';
+import { CmItemSelectedComponent } from 'src/app/dialogs/cm-item-selected/cm-item-selected.component';
+import { CmOrderNumberComponent } from 'src/app/dialogs/cm-order-number/cm-order-number.component';
 import { CmShippingTransactionComponent } from 'src/app/dialogs/cm-shipping-transaction/cm-shipping-transaction.component';
 import { CmShippingComponent } from 'src/app/dialogs/cm-shipping/cm-shipping.component';
 
@@ -110,6 +112,32 @@ clickToHide(){
   let dialogRef = this.dialog.open(CmConfirmAndPackingComponent, {
     height: 'auto',
     width: '96vw',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
+ }
+
+ openCmOrderNo() {
+  let dialogRef = this.dialog.open(CmOrderNumberComponent, {
+    height: 'auto',
+    width: '50vw',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
+ }
+
+ openCmItemSelected() {
+  let dialogRef = this.dialog.open(CmItemSelectedComponent, {
+    height: 'auto',
+    width: '50vw',
     autoFocus: '__non_existing_element__',
    
   })

@@ -878,7 +878,8 @@ button.button-remove-all-w-stroke {
 }
 
 button.button-add-all {
-  color: #000080 !important;
+  // color: #000080 !important;
+  color: var(--clr-primary-500);
   padding: 6px 15px;
   border-radius: 100px;
   border: 1px solid #D7D7F9 !important;
