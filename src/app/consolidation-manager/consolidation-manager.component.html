@@ -1,1 +1,21 @@
-<p>consolidation-manager works!</p>
+<div class="main-section-options">
+    <div class="container-fluid">
+      <div class="row g-4">
+        
+        <!-- Main Section Option (Import Export) -->
+        <div class="col-xl-3 col-lg-6">
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option" 
+          routerLink="/ConsolidationManager/Consolidation"
+          [ngClass]="isAuthorized('Tote Transactions') ? 'isDivDisabled' : ''"
+          (click)="updateMenu('consolidationManager', '/ConsolidationManager/Consolidation')">
+            <a class="main-section-option-link" href="#"></a>
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">dashboard</span>
+            </div>
+            <h4 class="main-section-title" style="font-size:22px;">Consolidation</h4>
+          </div>
+        </div>
+         
+      </div>
+    </div>
+  </div>

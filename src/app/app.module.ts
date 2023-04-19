@@ -47,6 +47,10 @@ import { TransactionQtyEditComponent } from './dialogs/transaction-qty-edit/tran
 import { CmShippingComponent } from './dialogs/cm-shipping/cm-shipping.component';
 import { CmShippingTransactionComponent } from './dialogs/cm-shipping-transaction/cm-shipping-transaction.component';
 import { CmConfirmAndPackingComponent } from './dialogs/cm-confirm-and-packing/cm-confirm-and-packing.component';
+import { CmShipSplitLineComponent } from './dialogs/cm-ship-split-line/cm-ship-split-line.component';
+import { CmShipEditQtyComponent } from './dialogs/cm-ship-edit-qty/cm-ship-edit-qty.component';
+import { CmShipEditConIdComponent } from './dialogs/cm-ship-edit-con-id/cm-ship-edit-con-id.component';
+import { CmToteIdUpdateModalComponent } from './dialogs/cm-tote-id-update-modal/cm-tote-id-update-modal.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -81,6 +85,10 @@ import { CmConfirmAndPackingComponent } from './dialogs/cm-confirm-and-packing/c
     CmShippingComponent,
     CmShippingTransactionComponent,
     CmConfirmAndPackingComponent,
+    CmShipSplitLineComponent,
+    CmShipEditQtyComponent,
+    CmShipEditConIdComponent,
+    CmToteIdUpdateModalComponent,
     // ActionDisableDirective,
   ],
   imports: [
