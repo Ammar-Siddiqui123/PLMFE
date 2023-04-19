@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/init/auth.service';
 import { PageEvent } from '@angular/material/paginator';
 import { PrintReplenLabelsComponent } from 'src/app/dialogs/print-replen-labels/print-replen-labels.component';
 import { DeleteRangeComponent } from 'src/app/dialogs/delete-range/delete-range.component';
+import labels from '../../../labels/labels.json';
 
 @Component({
   selector: 'app-sr-current-order',
@@ -54,6 +55,16 @@ export class SrCurrentOrderComponent implements OnInit {
     { value: 'Comp Date',viewValue:'Comp Date', sortColumn:'16'},
     { value: 'Print Date',viewValue:'Print Date', sortColumn:'17'},
   ];
+  repByDeletePayload: any = {
+    identity: "",
+    filter1: "",
+    filter2: "",
+    searchString: "",
+    searchColumn: "",
+    status: "",
+    username: "",
+    wsid: ""
+  };
 
   constructor(
     private dialog: MatDialog,
@@ -66,6 +77,8 @@ export class SrCurrentOrderComponent implements OnInit {
     this.userData = this.authService.userData();
     this.tablePayloadObj.username = this.userData.userName;
     this.tablePayloadObj.wsid = this.userData.wsid;
+    this.repByDeletePayload.username = this.userData.userName;
+    this.repByDeletePayload.wsid = this.userData.wsid;
     this.newReplenishmentOrders();
   }
 
@@ -147,13 +160,25 @@ export class SrCurrentOrderComponent implements OnInit {
 
   deleteAllOrders(){
     if (confirm("Are you sure you want to delete all records")) {
-
+      this.repByDeletePayload.identity = "ALL";
+      this.repByDeletePayload.filter1 = "";
+      this.repByDeletePayload.filter2 = "";
+      this.repByDeletePayload.searchString = "";
+      this.repByDeletePayload.searchColumn = "";
+      this.repByDeletePayload.status = "";
+      this.ReplenishmentsByDelete();
     }
   }
 
   deleteShownOrders(){
     if(confirm("Are you sure you want to delete all records that are currently dipslayed")){
-
+      this.repByDeletePayload.identity = "Shown";
+      this.repByDeletePayload.filter1 = "";
+      this.repByDeletePayload.filter2 = "";
+      this.repByDeletePayload.searchString = this.tablePayloadObj.searchString;
+      this.repByDeletePayload.searchColumn = this.tablePayloadObj.searchColumn;
+      this.repByDeletePayload.status = this.tablePayloadObj.status;
+      this.ReplenishmentsByDelete();
     }
   }
 
@@ -209,5 +234,23 @@ export class SrCurrentOrderComponent implements OnInit {
     if(this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != ""){
       this.newReplenishmentOrders();
     }
+  }
+
+  ReplenishmentsByDelete() {
+    this.systemReplenishmentService.get(this.repByDeletePayload, '/Admin/ReplenishmentsByDelete').subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.toastr.success(labels.alert.success, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        this.newReplenishmentOrders();
+      } else {
+        this.toastr.error("Deleting by range has failed", 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        this.dialog.closeAll();
+      }
+    });
   }
 }
