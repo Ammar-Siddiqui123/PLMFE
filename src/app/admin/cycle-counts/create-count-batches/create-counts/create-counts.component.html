@@ -498,8 +498,8 @@
                         <mat-label>Actions</mat-label>
                         <mat-select #matRef class="employees-action" placeholder="Actions">
                             <mat-option value="print">Print Count Orders</mat-option>
-                            <mat-option (click)="deleteCycleCount(1)" value="1">Delete Incomplete Orders</mat-option>
-                            <mat-option (click)="deleteCycleCount(0)" value="0">Delete All Orders</mat-option>
+                            <mat-option (click)="deleteCycleCount(1)"  [disabled]="orderNumber===''||orderNumber===undefined" value="1">Delete Incomplete Orders</mat-option>
+                            <mat-option (click)="deleteCycleCount(0)" [disabled]="orderNumber===''||orderNumber===undefined" value="0">Delete All Orders</mat-option>
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
                             expand_more

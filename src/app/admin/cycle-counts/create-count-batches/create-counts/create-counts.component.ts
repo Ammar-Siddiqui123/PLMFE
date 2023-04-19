@@ -606,6 +606,7 @@ this.subCategory=item.subCategory;
     this.orderNumber = e;
   }
   deleteCycleCount(ident: any) {
+    if(this.orderNumber === '' || this.orderNumber==undefined) return
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '600px',
@@ -619,6 +620,7 @@ this.subCategory=item.subCategory;
       console.log(res);
 
       if (res == 'Yes') {
+        
         var payLoad = {
           orderNumber: this.orderNumber,
           ident: ident,
@@ -636,6 +638,8 @@ this.subCategory=item.subCategory;
                 timeOut: 2000,
               });
               this.getWareAndCurOrd();
+
+              this.orderNumber='';
               // Get the orders again
               // this.getOrders();
             } else {
