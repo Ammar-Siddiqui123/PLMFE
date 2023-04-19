@@ -155,11 +155,11 @@
                                 <button class="text-tertiary-800" mat-menu-item><b>View All Orders</b></button>
                                 <button mat-menu-item>View Unprinted Orders</button>
                                 <button mat-menu-item>Print Orders</button>
-                                <button mat-menu-item>Print Labels</button>
+                                <button mat-menu-item (click)="printLabels()">Print Labels</button>
                                 <button mat-menu-item>Delete All Orders</button>
                                 <button mat-menu-item>Delete Shown Orders</button>
-                                <button mat-menu-item>Delete Range</button>
-                                <button mat-menu-item>Delete Selected Orders</button>
+                                <button mat-menu-item (click)="deleteRange()">Delete Range</button>
+                                <button mat-menu-item (click)="deleteSelectedOrder()">Delete Selected Orders</button>
                             </mat-menu>
                         </td>
                     </ng-container>
