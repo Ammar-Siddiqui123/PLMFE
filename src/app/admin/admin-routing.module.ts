@@ -43,7 +43,7 @@ const routes: Routes = [
     canActivate: [AuthGuardGuard],
   },
   {
-    path: 'createCounts',
+    path: 'createCountBatches',
     component: CreateCountBatchesComponent,
     canActivate: [AuthGuardGuard],
   },

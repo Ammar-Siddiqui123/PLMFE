@@ -246,7 +246,7 @@
                     <div class="col-xl-3">
                         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-2 " appearance="outline">
                             <mat-label>Sub Category</mat-label>
-                            <input [disabled]="true"  readonly formControlName="subCategory"
+                            <input [disabled]="true"  [(ngModel)]="subCategory" readonly formControlName="subCategory"
                                  matInput  class="__grab_cursor readonly" type="text" maxlength="50">
                         </mat-form-field>
                     </div>
