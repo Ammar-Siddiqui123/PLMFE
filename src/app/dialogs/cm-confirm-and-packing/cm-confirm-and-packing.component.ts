@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CmConfirmAndPackingProcessTransactionComponent } from '../cm-confirm-and-packing-process-transaction/cm-confirm-and-packing-process-transaction.component';
 
 @Component({
   selector: 'app-cm-confirm-and-packing',
@@ -30,9 +32,20 @@ export class CmConfirmAndPackingComponent implements OnInit {
 displayedColumns_1: string[] = ['item_no', 'line_no', 'tote_id', 'order_qty', 'picked_qty', 'container_id', 'ship_qty', 'action'];
 tableData_1 = this.ELEMENT_DATA_1
 dataSourceList_1:any
-  constructor() { }
+  constructor(private dialog: MatDialog,) { }
 
   ngOnInit(): void {
   }
-
+  openScanItem() {
+    let dialogRef = this.dialog.open(CmConfirmAndPackingProcessTransactionComponent, {
+      height: 'auto',
+      width: '96vw',
+      autoFocus: '__non_existing_element__',
+     
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+   }
 }

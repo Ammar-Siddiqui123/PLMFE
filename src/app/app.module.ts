@@ -53,6 +53,8 @@ import { SrDeleteOrderComponent } from './dialogs/sr-delete-order/sr-delete-orde
 import { CmOrderNumberComponent } from './dialogs/cm-order-number/cm-order-number.component';
 import { CmCarriersAddDeleteEditComponent } from './dialogs/cm-carriers-add-delete-edit/cm-carriers-add-delete-edit.component';
 import { CmItemSelectedComponent } from './dialogs/cm-item-selected/cm-item-selected.component';
+import { CmConfirmAndPackingProcessTransactionComponent } from './dialogs/cm-confirm-and-packing-process-transaction/cm-confirm-and-packing-process-transaction.component';
+import { CmSplitLineComponent } from './dialogs/cm-split-line/cm-split-line.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -93,6 +95,8 @@ import { CmItemSelectedComponent } from './dialogs/cm-item-selected/cm-item-sele
     CmOrderNumberComponent,
     CmCarriersAddDeleteEditComponent,
     CmItemSelectedComponent,
+    CmConfirmAndPackingProcessTransactionComponent,
+    CmSplitLineComponent,
     // ActionDisableDirective,
   ],
   imports: [

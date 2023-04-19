@@ -40,6 +40,7 @@ export class CCBCreateCountsComponent implements OnInit {
   orderNumber;
   countType: string = '';
   warehouse: string = '';
+  subCategory:any;
   @Input() updateTable: boolean;
   warehouses: any = [];
   customPagination: any = {
@@ -130,7 +131,7 @@ export class CCBCreateCountsComponent implements OnInit {
       description: new FormControl(''),
       category: new FormControl(''),
       // subCategory: new FormControl({ value: '', disabled: true }),
-      subCategory: new FormControl(''),
+      subCategory: new FormControl({ value: '', disabled: true }),
       notCounted: new FormControl(new Date(1 / 11 / 1111)),
       pickedStart: new FormControl(new Date(1 / 11 / 1111)),
       pickedEnd: new FormControl(new Date(1 / 11 / 1111)),
@@ -186,22 +187,21 @@ export class CCBCreateCountsComponent implements OnInit {
         if(value==='') return
 
         this.getTypeAheads('Description');
+          this.fillData();
       });
 
     this.fromLocationTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        if(value==='') return
-
         this.getTypeAheads('FromLocation');
+        this.fillData();
       });
 
     this.toLocationTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        if(value==='') return
-
         this.getTypeAheads('ToLocation');
+        this.fillData();
       });
 
     this.fromItemTA
@@ -210,6 +210,7 @@ export class CCBCreateCountsComponent implements OnInit {
         if(value==='') return
 
         this.getTypeAheads('FromItem');
+        this.fillData();
       });
 
     this.toItemTA
@@ -218,6 +219,7 @@ export class CCBCreateCountsComponent implements OnInit {
         if(value==='') return
 
         this.getTypeAheads('ToItem');
+        this.fillData();
       });
 
     this.categoryTA
@@ -226,6 +228,7 @@ export class CCBCreateCountsComponent implements OnInit {
         if(value==='') return
 
         this.getTypeAheads('Category');
+        // this.fillData();
       });
 
     this.beginCostTA
@@ -234,6 +237,7 @@ export class CCBCreateCountsComponent implements OnInit {
         if(value==='') return
 
         this.getTypeAheads('BeginCost');
+        this.fillData();
       });
 
     this.endCostTA
@@ -242,6 +246,7 @@ export class CCBCreateCountsComponent implements OnInit {
         if(value==='') return
 
         this.getTypeAheads('EndCost');
+        this.fillData();
       });
   }
   searchData() {
@@ -251,7 +256,10 @@ export class CCBCreateCountsComponent implements OnInit {
   }
   onSelFunc(item){
     // this.filtersForm.controls.subCategory.setValue(item.transactionType);
-    this.filtersForm.controls['subCategory'].setValue(item.subCategory);
+this.subCategory=item.subCategory;
+    console.log(this.subCategory);
+    
+    this.fillData()
     
   }
   resetVal() {
@@ -308,7 +316,10 @@ export class CCBCreateCountsComponent implements OnInit {
         .subscribe((res: any) => {
           this.searchAutocompleteDescription = res.data;
         });
-      // this.fillData();
+
+      // this is the first time the component is rendered
+      // get the data from the server
+      // and display it
     } else if (type === 'Category') {
       let paylaod = {
         category: this.filtersForm.value.category,
@@ -511,6 +522,8 @@ export class CCBCreateCountsComponent implements OnInit {
   // and then assign the response to the dataSource variable with check type of response and if there is response.data and isExecuted is true else add error toast
   // handle with try catch
   fillData() {
+    console.log('====>',this.filtersForm.value.subCategory);
+    
     const payload = {
       queryData: {
         fromLocation: this.filtersForm.value.fromLocation
@@ -532,8 +545,8 @@ export class CCBCreateCountsComponent implements OnInit {
         category: this.filtersForm.value.category
           ? this.filtersForm.value.category
           : '',
-        subCategory: this.filtersForm.value.subCategory
-          ? this.filtersForm.value.subCategory
+        subCategory: this.subCategory
+          ? this.subCategory
           : '',
         notCounted:
           this.filtersForm.value.notCounted === '1/11/1111'

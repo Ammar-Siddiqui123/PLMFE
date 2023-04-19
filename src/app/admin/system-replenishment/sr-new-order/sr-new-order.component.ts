@@ -40,6 +40,23 @@ export class SrNewOrderComponent implements OnInit {
   tableDataTotalCount: number = 0;
   filterItemNumbersText: string = "";
 
+  searchColumnOptions: any = [
+    { value: 'Item Number', viewValue: 'Item Number', sortValue:'0'},
+    { value: 'Description', viewValue: 'Description', sortValue:'1'},
+    { value: 'Warehouse', viewValue: 'Warehouse', sortValue:'2'},
+    { value: 'Stock Qty', viewValue: 'Stock Qty', sortValue:'3'},
+    { value: 'Replenishment Point', viewValue: 'Replenishment Point', sortValue:'4'},
+    { value: 'Replenishment Level', viewValue: 'Replenishment Level', sortValue:'5'},
+    { value: 'Available Qty', viewValue: 'Available Qty', sortValue:'6'},
+    { value: 'Replenishment Qty', viewValue: 'Replenishment Qty', sortValue:'7'},
+    { value: 'Case Qty', viewValue: 'Case Qty', sortValue:'8'},
+    { value: 'Transaction Qty', viewValue: 'Transaction Qty', sortValue:'9'},
+    { value: 'Replenish', viewValue: 'Replenish', sortValue:'10'},
+    { value: 'Replenish Exists', viewValue: 'Replenish Exists', sortValue:'11'},
+    { value: 'Alloc Pick', viewValue: 'Alloc Pick', sortValue:'12'},
+    { value: 'Alloc Put', viewValue: 'Alloc Put', sortValue:'13'},
+  ];
+
 
   constructor(
     private dialog: MatDialog,
@@ -165,6 +182,7 @@ export class SrNewOrderComponent implements OnInit {
 
   searchChange(event: any) {
     this.tablePayloadObj.searchColumn = event;
+    this.tablePayloadObj.sortColumn = this.searchColumnOptions.filter((item: any) => item.value == event)[0].sortValue;
     // this.newReplenishmentOrders();
   }
 
@@ -245,27 +263,27 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   processReplenishments(){
-    // if(confirm('Click OK to create replenishment orders for all selected items.')){
-    //   let paylaod = {
-    //     "kanban": this.kanban,
-    //     "username": this.userData.userName,
-    //     "wsid": this.userData.wsid
-    //   }
-    //   this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
-    //     if (res.isExecuted && res.data) {
-    //       this.toastr.success(labels.alert.success, 'Success!', {
-    //         positionClass: 'toast-bottom-right',
-    //         timeOut: 2000
-    //       });
-    //       this.newReplenishmentOrders()
-    //     } else {
-    //       this.toastr.error(res.responseMessage, 'Error!', {
-    //         positionClass: 'toast-bottom-right',
-    //         timeOut: 2000
-    //       });
-    //     }
-    //   });
-    // }
+    if(confirm('Click OK to create replenishment orders for all selected items.')){
+      let paylaod = {
+        "kanban": this.kanban,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid
+      }
+      this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
+        if (res.isExecuted && res.data) {
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+          this.newReplenishmentOrders()
+        } else {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      });
+    }
   }
 
   search(){
