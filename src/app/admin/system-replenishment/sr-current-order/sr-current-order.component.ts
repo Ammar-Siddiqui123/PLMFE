@@ -7,6 +7,8 @@ import { PageEvent } from '@angular/material/paginator';
 import { PrintReplenLabelsComponent } from 'src/app/dialogs/print-replen-labels/print-replen-labels.component';
 import { DeleteRangeComponent } from 'src/app/dialogs/delete-range/delete-range.component';
 import labels from '../../../labels/labels.json';
+import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
+import { SrDeleteOrderComponent } from 'src/app/dialogs/sr-delete-order/sr-delete-order.component';
 
 @Component({
   selector: 'app-sr-current-order',
@@ -36,24 +38,24 @@ export class SrCurrentOrderComponent implements OnInit {
   filteredTableData: any = [];
   tableDataTotalCount: number = 0;
   searchColumnOptions: any = [
-    { value: 'Item Number',viewValue:'Item Number', sortColumn:'0'},
-    { value: 'Trans Type',viewValue:'Trans Type', sortColumn:'1'},
-    { value: 'Warehouse',viewValue:'Warehouse', sortColumn:'2'},
-    { value: 'Zone',viewValue:'Zone', sortColumn:'3'},
-    { value: 'Carsl',viewValue:'Carsl', sortColumn:'4'},
-    { value: 'Row',viewValue:'Row', sortColumn:'5'},
-    { value: 'Shelf',viewValue:'Shelf', sortColumn:'6'},
-    { value: 'Bin',viewValue:'Bin', sortColumn:'7'},
-    { value: 'Cell',viewValue:'Cell', sortColumn:'8'},
-    { value: 'Lot Number',viewValue:'Lot Number', sortColumn:'9'},
-    { value: 'Trans Qty',viewValue:'Trans Qty', sortColumn:'10'},
-    { value: 'Description',viewValue:'Description', sortColumn:'11'},
-    { value: 'Order Number',viewValue:'Order Number', sortColumn:'12'},
-    { value: 'UofM',viewValue:'UofM', sortColumn:'13'},
-    { value: 'Batch Pick ID',viewValue:'Batch Pick ID', sortColumn:'14'},
-    { value: 'Serial Number',viewValue:'Serial Number', sortColumn:'15'},
-    { value: 'Comp Date',viewValue:'Comp Date', sortColumn:'16'},
-    { value: 'Print Date',viewValue:'Print Date', sortColumn:'17'},
+    { value: 'Item Number', viewValue: 'Item Number', sortColumn: '0' },
+    { value: 'Trans Type', viewValue: 'Trans Type', sortColumn: '1' },
+    { value: 'Warehouse', viewValue: 'Warehouse', sortColumn: '2' },
+    { value: 'Zone', viewValue: 'Zone', sortColumn: '3' },
+    { value: 'Carsl', viewValue: 'Carsl', sortColumn: '4' },
+    { value: 'Row', viewValue: 'Row', sortColumn: '5' },
+    { value: 'Shelf', viewValue: 'Shelf', sortColumn: '6' },
+    { value: 'Bin', viewValue: 'Bin', sortColumn: '7' },
+    { value: 'Cell', viewValue: 'Cell', sortColumn: '8' },
+    { value: 'Lot Number', viewValue: 'Lot Number', sortColumn: '9' },
+    { value: 'Trans Qty', viewValue: 'Trans Qty', sortColumn: '10' },
+    { value: 'Description', viewValue: 'Description', sortColumn: '11' },
+    { value: 'Order Number', viewValue: 'Order Number', sortColumn: '12' },
+    { value: 'UofM', viewValue: 'UofM', sortColumn: '13' },
+    { value: 'Batch Pick ID', viewValue: 'Batch Pick ID', sortColumn: '14' },
+    { value: 'Serial Number', viewValue: 'Serial Number', sortColumn: '15' },
+    { value: 'Comp Date', viewValue: 'Comp Date', sortColumn: '16' },
+    { value: 'Print Date', viewValue: 'Print Date', sortColumn: '17' },
   ];
   repByDeletePayload: any = {
     identity: "",
@@ -65,6 +67,7 @@ export class SrCurrentOrderComponent implements OnInit {
     username: "",
     wsid: ""
   };
+  selectedOrder:any = {};
 
   constructor(
     private dialog: MatDialog,
@@ -98,13 +101,13 @@ export class SrCurrentOrderComponent implements OnInit {
     });
   }
 
-  updateCounts(){
+  updateCounts() {
     this.noOfPutAways = this.filteredTableData.filter((item: any) => item.transactionType == 'Put Away').length;
     this.noOfPicks = this.filteredTableData.filter((item: any) => item.transactionType == 'PICK').length;
   }
 
   paginatorChange(event: PageEvent) {
-    if(event.previousPageIndex != undefined && event.pageIndex > event.previousPageIndex) {
+    if (event.previousPageIndex != undefined && event.pageIndex > event.previousPageIndex) {
       this.tablePayloadObj.start = this.tablePayloadObj.start + event.pageSize;
     }
     else {
@@ -136,16 +139,16 @@ export class SrCurrentOrderComponent implements OnInit {
     else if (event == 'View All Orders') {
       this.viewAllOrders();
     }
-    else if(event == 'View Unprinted Orders'){
+    else if (event == 'View Unprinted Orders') {
       this.viewUnprintedOrders();
     }
   }
 
-  printOrders(){
+  printOrders() {
     alert("The print service is currently offline");
   }
 
-  printLabels(){
+  printLabels() {
     const dialogRef = this.dialog.open(PrintReplenLabelsComponent, {
       width: '1100px',
       autoFocus: '__non_existing_element__',
@@ -153,12 +156,12 @@ export class SrCurrentOrderComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if(result){
+      if (result) {
       }
     });
   }
 
-  deleteAllOrders(){
+  deleteAllOrders() {
     if (confirm("Are you sure you want to delete all records")) {
       this.repByDeletePayload.identity = "ALL";
       this.repByDeletePayload.filter1 = "";
@@ -170,8 +173,8 @@ export class SrCurrentOrderComponent implements OnInit {
     }
   }
 
-  deleteShownOrders(){
-    if(confirm("Are you sure you want to delete all records that are currently dipslayed")){
+  deleteShownOrders() {
+    if (confirm("Are you sure you want to delete all records that are currently dipslayed")) {
       this.repByDeletePayload.identity = "Shown";
       this.repByDeletePayload.filter1 = "";
       this.repByDeletePayload.filter2 = "";
@@ -182,30 +185,57 @@ export class SrCurrentOrderComponent implements OnInit {
     }
   }
 
-  deleteRange(){
+  deleteRange() {
     const dialogRef = this.dialog.open(DeleteRangeComponent, {
       width: '900px',
       autoFocus: '__non_existing_element__',
       data: {},
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if(result){
+      if (result) {
         this.newReplenishmentOrders();
       }
     });
   }
 
-  deleteSelectedOrder(){
-    alert("Delete Selected Order Confirmation Popup Missing");
+  deleteSelectedOrder() {
+
+    // const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+    //   height: 'auto',
+    //   width: '600px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     mode: 'delete-selected-order',
+    //     // actionMessage: ` all Incomplete count transactions for ${this.orderNumber}`,
+    //   },
+    // });
+    // dialogRef.afterClosed().subscribe((res) => { 
+    //   if (res) {
+    //   }
+    // });
+
+    // const dialogRef2 = this.dialog.open(SrDeleteOrderComponent, {
+    //   height: 'auto',
+    //   width: '600px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     mode: 'delete-selected-order',
+    //     // actionMessage: ` all Incomplete count transactions for ${this.orderNumber}`,
+    //   },
+    // });
+    // dialogRef2.afterClosed().subscribe((res) => { 
+    //   if (res) {
+    //   }
+    // });
   }
 
-  viewAllOrders(){
+  viewAllOrders() {
     this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
     this.updateCounts();
   }
 
-  viewUnprintedOrders(){
-    this.tableData = JSON.parse(JSON.stringify(this. filteredTableData));
+  viewUnprintedOrders() {
+    this.tableData = JSON.parse(JSON.stringify(this.filteredTableData));
     this.filteredTableData = this.filteredTableData.filter((item: any) => item.printDate == '');
     this.updateCounts();
   }
@@ -230,8 +260,8 @@ export class SrCurrentOrderComponent implements OnInit {
     // this.tablePayloadObj.sortColumn = this.searchColumnOptions.filter((item: any) => item.value == event)[0].sortColumn;
   }
 
-  search(){
-    if(this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != ""){
+  search() {
+    if (this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != "") {
       this.newReplenishmentOrders();
     }
   }
