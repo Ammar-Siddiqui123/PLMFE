@@ -257,6 +257,7 @@ this.customPagination.total = 0;
   }
 
   sortChange(event) {
+
     if (
       !this.dataSource._data._value ||
       event.direction == '' ||
@@ -266,7 +267,7 @@ this.customPagination.total = 0;
     let index;
     this.displayedColumns.find((x, i) => {
       if (x === event.active) {
-        index = i;
+        index = i+1;
       }
     });
     this.sortColumn.columnIndex = index;
