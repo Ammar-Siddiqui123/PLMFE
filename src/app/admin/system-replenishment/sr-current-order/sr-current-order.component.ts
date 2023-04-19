@@ -4,6 +4,7 @@ import { SystemReplenishmentService } from '../system-replenishment.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import { PageEvent } from '@angular/material/paginator';
+import { PrintReplenLabelsComponent } from 'src/app/dialogs/print-replen-labels/print-replen-labels.component';
 
 @Component({
   selector: 'app-sr-current-order',
@@ -131,7 +132,16 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   printLabels(){
-    alert("Print Labels Popup Missing");
+    const dialogRef = this.dialog.open(PrintReplenLabelsComponent, {
+      width: '1100px',
+      autoFocus: '__non_existing_element__',
+      data: {
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result){
+      }
+    });
   }
 
   deleteAllOrders(){
