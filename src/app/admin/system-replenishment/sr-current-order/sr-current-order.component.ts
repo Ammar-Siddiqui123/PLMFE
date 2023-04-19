@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import { PageEvent } from '@angular/material/paginator';
 import { PrintReplenLabelsComponent } from 'src/app/dialogs/print-replen-labels/print-replen-labels.component';
+import { DeleteRangeComponent } from 'src/app/dialogs/delete-range/delete-range.component';
 
 @Component({
   selector: 'app-sr-current-order',
@@ -157,7 +158,16 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   deleteRange(){
-    alert("Delete Range Popup Missing");
+    const dialogRef = this.dialog.open(DeleteRangeComponent, {
+      width: '900px',
+      autoFocus: '__non_existing_element__',
+      data: {},
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result){
+        this.newReplenishmentOrders();
+      }
+    });
   }
 
   deleteSelectedOrder(){
