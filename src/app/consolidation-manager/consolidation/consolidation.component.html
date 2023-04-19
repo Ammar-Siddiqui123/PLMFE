@@ -23,7 +23,8 @@
                         <mat-option value="6">Print Not Verified List</mat-option>
                         <mat-option value="7">Preview Not Verified List</mat-option>
                         <mat-option value="8" (click)="openCmShippingTransaction()">Shipping Transaction Dialouge</mat-option>
-                        <mat-option value="8" (click)="openCmConfirmPacking()">Confirm and Packing Dialouge</mat-option>
+                        <mat-option value="9" (click)="openCmConfirmPacking()">Confirm and Packing Dialouge</mat-option>
+                        <mat-option value="10" (click)="openCmItemSelected()">Item Selected Dialouge</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
                         expand_more
@@ -41,7 +42,7 @@
                     </mat-form-field>
                 </div>
                 <div class="d-flex flex-wrap">
-                    <button type="button" mat-flat-button color="primary" class="button-primary-i mb-2 button-sm">Next
+                    <button type="button" mat-flat-button color="primary" class="button-primary-i mb-2 button-sm" (click)="openCmOrderNo()">Next
                         Order</button>
                 </div>
             </div>
