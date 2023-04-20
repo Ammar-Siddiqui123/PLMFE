@@ -18,7 +18,7 @@ import { FilterItemNumbersComponent } from '../../dialogs/filter-item-numbers/fi
 })
 export class SrNewOrderComponent implements OnInit {
 
-  displayedColumns: string[] = ['position', 'name', 'replenish', 'exists', 'weight', 'symbol', 'ex', 'srno', 'replishment', 'case', 'transaction', 'allocated_pick', 'allocated_put', 'action'];
+  displayedColumns: string[] = ['position', 'name', 'weight', 'stock_qty', 'symbol', 'ex', 'srno', 'replishment', 'case', 'transaction', 'replenish', 'exists', 'allocated_pick', 'allocated_put', 'action'];
   tableData: any = [];
   filteredTableData: any = [];
   public userData: any;
