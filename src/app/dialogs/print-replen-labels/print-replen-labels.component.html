@@ -14,9 +14,8 @@
             <mat-form-field class="action-dropdown w-100" appearance="outline">
                 <mat-label>Current Display Sort:</mat-label>
                 <mat-select>
-                  <mat-option >Item, Order, Pick Loc</mat-option>
-                  <mat-option >Pick Loc, Order, Item</mat-option>
-                                   <!-- <mat-option value="back">Back</mat-option> -->
+                  <mat-option value="Item, Order, Pick Loc">Item, Order, Pick Loc</mat-option>
+                  <mat-option value="Pick Loc, Order, Item">Pick Loc, Order, Item</mat-option>
                 </mat-select>
                 <span class="material-symbols-outlined icon-expand-more">
                   expand_more
@@ -27,19 +26,19 @@
         <div class="row">
         <div class="col-xl-4">
         <div class="d-flex justify-content-end pt-3">
-            <button style="flex:1" mat-flat-button color="primary" class="btn-lg w-100">Print Labels For Current Display</button>
+            <button style="flex:1" mat-flat-button color="primary" class="btn-lg w-100" (click)="printLabelsForCurrentDisplay()">Print Labels For Current Display</button>
         </div>
     </div>
         
     <div class="col-xl-4">
         <div class="d-flex justify-content-end pt-3">
-            <button style="flex:1" mat-flat-button color="primary" class="btn-lg w-100">Print Labels For Unprinted Replens</button>
+            <button style="flex:1" mat-flat-button color="primary" class="btn-lg w-100" (click)="printLabelsForUnprintedReplens()">Print Labels For Unprinted Replens</button>
         </div>
     </div>
 
     <div class="col-xl-4">
         <div class="d-flex justify-content-end pt-3">
-            <button style="flex:1" mat-flat-button color="primary" class="btn-lg w-100">Print Labels For All Replens</button>
+            <button style="flex:1" mat-flat-button color="primary" class="btn-lg w-100" (click)="printLabelsForAllReplens()">Print Labels For All Replens</button>
         </div>
     </div>
 
