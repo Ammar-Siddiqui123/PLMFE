@@ -135,6 +135,7 @@ import { BmToteidEntryComponent } from './dialogs/bm-toteid-entry/bm-toteid-entr
 import { SystemReplenishmentComponent } from './system-replenishment/system-replenishment.component';
 import { SrNewOrderComponent } from './system-replenishment/sr-new-order/sr-new-order.component';
 import { FilterItemNumbersComponent } from './dialogs/filter-item-numbers/filter-item-numbers.component';
+import { SrCurrentOrderComponent } from './system-replenishment/sr-current-order/sr-current-order.component';
 
 
 
@@ -259,7 +260,8 @@ import { FilterItemNumbersComponent } from './dialogs/filter-item-numbers/filter
     BmToteidEntryComponent,
     SystemReplenishmentComponent,
     SrNewOrderComponent,
-    FilterItemNumbersComponent
+    FilterItemNumbersComponent,
+    SrCurrentOrderComponent
   ],
   imports: [
     CommonModule,

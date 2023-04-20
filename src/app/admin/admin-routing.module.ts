@@ -48,7 +48,7 @@ const routes: Routes = [
     canActivate: [AuthGuardGuard],
   },
   {
-    path: 'createCounts',
+    path: 'createCountBatches',
     component: CreateCountBatchesComponent,
     canActivate: [AuthGuardGuard],
   },
@@ -72,6 +72,7 @@ const routes: Routes = [
     component: SystemReplenishmentComponent,
     canActivate: [AuthGuardGuard],
   },
+  
 ];
 
 @NgModule({

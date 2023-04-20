@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CmConfirmAndPackingProcessTransactionComponent } from '../cm-confirm-and-packing-process-transaction/cm-confirm-and-packing-process-transaction.component';
 
 @Component({
   selector: 'app-cm-confirm-and-packing',
@@ -26,7 +28,7 @@ export class CmConfirmAndPackingComponent implements OnInit {
 userData:any={};
 displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transactionQuantity', 'completedQuantity', 'containerID',
  'shipQuantity', 'complete']; 
-  constructor(private http:ConsolidationManagerService,private authService: AuthService,private toast:ToastrService) { 
+  constructor(private http:ConsolidationManagerService,private authService: AuthService,private toast:ToastrService,private dialog: MatDialog) { 
     this.userData = this.authService.userData();
   }
 
@@ -39,6 +41,18 @@ displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transacti
     this.toast.error("An error has occurred",'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});
 }  
 }
+openScanItem() {
+  let dialogRef = this.dialog.open(CmConfirmAndPackingProcessTransactionComponent, {
+    height: 'auto',
+    width: '96vw',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
+ }
 async UnPack(id:any){  
   this.http.get({id:id},'/Consolidation/ConfirmAndPackingIndex').subscribe((res:any) => {
     if (res.data == "Fail") {
