@@ -48,6 +48,10 @@ import { CmShippingComponent } from './dialogs/cm-shipping/cm-shipping.component
 import { CmShippingTransactionComponent } from './dialogs/cm-shipping-transaction/cm-shipping-transaction.component';
 import { CmShippingCarrierComponent } from './dialogs/cm-shipping-carrier/cm-shipping-carrier.component';
 import { CmConfirmAndPackingComponent } from './dialogs/cm-confirm-and-packing/cm-confirm-and-packing.component';
+import { CmShipSplitLineComponent } from './dialogs/cm-ship-split-line/cm-ship-split-line.component';
+import { CmShipEditQtyComponent } from './dialogs/cm-ship-edit-qty/cm-ship-edit-qty.component';
+import { CmShipEditConIdComponent } from './dialogs/cm-ship-edit-con-id/cm-ship-edit-con-id.component';
+import { CmToteIdUpdateModalComponent } from './dialogs/cm-tote-id-update-modal/cm-tote-id-update-modal.component';
 import { DeleteRangeComponent } from './dialogs/delete-range/delete-range.component';
 import { PrintReplenLabelsComponent } from './dialogs/print-replen-labels/print-replen-labels.component';
 import { SrDeleteOrderComponent } from './dialogs/sr-delete-order/sr-delete-order.component';
@@ -92,6 +96,10 @@ import { CmConfirmAndPackingSelectTransactionComponent } from './dialogs/cm-conf
     CmShippingTransactionComponent,
     CmShippingCarrierComponent,
     CmConfirmAndPackingComponent,
+    CmShipSplitLineComponent,
+    CmShipEditQtyComponent,
+    CmShipEditConIdComponent,
+    CmToteIdUpdateModalComponent,
     DeleteRangeComponent,
     PrintReplenLabelsComponent,
     SrDeleteOrderComponent,
