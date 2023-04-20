@@ -1,8 +1,8 @@
 <div class="main-section-options">
     <div class="container-fluid">
       <div class="row g-4">
-        
         <!-- Main Section Option (Import Export) -->
+    
         <div class="col-xl-3 col-lg-6">
           <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option" 
           routerLink="/ConsolidationManager/Consolidation"
@@ -10,12 +10,62 @@
           (click)="updateMenu('consolidationManager', '/ConsolidationManager/Consolidation')">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
-              <span class="material-symbols-outlined">dashboard</span>
+              <span class="material-symbols-outlined">manage_accounts</span>
             </div>
             <h4 class="main-section-title" style="font-size:22px;">Consolidation</h4>
           </div>
         </div>
-         
+  
+        <div class="col-xl-3 col-lg-6" routerLink="/InductionManager">
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
+            <a class="main-section-option-link" href="#"></a>
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">
+                checklist
+              </span>
+            </div>
+            <h4 class="main-section-title" style="font-size:22px;">Staging Locations</h4>
+          </div>
+        </div>
+  
+        <div class="col-xl-3 col-lg-6">
+          <div matRipple [matRippleColor]="tab_hover_color" routerLink="ConsolidationPreferences"  class="main-section-option bg-white">
+            <a class="main-section-option-link" href="#"></a>
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">
+                fact_check
+              </span>
+            </div>
+            <h4 class="main-section-title" style="font-size:22px;">Preferences</h4>
+          </div>
+        </div>
+  
+        <div class="col-xl-3 col-lg-6">
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
+            <a class="main-section-option-link" href="#"></a>
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">
+                insert_chart
+              </span>
+            </div>
+            <h4 class="main-section-title" style="font-size:22px;">Reporting</h4>
+          </div>
+        </div>
+  
+        <div class="col-xl-3 col-lg-6">
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
+            <a class="main-section-option-link" href="#"></a>
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">
+                pending_actions
+              </span>
+            </div>
+            <h4 class="main-section-title" style="font-size:22px;">Order Status</h4>
+          </div>
+        </div>
+  
+  
+  
       </div>
     </div>
   </div>
