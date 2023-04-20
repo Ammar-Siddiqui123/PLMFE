@@ -102,7 +102,9 @@ clickToHide(){
     height: 'auto',
     width: '96vw',
     autoFocus: '__non_existing_element__',
-   
+    data: {
+      orderNum: '2909782A',
+    }
   })
   dialogRef.afterClosed().subscribe(result => {
     

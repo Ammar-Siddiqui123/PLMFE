@@ -26,7 +26,7 @@
                         <div class="d-flex gap-12 mb-2">
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                                 <mat-label>Order</mat-label>
-                                <input matInput type="text" disabled>
+                                <input matInput type="text" [(ngModel)]="data.orderNum" disabled>
                             </mat-form-field>
                         </div>
                         <div class="d-flex gap-12">
@@ -73,8 +73,8 @@
             <div class="row">
                 <div class="col-xl-3 mb-2">
                     <mat-form-field class="custom-form-field w-100" appearance="outline">
-                        <mat-label>Tote ID To Update</mat-label>
-                        <input matInput type="text" (keydown)="onKey($event,'toteIDtoUpdate')">
+                        <mat-label>Find Item Number</mat-label>
+                        <input matInput type="text">
                     </mat-form-field>
                 </div>
             </div>
@@ -83,33 +83,33 @@
                 <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 220px">
                     <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData">
 
-                        <ng-container matColumnDef="item_no">
+                        <ng-container matColumnDef="itemNumber">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Item No. </th>
-                            <td mat-cell *matCellDef="let element">{{element.item_no}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.itemNumber}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="line_no">
+                        <ng-container matColumnDef="lineNumber">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Line No.</th>
-                            <td mat-cell *matCellDef="let element">{{element.line_no}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.lineNumber}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="tote_id">
+                        <ng-container matColumnDef="toteID">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Tote ID </th>
-                            <td mat-cell *matCellDef="let element">{{element.tote_id}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.toteID}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="order_qty">
+                        <ng-container matColumnDef="transactionQuantity">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Order Qty </th>
-                            <td mat-cell *matCellDef="let element">{{element.order_qty}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.transactionQuantity}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="picked_qty">
+                        <ng-container matColumnDef="completedQuantity">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Picked Qty </th>
-                            <td mat-cell *matCellDef="let element">{{element.picked_qty}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.completedQuantity}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="container_id">
+                        <ng-container matColumnDef="containerID">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Container ID </th>
-                            <td mat-cell *matCellDef="let element">{{element.container_id}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.containerID}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="ship_qty">
+                        <ng-container matColumnDef="shipQuantity">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Ship Qty </th>
-                            <td mat-cell *matCellDef="let element">{{element.ship_qty}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.shipQuantity}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="action" stickyEnd>

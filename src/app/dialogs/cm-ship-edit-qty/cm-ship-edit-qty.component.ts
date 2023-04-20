@@ -62,7 +62,7 @@ export class CmShipEditQtyComponent implements OnInit {
   saveAdjustShipQty() {
     try {
       var payLoad = {
-        stid : this.data.order.id,
+        stid : this.data.order.sT_ID,
         adjustShipQty: this.adjustShipQty,
         adjustReason: this.adjustReason,
         username: this.userData.userName,

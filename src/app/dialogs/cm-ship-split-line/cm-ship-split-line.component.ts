@@ -49,7 +49,7 @@ export class CmShipSplitLineComponent implements OnInit {
   saveSplitScreenQty() {
     try {
       var payLoad = {
-        id : this.data.order.id,
+        id : this.data.order.sT_ID,
         quantity : this.splitScreenQty,
         page: this.data.page,
         username: this.userData.userName,

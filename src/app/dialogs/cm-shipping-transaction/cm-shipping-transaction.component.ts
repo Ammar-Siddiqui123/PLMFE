@@ -37,8 +37,8 @@ export class CmShippingTransactionComponent implements OnInit {
     {item_no: '30022', line_no: '30022', tote_id: '30022', order_qty: 'Work 2141', picked_qty: '212', container_id: '123641', ship_qty: '999' },
     {item_no: '30022', line_no: '30022', tote_id: '30022', order_qty: 'Work 2141', picked_qty: '212', container_id: '123641', ship_qty: '999' },   
   ];  
-  displayedColumns: string[] = ['item_no', 'line_no', 'tote_id', 'order_qty', 'picked_qty', 'container_id', 'ship_qty', 'action'];
-  tableData : any = this.ELEMENT_DATA
+  displayedColumns: string[] = ['itemNumber', 'lineNumber', 'toteID', 'transactionQuantity', 'completedQuantity', 'containerID', 'shipQuantity', 'action'];
+  tableData : any;
   dataSourceList : any;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -59,7 +59,7 @@ export class CmShippingTransactionComponent implements OnInit {
   getShippingTransactionIndex() {
     try {
       var payLoad = {
-        orderNumber : this.data && this.data.orderNum ? this.data.orderNum : '',
+        orderNumber : this.data && this.data.orderNum ? this.data.orderNum : '2909782A',
         username: this.userData.userName,
         wsid: this.userData.wsid
       };
@@ -68,6 +68,7 @@ export class CmShippingTransactionComponent implements OnInit {
         (res: any) => {
           if (res.isExecuted) {
             this.STIndex = res.data;
+            this.tableData = new MatTableDataSource(this.STIndex.tableData);
           } else {
             this.toast.error('Something went wrong', 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
           }
@@ -130,7 +131,7 @@ export class CmShippingTransactionComponent implements OnInit {
         wsid: this.userData.wsid,
       };
 
-      this.service.get(payLoad, '/Consolidation/selCountOpenTransactionsTemp').subscribe(
+      this.service.get(payLoad, '/Consolidation/CountOpenTransactionsTemp').subscribe(
         (res: any) => {
           if (res.isExecuted) {
 
@@ -151,7 +152,7 @@ export class CmShippingTransactionComponent implements OnInit {
       
               dialogRef.afterClosed().subscribe((result) => {
                 if (result == 'Yes') {
-                  this.service.create(payLoad, '/Consolidation/updCompletePacking').subscribe(
+                  this.service.create(payLoad, '/Consolidation/CompletePackingUpdate').subscribe(
                     (res: any) => {
                       if (res.isExecuted) {
                         this.toast.success('Packing Completed Successfully', 'Success!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
@@ -189,7 +190,7 @@ export class CmShippingTransactionComponent implements OnInit {
 
                   dialogRef2.afterClosed().subscribe((result) => {
                     if (result == 'Yes') {
-                      this.service.create(payLoad, '/Consolidation/updCompletePacking').subscribe(
+                      this.service.create(payLoad, '/Consolidation/CompletePackingUpdate').subscribe(
                         (res: any) => {
                           if (res.isExecuted) {
                             this.toast.success('Packing Completed Successfully', 'Success!', { positionClass: 'toast-bottom-right', timeOut: 2000 });

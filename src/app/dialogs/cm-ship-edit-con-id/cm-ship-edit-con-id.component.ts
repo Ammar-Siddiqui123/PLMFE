@@ -55,7 +55,7 @@ export class CmShipEditConIdComponent implements OnInit {
   setContainerID() {
     try {
       var payLoad = {
-        stid : this.data.order.id,
+        stid : this.data.order.sT_ID,
         containerID: this.conID,
         username: this.userData.userName,
         wsid: this.userData.wsid
