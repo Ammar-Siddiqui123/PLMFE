@@ -170,10 +170,10 @@ this.customPagination.total = 0;
       data: {
         mode: 'delete-cycle-count',
         actionMessage: 'all records from the Queue',
+        action:'delete'
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      console.log(res);
 
       if (res == 'Yes') {
         let payload = {

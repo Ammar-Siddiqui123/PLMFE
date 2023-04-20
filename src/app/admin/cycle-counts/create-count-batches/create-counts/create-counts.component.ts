@@ -302,7 +302,7 @@ this.subCategory=item.subCategory;
     // this.filtersForm.value.costEnd = '';
     // this.filtersForm.value.warehouse = '';
 
-    // this.fillData();
+    this.fillData();
   }
   getTypeAheads(type) {
     if (type === 'Description') {
