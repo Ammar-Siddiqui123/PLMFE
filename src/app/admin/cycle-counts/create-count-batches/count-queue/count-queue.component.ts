@@ -2,8 +2,10 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   Component,
   EventEmitter,
+  Input,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -39,7 +41,9 @@ export class CCBCountQueueComponent implements OnInit {
     'action',
   ];
   dataSource: any = [];
+  noData:boolean=false;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @Input() updateData: string;
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
     private adminService: AdminService,
@@ -69,6 +73,14 @@ export class CCBCountQueueComponent implements OnInit {
     this.getCountQue();
     // this.dataSource.sort = this.sort
   }
+  
+  ngOnChanges(changes: SimpleChanges): void {
+   
+    if (changes['updateData']['currentValue']) {
+      this.getCountQue();
+    }
+   
+  }
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }
@@ -88,9 +100,11 @@ export class CCBCountQueueComponent implements OnInit {
         if (res.isExecuted && res.data.invCycleCount.length > 0) {
           this.dataSource = new MatTableDataSource(res.data.invCycleCount);
           this.customPagination.total = res.data?.recordsFiltered;
-
+          this.noData=true;
           this.getCount(res.data.recordsTotal);
         } else {
+this.noData  = false;
+this.customPagination.total = 0;
         }
       },
       (error) => {}
@@ -119,6 +133,7 @@ export class CCBCountQueueComponent implements OnInit {
           wsid: this.userData.wsid,
           appName: 'Cycle Count',
         };
+       
         this.adminService.get(payload, `/Admin/CreateCountRecords`).subscribe(
           (response: any) => {
             if (response.isExecuted) {
@@ -126,6 +141,7 @@ export class CCBCountQueueComponent implements OnInit {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000,
               });
+              this.getCountQue();
               this.getCount(0);
               this.ngOnInit();
             } else {
@@ -174,6 +190,7 @@ export class CCBCountQueueComponent implements OnInit {
                 timeOut: 2000,
               });
               this.getCount(0);
+              this.getCountQue();
               this.ngOnInit();
 
             } else {
@@ -195,6 +212,8 @@ export class CCBCountQueueComponent implements OnInit {
   }
 
   deleteRow(rowId) {
+
+    
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '600px',
@@ -238,6 +257,7 @@ export class CCBCountQueueComponent implements OnInit {
   }
 
   sortChange(event) {
+
     if (
       !this.dataSource._data._value ||
       event.direction == '' ||
@@ -247,7 +267,7 @@ export class CCBCountQueueComponent implements OnInit {
     let index;
     this.displayedColumns.find((x, i) => {
       if (x === event.active) {
-        index = i;
+        index = i+1;
       }
     });
     this.sortColumn.columnIndex = index;

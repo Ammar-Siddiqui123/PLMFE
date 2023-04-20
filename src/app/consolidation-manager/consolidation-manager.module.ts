@@ -5,13 +5,21 @@ import { ConsolidationManagerRoutingModule } from './consolidation-manager-routi
 import { ConsolidationManagerComponent } from './consolidation-manager.component';
 import { GeneralModule } from '../gen-module';
 import { MaterialModule } from '../material-module';
+import { ConsolidationPreferencesComponent } from './consolidation-preferences/consolidation-preferences.component';
 import { ConsolidationComponent } from './consolidation/consolidation.component';
+import { CmStagingLocationComponent } from './cm-staging-location/cm-staging-location.component';
+import { PreferencesShippingComponent } from './consolidation-preferences/preferences-shipping/preferences-shipping.component';
+import { PreferencesConsolidationComponent } from './consolidation-preferences/preferences-consolidation/preferences-consolidation.component';
 
 
 @NgModule({
   declarations: [
     ConsolidationManagerComponent,
-    ConsolidationComponent
+    ConsolidationPreferencesComponent,
+    ConsolidationComponent,
+    CmStagingLocationComponent,
+    PreferencesShippingComponent,
+    PreferencesConsolidationComponent
   ],
   imports: [
     CommonModule,

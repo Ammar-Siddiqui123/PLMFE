@@ -13,12 +13,19 @@
             <div>
                 <mat-form-field class="action-dropdown w-100" appearance="outline">
                     <mat-label>Actions</mat-label>
-                    <mat-select #matRef class="employees-action" placeholder="Actions" >
-                        <mat-option value="Staging Location" [disabled]="stagingbtn"> Staging Location</mat-option>
-                        <mat-option value="Packing"  [disabled]="packingbtn">Packing</mat-option>
-                        <mat-option value="Shipping" [disabled]="shippingbtb">Shipping</mat-option>
-                        <mat-option value="Order Status">Order Status</mat-option>
-                        <mat-option value="print" [disabled]="orderstatusbtn">Print</mat-option>
+                    <mat-select #matRef class="employees-action" placeholder="Actions">
+                        <mat-option value="0"> Staging Location</mat-option>
+                        <mat-option value="1">Packaging</mat-option>
+                        <mat-option value="2" (click)="openCmShipping()">Shipping</mat-option>
+                        <mat-option value="3">Order Status</mat-option>
+                        <mat-option value="4">Print Packaging List</mat-option>
+                        <mat-option value="5">Preview Packaging List</mat-option>
+                        <mat-option value="6">Print Not Verified List</mat-option>
+                        <mat-option value="7">Preview Not Verified List</mat-option>
+                        <mat-option value="8" (click)="openCmShippingTransaction()">Shipping Transaction Dialogue</mat-option>
+                        <mat-option value="9" (click)="openCmConfirmPacking()">Confirm and Packing Dialogue</mat-option>
+                        <mat-option value="10" (click)="openCmItemSelected()">Item Selected Dialogue</mat-option>
+                        <mat-option value="10" (click)="openCmSelectTransaction()">Select Transaction Dialogue</mat-option> 
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
                         expand_more
@@ -36,7 +43,7 @@
                     </mat-form-field>
                 </div>
                 <div class="d-flex flex-wrap">
-                    <button type="button" mat-flat-button color="primary" class="button-primary-i mb-2 button-sm" (click)="onClick()" [disabled]="nextOrderbtn">Next
+                    <button type="button" mat-flat-button color="primary" class="button-primary-i mb-2 button-sm" (click)="openCmOrderNo()">Next
                         Order</button>
                 </div>
             </div>

@@ -7,6 +7,12 @@ import { ConsolidationManagerService } from '../consolidation-manager.service';
 import { AuthService } from '../../../app/init/auth.service';
 import { event } from 'jquery';
 import { ItemSelected } from './item-selected';
+import { CmConfirmAndPackingSelectTransactionComponent } from 'src/app/dialogs/cm-confirm-and-packing-select-transaction/cm-confirm-and-packing-select-transaction.component';
+import { CmConfirmAndPackingComponent } from 'src/app/dialogs/cm-confirm-and-packing/cm-confirm-and-packing.component';
+import { CmItemSelectedComponent } from 'src/app/dialogs/cm-item-selected/cm-item-selected.component';
+import { CmOrderNumberComponent } from 'src/app/dialogs/cm-order-number/cm-order-number.component';
+import { CmShippingTransactionComponent } from 'src/app/dialogs/cm-shipping-transaction/cm-shipping-transaction.component';
+import { CmShippingComponent } from 'src/app/dialogs/cm-shipping/cm-shipping.component';
 
 @Component({
   selector: 'app-consolidation',
@@ -495,6 +501,87 @@ export class ConsolidationComponent implements OnInit {
       this.TypeValue = '';
       
   }
+
+// clickToHide(){
+//   this.hideRow=!this.hideRow;
+// }
+
+ openCmShipping() {
+  let dialogRef = this.dialog.open(CmShippingComponent, {
+    height: 'auto',
+    width: '96vw',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
+ }
+
+ openCmShippingTransaction() {
+  let dialogRef = this.dialog.open(CmShippingTransactionComponent, {
+    height: 'auto',
+    width: '96vw',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
+ }
+ openCmConfirmPacking() {
+  let dialogRef = this.dialog.open(CmConfirmAndPackingComponent, {
+    height: 'auto',
+    width: '96vw',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
+ }
+
+ openCmOrderNo() {
+  let dialogRef = this.dialog.open(CmOrderNumberComponent, {
+    height: 'auto',
+    width: '50vw',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
+ }
+
+ openCmItemSelected() {
+  let dialogRef = this.dialog.open(CmItemSelectedComponent, {
+    height: 'auto',
+    width: '50vw',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
+ }
+
+ openCmSelectTransaction() {
+  let dialogRef = this.dialog.open(CmConfirmAndPackingSelectTransactionComponent, {
+    height: 'auto',
+    width: '50vw',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
+ }
 
 }
 

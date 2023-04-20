@@ -44,6 +44,23 @@ import { ChooseLocationComponent } from './dialogs/choose-location/choose-locati
 import { InputFilterComponent } from './dialogs/input-filter/input-filter.component';
 import { MinReelQtyComponent } from './dialogs/min-reel-qty/min-reel-qty.component';
 import { TransactionQtyEditComponent } from './dialogs/transaction-qty-edit/transaction-qty-edit.component';
+import { CmShippingComponent } from './dialogs/cm-shipping/cm-shipping.component';
+import { CmShippingTransactionComponent } from './dialogs/cm-shipping-transaction/cm-shipping-transaction.component'; 
+import { CmConfirmAndPackingComponent } from './dialogs/cm-confirm-and-packing/cm-confirm-and-packing.component';
+import { CmShipSplitLineComponent } from './dialogs/cm-ship-split-line/cm-ship-split-line.component';
+import { CmShipEditQtyComponent } from './dialogs/cm-ship-edit-qty/cm-ship-edit-qty.component';
+import { CmShipEditConIdComponent } from './dialogs/cm-ship-edit-con-id/cm-ship-edit-con-id.component';
+import { CmToteIdUpdateModalComponent } from './dialogs/cm-tote-id-update-modal/cm-tote-id-update-modal.component';
+import { DeleteRangeComponent } from './dialogs/delete-range/delete-range.component';
+import { PrintReplenLabelsComponent } from './dialogs/print-replen-labels/print-replen-labels.component';
+import { SrDeleteOrderComponent } from './dialogs/sr-delete-order/sr-delete-order.component';
+import { CmOrderNumberComponent } from './dialogs/cm-order-number/cm-order-number.component';
+import { CmCarriersAddDeleteEditComponent } from './dialogs/cm-carriers-add-delete-edit/cm-carriers-add-delete-edit.component';
+import { CmItemSelectedComponent } from './dialogs/cm-item-selected/cm-item-selected.component';
+import { CmConfirmAndPackingProcessTransactionComponent } from './dialogs/cm-confirm-and-packing-process-transaction/cm-confirm-and-packing-process-transaction.component';
+import { CmSplitLineComponent } from './dialogs/cm-split-line/cm-split-line.component';
+import { CmConfirmAndPackingSelectTransactionComponent } from './dialogs/cm-confirm-and-packing-select-transaction/cm-confirm-and-packing-select-transaction.component';
+import { CmShippingCarrierComponent } from './dialogs/cm-shipping-carrier/cm-shipping-carrier.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -75,6 +92,23 @@ import { TransactionQtyEditComponent } from './dialogs/transaction-qty-edit/tran
     InputFilterComponent,
     MinReelQtyComponent,
     TransactionQtyEditComponent,
+    CmShippingComponent, 
+    CmShippingTransactionComponent, 
+    CmConfirmAndPackingComponent,
+    CmShipSplitLineComponent,
+    CmShipEditQtyComponent,
+    CmShipEditConIdComponent,
+    CmToteIdUpdateModalComponent,
+    DeleteRangeComponent,
+    PrintReplenLabelsComponent,
+    SrDeleteOrderComponent, 
+    CmOrderNumberComponent,
+    CmCarriersAddDeleteEditComponent,
+    CmItemSelectedComponent,
+    CmConfirmAndPackingProcessTransactionComponent,
+    CmSplitLineComponent,
+    CmShippingCarrierComponent,
+    CmConfirmAndPackingSelectTransactionComponent,
     // ActionDisableDirective,
   ],
   imports: [

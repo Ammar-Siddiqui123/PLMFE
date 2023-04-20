@@ -13,7 +13,7 @@ export class CycleCountsComponent implements OnInit {
   ngOnInit(): void {
   }
   createTransaction(){
-    this.router.navigate(['/admin/createCounts']);
+    this.router.navigate(['/admin/createCountBatches']);
   }
 
 }

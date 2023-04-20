@@ -28,6 +28,11 @@ const routes: Routes = [
     canActivate: [AuthGuardGuard],
   },
   {
+    path: 'inventoryMaster/:itemNumber',
+    component: InventoryMasterComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
     path: 'inventoryMaster',
     component: InventoryMasterComponent,
     canActivate: [AuthGuardGuard],
@@ -43,7 +48,7 @@ const routes: Routes = [
     canActivate: [AuthGuardGuard],
   },
   {
-    path: 'createCounts',
+    path: 'createCountBatches',
     component: CreateCountBatchesComponent,
     canActivate: [AuthGuardGuard],
   },
@@ -67,6 +72,7 @@ const routes: Routes = [
     component: SystemReplenishmentComponent,
     canActivate: [AuthGuardGuard],
   },
+  
 ];
 
 @NgModule({

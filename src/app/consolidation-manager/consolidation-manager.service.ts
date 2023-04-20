@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
+
 export class ConsolidationManagerService extends BaseService {
 
   constructor(http: HttpClient) {

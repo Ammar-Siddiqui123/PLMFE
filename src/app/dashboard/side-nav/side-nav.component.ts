@@ -25,7 +25,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'manage_accounts', title: 'Admin', route: '/admin', permission: 'Admin Menu'},
     { icon: 'checklist', title: 'Induction Manager', route: '/InductionManager' ,permission: 'Induction Manager'},
     { icon: 'fact_check', title: 'Work Manager', route: '#' ,permission: 'Work Manager'},
-    { icon: 'insert_chart', title: 'Consolidation Manager', route: '#' ,permission: 'Consolidation Manager'},
+    { icon: 'insert_chart', title: 'Consolidation Manager', route: '/ConsolidationManager' ,permission: 'Consolidation Manager'},
     { icon: 'pending_actions', title: 'Order Manager', route: '#' ,permission: 'Order Manager'},
     { icon: 'schema', title: 'FlowRack Replenishment', route: '#',permission: 'FlowRack Replenish' }
   ];
@@ -45,7 +45,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'analytics', title: 'Reports', route: '#' ,permission: 'Reports'},
     { icon: 'dvr', title: 'Transactions', route: '/admin/transaction' ,permission: 'Transaction Journal'},
     { icon: 'list_alt', title: 'Batch Manager', route: '/admin/batchManager' ,permission: 'Batch Manager'},
-    { icon: 'low_priority', title: 'Cycle Count', route: '#' ,permission: 'Cycle Count Manager'},
+    { icon: 'low_priority', title: 'Cycle Count', route: '/admin/cycleCounts' ,permission: 'Cycle Count Manager'},
     { icon: 'airline_stops', title: 'De-Allocate Orders', route: '#' ,permission: 'De-Allocate Orders'},
     { icon: 'assignment_ind', title: 'Employees', route: '/admin/employees' ,permission: 'Employees'},
     { icon: 'event_note', title: 'Event Log', route: '#' ,permission: 'Event Log Manager'},
@@ -53,7 +53,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'ads_click', title: 'Manual Transactions', route: '#' ,permission: 'Manual Transactions'},
     { icon: 'trolley', title: 'Move Items', route: '#' ,permission: 'Move Items'},
     { icon: 'tune', title: 'Preferences', route: '#' ,permission: 'Preferences'},
-    { icon: 'published_with_changes', title: 'System Replenishment', route: '#' ,permission: 'Replenishment'},
+    { icon: 'published_with_changes', title: 'System Replenishment', route: '/admin/systemReplenishment' ,permission: 'Replenishment'},
   ];
 
 
