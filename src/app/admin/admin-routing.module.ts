@@ -72,6 +72,7 @@ const routes: Routes = [
     component: SystemReplenishmentComponent,
     canActivate: [AuthGuardGuard],
   },
+  
 ];
 
 @NgModule({
