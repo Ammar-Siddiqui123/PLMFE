@@ -18,7 +18,7 @@ import { FilterItemNumbersComponent } from '../../dialogs/filter-item-numbers/fi
 })
 export class SrNewOrderComponent implements OnInit {
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'stock_qty', 'symbol', 'ex', 'srno', 'replishment', 'case', 'transaction', 'replenish', 'exists', 'allocated_pick', 'allocated_put', 'action'];
+  displayedColumns: string[] = ['Item Number', 'Description', 'Warehouse', 'Stock Qty', 'Replenishment Point', 'Replenishment Level', 'Available Qty', 'Replenishment Qty', 'Case Qty', 'Transaction Qty', 'Replenish', 'Replenish Exists', 'Alloc Pick', 'Alloc Put', 'action'];
   tableData: any = [];
   filteredTableData: any = [];
   public userData: any;
@@ -290,5 +290,11 @@ export class SrNewOrderComponent implements OnInit {
     if(this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != ""){
       this.newReplenishmentOrders();
     }
+  }
+
+  announceSortChange(e : any){
+    this.tablePayloadObj.searchColumn = e.active;
+    this.tablePayloadObj.sortDir = e.direction;
+    this.newReplenishmentOrders();
   }
 }
