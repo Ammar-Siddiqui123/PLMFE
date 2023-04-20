@@ -121,10 +121,10 @@
                                 
                                 <mat-menu #appMenu="matMenu">
                                     <!-- <button class="text-tertiary-800" mat-menu-item><b>Item Label</b></button> -->
-                                    <button mat-menu-item (click)="openShipSplitLine()">Split Line</button>
+                                    <button mat-menu-item (click)="openShipSplitLine(element)">Split Line</button>
                                     <button mat-menu-item (click)="openShipPrintItemLabel()">Print Item Label</button>
-                                    <button mat-menu-item (click)="openShipEditContainerID()">Edit Container ID</button>
-                                    <button mat-menu-item (click)="openShipEditQuantity()">Edit Ship Quantity</button>
+                                    <button mat-menu-item (click)="openShipEditContainerID(element)">Edit Container ID</button>
+                                    <button mat-menu-item (click)="openShipEditQuantity(element)">Edit Ship Quantity</button>
                                 </mat-menu>
                             </td>
                         </ng-container>

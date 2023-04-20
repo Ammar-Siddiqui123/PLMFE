@@ -31,19 +31,15 @@ export class CmShipEditQtyComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  validateShipQty() {
-    if (this.adjustShipQty != '') {
-      this.saveAdjustShipQtyBtn = true;
-    } else {
+  validate() {
+    if (this.adjustShipQty == '') {
       this.saveAdjustShipQtyBtn = false;
-    }
-  }
-
-  validateReason() {
-    if (this.adjustReason != '') {
-      this.saveAdjustShipQtyBtn = true;
     } else {
-      this.saveAdjustShipQtyBtn = false;
+      if (this.adjustReason == '') {
+        this.saveAdjustShipQtyBtn = false;
+      } else {
+        this.saveAdjustShipQtyBtn = true;
+      }
     }
   }
 
@@ -59,21 +55,38 @@ export class CmShipEditQtyComponent implements OnInit {
     }, 500);
   }
 
+  selectionChanged() {
+    this.validate();
+  }
+
   saveAdjustShipQty() {
     try {
       var payLoad = {
-        stid : this.data.id,
+        stid : this.data.order.id,
         adjustShipQty: this.adjustShipQty,
         adjustReason: this.adjustReason,
         username: this.userData.userName,
       }
       this.service.create(payLoad, '/Consolidation/ShipQTYShipTransUpdate').subscribe((res:any)=>{
         if (res.isExecuted) {
+
+          let Exists = false;
+          for (var i = 0; i < this.data.reasons.length; i++) {
+            if (this.data.reasons[i] == this.adjustReason) {
+              Exists = true;
+              break;
+            };
+          };
+
+          if (!Exists) this.data.reasons.push(this.adjustReason)
+
+          this.adjustShipQty = '';
+          this.adjustReason = '';
           this.dialogRef.close(res.data);
         } else {
           this.toast.error('Something went wrong', 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
         }
-      })
+      });
     } catch (error) {
       console.log(error);
     }

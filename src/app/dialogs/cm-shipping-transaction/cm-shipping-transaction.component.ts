@@ -216,13 +216,14 @@ export class CmShippingTransactionComponent implements OnInit {
     }
   }
 
-  openShipSplitLine() {
+  openShipSplitLine(order : any) {
     let dialogRef = this.dialog.open(CmShipSplitLineComponent, {
       height: 'auto',
       width: '96vw',
       autoFocus: '__non_existing_element__',
       data: {
-        ref : 'ShipTtansactionsTable'        
+        order,
+        page: 'ShipTrans'
       }
     });
 
@@ -239,23 +240,31 @@ export class CmShippingTransactionComponent implements OnInit {
     // dialogRef.afterClosed().subscribe(result => {});
   }
 
-  openShipEditQuantity() {
+  openShipEditQuantity(order : any) {
     let dialogRef = this.dialog.open(CmShipEditQtyComponent, {
       height: 'auto',
       width: '96vw',
-      autoFocus: '__non_existing_element__'     
+      autoFocus: '__non_existing_element__',
+      data: {
+        reasons: this.STIndex.reasons,
+        order
+      }
     });
 
-    dialogRef.afterClosed().subscribe(result => {});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.tableData.data = result;
+      }
+    });
   }
 
-  openShipEditContainerID() {
+  openShipEditContainerID(order : any) {
     let dialogRef = this.dialog.open(CmShipEditConIdComponent, {
       height: 'auto',
       width: '96vw',
       autoFocus: '__non_existing_element__',
       data: {
-        order : this.data
+        order
       }
     });
 
