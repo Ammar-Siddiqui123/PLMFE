@@ -47,6 +47,8 @@ import { TransactionQtyEditComponent } from './dialogs/transaction-qty-edit/tran
 import { CmShippingComponent } from './dialogs/cm-shipping/cm-shipping.component';
 import { CmShippingTransactionComponent } from './dialogs/cm-shipping-transaction/cm-shipping-transaction.component';
 import { CmConfirmAndPackingComponent } from './dialogs/cm-confirm-and-packing/cm-confirm-and-packing.component';
+import { Consolidationmod1Component } from './dialogs/consolidationmod1/consolidationmod1.component';
+import { Consolidationmod2Component } from './dialogs/consolidationmod2/consolidationmod2.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -81,6 +83,8 @@ import { CmConfirmAndPackingComponent } from './dialogs/cm-confirm-and-packing/c
     CmShippingComponent,
     CmShippingTransactionComponent,
     CmConfirmAndPackingComponent,
+    Consolidationmod1Component,
+    Consolidationmod2Component,
     // ActionDisableDirective,
   ],
   imports: [
