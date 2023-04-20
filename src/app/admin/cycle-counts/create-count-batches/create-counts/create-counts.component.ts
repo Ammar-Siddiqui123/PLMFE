@@ -614,6 +614,7 @@ this.subCategory=item.subCategory;
       data: {
         mode: 'delete-create-count',
         actionMessage: ` all Incomplete count transactions for ${this.orderNumber}`,
+        action:'delete'
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
