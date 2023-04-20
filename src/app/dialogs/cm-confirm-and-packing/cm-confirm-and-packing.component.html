@@ -15,7 +15,7 @@
         </div>
         <span>Order Number: {{orderNumber}} is marked as Shipping Complete</span>
     </div>
-    <div *ngIf="(shipComp==''||shipComp==null) && confPackEnable != ''" class="mat-card d-flex mat-elevation-z g-card br-14 label-green w-100 mb-2">
+    <div *ngIf="(shipComp==''||shipComp==null) && (!confPackEnable && confPackEnable != '')" class="mat-card d-flex mat-elevation-z g-card br-14 label-green w-100 mb-2">
         <div class="mat-icon me-lg-3">
             <span class="material-symbols-outlined">
                 info
@@ -62,7 +62,7 @@
                             <div class="col-xl-7 pe-xl-0">
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
                                     <mat-label>Container ID</mat-label>
-                                    <input matInput type="text" [(ngModel)]="contID" [disabled]="!confPackEnable || IsDisabled">
+                                    <input matInput type="text" [(ngModel)]="contID" [disabled]="(!confPackEnable && confPackEnable != '') || IsDisabled">
                                 </mat-form-field>
                             </div>
                             <div class="col-xl-5">
@@ -162,8 +162,11 @@
             <div class="col-xl-3 mb-2">
 
                 <mat-form-field class="custom-form-field w-100" appearance="outline">
-                    <mat-label>Find Item No.</mat-label>
-                    <input matInput type="text" [(ngModel)]="ItemNumber" (keypress)="ScanItemNum($event)" [disabled]="confPackEnable != ''|| IsDisabled">
+                    <mat-label>Scan Item No.</mat-label>
+                    <input matInput type="text" [(ngModel)]="ItemNumber"
+                    (keyup)="ItemKeyUp()"
+                    (keypress)="ScanItemNum($event)" 
+                    [disabled]="(!confPackEnable && confPackEnable != '') || IsDisabled">
                 </mat-form-field>
             </div>
 
@@ -234,7 +237,7 @@
 </div>
 <button mat-flat-button="" color="primary"
     class="mat-focus-indicator w-100 btn-lg mat-flat-button mat-button-base mat-primary" style="flex: 1;"
-    ng-reflect-color="primary" [disabled]="!confPackEnable || IsDisabled" (click)="ClickConfirmAll()"><span class="mat-button-wrapper"> Confirm All </span><span
+    ng-reflect-color="primary" [disabled]="(!confPackEnable && confPackEnable != '') || IsDisabled" (click)="ClickConfirmAll()"><span class="mat-button-wrapper"> Confirm All </span><span
         matripple="" class="mat-ripple mat-button-ripple" ng-reflect-disabled="false" ng-reflect-centered="false"
         ng-reflect-trigger="[object HTMLButtonElement]"></span><span class="mat-button-focus-overlay"></span></button>
 
