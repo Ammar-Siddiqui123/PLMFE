@@ -49,8 +49,8 @@ export class CmToteIdUpdateModalComponent implements OnInit {
   updateToteID() {
     try {
       var payLoad = {
-        orderNumber : this.data.order.orderNumber,
-        toteID: this.data.order.toteID,
+        orderNumber : this.data.orderNumber,
+        toteID: this.data.toteID,
         contID: this.conID,
         username: this.userData.userName,
         wsid: this.userData.wsid

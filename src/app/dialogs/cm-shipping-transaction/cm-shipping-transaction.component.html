@@ -42,11 +42,11 @@
 
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
                                 <mat-label>Tote ID To Update</mat-label>
-                                <input matInput type="text">
+                                <input matInput type="text" maxlength="50" [(ngModel)]="toteID" (keydown)="onKey($event, 'toteIDtoUpdate')">
                             </mat-form-field>
                         </div>
                         <div class="d-flex gap-12">
-                            <button mat-flat-button color="primary" class="primary-button btn-regular w-100">
+                            <button mat-flat-button color="primary" class="primary-button btn-regular w-100" (click)="openToteIDUpdate()">
                                 Update Tote ID
                             </button>
                         </div>
