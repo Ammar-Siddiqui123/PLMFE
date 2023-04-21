@@ -201,7 +201,7 @@
                         <td mat-cell *matCellDef="let element">
                             <div class="text-center">
                                 <mat-checkbox color="primary" matTooltip="Check" matTooltipPosition="above" [disabled]="element.transactionQuantity < 1"
-                                    [checked]="element.replenish" [(ngModel)]="element.replenish" (change)="changeReplenish()">
+                                    [checked]="element.replenish" [(ngModel)]="element.replenish" (change)="changeReplenish(element,$event)">
                                 </mat-checkbox>
                             </div>
                         </td>
