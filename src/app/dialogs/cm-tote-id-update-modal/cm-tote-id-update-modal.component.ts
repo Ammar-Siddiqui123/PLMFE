@@ -51,7 +51,7 @@ export class CmToteIdUpdateModalComponent implements OnInit {
       var payLoad = {
         orderNumber : this.data.orderNumber,
         toteID: this.data.toteID,
-        contID: this.conID,
+        contID: this.containerID,
         username: this.userData.userName,
         wsid: this.userData.wsid
       };
@@ -59,7 +59,11 @@ export class CmToteIdUpdateModalComponent implements OnInit {
       this.service.create(payLoad, '/Consolidation/ContIDShipTransUpdate').subscribe(
         (res: any) => {
           if (res.isExecuted) {
-            this.dialogRef.close(res.data);
+            this.dialogRef.close({
+              isExecuted: true,
+              toteID: this.data.toteID,
+              containerID: this.containerID
+            });
           } else {
             this.toast.error('Something went wrong', 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
           }

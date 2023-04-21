@@ -59,7 +59,10 @@ export class CmShipSplitLineComponent implements OnInit {
       this.service.create(payLoad, '/Consolidation/SplitLineTrans').subscribe(
         (res: any) => {
           if (res.isExecuted) {
-            this.dialogRef.close(res.data);
+            this.dialogRef.close({
+              isExecuted: true,
+              // containerID: this.containerID
+            });
           } else {
             this.toast.error('Something went wrong', 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
           }

@@ -56,7 +56,7 @@ export class CmShipEditConIdComponent implements OnInit {
     try {
       var payLoad = {
         stid : this.data.order.sT_ID,
-        containerID: this.conID,
+        containerID: this.containerID,
         username: this.userData.userName,
         wsid: this.userData.wsid
       };
@@ -64,7 +64,10 @@ export class CmShipEditConIdComponent implements OnInit {
       this.service.create(payLoad, '/Consolidation/ContainerIdSingleShipTransUpdate').subscribe(
         (res: any) => {
           if (res.isExecuted) {
-            this.dialogRef.close(res.data);
+            this.dialogRef.close({
+              isExecuted: true,
+              containerID: this.containerID
+            });
           } else {
             this.toast.error('Something went wrong', 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
           }

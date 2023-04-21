@@ -114,17 +114,17 @@
 
                         <ng-container matColumnDef="action" stickyEnd>
                             <th mat-header-cell width="8%" *matHeaderCellDef style="border: 0;height: 66px; padding-left:65px;"></th>
-                            <td mat-cell width="8%" *matCellDef="let element" style="border: 0; padding-left: 24px; background: #fff;">                            
+                            <td mat-cell width="8%" *matCellDef="let element; let i = index" style="border: 0; padding-left: 24px; background: #fff;">                            
                                 <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o d-flex align-items-right" appearance="outline">                                
                                     <mat-icon>more_horiz</mat-icon>
                                 </button>
                                 
                                 <mat-menu #appMenu="matMenu">
                                     <!-- <button class="text-tertiary-800" mat-menu-item><b>Item Label</b></button> -->
-                                    <button mat-menu-item (click)="openShipSplitLine(element)">Split Line</button>
+                                    <button mat-menu-item (click)="openShipSplitLine(element, i)">Split Line</button>
                                     <button mat-menu-item (click)="openShipPrintItemLabel()">Print Item Label</button>
-                                    <button mat-menu-item (click)="openShipEditContainerID(element)">Edit Container ID</button>
-                                    <button mat-menu-item (click)="openShipEditQuantity(element)">Edit Ship Quantity</button>
+                                    <button mat-menu-item (click)="openShipEditContainerID(element, i)">Edit Container ID</button>
+                                    <button mat-menu-item (click)="openShipEditQuantity(element, i)">Edit Ship Quantity</button>
                                 </mat-menu>
                             </td>
                         </ng-container>
