@@ -18,7 +18,7 @@ import { FilterItemNumbersComponent } from '../../dialogs/filter-item-numbers/fi
 })
 export class SrNewOrderComponent implements OnInit {
 
-  displayedColumns: string[] = ['position', 'name', 'replenish', 'exists', 'weight', 'symbol', 'ex', 'srno', 'replishment', 'case', 'transaction', 'allocated_pick', 'allocated_put', 'action'];
+  displayedColumns: string[] = ['Item Number', 'Description', 'Warehouse', 'Stock Qty', 'Replenishment Point', 'Replenishment Level', 'Available Qty', 'Replenishment Qty', 'Case Qty', 'Transaction Qty', 'Replenish', 'Replenish Exists', 'Alloc Pick', 'Alloc Put', 'action'];
   tableData: any = [];
   filteredTableData: any = [];
   public userData: any;
@@ -32,7 +32,7 @@ export class SrNewOrderComponent implements OnInit {
     sortColumn: 5,
     searchColumn: "",
     sortDir: "asc",
-    reOrder: true,
+    reOrder: false,
     filter: "1=1",
     username: "",
     wsid: ""
@@ -41,21 +41,23 @@ export class SrNewOrderComponent implements OnInit {
   filterItemNumbersText: string = "";
 
   searchColumnOptions: any = [
-    { value: 'Item Number', viewValue: 'Item Number', sortValue:'0'},
-    { value: 'Description', viewValue: 'Description', sortValue:'1'},
-    { value: 'Warehouse', viewValue: 'Warehouse', sortValue:'2'},
-    { value: 'Stock Qty', viewValue: 'Stock Qty', sortValue:'3'},
-    { value: 'Replenishment Point', viewValue: 'Replenishment Point', sortValue:'4'},
-    { value: 'Replenishment Level', viewValue: 'Replenishment Level', sortValue:'5'},
-    { value: 'Available Qty', viewValue: 'Available Qty', sortValue:'6'},
-    { value: 'Replenishment Qty', viewValue: 'Replenishment Qty', sortValue:'7'},
-    { value: 'Case Qty', viewValue: 'Case Qty', sortValue:'8'},
-    { value: 'Transaction Qty', viewValue: 'Transaction Qty', sortValue:'9'},
-    { value: 'Replenish', viewValue: 'Replenish', sortValue:'10'},
-    { value: 'Replenish Exists', viewValue: 'Replenish Exists', sortValue:'11'},
-    { value: 'Alloc Pick', viewValue: 'Alloc Pick', sortValue:'12'},
-    { value: 'Alloc Put', viewValue: 'Alloc Put', sortValue:'13'},
+    { value: 'Item Number', viewValue: 'Item Number', sortValue: '0', key: 'itemNumber' },
+    { value: 'Description', viewValue: 'Description', sortValue: '1', key: 'description' },
+    { value: 'Warehouse', viewValue: 'Warehouse', sortValue: '2', key: 'warehouse' },
+    { value: 'Stock Qty', viewValue: 'Stock Qty', sortValue: '3', key: 'stockQuantity' },
+    { value: 'Replenishment Point', viewValue: 'Replenishment Point', sortValue: '4', key: 'replenishmentPoint' },
+    { value: 'Replenishment Level', viewValue: 'Replenishment Level', sortValue: '5', key: 'replenishmentLevel' },
+    { value: 'Available Qty', viewValue: 'Available Qty', sortValue: '6', key: 'availableQuantity' },
+    { value: 'Replenishment Qty', viewValue: 'Replenishment Qty', sortValue: '7', key: 'replenishmentQuantity' },
+    { value: 'Case Qty', viewValue: 'Case Qty', sortValue: '8', key: 'caseQuantity' },
+    { value: 'Transaction Qty', viewValue: 'Transaction Qty', sortValue: '9', key: 'transactionQuantity' },
+    { value: 'Replenish', viewValue: 'Replenish', sortValue: '10', key: 'replenish' },
+    { value: 'Replenish Exists', viewValue: 'Replenish Exists', sortValue: '11', key: 'replenishExists' },
+    { value: 'Alloc Pick', viewValue: 'Alloc Pick', sortValue: '12', key: 'allocPick' },
+    { value: 'Alloc Put', viewValue: 'Alloc Put', sortValue: '13', key: 'allocPut' },
   ];
+
+  searchAutocompleteList: any;
 
 
   constructor(
@@ -72,19 +74,19 @@ export class SrNewOrderComponent implements OnInit {
     this.tablePayloadObj.wsid = this.userData.wsid;
   }
 
-  editTransDialog(element:any): void {
+  editTransDialog(element: any): void {
     const dialogRef = this.dialog.open(TransactionQtyEditComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
       data: {
-        rP_ID: element.rP_ID, 
+        rP_ID: element.rP_ID,
         transactionQuantity: element.transactionQuantity,
         availableQuantity: element.availableQuantity,
         replenishmentQuantity: element.replenishmentQuantity
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if(result){
+      if (result) {
         this.filteredTableData.filter((item: any) => {
           if (item.rP_ID == result.rP_ID) {
             item.transactionQuantity = result.transactionQuantity;
@@ -100,7 +102,8 @@ export class SrNewOrderComponent implements OnInit {
         this.tableData = res.data.sysTable;
         this.tableDataTotalCount = res.data.recordsTotal;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
-        this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0).length;
+        this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
+        this.changeSearchOptions();
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -112,8 +115,7 @@ export class SrNewOrderComponent implements OnInit {
 
   onChangeKanban(ob: MatCheckboxChange) {
     // if (confirm("Click OK to create a new replenishment list.")) {
-      this.createNewReplenishments(ob.checked);
-      // this.newReplenishmentOrders();
+    this.createNewReplenishments(ob.checked);
     // } else {
     //   ob.checked = !ob.checked;
     //   this.kanban = !ob.checked;
@@ -140,10 +142,12 @@ export class SrNewOrderComponent implements OnInit {
         });
         this.newReplenishmentOrders();
       } else {
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
+        if (!kanban) {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
       }
     });
   }
@@ -183,11 +187,20 @@ export class SrNewOrderComponent implements OnInit {
   searchChange(event: any) {
     this.tablePayloadObj.searchColumn = event;
     this.tablePayloadObj.sortColumn = this.searchColumnOptions.filter((item: any) => item.value == event)[0].sortValue;
-    // this.newReplenishmentOrders();
+    this.changeSearchOptions();
+  }
+
+  changeSearchOptions() {
+    debugger
+    if (this.tablePayloadObj.searchColumn != "") {
+      let key = this.searchColumnOptions.filter((item: any) => item.value == this.tablePayloadObj.searchColumn)[0].key;
+      this.searchAutocompleteList = [];
+      this.searchAutocompleteList = this.filteredTableData.map((item: any) => item[key]);
+    }
   }
 
   paginatorChange(event: PageEvent) {
-    if(event.previousPageIndex != undefined && event.pageIndex > event.previousPageIndex) {
+    if (event.previousPageIndex != undefined && event.pageIndex > event.previousPageIndex) {
       this.tablePayloadObj.start = this.tablePayloadObj.start + event.pageSize;
     }
     else {
@@ -197,38 +210,47 @@ export class SrNewOrderComponent implements OnInit {
     this.newReplenishmentOrders();
   }
 
-  viewItemInInventoryMaster(element:any){
+  viewItemInInventoryMaster(element: any) {
     window.open(`/#/admin/inventoryMaster?itemNumber=${element.itemNumber}`, '_blank', "location=yes");
   }
 
-  print(){
-    if(confirm('Click OK to print a replenishment report.')){
+  print() {
+    if (confirm('Click OK to print a replenishment report.')) {
       alert('Print Service not availabe.');
     }
   }
 
-  selectAll(){
-    this.filteredTableData.forEach((element:any) => {
-      if(element.transactionQuantity > 0){
-        element.replenish = true;
-      }
-    });
-    this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0).length;
+  selectAll() {
+    if (confirm(`Click OK to mark ${(this.tablePayloadObj.reOrder ? 'Re-Order' : 'all')} entries.`)) {
+      this.ReplenishmentsIncludeAllUpdate(true);
+    }
+
+    // this.filteredTableData.forEach((element: any) => {
+    //   if (element.transactionQuantity > 0) {
+    //     element.replenish = true;
+    //   }
+    // });
+    // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
+    // this.ReplenishmentsIncludeAllUpdate(true);
   }
 
-  unSelectAll(){
-    this.filteredTableData.forEach((element:any) => {
-      if(element.transactionQuantity > 0){
-        element.replenish = false;
-      }
-    });
-    this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0).length;
+  unSelectAll() {
+    if (confirm(`Click OK to unmark ${( (this.tablePayloadObj.reOrder == '' || this.tablePayloadObj.reOrder == 'all') ? 'all' : 'Re-Order')} entries.`)) {
+      this.ReplenishmentsIncludeAllUpdate(false);
+    }
+    // this.filteredTableData.forEach((element: any) => {
+    //   if (element.transactionQuantity > 0) {
+    //     element.replenish = false;
+    //   }
+    // });
+    // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
+    // this.ReplenishmentsIncludeAllUpdate(false);
   }
 
-  viewAllItems(){
-    this.tableData.forEach((element:any) => {
-      let index:any = this.filteredTableData.findIndex((item:any) => item.rP_ID == element.rP_ID);
-      if(index != -1){
+  viewAllItems() {
+    this.tableData.forEach((element: any) => {
+      let index: any = this.filteredTableData.findIndex((item: any) => item.rP_ID == element.rP_ID);
+      if (index != -1) {
         element.replenish = this.filteredTableData[index].replenish;
         element.transactionQuantity = this.filteredTableData[index].transactionQuantity;
       }
@@ -236,9 +258,9 @@ export class SrNewOrderComponent implements OnInit {
     this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
   }
 
-  viewSelectedItems(){
-    this.tableData = JSON.parse(JSON.stringify(this. filteredTableData));
-    this.filteredTableData = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0);
+  viewSelectedItems() {
+    this.tableData = JSON.parse(JSON.stringify(this.filteredTableData));
+    this.filteredTableData = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0);
   }
 
   filterItemNo() {
@@ -249,21 +271,22 @@ export class SrNewOrderComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       debugger;
-      if(result){
+      if (result) {
         this.filterItemNumbersText = result.filterItemNumbersText;
-        if(result.filterItemNumbersArray && result.filterItemNumbersArray.length > 0){
+        if (result.filterItemNumbersArray && result.filterItemNumbersArray.length > 0) {
           this.newReplenishmentOrders();
         }
       }
     });
   }
 
-  changeReplenish(){
-    this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity  > 0).length;
+  changeReplenish(element:any,$event:any) {
+    this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
+    this.ReplenishmentsIncludeUpdate($event.checked, element.rP_ID);
   }
 
-  processReplenishments(){
-    if(confirm('Click OK to create replenishment orders for all selected items.')){
+  processReplenishments() {
+    if (confirm('Click OK to create replenishment orders for all selected items.')) {
       let paylaod = {
         "kanban": this.kanban,
         "username": this.userData.userName,
@@ -286,9 +309,64 @@ export class SrNewOrderComponent implements OnInit {
     }
   }
 
-  search(){
-    if(this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != ""){
+  search() {
+    if (this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != "") {
       this.newReplenishmentOrders();
     }
+  }
+
+  announceSortChange(e: any) {
+    this.tablePayloadObj.searchColumn = e.active;
+    this.tablePayloadObj.sortDir = e.direction;
+    this.newReplenishmentOrders();
+  }
+
+  ReplenishmentsIncludeUpdate(replenish: boolean, rfid: number) {
+    let paylaod = {
+      "rfid": rfid,
+      "replenish": replenish,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.systemReplenishmentService.create(paylaod, '/Admin/ReplenishmentsIncludeUpdate').subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.toastr.success(labels.alert.success, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        this.newReplenishmentOrders();
+      } else {
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    });
+  }
+
+  ReplenishmentsIncludeAllUpdate(replenish: boolean) {
+    let paylaod = {
+      "replenish": replenish,
+      "reorder": this.tablePayloadObj.reOrder,
+      "searchString": this.tablePayloadObj.searchString,
+      "searchColumn": this.tablePayloadObj.searchColumn,
+      "filter": "1=1",
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.systemReplenishmentService.create(paylaod, '/Admin/ReplenishmentsIncludeAllUpdate').subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.toastr.success(labels.alert.success, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        this.newReplenishmentOrders();
+      } else {
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    });
   }
 }
