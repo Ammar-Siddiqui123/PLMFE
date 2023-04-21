@@ -37,6 +37,7 @@ export class SrNewOrderComponent implements OnInit {
     username: "",
     wsid: ""
   };
+  
   tableDataTotalCount: number = 0;
   filterItemNumbersText: string = "";
 
