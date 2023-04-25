@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CmOrderToteConflictComponent } from 'src/app/dialogs/cm-order-tote-conflict/cm-order-tote-conflict.component';
 
 export interface PeriodicElement {
   name: string;
@@ -24,9 +26,24 @@ export class CmStagingLocationComponent implements OnInit {
   displayedColumns: string[] = ['select', 'position', 'action'];
   tableData = ELEMENT_DATA;
 
-  constructor() { }
+
+  constructor( private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
+
+  openCmOrderToteConflict() {
+ 
+    let dialogRef = this.dialog.open(CmOrderToteConflictComponent, {
+      height: 'auto',
+      width: '620px',
+      autoFocus: '__non_existing_element__',
+     
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+   }
 
 }
