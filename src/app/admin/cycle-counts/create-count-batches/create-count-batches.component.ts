@@ -11,23 +11,24 @@ export class CreateCountBatchesComponent implements OnInit {
   selectedIndex: number = 0;
   updateQueue: any;
   updateCreateCount: any;
-
+  event: Event;
   ngOnInit(): void {}
   getCount(value) {
     this.countQueValue = value;
   }
   public nextStep(e) {
     this.selectedIndex += 1;
-      this.updateQueue=e
-}
-
+    this.updateQueue = e;
+  }
+  onChange(event: Event) {
+    this.event = event;
+  }
   tabChanged({ index }) {
-    
     this.selectedIndex = index;
-    if(index===0){
-      this. updateCreateCount=true;
-    }else{
-      this. updateCreateCount=false;
+    if (index === 0) {
+      this.updateCreateCount = true;
+    } else {
+      this.updateCreateCount = false;
     }
   }
 }
