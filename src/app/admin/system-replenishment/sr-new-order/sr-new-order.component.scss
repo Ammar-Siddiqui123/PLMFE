@@ -20,12 +20,21 @@
     .mat-header-cell {
         word-wrap: initial;
         display: table-cell;
-        padding: 0px 12px;
+        padding: 0px 6px;
         line-break: unset;
         width: auto;
         white-space: nowrap;
         overflow: hidden;
         vertical-align: middle;
         border: 0;
+    }
+  }
+
+  .mat-table {
+    td {
+      max-width: 15ch;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
   }
