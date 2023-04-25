@@ -103,7 +103,7 @@
                             <mat-label>Default Text for Container ID</mat-label>
 
                           
-                                <input formControlName="contIDText"  matInput type="text" #vlname maxlength="50">
+                                <input  (ngModelChange)="this.searchByInput.next($event)" formControlName="contIDText"  matInput type="text" #vlname maxlength="50">
                             <!-- <mat-select  formControlName="contIDText"  class="employees-action">
                                 <mat-option>
                                     123456
