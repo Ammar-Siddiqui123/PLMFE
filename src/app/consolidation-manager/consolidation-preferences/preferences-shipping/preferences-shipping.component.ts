@@ -1,10 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { CmShippingCarrierComponent } from 'src/app/dialogs/cm-shipping-carrier/cm-shipping-carrier.component';
 import { ConsolidationManagerService } from '../../consolidation-manager.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-preferences-shipping',
@@ -16,8 +24,10 @@ export class PreferencesShippingComponent implements OnInit {
   selectionShipping: boolean = false;
   selectionPacking: boolean = false;
   selectionConfirmPacking: boolean = false;
+  searchByInput: any = new Subject<string>();
+
   @Input() shippingData: any;
-  @Output() shippingEvnt= new EventEmitter<void>();
+  @Output() shippingEvnt = new EventEmitter<void>();
   userData: any;
   constructor(
     private cmService: ConsolidationManagerService,
@@ -49,7 +59,14 @@ export class PreferencesShippingComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.searchByInput
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((value) => {
+        this.shippingForm.controls['contIDText'].setValue(value);
+        this.saveShippingPreferences();
+      });
+  }
   ngOnChanges(changes: SimpleChanges) {
     if (changes['shippingData']['currentValue']) {
       this.setPreferences(changes['shippingData']['currentValue']);
@@ -79,22 +96,36 @@ export class PreferencesShippingComponent implements OnInit {
     this.shippingForm.controls['height'].setValue(item.height);
     this.shippingForm.controls['cube'].setValue(item.cube);
 
-    if (item.packing) {
+    // if (item.packing) {
+    //   this.selectionPacking = true;
+    // } else {
+    //   this.selectionPacking = false;
+    // }
+    // if (item.confirmAndPacking) {
+    //   this.selectionConfirmPacking = true;
+    // } else {
+    //   this.selectionConfirmPacking = false;
+    // }
+
+    if (item.packing && item.confirmAndPacking) {
       this.selectionPacking = true;
+      this.selectionConfirmPacking = true;
+      this.selectionConfirmPacking = true;
+    } else if (item.packing && !item.confirmAndPacking) {
+      this.selectionPacking = true;
+      this.selectionConfirmPacking = true;
+      this.selectionConfirmPacking = false;
     } else {
       this.selectionPacking = false;
-    }
-    if (item.confirmAndPacking) {
-      this.selectionConfirmPacking = true;
-    } else {
+      this.selectionConfirmPacking = false;
       this.selectionConfirmPacking = false;
     }
-    if(item.shipping){
-      this.selectionShipping=true;
-    }else{
-      this.selectionShipping=false;
+
+    if (item.shipping) {
+      this.selectionShipping = true;
+    } else {
+      this.selectionShipping = false;
     }
-    
   }
 
   openCarrier() {
@@ -111,8 +142,6 @@ export class PreferencesShippingComponent implements OnInit {
   }
 
   saveShippingPreferences() {
-    console.log( this.shippingForm.controls['contID'].value,);
-    
     let payload = {
       packing: this.shippingForm.controls['allowPack'].value,
       confirmPack: this.shippingForm.controls['confirmPack'].value,
@@ -135,16 +164,14 @@ export class PreferencesShippingComponent implements OnInit {
       wsid: this.userData.wsid,
     };
     this.cmService
-      .get(payload, `/Consolidation/ConsolidationPreferenceShipUpdate`)
+      .get(payload, `/Consolidation/ConsolidationPreferenceShipUpdate`, true)
       .subscribe((response: any) => {
         this.shippingEvnt.emit();
         if (response.isExecuted) {
-          this.toastr.success(response.responseMessage, 'Success!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000,
-          });
-
-        
+          // this.toastr.success(response.responseMessage, 'Success!', {
+          //   positionClass: 'toast-bottom-right',
+          //   timeOut: 2000,
+          // });
           // this.ngOnInit();
         } else {
           this.toastr.error('Error', 'An Error Occured while trying to save', {
@@ -157,14 +184,30 @@ export class PreferencesShippingComponent implements OnInit {
 
   toggleAllowPackage() {
     this.selectionPacking = !this.selectionPacking;
-    this.saveShippingPreferences()
+
+    if (!this.selectionPacking) {
+      this.selectionConfirmPacking = false;
+      this.shippingForm.controls['confirmPack'].setValue(false);
+    } else if (this.selectionPacking) {
+      this.selectionConfirmPacking = true;
+    }
+    this.toggleConfirmPackage();
+    this.saveShippingPreferences();
   }
   toggleAllowShip() {
     this.selectionShipping = !this.selectionShipping;
-    this.saveShippingPreferences()
+    this.saveShippingPreferences();
   }
   toggleConfirmPackage() {
     this.selectionConfirmPacking = !this.selectionConfirmPacking;
-    this.saveShippingPreferences()
+    if (!this.selectionConfirmPacking) {
+      this.shippingForm.controls['printCont'].setValue(false);
+      this.shippingForm.controls['printOrd'].setValue(false);
+      this.shippingForm.controls['printContLabel'].setValue(false);
+      this.shippingForm.controls['contID'].setValue(false);
+      this.shippingForm.controls['confirmQTY'].setValue(false);
+      this.shippingForm.controls['contIDText'].setValue('');
+    }
+    this.saveShippingPreferences();
   }
 }
