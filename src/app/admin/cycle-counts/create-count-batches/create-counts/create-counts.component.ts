@@ -302,7 +302,7 @@ this.subCategory=item.subCategory;
     // this.filtersForm.value.costEnd = '';
     // this.filtersForm.value.warehouse = '';
 
-    // this.fillData();
+    this.fillData();
   }
   getTypeAheads(type) {
     if (type === 'Description') {
@@ -614,6 +614,7 @@ this.subCategory=item.subCategory;
       data: {
         mode: 'delete-create-count',
         actionMessage: ` all Incomplete count transactions for ${this.orderNumber}`,
+        action:'delete'
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
