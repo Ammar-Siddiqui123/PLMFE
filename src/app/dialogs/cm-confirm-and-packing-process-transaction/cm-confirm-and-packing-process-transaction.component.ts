@@ -4,6 +4,7 @@ import { CmSplitLineComponent } from '../cm-split-line/cm-split-line.component';
 import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { CmShipSplitLineComponent } from '../cm-ship-split-line/cm-ship-split-line.component';
 
 @Component({
   selector: 'app-cm-confirm-and-packing-process-transaction',
@@ -44,7 +45,7 @@ async ItemLabelModal(){
   var  Id = this.confPackProcTable[0].sT_ID;   
 }
 openCmSplitLine() {
-  let dialogRef = this.dialog.open(CmSplitLineComponent, {
+  let dialogRef = this.dialog.open(CmShipSplitLineComponent, {
     height: 'auto',
     width: '560px',
     autoFocus: '__non_existing_element__',
