@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ConsolidationManagerService } from '../consolidation-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
+import { CmOrderToteConflictComponent } from 'src/app/dialogs/cm-order-tote-conflict/cm-order-tote-conflict.component';
 
 export interface PeriodicElement {
   name: string;
@@ -32,7 +33,8 @@ export class CmStagingLocationComponent implements OnInit {
   OrderNumberTote: any = null;
   constructor(private toast: ToastrService,
     private http: ConsolidationManagerService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog,
   ) {
     this.userData = this.authService.userData();
   }
@@ -165,5 +167,19 @@ export class CmStagingLocationComponent implements OnInit {
     this.stagetables = [];
     this.OrderNumberTote = null;
   }
+  
+  openCmOrderToteConflict() {
+ 
+    let dialogRef = this.dialog.open(CmOrderToteConflictComponent, {
+      height: 'auto',
+      width: '620px',
+      autoFocus: '__non_existing_element__',
+     
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+   }
 }
 
