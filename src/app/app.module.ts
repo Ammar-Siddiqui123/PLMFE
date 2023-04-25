@@ -61,6 +61,7 @@ import { CmConfirmAndPackingProcessTransactionComponent } from './dialogs/cm-con
 import { CmSplitLineComponent } from './dialogs/cm-split-line/cm-split-line.component';
 import { CmConfirmAndPackingSelectTransactionComponent } from './dialogs/cm-confirm-and-packing-select-transaction/cm-confirm-and-packing-select-transaction.component';
 import { CmShippingCarrierComponent } from './dialogs/cm-shipping-carrier/cm-shipping-carrier.component';
+import { OrderManagerComponent } from './order-manager/order-manager.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -109,6 +110,7 @@ import { CmShippingCarrierComponent } from './dialogs/cm-shipping-carrier/cm-shi
     CmSplitLineComponent,
     CmShippingCarrierComponent,
     CmConfirmAndPackingSelectTransactionComponent,
+    OrderManagerComponent,
     // ActionDisableDirective,
   ],
   imports: [
