@@ -56,6 +56,15 @@ export class CCBCountQueueComponent implements OnInit {
   userData: any;
   pageEvent: PageEvent;
   @Output() countEvent = new EventEmitter<string>();
+  @Input()
+  set event(event: Event) {
+   
+    if(event===undefined)return
+    if (event['invMapIDs'] || event['invMapIDs'].length > 0 || event !=undefined || event !=null ) {
+   
+      this.getCountQue();
+    }
+  }
   customPagination: any = {
     total: '',
     recordsPerPage: 10,
