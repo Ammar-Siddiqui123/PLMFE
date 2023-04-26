@@ -92,7 +92,7 @@
         <div class="card br-14 table-responsive borderless">
             <ng-scrollbar class="mat-table-scrollbar" style="height:635px" track="all">
 
-                <table class="w-100 table-borderless action-clickable-table" mat-table [dataSource]="filteredTableData" matSort>
+                <table class="w-100 table-borderless action-clickable-table" mat-table [dataSource]="filteredTableData" matSort (matSortChange)="announceSortChange($event)">
 
                     <ng-container matColumnDef="itemNumber">
                         <th mat-header-cell *matHeaderCellDef> Item Num </th>

@@ -137,6 +137,11 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
 
+  announceSortChange(e: any) {
+    this.tablePayloadObj.searchColumn = e.active;
+    this.tablePayloadObj.sortDir = e.direction;
+    this.newReplenishmentOrders();
+  }
 
 
 
