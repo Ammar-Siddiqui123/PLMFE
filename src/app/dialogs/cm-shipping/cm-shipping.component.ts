@@ -61,13 +61,14 @@ async ShippingIndex(){
 });
 }
 async DeleteItem(element:any){
- var obj :any=  {
+ var obj :any= 
+  {
     id: element.id,
     orderNumber: this.orderNumber,
     contId: element.containerID,
     carrier: element.carrier,
     trackingNum: element.trackingNum,
-    userName: this.userData.username,
+    user: this.userData.userName,
     wsid: this.userData.wsid
   }
   this.http.get(obj,'/Consolidation/ShipmentItemDelete').subscribe((res:any) => {
@@ -97,6 +98,8 @@ async updateShipmentItem(element:any){
    });
  } 
  async ShippingCompShip(){
+  var conf = confirm("Are you sure you wish to complete this shipment?");
+  if (conf) {
   var obj :any= {
     orderNumber: this.orderNumber
   }
@@ -116,8 +119,11 @@ async updateShipmentItem(element:any){
     };
      }
    });
+  }
+
  }  
  async completeShipment(){
+ 
   var obj : any= {
     orderNumber: this.orderNumber ,
     userName: this.userData.userName,
@@ -129,18 +135,17 @@ async updateShipmentItem(element:any){
     }else{
       this.toast.error("An error has occurred","Error",  { positionClass: 'toast-bottom-right',timeOut: 2000});
     }
-  });
- }
+  }); 
+}
 openCmAddNewItem() {
   let dialogRef = this.dialog.open(CmAddNewItemToShipmentComponent, {
     height: 'auto',
     width: '560px',
     autoFocus: '__non_existing_element__',
-   
+   data: {orderNumber: this.orderNumber}
   })
   dialogRef.afterClosed().subscribe(result => {
-    
-    
+    if(result) this.ShippingIndex();
   })
  }
 }
