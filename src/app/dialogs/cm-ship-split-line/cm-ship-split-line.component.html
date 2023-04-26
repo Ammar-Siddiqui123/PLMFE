@@ -11,7 +11,7 @@
         <div class="col-xl-12 col-9 mb-2 pe-0">    
             <mat-form-field class="action-dropdown w-100" appearance="outline">
                 <mat-label>Enter the desired quantity for the new split line</mat-label>
-                <input matInput type="text" maxlength="50" #ssQty (input)=" ssQty.value = globalService.setNumericInRange(ssQty.value, globalService.sqlLimits.numerics.int, ''); validateSplitScreenQty()" [(ngModel)]="splitScreenQty">
+                <input matInput type="text" maxlength="50" #ssQty (input)="ssQty.value = globalService.setNumericInRange(ssQty.value, globalService.sqlLimits.numerics.int, ''); validateSplitScreenQty()" [(ngModel)]="splitScreenQty">
             </mat-form-field>
         </div>
     </div>        
