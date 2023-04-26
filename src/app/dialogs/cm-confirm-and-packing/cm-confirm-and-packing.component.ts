@@ -64,8 +64,7 @@ ConfirmAndPackingIndex(){
     username: this.userData.userName,
     wsid: this.userData.wsid, 
   };
- this.http.get(obj,'/Consolidation/ConfirmAndPackingIndex').subscribe((res:any) => {
-  debugger
+ this.http.get(obj,'/Consolidation/ConfirmAndPackingIndex').subscribe((res:any) => { 
   this.toteTable = res.data.confPackToteTable;
   this.orderNumber = res.data.orderNumber;
   this.transTable = res.data.confPackShipTransTable;
@@ -136,8 +135,7 @@ openScanItem(ItemNumber:any,id: any) {
     }
   }, 10);
  }
-async ScanItemNum($event:any){ 
-  debugger   
+async ScanItemNum($event:any){  
   if($event.key == "Enter"){
   var index;
 var searchCount = 0;

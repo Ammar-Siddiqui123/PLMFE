@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { Component , OnInit } from '@angular/core';
+import {  MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ConsolidationManagerService } from '../consolidation-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
@@ -29,7 +29,9 @@ export class CmStagingLocationComponent implements OnInit {
   displayedColumns: string[] = ['select', 'position', 'action'];
   tableData = ELEMENT_DATA;
   stagetables: any[] = [];
+  Oldstagetables: any[] = [];
   IsLoading: any = false;
+  type: any = "ordernumber";
   OrderNumberTote: any = null;
   constructor(private toast: ToastrService,
     private http: ConsolidationManagerService,
@@ -41,18 +43,33 @@ export class CmStagingLocationComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  async StagingLocsOrderNum($event: any) {
-    debugger
-    if ($event.key == "Enter") {
+  async SearchToteAndLocation($event:any){ 
+    if($event.target.value != ""){
+      if(!this.Oldstagetables.length) this.Oldstagetables = this.stagetables;
+      this.stagetables = [];
+      this.stagetables= this.Oldstagetables.filter(x=>x.toteID.indexOf($event.target.value) >-1);
+      var locArray = this.Oldstagetables.filter(x=>x.stagingLocation.indexOf($event.target.value) >-1);
+      if(locArray && locArray.length > 0){
+        locArray.forEach(item => {
+          if(!this.stagetables.includes(item))
+                      this.stagetables.push(item);
+        }); 
+    }
+  }else {
+    if(!this.Oldstagetables.length) this.Oldstagetables = this.stagetables;
+    this.stagetables = this.Oldstagetables
+  }
+  }
+  async StagingLocsOrderNum($event: any) { 
+    if ($event.key == "Enter" || $event == 'event') {
       this.IsLoading = true;
       var obj: any = {
-        type: "",
-        value: $event.target.value,
+        type: this.type,
+        value: this.OrderNumberTote,
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      var inputVal = $event.target.value;
+      var inputVal = this.OrderNumberTote;
       this.http.get(obj, '/Consolidation/ConsoleDataSB').subscribe((res: any) => {
         if (typeof res?.data == 'string') {
           switch (res?.data) {
@@ -69,48 +86,14 @@ export class CmStagingLocationComponent implements OnInit {
               }
               break;
             case "Conflict":
-              //MessageModal("Staging Locations","You have a conflicting Tote ID and Order Number")
-              // ShowOrderToteConflictModal(inputVal, function getStagingInfo(Type, OrderToteConflictVal) {
-              //     consolidationHub.server.getConsolidationData(Type, OrderToteConflictVal).done(function (data) {
-              //         console.log(data);
-              //         if (typeof data == 'string') {
-              //             switch (data) {
-              //                 case "DNE":
-              //                     MessageModal("Consolidation", "The Order/Tote that you entered is invalid or no longer exists in the system.", function () {
-              //                         $('#StagingLocsOrderNum').val('').focus();
-              //                     })
-              //                     break;
-              //                 case "Conflict":
-              //                     ShowOrderToteConflictModal(value, getTableData)
-              //                     //MessageModal("Consolidation", "The Value you Entered matched a Tote and Order Number, select one to Continue")
-              //                     break;
-              //                 case "Error":
-              //                     MessageModal("Consolidation Error", "An Error occured while retrieving data")
-              //                     break;
-              //             }
-              //         }
-              //         else {
-              //             $('#StagingLocsOrderNum').val(data.OrderNumber)
-              //             for (var x = 0; x < data.toteTable.length; x++) {
-              //                 appendStagingRow(data.toteTable[x], data.OrderNumber, OrderToteConflictVal);
-              //             }
-              //             //If Tote ID was scanned, automatically select that tote, otherwise focus Tote Scan input
-              //             if (data.OrderNumber != OrderToteConflictVal) {
-              //                 $('#StagingContainer').find('input[value="' + OrderToteConflictVal + '"]').parent().siblings('[name="location"]').children().focus();
-              //             } else {
-              //                 $('#stagingToteID').focus();
-              //             }
-              //         }
-              //     })
-              // })
+                this.openCmOrderToteConflict(inputVal); 
               break;
             case "Error":
               this.toast.error("An Error occured while retrieving data", "Consolidation Error", { positionClass: 'toast-bottom-right', timeOut: 2000 });
               break;
           }
         }
-        else {
-          $('#StagingLocsOrderNum').val(res.data.OrderNumber)
+        else { 
           this.stagetables = res.data.consoleDataSB.stageTable;
         }
         this.IsLoading = false;
@@ -149,8 +132,7 @@ export class CmStagingLocationComponent implements OnInit {
           }
         }
       }
-      if(res.isExecuted && index!=null){
-        debugger 
+      if(res.isExecuted && index!=null){ 
         this.stagetables[index].stagingLocation = location;
         this.stagetables[index].location = location; 
 
@@ -168,17 +150,15 @@ export class CmStagingLocationComponent implements OnInit {
     this.OrderNumberTote = null;
   }
   
-  openCmOrderToteConflict() {
- 
-    let dialogRef = this.dialog.open(CmOrderToteConflictComponent, {
+  openCmOrderToteConflict(order:any) { 
+    let dialogRef = this.dialog.open(CmOrderToteConflictComponent, { 
       height: 'auto',
       width: '620px',
-      autoFocus: '__non_existing_element__',
-     
+      autoFocus: '__non_existing_element__', 
     })
-    dialogRef.afterClosed().subscribe(result => {
-      
-      
+    dialogRef.afterClosed().subscribe(result => { 
+        this.type = result;  
+        if(this.type) this.StagingLocsOrderNum('event');
     })
    }
 }
