@@ -56,6 +56,7 @@ export class CCBCountQueueComponent implements OnInit {
   userData: any;
   pageEvent: PageEvent;
   @Output() countEvent = new EventEmitter<string>();
+  @Output() insertEvent = new EventEmitter<string>();
   @Input()
   set event(event: Event) {
    
@@ -153,6 +154,7 @@ this.customPagination.total = 0;
               this.getCountQue();
               this.getCount(0);
               this.ngOnInit();
+              this.insertEvent.emit('insert');
             } else {
               this.toastr.error(
                 'Error',

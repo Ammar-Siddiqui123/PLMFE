@@ -47,7 +47,11 @@ isConfigUser
         let res = val.url.substring(1);
         let withoutParam = res.split('?')[0]
         let splittedArray = withoutParam.split('/'); 
-        splittedArray.forEach(element => {
+        splittedArray.forEach((element,i) => {
+         if(element==='createCountBatches'){
+          element='CycleCounts'
+         }
+          
         this.breadcrumbList.push({
           name: element.toLowerCase() !='adminprefrences'? this.capitalizeFirstLetter(element).replace(/([a-z])([A-Z])/g, "$1 $2").replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2"):'Prefrences',
           menu: element,
