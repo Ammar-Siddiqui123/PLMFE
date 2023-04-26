@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DashboardComponent } from 'src/app/dashboard/dashboard.component';
 
+import { CmPrintOptionsComponent } from './cm-print-options.component';
 
-describe('DashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+describe('CmPrintOptionsComponent', () => {
+  let component: CmPrintOptionsComponent;
+  let fixture: ComponentFixture<CmPrintOptionsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardComponent ]
+      declarations: [ CmPrintOptionsComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DashboardComponent);
+    fixture = TestBed.createComponent(CmPrintOptionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

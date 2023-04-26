@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DashboardComponent } from 'src/app/dashboard/dashboard.component';
 
+import { EventLogComponent } from './event-log.component';
 
-describe('DashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+describe('EventLogComponent', () => {
+  let component: EventLogComponent;
+  let fixture: ComponentFixture<EventLogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardComponent ]
+      declarations: [ EventLogComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DashboardComponent);
+    fixture = TestBed.createComponent(EventLogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

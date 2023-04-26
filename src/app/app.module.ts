@@ -63,6 +63,8 @@ import { CmConfirmAndPackingSelectTransactionComponent } from './dialogs/cm-conf
 import { CmShippingCarrierComponent } from './dialogs/cm-shipping-carrier/cm-shipping-carrier.component';
 import { OrderManagerComponent } from './order-manager/order-manager.component';
 import { CmAddNewItemToShipmentComponent } from './dialogs/cm-add-new-item-to-shipment/cm-add-new-item-to-shipment.component';
+import { CmPrintOptionsComponent } from './dialogs/cm-print-options/cm-print-options.component';
+import { CmOrderToteConflictComponent } from './dialogs/cm-order-tote-conflict/cm-order-tote-conflict.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -113,6 +115,8 @@ import { CmAddNewItemToShipmentComponent } from './dialogs/cm-add-new-item-to-sh
     CmConfirmAndPackingSelectTransactionComponent,
     OrderManagerComponent,
     CmAddNewItemToShipmentComponent,
+    CmPrintOptionsComponent,
+    CmOrderToteConflictComponent,
     // ActionDisableDirective,
   ],
   imports: [

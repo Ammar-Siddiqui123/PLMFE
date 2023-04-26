@@ -56,6 +56,16 @@ export class CCBCountQueueComponent implements OnInit {
   userData: any;
   pageEvent: PageEvent;
   @Output() countEvent = new EventEmitter<string>();
+  @Output() insertEvent = new EventEmitter<string>();
+  @Input()
+  set event(event: Event) {
+   
+    if(event===undefined)return
+    if (event['invMapIDs'] || event['invMapIDs'].length > 0 || event !=undefined || event !=null ) {
+   
+      this.getCountQue();
+    }
+  }
   customPagination: any = {
     total: '',
     recordsPerPage: 10,
@@ -81,9 +91,15 @@ export class CCBCountQueueComponent implements OnInit {
     }
    
   }
+
+  
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }
+
+
+
+
 
   getCountQue() {
     let payload = {
@@ -109,6 +125,8 @@ this.customPagination.total = 0;
       },
       (error) => {}
     );
+
+  
   }
   getCount(count) {
     this.countEvent.emit(count);
@@ -144,6 +162,7 @@ this.customPagination.total = 0;
               this.getCountQue();
               this.getCount(0);
               this.ngOnInit();
+              this.insertEvent.emit('insert');
             } else {
               this.toastr.error(
                 'Error',
@@ -170,10 +189,10 @@ this.customPagination.total = 0;
       data: {
         mode: 'delete-cycle-count',
         actionMessage: 'all records from the Queue',
+        action:'delete'
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      console.log(res);
 
       if (res == 'Yes') {
         let payload = {
