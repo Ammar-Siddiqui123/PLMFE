@@ -147,7 +147,9 @@ export class CmShippingTransactionComponent implements OnInit {
                     (res: any) => {
                       if (res.isExecuted) {
                         this.toast.success('Packing Completed Successfully', 'Success!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
-                        this.dialogRef.close();
+                        this.dialogRef.close({
+                          isExecuted: true,
+                        });
                       } else {
                         this.toast.error('Something went wrong', 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
                       }
@@ -185,7 +187,9 @@ export class CmShippingTransactionComponent implements OnInit {
                         (res: any) => {
                           if (res.isExecuted) {
                             this.toast.success('Packing Completed Successfully', 'Success!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
-                            this.dialogRef.close();
+                            this.dialogRef.close({
+                              isExecuted: true,
+                            });
                           } else {
                             this.toast.error('Something went wrong', 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
                           }
