@@ -56,6 +56,15 @@ export class CCBCountQueueComponent implements OnInit {
   userData: any;
   pageEvent: PageEvent;
   @Output() countEvent = new EventEmitter<string>();
+  @Input()
+  set event(event: Event) {
+   
+    if(event===undefined)return
+    if (event['invMapIDs'] || event['invMapIDs'].length > 0 || event !=undefined || event !=null ) {
+   
+      this.getCountQue();
+    }
+  }
   customPagination: any = {
     total: '',
     recordsPerPage: 10,
@@ -170,10 +179,10 @@ this.customPagination.total = 0;
       data: {
         mode: 'delete-cycle-count',
         actionMessage: 'all records from the Queue',
+        action:'delete'
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      console.log(res);
 
       if (res == 'Yes') {
         let payload = {
