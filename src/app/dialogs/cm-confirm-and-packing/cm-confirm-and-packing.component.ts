@@ -96,12 +96,12 @@ async ClickConfirmAll(){
 } 
 openScanItem(ItemNumber:any,id: any) {
   var index= this.transTable.findIndex(x=>x.sT_ID == id);
-  this.transTable[index].active = true;
+  this.transTable[index].active = true; 
   let dialogRef = this.dialog.open(CmConfirmAndPackingProcessTransactionComponent, {
     height: 'auto',
     width: '96vw',
     autoFocus: '__non_existing_element__',
-    data: {ItemNumber:ItemNumber,orderNumber:this.orderNumber,contID:this.contID,confPackTransTable:this.transTable,id:id}
+    data: {ItemNumber:ItemNumber,orderNumber:this.orderNumber,contID:this.contID,confPackTransTable:this.transTable,id:id,reasons:this.reasons}
   })
   dialogRef.afterClosed().subscribe(result => {
     if(result == 'ConfirmedPacked'){
@@ -163,16 +163,13 @@ if(searchCount == 0){
     wsid: this.userData.wsid
   };
  this.http.get(obj,'/Consolidation/ConfPackProcModalUpdate').subscribe((res:any) => {
-  
+   
   if (res.data == "Fail") {
     this.toast.error('An error has occurred', 'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});  
-} else if (res.data == "Modal") {
+} else if (res.data == "Modal" || true) {
     //show modal here
-  this.openScanItem($event.target.value,id);
-   
- 
-} else {
-  var index =  this.transTable.findIndex(x=>x.itemNumber == $event.target.value);
+  this.openScanItem($event.target.value,id);  
+} else {  var index =  this.transTable.findIndex(x=>x.itemNumber == $event.target.value);
   // this.transTable[index].containerID = this.contID;
   // this.transTable[index].complete = true;
   // this.transTable[index].sT_ID.invalidate(); 
