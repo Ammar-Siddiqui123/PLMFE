@@ -1,20 +1,12 @@
-import { SelectionModel } from '@angular/cdk/collections';
 import { Component, ElementRef, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { ToastrService } from 'ngx-toastr';
-import { ConsolidationManagerService } from '../../consolidation-manager/consolidation-manager.service';
-import { AuthService } from 'src/app/init/auth.service';
-import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-import { FloatLabelType } from '@angular/material/form-field';
-import { FormControl } from '@angular/forms';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSelect } from '@angular/material/select';
-import { MatOption } from '@angular/material/core';
-import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/init/auth.service';
+import { ConsolidationManagerService } from '../../consolidation-manager/consolidation-manager.service';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { CmShipSplitLineComponent } from '../cm-ship-split-line/cm-ship-split-line.component';
 import { CmShipEditConIdComponent } from '../cm-ship-edit-con-id/cm-ship-edit-con-id.component';
 import { CmShipEditQtyComponent } from '../cm-ship-edit-qty/cm-ship-edit-qty.component';
@@ -33,6 +25,7 @@ export class CmShippingTransactionComponent implements OnInit {
   STIndex : any;
 
   displayedColumns: string[] = ['itemNumber', 'lineNumber', 'toteID', 'transactionQuantity', 'completedQuantity', 'containerID', 'shipQuantity', 'action'];
+  OldTableData : any;
   tableData : any;
   @ViewChild(MatSort) sort: MatSort;
   
@@ -289,5 +282,13 @@ export class CmShippingTransactionComponent implements OnInit {
     this.tableData.sort = this.sort;
   }
 
+  filterByItem(value : any) {
+    if(this.OldTableData && this.OldTableData.data.length > 0) {
+      this.tableData = new MatTableDataSource(this.OldTableData.data.filter((x : any) =>  x.itemNumber.includes(value)));
+    } else {
+      this.OldTableData = new MatTableDataSource(this.tableData.data);
+      this.tableData = new MatTableDataSource(this.tableData.data.filter((x : any) =>  x.itemNumber.includes(value)));
+    }
+  }
 
 }

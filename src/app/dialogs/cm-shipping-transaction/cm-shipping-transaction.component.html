@@ -74,7 +74,7 @@
                 <div class="col-xl-3 mb-2">
                     <mat-form-field class="custom-form-field w-100" appearance="outline">
                         <mat-label>Find Item Number</mat-label>
-                        <input matInput type="text">
+                        <input matInput type="text" #fin (input)="filterByItem(fin.value)">
                     </mat-form-field>
                 </div>
             </div>
@@ -120,7 +120,6 @@
                                 </button>
                                 
                                 <mat-menu #appMenu="matMenu">
-                                    <!-- <button class="text-tertiary-800" mat-menu-item><b>Item Label</b></button> -->
                                     <button mat-menu-item (click)="openShipSplitLine(element, i)">Split Line</button>
                                     <button mat-menu-item (click)="openShipPrintItemLabel()">Print Item Label</button>
                                     <button mat-menu-item (click)="openShipEditContainerID(element, i)">Edit Container ID</button>
@@ -128,6 +127,12 @@
                                 </mat-menu>
                             </td>
                         </ng-container>
+
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell " [attr.colspan]="displayedColumns.length">
+                              No data found.
+                            </td>
+                        </tr>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" style=" background-color: #F9F9FF;"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
