@@ -228,7 +228,9 @@ export class CmShippingTransactionComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res && res.isExecuted) {
-        // this.tableData.data[i].shipQuantity = res.shipQuantity;
+        this.tableData.data[i].transactionQuantity = res.orderQty;
+        this.tableData.data[i].completedQuantity = res.pickQty;
+        this.tableData.data[i].shipQuantity = res.shipQty;
       } 
     });
   }
