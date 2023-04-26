@@ -86,7 +86,7 @@ export class GlobalService {
             decimalVal = ".";
             value.substring(1, value.length - 1);
         };
-        while (!isNaN(Number(value)) && value.length > 0) {
+        while (isNaN(Number(value)) && value.length > 0) {
             value = value.substring(0, value.length - 1);
         };
         return decimalVal + value;
@@ -110,19 +110,24 @@ export class GlobalService {
             high: excluded from this call, you do not need to specify this value at all.
     */
     setNumericInRange(value : any, low : any, high : any, allowEmpty : any = false) {
+        console.log('setNumericInRange');
+        console.log(value);
+        console.log(low);
         if (!low.hasOwnProperty('min')) {
-            while ((!isNaN(Number(value)) && value.length > 0) || (parseInt(value) > high && high != null)) {
+            while ((isNaN(Number(value)) && value.length > 0) || (parseInt(value) > high && high != null)) {
                 value = value.substring(0, value.length - 1);
             };
-            if (low != null && value < low && value.trim() != '') value = low;
+            if (low != null && value < low && value.trim() != '') value = low;            
             return value;
         } else {
             let h = low.max;
             let l = low.min;
-            while ((!isNaN(Number(value)) && value.length > 0) || (parseInt(value) > h && h != null)) {
+            while ((isNaN(Number(value)) && value.length > 0) || (parseInt(value) > h && h != null)) {
                 value = value.substring(0, value.length - 1);
             };
             if (l != null && value < l && value.trim() != '' && !allowEmpty) value = l;
+            console.log('value');
+            console.log(value);
             return value;
         };
     }
