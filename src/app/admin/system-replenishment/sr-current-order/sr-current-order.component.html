@@ -98,6 +98,7 @@
                         <th mat-header-cell *matHeaderCellDef> Item Num </th>
                         <td mat-cell *matCellDef="let element"
                         style="cursor: pointer;"
+                        (contextmenu)="onContextMenu($event, element.itemNumber, 'itemNumber')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         > {{element.itemNumber}} </td>
                     </ng-container>
@@ -106,6 +107,7 @@
                     <ng-container matColumnDef="transactionType">
                         <th mat-header-cell *matHeaderCellDef> Trans Type </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.transactionType, 'transactionType')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         > {{element.transactionType}} </td>
                     </ng-container>
@@ -114,6 +116,7 @@
                     <ng-container matColumnDef="warehouse">
                         <th class="px-3" mat-header-cell *matHeaderCellDef> Warehouse </th>
                         <td class="px-3" mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.warehouse, 'warehouse')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.warehouse}}</td>
                     </ng-container>
@@ -122,6 +125,7 @@
                     <ng-container matColumnDef="zone">
                         <th mat-header-cell *matHeaderCellDef> Zone </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.zone, 'zone')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.zone}} </td>
                     </ng-container>
@@ -129,6 +133,7 @@
                     <ng-container matColumnDef="carousel">
                         <th mat-header-cell *matHeaderCellDef> Carsl </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.carousel, 'carousel')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         > {{element.carousel}}</td>
                     </ng-container>
@@ -136,6 +141,7 @@
                     <ng-container matColumnDef="row">
                         <th mat-header-cell *matHeaderCellDef> Row </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.row, 'row')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         > {{element.row}} </td>
                     </ng-container>
@@ -143,6 +149,7 @@
                     <ng-container matColumnDef="shelf">
                         <th mat-header-cell *matHeaderCellDef> Shelf </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.shelf, 'shelf')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.shelf}} </td>
                     </ng-container>
@@ -150,6 +157,7 @@
                     <ng-container matColumnDef="bin">
                         <th mat-header-cell *matHeaderCellDef> Bin </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.bin, 'bin')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.bin}} </td>
                     </ng-container>
@@ -157,6 +165,7 @@
                     <ng-container matColumnDef="cell">
                         <th mat-header-cell *matHeaderCellDef> Cell </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.cell, 'cell')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.cell}} </td>
                     </ng-container>
@@ -164,6 +173,7 @@
                     <ng-container matColumnDef="lotNumber">
                         <th mat-header-cell *matHeaderCellDef> Lot Number </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.lotNumber, 'lotNumber')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.lotNumber}} </td>
                     </ng-container>
@@ -171,6 +181,7 @@
                     <ng-container matColumnDef="transactionQuantity">
                         <th mat-header-cell *matHeaderCellDef> Trans Qty </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.transactionQuantity, 'transactionQuantity')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.transactionQuantity}} </td>
                     </ng-container>
@@ -178,6 +189,7 @@
                     <ng-container matColumnDef="description">
                         <th mat-header-cell *matHeaderCellDef> Description </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.description, 'description')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.description}} </td>
                     </ng-container>
@@ -185,6 +197,7 @@
                     <ng-container matColumnDef="orderNumber">
                         <th mat-header-cell *matHeaderCellDef> Order Number </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.orderNumber, 'orderNumber')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.orderNumber}} </td>
                     </ng-container>
@@ -192,6 +205,7 @@
                     <ng-container matColumnDef="unitOfMeasure">
                         <th mat-header-cell *matHeaderCellDef> UofM </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.unitOfMeasure, 'unitOfMeasure')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.unitOfMeasure}} </td>
                     </ng-container>
@@ -199,6 +213,7 @@
                     <ng-container matColumnDef="batchPickID">
                         <th mat-header-cell *matHeaderCellDef> Batch Pick ID </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.batchPickID, 'batchPickID')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.batchPickID}} </td>
                     </ng-container>
@@ -206,6 +221,7 @@
                     <ng-container matColumnDef="serialNumber">
                         <th mat-header-cell *matHeaderCellDef> Serial Number </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.serialNumber, 'serialNumber')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.serialNumber}} </td>
                     </ng-container>
@@ -213,6 +229,7 @@
                     <ng-container matColumnDef="completedDate">
                         <th mat-header-cell *matHeaderCellDef> Comp Date </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.completedDate, 'completedDate')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.completedDate}} </td>
                     </ng-container>
@@ -220,6 +237,7 @@
                     <ng-container matColumnDef="printDate">
                         <th mat-header-cell *matHeaderCellDef> Print Date </th>
                         <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onContextMenu($event, element.printDate, 'printDate')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.printDate}} </td>
                     </ng-container>
@@ -269,3 +287,39 @@
         </div>
     </mat-card-content>
 </mat-card>
+
+
+<div #trigger="matMenuTrigger"
+style="visibility: hidden; position: fixed"
+[style.left]="contextMenuPosition.x"
+[style.top]="contextMenuPosition.y"
+[matMenuTriggerFor]="contextMenuFilter"
+></div>
+<mat-menu #contextMenuFilter="matMenu">
+<ng-template matMenuContent let-item="item">
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'equals to',getType(item.SelectedItem))"> Equals</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is not equals to', getType(item.SelectedItem))">Not Equals</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is greater than or equal to', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'number' || getType(item.FilterColumnName) == 'date'" >Greater than or Equal</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is less than or equal to', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'number' || getType(item.FilterColumnName) == 'date'" >Less than or Equal</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is like', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'string' && getType(item.FilterColumnName) != 'date'" >Like</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is not like', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'string' && getType(item.FilterColumnName) != 'date'" >Not Like</button>
+  <button mat-menu-item [matMenuTriggerFor]="InputFiltersList" [matMenuTriggerData]="{category: item}" *ngIf="getType(item.SelectedItem) != 'boolean'" >Input FIlters</button>
+  <button mat-menu-item (click)="onContextMenuCommand('', '', 'clear', '')">Clear Filters</button>
+</ng-template>
+</mat-menu>
+
+<mat-menu #InputFiltersList="matMenu">
+    <ng-template matMenuContent let-category="category">
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'equals to', getType(category.SelectedItem))">Equals</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is not equals to', getType(category.SelectedItem))">Not Equals</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'begins with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Begins</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not begins with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not Begin</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'ends with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Ends With</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not ends with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not End With</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'contains', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Contains</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not contains', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not Contain</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is less than', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Less Than</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is greater than', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Greater Than</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is between', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Between</button>
+    </ng-template>
+</mat-menu>
