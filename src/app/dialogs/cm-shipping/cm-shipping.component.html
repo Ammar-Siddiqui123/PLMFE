@@ -40,7 +40,7 @@
     <mat-form-field class="action-dropdown" appearance="outline">
         <mat-label>Actions</mat-label>
         <mat-select #matRef class="employees-action" placeholder="Actions">
-            <mat-option value="0"> Add New </mat-option>
+            <mat-option value="0" (click)="openCmAddNewItem()"> Add New </mat-option>
             <mat-option value="1"> Print All </mat-option>
         </mat-select>
         <span class="material-symbols-outlined icon-expand-more">
