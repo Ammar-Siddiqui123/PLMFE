@@ -14,7 +14,11 @@ export class CreateCountBatchesComponent implements OnInit {
   event: Event;
   ngOnInit(): void {}
   getCount(value) {
+ 
     this.countQueValue = value;
+  }
+  insertQueEvnt(e) {
+    this.selectedIndex =0;
   }
   public nextStep(e) {
     this.selectedIndex += 1;
