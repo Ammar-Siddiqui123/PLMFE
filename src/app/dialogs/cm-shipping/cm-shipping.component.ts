@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { ToastrService } from 'ngx-toastr';
 import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
+import { CmAddNewItemToShipmentComponent } from '../cm-add-new-item-to-shipment/cm-add-new-item-to-shipment.component';
 
 export interface PeriodicElement {
   name: string;
@@ -129,5 +130,17 @@ async updateShipmentItem(element:any){
       this.toast.error("An error has occurred","Error",  { positionClass: 'toast-bottom-right',timeOut: 2000});
     }
   });
+ }
+openCmAddNewItem() {
+  let dialogRef = this.dialog.open(CmAddNewItemToShipmentComponent, {
+    height: 'auto',
+    width: '560px',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
  }
 }
