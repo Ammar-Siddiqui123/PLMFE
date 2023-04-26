@@ -154,4 +154,12 @@ export class GlobalService {
         let spaceIndex = value.indexOf(' ');
         if (spaceIndex != -1) return value.substring(0, spaceIndex);
     };
+
+    /*
+    Prevents the string "null" or "nothing" from being inserted into a particular element.  (Only come across this when server returns Nothing as an object type.)
+    */
+    setNullEmptyStr(value : any) {
+        if (value == null) return ''
+        else return String(value);
+    };
 }
