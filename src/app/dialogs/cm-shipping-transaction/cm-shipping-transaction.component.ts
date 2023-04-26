@@ -32,16 +32,9 @@ export class CmShippingTransactionComponent implements OnInit {
   toteID: string = '';
   STIndex : any;
 
-  ELEMENT_DATA: any[] =[
-    {item_no: '30022', line_no: '30022', tote_id: '30022', order_qty: 'Work 2141', picked_qty: '212', container_id: '123641', ship_qty: '999' },
-    {item_no: '30022', line_no: '30022', tote_id: '30022', order_qty: 'Work 2141', picked_qty: '212', container_id: '123641', ship_qty: '999' },
-    {item_no: '30022', line_no: '30022', tote_id: '30022', order_qty: 'Work 2141', picked_qty: '212', container_id: '123641', ship_qty: '999' },   
-  ];  
-  displayedColumns: string[] = ['item_no', 'line_no', 'tote_id', 'order_qty', 'picked_qty', 'container_id', 'ship_qty', 'action'];
-  tableData : any = this.ELEMENT_DATA
-  dataSourceList : any;
+  displayedColumns: string[] = ['itemNumber', 'lineNumber', 'toteID', 'transactionQuantity', 'completedQuantity', 'containerID', 'shipQuantity', 'action'];
+  tableData : any;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   
   constructor(private dialog          : MatDialog,
               public dialogRef        : MatDialogRef<CmShippingTransactionComponent>,
@@ -59,7 +52,7 @@ export class CmShippingTransactionComponent implements OnInit {
   getShippingTransactionIndex() {
     try {
       var payLoad = {
-        orderNumber : this.data && this.data.orderNum ? this.data.orderNum : '',
+        orderNumber : this.data && this.data.orderNum ? this.data.orderNum : '2909782A',
         username: this.userData.userName,
         wsid: this.userData.wsid
       };
@@ -68,6 +61,7 @@ export class CmShippingTransactionComponent implements OnInit {
         (res: any) => {
           if (res.isExecuted) {
             this.STIndex = res.data;
+            this.tableData = new MatTableDataSource(this.STIndex.tableData);
           } else {
             this.toast.error('Something went wrong', 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
           }
@@ -79,21 +73,18 @@ export class CmShippingTransactionComponent implements OnInit {
     }
   }
 
-  async onKey(event : any, type : string) {
+  async onKey(event : any, type : string) {    
     if (event.key === 'Enter') {
       if (type == 'toteIDtoUpdate' && this.toteID != "") {        
         this.checkToteID();
-      } 
-      // else if (type == 'location' && this.location != "") {
-        // this.scanLocation();
-      // }      
+      }    
     }
   }
 
   checkToteID() {
     var noExists = false;      
-    for (var x = 0; x < this.tableData; x++) {
-        var tabTote = this.tableData.data[x].tote_id;
+    for (var x = 0; x < this.tableData.data.length; x++) {
+        var tabTote = this.tableData.data[x].toteID;
         if (this.toteID == tabTote) {
             this.openToteIDUpdate();
             noExists = false;
@@ -114,23 +105,31 @@ export class CmShippingTransactionComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         toteID : this.toteID,
-        orderNumber : this.data.orderNumber
+        orderNumber : this.data && this.data.orderNum ? this.data.orderNum : '2909782A'
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {});
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res.isExecuted) {
+        for (var x = 0; x < this.tableData.data.length; x++) {
+          if (res.toteID == this.tableData.data[x].toteID) {
+              this.tableData.data[x].containerID = res.containerID;
+          }
+        } 
+      }      
+    });
   }
 
   completePacking() {
     try {
 
       var payLoad = {
-        orderNumber: this.data.orderNumber,
+        orderNumber: this.data && this.data.orderNum ? this.data.orderNum : '2909782A',
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
 
-      this.service.get(payLoad, '/Consolidation/selCountOpenTransactionsTemp').subscribe(
+      this.service.get(payLoad, '/Consolidation/SelCountOfOpenTransactionsTemp').subscribe(
         (res: any) => {
           if (res.isExecuted) {
 
@@ -151,7 +150,7 @@ export class CmShippingTransactionComponent implements OnInit {
       
               dialogRef.afterClosed().subscribe((result) => {
                 if (result == 'Yes') {
-                  this.service.create(payLoad, '/Consolidation/updCompletePacking').subscribe(
+                  this.service.create(payLoad, '/Consolidation/CompletePackingUpdate').subscribe(
                     (res: any) => {
                       if (res.isExecuted) {
                         this.toast.success('Packing Completed Successfully', 'Success!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
@@ -189,7 +188,7 @@ export class CmShippingTransactionComponent implements OnInit {
 
                   dialogRef2.afterClosed().subscribe((result) => {
                     if (result == 'Yes') {
-                      this.service.create(payLoad, '/Consolidation/updCompletePacking').subscribe(
+                      this.service.create(payLoad, '/Consolidation/CompletePackingUpdate').subscribe(
                         (res: any) => {
                           if (res.isExecuted) {
                             this.toast.success('Packing Completed Successfully', 'Success!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
@@ -216,7 +215,7 @@ export class CmShippingTransactionComponent implements OnInit {
     }
   }
 
-  openShipSplitLine(order : any) {
+  openShipSplitLine(order : any, i : any) {
     let dialogRef = this.dialog.open(CmShipSplitLineComponent, {
       height: 'auto',
       width: '96vw',
@@ -227,7 +226,13 @@ export class CmShippingTransactionComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {});
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res.isExecuted) {
+        this.tableData.data[i].transactionQuantity = res.orderQty;
+        this.tableData.data[i].completedQuantity = res.pickQty;
+        this.tableData.data[i].shipQuantity = res.shipQty;
+      } 
+    });
   }
 
   openShipPrintItemLabel() {
@@ -240,7 +245,7 @@ export class CmShippingTransactionComponent implements OnInit {
     // dialogRef.afterClosed().subscribe(result => {});
   }
 
-  openShipEditQuantity(order : any) {
+  openShipEditQuantity(order : any, i : any) {
     let dialogRef = this.dialog.open(CmShipEditQtyComponent, {
       height: 'auto',
       width: '96vw',
@@ -251,14 +256,14 @@ export class CmShippingTransactionComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.tableData.data = result;
-      }
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res.isExecuted) {
+        this.tableData.data[i].shipQuantity = res.shipQuantity;
+      } 
     });
   }
 
-  openShipEditContainerID(order : any) {
+  openShipEditContainerID(order : any, i : any) {
     let dialogRef = this.dialog.open(CmShipEditConIdComponent, {
       height: 'auto',
       width: '96vw',
@@ -268,7 +273,11 @@ export class CmShippingTransactionComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {});
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res.isExecuted) {
+        this.tableData.data[i].containerID = res.containerID;
+      }  
+    });
   }
 
   announceSortChange(sortState: Sort) {
