@@ -91,9 +91,15 @@ export class CCBCountQueueComponent implements OnInit {
     }
    
   }
+
+  
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }
+
+
+
+
 
   getCountQue() {
     let payload = {
@@ -119,6 +125,8 @@ this.customPagination.total = 0;
       },
       (error) => {}
     );
+
+  
   }
   getCount(count) {
     this.countEvent.emit(count);

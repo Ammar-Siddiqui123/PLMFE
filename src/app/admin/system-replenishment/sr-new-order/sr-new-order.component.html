@@ -140,52 +140,52 @@
 
                     <ng-container matColumnDef="Item Number">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Number </th>
-                        <td mat-cell *matCellDef="let element"> {{element.itemNumber}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.itemNumber, 'itemNumber')"> {{element.itemNumber}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Description">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-                        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.description, 'description')"> {{element.description}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Warehouse">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse </th>
-                        <td mat-cell *matCellDef="let element"> {{element.warehouse}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.warehouse, 'warehouse')"> {{element.warehouse}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Stock Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock Qty </th>
-                        <td mat-cell *matCellDef="let element"> {{element.stockQuantity}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.stockQuantity, 'stockQuantity')"> {{element.stockQuantity}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Replenishment Point">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenishment Point </th>
-                        <td mat-cell *matCellDef="let element"> {{element.replenishmentPoint}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentPoint, 'replenishmentPoint')"> {{element.replenishmentPoint}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Replenishment Level">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenishment Level </th>
-                        <td mat-cell *matCellDef="let element"> {{element.replenishmentLevel}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentLevel, 'replenishmentLevel')"> {{element.replenishmentLevel}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Available Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Available Qty </th>
-                        <td mat-cell *matCellDef="let element"> {{element.availableQuantity}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.availableQuantity, 'availableQuantity')"> {{element.availableQuantity}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Replenishment Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenishment Qty </th>
-                        <td mat-cell *matCellDef="let element"> {{element.replenishmentQuantity}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentQuantity, 'replenishmentQuantity')"> {{element.replenishmentQuantity}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Case Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Case Qty </th>
-                        <td mat-cell *matCellDef="let element"> {{element.caseQuantity}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.caseQuantity, 'caseQuantity')"> {{element.caseQuantity}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Transaction Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Qty </th>
-                        <td mat-cell *matCellDef="let element">
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.transactionQuantity, 'transactionQuantity')">
                             <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline"
                                 (click)="editTransDialog(element)">
                                 <input matInput type="text" maxlength="50" readonly="true" value="000000" [ngModel]="element.transactionQuantity">
@@ -220,12 +220,12 @@
 
                     <ng-container matColumnDef="Alloc Pick">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Allocated Pick </th>
-                        <td mat-cell *matCellDef="let element"> {{element.allocPick}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.allocPick, 'allocPick')"> {{element.allocPick}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Alloc Put">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Allocated Put </th>
-                        <td mat-cell *matCellDef="let element"> {{element.allocPut}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.allocPut, 'allocPut')"> {{element.allocPut}} </td>
                     </ng-container>
 
                     <!-- Action Column -->
@@ -272,3 +272,39 @@
         Process Replenishments
     </button>
 </div>
+
+
+<div #trigger="matMenuTrigger"
+style="visibility: hidden; position: fixed"
+[style.left]="contextMenuPosition.x"
+[style.top]="contextMenuPosition.y"
+[matMenuTriggerFor]="contextMenuFilter"
+></div>
+<mat-menu #contextMenuFilter="matMenu">
+<ng-template matMenuContent let-item="item">
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'equals to',getType(item.SelectedItem))"> Equals</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is not equals to', getType(item.SelectedItem))">Not Equals</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is greater than or equal to', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'number' || getType(item.FilterColumnName) == 'date'" >Greater than or Equal</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is less than or equal to', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'number' || getType(item.FilterColumnName) == 'date'" >Less than or Equal</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is like', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'string' && getType(item.FilterColumnName) != 'date'" >Like</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is not like', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'string' && getType(item.FilterColumnName) != 'date'" >Not Like</button>
+  <button mat-menu-item [matMenuTriggerFor]="InputFiltersList" [matMenuTriggerData]="{category: item}" *ngIf="getType(item.SelectedItem) != 'boolean'" >Input FIlters</button>
+  <button mat-menu-item (click)="onContextMenuCommand('', '', 'clear', '')">Clear Filters</button>
+</ng-template>
+</mat-menu>
+
+<mat-menu #InputFiltersList="matMenu">
+    <ng-template matMenuContent let-category="category">
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'equals to', getType(category.SelectedItem))">Equals</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is not equals to', getType(category.SelectedItem))">Not Equals</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'begins with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Begins</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not begins with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not Begin</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'ends with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Ends With</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not ends with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not End With</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'contains', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Contains</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not contains', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not Contain</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is less than', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Less Than</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is greater than', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Greater Than</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is between', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Between</button>
+    </ng-template>
+  </mat-menu>

@@ -27,6 +27,8 @@ private subscription: Subscription = new Subscription();
   ) {}
 
   ngOnInit(): void {
+
+
     this.userData = this.authService.userData();
 
     this.isDefaultAppVerify =  JSON.parse(localStorage.getItem('isAppVerified') || '');
