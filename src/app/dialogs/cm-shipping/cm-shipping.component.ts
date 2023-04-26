@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CmAddNewItemToShipmentComponent } from '../cm-add-new-item-to-shipment/cm-add-new-item-to-shipment.component';
 
 export interface PeriodicElement {
   name: string;
@@ -24,10 +26,23 @@ export class CmShippingComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'ex', 'srno', 'replishment', 'case', 'transaction', 'replenish', 'exists', 'action'];
   tableData = ELEMENT_DATA;
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
   
 
   ngOnInit(): void {
   }
+
+  openCmAddNewItem() {
+    let dialogRef = this.dialog.open(CmAddNewItemToShipmentComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+     
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+   }
 
 }
