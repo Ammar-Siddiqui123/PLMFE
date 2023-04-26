@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { GlobalService } from 'src/app/common/services/global.service';
 import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
 
@@ -26,9 +27,11 @@ export class CmShipEditQtyComponent implements OnInit {
               private toast: ToastrService,
               private service: ConsolidationManagerService,
               private authService: AuthService,
+              public globalService: GlobalService,
               @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
+    this.userData = this.authService.userData();
   }
 
   validate() {
@@ -62,9 +65,9 @@ export class CmShipEditQtyComponent implements OnInit {
   saveAdjustShipQty() {
     try {
       var payLoad = {
-        stid : this.data.order.id,
-        adjustShipQty: this.adjustShipQty,
-        adjustReason: this.adjustReason,
+        stid : this.data.order.sT_ID,
+        shipQTY: this.adjustShipQty,
+        reason: this.adjustReason,
         username: this.userData.userName,
       }
       this.service.create(payLoad, '/Consolidation/ShipQTYShipTransUpdate').subscribe((res:any)=>{
@@ -79,10 +82,15 @@ export class CmShipEditQtyComponent implements OnInit {
           };
 
           if (!Exists) this.data.reasons.push(this.adjustReason)
+          
+          this.dialogRef.close({
+            isExecuted: true,
+            shipQuantity: this.adjustShipQty
+          });
 
           this.adjustShipQty = '';
           this.adjustReason = '';
-          this.dialogRef.close(res.data);
+
         } else {
           this.toast.error('Something went wrong', 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
         }

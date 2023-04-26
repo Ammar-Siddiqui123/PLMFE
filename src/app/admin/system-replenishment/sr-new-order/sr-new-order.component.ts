@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { TransactionQtyEditComponent } from 'src/app/dialogs/transaction-qty-edit/transaction-qty-edit.component';
@@ -9,6 +9,9 @@ import labels from '../../../labels/labels.json'
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { FilterItemNumbersComponent } from '../../dialogs/filter-item-numbers/filter-item-numbers.component';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
+import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 
 
 @Component({
@@ -65,7 +68,8 @@ export class SrNewOrderComponent implements OnInit {
     private systemReplenishmentService: SystemReplenishmentService,
     private toastr: ToastrService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private filterService: ContextMenuFiltersService
   ) { }
 
   ngOnInit(): void {
@@ -73,6 +77,63 @@ export class SrNewOrderComponent implements OnInit {
     this.tablePayloadObj.username = this.userData.userName;
     this.tablePayloadObj.wsid = this.userData.wsid;
   }
+
+  @ViewChild('trigger') trigger: MatMenuTrigger;
+  contextMenuPosition = { x: '0px', y: '0px' };
+  onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.trigger.menuData = { item: { SelectedItem: SelectedItem, FilterColumnName: FilterColumnName, FilterConditon: FilterConditon, FilterItemType: FilterItemType } };
+    this.trigger.menu?.focusFirstItem('mouse');
+    this.trigger.openMenu();
+  }
+
+  onClick() {
+    debugger
+    this.trigger.closeMenu();
+  }
+
+  getType(val): string {
+    return this.filterService.getType(val);
+  }
+
+  FilterString: string = "";
+  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
+    // this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+    console.log(this.FilterString);
+    this.tablePayloadObj.filter = this.FilterString;
+    this.newReplenishmentOrders();
+    this.tablePayloadObj.filter = "1=1";
+  }
+
+  InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
+    const dialogRef = this.dialog.open(InputFilterComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        FilterColumnName: FilterColumnName,
+        Condition: Condition,
+        TypeOfElement: TypeOfElement
+      },
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
+    }
+    );
+  }
+
+  ClearFilters()
+  {
+    this.tablePayloadObj.filter = "1=1";
+    this.newReplenishmentOrders();
+  }
+
+
+
 
   editTransDialog(element: any): void {
     const dialogRef = this.dialog.open(TransactionQtyEditComponent, {
@@ -104,11 +165,13 @@ export class SrNewOrderComponent implements OnInit {
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
         this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
         this.changeSearchOptions();
+        this.tablePayloadObj.filter = "1=1";
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
+        this.tablePayloadObj.filter = "1=1";
       }
     });
   }
@@ -191,7 +254,6 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   changeSearchOptions() {
-    debugger
     if (this.tablePayloadObj.searchColumn != "") {
       let key = this.searchColumnOptions.filter((item: any) => item.value == this.tablePayloadObj.searchColumn)[0].key;
       this.searchAutocompleteList = [];
@@ -235,7 +297,7 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   unSelectAll() {
-    if (confirm(`Click OK to unmark ${( (this.tablePayloadObj.reOrder == '' || this.tablePayloadObj.reOrder == 'all') ? 'all' : 'Re-Order')} entries.`)) {
+    if (confirm(`Click OK to unmark ${((this.tablePayloadObj.reOrder == '' || this.tablePayloadObj.reOrder == 'all') ? 'all' : 'Re-Order')} entries.`)) {
       this.ReplenishmentsIncludeAllUpdate(false);
     }
     // this.filteredTableData.forEach((element: any) => {
@@ -280,7 +342,7 @@ export class SrNewOrderComponent implements OnInit {
     });
   }
 
-  changeReplenish(element:any,$event:any) {
+  changeReplenish(element: any, $event: any) {
     this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
     this.ReplenishmentsIncludeUpdate($event.checked, element.rP_ID);
   }

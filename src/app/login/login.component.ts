@@ -113,6 +113,7 @@ export class LoginComponent {
 
 
   ngOnInit() {
+    console.log('-------------------test message, checking pipeline');
     this.version = packJSON.version;
     localStorage.clear();
     if(this.auth.IsloggedIn()){

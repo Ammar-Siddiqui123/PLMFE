@@ -175,6 +175,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.searchField
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
         if(value==='') return
         this.fillData();
 
@@ -190,6 +191,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.descriptionTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
         if(value==='') return
 
         this.getTypeAheads('Description');
@@ -199,6 +201,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.fromLocationTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
         this.getTypeAheads('FromLocation');
         this.fillData();
       });
@@ -206,6 +209,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.toLocationTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
         this.getTypeAheads('ToLocation');
         this.fillData();
       });
@@ -213,6 +217,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.fromItemTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
         if(value==='') return
 
         this.getTypeAheads('FromItem');
@@ -222,6 +227,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.toItemTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
         if(value==='') return
 
         this.getTypeAheads('ToItem');
@@ -231,6 +237,8 @@ export class CCBCreateCountsComponent implements OnInit {
     this.categoryTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log('category',value)
+        
         if(value==='') return
 
         this.getTypeAheads('Category');
@@ -240,6 +248,8 @@ export class CCBCreateCountsComponent implements OnInit {
     this.beginCostTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
+
         if(value==='') return
 
         this.getTypeAheads('BeginCost');
@@ -249,6 +259,8 @@ export class CCBCreateCountsComponent implements OnInit {
     this.endCostTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
+
         if(value==='') return
 
         this.getTypeAheads('EndCost');
