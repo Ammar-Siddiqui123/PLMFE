@@ -1,11 +1,11 @@
-import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
-import { Router } from "angular-routing";
+import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog"; 
 import { ToastrService } from "ngx-toastr";
 
 
 import { AuthService } from "src/app/init/auth.service";
 import { Component, Inject, OnInit } from "@angular/core";
 import { ConsolidationManagerService } from "src/app/consolidation-manager/consolidation-manager.service";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: 'app-cm-item-selected',
@@ -40,12 +40,11 @@ export class CmItemSelectedComponent implements OnInit {
 
   ];
 
- displayedColumns: string[] = ['tote_id', 'status', 'location', 'staged_by', 'staged_date'];
+ displayedColumns: string[] = ['itemNumber', 'warehouse', 'completedQuantity', 'toteID', 'serialNumber', 'userField1','lotNumber'];
  itemSelectTable:any
  dataSourceList:any
  
-  constructor(private dialog: MatDialog, private toastr: ToastrService,
-    private router: Router, private consolidationHub: ConsolidationManagerService, private authService: AuthService, 
+  constructor(private dialog: MatDialog, private toastr: ToastrService, private consolidationHub: ConsolidationManagerService, private authService: AuthService, 
      @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
@@ -68,7 +67,11 @@ export class CmItemSelectedComponent implements OnInit {
     }
 
     this.consolidationHub.get(payload ,'/Consolidation/ItemModelData').subscribe((res=>{
-        console.log(res)
+        // res.data = this.itemSelectTable
+        // new MatTableDataSource(res.data.consolidationTable2)
+        this.itemSelectTable= new MatTableDataSource(res.data);
+
+        // console.log(this.itemSelectTable)
 
        
     }))
