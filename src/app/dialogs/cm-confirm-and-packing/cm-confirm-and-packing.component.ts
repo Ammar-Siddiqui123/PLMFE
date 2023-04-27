@@ -49,9 +49,7 @@ displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transacti
    
   }
   async NextContID(){ 
-  if (this.contID == '') {
-    this.toast.error("An error has occurred",'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});
-}  
+    this.ConfirmAndPackingIndex(true)
 }
 
 async UnPack(id:any){  
@@ -69,7 +67,7 @@ async UnPack(id:any){
 }
  
  
-ConfirmAndPackingIndex(){ 
+ConfirmAndPackingIndex(NextContID:any = null){ 
 
 
 if(this.orderNumber != ""){
@@ -85,6 +83,9 @@ if(this.orderNumber != ""){
   this.contIDDrop = res.data.confPackContIDDrop;
   this.confPackEnable = res.data.confPackEnable;
   this.contID = res.data.contIDConfirmPack;
+  if (this.contID == '' && NextContID) {
+    this.toast.error("An error has occurred",'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});
+}  
   this.reasons = res.data.adjustmentReason;
   this.shipComp = res.data.confPackShipComp;
   this.PrintPrefs = res.data.confPackPrintPrefs; 
