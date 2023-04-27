@@ -45,8 +45,8 @@ export class ConsolidationComponent implements OnInit {
   public nextOrderbtn:boolean = false;
   public unverifybtn:boolean = true;
   public verifybtn:boolean = true;
-  public packingbtn:boolean = false;
-  public stagingbtn:boolean = false;
+  public packingbtn:boolean = true;
+  public stagingbtn:boolean = true;
   public shippingbtb:boolean = true;
   public orderstatusbtn:boolean = false;
 
@@ -155,10 +155,8 @@ export class ConsolidationComponent implements OnInit {
       "orderNumber": this.TypeValue
     }
     this.consolidationHub.get(payload, '/Consolidation/ConsolidationIndex').subscribe((res: any) => {
-      // console.log(res)
       if(res.isExecuted){
         this.consolidationIndex = res.data;
-        // console.log(this.consolidationIndex)
       }
     });
   }
@@ -658,14 +656,14 @@ export class ConsolidationComponent implements OnInit {
     width: '96vw',
     autoFocus: '__non_existing_element__',
     data: {
-      orderNum: '2909782A',
+      orderNum: this.TypeValue ? this.TypeValue : '2909782A',
     }
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    
-    
-  })
+  });
+
+  dialogRef.afterClosed().subscribe(result => {      
+  });
  }
+
  openCmConfirmPacking() {
   let dialogRef = this.dialog.open(CmConfirmAndPackingComponent, {
     height: 'auto',
@@ -729,6 +727,14 @@ export class ConsolidationComponent implements OnInit {
     
     
   })
+ }
+ 
+ openPacking() {
+  if (this.consolidationIndex.cmPreferences.confirmAndPacking) {
+    this.openCmConfirmPacking();
+  } else {
+    this.openCmShippingTransaction()
+  }
  }
 
 }
