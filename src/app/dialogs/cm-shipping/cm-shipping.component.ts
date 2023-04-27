@@ -29,7 +29,7 @@ export class CmShippingComponent implements OnInit {
   displayedColumns: string[] = ['containerID', 'carrier', 'trackingNum','action'];
   tableData = ELEMENT_DATA;
   userData:any = {};
-  orderNumber:any = '2910098';
+  orderNumber:any;
   shippingData:any[]=[];
   carriers:any[]=[];
   shippingComp:any = false;
@@ -37,19 +37,25 @@ export class CmShippingComponent implements OnInit {
    constructor(private http:ConsolidationManagerService,private authService: AuthService,private toast:ToastrService,private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CmShippingComponent>,) { 
-      // this.orderNumber = this.data.orderNumber;
+     this.orderNumber = this.data.orderNumber;
     this.userData = this.authService.userData();
   }
 
   ngOnInit(): void {
-    this.ShippingIndex();
+    this.shippingData = [];
+    this.carriers = [];
+    this.shippingPreferences = {};
+    this.shippingComp = false;  
+      this.ShippingIndex(); 
   }
 async ShippingIndex(){
+ if(this.orderNumber != ""){
  var obj : any= {
     orderNumber: this.orderNumber ,
     userName: this.userData.userName,
     wsid: this.userData.wsid
   }
+  debugger
  this.http.get(obj,'/Consolidation/ShippingIndex').subscribe((res:any) => {
   if (res && res.isExecuted) {
   this.shippingData = res.data.shippingData;
@@ -59,6 +65,7 @@ async ShippingIndex(){
   this.orderNumber = res.data.orderNumber;
   }
 });
+}
 }
 async DeleteItem(element:any){
  var obj :any= 

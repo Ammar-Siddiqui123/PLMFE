@@ -31,7 +31,7 @@ export class CmStagingLocationComponent implements OnInit {
   stagetables: any[] = [];
   Oldstagetables: any[] = [];
   IsLoading: any = false;
-  type: any = "ordernumber";
+  type: any = "";
   OrderNumberTote: any = null;
   constructor(private toast: ToastrService,
     private http: ConsolidationManagerService,
@@ -65,12 +65,12 @@ export class CmStagingLocationComponent implements OnInit {
       this.IsLoading = true;
       var obj: any = {
         type: this.type,
-        value: this.OrderNumberTote,
+        selValue: this.OrderNumberTote,
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
       var inputVal = this.OrderNumberTote;
-      this.http.get(obj, '/Consolidation/ConsoleDataSB').subscribe((res: any) => {
+      this.http.get(obj, '/Consolidation/ConsolidationData').subscribe((res: any) => {
         if (typeof res?.data == 'string') {
           switch (res?.data) {
             case "DNE":
@@ -94,7 +94,7 @@ export class CmStagingLocationComponent implements OnInit {
           }
         }
         else { 
-          this.stagetables = res.data.consoleDataSB.stageTable;
+          this.stagetables = res.data.stageTable;
         }
         this.IsLoading = false;
       });
