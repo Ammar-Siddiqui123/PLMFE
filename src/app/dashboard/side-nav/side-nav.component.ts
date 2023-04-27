@@ -67,8 +67,8 @@ export class SideNavComponent implements OnInit {
   ];
 
   consolidationMenus: any = [
-    { icon: 'arrow_back', title: 'Consolidation Manager', route: '/ConsolidationManager', class: 'back-class' , permission: 'Consolidation Manager'},
-    { icon: 'directions_alt', title: 'Consolidation', route: '#', class: 'back-class' , permission: 'Consolidation'},
+    { icon: 'arrow_back', title: 'Consolidation Manager', route: '/dashboard', class: 'back-class' , permission: 'Consolidation Manager'},
+    { icon: 'directions_alt', title: 'Consolidation', route: '/ConsolidationManager/consolidation', class: 'back-class' , permission: 'Consolidation'},
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
     
     { icon: 'directions_alt', title: 'Staging Locations', route: '/Consolidation/StagingLocations' ,permission:'Staging Locations'}
