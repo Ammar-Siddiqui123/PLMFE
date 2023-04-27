@@ -27,6 +27,8 @@ private subscription: Subscription = new Subscription();
   ) {}
 
   ngOnInit(): void {
+
+
     this.userData = this.authService.userData();
 
     this.isDefaultAppVerify =  JSON.parse(localStorage.getItem('isAppVerified') || '');
@@ -145,7 +147,7 @@ private subscription: Subscription = new Subscription();
       },
       {
         appName: 'Consolidation Manager',
-        route: '#',
+        route: '/ConsolidationManager',
         iconName: 'insert_chart',
         name: 'Consolidation Manager',
         updateMenu: '',

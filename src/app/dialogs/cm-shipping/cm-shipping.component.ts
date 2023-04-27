@@ -1,20 +1,9 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { ConsolidationManagerService } from '../../consolidation-manager/consolidation-manager.service';
+import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
-import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-import { FloatLabelType } from '@angular/material/form-field';
-import { FormControl } from '@angular/forms';
-import { MatSort, Sort } from '@angular/material/sort';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSelect } from '@angular/material/select';
-import { MatOption } from '@angular/material/core';
-import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
+import { CmAddNewItemToShipmentComponent } from '../cm-add-new-item-to-shipment/cm-add-new-item-to-shipment.component';
 
 export interface PeriodicElement {
   name: string;
@@ -37,16 +26,133 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class CmShippingComponent implements OnInit {
   
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'ex', 'srno', 'replishment', 'case', 'transaction', 'replenish', 'exists', 'action'];
+  displayedColumns: string[] = ['containerID', 'carrier', 'trackingNum','action'];
   tableData = ELEMENT_DATA;
-
-  constructor(private dialog: MatDialog,
-              private toastr: ToastrService,
-              private service: ConsolidationManagerService,
-              private authService: AuthService,
-              private _liveAnnouncer: LiveAnnouncer) { }
-  
-  ngOnInit(): void {
+  userData:any = {};
+  orderNumber:any;
+  shippingData:any[]=[];
+  carriers:any[]=[];
+  shippingComp:any = false;
+  shippingPreferences:any={};
+   constructor(private http:ConsolidationManagerService,private authService: AuthService,private toast:ToastrService,private dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<CmShippingComponent>,) { 
+     this.orderNumber = this.data.orderNumber;
+    this.userData = this.authService.userData();
   }
 
+  ngOnInit(): void {
+    this.shippingData = [];
+    this.carriers = [];
+    this.shippingPreferences = {};
+    this.shippingComp = false;  
+      this.ShippingIndex(); 
+  }
+async ShippingIndex(){
+ if(this.orderNumber != ""){
+ var obj : any= {
+    orderNumber: this.orderNumber ,
+    userName: this.userData.userName,
+    wsid: this.userData.wsid
+  }
+  debugger
+ this.http.get(obj,'/Consolidation/ShippingIndex').subscribe((res:any) => {
+  if (res && res.isExecuted) {
+  this.shippingData = res.data.shippingData;
+  this.carriers = res.data.carriers;
+  this.shippingPreferences = res.data.shippingPreferences;
+  this.shippingComp = res.data.shippingComp;
+  this.orderNumber = res.data.orderNumber;
+  }
+});
+}
+}
+async DeleteItem(element:any){
+ var obj :any= 
+  {
+    id: element.id,
+    orderNumber: this.orderNumber,
+    contId: element.containerID,
+    carrier: element.carrier,
+    trackingNum: element.trackingNum,
+    user: this.userData.userName,
+    wsid: this.userData.wsid
+  }
+  this.http.get(obj,'/Consolidation/ShipmentItemDelete').subscribe((res:any) => {
+    if (res && res.isExecuted) {
+      this.ShippingIndex();
+    }
+  });
+} 
+async updateShipmentItem(element:any){
+  var obj :any=  {
+    id: element.id, 
+    carrier: element.carrier,
+    trackingNum: element.trackingNum, 
+    "freight": element.freight,
+    "freight1": element.freight1,
+    "freight2": element.freight2,
+    "weight": element.weight,
+    "length": element.length,
+    "width": element.width,
+    "height": element.height,
+    "cube": element.cube
+  }
+   this.http.get(obj,'/Consolidation/ShipmentItemUpdate').subscribe((res:any) => {
+     if (res && res.isExecuted) {
+       this.ShippingIndex();
+     }
+   });
+ } 
+ async ShippingCompShip(){
+  var conf = confirm("Are you sure you wish to complete this shipment?");
+  if (conf) {
+  var obj :any= {
+    orderNumber: this.orderNumber
+  }
+   this.http.get(obj,'/Consolidation/SelCountOfOpenTransactionsTemp').subscribe((res:any) => {
+     if (res) {
+      if (res.data == -1) {
+        this.toast.error("An error has occurred","Error",  { positionClass: 'toast-bottom-right',timeOut: 2000});
+    } else if (res.data == 0) {
+        //call function to complete shipment
+        this.completeShipment();
+    } else {
+        //for temp
+        var otherconf = confirm("Back Orders exist for this order number. Still complete shipment?");
+        if (otherconf) {
+          this.completeShipment();
+        };
+    };
+     }
+   });
+  }
+
+ }  
+ async completeShipment(){
+ 
+  var obj : any= {
+    orderNumber: this.orderNumber ,
+    userName: this.userData.userName,
+    wsid: this.userData.wsid
+  }
+  this.http.get(obj,'/Consolidation/CompleteShipment').subscribe((res:any) => {
+    if (res && res.isExecuted) {
+       this.dialogRef.close(true);
+    }else{
+      this.toast.error("An error has occurred","Error",  { positionClass: 'toast-bottom-right',timeOut: 2000});
+    }
+  }); 
+}
+openCmAddNewItem() {
+  let dialogRef = this.dialog.open(CmAddNewItemToShipmentComponent, {
+    height: 'auto',
+    width: '560px',
+    autoFocus: '__non_existing_element__',
+   data: {orderNumber: this.orderNumber}
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    if(result) this.ShippingIndex();
+  })
+ }
 }
