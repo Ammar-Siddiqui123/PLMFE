@@ -92,7 +92,6 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   onClick() {
-    debugger
     this.trigger.closeMenu();
   }
 
@@ -102,9 +101,8 @@ export class SrNewOrderComponent implements OnInit {
 
   FilterString: string = "";
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    // this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
-    console.log(this.FilterString);
     this.tablePayloadObj.filter = this.FilterString;
     this.newReplenishmentOrders();
     this.tablePayloadObj.filter = "1=1";
@@ -122,7 +120,6 @@ export class SrNewOrderComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
@@ -354,7 +351,6 @@ export class SrNewOrderComponent implements OnInit {
       data: this.filterItemNumbersText,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
       if (result) {
         this.filterItemNumbersText = result.filterItemNumbersText;
         if (result.filterItemNumbersArray && result.filterItemNumbersArray.length > 0) {
