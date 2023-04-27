@@ -174,6 +174,7 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   newReplenishmentOrdersSubscribe:any;
+  
   newReplenishmentOrders() {
     this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentTable').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
