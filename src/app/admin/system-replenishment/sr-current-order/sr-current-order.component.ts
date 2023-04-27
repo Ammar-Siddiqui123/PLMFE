@@ -23,7 +23,7 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 })
 export class SrCurrentOrderComponent implements OnInit {
 
-  displayedColumns2: string[] = ['itemNumber', 'transactionType', 'warehouse', 'zone', 'carousel', 'row', 'shelf', 'bin', 'cell', 'lotNumber', 'transactionQuantity', 'description', 'orderNumber', 'unitOfMeasure', 'batchPickID', 'serialNumber', 'completedDate', 'printDate'];
+  displayedColumns2: string[] = ['Item Number', 'Trans Type', 'warehouse', 'zone', 'carousel', 'row', 'shelf', 'bin', 'cell', 'lotNumber', 'Trans Qty', 'description', 'Order Number', 'UofM', 'Batch Pick ID', 'Serial Number', 'Completed Date', 'Print Date'];
   noOfPicks: number = 0;
   noOfPutAways: number = 0;
   public userData: any;
@@ -159,7 +159,7 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   announceSortChange(e: any) {
-    this.tablePayloadObj.searchColumn = e.active;
+    this.tablePayloadObj.sortColumn = e.active;
     this.tablePayloadObj.sortDir = e.direction;
     this.newReplenishmentOrders();
   }
