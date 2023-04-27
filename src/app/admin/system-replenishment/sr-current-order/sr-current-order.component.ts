@@ -107,7 +107,7 @@ export class SrCurrentOrderComponent implements OnInit {
 
   FilterString: string = "";
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    // this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
     console.log(this.FilterString);
     this.tablePayloadObj.filter = this.FilterString;
