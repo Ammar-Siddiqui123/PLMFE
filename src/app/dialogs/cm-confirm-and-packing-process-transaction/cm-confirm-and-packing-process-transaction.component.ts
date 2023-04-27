@@ -5,6 +5,7 @@ import { ConsolidationManagerService } from 'src/app/consolidation-manager/conso
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CmShipSplitLineComponent } from '../cm-ship-split-line/cm-ship-split-line.component';
+import { CmShipEditQtyComponent } from '../cm-ship-edit-qty/cm-ship-edit-qty.component';
 
 @Component({
   selector: 'app-cm-confirm-and-packing-process-transaction',
@@ -12,9 +13,7 @@ import { CmShipSplitLineComponent } from '../cm-ship-split-line/cm-ship-split-li
   styleUrls: ['./cm-confirm-and-packing-process-transaction.component.scss']
 })
 export class CmConfirmAndPackingProcessTransactionComponent implements OnInit {
- 
-
-  displayedColumns: string[] = ['itemNumber', 'lineNumber', 'transactionQuantity', 'completedQuantity', 'shipQuantity' ];
+displayedColumns: string[] = ['itemNumber', 'lineNumber', 'transactionQuantity', 'completedQuantity', 'shipQuantity' ];
 confPackProcTable: any = [];
 confPackTransTable: any = [];
 orderNumber: any;
@@ -43,25 +42,51 @@ async ConfPackProc(){
 } 
 async ItemLabelModal(){
   var  Id = this.confPackProcTable[0].sT_ID;   
-}
-openCmSplitLine() {
+} 
+ openShipSplitLine() {
+  var index = this.confPackTransTable.findIndex(x=>x.active == true);
   let dialogRef = this.dialog.open(CmShipSplitLineComponent, {
     height: 'auto',
-    width: '560px',
+    width: '96vw',
     autoFocus: '__non_existing_element__',
-   
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    
-    
-  })
- }
-async SplitLineProcModal(){
-  // split modal open
+    data: {
+      order:this.confPackTransTable[index],
+      page: 'ConfPack'
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(res => {
+    if (res && res.isExecuted) {
+      this.ConfPackProc(); 
+    } 
+  });
 }
-async AdjustQauntModal(){
-  // openAdjustQuant Modal
+
+openShipEditQuantity() {
+  var index = this.confPackTransTable.findIndex(x=>x.active == true);
+  let dialogRef = this.dialog.open(CmShipEditQtyComponent, {
+    height: 'auto',
+    width: '96vw',
+    autoFocus: '__non_existing_element__',
+    data: {
+      reasons: this.data.reasons,
+      order:this.confPackTransTable[index],
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(res => {
+    if (res && res.isExecuted) {
+      this.ConfPackProc(); 
+    } 
+  });
 }
+
+// async SplitLineProcModal(){
+//   // split modal open
+// }
+// async AdjustQauntModal(){
+//   // openAdjustQuant Modal
+// }
   //will update the desired record(s) and go thorugh confirm proccess
   async DoneModal(){
     var id = this.confPackProcTable[0].sT_ID;
