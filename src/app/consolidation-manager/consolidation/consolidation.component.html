@@ -92,7 +92,7 @@
                                 </th>
                                 <td mat-cell *matCellDef="let element" class="">
 
-                                    <div class="label label-yellow px-3">{{element.complete}}</div>
+                                    <div class="label label-green x-3">{{element.complete}}</div>
 
                                 </td>
                             </ng-container>
@@ -167,11 +167,23 @@
                                 <span class="material-symbols-outlined icon-search">
                                     Search
                                 </span>
-                                <input type="text" placeholder="Search" aria-label="Search" matInput (keydown)="filtervalue($event)">
-                                <mat-autocomplete>
-                                    <mat-option>
-                                    </mat-option>
-                                </mat-autocomplete>
+                                <input type="text" placeholder="Search" aria-label="Search" matInput (keydown)="filtervalue($event)" [(ngModel)]="filterValue"[matAutocomplete]="item" (ngModelChange)="this.searchByItem.next($event)">
+                                <mat-autocomplete  class="card custom-scroll"  #item="matAutocomplete"  >                            
+                                    <h6 class ="card-header matAutoCompHeader ">
+                                      <span style="width:  140px;">Value</span> 
+                                      <span style="width:  140px;">Line Number</span> 
+                                      <span style="width:  140px;">Line Status</span> 
+                                    </h6> 
+                                    <ng-scrollbar style="height:350px">
+                                      <mat-option *ngFor="let option of searchAutocompleteItemNum"  class="matAutoCompTableContent" style="line-height: 24px; height:auto; min-height: auto!important; padding: 12px 16px; overflow: unset;">
+                                        <div class="loc_option"  (click)="getRow(option.value)" >
+                                          <span  class="searchColumn" style="width:  140px;">{{option.value}}</span> 
+                                          <span  class="searchColumn" style="width:  140px; white-space: normal;">{{option.lineNumber}}</span> 
+                                          <span  class="searchColumn" style="width:  140px; white-space: normal;">{{option.lineStatus}}</span> 
+                                        </div>
+                                      </mat-option>
+                                    </ng-scrollbar>
+                                  </mat-autocomplete>  
                             </mat-form-field>
                         </div>
                     </div>
@@ -188,7 +200,8 @@
 
             <div class="card br-14 borderless px-0" style="overflow-x: auto;">
                 <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 400px">
-                    <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData_1"  >
+                    <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData_1" 
+                    (matSortChange)="announceSortChange($event)" >
                         <ng-container matColumnDef="itemNumber"   [style.visibility]="isitemVisible ? 'visible' : 'hidden'"  >
                             <th mat-header-cell *matHeaderCellDef mat-sort-header > Item No. </th>
                             <td mat-cell *matCellDef="let element" >{{element.itemNumber}}</td>
@@ -231,7 +244,7 @@
                             </th>
                             <td class="pe-0" mat-cell *matCellDef="let element; let i = index" width="10%">
                                 <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete"
-                                    matTooltip="Remove zone" matTooltipPosition="above" color="primary" (click)="verifyLine(i,element.id,element.lineStatus)">
+                                    matTooltip="Remove zone" matTooltipPosition="above" color="primary" (click)="verifyLine(i)">
                                     <mat-icon>add</mat-icon>
                                 </button>
                             </td>
@@ -244,7 +257,7 @@
                 </ng-scrollbar>
             </div>
             <div class="d-flex justify-content-between bg-white">
-                <mat-paginator> </mat-paginator>
+                <mat-paginator  #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons> </mat-paginator>
             </div>
         </mat-card-content>
     </mat-card>
@@ -275,7 +288,8 @@
 
             <div class="card br-14 borderless px-0" style="overflow-x: auto;">
                 <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 400px">
-                    <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData_2">
+                    <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData_2"
+                    (matSortChange)="announceSortChange2($event)">
                         <ng-container matColumnDef="itemNumber">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Item No. </th>
                             <td mat-cell *matCellDef="let element">{{element.itemNumber}}</td>
@@ -324,7 +338,7 @@
             </div>
 
             <div class="d-flex justify-content-between bg-white">
-                <mat-paginator> </mat-paginator>
+                <mat-paginator  #paginator2 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons> </mat-paginator>
             </div>
         </mat-card-content>
     </mat-card>
