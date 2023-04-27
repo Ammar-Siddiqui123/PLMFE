@@ -31,6 +31,8 @@ export class ConsolidationComponent implements OnInit {
   @ViewChild('paginator') paginator: MatPaginator;
 
   @ViewChild('paginator2') paginator2: MatPaginator;
+  @ViewChild('paginator3') paginator3: MatPaginator;
+  @ViewChild('ordernum') ordernum: ElementRef;
 
   public startSelectFilter: any = '1'
   public sortBy: number
@@ -109,13 +111,6 @@ export class ConsolidationComponent implements OnInit {
     }
   hideRow = false;
 
-  // updateDataSource1() {
-  //   this.dataSource.data = this.tableData_1.data;
-  // }
-  // updateDataSource2() {
-  //   this.dataSource.data = this.tableData_2.data;
-  // }
-
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -134,6 +129,14 @@ export class ConsolidationComponent implements OnInit {
     }
     this.tableData_2.sort = this.sort;
   }
+  announceSortChange3(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+    this.stageTable.sort = this.sort;
+  }
 
   clickToHide() {
     this.hideRow = !this.hideRow;
@@ -142,6 +145,7 @@ export class ConsolidationComponent implements OnInit {
   enterOrderID(event) {
     // console.log(event.target.value);
     this.TypeValue = event.target.value;
+
     if (event.keyCode == 13) {
       this.getTableData("", this.TypeValue);
       
@@ -210,11 +214,12 @@ export class ConsolidationComponent implements OnInit {
           
           this.tableData_1.paginator = this.paginator;
           this.tableData_2.paginator = this.paginator2;
-         
+          
           // console.log(this.tableData_1.data.length,'left table after enter')
           // console.log(this.tableData_2.data,'right table after enter')
           this.stageTable = [];
           this.stageTable = res.data.consoleDataSB.stageTable;
+          this.stageTable.paginator = this.paginator3;
           
           let payload = {
             "orderNumber": curValue,
@@ -681,16 +686,20 @@ export class ConsolidationComponent implements OnInit {
  }
 
  openCmOrderNo() {
-  let dialogRef = this.dialog.open(CmOrderNumberComponent, {
-    height: 'auto',
-    width: '50vw',
-    autoFocus: '__non_existing_element__',
+  this.clearpagedata();
+  this.ordernum.nativeElement.focus();
+  this.disableConButts();
+
+  // let dialogRef = this.dialog.open(CmOrderNumberComponent, {
+  //   height: 'auto',
+  //   width: '50vw',
+  //   autoFocus: '__non_existing_element__',
    
-  })
-  dialogRef.afterClosed().subscribe(result => {
+  // })
+  // dialogRef.afterClosed().subscribe(result => {
     
     
-  })
+  // })
  }
 
  openCmItemSelected() {
