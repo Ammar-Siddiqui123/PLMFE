@@ -370,10 +370,8 @@ export class ConsolidationComponent implements OnInit {
       "username": this.userData.userName ,
       "wsid": this.userData.wsid
     }
-    console.log(payload,'payload')
 
     this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res:any)=>{
-      console.log(res)
       if(res.isExecuted){
 
         let data = this.tableData_2.data;
@@ -491,7 +489,7 @@ export class ConsolidationComponent implements OnInit {
     // desturcturing
     const { verifyItems, blindVerifyItems } = this.consolidationIndex.cmPreferences;
     // result.valueCount >=1 && verifyItems == 'No' && blindVerifyItems == 'No'
-    if(true){
+    if(result.valueCount >=1 && verifyItems == 'No' && blindVerifyItems == 'No'){
       const dialogRef = this.dialog.open(CmItemSelectedComponent, {
         height: 'auto',
         width: '560px',
@@ -519,8 +517,6 @@ export class ConsolidationComponent implements OnInit {
   }
 
   getSelected(event: MatSelectChange): void {
-    console.log(event.value,'keyssss'); // get selected value
-    console.log(event.source); // get all source options
 
     this.startSelectFilter = event.value;
     
@@ -596,11 +592,8 @@ export class ConsolidationComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
 
-    console.log(payload)
     this.consolidationHub.get(payload, '/Consolidation/ConsoleItemsTypeAhead').subscribe((res: any) => {
-      console.log(res.data)
       this.searchAutocompleteItemNum = res.data;
-     console.log( this.searchAutocompleteItemNum)
     })
 
 

@@ -67,11 +67,9 @@ export class CmItemSelectedComponent implements OnInit {
     }
 
     this.consolidationHub.get(payload ,'/Consolidation/ItemModelData').subscribe((res=>{
-        // res.data = this.itemSelectTable
-        // new MatTableDataSource(res.data.consolidationTable2)
+        
         this.itemSelectTable= new MatTableDataSource(res.data);
 
-        // console.log(this.itemSelectTable)
 
        
     }))
@@ -88,7 +86,6 @@ export class CmItemSelectedComponent implements OnInit {
 
 clickOnItemSelect() {
     let setItem = this.itemSelectTable.forEach((row) => {
-        console.log(row.id)
         let id = row.id;
 
         let payload = {
@@ -97,7 +94,6 @@ clickOnItemSelect() {
             "wsid": this.userData.wsid
         }
         this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res: any) => {
-            console.log(res);
             if (!res.isExecuted) {
                 this.toastr.error(res.responseMessage, 'Error!', {
                     positionClass: 'toast-bottom-right',
