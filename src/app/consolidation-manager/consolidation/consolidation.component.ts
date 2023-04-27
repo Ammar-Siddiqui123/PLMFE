@@ -663,8 +663,7 @@ export class ConsolidationComponent implements OnInit {
 
   dialogRef.afterClosed().subscribe(result => {
     if (result && result.isExecuted) {
-      this.disableConButts();
-      this.clearpagedata();
+      this.getTableData("", this.TypeValue);
     }
   });
  }
