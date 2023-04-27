@@ -49,11 +49,30 @@
 
                     <span class="v-br">-</span>
                     <div class="d-flex g-mini-search-box" style="flex:1">
-                        <mat-form-field class="w-100 bg-white br-8" appearance="fill">
+                        <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
+                        [hideRequiredMarker]="hideRequiredControl.value" (keyup.enter)="closeautoMenu()">
                             <span class="material-symbols-outlined icon-search">
                                 Search
                             </span>
-                            <input type="text" placeholder="Search" aria-label="Search" matInput [(ngModel)]="tablePayloadObj.searchString" (keyup.enter)="search()">
+                            <input 
+                            type="text" 
+                            placeholder="Search" 
+                            aria-label="Search" 
+                            matInput 
+                            [disabled]="tablePayloadObj.searchColumn.length < 1" 
+                            [matAutocomplete]="auto"
+                            [(ngModel)]="tablePayloadObj.searchString" 
+                            (keyup.enter)="search()"
+                            (keyup)="autocompleteSearchColumn()"
+                            >
+                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="search()" #autocompleteInventory>
+                                <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
+                                  {{option}}
+                                </mat-option>
+                                <mat-option *ngIf="searchAutocompleteList?.length ==0" disabled>
+                                  No data found
+                                </mat-option>
+                            </mat-autocomplete>
                         </mat-form-field>
                     </div>
                     <mat-form-field class="action-dropdown" appearance="outline">

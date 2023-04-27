@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-cm-order-tote-conflict',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cm-order-tote-conflict.component.scss']
 })
 export class CmOrderToteConflictComponent implements OnInit {
-
-  constructor() { }
+  Order :any;  
+  constructor(public dialogRef: MatDialogRef<any>) { }
 
   ngOnInit(): void {
   }
-
+async SubmitOrder(){ 
+  if(this.Order) this.dialogRef.close(this.Order);  
+}
 }
