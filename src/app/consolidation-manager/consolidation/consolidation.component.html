@@ -14,16 +14,16 @@
                 <mat-form-field class="action-dropdown w-100" appearance="outline">
                     <mat-label>Actions</mat-label>
                     <mat-select #matRef class="employees-action" placeholder="Actions">
-                        <mat-option value="0"> Staging Location</mat-option>
-                        <mat-option value="1">Packaging</mat-option>
-                        <mat-option value="2" (click)="openCmShipping()">Shipping</mat-option>
+                        <mat-option value="0" [disabled]="stagingbtn"> Staging Location</mat-option>
+                        <mat-option value="1" [disabled]="packingbtn" (click)="openPacking()">Packaging</mat-option>
+                        <mat-option value="2" [disabled]="shippingbtb" (click)="openCmShipping()">Shipping</mat-option>
                         <mat-option value="3">Order Status</mat-option>
                         <mat-option value="4" (click)="openCmPrintOptions()">Print Packaging List</mat-option>
                         <mat-option value="5">Preview Packaging List</mat-option>
                         <mat-option value="6">Print Not Verified List</mat-option>
                         <mat-option value="7">Preview Not Verified List</mat-option>
-                        <mat-option value="8" (click)="openCmShippingTransaction()">Shipping Transaction Dialogue</mat-option>
-                        <mat-option value="9" (click)="openCmConfirmPacking()">Confirm and Packing Dialogue</mat-option>
+                        <!-- <mat-option value="8" (click)="openCmShippingTransaction()">Shipping Transaction Dialogue</mat-option>
+                        <mat-option value="9" (click)="openCmConfirmPacking()">Confirm and Packing Dialogue</mat-option> -->
                         <mat-option value="10" (click)="openCmItemSelected()">Item Selected Dialogue</mat-option>
                         <mat-option value="10" (click)="openCmSelectTransaction()">Select Transaction Dialogue</mat-option> 
                     </mat-select>
@@ -43,7 +43,7 @@
                     </mat-form-field>
                 </div>
                 <div class="d-flex flex-wrap">
-                    <button type="button" mat-flat-button color="primary" class="button-primary-i mb-2 button-sm" (click)="openCmOrderNo()">Next
+                    <button type="button" [disabled]="nextOrderbtn" mat-flat-button color="primary" class="button-primary-i mb-2 button-sm" (click)="openCmOrderNo()">Next
                         Order</button>
                 </div>
             </div>
