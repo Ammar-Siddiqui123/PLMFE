@@ -14,16 +14,18 @@
                 <mat-form-field class="action-dropdown w-100" appearance="outline">
                     <mat-label>Actions</mat-label>
                     <mat-select #matRef class="employees-action" placeholder="Actions">
-                        <mat-option value="0"> Staging Location</mat-option>
-                        <mat-option value="1">Packaging</mat-option>
-                        <mat-option value="2" (click)="openCmShipping()">Shipping</mat-option>
+                        <mat-option value="0" [disabled]="stagingbtn"> Staging Location</mat-option>
+                        <mat-option value="1" [disabled]="packingbtn" (click)="openPacking()">Packaging</mat-option>
+                        <mat-option value="2" [disabled]="shippingbtb" (click)="openCmShipping()">Shipping</mat-option>
                         <mat-option value="3">Order Status</mat-option>
-                        <mat-option value="4">Print Packaging List</mat-option>
+                        <mat-option value="4" (click)="openCmPrintOptions()">Print Packaging List</mat-option>
                         <mat-option value="5">Preview Packaging List</mat-option>
                         <mat-option value="6">Print Not Verified List</mat-option>
                         <mat-option value="7">Preview Not Verified List</mat-option>
-                        <mat-option value="8" (click)="openCmShippingTransaction()">Shipping Transaction Dialouge</mat-option>
-                        <mat-option value="8" (click)="openCmConfirmPacking()">Confirm and Packing Dialouge</mat-option>
+                        <!-- <mat-option value="8" (click)="openCmShippingTransaction()">Shipping Transaction Dialogue</mat-option>
+                        <mat-option value="9" (click)="openCmConfirmPacking()">Confirm and Packing Dialogue</mat-option> -->
+                        <mat-option value="10" (click)="openCmItemSelected()">Item Selected Dialogue</mat-option>
+                        <mat-option value="10" (click)="openCmSelectTransaction()">Select Transaction Dialogue</mat-option> 
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
                         expand_more
@@ -36,12 +38,12 @@
                 <div class="d-flex flex-wrap">
                     <mat-form-field class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
                         <mat-label>Order Number/Tote ID</mat-label>
-                        <input matInput readonly class="__grab_cursor readonly" type="text"
-                            maxlength="50">
+                        <input matInput  class="__grab_cursor readonly" type="text"                          
+                            maxlength="50"  [(ngModel)]="TypeValue"  (keypress)="enterOrderID($event)" #ordernum>
                     </mat-form-field>
                 </div>
                 <div class="d-flex flex-wrap">
-                    <button type="button" mat-flat-button color="primary" class="button-primary-i mb-2 button-sm">Next
+                    <button type="button" [disabled]="nextOrderbtn" mat-flat-button color="primary" class="button-primary-i mb-2 button-sm" (click)="openCmOrderNo()">Next
                         Order</button>
                 </div>
             </div>
@@ -56,20 +58,20 @@
                 <div class="">
                     <mat-card class="mat-card mat-focus-indicator mat-elevation-z g-card br-14 label-yellow w-100 mb-2">
                         <mat-card-content>
-                            <div>Open</div>
-                            <div><strong>202332</strong></div>
+                            <div >Open Lines</div>
+                            <div ><strong>{{open}}</strong></div>
                         </mat-card-content>
                     </mat-card>
                     <mat-card class="mat-card mat-focus-indicator mat-elevation-z g-card br-14 label-green w-100 mb-2">
                         <mat-card-content>
-                            <div>Complete</div>
-                            <div><strong>202332</strong></div>
+                            <div >Completed Lines</div>
+                            <div><strong>{{completed}}</strong></div>
                         </mat-card-content>
                     </mat-card>
                     <mat-card class="mat-card mat-focus-indicator mat-elevation-z g-card br-14 label-red w-100 mb-2">
                         <mat-card-content>
-                            <div>Back Order</div>
-                            <div><strong>202332</strong></div>
+                            <div>Backorder Lines</div>
+                            <div><strong>{{backOrder}}</strong></div>
                         </mat-card-content>
                     </mat-card>
 
@@ -79,35 +81,42 @@
             <div class="col-lg-10">
                 <div class="card br-14 borderless px-0" style="overflow-x: auto;">
                     <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 260px">
-                        <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData">
-                            <ng-container matColumnDef="tote_id">
+                        <table class="w-100 table-borderless" mat-table matSort [dataSource]="stageTable"
+                        (matSortChange)="announceSortChange3($event)" >
+                            <ng-container matColumnDef="toteID">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Tote ID </th>
-                                <td mat-cell *matCellDef="let element">{{element.tote_id}}</td>
+                                <td mat-cell *matCellDef="let element">{{element.toteID}}</td>
                             </ng-container>
-                            <ng-container matColumnDef="status">
+                            <ng-container matColumnDef="complete">
                                 <th class="" mat-header-cell *matHeaderCellDef>
                                     Status
                                 </th>
                                 <td mat-cell *matCellDef="let element" class="">
 
-                                    <div class="label label-yellow px-3">Open</div>
+                                    <div class="label label-green x-3">{{element.complete}}</div>
 
                                 </td>
                             </ng-container>
 
 
-                            <ng-container matColumnDef="location">
+                            <ng-container matColumnDef="stagingLocation">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
-                                <td mat-cell *matCellDef="let element">{{element.location}}</td>
+                                <td mat-cell *matCellDef="let element">{{element.stagingLocation}}</td>
                             </ng-container>
-                            <ng-container matColumnDef="staged_by">
+                            <ng-container matColumnDef="stagedBy">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Staged By </th>
-                                <td mat-cell *matCellDef="let element">{{element.staged_by}}</td>
+                                <td mat-cell *matCellDef="let element">{{element.stagedBy}}</td>
                             </ng-container>
-                            <ng-container matColumnDef="staged_date">
+                            <ng-container matColumnDef="stagedDate">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Staged Date </th>
-                                <td mat-cell *matCellDef="let element">{{element.staged_date}}</td>
+                                <td mat-cell *matCellDef="let element">{{element.stagedDate}}</td>
                             </ng-container>
+
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell " [attr.colspan]="displayedColumns.length">
+                                  No data available in table.
+                                </td>
+                              </tr>
 
                             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"
                                 style=" background-color: #F9F9FF;">
@@ -117,7 +126,7 @@
                     </ng-scrollbar>
                 </div>
                 <div class="d-flex justify-content-between bg-white">
-                    <mat-paginator> </mat-paginator>
+                    <mat-paginator #paginator3 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons> </mat-paginator>
                 </div>
             </div>
         </div>
@@ -144,12 +153,15 @@
                 <div class="col-xl-8">
                     <div class="d-flex gap-12 align-items-center mb-3">
                         <mat-form-field class="action-dropdown" appearance="outline">
-                            <mat-label>Search</mat-label>
-                            <mat-select class="employees-action">
-                                <mat-option>hh</mat-option>
-                                <mat-option>hh</mat-option>
-                                <mat-option>hh</mat-option>
-                                <mat-option>hh</mat-option>
+                            <mat-label>Item Number</mat-label>
+                            <mat-select id="SelectFilter" class="employees-action" (selectionChange)="getSelected($event)">
+                                <mat-option *ngFor="let s of filterOption" value={{s.key}}>{{s.value}}</mat-option>
+                                <!-- <mat-option value="2"></mat-option>
+                                <mat-option value="10">Lot Number</mat-option>
+                                <mat-option value="8">Serial Number</mat-option>
+                                <mat-option value="9">User Field 1</mat-option>
+                                <mat-option value="0">Any Code</mat-option>
+                                <mat-option value="6">Tote ID</mat-option> -->
                             </mat-select>
                             <span class="material-symbols-outlined icon-expand-more">
                                 expand_more
@@ -162,11 +174,23 @@
                                 <span class="material-symbols-outlined icon-search">
                                     Search
                                 </span>
-                                <input type="text" placeholder="Search" aria-label="Search" matInput>
-                                <mat-autocomplete>
-                                    <mat-option>
-                                    </mat-option>
-                                </mat-autocomplete>
+                                <input type="text" placeholder="Search" aria-label="Search" matInput (keydown)="filtervalue($event)" [(ngModel)]="filterValue"[matAutocomplete]="item" (ngModelChange)="this.searchByItem.next($event)">
+                                <mat-autocomplete  class="card custom-scroll"  #item="matAutocomplete"  >                            
+                                    <h6 class ="card-header matAutoCompHeader ">
+                                      <span style="width:  140px;">Value</span> 
+                                      <span style="width:  140px;">Line Number</span> 
+                                      <span style="width:  140px;">Line Status</span> 
+                                    </h6> 
+                                    <ng-scrollbar style="height:350px">
+                                      <mat-option *ngFor="let option of searchAutocompleteItemNum"  class="matAutoCompTableContent" style="line-height: 24px; height:auto; min-height: auto!important; padding: 12px 16px; overflow: unset;">
+                                        <div class="loc_option"  (click)="getRow(option.value)" >
+                                          <span  class="searchColumn" style="width:  140px;">{{option.value}}</span> 
+                                          <span  class="searchColumn" style="width:  140px; white-space: normal;">{{option.lineNumber}}</span> 
+                                          <span  class="searchColumn" style="width:  140px; white-space: normal;">{{option.lineStatus}}</span> 
+                                        </div>
+                                      </mat-option>
+                                    </ng-scrollbar>
+                                  </mat-autocomplete>  
                             </mat-form-field>
                         </div>
                     </div>
@@ -174,33 +198,38 @@
 
                 <div class="col-xl-4 d-flex flex-row-reverse">
                     <button mat-stroked-button color="primary"
-                        class="mat-focus-indicator btn-regular w-80 mb-3 mat-stroked-button mat-button-base mat-primary">
+                        class="mat-focus-indicator btn-regular w-80 mb-3 mat-stroked-button mat-button-base mat-primary" (click)="verifyAll()" [disabled]="verifybtn">
                         Verify All
-                    </button>
+                    </button  >
                 </div>
             </div>
 
 
             <div class="card br-14 borderless px-0" style="overflow-x: auto;">
                 <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 400px">
-                    <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData_1">
-                        <ng-container matColumnDef="item_no">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Item No. </th>
-                            <td mat-cell *matCellDef="let element">{{element.item_no}}</td>
+                    <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData_1" 
+                    (matSortChange)="announceSortChange($event)" >
+                        <ng-container matColumnDef="itemNumber"   [style.visibility]="isitemVisible ? 'visible' : 'hidden'"  >
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header > Item No. </th>
+                            <td mat-cell *matCellDef="let element" >{{element.itemNumber}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="line_no">
+                        <ng-container matColumnDef="supplierItemID" [style.visibility]="issupplyVisible ? 'visible' : 'hidden'">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header > Supplier Item ID  </th>
+                            <td mat-cell *matCellDef="let element" >{{element.supplierItemID}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="lineNumber">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Line No. </th>
-                            <td mat-cell *matCellDef="let element">{{element.line_no}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.lineNumber}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="completed_qty">
+                        <ng-container matColumnDef="transactionQuantity">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Completed Qty </th>
-                            <td mat-cell *matCellDef="let element">{{element.completed_qty}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.transactionQuantity}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="tote_id">
+                        <ng-container matColumnDef="toteID">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Tote ID </th>
-                            <td mat-cell *matCellDef="let element">{{element.tote_id}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.toteID}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="status">
+                        <ng-container matColumnDef="lineStatus">
                             <th class="" mat-header-cell *matHeaderCellDef>
                                 Status
                             </th>
@@ -208,25 +237,30 @@
                                 <div class="label label-yellow px-3">Open</div>
                             </td>
                         </ng-container>
-                        <ng-container matColumnDef="serial_no">
+                        <ng-container matColumnDef="serialNumber">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Serial No. </th>
-                            <td mat-cell *matCellDef="let element">{{element.serial_no}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.serialNumber}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="user_field1">
+                        <ng-container matColumnDef="userField1">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> User Field 1 </th>
-                            <td mat-cell *matCellDef="let element">{{element.user_field1}}</td>
+                            <td mat-cell *matCellDef="let element; ">{{element.userField1}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="actions" stickyEnd>
                             <th width="10%" class="text-center px-2" mat-header-cell *matHeaderCellDef>Action
                             </th>
-                            <td class="pe-0" mat-cell *matCellDef="let element" width="10%">
+                            <td class="pe-0" mat-cell *matCellDef="let element; let i = index" width="10%">
                                 <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete"
-                                    matTooltip="Remove zone" matTooltipPosition="above" color="primary">
+                                    matTooltip="Remove zone" matTooltipPosition="above" color="primary" (click)="verifyLine(i)">
                                     <mat-icon>add</mat-icon>
                                 </button>
                             </td>
                         </ng-container>
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell " [attr.colspan]="displayedColumns_1.length">
+                              No data available in table.
+                            </td>
+                          </tr>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns_1" style=" background-color: #F9F9FF;">
                         </tr>
@@ -235,7 +269,7 @@
                 </ng-scrollbar>
             </div>
             <div class="d-flex justify-content-between bg-white">
-                <mat-paginator> </mat-paginator>
+                <mat-paginator  #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons> </mat-paginator>
             </div>
         </mat-card-content>
     </mat-card>
@@ -258,7 +292,7 @@
             <div class="row">
                 <div class="col-xl-12 d-flex flex-row-reverse">
                     <button mat-stroked-button color="warn"
-                        class="mat-focus-indicator button-remove-all-w-stroke w-80 mb-3 mat-stroked-button mat-button-base mat-warn">
+                        class="mat-focus-indicator button-remove-all-w-stroke w-80 mb-3 mat-stroked-button mat-button-base mat-warn"  (click)=" unVerifyAll()" [disabled]="unverifybtn">
                         Unverify All
                     </button>
                 </div>
@@ -266,46 +300,52 @@
 
             <div class="card br-14 borderless px-0" style="overflow-x: auto;">
                 <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 400px">
-                    <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData_2">
-                        <ng-container matColumnDef="item_no">
+                    <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData_2"
+                    (matSortChange)="announceSortChange2($event)">
+                        <ng-container matColumnDef="itemNumber">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Item No. </th>
-                            <td mat-cell *matCellDef="let element">{{element.item_no}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.itemNumber}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="supplier_item_id">
+                        <ng-container matColumnDef="supplierItemID">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Supplier Item ID </th>
-                            <td mat-cell *matCellDef="let element">{{element.supplier_item_id}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.supplierItemID}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="line_no">
+                        <ng-container matColumnDef="lineNumber">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Line No. </th>
-                            <td mat-cell *matCellDef="let element">{{element.line_no}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.lineNumber}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="completed_qty">
+                        <ng-container matColumnDef="completedQuantity">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Completed Qty </th>
-                            <td mat-cell *matCellDef="let element">{{element.completed_qty}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.completedQuantity}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="tote_id">
+                        <ng-container matColumnDef="toteID">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Tote ID </th>
-                            <td mat-cell *matCellDef="let element">{{element.tote_id}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.toteID}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="serial_no">
+                        <ng-container matColumnDef="serialNumber">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Serial No. </th>
-                            <td mat-cell *matCellDef="let element">{{element.serial_no}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.serialNumber}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="user_field1">
+                        <ng-container matColumnDef="userField1">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> User Field 1 </th>
-                            <td mat-cell *matCellDef="let element">{{element.user_field1}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.userField1}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="actions" stickyEnd>
                             <th width="10%" class="text-center px-2" mat-header-cell *matHeaderCellDef>Action
                             </th>
-                            <td class="pe-0" mat-cell *matCellDef="let element" width="10%">
+                            <td class="pe-0" mat-cell  *matCellDef="let element; let i = index" width="10%">
                                 <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete"
-                                    matTooltip="Remove zone" matTooltipPosition="above" color="warn">
+                                    matTooltip="Remove zone" matTooltipPosition="above" color="warn" (click)="unverifyLine(i,element.id)">
                                     <mat-icon>close</mat-icon>
                                 </button>
                             </td>
                         </ng-container>
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell " [attr.colspan]="displayedColumns_2.length">
+                              No data available in table.
+                            </td>
+                          </tr>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns_2" style=" background-color: #F9F9FF;">
                         </tr>
@@ -315,7 +355,7 @@
             </div>
 
             <div class="d-flex justify-content-between bg-white">
-                <mat-paginator> </mat-paginator>
+                <mat-paginator  #paginator2 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons> </mat-paginator>
             </div>
         </mat-card-content>
     </mat-card>

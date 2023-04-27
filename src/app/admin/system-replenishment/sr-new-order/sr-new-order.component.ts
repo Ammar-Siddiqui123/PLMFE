@@ -65,7 +65,6 @@ export class SrNewOrderComponent implements OnInit {
 
   searchAutocompleteList: any;
 
-
   constructor(
     private dialog: MatDialog,
     private systemReplenishmentService: SystemReplenishmentService,
