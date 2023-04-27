@@ -55,8 +55,6 @@ export class SideNavComponent implements OnInit {
     { icon: 'tune', title: 'Preferences', route: '#' ,permission: 'Preferences'},
     { icon: 'published_with_changes', title: 'System Replenishment', route: '/admin/systemReplenishment' ,permission: 'Replenishment'},
   ];
-
-
   inductionMenus: any = [
     { icon: 'arrow_back', title: 'Induction Manager', route: '/dashboard', class: 'back-class' , permission: 'Induction Manager'},
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
@@ -66,6 +64,14 @@ export class SideNavComponent implements OnInit {
     { icon: 'edit_attributes', title: 'Mark Empty Reels', route: '#' ,permission:'Induction Manager'},
     { icon: 'linear_scale', title: 'Pallet Receiving', route: '#' ,permission:'Induction Manager'},
     { icon: 'line_style', title: 'Super Batch', route: '/InductionManager/SuperBatch' ,permission:'Induction Manager'},
+  ];
+
+  consolidationMenus: any = [
+    { icon: 'arrow_back', title: 'Consolidation Manager', route: '/ConsolidationManager', class: 'back-class' , permission: 'Consolidation Manager'},
+    { icon: 'directions_alt', title: 'Consolidation', route: '#', class: 'back-class' , permission: 'Consolidation'},
+    // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
+    
+    { icon: 'directions_alt', title: 'Staging Locations', route: '/Consolidation/StagingLocations' ,permission:'Staging Locations'}
   ];
 
   inductionAdminMenus: any = [
@@ -174,11 +180,11 @@ export class SideNavComponent implements OnInit {
     //     this.dynamicMenu.push({icon:item.info.iconName,title:item.displayname,route:item.info.route,permission:item.info.permission})
     //   })
 
-     this.sharedService.menuData$.subscribe(data => {
-      
+     
+     this.sharedService.menuData$.subscribe(data => { 
       if(this.menuData.length===0){
         this.menuData = data;
-
+        
         this.menuData.filter((item,i)=>{
         this.dynamicMenu[0]={icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'}
         this.dynamicMenu.push({icon:item.info.iconName,title:item.displayname,route:item.info.route,permission:item.info.permission});
@@ -280,7 +286,11 @@ export class SideNavComponent implements OnInit {
       //this.userData.username
          
     }
-
+    if (menu.route.includes('/ConsolidationManager')) {
+      this.childMenus = this.consolidationMenus;
+      this.isParentMenu = false;
+      this.isChildMenu = true;
+    } 
     if (menu.route.includes('/InductionManager')) {
       this.childMenus = this.inductionMenus;
       this.isParentMenu = false;

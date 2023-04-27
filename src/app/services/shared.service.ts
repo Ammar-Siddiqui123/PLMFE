@@ -11,6 +11,7 @@ export class SharedService {
   private data: any;
   private menuData = new Subject<any>();
   public SidebarMenupdate = new Subject<any>();
+
   menuData$ = this.menuData.asObservable();
 
   private appData: any;
@@ -124,6 +125,7 @@ export class SharedService {
     let appName : any;
     if (menu.includes('/admin')) appName = 'Admin';    
     if (menu.includes('/InductionManager')) appName = 'Induction Manager';
+    if (menu.includes('/ConsolidationManager')) appName = 'Consolidation Manager';
     if (menu.includes('/globalconfig')) return;
     else this.columnSequence.updateAppName(userName, wsid, appName).subscribe((res: any) => {});
   }
