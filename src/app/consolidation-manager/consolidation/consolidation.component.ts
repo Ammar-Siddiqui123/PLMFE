@@ -728,6 +728,15 @@ export class ConsolidationComponent implements OnInit {
   })
  }
 
+ navigateToOrder() {
+  this.router.navigate([]).then((result) => {
+    window.open(
+      `/#/admin/transaction?orderStatus=${this.TypeValue}`,
+      '_self'
+    );
+  });
+ }
+
 }
 
 

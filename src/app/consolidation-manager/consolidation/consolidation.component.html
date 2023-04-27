@@ -17,7 +17,7 @@
                         <mat-option value="0" [disabled]="stagingbtn"> Staging Location</mat-option>
                         <mat-option value="1" [disabled]="packingbtn" (click)="openPacking()">Packaging</mat-option>
                         <mat-option value="2" [disabled]="shippingbtb" (click)="openCmShipping()">Shipping</mat-option>
-                        <mat-option value="3">Order Status</mat-option>
+                        <mat-option value="3" (click)="navigateToOrder()">Order Status</mat-option>
                         <mat-option value="4" (click)="openCmPrintOptions()">Print Packaging List</mat-option>
                         <mat-option value="5">Preview Packaging List</mat-option>
                         <mat-option value="6">Print Not Verified List</mat-option>
