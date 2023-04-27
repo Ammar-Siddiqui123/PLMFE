@@ -226,13 +226,14 @@ export class ConsolidationComponent implements OnInit {
               this.shippingbtb = false;
             }
             else if(res.data == 0){
+              this.enableConButts()
               this.shippingbtb = true;
             }
             else{
-                this.toastr.error('Error has occured', 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
+              this.toastr.error('Error has occured', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
             }
             
           })
@@ -660,7 +661,10 @@ export class ConsolidationComponent implements OnInit {
     }
   });
 
-  dialogRef.afterClosed().subscribe(result => {      
+  dialogRef.afterClosed().subscribe(result => {
+    if (result && result.isExecuted) {
+      this.getTableData("", this.TypeValue);
+    }
   });
  }
 
