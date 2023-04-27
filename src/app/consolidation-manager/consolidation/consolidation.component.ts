@@ -124,6 +124,7 @@ export class ConsolidationComponent implements OnInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
     this.tableData_1.sort = this.sort;
+    
   }
   announceSortChange2(sortState: Sort) {
     if (sortState.direction) {
@@ -208,7 +209,7 @@ export class ConsolidationComponent implements OnInit {
 
           
           this.tableData_1.paginator = this.paginator;
-          this.tableData_2.paginator2 = this.paginator2;
+          this.tableData_2.paginator = this.paginator2;
          
           // console.log(this.tableData_1.data.length,'left table after enter')
           // console.log(this.tableData_2.data,'right table after enter')
