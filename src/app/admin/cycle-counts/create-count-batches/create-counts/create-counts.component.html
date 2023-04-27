@@ -61,10 +61,10 @@
 
                         <mat-form-field [floatLabel]="getFloatLabelValue()"
                         [hideRequiredMarker]="hideRequiredControl.value"
-                        class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
+                        class="custom-form-field w-100  mb-2" appearance="outline">
                         <mat-label>From Location</mat-label>
                         <input [matAutocomplete]="fromLocation" (ngModelChange)="this.fromLocationTA.next($event)"
-                            formControlName="fromLocation" matInput class="__grab_cursor " type="text"
+                            formControlName="fromLocation" matInput  type="text"
                             maxlength="50">
                         <mat-autocomplete #fromLocation="matAutocomplete" (optionSelected)="searchData()">
                             <mat-option *ngFor="let option of searchAutocompleteFromLocation" [value]="option">
@@ -86,10 +86,10 @@
 
                         <mat-form-field [floatLabel]="getFloatLabelValue()"
                         [hideRequiredMarker]="hideRequiredControl.value"
-                        class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
+                        class="custom-form-field w-100  mb-2" appearance="outline">
                         <mat-label>To Location</mat-label>
                         <input [matAutocomplete]="toLocation" (ngModelChange)="this.toLocationTA.next($event)"
-                            formControlName="toLocation" matInput class="__grab_cursor " type="text"
+                            formControlName="toLocation" matInput type="text"
                             maxlength="50">
                         <mat-autocomplete #toLocation="matAutocomplete" (optionSelected)="searchData()">
                             <mat-option *ngFor="let option of searchAutocompleteToLocation" [value]="option">
@@ -125,10 +125,10 @@
                         </mat-form-field> -->
                         <mat-form-field [floatLabel]="getFloatLabelValue()"
                         [hideRequiredMarker]="hideRequiredControl.value"
-                        class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
+                        class="custom-form-field w-100  mb-2" appearance="outline">
                         <mat-label>From Item Number</mat-label>
                         <input [matAutocomplete]="fromItem" (ngModelChange)="this.fromItemTA.next($event)"
-                            formControlName="fromItem" matInput class="__grab_cursor " type="text"
+                            formControlName="fromItem" matInput class=" " type="text"
                             maxlength="50">
                         <mat-autocomplete #fromItem="matAutocomplete" (optionSelected)="searchData()">
                             <mat-option *ngFor="let option of searchAutocompleteFromItem" [value]="option.itemNumber">
@@ -151,10 +151,10 @@
 
                         <mat-form-field [floatLabel]="getFloatLabelValue()"
                         [hideRequiredMarker]="hideRequiredControl.value"
-                        class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
+                        class="custom-form-field w-100  mb-2" appearance="outline">
                         <mat-label>To Item Number</mat-label>
                         <input [matAutocomplete]="toItem" (ngModelChange)="this.toItemTA.next($event)"
-                            formControlName="toItem" matInput class="__grab_cursor " type="text"
+                            formControlName="toItem" matInput class=" " type="text"
                             maxlength="50">
                         <mat-autocomplete #toItem="matAutocomplete" (optionSelected)="searchData()">
                             <mat-option *ngFor="let option of searchAutocompleteToItem" [value]="option.itemNumber">
@@ -172,10 +172,10 @@
                     <div class="col-xl-6">
                         <mat-form-field [floatLabel]="getFloatLabelValue()"
                             [hideRequiredMarker]="hideRequiredControl.value"
-                            class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
+                            class="custom-form-field w-100  mb-2" appearance="outline">
                             <mat-label>Decription</mat-label>
                             <input [matAutocomplete]="auto" (ngModelChange)="this.descriptionTA.next($event)"
-                                formControlName="description" matInput class="__grab_cursor " type="text"
+                                formControlName="description" matInput class=" " type="text"
                                 maxlength="255">
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
                                 <mat-option *ngFor="let option of searchAutocompleteDescription" [value]="option">
@@ -202,10 +202,10 @@
 
                         <mat-form-field [floatLabel]="getFloatLabelValue()"
                             [hideRequiredMarker]="hideRequiredControl.value"
-                            class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
+                            class="custom-form-field w-100  mb-2" appearance="outline">
                             <mat-label>Category</mat-label>
                             <input [matAutocomplete]="auto" (ngModelChange)="this.categoryTA.next($event)"
-                                formControlName="category" matInput class="__grab_cursor " type="text" maxlength="50">
+                                formControlName="category" matInput class=" " type="text" maxlength="50">
                             <mat-autocomplete #auto="matAutocomplete"   (optionSelected)="searchData()">
                                
                                
@@ -244,10 +244,10 @@
                         </mat-form-field>
                     </div>
                     <div class="col-xl-3">
-                        <mat-form-field class="custom-form-field w-100 __grab_cursor mb-2 " appearance="outline">
+                        <mat-form-field class="custom-form-field w-100  mb-2 " appearance="outline">
                             <mat-label>Sub Category</mat-label>
                             <input [disabled]="true"  [(ngModel)]="subCategory" readonly formControlName="subCategory"
-                                 matInput  class="__grab_cursor readonly" type="text" maxlength="50">
+                                 matInput  class=" readonly" type="text" maxlength="50">
                         </mat-form-field>
                     </div>
 
@@ -258,7 +258,7 @@
                 <ng-container *ngSwitchCase="'NotCountedSince'">
 
                     <div class="col-xl-6">
-                        <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                        <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                             <mat-label>Select Date</mat-label>
                             <input matInput (ngModelChange)="this.searchField.next($event)"
                                 (ngModelChange)="this.searchField.next($event)" formControlName="notCounted"
@@ -276,7 +276,7 @@
                 <ng-container *ngSwitchCase="'PickedRange'">
 
                     <div class="col-xl-3">
-                        <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                        <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                             <mat-label>From Date</mat-label>
                             <input matInput (ngModelChange)="this.searchField.next($event)"
                                 formControlName="pickedStart" [matDatepicker]="start">
@@ -286,7 +286,7 @@
                     </div>
 
                     <div class="col-xl-3">
-                        <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                        <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                             <mat-label>To Date</mat-label>
                             <input matInput (ngModelChange)="this.searchField.next($event)" formControlName="pickedEnd"
                                 [matDatepicker]="end">
@@ -302,7 +302,7 @@
                 <ng-container *ngSwitchCase="'PutAwayRange'">
 
                     <div class="col-xl-3">
-                        <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                        <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                             <mat-label>From Date</mat-label>
                             <input matInput (ngModelChange)="this.searchField.next($event)" formControlName="putStart"
                                 [matDatepicker]="start">
@@ -312,7 +312,7 @@
                     </div>
 
                     <div class="col-xl-3">
-                        <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                        <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                             <mat-label>To Date</mat-label>
                             <input matInput (ngModelChange)="this.searchField.next($event)" formControlName="putEnd"
                                 [matDatepicker]="end">
@@ -339,10 +339,10 @@
 
                         <mat-form-field [floatLabel]="getFloatLabelValue()"
                             [hideRequiredMarker]="hideRequiredControl.value"
-                            class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
+                            class="custom-form-field w-100  mb-2" appearance="outline">
                             <mat-label>From Cost</mat-label>
-                            <input [matAutocomplete]="fromCost" (ngModelChange)="this.beginCostTA.next($event)"
-                                formControlName="costStart" matInput class="__grab_cursor " type="text" maxlength="50">
+                            <input  [NumbersOnly]="true" [matAutocomplete]="fromCost" (ngModelChange)="this.beginCostTA.next($event)"
+                                formControlName="costStart" matInput class=" " type="text" maxlength="50">
                             <mat-autocomplete #fromCost="matAutocomplete" (optionSelected)="searchData()">
                                 <mat-option *ngFor="let option of searchAutocompletBeginCost" [value]="option.cost">
                                     {{option.cost}}
@@ -362,10 +362,10 @@
 
                         <mat-form-field [floatLabel]="getFloatLabelValue()"
                             [hideRequiredMarker]="hideRequiredControl.value"
-                            class="custom-form-field w-100 __grab_cursor mb-2" appearance="outline">
+                            class="custom-form-field w-100  mb-2" appearance="outline">
                             <mat-label>To Cost</mat-label>
-                            <input [matAutocomplete]="toCost" (ngModelChange)="this.endCostTA.next($event)"
-                                formControlName="costEnd" matInput class="__grab_cursor " type="text" maxlength="50">
+                            <input  [NumbersOnly]="true" [matAutocomplete]="toCost" (ngModelChange)="this.endCostTA.next($event)"
+                                formControlName="costEnd" matInput class=" " type="text" maxlength="50">
                             <mat-autocomplete #toCost="matAutocomplete" (optionSelected)="searchData()">
                                 <mat-option *ngFor="let option of searchAutocompletBeginCost" [value]="option.cost">
                                     {{option.cost}}

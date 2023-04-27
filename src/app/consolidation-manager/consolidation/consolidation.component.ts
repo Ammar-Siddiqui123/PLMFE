@@ -10,6 +10,7 @@ import { CmConfirmAndPackingSelectTransactionComponent } from 'src/app/dialogs/c
 import { CmConfirmAndPackingComponent } from 'src/app/dialogs/cm-confirm-and-packing/cm-confirm-and-packing.component';
 import { CmItemSelectedComponent } from 'src/app/dialogs/cm-item-selected/cm-item-selected.component';
 import { CmOrderNumberComponent } from 'src/app/dialogs/cm-order-number/cm-order-number.component';
+import { CmPrintOptionsComponent } from 'src/app/dialogs/cm-print-options/cm-print-options.component';
 import { CmShippingTransactionComponent } from 'src/app/dialogs/cm-shipping-transaction/cm-shipping-transaction.component';
 import { CmShippingComponent } from 'src/app/dialogs/cm-shipping/cm-shipping.component';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
@@ -656,7 +657,9 @@ export class ConsolidationComponent implements OnInit {
     height: 'auto',
     width: '96vw',
     autoFocus: '__non_existing_element__',
-   
+    data: {
+      orderNum: '2909782A',
+    }
   })
   dialogRef.afterClosed().subscribe(result => {
     
@@ -706,6 +709,19 @@ export class ConsolidationComponent implements OnInit {
   let dialogRef = this.dialog.open(CmConfirmAndPackingSelectTransactionComponent, {
     height: 'auto',
     width: '50vw',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
+ }
+
+ openCmPrintOptions() {
+  let dialogRef = this.dialog.open(CmPrintOptionsComponent, {
+    height: 'auto',
+    width: '560px',
     autoFocus: '__non_existing_element__',
    
   })

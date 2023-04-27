@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SystemReplenishmentService } from '../system-replenishment.service';
 import { ToastrService } from 'ngx-toastr';
@@ -9,6 +9,9 @@ import { DeleteRangeComponent } from 'src/app/dialogs/delete-range/delete-range.
 import labels from '../../../labels/labels.json';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { SrDeleteOrderComponent } from 'src/app/dialogs/sr-delete-order/sr-delete-order.component';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
+import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 
 @Component({
   selector: 'app-sr-current-order',
@@ -74,7 +77,74 @@ export class SrCurrentOrderComponent implements OnInit {
     private systemReplenishmentService: SystemReplenishmentService,
     private toastr: ToastrService,
     private authService: AuthService,
+    private filterService: ContextMenuFiltersService
   ) { }
+
+
+
+  @ViewChild('trigger') trigger: MatMenuTrigger;
+  contextMenuPosition = { x: '0px', y: '0px' };
+  onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.trigger.menuData = { item: { SelectedItem: SelectedItem, FilterColumnName: FilterColumnName, FilterConditon: FilterConditon, FilterItemType: FilterItemType } };
+    this.trigger.menu?.focusFirstItem('mouse');
+    this.trigger.openMenu();
+  }
+
+  onClick() {
+    debugger
+    this.trigger.closeMenu();
+  }
+
+  getType(val): string {
+    return this.filterService.getType(val);
+  }
+
+  FilterString: string = "";
+  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
+    // this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+    console.log(this.FilterString);
+    this.tablePayloadObj.filter = this.FilterString;
+    this.newReplenishmentOrders();
+    this.tablePayloadObj.filter = "1=1";
+  }
+
+  InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
+    const dialogRef = this.dialog.open(InputFilterComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        FilterColumnName: FilterColumnName,
+        Condition: Condition,
+        TypeOfElement: TypeOfElement
+      },
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
+    }
+    );
+  }
+
+  ClearFilters()
+  {
+    this.tablePayloadObj.filter = "1=1";
+    this.newReplenishmentOrders();
+  }
+
+
+  announceSortChange(e: any) {
+    this.tablePayloadObj.searchColumn = e.active;
+    this.tablePayloadObj.sortDir = e.direction;
+    this.newReplenishmentOrders();
+  }
+
+
+
 
   ngOnInit(): void {
     this.userData = this.authService.userData();

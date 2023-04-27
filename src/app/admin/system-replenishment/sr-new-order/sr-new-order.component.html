@@ -70,12 +70,30 @@
 
                     <span class="v-br">-</span>
                     <div class="d-flex g-mini-search-box" style="flex:1">
-                        <mat-form-field class="w-100 bg-white br-8" appearance="fill">
+                        <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
+                        [hideRequiredMarker]="hideRequiredControl.value" (keyup.enter)="closeautoMenu()">
                             <span class="material-symbols-outlined icon-search">
                                 Search
                             </span>
-                            <input type="text" placeholder="Search" aria-label="Search" matInput [(ngModel)]="tablePayloadObj.searchString" (keyup.enter)="search()">
-
+                            <input 
+                            type="text" 
+                            placeholder="Search" 
+                            aria-label="Search" 
+                            matInput 
+                            [disabled]="tablePayloadObj.searchColumn.length < 1" 
+                            [matAutocomplete]="auto"
+                            [(ngModel)]="tablePayloadObj.searchString" 
+                            (keyup.enter)="search()"
+                            (keyup)="autocompleteSearchColumn()"
+                            >
+                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="search()" #autocompleteInventory>
+                                <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
+                                  {{option}}
+                                </mat-option>
+                                <mat-option *ngIf="searchAutocompleteList?.length ==0" disabled>
+                                  No data found
+                                </mat-option>
+                            </mat-autocomplete>
                         </mat-form-field>
 
 
@@ -114,9 +132,10 @@
         </div>
 
         <div class="card br-14 table-responsive borderless">
-            <ng-scrollbar class="mat-table-scrollbar" style="height:340px" track="all">
+            <ng-scrollbar class="mat-table-scrollbar" style="height:635px" track="all">
 
-                <table class="w-100 table-borderless" mat-table [dataSource]="filteredTableData" matSort>
+                <table class="w-100 table-borderless" mat-table [dataSource]="filteredTableData" matSort (matSortChange)="announceSortChange($event)">
+
                     <!-- <ng-container matColumnDef="select" sticky>
                         <th mat-header-cell *matHeaderCellDef>
                             <mat-checkbox color="primary">
@@ -127,74 +146,55 @@
                             </mat-checkbox>
                         </td>
                     </ng-container> -->
-                    <ng-container matColumnDef="position">
-                        <th mat-header-cell *matHeaderCellDef> Item Number </th>
-                        <td mat-cell *matCellDef="let element"> {{element.itemNumber}} </td>
+
+                    <ng-container matColumnDef="Item Number">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Number </th>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.itemNumber, 'itemNumber')"> {{element.itemNumber}} </td>
                     </ng-container>
 
-
-                    <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef> Description </th>
-                        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                    <ng-container matColumnDef="Description">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.description, 'description')"> {{element.description}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="replenish">
-                        <th mat-header-cell *matHeaderCellDef> Replenish </th>
-                        <td mat-cell *matCellDef="let element">
-                            <div class="text-center">
-                                <mat-checkbox color="primary" matTooltip="Check" matTooltipPosition="above" [disabled]="element.transactionQuantity < 1"
-                                    [checked]="element.replenish" [(ngModel)]="element.replenish" (change)="changeReplenish()">
-                                </mat-checkbox>
-                            </div>
-                        </td>
-                    </ng-container>
-                    
-                    <ng-container matColumnDef="exists">
-                        <th mat-header-cell *matHeaderCellDef> Exists </th>
-                        <td mat-cell *matCellDef="let element">
-                            <div class="text-center">
-                                <mat-checkbox color="primary" matTooltip="Check" matTooltipPosition="above" disabled
-                                    [checked]="element.replenishExists">
-                                </mat-checkbox>
-                            </div>
-                        </td>
+                    <ng-container matColumnDef="Warehouse">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse </th>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.warehouse, 'warehouse')"> {{element.warehouse}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="weight">
-                        <th mat-header-cell *matHeaderCellDef> Warehouse </th>
-                        <td mat-cell *matCellDef="let element"> {{element.warehouse}} </td>
+                    <ng-container matColumnDef="Stock Qty">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock Qty </th>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.stockQuantity, 'stockQuantity')"> {{element.stockQuantity}} </td>
                     </ng-container>
 
-
-                    <ng-container matColumnDef="symbol">
-                        <th mat-header-cell *matHeaderCellDef> Replenishment Point </th>
-                        <td mat-cell *matCellDef="let element"> {{element.replenishmentPoint}} </td>
+                    <ng-container matColumnDef="Replenishment Point">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenishment Point </th>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentPoint, 'replenishmentPoint')"> {{element.replenishmentPoint}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="ex">
-                        <th mat-header-cell *matHeaderCellDef> Replenishment Level </th>
-                        <td mat-cell *matCellDef="let element"> {{element.replenishmentLevel}} </td>
+                    <ng-container matColumnDef="Replenishment Level">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenishment Level </th>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentLevel, 'replenishmentLevel')"> {{element.replenishmentLevel}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="srno">
-                        <th mat-header-cell *matHeaderCellDef> Available Qty </th>
-                        <td mat-cell *matCellDef="let element"> {{element.availableQuantity}} </td>
+                    <ng-container matColumnDef="Available Qty">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Available Qty </th>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.availableQuantity, 'availableQuantity')"> {{element.availableQuantity}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="replishment">
-                        <th mat-header-cell *matHeaderCellDef> Replenishment Qty </th>
-                        <td mat-cell *matCellDef="let element"> {{element.replenishmentQuantity}} </td>
+                    <ng-container matColumnDef="Replenishment Qty">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenishment Qty </th>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentQuantity, 'replenishmentQuantity')"> {{element.replenishmentQuantity}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="case">
-                        <th mat-header-cell *matHeaderCellDef> Case Qty </th>
-                        <td mat-cell *matCellDef="let element"> {{element.caseQuantity}} </td>
+                    <ng-container matColumnDef="Case Qty">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Case Qty </th>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.caseQuantity, 'caseQuantity')"> {{element.caseQuantity}} </td>
                     </ng-container>
 
-
-                    <ng-container matColumnDef="transaction">
-                        <th mat-header-cell *matHeaderCellDef> Transaction Qty </th>
-                        <td mat-cell *matCellDef="let element">
+                    <ng-container matColumnDef="Transaction Qty">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Qty </th>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.transactionQuantity, 'transactionQuantity')">
                             <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline"
                                 (click)="editTransDialog(element)">
                                 <input matInput type="text" maxlength="50" readonly="true" value="000000" [ngModel]="element.transactionQuantity">
@@ -205,16 +205,38 @@
                         </td>
                     </ng-container>
 
-
-                    <ng-container matColumnDef="allocated_pick">
-                        <th mat-header-cell *matHeaderCellDef> Allocated Pick </th>
-                        <td mat-cell *matCellDef="let element"> {{element.allocPick}} </td>
+                    <ng-container matColumnDef="Replenish">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenish </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="text-center">
+                                <mat-checkbox color="primary" matTooltip="Check" matTooltipPosition="above" [disabled]="element.transactionQuantity < 1"
+                                    [checked]="element.replenish" [(ngModel)]="element.replenish" (change)="changeReplenish(element,$event)">
+                                </mat-checkbox>
+                            </div>
+                        </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="Replenish Exists">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Exists </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="text-center">
+                                <mat-checkbox color="primary" matTooltip="Check" matTooltipPosition="above" disabled
+                                    [checked]="element.replenishExists">
+                                </mat-checkbox>
+                            </div>
+                        </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="allocated_put">
-                        <th mat-header-cell *matHeaderCellDef> Allocated Put </th>
-                        <td mat-cell *matCellDef="let element"> {{element.allocPut}} </td>
+                    <ng-container matColumnDef="Alloc Pick">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Allocated Pick </th>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.allocPick, 'allocPick')"> {{element.allocPick}} </td>
                     </ng-container>
+
+                    <ng-container matColumnDef="Alloc Put">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Allocated Put </th>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.allocPut, 'allocPut')"> {{element.allocPut}} </td>
+                    </ng-container>
+
                     <!-- Action Column -->
                     <ng-container matColumnDef="action" stickyEnd>
 
@@ -235,6 +257,12 @@
                         </td>
 
                     </ng-container>
+                    
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell " [attr.colspan]="displayedColumns.length">
+                          No data available in table.
+                        </td>
+                    </tr>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"
                         style=" background-color: #F9F9FF;"></tr>
@@ -253,3 +281,39 @@
         Process Replenishments
     </button>
 </div>
+
+
+<div #trigger="matMenuTrigger"
+style="visibility: hidden; position: fixed"
+[style.left]="contextMenuPosition.x"
+[style.top]="contextMenuPosition.y"
+[matMenuTriggerFor]="contextMenuFilter"
+></div>
+<mat-menu #contextMenuFilter="matMenu">
+<ng-template matMenuContent let-item="item">
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'equals to',getType(item.SelectedItem))"> Equals</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is not equals to', getType(item.SelectedItem))">Not Equals</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is greater than or equal to', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'number' || getType(item.FilterColumnName) == 'date'" >Greater than or Equal</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is less than or equal to', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'number' || getType(item.FilterColumnName) == 'date'" >Less than or Equal</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is like', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'string' && getType(item.FilterColumnName) != 'date'" >Like</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is not like', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'string' && getType(item.FilterColumnName) != 'date'" >Not Like</button>
+  <button mat-menu-item [matMenuTriggerFor]="InputFiltersList" [matMenuTriggerData]="{category: item}" *ngIf="getType(item.SelectedItem) != 'boolean'" >Input FIlters</button>
+  <button mat-menu-item (click)="onContextMenuCommand('', '', 'clear', '')">Clear Filters</button>
+</ng-template>
+</mat-menu>
+
+<mat-menu #InputFiltersList="matMenu">
+    <ng-template matMenuContent let-category="category">
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'equals to', getType(category.SelectedItem))">Equals</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is not equals to', getType(category.SelectedItem))">Not Equals</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'begins with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Begins</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not begins with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not Begin</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'ends with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Ends With</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not ends with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not End With</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'contains', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Contains</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not contains', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not Contain</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is less than', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Less Than</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is greater than', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Greater Than</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is between', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Between</button>
+    </ng-template>
+  </mat-menu>

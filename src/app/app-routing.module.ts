@@ -83,6 +83,11 @@ const routes: Routes = [
         loadChildren: () => import('./consolidation-manager/consolidation-manager.module').then(m => m.ConsolidationManagerModule),
         canActivate:[AuthGuardGuard]
       },
+      { 
+        path: 'OrderManager', 
+        loadChildren: () => import('./order-manager/order-manager.module').then(m => m.OrderManagerModule),
+        canActivate:[AuthGuardGuard]
+      },
 
     ]
 

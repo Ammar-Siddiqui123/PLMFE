@@ -12,7 +12,7 @@ import { CmConfirmAndPackingSelectTransactionComponent } from '../cm-confirm-and
   styleUrls: ['./cm-confirm-and-packing.component.scss']
 })
 export class CmConfirmAndPackingComponent implements OnInit {
-  orderNumber:any = "123456";
+  orderNumber:any = "2909782A";
   toteTable:any[]=[];
   ItemNumber:any;
   transTable:any[]=[];
@@ -170,9 +170,7 @@ if(searchCount == 0){
     this.toast.error('An error has occurred', 'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});  
 } else if (res.data == "Modal") {
     //show modal here
-  this.openSelectTransaction($event.target.value,id);
-
-    // this.openScanItem($event.target.value,id);
+  this.openScanItem($event.target.value,id);
    
  
 } else {

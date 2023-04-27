@@ -61,6 +61,11 @@ import { CmConfirmAndPackingProcessTransactionComponent } from './dialogs/cm-con
 import { CmSplitLineComponent } from './dialogs/cm-split-line/cm-split-line.component';
 import { CmConfirmAndPackingSelectTransactionComponent } from './dialogs/cm-confirm-and-packing-select-transaction/cm-confirm-and-packing-select-transaction.component';
 import { CmShippingCarrierComponent } from './dialogs/cm-shipping-carrier/cm-shipping-carrier.component';
+import { OrderManagerComponent } from './order-manager/order-manager.component';
+import { CmAddNewItemToShipmentComponent } from './dialogs/cm-add-new-item-to-shipment/cm-add-new-item-to-shipment.component';
+import { CmPrintOptionsComponent } from './dialogs/cm-print-options/cm-print-options.component';
+import { CmOrderToteConflictComponent } from './dialogs/cm-order-tote-conflict/cm-order-tote-conflict.component';
+import { OmEventLogEntryDetailComponent } from './dialogs/om-event-log-entry-detail/om-event-log-entry-detail.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -109,6 +114,11 @@ import { CmShippingCarrierComponent } from './dialogs/cm-shipping-carrier/cm-shi
     CmSplitLineComponent,
     CmShippingCarrierComponent,
     CmConfirmAndPackingSelectTransactionComponent,
+    OrderManagerComponent,
+    CmAddNewItemToShipmentComponent,
+    CmPrintOptionsComponent,
+    CmOrderToteConflictComponent,
+    OmEventLogEntryDetailComponent,
     // ActionDisableDirective,
   ],
   imports: [

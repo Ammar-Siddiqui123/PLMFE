@@ -82,6 +82,7 @@ export class CCBCreateCountsComponent implements OnInit {
   toLocationTA = new Subject<string>();
   fromItemTA = new Subject<string>();
   toItemTA = new Subject<string>();
+  @Output() eventChange = new EventEmitter<Event>();
 
   categoryTA = new Subject<string>();
   beginCostTA = new Subject<string>();
@@ -151,7 +152,12 @@ export class CCBCreateCountsComponent implements OnInit {
    
   }
   nextStep() {
+  
     this.countsUpdated.emit('next');
+  }
+
+  updateQueCountEvent(obj){
+    this.eventChange.emit(obj);
   }
   onChangeDemo(e,type){
    if(type==='empty'){
@@ -169,6 +175,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.searchField
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
         if(value==='') return
         this.fillData();
 
@@ -184,6 +191,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.descriptionTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
         if(value==='') return
 
         this.getTypeAheads('Description');
@@ -193,6 +201,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.fromLocationTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
         this.getTypeAheads('FromLocation');
         this.fillData();
       });
@@ -200,6 +209,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.toLocationTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
         this.getTypeAheads('ToLocation');
         this.fillData();
       });
@@ -207,6 +217,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.fromItemTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
         if(value==='') return
 
         this.getTypeAheads('FromItem');
@@ -216,6 +227,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.toItemTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
         if(value==='') return
 
         this.getTypeAheads('ToItem');
@@ -225,6 +237,8 @@ export class CCBCreateCountsComponent implements OnInit {
     this.categoryTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log('category',value)
+        
         if(value==='') return
 
         this.getTypeAheads('Category');
@@ -234,6 +248,8 @@ export class CCBCreateCountsComponent implements OnInit {
     this.beginCostTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
+
         if(value==='') return
 
         this.getTypeAheads('BeginCost');
@@ -243,6 +259,8 @@ export class CCBCreateCountsComponent implements OnInit {
     this.endCostTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        console.log(value)
+
         if(value==='') return
 
         this.getTypeAheads('EndCost');
@@ -302,7 +320,7 @@ this.subCategory=item.subCategory;
     // this.filtersForm.value.costEnd = '';
     // this.filtersForm.value.warehouse = '';
 
-    // this.fillData();
+    this.fillData();
   }
   getTypeAheads(type) {
     if (type === 'Description') {
@@ -522,7 +540,7 @@ this.subCategory=item.subCategory;
   // and then assign the response to the dataSource variable with check type of response and if there is response.data and isExecuted is true else add error toast
   // handle with try catch
   fillData() {
-    console.log('====>',this.filtersForm.value.subCategory);
+
     
     const payload = {
       queryData: {
@@ -548,25 +566,24 @@ this.subCategory=item.subCategory;
         subCategory: this.subCategory
           ? this.subCategory
           : '',
-        notCounted:
-          this.filtersForm.value.notCounted === '1/11/1111'
-            ? true
+        notCounted:  this.filtersForm.value.notCounted === '' || this.filtersForm.value.notCounted === null
+        ?new Date('1/1/1970')
             : this.filtersForm.value.notCounted,
         pickStart:
-          this.filtersForm.value.pickedStart === ''
-            ? '1/11/1111'
+          this.filtersForm.value.pickedStart === '' || this.filtersForm.value.pickedStart === null
+            ? new Date('1/1/1970')
             : this.filtersForm.value.pickedStart,
         pickEnd:
-          this.filtersForm.value.pickedEnd === ''
-            ? '1/11/1111'
+          this.filtersForm.value.pickedEnd === '' || this.filtersForm.value.pickedEnd === null
+            ? new Date('1/1/1970')   //'1/11/1111'
             : this.filtersForm.value.pickedEnd,
             putAwayStart:
-          this.filtersForm.value.putStart === ''
-            ? '1/11/1111'
+          this.filtersForm.value.putStart === '' || this.filtersForm.value.putStart === null
+            ?  new Date('1/1/1970')
             : this.filtersForm.value.putStart,
             putAwayEnd:
-          this.filtersForm.value.putEnd === ''
-            ? '1/11/1111'
+          this.filtersForm.value.putEnd === '' || this.filtersForm.value.putEnd === null
+            ?  new Date('1/1/1970')
             : this.filtersForm.value.putEnd,
             costStart: this.filtersForm.value.costStart,
             costEnd: this.filtersForm.value.costEnd,
@@ -613,7 +630,8 @@ this.subCategory=item.subCategory;
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-create-count',
-        actionMessage: ` all Incomplete count transactions for ${this.orderNumber}`,
+        actionMessage: ` all ${ident===1?'Incomplete':''} count transactions for ${this.orderNumber}`,
+        action:'delete'
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
@@ -677,6 +695,8 @@ this.subCategory=item.subCategory;
           this.dataSource = [];
           this.selectedTabIndex = 1;
           this.nextStep();
+          this.updateQueCountEvent(res.data)
+
         } else {
           this.toastService.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
