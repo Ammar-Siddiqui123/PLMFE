@@ -732,7 +732,7 @@ export class ConsolidationComponent implements OnInit {
   this.router.navigate([]).then((result) => {
     window.open(
       `/#/admin/transaction?orderStatus=${this.TypeValue}`,
-      '_self'
+      '_blank'
     );
   });
  }
