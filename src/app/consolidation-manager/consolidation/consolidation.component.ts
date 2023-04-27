@@ -644,11 +644,12 @@ export class ConsolidationComponent implements OnInit {
     height: 'auto',
     width: '96vw',
     autoFocus: '__non_existing_element__',
-   
+    data: {orderNumber:this.TypeValue }
   })
   dialogRef.afterClosed().subscribe(result => {
-    
-    
+    if(result){
+      this.getTableData(null,this.TypeValue);
+  }
   })
  }
 
@@ -671,10 +672,13 @@ export class ConsolidationComponent implements OnInit {
     height: 'auto',
     width: '96vw',
     autoFocus: '__non_existing_element__',
+    data:{orderNumber:this.TypeValue}
    
   })
   dialogRef.afterClosed().subscribe(result => {
-    
+    if(result){
+        this.getTableData(null,this.TypeValue);
+    }
     
   })
  }
