@@ -1,8 +1,8 @@
-<mat-tab-group dynamicHeight>
-  <mat-tab label="New Orders">
-    <app-sr-new-order></app-sr-new-order>
+<mat-tab-group dynamicHeight (selectedTabChange)="onTabChanged($event);">
+  <mat-tab label="New Orders" >
+    <app-sr-new-order *ngIf="activeTabIndex == 0"></app-sr-new-order>
   </mat-tab>
   <mat-tab label="Current Orders">
-    <app-sr-current-order></app-sr-current-order>
+    <app-sr-current-order *ngIf="activeTabIndex == 1"></app-sr-current-order>
   </mat-tab>
 </mat-tab-group>
