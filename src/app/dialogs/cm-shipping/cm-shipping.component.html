@@ -40,7 +40,7 @@
     <mat-form-field class="action-dropdown" appearance="outline">
         <mat-label>Actions</mat-label>
         <mat-select #matRef class="employees-action" placeholder="Actions">
-            <mat-option value="0" (click)="openCmAddNewItem()"> Add New </mat-option>
+            <mat-option value="0" (click)="openCmAddNewItem()" [disabled]="shippingComp"> Add New </mat-option>
             <mat-option value="1"> Print All </mat-option>
         </mat-select>
         <span class="material-symbols-outlined icon-expand-more">
@@ -76,7 +76,7 @@
                     <td mat-cell *matCellDef="let element">
                         <mat-form-field class="action-dropdown" appearance="outline">
                             <!-- <mat-label>Carrier</mat-label> -->
-                            <mat-select #matRef class="employees-action" [(ngModel)]="element.carrier" placeholder="Carrier">
+                            <mat-select #matRef class="employees-action" [disabled]="shippingComp" [(ngModel)]="element.carrier" placeholder="Carrier">
                                 <mat-option *ngFor="let item of carriers" [value]="item">{{item}} </mat-option>
                             </mat-select>
                             <span class="material-symbols-outlined icon-expand-more">
@@ -105,7 +105,7 @@
 
                         <div class="d-flex" style="gap:6px">
                             <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete" matTooltip="Remove"
-                                matTooltipPosition="above" color="warn">
+                                matTooltipPosition="above" color="warn" [disabled]="shippingComp">
                                 <mat-icon class="material-symbols-outlined" (click)="DeleteItem(element)">close</mat-icon>
                             </button>
                             <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete" matTooltip="Print"
@@ -113,8 +113,8 @@
                                 <mat-icon class="material-symbols-outlined">print</mat-icon>
                             </button>
                             <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete" matTooltip="Save"
-                                matTooltipPosition="above" color="primary">
-                                <mat-icon class="material-symbols-outlined" (click)="updateShipmentItem(element)">save</mat-icon>
+                                matTooltipPosition="above" color="primary" [disabled]="shippingComp">
+                                <mat-icon class="material-symbols-outlined"  (click)="updateShipmentItem(element)">save</mat-icon>
                             </button>
                         </div>
 
@@ -132,5 +132,5 @@
 </div>
 
 <div matDialogActions>
-    <button type="button" mat-flat-button color="primary" class="mb-2 btn-lg w-100" (click)="ShippingCompShip()">Complete Packing</button>
+    <button type="button" mat-flat-button color="primary" class="mb-2 btn-lg w-100" [disabled]="shippingComp" (click)="ShippingCompShip()">Complete Packing</button>
 </div>
