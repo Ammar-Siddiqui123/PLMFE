@@ -65,6 +65,7 @@ import { OrderManagerComponent } from './order-manager/order-manager.component';
 import { CmAddNewItemToShipmentComponent } from './dialogs/cm-add-new-item-to-shipment/cm-add-new-item-to-shipment.component';
 import { CmPrintOptionsComponent } from './dialogs/cm-print-options/cm-print-options.component';
 import { CmOrderToteConflictComponent } from './dialogs/cm-order-tote-conflict/cm-order-tote-conflict.component';
+import { SrReplenishmentProgressComponent } from './dialogs/sr-replenishment-progress/sr-replenishment-progress.component';
 import { OmEventLogEntryDetailComponent } from './dialogs/om-event-log-entry-detail/om-event-log-entry-detail.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
@@ -118,6 +119,7 @@ import { OmEventLogEntryDetailComponent } from './dialogs/om-event-log-entry-det
     CmAddNewItemToShipmentComponent,
     CmPrintOptionsComponent,
     CmOrderToteConflictComponent,
+    SrReplenishmentProgressComponent,
     OmEventLogEntryDetailComponent,
     // ActionDisableDirective,
   ],

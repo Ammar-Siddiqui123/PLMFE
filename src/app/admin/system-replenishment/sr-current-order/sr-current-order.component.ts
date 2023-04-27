@@ -12,6 +12,9 @@ import { SrDeleteOrderComponent } from 'src/app/dialogs/sr-delete-order/sr-delet
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
+import { FloatLabelType } from '@angular/material/form-field';
+import { FormControl } from '@angular/forms';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-sr-current-order',
@@ -136,15 +139,30 @@ export class SrCurrentOrderComponent implements OnInit {
     this.newReplenishmentOrders();
   }
 
+  hideRequiredControl = new FormControl(false);
+  @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
+  floatLabelControl = new FormControl('auto' as FloatLabelType);
+  autocompleteSearchColumn(){
+    if (this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != "") {
+      this.newReplenishmentOrdersSubscribe.unsubscribe();
+      this.newReplenishmentOrders();
+    }
+  }
+
+  getFloatLabelValue(): FloatLabelType {
+    return this.floatLabelControl.value || 'auto';
+  }
+
+  closeautoMenu()
+  {
+    this.autocompleteInventory.closePanel(); 
+  }
 
   announceSortChange(e: any) {
     this.tablePayloadObj.searchColumn = e.active;
     this.tablePayloadObj.sortDir = e.direction;
     this.newReplenishmentOrders();
   }
-
-
-
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
@@ -155,8 +173,10 @@ export class SrCurrentOrderComponent implements OnInit {
     this.newReplenishmentOrders();
   }
 
+  newReplenishmentOrdersSubscribe:any;
+  
   newReplenishmentOrders() {
-    this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentTable').subscribe((res: any) => {
+    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentTable').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.tableData = res.data.sysTable;
         this.tableData.forEach(element => {
@@ -164,6 +184,7 @@ export class SrCurrentOrderComponent implements OnInit {
         });
         this.tableDataTotalCount = res.data.recordsTotal;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
+		    this.changeSearchOptions();
         this.updateCounts();
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
@@ -172,6 +193,15 @@ export class SrCurrentOrderComponent implements OnInit {
         });
       }
     });
+  }
+
+  searchAutocompleteList: any;
+  changeSearchOptions() {
+    if (this.tablePayloadObj.searchColumn != "") {
+      let key = this.searchColumnOptions.filter((item: any) => item.value == this.tablePayloadObj.searchColumn)[0].key;
+      this.searchAutocompleteList = [];
+      this.searchAutocompleteList = this.filteredTableData.map((item: any) => item[key]);
+    }
   }
 
   updateCounts() {
