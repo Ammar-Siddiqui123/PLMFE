@@ -289,10 +289,36 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   deleteRange() {
+
+    let batchPickIdOptions:any = [];
+    this.filteredTableData.forEach((x:any) => {
+      if(x.batchPickID && !batchPickIdOptions.includes(x.batchPickID)){
+        batchPickIdOptions.push(x.batchPickID);
+      }
+    });
+
+    let pickLocationOptions:any = [];
+    this.filteredTableData.forEach((x:any) => {
+      if(x.transactionType == "Pick" && !pickLocationOptions.includes(x.zone+x.carousel+x.row+x.shelf+x.bin)){
+        pickLocationOptions.push(x.zone+x.carousel+x.row+x.shelf+x.bin);
+      }
+    });
+
+    let putAwayLocationOptions:any = [];
+    this.filteredTableData.forEach((x:any) => {
+      if(!putAwayLocationOptions.includes(x.zone+x.carousel+x.row+x.shelf+x.bin)){
+        putAwayLocationOptions.push(x.zone+x.carousel+x.row+x.shelf+x.bin);
+      }
+    });
+
     const dialogRef = this.dialog.open(DeleteRangeComponent, {
       width: '900px',
       autoFocus: '__non_existing_element__',
-      data: {},
+      data: 
+      { pickLocationOptions : pickLocationOptions,
+        putAwayLocationOptions : putAwayLocationOptions,
+        batchPickIdOptions : batchPickIdOptions
+      },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
