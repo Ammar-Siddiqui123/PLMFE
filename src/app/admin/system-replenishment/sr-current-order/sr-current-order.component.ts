@@ -206,7 +206,7 @@ export class SrCurrentOrderComponent implements OnInit {
 
   updateCounts() {
     this.noOfPutAways = this.filteredTableData.filter((item: any) => item.transactionType == 'Put Away').length;
-    this.noOfPicks = this.filteredTableData.filter((item: any) => item.transactionType == 'PICK').length;
+    this.noOfPicks = this.filteredTableData.filter((item: any) => item.transactionType == 'Pick').length;
   }
 
   paginatorChange(event: PageEvent) {
