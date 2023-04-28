@@ -247,7 +247,10 @@ export class CmShippingTransactionComponent implements OnInit {
         this.tableData.data[i].transactionQuantity = res.orderQty;
         this.tableData.data[i].completedQuantity = res.pickQty;
         this.tableData.data[i].shipQuantity = res.shipQty;
-      } 
+
+        this.getShippingTransactionIndex();
+      }
+
     });
   }
 
