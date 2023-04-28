@@ -232,7 +232,7 @@ export class CmShippingTransactionComponent implements OnInit {
   openShipSplitLine(order : any, i : any) {
     let dialogRef = this.dialog.open(CmShipSplitLineComponent, {
       height: 'auto',
-      width: '96vw',
+      width: '30vw',
       autoFocus: '__non_existing_element__',
       data: {
         order,
@@ -268,7 +268,7 @@ export class CmShippingTransactionComponent implements OnInit {
   openShipEditQuantity(order : any, i : any) {
     let dialogRef = this.dialog.open(CmShipEditQtyComponent, {
       height: 'auto',
-      width: '96vw',
+      width: '50vw',
       autoFocus: '__non_existing_element__',
       data: {
         reasons: this.STIndex.reasons,
@@ -288,7 +288,7 @@ export class CmShippingTransactionComponent implements OnInit {
     // Open the dialog
     let dialogRef = this.dialog.open(CmShipEditConIdComponent, {
       height: 'auto',
-      width: '96vw',
+      width: '40vw',
       autoFocus: '__non_existing_element__',
       data: {
         order
