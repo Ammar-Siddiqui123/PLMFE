@@ -299,15 +299,15 @@ export class SrCurrentOrderComponent implements OnInit {
 
     let pickLocationOptions:any = [];
     this.filteredTableData.forEach((x:any) => {
-      if(x.transactionType == "Pick" && !pickLocationOptions.includes(x.zone+x.carousel+x.row+x.shelf+x.bin)){
-        pickLocationOptions.push(x.zone+x.carousel+x.row+x.shelf+x.bin);
+      if(x.transactionType == "Pick" && !pickLocationOptions.includes(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim())){
+        pickLocationOptions.push(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim());
       }
     });
 
     let putAwayLocationOptions:any = [];
     this.filteredTableData.forEach((x:any) => {
-      if(!putAwayLocationOptions.includes(x.zone+x.carousel+x.row+x.shelf+x.bin)){
-        putAwayLocationOptions.push(x.zone+x.carousel+x.row+x.shelf+x.bin);
+      if(!putAwayLocationOptions.includes(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim())){
+        putAwayLocationOptions.push(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim());
       }
     });
 
