@@ -35,7 +35,7 @@ export class SrNewOrderComponent implements OnInit {
     start: 0,
     length: 10,
     searchString: "",
-    sortColumn: 5,
+    sortColumn: 0,
     searchColumn: "",
     sortDir: "asc",
     reOrder: false,
