@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/internal/Observable';
 import { BaseService } from '../services/base-service.service';
 import { environment } from 'src/environments/environment';
 
-
 @Injectable({
   providedIn: 'root'
 })

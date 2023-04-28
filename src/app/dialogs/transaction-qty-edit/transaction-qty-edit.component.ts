@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SystemReplenishmentService } from 'src/app/admin/system-replenishment/system-replenishment.service';
 import labels from '../../labels/labels.json'
 import { AuthService } from 'src/app/init/auth.service';
+import { GlobalService } from 'src/app/common/services/global.service';
 @Component({
   selector: 'app-transaction-qty-edit',
   templateUrl: './transaction-qty-edit.component.html',
@@ -20,10 +21,16 @@ export class TransactionQtyEditComponent implements OnInit {
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<TransactionQtyEditComponent>,
     private authService: AuthService,
+    private globalService: GlobalService
   ) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+  }
+
+  transactionQuantityChange(value: any) {
+    let high:any = this.data.availableQuantity > this.data.replenishmentQuantity ? this.data.replenishmentQuantity : this.data.availableQuantity;
+    return this.globalService.setNumericInRange(value, 0, high);
   }
 
   transactionQtyReplenishmentUpdate() {

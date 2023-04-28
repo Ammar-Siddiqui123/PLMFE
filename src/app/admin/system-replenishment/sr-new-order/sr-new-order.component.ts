@@ -12,6 +12,9 @@ import { FilterItemNumbersComponent } from '../../dialogs/filter-item-numbers/fi
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
+import { FormControl } from '@angular/forms';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { FloatLabelType } from '@angular/material/form-field';
 
 
 @Component({
@@ -40,6 +43,7 @@ export class SrNewOrderComponent implements OnInit {
     username: "",
     wsid: ""
   };
+  
   tableDataTotalCount: number = 0;
   filterItemNumbersText: string = "";
 
@@ -89,7 +93,6 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   onClick() {
-    debugger
     this.trigger.closeMenu();
   }
 
@@ -99,9 +102,8 @@ export class SrNewOrderComponent implements OnInit {
 
   FilterString: string = "";
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    // this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
-    console.log(this.FilterString);
     this.tablePayloadObj.filter = this.FilterString;
     this.newReplenishmentOrders();
     this.tablePayloadObj.filter = "1=1";
@@ -119,7 +121,6 @@ export class SrNewOrderComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
@@ -131,6 +132,25 @@ export class SrNewOrderComponent implements OnInit {
     this.newReplenishmentOrders();
   }
 
+
+  hideRequiredControl = new FormControl(false);
+  @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
+  floatLabelControl = new FormControl('auto' as FloatLabelType);
+  autocompleteSearchColumn(){
+    if (this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != "") {
+      this.newReplenishmentOrdersSubscribe.unsubscribe();
+      this.newReplenishmentOrders();
+    }
+  }
+
+  getFloatLabelValue(): FloatLabelType {
+    return this.floatLabelControl.value || 'auto';
+  }
+
+  closeautoMenu()
+  {
+    this.autocompleteInventory.closePanel(); 
+  }
 
 
 
@@ -156,8 +176,9 @@ export class SrNewOrderComponent implements OnInit {
     });
   }
 
+  newReplenishmentOrdersSubscribe:any;
   newReplenishmentOrders() {
-    this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentNewTable').subscribe((res: any) => {
+    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentNewTable').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.tableData = res.data.sysTable;
         this.tableDataTotalCount = res.data.recordsTotal;
@@ -331,7 +352,6 @@ export class SrNewOrderComponent implements OnInit {
       data: this.filterItemNumbersText,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
       if (result) {
         this.filterItemNumbersText = result.filterItemNumbersText;
         if (result.filterItemNumbersArray && result.filterItemNumbersArray.length > 0) {
