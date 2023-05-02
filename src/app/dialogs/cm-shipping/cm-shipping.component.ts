@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { CmAddNewItemToShipmentComponent } from '../cm-add-new-item-to-shipment/cm-add-new-item-to-shipment.component';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 export interface PeriodicElement {
   name: string;
@@ -42,43 +43,35 @@ export class CmShippingComponent implements OnInit {
    
   }
 
-  ngOnInit(): void {
-  this.IsLoading = true;
+  ngOnInit(): void { 
 
     this.shippingData = [];
     this.carriers = [];
-    this.shippingPreferences = {
-      cube :false,
-      freight:false,
-      freight1:false,
-      freight2:false,
-      height:false,
-      length:false,
-      weight:false,
-      width:false
-    };
+     
     this.shippingComp = false;
     this.ShippingIndex();
   }
   async ShippingIndex() { 
+    this.displayedColumns = ['containerID', 'freight', 'freight1', 'freight2', 'carrier', 'length', 'weight', 'width', 'trackingNum', 'height', 'cube', 'action'];
+  
     if (this.orderNumber != "") {
       var obj: any = {
         orderNumber: this.orderNumber,
         userName: this.userData.userName,
         wsid: this.userData.wsid
       }
-      debugger
+      this.IsLoading = true;
       this.http.get(obj, '/Consolidation/ShippingIndex').subscribe((res: any) => {
         if (res && res.isExecuted) {
           this.shippingData = res.data.shippingData;
           this.carriers = res.data.carriers;
           this.shippingPreferences = res.data.shippingPreferences;
-          for (let key in this.shippingPreferences) {
-            debugger
+          for (let key in this.shippingPreferences) { 
             if(this.shippingPreferences[key] == false){
               var index = this.displayedColumns.indexOf(key);
               this.displayedColumns.splice(index, 1);
             }
+            console.log(this.shippingPreferences);
           }
           this.shippingComp = res.data.shippingComp;
           this.orderNumber = res.data.orderNumber;
@@ -141,8 +134,17 @@ export class CmShippingComponent implements OnInit {
     });
   }
   async ShippingCompShip() {
-    var conf = confirm("Are you sure you wish to complete this shipment?");
-    if (conf) {
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: "Are you sure you wish to complete this shipment?",
+      },
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'Yes') { 
       var obj: any = {
         orderNumber: this.orderNumber
       }
@@ -155,14 +157,25 @@ export class CmShippingComponent implements OnInit {
             this.completeShipment();
           } else {
             //for temp
-            var otherconf = confirm("Back Orders exist for this order number. Still complete shipment?");
-            if (otherconf) {
+            let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+              height: 'auto',
+              width: '560px',
+              autoFocus: '__non_existing_element__',
+              data: {
+                message: "Back Orders exist for this order number. Still complete shipment?",
+              },
+            });
+          
+            dialogRef.afterClosed().subscribe((result) => {
+              if (result == 'Yes') {  
               this.completeShipment();
-            };
+            }}); 
           };
         }
       });
-    }
+    
+    }});
+ 
 
   }
   async completeShipment() {

@@ -44,10 +44,10 @@ export class FilterItemNumbersComponent implements OnInit {
       }
       this.systemReplenishmentService.get(payload, '/Admin/FiltersItemNumInsert').subscribe((res: any) => {
         if (res.isExecuted && res.data) {
-          this.toastr.success(labels.alert.success, 'Success!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
+          // this.toastr.success(labels.alert.success, 'Success!', {
+          //   positionClass: 'toast-bottom-right',
+          //   timeOut: 2000
+          // });
           this.dialog.closeAll();
           this.dialogRef.close({ filterItemNumbersText: this.data, filterItemNumbersArray: itemsArray });
         } else {

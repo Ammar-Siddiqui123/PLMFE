@@ -68,6 +68,8 @@ import { CmOrderToteConflictComponent } from './dialogs/cm-order-tote-conflict/c
 import { SrReplenishmentProgressComponent } from './dialogs/sr-replenishment-progress/sr-replenishment-progress.component';
 import { OmEventLogEntryDetailComponent } from './dialogs/om-event-log-entry-detail/om-event-log-entry-detail.component';
 import { OmCreateOrdersComponent } from './dialogs/om-create-orders/om-create-orders.component';
+import { OmUpdateRecordComponent } from './dialogs/om-update-record/om-update-record.component';
+import { OmAddRecordComponent } from './dialogs/om-add-record/om-add-record.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -123,6 +125,8 @@ import { OmCreateOrdersComponent } from './dialogs/om-create-orders/om-create-or
     SrReplenishmentProgressComponent,
     OmEventLogEntryDetailComponent,
     OmCreateOrdersComponent,
+    OmUpdateRecordComponent,
+    OmAddRecordComponent,
     // ActionDisableDirective,
   ],
   imports: [

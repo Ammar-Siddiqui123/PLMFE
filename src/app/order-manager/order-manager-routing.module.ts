@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { OrderManagerComponent } from './order-manager.component';
 import { EventLogComponent } from './event-log/event-log.component';
 import { AuthGuardGuard } from '../guard/auth-guard.guard';
+import { OmOrderManagerComponent } from './om-order-manager/om-order-manager.component';
 import { OmPreferencesComponent } from './om-preferences/om-preferences.component';
 import { OmCreateOrdersComponent } from '../dialogs/om-create-orders/om-create-orders.component';
 
@@ -18,7 +19,11 @@ canActivate: [AuthGuardGuard],
 },
 
 { path: 'OmCreateOrders', 
-component: OmCreateOrdersComponent, 
+component: OmCreateOrdersComponent,
+canActivate: [AuthGuardGuard],  },
+
+{ path: 'OmOrderManager', 
+component: OmOrderManagerComponent, 
 canActivate: [AuthGuardGuard], 
 }];
 

@@ -29,10 +29,12 @@ import { CmOrderToteConflictComponent } from 'src/app/dialogs/cm-order-tote-conf
 export class ConsolidationComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('paginator') paginator: MatPaginator;
 
+  @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild('paginator2') paginator2: MatPaginator;
   @ViewChild('paginator3') paginator3: MatPaginator;
+
+
   @ViewChild('ordernum') ordernum: ElementRef;
 
   public startSelectFilter: any = '1'
@@ -62,32 +64,18 @@ export class ConsolidationComponent implements OnInit {
   searchByItem: any = new Subject<string>();
   searchAutocompleteItemNum: any = [];
 
-  ELEMENT_DATA: any[] = [
-    { tote_id: '30022', location: 'Work 2141', staged_by: 'Main 52', staged_date: 'Jan-25-2023' },
-    { tote_id: '30022', location: 'Work 2141', staged_by: 'Main 52', staged_date: 'Jan-25-2023' },
-    { tote_id: '30022', location: 'Work 2141', staged_by: 'Main 52', staged_date: 'Jan-25-2023' },
-    { tote_id: '30022', location: 'Work 2141', staged_by: 'Main 52', staged_date: 'Jan-25-2023' },
 
-  ];
 
   displayedColumns: string[] = ['toteID', 'complete', 'stagingLocation', 'stagedBy', 'stagedDate'];
   stageTable;
-  dataSourceList: any
 
-  displayedColumns_1: string[] = ['itemNumber', 'lineNumber', 'transactionQuantity', 'toteID', 'lineStatus', 'serialNumber', 'userField1', 'actions'];
+  displayedColumns_1: string[] = ['itemNumber', 'lineStatus', 'lineNumber', 'transactionQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
   tableData_1: any;
-  dataSourceList_1: any
 
-  ELEMENT_DATA_2: any[] = [
-    { item_no: '30022', supplier_item_id: 'Work 2141', line_no: 'Work 2141', completed_qty: 'Main 52', tote_id: 'Jan-25-2023', serial_no: 'Jan-25-2023', user_field1: 'Jan-25-2023', },
-    { item_no: '30022', supplier_item_id: 'Work 2141', line_no: 'Work 2141', completed_qty: 'Main 52', tote_id: 'Jan-25-2023', serial_no: 'Jan-25-2023', user_field1: 'Jan-25-2023', },
-    { item_no: '30022', supplier_item_id: 'Work 2141', line_no: 'Work 2141', completed_qty: 'Main 52', tote_id: 'Jan-25-2023', serial_no: 'Jan-25-2023', user_field1: 'Jan-25-2023', },
 
-  ];
 
-  displayedColumns_2: string[] = ['itemNumber', 'supplierItemID', 'lineNumber', 'completedQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
+  displayedColumns_2: string[] = ['itemNumber', 'lineStatus','supplierItemID', 'lineNumber', 'completedQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
   tableData_2 :any;
-  dataSourceList_2: any
 
   filterOption :any= [
     {key: '1', value: 'Item Number'},
@@ -111,7 +99,8 @@ export class ConsolidationComponent implements OnInit {
     this.autocompleteSearchColumnItem()
    });
     }
-  hideRow = false;
+  hideRow = true;
+  firstTable= true;
 
 
   announceSortChange(sortState: Sort) {
@@ -142,6 +131,7 @@ export class ConsolidationComponent implements OnInit {
 
   clickToHide() {
     this.hideRow = !this.hideRow;
+    this.firstTable = !this.firstTable;
   }
 
   enterOrderID(event) {
@@ -208,18 +198,22 @@ export class ConsolidationComponent implements OnInit {
         else {
           this.btnEnable();
           this.open = res.data.openLinesCount;
-          this.completed = res.data.reprocessLinesCount;
+          this.completed = res.data.completedLinesCount;
           this.backOrder = res.data.reprocessLinesCount;
           this.tableData_1 = new MatTableDataSource(res.data.consolidationTable);
           this.tableData_2 = new MatTableDataSource(res.data.consolidationTable2);
+          // console.log(res)
+          this.stageTable =  new MatTableDataSource(res.data.stageTable);
 
           
           this.tableData_1.paginator = this.paginator;
           this.tableData_2.paginator = this.paginator2;
           
-          this.stageTable = [];
-          this.stageTable = res.data.stageTable;
+          // this.stageTable = [];
           this.stageTable.paginator = this.paginator3;
+          
+          
+          
           
           let payload = {
             "orderNumber": curValue,
@@ -256,6 +250,7 @@ export class ConsolidationComponent implements OnInit {
   }
 
   verifyAll() {
+
     let IDS: any = [];
     this.tableData_1.data.forEach((row: any) => {
       // row.lineStatus != "Not Completed" && row.lineStatus != "Not Assigned"
@@ -291,10 +286,15 @@ export class ConsolidationComponent implements OnInit {
         data.push(...z);
         this.tableData_2 = new MatTableDataSource(data);
 
+        this.tableData_1.paginator = this.paginator
+        this.tableData_2.paginator = this.paginator2;
+
+
         // this.tableData_2.data.push(...z)
         this.tableData_1.data = this.tableData_1.data.filter((el)=>{
             return !z.includes(el)
         })
+       
 
         if(this.tableData_1.data.length == 0){
           this.toastr.info('You have consolidated all items in this order', 'Alert!', {
@@ -340,7 +340,11 @@ export class ConsolidationComponent implements OnInit {
           }
           else{
             this.tableData_1.data = this.tableData_1.data.concat(this.tableData_2.data);
+
+            
             this.tableData_2.data = [];
+            this.tableData_1.paginator = this.paginator
+            this.tableData_2.paginator = this.paginator2;
           }
          
         })
@@ -382,6 +386,9 @@ export class ConsolidationComponent implements OnInit {
         let data2 = this.tableData_1.data;
         data2.splice(index, 1);
         this.tableData_1 = new MatTableDataSource(data2);
+
+        this.tableData_1.paginator = this.paginator;
+        this.tableData_2.paginator = this.paginator2;
         
       }
       else{
@@ -426,6 +433,9 @@ export class ConsolidationComponent implements OnInit {
           data.splice(index, 1);
           this.tableData_2 = new MatTableDataSource(data);
 
+          this.tableData_1.paginator = this.paginator;
+          this.tableData_2.paginator = this.paginator2;
+
           
         }
         else{
@@ -442,28 +452,53 @@ export class ConsolidationComponent implements OnInit {
 
   filtervalue(event){
     if (event.keyCode == 13) {
+      // debugger
       this.CheckDuplicatesForVerify(this.filterValue);
     }
 
   }
 
   checkVerifyType(columnIndex, val){
-    this.filterValue = this.filterValue.toLowerCase();
+    // debugger
+    
+   let filterVal = this.filterValue.toLowerCase();
     this.filterValue = '';
     if (val != undefined) {
-      this.filterValue = val.toLowerCase();
+      filterVal = val.toLowerCase();
   }
     let valueCount = 0;
     let index;
-    this.tableData_1.data.forEach((row:any,i: any)=>{
-      console.log(row ,i);
-      let currentColVal = row.itemNumber.toLowerCase();
-      if (currentColVal == this.filterValue) {        
-        index = i;
-        valueCount++;
+
+
+    // this.tableData_1.data.forEach((row:any,i: any)=>{
+    //   // console.log(row ,i);
+    //   let currentColVal = row.itemNumber.toLowerCase();
+    //   console.log(currentColVal)
+    //   if (currentColVal == filterVal) {        
+    //     index = i;
+    //     valueCount++;
+    //   }
+    // })
+
+
+  
+
+    console.log(typeof this.tableData_1.data,'this.tableData_1')
+
+
+    const currentColVal = this.tableData_1.data.some((obj,i) => {
+      for (let key in obj) {
+        if (obj[key] === filterVal) {
+            index = i;
+            valueCount++;
+        }
       }
-    })
+    });
     return { index: index, valueCount: valueCount }
+
+
+
+    
 
   }
 
