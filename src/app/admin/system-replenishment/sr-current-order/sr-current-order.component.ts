@@ -15,6 +15,7 @@ import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.
 import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-sr-current-order',
@@ -267,27 +268,49 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   deleteAllOrders() {
-    if (confirm("Are you sure you want to delete all records")) {
-      this.repByDeletePayload.identity = "ALL";
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: `Are you sure you want to delete all records`,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      debugger;
+      if (result == 'Yes') {
+        this.repByDeletePayload.identity = "ALL";
       this.repByDeletePayload.filter1 = "";
       this.repByDeletePayload.filter2 = "";
       this.repByDeletePayload.searchString = "";
       this.repByDeletePayload.searchColumn = "";
       this.repByDeletePayload.status = "";
       this.ReplenishmentsByDelete();
-    }
+      }
+    });
   }
 
   deleteShownOrders() {
-    if (confirm("Are you sure you want to delete all records that are currently dipslayed")) {
-      this.repByDeletePayload.identity = "Shown";
-      this.repByDeletePayload.filter1 = "";
-      this.repByDeletePayload.filter2 = "";
-      this.repByDeletePayload.searchString = this.tablePayloadObj.searchString;
-      this.repByDeletePayload.searchColumn = this.tablePayloadObj.searchColumn;
-      this.repByDeletePayload.status = this.tablePayloadObj.status;
-      this.ReplenishmentsByDelete();
-    }
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: `Are you sure you want to delete all records that are currently dipslayed`,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      debugger;
+      if (result == 'Yes') {
+        this.repByDeletePayload.identity = "Shown";
+        this.repByDeletePayload.filter1 = "";
+        this.repByDeletePayload.filter2 = "";
+        this.repByDeletePayload.searchString = this.tablePayloadObj.searchString;
+        this.repByDeletePayload.searchColumn = this.tablePayloadObj.searchColumn;
+        this.repByDeletePayload.status = this.tablePayloadObj.status;
+        this.ReplenishmentsByDelete();
+      }
+    });
   }
 
   deleteRange() {
