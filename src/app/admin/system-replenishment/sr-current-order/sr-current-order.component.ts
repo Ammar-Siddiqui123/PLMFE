@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SystemReplenishmentService } from '../system-replenishment.service';
 import { ToastrService } from 'ngx-toastr';
@@ -16,6 +16,7 @@ import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-sr-current-order',
@@ -165,6 +166,9 @@ export class SrCurrentOrderComponent implements OnInit {
     this.newReplenishmentOrders();
   }
 
+  @Input('refreshCurrentOrders') refreshCurrentOrders:Subject<any>;
+  @Output() replenishmentsDeleted: EventEmitter<any> = new EventEmitter();
+
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.tablePayloadObj.username = this.userData.userName;
@@ -172,6 +176,13 @@ export class SrCurrentOrderComponent implements OnInit {
     this.repByDeletePayload.username = this.userData.userName;
     this.repByDeletePayload.wsid = this.userData.wsid;
     this.newReplenishmentOrders();
+    this.refreshCurrentOrders.subscribe(e => {
+      this.newReplenishmentOrders();
+    });
+  }
+
+  ngOnDestroy() {
+    this.refreshCurrentOrders.unsubscribe();
   }
 
   newReplenishmentOrdersSubscribe:any;
@@ -444,6 +455,7 @@ export class SrCurrentOrderComponent implements OnInit {
           timeOut: 2000
         });
         this.newReplenishmentOrders();
+        this.replenishmentsDeleted.emit();
       } else {
         this.toastr.error("Deleting by range has failed", 'Error!', {
           positionClass: 'toast-bottom-right',
