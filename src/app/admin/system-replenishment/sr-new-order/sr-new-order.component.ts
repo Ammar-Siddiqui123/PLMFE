@@ -202,25 +202,24 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   onChangeKanban(ob: MatCheckboxChange) {
-    // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-    //   height: 'auto',
-    //   width: '560px',
-    //   autoFocus: '__non_existing_element__',
-    //   data: {
-    //     message: 'Click OK to create a new replenishment list.',
-    //   },
-    // });
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   debugger;
-    //   if (result == 'Yes') {
-    this.resetPagination();
-    this.createNewReplenishments(ob.checked);
-    //   }
-    //   else{
-    //     ob.checked = !ob.checked;
-    //     this.kanban = !ob.checked;
-    //   }
-    // });
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: 'Click OK to create a new replenishment list.',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'Yes') {
+        this.resetPagination();
+        this.createNewReplenishments(ob.checked);
+      }
+      else{
+        ob.checked = !ob.checked;
+        this.kanban = ob.checked;
+      }
+    });
   }
 
   createNewOrdersList() {
@@ -233,7 +232,6 @@ export class SrNewOrderComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
       if (result == 'Yes') {
         this.createNewReplenishments(this.kanban);
       }
@@ -313,7 +311,6 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   paginatorChange(event: PageEvent) {
-    debugger;
     if (event.previousPageIndex != undefined && event.pageIndex > event.previousPageIndex) {
       this.tablePayloadObj.start = this.tablePayloadObj.start + event.pageSize;
     }
@@ -338,7 +335,6 @@ export class SrNewOrderComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
       if (result == 'Yes') {
         alert('Print Service not availabe.');
       }
@@ -355,7 +351,6 @@ export class SrNewOrderComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
       if (result == 'Yes') {
         this.ReplenishmentsIncludeAllUpdate(true);
       }
@@ -372,7 +367,6 @@ export class SrNewOrderComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
       if (result == 'Yes') {
         this.ReplenishmentsIncludeAllUpdate(false);
       }
@@ -427,7 +421,6 @@ export class SrNewOrderComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
       if (result == 'Yes') {
         let paylaod = {
           "kanban": this.kanban,
@@ -460,7 +453,6 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   announceSortChange(e: any) {
-    debugger;
     this.tablePayloadObj.sortColumn = this.searchColumnOptions.filter((item: any) => item.value == e.active)[0].sortValue;
     // this.tablePayloadObj.sortColumn = e.active;
     this.tablePayloadObj.sortDir = e.direction;
