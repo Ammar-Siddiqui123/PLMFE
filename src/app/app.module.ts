@@ -67,6 +67,8 @@ import { CmPrintOptionsComponent } from './dialogs/cm-print-options/cm-print-opt
 import { CmOrderToteConflictComponent } from './dialogs/cm-order-tote-conflict/cm-order-tote-conflict.component';
 import { SrReplenishmentProgressComponent } from './dialogs/sr-replenishment-progress/sr-replenishment-progress.component';
 import { OmEventLogEntryDetailComponent } from './dialogs/om-event-log-entry-detail/om-event-log-entry-detail.component';
+import { OmUpdateRecordComponent } from './dialogs/om-update-record/om-update-record.component';
+import { OmAddRecordComponent } from './dialogs/om-add-record/om-add-record.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -121,6 +123,8 @@ import { OmEventLogEntryDetailComponent } from './dialogs/om-event-log-entry-det
     CmOrderToteConflictComponent,
     SrReplenishmentProgressComponent,
     OmEventLogEntryDetailComponent,
+    OmUpdateRecordComponent,
+    OmAddRecordComponent,
     // ActionDisableDirective,
   ],
   imports: [
