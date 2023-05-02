@@ -424,8 +424,14 @@ export class SrCurrentOrderComponent implements OnInit {
     this.changeSearchOptions();
   }
 
+  resetPagination() {
+    this.tablePayloadObj.start = 0;
+    this.tablePayloadObj.length = 10;
+  }
+
   search() {
     if (this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != "") {
+      this.resetPagination();
       this.newReplenishmentOrders();
     }
   }
