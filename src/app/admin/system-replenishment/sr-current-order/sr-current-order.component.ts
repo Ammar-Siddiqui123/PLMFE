@@ -268,40 +268,42 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   deleteAllOrders() {
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
       data: {
-        message: `Are you sure you want to delete all records`,
+        mode: 'delete-all-current-orders',
+        ErrorMessage: 'Are you sure you want to delete all records',
+        action: 'delete'
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
-      if (result == 'Yes') {
+      if (result === 'Yes') {
         this.repByDeletePayload.identity = "ALL";
-      this.repByDeletePayload.filter1 = "";
-      this.repByDeletePayload.filter2 = "";
-      this.repByDeletePayload.searchString = "";
-      this.repByDeletePayload.searchColumn = "";
-      this.repByDeletePayload.status = "";
-      this.ReplenishmentsByDelete();
+        this.repByDeletePayload.filter1 = "";
+        this.repByDeletePayload.filter2 = "";
+        this.repByDeletePayload.searchString = "";
+        this.repByDeletePayload.searchColumn = "";
+        this.repByDeletePayload.status = "";
+        this.ReplenishmentsByDelete();
       }
     });
   }
 
   deleteShownOrders() {
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
       data: {
-        message: `Are you sure you want to delete all records that are currently dipslayed`,
+        mode: 'delete-shown-current-orders',
+        ErrorMessage: 'Are you sure you want to delete all records that are currently dipslayed',
+        action: 'delete'
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
-      if (result == 'Yes') {
+      if (result === 'Yes') {
         this.repByDeletePayload.identity = "Shown";
         this.repByDeletePayload.filter1 = "";
         this.repByDeletePayload.filter2 = "";
