@@ -212,18 +212,21 @@ export class ConsolidationComponent implements OnInit {
         else {
           this.btnEnable();
           this.open = res.data.openLinesCount;
-          this.completed = res.data.reprocessLinesCount;
+          this.completed = res.data.completedLinesCount;
           this.backOrder = res.data.reprocessLinesCount;
           this.tableData_1 = new MatTableDataSource(res.data.consolidationTable);
           this.tableData_2 = new MatTableDataSource(res.data.consolidationTable2);
+          this.stageTable =  new MatTableDataSource(res.data.stageTable);
 
           
           this.tableData_1.paginator = this.paginator;
           this.tableData_2.paginator = this.paginator2;
           
-          this.stageTable = [];
-          this.stageTable = res.data.stageTable;
+          // this.stageTable = [];
           this.stageTable.paginator = this.paginator3;
+          
+          
+          
           
           let payload = {
             "orderNumber": curValue,
@@ -260,7 +263,7 @@ export class ConsolidationComponent implements OnInit {
   }
 
   verifyAll() {
-    
+
     let IDS: any = [];
     this.tableData_1.data.forEach((row: any) => {
       // row.lineStatus != "Not Completed" && row.lineStatus != "Not Assigned"
@@ -296,11 +299,15 @@ export class ConsolidationComponent implements OnInit {
         data.push(...z);
         this.tableData_2 = new MatTableDataSource(data);
 
+        this.tableData_1.paginator = this.paginator
+        this.tableData_2.paginator = this.paginator2;
+
 
         // this.tableData_2.data.push(...z)
         this.tableData_1.data = this.tableData_1.data.filter((el)=>{
             return !z.includes(el)
         })
+       
 
         if(this.tableData_1.data.length == 0){
           this.toastr.info('You have consolidated all items in this order', 'Alert!', {
@@ -346,7 +353,11 @@ export class ConsolidationComponent implements OnInit {
           }
           else{
             this.tableData_1.data = this.tableData_1.data.concat(this.tableData_2.data);
+
+            
             this.tableData_2.data = [];
+            this.tableData_1.paginator = this.paginator
+            this.tableData_2.paginator = this.paginator2;
           }
          
         })
@@ -388,6 +399,9 @@ export class ConsolidationComponent implements OnInit {
         let data2 = this.tableData_1.data;
         data2.splice(index, 1);
         this.tableData_1 = new MatTableDataSource(data2);
+
+        this.tableData_1.paginator = this.paginator;
+        this.tableData_2.paginator = this.paginator2;
         
       }
       else{
@@ -432,6 +446,9 @@ export class ConsolidationComponent implements OnInit {
           data.splice(index, 1);
           this.tableData_2 = new MatTableDataSource(data);
 
+          this.tableData_1.paginator = this.paginator;
+          this.tableData_2.paginator = this.paginator2;
+
           
         }
         else{
@@ -454,6 +471,7 @@ export class ConsolidationComponent implements OnInit {
   }
 
   checkVerifyType(columnIndex, val){
+    
    let filterVal = this.filterValue.toLowerCase();
     this.filterValue = '';
     if (val != undefined) {
