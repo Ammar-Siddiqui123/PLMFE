@@ -6,10 +6,12 @@ import { EventLogComponent } from './event-log/event-log.component';
 import { CdkTableModule} from '@angular/cdk/table';
 import { MaterialModule } from '../material-module';
 import { GeneralModule } from '../gen-module';
+import { OmOrderManagerComponent } from './om-order-manager/om-order-manager.component';
 
 @NgModule({
   declarations: [
-    EventLogComponent
+    EventLogComponent,
+    OmOrderManagerComponent
    
     
   ],

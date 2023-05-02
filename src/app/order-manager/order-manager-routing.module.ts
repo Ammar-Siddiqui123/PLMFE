@@ -3,10 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { OrderManagerComponent } from './order-manager.component';
 import { EventLogComponent } from './event-log/event-log.component';
 import { AuthGuardGuard } from '../guard/auth-guard.guard';
+import { OmOrderManagerComponent } from './om-order-manager/om-order-manager.component';
 
 const routes: Routes = [{ path: '', component: OrderManagerComponent },
 { path: 'EventLog', 
 component: EventLogComponent, 
+canActivate: [AuthGuardGuard], 
+},
+{ path: 'OmOrderManager', 
+component: OmOrderManagerComponent, 
 canActivate: [AuthGuardGuard], 
 }]
 
