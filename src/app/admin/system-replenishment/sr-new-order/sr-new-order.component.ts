@@ -105,6 +105,7 @@ export class SrNewOrderComponent implements OnInit {
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
     this.tablePayloadObj.filter = this.FilterString;
+    this.resetPagination();
     this.newReplenishmentOrders();
     this.tablePayloadObj.filter = "1=1";
   }
@@ -138,6 +139,7 @@ export class SrNewOrderComponent implements OnInit {
   autocompleteSearchColumn(){
     if (this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != "") {
       this.newReplenishmentOrdersSubscribe.unsubscribe();
+      this.resetPagination();
       this.newReplenishmentOrders();
     }
   }
@@ -195,8 +197,14 @@ export class SrNewOrderComponent implements OnInit {
     });
   }
 
+  resetPagination() {
+    this.tablePayloadObj.start = 0;
+    this.tablePayloadObj.length = 10;
+  }
+
   onChangeKanban(ob: MatCheckboxChange) {
     // if (confirm("Click OK to create a new replenishment list.")) {
+    this.resetPagination()
     this.createNewReplenishments(ob.checked);
     // } else {
     //   ob.checked = !ob.checked;
@@ -283,6 +291,7 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   paginatorChange(event: PageEvent) {
+    debugger;
     if (event.previousPageIndex != undefined && event.pageIndex > event.previousPageIndex) {
       this.tablePayloadObj.start = this.tablePayloadObj.start + event.pageSize;
     }
@@ -356,6 +365,7 @@ export class SrNewOrderComponent implements OnInit {
       if (result) {
         this.filterItemNumbersText = result.filterItemNumbersText;
         if (result.filterItemNumbersArray && result.filterItemNumbersArray.length > 0) {
+          this.resetPagination();
           this.newReplenishmentOrders();
         }
       }
@@ -393,6 +403,7 @@ export class SrNewOrderComponent implements OnInit {
 
   search() {
     if (this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != "") {
+      this.resetPagination();
       this.newReplenishmentOrders();
     }
   }
