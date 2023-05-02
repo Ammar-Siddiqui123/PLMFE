@@ -23,7 +23,7 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 })
 export class SrCurrentOrderComponent implements OnInit {
 
-  displayedColumns2: string[] = ['itemNumber', 'transactionType', 'warehouse', 'zone', 'carousel', 'row', 'shelf', 'bin', 'cell', 'lotNumber', 'transactionQuantity', 'description', 'orderNumber', 'unitOfMeasure', 'batchPickID', 'serialNumber', 'completedDate', 'printDate'];
+  displayedColumns2: string[] = ['Item Number', 'Trans Type', 'warehouse', 'zone', 'carousel', 'row', 'shelf', 'bin', 'cell', 'lotNumber', 'Trans Qty', 'description', 'Order Number', 'UofM', 'Batch Pick ID', 'Serial Number', 'Completed Date', 'Print Date'];
   noOfPicks: number = 0;
   noOfPutAways: number = 0;
   public userData: any;
@@ -159,7 +159,7 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   announceSortChange(e: any) {
-    this.tablePayloadObj.searchColumn = e.active;
+    this.tablePayloadObj.sortColumn = e.active;
     this.tablePayloadObj.sortDir = e.direction;
     this.newReplenishmentOrders();
   }
@@ -206,7 +206,7 @@ export class SrCurrentOrderComponent implements OnInit {
 
   updateCounts() {
     this.noOfPutAways = this.filteredTableData.filter((item: any) => item.transactionType == 'Put Away').length;
-    this.noOfPicks = this.filteredTableData.filter((item: any) => item.transactionType == 'PICK').length;
+    this.noOfPicks = this.filteredTableData.filter((item: any) => item.transactionType == 'Pick').length;
   }
 
   paginatorChange(event: PageEvent) {
@@ -289,10 +289,36 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   deleteRange() {
+
+    let batchPickIdOptions:any = [];
+    this.filteredTableData.forEach((x:any) => {
+      if(x.batchPickID && !batchPickIdOptions.includes(x.batchPickID)){
+        batchPickIdOptions.push(x.batchPickID);
+      }
+    });
+
+    let pickLocationOptions:any = [];
+    this.filteredTableData.forEach((x:any) => {
+      if(x.transactionType == "Pick" && !pickLocationOptions.includes(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim())){
+        pickLocationOptions.push(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim());
+      }
+    });
+
+    let putAwayLocationOptions:any = [];
+    this.filteredTableData.forEach((x:any) => {
+      if(!putAwayLocationOptions.includes(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim())){
+        putAwayLocationOptions.push(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim());
+      }
+    });
+
     const dialogRef = this.dialog.open(DeleteRangeComponent, {
       width: '900px',
       autoFocus: '__non_existing_element__',
-      data: {},
+      data: 
+      { pickLocationOptions : pickLocationOptions,
+        putAwayLocationOptions : putAwayLocationOptions,
+        batchPickIdOptions : batchPickIdOptions
+      },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {

@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild, Inject } from '@angular/core'
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
@@ -28,6 +29,7 @@ export class CmShippingTransactionComponent implements OnInit {
   OldTableData : any;
   tableData : any;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   
   constructor(private dialog          : MatDialog,
               public dialogRef        : MatDialogRef<CmShippingTransactionComponent>,
@@ -58,6 +60,7 @@ export class CmShippingTransactionComponent implements OnInit {
           if (res.isExecuted) {
             this.STIndex = res.data;
             this.tableData = new MatTableDataSource(this.STIndex.tableData);
+            this.tableData.paginator = this.paginator;
           } else {
             this.toast.error('Something went wrong', 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
           }
@@ -229,7 +232,7 @@ export class CmShippingTransactionComponent implements OnInit {
   openShipSplitLine(order : any, i : any) {
     let dialogRef = this.dialog.open(CmShipSplitLineComponent, {
       height: 'auto',
-      width: '96vw',
+      width: '30vw',
       autoFocus: '__non_existing_element__',
       data: {
         order,
@@ -244,7 +247,10 @@ export class CmShippingTransactionComponent implements OnInit {
         this.tableData.data[i].transactionQuantity = res.orderQty;
         this.tableData.data[i].completedQuantity = res.pickQty;
         this.tableData.data[i].shipQuantity = res.shipQty;
-      } 
+
+        this.getShippingTransactionIndex();
+      }
+
     });
   }
 
@@ -262,7 +268,7 @@ export class CmShippingTransactionComponent implements OnInit {
   openShipEditQuantity(order : any, i : any) {
     let dialogRef = this.dialog.open(CmShipEditQtyComponent, {
       height: 'auto',
-      width: '96vw',
+      width: '50vw',
       autoFocus: '__non_existing_element__',
       data: {
         reasons: this.STIndex.reasons,
@@ -282,7 +288,7 @@ export class CmShippingTransactionComponent implements OnInit {
     // Open the dialog
     let dialogRef = this.dialog.open(CmShipEditConIdComponent, {
       height: 'auto',
-      width: '96vw',
+      width: '40vw',
       autoFocus: '__non_existing_element__',
       data: {
         order
@@ -313,9 +319,11 @@ export class CmShippingTransactionComponent implements OnInit {
   filterByItem(value : any) {
     if(this.OldTableData && this.OldTableData.data.length > 0) {
       this.tableData = new MatTableDataSource(this.OldTableData.data.filter((x : any) =>  x.itemNumber.includes(value)));
+      this.tableData.paginator = this.paginator;
     } else {
       this.OldTableData = new MatTableDataSource(this.tableData.data);
       this.tableData = new MatTableDataSource(this.tableData.data.filter((x : any) =>  x.itemNumber.includes(value)));
+      this.tableData.paginator = this.paginator;
     }
   }
 
