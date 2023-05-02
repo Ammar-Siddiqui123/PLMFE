@@ -40,7 +40,7 @@ export class CmConfirmAndPackingSelectTransactionComponent implements OnInit {
   async ConfPackProc(){
     var Obj:any = { 
         "orderNumber": this.orderNumber,
-        "itemNumber": "024768727870" 
+        "itemNumber":this.itemNumber 
     };
     this.http.get(Obj,'/Consolidation/ConfPackSelectDT').subscribe((response:any) => { 
       this.confPackSelectTable = response.data;  
