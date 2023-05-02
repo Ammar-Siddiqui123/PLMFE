@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
 import { DeleteRangeComponent } from 'src/app/dialogs/delete-range/delete-range.component';
 import { PrintReplenLabelsComponent } from 'src/app/dialogs/print-replen-labels/print-replen-labels.component';
 import { SrDeleteOrderComponent } from 'src/app/dialogs/sr-delete-order/sr-delete-order.component';
@@ -12,6 +13,11 @@ import { SrDeleteOrderComponent } from 'src/app/dialogs/sr-delete-order/sr-delet
 export class SystemReplenishmentComponent implements OnInit {
 
   constructor(private dialog: MatDialog,) { }
+
+  refreshCurrentOrders:Subject<any> = new Subject();
+  replenishmentsProcessed:boolean = false;
+  refreshNewOrders:Subject<any> = new Subject();
+  replenishmentsDeleted:boolean = false;
 
   ngOnInit(): void {
   }
@@ -47,7 +53,14 @@ export class SystemReplenishmentComponent implements OnInit {
   activeTabIndex:number = 0;
   onTabChanged(event:any){
     this.activeTabIndex = event.index;
-    console.log(event);
+    if(this.activeTabIndex == 0 && this.replenishmentsDeleted){
+      this.refreshNewOrders.next(1);
+      this.replenishmentsDeleted = false;
+    }
+    if(this.activeTabIndex == 1 && this.replenishmentsProcessed){
+      this.refreshCurrentOrders.next(1);
+      this.replenishmentsProcessed = false;
+    }
   }
 
 }
