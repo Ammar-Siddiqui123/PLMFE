@@ -149,52 +149,52 @@
 
                     <ng-container matColumnDef="Item Number">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Number </th>
-                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.itemNumber, 'itemNumber')"> {{element.itemNumber}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"> {{element.itemNumber}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Description">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.description, 'description')"> {{element.description}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.description, 'Description')"> {{element.description}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Warehouse">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse </th>
-                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.warehouse, 'warehouse')"> {{element.warehouse}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.warehouse, 'Warehouse')"> {{element.warehouse}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Stock Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock Qty </th>
-                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.stockQuantity, 'stockQuantity')"> {{element.stockQuantity}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.stockQuantity, 'Stock Qty')"> {{element.stockQuantity}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Replenishment Point">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenishment Point </th>
-                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentPoint, 'replenishmentPoint')"> {{element.replenishmentPoint}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentPoint, 'Replenishment Point')"> {{element.replenishmentPoint}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Replenishment Level">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenishment Level </th>
-                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentLevel, 'replenishmentLevel')"> {{element.replenishmentLevel}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentLevel, 'Replenishment Level')"> {{element.replenishmentLevel}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Available Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Available Qty </th>
-                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.availableQuantity, 'availableQuantity')"> {{element.availableQuantity}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.availableQuantity, 'Available Qty')"> {{element.availableQuantity}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Replenishment Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenishment Qty </th>
-                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentQuantity, 'replenishmentQuantity')"> {{element.replenishmentQuantity}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentQuantity, 'Replenishment Qty')"> {{element.replenishmentQuantity}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Case Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Case Qty </th>
-                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.caseQuantity, 'caseQuantity')"> {{element.caseQuantity}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.caseQuantity, 'Case Qty')"> {{element.caseQuantity}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Transaction Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Qty </th>
-                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.transactionQuantity, 'transactionQuantity')">
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.transactionQuantity, 'Transaction Qty')">
                             <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline"
                                 (click)="editTransDialog(element)">
                                 <input matInput type="text" maxlength="50" readonly="true" value="000000" [ngModel]="element.transactionQuantity">
@@ -209,7 +209,7 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenish </th>
                         <td mat-cell *matCellDef="let element">
                             <div class="text-center">
-                                <mat-checkbox color="primary" matTooltip="Check" matTooltipPosition="above" [disabled]="element.transactionQuantity < 1"
+                                <mat-checkbox color="primary" matTooltip="Check" matTooltipPosition="above" [disabled]="element.availableQuantity == 0 ||  element.transactionQuantity == 0 || element.replenishExists"
                                     [checked]="element.replenish" [(ngModel)]="element.replenish" (change)="changeReplenish(element,$event)">
                                 </mat-checkbox>
                             </div>
@@ -229,12 +229,12 @@
 
                     <ng-container matColumnDef="Alloc Pick">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Allocated Pick </th>
-                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.allocPick, 'allocPick')"> {{element.allocPick}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.allocPick, 'Alloc Pick')"> {{element.allocPick}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Alloc Put">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Allocated Put </th>
-                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.allocPut, 'allocPut')"> {{element.allocPut}} </td>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.allocPut, 'Alloc Put')"> {{element.allocPut}} </td>
                     </ng-container>
 
                     <!-- Action Column -->

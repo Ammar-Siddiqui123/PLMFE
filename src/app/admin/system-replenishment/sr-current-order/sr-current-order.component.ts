@@ -23,7 +23,7 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 })
 export class SrCurrentOrderComponent implements OnInit {
 
-  displayedColumns2: string[] = ['itemNumber', 'transactionType', 'warehouse', 'zone', 'carousel', 'row', 'shelf', 'bin', 'cell', 'lotNumber', 'transactionQuantity', 'description', 'orderNumber', 'unitOfMeasure', 'batchPickID', 'serialNumber', 'completedDate', 'printDate'];
+  displayedColumns2: string[] = ['Item Number', 'Trans Type', 'warehouse', 'zone', 'carousel', 'row', 'shelf', 'bin', 'cell', 'lotNumber', 'Trans Qty', 'description', 'Order Number', 'UofM', 'Batch Pick ID', 'Serial Number', 'Completed Date', 'Print Date'];
   noOfPicks: number = 0;
   noOfPutAways: number = 0;
   public userData: any;
@@ -44,24 +44,24 @@ export class SrCurrentOrderComponent implements OnInit {
   filteredTableData: any = [];
   tableDataTotalCount: number = 0;
   searchColumnOptions: any = [
-    { value: 'Item Number', viewValue: 'Item Number', sortColumn: '0' },
-    { value: 'Transaction Type', viewValue: 'Trans Type', sortColumn: '1' },
-    { value: 'Warehouse', viewValue: 'Warehouse', sortColumn: '2' },
-    { value: 'Zone', viewValue: 'Zone', sortColumn: '3' },
-    { value: 'Carsl', viewValue: 'Carsl', sortColumn: '4' },
-    { value: 'Row', viewValue: 'Row', sortColumn: '5' },
-    { value: 'Shelf', viewValue: 'Shelf', sortColumn: '6' },
-    { value: 'Bin', viewValue: 'Bin', sortColumn: '7' },
-    { value: 'Cell', viewValue: 'Cell', sortColumn: '8' },
-    { value: 'Lot Number', viewValue: 'Lot Number', sortColumn: '9' },
-    { value: 'Trans Qty', viewValue: 'Trans Qty', sortColumn: '10' },
-    { value: 'Description', viewValue: 'Description', sortColumn: '11' },
-    { value: 'Order Number', viewValue: 'Order Number', sortColumn: '12' },
-    { value: 'UofM', viewValue: 'UofM', sortColumn: '13' },
-    { value: 'Batch Pick ID', viewValue: 'Batch Pick ID', sortColumn: '14' },
-    { value: 'Serial Number', viewValue: 'Serial Number', sortColumn: '15' },
-    { value: 'Comp Date', viewValue: 'Comp Date', sortColumn: '16' },
-    { value: 'Print Date', viewValue: 'Print Date', sortColumn: '17' },
+    { value: 'Item Number', viewValue: 'Item Number', sortColumn: '0', key: 'itemNumber' },
+    { value: 'Transaction Type', viewValue: 'Trans Type', sortColumn: '1', key: 'transactionType' },
+    { value: 'Warehouse', viewValue: 'Warehouse', sortColumn: '2', key: 'warehouse' },
+    { value: 'Zone', viewValue: 'Zone', sortColumn: '3', key: 'zone' },
+    { value: 'Carsl', viewValue: 'Carsl', sortColumn: '4', key: 'carousel' },
+    { value: 'Row', viewValue: 'Row', sortColumn: '5', key: 'row' },
+    { value: 'Shelf', viewValue: 'Shelf', sortColumn: '6', key: 'shelf' },
+    { value: 'Bin', viewValue: 'Bin', sortColumn: '7', key: 'bin' },
+    { value: 'Cell', viewValue: 'Cell', sortColumn: '8', key: 'cell' },
+    { value: 'Lot Number', viewValue: 'Lot Number', sortColumn: '9', key: 'lotNumber' },
+    { value: 'Trans Qty', viewValue: 'Trans Qty', sortColumn: '10', key: 'transactionQuantity' },
+    { value: 'Description', viewValue: 'Description', sortColumn: '11', key: 'description' },
+    { value: 'Order Number', viewValue: 'Order Number', sortColumn: '12', key: 'orderNumber' },
+    { value: 'UofM', viewValue: 'UofM', sortColumn: '13', key: 'unitOfMeasure' },
+    { value: 'Batch Pick ID', viewValue: 'Batch Pick ID', sortColumn: '14', key: 'batchPickID' },
+    { value: 'Serial Number', viewValue: 'Serial Number', sortColumn: '15', key: 'serialNumber' },
+    { value: 'Comp Date', viewValue: 'Comp Date', sortColumn: '16', key: 'completedDate' },
+    { value: 'Print Date', viewValue: 'Print Date', sortColumn: '17', key: 'printDate' },
   ];
   repByDeletePayload: any = {
     identity: "",
@@ -107,7 +107,7 @@ export class SrCurrentOrderComponent implements OnInit {
 
   FilterString: string = "";
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    // this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
     console.log(this.FilterString);
     this.tablePayloadObj.filter = this.FilterString;
@@ -159,7 +159,7 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   announceSortChange(e: any) {
-    this.tablePayloadObj.searchColumn = e.active;
+    this.tablePayloadObj.sortColumn = e.active;
     this.tablePayloadObj.sortDir = e.direction;
     this.newReplenishmentOrders();
   }
@@ -200,13 +200,15 @@ export class SrCurrentOrderComponent implements OnInit {
     if (this.tablePayloadObj.searchColumn != "") {
       let key = this.searchColumnOptions.filter((item: any) => item.value == this.tablePayloadObj.searchColumn)[0].key;
       this.searchAutocompleteList = [];
-      this.searchAutocompleteList = this.filteredTableData.map((item: any) => item[key]);
+      let duplicates = this.filteredTableData.map((item: any) => item[key]);
+      this.searchAutocompleteList = duplicates.filter((item: any, index: any) => duplicates.indexOf(item) === index);
+      this.searchAutocompleteList = this.searchAutocompleteList.filter((item: any) => item != "");
     }
   }
 
   updateCounts() {
     this.noOfPutAways = this.filteredTableData.filter((item: any) => item.transactionType == 'Put Away').length;
-    this.noOfPicks = this.filteredTableData.filter((item: any) => item.transactionType == 'PICK').length;
+    this.noOfPicks = this.filteredTableData.filter((item: any) => item.transactionType == 'Pick').length;
   }
 
   paginatorChange(event: PageEvent) {
@@ -289,10 +291,36 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   deleteRange() {
+
+    let batchPickIdOptions:any = [];
+    this.filteredTableData.forEach((x:any) => {
+      if(x.batchPickID && !batchPickIdOptions.includes(x.batchPickID)){
+        batchPickIdOptions.push(x.batchPickID);
+      }
+    });
+
+    let pickLocationOptions:any = [];
+    this.filteredTableData.forEach((x:any) => {
+      if(x.transactionType == "Pick" && !pickLocationOptions.includes(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim())){
+        pickLocationOptions.push(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim());
+      }
+    });
+
+    let putAwayLocationOptions:any = [];
+    this.filteredTableData.forEach((x:any) => {
+      if(!putAwayLocationOptions.includes(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim())){
+        putAwayLocationOptions.push(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim());
+      }
+    });
+
     const dialogRef = this.dialog.open(DeleteRangeComponent, {
       width: '900px',
       autoFocus: '__non_existing_element__',
-      data: {},
+      data: 
+      { pickLocationOptions : pickLocationOptions,
+        putAwayLocationOptions : putAwayLocationOptions,
+        batchPickIdOptions : batchPickIdOptions
+      },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -368,7 +396,7 @@ export class SrCurrentOrderComponent implements OnInit {
 
   searchChange(event: any) {
     this.tablePayloadObj.searchColumn = event;
-    // this.tablePayloadObj.sortColumn = this.searchColumnOptions.filter((item: any) => item.value == event)[0].sortColumn;
+    this.changeSearchOptions();
   }
 
   search() {

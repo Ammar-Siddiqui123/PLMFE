@@ -7,11 +7,13 @@ import { CdkTableModule} from '@angular/cdk/table';
 import { MaterialModule } from '../material-module';
 import { GeneralModule } from '../gen-module';
 import { OmOrderManagerComponent } from './om-order-manager/om-order-manager.component';
+import { OmPreferencesComponent } from './om-preferences/om-preferences.component';
 
 @NgModule({
   declarations: [
     EventLogComponent,
-    OmOrderManagerComponent
+    OmOrderManagerComponent,
+    OmPreferencesComponent
    
     
   ],

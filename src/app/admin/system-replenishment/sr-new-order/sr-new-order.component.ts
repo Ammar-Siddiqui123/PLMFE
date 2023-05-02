@@ -35,7 +35,7 @@ export class SrNewOrderComponent implements OnInit {
     start: 0,
     length: 10,
     searchString: "",
-    sortColumn: 5,
+    sortColumn: 0,
     searchColumn: "",
     sortDir: "asc",
     reOrder: false,
@@ -43,6 +43,7 @@ export class SrNewOrderComponent implements OnInit {
     username: "",
     wsid: ""
   };
+  
   tableDataTotalCount: number = 0;
   filterItemNumbersText: string = "";
 
@@ -92,7 +93,6 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   onClick() {
-    debugger
     this.trigger.closeMenu();
   }
 
@@ -102,9 +102,8 @@ export class SrNewOrderComponent implements OnInit {
 
   FilterString: string = "";
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    // this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
-    console.log(this.FilterString);
     this.tablePayloadObj.filter = this.FilterString;
     this.newReplenishmentOrders();
     this.tablePayloadObj.filter = "1=1";
@@ -122,7 +121,6 @@ export class SrNewOrderComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
@@ -133,7 +131,6 @@ export class SrNewOrderComponent implements OnInit {
     this.tablePayloadObj.filter = "1=1";
     this.newReplenishmentOrders();
   }
-
 
   hideRequiredControl = new FormControl(false);
   @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
@@ -153,8 +150,6 @@ export class SrNewOrderComponent implements OnInit {
   {
     this.autocompleteInventory.closePanel(); 
   }
-
-
 
   editTransDialog(element: any): void {
     const dialogRef = this.dialog.open(TransactionQtyEditComponent, {
@@ -180,19 +175,21 @@ export class SrNewOrderComponent implements OnInit {
 
   newReplenishmentOrdersSubscribe:any;
   newReplenishmentOrders() {
+    this.tablePayloadObj.searchString = this.tablePayloadObj.searchString.toString();
     this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentNewTable').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.tableData = res.data.sysTable;
-        this.tableDataTotalCount = res.data.recordsTotal;
+        this.tableDataTotalCount = res.data.recordsFiltered;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
         this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
         this.changeSearchOptions();
         this.tablePayloadObj.filter = "1=1";
       } else {
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
+        console.log(res.responseMessage);
+        // this.toastr.error(res.responseMessage, 'Error!', {
+        //   positionClass: 'toast-bottom-right',
+        //   timeOut: 2000
+        // });
         this.tablePayloadObj.filter = "1=1";
       }
     });
@@ -221,19 +218,20 @@ export class SrNewOrderComponent implements OnInit {
     }
     this.systemReplenishmentService.create(paylaod, '/Admin/ReplenishmentInsert').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
-        this.toastr.success(labels.alert.success, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-        this.newReplenishmentOrders();
+        // this.toastr.success(labels.alert.success, 'Success!', {
+        //   positionClass: 'toast-bottom-right',
+        //   timeOut: 2000
+        // });
       } else {
-        if (!kanban) {
-          this.toastr.error(res.responseMessage, 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-        }
+        // if (!kanban) {
+        //   this.toastr.error(res.responseMessage, 'Error!', {
+        //     positionClass: 'toast-bottom-right',
+        //     timeOut: 2000
+        //   });
+        // }
+        console.log(res.responseMessage);
       }
+      this.newReplenishmentOrders();
     });
   }
 
@@ -271,7 +269,6 @@ export class SrNewOrderComponent implements OnInit {
 
   searchChange(event: any) {
     this.tablePayloadObj.searchColumn = event;
-    this.tablePayloadObj.sortColumn = this.searchColumnOptions.filter((item: any) => item.value == event)[0].sortValue;
     this.changeSearchOptions();
   }
 
@@ -279,7 +276,9 @@ export class SrNewOrderComponent implements OnInit {
     if (this.tablePayloadObj.searchColumn != "") {
       let key = this.searchColumnOptions.filter((item: any) => item.value == this.tablePayloadObj.searchColumn)[0].key;
       this.searchAutocompleteList = [];
-      this.searchAutocompleteList = this.filteredTableData.map((item: any) => item[key]);
+      let duplicates = this.filteredTableData.map((item: any) => item[key]);
+      this.searchAutocompleteList = duplicates.filter((item: any, index: any) => duplicates.indexOf(item) === index);
+      this.searchAutocompleteList = this.searchAutocompleteList.filter((item: any) => item != "");
     }
   }
 
@@ -354,7 +353,6 @@ export class SrNewOrderComponent implements OnInit {
       data: this.filterItemNumbersText,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
       if (result) {
         this.filterItemNumbersText = result.filterItemNumbersText;
         if (result.filterItemNumbersArray && result.filterItemNumbersArray.length > 0) {
@@ -400,7 +398,9 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   announceSortChange(e: any) {
-    this.tablePayloadObj.searchColumn = e.active;
+    debugger;
+    this.tablePayloadObj.sortColumn = this.searchColumnOptions.filter((item: any) => item.value == e.active)[0].sortValue;
+    // this.tablePayloadObj.sortColumn = e.active;
     this.tablePayloadObj.sortDir = e.direction;
     this.newReplenishmentOrders();
   }
@@ -414,10 +414,10 @@ export class SrNewOrderComponent implements OnInit {
     }
     this.systemReplenishmentService.create(paylaod, '/Admin/ReplenishmentsIncludeUpdate').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
-        this.toastr.success(labels.alert.success, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
+        // this.toastr.success(labels.alert.success, 'Success!', {
+        //   positionClass: 'toast-bottom-right',
+        //   timeOut: 2000
+        // });
         this.newReplenishmentOrders();
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {

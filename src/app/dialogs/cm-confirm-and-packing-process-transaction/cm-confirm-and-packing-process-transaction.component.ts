@@ -47,7 +47,7 @@ async ItemLabelModal(){
   var index = this.confPackTransTable.findIndex(x=>x.active == true);
   let dialogRef = this.dialog.open(CmShipSplitLineComponent, {
     height: 'auto',
-    width: '96vw',
+    width: '30vw',
     autoFocus: '__non_existing_element__',
     data: {
       order:this.confPackTransTable[index],
@@ -66,7 +66,7 @@ openShipEditQuantity() {
   var index = this.confPackTransTable.findIndex(x=>x.active == true);
   let dialogRef = this.dialog.open(CmShipEditQtyComponent, {
     height: 'auto',
-    width: '96vw',
+    width: '50vw',
     autoFocus: '__non_existing_element__',
     data: {
       reasons: this.data.reasons,

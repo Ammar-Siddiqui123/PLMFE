@@ -44,6 +44,11 @@ export class SystemReplenishmentComponent implements OnInit {
     });
   }
 
+  activeTabIndex:number = 0;
+  onTabChanged(event:any){
+    this.activeTabIndex = event.index;
+    console.log(event);
+  }
 
 }
 
