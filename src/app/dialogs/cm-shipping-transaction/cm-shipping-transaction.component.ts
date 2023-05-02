@@ -105,7 +105,7 @@ export class CmShippingTransactionComponent implements OnInit {
     // open the dialog
     let dialogRef = this.dialog.open(CmToteIdUpdateModalComponent, {
       height: 'auto',
-      width: '96vw',
+      width: '40vw',
       autoFocus: '__non_existing_element__',
       data: {
         toteID : this.toteID,

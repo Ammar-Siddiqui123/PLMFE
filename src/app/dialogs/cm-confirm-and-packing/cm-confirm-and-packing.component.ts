@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { CmConfirmAndPackingProcessTransactionComponent } from '../cm-confirm-and-packing-process-transaction/cm-confirm-and-packing-process-transaction.component';
 import { CmConfirmAndPackingSelectTransactionComponent } from '../cm-confirm-and-packing-select-transaction/cm-confirm-and-packing-select-transaction.component';
 import { contains } from 'jquery';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-cm-confirm-and-packing',
@@ -104,8 +105,17 @@ if(this.orderNumber != ""){
 }
 }
 async ClickConfirmAll(){
-  var conf = confirm("Confirm All transactions? This will mark this entire order as confirmed and packed.");
-  if (conf) {
+  let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    height: 'auto',
+    width: '560px',
+    autoFocus: '__non_existing_element__',
+    data: {
+      message: "Confirm All transactions? This will mark this entire order as confirmed and packed.",
+    },
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result == 'Yes') { 
     var obj : any = {
       scanned: this.contID,
       username: this.userData.userName,
@@ -115,10 +125,12 @@ async ClickConfirmAll(){
     if (res.data == "Fail") {
       this.toast.error('An error has occurred', 'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000}); 
   } else { 
-    this.dialogRef.close('close');
+    this.ConfirmAndPackingIndex(); 
     }
   });
-  }
+}
+});
+  
 } 
 openScanItem(ItemNumber:any,id: any) {
   var index= this.transTable.findIndex(x=>x.sT_ID == id);
