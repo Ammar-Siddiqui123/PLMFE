@@ -179,7 +179,7 @@ export class SrNewOrderComponent implements OnInit {
     this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentNewTable').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.tableData = res.data.sysTable;
-        this.tableDataTotalCount = res.data.recordsTotal;
+        this.tableDataTotalCount = res.data.recordsFiltered;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
         this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
         this.changeSearchOptions();
@@ -278,7 +278,7 @@ export class SrNewOrderComponent implements OnInit {
       this.searchAutocompleteList = [];
       let duplicates = this.filteredTableData.map((item: any) => item[key]);
       this.searchAutocompleteList = duplicates.filter((item: any, index: any) => duplicates.indexOf(item) === index);
-      // this.searchAutocompleteList = this.filteredTableData.map((item: any) => item[key]);
+      this.searchAutocompleteList = this.searchAutocompleteList.filter((item: any) => item != "");
     }
   }
 

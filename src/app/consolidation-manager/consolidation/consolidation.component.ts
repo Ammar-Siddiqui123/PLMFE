@@ -29,10 +29,12 @@ import { CmOrderToteConflictComponent } from 'src/app/dialogs/cm-order-tote-conf
 export class ConsolidationComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('paginator') paginator: MatPaginator;
 
+  @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild('paginator2') paginator2: MatPaginator;
   @ViewChild('paginator3') paginator3: MatPaginator;
+
+
   @ViewChild('ordernum') ordernum: ElementRef;
 
   public startSelectFilter: any = '1'
@@ -111,7 +113,8 @@ export class ConsolidationComponent implements OnInit {
     this.autocompleteSearchColumnItem()
    });
     }
-  hideRow = false;
+  hideRow = true;
+  firstTable= true;
 
 
   announceSortChange(sortState: Sort) {
@@ -142,6 +145,7 @@ export class ConsolidationComponent implements OnInit {
 
   clickToHide() {
     this.hideRow = !this.hideRow;
+    this.firstTable = !this.firstTable;
   }
 
   enterOrderID(event) {
@@ -208,18 +212,21 @@ export class ConsolidationComponent implements OnInit {
         else {
           this.btnEnable();
           this.open = res.data.openLinesCount;
-          this.completed = res.data.reprocessLinesCount;
+          this.completed = res.data.completedLinesCount;
           this.backOrder = res.data.reprocessLinesCount;
           this.tableData_1 = new MatTableDataSource(res.data.consolidationTable);
           this.tableData_2 = new MatTableDataSource(res.data.consolidationTable2);
+          this.stageTable =  new MatTableDataSource(res.data.stageTable);
 
           
           this.tableData_1.paginator = this.paginator;
           this.tableData_2.paginator = this.paginator2;
           
-          this.stageTable = [];
-          this.stageTable = res.data.stageTable;
+          // this.stageTable = [];
           this.stageTable.paginator = this.paginator3;
+          
+          
+          
           
           let payload = {
             "orderNumber": curValue,
@@ -256,6 +263,7 @@ export class ConsolidationComponent implements OnInit {
   }
 
   verifyAll() {
+
     let IDS: any = [];
     this.tableData_1.data.forEach((row: any) => {
       // row.lineStatus != "Not Completed" && row.lineStatus != "Not Assigned"
@@ -291,10 +299,15 @@ export class ConsolidationComponent implements OnInit {
         data.push(...z);
         this.tableData_2 = new MatTableDataSource(data);
 
+        this.tableData_1.paginator = this.paginator
+        this.tableData_2.paginator = this.paginator2;
+
+
         // this.tableData_2.data.push(...z)
         this.tableData_1.data = this.tableData_1.data.filter((el)=>{
             return !z.includes(el)
         })
+       
 
         if(this.tableData_1.data.length == 0){
           this.toastr.info('You have consolidated all items in this order', 'Alert!', {
@@ -340,7 +353,11 @@ export class ConsolidationComponent implements OnInit {
           }
           else{
             this.tableData_1.data = this.tableData_1.data.concat(this.tableData_2.data);
+
+            
             this.tableData_2.data = [];
+            this.tableData_1.paginator = this.paginator
+            this.tableData_2.paginator = this.paginator2;
           }
          
         })
@@ -382,6 +399,9 @@ export class ConsolidationComponent implements OnInit {
         let data2 = this.tableData_1.data;
         data2.splice(index, 1);
         this.tableData_1 = new MatTableDataSource(data2);
+
+        this.tableData_1.paginator = this.paginator;
+        this.tableData_2.paginator = this.paginator2;
         
       }
       else{
@@ -426,6 +446,9 @@ export class ConsolidationComponent implements OnInit {
           data.splice(index, 1);
           this.tableData_2 = new MatTableDataSource(data);
 
+          this.tableData_1.paginator = this.paginator;
+          this.tableData_2.paginator = this.paginator2;
+
           
         }
         else{
@@ -448,17 +471,19 @@ export class ConsolidationComponent implements OnInit {
   }
 
   checkVerifyType(columnIndex, val){
-    this.filterValue = this.filterValue.toLowerCase();
+    
+   let filterVal = this.filterValue.toLowerCase();
     this.filterValue = '';
     if (val != undefined) {
-      this.filterValue = val.toLowerCase();
+      filterVal = val.toLowerCase();
   }
     let valueCount = 0;
     let index;
     this.tableData_1.data.forEach((row:any,i: any)=>{
-      console.log(row ,i);
+      // console.log(row ,i);
       let currentColVal = row.itemNumber.toLowerCase();
-      if (currentColVal == this.filterValue) {        
+      console.log(currentColVal)
+      if (currentColVal == filterVal) {        
         index = i;
         valueCount++;
       }
@@ -482,7 +507,7 @@ export class ConsolidationComponent implements OnInit {
     }
     else {
       result = this.checkVerifyType(columnIndex, val);
-      console.log(result,'resultttt')
+      // console.log(result,'resultttt')
 
     }
 
