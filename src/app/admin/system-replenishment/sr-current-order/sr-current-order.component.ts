@@ -202,7 +202,7 @@ export class SrCurrentOrderComponent implements OnInit {
       this.searchAutocompleteList = [];
       let duplicates = this.filteredTableData.map((item: any) => item[key]);
       this.searchAutocompleteList = duplicates.filter((item: any, index: any) => duplicates.indexOf(item) === index);
-      this.searchAutocompleteList = this.searchAutocompleteList.filter((item: any) => item != null && item != undefined && item != "");
+      this.searchAutocompleteList = this.searchAutocompleteList.filter((item: any) => item != "");
     }
   }
 
