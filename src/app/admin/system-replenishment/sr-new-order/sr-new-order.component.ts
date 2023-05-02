@@ -15,6 +15,7 @@ import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FloatLabelType } from '@angular/material/form-field';
+import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 
 @Component({
@@ -203,19 +204,42 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   onChangeKanban(ob: MatCheckboxChange) {
-    // if (confirm("Click OK to create a new replenishment list.")) {
-    this.resetPagination()
-    this.createNewReplenishments(ob.checked);
-    // } else {
-    //   ob.checked = !ob.checked;
-    //   this.kanban = !ob.checked;
-    // }
+    // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    //   height: 'auto',
+    //   width: '560px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     message: 'Click OK to create a new replenishment list.',
+    //   },
+    // });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   debugger;
+    //   if (result == 'Yes') {
+        this.resetPagination();
+        this.createNewReplenishments(ob.checked);
+    //   }
+    //   else{
+    //     ob.checked = !ob.checked;
+    //     this.kanban = !ob.checked;
+    //   }
+    // });
   }
 
   createNewOrdersList() {
-    if (confirm("Click OK to create a new replenishment list.")) {
-      this.createNewReplenishments(this.kanban);
-    }
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: 'Click OK to create a new replenishment list.',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      debugger;
+      if (result == 'Yes') {
+        this.createNewReplenishments(this.kanban);
+      }
+    });
   }
 
   createNewReplenishments(kanban: boolean) {
@@ -307,36 +331,54 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   print() {
-    if (confirm('Click OK to print a replenishment report.')) {
-      alert('Print Service not availabe.');
-    }
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: 'Click OK to print a replenishment report.',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      debugger;
+      if (result == 'Yes') {
+        alert('Print Service not availabe.');
+      }
+    });
   }
 
   selectAll() {
-    if (confirm(`Click OK to mark ${(this.tablePayloadObj.reOrder ? 'Re-Order' : 'all')} entries.`)) {
-      this.ReplenishmentsIncludeAllUpdate(true);
-    }
-
-    // this.filteredTableData.forEach((element: any) => {
-    //   if (element.transactionQuantity > 0) {
-    //     element.replenish = true;
-    //   }
-    // });
-    // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
-    // this.ReplenishmentsIncludeAllUpdate(true);
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: `Click OK to mark ${(this.tablePayloadObj.reOrder ? 'Re-Order' : 'all')} entries.`,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      debugger;
+      if (result == 'Yes') {
+        this.ReplenishmentsIncludeAllUpdate(true);
+      }
+    });
   }
 
   unSelectAll() {
-    if (confirm(`Click OK to unmark ${((this.tablePayloadObj.reOrder == '' || this.tablePayloadObj.reOrder == 'all') ? 'all' : 'Re-Order')} entries.`)) {
-      this.ReplenishmentsIncludeAllUpdate(false);
-    }
-    // this.filteredTableData.forEach((element: any) => {
-    //   if (element.transactionQuantity > 0) {
-    //     element.replenish = false;
-    //   }
-    // });
-    // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
-    // this.ReplenishmentsIncludeAllUpdate(false);
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: `Click OK to unmark ${((this.tablePayloadObj.reOrder == '' || this.tablePayloadObj.reOrder == 'all') ? 'all' : 'Re-Order')} entries.`,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      debugger;
+      if (result == 'Yes') {
+        this.ReplenishmentsIncludeAllUpdate(false);
+      }
+    });
   }
 
   viewAllItems() {
@@ -451,10 +493,10 @@ export class SrNewOrderComponent implements OnInit {
     }
     this.systemReplenishmentService.create(paylaod, '/Admin/ReplenishmentsIncludeAllUpdate').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
-        this.toastr.success(labels.alert.success, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
+        // this.toastr.success(labels.alert.success, 'Success!', {
+        //   positionClass: 'toast-bottom-right',
+        //   timeOut: 2000
+        // });
         this.newReplenishmentOrders();
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
