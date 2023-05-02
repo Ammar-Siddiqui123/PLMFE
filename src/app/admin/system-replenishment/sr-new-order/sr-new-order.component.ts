@@ -44,7 +44,7 @@ export class SrNewOrderComponent implements OnInit {
     username: "",
     wsid: ""
   };
-  
+
   tableDataTotalCount: number = 0;
   filterItemNumbersText: string = "";
 
@@ -128,8 +128,7 @@ export class SrNewOrderComponent implements OnInit {
     );
   }
 
-  ClearFilters()
-  {
+  ClearFilters() {
     this.tablePayloadObj.filter = "1=1";
     this.newReplenishmentOrders();
   }
@@ -137,7 +136,7 @@ export class SrNewOrderComponent implements OnInit {
   hideRequiredControl = new FormControl(false);
   @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
-  autocompleteSearchColumn(){
+  autocompleteSearchColumn() {
     if (this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != "") {
       this.newReplenishmentOrdersSubscribe.unsubscribe();
       this.resetPagination();
@@ -149,9 +148,8 @@ export class SrNewOrderComponent implements OnInit {
     return this.floatLabelControl.value || 'auto';
   }
 
-  closeautoMenu()
-  {
-    this.autocompleteInventory.closePanel(); 
+  closeautoMenu() {
+    this.autocompleteInventory.closePanel();
   }
 
   editTransDialog(element: any): void {
@@ -176,7 +174,7 @@ export class SrNewOrderComponent implements OnInit {
     });
   }
 
-  newReplenishmentOrdersSubscribe:any;
+  newReplenishmentOrdersSubscribe: any;
   newReplenishmentOrders() {
     this.tablePayloadObj.searchString = this.tablePayloadObj.searchString.toString();
     this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentNewTable').subscribe((res: any) => {
@@ -215,8 +213,8 @@ export class SrNewOrderComponent implements OnInit {
     // dialogRef.afterClosed().subscribe((result) => {
     //   debugger;
     //   if (result == 'Yes') {
-        this.resetPagination();
-        this.createNewReplenishments(ob.checked);
+    this.resetPagination();
+    this.createNewReplenishments(ob.checked);
     //   }
     //   else{
     //     ob.checked = !ob.checked;
@@ -420,27 +418,38 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   processReplenishments() {
-    if (confirm('Click OK to create replenishment orders for all selected items.')) {
-      let paylaod = {
-        "kanban": this.kanban,
-        "username": this.userData.userName,
-        "wsid": this.userData.wsid
-      }
-      this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
-        if (res.isExecuted && res.data) {
-          this.toastr.success(labels.alert.success, 'Success!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-          this.newReplenishmentOrders()
-        } else {
-          this.toastr.error(res.responseMessage, 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        message: `Click OK to create replenishment orders for all selected items.`,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      debugger;
+      if (result == 'Yes') {
+        let paylaod = {
+          "kanban": this.kanban,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
         }
-      });
-    }
+        this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
+          if (res.isExecuted && res.data) {
+            // this.toastr.success(labels.alert.success, 'Success!', {
+            //   positionClass: 'toast-bottom-right',
+            //   timeOut: 2000
+            // });
+            this.newReplenishmentOrders()
+          } else {
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        });
+      }
+    });
   }
 
   search() {
