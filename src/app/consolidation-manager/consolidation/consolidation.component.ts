@@ -38,10 +38,11 @@ export class ConsolidationComponent implements OnInit {
   @ViewChild('ordernum') ordernum: ElementRef;
 
   public startSelectFilter: any = '1'
+  public startSelectFilterLabel: any ='Item Number'
   public sortBy: number
-  public open: number
-  public completed: number
-  public backOrder: number
+  public open: number = 0;
+  public completed: number = 0;
+  public backOrder: number = 0;
   public TypeValue: any
   public userData: any;
   public filterValue:any;
@@ -87,6 +88,8 @@ export class ConsolidationComponent implements OnInit {
     {key: '6', value: 'Tote ID'},
   ];
 
+
+
   constructor(private dialog: MatDialog, private toastr: ToastrService,
     private router: Router, private consolidationHub: ConsolidationManagerService, private authService: AuthService,  private _liveAnnouncer: LiveAnnouncer,) { }
 
@@ -98,10 +101,10 @@ export class ConsolidationComponent implements OnInit {
    .subscribe((value) => {
     this.autocompleteSearchColumnItem()
    });
-    }
+  }
+
   hideRow = true;
   firstTable= true;
-
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -112,6 +115,7 @@ export class ConsolidationComponent implements OnInit {
     this.tableData_1.sort = this.sort;
     
   }
+
   announceSortChange2(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -120,6 +124,7 @@ export class ConsolidationComponent implements OnInit {
     }
     this.tableData_2.sort = this.sort;
   }
+
   announceSortChange3(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -308,16 +313,8 @@ export class ConsolidationComponent implements OnInit {
 
   unVerifyAll(){
 
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '600px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'remove-batch-list',
-      },
-    });
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res === 'Yes') {
+   
+    
         let IDS :any = [];
         this.tableData_2.data.forEach((row:any)=>{
           IDS.push(row.id.toString())
@@ -348,18 +345,23 @@ export class ConsolidationComponent implements OnInit {
           }
          
         })
-      }
-    });
+   
 
 
  
   }
 
  verifyLine(index){
+  // debugger;
   
 
   let id = this.tableData_1.data[index].id;
   let status = this.tableData_1.data[index].lineStatus;
+  // console.log(this.tableData_1.data)
+  
+  // console.log(index)
+  // console.log(status)
+  // console.log(id)
 
   //  status == "Not Completed" || status == "Not Assigned"
    if(status == "Not Completed" || status == "Not Assigned"){
@@ -375,7 +377,9 @@ export class ConsolidationComponent implements OnInit {
       "wsid": this.userData.wsid
     }
 
+    console.log(payload)
     this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res:any)=>{
+      console.log(res,'s')
       if(res.isExecuted){
 
         let data = this.tableData_2.data;
@@ -392,10 +396,10 @@ export class ConsolidationComponent implements OnInit {
         
       }
       else{
-        this.toastr.error(res.responseMessage, 'Error!', {
+        console.log(this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
-        });
+        }))
       }
 
     })
@@ -403,18 +407,9 @@ export class ConsolidationComponent implements OnInit {
   }
 
   unverifyLine(index,id){
-    console.log(this.tableData_1.data)
-    console.log(this.tableData_2.data)
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '600px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'remove-batch-list',
-      },
-    });
-    dialogRef.afterClosed().subscribe((res) => {
-      if(res == 'Yes'){
+    
+ 
+
     let payload = {
       "id":id,
       "username": this.userData.userName ,
@@ -446,8 +441,7 @@ export class ConsolidationComponent implements OnInit {
         }
     })
 
-      }
-    });
+   
   }
 
   filtervalue(event){
@@ -464,7 +458,7 @@ export class ConsolidationComponent implements OnInit {
    let filterVal = this.filterValue.toLowerCase();
     this.filterValue = '';
     if (val != undefined) {
-      filterVal = val.toLowerCase();
+      filterVal = val
   }
     let valueCount = 0;
     let index;
@@ -483,7 +477,7 @@ export class ConsolidationComponent implements OnInit {
 
   
 
-    console.log(typeof this.tableData_1.data,'this.tableData_1')
+    // console.log(typeof this.tableData_1.data,'this.tableData_1')
 
 
     const currentColVal = this.tableData_1.data.some((obj,i) => {
@@ -517,7 +511,7 @@ export class ConsolidationComponent implements OnInit {
     }
     else {
       result = this.checkVerifyType(columnIndex, val);
-      console.log(result,'resultttt')
+      // console.log(result,'resultttt')
 
     }
 
@@ -531,13 +525,18 @@ export class ConsolidationComponent implements OnInit {
         autoFocus: '__non_existing_element__',
         data: {
           IdentModal:this.TypeValue,
-          ColLabel:this.startSelectFilter,
-          ColumnModal:val
+          ColLabel:this.startSelectFilterLabel,
+          ColumnModal:val,
+          tableData_1:this.tableData_1.data,
+          tableData_2:this.tableData_2.data,
         }
       });
 
       dialogRef.afterClosed().subscribe(result =>{
         console.log(result)
+        if(result && result.isExecuted){
+          this.getTableData('',this.TypeValue);
+        }
       })
     }
     else if(result.valueCount>=1){
@@ -554,6 +553,15 @@ export class ConsolidationComponent implements OnInit {
   getSelected(event: MatSelectChange): void {
 
     this.startSelectFilter = event.value;
+    this.filterOption.forEach((e:any) => {
+      if (e.key == event.value) {
+        this.startSelectFilter = e.key;
+        this.startSelectFilterLabel = e.value;
+        console.log( this.startSelectFilterLabel,'this.startSelectFilterLabel')
+      }
+    });
+
+    // let colLabel = event.
     
     if(event.value == 1){
       this.isitemVisible = true;
@@ -575,20 +583,15 @@ export class ConsolidationComponent implements OnInit {
     }
   }
 
-
-
   btnEnable(){
     this.verifybtn = false;
     this.unverifybtn = false;
-
   }
 
   btnDisable(){
     this.verifybtn = true;
     this.unverifybtn = true;
-
   }
-
 
   enableConButts(){
     this.nextOrderbtn = false;
@@ -596,8 +599,6 @@ export class ConsolidationComponent implements OnInit {
     this.packingbtn = false;
     this.verifybtn = false;
     this.unverifybtn = false;
-   
-
   }
 
   disableConButts(){
@@ -606,15 +607,20 @@ export class ConsolidationComponent implements OnInit {
     this.packingbtn = true;
     this.verifybtn = true;
     this.unverifybtn = true;
- 
   }
 
   clearpagedata(){
-    this.tableData_1 = [];
-    this.tableData_2 = [];
-      this.stageTable = [];
-      this.TypeValue = '';
-      
+    this.tableData_1.data = [];
+    this.tableData_2.data = [];
+    this.stageTable.data = [];
+    this.TypeValue = '';
+    this.open = 0;
+    this.completed = 0;
+    this.backOrder = 0;
+
+    this.paginator.pageIndex = 0;
+    this.paginator2.pageIndex = 0;
+    this.paginator3.pageIndex = 0;
   }
 
   async autocompleteSearchColumnItem() {
@@ -629,148 +635,156 @@ export class ConsolidationComponent implements OnInit {
 
     this.consolidationHub.get(payload, '/Consolidation/ConsoleItemsTypeAhead').subscribe((res: any) => {
       this.searchAutocompleteItemNum = res.data;
-    })
-
+    });
 
   }
 
- 
   getRow(filtervalue) {
     this.CheckDuplicatesForVerify(filtervalue);
-
   }
 
- openCmShipping() {
-  let dialogRef = this.dialog.open(CmShippingComponent, {
-    height: 'auto',
-    width: '96vw',
-    autoFocus: '__non_existing_element__',
-    data: {orderNumber:this.TypeValue }
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    if(result){
-      this.getTableData(null,this.TypeValue);
-  }
-  })
- }
-
- openCmShippingTransaction() {
-  let dialogRef = this.dialog.open(CmShippingTransactionComponent, {
-    height: 'auto',
-    width: '96vw',
-    autoFocus: '__non_existing_element__',
-    data: {
-      orderNum: this.TypeValue ? this.TypeValue : '2909782A',
-    }
-  });
-
-  dialogRef.afterClosed().subscribe(result => {
-    if (result && result.isExecuted) {
-      this.getTableData("", this.TypeValue);
-    }
-  });
- }
-
- openCmConfirmPacking() {
-  let dialogRef = this.dialog.open(CmConfirmAndPackingComponent, {
-    height: 'auto',
-    width: '96vw',
-    autoFocus: '__non_existing_element__',
-    data:{orderNumber:this.TypeValue}
-   
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    if(result){
+  openCmShipping() {
+    let dialogRef = this.dialog.open(CmShippingComponent, {
+      height: 'auto',
+      width: '96vw',
+      autoFocus: '__non_existing_element__',
+      data: {orderNumber:this.TypeValue }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
         this.getTableData(null,this.TypeValue);
     }
-    
-  })
- }
-
- openCmOrderNo() {
-  this.clearpagedata();
-  this.ordernum.nativeElement.focus();
-  this.disableConButts();
-
-  // let dialogRef = this.dialog.open(CmOrderNumberComponent, {
-  //   height: 'auto',
-  //   width: '50vw',
-  //   autoFocus: '__non_existing_element__',
-   
-  // })
-  // dialogRef.afterClosed().subscribe(result => {
-    
-    
-  // })
- }
-
- openCmItemSelected() {
-  let dialogRef = this.dialog.open(CmItemSelectedComponent, {
-    height: 'auto',
-    width: '50vw',
-    autoFocus: '__non_existing_element__',
-   
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    
-    
-  })
- }
-
- openCmSelectTransaction() {
-  let dialogRef = this.dialog.open(CmConfirmAndPackingSelectTransactionComponent, {
-    height: 'auto',
-    width: '50vw',
-    autoFocus: '__non_existing_element__',
-   
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    
-    
-  })
- }
-
- openCmPrintOptions() {
-  let dialogRef = this.dialog.open(CmPrintOptionsComponent, {
-    height: 'auto',
-    width: '560px',
-    autoFocus: '__non_existing_element__',
-   
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    
-    
-  })
- }
- 
- openPacking() {
-  if (this.consolidationIndex.cmPreferences.confirmAndPacking) {
-    this.openCmConfirmPacking();
-  } else {
-    this.openCmShippingTransaction()
+    })
   }
- }
 
- openCmOrderToteConflict() { 
-  let dialogRef = this.dialog.open(CmOrderToteConflictComponent, { 
-    height: 'auto',
-    width: '620px',
-    autoFocus: '__non_existing_element__', 
-  })
-  dialogRef.afterClosed().subscribe(result => { 
-      this.type = result;  
-      if(this.type) this.getTableData(null,this.TypeValue);
-  })
- }
+  openCmShippingTransaction() {
+    let dialogRef = this.dialog.open(CmShippingTransactionComponent, {
+      height: 'auto',
+      width: '96vw',
+      autoFocus: '__non_existing_element__',
+      data: {
+        orderNum: this.TypeValue ? this.TypeValue : '2909782A',
+      }
+    });
 
- navigateToOrder() {
-  this.router.navigate([]).then((result) => {
-    window.open(
-      `/#/admin/transaction?orderStatus=${this.TypeValue}`,
-      '_blank'
-    );
-  });
- }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.isExecuted) {
+        this.getTableData("", this.TypeValue);
+      }
+    });
+  }
+
+  openCmConfirmPacking() {
+    let dialogRef = this.dialog.open(CmConfirmAndPackingComponent, {
+      height: 'auto',
+      width: '96vw',
+      autoFocus: '__non_existing_element__',
+      data:{orderNumber:this.TypeValue}
+    
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+          this.getTableData(null,this.TypeValue);
+      }
+      
+    })
+  }
+
+  openCmOrderNo() {
+    this.clearpagedata();
+    this.ordernum.nativeElement.focus();
+    this.disableConButts();  
+  }
+
+  openCmOrderNumber() {
+    let dialogRef = this.dialog.open(CmOrderNumberComponent, {
+      height: 'auto',
+      width: '50vw',
+      autoFocus: '__non_existing_element__',
+      data: {
+        orderNumber : this.TypeValue,
+        stagingTable : this.stageTable && this.stageTable.data ? this.stageTable.data : []
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.focusOnOrderNum();
+    });
+  }
+
+  openCmItemSelected() {
+    let dialogRef = this.dialog.open(CmItemSelectedComponent, {
+      height: 'auto',
+      width: '50vw',
+      autoFocus: '__non_existing_element__',
+    
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+  }
+
+  openCmSelectTransaction() {
+    let dialogRef = this.dialog.open(CmConfirmAndPackingSelectTransactionComponent, {
+      height: 'auto',
+      width: '50vw',
+      autoFocus: '__non_existing_element__',
+    
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+  }
+
+  openCmPrintOptions() {
+    let dialogRef = this.dialog.open(CmPrintOptionsComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+    
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+  }
+  
+  openPacking() {
+    if (this.consolidationIndex.cmPreferences.confirmAndPacking) {
+      this.openCmConfirmPacking();
+    } else {
+      this.openCmShippingTransaction()
+    }
+  }
+
+  openCmOrderToteConflict() { 
+    let dialogRef = this.dialog.open(CmOrderToteConflictComponent, { 
+      height: 'auto',
+      width: '620px',
+      autoFocus: '__non_existing_element__', 
+    })
+    dialogRef.afterClosed().subscribe(result => { 
+        this.type = result;  
+        if(this.type) this.getTableData(null,this.TypeValue);
+    })
+  }
+
+  navigateToOrder() {
+    this.router.navigate([]).then((result) => {
+      window.open(
+        `/#/admin/transaction?orderStatus=${this.TypeValue}`,
+        '_blank'
+      );
+    });
+  }
+
+  focusOnOrderNum() {
+    setTimeout(() => {
+      this.ordernum.nativeElement.focus();
+    }, 100);  
+  }
 
 }
 
