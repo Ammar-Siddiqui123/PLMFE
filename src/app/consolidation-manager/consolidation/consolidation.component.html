@@ -14,11 +14,11 @@
                 <mat-form-field class="action-dropdown w-100" appearance="outline">
                     <mat-label>Actions</mat-label>
                     <mat-select #matRef class="employees-action" placeholder="Actions">
-                        <mat-option value="0" [disabled]="true"> Staging Location</mat-option> <!-- stagingbtn -->
+                        <mat-option value="0" [disabled]="stagingbtn" (click)="!stagingbtn && this.stageTable.data.length > 0 ? openCmOrderNumber() : ''"> Staging Location</mat-option>
                         <mat-option value="1" [disabled]="packingbtn" (click)="!packingbtn ? openPacking() : ''">Packing</mat-option>
                         <mat-option value="2" [disabled]="shippingbtb" (click)="!shippingbtb ? openCmShipping() : ''">Shipping</mat-option>
                         <mat-option value="3" (click)="navigateToOrder()">Order Status</mat-option>
-                        <mat-option value="4" (click)="openCmPrintOptions()">Print Packaging List</mat-option>
+                        <mat-option value="4" [disabled]="true">Print Packaging List</mat-option> <!-- (click)="openCmPrintPackingList()" -->
                         <mat-option value="5" [disabled]="true">Preview Packaging List</mat-option>
                         <mat-option value="6" [disabled]="true">Print Not Verified List</mat-option>
                         <mat-option value="7" [disabled]="true">Preview Not Verified List</mat-option>
