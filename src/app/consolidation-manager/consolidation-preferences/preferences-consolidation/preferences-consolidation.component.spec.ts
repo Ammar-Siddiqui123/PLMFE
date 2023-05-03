@@ -8,7 +8,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 
-fdescribe('PreferencesConsolidationComponent', () => {
+describe('PreferencesConsolidationComponent', () => {
   let component: PreferencesConsolidationComponent;
   let fixture: ComponentFixture<PreferencesConsolidationComponent>;
   let cmService: ConsolidationManagerService;
