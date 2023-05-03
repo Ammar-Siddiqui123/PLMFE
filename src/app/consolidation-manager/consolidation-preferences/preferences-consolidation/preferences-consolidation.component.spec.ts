@@ -5,10 +5,10 @@ import { PreferencesConsolidationComponent } from './preferences-consolidation.c
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastrModule } from 'ngx-toastr';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 
-describe('PreferencesConsolidationComponent', () => {
+fdescribe('PreferencesConsolidationComponent', () => {
   let component: PreferencesConsolidationComponent;
   let fixture: ComponentFixture<PreferencesConsolidationComponent>;
   let cmService: ConsolidationManagerService;
@@ -137,5 +137,79 @@ describe('PreferencesConsolidationComponent', () => {
     expect(component.consolidationEvnt.emit).toHaveBeenCalled();
   });
 
+  it('should save email slip with correct payload and call ngOnInit() if response isExecuted', () => {
+    // Mock the form control and user data
+    const emailPickSlipFormControl = new FormControl('test@example.com');
+    const filtersForm = new FormGroup({
+      emailPackSlip: emailPickSlipFormControl
+    });
+    const userData = {
+      userName: 'testuser',
+      wsid: '123456789'
+    };
 
+    // Set the form control and user data on the component
+    component.filtersForm = filtersForm;
+    component.userData = userData;
+
+    // Mock the cmService.get() method to return a fake Observable
+    spyOn(cmService, 'get').and.returnValue(of({ isExecuted: true }));
+
+    // Mock the ngOnInit() method
+    spyOn(component, 'ngOnInit');
+
+    // Call the saveEmailSlip() method
+    component.saveEmailSlip();
+
+    // Verify that the cmService.get() method was called with the correct payload
+    expect(cmService.get).toHaveBeenCalledWith(
+      {
+        emailPickSlip: 'test@example.com',
+        username: 'testuser',
+        wsid: '123456789'
+      },
+      '/Consolidation/SystemPreferenceEmailSlip'
+    );
+
+    // Verify that ngOnInit() was called
+    expect(component.ngOnInit).toHaveBeenCalled();
+  });
+
+  it('should save email slip with correct payload and not call ngOnInit() if response is not executed', () => {
+    // Mock the form control and user data
+    const emailPickSlipFormControl = new FormControl('test@example.com');
+    const filtersForm = new FormGroup({
+      emailPackSlip: emailPickSlipFormControl
+    });
+    const userData = {
+      userName: 'testuser',
+      wsid: '123456789'
+    };
+
+    // Set the form control and user data on the component
+    component.filtersForm = filtersForm;
+    component.userData = userData;
+
+    // Mock the cmService.get() method to return a fake Observable
+    spyOn(cmService, 'get').and.returnValue(of({ isExecuted: false }));
+
+    // Mock the ngOnInit() method
+    spyOn(component, 'ngOnInit');
+
+    // Call the saveEmailSlip() method
+    component.saveEmailSlip();
+
+    // Verify that the cmService.get() method was called with the correct payload
+    expect(cmService.get).toHaveBeenCalledWith(
+      {
+        emailPickSlip: 'test@example.com',
+        username: 'testuser',
+        wsid: '123456789'
+      },
+      '/Consolidation/SystemPreferenceEmailSlip'
+    );
+
+    // Verify that ngOnInit() was not called
+    expect(component.ngOnInit).not.toHaveBeenCalled();
+  });
 });
