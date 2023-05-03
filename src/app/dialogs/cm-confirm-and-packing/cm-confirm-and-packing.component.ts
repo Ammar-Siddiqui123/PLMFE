@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
@@ -7,6 +7,10 @@ import { CmConfirmAndPackingProcessTransactionComponent } from '../cm-confirm-an
 import { CmConfirmAndPackingSelectTransactionComponent } from '../cm-confirm-and-packing-select-transaction/cm-confirm-and-packing-select-transaction.component';
 import { contains } from 'jquery';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-cm-confirm-and-packing',
@@ -15,11 +19,13 @@ import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-
 })
 export class CmConfirmAndPackingComponent implements OnInit {
   orderNumber:any ;
-  toteTable:any[]=[];
+  toteTable:any;
   ItemNumber:any;
-  transTable:any[]=[];
-  OldtransTable:any[]=[];
+  transTable:any;
+  OldtransTable:any;
   contIDDrop:any[]=[];
+  @ViewChild(MatSort) sort1: MatSort;
+  @ViewChild('MatSort2') sort2: MatSort;
   confPackEnable:any; 
   IsLoading:boolean = false;
   contID:any; 
@@ -29,10 +35,12 @@ export class CmConfirmAndPackingComponent implements OnInit {
   IsDisabled:boolean  = false;
  displayedColumns: string[] = ['toteID', 'stagingLocation']; 
 userData:any={};
+@ViewChild('paginator1') paginator1: MatPaginator;
+@ViewChild('paginator2') paginator2: MatPaginator;
 displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transactionQuantity', 'completedQuantity', 'containerID',
  'shipQuantity', 'complete']; 
   constructor(private http:ConsolidationManagerService,private authService: AuthService,private toast:ToastrService,private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,private _liveAnnouncer: LiveAnnouncer,
     public dialogRef: MatDialogRef<any>) { 
     this.userData = this.authService.userData();
     this.orderNumber = this.data.orderNumber;
@@ -70,10 +78,9 @@ async UnPack(id:any){
     if (res.data == "Fail") {
       this.toast.error("An error has occurred", 'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});  
   } else {  
-     var index =  this.transTable.findIndex(x=>x.sT_ID == id);
-     this.transTable[index].containerID = '';
-     this.transTable[index].complete = false;
-      // this.transTable[0].invalidate();
+     var index =  this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
+     this.transTable.filteredData[index].containerID = '';
+     this.transTable.filteredData[index].complete = false; 
   };
   });
  
@@ -90,9 +97,9 @@ if(this.orderNumber != ""){
     wsid: this.userData.wsid, 
   };
  this.http.get(obj,'/Consolidation/ConfirmAndPackingIndex').subscribe((res:any) => { 
-  this.toteTable = res.data.confPackToteTable;
+  
   this.orderNumber = res.data.orderNumber;
-  this.transTable = res.data.confPackShipTransTable;
+
   this.contIDDrop = res.data.confPackContIDDrop;
   this.confPackEnable = res.data.confPackEnable;
   this.contID = res.data.contIDConfirmPack;
@@ -100,7 +107,11 @@ if(this.orderNumber != ""){
   this.reasons = res.data.adjustmentReason;
   this.shipComp = res.data.confPackShipComp;
   this.PrintPrefs = res.data.confPackPrintPrefs; 
-  this.IsLoading = false;
+  this.IsLoading = false; 
+  this.toteTable =  new MatTableDataSource(res.data.confPackToteTable);
+  this.transTable =  new MatTableDataSource(res.data.confPackShipTransTable);
+  this.toteTable.paginator = this.paginator1;
+  this.transTable.paginator = this.paginator2;
 });
 }
 }
@@ -117,11 +128,12 @@ async ClickConfirmAll(){
   dialogRef.afterClosed().subscribe((result) => {
     if (result == 'Yes') { 
     var obj : any = {
-      scanned: this.contID,
+      orderNumber:this.orderNumber,
+      containerID: this.contID,
       username: this.userData.userName,
       wsid: this.userData.wsid, 
     };
-   this.http.get(obj,'/Consolidation/ConfPackScanItemNum').subscribe((res:any) => {
+   this.http.get(obj,'/Consolidation/ConfirmAllConfPack').subscribe((res:any) => {
     if (res.data == "Fail") {
       this.toast.error('An error has occurred', 'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000}); 
   } else { 
@@ -133,8 +145,8 @@ async ClickConfirmAll(){
   
 } 
 openScanItem(ItemNumber:any,id: any) {
-  var index= this.transTable.findIndex(x=>x.sT_ID == id);
-  this.transTable[index].active = true; 
+  var index= this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
+  this.transTable.filteredData[index].active = true; 
   let dialogRef = this.dialog.open(CmConfirmAndPackingProcessTransactionComponent, {
     height: 'auto',
     width: '96vw',
@@ -143,13 +155,55 @@ openScanItem(ItemNumber:any,id: any) {
   })
   dialogRef.afterClosed().subscribe(result => {
     if(result == 'ConfirmedPacked'){
-      this.ConfirmedPacked();
+     // this.ConfirmedPacked();
     }  
   })
  }
+ 
+announceSortChange1(sortState: Sort) {  
+  if (sortState.direction) {
+    // Announce the sort direction, and the fact that sorting is cleared.
+    this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+  } else {
+    this._liveAnnouncer.announce('Sorting cleared');
+  }
+
+  // Set the data source's sort property to the new sort.
+  this.toteTable.sort = this.sort1;
+
+  // this.toteTable.filteredData =  this.toteTable.filteredData.sort((a, b) => {
+  //   if(sortState.direction == 'asc') {
+  //     return a[sortState.active] - b[sortState.active];
+  //   }
+  //   else {
+  //     return b[sortState.active] - a[sortState.active];
+  //   }
+  // }); 
+}
+announceSortChange2(sortState: Sort) {  
+  debugger
+  if (sortState.direction) {
+    // Announce the sort direction, and the fact that sorting is cleared.
+    this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+  } else {
+    this._liveAnnouncer.announce('Sorting cleared');
+  }
+
+  // Set the data source's sort property to the new sort.
+  this.transTable.sort = this.sort2; 
+  // this.transTable.filteredData = this.transTable.filteredData.sort((a, b) => {
+  //   if(sortState.direction == 'asc') {
+  //     return a[sortState.active] - b[sortState.active];
+  //   }
+  //   else {
+  //     return b[sortState.active] - a[sortState.active];
+  //   }
+  // }); 
+}
+
  openSelectTransaction(ItemNumber:any,id: any) {
-  var index= this.transTable.findIndex(x=>x.sT_ID == id);
-  this.transTable[index].active = true;
+  var index= this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
+  this.transTable.filteredData[index].active = true;
   let dialogRef = this.dialog.open(CmConfirmAndPackingSelectTransactionComponent, {
     height: 'auto',
     width: '96vw',
@@ -158,33 +212,34 @@ openScanItem(ItemNumber:any,id: any) {
   })
   dialogRef.afterClosed().subscribe(result => {
     if(result == 'true'){
-      this.transTable[index].containerID = this.contID;
-      this.transTable[index].complete = true; 
+      this.transTable.filteredData[index].containerID = this.contID;
+      this.transTable.filteredData[index].complete = true; 
     }  
   })
  }
  ItemKeyUp(){
   setTimeout(() => {
-    if(this.OldtransTable.length > 0){
-      this.transTable = this.OldtransTable.filter(x=>  x.itemNumber.indexOf(this.ItemNumber) > -1);  
+    if(this.OldtransTable?.filteredData && this.OldtransTable?.filteredData?.length > 0){
+      this.transTable = new MatTableDataSource(this.OldtransTable.filteredData.filter(x=>  x.itemNumber.indexOf(this.ItemNumber) > -1));  
     }else{
       this.OldtransTable = this.transTable;
-      this.transTable = this.transTable.filter(x=>  x.itemNumber.indexOf(this.ItemNumber) > -1);  
+      this.transTable = new MatTableDataSource(this.transTable.filteredData.filter(x=>  x.itemNumber.indexOf(this.ItemNumber) > -1));  
     }
   }, 10);
  }
 async ScanItemNum($event:any){  
   if($event.key == "Enter"){
+    debugger
   var index;
 var searchCount = 0;
 var id;
 var contID;
-for (var x = 0; x < this.transTable.length; x++) {
-    var itemNum = this.transTable[x].itemNumber;
-    var complete = this.transTable[x].complete;
+for (var x = 0; x < this.transTable.filteredData.length; x++) {
+    var itemNum = this.transTable.filteredData[x].itemNumber;
+    var complete = this.transTable.filteredData[x].complete;
     if (this.ItemNumber.toLowerCase() == itemNum.toLowerCase() && complete==false) {
         searchCount += 1;
-        id = this.transTable[x].sT_ID;
+        id = this.transTable.filteredData[x].sT_ID;
         index = x;
     };
 };
@@ -207,12 +262,12 @@ if(searchCount == 0){
 } else if (res.data == "Modal") {
     //show modal here
   this.openScanItem($event.target.value,id);  
-} else {  var index =  this.transTable.findIndex(x=>x.sT_ID == id);
-  this.transTable[index].containerID = this.contID;
-  this.transTable[index].complete = true;
-  // this.transTable[index].sT_ID.invalidate(); 
-    if (this.transTable.length == 1) {
-        this.ConfirmedPacked();
+} else {  
+  var index =  this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
+  this.transTable.filteredData[index].containerID = this.contID;
+  this.transTable.filteredData[index].complete = true; 
+    if (this.OldtransTable.filteredData.length == 1) {
+        // this.ConfirmedPacked();
     };
 };
  });

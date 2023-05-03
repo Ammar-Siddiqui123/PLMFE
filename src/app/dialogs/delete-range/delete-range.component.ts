@@ -5,6 +5,7 @@ import { SystemReplenishmentService } from 'src/app/admin/system-replenishment/s
 import { AuthService } from 'src/app/init/auth.service';
 import labels from '../../labels/labels.json';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-delete-range',
@@ -49,20 +50,33 @@ export class DeleteRangeComponent implements OnInit {
 
   ReplenishmentsByDelete() {
     if (this.repByDeletePayload.filter2 && this.repByDeletePayload.filter2) {
-      this.systemReplenishmentService.get(this.repByDeletePayload, '/Admin/ReplenishmentsByDelete').subscribe((res: any) => {
-        if (res.isExecuted && res.data) {
-          // this.toastr.success(labels.alert.success, 'Success!', {
-          //   positionClass: 'toast-bottom-right',
-          //   timeOut: 2000
-          // });
-          this.dialog.closeAll();
-          this.dialogRef.close(this.data);
-        } else {
-          this.toastr.error("Deleting by range has failed", 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
+      const dialogRef2 = this.dialog.open(DeleteConfirmationComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          mode: 'delete-selected-current-orders',
+          action: 'delete'
+        },
+      });
+      dialogRef2.afterClosed().subscribe((result) => {
+        if (result === 'Yes') {
+          this.systemReplenishmentService.get(this.repByDeletePayload, '/Admin/ReplenishmentsByDelete').subscribe((res: any) => {
+            if (res.isExecuted && res.data) {
+              this.toastr.success(labels.alert.delete, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+              this.dialog.closeAll();
+              this.dialogRef.close(this.data);
+            } else {
+              this.toastr.error("Deleting by range has failed", 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+              this.dialog.closeAll();
+            }
           });
-          this.dialog.closeAll();
         }
       });
     }

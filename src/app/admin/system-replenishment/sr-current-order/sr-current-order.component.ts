@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SystemReplenishmentService } from '../system-replenishment.service';
 import { ToastrService } from 'ngx-toastr';
@@ -15,6 +15,8 @@ import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.
 import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-sr-current-order',
@@ -143,8 +145,10 @@ export class SrCurrentOrderComponent implements OnInit {
   @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   autocompleteSearchColumn(){
-    if (this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != "") {
+    if (this.tablePayloadObj.searchColumn != "") {
       this.newReplenishmentOrdersSubscribe.unsubscribe();
+      this.getSearchOptionsSubscribe.unsubscribe();
+      this.getSearchOptions();
       this.newReplenishmentOrders();
     }
   }
@@ -164,6 +168,9 @@ export class SrCurrentOrderComponent implements OnInit {
     this.newReplenishmentOrders();
   }
 
+  @Input('refreshCurrentOrders') refreshCurrentOrders:Subject<any>;
+  @Output() replenishmentsDeleted: EventEmitter<any> = new EventEmitter();
+
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.tablePayloadObj.username = this.userData.userName;
@@ -171,6 +178,13 @@ export class SrCurrentOrderComponent implements OnInit {
     this.repByDeletePayload.username = this.userData.userName;
     this.repByDeletePayload.wsid = this.userData.wsid;
     this.newReplenishmentOrders();
+    this.refreshCurrentOrders.subscribe(e => {
+      this.newReplenishmentOrders();
+    });
+  }
+
+  ngOnDestroy() {
+    this.refreshCurrentOrders.unsubscribe();
   }
 
   newReplenishmentOrdersSubscribe:any;
@@ -184,7 +198,7 @@ export class SrCurrentOrderComponent implements OnInit {
         });
         this.tableDataTotalCount = res.data.recordsTotal;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
-		    this.changeSearchOptions();
+		    // this.changeSearchOptions();
         this.updateCounts();
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
@@ -196,15 +210,15 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   searchAutocompleteList: any;
-  changeSearchOptions() {
-    if (this.tablePayloadObj.searchColumn != "") {
-      let key = this.searchColumnOptions.filter((item: any) => item.value == this.tablePayloadObj.searchColumn)[0].key;
-      this.searchAutocompleteList = [];
-      let duplicates = this.filteredTableData.map((item: any) => item[key]);
-      this.searchAutocompleteList = duplicates.filter((item: any, index: any) => duplicates.indexOf(item) === index);
-      this.searchAutocompleteList = this.searchAutocompleteList.filter((item: any) => item != "");
-    }
-  }
+  // changeSearchOptions() {
+  //   if (this.tablePayloadObj.searchColumn != "") {
+  //     let key = this.searchColumnOptions.filter((item: any) => item.value == this.tablePayloadObj.searchColumn)[0].key;
+  //     this.searchAutocompleteList = [];
+  //     let duplicates = this.filteredTableData.map((item: any) => item[key]);
+  //     this.searchAutocompleteList = duplicates.filter((item: any, index: any) => duplicates.indexOf(item) === index);
+  //     this.searchAutocompleteList = this.searchAutocompleteList.filter((item: any) => item != "");
+  //   }
+  // }
 
   updateCounts() {
     this.noOfPutAways = this.filteredTableData.filter((item: any) => item.transactionType == 'Put Away').length;
@@ -212,12 +226,7 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   paginatorChange(event: PageEvent) {
-    if (event.previousPageIndex != undefined && event.pageIndex > event.previousPageIndex) {
-      this.tablePayloadObj.start = this.tablePayloadObj.start + event.pageSize;
-    }
-    else {
-      this.tablePayloadObj.start = this.tablePayloadObj.start - event.pageSize;
-    }
+    this.tablePayloadObj.start = event.pageSize * event.pageIndex;
     this.tablePayloadObj.length = event.pageSize;
     this.newReplenishmentOrders();
   }
@@ -267,27 +276,51 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   deleteAllOrders() {
-    if (confirm("Are you sure you want to delete all records")) {
-      this.repByDeletePayload.identity = "ALL";
-      this.repByDeletePayload.filter1 = "";
-      this.repByDeletePayload.filter2 = "";
-      this.repByDeletePayload.searchString = "";
-      this.repByDeletePayload.searchColumn = "";
-      this.repByDeletePayload.status = "";
-      this.ReplenishmentsByDelete();
-    }
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        mode: 'delete-all-current-orders',
+        ErrorMessage: 'Are you sure you want to delete all records',
+        action: 'delete'
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'Yes') {
+        this.repByDeletePayload.identity = "ALL";
+        this.repByDeletePayload.filter1 = "";
+        this.repByDeletePayload.filter2 = "";
+        this.repByDeletePayload.searchString = "";
+        this.repByDeletePayload.searchColumn = "";
+        this.repByDeletePayload.status = "";
+        this.ReplenishmentsByDelete();
+      }
+    });
   }
 
   deleteShownOrders() {
-    if (confirm("Are you sure you want to delete all records that are currently dipslayed")) {
-      this.repByDeletePayload.identity = "Shown";
-      this.repByDeletePayload.filter1 = "";
-      this.repByDeletePayload.filter2 = "";
-      this.repByDeletePayload.searchString = this.tablePayloadObj.searchString;
-      this.repByDeletePayload.searchColumn = this.tablePayloadObj.searchColumn;
-      this.repByDeletePayload.status = this.tablePayloadObj.status;
-      this.ReplenishmentsByDelete();
-    }
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        mode: 'delete-shown-current-orders',
+        ErrorMessage: 'Are you sure you want to delete all records that are currently dipslayed',
+        action: 'delete'
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'Yes') {
+        this.repByDeletePayload.identity = "Shown";
+        this.repByDeletePayload.filter1 = "";
+        this.repByDeletePayload.filter2 = "";
+        this.repByDeletePayload.searchString = this.tablePayloadObj.searchString;
+        this.repByDeletePayload.searchColumn = this.tablePayloadObj.searchColumn;
+        this.repByDeletePayload.status = this.tablePayloadObj.status;
+        this.ReplenishmentsByDelete();
+      }
+    });
   }
 
   deleteRange() {
@@ -345,16 +378,18 @@ export class SrCurrentOrderComponent implements OnInit {
       });
     }
     else {
-      const dialogRef2 = this.dialog.open(SrDeleteOrderComponent, {
+      const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
-        width: '600px',
+        width: '560px',
         autoFocus: '__non_existing_element__',
         data: {
-          orderNumber: this.selectedOrder.orderNumber,
+          mode: 'delete-selected-current-orders',
+          ErrorMessage: `Delete All transactions for Order: ${this.selectedOrder.orderNumber}. This will delete all transactions, not just selected one.`,
+          action: 'delete'
         },
       });
-      dialogRef2.afterClosed().subscribe((res) => {
-        if (res) {
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === 'Yes') {
           this.repByDeletePayload.identity = "Shown";
           this.repByDeletePayload.filter1 = "";
           this.repByDeletePayload.filter2 = "";
@@ -396,11 +431,17 @@ export class SrCurrentOrderComponent implements OnInit {
 
   searchChange(event: any) {
     this.tablePayloadObj.searchColumn = event;
-    this.changeSearchOptions();
+    this.getSearchOptions()
+  }
+
+  resetPagination() {
+    this.tablePayloadObj.start = 0;
+    this.tablePayloadObj.length = 10;
   }
 
   search() {
     if (this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != "") {
+      this.resetPagination();
       this.newReplenishmentOrders();
     }
   }
@@ -408,13 +449,14 @@ export class SrCurrentOrderComponent implements OnInit {
   ReplenishmentsByDelete() {
     this.systemReplenishmentService.get(this.repByDeletePayload, '/Admin/ReplenishmentsByDelete').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
-        this.toastr.success(labels.alert.success, 'Success!', {
+        this.toastr.success(labels.alert.delete, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
         this.newReplenishmentOrders();
+        this.replenishmentsDeleted.emit();
       } else {
-        this.toastr.error("Deleting by range has failed", 'Error!', {
+        this.toastr.error(labels.alert.went_worng, 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
@@ -425,5 +467,20 @@ export class SrCurrentOrderComponent implements OnInit {
 
   selectOrder(element) {
     this.selectedOrder = element;
+  }
+
+  getSearchOptionsSubscribe: any;
+  getSearchOptions(){
+    let payload = {
+      "searchString": this.tablePayloadObj.searchString,
+      "searchColumn": this.tablePayloadObj.searchColumn,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/ReplenishReportSearchTA').subscribe((res: any) => {
+      if (res.isExecuted && res.data && res.data.length > 0) {
+        this.searchAutocompleteList = res.data;
+      }
+    });
   }
 }
