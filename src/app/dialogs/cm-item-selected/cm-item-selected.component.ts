@@ -51,9 +51,12 @@ export class CmItemSelectedComponent implements OnInit {
         this.userData = this.authService.userData();
         this.IdentModal = this.data.IdentModal;
         this.ColLabel = this.filterOption[this.data.ColLabel].value
+        console.log(this.data.ColLabel)
         this.ColumnModal = this.data.ColumnModal;
 
         this.getItemSelectedData();
+
+        console.log(this.data)
   }
 
   

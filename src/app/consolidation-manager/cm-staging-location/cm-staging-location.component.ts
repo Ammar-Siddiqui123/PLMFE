@@ -100,14 +100,14 @@ export class CmStagingLocationComponent implements OnInit {
       });
     }
   }
-  async saveToteStagingLocation($event:any,toteID: any, location: any,index:any=null) {
+  async saveToteStagingLocation($event:any,toteID: any, location: any,index:any=null,clear = 0) {
     if ($event.key == "Enter" || $event == 'click') {
 
     var obj: any = {
       "orderNumber": this.OrderNumberTote,
       "toteID": toteID,
       "location": location,
-      "clear": 0,
+      "clear": clear,
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
@@ -142,7 +142,7 @@ export class CmStagingLocationComponent implements OnInit {
   }
   async UnstageAll(){
     for (var x = 0; x < this.stagetables.length; x++) {
-      this.saveToteStagingLocation('click',this.stagetables[x].toteID,'',x);
+      this.saveToteStagingLocation('click',this.stagetables[x].toteID,'',x,1);
     } 
   }
   async clearAll(){
