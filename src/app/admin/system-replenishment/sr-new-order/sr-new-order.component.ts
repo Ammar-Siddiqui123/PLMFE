@@ -435,10 +435,26 @@ export class SrNewOrderComponent implements OnInit {
         }
         this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
           if (res.isExecuted && res.data) {
-            this.toastr.success(labels.alert.success, 'Success!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
+            if(res.responseMessage == "Update Successful"){
+              this.toastr.success(labels.alert.success, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+            }
+            if(res.responseMessage == "Reprocess"){
+              let dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
+                height: 'auto',
+                width: '560px',
+                autoFocus: '__non_existing_element__',
+                data: {
+                  message: `Replenishments finished. There are reprocess transactions due to the replenishment process. Click Ok to print a process report now.`,
+                },
+              });
+              dialogRef2.afterClosed().subscribe((result) => {
+                if (result == 'Yes') {
+                }
+              });
+            }
             this.createNewReplenishments(this.kanban);
             this.replenishmentsProcessed.emit();
           } else {
