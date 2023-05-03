@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SystemReplenishmentService } from '../system-replenishment.service';
 import { ToastrService } from 'ngx-toastr';
@@ -16,6 +16,7 @@ import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-sr-current-order',
@@ -165,6 +166,9 @@ export class SrCurrentOrderComponent implements OnInit {
     this.newReplenishmentOrders();
   }
 
+  @Input('refreshCurrentOrders') refreshCurrentOrders:Subject<any>;
+  @Output() replenishmentsDeleted: EventEmitter<any> = new EventEmitter();
+
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.tablePayloadObj.username = this.userData.userName;
@@ -172,6 +176,13 @@ export class SrCurrentOrderComponent implements OnInit {
     this.repByDeletePayload.username = this.userData.userName;
     this.repByDeletePayload.wsid = this.userData.wsid;
     this.newReplenishmentOrders();
+    this.refreshCurrentOrders.subscribe(e => {
+      this.newReplenishmentOrders();
+    });
+  }
+
+  ngOnDestroy() {
+    this.refreshCurrentOrders.unsubscribe();
   }
 
   newReplenishmentOrdersSubscribe:any;
@@ -268,40 +279,42 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   deleteAllOrders() {
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
       data: {
-        message: `Are you sure you want to delete all records`,
+        mode: 'delete-all-current-orders',
+        ErrorMessage: 'Are you sure you want to delete all records',
+        action: 'delete'
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
-      if (result == 'Yes') {
+      if (result === 'Yes') {
         this.repByDeletePayload.identity = "ALL";
-      this.repByDeletePayload.filter1 = "";
-      this.repByDeletePayload.filter2 = "";
-      this.repByDeletePayload.searchString = "";
-      this.repByDeletePayload.searchColumn = "";
-      this.repByDeletePayload.status = "";
-      this.ReplenishmentsByDelete();
+        this.repByDeletePayload.filter1 = "";
+        this.repByDeletePayload.filter2 = "";
+        this.repByDeletePayload.searchString = "";
+        this.repByDeletePayload.searchColumn = "";
+        this.repByDeletePayload.status = "";
+        this.ReplenishmentsByDelete();
       }
     });
   }
 
   deleteShownOrders() {
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
       data: {
-        message: `Are you sure you want to delete all records that are currently dipslayed`,
+        mode: 'delete-shown-current-orders',
+        ErrorMessage: 'Are you sure you want to delete all records that are currently dipslayed',
+        action: 'delete'
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
-      if (result == 'Yes') {
+      if (result === 'Yes') {
         this.repByDeletePayload.identity = "Shown";
         this.repByDeletePayload.filter1 = "";
         this.repByDeletePayload.filter2 = "";
@@ -368,16 +381,18 @@ export class SrCurrentOrderComponent implements OnInit {
       });
     }
     else {
-      const dialogRef2 = this.dialog.open(SrDeleteOrderComponent, {
+      const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
-        width: '600px',
+        width: '560px',
         autoFocus: '__non_existing_element__',
         data: {
-          orderNumber: this.selectedOrder.orderNumber,
+          mode: 'delete-selected-current-orders',
+          ErrorMessage: `Delete All transactions for Order: ${this.selectedOrder.orderNumber}. This will delete all transactions, not just selected one.`,
+          action: 'delete'
         },
       });
-      dialogRef2.afterClosed().subscribe((res) => {
-        if (res) {
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === 'Yes') {
           this.repByDeletePayload.identity = "Shown";
           this.repByDeletePayload.filter1 = "";
           this.repByDeletePayload.filter2 = "";
@@ -422,8 +437,14 @@ export class SrCurrentOrderComponent implements OnInit {
     this.changeSearchOptions();
   }
 
+  resetPagination() {
+    this.tablePayloadObj.start = 0;
+    this.tablePayloadObj.length = 10;
+  }
+
   search() {
     if (this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != "") {
+      this.resetPagination();
       this.newReplenishmentOrders();
     }
   }
@@ -436,6 +457,7 @@ export class SrCurrentOrderComponent implements OnInit {
           timeOut: 2000
         });
         this.newReplenishmentOrders();
+        this.replenishmentsDeleted.emit();
       } else {
         this.toastr.error("Deleting by range has failed", 'Error!', {
           positionClass: 'toast-bottom-right',

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { TransactionQtyEditComponent } from 'src/app/dialogs/transaction-qty-edit/transaction-qty-edit.component';
@@ -16,6 +16,7 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -76,10 +77,20 @@ export class SrNewOrderComponent implements OnInit {
     private filterService: ContextMenuFiltersService
   ) { }
 
+  @Input('refreshNewOrders') refreshNewOrders:Subject<any>;
+  @Output() replenishmentsProcessed: EventEmitter<any> = new EventEmitter();
+
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.tablePayloadObj.username = this.userData.userName;
     this.tablePayloadObj.wsid = this.userData.wsid;
+    this.refreshNewOrders.subscribe(e => {
+      this.newReplenishmentOrders();
+    });
+  }
+
+  ngOnDestroy() {
+    this.refreshNewOrders.unsubscribe();
   }
 
   @ViewChild('trigger') trigger: MatMenuTrigger;
@@ -433,7 +444,8 @@ export class SrNewOrderComponent implements OnInit {
             //   positionClass: 'toast-bottom-right',
             //   timeOut: 2000
             // });
-            this.newReplenishmentOrders()
+            this.newReplenishmentOrders();
+            this.replenishmentsProcessed.emit();
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
