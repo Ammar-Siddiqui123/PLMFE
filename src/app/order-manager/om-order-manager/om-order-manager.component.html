@@ -15,7 +15,7 @@
                     <mat-label>Actions</mat-label>
                     <mat-select #matRef class="employees-action" placeholder="Actions">
                         <mat-option value="0"> Display Records </mat-option>
-                        <mat-option value="1"> Add/Edit Order </mat-option>
+                        <mat-option value="1" (click)="openOmCreateOrders()"> Add/Edit Order </mat-option>
                         <mat-option value="2"> Order Status </mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">

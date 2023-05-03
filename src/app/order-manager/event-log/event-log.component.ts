@@ -44,13 +44,7 @@ export class EventLogComponent implements OnInit {
     
 
    }
-   openOmCreateOrders() { 
-    let dialogRef = this.dialog.open(OmCreateOrdersComponent, { 
-      height: 'auto',
-      width: '1424px',
-      autoFocus: '__non_existing_element__', 
-    })
-    }
+   
 
 }
 function openOmCreateOrders(order: any, any: any) {

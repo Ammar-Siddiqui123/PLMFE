@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OmAddRecordComponent } from 'src/app/dialogs/om-add-record/om-add-record.component';
+import { OmCreateOrdersComponent } from 'src/app/dialogs/om-create-orders/om-create-orders.component';
 import { OmUpdateRecordComponent } from 'src/app/dialogs/om-update-record/om-update-record.component';
 
 @Component({
@@ -50,5 +51,13 @@ export class OmOrderManagerComponent implements OnInit {
       
     })
    }
+
+   openOmCreateOrders() { 
+    let dialogRef = this.dialog.open(OmCreateOrdersComponent, { 
+      height: 'auto',
+      width: '1424px',
+      autoFocus: '__non_existing_element__', 
+    })
+    }
 
 }
