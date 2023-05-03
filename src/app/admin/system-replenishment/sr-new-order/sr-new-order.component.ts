@@ -322,12 +322,7 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   paginatorChange(event: PageEvent) {
-    if (event.previousPageIndex != undefined && event.pageIndex > event.previousPageIndex) {
-      this.tablePayloadObj.start = this.tablePayloadObj.start + event.pageSize;
-    }
-    else {
-      this.tablePayloadObj.start = this.tablePayloadObj.start - event.pageSize;
-    }
+    this.tablePayloadObj.start = event.pageSize * event.pageIndex;
     this.tablePayloadObj.length = event.pageSize;
     this.newReplenishmentOrders();
   }
