@@ -342,7 +342,7 @@ export class SrNewOrderComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result == 'Yes') {
-        alert('Print Service not availabe.');
+        alert('The print service is currently offline');
       }
     });
   }
@@ -452,10 +452,7 @@ export class SrNewOrderComponent implements OnInit {
               });
               dialogRef2.afterClosed().subscribe((result) => {
                 if (result == 'Yes') {
-                  this.toastr.error('The print service is currently offline', 'Error!', {
-                    positionClass: 'toast-bottom-right',
-                    timeOut: 2000
-                  });
+                  alert('The print service is currently offline');
                 }
               });
             }
