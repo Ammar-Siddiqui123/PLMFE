@@ -143,7 +143,7 @@ openScanItem(ItemNumber:any,id: any) {
   })
   dialogRef.afterClosed().subscribe(result => {
     if(result == 'ConfirmedPacked'){
-      this.ConfirmedPacked();
+     // this.ConfirmedPacked();
     }  
   })
  }
