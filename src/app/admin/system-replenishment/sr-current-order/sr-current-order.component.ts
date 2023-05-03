@@ -224,12 +224,7 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   paginatorChange(event: PageEvent) {
-    if (event.previousPageIndex != undefined && event.pageIndex > event.previousPageIndex) {
-      this.tablePayloadObj.start = this.tablePayloadObj.start + event.pageSize;
-    }
-    else {
-      this.tablePayloadObj.start = this.tablePayloadObj.start - event.pageSize;
-    }
+    this.tablePayloadObj.start = event.pageSize * event.pageIndex;
     this.tablePayloadObj.length = event.pageSize;
     this.newReplenishmentOrders();
   }
@@ -381,16 +376,18 @@ export class SrCurrentOrderComponent implements OnInit {
       });
     }
     else {
-      const dialogRef2 = this.dialog.open(SrDeleteOrderComponent, {
+      const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
-        width: '600px',
+        width: '560px',
         autoFocus: '__non_existing_element__',
         data: {
-          orderNumber: this.selectedOrder.orderNumber,
+          mode: 'delete-selected-current-orders',
+          ErrorMessage: `Delete All transactions for Order: ${this.selectedOrder.orderNumber}. This will delete all transactions, not just selected one.`,
+          action: 'delete'
         },
       });
-      dialogRef2.afterClosed().subscribe((res) => {
-        if (res) {
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === 'Yes') {
           this.repByDeletePayload.identity = "Shown";
           this.repByDeletePayload.filter1 = "";
           this.repByDeletePayload.filter2 = "";
