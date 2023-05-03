@@ -48,8 +48,8 @@ isConfigUser
         let withoutParam = res.split('?')[0]
         let splittedArray = withoutParam.split('/'); 
         splittedArray.forEach((element,i) => {
-         if(element==='createCountBatches'){
-          element='CycleCounts'
+         if(element==='createCountBatches' || element==='cycleCounts'){
+          element='CycleCount'
          }
           
         this.breadcrumbList.push({
