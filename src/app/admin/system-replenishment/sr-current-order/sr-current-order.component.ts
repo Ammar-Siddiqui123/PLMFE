@@ -452,14 +452,14 @@ export class SrCurrentOrderComponent implements OnInit {
   ReplenishmentsByDelete() {
     this.systemReplenishmentService.get(this.repByDeletePayload, '/Admin/ReplenishmentsByDelete').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
-        this.toastr.success(labels.alert.success, 'Success!', {
+        this.toastr.success(labels.alert.delete, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
         this.newReplenishmentOrders();
         this.replenishmentsDeleted.emit();
       } else {
-        this.toastr.error("Deleting by range has failed", 'Error!', {
+        this.toastr.error(labels.alert.went_worng, 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
