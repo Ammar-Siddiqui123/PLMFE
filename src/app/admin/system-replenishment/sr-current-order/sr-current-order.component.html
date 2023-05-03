@@ -62,7 +62,7 @@
                             [disabled]="tablePayloadObj.searchColumn.length < 1" 
                             [matAutocomplete]="auto"
                             [(ngModel)]="tablePayloadObj.searchString" 
-                            (keyup.enter)="search()"
+                            (keyup.enter)="search(); getSearchOptions()"
                             (keyup)="autocompleteSearchColumn()"
                             >
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="search()" #autocompleteInventory>
