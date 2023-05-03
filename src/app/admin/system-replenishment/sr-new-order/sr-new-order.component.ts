@@ -148,9 +148,11 @@ export class SrNewOrderComponent implements OnInit {
   @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   autocompleteSearchColumn() {
-    if (this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != "") {
+    if (this.tablePayloadObj.searchColumn != "") {
       this.newReplenishmentOrdersSubscribe.unsubscribe();
+      this.getSearchOptionsSubscribe.unsubscribe();
       this.resetPagination();
+      this.getSearchOptions();
       this.newReplenishmentOrders();
     }
   }
@@ -194,7 +196,7 @@ export class SrNewOrderComponent implements OnInit {
         this.tableDataTotalCount = res.data.recordsFiltered;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
         this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
-        this.changeSearchOptions();
+        // this.changeSearchOptions();
         this.tablePayloadObj.filter = "1=1";
       } else {
         console.log(res.responseMessage);
@@ -308,18 +310,18 @@ export class SrNewOrderComponent implements OnInit {
 
   searchChange(event: any) {
     this.tablePayloadObj.searchColumn = event;
-    this.changeSearchOptions();
+    this.getSearchOptions()
   }
 
-  changeSearchOptions() {
-    if (this.tablePayloadObj.searchColumn != "") {
-      let key = this.searchColumnOptions.filter((item: any) => item.value == this.tablePayloadObj.searchColumn)[0].key;
-      this.searchAutocompleteList = [];
-      let duplicates = this.filteredTableData.map((item: any) => item[key]);
-      this.searchAutocompleteList = duplicates.filter((item: any, index: any) => duplicates.indexOf(item) === index);
-      this.searchAutocompleteList = this.searchAutocompleteList.filter((item: any) => item != "");
-    }
-  }
+  // changeSearchOptions() {
+  //   if (this.tablePayloadObj.searchColumn != "") {
+  //     let key = this.searchColumnOptions.filter((item: any) => item.value == this.tablePayloadObj.searchColumn)[0].key;
+  //     this.searchAutocompleteList = [];
+  //     let duplicates = this.filteredTableData.map((item: any) => item[key]);
+  //     this.searchAutocompleteList = duplicates.filter((item: any, index: any) => duplicates.indexOf(item) === index);
+  //     this.searchAutocompleteList = this.searchAutocompleteList.filter((item: any) => item != "");
+  //   }
+  // }
 
   paginatorChange(event: PageEvent) {
     this.tablePayloadObj.start = event.pageSize * event.pageIndex;
@@ -342,7 +344,7 @@ export class SrNewOrderComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result == 'Yes') {
-        alert('Print Service not availabe.');
+        alert('The print service is currently offline');
       }
     });
   }
@@ -452,10 +454,7 @@ export class SrNewOrderComponent implements OnInit {
               });
               dialogRef2.afterClosed().subscribe((result) => {
                 if (result == 'Yes') {
-                  this.toastr.error('The print service is currently offline', 'Error!', {
-                    positionClass: 'toast-bottom-right',
-                    timeOut: 2000
-                  });
+                  alert('The print service is currently offline');
                 }
               });
             }
@@ -534,4 +533,20 @@ export class SrNewOrderComponent implements OnInit {
       }
     });
   }
+
+  getSearchOptionsSubscribe: any;
+  getSearchOptions(){
+    let payload = {
+      "searchString": this.tablePayloadObj.searchString,
+      "searchColumn": this.tablePayloadObj.searchColumn,
+      "username": "hadi",
+      "wsid": "TESTWSID"
+    }
+    this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/SystemReplenishNewTA').subscribe((res: any) => {
+      if (res.isExecuted && res.data && res.data.length > 0) {
+        this.searchAutocompleteList = res.data;
+      }
+    });
+  }
+  
 }
