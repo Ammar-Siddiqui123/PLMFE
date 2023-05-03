@@ -34,8 +34,8 @@
                 <mat-form-field class="action-dropdown w-100" appearance="outline">
                     <mat-label>Warehouse</mat-label>
                     <mat-select [(ngModel)]="warehouse" (ngModelChange)="this.searchField.next($event)" #matRef
-                        class="employees-action" placeholder="Actions">
-                        <mat-option value=""> No Warehouse</mat-option>
+                        class="employees-action" placeholder="No Warehouse">
+                        <mat-option [value]='' >No Warehouse</mat-option>
 
                         <mat-option *ngFor="let items of warehouses" [value]="items"> {{items}}</mat-option>
 
@@ -344,8 +344,8 @@
                             <input  [NumbersOnly]="true" [matAutocomplete]="fromCost" (ngModelChange)="this.beginCostTA.next($event)"
                                 formControlName="costStart" matInput class=" " type="text" maxlength="50">
                             <mat-autocomplete #fromCost="matAutocomplete" (optionSelected)="searchData()">
-                                <mat-option *ngFor="let option of searchAutocompletBeginCost" [value]="option.cost">
-                                    {{option.cost}}
+                                <mat-option *ngFor="let option of searchAutocompletBeginCost" [value]="option">
+                                    {{option}}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
@@ -367,8 +367,8 @@
                             <input  [NumbersOnly]="true" [matAutocomplete]="toCost" (ngModelChange)="this.endCostTA.next($event)"
                                 formControlName="costEnd" matInput class=" " type="text" maxlength="50">
                             <mat-autocomplete #toCost="matAutocomplete" (optionSelected)="searchData()">
-                                <mat-option *ngFor="let option of searchAutocompletBeginCost" [value]="option.cost">
-                                    {{option.cost}}
+                                <mat-option *ngFor="let option of searchAutocompletEndCost" [value]="option">
+                                    {{option}}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
