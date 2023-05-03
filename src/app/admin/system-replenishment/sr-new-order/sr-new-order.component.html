@@ -82,8 +82,8 @@
                             matInput 
                             [disabled]="tablePayloadObj.searchColumn.length < 1" 
                             [matAutocomplete]="auto"
-                            [(ngModel)]="tablePayloadObj.searchString" 
-                            (keyup.enter)="search()"
+                            [(ngModel)]="tablePayloadObj.searchString"
+                            (keyup.enter)="search(); getSearchOptions()"
                             (keyup)="autocompleteSearchColumn()"
                             >
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="search()" #autocompleteInventory>
