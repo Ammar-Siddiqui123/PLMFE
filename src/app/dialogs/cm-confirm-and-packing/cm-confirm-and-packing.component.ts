@@ -211,8 +211,8 @@ if(searchCount == 0){
   this.transTable[index].containerID = this.contID;
   this.transTable[index].complete = true;
   // this.transTable[index].sT_ID.invalidate(); 
-    if (this.transTable.length == 1) {
-        this.ConfirmedPacked();
+    if (this.OldtransTable.length == 1) {
+        // this.ConfirmedPacked();
     };
 };
  });
