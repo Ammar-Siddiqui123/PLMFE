@@ -267,11 +267,14 @@ export class CCBCreateCountsComponent implements OnInit {
 
     // this.fillData();
   }
-  onSelFunc(item) {
+  onSelFunc(item, event: any) {
+    if (event.isUserInput) {  
+      
     // this.filtersForm.controls.subCategory.setValue(item.transactionType);
     this.subCategory = item.subCategory;
     // this.filtersForm.controls['category'].setValue(item.category);
     this.fillData();
+    }
   }
   resetVal() {
     this.filtersForm.controls['fromLocation'].setValue('');
