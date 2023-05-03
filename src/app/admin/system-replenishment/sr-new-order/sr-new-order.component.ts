@@ -435,11 +435,11 @@ export class SrNewOrderComponent implements OnInit {
         }
         this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
           if (res.isExecuted && res.data) {
-            // this.toastr.success(labels.alert.success, 'Success!', {
-            //   positionClass: 'toast-bottom-right',
-            //   timeOut: 2000
-            // });
-            this.newReplenishmentOrders();
+            this.toastr.success(labels.alert.success, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+            this.createNewReplenishments(this.kanban);
             this.replenishmentsProcessed.emit();
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
