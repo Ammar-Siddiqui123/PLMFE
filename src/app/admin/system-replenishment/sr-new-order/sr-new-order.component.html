@@ -154,7 +154,8 @@
 
                     <ng-container matColumnDef="Description">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-                        <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.description, 'Description')"> {{element.description}} </td>
+                        <td #tooltip="matTooltip" [matTooltip]="element.description"   matTooltipPosition="above"
+                        (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.description, 'Description')"> {{element.description}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Warehouse">
