@@ -6,7 +6,7 @@ import { SystemReplenishmentService } from '../system-replenishment.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import labels from '../../../labels/labels.json'
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { FilterItemNumbersComponent } from '../../dialogs/filter-item-numbers/filter-item-numbers.component';
 import { MatMenuTrigger } from '@angular/material/menu';
@@ -210,9 +210,11 @@ export class SrNewOrderComponent implements OnInit {
     });
   }
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   resetPagination() {
     this.tablePayloadObj.start = 0;
     this.tablePayloadObj.length = 10;
+    this.paginator.pageIndex = 0;
   }
 
   onChangeKanban(ob: MatCheckboxChange) {
