@@ -483,4 +483,8 @@ export class SrCurrentOrderComponent implements OnInit {
       }
     });
   }
+
+  viewItemInInventoryMaster(element: any) {
+    window.open(`/#/admin/inventoryMaster?itemNumber=${element.itemNumber}`, '_blank', "location=yes");
+  }
 }
