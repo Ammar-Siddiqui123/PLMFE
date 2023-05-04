@@ -199,7 +199,8 @@ export class SrCurrentOrderComponent implements OnInit {
         this.tableDataTotalCount = res.data.recordsTotal;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
 		    // this.changeSearchOptions();
-        this.updateCounts();
+        // this.updateCounts();
+        this.systemReplenishmentCount();
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -460,5 +461,15 @@ export class SrCurrentOrderComponent implements OnInit {
 
   viewItemInInventoryMaster(element: any) {
     window.open(`/#/admin/inventoryMaster?itemNumber=${element.itemNumber}`, '_blank', "location=yes");
+  }
+
+
+  systemReplenishmentCount() {
+    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentCount').subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.noOfPicks = res.data.pickCount;
+        this.noOfPutAways = res.data.putCount;
+      }
+    });
   }
 }
