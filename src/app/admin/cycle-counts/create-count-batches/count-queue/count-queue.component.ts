@@ -46,10 +46,10 @@ export class CCBCountQueueComponent implements OnInit {
   @Input() updateData: string;
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
-    private adminService: AdminService,
+    public adminService: AdminService,
     private authService: AuthService,
-    private dialog: MatDialog,
-    private toastr: ToastrService
+    public dialog: MatDialog,
+    public toastr: ToastrService
   ) {
     this.userData = this.authService.userData();
   }
@@ -225,8 +225,7 @@ this.customPagination.total = 0;
           },
           (error) => {}
         );
-      } else {
-      }
+      } 
     });
   }
 
@@ -300,4 +299,8 @@ this.customPagination.total = 0;
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
+
+
+
+
 }
