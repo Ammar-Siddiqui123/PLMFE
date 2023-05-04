@@ -199,7 +199,8 @@ export class SrCurrentOrderComponent implements OnInit {
         this.tableDataTotalCount = res.data.recordsTotal;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
 		    // this.changeSearchOptions();
-        this.updateCounts();
+        // this.updateCounts();
+        this.systemReplenishmentCount();
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -324,36 +325,10 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   deleteRange() {
-
-    let batchPickIdOptions:any = [];
-    this.filteredTableData.forEach((x:any) => {
-      if(x.batchPickID && !batchPickIdOptions.includes(x.batchPickID)){
-        batchPickIdOptions.push(x.batchPickID);
-      }
-    });
-
-    let pickLocationOptions:any = [];
-    this.filteredTableData.forEach((x:any) => {
-      if(x.transactionType == "Pick" && !pickLocationOptions.includes(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim())){
-        pickLocationOptions.push(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim());
-      }
-    });
-
-    let putAwayLocationOptions:any = [];
-    this.filteredTableData.forEach((x:any) => {
-      if(!putAwayLocationOptions.includes(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim())){
-        putAwayLocationOptions.push(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim());
-      }
-    });
-
     const dialogRef = this.dialog.open(DeleteRangeComponent, {
       width: '900px',
       autoFocus: '__non_existing_element__',
-      data: 
-      { pickLocationOptions : pickLocationOptions,
-        putAwayLocationOptions : putAwayLocationOptions,
-        batchPickIdOptions : batchPickIdOptions
-      },
+      data: {},
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -479,12 +454,22 @@ export class SrCurrentOrderComponent implements OnInit {
     }
     this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/ReplenishReportSearchTA').subscribe((res: any) => {
       if (res.isExecuted && res.data && res.data.length > 0) {
-        this.searchAutocompleteList = res.data;
+        this.searchAutocompleteList = res.data.sort();
       }
     });
   }
 
   viewItemInInventoryMaster(element: any) {
     window.open(`/#/admin/inventoryMaster?itemNumber=${element.itemNumber}`, '_blank', "location=yes");
+  }
+
+
+  systemReplenishmentCount() {
+    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentCount').subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.noOfPicks = res.data.pickCount;
+        this.noOfPutAways = res.data.putCount;
+      }
+    });
   }
 }

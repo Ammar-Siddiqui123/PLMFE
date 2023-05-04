@@ -6,6 +6,8 @@ import { AuthService } from 'src/app/init/auth.service';
 import labels from '../../labels/labels.json';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
+import { FloatLabelType } from '@angular/material/form-field';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-delete-range',
@@ -25,11 +27,16 @@ export class DeleteRangeComponent implements OnInit {
     username: "",
     wsid: ""
   };
-  public options: any;
+  beginAutoCompleteList: any = [];
+  endAutoCompleteList: any = [];
 
 
   @ViewChild(MatAutocompleteTrigger) autocompleteStart: MatAutocompleteTrigger;
   @ViewChild(MatAutocompleteTrigger) autocompleteEnd: MatAutocompleteTrigger;
+  floatLabelControlStart = new FormControl('auto' as FloatLabelType);
+  floatLabelControlEnd = new FormControl('auto' as FloatLabelType);
+  hideRequiredControlStart = new FormControl(false);
+  hideRequiredControlEnd = new FormControl(false);
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -45,7 +52,13 @@ export class DeleteRangeComponent implements OnInit {
     this.repByDeletePayload.username = this.userData.userName;
     this.repByDeletePayload.wsid = this.userData.wsid;
     this.repByDeletePayload.identity = "Batch Pick ID";
-    this.options = this.data.pickLocation
+    this.getSearchOptionsBegin();
+    this.getSearchOptionsEnd();
+  }
+
+  ngOnDestroy() {
+    this.getSearchOptionsBeginSubscribe.unsubscribe();
+    this.getSearchOptionsEndSubscribe.unsubscribe();
   }
 
   ReplenishmentsByDelete() {
@@ -90,23 +103,59 @@ export class DeleteRangeComponent implements OnInit {
     this.autocompleteEnd.closePanel();
   }
 
+  getFloatLabelValueStart(): FloatLabelType {
+    return this.floatLabelControlStart.value || 'auto';
+  }
+
+  getFloatLabelValueEnd(): FloatLabelType {
+    return this.floatLabelControlEnd.value || 'auto';
+  }
+
   changeBegin(event: any) {
-    console.log(event);
+    this.getSearchOptionsBeginSubscribe.unsubscribe();
+    this.getSearchOptionsBegin();
+    this.getSearchOptionsEndSubscribe.unsubscribe();
+    this.getSearchOptionsEnd();
   }
 
   changeEnd(event: any) {
-    console.log(event);
+    this.getSearchOptionsEndSubscribe.unsubscribe();
+    this.getSearchOptionsEnd();
   }
 
   showChange(event: any) {
-    if (event == 'Batch Pick ID') {
-      this.options = this.data.batchPickIdOptions;
+    this.getSearchOptionsBegin();
+    this.getSearchOptionsEnd();
+  }
+
+  getSearchOptionsBeginSubscribe: any;
+  getSearchOptionsBegin(){
+    let payload = {
+      "delCol": this.repByDeletePayload.identity,
+      "query": this.repByDeletePayload.filter1,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
     }
-    else if (event == 'Pick Location') {
-      this.options = this.data.pickLocationOptions;
+    this.getSearchOptionsBeginSubscribe = this.systemReplenishmentService.get(payload, '/Admin/DeleteRangeBegin').subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.beginAutoCompleteList = res.data.sort();
+      }
+    });
+  }
+
+  getSearchOptionsEndSubscribe: any;
+  getSearchOptionsEnd(){
+    let payload = {
+      "delCol": this.repByDeletePayload.identity,
+      "begin": this.repByDeletePayload.filter1,
+      "query": this.repByDeletePayload.filter2,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
     }
-    else if (event == 'Put Away Location') {
-      this.options = this.data.putAwayLocationOptions;
-    }
+    this.getSearchOptionsEndSubscribe = this.systemReplenishmentService.get(payload, '/Admin/DeleteRangeEnd').subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.endAutoCompleteList = res.data.sort();
+      }
+    });
   }
 }
