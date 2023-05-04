@@ -431,6 +431,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.searchString = '';
     this.clearFromListChange.emit(event);
   }
+  getClass(element){
+    return 'addRow';
+  }
   getColor(element) {
     if (
       element.tableType.toLowerCase() === 'open' &&

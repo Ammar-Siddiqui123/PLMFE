@@ -33,7 +33,7 @@
                     <mat-form-field class="action-dropdown" appearance="outline">
                         <mat-label>Search</mat-label>
                         <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn">
-                            <mat-option *ngFor="let item of displayedColumns" [value]="item">
+                            <mat-option *ngFor="let item of displayedColumns | sort:'colDef':false" [value]="item">
                                 {{item.colDef}}
                             </mat-option>
                         </mat-select>
