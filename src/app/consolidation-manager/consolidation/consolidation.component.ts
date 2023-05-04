@@ -101,10 +101,10 @@ export class ConsolidationComponent implements OnInit {
    .subscribe((value) => {
     this.autocompleteSearchColumnItem()
    });
-    }
+  }
+
   hideRow = true;
   firstTable= true;
-
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -115,6 +115,7 @@ export class ConsolidationComponent implements OnInit {
     this.tableData_1.sort = this.sort;
     
   }
+
   announceSortChange2(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -123,6 +124,7 @@ export class ConsolidationComponent implements OnInit {
     }
     this.tableData_2.sort = this.sort;
   }
+
   announceSortChange3(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -619,20 +621,15 @@ export class ConsolidationComponent implements OnInit {
     }
   }
 
-
-
   btnEnable(){
     this.verifybtn = false;
     this.unverifybtn = false;
-
   }
 
   btnDisable(){
     this.verifybtn = true;
     this.unverifybtn = true;
-
   }
-
 
   enableConButts(){
     this.nextOrderbtn = false;
@@ -640,8 +637,6 @@ export class ConsolidationComponent implements OnInit {
     this.packingbtn = false;
     this.verifybtn = false;
     this.unverifybtn = false;
-   
-
   }
 
   disableConButts(){
@@ -650,21 +645,20 @@ export class ConsolidationComponent implements OnInit {
     this.packingbtn = true;
     this.verifybtn = true;
     this.unverifybtn = true;
- 
   }
 
   clearpagedata(){
     this.tableData_1.data = [];
     this.tableData_2.data = [];
-      this.stageTable.data = [];
-      this.TypeValue = '';
-      this.open = 0;
-      this.completed = 0;
-      this.backOrder = 0;
+    this.stageTable.data = [];
+    this.TypeValue = '';
+    this.open = 0;
+    this.completed = 0;
+    this.backOrder = 0;
 
-      this.paginator.pageIndex = 0;
-      this.paginator2.pageIndex = 0;
-      this.paginator3.pageIndex = 0;
+    this.paginator.pageIndex = 0;
+    this.paginator2.pageIndex = 0;
+    this.paginator3.pageIndex = 0;
   }
 
   async autocompleteSearchColumnItem() {
@@ -679,148 +673,156 @@ export class ConsolidationComponent implements OnInit {
 
     this.consolidationHub.get(payload, '/Consolidation/ConsoleItemsTypeAhead').subscribe((res: any) => {
       this.searchAutocompleteItemNum = res.data;
-    })
-
+    });
 
   }
 
- 
   getRow(filtervalue) {
     this.CheckDuplicatesForVerify(filtervalue);
-
   }
 
- openCmShipping() {
-  let dialogRef = this.dialog.open(CmShippingComponent, {
-    height: 'auto',
-    width: '96vw',
-    autoFocus: '__non_existing_element__',
-    data: {orderNumber:this.TypeValue }
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    if(result){
-      this.getTableData(null,this.TypeValue);
-  }
-  })
- }
-
- openCmShippingTransaction() {
-  let dialogRef = this.dialog.open(CmShippingTransactionComponent, {
-    height: 'auto',
-    width: '96vw',
-    autoFocus: '__non_existing_element__',
-    data: {
-      orderNum: this.TypeValue ? this.TypeValue : '2909782A',
-    }
-  });
-
-  dialogRef.afterClosed().subscribe(result => {
-    if (result && result.isExecuted) {
-      this.getTableData("", this.TypeValue);
-    }
-  });
- }
-
- openCmConfirmPacking() {
-  let dialogRef = this.dialog.open(CmConfirmAndPackingComponent, {
-    height: 'auto',
-    width: '96vw',
-    autoFocus: '__non_existing_element__',
-    data:{orderNumber:this.TypeValue}
-   
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    if(result){
+  openCmShipping() {
+    let dialogRef = this.dialog.open(CmShippingComponent, {
+      height: 'auto',
+      width: '96vw',
+      autoFocus: '__non_existing_element__',
+      data: {orderNumber:this.TypeValue }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
         this.getTableData(null,this.TypeValue);
     }
-    
-  })
- }
-
- openCmOrderNo() {
-  this.clearpagedata();
-  this.ordernum.nativeElement.focus();
-  this.disableConButts();
-
-  // let dialogRef = this.dialog.open(CmOrderNumberComponent, {
-  //   height: 'auto',
-  //   width: '50vw',
-  //   autoFocus: '__non_existing_element__',
-   
-  // })
-  // dialogRef.afterClosed().subscribe(result => {
-    
-    
-  // })
- }
-
- openCmItemSelected() {
-  let dialogRef = this.dialog.open(CmItemSelectedComponent, {
-    height: 'auto',
-    width: '50vw',
-    autoFocus: '__non_existing_element__',
-   
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    
-    
-  })
- }
-
- openCmSelectTransaction() {
-  let dialogRef = this.dialog.open(CmConfirmAndPackingSelectTransactionComponent, {
-    height: 'auto',
-    width: '50vw',
-    autoFocus: '__non_existing_element__',
-   
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    
-    
-  })
- }
-
- openCmPrintOptions() {
-  let dialogRef = this.dialog.open(CmPrintOptionsComponent, {
-    height: 'auto',
-    width: '560px',
-    autoFocus: '__non_existing_element__',
-   
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    
-    
-  })
- }
- 
- openPacking() {
-  if (this.consolidationIndex.cmPreferences.confirmAndPacking) {
-    this.openCmConfirmPacking();
-  } else {
-    this.openCmShippingTransaction()
+    })
   }
- }
 
- openCmOrderToteConflict() { 
-  let dialogRef = this.dialog.open(CmOrderToteConflictComponent, { 
-    height: 'auto',
-    width: '620px',
-    autoFocus: '__non_existing_element__', 
-  })
-  dialogRef.afterClosed().subscribe(result => { 
-      this.type = result;  
-      if(this.type) this.getTableData(null,this.TypeValue);
-  })
- }
+  openCmShippingTransaction() {
+    let dialogRef = this.dialog.open(CmShippingTransactionComponent, {
+      height: 'auto',
+      width: '96vw',
+      autoFocus: '__non_existing_element__',
+      data: {
+        orderNum: this.TypeValue ? this.TypeValue : '2909782A',
+      }
+    });
 
- navigateToOrder() {
-  this.router.navigate([]).then((result) => {
-    window.open(
-      `/#/admin/transaction?orderStatus=${this.TypeValue}`,
-      '_blank'
-    );
-  });
- }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.isExecuted) {
+        this.getTableData("", this.TypeValue);
+      }
+    });
+  }
+
+  openCmConfirmPacking() {
+    let dialogRef = this.dialog.open(CmConfirmAndPackingComponent, {
+      height: 'auto',
+      width: '96vw',
+      autoFocus: '__non_existing_element__',
+      data:{orderNumber:this.TypeValue}
+    
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+          this.getTableData(null,this.TypeValue);
+      }
+      
+    })
+  }
+
+  openCmOrderNo() {
+    this.clearpagedata();
+    this.ordernum.nativeElement.focus();
+    this.disableConButts();  
+  }
+
+  openCmOrderNumber() {
+    let dialogRef = this.dialog.open(CmOrderNumberComponent, {
+      height: 'auto',
+      width: '50vw',
+      autoFocus: '__non_existing_element__',
+      data: {
+        orderNumber : this.TypeValue,
+        stagingTable : this.stageTable && this.stageTable.data ? this.stageTable.data : []
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.focusOnOrderNum();
+    });
+  }
+
+  openCmItemSelected() {
+    let dialogRef = this.dialog.open(CmItemSelectedComponent, {
+      height: 'auto',
+      width: '50vw',
+      autoFocus: '__non_existing_element__',
+    
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+  }
+
+  openCmSelectTransaction() {
+    let dialogRef = this.dialog.open(CmConfirmAndPackingSelectTransactionComponent, {
+      height: 'auto',
+      width: '50vw',
+      autoFocus: '__non_existing_element__',
+    
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+  }
+
+  openCmPrintOptions() {
+    let dialogRef = this.dialog.open(CmPrintOptionsComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+    
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+  }
+  
+  openPacking() {
+    if (this.consolidationIndex.cmPreferences.confirmAndPacking) {
+      this.openCmConfirmPacking();
+    } else {
+      this.openCmShippingTransaction()
+    }
+  }
+
+  openCmOrderToteConflict() { 
+    let dialogRef = this.dialog.open(CmOrderToteConflictComponent, { 
+      height: 'auto',
+      width: '620px',
+      autoFocus: '__non_existing_element__', 
+    })
+    dialogRef.afterClosed().subscribe(result => { 
+        this.type = result;  
+        if(this.type) this.getTableData(null,this.TypeValue);
+    })
+  }
+
+  navigateToOrder() {
+    this.router.navigate([]).then((result) => {
+      window.open(
+        `/#/admin/transaction?orderStatus=${this.TypeValue}`,
+        '_blank'
+      );
+    });
+  }
+
+  focusOnOrderNum() {
+    setTimeout(() => {
+      this.ordernum.nativeElement.focus();
+    }, 100);  
+  }
 
 }
 
