@@ -6,7 +6,7 @@ import { SystemReplenishmentService } from '../system-replenishment.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import labels from '../../../labels/labels.json'
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { FilterItemNumbersComponent } from '../../dialogs/filter-item-numbers/filter-item-numbers.component';
 import { MatMenuTrigger } from '@angular/material/menu';
@@ -116,10 +116,10 @@ export class SrNewOrderComponent implements OnInit {
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
-    this.tablePayloadObj.filter = this.FilterString;
+    this.tablePayloadObj.filter = this.FilterString != "" ? this.FilterString : "1=1";
     this.resetPagination();
     this.newReplenishmentOrders();
-    this.tablePayloadObj.filter = "1=1";
+    // this.tablePayloadObj.filter = "1=1";
   }
 
   InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
@@ -210,9 +210,11 @@ export class SrNewOrderComponent implements OnInit {
     });
   }
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   resetPagination() {
     this.tablePayloadObj.start = 0;
     this.tablePayloadObj.length = 10;
+    this.paginator.pageIndex = 0;
   }
 
   onChangeKanban(ob: MatCheckboxChange) {
