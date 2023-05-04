@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SystemReplenishmentService } from '../system-replenishment.service';
 import { ToastrService } from 'ngx-toastr';
@@ -17,6 +17,7 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { Subject } from 'rxjs';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-sr-current-order',
@@ -353,28 +354,57 @@ export class SrCurrentOrderComponent implements OnInit {
       });
     }
     else {
-      const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-        height: 'auto',
-        width: '560px',
+      const dialogRef = this.dialog.open(this.deleteSelectedConfirm, {
+        width: '550px',
         autoFocus: '__non_existing_element__',
-        data: {
-          mode: 'delete-selected-current-orders',
-          ErrorMessage: `Delete All transactions for Order: ${this.selectedOrder.orderNumber}. This will delete all transactions, not just selected one.`,
-          action: 'delete'
-        },
       });
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result === 'Yes') {
-          this.repByDeletePayload.identity = "Shown";
-          this.repByDeletePayload.filter1 = "";
-          this.repByDeletePayload.filter2 = "";
-          this.repByDeletePayload.searchString = this.selectedOrder.orderNumber;
-          this.repByDeletePayload.searchColumn = "Order Number";
-          this.repByDeletePayload.status = "All";
-          this.ReplenishmentsByDelete();
-          this.selectedOrder = {};
-        }
+
+      dialogRef.afterClosed().subscribe(() => {
       });
+
+      // const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      //   height: 'auto',
+      //   width: '560px',
+      //   autoFocus: '__non_existing_element__',
+      //   data: {
+      //     mode: 'delete-selected-current-orders',
+      //     ErrorMessage: `Delete All transactions for Order: ${this.selectedOrder.orderNumber}. This will delete all transactions, not just selected one.`,
+      //     action: 'delete'
+      //   },
+      // });
+      // dialogRef.afterClosed().subscribe((result) => {
+      //   if (result === 'Yes') {
+      //     this.repByDeletePayload.identity = "Shown";
+      //     this.repByDeletePayload.filter1 = "";
+      //     this.repByDeletePayload.filter2 = "";
+      //     this.repByDeletePayload.searchString = this.selectedOrder.orderNumber;
+      //     this.repByDeletePayload.searchColumn = "Order Number";
+      //     this.repByDeletePayload.status = "All";
+      //     this.ReplenishmentsByDelete();
+      //     this.selectedOrder = {};
+      //   }
+      // });
+    }
+  }
+
+  deleteSelected(){
+    this.repByDeletePayload.identity = "Shown";
+    this.repByDeletePayload.filter1 = "";
+    this.repByDeletePayload.filter2 = "";
+    this.repByDeletePayload.searchString = this.selectedOrder.orderNumber;
+    this.repByDeletePayload.searchColumn = "Order Number";
+    this.repByDeletePayload.status = "All";
+    this.ReplenishmentsByDelete();
+    this.selectedOrder = {};
+  }
+
+  @ViewChild('deleteSelectedConfirm') deleteSelectedConfirm: TemplateRef<any>;
+  isChecked = true;
+  checkOptions(event: MatCheckboxChange): void {
+    if (event.checked) {
+      this.isChecked = false;
+    } else {
+      this.isChecked = true;
     }
   }
 
