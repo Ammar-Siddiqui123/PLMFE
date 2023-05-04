@@ -68,6 +68,30 @@
         <div class="row align-items-center mb-3">
             <div class="d-flex align-items-center gap-12">
                 <div class="w-100">
+
+                    <!-- <mat-form-field class="custom-form-field custom-form-field-bg-white w-100" appearance="outline">
+                        <mat-label>Order Number</mat-label>
+                        <input type="text" maxlength="50" aria-label="Number" matInput
+                            [matAutocomplete]="autoOrder" [(ngModel)]="orderNumber" (keypress)="getFilteredList()" (keyup)="orderSelected()">
+                      
+                      
+                            <mat-autocomplete class="card custom-scroll" panelWidth="auto" autoActiveFirstOption
+                            #autoOrder="matAutocomplete" (optionSelected)="orderSelected()">
+                            <h6 class="card-header matAutoCompHeader">
+                                <span>Order Number</span> <span>Date</span>
+                                <span style="width:  140px;">Transaction Type</span> <span style="width:  140px;">Item Number</span> <span style="width:  140px;">Transaction Quantity</span>
+                            </h6>
+                            <mat-option  *ngFor="let option of orderList" [value]="option.orderNumber" class="matAutoCompTableContent">
+                                <div  class="loc_option">
+                                    <span  class="searchColumn" style="width:  140px;">{{option.orderNumber}}</span> <span  class="searchColumn" style="width:  140px;">{{option.dateField}}</span>
+                                    <span  class="searchColumn" style="width:  140px;">{{option.transType}}</span><span  class="searchColumn" style="width:  140px;">{{option.itemNumber}}</span><span  class="searchColumn" style="width:  140px;">{{option.qty}}</span>
+                                </div>
+                            </mat-option>
+                        </mat-autocomplete>
+
+
+
+                    </mat-form-field>  -->
                     <mat-form-field class="w-100 bg-white br-8" appearance="outline">
                         <mat-label>Order Number</mat-label>
                         <input type="text" maxlength="50" aria-label="Number" matInput
