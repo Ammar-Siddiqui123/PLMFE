@@ -134,11 +134,11 @@ export class CCBCreateCountsComponent implements OnInit {
       category: new FormControl(''),
       // subCategory: new FormControl({ value: '', disabled: true }),
       subCategory: new FormControl({ value: '', disabled: true }),
-      notCounted: new FormControl(new Date(1 / 11 / 1111)),
-      pickedStart: new FormControl(new Date(1 / 11 / 1111)),
-      pickedEnd: new FormControl(new Date(1 / 11 / 1111)),
-      putStart: new FormControl(new Date(1 / 11 / 1111)),
-      putEnd: new FormControl(new Date(1 / 11 / 1111)),
+      notCounted: new FormControl(new Date()),
+      pickedStart: new FormControl(new Date()),
+      pickedEnd: new FormControl(new Date()),
+      putStart: new FormControl(new Date()),
+      putEnd: new FormControl(new Date()),
       costStart: new FormControl(''),
       costEnd: new FormControl(''),
       warehouse: new FormControl(''),
@@ -287,12 +287,12 @@ export class CCBCreateCountsComponent implements OnInit {
     this.filtersForm.controls['subCategory'].setValue('');
     this.filtersForm.controls['fromItem'].setValue('');
     this.filtersForm.controls['toItem'].setValue('');
-    this.filtersForm.controls['notCounted'].setValue(new Date(1 / 11 / 1111));
-    this.filtersForm.controls['pickedStart'].setValue(new Date(1 / 11 / 1111));
-    this.filtersForm.controls['pickedEnd'].setValue(new Date(1 / 11 / 1111));
-    this.filtersForm.controls['putStart'].setValue(new Date(1 / 11 / 1111));
-    this.filtersForm.controls['pickedStart'].setValue(new Date(1 / 11 / 1111));
-    this.filtersForm.controls['putEnd'].setValue(new Date(1 / 11 / 1111));
+    this.filtersForm.controls['notCounted'].setValue(new Date());
+    this.filtersForm.controls['pickedStart'].setValue(new Date());
+    this.filtersForm.controls['pickedEnd'].setValue(new Date());
+    this.filtersForm.controls['putStart'].setValue(new Date());
+    this.filtersForm.controls['pickedStart'].setValue(new Date());
+    this.filtersForm.controls['putEnd'].setValue(new Date());
     this.filtersForm.controls['costStart'].setValue('');
     this.filtersForm.controls['costEnd'].setValue('');
     this.filtersForm.controls['warehouse'].setValue('');
@@ -517,23 +517,23 @@ export class CCBCreateCountsComponent implements OnInit {
         : '',
       notCounted:
         this.filtersForm.value.notCounted === ''
-          ? new Date('1/11/1111')
+          ? new Date()
           : this.filtersForm.value.notCounted,
       pickedStart:
         this.filtersForm.value.pickedStart === ''
-          ? new Date('1/11/1111')
+          ? new Date()
           : this.filtersForm.value.pickedStart,
       pickedEnd:
         this.filtersForm.value.pickedEnd === ''
-          ? new Date('1/11/1111')
+          ? new Date()
           : this.filtersForm.value.pickedEnd,
       putStart:
         this.filtersForm.value.putStart === ''
-          ? new Date('1/11/1111')
+          ? new Date()
           : this.filtersForm.value.putStart,
       putEnd:
         this.filtersForm.value.putEnd === ''
-          ? new Date('1/11/1111')
+          ? new Date()
           : this.filtersForm.value.putEnd,
       costStart: this.filtersForm.value.costStart,
       costEnd: this.filtersForm.value.costEnd,
@@ -571,27 +571,27 @@ export class CCBCreateCountsComponent implements OnInit {
         notCounted:
           this.filtersForm.value.notCounted === '' ||
           this.filtersForm.value.notCounted === null
-            ? new Date('1/1/1970')
+            ? new Date()
             : this.filtersForm.value.notCounted,
         pickStart:
           this.filtersForm.value.pickedStart === '' ||
           this.filtersForm.value.pickedStart === null
-            ? new Date('1/1/1970')
+            ? new Date()
             : this.filtersForm.value.pickedStart,
         pickEnd:
           this.filtersForm.value.pickedEnd === '' ||
           this.filtersForm.value.pickedEnd === null
-            ? new Date('1/1/1970') //'1/11/1111'
+            ? new Date() //'1/11/1111'
             : this.filtersForm.value.pickedEnd,
         putAwayStart:
           this.filtersForm.value.putStart === '' ||
           this.filtersForm.value.putStart === null
-            ? new Date('1/1/1970')
+            ? new Date()
             : this.filtersForm.value.putStart,
         putAwayEnd:
           this.filtersForm.value.putEnd === '' ||
           this.filtersForm.value.putEnd === null
-            ? new Date('1/1/1970')
+            ? new Date()
             : this.filtersForm.value.putEnd,
         costStart: this.filtersForm.value.costStart,
         costEnd: this.filtersForm.value.costEnd,
