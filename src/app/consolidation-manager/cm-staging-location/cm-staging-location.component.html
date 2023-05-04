@@ -73,7 +73,11 @@
                         <th mat-header-cell *matHeaderCellDef> Staging Location </th>
                         <td mat-cell *matCellDef="let element; let i = index">
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                <input matInput type="text" (keypress)="saveToteStagingLocation($event,element.toteID,element.stagingLocation,i,0)"  
+                                <input matInput type="text" 
+                                [matTooltip]="'Current Loc: '+ (element.stagingLocation ? element.stagingLocation :element.stagingLocationOld ? element.stagingLocationOld : '') " matTooltipPosition="above" matTooltipTrigger="focus"
+                                (focus)="element.stagingLocationOld = element.stagingLocation;element.stagingLocation = ''"
+                                (blur)="element.stagingLocation = element.stagingLocationOld"
+                                (keypress)="saveToteStagingLocation($event,element.toteID,element.stagingLocation,i,0)"  
                                     [(ngModel)]="element.stagingLocation">
                             </mat-form-field>
                         </td>
