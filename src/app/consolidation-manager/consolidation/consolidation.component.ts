@@ -764,12 +764,8 @@ export class ConsolidationComponent implements OnInit {
  }
 
  navigateToOrder() {
-  this.router.navigate([]).then((result) => {
-    window.open(
-      `/#/admin/transaction?orderStatus=${this.TypeValue}`,
-      '_blank'
-    );
-  });
+  window.location.href = `/#/admin/transaction?orderStatus=${this.TypeValue ? this.TypeValue : ''}&IsOrderStatus=true`;
+ 
  }
 
 }
