@@ -145,8 +145,10 @@ export class SrCurrentOrderComponent implements OnInit {
   @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   autocompleteSearchColumn(){
-    if (this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != "") {
+    if (this.tablePayloadObj.searchColumn != "") {
       this.newReplenishmentOrdersSubscribe.unsubscribe();
+      this.getSearchOptionsSubscribe.unsubscribe();
+      this.getSearchOptions();
       this.newReplenishmentOrders();
     }
   }
@@ -196,8 +198,9 @@ export class SrCurrentOrderComponent implements OnInit {
         });
         this.tableDataTotalCount = res.data.recordsTotal;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
-		    this.changeSearchOptions();
-        this.updateCounts();
+		    // this.changeSearchOptions();
+        // this.updateCounts();
+        this.systemReplenishmentCount();
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -208,15 +211,15 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   searchAutocompleteList: any;
-  changeSearchOptions() {
-    if (this.tablePayloadObj.searchColumn != "") {
-      let key = this.searchColumnOptions.filter((item: any) => item.value == this.tablePayloadObj.searchColumn)[0].key;
-      this.searchAutocompleteList = [];
-      let duplicates = this.filteredTableData.map((item: any) => item[key]);
-      this.searchAutocompleteList = duplicates.filter((item: any, index: any) => duplicates.indexOf(item) === index);
-      this.searchAutocompleteList = this.searchAutocompleteList.filter((item: any) => item != "");
-    }
-  }
+  // changeSearchOptions() {
+  //   if (this.tablePayloadObj.searchColumn != "") {
+  //     let key = this.searchColumnOptions.filter((item: any) => item.value == this.tablePayloadObj.searchColumn)[0].key;
+  //     this.searchAutocompleteList = [];
+  //     let duplicates = this.filteredTableData.map((item: any) => item[key]);
+  //     this.searchAutocompleteList = duplicates.filter((item: any, index: any) => duplicates.indexOf(item) === index);
+  //     this.searchAutocompleteList = this.searchAutocompleteList.filter((item: any) => item != "");
+  //   }
+  // }
 
   updateCounts() {
     this.noOfPutAways = this.filteredTableData.filter((item: any) => item.transactionType == 'Put Away').length;
@@ -224,12 +227,7 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   paginatorChange(event: PageEvent) {
-    if (event.previousPageIndex != undefined && event.pageIndex > event.previousPageIndex) {
-      this.tablePayloadObj.start = this.tablePayloadObj.start + event.pageSize;
-    }
-    else {
-      this.tablePayloadObj.start = this.tablePayloadObj.start - event.pageSize;
-    }
+    this.tablePayloadObj.start = event.pageSize * event.pageIndex;
     this.tablePayloadObj.length = event.pageSize;
     this.newReplenishmentOrders();
   }
@@ -327,36 +325,10 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   deleteRange() {
-
-    let batchPickIdOptions:any = [];
-    this.filteredTableData.forEach((x:any) => {
-      if(x.batchPickID && !batchPickIdOptions.includes(x.batchPickID)){
-        batchPickIdOptions.push(x.batchPickID);
-      }
-    });
-
-    let pickLocationOptions:any = [];
-    this.filteredTableData.forEach((x:any) => {
-      if(x.transactionType == "Pick" && !pickLocationOptions.includes(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim())){
-        pickLocationOptions.push(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim());
-      }
-    });
-
-    let putAwayLocationOptions:any = [];
-    this.filteredTableData.forEach((x:any) => {
-      if(!putAwayLocationOptions.includes(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim())){
-        putAwayLocationOptions.push(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim());
-      }
-    });
-
     const dialogRef = this.dialog.open(DeleteRangeComponent, {
       width: '900px',
       autoFocus: '__non_existing_element__',
-      data: 
-      { pickLocationOptions : pickLocationOptions,
-        putAwayLocationOptions : putAwayLocationOptions,
-        batchPickIdOptions : batchPickIdOptions
-      },
+      data: {},
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -434,7 +406,7 @@ export class SrCurrentOrderComponent implements OnInit {
 
   searchChange(event: any) {
     this.tablePayloadObj.searchColumn = event;
-    this.changeSearchOptions();
+    this.getSearchOptions()
   }
 
   resetPagination() {
@@ -452,14 +424,14 @@ export class SrCurrentOrderComponent implements OnInit {
   ReplenishmentsByDelete() {
     this.systemReplenishmentService.get(this.repByDeletePayload, '/Admin/ReplenishmentsByDelete').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
-        this.toastr.success(labels.alert.success, 'Success!', {
+        this.toastr.success(labels.alert.delete, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
         this.newReplenishmentOrders();
         this.replenishmentsDeleted.emit();
       } else {
-        this.toastr.error("Deleting by range has failed", 'Error!', {
+        this.toastr.error(labels.alert.went_worng, 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
@@ -470,5 +442,34 @@ export class SrCurrentOrderComponent implements OnInit {
 
   selectOrder(element) {
     this.selectedOrder = element;
+  }
+
+  getSearchOptionsSubscribe: any;
+  getSearchOptions(){
+    let payload = {
+      "searchString": this.tablePayloadObj.searchString,
+      "searchColumn": this.tablePayloadObj.searchColumn,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/ReplenishReportSearchTA').subscribe((res: any) => {
+      if (res.isExecuted && res.data && res.data.length > 0) {
+        this.searchAutocompleteList = res.data.sort();
+      }
+    });
+  }
+
+  viewItemInInventoryMaster(element: any) {
+    window.open(`/#/admin/inventoryMaster?itemNumber=${element.itemNumber}`, '_blank', "location=yes");
+  }
+
+
+  systemReplenishmentCount() {
+    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentCount').subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.noOfPicks = res.data.pickCount;
+        this.noOfPutAways = res.data.putCount;
+      }
+    });
   }
 }
