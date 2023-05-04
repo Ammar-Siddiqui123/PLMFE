@@ -324,36 +324,10 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   deleteRange() {
-
-    let batchPickIdOptions:any = [];
-    this.filteredTableData.forEach((x:any) => {
-      if(x.batchPickID && !batchPickIdOptions.includes(x.batchPickID)){
-        batchPickIdOptions.push(x.batchPickID);
-      }
-    });
-
-    let pickLocationOptions:any = [];
-    this.filteredTableData.forEach((x:any) => {
-      if(x.transactionType == "Pick" && !pickLocationOptions.includes(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim())){
-        pickLocationOptions.push(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim());
-      }
-    });
-
-    let putAwayLocationOptions:any = [];
-    this.filteredTableData.forEach((x:any) => {
-      if(!putAwayLocationOptions.includes(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim())){
-        putAwayLocationOptions.push(x.zone.trim()+x.carousel.trim()+x.row.trim()+x.shelf.trim()+x.bin.trim());
-      }
-    });
-
     const dialogRef = this.dialog.open(DeleteRangeComponent, {
       width: '900px',
       autoFocus: '__non_existing_element__',
-      data: 
-      { pickLocationOptions : pickLocationOptions,
-        putAwayLocationOptions : putAwayLocationOptions,
-        batchPickIdOptions : batchPickIdOptions
-      },
+      data: {},
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
