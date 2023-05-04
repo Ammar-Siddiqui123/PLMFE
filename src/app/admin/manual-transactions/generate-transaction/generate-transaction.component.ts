@@ -102,10 +102,12 @@ export class GenerateTransactionComponent implements OnInit {
   clearMatSelectList(){
     this.openAction.options.forEach((data: MatOption) => data.deselect());
   }
-  getRow(row?) {
+  getRow(row?,type?) {
     // console.log(this.selectedAction);
-    
-    this.clear();
+    if( type != 'save'){
+      this.clear();
+    }
+  
     this.transactionID = row.id;
     // console.log(row);
     let payLoad = {
@@ -295,19 +297,23 @@ export class GenerateTransactionComponent implements OnInit {
                       timeOut: 2000,
                     });
                     this.updateTrans();
-
-                    this.clearFields();
+                    if( type != 'save'){
+                      this.clearFields();
+                    }
+                
                     this.invMapID = '';
-                    this.getRow(this.transactionID);
+                    this.getRow(this.transactionID,type);
 
                   } else {
                     this.toastr.error(res.responseMessage, 'Error!', {
                       positionClass: 'toast-bottom-right',
                       timeOut: 2000,
                     });
-                    this.clearFields();
+                    if( type != 'save'){
+                      this.clearFields();
+                    }
                     this.invMapID = '';
-                    this.getRow(this.transactionID);
+                    this.getRow(this.transactionID,type);
                   }
                 },
                 (error) => {}
