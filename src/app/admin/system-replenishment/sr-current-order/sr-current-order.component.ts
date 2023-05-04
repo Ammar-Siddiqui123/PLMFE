@@ -441,7 +441,11 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   selectOrder(element) {
-    this.selectedOrder = element;
+    if(this.selectedOrder.itemNumber && this.selectedOrder.itemNumber == element.itemNumber && this.selectedOrder.transactionType == element.transactionType){
+      this.selectedOrder = {};
+    }else{
+      this.selectedOrder = element;
+    }
   }
 
   getSearchOptionsSubscribe: any;
