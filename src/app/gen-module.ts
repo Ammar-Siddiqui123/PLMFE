@@ -7,6 +7,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { ActionDisableDirective } from './init/action-disable.directive';
 import { NumbersOnlyDirective } from './init/NumbersOnly.directive';
 import { SortDirective } from './init/sort.directive';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     exports: [
@@ -17,6 +18,7 @@ import { SortDirective } from './init/sort.directive';
         HttpClientModule,
         ReactiveFormsModule,
         NumbersOnlyDirective,
+        MatTooltipModule, 
         ActionDisableDirective,
         SortDirective
     ],
