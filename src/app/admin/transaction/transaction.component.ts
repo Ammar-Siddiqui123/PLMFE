@@ -20,6 +20,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
   orderStatus$: Observable<any>;
   itemNumber$: Observable<any>;
   type$: Observable<any>;
+  IsOrderStatus:any = false;
   type:any;
   itemNumber:any;
   tabIndex$: Observable<any>;
@@ -58,10 +59,19 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     this.orderStatus$ = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('orderStatus')),
     );
+ 
     this.tabIndex$ = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('tabIndex')),
     );
-
+    var IsStatus = this.route.queryParamMap.pipe(
+      map((params: ParamMap) => params.get('IsOrderStatus')),
+    );
+    IsStatus.subscribe((param) => {
+      debugger
+      if (param!=null &&param != undefined) {
+        this.IsOrderStatus = true;
+      }else this.IsOrderStatus = false;
+    });
     this.tabIndex$.subscribe((param) => {
       // console.log(param)
       if (param) {
@@ -69,10 +79,11 @@ export class TransactionComponent implements OnInit, AfterViewInit {
         // this.sharedService.updateOrderStatus(param)
       }
     });
-
+    
     this.orderStatus$.subscribe((param) => {
       // console.log(param)
-      if (param) {
+      if(param!=null && param !== undefined){
+       
         this.TabIndex = 0;
         this.sharedService.updateOrderStatus(param)
       }
