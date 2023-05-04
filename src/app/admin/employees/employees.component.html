@@ -74,7 +74,7 @@
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">Access Level</label>
-                    <div class="g-field-content">{{empData.accessLevel }}</div>
+                    <div class="g-field-content">{{empData.accessLevel==='administrator'?'Administrator':empData.accessLevel==='staff_member'?'Staff Member':'' }}</div>
                   </div>
                 </div>
               </mat-card-content>
