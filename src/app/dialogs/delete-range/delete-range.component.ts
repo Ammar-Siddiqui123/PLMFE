@@ -138,7 +138,7 @@ export class DeleteRangeComponent implements OnInit {
     }
     this.getSearchOptionsBeginSubscribe = this.systemReplenishmentService.get(payload, '/Admin/DeleteRangeBegin').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
-        this.beginAutoCompleteList = res.data;
+        this.beginAutoCompleteList = res.data.sort();
       }
     });
   }
@@ -154,7 +154,7 @@ export class DeleteRangeComponent implements OnInit {
     }
     this.getSearchOptionsEndSubscribe = this.systemReplenishmentService.get(payload, '/Admin/DeleteRangeEnd').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
-        this.endAutoCompleteList = res.data;
+        this.endAutoCompleteList = res.data.sort();
       }
     });
   }

@@ -454,7 +454,7 @@ export class SrCurrentOrderComponent implements OnInit {
     }
     this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/ReplenishReportSearchTA').subscribe((res: any) => {
       if (res.isExecuted && res.data && res.data.length > 0) {
-        this.searchAutocompleteList = res.data;
+        this.searchAutocompleteList = res.data.sort();
       }
     });
   }
