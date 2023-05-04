@@ -193,9 +193,10 @@ export class SrNewOrderComponent implements OnInit {
     this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentNewTable').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.tableData = res.data.sysTable;
+        this.numberSelectedRep = res.data.selectedOrders;
         this.tableDataTotalCount = res.data.recordsFiltered;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
-        this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
+        // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
         // this.changeSearchOptions();
         this.tablePayloadObj.filter = "1=1";
       } else {
@@ -415,7 +416,7 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   changeReplenish(element: any, $event: any) {
-    this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
+    // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
     this.ReplenishmentsIncludeUpdate($event.checked, element.rP_ID);
   }
 
@@ -526,10 +527,17 @@ export class SrNewOrderComponent implements OnInit {
         // });
         this.newReplenishmentOrders();
       } else {
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
+        if(replenish){
+          this.toastr.error("No items available to replenish.", 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }else{
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
       }
     });
   }
@@ -544,7 +552,7 @@ export class SrNewOrderComponent implements OnInit {
     }
     this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/SystemReplenishNewTA').subscribe((res: any) => {
       if (res.isExecuted && res.data && res.data.length > 0) {
-        this.searchAutocompleteList = res.data;
+        this.searchAutocompleteList = res.data.sort();
       }
     });
   }
