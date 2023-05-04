@@ -41,6 +41,7 @@ export class CCBCreateCountsComponent implements OnInit {
   countType: string = '';
   warehouse: string = '';
   subCategory: any;
+  math = Math;
   @Input() updateTable: boolean;
   warehouses: any = [];
   customPagination: any = {
