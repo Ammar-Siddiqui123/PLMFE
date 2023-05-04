@@ -33,7 +33,7 @@ export class CmShipSplitLineComponent implements OnInit {
   }
 
   validateSplitScreenQty() {
-    if (parseInt(this.splitScreenQty) > this.data.order.qty) {      
+    if (parseInt(this.splitScreenQty) > this.data.order.transactionQuantity) {      
       this.splitScreenQtyBtn = false;
     } else if (this.splitScreenQty == '') {      
       this.splitScreenQtyBtn = false;

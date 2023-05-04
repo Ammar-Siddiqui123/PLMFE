@@ -109,7 +109,7 @@
         </div>
 
         <div class="card br-14 table-responsive borderless">
-            <ng-scrollbar class="mat-table-scrollbar" style="height:635px" track="all">
+            <ng-scrollbar class="mat-table-scrollbar" style="height:550px" track="all">
 
                 <table class="w-100 table-borderless action-clickable-table" mat-table [dataSource]="filteredTableData" matSort (matSortChange)="announceSortChange($event)">
 
@@ -117,6 +117,7 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Num </th>
                         <td mat-cell *matCellDef="let element"
                         style="cursor: pointer;"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         > {{element.itemNumber}} </td>
@@ -126,6 +127,7 @@
                     <ng-container matColumnDef="Trans Type">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Trans Type </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.transactionType, 'Transaction Type')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         > {{element.transactionType}} </td>
@@ -135,6 +137,7 @@
                     <ng-container matColumnDef="warehouse">
                         <th class="px-3" mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse </th>
                         <td class="px-3" mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.warehouse, 'Warehouse')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.warehouse}}</td>
@@ -144,6 +147,7 @@
                     <ng-container matColumnDef="zone">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Zone </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.zone, 'Zone')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.zone}} </td>
@@ -152,6 +156,7 @@
                     <ng-container matColumnDef="carousel">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Carsl </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.carousel, 'Carousel')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         > {{element.carousel}}</td>
@@ -160,6 +165,7 @@
                     <ng-container matColumnDef="row">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Row </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.row, 'Row')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         > {{element.row}} </td>
@@ -168,6 +174,7 @@
                     <ng-container matColumnDef="shelf">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Shelf </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.shelf, 'Shelf')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.shelf}} </td>
@@ -176,6 +183,7 @@
                     <ng-container matColumnDef="bin">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Bin </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.bin, 'Bin')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.bin}} </td>
@@ -184,6 +192,7 @@
                     <ng-container matColumnDef="cell">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Cell </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.cell, 'Cell')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.cell}} </td>
@@ -192,6 +201,7 @@
                     <ng-container matColumnDef="lotNumber">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Lot Number </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.lotNumber, 'lot Number')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.lotNumber}} </td>
@@ -200,6 +210,7 @@
                     <ng-container matColumnDef="Trans Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Trans Qty </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.transactionQuantity, 'Trans Qty')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.transactionQuantity}} </td>
@@ -208,6 +219,7 @@
                     <ng-container matColumnDef="description">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.description, 'Description')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.description}} </td>
@@ -216,6 +228,7 @@
                     <ng-container matColumnDef="Order Number">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Order Number </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.orderNumber, 'Order Number')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.orderNumber}} </td>
@@ -224,6 +237,7 @@
                     <ng-container matColumnDef="UofM">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> UofM </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.unitOfMeasure, 'UofM')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.unitOfMeasure}} </td>
@@ -232,6 +246,7 @@
                     <ng-container matColumnDef="Batch Pick ID">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch Pick ID </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.batchPickID, 'Batch Pick ID')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.batchPickID}} </td>
@@ -240,6 +255,7 @@
                     <ng-container matColumnDef="Serial Number">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Serial Number </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.serialNumber, 'Serial Number')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.serialNumber}} </td>
@@ -248,6 +264,7 @@
                     <ng-container matColumnDef="Completed Date">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Comp Date </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.completedDate, 'Comp Date')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.completedDate}} </td>
@@ -256,6 +273,7 @@
                     <ng-container matColumnDef="Print Date">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Print Date </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.printDate, 'Print Date')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.printDate}} </td>
