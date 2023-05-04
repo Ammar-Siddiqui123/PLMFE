@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { OmCreateOrdersComponent } from 'src/app/dialogs/om-create-orders/om-create-orders.component';
 import { OmEventLogEntryDetailComponent } from 'src/app/dialogs/om-event-log-entry-detail/om-event-log-entry-detail.component';
 
 @Component({
@@ -39,6 +40,14 @@ export class EventLogComponent implements OnInit {
       
       
     });
+
+    
+
    }
+   
 
 }
+function openOmCreateOrders(order: any, any: any) {
+  throw new Error('Function not implemented.');
+}
+

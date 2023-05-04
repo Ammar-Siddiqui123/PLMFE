@@ -280,23 +280,25 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   actionChange(event: any) {
-    if (event == '1') {
-      this.filterItemNo();
+    if(this.tableData.length != 0 && this.filteredTableData.length != 0){
+      if (event == '1') {
+        this.filterItemNo();
+      }
+      else if (event == '3') {
+        this.viewAllItems();
+      }
+      else if (event == '4') {
+        this.viewSelectedItems();
+      }
+      else if (event == '5') {
+        this.selectAll();
+      }
+      else if (event == '6' && this.numberSelectedRep != 0) {
+        this.unSelectAll();
+      }
     }
-    else if (event == '2') {
+    if (event == '2') {
       this.print();
-    }
-    else if (event == '3') {
-      this.viewAllItems();
-    }
-    else if (event == '4') {
-      this.viewSelectedItems();
-    }
-    else if (event == '5') {
-      this.selectAll();
-    }
-    else if (event == '6') {
-      this.unSelectAll();
     }
   }
 
@@ -412,6 +414,10 @@ export class SrNewOrderComponent implements OnInit {
         if (result.filterItemNumbersArray && result.filterItemNumbersArray.length > 0) {
           this.resetPagination();
           this.newReplenishmentOrders();
+        }
+        else {
+          this.resetPagination();
+          this.createNewReplenishments(this.kanban);
         }
       }
     });

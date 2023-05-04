@@ -26,6 +26,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class CmStagingLocationComponent implements OnInit {
   userData: any = {};
+  isInputFocused:any=false;
   displayedColumns: string[] = ['select', 'position', 'action'];
   tableData = ELEMENT_DATA;
   stagetables: any[] = [];
