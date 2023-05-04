@@ -27,7 +27,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class CmShippingComponent implements OnInit {
   IsLoading: any = false;
-  displayedColumns: string[] = ['containerID', 'freight', 'freight1', 'freight2', 'carrier', 'length', 'weight', 'width', 'trackingNum', 'height', 'cube', 'action'];
+  displayedColumns: string[] = ['containerID',  'carrier', 'trackingNum', 'action'];
   tableData = ELEMENT_DATA;
   userData: any = {};
   orderNumber: any;
@@ -52,8 +52,7 @@ export class CmShippingComponent implements OnInit {
     this.ShippingIndex();
   }
   async ShippingIndex() { 
-    this.displayedColumns = ['containerID', 'freight', 'freight1', 'freight2', 'carrier', 'length', 'weight', 'width', 'trackingNum', 'height', 'cube', 'action'];
-  
+   debugger
     if (this.orderNumber != "") {
       var obj: any = {
         orderNumber: this.orderNumber,
@@ -66,12 +65,13 @@ export class CmShippingComponent implements OnInit {
           this.shippingData = res.data.shippingData;
           this.carriers = res.data.carriers;
           this.shippingPreferences = res.data.shippingPreferences;
+          let indx=0;
           for (let key in this.shippingPreferences) { 
-            if(this.shippingPreferences[key] == false){
-              var index = this.displayedColumns.indexOf(key);
-              this.displayedColumns.splice(index, 1);
+            if(!(this.displayedColumns.indexOf(key) > -1) && this.shippingPreferences[key] == true){
+          // this.displayedColumns.push(key);
+          this.displayedColumns.splice((3+indx), 0, key);
+          indx=indx+1;
             }
-            console.log(this.shippingPreferences);
           }
           this.shippingComp = res.data.shippingComp;
           this.orderNumber = res.data.orderNumber;
