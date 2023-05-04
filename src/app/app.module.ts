@@ -70,6 +70,8 @@ import { OmEventLogEntryDetailComponent } from './dialogs/om-event-log-entry-det
 import { OmCreateOrdersComponent } from './dialogs/om-create-orders/om-create-orders.component';
 import { OmUpdateRecordComponent } from './dialogs/om-update-record/om-update-record.component';
 import { OmAddRecordComponent } from './dialogs/om-add-record/om-add-record.component';
+import { OmEditTransactionComponent } from './dialogs/om-edit-transaction/om-edit-transaction.component';
+import { OmAddTransactionComponent } from './dialogs/om-add-transaction/om-add-transaction.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -127,6 +129,8 @@ import { OmAddRecordComponent } from './dialogs/om-add-record/om-add-record.comp
     OmCreateOrdersComponent,
     OmUpdateRecordComponent,
     OmAddRecordComponent,
+    OmEditTransactionComponent,
+    OmAddTransactionComponent,
     // ActionDisableDirective,
   ],
   imports: [

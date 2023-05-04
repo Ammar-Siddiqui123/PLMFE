@@ -39,18 +39,6 @@ export class OmOrderManagerComponent implements OnInit {
     })
    }
 
-   openOmAddRecord() {
-    let dialogRef = this.dialog.open(OmAddRecordComponent, {
-      height: 'auto',
-      width: '50vw',
-      autoFocus: '__non_existing_element__',
-     
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      
-      
-    })
-   }
 
    openOmCreateOrders() { 
     let dialogRef = this.dialog.open(OmCreateOrdersComponent, { 
