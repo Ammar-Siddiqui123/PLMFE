@@ -107,7 +107,7 @@ export class CellSizeComponent implements OnInit {
     }
   }
   dltCellSize(cell: any, i) {
-    console.log(cell.cells);
+    // console.log(cell.cells);
     
     if (cell.cells != '') {
       const dialogRef = this.dialog.open(DeleteConfirmationComponent, {

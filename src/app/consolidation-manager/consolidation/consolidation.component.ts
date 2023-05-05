@@ -377,9 +377,9 @@ export class ConsolidationComponent implements OnInit {
       "wsid": this.userData.wsid
     }
 
-    console.log(payload)
+    // console.log(payload)
     this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res:any)=>{
-      console.log(res,'s')
+      // console.log(res,'s')
       if(res.isExecuted){
 
         let data = this.tableData_2.data;
@@ -416,7 +416,7 @@ export class ConsolidationComponent implements OnInit {
       "wsid": this.userData.wsid
     }
     this.consolidationHub.get(payload,'/Consolidation/DeleteVerified').subscribe((res:any)=>{
-        console.log(res) 
+        // console.log(res) 
         if(res.isExecuted){
 
           let data2 = this.tableData_1.data;
@@ -533,7 +533,7 @@ export class ConsolidationComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result =>{
-        console.log(result)
+        // console.log(result)
         if(result && result.isExecuted){
           this.getTableData('',this.TypeValue);
         }
@@ -557,7 +557,7 @@ export class ConsolidationComponent implements OnInit {
       if (e.key == event.value) {
         this.startSelectFilter = e.key;
         this.startSelectFilterLabel = e.value;
-        console.log( this.startSelectFilterLabel,'this.startSelectFilterLabel')
+        // console.log( this.startSelectFilterLabel,'this.startSelectFilterLabel')
       }
     });
 

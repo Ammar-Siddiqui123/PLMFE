@@ -38,7 +38,7 @@ export class WarehouseComponent implements OnInit {
   }
 
   deleteWH(warehosue: any) {
-    console.log(warehosue);
+    // console.log(warehosue);
     if(warehosue != ''){
       let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',

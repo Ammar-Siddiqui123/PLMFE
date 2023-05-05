@@ -111,7 +111,7 @@ export class SrCurrentOrderComponent implements OnInit {
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
-    console.log(this.FilterString);
+    // console.log(this.FilterString);
     this.tablePayloadObj.filter = this.FilterString;
     this.newReplenishmentOrders();
     this.tablePayloadObj.filter = "1=1";
@@ -129,7 +129,7 @@ export class SrCurrentOrderComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+      // console.log(result);
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );

@@ -26,7 +26,7 @@ export class InputFilterComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log(this.data);
-    console.log(this.data.Column);
+    // console.log(this.data.Column);
     this.condition = this.data.Condition;
     this.columnName = this.data.FilterColumnName;
   }

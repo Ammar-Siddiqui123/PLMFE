@@ -47,8 +47,8 @@ export class CmItemSelectedComponent implements OnInit {
         this.tableData_1 = this.data.tableData_1;
         this.tableData_2 = this.data.tableData_2;
 
-        console.log(this.tableData_1)
-        console.log(this.tableData_2)
+        // console.log(this.tableData_1)
+        // console.log(this.tableData_2)
 
         this.getItemSelectedData();
 
@@ -89,7 +89,7 @@ verifyLine(index) {
     let id = this.itemSelectTable.data[index].id;
     // console.log(this.itemSelectTable.data)
     // console.log(this.itemSelectTable)
-    console.log(id)
+    // console.log(id)
 
 
     let payload = {
@@ -98,10 +98,10 @@ verifyLine(index) {
         "wsid": this.userData.wsid
     }
 
-    console.log(payload)
+    // console.log(payload)
 
     this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res: any) => {
-        console.log(res)
+        // console.log(res)
 
         if(res.isExecuted){
             
@@ -124,7 +124,7 @@ verifyLine(index) {
 
 verifyAll(){
 
-    console.log(this.itemSelectTable.data)
+    // console.log(this.itemSelectTable.data)
     this.itemSelectTable.data.forEach((row,i)=>{
        let selectID = row.id;
     })
