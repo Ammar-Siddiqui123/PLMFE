@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { OmAddRecordComponent } from '../om-add-record/om-add-record.component';
 import { OmAddTransactionComponent } from '../om-add-transaction/om-add-transaction.component';
 import { OmEditTransactionComponent } from '../om-edit-transaction/om-edit-transaction.component';
+import { OmUserFieldDataComponent } from '../om-user-field-data/om-user-field-data.component';
 
 @Component({
   selector: 'app-om-create-orders',
@@ -55,6 +56,19 @@ export class OmCreateOrdersComponent implements OnInit {
 
    openOmAddTransaction() {
     let dialogRef = this.dialog.open(OmAddTransactionComponent, {
+      height: 'auto',
+      width: '50vw',
+      autoFocus: '__non_existing_element__',
+     
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+   }
+
+   openOmUserFieldData() {
+    let dialogRef = this.dialog.open(OmUserFieldDataComponent, {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
