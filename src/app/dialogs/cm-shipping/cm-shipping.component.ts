@@ -51,8 +51,7 @@ export class CmShippingComponent implements OnInit {
     this.shippingComp = false;
     this.ShippingIndex();
   }
-  async ShippingIndex() { 
-   debugger
+  async ShippingIndex() {  
     if (this.orderNumber != "") {
       var obj: any = {
         orderNumber: this.orderNumber,
