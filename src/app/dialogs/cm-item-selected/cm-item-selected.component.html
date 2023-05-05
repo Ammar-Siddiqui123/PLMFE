@@ -10,13 +10,13 @@
     <div class="col-xl-6">
         <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
             <mat-label>Order Number</mat-label>
-            <input matInput type="text" maxlength="50" readonly="true" value="000000" [(ngModel)]="IdentModal">
+            <input matInput type="text" maxlength="50" readonly="true" disabled="true" value="000000" [(ngModel)]="IdentModal">
         </mat-form-field>
     </div>
     <div class="col-xl-6">
         <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
             <mat-label>{{ColLabel}}</mat-label>
-            <input matInput type="text" maxlength="50" readonly="true" value="000000" [(ngModel)]="ColumnModal">
+            <input matInput type="text" maxlength="50" readonly="true" value="000000" disabled="true" [(ngModel)]="ColumnModal">
         </mat-form-field>
     </div>
 </div>
@@ -86,7 +86,7 @@
     </ng-scrollbar>
 </div>
 <div class="table-pagination d-flex justify-content-start">
-    <mat-paginator #paginator  [pageSizeOptions]="[10, 20, 100]"></mat-paginator>
+    <mat-paginator #paginator  [pageSizeOptions]="[5, 10, 20]" ></mat-paginator>
 </div>
 
 <div mat-dialog-actions>
