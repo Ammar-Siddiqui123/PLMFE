@@ -68,14 +68,14 @@ export class SideNavComponent implements OnInit {
 
   consolidationMenus: any = [
     { icon: 'arrow_back', title: 'Consolidation Manager', route: '/dashboard', class: 'back-class' , permission: 'Consolidation Manager'},
-    { icon: 'add_location_alt', title: 'Consolidation', route: '/ConsolidationManager/Consolidation', class: 'back-class' , permission: 'Consolidation Manager'},
+    { icon: 'insert_chart', title: 'Consolidation', route: '/ConsolidationManager/Consolidation', class: 'back-class' , permission: 'Consolidation Manager'},
     // Vector
     { icon: 'add_location_alt', title: 'Staging Locations', route: '/ConsolidationManager/StagingLocations' ,permission:'Consolidation Manager'},
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
-    { icon: 'analytics', title: 'Consolidation Preferences ', route: '/ConsolidationManager/ConsolidationPreferences' ,permission:'Consolidation Manager'},
+    { icon: 'tune', title: 'Consolidation Preferences ', route: '/ConsolidationManager/ConsolidationPreferences' ,permission:'Consolidation Manager'},
     // Vector (Stroke)
     { icon: 'analytics', title: 'Reporting ', route: '#' ,permission:'Reporting'},
-     { icon: 'analytics', title: 'Order Status ', route: '/admin/transaction',paramsObj:{IsOrderStatus:true} ,permission:'Consolidation Manager'}
+     { icon: ' pending_actions', title: 'Order Status ', route: '/admin/transaction',paramsObj:{IsOrderStatus:true} ,permission:'Consolidation Manager'}
     //  flex_wrap
   ];
 
