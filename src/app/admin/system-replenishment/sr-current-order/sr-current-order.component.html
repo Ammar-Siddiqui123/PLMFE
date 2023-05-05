@@ -94,12 +94,12 @@
                     <mat-select class="employees-action">
                         <mat-option value="Print Orders" (click)="actionChange('Print Orders')">Print Orders</mat-option>
                         <mat-option value="Print Labels" (click)="actionChange('Print Labels')">Print Labels</mat-option>
-                        <mat-option value="Delete All Orders" (click)="actionChange('Delete All Orders')">Delete All Orders</mat-option>
-                        <mat-option value="Delete Shown Orders" (click)="actionChange('Delete Shown Orders')">Delete Shown Orders</mat-option>
-                        <mat-option value="Delete Range" (click)="actionChange('Delete Range')">Delete Range</mat-option>
-                        <mat-option value="Delete Selected Order" (click)="actionChange('Delete Selected Order')">Delete Selected Order</mat-option>
-                        <mat-option value="View All Orders" (click)="actionChange('View All Orders')">View All Orders</mat-option>
-                        <mat-option value="View Unprinted Orders" (click)="actionChange('View Unprinted Orders')">View Unprinted Orders</mat-option>
+                        <mat-option value="Delete All Orders" [disabled]="tableData.length == 0" (click)="actionChange('Delete All Orders')">Delete All Orders</mat-option>
+                        <mat-option value="Delete Shown Orders" [disabled]="tableData.length == 0" (click)="actionChange('Delete Shown Orders')">Delete Shown Orders</mat-option>
+                        <mat-option value="Delete Range" [disabled]="tableData.length == 0" (click)="actionChange('Delete Range')">Delete Range</mat-option>
+                        <mat-option value="Delete Selected Order" [disabled]="tableData.length == 0" (click)="actionChange('Delete Selected Order')">Delete Selected Order</mat-option>
+                        <mat-option value="View All Orders" [disabled]="tableData.length == 0" (click)="actionChange('View All Orders')">View All Orders</mat-option>
+                        <mat-option value="View Unprinted Orders" [disabled]="tableData.length == 0" (click)="actionChange('View Unprinted Orders')">View Unprinted Orders</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
                         expand_more
