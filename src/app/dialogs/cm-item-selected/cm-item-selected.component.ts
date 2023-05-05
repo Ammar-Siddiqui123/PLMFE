@@ -54,8 +54,6 @@ export class CmItemSelectedComponent implements OnInit {
         this.tableData_1 = this.data.tableData_1;
         this.tableData_2 = this.data.tableData_2;
 
-        console.log(this.tableData_1)
-        console.log(this.tableData_2)
 
         this.getItemSelectedData();
 
@@ -81,10 +79,8 @@ export class CmItemSelectedComponent implements OnInit {
         "wsid": this.userData.wsid
     }
 
-    // console.log(payload)
 
     this.consolidationHub.get(payload ,'/Consolidation/ItemModelData').subscribe((res=>{
-        // console.log(res)
         
         this.itemSelectTable= new MatTableDataSource(res.data);
         this.itemSelectTable.paginator = this.paginator;
@@ -105,9 +101,6 @@ export class CmItemSelectedComponent implements OnInit {
 
 verifyLine(index) {
     let id = this.itemSelectTable.data[index].id;
-    // console.log(this.itemSelectTable.data)
-    // console.log(this.itemSelectTable)
-    // console.log(id)
 
 
     let payload = {
@@ -116,10 +109,8 @@ verifyLine(index) {
         "wsid": this.userData.wsid
     }
 
-    // console.log(payload)
 
     this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res: any) => {
-        // console.log(res)
 
         if(res.isExecuted){
             
@@ -156,9 +147,7 @@ verifyAll(){
         "username": this.userData.userName,
         "wsid": this.userData.wsid
     };
-      // console.log(payload)
       this.consolidationHub.get(payload, '/Consolidation/VerifyAllItemPost').subscribe((res: any) => {
-        // console.log(res)
         if(res.isExecuted){
             this.dialogRef.close({ isExecuted : true});
   

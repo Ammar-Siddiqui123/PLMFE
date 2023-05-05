@@ -227,7 +227,6 @@ export class ConsolidationComponent implements OnInit {
           this.open = res.data.openLinesCount;
           this.completed = res.data.completedLinesCount;
           this.backOrder = res.data.reprocessLinesCount;
-          // debugger
           
           this.tableData_1 = new MatTableDataSource(res.data.consolidationTable);
           this.tableData_2 = new MatTableDataSource(res.data.consolidationTable2);
@@ -237,7 +236,6 @@ export class ConsolidationComponent implements OnInit {
           // console.log(this.tableData_1.data,'table1')
           // console.log(this.tableData_2.data,'table2')
            z = this.tableData_1.data.filter((element) => element.lineStatus == 'Waiting Reprocess')
-            // console.log(z)
           let data = this.tableData_2.data;
           data.push(...z);
           this.tableData_2 = new MatTableDataSource(data);
@@ -410,17 +408,8 @@ export class ConsolidationComponent implements OnInit {
 
 
  verifyLine(index){
-  // debugger;
-  
-
   let id = this.tableData_1.data[index].id;
   let status = this.tableData_1.data[index].lineStatus;
-  // console.log(this.tableData_1.data)
-  
-  // console.log(index)
-  // console.log(status)
-  // console.log(id)
-
   //  status == "Not Completed" || status == "Not Assigned"
    if(status == "Not Completed" || status == "Not Assigned"){
     this.toastr.error("The selected item has not yet been completed and can't be verified at this time", 'Error!', {
@@ -435,9 +424,7 @@ export class ConsolidationComponent implements OnInit {
       "wsid": this.userData.wsid
     }
 
-    // console.log(payload)
     this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res:any)=>{
-      // console.log(res,'s')
       if(res.isExecuted){
 
         let data = this.tableData_2.data;
@@ -454,10 +441,10 @@ export class ConsolidationComponent implements OnInit {
         
       }
       else{
-        console.log(this.toastr.error(res.responseMessage, 'Error!', {
+        this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
-        }))
+        })
       }
 
     })
@@ -465,26 +452,15 @@ export class ConsolidationComponent implements OnInit {
   }
 
   unverifyLine(index,id){
-    debugger
-    let z:any = [];
-    z = this.tableData_2.data.filter((element) => element.lineStatus != 'Waiting Reprocess')
 
-   
-       z.forEach((row:any)=>{
-        id = row.id
-    }
-    )
     
  
-    // debugger
     let payload = {
       "id":id,
       "username": this.userData.userName ,
       "wsid": this.userData.wsid
     }
     this.consolidationHub.get(payload,'/Consolidation/DeleteVerified').subscribe((res:any)=>{
-      // console.log(res)
-        // console.log(res) 
         if(res.isExecuted){
 
           let data2 = this.tableData_1.data;
@@ -514,14 +490,12 @@ export class ConsolidationComponent implements OnInit {
 
   filtervalue(event){
     if (event.keyCode == 13) {
-      // debugger
       this.CheckDuplicatesForVerify(this.filterValue);
     }
 
   }
 
   checkVerifyType(columnIndex, val){
-    // debugger
     
    let filterVal = this.filterValue.toLowerCase();
     this.filterValue = '';
@@ -530,22 +504,6 @@ export class ConsolidationComponent implements OnInit {
   }
     let valueCount = 0;
     let index;
-
-
-    // this.tableData_1.data.forEach((row:any,i: any)=>{
-    //   // console.log(row ,i);
-    //   let currentColVal = row.itemNumber.toLowerCase();
-    //   console.log(currentColVal)
-    //   if (currentColVal == filterVal) {        
-    //     index = i;
-    //     valueCount++;
-    //   }
-    // })
-
-
-  
-
-    // console.log(typeof this.tableData_1.data,'this.tableData_1')
 
 
     const currentColVal = this.tableData_1.data.some((obj,i) => {
@@ -557,9 +515,6 @@ export class ConsolidationComponent implements OnInit {
       }
     });
     return { index: index, valueCount: valueCount }
-
-
-
     
 
   }
@@ -579,7 +534,6 @@ export class ConsolidationComponent implements OnInit {
     }
     else {
       result = this.checkVerifyType(columnIndex, val);
-      // console.log(result,'resultttt')
 
     }
 
@@ -601,7 +555,6 @@ export class ConsolidationComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result =>{
-        console.log(result)
         if(result && result.isExecuted){
           this.getTableData('',this.TypeValue);
         }
