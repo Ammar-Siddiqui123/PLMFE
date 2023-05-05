@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { OmChangesConfirmationComponent } from '../om-changes-confirmation/om-changes-confirmation.component';
 
 @Component({
   selector: 'app-om-update-record',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OmUpdateRecordComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
-
+  openOmChangesConfirm() {
+    let dialogRef = this.dialog.open(OmChangesConfirmationComponent, {
+      height: 'auto',
+      width: '932px',
+      autoFocus: '__non_existing_element__',
+     
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+   }
 }
