@@ -199,14 +199,14 @@ export class SrNewOrderComponent implements OnInit {
         this.searchAutocompleteList = [];
         // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
         // this.changeSearchOptions();
-        this.tablePayloadObj.filter = "1=1";
+        // this.tablePayloadObj.filter = "1=1";
       } else {
         console.log(res.responseMessage);
         // this.toastr.error(res.responseMessage, 'Error!', {
         //   positionClass: 'toast-bottom-right',
         //   timeOut: 2000
         // });
-        this.tablePayloadObj.filter = "1=1";
+        // this.tablePayloadObj.filter = "1=1";
       }
     });
   }
