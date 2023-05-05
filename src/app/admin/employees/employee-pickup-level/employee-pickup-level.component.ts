@@ -26,9 +26,13 @@ export interface pickup_level_details {
 export class EmployeePickupLevelComponent implements OnInit {
   @Input() pickUplevels: any;
   @Input() grp_data: any;
+  @Input() resetField: any;
+  @Input() isAdd: boolean;
   @Output() relaodPickUpLvl = new EventEmitter<any>();
   pickup_level_data: any = [];
   pickup_level_data_source: any;
+  searchPickLvl='';
+  isLookup: boolean=false;
   constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog) {}
 
   @ViewChild(MatSort) sort: MatSort;
@@ -50,10 +54,30 @@ export class EmployeePickupLevelComponent implements OnInit {
       let max: number = Math.max(0,...this.pickUplevels.map(o => o.pickLevel));
       this.nextPickLvl = max+1;
     }
+   if(changes['resetField'] && changes['resetField'].currentValue){
+    this.searchPickLvl='';
+    this.pickup_level_data_source.filter='';
+    this.pickup_level_data_source.length=0;
+   }
    
     
     this.pickup_level_data = this.pickUplevels;
     this.pickup_level_data_source = new MatTableDataSource(this.pickup_level_data);
+
+    if(changes['isAdd'] && changes['isAdd'].currentValue){
+  
+      this.isLookup=changes['isAdd']['currentValue'];
+     }else if(changes['isAdd'] && !changes['isAdd'].currentValue){
+      if(this.pickup_level_data && this.pickup_level_data.length){
+        this.pickup_level_data.length=0;
+      }
+      this.searchPickLvl='';
+        this.pickup_level_data_source.filter='';
+      this.pickup_level_data_source=[];
+      this.isLookup=changes['isAdd']['currentValue'];
+   
+     }
+
   }
 
   applyFilter(event: Event) {

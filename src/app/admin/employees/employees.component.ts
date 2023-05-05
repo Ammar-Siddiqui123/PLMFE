@@ -44,12 +44,15 @@ export interface location {
 export class EmployeesComponent implements OnInit {
   emp: IEmployee;
   public isLookUp: boolean = false;
+  public lookUpEvnt:any=false;
   public isGroupLookUp: boolean = false;
   public env;
   @ViewChild('matRef') matRef: MatSelect;
  // public searchGrpAllowed = '';
   public searchfuncAllowed = '';
-
+  public grpAllFilter='';
+bpSettingInp='';
+bpSettingLocInp='';
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
@@ -76,6 +79,7 @@ export class EmployeesComponent implements OnInit {
   public demo1TabIndex = 0;
   public userData;
   public updateGrpTable;
+  isTabChanged:any;
   empForm: FormGroup;
   @ViewChild('zoneDataRefresh', { static: true,read:MatTable }) zoneDataRefresh;
 
@@ -116,6 +120,8 @@ getgroupAllowedList(){
     "wsid": "TESTWSID"
   };
   this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
+    console.log('sssssssss',res.data);
+    
    // this.groupAllowedList = res.data;
     this.groupAllowedList = new MatTableDataSource(res.data);
   //   this.groupAllowedList.filterPredicate = (data: any, filter: string) => {
@@ -138,9 +144,11 @@ initialzeEmpForm() {
   });
 }
   updateIsLookUp(event: any) {
+   
     this.empData = {};
     this.empData = event.userData;
     this.isLookUp = event;
+    this.lookUpEvnt=true;
     // console.log(event.userData?.username);
     this.grp_data = event.userData?.username
 
@@ -154,6 +162,7 @@ initialzeEmpForm() {
       .subscribe((response: any) => {
         // console.log(response);
         this.isLookUp = event;
+        this.lookUpEvnt=true;
         this.employee_group_allowed = response.data?.userRights
         this.pickUplevels = response.data?.pickLevels;
         this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
@@ -321,6 +330,7 @@ initialzeEmpForm() {
       })
       dialogRef.afterClosed().subscribe(result => {
         this.isLookUp = false;
+        this.lookUpEvnt=false;
         const matSelect: MatSelect = matEvent.source;
         matSelect.writeValue(null);
         this.backEmpAction();
@@ -346,13 +356,15 @@ initialzeEmpForm() {
   
   backEmpAction(){
     this.clearMatSelectList();
+    this.clearInput();
     this.isLookUp = false;
+    this.lookUpEvnt=false
       this.employee_fetched_zones = [];
       this.location_data_source = [];
       this.groupAllowedList = [];
       this.max_orders = '';
-      this.demo1TabIndex = 0;
       this.matRef.options.forEach((data: MatOption) => data.deselect());
+      this.isTabChanged=true;
   }
   actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
     // console.log(event.value)
@@ -682,5 +694,20 @@ initialzeEmpForm() {
     this.reloadData();
   }
 
+  tabChanged(event){
+    this.isTabChanged=event;
+   this.clearInput();
+  }
 
+  clearInput(){
+    this.bpSettingInp='';
+    this.bpSettingLocInp='';
+    this.searchfuncAllowed = '';
+    this.grpAllFilter='';
+    this.employee_fetched_zones && this.employee_fetched_zones.filter? this.employee_fetched_zones.filter = '' : '';
+    this.location_data_source && this.location_data_source.filter? this.location_data_source!.filter = '':'';
+    this.groupAllowedList && this.groupAllowedList.filter? this.groupAllowedList.filter = '':'';
+    
+  }
+  
 }
