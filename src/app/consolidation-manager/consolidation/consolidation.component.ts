@@ -37,7 +37,7 @@ export class ConsolidationComponent implements OnInit {
 
   @ViewChild('ordernum') ordernum: ElementRef;
 
-  public startSelectFilter: any = '1'
+  public startSelectFilter: any ;
   public startSelectFilterLabel: any;
   public sortBy: number
   public open: number = 0;
@@ -95,7 +95,7 @@ export class ConsolidationComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-  
+    this.ConsolidationIndex()
    this.searchByItem
    .pipe(debounceTime(400), distinctUntilChanged())
    .subscribe((value) => {
@@ -159,8 +159,28 @@ export class ConsolidationComponent implements OnInit {
       if(res.isExecuted){
         this.consolidationIndex = res.data;
         this.startSelectFilterLabel = this.consolidationIndex.cmPreferences.defaultLookupType
+        
+        if(this.startSelectFilterLabel == 'Item Number'){
+          this.isitemVisible = true;
+          this.issupplyVisible = false;
+          this.displayedColumns_1.shift()
+          this.displayedColumns_1.unshift('itemNumber')   
+        }
+        else if(this.startSelectFilterLabel == 'Supplier Item ID'){
+          this.isitemVisible = false;
+          this.displayedColumns_1.shift()
+          this.displayedColumns_1.unshift('supplierItemID')
+           this.issupplyVisible = true;
+        }
+        else{
+          this.isitemVisible = true;
+          this.issupplyVisible = false;
+          this.displayedColumns_1.shift()
+          this.displayedColumns_1.unshift('itemNumber')
+        }
       }
-    });
+      }
+    )
   }
 
   getTableData(type: any, TypeValue: any) {
@@ -445,6 +465,15 @@ export class ConsolidationComponent implements OnInit {
   }
 
   unverifyLine(index,id){
+    debugger
+    let z:any = [];
+    z = this.tableData_2.data.filter((element) => element.lineStatus != 'Waiting Reprocess')
+
+   
+       z.forEach((row:any)=>{
+        id = row.id
+    }
+    )
     
  
     // debugger
@@ -454,6 +483,7 @@ export class ConsolidationComponent implements OnInit {
       "wsid": this.userData.wsid
     }
     this.consolidationHub.get(payload,'/Consolidation/DeleteVerified').subscribe((res:any)=>{
+      // console.log(res)
         // console.log(res) 
         if(res.isExecuted){
 
@@ -589,25 +619,23 @@ export class ConsolidationComponent implements OnInit {
   }
 
   getSelected(event: MatSelectChange): void {
-
     this.startSelectFilter = event.value;
     this.filterOption.forEach((e:any) => {
       if (e.key == event.value) {
         this.startSelectFilter = e.key;
         this.startSelectFilterLabel = e.value;
-        console.log( this.startSelectFilterLabel,'this.startSelectFilterLabel')
       }
     });
 
     // let colLabel = event.
     
-    if(event.value == 1){
+    if(event.value == 1 ){
       this.isitemVisible = true;
       this.issupplyVisible = false;
       this.displayedColumns_1.shift()
       this.displayedColumns_1.unshift('itemNumber')   
     }
-    else if(event.value == 2){
+    else if(event.value == 2 ){
       this.isitemVisible = false;
       this.displayedColumns_1.shift()
       this.displayedColumns_1.unshift('supplierItemID')
