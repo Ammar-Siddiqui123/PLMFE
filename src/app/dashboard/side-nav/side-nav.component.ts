@@ -75,7 +75,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'tune', title: 'Consolidation Preferences ', route: '/ConsolidationManager/ConsolidationPreferences' ,permission:'Consolidation Manager'},
     // Vector (Stroke)
     { icon: 'analytics', title: 'Reporting ', route: '#' ,permission:'Reporting'},
-     { icon: ' pending_actions', title: 'Order Status ', route: '/admin/transaction',paramsObj:{IsOrderStatus:true} ,permission:'Consolidation Manager'}
+     { icon: 'view_module', title: 'Order Status ', route: '/admin/transaction',paramsObj:{IsOrderStatus:true} ,permission:'Consolidation Manager'}
     //  flex_wrap
   ];
 
