@@ -85,7 +85,7 @@ export class SrNewOrderComponent implements OnInit {
     this.tablePayloadObj.username = this.userData.userName;
     this.tablePayloadObj.wsid = this.userData.wsid;
     this.refreshNewOrders.subscribe(e => {
-      this.newReplenishmentOrders();
+      // this.newReplenishmentOrders();
     });
   }
 
@@ -196,7 +196,7 @@ export class SrNewOrderComponent implements OnInit {
         this.numberSelectedRep = res.data.selectedOrders;
         this.tableDataTotalCount = res.data.recordsFiltered;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
-        this.searchAutocompleteList = [];
+        // this.searchAutocompleteList = [];
         // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
         // this.changeSearchOptions();
         // this.tablePayloadObj.filter = "1=1";
@@ -557,8 +557,8 @@ export class SrNewOrderComponent implements OnInit {
     let payload = {
       "searchString": this.tablePayloadObj.searchString,
       "searchColumn": this.tablePayloadObj.searchColumn,
-      "username": "hadi",
-      "wsid": "TESTWSID"
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
     }
     this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/SystemReplenishNewTA',loader).subscribe((res: any) => {
       if (res.isExecuted && res.data) {

@@ -146,6 +146,7 @@ export class SrCurrentOrderComponent implements OnInit {
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   autocompleteSearchColumn() {
     if (this.tablePayloadObj.searchColumn != "") {
+      this.resetPagination();
       this.getSearchOptionsSubscribe.unsubscribe();
       this.getSearchOptions(true);
       this.newReplenishmentOrdersSubscribe.unsubscribe();

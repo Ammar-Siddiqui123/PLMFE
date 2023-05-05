@@ -85,6 +85,7 @@
                             [(ngModel)]="tablePayloadObj.searchString"
                             (keyup.enter)="search(); getSearchOptions()"
                             (keyup)="autocompleteSearchColumn()"
+                            (focus)="getSearchOptions(true)"
                             >
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="search()" #autocompleteInventory>
                                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
