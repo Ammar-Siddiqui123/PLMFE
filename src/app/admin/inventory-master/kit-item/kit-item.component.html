@@ -77,8 +77,7 @@
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
 
                                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
-                                                name="{{kitItem.specialFeatures}}" [(ngModel)]="kitItem.specialFeatures"
-                                                (ngModelChange)="checkIfFilled($event, 'specialFeatures', i)"
+                                                name="{{kitItem.specialFeatures}}"  (ngModelChange)="onRowUpdate(kitItem.specialFeatures,$event,i)" [(ngModel)]="kitItem.specialFeatures"
                                                 #specialFeature maxlength="255">
                                         </mat-form-field>
 
@@ -89,20 +88,20 @@
                                     <mat-form-field class="custom-form-field w-100" appearance="outline">
 
                                         <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
-                                            (ngModelChange)="checkIfFilled($event, 'kitQuantity',i)"
+                                            (ngModelChange)="onRowUpdate(kitItem.kitQuantity, $event,i)"
                                             name="{{kitItem.kitQuantity}}" [(ngModel)]="kitItem.kitQuantity"
                                             #kitQuantity maxlength="9" required>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-2">
                                     <div class="d-flex gap-12">
-                                        <button mat-flat-button color="primary" class="xsm-icon-button kit_{{i}} kit_push_{{Ikey}}"
-                                            (click)="saveKit(itemNum.value,  kitItem)" #namebutton>
+                                        <button mat-flat-button color="primary" class="xsm-icon-button"
+                                            (click)="saveKit(itemNum.value,  kitItem)" #namebutton [disabled]="kitItem.isSaved">
                                             <mat-icon class="material-symbols-outlined">save</mat-icon>
                                         </button>
 
                                         <button mat-flat-button color="warn" class="xsm-icon-button"
-                                            (click)="dltCategory(kitItem);">
+                                            (click)="dltCategory(kitItem);" [disabled]="!kitItem.isSaved">
                                             <mat-icon class="material-symbols-outlined">close</mat-icon>
                                         </button>
                                     </div>

@@ -107,4 +107,10 @@ export class TransactionHistoryFiltersComponent implements OnInit {
   ngOnDestroy() {
     this.searchByOrderNumber.unsubscribe();
   }
+   onInputChange(event: Event): void {// to avoid negative values
+    const value = (event.target as HTMLInputElement).value;
+    if (Number(value) < 0) {
+      this.orderNumber = 0;
+    }
+  }
 }

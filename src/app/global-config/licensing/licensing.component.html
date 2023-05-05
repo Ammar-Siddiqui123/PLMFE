@@ -75,7 +75,7 @@
                             <div class="pe-2">
                               <mat-form-field class="custom-form-field w-100" appearance="outline">
 
-                                <input matInput disabled type="text" #specialFeature maxlength="255" [(ngModel)]="element.appname" (ngModelChange)="onInputValueChange($event,element,index)"  [value]="element.appname">
+                                <input matInput disabled type="text" #specialFeature maxlength="50" [(ngModel)]="element.appname" (ngModelChange)="onInputValueChange($event,element,index)"  [value]="element.appname">
                               </mat-form-field>
                             </div>
                           </td>
@@ -86,7 +86,7 @@
                             <div class="pe-2">
                               <mat-form-field class="custom-form-field w-100" appearance="outline">
 
-                                <input matInput type="text" #specialFeature maxlength="255"
+                                <input matInput type="text" #specialFeature maxlength="50"
                                   [value]="element.displayname"  [(ngModel)]="element.displayname" (ngModelChange)="onInputValueChange($event,element,index)"  [value]="element.displayname">
                               </mat-form-field>
                             </div>
@@ -131,7 +131,7 @@
                             <div class="pe-2">
                               <mat-form-field class="custom-form-field w-100" appearance="outline">
 
-                                <input matInput type="text" disabled #specialFeature maxlength="255" [value]="element.appurl" [(ngModel)]="element.appurl" (ngModelChange)="onInputValueChange($event,element,index)"  [value]="element.appurl">
+                                <input matInput type="text" disabled #specialFeature maxlength="50" [value]="element.appurl" [(ngModel)]="element.appurl" (ngModelChange)="onInputValueChange($event,element,index)"  [value]="element.appurl">
                               </mat-form-field>
                             </div>
                           </td>

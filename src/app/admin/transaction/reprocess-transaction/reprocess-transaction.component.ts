@@ -385,9 +385,36 @@ export class ReprocessTransactionComponent implements OnInit {
 
   filterCleared(evt:any)
   {
-    this.getContentData("1");
-    
+    if(evt==='cleared'){
+      this.setResetValues();
+    this.isHistory ? this.getHistoryData() : this.getContentData("1");
 
+    }
+    else{
+      this.itemNumber='';
+      this.orderNumber='';
+    // this.isHistory ? this.getHistoryData() : this.getContentData("1");
+
+    }
+  
+    // this.getContentData("1");
+  
+  }
+
+
+  setResetValues(){
+    this.itemNumber='';
+    this.orderNumber='';
+    this.isHistory=false;
+    this.isHold = false;
+    this.customPagination = {
+      total: '',
+      recordsPerPage: 20,
+      startIndex: 0,
+      endIndex: 10,
+    };
+     this.sortCol= 5;
+     this.sortOrder= 'asc';
   }
 
   actionDialog(opened: boolean) {
@@ -937,7 +964,12 @@ export class ReprocessTransactionComponent implements OnInit {
     // this.pageIndex = e.pageIndex;
 
     // this.initializeApi();
-    this.getContentData();
+    if(this.isHistory){
+      this.getHistoryData()
+    }else{
+      this.getContentData();
+    }
+ 
   }
 
 
@@ -970,9 +1002,33 @@ export class ReprocessTransactionComponent implements OnInit {
         transactionID: id,
         history: this.isHistory
       }
+    });
+    dialogRef.afterClosed().subscribe((x) => {
+      
+      if(x==='add'){
+        this.itemNumber='';
+        this.orderNumber='';
+        if(this.isHistory){
+          this.getHistoryData()
+        }else{
+          this.getContentData()
+        }
+      }
+      
     })
   }
+  getObjChange(event){
+    if(event.radioChange){
+      this.orderNumber='';
+      this.itemNumber='';
+      this.customPagination.startIndex=0;
+      this.customPagination.total='';
+      this.customPagination.recordsPerPage=20;
+      this.customPagination.endIndex='';
+      this.paginator.pageIndex = 0;
+    }
 
+  }
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }

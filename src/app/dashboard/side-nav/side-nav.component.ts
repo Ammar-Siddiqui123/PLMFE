@@ -25,7 +25,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'manage_accounts', title: 'Admin', route: '/admin', permission: 'Admin Menu'},
     { icon: 'checklist', title: 'Induction Manager', route: '/InductionManager' ,permission: 'Induction Manager'},
     { icon: 'fact_check', title: 'Work Manager', route: '#' ,permission: 'Work Manager'},
-    { icon: 'insert_chart', title: 'Consolidation Manager', route: '#' ,permission: 'Consolidation Manager'},
+    { icon: 'insert_chart', title: 'Consolidation Manager', route: '/ConsolidationManager' ,permission: 'Consolidation Manager'},
     { icon: 'pending_actions', title: 'Order Manager', route: '#' ,permission: 'Order Manager'},
     { icon: 'schema', title: 'FlowRack Replenishment', route: '#',permission: 'FlowRack Replenish' }
   ];
@@ -44,8 +44,8 @@ export class SideNavComponent implements OnInit {
     { icon: 'directions_alt', title: 'Inventory Map', route: '/admin/inventoryMap' ,permission: 'Inventory Map'},
     { icon: 'analytics', title: 'Reports', route: '#' ,permission: 'Reports'},
     { icon: 'dvr', title: 'Transactions', route: '/admin/transaction' ,permission: 'Transaction Journal'},
-    { icon: 'list_alt', title: 'Batch Manager', route: '#' ,permission: 'Batch Manager'},
-    { icon: 'low_priority', title: 'Cycle Count', route: '#' ,permission: 'Cycle Count Manager'},
+    { icon: 'list_alt', title: 'Batch Manager', route: '/admin/batchManager' ,permission: 'Batch Manager'},
+    { icon: 'low_priority', title: 'Cycle Count', route: '/admin/cycleCounts' ,permission: 'Cycle Count Manager'},
     { icon: 'airline_stops', title: 'De-Allocate Orders', route: '#' ,permission: 'De-Allocate Orders'},
     { icon: 'assignment_ind', title: 'Employees', route: '/admin/employees' ,permission: 'Employees'},
     { icon: 'event_note', title: 'Event Log', route: '#' ,permission: 'Event Log Manager'},
@@ -53,10 +53,8 @@ export class SideNavComponent implements OnInit {
     { icon: 'ads_click', title: 'Manual Transactions', route: '#' ,permission: 'Manual Transactions'},
     { icon: 'trolley', title: 'Move Items', route: '#' ,permission: 'Move Items'},
     { icon: 'tune', title: 'Preferences', route: '#' ,permission: 'Preferences'},
-    { icon: 'published_with_changes', title: 'System Replenishment', route: '#' ,permission: 'Replenishment'},
+    { icon: 'published_with_changes', title: 'System Replenishment', route: '/admin/systemReplenishment' ,permission: 'Replenishment'},
   ];
-
-
   inductionMenus: any = [
     { icon: 'arrow_back', title: 'Induction Manager', route: '/dashboard', class: 'back-class' , permission: 'Induction Manager'},
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
@@ -66,6 +64,19 @@ export class SideNavComponent implements OnInit {
     { icon: 'edit_attributes', title: 'Mark Empty Reels', route: '#' ,permission:'Induction Manager'},
     { icon: 'linear_scale', title: 'Pallet Receiving', route: '#' ,permission:'Induction Manager'},
     { icon: 'line_style', title: 'Super Batch', route: '/InductionManager/SuperBatch' ,permission:'Induction Manager'},
+  ];
+
+  consolidationMenus: any = [
+    { icon: 'arrow_back', title: 'Consolidation Manager', route: '/dashboard', class: 'back-class' , permission: 'Consolidation Manager'},
+    { icon: 'insert_chart', title: 'Consolidation', route: '/ConsolidationManager/Consolidation', class: 'back-class' , permission: 'Consolidation Manager'},
+    // Vector
+    { icon: 'add_location_alt', title: 'Staging Locations', route: '/ConsolidationManager/StagingLocations' ,permission:'Consolidation Manager'},
+    // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
+    { icon: 'tune', title: 'Consolidation Preferences ', route: '/ConsolidationManager/ConsolidationPreferences' ,permission:'Consolidation Manager'},
+    // Vector (Stroke)
+    { icon: 'analytics', title: 'Reporting ', route: '#' ,permission:'Reporting'},
+     { icon: 'view_module', title: 'Order Status ', route: '/admin/transaction',paramsObj:{IsOrderStatus:true} ,permission:'Consolidation Manager'}
+    //  flex_wrap
   ];
 
   inductionAdminMenus: any = [
@@ -174,11 +185,11 @@ export class SideNavComponent implements OnInit {
     //     this.dynamicMenu.push({icon:item.info.iconName,title:item.displayname,route:item.info.route,permission:item.info.permission})
     //   })
 
-     this.sharedService.menuData$.subscribe(data => {
-      
+     
+     this.sharedService.menuData$.subscribe(data => { 
       if(this.menuData.length===0){
         this.menuData = data;
-
+        
         this.menuData.filter((item,i)=>{
         this.dynamicMenu[0]={icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'}
         this.dynamicMenu.push({icon:item.info.iconName,title:item.displayname,route:item.info.route,permission:item.info.permission});
@@ -238,6 +249,7 @@ export class SideNavComponent implements OnInit {
 
   loadMenus(menu: any) { 
     // console.log(this.router.url);    
+    this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route);
     if (!menu) {
       menu = {route : '/dashboard'};      
     }
@@ -277,9 +289,13 @@ export class SideNavComponent implements OnInit {
       }    
 
       //this.userData.username
-      this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route);      
+         
     }
-
+    if (menu.route.includes('/ConsolidationManager')) {
+      this.childMenus = this.consolidationMenus;
+      this.isParentMenu = false;
+      this.isChildMenu = true;
+    } 
     if (menu.route.includes('/InductionManager')) {
       this.childMenus = this.inductionMenus;
       this.isParentMenu = false;

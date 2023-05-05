@@ -184,4 +184,14 @@ export class SuperBatchComponent implements OnInit {
     this.isConfirmation = val;
   }
 
+  checkOTB(element: any, i : any) {
+    if (element.orderToBatch <= 1) {
+      this.dataSource[i].orderToBatch = 2;
+      this.toastr.error('Orders to Batch must be greater than 1 ', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+  }
+
 }

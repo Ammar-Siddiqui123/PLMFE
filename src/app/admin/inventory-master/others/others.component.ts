@@ -15,5 +15,4 @@ export class OthersComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

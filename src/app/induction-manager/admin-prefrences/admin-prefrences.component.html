@@ -60,7 +60,7 @@
                     matInput 
                     type="number" 
                     matTooltip="Number of totes per batch"
-                    onKeypress="if(event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45) return false;"/>
+                    onKeypress="if(event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45 || event.keyCode == 69) return false;"/>
                 </mat-form-field>
               </div>
             </div>
@@ -78,7 +78,7 @@
                     matInput
                     type="number"
                     matTooltip="Number of put away transactions allowed per tote"
-                    onKeypress="if(event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45) return false;"/>
+                    onKeypress="if(event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45 || event.keyCode == 69) return false;"/>
                 </mat-form-field>
               </div>
             </div>
@@ -155,7 +155,7 @@
                       (keydown.shift.enter)="$event.preventDefault()"
                       matInput
                       type="number"
-                      onKeyPress="if(this.value.length==10) return false;"
+                      onKeyPress="if(this.value.length==10 || event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45 || event.keyCode == 69) return false;"
                       matTooltip="Number of characters to remove"/>
                   </mat-form-field>
                 </div>
@@ -310,7 +310,7 @@
                       (keydown.shift.enter)="$event.preventDefault()"
                       matInput
                       type="number"
-                      onKeyPress="if(this.value.length==10 || event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45) return false;"/>
+                      onKeyPress="if(this.value.length==10 || event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45 || event.keyCode == 69) return false;"/>
                   </mat-form-field>
                 </div>
               </div>
@@ -327,7 +327,7 @@
                       (keydown.shift.enter)="$event.preventDefault()"
                       matInput
                       type="number"
-                      onKeyPress="if(this.value.length==10 || event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45) return false;"/>
+                      onKeyPress="if(this.value.length==10 || event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45 || event.keyCode == 69) return false;"/>
                   </mat-form-field>
                 </div>
               </div>
@@ -433,7 +433,7 @@
                         (keydown.shift.enter)="$event.preventDefault()" 
                         matInput 
                         type="number"                        
-                        onKeypress="if(this.value.length == 309 || event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45) return false;"/>
+                        onKeypress="if(this.value.length == 309 || event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45 || event.keyCode == 69) return false;"/>
                   </mat-form-field>
                 </div>
               </div>

@@ -26,6 +26,10 @@ import { ColumnSequenceDialogComponent } from '../dialogs/column-sequence-dialog
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ContextMenuFiltersService } from '../../../app/init/context-menu-filters.service';
+import { MatMenuTrigger} from '@angular/material/menu';
+import { InputFilterComponent } from '../../dialogs/input-filter/input-filter.component';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 
 const INVMAP_DATA = [
@@ -40,7 +44,7 @@ const INVMAP_DATA = [
   { colHeader: "description", colDef: "Description" },
   { colHeader: "cellSize", colDef: "Cell Size" },
   { colHeader: "goldenZone", colDef: "Velocity Code" },
-  { colHeader: "maximumQuantity", colDef: "Maximum Quantity" },
+  { colHeader: "maxQuantity", colDef: "Maximum Quantity" },
   { colHeader: "dedicated", colDef: "Dedicated" },
   { colHeader: "serialNumber", colDef: "Serial Number" },
   { colHeader: "lotNumber", colDef: "Lot Number" },
@@ -68,7 +72,10 @@ const INVMAP_DATA = [
 @Component({
   selector: 'app-inventory-map',
   templateUrl: './inventory-map.component.html',
-  styleUrls: ['./inventory-map.component.scss']
+  styleUrls: ['./inventory-map.component.scss'],
+  host: {
+    "(window:click)": "onClick()"
+  }
 })
 
 export class InventoryMapComponent implements OnInit {
@@ -115,8 +122,63 @@ export class InventoryMapComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('matRef') matRef: MatSelect;
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
+  @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
 
+  //---------------------for mat menu start ----------------------------
 
+  @ViewChild('trigger') trigger: MatMenuTrigger;
+
+  contextMenuPosition = { x: '0px', y: '0px' };
+  onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.trigger.menuData = { item: {SelectedItem: SelectedItem, FilterColumnName : FilterColumnName, FilterConditon: FilterConditon, FilterItemType : FilterItemType }};
+    this.trigger.menu?.focusFirstItem('mouse');
+    this.trigger.openMenu();
+  }
+
+  onClick() {
+    this.trigger.closeMenu();
+  }
+  ClearFilters()
+  {
+    this.FilterString = "";
+    this.initializeApi();
+    this.getContentData();
+  }
+  
+  InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
+    const dialogRef =  this.dialog.open(InputFilterComponent, {
+      height: 'auto',
+      width: '480px',
+      data:{
+        FilterColumnName: FilterColumnName,
+        Condition: Condition,
+        TypeOfElement:TypeOfElement
+      },
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition,result.Type)
+    }
+    );
+  }
+
+  getType(val) : string
+  {
+     return this.filterService.getType(val);
+  }
+ 
+  FilterString : string = "";
+  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
+   this.FilterString = this.filterService.onContextMenuCommand(SelectedItem,FilterColumnName,Condition,Type);
+   this.initializeApi();
+   this.getContentData();
+  }
+
+ //---------------------for mat menu End ----------------------------
 
   constructor(
     private dialog: MatDialog,
@@ -127,6 +189,7 @@ export class InventoryMapComponent implements OnInit {
     private router: Router,
     private loader: SpinnerService,
     private _liveAnnouncer: LiveAnnouncer,
+    private filterService:ContextMenuFiltersService
   ) {
 
 
@@ -210,6 +273,10 @@ export class InventoryMapComponent implements OnInit {
 
   initializeApi(){
     this.userData = this.authService.userData();
+    if(this.FilterString == "")
+    {
+      this.FilterString = "1 = 1"
+    }
     this.payload = {
      "username": this.userData.userName,
      "wsid": this.userData.wsid,
@@ -220,7 +287,7 @@ export class InventoryMapComponent implements OnInit {
      "sRow":  this.customPagination.startIndex,
      "eRow": this.customPagination.endIndex,
      "sortOrder": this.sortColumn.sortOrder,
-     "filter": "1 = 1"
+     "filter": this.FilterString
    }
   }
   getColumnsData(){
@@ -312,6 +379,8 @@ export class InventoryMapComponent implements OnInit {
   }
 
   applyFilter(filterValue:any, colHeader:any) {
+    //need to test this
+    this.dataSource.filter = "";
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
@@ -493,7 +562,10 @@ export class InventoryMapComponent implements OnInit {
       this.getContentData();
     }
   }
-
+  closeautoMenu()
+  {
+    this.autocompleteInventory.closePanel(); 
+  }
   searchData(){
     
     if( this.columnSearch.searchColumn &&  this.columnSearch.searchColumn !== '' ){

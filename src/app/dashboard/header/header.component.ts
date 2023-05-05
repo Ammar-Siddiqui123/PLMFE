@@ -46,10 +46,14 @@ isConfigUser
       if(val instanceof NavigationEnd){
         let res = val.url.substring(1);
         let withoutParam = res.split('?')[0]
-        let splittedArray = withoutParam.split('/');
-        splittedArray.forEach(element => {
+        let splittedArray = withoutParam.split('/'); 
+        splittedArray.forEach((element,i) => {
+         if(element==='createCountBatches' || element==='cycleCounts'){
+          element='CycleCount'
+         }
+          
         this.breadcrumbList.push({
-          name: this.capitalizeFirstLetter(element),
+          name: element.toLowerCase() !='adminprefrences'? this.capitalizeFirstLetter(element).replace(/([a-z])([A-Z])/g, "$1 $2").replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2"):'Prefrences',
           menu: element,
           value:'/'+element
         })
@@ -165,5 +169,6 @@ isConfigUser
   // deleteAllCookies() {
   //   document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
   // }
+  
 
 }

@@ -126,6 +126,16 @@ import { UserFieldsEditComponent } from './dialogs/user-fields-edit/user-fields-
 import { PostManualTransactionComponent } from './dialogs/post-manual-transaction/post-manual-transaction.component';
 import { InvalidQuantityComponent } from './dialogs/invalid-quantity/invalid-quantity.component';
 import { FilterToteComponent } from './dialogs/filter-tote/filter-tote.component';
+import { CCBCreateCountsComponent } from './cycle-counts/create-count-batches/create-counts/create-counts.component';
+import { CCBCountQueueComponent } from './cycle-counts/create-count-batches/count-queue/count-queue.component';
+import { CreateCountBatchesComponent } from './cycle-counts/create-count-batches/create-count-batches.component';
+import { BatchManagerDetailViewComponent } from './dialogs/batch-manager-detail-view/batch-manager-detail-view.component';
+import { InputSpacesPreventDirective } from '../init/input-spaces-prevent.directive';
+import { BmToteidEntryComponent } from './dialogs/bm-toteid-entry/bm-toteid-entry.component';
+import { SystemReplenishmentComponent } from './system-replenishment/system-replenishment.component';
+import { SrNewOrderComponent } from './system-replenishment/sr-new-order/sr-new-order.component';
+import { FilterItemNumbersComponent } from './dialogs/filter-item-numbers/filter-item-numbers.component';
+import { SrCurrentOrderComponent } from './system-replenishment/sr-current-order/sr-current-order.component';
 
 
 
@@ -242,8 +252,16 @@ import { FilterToteComponent } from './dialogs/filter-tote/filter-tote.component
     PostManualTransactionComponent,
     InvalidQuantityComponent,
     FilterToteComponent,
-    
-
+    CCBCreateCountsComponent,
+    CCBCountQueueComponent,
+    CreateCountBatchesComponent,
+    BatchManagerDetailViewComponent,
+    InputSpacesPreventDirective,
+    BmToteidEntryComponent,
+    SystemReplenishmentComponent,
+    SrNewOrderComponent,
+    FilterItemNumbersComponent,
+    SrCurrentOrderComponent
   ],
   imports: [
     CommonModule,

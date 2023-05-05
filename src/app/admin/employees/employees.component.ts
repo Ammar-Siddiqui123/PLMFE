@@ -603,9 +603,31 @@ initialzeEmpForm() {
     dialogRef.afterClosed().subscribe(result => {
      
     this.getgroupAllowedList();
+      this.getEmployeeDetails();
+
+
     })
   }
 
+  getEmployeeDetails(){
+    const emp_data = {
+      "userName":this.userData.userName,
+      "wsid": this.userData.wsid
+    };
+ 
+    this.employeeService.getAdminEmployeeDetails(emp_data)
+      .subscribe((response: any) => {
+        let existingRights:any=[];
+        let userRights:any=[];
+        let customPermissions:any=[];
+          
+         existingRights = response.data.userRights;
+         customPermissions = JSON.parse(localStorage.getItem('customPerm') || '');
+         userRights = [...existingRights, ...customPermissions];
+         
+        localStorage.setItem('userRights', JSON.stringify(userRights));
+      })
+  }
   deleteGroupAllowed(allowedGroup: any) {
     const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',

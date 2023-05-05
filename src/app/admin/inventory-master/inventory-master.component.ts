@@ -16,6 +16,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 
 @Component({
@@ -77,13 +78,61 @@ export class InventoryMasterComponent implements OnInit {
   onScroll(event) {
     alert();
   }
+  @ViewChild('alertInput', { read: MatAutocompleteTrigger })
+  autoComplete: MatAutocompleteTrigger;
+
+  @ViewChild("searchauto", { static: false }) autocompleteOpened: MatAutocomplete;
 
 
   ngOnInit(): void {
+    // window.addEventListener('scroll', this.scrollEvent, true);
     this.userData = this.authService.userData();
     this.initialzeIMFeilds();
     this.getInventory();
+    this.route
+      .paramMap
+      .subscribe(params => {
+        console.log(params.get('itemNumber'));
+      });
+  }
 
+  // onOutsideSearchBox(e?:any) {
+  //   console.log('working');
+  //    window.addEventListener('scroll', this.scrollEvent, true);
+     
+  //   // if(this.autoComplete.panelOpen){
+  //   //   this.autoComplete.closePanel();
+  //   // }
+  // }
+
+  // openMatAutoComplete(){
+  //   console.log(this.autocompleteOpened.panel);
+  //   if(this.autocompleteOpened._isOpen){
+  //     this.autocompleteOpened.panel.nativeElement.addEventListener('mouseleave', () => {
+  //       this.autoComplete.closePanel();
+  //     })
+  //   }
+  // }
+  // closeMatAutoComplete(){
+  //  console.log('closed');
+   
+  // }
+  // focusinmethod(){
+  //   let b = document.body;
+  //   console.log(b);
+  // }
+  // focusoutmethod(){
+  //   let b = document.body;
+  //   b.style.overflow = "auto";
+  // }
+
+  scrollEvent = (event: any): void => {
+    // if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
+    //   if (this.autoComplete.panelOpen) {
+    //     this.autoComplete.closePanel();
+    //   }
+    // }
+    if (this.autoComplete.panelOpen) this.autoComplete.updatePosition();
   }
   ngAfterViewInit() {
     this.itemNumberParam$ = this.route.queryParamMap.pipe(
@@ -162,24 +211,24 @@ export class InventoryMasterComponent implements OnInit {
 
 
       includeInAutoRTSUpdate: [this.getInvMasterData?.includeInAutoRTSUpdate || false, [Validators.required]],
-      minimumRTSReelQuantity: [this.getInvMasterData?.minimumRTSReelQuantity || 0, [Validators.required]],
+      minimumRTSReelQuantity: [this.getInvMasterData?.minimumRTSReelQuantity || 0, [Validators.maxLength(9),Validators.required]],
 
 
 
       scanCode: [this.getInvMasterData?.scanCode || '', [Validators.required]],
 
 
-      avgPieceWeight: [this.getInvMasterData?.avgPieceWeight || 0, [Validators.required, Validators.maxLength(11), Validators.pattern("^[0-9]*$")]],
-      sampleQuantity: [this.getInvMasterData?.sampleQuantity || "0", [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
-      minimumUseScaleQuantity: [this.getInvMasterData?.minimumUseScaleQuantity || 0, [Validators.required, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
-      useScale: [this.getInvMasterData?.useScale || 0, [Validators.required]],
+      avgPieceWeight: [this.getInvMasterData?.avgPieceWeight || 0, [Validators.required]],
+      sampleQuantity: [this.getInvMasterData?.sampleQuantity || 0, [Validators.required]],
+      minimumUseScaleQuantity: [this.getInvMasterData?.minimumUseScaleQuantity || 0, [Validators.required]],
+      useScale: [this.getInvMasterData?.useScale || false, [Validators.required]],
 
 
 
       unitCost: [this.getInvMasterData?.unitCost || 0, [Validators.required, Validators.maxLength(11), Validators.pattern("^[0-9]*$")]],
       // supplierItemID: [ '', [Validators.required]],
-      manufacturer: [this.getInvMasterData?.manufacturer || '', [Validators.required, Validators.maxLength(11)]],
-      specialFeatures: [this.getInvMasterData?.specialFeatures || '', [Validators.required]],
+      manufacturer: [this.getInvMasterData?.manufacturer || '', [Validators.maxLength(50)]],
+      specialFeatures: [this.getInvMasterData?.specialFeatures || '', [Validators.maxLength(255)]],
 
 
       inventoryTable: [this.invMasterLocations?.inventoryTable || '', [Validators.required]],
@@ -200,7 +249,6 @@ export class InventoryMasterComponent implements OnInit {
     // console.log(form.value);
   }
   public getInventory() {
-
     let paylaod = {
       "itemNumber": this.currentPageItemNo,
       "app": "",
@@ -235,9 +283,9 @@ export class InventoryMasterComponent implements OnInit {
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
       this.getInvMasterData = res.data;
-      
-      console.log('====GET INVENTORY MASTER=====');
-      console.log(res.data);
+
+      // console.log('====GET INVENTORY MASTER=====');
+      // console.log(res.data);
 
       this.initialzeIMFeilds();
     })
@@ -259,7 +307,7 @@ export class InventoryMasterComponent implements OnInit {
 
   public getInvMasterLocations(itemNum: any, pageSize?, startIndex?, sortingColumnName?, sortingOrder?) {
     // console.log(pageSize);
-    
+
     let paylaod = {
       "draw": 0,
       "itemNumber": itemNum,
@@ -333,26 +381,44 @@ export class InventoryMasterComponent implements OnInit {
 
   }
 
-  public updateInventoryMaster() {
-    this.invMaster.patchValue({
-      'bulkGoldZone':this.invMaster.value?.bulkVelocity,
-      'CfGoldZone':this.invMaster.value?.cfVelocity
-    });
+  updateInventoryMasterValidate(){
+    // debugger
+    if(this.invMaster.value?.avgPieceWeight == null || this.invMaster.value?.avgPieceWeight < 0 || this.invMaster.value?.avgPieceWeight > 99999999999){
+      return false;
+    }
+    if(this.invMaster.value?.sampleQuantity == null || this.invMaster.value?.sampleQuantity < 0 || this.invMaster.value?.sampleQuantity > 999999999){
+      return false;
+    }
+    if(this.invMaster.value?.minimumUseScaleQuantity == null || this.invMaster.value?.minimumUseScaleQuantity < 0 || this.invMaster.value?.minimumUseScaleQuantity > 999999999){
+      return false;
+    }
+    if(this.invMaster.value?.unitCost == null || this.invMaster.value?.unitCost < 0 || this.invMaster.value?.unitCost > 99999999999){
+      return false;
+    }
+    return true;
+  }
 
-    this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
-      if (res.isExecuted) {
-        this.getInventory();
-        this.toastr.success(labels.alert.update, 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      } else {
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }
-    })
+  public updateInventoryMaster() {
+    if(this.updateInventoryMasterValidate()){
+      this.invMaster.patchValue({
+        'bulkGoldZone': this.invMaster.value?.bulkVelocity,
+        'CfGoldZone': this.invMaster.value?.cfVelocity
+      });
+      this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
+        if (res.isExecuted) {
+          this.getInventory();
+          this.toastr.success(labels.alert.update, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        } else {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+      })
+    }
   }
   public updateItemNumber(form: any) {
     let paylaod = {
@@ -375,7 +441,7 @@ export class InventoryMasterComponent implements OnInit {
       data: {
         itemNumber: this.currentPageItemNo,
         description: this.getInvMasterData.description,
-        fromInventoryMaster:1,
+        fromInventoryMaster: 1,
         newItemNumber: '',
         addItem: true
       }
@@ -563,7 +629,7 @@ export class InventoryMasterComponent implements OnInit {
   }
   getNotification(e: any) {
     // console.log(e);
-    
+
     if (e?.newItemNumber) {
       this.currentPageItemNo = e.newItemNumber;
       this.getInventory();
@@ -572,8 +638,8 @@ export class InventoryMasterComponent implements OnInit {
     } else if (e?.locationPageSize) {  //&& e?.startIndex
       // console.log('erow '+ e.locationPageSize);
       // console.log('srow '+ e.startIndex);
-      
-      this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex );
+
+      this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex);
     } else if (e?.sortingColumn) {
       this.getInvMasterLocations(this.currentPageItemNo, '', '', e.sortingColumn, e.sortingSeq);
     } else {
@@ -581,16 +647,13 @@ export class InventoryMasterComponent implements OnInit {
     }
     this.isDisabledSubmit = false;
   }
-  tabChanged(tabChangeEvent: MatTabChangeEvent)
-  {
-  if(tabChangeEvent.index==2||tabChangeEvent.index==5)
-  {
-    this.saveDisabled=true;
-  }
-  else 
-  {
-    this.saveDisabled=false;
-  }
+  tabChanged(tabChangeEvent: MatTabChangeEvent) {
+    if (tabChangeEvent.index == 2 || tabChangeEvent.index == 5) {
+      this.saveDisabled = true;
+    }
+    else {
+      this.saveDisabled = false;
+    }
   }
 
 

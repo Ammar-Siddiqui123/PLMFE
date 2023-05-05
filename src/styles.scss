@@ -410,6 +410,34 @@ mat-toolbar {
   font-size: 34px;
   color: #861d1d;
 }
+.toast-info::before {
+  content: "\e88e";
+  position: absolute;
+  top: 50%;
+  left: 0.5em;
+  transform: translateY(-50%);
+  background: rgba($color: #F5C4D0, $alpha: 0.4);
+  width: 66px;
+  height: 66px;
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 34px;
+  color: #1A1AD3;
+}
 
 #pickpro .toast-container .ngx-toastr {
   padding-left: 5.9em !important;
@@ -428,6 +456,12 @@ mat-toolbar {
 
 #pickpro .toast-container .ngx-toastr.toast-error .toast-title {
   color: #861d1d;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+#pickpro .toast-container .ngx-toastr.toast-info .toast-title {
+  color: #1A1AD3;
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 0.5em;
@@ -844,7 +878,8 @@ button.button-remove-all-w-stroke {
 }
 
 button.button-add-all {
-  color: #000080 !important;
+  // color: #000080 !important;
+  color: var(--clr-primary-500);
   padding: 6px 15px;
   border-radius: 100px;
   border: 1px solid #D7D7F9 !important;
@@ -955,6 +990,9 @@ table.g-card-table th.mat-header-cell {
 
 .mat-table-scrollbar scrollbar-y.scrollbar-control {
   top: 60px !important;
+}
+.mat-table-scrollbar scrollbar-x.scrollbar-control{
+  bottom: 10px;
 }
 
 .card-header {
@@ -1135,6 +1173,10 @@ h4.main-section-title {
   background: rgba(#CACAEE, 0.8);
   color:#00004D;
 }
+.label-blue3{
+  background: rgba($primary-500, 0.1);
+  color:var(--clr-primary-500);
+}
 .label-gray{
   background: var(--clr-tertiary-10);
   color:var(--clr-tertiary-900);
@@ -1169,6 +1211,7 @@ h4.main-section-title {
 }
 .btn-regular{
   padding: 6px 20px !important;
+  min-height: 48px;
 }
 .primary-btn{
   color: #090948 !important;
@@ -1994,4 +2037,9 @@ mat-row{
   cursor: none;
   // background-color: rgba(0, 0, 0, .38) !important;
 }
+.mat-autocomplete-panel.custom-scroll.mat-autocomplete-hidden{display: none;}
 // List Row Seperator Styles --------END
+
+.Carrier-select .mat-select-placeholder {
+  color:#2c2c2c !important;
+}

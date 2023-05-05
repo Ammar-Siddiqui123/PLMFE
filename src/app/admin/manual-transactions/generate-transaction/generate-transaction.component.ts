@@ -102,10 +102,12 @@ export class GenerateTransactionComponent implements OnInit {
   clearMatSelectList(){
     this.openAction.options.forEach((data: MatOption) => data.deselect());
   }
-  getRow(row?) {
+  getRow(row?,type?) {
     // console.log(this.selectedAction);
-    
-    this.clear();
+    if( type != 'save'){
+      this.clear();
+    }
+  
     this.transactionID = row.id;
     // console.log(row);
     let payLoad = {
@@ -187,6 +189,7 @@ export class GenerateTransactionComponent implements OnInit {
     this.batchPickID = '';
     this.wareHouse = '';
     this.toteID = '';
+    this.transactionQtyInvalid = false;
   }
   async autocompleteSearchColumn() {
     let searchPayload = {
@@ -294,19 +297,23 @@ export class GenerateTransactionComponent implements OnInit {
                       timeOut: 2000,
                     });
                     this.updateTrans();
-
-                    this.clearFields();
+                    if( type != 'save'){
+                      this.clearFields();
+                    }
+                
                     this.invMapID = '';
-                    this.getRow(this.transactionID);
+                    this.getRow(this.transactionID,type);
 
                   } else {
                     this.toastr.error(res.responseMessage, 'Error!', {
                       positionClass: 'toast-bottom-right',
                       timeOut: 2000,
                     });
-                    this.clearFields();
+                    if( type != 'save'){
+                      this.clearFields();
+                    }
                     this.invMapID = '';
-                    this.getRow(this.transactionID);
+                    this.getRow(this.transactionID,type);
                   }
                 },
                 (error) => {}
@@ -537,9 +544,47 @@ export class GenerateTransactionComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
+      if(!res)return
       this.supplierID = res.supplierID;
+      // this.itemNumber=res.itemNumber;
+      // this.description=res.description;
+      this.getSupplierItemInfo();
       this.clearMatSelectList();
     });
+  }
+
+
+  getSupplierItemInfo(){
+    let payload={
+      ID:  this.supplierID,
+      username: this.userData.userName,
+      wsid: this.userData.wsid
+    }
+    this.transactionService
+    .get(payload, '/Common/SupplierItemIDInfo', true)
+    .subscribe(
+      (res: any) => {
+      if(res && res.isExecuted){
+        this.itemNumber=res.data[0].itemNumber
+        this.description=res.data[0].description
+
+        if(res.data[0].unitofMeasure != this.uom){
+          if(this.uom==''){
+            this.uom=res.data[0].unitofMeasure
+            this.transactionQtyInvalid = false;
+          }else{
+            this.transactionQtyInvalid = true;
+            this.message = 'Unit of Measure does not match Inventory Master. (Expecting)';
+            return
+          }
+        }else{
+          this.transactionQtyInvalid = false;
+        }
+      }
+        
+      })
+
+
   }
   openUnitOfMeasureDialogue() {
     if (this.orderNumber == '' || !this.item) return;
@@ -585,6 +630,19 @@ export class GenerateTransactionComponent implements OnInit {
     this.searchBoxField.nativeElement.focus();
   
 
+  }
+
+  // limit number to 9 digits
+  limitNumber(event){
+    if(event.code!='Backspace'){
+      if(this.transQuantity?.toString().length>=9){
+        let val= this.transQuantity.toString().slice(0, -1);
+        this.transQuantity=parseInt(val)    
+        }
+  
+    }
+  
+    
   }
   openUserFieldsEditDialogue() {
     const dialogRef = this.dialog.open(UserFieldsEditComponent, {

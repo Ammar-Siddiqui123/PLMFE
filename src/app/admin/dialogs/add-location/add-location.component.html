@@ -18,7 +18,8 @@
                 matInput
                 [(ngModel)]="startLocation"
                 [matAutocomplete]="auto"
-                name="startLocation" required="required"
+                name="startLocation" re
+                quired="required"
                 (keyup)="getstartLocationList()" (focusout)="onBlur()" >
                 <mat-autocomplete #auto="matAutocomplete" >
                     <mat-option *ngFor="let option of startLocationList" [value]="option">

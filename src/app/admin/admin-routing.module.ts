@@ -4,6 +4,7 @@ import { AuthGuardGuard } from '../guard/auth-guard.guard';
 import { AdminComponent } from './admin.component';
 import { BatchManagerComponent } from './batch-manager/batch-manager.component';
 import { CCDiscrepanciesComponent } from './cycle-counts/ccdiscrepancies/ccdiscrepancies.component';
+import { CreateCountBatchesComponent } from './cycle-counts/create-count-batches/create-count-batches.component';
 import { CreateTransactionComponent } from './cycle-counts/create-transaction/create-transaction.component';
 import { CycleCountsComponent } from './cycle-counts/cycle-counts.component';
 import { EmployeesComponent } from './employees/employees.component';
@@ -11,6 +12,7 @@ import { InventoryMapComponent } from './inventory-map/inventory-map.component';
 import { InventoryMasterComponent } from './inventory-master/inventory-master.component';
 import { LocationAssignmentComponent } from './location-assignment/location-assignment.component';
 import { ManualTransactionsComponent } from './manual-transactions/manual-transactions.component';
+import { SystemReplenishmentComponent } from './system-replenishment/system-replenishment.component';
 import { TransactionComponent } from './transaction/transaction.component';
 
 const routes: Routes = [
@@ -23,6 +25,11 @@ const routes: Routes = [
   {
     path: 'inventoryMap',
     component: InventoryMapComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'inventoryMaster/:itemNumber',
+    component: InventoryMasterComponent,
     canActivate: [AuthGuardGuard],
   },
   {
@@ -41,8 +48,8 @@ const routes: Routes = [
     canActivate: [AuthGuardGuard],
   },
   {
-    path: 'createCounts',
-    component: CreateTransactionComponent,
+    path: 'createCountBatches',
+    component: CreateCountBatchesComponent,
     canActivate: [AuthGuardGuard],
   },
   {
@@ -60,6 +67,12 @@ const routes: Routes = [
     component: ManualTransactionsComponent,
     canActivate: [AuthGuardGuard],
   },
+  {
+    path: 'systemReplenishment',
+    component: SystemReplenishmentComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  
 ];
 
 @NgModule({
