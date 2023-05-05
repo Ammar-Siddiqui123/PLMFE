@@ -32,7 +32,7 @@ export class FilterItemNumbersComponent implements OnInit {
   }
 
   filterItemNumbers() {
-    if (this.data.trim() != "") {
+    // if (this.data.trim() != "") {
       let itemsStr = this.data.trim().replace(/[\n\r]/g, ',');
       let itemsArray = itemsStr.split(',');
       itemsArray = itemsArray.filter((item: any) => item != "");
@@ -58,10 +58,10 @@ export class FilterItemNumbersComponent implements OnInit {
           this.dialog.closeAll();
         }
       });
-    }
-    else{
-      this.dialog.closeAll();
-    }
+    // }
+    // else{
+    //   this.dialog.closeAll();
+    // }
   }
 
 }

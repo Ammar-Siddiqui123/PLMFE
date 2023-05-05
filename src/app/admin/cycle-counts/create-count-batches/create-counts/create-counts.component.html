@@ -344,8 +344,8 @@
                             <input  [NumbersOnly]="true" [matAutocomplete]="fromCost" (ngModelChange)="this.beginCostTA.next($event)"
                                 formControlName="costStart" matInput class=" " type="text" maxlength="50">
                             <mat-autocomplete #fromCost="matAutocomplete" (optionSelected)="searchData()">
-                                <mat-option *ngFor="let option of searchAutocompletBeginCost" [value]="option">
-                                    {{option}}
+                                <mat-option *ngFor="let option of searchAutocompletBeginCost" [value]="math.trunc(option).toString()">
+                                    {{math.trunc(option)}}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
@@ -367,8 +367,8 @@
                             <input  [NumbersOnly]="true" [matAutocomplete]="toCost" (ngModelChange)="this.endCostTA.next($event)"
                                 formControlName="costEnd" matInput class=" " type="text" maxlength="50">
                             <mat-autocomplete #toCost="matAutocomplete" (optionSelected)="searchData()">
-                                <mat-option *ngFor="let option of searchAutocompletEndCost" [value]="option">
-                                    {{option}}
+                                <mat-option *ngFor="let option of searchAutocompletEndCost" [value]="math.trunc(option).toString()">
+                                    {{math.trunc(option)}}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
