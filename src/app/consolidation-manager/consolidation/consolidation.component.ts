@@ -156,6 +156,12 @@ export class ConsolidationComponent implements OnInit {
         if(res.isExecuted){
           this.consolidationIndex = res.data;
           this.startSelectFilterLabel = this.consolidationIndex.cmPreferences.defaultLookupType
+
+          this.filterOption.forEach((e:any) => {
+            if (e.value == this.startSelectFilterLabel) {
+              this.startSelectFilter = e.key;
+            }
+          });
           
           if(this.startSelectFilterLabel == 'Item Number'){
             this.isitemVisible = true;
@@ -470,11 +476,13 @@ export class ConsolidationComponent implements OnInit {
         }
       }
     });
+    // debugger;
     return { index: index, valueCount: valueCount }
 
   }
 
   CheckDuplicatesForVerify(val){
+    // debugger;
     let columnIndex = this.startSelectFilter;
     let result:any;
     if(columnIndex == 0){
@@ -496,7 +504,7 @@ export class ConsolidationComponent implements OnInit {
     if(result.valueCount >=1 && verifyItems == 'No' && blindVerifyItems == 'No'){
       const dialogRef = this.dialog.open(CmItemSelectedComponent, {
         height: 'auto',
-        width: '560px',
+        width: '899px',
         autoFocus: '__non_existing_element__',
         data: {
           IdentModal:this.TypeValue,
@@ -514,6 +522,7 @@ export class ConsolidationComponent implements OnInit {
       })
     }
     else if(result.valueCount>=1){
+      
       this.verifyLine(result.index)
     }
     else{
