@@ -136,8 +136,7 @@ export class SrCurrentOrderComponent implements OnInit {
     );
   }
 
-  ClearFilters()
-  {
+  ClearFilters() {
     this.tablePayloadObj.filter = "1=1";
     this.newReplenishmentOrders();
   }
@@ -145,12 +144,12 @@ export class SrCurrentOrderComponent implements OnInit {
   hideRequiredControl = new FormControl(false);
   @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
-  autocompleteSearchColumn(){
+  autocompleteSearchColumn() {
     if (this.tablePayloadObj.searchColumn != "") {
-      this.newReplenishmentOrdersSubscribe.unsubscribe();
       this.getSearchOptionsSubscribe.unsubscribe();
-      this.getSearchOptions();
-      this.newReplenishmentOrders();
+      this.getSearchOptions(true);
+      this.newReplenishmentOrdersSubscribe.unsubscribe();
+      this.newReplenishmentOrders(true);
     }
   }
 
@@ -158,9 +157,8 @@ export class SrCurrentOrderComponent implements OnInit {
     return this.floatLabelControl.value || 'auto';
   }
 
-  closeautoMenu()
-  {
-    this.autocompleteInventory.closePanel(); 
+  closeautoMenu() {
+    this.autocompleteInventory.closePanel();
   }
 
   announceSortChange(e: any) {
@@ -169,7 +167,7 @@ export class SrCurrentOrderComponent implements OnInit {
     this.newReplenishmentOrders();
   }
 
-  @Input('refreshCurrentOrders') refreshCurrentOrders:Subject<any>;
+  @Input('refreshCurrentOrders') refreshCurrentOrders: Subject<any>;
   @Output() replenishmentsDeleted: EventEmitter<any> = new EventEmitter();
 
   ngOnInit(): void {
@@ -188,10 +186,10 @@ export class SrCurrentOrderComponent implements OnInit {
     this.refreshCurrentOrders.unsubscribe();
   }
 
-  newReplenishmentOrdersSubscribe:any;
-  
-  newReplenishmentOrders() {
-    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentTable').subscribe((res: any) => {
+  newReplenishmentOrdersSubscribe: any;
+
+  newReplenishmentOrders(loader: boolean = false) {
+    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentTable',loader).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.tableData = res.data.sysTable;
         this.tableData.forEach(element => {
@@ -199,9 +197,9 @@ export class SrCurrentOrderComponent implements OnInit {
         });
         this.tableDataTotalCount = res.data.recordsTotal;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
-		    // this.changeSearchOptions();
+        // this.changeSearchOptions();
         // this.updateCounts();
-        this.systemReplenishmentCount();
+        this.systemReplenishmentCount(true);
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -234,29 +232,31 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   actionChange(event: any) {
+    if (this.tableData.length != 0) {
+      if (event == 'Delete All Orders') {
+        this.deleteAllOrders();
+      }
+      else if (event == 'Delete Shown Orders') {
+        this.deleteShownOrders();
+      }
+      else if (event == 'Delete Range') {
+        this.deleteRange();
+      }
+      else if (event == 'Delete Selected Order') {
+        this.deleteSelectedOrder();
+      }
+      else if (event == 'View All Orders') {
+        this.viewAllOrders();
+      }
+      else if (event == 'View Unprinted Orders') {
+        this.viewUnprintedOrders();
+      }
+    }
     if (event == 'Print Orders') {
       this.printOrders();
     }
-    else if (event == 'Print Labels') {
+    if (event == 'Print Labels') {
       this.printLabels();
-    }
-    else if (event == 'Delete All Orders') {
-      this.deleteAllOrders();
-    }
-    else if (event == 'Delete Shown Orders') {
-      this.deleteShownOrders();
-    }
-    else if (event == 'Delete Range') {
-      this.deleteRange();
-    }
-    else if (event == 'Delete Selected Order') {
-      this.deleteSelectedOrder();
-    }
-    else if (event == 'View All Orders') {
-      this.viewAllOrders();
-    }
-    else if (event == 'View Unprinted Orders') {
-      this.viewUnprintedOrders();
     }
   }
 
@@ -387,7 +387,7 @@ export class SrCurrentOrderComponent implements OnInit {
     }
   }
 
-  deleteSelected(){
+  deleteSelected() {
     this.repByDeletePayload.identity = "Shown";
     this.repByDeletePayload.filter1 = "";
     this.repByDeletePayload.filter2 = "";
@@ -473,23 +473,23 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   selectOrder(element) {
-    if(this.selectedOrder.itemNumber && this.selectedOrder.itemNumber == element.itemNumber && this.selectedOrder.transactionType == element.transactionType){
+    if (this.selectedOrder.itemNumber && this.selectedOrder.itemNumber == element.itemNumber && this.selectedOrder.transactionType == element.transactionType) {
       this.selectedOrder = {};
-    }else{
+    } else {
       this.selectedOrder = element;
     }
   }
 
   getSearchOptionsSubscribe: any;
-  getSearchOptions(){
+  getSearchOptions(loader: boolean = false) {
     let payload = {
       "searchString": this.tablePayloadObj.searchString,
       "searchColumn": this.tablePayloadObj.searchColumn,
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/ReplenishReportSearchTA').subscribe((res: any) => {
-      if (res.isExecuted && res.data && res.data.length > 0) {
+    this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/ReplenishReportSearchTA',loader).subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
         this.searchAutocompleteList = res.data.sort();
       }
     });
@@ -500,8 +500,8 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
 
-  systemReplenishmentCount() {
-    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentCount').subscribe((res: any) => {
+  systemReplenishmentCount(loader: boolean = false) {
+    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentCount',loader).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.noOfPicks = res.data.pickCount;
         this.noOfPutAways = res.data.putCount;
