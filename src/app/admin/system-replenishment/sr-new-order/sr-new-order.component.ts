@@ -85,7 +85,7 @@ export class SrNewOrderComponent implements OnInit {
     this.tablePayloadObj.username = this.userData.userName;
     this.tablePayloadObj.wsid = this.userData.wsid;
     this.refreshNewOrders.subscribe(e => {
-      this.newReplenishmentOrders();
+      // this.newReplenishmentOrders();
     });
   }
 
