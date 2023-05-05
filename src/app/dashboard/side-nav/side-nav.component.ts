@@ -68,10 +68,15 @@ export class SideNavComponent implements OnInit {
 
   consolidationMenus: any = [
     { icon: 'arrow_back', title: 'Consolidation Manager', route: '/dashboard', class: 'back-class' , permission: 'Consolidation Manager'},
-    { icon: 'directions_alt', title: 'Consolidation', route: '/ConsolidationManager/consolidation', class: 'back-class' , permission: 'Consolidation'},
+    { icon: 'insert_chart', title: 'Consolidation', route: '/ConsolidationManager/Consolidation', class: 'back-class' , permission: 'Consolidation Manager'},
+    // Vector
+    { icon: 'add_location_alt', title: 'Staging Locations', route: '/ConsolidationManager/StagingLocations' ,permission:'Consolidation Manager'},
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
-    
-    { icon: 'directions_alt', title: 'Staging Locations', route: '/Consolidation/StagingLocations' ,permission:'Staging Locations'}
+    { icon: 'tune', title: 'Consolidation Preferences ', route: '/ConsolidationManager/ConsolidationPreferences' ,permission:'Consolidation Manager'},
+    // Vector (Stroke)
+    { icon: 'analytics', title: 'Reporting ', route: '#' ,permission:'Reporting'},
+     { icon: 'view_module', title: 'Order Status ', route: '/admin/transaction',paramsObj:{IsOrderStatus:true} ,permission:'Consolidation Manager'}
+    //  flex_wrap
   ];
 
   inductionAdminMenus: any = [
