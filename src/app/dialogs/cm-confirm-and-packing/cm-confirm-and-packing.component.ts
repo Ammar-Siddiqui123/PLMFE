@@ -180,8 +180,7 @@ announceSortChange1(sortState: Sort) {
   //   }
   // }); 
 }
-announceSortChange2(sortState: Sort) {  
-  debugger
+announceSortChange2(sortState: Sort) {   
   if (sortState.direction) {
     // Announce the sort direction, and the fact that sorting is cleared.
     this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -228,8 +227,7 @@ announceSortChange2(sortState: Sort) {
   }, 10);
  }
 async ScanItemNum($event:any){  
-  if($event.key == "Enter"){
-    debugger
+  if($event.key == "Enter"){ 
   var index;
 var searchCount = 0;
 var id;

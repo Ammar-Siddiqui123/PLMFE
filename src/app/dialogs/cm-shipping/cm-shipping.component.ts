@@ -72,7 +72,7 @@ export class CmShippingComponent implements OnInit {
           indx=indx+1;
             }
           }
-          this.shippingComp = res.data.shippingComp;
+       //   this.shippingComp = res.data.shippingComp;
           this.orderNumber = res.data.orderNumber;
           this.IsLoading = false; 
         }else  this.IsLoading = false; 
@@ -95,7 +95,7 @@ export class CmShippingComponent implements OnInit {
     element.value = value;
   }
 
-  async DeleteItem(element: any) {
+  async DeleteItem(element: any,i:any=null) {
     var obj: any =
     {
       id: element.id,
@@ -108,7 +108,9 @@ export class CmShippingComponent implements OnInit {
     }
     this.http.get(obj, '/Consolidation/ShipmentItemDelete').subscribe((res: any) => {
       if (res && res.isExecuted) {
-        this.ShippingIndex();
+        debugger
+        this.shippingData = this.shippingData.slice(0,i);
+        //this.ShippingIndex();
       }
     });
   }
@@ -128,7 +130,7 @@ export class CmShippingComponent implements OnInit {
     }
     this.http.get(obj, '/Consolidation/ShipmentItemUpdate').subscribe((res: any) => {
       if (res && res.isExecuted) {
-        this.ShippingIndex();
+       // this.ShippingIndex();
       }
     });
   }
