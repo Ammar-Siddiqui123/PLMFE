@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { OmCreateOrdersComponent } from '../dialogs/om-create-orders/om-create-orders.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-order-manager',
@@ -6,8 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./order-manager.component.scss']
 })
 export class OrderManagerComponent implements OnInit {
+ 
 
   constructor() { }
+
+
 
   ngOnInit(): void {
   }

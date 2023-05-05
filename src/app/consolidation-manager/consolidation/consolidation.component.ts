@@ -837,21 +837,16 @@ export class ConsolidationComponent implements OnInit {
     })
   }
 
-  navigateToOrder() {
-    this.router.navigate([]).then((result) => {
-      window.open(
-        `/#/admin/transaction?orderStatus=${this.TypeValue}`,
-        '_blank'
-      );
-    });
-  }
-
+ 
   focusOnOrderNum() {
     setTimeout(() => {
       this.ordernum.nativeElement.focus();
     }, 100);  
   }
-
+  navigateToOrder() {
+    window.location.href = `/#/admin/transaction?orderStatus=${this.TypeValue ? this.TypeValue : ''}&IsOrderStatus=true`;
+   
+   }
 }
 
 
