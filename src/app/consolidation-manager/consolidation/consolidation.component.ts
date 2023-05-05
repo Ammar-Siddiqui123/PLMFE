@@ -38,7 +38,7 @@ export class ConsolidationComponent implements OnInit {
   @ViewChild('ordernum') ordernum: ElementRef;
 
   public startSelectFilter: any = '1'
-  public startSelectFilterLabel: any ='Item Number'
+  public startSelectFilterLabel: any;
   public sortBy: number
   public open: number = 0;
   public completed: number = 0;
@@ -95,7 +95,7 @@ export class ConsolidationComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-   this.ConsolidationIndex();
+  
    this.searchByItem
    .pipe(debounceTime(400), distinctUntilChanged())
    .subscribe((value) => {
@@ -158,11 +158,13 @@ export class ConsolidationComponent implements OnInit {
     this.consolidationHub.get(payload, '/Consolidation/ConsolidationIndex').subscribe((res: any) => {
       if(res.isExecuted){
         this.consolidationIndex = res.data;
+        this.startSelectFilterLabel = this.consolidationIndex.cmPreferences.defaultLookupType
       }
     });
   }
 
   getTableData(type: any, TypeValue: any) {
+    this.ConsolidationIndex();
     let curValue = TypeValue;
     let payload = {
       "type": this.type,
@@ -205,18 +207,33 @@ export class ConsolidationComponent implements OnInit {
           this.open = res.data.openLinesCount;
           this.completed = res.data.completedLinesCount;
           this.backOrder = res.data.reprocessLinesCount;
+          // debugger
+          
           this.tableData_1 = new MatTableDataSource(res.data.consolidationTable);
           this.tableData_2 = new MatTableDataSource(res.data.consolidationTable2);
-          // console.log(res)
           this.stageTable =  new MatTableDataSource(res.data.stageTable);
+          let z: any[] = [];
+
+          // console.log(this.tableData_1.data,'table1')
+          // console.log(this.tableData_2.data,'table2')
+           z = this.tableData_1.data.filter((element) => element.lineStatus == 'Waiting Reprocess')
+            // console.log(z)
+          let data = this.tableData_2.data;
+          data.push(...z);
+          this.tableData_2 = new MatTableDataSource(data);
+
+          this.tableData_1.data = this.tableData_1.data.filter((el)=>{
+            return !z.includes(el)
+        })
+        
+          // console.log(this.tableData_1.data,'table1')
+          // console.log(this.tableData_2.data,'table2')
 
           
           this.tableData_1.paginator = this.paginator;
           this.tableData_2.paginator = this.paginator2;
-          
-          // this.stageTable = [];
           this.stageTable.paginator = this.paginator3;
-          
+
           
           
           
@@ -311,12 +328,25 @@ export class ConsolidationComponent implements OnInit {
     })
   }
 
+  
+
   unVerifyAll(){
 
-   
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '600px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        mode: 'remove-batch-list',
+      },
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if(res == 'Yes'){
+        let z:any = [];
+        z = this.tableData_2.data.filter((element) => element.lineStatus != 'Waiting Reprocess')
     
         let IDS :any = [];
-        this.tableData_2.data.forEach((row:any)=>{
+           z.forEach((row:any)=>{
           IDS.push(row.id.toString())
         }
         )
@@ -336,20 +366,28 @@ export class ConsolidationComponent implements OnInit {
     
           }
           else{
-            this.tableData_1.data = this.tableData_1.data.concat(this.tableData_2.data);
+            this.tableData_1.data = this.tableData_1.data.concat(z);
+            
+            this.tableData_2.data = this.tableData_2.data.filter((el)=>{
+              return !z.includes(el)
+          })
 
             
-            this.tableData_2.data = [];
+            // this.tableData_2.data = [];
             this.tableData_1.paginator = this.paginator
             this.tableData_2.paginator = this.paginator2;
           }
          
         })
+
+      }
+    });
    
 
 
  
   }
+
 
  verifyLine(index){
   // debugger;
@@ -377,9 +415,9 @@ export class ConsolidationComponent implements OnInit {
       "wsid": this.userData.wsid
     }
 
-    console.log(payload)
+    // console.log(payload)
     this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res:any)=>{
-      console.log(res,'s')
+      // console.log(res,'s')
       if(res.isExecuted){
 
         let data = this.tableData_2.data;
@@ -409,14 +447,14 @@ export class ConsolidationComponent implements OnInit {
   unverifyLine(index,id){
     
  
-
+    // debugger
     let payload = {
       "id":id,
       "username": this.userData.userName ,
       "wsid": this.userData.wsid
     }
     this.consolidationHub.get(payload,'/Consolidation/DeleteVerified').subscribe((res:any)=>{
-        console.log(res) 
+        // console.log(res) 
         if(res.isExecuted){
 
           let data2 = this.tableData_1.data;

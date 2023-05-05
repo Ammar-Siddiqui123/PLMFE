@@ -6,7 +6,7 @@ import { SystemReplenishmentService } from '../system-replenishment.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import labels from '../../../labels/labels.json'
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { FilterItemNumbersComponent } from '../../dialogs/filter-item-numbers/filter-item-numbers.component';
 import { MatMenuTrigger } from '@angular/material/menu';
@@ -116,10 +116,10 @@ export class SrNewOrderComponent implements OnInit {
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
-    this.tablePayloadObj.filter = this.FilterString;
+    this.tablePayloadObj.filter = this.FilterString != "" ? this.FilterString : "1=1";
     this.resetPagination();
     this.newReplenishmentOrders();
-    this.tablePayloadObj.filter = "1=1";
+    // this.tablePayloadObj.filter = "1=1";
   }
 
   InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
@@ -196,6 +196,7 @@ export class SrNewOrderComponent implements OnInit {
         this.numberSelectedRep = res.data.selectedOrders;
         this.tableDataTotalCount = res.data.recordsFiltered;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
+        this.searchAutocompleteList = [];
         // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
         // this.changeSearchOptions();
         this.tablePayloadObj.filter = "1=1";
@@ -210,9 +211,11 @@ export class SrNewOrderComponent implements OnInit {
     });
   }
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   resetPagination() {
     this.tablePayloadObj.start = 0;
     this.tablePayloadObj.length = 10;
+    this.paginator.pageIndex = 0;
   }
 
   onChangeKanban(ob: MatCheckboxChange) {
@@ -278,23 +281,25 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   actionChange(event: any) {
-    if (event == '1') {
-      this.filterItemNo();
+    if(this.tableData.length != 0){
+      if (event == '1') {
+        this.filterItemNo();
+      }
+      else if (event == '3') {
+        this.viewAllItems();
+      }
+      else if (event == '4') {
+        this.viewSelectedItems();
+      }
+      else if (event == '5') {
+        this.selectAll();
+      }
+      else if (event == '6' && this.numberSelectedRep != 0) {
+        this.unSelectAll();
+      }
     }
-    else if (event == '2') {
+    if (event == '2') {
       this.print();
-    }
-    else if (event == '3') {
-      this.viewAllItems();
-    }
-    else if (event == '4') {
-      this.viewSelectedItems();
-    }
-    else if (event == '5') {
-      this.selectAll();
-    }
-    else if (event == '6') {
-      this.unSelectAll();
     }
   }
 
@@ -383,6 +388,7 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   viewAllItems() {
+    debugger
     this.tableData.forEach((element: any) => {
       let index: any = this.filteredTableData.findIndex((item: any) => item.rP_ID == element.rP_ID);
       if (index != -1) {
@@ -410,6 +416,10 @@ export class SrNewOrderComponent implements OnInit {
         if (result.filterItemNumbersArray && result.filterItemNumbersArray.length > 0) {
           this.resetPagination();
           this.newReplenishmentOrders();
+        }
+        else {
+          this.resetPagination();
+          this.createNewReplenishments(this.kanban);
         }
       }
     });
