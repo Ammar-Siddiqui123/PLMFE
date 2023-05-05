@@ -28,7 +28,9 @@ import { CmOrderToteConflictComponent } from 'src/app/dialogs/cm-order-tote-conf
 })
 export class ConsolidationComponent implements OnInit {
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('matSort1') sort1: MatSort;
+  @ViewChild('matSort2') sort2: MatSort;
+  @ViewChild('matSort3') sort3: MatSort;
 
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild('paginator2') paginator2: MatPaginator;
@@ -37,7 +39,7 @@ export class ConsolidationComponent implements OnInit {
 
   @ViewChild('ordernum') ordernum: ElementRef;
 
-  public startSelectFilter: any = '1'
+  public startSelectFilter: any ;
   public startSelectFilterLabel: any;
   public sortBy: number
   public open: number = 0;
@@ -65,15 +67,11 @@ export class ConsolidationComponent implements OnInit {
   searchByItem: any = new Subject<string>();
   searchAutocompleteItemNum: any = [];
 
-
-
   displayedColumns: string[] = ['toteID', 'complete', 'stagingLocation', 'stagedBy', 'stagedDate'];
   stageTable;
 
   displayedColumns_1: string[] = ['itemNumber', 'lineStatus', 'lineNumber', 'transactionQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
   tableData_1: any;
-
-
 
   displayedColumns_2: string[] = ['itemNumber', 'lineStatus','supplierItemID', 'lineNumber', 'completedQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
   tableData_2 :any;
@@ -88,19 +86,21 @@ export class ConsolidationComponent implements OnInit {
     {key: '6', value: 'Tote ID'},
   ];
 
-
-
-  constructor(private dialog: MatDialog, private toastr: ToastrService,
-    private router: Router, private consolidationHub: ConsolidationManagerService, private authService: AuthService,  private _liveAnnouncer: LiveAnnouncer,) { }
+  constructor(private dialog: MatDialog, 
+              private toastr: ToastrService,
+              private router: Router, 
+              private consolidationHub: ConsolidationManagerService, 
+              private authService: AuthService,  
+              private _liveAnnouncer: LiveAnnouncer,) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-  
-   this.searchByItem
-   .pipe(debounceTime(400), distinctUntilChanged())
-   .subscribe((value) => {
-    this.autocompleteSearchColumnItem()
-   });
+    this.ConsolidationIndex()
+    this.searchByItem
+    .pipe(debounceTime(400), distinctUntilChanged())
+    .subscribe((value) => {
+      this.autocompleteSearchColumnItem()
+    });
   }
 
   hideRow = true;
@@ -112,8 +112,7 @@ export class ConsolidationComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
-    this.tableData_1.sort = this.sort;
-    
+    this.tableData_1.sort = this.sort1;    
   }
 
   announceSortChange2(sortState: Sort) {
@@ -122,7 +121,7 @@ export class ConsolidationComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
-    this.tableData_2.sort = this.sort;
+    this.tableData_2.sort = this.sort2;
   }
 
   announceSortChange3(sortState: Sort) {
@@ -131,7 +130,7 @@ export class ConsolidationComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
-    this.stageTable.sort = this.sort;
+    this.stageTable.sort = this.sort3;
   }
 
   clickToHide() {
@@ -141,11 +140,8 @@ export class ConsolidationComponent implements OnInit {
 
   enterOrderID(event) {
     this.TypeValue = event.target.value;
-
     if (event.keyCode == 13) {
       this.getTableData("", this.TypeValue);
-      
-
     }
   }
 
@@ -155,12 +151,33 @@ export class ConsolidationComponent implements OnInit {
       "wsid": this.userData.wsid,
       "orderNumber": this.TypeValue
     }
+
     this.consolidationHub.get(payload, '/Consolidation/ConsolidationIndex').subscribe((res: any) => {
-      if(res.isExecuted){
-        this.consolidationIndex = res.data;
-        this.startSelectFilterLabel = this.consolidationIndex.cmPreferences.defaultLookupType
+        if(res.isExecuted){
+          this.consolidationIndex = res.data;
+          this.startSelectFilterLabel = this.consolidationIndex.cmPreferences.defaultLookupType
+          
+          if(this.startSelectFilterLabel == 'Item Number'){
+            this.isitemVisible = true;
+            this.issupplyVisible = false;
+            this.displayedColumns_1.shift()
+            this.displayedColumns_1.unshift('itemNumber')   
+          }
+          else if(this.startSelectFilterLabel == 'Supplier Item ID'){
+            this.isitemVisible = false;
+            this.displayedColumns_1.shift()
+            this.displayedColumns_1.unshift('supplierItemID')
+            this.issupplyVisible = true;
+          }
+          else {
+            this.isitemVisible = true;
+            this.issupplyVisible = false;
+            this.displayedColumns_1.shift()
+            this.displayedColumns_1.unshift('itemNumber')
+          }
+        }
       }
-    });
+    )
   }
 
   getTableData(type: any, TypeValue: any) {
@@ -207,7 +224,6 @@ export class ConsolidationComponent implements OnInit {
           this.open = res.data.openLinesCount;
           this.completed = res.data.completedLinesCount;
           this.backOrder = res.data.reprocessLinesCount;
-          // debugger
           
           this.tableData_1 = new MatTableDataSource(res.data.consolidationTable);
           this.tableData_2 = new MatTableDataSource(res.data.consolidationTable2);
@@ -217,7 +233,6 @@ export class ConsolidationComponent implements OnInit {
           // console.log(this.tableData_1.data,'table1')
           // console.log(this.tableData_2.data,'table2')
            z = this.tableData_1.data.filter((element) => element.lineStatus == 'Waiting Reprocess')
-            // console.log(z)
           let data = this.tableData_2.data;
           data.push(...z);
           this.tableData_2 = new MatTableDataSource(data);
@@ -225,17 +240,11 @@ export class ConsolidationComponent implements OnInit {
           this.tableData_1.data = this.tableData_1.data.filter((el)=>{
             return !z.includes(el)
         })
-        
           // console.log(this.tableData_1.data,'table1')
           // console.log(this.tableData_2.data,'table2')
-
-          
           this.tableData_1.paginator = this.paginator;
           this.tableData_2.paginator = this.paginator2;
           this.stageTable.paginator = this.paginator3;
-
-          
-          
           
           let payload = {
             "orderNumber": curValue,
@@ -293,7 +302,6 @@ export class ConsolidationComponent implements OnInit {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
-
       }
       else {
         let z: any[] = [];
@@ -303,20 +311,15 @@ export class ConsolidationComponent implements OnInit {
               z.push(row)
           }
         });
-
         let data = this.tableData_2.data;
         data.push(...z);
         this.tableData_2 = new MatTableDataSource(data);
-
         this.tableData_1.paginator = this.paginator
         this.tableData_2.paginator = this.paginator2;
-
-
         // this.tableData_2.data.push(...z)
         this.tableData_1.data = this.tableData_1.data.filter((el)=>{
             return !z.includes(el)
         })
-       
 
         if(this.tableData_1.data.length == 0){
           this.toastr.info('You have consolidated all items in this order', 'Alert!', {
@@ -328,10 +331,7 @@ export class ConsolidationComponent implements OnInit {
     })
   }
 
-  
-
   unVerifyAll(){
-
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '600px',
@@ -344,13 +344,11 @@ export class ConsolidationComponent implements OnInit {
       if(res == 'Yes'){
         let z:any = [];
         z = this.tableData_2.data.filter((element) => element.lineStatus != 'Waiting Reprocess')
-    
         let IDS :any = [];
            z.forEach((row:any)=>{
           IDS.push(row.id.toString())
         }
         )
-    
         let payload = {
           "iDs": IDS,
           "username": this.userData.userName, 
@@ -371,8 +369,6 @@ export class ConsolidationComponent implements OnInit {
             this.tableData_2.data = this.tableData_2.data.filter((el)=>{
               return !z.includes(el)
           })
-
-            
             // this.tableData_2.data = [];
             this.tableData_1.paginator = this.paginator
             this.tableData_2.paginator = this.paginator2;
@@ -382,25 +378,11 @@ export class ConsolidationComponent implements OnInit {
 
       }
     });
-   
-
-
- 
   }
 
-
  verifyLine(index){
-  // debugger;
-  
-
   let id = this.tableData_1.data[index].id;
   let status = this.tableData_1.data[index].lineStatus;
-  // console.log(this.tableData_1.data)
-  
-  // console.log(index)
-  // console.log(status)
-  // console.log(id)
-
   //  status == "Not Completed" || status == "Not Assigned"
    if(status == "Not Completed" || status == "Not Assigned"){
     this.toastr.error("The selected item has not yet been completed and can't be verified at this time", 'Error!', {
@@ -415,29 +397,22 @@ export class ConsolidationComponent implements OnInit {
       "wsid": this.userData.wsid
     }
 
-    // console.log(payload)
     this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res:any)=>{
-      // console.log(res,'s')
       if(res.isExecuted){
-
         let data = this.tableData_2.data;
         data.push({...this.tableData_1.data[index]});
         this.tableData_2 = new MatTableDataSource(data);
-        
-        
         let data2 = this.tableData_1.data;
         data2.splice(index, 1);
         this.tableData_1 = new MatTableDataSource(data2);
-
         this.tableData_1.paginator = this.paginator;
         this.tableData_2.paginator = this.paginator2;
-        
       }
       else{
-        console.log(this.toastr.error(res.responseMessage, 'Error!', {
+        this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
-        }))
+        })
       }
 
     })
@@ -445,31 +420,22 @@ export class ConsolidationComponent implements OnInit {
   }
 
   unverifyLine(index,id){
-    
- 
-    // debugger
+
     let payload = {
       "id":id,
       "username": this.userData.userName ,
       "wsid": this.userData.wsid
     }
     this.consolidationHub.get(payload,'/Consolidation/DeleteVerified').subscribe((res:any)=>{
-        // console.log(res) 
         if(res.isExecuted){
-
           let data2 = this.tableData_1.data;
           data2.push({...this.tableData_2.data[index]});
           this.tableData_1 = new MatTableDataSource(data2);
-          
-          
           let data = this.tableData_2.data;
           data.splice(index, 1);
           this.tableData_2 = new MatTableDataSource(data);
-
           this.tableData_1.paginator = this.paginator;
           this.tableData_2.paginator = this.paginator2;
-
-          
         }
         else{
           this.toastr.error(res.responseMessage, 'Error!', {
@@ -484,15 +450,11 @@ export class ConsolidationComponent implements OnInit {
 
   filtervalue(event){
     if (event.keyCode == 13) {
-      // debugger
       this.CheckDuplicatesForVerify(this.filterValue);
     }
-
   }
 
   checkVerifyType(columnIndex, val){
-    // debugger
-    
    let filterVal = this.filterValue.toLowerCase();
     this.filterValue = '';
     if (val != undefined) {
@@ -500,24 +462,6 @@ export class ConsolidationComponent implements OnInit {
   }
     let valueCount = 0;
     let index;
-
-
-    // this.tableData_1.data.forEach((row:any,i: any)=>{
-    //   // console.log(row ,i);
-    //   let currentColVal = row.itemNumber.toLowerCase();
-    //   console.log(currentColVal)
-    //   if (currentColVal == filterVal) {        
-    //     index = i;
-    //     valueCount++;
-    //   }
-    // })
-
-
-  
-
-    // console.log(typeof this.tableData_1.data,'this.tableData_1')
-
-
     const currentColVal = this.tableData_1.data.some((obj,i) => {
       for (let key in obj) {
         if (obj[key] === filterVal) {
@@ -527,10 +471,6 @@ export class ConsolidationComponent implements OnInit {
       }
     });
     return { index: index, valueCount: valueCount }
-
-
-
-    
 
   }
 
@@ -547,11 +487,8 @@ export class ConsolidationComponent implements OnInit {
       });
                   
     }
-    else {
-      result = this.checkVerifyType(columnIndex, val);
-      // console.log(result,'resultttt')
-
-    }
+    else 
+        result = this.checkVerifyType(columnIndex, val);
 
     // desturcturing
     const { verifyItems, blindVerifyItems } = this.consolidationIndex.cmPreferences;
@@ -571,7 +508,6 @@ export class ConsolidationComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result =>{
-        console.log(result)
         if(result && result.isExecuted){
           this.getTableData('',this.TypeValue);
         }
@@ -589,25 +525,21 @@ export class ConsolidationComponent implements OnInit {
   }
 
   getSelected(event: MatSelectChange): void {
-
     this.startSelectFilter = event.value;
     this.filterOption.forEach((e:any) => {
       if (e.key == event.value) {
         this.startSelectFilter = e.key;
         this.startSelectFilterLabel = e.value;
-        console.log( this.startSelectFilterLabel,'this.startSelectFilterLabel')
       }
     });
 
-    // let colLabel = event.
-    
-    if(event.value == 1){
+    if(event.value == 1 ){
       this.isitemVisible = true;
       this.issupplyVisible = false;
       this.displayedColumns_1.shift()
       this.displayedColumns_1.unshift('itemNumber')   
     }
-    else if(event.value == 2){
+    else if(event.value == 2 ){
       this.isitemVisible = false;
       this.displayedColumns_1.shift()
       this.displayedColumns_1.unshift('supplierItemID')
