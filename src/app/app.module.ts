@@ -72,6 +72,8 @@ import { OmUpdateRecordComponent } from './dialogs/om-update-record/om-update-re
 import { OmAddRecordComponent } from './dialogs/om-add-record/om-add-record.component';
 import { OmEditTransactionComponent } from './dialogs/om-edit-transaction/om-edit-transaction.component';
 import { OmAddTransactionComponent } from './dialogs/om-add-transaction/om-add-transaction.component';
+import { OmChangesConfirmationComponent } from './dialogs/om-changes-confirmation/om-changes-confirmation.component';
+import { OmUserFieldDataComponent } from './dialogs/om-user-field-data/om-user-field-data.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -131,6 +133,8 @@ import { OmAddTransactionComponent } from './dialogs/om-add-transaction/om-add-t
     OmAddRecordComponent,
     OmEditTransactionComponent,
     OmAddTransactionComponent,
+    OmChangesConfirmationComponent,
+    OmUserFieldDataComponent,
     // ActionDisableDirective,
   ],
   imports: [

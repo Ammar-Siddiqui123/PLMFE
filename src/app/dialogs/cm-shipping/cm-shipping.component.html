@@ -179,12 +179,12 @@
                     <th mat-header-cell *matHeaderCellDef style="border: 0;height: 66px; padding-left:65px;">
                     </th>
 
-                    <td mat-cell *matCellDef="let element" style="border: 0; padding-left: 24px; background: #fff;">
+                    <td mat-cell *matCellDef="let element;let i = index" style="border: 0; padding-left: 24px; background: #fff;">
 
                         <div class="d-flex" style="gap:6px">
                             <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete" matTooltip="Remove"
                                 matTooltipPosition="above" color="warn" [disabled]="shippingComp">
-                                <mat-icon class="material-symbols-outlined" (click)="DeleteItem(element)">close</mat-icon>
+                                <mat-icon class="material-symbols-outlined" (click)="DeleteItem(element,i)">close</mat-icon>
                             </button>
                             <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete" matTooltip="Print"
                                 matTooltipPosition="above" color="primary">

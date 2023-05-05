@@ -85,7 +85,7 @@ export class SrNewOrderComponent implements OnInit {
     this.tablePayloadObj.username = this.userData.userName;
     this.tablePayloadObj.wsid = this.userData.wsid;
     this.refreshNewOrders.subscribe(e => {
-      this.newReplenishmentOrders();
+      // this.newReplenishmentOrders();
     });
   }
 
@@ -149,11 +149,11 @@ export class SrNewOrderComponent implements OnInit {
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   autocompleteSearchColumn() {
     if (this.tablePayloadObj.searchColumn != "") {
-      this.newReplenishmentOrdersSubscribe.unsubscribe();
-      this.getSearchOptionsSubscribe.unsubscribe();
       this.resetPagination();
-      this.getSearchOptions();
-      this.newReplenishmentOrders();
+      this.getSearchOptionsSubscribe.unsubscribe();
+      this.getSearchOptions(true);
+      this.newReplenishmentOrdersSubscribe.unsubscribe();
+      this.newReplenishmentOrders(true);
     }
   }
 
@@ -188,24 +188,25 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   newReplenishmentOrdersSubscribe: any;
-  newReplenishmentOrders() {
+  newReplenishmentOrders(loader:boolean =false) {
     this.tablePayloadObj.searchString = this.tablePayloadObj.searchString.toString();
-    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentNewTable').subscribe((res: any) => {
+    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentNewTable',loader).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.tableData = res.data.sysTable;
         this.numberSelectedRep = res.data.selectedOrders;
         this.tableDataTotalCount = res.data.recordsFiltered;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
+        // this.searchAutocompleteList = [];
         // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
         // this.changeSearchOptions();
-        this.tablePayloadObj.filter = "1=1";
+        // this.tablePayloadObj.filter = "1=1";
       } else {
         console.log(res.responseMessage);
         // this.toastr.error(res.responseMessage, 'Error!', {
         //   positionClass: 'toast-bottom-right',
         //   timeOut: 2000
         // });
-        this.tablePayloadObj.filter = "1=1";
+        // this.tablePayloadObj.filter = "1=1";
       }
     });
   }
@@ -280,7 +281,7 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   actionChange(event: any) {
-    if(this.tableData.length != 0 && this.filteredTableData.length != 0){
+    if(this.tableData.length != 0){
       if (event == '1') {
         this.filterItemNo();
       }
@@ -387,6 +388,7 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   viewAllItems() {
+    debugger
     this.tableData.forEach((element: any) => {
       let index: any = this.filteredTableData.findIndex((item: any) => item.rP_ID == element.rP_ID);
       if (index != -1) {
@@ -551,15 +553,15 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   getSearchOptionsSubscribe: any;
-  getSearchOptions(){
+  getSearchOptions(loader:boolean=false){
     let payload = {
       "searchString": this.tablePayloadObj.searchString,
       "searchColumn": this.tablePayloadObj.searchColumn,
-      "username": "hadi",
-      "wsid": "TESTWSID"
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
     }
-    this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/SystemReplenishNewTA').subscribe((res: any) => {
-      if (res.isExecuted && res.data && res.data.length > 0) {
+    this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/SystemReplenishNewTA',loader).subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
         this.searchAutocompleteList = res.data.sort();
       }
     });
