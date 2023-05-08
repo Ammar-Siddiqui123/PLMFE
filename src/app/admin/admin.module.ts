@@ -263,7 +263,8 @@ import { SortPipe } from '../init/sort.pipe';
     SrNewOrderComponent,
     FilterItemNumbersComponent,
     SrCurrentOrderComponent,
-    SortPipe
+    SortPipe,
+
   ],
   imports: [
     CommonModule,
