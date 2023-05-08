@@ -1286,6 +1286,19 @@ button.add-icon-button {
     align-items: center;
   }
 }
+button.add-icon-button-lg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px !important;
+  max-width: 56px !important;
+  min-width: 56px !important;
+  border-radius: 14px !important;
+  .mat-button-wrapper{
+    display: flex;
+    align-items: center;
+  }
+}
 button.icon-button {
   display: flex;
   align-items: center;
