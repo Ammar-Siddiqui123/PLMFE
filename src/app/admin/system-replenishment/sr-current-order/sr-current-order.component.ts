@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SystemReplenishmentService } from '../system-replenishment.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { PrintReplenLabelsComponent } from 'src/app/dialogs/print-replen-labels/print-replen-labels.component';
 import { DeleteRangeComponent } from 'src/app/dialogs/delete-range/delete-range.component';
 import labels from '../../../labels/labels.json';
@@ -17,6 +17,7 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { Subject } from 'rxjs';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-sr-current-order',
@@ -111,10 +112,10 @@ export class SrCurrentOrderComponent implements OnInit {
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
-    // console.log(this.FilterString);
-    this.tablePayloadObj.filter = this.FilterString;
+    this.tablePayloadObj.filter = this.FilterString != "" ? this.FilterString : "1=1";
+    this.resetPagination();
     this.newReplenishmentOrders();
-    this.tablePayloadObj.filter = "1=1";
+    // this.tablePayloadObj.filter = "1=1";
   }
 
   InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
@@ -135,8 +136,7 @@ export class SrCurrentOrderComponent implements OnInit {
     );
   }
 
-  ClearFilters()
-  {
+  ClearFilters() {
     this.tablePayloadObj.filter = "1=1";
     this.newReplenishmentOrders();
   }
@@ -144,12 +144,13 @@ export class SrCurrentOrderComponent implements OnInit {
   hideRequiredControl = new FormControl(false);
   @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
-  autocompleteSearchColumn(){
+  autocompleteSearchColumn() {
     if (this.tablePayloadObj.searchColumn != "") {
-      this.newReplenishmentOrdersSubscribe.unsubscribe();
+      this.resetPagination();
       this.getSearchOptionsSubscribe.unsubscribe();
-      this.getSearchOptions();
-      this.newReplenishmentOrders();
+      this.getSearchOptions(true);
+      this.newReplenishmentOrdersSubscribe.unsubscribe();
+      this.newReplenishmentOrders(true);
     }
   }
 
@@ -157,9 +158,8 @@ export class SrCurrentOrderComponent implements OnInit {
     return this.floatLabelControl.value || 'auto';
   }
 
-  closeautoMenu()
-  {
-    this.autocompleteInventory.closePanel(); 
+  closeautoMenu() {
+    this.autocompleteInventory.closePanel();
   }
 
   announceSortChange(e: any) {
@@ -168,7 +168,7 @@ export class SrCurrentOrderComponent implements OnInit {
     this.newReplenishmentOrders();
   }
 
-  @Input('refreshCurrentOrders') refreshCurrentOrders:Subject<any>;
+  @Input('refreshCurrentOrders') refreshCurrentOrders: Subject<any>;
   @Output() replenishmentsDeleted: EventEmitter<any> = new EventEmitter();
 
   ngOnInit(): void {
@@ -187,10 +187,10 @@ export class SrCurrentOrderComponent implements OnInit {
     this.refreshCurrentOrders.unsubscribe();
   }
 
-  newReplenishmentOrdersSubscribe:any;
-  
-  newReplenishmentOrders() {
-    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentTable').subscribe((res: any) => {
+  newReplenishmentOrdersSubscribe: any;
+
+  newReplenishmentOrders(loader: boolean = false) {
+    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentTable',loader).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.tableData = res.data.sysTable;
         this.tableData.forEach(element => {
@@ -198,9 +198,9 @@ export class SrCurrentOrderComponent implements OnInit {
         });
         this.tableDataTotalCount = res.data.recordsTotal;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
-		    // this.changeSearchOptions();
+        // this.changeSearchOptions();
         // this.updateCounts();
-        this.systemReplenishmentCount();
+        this.systemReplenishmentCount(true);
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -233,29 +233,31 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   actionChange(event: any) {
+    if (this.tableData.length != 0) {
+      if (event == 'Delete All Orders') {
+        this.deleteAllOrders();
+      }
+      else if (event == 'Delete Shown Orders') {
+        this.deleteShownOrders();
+      }
+      else if (event == 'Delete Range') {
+        this.deleteRange();
+      }
+      else if (event == 'Delete Selected Order') {
+        this.deleteSelectedOrder();
+      }
+      else if (event == 'View All Orders') {
+        this.viewAllOrders();
+      }
+      else if (event == 'View Unprinted Orders') {
+        this.viewUnprintedOrders();
+      }
+    }
     if (event == 'Print Orders') {
       this.printOrders();
     }
-    else if (event == 'Print Labels') {
+    if (event == 'Print Labels') {
       this.printLabels();
-    }
-    else if (event == 'Delete All Orders') {
-      this.deleteAllOrders();
-    }
-    else if (event == 'Delete Shown Orders') {
-      this.deleteShownOrders();
-    }
-    else if (event == 'Delete Range') {
-      this.deleteRange();
-    }
-    else if (event == 'Delete Selected Order') {
-      this.deleteSelectedOrder();
-    }
-    else if (event == 'View All Orders') {
-      this.viewAllOrders();
-    }
-    else if (event == 'View Unprinted Orders') {
-      this.viewUnprintedOrders();
     }
   }
 
@@ -353,28 +355,57 @@ export class SrCurrentOrderComponent implements OnInit {
       });
     }
     else {
-      const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-        height: 'auto',
-        width: '560px',
+      const dialogRef = this.dialog.open(this.deleteSelectedConfirm, {
+        width: '550px',
         autoFocus: '__non_existing_element__',
-        data: {
-          mode: 'delete-selected-current-orders',
-          ErrorMessage: `Delete All transactions for Order: ${this.selectedOrder.orderNumber}. This will delete all transactions, not just selected one.`,
-          action: 'delete'
-        },
       });
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result === 'Yes') {
-          this.repByDeletePayload.identity = "Shown";
-          this.repByDeletePayload.filter1 = "";
-          this.repByDeletePayload.filter2 = "";
-          this.repByDeletePayload.searchString = this.selectedOrder.orderNumber;
-          this.repByDeletePayload.searchColumn = "Order Number";
-          this.repByDeletePayload.status = "All";
-          this.ReplenishmentsByDelete();
-          this.selectedOrder = {};
-        }
+
+      dialogRef.afterClosed().subscribe(() => {
       });
+
+      // const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      //   height: 'auto',
+      //   width: '560px',
+      //   autoFocus: '__non_existing_element__',
+      //   data: {
+      //     mode: 'delete-selected-current-orders',
+      //     ErrorMessage: `Delete All transactions for Order: ${this.selectedOrder.orderNumber}. This will delete all transactions, not just selected one.`,
+      //     action: 'delete'
+      //   },
+      // });
+      // dialogRef.afterClosed().subscribe((result) => {
+      //   if (result === 'Yes') {
+      //     this.repByDeletePayload.identity = "Shown";
+      //     this.repByDeletePayload.filter1 = "";
+      //     this.repByDeletePayload.filter2 = "";
+      //     this.repByDeletePayload.searchString = this.selectedOrder.orderNumber;
+      //     this.repByDeletePayload.searchColumn = "Order Number";
+      //     this.repByDeletePayload.status = "All";
+      //     this.ReplenishmentsByDelete();
+      //     this.selectedOrder = {};
+      //   }
+      // });
+    }
+  }
+
+  deleteSelected() {
+    this.repByDeletePayload.identity = "Shown";
+    this.repByDeletePayload.filter1 = "";
+    this.repByDeletePayload.filter2 = "";
+    this.repByDeletePayload.searchString = this.selectedOrder.orderNumber;
+    this.repByDeletePayload.searchColumn = "Order Number";
+    this.repByDeletePayload.status = "All";
+    this.ReplenishmentsByDelete();
+    this.selectedOrder = {};
+  }
+
+  @ViewChild('deleteSelectedConfirm') deleteSelectedConfirm: TemplateRef<any>;
+  isChecked = true;
+  checkOptions(event: MatCheckboxChange): void {
+    if (event.checked) {
+      this.isChecked = false;
+    } else {
+      this.isChecked = true;
     }
   }
 
@@ -409,9 +440,11 @@ export class SrCurrentOrderComponent implements OnInit {
     this.getSearchOptions()
   }
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   resetPagination() {
     this.tablePayloadObj.start = 0;
     this.tablePayloadObj.length = 10;
+    this.paginator.pageIndex = 0;
   }
 
   search() {
@@ -441,19 +474,23 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   selectOrder(element) {
-    this.selectedOrder = element;
+    if (this.selectedOrder.itemNumber && this.selectedOrder.itemNumber == element.itemNumber && this.selectedOrder.transactionType == element.transactionType) {
+      this.selectedOrder = {};
+    } else {
+      this.selectedOrder = element;
+    }
   }
 
   getSearchOptionsSubscribe: any;
-  getSearchOptions(){
+  getSearchOptions(loader: boolean = false) {
     let payload = {
       "searchString": this.tablePayloadObj.searchString,
       "searchColumn": this.tablePayloadObj.searchColumn,
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/ReplenishReportSearchTA').subscribe((res: any) => {
-      if (res.isExecuted && res.data && res.data.length > 0) {
+    this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/ReplenishReportSearchTA',loader).subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
         this.searchAutocompleteList = res.data.sort();
       }
     });
@@ -464,8 +501,8 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
 
-  systemReplenishmentCount() {
-    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentCount').subscribe((res: any) => {
+  systemReplenishmentCount(loader: boolean = false) {
+    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentCount',loader).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.noOfPicks = res.data.pickCount;
         this.noOfPutAways = res.data.putCount;

@@ -3,9 +3,12 @@ import { ToastrService } from "ngx-toastr";
 
 
 import { AuthService } from "src/app/init/auth.service";
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject, OnInit, ViewChild } from "@angular/core";
 import { ConsolidationManagerService } from "src/app/consolidation-manager/consolidation-manager.service";
 import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort, Sort } from "@angular/material/sort";
+import { LiveAnnouncer } from "@angular/cdk/a11y";
 
 @Component({
   selector: 'app-cm-item-selected',
@@ -35,9 +38,13 @@ export class CmItemSelectedComponent implements OnInit {
  displayedColumns: string[] = ['itemNumber', 'warehouse', 'completedQuantity', 'toteID', 'serialNumber', 'userField1','lotNumber','actions'];
  itemSelectTable:any
  dataSourceList:any
+
+ @ViewChild(MatSort) sort: MatSort;
+
+ @ViewChild('paginator') paginator: MatPaginator;
  
   constructor(private dialog: MatDialog, private toastr: ToastrService, private consolidationHub: ConsolidationManagerService, private authService: AuthService, 
-     @Inject(MAT_DIALOG_DATA) public data: any,public dialogRef: MatDialogRef<CmItemSelectedComponent>) { }
+     @Inject(MAT_DIALOG_DATA) public data: any,public dialogRef: MatDialogRef<CmItemSelectedComponent> ,private _liveAnnouncer: LiveAnnouncer) { }
 
   ngOnInit(): void {
         this.userData = this.authService.userData();
@@ -47,11 +54,19 @@ export class CmItemSelectedComponent implements OnInit {
         this.tableData_1 = this.data.tableData_1;
         this.tableData_2 = this.data.tableData_2;
 
-        // console.log(this.tableData_1)
-        // console.log(this.tableData_2)
 
         this.getItemSelectedData();
 
+  }
+
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+    this.itemSelectTable.sort = this.sort;
+    
   }
 
   
@@ -64,12 +79,11 @@ export class CmItemSelectedComponent implements OnInit {
         "wsid": this.userData.wsid
     }
 
-    // console.log(payload)
 
     this.consolidationHub.get(payload ,'/Consolidation/ItemModelData').subscribe((res=>{
-        // console.log(res)
         
         this.itemSelectTable= new MatTableDataSource(res.data);
+        this.itemSelectTable.paginator = this.paginator;
 
 
        
@@ -87,9 +101,6 @@ export class CmItemSelectedComponent implements OnInit {
 
 verifyLine(index) {
     let id = this.itemSelectTable.data[index].id;
-    // console.log(this.itemSelectTable.data)
-    // console.log(this.itemSelectTable)
-    // console.log(id)
 
 
     let payload = {
@@ -98,10 +109,8 @@ verifyLine(index) {
         "wsid": this.userData.wsid
     }
 
-    // console.log(payload)
 
     this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res: any) => {
-        // console.log(res)
 
         if(res.isExecuted){
             
@@ -123,41 +132,38 @@ verifyLine(index) {
 }
 
 verifyAll(){
+    let IDS = new Set();
+    this.itemSelectTable.data.forEach((row:any)=>{
+        if (!["Not Completed", "Not Assigned", "Waiting Reprocess"].includes(row.lineStatus)) {
+            IDS.add(row.id);
+        }
+    });
+    
+    let tabID = this.tableData_1.filter((el) => IDS.has(el.id))
+                               .map((row) => row.id.toString());
+    
+    let payload = {
+        "iDs": tabID,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid
+    };
+      this.consolidationHub.get(payload, '/Consolidation/VerifyAllItemPost').subscribe((res: any) => {
+        if(res.isExecuted){
+            this.dialogRef.close({ isExecuted : true});
+  
+        }
+        else{
+            this.toastr.error(res.responseMessage, 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+        }
 
-    // console.log(this.itemSelectTable.data)
-    this.itemSelectTable.data.forEach((row,i)=>{
-       let selectID = row.id;
-    })
-    // let data = this.itemSelectTable.forEach((row) => {
-    //         let id = row.id;
-    //         let payload = {
-    //             "id": id,
-    //             "username": this.userData.userName,
-    //             "wsid": this.userData.wsid
-    //         }
+      })
 
-    //         this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res: any) => {
-    //             console.log(res);
-    //             if (!res.isExecuted) {
-    //                 this.toastr.error(res.responseMessage, 'Error!', {
-    //                     positionClass: 'toast-bottom-right',
-    //                     timeOut: 2000
-    //                 });
+    
 
-    //             }
 
-    //             else {
-    //                 this.tableData_1.forEach((row :any, i) => {
-    //                     console.log(row.id, i)
-
-    //                     let tabID = row.id;
-    //                     if (tabID == id) {
-    //                         this.tableData_2 = this.tableData_1.splice(i, 1);
-    //                     }
-    //                 });
-    //             }
-    //         })
-    // });
 }
 
 }

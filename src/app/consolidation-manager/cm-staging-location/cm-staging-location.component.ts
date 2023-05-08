@@ -103,7 +103,8 @@ export class CmStagingLocationComponent implements OnInit {
   }
   async saveToteStagingLocation($event:any,toteID: any, location: any,index:any=null,clear = 0) {
     if ($event.key == "Enter" || $event == 'click') {
-
+      this.stagetables[index].stagingLocation = location;
+      this.stagetables[index].stagingLocationOld = location;
     var obj: any = {
       "orderNumber": this.OrderNumberTote,
       "toteID": toteID,
