@@ -62,8 +62,9 @@
                             [disabled]="tablePayloadObj.searchColumn.length < 1" 
                             [matAutocomplete]="auto"
                             [(ngModel)]="tablePayloadObj.searchString" 
-                            (keyup.enter)="search()"
+                            (keyup.enter)="search(); getSearchOptions()"
                             (keyup)="autocompleteSearchColumn()"
+                            (focus)="getSearchOptions(true)"
                             >
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="search()" #autocompleteInventory>
                                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
@@ -94,12 +95,12 @@
                     <mat-select class="employees-action">
                         <mat-option value="Print Orders" (click)="actionChange('Print Orders')">Print Orders</mat-option>
                         <mat-option value="Print Labels" (click)="actionChange('Print Labels')">Print Labels</mat-option>
-                        <mat-option value="Delete All Orders" (click)="actionChange('Delete All Orders')">Delete All Orders</mat-option>
-                        <mat-option value="Delete Shown Orders" (click)="actionChange('Delete Shown Orders')">Delete Shown Orders</mat-option>
-                        <mat-option value="Delete Range" (click)="actionChange('Delete Range')">Delete Range</mat-option>
-                        <mat-option value="Delete Selected Order" (click)="actionChange('Delete Selected Order')">Delete Selected Order</mat-option>
-                        <mat-option value="View All Orders" (click)="actionChange('View All Orders')">View All Orders</mat-option>
-                        <mat-option value="View Unprinted Orders" (click)="actionChange('View Unprinted Orders')">View Unprinted Orders</mat-option>
+                        <mat-option value="Delete All Orders" [disabled]="tableData.length == 0" (click)="actionChange('Delete All Orders')">Delete All Orders</mat-option>
+                        <mat-option value="Delete Shown Orders" [disabled]="tableData.length == 0" (click)="actionChange('Delete Shown Orders')">Delete Shown Orders</mat-option>
+                        <mat-option value="Delete Range" [disabled]="tableData.length == 0" (click)="actionChange('Delete Range')">Delete Range</mat-option>
+                        <mat-option value="Delete Selected Order" [disabled]="tableData.length == 0" (click)="actionChange('Delete Selected Order')">Delete Selected Order</mat-option>
+                        <mat-option value="View All Orders" [disabled]="tableData.length == 0" (click)="actionChange('View All Orders')">View All Orders</mat-option>
+                        <mat-option value="View Unprinted Orders" [disabled]="tableData.length == 0" (click)="actionChange('View Unprinted Orders')">View Unprinted Orders</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
                         expand_more
@@ -109,7 +110,7 @@
         </div>
 
         <div class="card br-14 table-responsive borderless">
-            <ng-scrollbar class="mat-table-scrollbar" style="height:635px" track="all">
+            <ng-scrollbar class="mat-table-scrollbar" style="height:550px" track="all">
 
                 <table class="w-100 table-borderless action-clickable-table" mat-table [dataSource]="filteredTableData" matSort (matSortChange)="announceSortChange($event)">
 
@@ -117,6 +118,7 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Num </th>
                         <td mat-cell *matCellDef="let element"
                         style="cursor: pointer;"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         > {{element.itemNumber}} </td>
@@ -126,6 +128,7 @@
                     <ng-container matColumnDef="Trans Type">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Trans Type </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.transactionType, 'Transaction Type')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         > {{element.transactionType}} </td>
@@ -135,6 +138,7 @@
                     <ng-container matColumnDef="warehouse">
                         <th class="px-3" mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse </th>
                         <td class="px-3" mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.warehouse, 'Warehouse')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.warehouse}}</td>
@@ -144,6 +148,7 @@
                     <ng-container matColumnDef="zone">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Zone </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.zone, 'Zone')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.zone}} </td>
@@ -152,6 +157,7 @@
                     <ng-container matColumnDef="carousel">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Carsl </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.carousel, 'Carousel')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         > {{element.carousel}}</td>
@@ -160,6 +166,7 @@
                     <ng-container matColumnDef="row">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Row </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.row, 'Row')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         > {{element.row}} </td>
@@ -168,6 +175,7 @@
                     <ng-container matColumnDef="shelf">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Shelf </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.shelf, 'Shelf')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.shelf}} </td>
@@ -176,6 +184,7 @@
                     <ng-container matColumnDef="bin">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Bin </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.bin, 'Bin')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.bin}} </td>
@@ -184,6 +193,7 @@
                     <ng-container matColumnDef="cell">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Cell </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.cell, 'Cell')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.cell}} </td>
@@ -192,6 +202,7 @@
                     <ng-container matColumnDef="lotNumber">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Lot Number </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.lotNumber, 'lot Number')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.lotNumber}} </td>
@@ -200,6 +211,7 @@
                     <ng-container matColumnDef="Trans Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Trans Qty </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.transactionQuantity, 'Trans Qty')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.transactionQuantity}} </td>
@@ -208,6 +220,7 @@
                     <ng-container matColumnDef="description">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.description, 'Description')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.description}} </td>
@@ -216,6 +229,7 @@
                     <ng-container matColumnDef="Order Number">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Order Number </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.orderNumber, 'Order Number')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.orderNumber}} </td>
@@ -224,6 +238,7 @@
                     <ng-container matColumnDef="UofM">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> UofM </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.unitOfMeasure, 'UofM')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.unitOfMeasure}} </td>
@@ -232,6 +247,7 @@
                     <ng-container matColumnDef="Batch Pick ID">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch Pick ID </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.batchPickID, 'Batch Pick ID')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.batchPickID}} </td>
@@ -240,6 +256,7 @@
                     <ng-container matColumnDef="Serial Number">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Serial Number </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.serialNumber, 'Serial Number')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.serialNumber}} </td>
@@ -248,6 +265,7 @@
                     <ng-container matColumnDef="Completed Date">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Comp Date </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.completedDate, 'Comp Date')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.completedDate}} </td>
@@ -256,6 +274,7 @@
                     <ng-container matColumnDef="Print Date">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Print Date </th>
                         <td mat-cell *matCellDef="let element"
+                        (dblclick)="viewItemInInventoryMaster(element)"
                         (contextmenu)="onContextMenu($event, element.printDate, 'Print Date')"
                         (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
                         >{{element.printDate}} </td>
@@ -342,3 +361,32 @@ style="visibility: hidden; position: fixed"
       <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is between', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Between</button>
     </ng-template>
 </mat-menu>
+
+
+
+<ng-template #deleteSelectedConfirm>
+    <div class="mat-modal-wrap text-center">
+      <mat-dialog-content>
+        <div class="prompt-wrap">
+          <div class="d-flex justify-content-center prompt-icon-wrap">
+              <span #cancel class="material-symbols-outlined prompt-icon-delete mb-4">
+                 delete
+              </span>
+          </div>
+          <p class="prompt-message py-1 mb-0 text-error ">
+            <b style="font-size: 22px;">Delete Order: {{this.selectedOrder.orderNumber}}</b>
+        </p>
+          <p class="prompt-message py-3 mb-2 " >
+              Delete All transactions for Order: {{this.selectedOrder.orderNumber}}. This will delete all transactions, not just selected one.
+          </p>
+          <div class="br-14 px-4 py-3 checkbox-background mb-4">
+            <mat-checkbox (change)="checkOptions($event)" class="example-margin" color="primary">I understand data cannot be recovered</mat-checkbox>
+          </div>
+        </div>
+      </mat-dialog-content>
+      <mat-dialog-actions class="d-flex flex-column justify-content-center">
+        <button  class=" prompt-action-danger-button mb-3 w-100 btn-lg" [disabled]="isChecked" mat-stroked-button  mat-dialog-close (click)="deleteSelected()">Delete</button>
+        <button  class=" mb-3 w-100 btn-lg" mat-stroked-button  mat-dialog-close>Cancel</button>
+      </mat-dialog-actions>
+    </div>
+  </ng-template>

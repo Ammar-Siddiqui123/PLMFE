@@ -17,4 +17,7 @@ export class PrintersComponent implements OnInit {
     this.sideBarOpen = !this.sideBarOpen;
   }
 
+  displayedColumns: string[] = ['printerName', 'printerAddress', 'labelPrinter', 'actions'];
+  toteTable:any[]=['10','10','10','10','10','10'];
+
 }

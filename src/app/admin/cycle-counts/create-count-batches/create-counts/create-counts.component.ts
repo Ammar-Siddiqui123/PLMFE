@@ -40,7 +40,8 @@ export class CCBCreateCountsComponent implements OnInit {
   orderNumber;
   countType: string = '';
   warehouse: string = '';
-  subCategory:any;
+  subCategory: any;
+  math = Math;
   @Input() updateTable: boolean;
   warehouses: any = [];
   customPagination: any = {
@@ -114,8 +115,8 @@ export class CCBCreateCountsComponent implements OnInit {
   ];
   dataSourceList: any;
   constructor(
-    private adminService: AdminService,
-    private toastService: ToastrService,
+    public adminService: AdminService,
+    public toastService: ToastrService,
     private authService: AuthService,
     private fb: FormBuilder,
     public dialog: MatDialog,
@@ -133,11 +134,11 @@ export class CCBCreateCountsComponent implements OnInit {
       category: new FormControl(''),
       // subCategory: new FormControl({ value: '', disabled: true }),
       subCategory: new FormControl({ value: '', disabled: true }),
-      notCounted: new FormControl(new Date(1 / 11 / 1111)),
-      pickedStart: new FormControl(new Date(1 / 11 / 1111)),
-      pickedEnd: new FormControl(new Date(1 / 11 / 1111)),
-      putStart: new FormControl(new Date(1 / 11 / 1111)),
-      putEnd: new FormControl(new Date(1 / 11 / 1111)),
+      notCounted: new FormControl(new Date()),
+      pickedStart: new FormControl(new Date()),
+      pickedEnd: new FormControl(new Date()),
+      putStart: new FormControl(new Date()),
+      putEnd: new FormControl(new Date()),
       costStart: new FormControl(''),
       costEnd: new FormControl(''),
       warehouse: new FormControl(''),
@@ -145,27 +146,23 @@ export class CCBCreateCountsComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-   
     if (changes['updateTable']['currentValue']) {
-        this.resetVal();
+      this.resetVal();
     }
-   
   }
   nextStep() {
-  
     this.countsUpdated.emit('next');
   }
 
-  updateQueCountEvent(obj){
+  updateQueCountEvent(obj) {
     this.eventChange.emit(obj);
   }
-  onChangeDemo(e,type){
-   if(type==='empty'){
-    this.filtersForm.controls['includeEmpty'].setValue(e.checked);
-   }else{
-    this.filtersForm.controls['includeOther'].setValue(e.checked);
-
-   }
+  onChangeDemo(e, type) {
+    if (type === 'empty') {
+      this.filtersForm.controls['includeEmpty'].setValue(e.checked);
+    } else {
+      this.filtersForm.controls['includeOther'].setValue(e.checked);
+    }
     this.fillData();
   }
   ngOnInit(): void {
@@ -175,8 +172,8 @@ export class CCBCreateCountsComponent implements OnInit {
     this.searchField
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        console.log(value)
-        if(value==='') return
+        console.log(value);
+        if (value === '') return;
         this.fillData();
 
         // this.columnSearch.searchValue = value;
@@ -191,17 +188,17 @@ export class CCBCreateCountsComponent implements OnInit {
     this.descriptionTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        console.log(value)
-        if(value==='') return
+        console.log(value);
+        if (value === '') return;
 
         this.getTypeAheads('Description');
-          this.fillData();
+        this.fillData();
       });
 
     this.fromLocationTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        console.log(value)
+        console.log(value);
         this.getTypeAheads('FromLocation');
         this.fillData();
       });
@@ -209,7 +206,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.toLocationTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        console.log(value)
+        console.log(value);
         this.getTypeAheads('ToLocation');
         this.fillData();
       });
@@ -217,8 +214,8 @@ export class CCBCreateCountsComponent implements OnInit {
     this.fromItemTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        console.log(value)
-        if(value==='') return
+        console.log(value);
+        if (value === '') return;
 
         this.getTypeAheads('FromItem');
         this.fillData();
@@ -227,8 +224,8 @@ export class CCBCreateCountsComponent implements OnInit {
     this.toItemTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        console.log(value)
-        if(value==='') return
+        console.log(value);
+        if (value === '') return;
 
         this.getTypeAheads('ToItem');
         this.fillData();
@@ -237,20 +234,20 @@ export class CCBCreateCountsComponent implements OnInit {
     this.categoryTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        console.log('category',value)
-        
-        if(value==='') return
+
+        if (value === '') return;
+      this.filtersForm.controls['category'].setValue(value);
 
         this.getTypeAheads('Category');
-        // this.fillData();
+        this.fillData();
       });
 
     this.beginCostTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        console.log(value)
+        console.log(value);
 
-        if(value==='') return
+        if (value === '') return;
 
         this.getTypeAheads('BeginCost');
         this.fillData();
@@ -259,29 +256,28 @@ export class CCBCreateCountsComponent implements OnInit {
     this.endCostTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        console.log(value)
+        console.log(value);
 
-        if(value==='') return
+        if (value === '') return;
 
         this.getTypeAheads('EndCost');
         this.fillData();
       });
   }
   searchData() {
-    this.fillData();
 
-
+    // this.fillData();
   }
-  onSelFunc(item){
+  onSelFunc(item, event: any) {
+    if (event.isUserInput) {  
+      
     // this.filtersForm.controls.subCategory.setValue(item.transactionType);
-this.subCategory=item.subCategory;
-    console.log(this.subCategory);
-    
-    this.fillData()
-    
+    this.subCategory = item.subCategory;
+    // this.filtersForm.controls['category'].setValue(item.category);
+    this.fillData();
+    }
   }
   resetVal() {
-
     this.filtersForm.controls['fromLocation'].setValue('');
     this.filtersForm.controls['toLocation'].setValue('');
     // this.filtersForm.controls['includeEmpty'].setValue(false);
@@ -291,16 +287,15 @@ this.subCategory=item.subCategory;
     this.filtersForm.controls['subCategory'].setValue('');
     this.filtersForm.controls['fromItem'].setValue('');
     this.filtersForm.controls['toItem'].setValue('');
-    this.filtersForm.controls['notCounted'].setValue(new Date(1 / 11 / 1111));
-    this.filtersForm.controls['pickedStart'].setValue(new Date(1 / 11 / 1111));
-    this.filtersForm.controls['pickedEnd'].setValue(new Date(1 / 11 / 1111));
-    this.filtersForm.controls['putStart'].setValue(new Date(1 / 11 / 1111));
-    this.filtersForm.controls['pickedStart'].setValue(new Date(1 / 11 / 1111));
-    this.filtersForm.controls['putEnd'].setValue(new Date(1 / 11 / 1111));
+    this.filtersForm.controls['notCounted'].setValue(new Date());
+    this.filtersForm.controls['pickedStart'].setValue(new Date());
+    this.filtersForm.controls['pickedEnd'].setValue(new Date());
+    this.filtersForm.controls['putStart'].setValue(new Date());
+    this.filtersForm.controls['pickedStart'].setValue(new Date());
+    this.filtersForm.controls['putEnd'].setValue(new Date());
     this.filtersForm.controls['costStart'].setValue('');
     this.filtersForm.controls['costEnd'].setValue('');
     this.filtersForm.controls['warehouse'].setValue('');
-
 
     // this.filtersForm.value.fromLocation = '';
     // this.filtersForm.value.toLocation = '';
@@ -345,23 +340,34 @@ this.subCategory=item.subCategory;
         wsid: this.userData.wsid,
       };
       this.adminService
-        .get(paylaod, '/Admin/GetCCCategoryTypeAhead',true)
+        .get(paylaod, '/Admin/GetCCCategoryTypeAhead', true)
         .subscribe((res: any) => {
           this.searchAutocompletCategory = res.data;
         });
     } else if (type === 'BeginCost' || type === 'EndCost') {
-      let payload = {
-        beginCost: this.filtersForm.value.costStart
-          ? this.filtersForm.value.costStart
-          : '',
-        endCost: this.filtersForm.value.costEnd
-          ? this.filtersForm.value.costEnd
-          : '',
-        userName: this.userData.userName,
-        wsid: this.userData.wsId,
-      };
+      let payload={};
+      if(type === 'BeginCost'){
+         payload = {
+          beginCost: this.filtersForm.value.costStart
+            ? this.filtersForm.value.costStart
+            : '',
+          endCost: '',
+          userName: this.userData.userName,
+          wsid: this.userData.wsId,
+        };
+      }else if(type === 'EndCost'){
+         payload = {
+          beginCost:'',
+          endCost: this.filtersForm.value.costEnd
+            ? this.filtersForm.value.costEnd
+            : '',
+          userName: this.userData.userName,
+          wsid: this.userData.wsId,
+        };
+      }
+   
       this.adminService
-        .get(payload, '/Admin/GetCCCountToCostTypeAhead',true)
+        .get(payload, '/Admin/GetCCCountToCostTypeAhead', true)
         .subscribe((res: any) => {
           if (type === 'BeginCost') {
             this.searchAutocompletBeginCost = res.data;
@@ -377,7 +383,7 @@ this.subCategory=item.subCategory;
         wsid: this.userData.wsid,
       };
       this.adminService
-        .get(payload, '/Common/LocationBegin',true)
+        .get(payload, '/Common/LocationBegin', true)
         .subscribe((res: any) => {
           this.searchAutocompleteFromLocation = res.data;
         });
@@ -390,7 +396,7 @@ this.subCategory=item.subCategory;
         wsid: this.userData.wsid,
       };
       this.adminService
-        .get(payload, '/Common/LocationEnd',true)
+        .get(payload, '/Common/LocationEnd', true)
         .subscribe((res: any) => {
           this.searchAutocompleteToLocation = res.data;
         });
@@ -406,7 +412,7 @@ this.subCategory=item.subCategory;
         wsid: this.userData.wsid,
       };
       this.adminService
-        .get(payload, '/Common/SearchItem',true)
+        .get(payload, '/Common/SearchItem', true)
         .subscribe((res: any) => {
           if (type === 'FromItem') {
             this.searchAutocompleteFromItem = res.data;
@@ -511,23 +517,23 @@ this.subCategory=item.subCategory;
         : '',
       notCounted:
         this.filtersForm.value.notCounted === ''
-          ? new Date('1/11/1111')
+          ? new Date()
           : this.filtersForm.value.notCounted,
       pickedStart:
         this.filtersForm.value.pickedStart === ''
-          ? new Date('1/11/1111')
+          ? new Date()
           : this.filtersForm.value.pickedStart,
       pickedEnd:
         this.filtersForm.value.pickedEnd === ''
-          ? new Date('1/11/1111')
+          ? new Date()
           : this.filtersForm.value.pickedEnd,
       putStart:
         this.filtersForm.value.putStart === ''
-          ? new Date('1/11/1111')
+          ? new Date()
           : this.filtersForm.value.putStart,
       putEnd:
         this.filtersForm.value.putEnd === ''
-          ? new Date('1/11/1111')
+          ? new Date()
           : this.filtersForm.value.putEnd,
       costStart: this.filtersForm.value.costStart,
       costEnd: this.filtersForm.value.costEnd,
@@ -540,53 +546,55 @@ this.subCategory=item.subCategory;
   // and then assign the response to the dataSource variable with check type of response and if there is response.data and isExecuted is true else add error toast
   // handle with try catch
   fillData() {
-
-    
     const payload = {
       queryData: {
         fromLocation: this.filtersForm.value.fromLocation
           ? this.filtersForm.value.fromLocation
           : '',
-          toLocation: this.filtersForm.value.toLocation
+        toLocation: this.filtersForm.value.toLocation
           ? this.filtersForm.value.toLocation
           : '',
-          includeEmpty: this.filtersForm.value.includeEmpty,
-          includeOther: this.filtersForm.value.includeOther,
+        includeEmpty: this.filtersForm.value.includeEmpty,
+        includeOther: this.filtersForm.value.includeOther,
         countType: this.selection ? this.selection : 'Description',
         fromItem: this.filtersForm.value.fromItem
           ? this.filtersForm.value.fromItem
           : '',
-          toItem: this.filtersForm.value.toItem
+        toItem: this.filtersForm.value.toItem
           ? this.filtersForm.value.toItem
           : '',
         description: this.filtersForm.value.description,
         category: this.filtersForm.value.category
           ? this.filtersForm.value.category
           : '',
-        subCategory: this.subCategory
-          ? this.subCategory
-          : '',
-        notCounted:  this.filtersForm.value.notCounted === '' || this.filtersForm.value.notCounted === null
-        ?new Date('1/1/1970')
+        subCategory: this.subCategory ? this.subCategory : '',
+        notCounted:
+          this.filtersForm.value.notCounted === '' ||
+          this.filtersForm.value.notCounted === null
+            ? new Date()
             : this.filtersForm.value.notCounted,
         pickStart:
-          this.filtersForm.value.pickedStart === '' || this.filtersForm.value.pickedStart === null
-            ? new Date('1/1/1970')
+          this.filtersForm.value.pickedStart === '' ||
+          this.filtersForm.value.pickedStart === null
+            ? new Date()
             : this.filtersForm.value.pickedStart,
         pickEnd:
-          this.filtersForm.value.pickedEnd === '' || this.filtersForm.value.pickedEnd === null
-            ? new Date('1/1/1970')   //'1/11/1111'
+          this.filtersForm.value.pickedEnd === '' ||
+          this.filtersForm.value.pickedEnd === null
+            ? new Date() //'1/11/1111'
             : this.filtersForm.value.pickedEnd,
-            putAwayStart:
-          this.filtersForm.value.putStart === '' || this.filtersForm.value.putStart === null
-            ?  new Date('1/1/1970')
+        putAwayStart:
+          this.filtersForm.value.putStart === '' ||
+          this.filtersForm.value.putStart === null
+            ? new Date()
             : this.filtersForm.value.putStart,
-            putAwayEnd:
-          this.filtersForm.value.putEnd === '' || this.filtersForm.value.putEnd === null
-            ?  new Date('1/1/1970')
+        putAwayEnd:
+          this.filtersForm.value.putEnd === '' ||
+          this.filtersForm.value.putEnd === null
+            ? new Date()
             : this.filtersForm.value.putEnd,
-            costStart: this.filtersForm.value.costStart,
-            costEnd: this.filtersForm.value.costEnd,
+        costStart: this.filtersForm.value.costStart,
+        costEnd: this.filtersForm.value.costEnd,
         // warehouseFilter: this.filtersForm.value.warehouse,
         warehouseFilter: this.warehouse,
       },
@@ -623,22 +631,23 @@ this.subCategory=item.subCategory;
     this.orderNumber = e;
   }
   deleteCycleCount(ident: any) {
-    if(this.orderNumber === '' || this.orderNumber==undefined) return
+    if (this.orderNumber === '' || this.orderNumber == undefined) return;
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '600px',
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-create-count',
-        actionMessage: ` all ${ident===1?'Incomplete':''} count transactions for ${this.orderNumber}`,
-        action:'delete'
+        actionMessage: ` all ${
+          ident === 1 ? 'Incomplete' : ''
+        } count transactions for ${this.orderNumber}`,
+        action: 'delete',
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
       console.log(res);
 
       if (res == 'Yes') {
-        
         var payLoad = {
           orderNumber: this.orderNumber,
           ident: ident,
@@ -657,7 +666,7 @@ this.subCategory=item.subCategory;
               });
               this.getWareAndCurOrd();
 
-              this.orderNumber='';
+              this.orderNumber = '';
               // Get the orders again
               // this.getOrders();
             } else {
@@ -695,8 +704,7 @@ this.subCategory=item.subCategory;
           this.dataSource = [];
           this.selectedTabIndex = 1;
           this.nextStep();
-          this.updateQueCountEvent(res.data)
-
+          this.updateQueCountEvent(res.data);
         } else {
           this.toastService.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
@@ -715,8 +723,7 @@ this.subCategory=item.subCategory;
         width: '786px',
         autoFocus: '__non_existing_element__',
         data: {
-          message:
-            'Would you like to Insert into Queue ?',
+          message: 'Would you like to Insert into Queue ?',
           heading: 'Insert Into Queue',
         },
       });
@@ -839,9 +846,7 @@ this.subCategory=item.subCategory;
     return this.floatLabelControl.value || 'auto';
   }
 
-
   ngOnDestroy() {
-
     this.searchField.unsubscribe();
     this.descriptionTA.unsubscribe();
     this.fromLocationTA.unsubscribe();

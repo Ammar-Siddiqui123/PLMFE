@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { OmAddRecordComponent } from '../om-add-record/om-add-record.component';
+import { OmAddTransactionComponent } from '../om-add-transaction/om-add-transaction.component';
+import { OmEditTransactionComponent } from '../om-edit-transaction/om-edit-transaction.component';
+import { OmUserFieldDataComponent } from '../om-user-field-data/om-user-field-data.component';
 
 @Component({
   selector: 'app-om-create-orders',
@@ -14,14 +19,65 @@ export class OmCreateOrdersComponent implements OnInit {
 
   ];
 
-  displayedColumns: string[] = ['date', 'message', 'event_code', 'username', 'event_type', 'event_location', 'notes', 'trans_id'];
+  displayedColumns: string[] = ['date', 'message', 'event_code', 'username', 'event_type', 'event_location', 'notes', 'trans_id', 'actions'];
   tableData = this.ELEMENT_DATA
   dataSourceList: any
 
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
+
+  openOmAddRecord() {
+    let dialogRef = this.dialog.open(OmAddRecordComponent, {
+      height: 'auto',
+      width: '50vw',
+      autoFocus: '__non_existing_element__',
+     
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+   }
+   openOmEditTransaction() {
+    let dialogRef = this.dialog.open(OmEditTransactionComponent, {
+      height: 'auto',
+      width: '50vw',
+      autoFocus: '__non_existing_element__',
+     
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+   }
+
+   openOmAddTransaction() {
+    let dialogRef = this.dialog.open(OmAddTransactionComponent, {
+      height: 'auto',
+      width: '50vw',
+      autoFocus: '__non_existing_element__',
+     
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+   }
+
+   openOmUserFieldData() {
+    let dialogRef = this.dialog.open(OmUserFieldDataComponent, {
+      height: 'auto',
+      width: '50vw',
+      autoFocus: '__non_existing_element__',
+     
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
+   }
 
 }

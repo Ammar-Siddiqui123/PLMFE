@@ -1,11 +1,14 @@
-import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog"; 
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog"; 
 import { ToastrService } from "ngx-toastr";
 
 
 import { AuthService } from "src/app/init/auth.service";
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject, OnInit, ViewChild } from "@angular/core";
 import { ConsolidationManagerService } from "src/app/consolidation-manager/consolidation-manager.service";
 import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort, Sort } from "@angular/material/sort";
+import { LiveAnnouncer } from "@angular/cdk/a11y";
 
 @Component({
   selector: 'app-cm-item-selected',
@@ -14,8 +17,8 @@ import { MatTableDataSource } from "@angular/material/table";
 })
 export class CmItemSelectedComponent implements OnInit {
   public startSelectFilter: any;
-  public tabledata1: any;
-  public tabledata2: any;
+  public tableData_1: any;
+  public tableData_2: any;
 
   public IdentModal:any;
   public ColLabel:any;
@@ -23,15 +26,7 @@ export class CmItemSelectedComponent implements OnInit {
 
   userData: any;
 
-  filterOption :any= [
-      {key: '1', value: 'Item Number'},
-      {key: '2', value: 'Supplier Item ID'},
-      {key: '10', value: 'Lot Number'},
-      {key: '8', value: 'Serial Number'},
-      {key: '9', value: 'User Field 1'},
-      {key: '0', value: 'Any Code'},
-      {key: '6', value: 'Tote ID'},
-    ];
+
   ELEMENT_DATA: any[] =[
     {tote_id: '30022', location: 'Work 2141',  staged_by: 'Main 52', staged_date: 'Jan-25-2023'},
     {tote_id: '30022', location: 'Work 2141',  staged_by: 'Main 52', staged_date: 'Jan-25-2023'},
@@ -40,23 +35,38 @@ export class CmItemSelectedComponent implements OnInit {
 
   ];
 
- displayedColumns: string[] = ['itemNumber', 'warehouse', 'completedQuantity', 'toteID', 'serialNumber', 'userField1','lotNumber'];
+ displayedColumns: string[] = ['itemNumber', 'warehouse', 'completedQuantity', 'toteID', 'serialNumber', 'userField1','lotNumber','actions'];
  itemSelectTable:any
  dataSourceList:any
+
+ @ViewChild(MatSort) sort: MatSort;
+
+ @ViewChild('paginator') paginator: MatPaginator;
  
   constructor(private dialog: MatDialog, private toastr: ToastrService, private consolidationHub: ConsolidationManagerService, private authService: AuthService, 
-     @Inject(MAT_DIALOG_DATA) public data: any) { }
+     @Inject(MAT_DIALOG_DATA) public data: any,public dialogRef: MatDialogRef<CmItemSelectedComponent> ,private _liveAnnouncer: LiveAnnouncer) { }
 
   ngOnInit(): void {
         this.userData = this.authService.userData();
         this.IdentModal = this.data.IdentModal;
-        this.ColLabel = this.filterOption[this.data.ColLabel].value
-        console.log(this.data.ColLabel)
+        this.ColLabel = this.data.ColLabel
         this.ColumnModal = this.data.ColumnModal;
+        this.tableData_1 = this.data.tableData_1;
+        this.tableData_2 = this.data.tableData_2;
+
 
         this.getItemSelectedData();
 
-        console.log(this.data)
+  }
+
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+    this.itemSelectTable.sort = this.sort;
+    
   }
 
   
@@ -69,9 +79,11 @@ export class CmItemSelectedComponent implements OnInit {
         "wsid": this.userData.wsid
     }
 
+
     this.consolidationHub.get(payload ,'/Consolidation/ItemModelData').subscribe((res=>{
         
         this.itemSelectTable= new MatTableDataSource(res.data);
+        this.itemSelectTable.paginator = this.paginator;
 
 
        
@@ -87,74 +99,71 @@ export class CmItemSelectedComponent implements OnInit {
 //     }
 // }
 
-clickOnItemSelect() {
-    let setItem = this.itemSelectTable.forEach((row) => {
-        let id = row.id;
+verifyLine(index) {
+    let id = this.itemSelectTable.data[index].id;
 
-        let payload = {
-            "id": id,
-            "username": this.userData.userName,
-            "wsid": this.userData.wsid
+
+    let payload = {
+        "id": id,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid
+    }
+
+
+    this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res: any) => {
+
+        if(res.isExecuted){
+            
+            this.dialogRef.close({ isExecuted : true});
+            
         }
-        this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res: any) => {
-            if (!res.isExecuted) {
-                this.toastr.error(res.responseMessage, 'Error!', {
-                    positionClass: 'toast-bottom-right',
-                    timeOut: 2000
-                });
-
-            }
-
-            else {
-                this.tabledata1.forEach((row, i) => {
-                    console.log(row.id, i)
-
-                    let tabID = row.id;
-                    if (tabID == id) {
-                        this.tabledata2 = this.tabledata1.splice(i, 1);
-                    }
-                });
-
-
-            }
-
-        })
-
+        else{
+            this.toastr.error(res.responseMessage, 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+        }
+  
 
     })
+
+
+  
 }
 
 verifyAll(){
-    let data = this.itemSelectTable.forEach((row) => {
-            let id = row.id;
-            let payload = {
-                "id": id,
-                "username": this.userData.userName,
-                "wsid": this.userData.wsid
-            }
-
-            this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res: any) => {
-                console.log(res);
-                if (!res.isExecuted) {
-                    this.toastr.error(res.responseMessage, 'Error!', {
-                        positionClass: 'toast-bottom-right',
-                        timeOut: 2000
-                    });
-
-                }
-
-                else {
-                    this.tabledata1.forEach((row :any, i) => {
-                        console.log(row.id, i)
-
-                        let tabID = row.id;
-                        if (tabID == id) {
-                            this.tabledata2 = this.tabledata1.splice(i, 1);
-                        }
-                    });
-                }
-            })
+    let IDS = new Set();
+    this.itemSelectTable.data.forEach((row:any)=>{
+        if (!["Not Completed", "Not Assigned", "Waiting Reprocess"].includes(row.lineStatus)) {
+            IDS.add(row.id);
+        }
     });
+    
+    let tabID = this.tableData_1.filter((el) => IDS.has(el.id))
+                               .map((row) => row.id.toString());
+    
+    let payload = {
+        "iDs": tabID,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid
+    };
+      this.consolidationHub.get(payload, '/Consolidation/VerifyAllItemPost').subscribe((res: any) => {
+        if(res.isExecuted){
+            this.dialogRef.close({ isExecuted : true});
+  
+        }
+        else{
+            this.toastr.error(res.responseMessage, 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+        }
+
+      })
+
+    
+
+
 }
 
 }

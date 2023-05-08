@@ -6,7 +6,7 @@ import { SystemReplenishmentService } from '../system-replenishment.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import labels from '../../../labels/labels.json'
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { FilterItemNumbersComponent } from '../../dialogs/filter-item-numbers/filter-item-numbers.component';
 import { MatMenuTrigger } from '@angular/material/menu';
@@ -85,7 +85,7 @@ export class SrNewOrderComponent implements OnInit {
     this.tablePayloadObj.username = this.userData.userName;
     this.tablePayloadObj.wsid = this.userData.wsid;
     this.refreshNewOrders.subscribe(e => {
-      this.newReplenishmentOrders();
+      // this.newReplenishmentOrders();
     });
   }
 
@@ -116,10 +116,10 @@ export class SrNewOrderComponent implements OnInit {
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
-    this.tablePayloadObj.filter = this.FilterString;
+    this.tablePayloadObj.filter = this.FilterString != "" ? this.FilterString : "1=1";
     this.resetPagination();
     this.newReplenishmentOrders();
-    this.tablePayloadObj.filter = "1=1";
+    // this.tablePayloadObj.filter = "1=1";
   }
 
   InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
@@ -148,10 +148,12 @@ export class SrNewOrderComponent implements OnInit {
   @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   autocompleteSearchColumn() {
-    if (this.tablePayloadObj.searchColumn != "" && this.tablePayloadObj.searchString != "") {
-      this.newReplenishmentOrdersSubscribe.unsubscribe();
+    if (this.tablePayloadObj.searchColumn != "") {
       this.resetPagination();
-      this.newReplenishmentOrders();
+      this.getSearchOptionsSubscribe.unsubscribe();
+      this.getSearchOptions(true);
+      this.newReplenishmentOrdersSubscribe.unsubscribe();
+      this.newReplenishmentOrders(true);
     }
   }
 
@@ -186,30 +188,34 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   newReplenishmentOrdersSubscribe: any;
-  newReplenishmentOrders() {
+  newReplenishmentOrders(loader:boolean =false) {
     this.tablePayloadObj.searchString = this.tablePayloadObj.searchString.toString();
-    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentNewTable').subscribe((res: any) => {
+    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentNewTable',loader).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.tableData = res.data.sysTable;
+        this.numberSelectedRep = res.data.selectedOrders;
         this.tableDataTotalCount = res.data.recordsFiltered;
         this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
-        this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
-        this.changeSearchOptions();
-        this.tablePayloadObj.filter = "1=1";
+        // this.searchAutocompleteList = [];
+        // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
+        // this.changeSearchOptions();
+        // this.tablePayloadObj.filter = "1=1";
       } else {
         console.log(res.responseMessage);
         // this.toastr.error(res.responseMessage, 'Error!', {
         //   positionClass: 'toast-bottom-right',
         //   timeOut: 2000
         // });
-        this.tablePayloadObj.filter = "1=1";
+        // this.tablePayloadObj.filter = "1=1";
       }
     });
   }
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   resetPagination() {
     this.tablePayloadObj.start = 0;
     this.tablePayloadObj.length = 10;
+    this.paginator.pageIndex = 0;
   }
 
   onChangeKanban(ob: MatCheckboxChange) {
@@ -275,23 +281,25 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   actionChange(event: any) {
-    if (event == '1') {
-      this.filterItemNo();
+    if(this.tableData.length != 0){
+      if (event == '1') {
+        this.filterItemNo();
+      }
+      else if (event == '3') {
+        this.viewAllItems();
+      }
+      else if (event == '4') {
+        this.viewSelectedItems();
+      }
+      else if (event == '5') {
+        this.selectAll();
+      }
+      else if (event == '6' && this.numberSelectedRep != 0) {
+        this.unSelectAll();
+      }
     }
-    else if (event == '2') {
+    if (event == '2') {
       this.print();
-    }
-    else if (event == '3') {
-      this.viewAllItems();
-    }
-    else if (event == '4') {
-      this.viewSelectedItems();
-    }
-    else if (event == '5') {
-      this.selectAll();
-    }
-    else if (event == '6') {
-      this.unSelectAll();
     }
   }
 
@@ -308,26 +316,21 @@ export class SrNewOrderComponent implements OnInit {
 
   searchChange(event: any) {
     this.tablePayloadObj.searchColumn = event;
-    this.changeSearchOptions();
+    this.getSearchOptions()
   }
 
-  changeSearchOptions() {
-    if (this.tablePayloadObj.searchColumn != "") {
-      let key = this.searchColumnOptions.filter((item: any) => item.value == this.tablePayloadObj.searchColumn)[0].key;
-      this.searchAutocompleteList = [];
-      let duplicates = this.filteredTableData.map((item: any) => item[key]);
-      this.searchAutocompleteList = duplicates.filter((item: any, index: any) => duplicates.indexOf(item) === index);
-      this.searchAutocompleteList = this.searchAutocompleteList.filter((item: any) => item != "");
-    }
-  }
+  // changeSearchOptions() {
+  //   if (this.tablePayloadObj.searchColumn != "") {
+  //     let key = this.searchColumnOptions.filter((item: any) => item.value == this.tablePayloadObj.searchColumn)[0].key;
+  //     this.searchAutocompleteList = [];
+  //     let duplicates = this.filteredTableData.map((item: any) => item[key]);
+  //     this.searchAutocompleteList = duplicates.filter((item: any, index: any) => duplicates.indexOf(item) === index);
+  //     this.searchAutocompleteList = this.searchAutocompleteList.filter((item: any) => item != "");
+  //   }
+  // }
 
   paginatorChange(event: PageEvent) {
-    if (event.previousPageIndex != undefined && event.pageIndex > event.previousPageIndex) {
-      this.tablePayloadObj.start = this.tablePayloadObj.start + event.pageSize;
-    }
-    else {
-      this.tablePayloadObj.start = this.tablePayloadObj.start - event.pageSize;
-    }
+    this.tablePayloadObj.start = event.pageSize * event.pageIndex;
     this.tablePayloadObj.length = event.pageSize;
     this.newReplenishmentOrders();
   }
@@ -347,7 +350,7 @@ export class SrNewOrderComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result == 'Yes') {
-        alert('Print Service not availabe.');
+        alert('The print service is currently offline');
       }
     });
   }
@@ -385,6 +388,7 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   viewAllItems() {
+    debugger
     this.tableData.forEach((element: any) => {
       let index: any = this.filteredTableData.findIndex((item: any) => item.rP_ID == element.rP_ID);
       if (index != -1) {
@@ -413,12 +417,16 @@ export class SrNewOrderComponent implements OnInit {
           this.resetPagination();
           this.newReplenishmentOrders();
         }
+        else {
+          this.resetPagination();
+          this.createNewReplenishments(this.kanban);
+        }
       }
     });
   }
 
   changeReplenish(element: any, $event: any) {
-    this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
+    // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
     this.ReplenishmentsIncludeUpdate($event.checked, element.rP_ID);
   }
 
@@ -440,11 +448,28 @@ export class SrNewOrderComponent implements OnInit {
         }
         this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
           if (res.isExecuted && res.data) {
-            // this.toastr.success(labels.alert.success, 'Success!', {
-            //   positionClass: 'toast-bottom-right',
-            //   timeOut: 2000
-            // });
-            this.newReplenishmentOrders();
+            if(res.responseMessage == "Update Successful"){
+              this.toastr.success(labels.alert.success, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+            }
+            if(res.responseMessage == "Reprocess"){
+              let dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
+                height: 'auto',
+                width: '560px',
+                autoFocus: '__non_existing_element__',
+                data: {
+                  message: `Replenishments finished. There are reprocess transactions due to the replenishment process. Click Ok to print a process report now.`,
+                },
+              });
+              dialogRef2.afterClosed().subscribe((result) => {
+                if (result == 'Yes') {
+                  alert('The print service is currently offline');
+                }
+              });
+            }
+            this.createNewReplenishments(this.kanban);
             this.replenishmentsProcessed.emit();
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
@@ -512,11 +537,34 @@ export class SrNewOrderComponent implements OnInit {
         // });
         this.newReplenishmentOrders();
       } else {
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
+        if(replenish){
+          this.toastr.error("No items available to replenish.", 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }else{
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
       }
     });
   }
+
+  getSearchOptionsSubscribe: any;
+  getSearchOptions(loader:boolean=false){
+    let payload = {
+      "searchString": this.tablePayloadObj.searchString,
+      "searchColumn": this.tablePayloadObj.searchColumn,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/SystemReplenishNewTA',loader).subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.searchAutocompleteList = res.data.sort();
+      }
+    });
+  }
+  
 }
