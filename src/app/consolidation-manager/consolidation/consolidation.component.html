@@ -145,7 +145,7 @@
                     <div class="d-flex gap-12 align-items-center mb-3">
                         <mat-form-field class="action-dropdown" appearance="outline">
                             <mat-label>{{startSelectFilterLabel}}</mat-label>
-                            <mat-select id="SelectFilter" class="employees-action" (selectionChange)="getSelected($event)">
+                            <mat-select id="SelectFilter" class="employees-action" [value]="startSelectFilter" (selectionChange)="getSelected($event)">
                                 <mat-option *ngFor="let s of filterOption" value={{s.key}}>{{s.value}}</mat-option>
                                 <!-- <mat-option value="2"></mat-option>
                                 <mat-option value="10">Lot Number</mat-option>

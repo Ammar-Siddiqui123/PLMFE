@@ -108,7 +108,6 @@ export class CmShippingComponent implements OnInit {
     }
     this.http.get(obj, '/Consolidation/ShipmentItemDelete').subscribe((res: any) => {
       if (res && res.isExecuted) {
-        debugger
         this.shippingData = this.shippingData.slice(0,i);
         //this.ShippingIndex();
       }
