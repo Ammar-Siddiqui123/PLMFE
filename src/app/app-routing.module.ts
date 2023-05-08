@@ -11,6 +11,7 @@ import { DatabaseConnectionsComponent } from './global-config/database-connectio
 import { PrintersComponent } from './global-config/printers/printers.component';
 import { WorkstationComponent } from './global-config/workstation/workstation.component';
 import { LicensingComponent } from './global-config/licensing/licensing.component';
+import { CcsifComponent } from './global-config/ccsif/ccsif.component';
 const routes: Routes = [
   {
     path: '',
@@ -50,6 +51,11 @@ const routes: Routes = [
   {
     path: 'globalconfig/licensing',
     component: LicensingComponent,
+    canActivate:[AuthGuardGuard]
+  },
+  {
+    path: 'globalconfig/ccsif',
+    component: CcsifComponent,
     canActivate:[AuthGuardGuard]
   },
   {
