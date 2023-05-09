@@ -58,12 +58,12 @@ export class OmCreateOrdersComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
-
     })
     dialogRef.afterClosed().subscribe(result => {
-
-
-    })
+      if(result){
+        this.createOrdersDT();
+      }
+    });
   }
 
   openOmEditTransaction() {
@@ -97,7 +97,6 @@ export class OmCreateOrdersComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
-
     })
     dialogRef.afterClosed().subscribe(result => {
 
