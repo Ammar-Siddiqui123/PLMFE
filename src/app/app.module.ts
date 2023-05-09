@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule,Title  } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -158,6 +158,7 @@ import { OmUserFieldDataComponent } from './dialogs/om-user-field-data/om-user-f
     
   ],
   providers: [
+    Title,
     LoginService,
     { 
       provide: LocationStrategy, 

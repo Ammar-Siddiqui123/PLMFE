@@ -58,6 +58,8 @@ export class TransactionHistoryFiltersComponent implements OnInit {
   resetToTodaysDate() {
     this.edate=new Date().toISOString()
     this.sdate=new Date().toISOString()
+    this.orderNumber='';
+    this.searchAutocompleteList.length=0;
     this.resetDates.emit({endDate : new Date().toISOString(),startDate : new Date().toISOString()})
    
   }

@@ -91,7 +91,7 @@
                                     <mat-label>Select</mat-label>
                                     <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn.colDef"
                                         (selectionChange)="resetFields($event.value)">
-                                        <mat-option *ngFor="let item of displayedColumns" [value]="item.colDef">
+                                        <mat-option *ngFor="let item of displayedColumns | sort:'colDef':false" [value]="item.colDef">
                                             {{item.colDef}}
                                         </mat-option>
                                     </mat-select>
@@ -130,12 +130,12 @@
                                     <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
                                     <mat-option value="set_column_sq">Set Column Sequence</mat-option>
 
-                                    <mat-option *ngIf="print" value="deleteReplenishment">Print Preview Selected</mat-option>
-                                    <mat-option *ngIf="print" value="deleteReplenishment">Print Preview All Records</mat-option>
-                                    <mat-option *ngIf="print" value="deleteReplenishment">Print Preview By Selected Reason</mat-option>
-                                    <mat-option *ngIf="print" value="deleteReplenishment">Print Preview By Selected Message</mat-option>
-                                    <mat-option *ngIf="print" value="deleteReplenishment">Print Preview By Date/Time</mat-option>
-                                    <mat-option *ngIf="print" value="deleteReplenishment">Print Preview By Item Number</mat-option>
+                                    <mat-option *ngIf="print" value="printPreview">Print Preview Selected</mat-option>
+                                    <mat-option *ngIf="print" value="printPreviewAllRecords">Print Preview All Records</mat-option>
+                                    <mat-option *ngIf="print" value="printPreviewSelectedReason">Print Preview By Selected Reason</mat-option>
+                                    <mat-option *ngIf="print" value="printPreviewSelectedMessage">Print Preview By Selected Message</mat-option>
+                                    <mat-option *ngIf="print" value="printPreviewDateTime">Print Preview By Date/Time</mat-option>
+                                    <mat-option *ngIf="print" value="printPreviewItemNumber">Print Preview By Item Number</mat-option>
 
                                     <mat-option *ngIf="deleteReplenishment" value="deleteReplenishment">Delete Replenishment</mat-option>
                                     <mat-option *ngIf="deleteSelected" value="deleteSelected">Delete Selected</mat-option>

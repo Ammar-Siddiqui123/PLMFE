@@ -99,7 +99,7 @@ export class UnitMeasureComponent implements OnInit {
   dltUnitMeasure(um : any,fromDB:any) {
 
 
-    console.log(um, fromDB);
+    // console.log(um, fromDB);
     
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
@@ -116,7 +116,7 @@ export class UnitMeasureComponent implements OnInit {
         }
         
         this.umService.dltUnitOfMeasure(paylaod).subscribe((res) => {
-          console.log(res);
+          // console.log(res);
           
           if(res.isExecuted){
             this.getUOM();
