@@ -97,6 +97,7 @@ export class CmStagingLocationComponent implements OnInit {
         else { 
           this.stagetables = res.data.stageTable;
         }
+        if(!res.data.stageTable) this.stagetables  = [];
         this.IsLoading = false;
       });
     }
