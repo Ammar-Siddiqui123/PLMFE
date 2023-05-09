@@ -2833,7 +2833,7 @@ td.mat-footer-cell {
 
 .mat-tab-label,
 .mat-tab-link {
-  color: rgb(9 9 72 / 60%);
+  color: var(--clr-tertiary-900);
 }
 
 .mat-tab-label.mat-tab-disabled,
