@@ -64,6 +64,7 @@ export class OmAddRecordComponent implements OnInit {
   isEdit: boolean = false;
   itemNumberSearchList: any;
   @ViewChild("searchauto", { static: false }) autocompleteOpened: MatAutocomplete;
+  wharehouseRequired: any = '';
 
   constructor(
     private toastr: ToastrService,
@@ -104,6 +105,7 @@ export class OmAddRecordComponent implements OnInit {
       if (res.isExecuted && res.data) {
         this.userFieldData = res.data[0];
         this.mapDefaultValues();
+        this.getWarehouses();
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -120,12 +122,12 @@ export class OmAddRecordComponent implements OnInit {
         timeOut: 2000
       });
     }
-    // else if(whse.val().trim() == '' && whse.data('required')){
-    //   this.toastr.error("The selected item is warehouse sensitive.  Please set a warehouse to continue.", 'Warning!', {
-    //     positionClass: 'toast-bottom-right',
-    //     timeOut: 2000
-    //   });
-    // }
+    else if(this.wharehouseRequired && this.oTTempUpdatePayload.warehouse == ''){
+      this.toastr.error("The selected item is warehouse sensitive.  Please set a warehouse to continue.", 'Warning!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
     else if (this.oTTempUpdatePayload.transQty <= 0) {
       this.toastr.error("The transaction quantity for this transaction must be greater than 0.", 'Warning!', {
         positionClass: 'toast-bottom-right',
@@ -197,6 +199,29 @@ export class OmAddRecordComponent implements OnInit {
 
   onSearchSelect(e: any) {
     this.oTTempUpdatePayload.itemNumber = e.option.value;
+  }
+
+  selectItemNumber(option: any) {
+    this.oTTempUpdatePayload.description = option.description;
+    this.oTTempUpdatePayload.unitofMeasure = option.unitOfMeasure;
+    this.wharehouseRequired = option.warehouseSensitive;
+  }
+
+  getWarehouses(){
+    let payload = {
+      "userName": this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.orderManagerService.get(payload, '/Common/GetWarehouses', false).subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.wharehouses = res.data;
+      } else {
+        // this.toastr.error(res.responseMessage, 'Error!', {
+        //   positionClass: 'toast-bottom-right',
+        //   timeOut: 2000
+        // });
+      }
+    });
   }
 
 }

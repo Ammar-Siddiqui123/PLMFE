@@ -33,8 +33,8 @@
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Warehouse</mat-label>
                     <mat-select [(ngModel)]="this.oTTempUpdatePayload.warehouse">
-                        <mat-option value="0">
-                            Sample Text
+                        <mat-option *ngFor="let wharehouse of wharehouses" [value]="wharehouse">
+                            {{wharehouse}}
                         </mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more text-20">
@@ -87,10 +87,10 @@
                             <span style="width:  140px;">Unit of Measure</span>
                         </h6>
                         <mat-option *ngFor="let option of itemNumberSearchList" [value]="option.itemNumber" class="matAutoCompTableContent">
-                            <div class="loc_option">
+                            <div class="loc_option" (click)="selectItemNumber(option)" >
                                 <span class="searchColumn" style="width:  140px;">{{option.itemNumber}}</span> 
                                 <span class="searchColumn" style="width:  140px;" matTooltip="{{option.description}}" matTooltipPosition="above">{{option.description}}</span> 
-                                <span class="searchColumn" style="width:  140px;">{{option.category}}</span>
+                                <span class="searchColumn" style="width:  140px;">{{option.unitOfMeasure}}</span>
                             </div>
                         </mat-option>
                     </mat-autocomplete>
@@ -277,7 +277,7 @@
 </ng-scrollbar>
 
 <div mat-dialog-actions>
-    <button mat-flat-button color="primary" class="btn-lg w-100" (click)="save()" disabled>
+    <button mat-flat-button color="primary" class="btn-lg w-100" (click)="save()">
         Save
     </button>
 </div>
