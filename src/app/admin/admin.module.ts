@@ -136,6 +136,7 @@ import { SystemReplenishmentComponent } from './system-replenishment/system-repl
 import { SrNewOrderComponent } from './system-replenishment/sr-new-order/sr-new-order.component';
 import { FilterItemNumbersComponent } from './dialogs/filter-item-numbers/filter-item-numbers.component';
 import { SrCurrentOrderComponent } from './system-replenishment/sr-current-order/sr-current-order.component';
+import { SortPipe } from '../init/sort.pipe';
 
 
 
@@ -261,7 +262,9 @@ import { SrCurrentOrderComponent } from './system-replenishment/sr-current-order
     SystemReplenishmentComponent,
     SrNewOrderComponent,
     FilterItemNumbersComponent,
-    SrCurrentOrderComponent
+    SrCurrentOrderComponent,
+    SortPipe,
+
   ],
   imports: [
     CommonModule,

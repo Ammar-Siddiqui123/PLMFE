@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GcPrintServiceTestBeginComponent } from 'src/app/dialogs/gc-print-service-test-begin/gc-print-service-test-begin.component';
+import { GcPrintServiceTestComponent } from 'src/app/dialogs/gc-print-service-test/gc-print-service-test.component';
 
 @Component({
   selector: 'app-printers',
@@ -30,5 +31,20 @@ export class PrintersComponent implements OnInit {
     })
     }
 
+
+
+
+  openGcPrintServiceTest() {
+  let dialogRef = this.dialog.open(GcPrintServiceTestComponent, {
+    height: 'auto',
+    width: '680px',
+    autoFocus: '__non_existing_element__',
+   
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+  })
+ }
 
 }

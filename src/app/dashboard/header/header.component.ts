@@ -5,6 +5,7 @@ import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/services/shared.service'; 
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-header',
@@ -25,7 +26,8 @@ isConfigUser
     public spinnerService: SpinnerService,
     private authService: AuthService,
     private toastr: ToastrService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private titleService: Title
     ) {
    this.isConfigUser=  this.authService.isConfigUser()
     router.events.subscribe((val: any) => {
@@ -47,11 +49,14 @@ isConfigUser
         let res = val.url.substring(1);
         let withoutParam = res.split('?')[0]
         let splittedArray = withoutParam.split('/'); 
+
         splittedArray.forEach((element,i) => {
          if(element==='createCountBatches' || element==='cycleCounts'){
           element='CycleCount'
          }
-          
+         
+         this.titleService.setTitle(`LogixPro  ${element.toLowerCase() !='adminprefrences'? this.capitalizeFirstLetter(element).replace(/([a-z])([A-Z])/g, "$1 $2").replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2"):'Prefrences'}`);
+         
         this.breadcrumbList.push({
           name: element.toLowerCase() !='adminprefrences'? this.capitalizeFirstLetter(element).replace(/([a-z])([A-Z])/g, "$1 $2").replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2"):'Prefrences',
           menu: element,

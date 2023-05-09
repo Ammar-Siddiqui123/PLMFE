@@ -39,6 +39,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class TranOrderListComponent implements OnInit, AfterViewInit {
   public columnValues: any = [];
   public Order_Table_Config = [
+    { colHeader: 'status', colDef: 'Status' },
     { colHeader: 'transactionType', colDef: 'Transaction Type' },
     { colHeader: 'completedDate', colDef: 'Completed Date' },
     { colHeader: 'location', colDef: 'Location' },
@@ -98,6 +99,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     { colHeader: 'inProcess', colDef: 'In Process' },
   ];
   public displayedColumns: string[] = [
+    'status',
     'transactionType',
     'completedDate',
     'location',
@@ -173,7 +175,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   isToolTipDisabled = false;
   searchByInput = new Subject<string>();
 
-  compDate='';
+  compDate = '';
   @Input()
   set deleteEvnt(event: Event) {
     if (event) {
@@ -330,7 +332,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
             );
             this.currentStatusChange(res.data.completedStatus);
             this.totalLinesOrderChange(res.data?.totalRecords);
-            this.sharedService.updateOrderStatusSelect({totalRecords:res.data?.totalRecords})
+            this.sharedService.updateOrderStatusSelect({
+              totalRecords: res.data?.totalRecords,
+            });
           }
 
           if (res.data?.onCar.length) {
@@ -430,6 +434,46 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.searchCol = '';
     this.searchString = '';
     this.clearFromListChange.emit(event);
+  }
+  getClass(element) {
+    return 'addRow';
+  }
+  getTransTypeColor(element) {
+    if (element.transactionType.toLowerCase() === 'pick') {
+      return 'background-color: #CF9ECF';
+    } else if (element.transactionType.toLowerCase() === 'putaway' || element.transactionType.toLowerCase() ===  'put away') {
+      return 'background-color: #d9edf7';
+    } else if (element.transactionType.toLowerCase() === 'count') {
+      return 'background-color: #FFDBB8';
+    } else if (element.transactionType.toLowerCase() === 'complete') {
+      return 'background-color: #e0e0d1';
+    } else if (element.transactionType.toLowerCase() === 'locationChange') {
+      return 'background-color: #ADAD85';
+    } else if (element.transactionType.toLowerCase() === 'shipping') {
+      return 'background-color: #8585A6';
+    } else if (element.transactionType.toLowerCase() === 'shippingcomplete' || element.transactionType.toLowerCase() === 'shipping complete' ) {
+      return 'background-color: #ff708c';
+    } else if (element.transactionType.toLowerCase() === 'adjustment') {
+      return 'background-color: #85A37A';
+    } else {
+      return;
+    }
+  }
+
+  getStatus(element){
+    if (
+      element.tableType.toLowerCase() === 'open' &&
+      element.completedDate == '' &&
+      element.fileFrom.toLowerCase() == 'open'
+    ) {
+      return 'Open';
+    } else if (element.completedDate != '') {
+      return 'Completed';
+    } else if (element.fileFrom.toLowerCase() != 'open') {
+      return 'Re-process';
+    } else {
+      return;
+    }
   }
   getColor(element) {
     if (
@@ -552,20 +596,19 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       });
     this.getContentData();
 
-
     // Data coming from select order when user enter / check tote filter by Id it gets object type it tote id selected only
-    // then it will do send back the order number to select order component and set order field and also check if 
-    // scanValidate to check dates available if available it shows popup and when we select date it filters data by passing compdate to 
-    // orderstatus table generation api . 
+    // then it will do send back the order number to select order component and set order field and also check if
+    // scanValidate to check dates available if available it shows popup and when we select date it filters data by passing compdate to
+    // orderstatus table generation api .
     this.subscription.add(
       this.sharedService.orderStatusObjObserver.subscribe((obj) => {
         if (obj.type === 'Tote ID') {
           this.sharedService.updateOrderStatusOrderNo(this.getOrderForTote);
           this.orderNo = this.getOrderForTote;
-          this.toteId='';
+          this.toteId = '';
           this.getContentData();
           let payload = {
-            orderNumber:this.getOrderForTote, // 1974869 //this.getOrderForTote
+            orderNumber: this.getOrderForTote, // 1974869 //this.getOrderForTote
             username: this.userData.userName,
             wsid: this.userData.wsid,
           };
@@ -573,10 +616,14 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
             .get(payload, `/Admin/ScanValidateOrder`, true)
             .subscribe(
               (res: any) => {
-                if (res.isExecuted && res.data.length > 0 && res.data.length>=2) {
-                  res.data[0]='Entire Order';
+                if (
+                  res.isExecuted &&
+                  res.data.length > 0 &&
+                  res.data.length >= 2
+                ) {
+                  res.data[0] = 'Entire Order';
                   // add default check for tote id
-                    this.sharedService.updateToteFilterCheck(true);
+                  this.sharedService.updateToteFilterCheck(true);
                   const dialogRef = this.dialog.open(FilterToteComponent, {
                     width: '650px',
                     autoFocus: '__non_existing_element__',
@@ -586,42 +633,39 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
                     },
                   });
                   dialogRef.afterClosed().subscribe((res) => {
-                    if(res.selectedDate!='' && res.selectedDate!=undefined ){
-                      if(res.selectedDate=='Entire Order'){
-                        this.compDate='';
-                      }else{
-                        this.compDate=res.selectedDate;
+                    if (
+                      res.selectedDate != '' &&
+                      res.selectedDate != undefined
+                    ) {
+                      if (res.selectedDate == 'Entire Order') {
+                        this.compDate = '';
+                      } else {
+                        this.compDate = res.selectedDate;
                       }
-                      
+
                       this.getContentData();
                     }
-                 
                   });
-                }else{
-                  this.compDate='';
+                } else {
+                  this.compDate = '';
                 }
               },
               (error) => {}
             );
-
-
         }
-
-      
       })
     );
 
-
     this.subscription.add(
-           this.sharedService.updateCompDateObserver.subscribe((obj) => {
-            this.compDate='';
-           })
-    )
+      this.sharedService.updateCompDateObserver.subscribe((obj) => {
+        this.compDate = '';
+      })
+    );
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
-  
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
