@@ -10,7 +10,7 @@
       </mat-form-field>
     </div>
 
-    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100 mb-3" (click)="unassignFunction(assignedFunctions)" [disabled]="!isGroupLookUp">
+    <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100 mb-3" onclick="this.blur()" (click)="unassignFunction(assignedFunctions)" [disabled]="!isGroupLookUp">
       Remove All
     </button>
     <div class="card w-100">

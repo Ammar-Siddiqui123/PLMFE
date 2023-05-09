@@ -452,7 +452,7 @@ export class GenerateTransactionComponent implements OnInit {
   }
   
   updateTransaction() {
-    console.log(this.isLocation);
+    // console.log(this.isLocation);
     
     if(this.isLocation && this.transQuantity>this.totalQuantity){
       const dialogRef = this.dialog.open(InvalidQuantityComponent, {

@@ -36,7 +36,7 @@ export class ChangePasswordComponent implements OnInit {
   }
   onSend(form: FormGroup) {
 
-    console.log(form.value);
+    // console.log(form.value);
 
     if (form.value.old_password.toLowerCase() === form.value.new_password.toLowerCase()) {
       this.toastr.error('You aren\'t changing your password. You\'re re-entering your password', 'Error!', {
