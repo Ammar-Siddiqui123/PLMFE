@@ -93,7 +93,7 @@ export class AddNewEmployeeComponent implements OnInit {
       lastName: [this.lastName || '', [Validators.required, this.cusValidator.customTrim]],
       username: [{ value: this.username, disabled: this.isDisabledPassword } || '', [Validators.required]],
       password: [{ value: '', disabled: this.isDisabledPassword }, [Validators.required]],
-      emailAddress: [this.emailAddress || '', []],
+      emailAddress: [this.emailAddress || '', [Validators.email]],
       accessLevel: [this.accessLevel || '', [Validators.required]],
       active: [this.active || '', []],
     });
@@ -169,5 +169,6 @@ export class AddNewEmployeeComponent implements OnInit {
   hasError(fieldName: string, errorName: string) {
     return this.empForm.get(fieldName)?.touched && this.empForm.get(fieldName)?.hasError(errorName);
   }
+  
 
 }

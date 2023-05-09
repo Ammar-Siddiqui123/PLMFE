@@ -92,7 +92,7 @@ export class InventoryMasterComponent implements OnInit {
     this.route
       .paramMap
       .subscribe(params => {
-        console.log(params.get('itemNumber'));
+        // console.log(params.get('itemNumber'));
       });
   }
 
