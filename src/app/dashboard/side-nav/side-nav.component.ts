@@ -94,7 +94,7 @@ export class SideNavComponent implements OnInit {
   orderManagerMenus: any = [
     { icon: 'arrow_back', title: 'Order Manager', route: '/dashboard', class: 'back-class' , permission: 'Order Manager'},
 
-    { icon: ' pending_actions', title: 'Order Manager', route: '/OrderManager/OmOrderManager' ,permission:'Admin Release Orders'},
+    { icon: ' pending_actions', title: 'Order Manager', route: '/OrderManager/OrderManager' ,permission:'Admin Release Orders'},
     { icon: 'view_module', title: 'Order Status ', route: '#' ,permission:'Order Status'},
     { icon: 'event_note', title: 'Event Log ', route: '/OrderManager/EventLog' ,permission:'Admin Release Orders'},
     { icon: 'dataset', title: 'Inventory Master Info', route: '#' ,permission:'Admin Inventory Master'},
