@@ -13,11 +13,11 @@
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-xl-0 mb-2" appearance="outline">
                     <mat-label>Order Number</mat-label>
-                    <input matInput value="value" type="text">
+                    <input matInput value="value" type="text" [(ngModel)]="createOrdersDTPayload.orderNumber" (keyup)="createOrdersDT(true)">
                 </mat-form-field>
             </div>
             <div class="col-xl-3">
-                <button type="submit" mat-flat-button class="btn-regular w-100 mb-xl-0 mb-md-2" color="primary">Order Status</button>
+                <button type="submit" mat-flat-button class="btn-regular w-100 mb-xl-0 mb-md-2" color="primary" (click)="goToOrderStatus()">Order Status</button>
             </div>
             <div class="col-xl-3">
                 <button type="submit" mat-flat-button class="btn-regular w-100 mb-xl-0 mb-md-2" color="primary" (click)="openOmAddRecord()">Add New Order</button>
@@ -85,10 +85,10 @@
                             <mat-label>Actions</mat-label>
                             <mat-select #matRef class="employees-action" placeholder="Actions">
                                 <mat-option value="add_new_transaction" (click)="openOmAddTransaction()">Add Transaction</mat-option>
-                                <mat-option value="post_order">Release Orders</mat-option>
-                                <mat-option value="delete_order">Delete Viewed</mat-option>
-                                <mat-option value="add_new_transaction">Print Viewed</mat-option>
-                                <mat-option value="add_new_transaction">Select Column Sequence</mat-option>
+                                <mat-option value="post_order" (click)="releaseOrders()">Release Orders</mat-option>
+                                <mat-option value="delete_order" (click)="deleteViewed()">Delete Viewed</mat-option>
+                                <mat-option value="add_new_transaction" (click)="printViewed()">Print Viewed</mat-option>
+                                <mat-option value="add_new_transaction" (click)="selectColumnSequence()">Select Column Sequence</mat-option>
                             </mat-select>
                             <span class="material-symbols-outlined icon-expand-more">
                                 expand_more
@@ -103,58 +103,51 @@
     <ng-scrollbar class="mat-table-scrollbar" style="height:280px" track="all">
 
         <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData">
-            <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Trans Type </th>
-                <td mat-cell *matCellDef="let element">{{element.date}}</td>
-            </ng-container>
-            <ng-container matColumnDef="message">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Order No. </th>
-                <td mat-cell *matCellDef="let element">{{element.message}}</td>
-            </ng-container>
-            <ng-container matColumnDef="event_code">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Required Date </th>
-                <td mat-cell *matCellDef="let element">{{element.event_code}}</td>
-            </ng-container>
-            <ng-container matColumnDef="username">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> User Field 1 </th>
-                <td mat-cell *matCellDef="let element">{{element.username}}</td>
-            </ng-container>
-            <ng-container matColumnDef="event_type">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> User Field 2 </th>
-                <td mat-cell *matCellDef="let element">{{element.event_type}}</td>
-            </ng-container>
-            <ng-container matColumnDef="event_location">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> User Field 3 </th>
-                <td mat-cell *matCellDef="let element">{{element.event_location}}</td>
-            </ng-container>
-            <ng-container matColumnDef="notes">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> User Field 4 </th>
-                <td mat-cell *matCellDef="let element">{{element.notes}}</td>
-            </ng-container>
-            <ng-container matColumnDef="trans_id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> User Field 5 </th>
-                <td mat-cell *matCellDef="let element">{{element.trans_id}}</td>
+            <!-- <ng-container *ngFor="let item of displayedColumns">
+
+
+                <ng-container *ngIf="item.matColumnDef != 'action'" [matColumnDef]="item.matColumnDef">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{item.title}}</th>
+                    <td mat-cell *matCellDef="let element">{{element[item.bindingKey]}}</td>
+                </ng-container>
+
+                <ng-container *ngIf="item.matColumnDef == 'action'" [matColumnDef]="item.matColumnDef" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef style="border: 0;height: 66px; padding-left:65px;">
+                    </th>
+                    <td mat-cell *matCellDef style="border: 0; padding-left: 24px; background: #fff;" >
+                      <div class="d-flex justify-content-end">
+                      <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o" appearance="outline">
+                        <mat-icon>more_horiz</mat-icon>
+                      </button>
+                      <mat-menu #appMenu="matMenu">
+                        <button mat-menu-item (click)="openOmEditTransaction()">Edit Transaction</button>
+                      </mat-menu>
+                    </div>
+                    </td>
+                </ng-container>
+
+            </ng-container> -->
+
+            <ng-container matColumnDef="transactionType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Type</th>
+                <td mat-cell *matCellDef="let element">{{element.transactionType}}</td>
             </ng-container>
 
-            <ng-container matColumnDef="actions" stickyEnd>
-
+            <ng-container matColumnDef="action" stickyEnd>
                 <th mat-header-cell *matHeaderCellDef style="border: 0;height: 66px; padding-left:65px;">
                 </th>
-
                 <td mat-cell *matCellDef style="border: 0; padding-left: 24px; background: #fff;" >
                   <div class="d-flex justify-content-end">
                   <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o" appearance="outline">
                     <mat-icon>more_horiz</mat-icon>
                   </button>
-
                   <mat-menu #appMenu="matMenu">
                     <button mat-menu-item (click)="openOmEditTransaction()">Edit Transaction</button>
                   </mat-menu>
                 </div>
-
                 </td>
+            </ng-container>
 
-              </ng-container>
             
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns" style=" background-color: #F9F9FF;"></tr>
@@ -163,7 +156,7 @@
     </ng-scrollbar>
 </div>
 <div class="d-flex justify-content-between bg-white">
-    <mat-paginator class="mt-2"> </mat-paginator>
+    <mat-paginator class="mt-2" disabled> </mat-paginator>
 </div>
 
       </div>
