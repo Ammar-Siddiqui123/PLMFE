@@ -76,6 +76,7 @@ import { OmChangesConfirmationComponent } from './dialogs/om-changes-confirmatio
 import { OmUserFieldDataComponent } from './dialogs/om-user-field-data/om-user-field-data.component';
 import { GcPrintServiceTestBeginComponent } from './dialogs/gc-print-service-test-begin/gc-print-service-test-begin.component';
 import { GcPrintServiceTestComponent } from './dialogs/gc-print-service-test/gc-print-service-test.component';
+import { OmChangePriorityComponent } from './dialogs/om-change-priority/om-change-priority.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -139,6 +140,7 @@ import { GcPrintServiceTestComponent } from './dialogs/gc-print-service-test/gc-
     OmUserFieldDataComponent,
     GcPrintServiceTestBeginComponent,
     GcPrintServiceTestComponent,
+    OmChangePriorityComponent,
     // ActionDisableDirective,
   ],
   imports: [
