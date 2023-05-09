@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule,Title  } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -74,6 +74,8 @@ import { OmEditTransactionComponent } from './dialogs/om-edit-transaction/om-edi
 import { OmAddTransactionComponent } from './dialogs/om-add-transaction/om-add-transaction.component';
 import { OmChangesConfirmationComponent } from './dialogs/om-changes-confirmation/om-changes-confirmation.component';
 import { OmUserFieldDataComponent } from './dialogs/om-user-field-data/om-user-field-data.component';
+import { GcPrintServiceTestBeginComponent } from './dialogs/gc-print-service-test-begin/gc-print-service-test-begin.component';
+import { GcPrintServiceTestComponent } from './dialogs/gc-print-service-test/gc-print-service-test.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -135,6 +137,8 @@ import { OmUserFieldDataComponent } from './dialogs/om-user-field-data/om-user-f
     OmAddTransactionComponent,
     OmChangesConfirmationComponent,
     OmUserFieldDataComponent,
+    GcPrintServiceTestBeginComponent,
+    GcPrintServiceTestComponent,
     // ActionDisableDirective,
   ],
   imports: [
@@ -158,6 +162,7 @@ import { OmUserFieldDataComponent } from './dialogs/om-user-field-data/om-user-f
     
   ],
   providers: [
+    Title,
     LoginService,
     { 
       provide: LocationStrategy, 

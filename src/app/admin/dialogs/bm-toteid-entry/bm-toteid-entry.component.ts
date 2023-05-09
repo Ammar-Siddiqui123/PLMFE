@@ -31,7 +31,7 @@ export class BmToteidEntryComponent implements OnInit {
     this.selectedList = data.selectedOrderList;
 
     this.nextToteID = data.nextToteID;
-    console.log(this.nextToteID);
+    // console.log(this.nextToteID);
   }
 
   ngOnInit(): void {

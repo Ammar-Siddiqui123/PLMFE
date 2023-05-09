@@ -74,7 +74,7 @@
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">Access Level</label>
-                    <div class="g-field-content">{{empData.accessLevel }}</div>
+                    <div class="g-field-content">{{empData.accessLevel==='administrator'?'Administrator':empData.accessLevel==='staff_member'?'Staff Member':'' }}</div>
                   </div>
                 </div>
               </mat-card-content>
@@ -85,7 +85,7 @@
           <div class="col-xl-5">
             <mat-card class="mat-elevation-z g-card" style="height:100%">
               <mat-card-content>
-                <mat-tab-group dynamicHeight class="mini-tab-labels" [(selectedIndex)]="demo1TabIndex">
+                <mat-tab-group dynamicHeight class="mini-tab-labels" [(selectedIndex)]="demo1TabIndex" (selectedTabChange)="tabChanged($event)">
                   <mat-tab label="BulkPro Settings">
                     <div class="bulkpro-settings-tab g-tab bg-white">
 
@@ -104,7 +104,7 @@
                                     <span class="material-symbols-outlined icon-search">
                                       search
                                     </span>
-                                    <input type="text" placeholder="Search Zones" aria-label="Search zone-search-box"
+                                    <input type="text"  [(ngModel)]="bpSettingInp" placeholder="Search Zones" aria-label="Search zone-search-box"
                                       matInput (keyup)="zoneFilter($event)" maxlength="2">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
@@ -180,7 +180,7 @@
                                     <span class="material-symbols-outlined icon-search">
                                       search
                                     </span>
-                                    <input type="text" placeholder="Search Locations" aria-label="Search Locations"
+                                    <input type="text" placeholder="Search Locations" aria-label="Search Locations" [(ngModel)]="bpSettingLocInp"
                                       matInput (keyup)="applyFilter($event)" maxlength="50">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
@@ -284,12 +284,14 @@
                       </div>
                     </div>
                   </mat-tab>
-                  <mat-tab label="Employee Pick Levels" [disabled]="!isLookUp">
-                    <app-employee-pickup-level [pickUplevels]="pickUplevels" (relaodPickUpLvl)="relaodPickUpLvl()"
+                  <mat-tab label="Employee Pick Levels" >
+                    <!-- [disabled]="!isLookUp"  // removing this condition because of PLM-2510-->  
+                    <app-employee-pickup-level  [isAdd]="lookUpEvnt" [resetField]="isTabChanged" [pickUplevels]="pickUplevels" (relaodPickUpLvl)="relaodPickUpLvl()"
                       [grp_data]="grp_data"></app-employee-pickup-level>
                   </mat-tab>
 
-                  <mat-tab label="Function Allowed" [disabled]="!isLookUp" *ngIf="env === 'DB'">
+                  <mat-tab label="Function Allowed" *ngIf="env === 'DB'">
+                       <!-- [disabled]="!isLookUp"  // removing this condition because of PLM-2510--> 
                     <div class="groups-allowed-tab g-tab bg-white">
 
                       <div class="g-action-card g-action-card-disabled mb-3">
@@ -339,7 +341,9 @@
 
                     </div>
                   </mat-tab>
-                  <mat-tab label="Groups Allowed" [disabled]="!isLookUp" *ngIf="env !== 'DB'">
+                  <mat-tab label="Groups Allowed" *ngIf="env !== 'DB'">
+                       <!-- [disabled]="!isLookUp"  // removing this condition because of PLM-2510--> 
+
                     <div class="groups-allowed-tab g-tab bg-white">
 
                       <div class="g-action-card g-action-card-disabled mb-3">
@@ -353,11 +357,11 @@
                                     <span class="material-symbols-outlined icon-search">
                                       search
                                     </span>
-                                    <input type="text" placeholder="Search Groups Allowed"
+                                    <input type="text" placeholder="Search Groups Allowed" [(ngModel)]="grpAllFilter"
                                       aria-label="Search Groups Allowed" matInput (keyup)="groupAllowedFilter($event)"
                                       maxlength="50">
                                   </mat-form-field>
-                                  <button mat-flat-button color="primary" class=" mat-button-icon"
+                                  <button mat-flat-button color="primary" class=" mat-button-icon" [disabled]="!isLookUp"
                                     (click)="grpAllowedDialog()">
                                     <span class="material-symbols-outlined" matTooltip="Add group allowed"
                                       matTooltipPosition="above">

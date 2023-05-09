@@ -424,7 +424,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
     const cellSizeVal = this.cellSizeVal.nativeElement.value
     const velCodeVal = this.velCodeVal.nativeElement.value
-    console.log(cellSizeVal);
+    // console.log(cellSizeVal);
 
     this.invMapService.getItemNumDetail(payload).subscribe((res) => {
       if (res.isExecuted) {
