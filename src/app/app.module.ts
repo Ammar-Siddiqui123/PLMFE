@@ -74,6 +74,7 @@ import { OmEditTransactionComponent } from './dialogs/om-edit-transaction/om-edi
 import { OmAddTransactionComponent } from './dialogs/om-add-transaction/om-add-transaction.component';
 import { OmChangesConfirmationComponent } from './dialogs/om-changes-confirmation/om-changes-confirmation.component';
 import { OmUserFieldDataComponent } from './dialogs/om-user-field-data/om-user-field-data.component';
+import { GcPrintServiceTestBeginComponent } from './dialogs/gc-print-service-test-begin/gc-print-service-test-begin.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -135,6 +136,7 @@ import { OmUserFieldDataComponent } from './dialogs/om-user-field-data/om-user-f
     OmAddTransactionComponent,
     OmChangesConfirmationComponent,
     OmUserFieldDataComponent,
+    GcPrintServiceTestBeginComponent,
     // ActionDisableDirective,
   ],
   imports: [
