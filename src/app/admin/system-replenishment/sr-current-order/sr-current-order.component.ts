@@ -130,7 +130,7 @@ export class SrCurrentOrderComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+      // console.log(result);
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );

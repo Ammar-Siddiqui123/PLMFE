@@ -983,8 +983,8 @@ export class PickToteManagerComponent implements OnInit {
     this.orderBydataSource.filteredData.map( (item) => {
       var existItem = res.find((x: any) => x.sequence == item.sequence);
       if (existItem) {
-        console.log("item already exist");
-        console.log(existItem);
+        // console.log("item already exist");
+        // console.log(existItem);
         this.toastr.error('Can\'t have conflicting sequences within the order rows. A new sequence has been provided', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
@@ -1067,7 +1067,7 @@ export class PickToteManagerComponent implements OnInit {
 
     }
     else {
-      console.log(this.allSelectOrders);
+      // console.log(this.allSelectOrders);
       if (this.allSelectOrders.length > 0) {
         selectedObj = this.FILTER_BATCH_DATA_ZONE.filter(element => this.allSelectOrders.includes(element.orderNumber));
         selectedObj = [...new Map(selectedObj.map(item => [item.orderNumber, item])).values()]
@@ -1076,7 +1076,7 @@ export class PickToteManagerComponent implements OnInit {
         currentObjArr = [...selectedObj, ...this.data.resultObj.filter(d => !orderNumbers.has(d.orderNumber))];
       }
     }
-    console.log(currentObjArr);
+    // console.log(currentObjArr);
 
     this.dialogRef.close(currentObjArr);
   }

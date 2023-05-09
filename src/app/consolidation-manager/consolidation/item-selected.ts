@@ -38,7 +38,7 @@ export class ItemSelected implements OnInit {
         
         this.userData = this.authService.userData();
         this.IdentModal = this.data.IdentModal;
-        console.log(this.ColLabel,'kkk')
+        // console.log(this.ColLabel,'kkk')
         this.ColLabel = this.filterOption[this.data.ColLabel].value
 
         this.getItemSelectedData();
@@ -56,7 +56,7 @@ export class ItemSelected implements OnInit {
         }
 
         this.consolidationHub.get(payload ,'/Consolidation/ItemModelData').subscribe((res=>{
-            console.log(res)
+            // console.log(res)
 
             this.itemSelectTable = res;
         }))
@@ -73,7 +73,7 @@ export class ItemSelected implements OnInit {
 
     clickOnItemSelect() {
         let setItem = this.itemSelectTable().forEach((row) => {
-            console.log(row.id)
+            // console.log(row.id)
             let id = row.id;
 
             let payload = {
@@ -82,7 +82,7 @@ export class ItemSelected implements OnInit {
                 "wsid": this.userData.wsid
             }
             this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res: any) => {
-                console.log(res);
+                // console.log(res);
                 if (!res.isExecuted) {
                     this.toastr.error(res.responseMessage, 'Error!', {
                         positionClass: 'toast-bottom-right',
@@ -93,7 +93,7 @@ export class ItemSelected implements OnInit {
 
                 else {
                     this.tabledata1.forEach((row, i) => {
-                        console.log(row.id, i)
+                        // console.log(row.id, i)
 
                         let tabID = row.id;
                         if (tabID == id) {
@@ -120,7 +120,7 @@ export class ItemSelected implements OnInit {
                 }
 
                 this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res: any) => {
-                    console.log(res);
+                    // console.log(res);
                     if (!res.isExecuted) {
                         this.toastr.error(res.responseMessage, 'Error!', {
                             positionClass: 'toast-bottom-right',
@@ -131,7 +131,7 @@ export class ItemSelected implements OnInit {
 
                     else {
                         this.tabledata1.forEach((row :any, i) => {
-                            console.log(row.id, i)
+                            // console.log(row.id, i)
 
                             let tabID = row.id;
                             if (tabID == id) {

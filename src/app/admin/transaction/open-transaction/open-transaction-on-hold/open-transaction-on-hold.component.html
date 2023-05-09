@@ -169,7 +169,7 @@
                                 <mat-label>Search</mat-label>
                                 <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn.colDef"
                                     (selectionChange)="resetFields($event.value)">
-                                    <mat-option *ngFor="let item of displayedColumns" [value]="item.colDef">
+                                    <mat-option *ngFor="let item of displayedColumns | sort:'colDef':false" [value]="item.colDef">
                                         {{item.colDef}}
                                     </mat-option>
                                 </mat-select>
