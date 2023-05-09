@@ -22,7 +22,7 @@ canActivate: [AuthGuardGuard],
 component: OmCreateOrdersComponent,
 canActivate: [AuthGuardGuard],  },
 
-{ path: 'OmOrderManager', 
+{ path: 'OrderManager', 
 component: OmOrderManagerComponent, 
 canActivate: [AuthGuardGuard], 
 }];

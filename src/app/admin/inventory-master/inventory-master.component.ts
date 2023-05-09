@@ -399,10 +399,12 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   public updateInventoryMaster() {
-    if(this.updateInventoryMasterValidate()){
+    if(this.updateInventoryMasterValidate()){      
       this.invMaster.patchValue({
         'bulkGoldZone': this.invMaster.value?.bulkVelocity,
-        'CfGoldZone': this.invMaster.value?.cfVelocity
+        'CfGoldZone': this.invMaster.value?.cfVelocity,
+        'splitCase': this.invMaster.value.splitCase ? true : false,
+        'active': this.invMaster.value.active ? true : false
       });
       this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
         if (res.isExecuted) {
@@ -420,6 +422,7 @@ export class InventoryMasterComponent implements OnInit {
       })
     }
   }
+  
   public updateItemNumber(form: any) {
     let paylaod = {
       "oldItemNumber": form.oldItemNumber,
@@ -431,7 +434,6 @@ export class InventoryMasterComponent implements OnInit {
       // console.log(res.data);
     })
   }
-
 
   public openAddItemDialog() {
     let dialogRef = this.dialog.open(ItemNumberComponent, {

@@ -10,21 +10,14 @@ import { OmUpdateRecordComponent } from 'src/app/dialogs/om-update-record/om-upd
   styleUrls: ['./om-order-manager.component.scss']
 })
 export class OmOrderManagerComponent implements OnInit {
+  
   toteTable:any[]=['10','10','10','10','10','10'];
+  displayedColumns: string[] = ['transType', 'orderNo', 'priority', 'requiredDate', 'uf1', 'uf2', 'uf3', 'actions']; 
+
   constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
-  }
-
-  displayedColumns: string[] = [
-  'transType',
-  'orderNo',
-  'priority',
-  'requiredDate',
-  'uf1',
-  'uf2',
-  'uf3',
-  'actions']; 
+  }  
 
   openOmUpdateRecord() {
     let dialogRef = this.dialog.open(OmUpdateRecordComponent, {
@@ -32,20 +25,20 @@ export class OmOrderManagerComponent implements OnInit {
       width: '50vw',
       autoFocus: '__non_existing_element__',
      
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      
-      
-    })
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
    }
 
 
-   openOmCreateOrders() { 
+  openOmCreateOrders() { 
     let dialogRef = this.dialog.open(OmCreateOrdersComponent, { 
       height: 'auto',
       width: '1424px',
       autoFocus: '__non_existing_element__', 
-    })
-    }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
+  }
 
 }

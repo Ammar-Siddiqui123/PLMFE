@@ -35,9 +35,28 @@
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Find Order(s) By:</mat-label>
                     <mat-select value="0">
-                        <mat-option value="0">
-                            case
-                        </mat-option>
+                        <!-- <mat-option value="0">case</mat-option> -->
+                        <mat-option value="Category">Category</mat-option>
+                        <mat-option value="Description">Description</mat-option>
+                        <mat-option value="Host Transaction ID">Host Transaction ID</mat-option>
+                        <mat-option value="Import Date">Import Date</mat-option>
+                        <mat-option value="Item Number"> Item Number</mat-option>
+                        <mat-option value="Notes">Notes</mat-option>
+                        <mat-option value="Order Number" selected="selected">Order Number</mat-option>
+                        <mat-option value="Priority">Priority</mat-option>
+                        <mat-option value="Required Date">Required Date</mat-option>
+                        <mat-option value="Sub Category">Sub Category</mat-option>
+                        <mat-option value="Supplier Item ID">Supplier Item ID</mat-option>
+                        <mat-option value="User Field1">User Field1</mat-option>
+                        <mat-option value="User Field2">User Field2</mat-option>
+                        <mat-option value="User Field3">User Field3</mat-option>
+                        <mat-option value="User Field4">User Field4</mat-option>
+                        <mat-option value="User Field5">User Field5</mat-option>
+                        <mat-option value="User Field6">User Field6</mat-option>
+                        <mat-option value="User Field7">User Field7</mat-option>
+                        <mat-option value="User Field8">User Field8</mat-option>
+                        <mat-option value="User Field9">User Field9</mat-option>
+                        <mat-option value="Warehouse">Warehouse</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more text-20">
                         expand_more
@@ -50,9 +69,9 @@
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Case</mat-label>
                     <mat-select value="0">
-                        <mat-option value="0">
-                            Between
-                        </mat-option>
+                        <mat-option value="Equals">Equals</mat-option>
+                        <mat-option value="Between">Between</mat-option>
+                        <mat-option value="Like">Like</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more text-20">
                         expand_more
@@ -79,7 +98,7 @@
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Max Orders</mat-label>
-                    <input matInput value="000000">
+                    <input matInput value="50">
                 </mat-form-field>
             </div>
 
@@ -87,9 +106,9 @@
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Trans Type</mat-label>
                     <mat-select value="0">
-                        <mat-option value="0">
-                            000000
-                        </mat-option>
+                        <mat-option value="Pick">Pick</mat-option>
+                        <mat-option value="Put Away">Put Away</mat-option>
+                        <mat-option value="Count">Count</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more text-20">
                         expand_more
@@ -102,14 +121,12 @@
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>View Type</mat-label>
                     <mat-select value="0">
-                        <mat-option value="0">
-                            000000
-                        </mat-option>
+                        <mat-option value="Headers">Order Headers</mat-option>
+                        <mat-option value="Lines">Order Lines</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more text-20">
                         expand_more
                     </span>
-
                 </mat-form-field>
             </div>
 
@@ -117,9 +134,8 @@
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Order Type</mat-label>
                     <mat-select value="0">
-                        <mat-option value="0">
-                            000000
-                        </mat-option>
+                        <mat-option value="Open">Open</mat-option>
+                        <mat-option value="Pending">Pending</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more text-20">
                         expand_more
