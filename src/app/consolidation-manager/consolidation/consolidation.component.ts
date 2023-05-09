@@ -89,7 +89,7 @@ export class ConsolidationComponent implements OnInit {
   constructor(private dialog: MatDialog, 
               private toastr: ToastrService,
               private router: Router, 
-              private consolidationHub: ConsolidationManagerService, 
+              public consolidationHub: ConsolidationManagerService, 
               private authService: AuthService,  
               private _liveAnnouncer: LiveAnnouncer,) { }
 
@@ -386,10 +386,20 @@ export class ConsolidationComponent implements OnInit {
     });
   }
 
- verifyLine(index){
-  let id = this.tableData_1.data[index].id;
-  let status = this.tableData_1.data[index].lineStatus;
-  //  status == "Not Completed" || status == "Not Assigned"
+ verifyLine(element:any,Index?:any){
+   let index:any;
+   let status:any;
+   let id:any;
+   if(Index != undefined){
+     id = this.tableData_1.data[index].id;
+     status = this.tableData_1.data[index].lineStatus;
+   }
+   else{
+     index = this.tableData_1.data.indexOf(element);
+     status = element.lineStatus;
+     id = element.id;
+   }
+
    if(status == "Not Completed" || status == "Not Assigned"){
     this.toastr.error("The selected item has not yet been completed and can't be verified at this time", 'Error!', {
       positionClass: 'toast-bottom-right',
@@ -406,6 +416,7 @@ export class ConsolidationComponent implements OnInit {
     this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res:any)=>{
       if(res.isExecuted){
         let data = this.tableData_2.data;
+        console.log({...this.tableData_1.data[index]})
         data.push({...this.tableData_1.data[index]});
         this.tableData_2 = new MatTableDataSource(data);
         let data2 = this.tableData_1.data;
@@ -413,6 +424,7 @@ export class ConsolidationComponent implements OnInit {
         this.tableData_1 = new MatTableDataSource(data2);
         this.tableData_1.paginator = this.paginator;
         this.tableData_2.paginator = this.paginator2;
+        
       }
       else{
         this.toastr.error(res.responseMessage, 'Error!', {
@@ -425,31 +437,45 @@ export class ConsolidationComponent implements OnInit {
    }
   }
 
-  unverifyLine(index,id){
+  unverifyLine(element){
 
-    let payload = {
-      "id":id,
-      "username": this.userData.userName ,
-      "wsid": this.userData.wsid
+
+    let id = element.id;
+    let status = element.lineStatus;
+    let index = this.tableData_2.data.indexOf(element)
+    console.log(status)
+
+
+    if(status == 'Waiting Reprocess'){
+      return;
     }
-    this.consolidationHub.get(payload,'/Consolidation/DeleteVerified').subscribe((res:any)=>{
-        if(res.isExecuted){
-          let data2 = this.tableData_1.data;
-          data2.push({...this.tableData_2.data[index]});
-          this.tableData_1 = new MatTableDataSource(data2);
-          let data = this.tableData_2.data;
-          data.splice(index, 1);
-          this.tableData_2 = new MatTableDataSource(data);
-          this.tableData_1.paginator = this.paginator;
-          this.tableData_2.paginator = this.paginator2;
-        }
-        else{
-          this.toastr.error(res.responseMessage, 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-        }
-    })
+    else{
+      let payload = {
+        "id":id,
+        "username": this.userData.userName ,
+        "wsid": this.userData.wsid
+      }
+      this.consolidationHub.get(payload,'/Consolidation/DeleteVerified').subscribe((res:any)=>{
+          if(res.isExecuted){
+            let data2 = this.tableData_1.data;
+            data2.push({...this.tableData_2.data[index]});
+            this.tableData_1 = new MatTableDataSource(data2);
+            let data = this.tableData_2.data;
+            data.splice(index, 1);
+            this.tableData_2 = new MatTableDataSource(data);
+            this.tableData_1.paginator = this.paginator;
+            this.tableData_2.paginator = this.paginator2;
+            // console.log(this.tableData_1.data)
+            // console.log(this.tableData_2.data)
+          }
+          else{
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+      })
+    }
 
    
   }
@@ -482,7 +508,6 @@ export class ConsolidationComponent implements OnInit {
   }
 
   CheckDuplicatesForVerify(val){
-    // debugger;
     let columnIndex = this.startSelectFilter;
     let result:any;
     if(columnIndex == 0){
