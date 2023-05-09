@@ -451,7 +451,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       return 'background-color: #ADAD85';
     } else if (element.transactionType.toLowerCase() === 'shipping') {
       return 'background-color: #8585A6';
-    } else if (element.transactionType.toLowerCase() === 'shippingComplete') {
+    } else if (element.transactionType.toLowerCase() === 'shippingcomplete' || element.transactionType.toLowerCase() === 'shipping complete' ) {
       return 'background-color: #ff708c';
     } else if (element.transactionType.toLowerCase() === 'adjustment') {
       return 'background-color: #85A37A';
