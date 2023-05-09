@@ -42,7 +42,6 @@ export class OmCreateOrdersComponent implements OnInit {
   tableData: any = this.ELEMENT_DATA;
   filteredTableData: any = [];
   userData: any;
-  userFieldData: any;
 
   constructor(
     private dialog: MatDialog,
@@ -114,24 +113,6 @@ export class OmCreateOrdersComponent implements OnInit {
     //       element.isSelected = false;
     //     });
     //     this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
-    //   } else {
-    //     this.toastr.error(res.responseMessage, 'Error!', {
-    //       positionClass: 'toast-bottom-right',
-    //       timeOut: 2000
-    //     });
-    //   }
-    // });
-  }
-
-  getUserFieldData(loader: boolean = false) {
-    // let payload = {
-    //   "userName": this.userData.userName,
-    //   "wsid": this.userData.wsid,
-    //   "appName": ""
-    // }
-    // this.createOrdersDTSubscribe = this.systemReplenishmentService.get(payload, '/OrderManager/UserFieldData', loader).subscribe((res: any) => {
-    //   if (res.isExecuted && res.data) {
-    //     this.userFieldData = res.data[0];
     //   } else {
     //     this.toastr.error(res.responseMessage, 'Error!', {
     //       positionClass: 'toast-bottom-right',
