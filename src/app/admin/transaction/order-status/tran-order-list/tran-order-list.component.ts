@@ -158,6 +158,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   //   'label',
   //   'inProcess',
   //   'rn',
+
   public dataSource: any = new MatTableDataSource();
   public userData: any;
   public detailDataInventoryMap: any;
@@ -258,13 +259,24 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     }
   }
 
+  public priority = false;
+
   constructor(
     private transactionService: TransactionService,
     private authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer,
     private sharedService: SharedService,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    router: Router,
+  ) {
+    console.log(router.url);
+    if(router.url == '/OrderManager/OmOrderStatus'){
+      this.priority = true;
+    }
+    else if(router.url == '/admin/transaction'){
+      this.priority = false;
+    }
+  }
 
   getEleLength(ele) {
     // console.log('=----',ele)
@@ -668,5 +680,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  updatePriority(){
+    
   }
 }
