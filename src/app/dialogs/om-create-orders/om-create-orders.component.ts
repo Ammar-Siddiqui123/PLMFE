@@ -88,7 +88,6 @@ export class OmCreateOrdersComponent implements OnInit {
   @ViewChild("searchauto", { static: false }) autocompleteOpened: MatAutocomplete;
   @ViewChild('trigger') trigger: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
-  selectedTransaction: any = {};
   FilterString: string = "";
 
   constructor(
@@ -158,21 +157,26 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   createOrdersDT(loader: boolean = false) {
-    this.createOrdersDTSubscribe = this.orderManagerService.get(this.createOrdersDTPayload, '/OrderManager/CreateOrdersDT', loader).subscribe((res: any) => {
-      if (res.isExecuted && res.data) {
-        this.tableData = res.data;
-        if(this.tableData.length > 0){
-          this.tableData.forEach(element => {
-            element.isSelected = false;
+    if (this.createOrdersDTPayload.orderNumber.trim() != '') {
+      this.orderManagerService.get(this.createOrdersDTPayload, '/OrderManager/CreateOrdersDT', loader).subscribe((res: any) => {
+        if (res.isExecuted && res.data) {
+          this.tableData = res.data;
+          if(this.tableData.length > 0){
+            this.tableData.forEach(element => {
+              element.isSelected = false;
+            });
+          }
+        } else {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
           });
         }
-      } else {
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }
-    });
+      });
+    }
+    else{
+      this.tableData = [];
+    }
   }
 
   goToOrderStatus() {
@@ -213,15 +217,15 @@ export class OmCreateOrdersComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
-            this.createOrdersDTPayload.orderNumber = '';
-            this.createOrdersDT();
-            dialogRef.close();
           } else {
-            this.toastr.error("An Error Occured while releasing orders. Check the Event Log for more info", 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
+            // this.toastr.error("An Error Occured while releasing orders. Check the Event Log for more info", 'Error!', {
+            //   positionClass: 'toast-bottom-right',
+            //   timeOut: 2000
+            // });
           }
+          this.createOrdersDTPayload.orderNumber = '';
+          this.createOrdersDT();
+          dialogRef.close();
         });
       }
     });
@@ -341,13 +345,5 @@ export class OmCreateOrdersComponent implements OnInit {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
-  }
-
-  selectOrder(element) {
-    if (this.selectedTransaction.id) {
-      this.selectedTransaction = {};
-    } else {
-      this.selectedTransaction = element;
-    }
   }
 }
