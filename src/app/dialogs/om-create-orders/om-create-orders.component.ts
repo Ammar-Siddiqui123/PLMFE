@@ -109,6 +109,10 @@ export class OmCreateOrdersComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      data: {
+        from: "add-new-order",
+        heading: "Adding a New Order Number",
+      },
     })
     dialogRef.afterClosed().subscribe(result => {
       debugger;

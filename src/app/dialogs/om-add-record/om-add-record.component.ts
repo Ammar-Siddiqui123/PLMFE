@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import { OrderManagerService } from 'src/app/order-manager/order-manager.service';
@@ -66,12 +66,15 @@ export class OmAddRecordComponent implements OnInit {
   @ViewChild("searchauto", { static: false }) autocompleteOpened: MatAutocomplete;
   wharehouseRequired: any = '';
 
+  heading:string = "";
+
   constructor(
     private toastr: ToastrService,
     private authService: AuthService,
     private orderManagerService: OrderManagerService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<OmAddRecordComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
 
   ngOnInit(): void {
@@ -80,6 +83,16 @@ export class OmAddRecordComponent implements OnInit {
     this.oTTempUpdatePayload.importBy = this.userData.userName;
     this.oTTempUpdatePayload.wsid = this.userData.wsid;
     this.getUserFieldData();
+
+    this.heading = this.data.heading;
+  }
+
+  clearAutoFills(){
+
+  }
+
+  autofillModal(){
+
   }
 
   mapDefaultValues() {
