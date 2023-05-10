@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OmAddRecordComponent } from '../om-add-record/om-add-record.component';
 import { OmAddTransactionComponent } from '../om-add-transaction/om-add-transaction.component';
@@ -10,6 +10,10 @@ import { Router } from '@angular/router';
 import { OrderManagerService } from 'src/app/order-manager/order-manager.service';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import labels from '../../labels/labels.json';
+import { MatAutocomplete } from '@angular/material/autocomplete';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
+import { InputFilterComponent } from '../input-filter/input-filter.component';
 
 @Component({
   selector: 'app-om-create-orders',
@@ -18,14 +22,46 @@ import labels from '../../labels/labels.json';
 })
 export class OmCreateOrdersComponent implements OnInit {
 
-  displayedColumns: any[] = ['transactionType','action'];
-// { matColumnDef: 'transactionType', title: 'Transaction Type', bindingKey: 'transactionType' },
-// { matColumnDef: 'orderNumber', title: 'Order Number', bindingKey: 'orderNumber' },
-// { matColumnDef: 'priority', title: 'Priority', bindingKey: 'priority' },
-// { matColumnDef: 'action', title: 'Action', bindingKey: 'action' }
-
-
-
+  displayedColumns: any[] = [
+    'transactionType',
+    'orderNumber',
+    'priority',
+    'requiredDate',
+    'userField1',
+    'userField2',
+    'userField3',
+    'userField4',
+    'userField5',
+    'userField6',
+    'userField7',
+    'userField8',
+    'userField9',
+    'userField10',
+    'description',
+    'lineNumber',
+    'transactionQuantity',
+    'warehouse',
+    'lineSequence',
+    'inProcess',
+    'processingBy',
+    'unitOfMeasure',
+    'importBy',
+    'importDate',
+    'importFilename',
+    'expirationDate',
+    'lotNumber',
+    'serialNumber',
+    'notes',
+    'revision',
+    'id',
+    'hostTransactionID',
+    'emergency',
+    'label',
+    'batchPickID',
+    'toteID',
+    'cell',
+    'action'
+  ];
   filterColumnNames: any = [
     { value: "Date", title: "Date" },
     { value: "Date", title: "Date" },
@@ -48,6 +84,12 @@ export class OmCreateOrdersComponent implements OnInit {
   userData: any;
   AllowInProc: any = 'False';
   otcreatecount: any = 0;
+  orderNumberSearchList: any;
+  @ViewChild("searchauto", { static: false }) autocompleteOpened: MatAutocomplete;
+  @ViewChild('trigger') trigger: MatMenuTrigger;
+  contextMenuPosition = { x: '0px', y: '0px' };
+  selectedTransaction: any = {};
+  FilterString: string = "";
 
   constructor(
     private dialog: MatDialog,
@@ -56,6 +98,7 @@ export class OmCreateOrdersComponent implements OnInit {
     private router: Router,
     public dialogRef: MatDialogRef<OmCreateOrdersComponent>,
     private orderManagerService: OrderManagerService,
+    private filterService: ContextMenuFiltersService
   ) { }
 
   ngOnInit(): void {
@@ -118,6 +161,11 @@ export class OmCreateOrdersComponent implements OnInit {
     this.createOrdersDTSubscribe = this.orderManagerService.get(this.createOrdersDTPayload, '/OrderManager/CreateOrdersDT', loader).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.tableData = res.data;
+        if(this.tableData.length > 0){
+          this.tableData.forEach(element => {
+            element.isSelected = false;
+          });
+        }
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -230,7 +278,76 @@ export class OmCreateOrdersComponent implements OnInit {
     // }
   }
 
-  selectColumnSequence(){
+  selectColumnSequence() {
 
+  }
+
+  searchItem(loader: boolean = false) {
+    if (this.createOrdersDTPayload.orderNumber.trim() != '') {
+      let payload = {
+        "orderNumber": this.createOrdersDTPayload.orderNumber,
+        "userName": this.userData.userName,
+        "wsid": this.userData.wsid
+      }
+      this.orderManagerService.get(payload, '/OrderManager/CreateOrderTypeahead', loader).subscribe((res: any) => {
+        if (res.isExecuted && res.data) {
+          this.orderNumberSearchList = res.data;
+        }
+      });
+    }
+    else{
+      this.orderNumberSearchList = [];
+    }
+  }
+
+  onSearchSelect(e: any) {
+    this.createOrdersDTPayload.orderNumber = e.option.value;
+    this.createOrdersDT();
+  }
+
+  onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.trigger.menuData = { item: { SelectedItem: SelectedItem, FilterColumnName: FilterColumnName, FilterConditon: FilterConditon, FilterItemType: FilterItemType } };
+    this.trigger.menu?.focusFirstItem('mouse');
+    this.trigger.openMenu();
+  }
+
+  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+    this.createOrdersDTPayload.filter = this.FilterString != "" ? this.FilterString : "1=1";
+    this.createOrdersDT();
+  }
+
+  getType(val): string {
+    return this.filterService.getType(val);
+  }
+
+  InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
+    const dialogRef = this.dialog.open(InputFilterComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        FilterColumnName: FilterColumnName,
+        Condition: Condition,
+        TypeOfElement: TypeOfElement
+      },
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
+    }
+    );
+  }
+
+  selectOrder(element) {
+    if (this.selectedTransaction.id) {
+      this.selectedTransaction = {};
+    } else {
+      this.selectedTransaction = element;
+    }
   }
 }
