@@ -113,6 +113,7 @@ export class OmCreateOrdersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       debugger;
       if (result) {
+        this.createOrdersDTPayload.orderNumber = result.orderNumber;
         this.createOrdersDT();
       }
     });
@@ -319,6 +320,7 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
+    debugger;
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
     this.createOrdersDTPayload.filter = this.FilterString != "" ? this.FilterString : "1=1";
