@@ -116,6 +116,7 @@ export class InventoryMapComponent implements OnInit {
   public isSearchColumn:boolean = false;
 
   detailDataInventoryMap: any;
+  transHistory:boolean = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   // @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -199,6 +200,13 @@ export class InventoryMapComponent implements OnInit {
         colDef: this.router.getCurrentNavigation()?.extras?.state?.['colDef'],
         colHeader: this.router.getCurrentNavigation()?.extras?.state?.['colHeader']
       }
+    }
+
+    if(router.url == '/OrderManager/OmInventoryMap'){
+      this.transHistory = true;
+    }
+    else if(router.url == '/admin/inventoryMap' || '/InductionManager/Admin/InventoryMap'){
+      this.transHistory = false;
     }
 
 
@@ -616,6 +624,15 @@ export class InventoryMapComponent implements OnInit {
     return !this.authService.isAuthorized(controlName);
  }
 
+
+ tranhistory(){
+  this.router.navigate([]).then((result) => {
+    window.open(`/#/OrderManager/OmOrderStatus?type=TransactionHistory`, '_blank');
+   
+
+  }
+  );
+ }
 
 
 }

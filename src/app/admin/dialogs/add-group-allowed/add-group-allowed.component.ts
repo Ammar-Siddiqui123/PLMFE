@@ -42,8 +42,8 @@ export class AddGroupAllowedComponent implements OnInit {
     })
     this.userData = this.authService.userData();
     let payload = {
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
+      "username": this.data.userName,
+      "wsid": this.data.wsid,
       "filter": "%"
     }
     this.employeeService.getControlName(payload).subscribe((res: any) => {
@@ -66,8 +66,8 @@ export class AddGroupAllowedComponent implements OnInit {
   onSend(form: any) {
     let payload = {
       "controlName": form.value.controlName,
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
+      "username": this.data.userName,
+      "wsid": this.data.wsid,
     }
     this.employeeService.submitControlResponse(payload).subscribe((res: any) => {
       if (res.isExecuted) {
@@ -75,8 +75,7 @@ export class AddGroupAllowedComponent implements OnInit {
         this.toastr.success(labels.alert.success, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
-        });
-        this.reloadCurrentRoute();
+        }); 
       }
       else{
         this.toastr.success(res.responseMessage, 'Success!', {

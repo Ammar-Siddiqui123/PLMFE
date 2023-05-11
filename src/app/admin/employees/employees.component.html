@@ -74,7 +74,8 @@
                   </div>
                   <div class="g-detail">
                     <label class="g-field-label">Access Level</label>
-                    <div class="g-field-content">{{empData.accessLevel==='administrator'?'Administrator':empData.accessLevel==='staff_member'?'Staff Member':'' }}</div>
+                    <div class="g-field-content">
+                      {{empData.accessLevel==='administrator'?'Administrator':empData.accessLevel==='staff_member'?'Staff  Member':'' }}</div>
                   </div>
                 </div>
               </mat-card-content>
@@ -85,7 +86,8 @@
           <div class="col-xl-5">
             <mat-card class="mat-elevation-z g-card" style="height:100%">
               <mat-card-content>
-                <mat-tab-group dynamicHeight class="mini-tab-labels" [(selectedIndex)]="demo1TabIndex" (selectedTabChange)="tabChanged($event)">
+                <mat-tab-group dynamicHeight class="mini-tab-labels" [(selectedIndex)]="demo1TabIndex"
+                  (selectedTabChange)="tabChanged($event)">
                   <mat-tab label="BulkPro Settings">
                     <div class="bulkpro-settings-tab g-tab bg-white">
 
@@ -104,8 +106,9 @@
                                     <span class="material-symbols-outlined icon-search">
                                       search
                                     </span>
-                                    <input type="text"  [(ngModel)]="bpSettingInp" placeholder="Search Zones" aria-label="Search zone-search-box"
-                                      matInput (keyup)="zoneFilter($event)" maxlength="2">
+                                    <input type="text" [(ngModel)]="bpSettingInp" placeholder="Search Zones"
+                                      aria-label="Search zone-search-box" matInput (keyup)="zoneFilter($event)"
+                                      maxlength="2">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="addZoneDialog()" [disabled]="!isLookUp">
@@ -180,8 +183,9 @@
                                     <span class="material-symbols-outlined icon-search">
                                       search
                                     </span>
-                                    <input type="text" placeholder="Search Locations" aria-label="Search Locations" [(ngModel)]="bpSettingLocInp"
-                                      matInput (keyup)="applyFilter($event)" maxlength="50">
+                                    <input type="text" placeholder="Search Locations" aria-label="Search Locations"
+                                      [(ngModel)]="bpSettingLocInp" matInput (keyup)="applyFilter($event)"
+                                      maxlength="50">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="addLocationDialog()" [disabled]="!isLookUp" matTooltip="Add new location"
@@ -267,15 +271,16 @@
                             <div class="p-2">
                               <div class="g-details-wrap my-3" *ngIf="isLookUp">
                                 <div class="d-flex align-items-center gap-12">
-                                <mat-form-field class="w-100" appearance="outline">
-                                  <mat-label>Maximum Handheld Orders</mat-label>
-                                  <input matInput type="text" [NumbersOnly]="true" [(ngModel)]="max_orders">
-                                </mat-form-field>
-                                <button mat-flat-button color="primary" class="xsm-icon-button" matTooltip="Save Max Handheld Orders"
-                                matTooltipPosition="above" (click)="saveMaximumOrders()">
-                                  <mat-icon class="material-symbols-outlined">save</mat-icon>
-                              </button>
-                            </div>
+                                  <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Maximum Handheld Orders</mat-label>
+                                    <input matInput type="text" [NumbersOnly]="true" [(ngModel)]="max_orders">
+                                  </mat-form-field>
+                                  <button mat-flat-button color="primary" class="xsm-icon-button"
+                                    matTooltip="Save Max Handheld Orders" matTooltipPosition="above"
+                                    (click)="saveMaximumOrders()">
+                                    <mat-icon class="material-symbols-outlined">save</mat-icon>
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -284,14 +289,15 @@
                       </div>
                     </div>
                   </mat-tab>
-                  <mat-tab label="Employee Pick Levels" >
-                    <!-- [disabled]="!isLookUp"  // removing this condition because of PLM-2510-->  
-                    <app-employee-pickup-level  [isAdd]="lookUpEvnt" [resetField]="isTabChanged" [pickUplevels]="pickUplevels" (relaodPickUpLvl)="relaodPickUpLvl()"
+                  <mat-tab label="Employee Pick Levels">
+                    <!-- [disabled]="!isLookUp"  // removing this condition because of PLM-2510-->
+                    <app-employee-pickup-level [isAdd]="lookUpEvnt" [resetField]="isTabChanged"
+                      [pickUplevels]="pickUplevels" (relaodPickUpLvl)="relaodPickUpLvl()"
                       [grp_data]="grp_data"></app-employee-pickup-level>
                   </mat-tab>
 
                   <mat-tab label="Function Allowed" *ngIf="env === 'DB'">
-                       <!-- [disabled]="!isLookUp"  // removing this condition because of PLM-2510--> 
+                    <!-- [disabled]="!isLookUp"  // removing this condition because of PLM-2510-->
                     <div class="groups-allowed-tab g-tab bg-white">
 
                       <div class="g-action-card g-action-card-disabled mb-3">
@@ -306,28 +312,25 @@
                                       search
                                     </span>
                                     <input type="text" placeholder="Search Functions allowed"
-                                      aria-label="Search Group Allowed" matInput [(ngModel)]="searchfuncAllowed">
+                                      aria-label="Search Group Allowed" matInput [(ngModel)]="searchfuncAllowed"  (keyup)="applyFunctionAllowedFilter($event)">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
-                                    (click)="groupAllowedDialog()">
+                                    (click)="AddFunctionAllowedDialog()">
                                     <span class="material-symbols-outlined">
                                       add
                                     </span>
-                                  </button>
+                                  </button>  
+                                </div>
+                                <div class="row mt-1 mb-2">
+                                  <div class="col-md-12">
+                                    <button mat-stroked-button color="primary" class="button-add-all w-100 mb-3" 
+                                    (click)="getFuncationAllowedList()" >
+                                      Add All
+                                    </button>
+                                  </div>
                                 </div>
                                 <mat-list class="zones-list g-card-list" role="list">
-                                  <ng-scrollbar style="height: 200px">
-                                    <mat-list-item role="listitem"
-                                      *ngFor="let groups_allowed of FuncationAllowedList | customFuncAllowedSearch:searchfuncAllowed;let i = index">
-                                      <span class="list-label zone-list-label">
-                                        {{groups_allowed}}
-                                      </span>
-                                      <button mat-icon-button aria-label="Remove Group"
-                                        (click)="deleteFuncationAllowed(groups_allowed)">
-                                        <mat-icon class="icon-circle-cancel">close</mat-icon>
-                                      </button>
-                                    </mat-list-item>
-                                  </ng-scrollbar>
+                         
                                   <div class="card table-responsive" *ngIf="FuncationAllowedList">
                                     <ng-scrollbar class="mat-table-scrollbar" style="height: 500px">
                                       <table mat-table [dataSource]="FuncationAllowedList" matSort
@@ -343,7 +346,7 @@
                                         <!-- Start Location Column -->
                                         <ng-container matColumnDef="Function">
                                           <th width="80%" mat-header-cell *matHeaderCellDef>Function</th>
-                                          <td width="80%" mat-cell *matCellDef="let element"> {{element.groupName}}
+                                          <td width="80%" mat-cell *matCellDef="let element"> {{element}}
                                           </td>
                                         </ng-container>
                                         <ng-container matColumnDef="actions">
@@ -380,7 +383,7 @@
                     </div>
                   </mat-tab>
                   <mat-tab label="Groups Allowed" *ngIf="env !== 'DB'">
-                       <!-- [disabled]="!isLookUp"  // removing this condition because of PLM-2510--> 
+                    <!-- [disabled]="!isLookUp"  // removing this condition because of PLM-2510-->
 
                     <div class="groups-allowed-tab g-tab bg-white">
 
@@ -399,8 +402,8 @@
                                       aria-label="Search Groups Allowed" matInput (keyup)="groupAllowedFilter($event)"
                                       maxlength="50">
                                   </mat-form-field>
-                                  <button mat-flat-button color="primary" class=" mat-button-icon" [disabled]="!isLookUp"
-                                    (click)="grpAllowedDialog()">
+                                  <button mat-flat-button color="primary" class=" mat-button-icon"
+                                    [disabled]="!isLookUp" (click)="grpAllowedDialog()">
                                     <span class="material-symbols-outlined" matTooltip="Add group allowed"
                                       matTooltipPosition="above">
                                       add
@@ -582,7 +585,7 @@
       </div>
     </div>
   </mat-tab>
-
+  
   <!-- <mat-tab label="Statistics">
     <div class="statistics-tab g-tab">
       <div class="container-fluid p-0">
@@ -594,4 +597,66 @@
       </div>
     </div>
   </mat-tab> -->
+ 
+  <mat-tab label="Button Access" *ngIf="env === 'DB'">
+    <div class="groups-tab g-tab">
+      <div class="container-fluid p-0">
+        <div>
+
+          <mat-card class="mat-elevation-z g-card mb-3 mt-2" style="height: 100%;">
+            <mat-card-content>
+              <div class="d-flex align-items-center">
+                <h2 class="card-header-title mb-3 me-4 d-flex align-items-center">
+                  <div class="mat-icon-wrap me-lg-3">
+                    <span class="material-symbols-outlined">
+                      switch
+                    </span>
+                  </div>
+                  <span>Button Access</span>
+                </h2>
+              </div>
+
+              <div>
+
+                <div class="card br-14 table-responsive borderless">
+                  <ng-scrollbar class="mat-table-scrollbar" style="height:340px" track="all">
+
+                    <table class="w-100 g-card-table table-borderless table-minimal-action-buttons" mat-table matSort [dataSource]="ButtonAccessList">
+                      <ng-container matColumnDef="controlName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Control Name </th>
+                        <td mat-cell *matCellDef="let element">{{element.controlName}}</td>
+                      </ng-container>
+                      <ng-container matColumnDef="function">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Function </th>
+                        <td mat-cell *matCellDef="let element">{{element.function}}</td>
+                      </ng-container>
+                      <ng-container  matColumnDef="adminLevel">
+                        <th width="10%" class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Admin Level </th>
+                        <td width="10%" class="text-center" mat-cell *matCellDef="let element">
+                          <mat-checkbox color="primary"     [checked]="element.adminLevel" [(ngModel)]="element.adminLevel" (ngModelChange)="ChangeAdminLevel(element)">
+                          </mat-checkbox>
+                        </td>
+                      </ng-container>
+                     
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns_1" style=" background-color: #F9F9FF;">
+                      </tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns_1;"></tr>
+                    </table>
+                  </ng-scrollbar>
+                </div>
+
+                <div class="d-flex justify-content-between bg-white">
+                  <mat-paginator [pageSize]="10"  #paginator1   [pageSizeOptions]="[10, 20, 100]" showFirstLastButtons [pageSizeOptions]="[10, 20, 100]"   ></mat-paginator>
+                </div>
+
+
+              </div>
+
+            </mat-card-content>
+          </mat-card>
+
+        </div>
+      </div>
+    </div>
+  </mat-tab>
 </mat-tab-group>
