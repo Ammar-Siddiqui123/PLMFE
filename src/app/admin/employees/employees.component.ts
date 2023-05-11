@@ -25,6 +25,7 @@ import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { SpinnerService } from '../../../app/init/spinner.service';
 import { MatOption } from '@angular/material/core';
+import { MatPaginator } from '@angular/material/paginator';
 
 export interface location {
   start_location: string;
@@ -85,8 +86,8 @@ bpSettingLocInp='';
   isTabChanged:any;
   empForm: FormGroup;
   @ViewChild('zoneDataRefresh', { static: true,read:MatTable }) zoneDataRefresh;
-
-
+  public ButtonAccessList: any = [];
+  @ViewChild('paginator1') paginator1: MatPaginator;
 
   // table initialization
   displayedColumns: string[] = ['start_location', 'end_location', 'delete_location'];
@@ -94,7 +95,15 @@ bpSettingLocInp='';
   groupsColumns: string[] = ['groups', 'actions'];
   funcationsColumns: string[] = ['Function', 'actions'];
   
+  ELEMENT_DATA_1: any[] = [
+    { controlname: '11/02/2022 11:58 AM', function: 'deleted Item Number 123'},
+    { controlname: '11/02/2022 11:58 AM', function: 'deleted Item Number 123'}
+   
+  ];
 
+  displayedColumns_1: string[] = ['controlName', 'function', 'adminLevel'];
+  tableData_1 = this.ELEMENT_DATA_1
+  dataSourceList_1: any
   constructor(
     private authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer, 
@@ -141,7 +150,7 @@ getFuncationAllowedList(){
   }
   this.employeeService.getInsertAllAccess(emp).subscribe((res:any) => {
  
-    if(res){
+    if(res.isExecuted){
       this.reloadData();
     }
   }) 
@@ -306,6 +315,7 @@ initialzeEmpForm() {
 
    this.env =  JSON.parse(localStorage.getItem('env') || '');
    this.initialzeEmpForm();
+   this.getEmployeeData();
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -655,7 +665,19 @@ initialzeEmpForm() {
 
     })
   }
-
+  async getEmployeeData(){
+    var employeRes:any = {
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid  
+    }
+    this.employeeService.getEmployeeData(employeRes).subscribe((res: any) => {
+      if(res.isExecuted) {
+        this.ButtonAccessList =  new MatTableDataSource(res.data.allAccess);
+        this.ButtonAccessList.paginator = this.paginator1;
+      }
+      else this.ButtonAccessList = [];
+    });
+  }
   getEmployeeDetails(){
     const emp_data = {
       "userName":this.userData.userName,
@@ -761,13 +783,18 @@ initialzeEmpForm() {
     
   }
   
-  ELEMENT_DATA_1: any[] = [
-    { controlname: '11/02/2022 11:58 AM', function: 'deleted Item Number 123'},
-    { controlname: '11/02/2022 11:58 AM', function: 'deleted Item Number 123'}
-   
-  ];
-
-  displayedColumns_1: string[] = ['controlname', 'function', 'adminlevel'];
-  tableData_1 = this.ELEMENT_DATA_1
-  dataSourceList_1: any
+ 
+  ChangeAdminLevel(levelresponse:any){
+  var item =  {
+      "controlName": levelresponse.controlName,
+      "newValue": levelresponse.adminLevel
+    }
+    this.employeeService.updateControlName(item)
+    .subscribe((r) => {
+      this.toastr.success(labels.alert.update, 'Success!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    });
+  }
 }
