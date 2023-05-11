@@ -1,9 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OmAddRecordComponent } from 'src/app/dialogs/om-add-record/om-add-record.component';
 import { OmCreateOrdersComponent } from 'src/app/dialogs/om-create-orders/om-create-orders.component';
 import { OmUpdateRecordComponent } from 'src/app/dialogs/om-update-record/om-update-record.component';
+import { OrderManagerService } from '../order-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
+import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-om-order-manager',
@@ -11,42 +21,482 @@ import { AuthService } from 'src/app/init/auth.service';
   styleUrls: ['./om-order-manager.component.scss']
 })
 export class OmOrderManagerComponent implements OnInit {
-  toteTable:any[]=['10','10','10','10','10','10'];
-  constructor(private dialog: MatDialog,public authService:AuthService) { }
+  
+  public userData: any;
+  OMIndex: any;
+
+  column    : string = "Order Number";
+  case      : string = "Equals";
+  
+  value1    : string = "";
+  v1Show    : boolean = true;
+  value1D   : Date = new Date();
+  v1DShow    : boolean = false;
+  
+  value2    : string = "";
+  v2Show    : boolean = false;
+  value2D   : Date = new Date();
+  v2DShow    : boolean = false;  
+  
+  maxOrders : number = 0;
+  transType : string = "Pick";
+  viewType  : string = "Headers";
+  orderType : string = "Open";
+
+  colList   : any = [];
+  searchCol : string = "";
+  searchTxt : string = "";
+  
+  allColumns : any = [
+    { colHeader: "transactionType", colDef: "Transaction Type" },
+    { colHeader: "orderNumber", colDef: "Order Number" },
+    { colHeader: "priority", colDef: "Priority" },
+    { colHeader: "requiredDate", colDef: "Required Date" },
+    { colHeader: "userField1", colDef: "User Field1" },
+    { colHeader: "userField2", colDef: "User Field2" },
+    { colHeader: "userField3", colDef: "User Field3" },
+    { colHeader: "userField4", colDef: "User Field4" },
+    { colHeader: "userField5", colDef: "User Field5" },
+    { colHeader: "userField6", colDef: "User Field6" },
+    { colHeader: "userField7", colDef: "User Field7" },
+    { colHeader: "userField8", colDef: "User Field8" },
+    { colHeader: "userField9", colDef: "User Field9" },
+    { colHeader: "userField10", colDef: "User Field10" },
+    { colHeader: "itemNumber", colDef: "Item Number" },
+    { colHeader: "description", colDef: "Description" },
+    { colHeader: "lineNumber", colDef: "Line Number" },
+    { colHeader: "transactionQuantity", colDef: "Transaction Quantity" },
+    { colHeader: "allocatedPicks", colDef: "Allocated Picks" },
+    { colHeader: "allocatedPuts", colDef: "Allocated Puts" },
+    { colHeader: "availableQuantity", colDef: "Available Quantity" },
+    { colHeader: "stockQuantity", colDef: "Stock Quantity" },
+    { colHeader: "warehouse", colDef: "Warehouse" },
+    { colHeader: "zone", colDef: "Zone" },
+    { colHeader: "lineSequence", colDef: "Line Sequence" },
+    { colHeader: "toteID", colDef: "Tote ID" },
+    { colHeader: "toteNumber", colDef: "Tote Number" },
+    { colHeader: "unitOfMeasure", colDef: "Unit of Measure" },
+    { colHeader: "batchPickID", colDef: "Batch Pick ID" },
+    { colHeader: "category", colDef: "Category" },
+    { colHeader: "subCategory", colDef: "Sub Category" },
+    { colHeader: "importBy", colDef: "Import By" },
+    { colHeader: "importDate", colDef: "Import Date" },
+    { colHeader: "importFilename", colDef: "Import Filename" },
+    { colHeader: "expirationDate", colDef: "Expiration Date" },
+    { colHeader: "lotNumber", colDef: "Lot Number" },
+    { colHeader: "serialNumber", colDef: "Serial Number" },
+    { colHeader: "notes", colDef: "Notes" },
+    { colHeader: "revision", colDef: "Revision" },
+    { colHeader: "supplierItemID", colDef: "Supplier Item ID" },
+    { colHeader: "id", colDef: "ID" },
+    { colHeader: "hostTransactionID", colDef: "Host Transaction ID" },
+    { colHeader: "emergency", colDef: "Emergency" },
+    { colHeader: "location", colDef: "Location" },
+    { colHeader: "label", colDef: "Label" },
+    { colHeader: "cell", colDef: "Cell" },
+  ];
+  displayedColumns  : string[] = []; // ['orderNo', 'priority', 'requiredDate', 'uf1', 'uf2', 'uf3', 'actions']; 
+  orderTable        : any = [] // ['10','10','10','10','10','10'];
+  customPagination  : any = {
+                              total : '',
+                              recordsPerPage : 20,
+                              startIndex: '',
+                              endIndex: ''
+                            }
+  sortColumn        : any = {
+                              columnName: 0,
+                              sortOrder: 'asc'
+                            }
+
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  constructor(private dialog          : MatDialog,
+              private _liveAnnouncer  : LiveAnnouncer,
+              private toastr          : ToastrService,
+              private OMService       : OrderManagerService,
+              public authService     : AuthService,
+              private filterService   : ContextMenuFiltersService) { }
 
   ngOnInit(): void {
+    this.customPagination = {
+      total : '',
+      recordsPerPage : 20,
+      startIndex: 0,
+      endIndex: 20
+    }    
+    this.userData = this.authService.userData();
+    this.getOMIndex();
+    this.getColumnSequence();
+  }  
+
+  getOMIndex() {
+    var payLoad = {
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+    };
+    this.OMService.create(payLoad, '/OrderManager/OrderManagerPreferenceIndex').subscribe(
+      (res: any) => {
+        if (res.data && res.isExecuted) {
+          this.OMIndex = res.data;
+          if (res.data && res.data.preferences) this.maxOrders = res.data.preferences[0].maxOrders;
+        } else {
+          this.toastr.error('Something went wrong', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      },
+      (error) => { }
+    );
   }
 
-  displayedColumns: string[] = [
-  'transType',
-  'orderNo',
-  'priority',
-  'requiredDate',
-  'uf1',
-  'uf2',
-  'uf3',
-  'actions']; 
+  getColumnSequence() {
+    let payload = {
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+      tableName: 'Order Manager'
+    };
 
-  openOmUpdateRecord() {
+    this.OMService.get(payload, '/Admin/GetColumnSequence').subscribe((res: any) => {
+      if (res.isExecuted) {
+        this.displayedColumns = res.data;        
+        this.displayedColumns.push('status', 'actions');
+        this.colList = structuredClone(res.data);
+        this.searchCol = this.colList[0];
+      }
+    });
+  }
+
+  getOrders() {
+
+    let val1 : any, val2 : any;
+
+    if (this.column.indexOf('Date') > -1) {
+      val1 = this.value1D;
+      val2 = this.value2D;
+    } else {
+      val1 = this.value1;
+      val2 = this.value2;      
+    }
+
+    if(this.FilterString == "") this.FilterString = "1 = 1";
+
+    let payload = {
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+      col: this.column,
+      whereClause: this.case,
+      colVal1: val1,
+      colVal2: val2,
+      maxOrders: this.maxOrders.toString(),
+      transType: this.transType,
+      viewType: this.viewType,
+      orderType: this.orderType,
+      filter: this.FilterString
+    };
+
+    this.OMService.get(payload, '/OrderManager/FillOrderManTempData').subscribe((res: any) => {
+      if (res.isExecuted) this.fillTable();
+      else this.toastr.error("An Error occured while retrieving data.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+    });
+  }
+
+  fillTable() {
+    let payload2 = {
+      username: this.userData.userName,
+      user: this.userData.userName,
+      wsid: this.userData.wsid,
+      startRow: this.customPagination.startIndex,
+      endRow: this.customPagination.endIndex,
+      sortCol: this.sortColumn.columnName,
+      sortOrder: this.sortColumn.sortOrder,
+      searchColumn: this.searchCol,
+      searchString: this.searchTxt,
+    };
+
+    this.OMService.get(payload2, '/OrderManager/SelectOrderManagerTempDTNew').subscribe((res: any) => {
+      this.orderTable = new MatTableDataSource(res.data?.transactions);
+      // this.orderTable.paginator = this.paginator;
+      this.customPagination.total = res.data?.recordsFiltered;
+      this.orderTable.sort = this.sort;
+    });   
+  }
+
+  handlePageEvent(e: PageEvent) {
+    this.customPagination.startIndex =  e.pageSize*e.pageIndex
+    this.customPagination.endIndex =  (e.pageSize*e.pageIndex + e.pageSize)
+    this.customPagination.recordsPerPage = e.pageSize;
+    this.orderTable.sort = this.sort;
+    this.getOrders();
+  }
+
+  deleteViewed() {
+    if (this.orderType == "Open") {
+      this.toastr.warning("You can only delete pending transactions.", 'Warning!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+    } else {
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message: 'Are you sure you wish to delete all viewed orders?',
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result == 'Yes') {
+          let payload = {
+            username: this.userData.userName,
+            wsid: this.userData.wsid,
+            viewType: this.viewType
+          };
+      
+          this.OMService.get(payload, 'OrderManager/OMOTPendDelete').subscribe((res: any) => {
+            if (res.isExecuted) {
+              console.log(res.data);
+              this.getOrders();
+            }
+          });
+        }
+      });
+    }
+
+  }
+
+  callDisplayRecords(e : KeyboardEvent) {
+    if (e.key == "Enter") {
+      this.displayRecords();
+    }
+  }
+
+  displayRecords() {
+    if ((this.searchCol == "Import Date" || this.searchCol == "Required Date" || this.searchCol == "Priority") && this.case == "Like") {
+        this.toastr.warning("Cannot use the 'Like' option with Required Date, Import Date, or Priority column options", 'Warning!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+    } else {
+        this.getOrders();
+    }
+  }
+
+  updateRecord(ele : any) {
     let dialogRef = this.dialog.open(OmUpdateRecordComponent, {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
-     
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      
-      
-    })
-   }
+      data: { ele }
+    });
 
+    dialogRef.afterClosed().subscribe(result => { });
+  }
 
-   openOmCreateOrders() { 
+  openOrderStatus(ele : any, fromTable : boolean) {
+    var orderNumIndex = 0;
+    var orderNumVal = "";
+
+    if((this.value1 == "" || this.column != "OrderNumber") && !fromTable) {
+      this.toastr.error("You must select an Order Number to view the order status.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+    } else {
+      if (!fromTable) {
+        window.location.href = `/#/admin/transaction?orderStatus=${this.value1 ? this.value1 : ''}`;
+      } else {
+        for (let i = 0; i < this.displayedColumns.length; i++) {
+          if(this.displayedColumns[i] == "Order Number") orderNumIndex = i;
+        }
+        orderNumVal = ele[this.displayedColumns[orderNumIndex]];
+        window.location.href = `/#/admin/transaction?orderStatus=${orderNumVal ? orderNumVal : ''}`;
+      }
+    }    
+  }
+
+  releaseViewed() {
+    // if (OMTable.rows({ search: 'applied' }).data().length == 0) {
+    //   this.toastr.error("No Transactions match your current filters to release.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+    //   return
+    // }
+    if ($('#OrderType').val() == 'Open') {
+      this.toastr.error("This orders you are viewing have already been released.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+      return
+    }
+    if (this.OMIndex.preferences[0].allowInProc == false) {
+      this.toastr.error("You may not release an Order that is already in progress.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+      return
+    }
+
+    if (this.OMIndex.preferences[0].allowPartRel == false && this.FilterString != '1 = 1') {      
+
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message: 'Cannot Release Partial Orders. If you would like to release the entire order, click Ok. Otherwise click cancel',
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result == 'Yes') {
+
+          let payload = {
+            username: this.userData.userName,
+            wsid: this.userData.wsid,
+            val: this.viewType,
+            page: 'Order Manager'
+          };
+      
+          this.OMService.get(payload, 'OrderManager/ReleaseOrders').subscribe((res: any) => {
+            if (res.isExecuted) {
+              this.getOrders();
+              this.clearSearch();
+            }
+          });
+          
+        } else {
+          this.clearSearch();
+          this.FilterString = "";
+          this.fillTable();
+        }
+      });
+
+    } else {
+
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message: 'Press ok to release currently Viewed Orders.',
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result == 'Yes') {
+
+          let payload = {
+            username: this.userData.userName,
+            wsid: this.userData.wsid,
+            val: this.viewType,
+            page: 'Order Manager'
+          };
+      
+          this.OMService.get(payload, 'OrderManager/ReleaseOrders').subscribe((res: any) => {
+            if (res.isExecuted) {
+              this.getOrders();
+              this.clearSearch();
+            }
+          });
+          
+        }
+      });
+
+    }
+
+  }
+
+  clearSearch() {
+    this.searchTxt = "";
+    this.searchCol = "";
+  }
+
+  showHideValues(type : any) {
+    if (type == 1) {
+      if (this.column.indexOf('Date') > -1) {
+        this.v1Show = false;
+        this.v1DShow = true;
+        if (this.case == "Between") {
+          this.v2Show = false;
+          this.v2DShow = true;
+        }
+      } else {
+        this.v1Show = true;
+        this.v1DShow = false;
+        if (this.case == "Between") {
+          this.v2Show = true;
+          this.v2DShow = false;
+        }
+      }
+    }
+    else if (type == 2) {
+      if (this.case == "Between") {
+        if (this.column.indexOf('Date') > -1) {
+          this.v2DShow = true;
+        } else {
+          this.v2Show = true;
+        }        
+      } else {
+          this.v2Show = false;
+          this.v2DShow = false;
+      }
+    }    
+  }
+
+  openOmCreateOrders() { 
     let dialogRef = this.dialog.open(OmCreateOrdersComponent, { 
       height: 'auto',
       width: '1424px',
       autoFocus: '__non_existing_element__', 
-    })
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  // Announce the new sort state, if any.
+  announceSortChange(e : any) {
+    // if (sortState.direction) {
+    //   // Announce the sort direction, and the fact that sorting is cleared.
+    //   this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    // } else {
+    //   this._liveAnnouncer.announce('Sorting cleared');
+    // }
+
+    // // Set the data source's sort property to the new sort.
+    // this.orderTable.sort = this.sort;
+    let index = this.displayedColumns.findIndex(x => x === e.active);
+    this.sortColumn = {
+      columnName: index,
+      sortOrder: e.direction
     }
+    this.fillTable();
+  }
+
+  @ViewChild('trigger') trigger: MatMenuTrigger;
+
+  contextMenuPosition = { x: '0px', y: '0px' };
+
+  onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.trigger.menuData = { item: {SelectedItem: SelectedItem, FilterColumnName : FilterColumnName, FilterConditon: FilterConditon, FilterItemType : FilterItemType }};
+    this.trigger.menu?.focusFirstItem('mouse');
+    this.trigger.openMenu();
+  }
+
+  InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
+    const dialogRef =  this.dialog.open(InputFilterComponent, {
+      height: 'auto',
+      width: '480px',
+      data:{
+        FilterColumnName: FilterColumnName,
+        Condition: Condition,
+        TypeOfElement:TypeOfElement
+      },
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition,result.Type)
+    }
+    );
+  }
+
+  getType(val) : string {
+     return this.filterService.getType(val);
+  }
+
+  FilterString : string = "";
+  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
+   this.FilterString = this.filterService.onContextMenuCommand(SelectedItem,FilterColumnName,Condition,Type);
+   this.getOrders();
+  }
 
 }
