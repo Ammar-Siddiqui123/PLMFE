@@ -744,4 +744,13 @@ initialzeEmpForm() {
     
   }
   
+  ELEMENT_DATA_1: any[] = [
+    { controlname: '11/02/2022 11:58 AM', function: 'deleted Item Number 123'},
+    { controlname: '11/02/2022 11:58 AM', function: 'deleted Item Number 123'}
+   
+  ];
+
+  displayedColumns_1: string[] = ['controlname', 'function', 'adminlevel'];
+  tableData_1 = this.ELEMENT_DATA_1
+  dataSourceList_1: any
 }
