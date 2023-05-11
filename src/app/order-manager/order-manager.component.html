@@ -10,7 +10,7 @@
               </div>
               <span>Transaction Count Information</span>
             </h2>
-            <button mat-flat-button class="btn-regular" color="primary">Refresh Status Info</button>
+            <button mat-flat-button class="btn-regular" (click)="getInvDetailsList()" color="primary">Refresh Status Info</button>
           </div>
     <div class="row">
         <div class="col-xl-4 main-widget">
@@ -20,11 +20,11 @@
                   <h6 class="text-tertiary-900"><b>Picks</b></h6>
                   <div class="d-flex gap-20 justify-content-center">
                     <div class="employees text-center">
-                      <p class="counter-count mb-1 bg-primary-900">9999</p>
+                      <p class="counter-count mb-1 bg-primary-900">{{openPicks}}</p>
                       <p class="employee-p text-tertiary-900 mb-1  ">Open</p>
                     </div>
                     <div class="customer text-center">
-                      <p class="counter-count mb-1 bg-primary-900">9999</p>
+                      <p class="counter-count mb-1 bg-primary-900">{{compPicks}}</p>
                       <p class="customer-p text-tertiary-900 mb-1  ">Completed</p>
                     </div>
                   </div>
@@ -39,11 +39,11 @@
                   <h6 class="text-tertiary-900"><b>Put Aways</b></h6>
                   <div class="d-flex gap-20 justify-content-center">
                     <div class="employees text-center">
-                      <p class="counter-count mb-1 bg-primary-900">9999</p>
+                      <p class="counter-count mb-1 bg-primary-900">{{openPuts}}</p>
                       <p class="employee-p text-tertiary-900 mb-1  ">Open</p>
                     </div>
                     <div class="customer text-center">
-                      <p class="counter-count mb-1 bg-primary-900">9999</p>
+                      <p class="counter-count mb-1 bg-primary-900">{{compPuts}}</p>
                       <p class="customer-p text-tertiary-900 mb-1  ">Closed</p>
                     </div>
                   </div>
@@ -58,11 +58,11 @@
                   <h6 class="text-tertiary-900"><b>Counts</b></h6>
                   <div class="d-flex gap-20 justify-content-center">
                     <div class="employees text-center">
-                      <p class="counter-count mb-1 bg-primary-900">9999</p>
+                      <p class="counter-count mb-1 bg-primary-900">{{openCounts}}</p>
                       <p class="employee-p text-tertiary-900 mb-1  ">Open</p>
                     </div>
                     <div class="customer text-center">
-                      <p class="counter-count mb-1 bg-primary-900">9999</p>
+                      <p class="counter-count mb-1 bg-primary-900">{{compCounts}}</p>
                       <p class="customer-p text-tertiary-900 mb-1  ">Closed</p>
                     </div>
                   </div>
@@ -77,7 +77,7 @@
                   <h6 class="text-tertiary-900"><b>Adjustments</b></h6>
                   <div class="d-flex gap-20 justify-content-center">
                     <div class="employees text-center">
-                      <p class="counter-count mb-1 bg-primary-900">9999</p>
+                      <p class="counter-count mb-1 bg-primary-900">{{compAdjust}}</p>
                       <p class="employee-p text-tertiary-900 mb-1  ">Adjusted</p>
                     </div>
                   </div>
@@ -92,7 +92,7 @@
                   <h6 class="text-tertiary-900"><b>Changes</b></h6>
                   <div class="d-flex gap-20 justify-content-center">
                     <div class="employees text-center">
-                      <p class="counter-count mb-1 bg-primary-900">9999</p>
+                      <p class="counter-count mb-1 bg-primary-900">{{compLocChange}}</p>
                       <p class="employee-p text-tertiary-900 mb-1  ">Location</p>
                     </div>
                   </div>
@@ -107,7 +107,7 @@
                   <h6 class="text-tertiary-900"><b>Transactions</b></h6>
                   <div class="d-flex gap-20 justify-content-center">
                     <div class="employees text-center">
-                      <p class="counter-count mb-1 bg-primary-900">9999</p>
+                      <p class="counter-count mb-1 bg-primary-900">{{reprocCount}}</p>
                       <p class="employee-p text-tertiary-900 mb-1  ">Re-Processed</p>
                     </div>
                   </div>

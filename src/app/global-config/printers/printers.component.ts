@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { GcPrintServiceTestBeginComponent } from 'src/app/dialogs/gc-print-service-test-begin/gc-print-service-test-begin.component';
 import { GcPrintServiceTestComponent } from 'src/app/dialogs/gc-print-service-test/gc-print-service-test.component';
 
 @Component({
@@ -21,6 +22,15 @@ export class PrintersComponent implements OnInit {
 
   displayedColumns: string[] = ['printerName', 'printerAddress', 'labelPrinter', 'actions'];
   toteTable:any[]=['10','10','10','10','10','10'];
+
+  openGcBeginTest() { 
+    let dialogRef = this.dialog.open(GcPrintServiceTestBeginComponent, { 
+      height: 'auto',
+      width: '1424px',
+      autoFocus: '__non_existing_element__', 
+    })
+    }
+
 
 
 

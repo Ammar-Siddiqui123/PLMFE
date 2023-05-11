@@ -79,6 +79,7 @@
         <mat-form-field class="action-dropdown w-30" appearance="outline">
           <mat-label>Action</mat-label>
           <mat-select class="employees-action">
+            <mat-option value="0" (click)="openGcBeginTest()">Change Priority (TEMP)</mat-option>
             <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
             <mat-option value="set_column_sq">Print Report</mat-option>
           </mat-select>

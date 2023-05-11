@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center" mat-dialog-title>
     <div style="width:48px"></div>
     <h1 class="m-0" mat-dialog-title>Print Service Test</h1>
-    <button mat-icon-button class="close-button dialog-close-button-fix">
+    <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="false">
         <mat-icon class="close-icon">close</mat-icon>
     </button>
 </div>
@@ -126,7 +126,7 @@
 </div>
 
 <div class="d-flex mt-3">
-    <button mat-flat-button color="primary" class="primary-button btn-lg w-100">
+    <button mat-flat-button color="primary" class="primary-button btn-lg w-100" (click)="openGcBeginTest()">
         Begin Test
     </button>
   </div>

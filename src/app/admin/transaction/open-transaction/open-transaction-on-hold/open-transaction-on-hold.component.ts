@@ -231,7 +231,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     private router: Router,
     private seqColumn: SetColumnSeqService,
     private transactionService: TransactionService,
-    private authService: AuthService,
+    public authService: AuthService,
     private toastr: ToastrService,
     private invMapService: InventoryMapService,
     private dialog: MatDialog,
