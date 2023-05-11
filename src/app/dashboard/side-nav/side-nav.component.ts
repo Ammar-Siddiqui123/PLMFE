@@ -26,7 +26,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'checklist', title: 'Induction Manager', route: '/InductionManager' ,permission: 'Induction Manager'},
     { icon: 'fact_check', title: 'Work Manager', route: '#' ,permission: 'Work Manager'},
     { icon: 'insert_chart', title: 'Consolidation Manager', route: '/ConsolidationManager' ,permission: 'Consolidation Manager'},
-    { icon: 'pending_actions', title: 'Order Manager', route: '#' ,permission: 'Order Manager'},
+    { icon: 'pending_actions', title: 'Order Manager', route: '/OrderManager' ,permission: 'Order Manager'},
     { icon: 'schema', title: 'FlowRack Replenishment', route: '#',permission: 'FlowRack Replenish' }
   ];
   globalMenus: any = [
@@ -72,10 +72,10 @@ export class SideNavComponent implements OnInit {
     // Vector
     { icon: 'add_location_alt', title: 'Staging Locations', route: '/ConsolidationManager/StagingLocations' ,permission:'Consolidation Manager'},
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
-    { icon: 'tune', title: 'Consolidation Preferences ', route: '/ConsolidationManager/ConsolidationPreferences' ,permission:'Consolidation Manager'},
+    { icon: 'tune', title: 'Consolidation Preferences ', route: '/ConsolidationManager/ConsolidationPreferences' ,permission:'Consolidation Mgr Admin'},
     // Vector (Stroke)
-    { icon: 'analytics', title: 'Reporting ', route: '#' ,permission:'Reporting'},
-     { icon: 'view_module', title: 'Order Status ', route: '/admin/transaction',paramsObj:{IsOrderStatus:true} ,permission:'Consolidation Manager'}
+    { icon: 'analytics', title: 'Reporting ', route: '#' ,permission:'Consolidation Mgr Admin'},
+     { icon: 'view_module', title: 'Order Status', route: '/admin/transaction',paramsObj:{IsOrderStatus:true} ,permission:'Order Status'}
     //  flex_wrap
   ];
 
@@ -91,6 +91,17 @@ export class SideNavComponent implements OnInit {
     { icon: '      manage_accounts       ', title: 'Preferences ', route: '/InductionManager/Admin/AdminPrefrences' ,permission:'Induction Manager'},
   ];
 
+  orderManagerMenus: any = [
+    { icon: 'arrow_back', title: 'Order Manager', route: '/dashboard', class: 'back-class' , permission: 'Order Manager'},
+
+    { icon: ' pending_actions', title: 'Order Manager', route: '/OrderManager/OmOrderManager' ,permission:'Admin Release Orders'},
+    { icon: 'view_module', title: 'Order Status ', route: '/OrderManager/OmOrderStatus' ,permission:'Order Status'},
+    { icon: 'event_note', title: 'Event Log ', route: '/OrderManager/EventLog' ,permission:'Admin Release Orders'},
+    { icon: 'dataset', title: 'Inventory Master Info', route: '/OrderManager/OmInventoryMaster' ,permission:'Admin Inventory Master'},
+    { icon: 'warehouse', title: 'Stock Location & Quantity ', route: '/OrderManager/OmInventoryMap' ,permission:'Admin Stock Locations'},
+    { icon: 'analytics', title: 'Reports ', route: '#' ,permission:'Admin Reports'},
+    { icon: 'tune', title: 'Preferences ', route: '/OrderManager/OmPreferences' ,permission:'Admin Preferences'},
+  ];
   
 
   isParentMenu: boolean = true;
@@ -103,10 +114,11 @@ export class SideNavComponent implements OnInit {
               private globalService: GlobalconfigService) { 
                 this.sharedService.SidebarMenupdate.subscribe((data: any) => {
                   var Menuobj = this.menus.find(x=>x.route == data);
-                  if(Menuobj==null)Menuobj = this.adminMenus.find(x=>x.route == data);
+                  if(Menuobj==null&&this.authService.UserPermissonByFuncName('Admin Menu'))Menuobj = this.adminMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.globalMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.inductionMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.inductionAdminMenus.find(x=>x.route == data);
+                  else if(Menuobj==null) Menuobj = this.orderManagerMenus.find(x=>x.route == data);
                   this.loadMenus(Menuobj);
                 });
 
@@ -201,6 +213,11 @@ export class SideNavComponent implements OnInit {
         let obj={ icon: 'arrow_back', title: `${item.displayname}`, route: '/dashboard', class: 'back-class' ,permission: 'Dashboard'}
         this.inductionMenus.splice(0,1,obj);
       }
+      else if(item.appname==='OrderManager'){
+        let obj={ icon: 'arrow_back', title: `${item.displayname}`, route: '/dashboard', class: 'back-class' ,permission: 'Dashboard'}
+        this.orderManagerMenus.splice(0,1,obj);
+      }
+   
       })
    
       }
@@ -298,6 +315,11 @@ export class SideNavComponent implements OnInit {
     } 
     if (menu.route.includes('/InductionManager')) {
       this.childMenus = this.inductionMenus;
+      this.isParentMenu = false;
+      this.isChildMenu = true;
+    }
+    if (menu.route.includes('/OrderManager')) {
+      this.childMenus = this.orderManagerMenus;
       this.isParentMenu = false;
       this.isChildMenu = true;
     }

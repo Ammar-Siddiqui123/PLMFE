@@ -50,7 +50,7 @@
             </mat-form-field>
           </div>
 
-          <div class="col-3 d-flex  justify-content-center ">
+          <div class="col-3 d-flex  justify-content-center " *ngIf="authService.UserPermissonByFuncName('Batch Manager Delete All')">
             <button [disabled]="!batchID" mat-stroked-button color="warn" class="button-remove-all-w-stroke bg-white button custom-button-width"
               (click)="deleteBatch(transType, batchID)">
               <mat-icon>delete_outline</mat-icon>

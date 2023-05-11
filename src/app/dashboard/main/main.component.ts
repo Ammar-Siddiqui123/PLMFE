@@ -187,10 +187,10 @@ private subscription: Subscription = new Subscription();
       },
       {
         appName: 'OrderManager',
-        route: '#',
+        route: '/OrderManager',
         iconName: 'pending_actions',
         name: 'Order Manager',
-        updateMenu: '',
+        updateMenu: 'orderManager',
         permission: 'Order Manager',
       },
       {
@@ -229,6 +229,10 @@ private subscription: Subscription = new Subscription();
       this.sharedService.updateAdminMenu();
     }
     else if(menu=='induction'){ 
+      this.sharedService.BroadCastMenuUpdate(obj.route);
+      // this.sharedService.updateInductionAdminMenu(menu)
+    }
+    else if(menu=='orderManager'){ 
       this.sharedService.BroadCastMenuUpdate(obj.route);
       // this.sharedService.updateInductionAdminMenu(menu)
     }

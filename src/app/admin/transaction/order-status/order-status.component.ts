@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/init/auth.service';
 import { TransactionService } from '../transaction.service';
 
@@ -25,7 +25,10 @@ export class OrderStatusComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private transactionService: TransactionService,
-  ) {}
+  ) {
+
+ 
+  }
   ngOnInit(): void {
 
     this.userData = this.authService.userData();

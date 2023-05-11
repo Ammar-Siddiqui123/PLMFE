@@ -25,6 +25,7 @@ import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { SpinnerService } from '../../../app/init/spinner.service';
 import { MatOption } from '@angular/material/core';
+import { MatPaginator } from '@angular/material/paginator';
 
 export interface location {
   start_location: string;
@@ -75,6 +76,9 @@ bpSettingLocInp='';
   employee_group_allowed: any;
   emp_all_zones:any;
   groupAllowedList:any;
+  FuncationAllowedList:any = [];
+  OldFuncationAllowedList:any = [];
+  access:any;
   grp_data:any;
   public demo1TabIndex = 0;
   public userData;
@@ -82,15 +86,24 @@ bpSettingLocInp='';
   isTabChanged:any;
   empForm: FormGroup;
   @ViewChild('zoneDataRefresh', { static: true,read:MatTable }) zoneDataRefresh;
-
-
+  public ButtonAccessList: any = [];
+  @ViewChild('paginator1') paginator1: MatPaginator;
 
   // table initialization
   displayedColumns: string[] = ['start_location', 'end_location', 'delete_location'];
   zoneColumns: string[] = ['zones', 'actions'];
   groupsColumns: string[] = ['groups', 'actions'];
+  funcationsColumns: string[] = ['Function', 'actions'];
+  
+  ELEMENT_DATA_1: any[] = [
+    { controlname: '11/02/2022 11:58 AM', function: 'deleted Item Number 123'},
+    { controlname: '11/02/2022 11:58 AM', function: 'deleted Item Number 123'}
+   
+  ];
 
-
+  displayedColumns_1: string[] = ['controlName', 'function', 'adminLevel'];
+  tableData_1 = this.ELEMENT_DATA_1
+  dataSourceList_1: any
   constructor(
     private authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer, 
@@ -101,7 +114,7 @@ bpSettingLocInp='';
     public laoder: SpinnerService,
     private fb: FormBuilder
     ) { 
-    // console.log(router.url);
+    // console.log(router.url); 
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -129,7 +142,26 @@ getgroupAllowedList(){
   // };
   }) 
 }
-
+getFuncationAllowedList(){
+  var emp:any = {
+    "username": this.grp_data,
+    "access": this.empData.accessLevel,
+    "wsid": this.userData.wsid
+  }
+  this.employeeService.getInsertAllAccess(emp).subscribe((res:any) => {
+ 
+    if(res.isExecuted){
+      this.reloadData();
+    }
+  }) 
+}
+applyFunctionAllowedFilter(event: any) {
+  debugger
+  if(!this.OldFuncationAllowedList?.length && this.FuncationAllowedList.filteredData?.length) {
+    this.OldFuncationAllowedList = this.FuncationAllowedList.filteredData;
+  }
+  if(this.OldFuncationAllowedList.length) this.FuncationAllowedList = new MatTableDataSource(this.OldFuncationAllowedList.filter(x=> x?.toLowerCase()?.indexOf(event?.target?.value.toLowerCase()) > -1));
+}
 initialzeEmpForm() {
   this.empForm = this.fb.group({
     mi: this.empData.mi,
@@ -166,13 +198,15 @@ initialzeEmpForm() {
         this.employee_group_allowed = response.data?.userRights
         this.pickUplevels = response.data?.pickLevels;
         this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
+        this.FuncationAllowedList = new MatTableDataSource(response.data.userRights);
         this.location_data = response.data?.bulkRange
-        this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones);
+        this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones); 
         this.employee_fetched_zones.filterPredicate = (data: String, filter: string) => {
           return data.toLowerCase().includes(filter.trim().toLowerCase());
       };
         this.emp_all_zones = response.data?.allZones;
-        this.getgroupAllowedList();
+        if(this.env !== 'DB') this.getgroupAllowedList();
+         
       });
 
 
@@ -188,6 +222,7 @@ initialzeEmpForm() {
         this.employee_group_allowed = response.data?.userRights
         this.pickUplevels = response.data?.pickLevels;
         this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
+        this.FuncationAllowedList = new MatTableDataSource(response.data.userRights);
         this.location_data = response.data?.bulkRange
         this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones);
         this.emp_all_zones = response.data?.allZones;
@@ -280,6 +315,7 @@ initialzeEmpForm() {
 
    this.env =  JSON.parse(localStorage.getItem('env') || '');
    this.initialzeEmpForm();
+   this.getEmployeeData();
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -596,11 +632,19 @@ initialzeEmpForm() {
     })
   }
 
-  groupAllowedDialog() {
-    this.dialog.open(AddGroupAllowedComponent, {
+  AddFunctionAllowedDialog() {
+    let dialogRef;
+    dialogRef = this.dialog.open(AddGroupAllowedComponent, {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      data:{
+        userName:this.grp_data,
+        wsid:"TESTWSID"
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.reloadData();
     })
   }
   grpAllowedDialog() {
@@ -616,12 +660,24 @@ initialzeEmpForm() {
     dialogRef.afterClosed().subscribe(result => {
      
     this.getgroupAllowedList();
-      this.getEmployeeDetails();
+      this.reloadData();
 
 
     })
   }
-
+  async getEmployeeData(){
+    var employeRes:any = {
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid  
+    }
+    this.employeeService.getEmployeeData(employeRes).subscribe((res: any) => {
+      if(res.isExecuted) {
+        this.ButtonAccessList =  new MatTableDataSource(res.data.allAccess);
+        this.ButtonAccessList.paginator = this.paginator1;
+      }
+      else this.ButtonAccessList = [];
+    });
+  }
   getEmployeeDetails(){
     const emp_data = {
       "userName":this.userData.userName,
@@ -634,7 +690,7 @@ initialzeEmpForm() {
         let userRights:any=[];
         let customPermissions:any=[];
           
-         existingRights = response.data.userRights;
+         existingRights = response.data.userRights; 
          customPermissions = JSON.parse(localStorage.getItem('customPerm') || '');
          userRights = [...existingRights, ...customPermissions];
          
@@ -654,6 +710,22 @@ initialzeEmpForm() {
     })
     dialogRef.afterClosed().subscribe(result => {
       this.getgroupAllowedList();
+    })
+
+  }
+  deleteFuncationAllowed(controlName: any) {
+    const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        mode: 'delete-allowed-funcation',
+        controlName: controlName,
+        userName :this.grp_data
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      this.reloadData();
     })
 
   }
@@ -711,4 +783,18 @@ initialzeEmpForm() {
     
   }
   
+ 
+  ChangeAdminLevel(levelresponse:any){
+  var item =  {
+      "controlName": levelresponse.controlName,
+      "newValue": levelresponse.adminLevel
+    }
+    this.employeeService.updateControlName(item)
+    .subscribe((r) => {
+      this.toastr.success(labels.alert.update, 'Success!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    });
+  }
 }
