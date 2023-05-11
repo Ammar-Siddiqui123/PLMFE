@@ -133,50 +133,44 @@
                     <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.batchPickID">
                 </mat-form-field>
             </div>
-            <div class="col-xl-4">
+            <div class="col-xl-8">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Description</mat-label>
                     <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.description" disabled>
                 </mat-form-field>
             </div>
-            <div class="col-xl-4">
-                <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
-                    <mat-label>Notes</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.notes">
-                </mat-form-field>
-            </div>
         </div>
 
         <div class="row">
-            <div class="col-xl-3">
+            <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Expiration Date</mat-label>
                     <input type="date" aria-label="Search" matInput
                         [(ngModel)]="this.oTTempUpdatePayload.expirationDate">
                 </mat-form-field>
             </div>
-            <div class="col-xl-3">
+            <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Unit Of Measure</mat-label>
                     <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.unitofMeasure"
                         disabled>
                 </mat-form-field>
             </div>
-            <div class="col-xl-3">
+            <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Transaction Quantity</mat-label>
                     <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.transQty">
                 </mat-form-field>
             </div>
+        </div>
+
+        <div class="row">
             <div class="col-xl-3">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Line Number</mat-label>
                     <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.lineNumber">
                 </mat-form-field>
             </div>
-        </div>
-
-        <div class="row">
             <div class="col-xl-3">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Priority</mat-label>
@@ -191,14 +185,23 @@
             </div>
             <div class="col-xl-3">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
+                    <mat-label>Cell</mat-label>
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.cell">
+                </mat-form-field>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-xl-4">
+                <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Required Date</mat-label>
                     <input type="date" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.requiredDate">
                 </mat-form-field>
             </div>
-            <div class="col-xl-3">
+            <div class="col-xl-8">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
-                    <mat-label>Cell</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.cell">
+                    <mat-label>Notes</mat-label>
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.notes">
                 </mat-form-field>
             </div>
         </div>
