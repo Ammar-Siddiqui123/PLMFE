@@ -64,13 +64,8 @@
 
                 <mat-form-field class="br-8 w-100" appearance="outline">
                     <mat-label>Select</mat-label>
-                    <mat-select class="employees-action">
-                        <mat-option value="0">Transaction Type</mat-option>
-                        <mat-option value="1">Order number</mat-option>
-                        <mat-option value="2">Priority</mat-option>
-                        <mat-option value="3">Required Date</mat-option>
-                        <mat-option value="4">User Field 1</mat-option>
-                        <mat-option value="5">User Field 2</mat-option>
+                    <mat-select class="employees-action" [(ngModel)]="selectedFilterColumn">
+                        <mat-option *ngFor="let option of filterColumnNames" [value]="option">{{option}}</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
                         expand_more
@@ -86,7 +81,10 @@
                     <span class="material-symbols-outlined icon-search">
                         Search
                     </span>
-                    <input type="text" placeholder="Search" aria-label="Number" matInput>
+                    <input type="text" placeholder="Search" aria-label="Number" matInput 
+                    [disabled]="selectedFilterColumn == ''" [(ngModel)]="selectedFilterString"
+                    (keyup)="autocompleteSearchColumn()"
+                    >
                 </mat-form-field>
             </div>
         </div>

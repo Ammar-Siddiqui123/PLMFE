@@ -63,19 +63,7 @@ export class OmCreateOrdersComponent implements OnInit {
     'cell',
     'action'
   ];
-  filterColumnNames: any = [
-    { value: "Date", title: "Date" },
-    { value: "Date", title: "Date" },
-    { value: "Date", title: "Date" },
-    { value: "Date", title: "Date" },
-    { value: "Date", title: "Date" },
-    { value: "Date", title: "Date" },
-    { value: "Date", title: "Date" },
-    { value: "Date", title: "Date" },
-    { value: "Date", title: "Date" },
-    { value: "Date", title: "Date" },
-    { value: "Date", title: "Date" },
-  ];
+  filterColumnNames: any = [];
   createOrdersDTSubscribe: any;
   createOrdersDTPayload: any = {
     orderNumber: "",
@@ -91,6 +79,8 @@ export class OmCreateOrdersComponent implements OnInit {
   contextMenuPosition = { x: '0px', y: '0px' };
   FilterString: string = "";
   selectedTransaction: any = {};
+  selectedFilterColumn: string = "";
+  selectedFilterString: string;
 
   constructor(
     private dialog: MatDialog,
@@ -104,6 +94,7 @@ export class OmCreateOrdersComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+    this.getColumnSequence();
   }
 
   openOmAddRecord() {
@@ -124,7 +115,7 @@ export class OmCreateOrdersComponent implements OnInit {
     });
   }
 
-  openOmEditTransaction(element:any) {
+  openOmEditTransaction(element: any) {
     let dialogRef = this.dialog.open(OmAddRecordComponent, {
       height: 'auto',
       width: '50vw',
@@ -181,7 +172,7 @@ export class OmCreateOrdersComponent implements OnInit {
       this.orderManagerService.get(this.createOrdersDTPayload, '/OrderManager/CreateOrdersDT', loader).subscribe((res: any) => {
         if (res.isExecuted && res.data) {
           this.tableData = res.data;
-          if(this.tableData.length > 0){
+          if (this.tableData.length > 0) {
             this.tableData.forEach(element => {
               element.isSelected = false;
             });
@@ -194,7 +185,7 @@ export class OmCreateOrdersComponent implements OnInit {
         }
       });
     }
-    else{
+    else {
       this.tableData = [];
     }
   }
@@ -319,7 +310,7 @@ export class OmCreateOrdersComponent implements OnInit {
         }
       });
     }
-    else{
+    else {
       this.orderNumberSearchList = [];
     }
   }
@@ -373,6 +364,31 @@ export class OmCreateOrdersComponent implements OnInit {
       this.selectedTransaction = {};
     } else {
       this.selectedTransaction = element;
+    }
+  }
+
+  getColumnSequence() {
+    let payload = {
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+      tableName: 'Order Manager Create'
+    };
+    this.orderManagerService.get(payload, '/Admin/GetColumnSequence').subscribe((res: any) => {
+      if (res.isExecuted) {
+        this.filterColumnNames = res.data;
+      }
+    });
+  }
+
+  autocompleteSearchColumn() {
+    if (this.selectedFilterColumn != "") {
+      if(this.selectedFilterString != ""){
+        this.createOrdersDTPayload.filter = `[${this.selectedFilterColumn}] = '${this.selectedFilterString}'`;
+      }
+      else{
+        this.createOrdersDTPayload.filter = "1=1";
+      }
+      this.createOrdersDT(true);
     }
   }
 }
