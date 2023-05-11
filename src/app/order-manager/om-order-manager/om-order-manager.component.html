@@ -14,7 +14,7 @@
                     <button type="submit" mat-flat-button class="btn-regular" color="primary" (click)="displayRecords()">Display Records</button>
                   </div>
                   <div class="mb-3">
-                    <button type="submit" mat-flat-button class="btn-regular" color="primary" (click)="openOmCreateOrders()">Add/Edit Order</button>
+                    <button type="submit" mat-flat-button class="btn-regular" *ngIf="authService.UserPermissonByFuncName('Admin Create Orders')" color="primary" (click)="openOmCreateOrders()">Add/Edit Order</button>
                   </div>
             </div>
         </div>

@@ -27,7 +27,7 @@ export class ReelTrackingComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    console.log(this.userData)
+    // console.log(this.userData)
     // console.log(this.reelTracking.controls['minimumRTSReelQuantity'].value)
   }
 
@@ -87,7 +87,7 @@ export class ReelTrackingComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         
-        console.log(result.thresholdQty)
+        // console.log(result.thresholdQty)
 
         let payload = {
           rtsAmount: result.minDollarRTS,
@@ -96,7 +96,7 @@ export class ReelTrackingComponent implements OnInit {
           wsid: this.userData.wsid
         }
         this.invMasterService.update(payload,'/Admin/UpdateReelAll').subscribe((res:any)=>{
-          console.log(res);
+          // console.log(res);
 
           if(res.isExecuted){
 
@@ -107,7 +107,7 @@ export class ReelTrackingComponent implements OnInit {
            }
 
             this.invMasterService.get(payload2,'/Admin/RefreshRTS').subscribe((res:any)=>{
-              console.log(res)
+              // console.log(res)
               if (res.isExecuted) {
                 this.reelTracking.patchValue({
                   'minimumRTSReelQuantity' : res.data[0]

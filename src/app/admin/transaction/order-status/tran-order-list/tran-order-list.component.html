@@ -1,4 +1,4 @@
-<mat-card class="mat-elevation-z g-card mb-4 h-100">
+<mat-card class="mat-elevation-z g-card mb-4 h-100" >
   <mat-card-content>
 
     <div class="row">
@@ -36,7 +36,7 @@
             <mat-label>Select</mat-label>
             <mat-select class="employees-action" [(ngModel)]="this.searchCol"
               (selectionChange)="actionDialog($event.value)">
-              <mat-option *ngFor="let item of Order_Table_Config" [value]="item.colDef">
+              <mat-option *ngFor="let item of Order_Table_Config | sort:'colDef':false" [value]="item.colDef">
                 {{item.colDef}}
               </mat-option>
             </mat-select>
@@ -79,6 +79,7 @@
         <mat-form-field class="action-dropdown w-30" appearance="outline">
           <mat-label>Action</mat-label>
           <mat-select class="employees-action">
+            <mat-option value="0" >Change Priority (TEMP)</mat-option>
             <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
             <mat-option value="set_column_sq">Print Report</mat-option>
           </mat-select>
@@ -131,11 +132,21 @@
           <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 300px">
             <table  style="width: 100%;" mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
               style=" min-height: 150px;">
-              <ng-container matColumnDef="transactionType">
+
+              <ng-container matColumnDef="status" sticky>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="d-flex align-items-center ">
+                      <span class="br-14  label px-3 f-16" [style]="getColor(element)">{{getStatus(element)}}</span>
+                    </div>
+                </td>
+
+              </ng-container> 
+              <ng-container matColumnDef="transactionType" sticky>
                 <th mat-header-cell mat-sort-header *matHeaderCellDef> Transaction Type </th>
                 <td mat-cell *matCellDef="let element">
                   <div class="d-flex align-items-center ">
-                      <span class="br-14  label px-3 f-16" [style]="getColor(element)">{{element.transactionType}}</span>
+                      <span class="br-14  label px-3 f-16" [style]="getTransTypeColor(element)">{{element.transactionType}}</span>
                     </div>
                 </td>
 
@@ -332,7 +343,7 @@
             </div>
 
           </div> -->
-          <div class="col-xl-6">
+          <div class="col-xl-5">
             <div class="table-pagination d-flex justify-content-start"
               *ngIf=" columnValues && columnValues.length>0 && displayedColumns && dataSource">
               <mat-paginator [length]="this.customPagination.total" [pageSize]="20" [pageSizeOptions]="[10, 20, 100]"
@@ -341,14 +352,41 @@
 
             </div>
           </div>
-          <div class="col-xl-3 offset-xl-3">
+          <div class="col-xl-4 offset-xl-3">
             <div class="d-flex justify-content-end">
-              <button disabled mat-flat-button color="primary" class="btn-regular w-100">
+              <button disabled mat-flat-button color="primary" class="btn-regular mx-2 w-100">
                 Shipping Complete
+              </button>
+              <button *ngIf="priority" mat-flat-button color="primary" class="btn-regular w-100" (click)="openGcBeginTest()">
+                Change Priority
               </button>
             </div>
 
           </div>
+
+
+          <!-- <div class="col-xl-3">
+            <div class="table-pagination d-flex justify-content-start"
+              *ngIf=" columnValues && columnValues.length>0 && displayedColumns && dataSource">
+              <mat-paginator [length]="this.customPagination.total" [pageSize]="20" [pageSizeOptions]="[10, 20, 100]"
+                (page)="handlePageEvent($event)"></mat-paginator>
+
+
+            </div>
+          </div>
+          <div class="col-xl-6 offset-xl-3 d-flex justify-content-end">
+            <div class="">
+              <button disabled mat-flat-button color="primary" class="btn-regular w-100">
+                Shipping Complete
+              </button>
+            </div>
+            <div class="">
+              <button disabled mat-flat-button color="primary" class="btn-regular w-100">
+                Change Priority
+              </button>
+            </div>
+
+          </div> -->
 
         </div>
 

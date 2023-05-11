@@ -109,7 +109,7 @@ export class TranSelectOrderComponent implements OnInit {
     }
   }
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private transactionService: TransactionService,
     private dialog: MatDialog,
     private toastr: ToastrService,
@@ -252,6 +252,8 @@ export class TranSelectOrderComponent implements OnInit {
     this.columnSelect = '';
   }
   deleteOrder() {
+
+    
     let paylaod = {
       OrderNumber: this.searchField,
       TotalLines: JSON.stringify(this.totalLinesOrder),
@@ -264,9 +266,12 @@ export class TranSelectOrderComponent implements OnInit {
       data: {
         mode: 'delete-order-status',
         paylaod: paylaod,
+        action:'delete'
         //itemList : this.itemList,
         //  detailData : event
       },
+
+     
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (res.isExecuted) {

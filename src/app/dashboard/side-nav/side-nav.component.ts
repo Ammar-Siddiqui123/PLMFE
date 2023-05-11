@@ -32,7 +32,7 @@ export class SideNavComponent implements OnInit {
   globalMenus: any = [
     { icon: 'door_front', title: 'Home', route: '/globalconfig/home' ,permission: ''},
     { icon: 'hub', title: 'Database Connections', route: '/globalconfig/database-connections' ,permission: ''},
-    { icon: 'print', title: 'Printers', route: '#' ,permission: ''},
+    { icon: 'print', title: 'Printers', route: '/globalconfiq/printers' ,permission: ''},
     { icon: 'online_prediction', title: 'Workstation', route: '/globalconfig/workstation' ,permission: ''},
     { icon: 'nest_wifi_gale', title: 'CCSIF', route: '#' ,permission: 'CCSIF'},
     { icon: 'subtitles', title: 'Licensing', route: '/globalconfig/licensing' ,permission: ''},
@@ -72,10 +72,10 @@ export class SideNavComponent implements OnInit {
     // Vector
     { icon: 'add_location_alt', title: 'Staging Locations', route: '/ConsolidationManager/StagingLocations' ,permission:'Consolidation Manager'},
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
-    { icon: 'tune', title: 'Consolidation Preferences ', route: '/ConsolidationManager/ConsolidationPreferences' ,permission:'Consolidation Manager'},
+    { icon: 'tune', title: 'Consolidation Preferences ', route: '/ConsolidationManager/ConsolidationPreferences' ,permission:'Consolidation Mgr Admin'},
     // Vector (Stroke)
-    { icon: 'analytics', title: 'Reporting ', route: '#' ,permission:'Reporting'},
-     { icon: 'view_module', title: 'Order Status ', route: '/admin/transaction',paramsObj:{IsOrderStatus:true} ,permission:'Consolidation Manager'}
+    { icon: 'analytics', title: 'Reporting ', route: '#' ,permission:'Consolidation Mgr Admin'},
+     { icon: 'view_module', title: 'Order Status', route: '/admin/transaction',paramsObj:{IsOrderStatus:true} ,permission:'Order Status'}
     //  flex_wrap
   ];
 
@@ -93,12 +93,11 @@ export class SideNavComponent implements OnInit {
 
   orderManagerMenus: any = [
     { icon: 'arrow_back', title: 'Order Manager', route: '/dashboard', class: 'back-class' , permission: 'Order Manager'},
-
     { icon: ' pending_actions', title: 'Order Manager', route: '/OrderManager/OrderManager' ,permission:'Admin Release Orders'},
-    { icon: 'view_module', title: 'Order Status ', route: '#' ,permission:'Order Status'},
+    { icon: 'view_module', title: 'Order Status ', route: '/OrderManager/OmOrderStatus' ,permission:'Order Status'},
     { icon: 'event_note', title: 'Event Log ', route: '/OrderManager/EventLog' ,permission:'Admin Release Orders'},
-    { icon: 'dataset', title: 'Inventory Master Info', route: '#' ,permission:'Admin Inventory Master'},
-    { icon: 'warehouse', title: 'Stock Location & Quantity ', route: '#' ,permission:'Admin Stock Locations'},
+    { icon: 'dataset', title: 'Inventory Master Info', route: '/OrderManager/OmInventoryMaster' ,permission:'Admin Inventory Master'},
+    { icon: 'warehouse', title: 'Stock Location & Quantity ', route: '/OrderManager/OmInventoryMap' ,permission:'Admin Stock Locations'},
     { icon: 'analytics', title: 'Reports ', route: '#' ,permission:'Admin Reports'},
     { icon: 'tune', title: 'Preferences ', route: '/OrderManager/OmPreferences' ,permission:'Admin Preferences'},
   ];
@@ -114,7 +113,7 @@ export class SideNavComponent implements OnInit {
               private globalService: GlobalconfigService) { 
                 this.sharedService.SidebarMenupdate.subscribe((data: any) => {
                   var Menuobj = this.menus.find(x=>x.route == data);
-                  if(Menuobj==null)Menuobj = this.adminMenus.find(x=>x.route == data);
+                  if(Menuobj==null&&this.authService.UserPermissonByFuncName('Admin Menu'))Menuobj = this.adminMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.globalMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.inductionMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.inductionAdminMenus.find(x=>x.route == data);
