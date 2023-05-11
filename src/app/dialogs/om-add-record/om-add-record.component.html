@@ -62,7 +62,14 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Import Date</mat-label>
-                    <input type="date" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.importDate">
+
+                    <!-- <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.importDate"> -->
+
+                    <input matInput [value]="this.oTTempUpdatePayload.importDate" [(ngModel)]="this.oTTempUpdatePayload.importDate" 
+                    [matDatepicker]="importDate" (dateChange)="onDateChange($event.value,'importDate')">
+                    <mat-datepicker-toggle matSuffix [for]="importDate" ngDefaultControl></mat-datepicker-toggle>
+                    <mat-datepicker #importDate></mat-datepicker>
+
                 </mat-form-field>
             </div>
         </div>
@@ -145,8 +152,14 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Expiration Date</mat-label>
-                    <input type="date" aria-label="Search" matInput
-                        [(ngModel)]="this.oTTempUpdatePayload.expirationDate">
+
+                    <!-- <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.expirationDate"> -->
+
+                    <input matInput [value]="this.oTTempUpdatePayload.expirationDate" [(ngModel)]="this.oTTempUpdatePayload.expirationDate" 
+                    [matDatepicker]="expirationDate" (dateChange)="onDateChange($event.value,'expirationDate')">
+                    <mat-datepicker-toggle matSuffix [for]="expirationDate" ngDefaultControl></mat-datepicker-toggle>
+                    <mat-datepicker #expirationDate></mat-datepicker>
+
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
@@ -195,7 +208,14 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Required Date</mat-label>
-                    <input type="date" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.requiredDate">
+
+                    <!-- <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.requiredDate"> -->
+
+                    <input matInput [value]="this.oTTempUpdatePayload.requiredDate" [(ngModel)]="this.oTTempUpdatePayload.requiredDate" 
+                    [matDatepicker]="requiredDate" (dateChange)="onDateChange($event.value,'requiredDate')">
+                    <mat-datepicker-toggle matSuffix [for]="requiredDate" ngDefaultControl></mat-datepicker-toggle>
+                    <mat-datepicker #requiredDate></mat-datepicker>
+
                 </mat-form-field>
             </div>
             <div class="col-xl-8">

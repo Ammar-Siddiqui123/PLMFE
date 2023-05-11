@@ -97,9 +97,10 @@ export class OmAddRecordComponent implements OnInit {
       this.autofillModal();
     }
     else{
+      debugger
       this.oTTempUpdatePayload.processBy = this.userData.userName;
       this.oTTempUpdatePayload.importBy = this.userData.userName;
-      // this.oTTempUpdatePayload.importDate = new Date();
+      this.oTTempUpdatePayload.importDate = new Date().toLocaleDateString();
       // this.oTTempUpdatePayload.importDate = this.oTTempUpdatePayload.importDate.toLocaleDateString();
       this.oTTempUpdatePayload.importFileName = "Create Pending Transaction";
       this.getUserFieldData();
@@ -306,6 +307,14 @@ export class OmAddRecordComponent implements OnInit {
         // });
       }
     });
+  }
+
+
+
+  onDateChange(event,key:any): void {
+    // debugger;
+    this.oTTempUpdatePayload[key] = "";
+    this.oTTempUpdatePayload[key] = new Date(event).toLocaleDateString();
   }
 
 }
