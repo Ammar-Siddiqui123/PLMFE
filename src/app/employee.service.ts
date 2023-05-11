@@ -66,8 +66,18 @@ export class EmployeeService {
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/InsertAllAccess`, employee,httpOptions);
   }
+  public getUserRights(employee: any ): Observable<any> {
+    let basicAuth = '';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + basicAuth
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Admin/GetEmployeeDetails`, employee,httpOptions);
+  }
 
-
+  
   public getAdminEmployeeLookup(employee: IEmployee ): Observable<AdminEmployeeLookupResponse> {
     let basicAuth = '';
     const httpOptions = {
