@@ -11,6 +11,7 @@ import { ProcessPutAwaysComponent } from './process-put-aways/process-put-aways.
 import { ProcessPicksComponent } from './process-picks/process-picks.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminPrefrencesComponent } from './admin-prefrences/admin-prefrences.component';
+import { PalletReceivingComponent } from './pallet-receiving/pallet-receiving.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { AdminPrefrencesComponent } from './admin-prefrences/admin-prefrences.co
     ProcessPutAwaysComponent,
     ProcessPicksComponent,
     AdminComponent,
-    AdminPrefrencesComponent
+    AdminPrefrencesComponent,
+    PalletReceivingComponent
   ],
   imports: [
     CommonModule,
