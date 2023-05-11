@@ -86,7 +86,7 @@ export class AdminComponent implements OnInit {
     'transactionType',
   ];
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private adminService: AdminService,
     private transactionService: TransactionService
   ) {}

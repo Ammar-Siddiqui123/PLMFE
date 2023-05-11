@@ -58,7 +58,7 @@ export class BatchDeleteComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private batchService: BatchManagerService,
-    private authService: AuthService,
+    public authService: AuthService,
     private toastr: ToastrService
   ) {}
 

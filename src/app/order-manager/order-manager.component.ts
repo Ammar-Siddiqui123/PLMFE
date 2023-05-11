@@ -11,15 +11,15 @@ import { AuthService } from '../init/auth.service';
 })
 export class OrderManagerComponent implements OnInit {
   userData: any;
-  openPicks;
-  compPicks;
-  openPuts;
-  compPuts;
-  openCounts;
-  compCounts;
-  compAdjust;
-  compLocChange;
-  reprocCount;
+  openPicks=0;
+  compPicks=0;
+  openPuts=0;
+  compPuts=0;
+  openCounts=0;
+  compCounts=0;
+  compAdjust=0;
+  compLocChange=0;
+  reprocCount=0;
   constructor(
     private omService: OrderManagerService,
     private authService: AuthService
@@ -44,7 +44,7 @@ export class OrderManagerComponent implements OnInit {
             let item=res.data;
             this.openPicks=item.openPicks;
             this.compPicks=item.compPick;
-            this.openPuts=item.openPuts;            ;
+            this.openPuts=item.openPuts;
             this.compPuts=item.compPuts;
             this.openCounts=item.openCounts;
             this.compCounts=item.compCounts;

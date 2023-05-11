@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { OmAddRecordComponent } from 'src/app/dialogs/om-add-record/om-add-record.component';
 import { OmCreateOrdersComponent } from 'src/app/dialogs/om-create-orders/om-create-orders.component';
 import { OmUpdateRecordComponent } from 'src/app/dialogs/om-update-record/om-update-record.component';
+import { AuthService } from 'src/app/init/auth.service';
 
 @Component({
   selector: 'app-om-order-manager',
@@ -11,7 +12,7 @@ import { OmUpdateRecordComponent } from 'src/app/dialogs/om-update-record/om-upd
 })
 export class OmOrderManagerComponent implements OnInit {
   toteTable:any[]=['10','10','10','10','10','10'];
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog,public authService:AuthService) { }
 
   ngOnInit(): void {
   }

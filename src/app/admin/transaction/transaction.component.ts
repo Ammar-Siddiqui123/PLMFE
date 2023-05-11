@@ -5,6 +5,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SharedService } from 'src/app/services/shared.service';
+import { AuthService } from 'src/app/init/auth.service';
 
 @Component({
   selector: 'app-transaction',
@@ -29,7 +30,8 @@ export class TransactionComponent implements OnInit, AfterViewInit {
   constructor(
     router: Router,
     private route: ActivatedRoute,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    public authService: AuthService
   ) {
     // router.events
     //   .pipe(
