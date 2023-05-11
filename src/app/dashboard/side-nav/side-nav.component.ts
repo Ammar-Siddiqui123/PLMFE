@@ -72,10 +72,10 @@ export class SideNavComponent implements OnInit {
     // Vector
     { icon: 'add_location_alt', title: 'Staging Locations', route: '/ConsolidationManager/StagingLocations' ,permission:'Consolidation Manager'},
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
-    { icon: 'tune', title: 'Consolidation Preferences ', route: '/ConsolidationManager/ConsolidationPreferences' ,permission:'Consolidation Manager'},
+    { icon: 'tune', title: 'Consolidation Preferences ', route: '/ConsolidationManager/ConsolidationPreferences' ,permission:'Consolidation Mgr Admin'},
     // Vector (Stroke)
-    { icon: 'analytics', title: 'Reporting ', route: '#' ,permission:'Reporting'},
-     { icon: 'view_module', title: 'Order Status ', route: '/admin/transaction',paramsObj:{IsOrderStatus:true} ,permission:'Consolidation Manager'}
+    { icon: 'analytics', title: 'Reporting ', route: '#' ,permission:'Consolidation Mgr Admin'},
+     { icon: 'view_module', title: 'Order Status', route: '/admin/transaction',paramsObj:{IsOrderStatus:true} ,permission:'Order Status'}
     //  flex_wrap
   ];
 
@@ -103,7 +103,7 @@ export class SideNavComponent implements OnInit {
               private globalService: GlobalconfigService) { 
                 this.sharedService.SidebarMenupdate.subscribe((data: any) => {
                   var Menuobj = this.menus.find(x=>x.route == data);
-                  if(Menuobj==null)Menuobj = this.adminMenus.find(x=>x.route == data);
+                  if(Menuobj==null&&this.authService.UserPermissonByFuncName('Admin Menu'))Menuobj = this.adminMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.globalMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.inductionMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.inductionAdminMenus.find(x=>x.route == data);
