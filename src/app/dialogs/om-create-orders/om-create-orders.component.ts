@@ -205,7 +205,6 @@ export class OmCreateOrdersComponent implements OnInit {
       });
       return;
     }
-
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '560px',
