@@ -14,6 +14,7 @@ import { MatAutocomplete } from '@angular/material/autocomplete';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from '../input-filter/input-filter.component';
+import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
 
 @Component({
   selector: 'app-om-create-orders',
@@ -23,45 +24,45 @@ import { InputFilterComponent } from '../input-filter/input-filter.component';
 export class OmCreateOrdersComponent implements OnInit {
 
   displayedColumns: any[] = [
-    'transactionType',
-    'orderNumber',
-    'priority',
-    'requiredDate',
-    'userField1',
-    'userField2',
-    'userField3',
-    'userField4',
-    'userField5',
-    'userField6',
-    'userField7',
-    'userField8',
-    'userField9',
-    'userField10',
-    'itemNumber',
-    'description',
-    'lineNumber',
-    'transactionQuantity',
-    'warehouse',
-    'lineSequence',
-    'inProcess',
-    'processingBy',
-    'unitOfMeasure',
-    'importBy',
-    'importDate',
-    'importFilename',
-    'expirationDate',
-    'lotNumber',
-    'serialNumber',
-    'notes',
-    'revision',
-    'id',
-    'hostTransactionID',
-    'emergency',
-    'label',
-    'batchPickID',
-    'toteID',
-    'cell',
-    'action'
+    // 'transactionType',
+    // 'orderNumber',
+    // 'priority',
+    // 'requiredDate',
+    // 'userField1',
+    // 'userField2',
+    // 'userField3',
+    // 'userField4',
+    // 'userField5',
+    // 'userField6',
+    // 'userField7',
+    // 'userField8',
+    // 'userField9',
+    // 'userField10',
+    // 'itemNumber',
+    // 'description',
+    // 'lineNumber',
+    // 'transactionQuantity',
+    // 'warehouse',
+    // 'lineSequence',
+    // 'inProcess',
+    // 'processingBy',
+    // 'unitOfMeasure',
+    // 'importBy',
+    // 'importDate',
+    // 'importFilename',
+    // 'expirationDate',
+    // 'lotNumber',
+    // 'serialNumber',
+    // 'notes',
+    // 'revision',
+    // 'id',
+    // 'hostTransactionID',
+    // 'emergency',
+    // 'label',
+    // 'batchPickID',
+    // 'toteID',
+    // 'cell',
+    // 'action'
   ];
   filterColumnNames: any = [];
   createOrdersDTSubscribe: any;
@@ -247,6 +248,7 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   deleteViewed() {
+    console.log(this.tableData.map(x => x.id));
     // if (this.tableData.length == 0) {
     //   this.toastr.error('There are currently no records within the table', 'Warning', {
     //     positionClass: 'toast-bottom-right',
@@ -255,6 +257,7 @@ export class OmCreateOrdersComponent implements OnInit {
     // }
     // else {
     //   let ids = [];
+    //   ids = this.tableData.map(x => x.id);
     //   const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
     //     height: 'auto',
     //     width: '560px',
@@ -268,9 +271,7 @@ export class OmCreateOrdersComponent implements OnInit {
     //   dialogRef.afterClosed().subscribe((result) => {
     //     if (result === 'Yes') {
     //       let payload = {
-    //         "val": this.createOrdersDTPayload.orderNumber,
-    //         "page": "Create Orders",
-    //         "wsid": this.userData.wsid
+    //         "ids": ids
     //       };
     //       this.orderManagerService.get(payload, '/OrderManager/ReleaseOrders').subscribe((res: any) => {
     //         if (res.isExecuted && res.data) {
@@ -294,7 +295,19 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   selectColumnSequence() {
-
+    let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
+      height: '96%',
+      width: '70vw',
+      data: {
+        mode: event,
+        tableName: 'Order Manager Create',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.isExecuted) {
+        this.getColumnSequence();
+      }
+    });
   }
 
   searchItem(loader: boolean = false) {
@@ -330,7 +343,7 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    if(SelectedItem != undefined){
+    if (SelectedItem != undefined) {
       this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
       this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
     }
@@ -368,7 +381,7 @@ export class OmCreateOrdersComponent implements OnInit {
     }
   }
 
-  getColumnSequence() {
+  getColumnSequence(refresh: boolean = false) {
     let payload = {
       username: this.userData.userName,
       wsid: this.userData.wsid,
@@ -376,17 +389,21 @@ export class OmCreateOrdersComponent implements OnInit {
     };
     this.orderManagerService.get(payload, '/Admin/GetColumnSequence').subscribe((res: any) => {
       if (res.isExecuted) {
-        this.filterColumnNames = res.data;
+        debugger;
+        this.displayedColumns = JSON.parse(JSON.stringify(res.data));
+        this.filterColumnNames = JSON.parse(JSON.stringify(res.data));
+        this.displayedColumns.push('actions');
+        refresh ? this.createOrdersDT() : '';
       }
     });
   }
 
   autocompleteSearchColumn() {
     if (this.selectedFilterColumn != "") {
-      if(this.selectedFilterString != ""){
+      if (this.selectedFilterString != "") {
         this.createOrdersDTPayload.filter = `[${this.selectedFilterColumn}] = '${this.selectedFilterString}'`;
       }
-      else{
+      else {
         this.createOrdersDTPayload.filter = "1=1";
       }
       this.createOrdersDT(true);
