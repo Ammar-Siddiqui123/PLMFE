@@ -52,8 +52,8 @@ export class OmAddRecordComponent implements OnInit {
     "processBy": "",
     "importBy": "",
     "importDate": "",
-    "importFileName": "Create Pending Transaction",
-    "wsid": "TESTWSID"
+    "importFileName": "",
+    "wsid": ""
   };
   transactionTypes: any = [
     { value: 'Pick', title: 'Pick' },
@@ -65,8 +65,8 @@ export class OmAddRecordComponent implements OnInit {
   itemNumberSearchList: any;
   @ViewChild("searchauto", { static: false }) autocompleteOpened: MatAutocomplete;
   wharehouseRequired: any = '';
-
   heading:string = "";
+  orderNumberDisabled: boolean = false;
 
   constructor(
     private toastr: ToastrService,
@@ -79,20 +79,92 @@ export class OmAddRecordComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.oTTempUpdatePayload.processBy = this.userData.userName;
-    this.oTTempUpdatePayload.importBy = this.userData.userName;
-    this.oTTempUpdatePayload.wsid = this.userData.wsid;
-    this.getUserFieldData();
-
-    this.heading = this.data.heading;
+    this.getWarehouses();
+    this.initializaAutoComplete();
   }
 
-  clearAutoFills(){
-
+  initializaAutoComplete() {
+    this.heading = this.data.heading;
+    if(this.data.from == 'edit-transaction'){
+      this.isEdit = true;
+      this.orderNumberDisabled = true;
+      this.getWarehouses();
+      this.autofillModal();
+    }
+    else if (this.data.from == 'add-transaction'){
+      this.orderNumberDisabled = true;
+      this.getWarehouses();
+      this.autofillModal();
+    }
+    else{
+      this.oTTempUpdatePayload.processBy = this.userData.userName;
+      this.oTTempUpdatePayload.importBy = this.userData.userName;
+      // this.oTTempUpdatePayload.importDate = new Date();
+      // this.oTTempUpdatePayload.importDate = this.oTTempUpdatePayload.importDate.toLocaleDateString();
+      this.oTTempUpdatePayload.importFileName = "Create Pending Transaction";
+      this.getUserFieldData();
+    }
+    this.oTTempUpdatePayload.wsid = this.userData.wsid;
   }
 
   autofillModal(){
+    debugger;
+    this.oTTempUpdatePayload.id = this.data.transaction.id;
+    this.oTTempUpdatePayload.orderNumber = this.data.transaction.orderNumber;
+    this.oTTempUpdatePayload.transType = this.data.transaction.transactionType;
+    this.oTTempUpdatePayload.warehouse = this.data.transaction.warehouse;
+    this.oTTempUpdatePayload.itemNumber = this.data.transaction.itemNumber;
+    this.oTTempUpdatePayload.description = this.data.transaction.description;
+    this.oTTempUpdatePayload.unitofMeasure = this.data.transaction.unitOfMeasure;
+    this.oTTempUpdatePayload.transQty = this.data.transaction.transactionQuantity;
+    this.oTTempUpdatePayload.lineNumber = this.data.transaction.lineNumber;
+    this.oTTempUpdatePayload.priority = this.data.transaction.priority;
+    this.oTTempUpdatePayload.requiredDate = this.data.transaction.requiredDate;
+    this.oTTempUpdatePayload.hostTransID = this.data.transaction.hostTransactionID;
+    this.oTTempUpdatePayload.emergency = this.data.transaction.emergency;
+    this.oTTempUpdatePayload.label = this.data.transaction.label;
+    this.oTTempUpdatePayload.lotNumber = this.data.transaction.lotNumber;
+    this.oTTempUpdatePayload.expirationDate = this.data.transaction.expirationDate;
+    this.oTTempUpdatePayload.serialNumber = this.data.transaction.serialNumber;
+    this.oTTempUpdatePayload.revision = this.data.transaction.revision;
+    this.oTTempUpdatePayload.batchPickID = this.data.transaction.batchPickID;
+    this.oTTempUpdatePayload.toteID = this.data.transaction.toteID;
+    this.oTTempUpdatePayload.cell = this.data.transaction.cell;
+    this.oTTempUpdatePayload.notes = this.data.transaction.notes;
+    this.oTTempUpdatePayload.userField1 = this.data.transaction.userField1;
+    this.oTTempUpdatePayload.userField2 = this.data.transaction.userField2;
+    this.oTTempUpdatePayload.userField3 = this.data.transaction.userField3;
+    this.oTTempUpdatePayload.userField4 = this.data.transaction.userField4;
+    this.oTTempUpdatePayload.userField5 = this.data.transaction.userField5;
+    this.oTTempUpdatePayload.userField6 = this.data.transaction.userField6;
+    this.oTTempUpdatePayload.userField7 = this.data.transaction.userField7;
+    this.oTTempUpdatePayload.userField8 = this.data.transaction.userField8;
+    this.oTTempUpdatePayload.userField9 = this.data.transaction.userField9;
+    this.oTTempUpdatePayload.userField10 = this.data.transaction.userField10;
+    if(this.data.transaction.inProcess == "False"){
+      this.oTTempUpdatePayload.inProcess = false;
+    }
+    else if(this.data.transaction.inProcess == "True"){
+      this.oTTempUpdatePayload.inProcess = true;
+    }
+    // this.oTTempUpdatePayload.inProcess = this.data.transaction.inProcess;
+    this.oTTempUpdatePayload.processBy = this.data.transaction.processingBy;
+    this.oTTempUpdatePayload.importBy = this.data.transaction.importBy;
+    this.oTTempUpdatePayload.importDate = this.data.transaction.importDate;
+    this.oTTempUpdatePayload.importFileName = this.data.transaction.importFilename;
 
+    if(this.oTTempUpdatePayload.processBy == "" || this.oTTempUpdatePayload.processBy == null || this.oTTempUpdatePayload.processBy == undefined){
+      this.oTTempUpdatePayload.processBy = this.userData.userName;
+    }
+    if(this.oTTempUpdatePayload.importBy == "" || this.oTTempUpdatePayload.importBy == null || this.oTTempUpdatePayload.importBy == undefined){
+      this.oTTempUpdatePayload.importBy = this.userData.userName;
+    }
+    if(this.oTTempUpdatePayload.importFileName == "" || this.oTTempUpdatePayload.importFileName == null || this.oTTempUpdatePayload.importFileName == undefined){
+      this.oTTempUpdatePayload.importFileName = "Create Pending Transaction";
+    }
+    if(this.oTTempUpdatePayload.orderNumber == "" || this.oTTempUpdatePayload.orderNumber == null || this.oTTempUpdatePayload.orderNumber == undefined){
+      this.oTTempUpdatePayload.orderNumber = this.data.orderNumber;
+    }
   }
 
   mapDefaultValues() {
@@ -179,7 +251,6 @@ export class OmAddRecordComponent implements OnInit {
             });
           }
         })
-
       }
     }
   }

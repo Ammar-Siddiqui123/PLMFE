@@ -37,6 +37,7 @@ export class OmCreateOrdersComponent implements OnInit {
     'userField8',
     'userField9',
     'userField10',
+    'itemNumber',
     'description',
     'lineNumber',
     'transactionQuantity',
@@ -89,6 +90,7 @@ export class OmCreateOrdersComponent implements OnInit {
   @ViewChild('trigger') trigger: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
   FilterString: string = "";
+  selectedTransaction: any = {};
 
   constructor(
     private dialog: MatDialog,
@@ -115,7 +117,6 @@ export class OmCreateOrdersComponent implements OnInit {
       },
     })
     dialogRef.afterClosed().subscribe(result => {
-      debugger;
       if (result) {
         this.createOrdersDTPayload.orderNumber = result.orderNumber;
         this.createOrdersDT();
@@ -123,30 +124,44 @@ export class OmCreateOrdersComponent implements OnInit {
     });
   }
 
-  openOmEditTransaction() {
-    let dialogRef = this.dialog.open(OmEditTransactionComponent, {
+  openOmEditTransaction(element:any) {
+    let dialogRef = this.dialog.open(OmAddRecordComponent, {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
-
+      data: {
+        from: "edit-transaction",
+        heading: `Updating a transaction for ${this.createOrdersDTPayload.orderNumber}`,
+        transaction: element,
+        orderNumber: this.createOrdersDTPayload.orderNumber
+      },
     })
     dialogRef.afterClosed().subscribe(result => {
-
-
-    })
+      if (result) {
+        this.createOrdersDTPayload.orderNumber = result.orderNumber;
+        this.createOrdersDT();
+      }
+    });
   }
 
   openOmAddTransaction() {
-    let dialogRef = this.dialog.open(OmAddTransactionComponent, {
+    let dialogRef = this.dialog.open(OmAddRecordComponent, {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
-
+      data: {
+        from: "add-transaction",
+        heading: `Adding a new transaction for ${this.createOrdersDTPayload.orderNumber}`,
+        transaction: this.selectedTransaction,
+        orderNumber: this.createOrdersDTPayload.orderNumber
+      },
     })
     dialogRef.afterClosed().subscribe(result => {
-
-
-    })
+      if (result) {
+        this.createOrdersDTPayload.orderNumber = result.orderNumber;
+        this.createOrdersDT();
+      }
+    });
   }
 
   openOmUserFieldData() {
@@ -351,5 +366,13 @@ export class OmCreateOrdersComponent implements OnInit {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
+  }
+
+  selectTransaction(element) {
+    if (this.selectedTransaction.id && this.selectedTransaction.id == element.id) {
+      this.selectedTransaction = {};
+    } else {
+      this.selectedTransaction = element;
+    }
   }
 }
