@@ -75,7 +75,8 @@ bpSettingLocInp='';
   employee_group_allowed: any;
   emp_all_zones:any;
   groupAllowedList:any;
-  FuncationAllowedList:any;
+  FuncationAllowedList:any = [];
+  OldFuncationAllowedList:any = [];
   access:any;
   grp_data:any;
   public demo1TabIndex = 0;
@@ -134,18 +135,24 @@ getgroupAllowedList(){
 }
 getFuncationAllowedList(){
   var emp:any = {
-    "username": this.userData.userName,
+    "username": this.grp_data,
     "access": this.empData.accessLevel,
     "wsid": this.userData.wsid
   }
   this.employeeService.getInsertAllAccess(emp).subscribe((res:any) => {
-    console.log('sssssssss',res.data);
-    if(res.data){
-      this.FuncationAllowedList = new MatTableDataSource(res.data);
+ 
+    if(res){
+      this.reloadData();
     }
   }) 
 }
-
+applyFunctionAllowedFilter(event: any) {
+  debugger
+  if(!this.OldFuncationAllowedList?.length && this.FuncationAllowedList.filteredData?.length) {
+    this.OldFuncationAllowedList = this.FuncationAllowedList.filteredData;
+  }
+  if(this.OldFuncationAllowedList.length) this.FuncationAllowedList = new MatTableDataSource(this.OldFuncationAllowedList.filter(x=> x?.toLowerCase()?.indexOf(event?.target?.value.toLowerCase()) > -1));
+}
 initialzeEmpForm() {
   this.empForm = this.fb.group({
     mi: this.empData.mi,
@@ -182,14 +189,15 @@ initialzeEmpForm() {
         this.employee_group_allowed = response.data?.userRights
         this.pickUplevels = response.data?.pickLevels;
         this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
+        this.FuncationAllowedList = new MatTableDataSource(response.data.userRights);
         this.location_data = response.data?.bulkRange
-        this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones);
+        this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones); 
         this.employee_fetched_zones.filterPredicate = (data: String, filter: string) => {
           return data.toLowerCase().includes(filter.trim().toLowerCase());
       };
         this.emp_all_zones = response.data?.allZones;
         if(this.env !== 'DB') this.getgroupAllowedList();
-        else this.getFuncationAllowedList();
+         
       });
 
 
@@ -205,6 +213,7 @@ initialzeEmpForm() {
         this.employee_group_allowed = response.data?.userRights
         this.pickUplevels = response.data?.pickLevels;
         this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
+        this.FuncationAllowedList = new MatTableDataSource(response.data.userRights);
         this.location_data = response.data?.bulkRange
         this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones);
         this.emp_all_zones = response.data?.allZones;
@@ -613,11 +622,19 @@ initialzeEmpForm() {
     })
   }
 
-  groupAllowedDialog() {
-    this.dialog.open(AddGroupAllowedComponent, {
+  AddFunctionAllowedDialog() {
+    let dialogRef;
+    dialogRef = this.dialog.open(AddGroupAllowedComponent, {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      data:{
+        userName:this.grp_data,
+        wsid:"TESTWSID"
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.reloadData();
     })
   }
   grpAllowedDialog() {
@@ -633,7 +650,7 @@ initialzeEmpForm() {
     dialogRef.afterClosed().subscribe(result => {
      
     this.getgroupAllowedList();
-      this.getEmployeeDetails();
+      this.reloadData();
 
 
     })
@@ -651,7 +668,7 @@ initialzeEmpForm() {
         let userRights:any=[];
         let customPermissions:any=[];
           
-         existingRights = response.data.userRights;
+         existingRights = response.data.userRights; 
          customPermissions = JSON.parse(localStorage.getItem('customPerm') || '');
          userRights = [...existingRights, ...customPermissions];
          
@@ -686,7 +703,7 @@ initialzeEmpForm() {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      this.getFuncationAllowedList();
+      this.reloadData();
     })
 
   }

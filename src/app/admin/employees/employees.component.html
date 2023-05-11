@@ -306,28 +306,25 @@
                                       search
                                     </span>
                                     <input type="text" placeholder="Search Functions allowed"
-                                      aria-label="Search Group Allowed" matInput [(ngModel)]="searchfuncAllowed">
+                                      aria-label="Search Group Allowed" matInput [(ngModel)]="searchfuncAllowed"  (keyup)="applyFunctionAllowedFilter($event)">
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
-                                    (click)="groupAllowedDialog()">
+                                    (click)="AddFunctionAllowedDialog()">
                                     <span class="material-symbols-outlined">
                                       add
                                     </span>
-                                  </button>
+                                  </button>  
+                                </div>
+                                <div class="row mt-1 mb-2">
+                                  <div class="col-md-12">
+                                    <button mat-stroked-button color="primary" class="button-add-all w-100 mb-3" 
+                                    (click)="getFuncationAllowedList()" >
+                                      Add All
+                                    </button>
+                                  </div>
                                 </div>
                                 <mat-list class="zones-list g-card-list" role="list">
-                                  <ng-scrollbar style="height: 200px">
-                                    <mat-list-item role="listitem"
-                                      *ngFor="let groups_allowed of FuncationAllowedList | customFuncAllowedSearch:searchfuncAllowed;let i = index">
-                                      <span class="list-label zone-list-label">
-                                        {{groups_allowed}}
-                                      </span>
-                                      <button mat-icon-button aria-label="Remove Group"
-                                        (click)="deleteFuncationAllowed(groups_allowed)">
-                                        <mat-icon class="icon-circle-cancel">close</mat-icon>
-                                      </button>
-                                    </mat-list-item>
-                                  </ng-scrollbar>
+                         
                                   <div class="card table-responsive" *ngIf="FuncationAllowedList">
                                     <ng-scrollbar class="mat-table-scrollbar" style="height: 500px">
                                       <table mat-table [dataSource]="FuncationAllowedList" matSort
@@ -343,7 +340,7 @@
                                         <!-- Start Location Column -->
                                         <ng-container matColumnDef="Function">
                                           <th width="80%" mat-header-cell *matHeaderCellDef>Function</th>
-                                          <td width="80%" mat-cell *matCellDef="let element"> {{element.groupName}}
+                                          <td width="80%" mat-cell *matCellDef="let element"> {{element}}
                                           </td>
                                         </ng-container>
                                         <ng-container matColumnDef="actions">
@@ -582,7 +579,7 @@
       </div>
     </div>
   </mat-tab>
-
+  
   <!-- <mat-tab label="Statistics">
     <div class="statistics-tab g-tab">
       <div class="container-fluid p-0">
@@ -594,4 +591,24 @@
       </div>
     </div>
   </mat-tab> -->
+  <mat-tab label="Button Access" *ngIf="env === 'DB'">
+    <div class="groups-tab g-tab">
+      <div class="container-fluid p-0">
+        <div class="row">
+          <!-- left side for details -->
+          <div class="col-xl-12">
+            <mat-card class="mat-elevation-z g-card" style="height: 100%;">
+              <mat-card-content> 
+                  <ng-scrollbar class="mat-table-scrollbar scrollbar-hover-padding" style="height: 860px">
+                   
+                  </ng-scrollbar> 
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+           
+        </div>
+      </div>
+    </div>
+  </mat-tab>
 </mat-tab-group>
