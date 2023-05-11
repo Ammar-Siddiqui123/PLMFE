@@ -31,7 +31,7 @@
           </div>
         </div>
   
-        <div class="col-xl-3 col-lg-6">
+        <div class="col-xl-3 col-lg-6" *ngIf="authService.UserPermissonByFuncName('Consolidation Mgr Admin')">
           <div matRipple [matRippleColor]="tab_hover_color" routerLink="ConsolidationPreferences"  class="main-section-option bg-white">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
@@ -43,7 +43,7 @@
           </div>
         </div>
   
-        <div class="col-xl-3 col-lg-6">
+        <div class="col-xl-3 col-lg-6" *ngIf="authService.UserPermissonByFuncName('Consolidation Mgr Admin')">
           <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
@@ -55,7 +55,7 @@
           </div>
         </div>
   
-        <div class="col-xl-3 col-lg-6">
+        <div class="col-xl-3 col-lg-6" *ngIf="authService.UserPermissonByFuncName('Order Status')">
           <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white"
           routerLink="/admin/transaction" [queryParams]="{IsOrderStatus:true}">
             <a class="main-section-option-link" href="#"></a>

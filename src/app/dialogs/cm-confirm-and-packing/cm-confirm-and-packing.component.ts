@@ -34,15 +34,16 @@ export class CmConfirmAndPackingComponent implements OnInit {
   PrintPrefs:any={}; 
   IsDisabled:boolean  = false;
  displayedColumns: string[] = ['toteID', 'stagingLocation']; 
-userData:any={};
+userData:any={}; 
 @ViewChild('paginator1') paginator1: MatPaginator;
 @ViewChild('paginator2') paginator2: MatPaginator;
 displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transactionQuantity', 'completedQuantity', 'containerID',
  'shipQuantity', 'complete']; 
-  constructor(private http:ConsolidationManagerService,private authService: AuthService,private toast:ToastrService,private dialog: MatDialog,
+  constructor(private http:ConsolidationManagerService,public authService: AuthService,private toast:ToastrService,private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,private _liveAnnouncer: LiveAnnouncer,
     public dialogRef: MatDialogRef<any>) { 
     this.userData = this.authService.userData();
+   
     this.orderNumber = this.data.orderNumber;
   }
 

@@ -90,7 +90,7 @@ export class ConsolidationComponent implements OnInit {
               private toastr: ToastrService,
               private router: Router, 
               private consolidationHub: ConsolidationManagerService, 
-              private authService: AuthService,  
+              public authService: AuthService,  
               private _liveAnnouncer: LiveAnnouncer,) { }
 
   ngOnInit(): void {

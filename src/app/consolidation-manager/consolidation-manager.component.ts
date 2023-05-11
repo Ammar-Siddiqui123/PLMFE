@@ -12,7 +12,7 @@ export class ConsolidationManagerComponent implements OnInit {
   tab_hover_color:string = '#cf9bff3d';
 
   constructor(private sharedService: SharedService,
-              private authService: AuthService,) { }
+              public authService: AuthService,) { }
 
   ngOnInit(): void {
   }
