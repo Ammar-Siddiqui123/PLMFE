@@ -49,6 +49,16 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     //       // this.showReprocessed=true;
     //     }
     //   });
+
+    //get absolute url
+    // console.log(router.url);
+   if(router.url == '/OrderManager/OmOrderStatus'){
+    this.TabIndex = 0;
+   }
+   else if(router.url == '/admin/transaction'){
+    this.TabIndex = 1;
+   }
+
   }
   ngAfterViewInit() {
 
@@ -69,7 +79,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
       map((params: ParamMap) => params.get('IsOrderStatus')),
     );
     IsStatus.subscribe((param) => {
-      debugger
+      // debugger
       if (param!=null &&param != undefined) {
         this.IsOrderStatus = true;
       }else this.IsOrderStatus = false;

@@ -95,10 +95,10 @@ export class SideNavComponent implements OnInit {
     { icon: 'arrow_back', title: 'Order Manager', route: '/dashboard', class: 'back-class' , permission: 'Order Manager'},
 
     { icon: ' pending_actions', title: 'Order Manager', route: '/OrderManager/OmOrderManager' ,permission:'Admin Release Orders'},
-    { icon: 'view_module', title: 'Order Status ', route: '#' ,permission:'Order Status'},
+    { icon: 'view_module', title: 'Order Status ', route: '/OrderManager/OmOrderStatus' ,permission:'Order Status'},
     { icon: 'event_note', title: 'Event Log ', route: '/OrderManager/EventLog' ,permission:'Admin Release Orders'},
-    { icon: 'dataset', title: 'Inventory Master Info', route: '#' ,permission:'Admin Inventory Master'},
-    { icon: 'warehouse', title: 'Stock Location & Quantity ', route: '#' ,permission:'Admin Stock Locations'},
+    { icon: 'dataset', title: 'Inventory Master Info', route: '/OrderManager/OmInventoryMaster' ,permission:'Admin Inventory Master'},
+    { icon: 'warehouse', title: 'Stock Location & Quantity ', route: '/OrderManager/OmInventoryMap' ,permission:'Admin Stock Locations'},
     { icon: 'analytics', title: 'Reports ', route: '#' ,permission:'Admin Reports'},
     { icon: 'tune', title: 'Preferences ', route: '/OrderManager/OmPreferences' ,permission:'Admin Preferences'},
   ];
