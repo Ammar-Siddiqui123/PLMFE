@@ -115,7 +115,7 @@ export class OmOrderManagerComponent implements OnInit {
               private _liveAnnouncer  : LiveAnnouncer,
               private toastr          : ToastrService,
               private OMService       : OrderManagerService,
-              private authService     : AuthService,
+              public authService     : AuthService,
               private filterService   : ContextMenuFiltersService) { }
 
   ngOnInit(): void {
