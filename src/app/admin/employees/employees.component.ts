@@ -75,6 +75,8 @@ bpSettingLocInp='';
   employee_group_allowed: any;
   emp_all_zones:any;
   groupAllowedList:any;
+  FuncationAllowedList:any;
+  access:any;
   grp_data:any;
   public demo1TabIndex = 0;
   public userData;
@@ -89,7 +91,8 @@ bpSettingLocInp='';
   displayedColumns: string[] = ['start_location', 'end_location', 'delete_location'];
   zoneColumns: string[] = ['zones', 'actions'];
   groupsColumns: string[] = ['groups', 'actions'];
-
+  funcationsColumns: string[] = ['Function', 'actions'];
+  
 
   constructor(
     private authService: AuthService,
@@ -101,7 +104,7 @@ bpSettingLocInp='';
     public laoder: SpinnerService,
     private fb: FormBuilder
     ) { 
-    // console.log(router.url);
+    // console.log(router.url); 
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -127,6 +130,19 @@ getgroupAllowedList(){
   //   this.groupAllowedList.filterPredicate = (data: any, filter: string) => {
   //     return data.toLowerCase().includes(filter.trim().toLowerCase());
   // };
+  }) 
+}
+getFuncationAllowedList(){
+  var emp:any = {
+    "username": this.userData.userName,
+    "access": this.empData.accessLevel,
+    "wsid": this.userData.wsid
+  }
+  this.employeeService.getInsertAllAccess(emp).subscribe((res:any) => {
+    console.log('sssssssss',res.data);
+    if(res.data){
+      this.FuncationAllowedList = new MatTableDataSource(res.data);
+    }
   }) 
 }
 
@@ -172,7 +188,8 @@ initialzeEmpForm() {
           return data.toLowerCase().includes(filter.trim().toLowerCase());
       };
         this.emp_all_zones = response.data?.allZones;
-        this.getgroupAllowedList();
+        if(this.env !== 'DB') this.getgroupAllowedList();
+        else this.getFuncationAllowedList();
       });
 
 
@@ -654,6 +671,22 @@ initialzeEmpForm() {
     })
     dialogRef.afterClosed().subscribe(result => {
       this.getgroupAllowedList();
+    })
+
+  }
+  deleteFuncationAllowed(controlName: any) {
+    const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        mode: 'delete-allowed-funcation',
+        controlName: controlName,
+        userName :this.grp_data
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      this.getFuncationAllowedList();
     })
 
   }

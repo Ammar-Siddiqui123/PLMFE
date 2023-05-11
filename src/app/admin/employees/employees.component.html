@@ -318,17 +318,55 @@
                                 <mat-list class="zones-list g-card-list" role="list">
                                   <ng-scrollbar style="height: 200px">
                                     <mat-list-item role="listitem"
-                                      *ngFor="let groups_allowed of employee_group_allowed | customFuncAllowedSearch:searchfuncAllowed;let i = index">
+                                      *ngFor="let groups_allowed of FuncationAllowedList | customFuncAllowedSearch:searchfuncAllowed;let i = index">
                                       <span class="list-label zone-list-label">
                                         {{groups_allowed}}
                                       </span>
                                       <button mat-icon-button aria-label="Remove Group"
-                                        (click)="deleteGroupAllowed(groups_allowed)">
+                                        (click)="deleteFuncationAllowed(groups_allowed)">
                                         <mat-icon class="icon-circle-cancel">close</mat-icon>
                                       </button>
                                     </mat-list-item>
                                   </ng-scrollbar>
+                                  <div class="card table-responsive" *ngIf="FuncationAllowedList">
+                                    <ng-scrollbar class="mat-table-scrollbar" style="height: 500px">
+                                      <table mat-table [dataSource]="FuncationAllowedList" matSort
+                                        (matSortChange)="announceSortChange($event)"
+                                        class="g-card-table table-minimal-action-buttons">
 
+                                        <tr class="mat-row" *matNoDataRow>
+                                          <td class="mat-cell" [attr.colspan]="funcationsColumns.length"
+                                            style="text-align: center;">
+                                            No data matching the filter.
+                                          </td>
+                                        </tr>
+                                        <!-- Start Location Column -->
+                                        <ng-container matColumnDef="Function">
+                                          <th width="80%" mat-header-cell *matHeaderCellDef>Function</th>
+                                          <td width="80%" mat-cell *matCellDef="let element"> {{element.groupName}}
+                                          </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="actions">
+                                          <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action
+                                          </th>
+                                          <td width="20%" class="text-center" mat-cell *matCellDef="let element">
+                                            <button mat-icon-button aria-label="Delete"
+                                              (click)="deleteFuncationAllowed(element)" matTooltip="Remove group allowed"
+                                              matTooltipPosition="above">
+                                              <mat-icon class="icon-circle-cancel">close</mat-icon>
+                                            </button>
+                                            <!-- <button mat-icon-button aria-label="Edit">
+                                          <mat-icon class="icon-circle-edit">border_color</mat-icon>
+                                        </button> -->
+
+                                          </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="funcationsColumns; sticky:true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: funcationsColumns;"></tr>
+                                      </table>
+                                    </ng-scrollbar>
+                                  </div>
                                 </mat-list>
 
                               </div>
