@@ -116,7 +116,7 @@
             <ng-container matColumnDef="transactionType">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Type</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.transactionType, 'Transaction Type')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.transactionType}}</td>
             </ng-container>
@@ -124,7 +124,7 @@
             <ng-container matColumnDef="orderNumber">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Order Number</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.orderNumber, 'Order Number')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.orderNumber}}</td>
             </ng-container>
@@ -132,7 +132,7 @@
             <ng-container matColumnDef="priority">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Priority</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.priority, 'Priority')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.priority}}</td>
             </ng-container>
@@ -140,7 +140,7 @@
             <ng-container matColumnDef="requiredDate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Required Date</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.requiredDate, 'Required Date')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.requiredDate}}</td>
             </ng-container>
@@ -148,7 +148,7 @@
             <ng-container matColumnDef="userField1">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>User Field1</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.userField1, 'User Field1')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.userField1}}</td>
             </ng-container>
@@ -156,7 +156,7 @@
             <ng-container matColumnDef="userField2">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>User Field2</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.userField2, 'User Field2')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.userField2}}</td>
             </ng-container>
@@ -164,7 +164,7 @@
             <ng-container matColumnDef="userField3">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>User Field3</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.userField3, 'User Field3')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.userField3}}</td>
             </ng-container>
@@ -172,7 +172,7 @@
             <ng-container matColumnDef="userField4">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>User Field4</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.userField4, 'User Field4')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.userField4}}</td>
             </ng-container>
@@ -180,7 +180,7 @@
             <ng-container matColumnDef="userField5">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>User Field5</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.userField5, 'User Field5')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.userField5}}</td>
             </ng-container>
@@ -188,7 +188,7 @@
             <ng-container matColumnDef="userField6">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>User Field6</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.userField6, 'User Field6')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.userField6}}</td>
             </ng-container>
@@ -196,7 +196,7 @@
             <ng-container matColumnDef="userField7">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>User Field7</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.userField7, 'User Field7')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.userField7}}</td>
             </ng-container>
@@ -204,7 +204,7 @@
             <ng-container matColumnDef="userField8">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>User Field8</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.userField8, 'User Field8')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.userField8}}</td>
             </ng-container>
@@ -212,7 +212,7 @@
             <ng-container matColumnDef="userField9">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>User Field9</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.userField9, 'User Field9')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.userField9}}</td>
             </ng-container>
@@ -220,7 +220,7 @@
             <ng-container matColumnDef="userField10">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>User Field10</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.userField10, 'User Field10')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.userField10}}</td>
             </ng-container>
@@ -236,7 +236,7 @@
             <ng-container matColumnDef="description">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.description, 'Description')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.description}}</td>
             </ng-container>
@@ -244,7 +244,7 @@
             <ng-container matColumnDef="lineNumber">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Line Number</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.lineNumber, 'Line Number')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.lineNumber}}</td>
             </ng-container>
@@ -252,7 +252,7 @@
             <ng-container matColumnDef="transactionQuantity">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Quantity</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.transactionQuantity, 'Transaction Quantity')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.transactionQuantity}}</td>
             </ng-container>
@@ -260,7 +260,7 @@
             <ng-container matColumnDef="warehouse">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Warehouse</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.warehouse, 'Warehouse')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.warehouse}}</td>
             </ng-container>
@@ -268,7 +268,7 @@
             <ng-container matColumnDef="lineSequence">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Line Sequence</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.lineSequence, 'Line Sequence')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.lineSequence}}</td>
             </ng-container>
@@ -276,7 +276,7 @@
             <ng-container matColumnDef="inProcess">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>In Process</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.inProcess, 'Item Number')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.inProcess}}</td>
             </ng-container>
@@ -284,7 +284,7 @@
             <ng-container matColumnDef="processingBy">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Processing By</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.processingBy, 'Processing By')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.processingBy}}</td>
             </ng-container>
@@ -292,7 +292,7 @@
             <ng-container matColumnDef="unitOfMeasure">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit Of Measure</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.unitOfMeasure, 'Unit Of Measure')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.unitOfMeasure}}</td>
             </ng-container>
@@ -300,7 +300,7 @@
             <ng-container matColumnDef="importBy">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Import By</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.importBy, 'Import By')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.importBy}}</td>
             </ng-container>
@@ -308,15 +308,15 @@
             <ng-container matColumnDef="importDate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Import Date</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.importDate, 'Import Date')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.importDate}}</td>
             </ng-container>
 
             <ng-container matColumnDef="importFilename">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Import File Name</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Import Filename</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.importFilename, 'Import Filename')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.importFilename}}</td>
             </ng-container>
@@ -324,7 +324,7 @@
             <ng-container matColumnDef="expirationDate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Expiration Date</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.expirationDate, 'Expiration Date')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.expirationDate}}</td>
             </ng-container>
@@ -332,7 +332,7 @@
             <ng-container matColumnDef="lotNumber">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Lot Number</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.lotNumber, 'Lot Number')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.lotNumber}}</td>
             </ng-container>
@@ -340,7 +340,7 @@
             <ng-container matColumnDef="serialNumber">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Serial Number</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.serialNumber, 'Serial Number')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.serialNumber}}</td>
             </ng-container>
@@ -348,7 +348,7 @@
             <ng-container matColumnDef="notes">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Notes</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.notes, 'Notes')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.notes}}</td>
             </ng-container>
@@ -356,7 +356,7 @@
             <ng-container matColumnDef="revision">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Revision</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.revision, 'Revision')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.revision}}</td>
             </ng-container>
@@ -364,7 +364,7 @@
             <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.id, 'ID')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.id}}</td>
             </ng-container>
@@ -372,7 +372,7 @@
             <ng-container matColumnDef="hostTransactionID">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Host Transaction ID</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.hostTransactionID, 'Host Transaction ID')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.hostTransactionID}}</td>
             </ng-container>
@@ -380,7 +380,7 @@
             <ng-container matColumnDef="emergency">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Emergency</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.emergency, 'Emergency')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.emergency}}</td>
             </ng-container>
@@ -388,7 +388,7 @@
             <ng-container matColumnDef="label">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Label</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.label, 'Label')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.label}}</td>
             </ng-container>
@@ -396,7 +396,7 @@
             <ng-container matColumnDef="batchPickID">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Batch Pick ID</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.batchPickID, 'Batch Pick ID')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.batchPickID}}</td>
             </ng-container>
@@ -404,7 +404,7 @@
             <ng-container matColumnDef="toteID">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Tote ID</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.toteID, 'Tote ID')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.toteID}}</td>
             </ng-container>
@@ -412,7 +412,7 @@
             <ng-container matColumnDef="cell">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Cell</th>
                 <td mat-cell *matCellDef="let element"
-                (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
+                (contextmenu)="onContextMenu($event, element.cell, 'Cell')"
                 (click)="selectTransaction(element)" [class.selected]="element.id == selectedTransaction.id"
                 >{{element.cell}}</td>
             </ng-container>
@@ -431,6 +431,12 @@
                 </div>
                 </td>
             </ng-container>
+
+            <tr class="mat-row" *matNoDataRow (contextmenu)="onContextMenu($event, undefined, '')">
+                <td class="mat-cell " [attr.colspan]="displayedColumns.length">
+                  No data available in table.
+                </td>
+            </tr>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns" style=" background-color: #F9F9FF;"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
