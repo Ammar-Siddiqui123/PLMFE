@@ -49,7 +49,7 @@
                 <div class="col-xl-4">
                     <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                         <mat-label>Priority</mat-label>
-                        <input formControlName="priority" maxlength="255" type="text" matInput>
+                        <input formControlName="priority" #prio (input)="prio.value = globalService.setNumericInRange(prio.value, globalService.sqlLimits.numerics.smallint, '');" type="text" matInput>
                     </mat-form-field>
                 </div>
                 <div class="col-xl-4">

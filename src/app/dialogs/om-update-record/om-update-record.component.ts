@@ -66,12 +66,32 @@ export class OmUpdateRecordComponent implements OnInit {
   }
 
   openOmChangesConfirm() {
+
+    const values = this.orderForm.value;
+
     let dialogRef = this.dialog.open(OmChangesConfirmationComponent, {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
       data: {
-        ...this.orderForm.value
+        order      : { id : this.data.id, ...this.orderForm.value },
+        reqDateDis : (values.reqDate != this.data.requiredDate) ? false : true,
+        notesDis   : (values.notes != this.data.notes) ? false : true,
+        priorityDis: (values.priority != this.data.priority) ? false : true,
+        user1Dis   : (values.user1 != this.data.userField1) ? false : true,
+        user2Dis   : (values.user2 != this.data.userField2) ? false : true,
+        user3Dis   : (values.user3 != this.data.userField3) ? false : true,
+        user4Dis   : (values.user4 != this.data.userField4) ? false : true,
+        user5Dis   : (values.user5 != this.data.userField5) ? false : true,
+        user6Dis   : (values.user6 != this.data.userField6) ? false : true,
+        user7Dis   : (values.user7 != this.data.userField7) ? false : true,
+        user8Dis   : (values.user8 != this.data.userField8) ? false : true,
+        user9Dis   : (values.user9 != this.data.userField9) ? false : true,
+        user10Dis  : (values.user10 != this.data.userField10) ? false : true,        
+        emergencyDis: (values.emergency != this.data.emergency) || (values.emergency.toLowerCase() == 'true' && this.data.emergency == '0') || (values.emergency.toLowerCase() == 'false' && this.data.emergency == '1')
+                      ? false : true,
+        labelDis    : (values.label != this.data.label) || (values.label == 'True' && this.data.label == '0') || (values.label == 'False' && this.data.label == '1')
+                      ? false : true,        
       }
     });
 
