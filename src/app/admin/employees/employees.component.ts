@@ -25,6 +25,7 @@ import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { SpinnerService } from '../../../app/init/spinner.service';
 import { MatOption } from '@angular/material/core';
+import { MatPaginator } from '@angular/material/paginator';
 
 export interface location {
   start_location: string;
@@ -44,12 +45,15 @@ export interface location {
 export class EmployeesComponent implements OnInit {
   emp: IEmployee;
   public isLookUp: boolean = false;
+  public lookUpEvnt:any=false;
   public isGroupLookUp: boolean = false;
   public env;
   @ViewChild('matRef') matRef: MatSelect;
  // public searchGrpAllowed = '';
   public searchfuncAllowed = '';
-
+  public grpAllFilter='';
+bpSettingInp='';
+bpSettingLocInp='';
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
@@ -72,21 +76,34 @@ export class EmployeesComponent implements OnInit {
   employee_group_allowed: any;
   emp_all_zones:any;
   groupAllowedList:any;
+  FuncationAllowedList:any = [];
+  OldFuncationAllowedList:any = [];
+  access:any;
   grp_data:any;
   public demo1TabIndex = 0;
   public userData;
   public updateGrpTable;
+  isTabChanged:any;
   empForm: FormGroup;
   @ViewChild('zoneDataRefresh', { static: true,read:MatTable }) zoneDataRefresh;
-
-
+  public ButtonAccessList: any = [];
+  @ViewChild('paginator1') paginator1: MatPaginator;
 
   // table initialization
   displayedColumns: string[] = ['start_location', 'end_location', 'delete_location'];
   zoneColumns: string[] = ['zones', 'actions'];
   groupsColumns: string[] = ['groups', 'actions'];
+  funcationsColumns: string[] = ['Function', 'actions'];
+  
+  ELEMENT_DATA_1: any[] = [
+    { controlname: '11/02/2022 11:58 AM', function: 'deleted Item Number 123'},
+    { controlname: '11/02/2022 11:58 AM', function: 'deleted Item Number 123'}
+   
+  ];
 
-
+  displayedColumns_1: string[] = ['controlName', 'function', 'adminLevel'];
+  tableData_1 = this.ELEMENT_DATA_1
+  dataSourceList_1: any
   constructor(
     private authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer, 
@@ -97,7 +114,7 @@ export class EmployeesComponent implements OnInit {
     public laoder: SpinnerService,
     private fb: FormBuilder
     ) { 
-    // console.log(router.url);
+    // console.log(router.url); 
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -116,6 +133,8 @@ getgroupAllowedList(){
     "wsid": "TESTWSID"
   };
   this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
+    console.log('sssssssss',res.data);
+    
    // this.groupAllowedList = res.data;
     this.groupAllowedList = new MatTableDataSource(res.data);
   //   this.groupAllowedList.filterPredicate = (data: any, filter: string) => {
@@ -123,7 +142,26 @@ getgroupAllowedList(){
   // };
   }) 
 }
-
+getFuncationAllowedList(){
+  var emp:any = {
+    "username": this.grp_data,
+    "access": this.empData.accessLevel,
+    "wsid": this.userData.wsid
+  }
+  this.employeeService.getInsertAllAccess(emp).subscribe((res:any) => {
+ 
+    if(res.isExecuted){
+      this.reloadData();
+    }
+  }) 
+}
+applyFunctionAllowedFilter(event: any) {
+  debugger
+  if(!this.OldFuncationAllowedList?.length && this.FuncationAllowedList.filteredData?.length) {
+    this.OldFuncationAllowedList = this.FuncationAllowedList.filteredData;
+  }
+  if(this.OldFuncationAllowedList.length) this.FuncationAllowedList = new MatTableDataSource(this.OldFuncationAllowedList.filter(x=> x?.toLowerCase()?.indexOf(event?.target?.value.toLowerCase()) > -1));
+}
 initialzeEmpForm() {
   this.empForm = this.fb.group({
     mi: this.empData.mi,
@@ -138,9 +176,11 @@ initialzeEmpForm() {
   });
 }
   updateIsLookUp(event: any) {
+   
     this.empData = {};
     this.empData = event.userData;
     this.isLookUp = event;
+    this.lookUpEvnt=true;
     // console.log(event.userData?.username);
     this.grp_data = event.userData?.username
 
@@ -154,16 +194,19 @@ initialzeEmpForm() {
       .subscribe((response: any) => {
         // console.log(response);
         this.isLookUp = event;
+        this.lookUpEvnt=true;
         this.employee_group_allowed = response.data?.userRights
         this.pickUplevels = response.data?.pickLevels;
         this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
+        this.FuncationAllowedList = new MatTableDataSource(response.data.userRights);
         this.location_data = response.data?.bulkRange
-        this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones);
+        this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones); 
         this.employee_fetched_zones.filterPredicate = (data: String, filter: string) => {
           return data.toLowerCase().includes(filter.trim().toLowerCase());
       };
         this.emp_all_zones = response.data?.allZones;
-        this.getgroupAllowedList();
+        if(this.env !== 'DB') this.getgroupAllowedList();
+         
       });
 
 
@@ -179,6 +222,7 @@ initialzeEmpForm() {
         this.employee_group_allowed = response.data?.userRights
         this.pickUplevels = response.data?.pickLevels;
         this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
+        this.FuncationAllowedList = new MatTableDataSource(response.data.userRights);
         this.location_data = response.data?.bulkRange
         this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones);
         this.emp_all_zones = response.data?.allZones;
@@ -271,6 +315,7 @@ initialzeEmpForm() {
 
    this.env =  JSON.parse(localStorage.getItem('env') || '');
    this.initialzeEmpForm();
+   this.getEmployeeData();
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -321,6 +366,7 @@ initialzeEmpForm() {
       })
       dialogRef.afterClosed().subscribe(result => {
         this.isLookUp = false;
+        this.lookUpEvnt=false;
         const matSelect: MatSelect = matEvent.source;
         matSelect.writeValue(null);
         this.backEmpAction();
@@ -346,13 +392,16 @@ initialzeEmpForm() {
   
   backEmpAction(){
     this.clearMatSelectList();
+    this.clearInput();
     this.isLookUp = false;
+    this.lookUpEvnt=false
       this.employee_fetched_zones = [];
       this.location_data_source = [];
       this.groupAllowedList = [];
       this.max_orders = '';
-      this.demo1TabIndex = 0;
       this.matRef.options.forEach((data: MatOption) => data.deselect());
+      this.isTabChanged=true;
+      this.demo1TabIndex = 0;
   }
   actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
     // console.log(event.value)
@@ -583,11 +632,19 @@ initialzeEmpForm() {
     })
   }
 
-  groupAllowedDialog() {
-    this.dialog.open(AddGroupAllowedComponent, {
+  AddFunctionAllowedDialog() {
+    let dialogRef;
+    dialogRef = this.dialog.open(AddGroupAllowedComponent, {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      data:{
+        userName:this.grp_data,
+        wsid:"TESTWSID"
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.reloadData();
     })
   }
   grpAllowedDialog() {
@@ -603,12 +660,24 @@ initialzeEmpForm() {
     dialogRef.afterClosed().subscribe(result => {
      
     this.getgroupAllowedList();
-      this.getEmployeeDetails();
+      this.reloadData();
 
 
     })
   }
-
+  async getEmployeeData(){
+    var employeRes:any = {
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid  
+    }
+    this.employeeService.getEmployeeData(employeRes).subscribe((res: any) => {
+      if(res.isExecuted) {
+        this.ButtonAccessList =  new MatTableDataSource(res.data.allAccess);
+        this.ButtonAccessList.paginator = this.paginator1;
+      }
+      else this.ButtonAccessList = [];
+    });
+  }
   getEmployeeDetails(){
     const emp_data = {
       "userName":this.userData.userName,
@@ -621,7 +690,7 @@ initialzeEmpForm() {
         let userRights:any=[];
         let customPermissions:any=[];
           
-         existingRights = response.data.userRights;
+         existingRights = response.data.userRights; 
          customPermissions = JSON.parse(localStorage.getItem('customPerm') || '');
          userRights = [...existingRights, ...customPermissions];
          
@@ -641,6 +710,22 @@ initialzeEmpForm() {
     })
     dialogRef.afterClosed().subscribe(result => {
       this.getgroupAllowedList();
+    })
+
+  }
+  deleteFuncationAllowed(controlName: any) {
+    const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '480px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        mode: 'delete-allowed-funcation',
+        controlName: controlName,
+        userName :this.grp_data
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      this.reloadData();
     })
 
   }
@@ -682,5 +767,34 @@ initialzeEmpForm() {
     this.reloadData();
   }
 
+  tabChanged(event){
+    this.isTabChanged=event;
+   this.clearInput();
+  }
 
+  clearInput(){
+    this.bpSettingInp='';
+    this.bpSettingLocInp='';
+    this.searchfuncAllowed = '';
+    this.grpAllFilter='';
+    this.employee_fetched_zones && this.employee_fetched_zones.filter? this.employee_fetched_zones.filter = '' : '';
+    this.location_data_source && this.location_data_source.filter? this.location_data_source!.filter = '':'';
+    this.groupAllowedList && this.groupAllowedList.filter? this.groupAllowedList.filter = '':'';
+    
+  }
+  
+ 
+  ChangeAdminLevel(levelresponse:any){
+  var item =  {
+      "controlName": levelresponse.controlName,
+      "newValue": levelresponse.adminLevel
+    }
+    this.employeeService.updateControlName(item)
+    .subscribe((r) => {
+      this.toastr.success(labels.alert.update, 'Success!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    });
+  }
 }

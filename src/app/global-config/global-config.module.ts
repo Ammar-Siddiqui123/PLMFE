@@ -16,6 +16,7 @@ import { ConfigDatabaseComponent } from './database-connections/config-database/
 import { ConnectionStringsComponent } from './database-connections/connection-strings/connection-strings.component';
 import { LicensingComponent } from './licensing/licensing.component';
 import { GeneralModule } from '../gen-module';
+import { CcsifComponent } from './ccsif/ccsif.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { GeneralModule } from '../gen-module';
     ConfigDatabaseComponent,
     ConnectionStringsComponent,
     LicensingComponent,
+    CcsifComponent,
     
   ],
   imports: [
