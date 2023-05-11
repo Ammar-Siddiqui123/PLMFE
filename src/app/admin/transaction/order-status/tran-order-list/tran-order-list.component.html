@@ -79,7 +79,7 @@
         <mat-form-field class="action-dropdown w-30" appearance="outline">
           <mat-label>Action</mat-label>
           <mat-select class="employees-action">
-            <mat-option value="0" (click)="openGcBeginTest()">Change Priority (TEMP)</mat-option>
+            <mat-option value="0" >Change Priority (TEMP)</mat-option>
             <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
             <mat-option value="set_column_sq">Print Report</mat-option>
           </mat-select>
@@ -357,7 +357,7 @@
               <button disabled mat-flat-button color="primary" class="btn-regular mx-2 w-100">
                 Shipping Complete
               </button>
-              <button *ngIf="priority" mat-flat-button color="primary" class="btn-regular w-100" (click)="updatePriority()">
+              <button *ngIf="priority" mat-flat-button color="primary" class="btn-regular w-100" (click)="openGcBeginTest()">
                 Change Priority
               </button>
             </div>

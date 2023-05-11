@@ -688,6 +688,18 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__', 
+      data: {
+        orderNo: this.orderNo,
+        priorityTable: this.dataSource.filteredData[0].priority,
+        
+        
+      }
+    })
+    dialogRef.afterClosed().subscribe(result =>{
+      if( result.isExecuted){
+        this.getContentData();
+      }
     })
     }
+    
 }
