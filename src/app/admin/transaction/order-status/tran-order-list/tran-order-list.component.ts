@@ -30,6 +30,7 @@ import { BYPASS_LOG } from 'src/app/init/http-interceptor';
 import { SharedService } from 'src/app/services/shared.service';
 import { FilterToteComponent } from 'src/app/admin/dialogs/filter-tote/filter-tote.component';
 import { MatDialog } from '@angular/material/dialog';
+import { OmChangePriorityComponent } from 'src/app/dialogs/om-change-priority/om-change-priority.component';
 
 @Component({
   selector: 'app-tran-order-list',
@@ -669,4 +670,12 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
+  openGcBeginTest() { 
+    let dialogRef = this.dialog.open(OmChangePriorityComponent, { 
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__', 
+    })
+    }
 }

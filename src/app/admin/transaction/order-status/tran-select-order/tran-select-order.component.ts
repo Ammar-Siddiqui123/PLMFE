@@ -109,7 +109,7 @@ export class TranSelectOrderComponent implements OnInit {
     }
   }
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private transactionService: TransactionService,
     private dialog: MatDialog,
     private toastr: ToastrService,

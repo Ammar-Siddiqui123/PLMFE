@@ -217,7 +217,29 @@ export class DeleteConfirmationComponent implements OnInit {
             });
           }
         });
-      } else if (this.data.mode === 'delete-inventory-map') {
+      } else if (this.data.mode === 'delete-allowed-funcation') {
+        let groupData = {
+          wsid: 'TESTWID',
+          controlName: this.data.controlName,
+          userName: this.data.userName,
+        };
+        this.employeeService.DeleteControl(groupData).subscribe((res: any) => {
+          if (res.isExecuted) {
+            this.dialog.closeAll();
+            this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          } else {
+            this.dialog.closeAll();
+            this.toastr.error(labels.alert.went_worng, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        });
+      }
+       else if (this.data.mode === 'delete-inventory-map') {
         let payload = {
           inventoryMapID: this.data.id,
           username: this.userData.userName,
