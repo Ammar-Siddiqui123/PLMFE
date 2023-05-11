@@ -248,49 +248,51 @@ export class OmCreateOrdersComponent implements OnInit {
 
   deleteViewed() {
     console.log(this.tableData.map(x => x.id));
-    // if (this.tableData.length == 0) {
-    //   this.toastr.error('There are currently no records within the table', 'Warning', {
-    //     positionClass: 'toast-bottom-right',
-    //     timeOut: 2000
-    //   });
-    // }
-    // else {
-    //   let ids = [];
-    //   ids = this.tableData.map(x => x.id);
-    //   const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-    //     height: 'auto',
-    //     width: '560px',
-    //     autoFocus: '__non_existing_element__',
-    //     data: {
-    //       mode: 'release-all-orders',
-    //       ErrorMessage: 'Are you sure you want to delete these records?',
-    //       action: 'delete'
-    //     },
-    //   });
-    //   dialogRef.afterClosed().subscribe((result) => {
-    //     if (result === 'Yes') {
-    //       let payload = {
-    //         "ids": ids
-    //       };
-    //       this.orderManagerService.get(payload, '/OrderManager/ReleaseOrders').subscribe((res: any) => {
-    //         if (res.isExecuted && res.data) {
-    //           this.toastr.success(labels.alert.delete, 'Success!', {
-    //             positionClass: 'toast-bottom-right',
-    //             timeOut: 2000
-    //           });
-    //           this.createOrdersDTPayload.orderNumber = '';
-    //           this.createOrdersDT();
-    //           dialogRef.close();
-    //         } else {
-    //           this.toastr.error("An error has occurred while deleting the viewed records", 'Error!', {
-    //             positionClass: 'toast-bottom-right',
-    //             timeOut: 2000
-    //           });
-    //         }
-    //       });
-    //     }
-    //   });
-    // }
+    if (this.tableData.length == 0) {
+      this.toastr.error('There are currently no records within the table', 'Warning', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+    else {
+      let ids = [];
+      ids = this.tableData.map(x => x.id.toString());
+      const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          mode: 'release-all-orders',
+          ErrorMessage: 'Are you sure you want to delete these records?',
+          action: 'delete'
+        },
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === 'Yes') {
+          let payload = {
+            "ids": ids,
+            "user": this.userData.userName,
+            "wsid": this.userData.wsid
+          };
+          this.orderManagerService.get(payload, '/OrderManager/OTPendDelete').subscribe((res: any) => {
+            if (res.isExecuted && res.data) {
+              this.toastr.success(labels.alert.delete, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+              this.createOrdersDTPayload.orderNumber = '';
+              this.createOrdersDT();
+              dialogRef.close();
+            } else {
+              this.toastr.error("An error has occurred while deleting the viewed records", 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+            }
+          });
+        }
+      });
+    }
   }
 
   selectColumnSequence() {
