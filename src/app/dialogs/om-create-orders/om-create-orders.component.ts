@@ -136,7 +136,7 @@ export class OmCreateOrdersComponent implements OnInit {
     });
   }
 
-  openOmAddTransaction() {
+  openOmAddTransaction(element: any = {}) {
     let dialogRef = this.dialog.open(OmAddRecordComponent, {
       height: 'auto',
       width: '50vw',
@@ -144,7 +144,7 @@ export class OmCreateOrdersComponent implements OnInit {
       data: {
         from: "add-transaction",
         heading: `Adding a new transaction for ${this.createOrdersDTPayload.orderNumber}`,
-        transaction: this.selectedTransaction,
+        transaction: element,
         orderNumber: this.createOrdersDTPayload.orderNumber
       },
     })
@@ -374,11 +374,11 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   selectTransaction(element) {
-    if (this.selectedTransaction.id && this.selectedTransaction.id == element.id) {
-      this.selectedTransaction = {};
-    } else {
-      this.selectedTransaction = element;
-    }
+    // if (this.selectedTransaction.id && this.selectedTransaction.id == element.id) {
+    //   this.selectedTransaction = {};
+    // } else {
+    //   this.selectedTransaction = element;
+    // }
   }
 
   getColumnSequence(refresh: boolean = false) {
