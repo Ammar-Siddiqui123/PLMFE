@@ -227,6 +227,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       value: 'Completed Transactions',
     },
   ];
+
   constructor(
     private router: Router,
     private seqColumn: SetColumnSeqService,
@@ -256,6 +257,13 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   };
 
   ngOnInit(): void {
+    console.log(  this.router.url)
+    // if(this.router.url == '/OrderManager/OrderStatus'){
+    //   this.transHold = true;
+    // }
+    // else if(this.router.url == '/admin/transaction'){
+    //   this.transHold = false;
+    // }
     this.hideDelete=JSON.parse(this.isDeleteVisible);
     this.customPagination = {
       total: '',

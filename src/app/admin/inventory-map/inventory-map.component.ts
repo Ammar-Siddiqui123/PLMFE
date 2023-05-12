@@ -202,7 +202,7 @@ export class InventoryMapComponent implements OnInit {
       }
     }
 
-    if(router.url == '/OrderManager/OmInventoryMap'){
+    if(router.url == '/OrderManager/InventoryMap'){
       this.transHistory = true;
     }
     else if(router.url == '/admin/inventoryMap' || '/InductionManager/Admin/InventoryMap'){
@@ -627,7 +627,7 @@ export class InventoryMapComponent implements OnInit {
 
  tranhistory(){
   this.router.navigate([]).then((result) => {
-    window.open(`/#/OrderManager/OmOrderStatus?type=TransactionHistory`, '_blank');
+    window.open(`/#/OrderManager/OrderStatus?type=TransactionHistory`, '_blank');
    
 
   }
