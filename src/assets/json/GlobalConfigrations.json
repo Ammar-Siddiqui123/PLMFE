@@ -130,6 +130,10 @@
         "Permission": "Induction Manager"
     },
     {
+        "path": "/InductionManager/Admin",
+        "Permission": "Tote Admin Menu"
+    },
+    {
         "path": "/InductionManager/Admin/InventoryMap",
         "Permission": "Induction Manager"
     },
