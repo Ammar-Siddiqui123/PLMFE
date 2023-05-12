@@ -23,7 +23,7 @@ export class PalletReceivingComponent implements OnInit {
     this.processForm = new FormGroup({
       toteID: new FormControl('', Validators.required),
       itemNo: new FormControl('', Validators.required),
-      quantity: new FormControl('', Validators.required),
+      quantity: new FormControl(0, Validators.required),
     });
   }
 
@@ -85,6 +85,8 @@ export class PalletReceivingComponent implements OnInit {
                             timeOut: 2000,
                           }
                         );
+
+                        this.processForm.reset();
                       } else {
                         this.toastService.error(
                           'An error occurred processing this pallet setup',
