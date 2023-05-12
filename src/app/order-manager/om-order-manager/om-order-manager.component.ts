@@ -14,6 +14,7 @@ import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
 
 @Component({
   selector: 'app-om-order-manager',
@@ -168,6 +169,22 @@ export class OmOrderManagerComponent implements OnInit {
     });
   }
 
+  selectColumnSequence() {
+    let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
+      height: '96%',
+      width: '70vw',
+      data: {
+        mode: event,
+        tableName: 'Order Manager',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.isExecuted) {
+        this.getColumnSequence();
+      }
+    });
+  }
+
   getOrders() {
 
     let val1 : any, val2 : any;
@@ -207,8 +224,8 @@ export class OmOrderManagerComponent implements OnInit {
       username: this.userData.userName,
       user: this.userData.userName,
       wsid: this.userData.wsid,
-      startRow: this.customPagination.startIndex,
-      endRow: this.customPagination.endIndex,
+      startRow: this.customPagination.startIndex.toString(),
+      endRow: this.customPagination.endIndex.toString(),
       sortCol: this.sortColumn.columnName,
       sortOrder: this.sortColumn.sortOrder,
       searchColumn: this.searchCol,
@@ -233,7 +250,7 @@ export class OmOrderManagerComponent implements OnInit {
 
   deleteViewed() {
     if (this.orderType == "Open") {
-      this.toastr.warning("You can only delete pending transactions.", 'Warning!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+      this.toastr.error("You can only delete pending transactions.", 'Warning!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
     } else {
       let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
@@ -254,7 +271,6 @@ export class OmOrderManagerComponent implements OnInit {
       
           this.OMService.get(payload, 'OrderManager/OMOTPendDelete').subscribe((res: any) => {
             if (res.isExecuted) {
-              console.log(res.data);
               this.getOrders();
             }
           });
@@ -283,37 +299,36 @@ export class OmOrderManagerComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
-      data: { ele }
+      data: { 
+        ...ele,
+        viewType: this.viewType,
+        orderType: this.orderType,
+      }
     });
 
-    dialogRef.afterClosed().subscribe(result => { });
+    dialogRef.afterClosed().subscribe(result => { 
+      if(result.isExecuted && result.clickDisplayRecord) {
+        this.displayRecords();
+      }
+    });
   }
 
   openOrderStatus(ele : any, fromTable : boolean) {
-    var orderNumIndex = 0;
-    var orderNumVal = "";
 
-    if((this.value1 == "" || this.column != "OrderNumber") && !fromTable) {
+    if((this.value1 == "" || this.column != "Order Number") && !fromTable) {
       this.toastr.error("You must select an Order Number to view the order status.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
     } else {
-      if (!fromTable) {
-        window.location.href = `/#/admin/transaction?orderStatus=${this.value1 ? this.value1 : ''}`;
-      } else {
-        for (let i = 0; i < this.displayedColumns.length; i++) {
-          if(this.displayedColumns[i] == "Order Number") orderNumIndex = i;
-        }
-        orderNumVal = ele[this.displayedColumns[orderNumIndex]];
-        window.location.href = `/#/admin/transaction?orderStatus=${orderNumVal ? orderNumVal : ''}`;
-      }
+      if (!fromTable) window.open(`/#/admin/transaction?orderStatus=${this.value1 ? this.value1 : ''}`, '_blank');
+      else window.open(`/#/admin/transaction?orderStatus=${ele.orderNumber ? ele.orderNumber : ''}`, '_blank');
     }    
   }
 
   releaseViewed() {
-    // if (OMTable.rows({ search: 'applied' }).data().length == 0) {
-    //   this.toastr.error("No Transactions match your current filters to release.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
-    //   return
-    // }
-    if ($('#OrderType').val() == 'Open') {
+    if (this.orderTable.data.length == 0) {
+      this.toastr.error("No Transactions match your current filters to release.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+      return
+    }
+    if (this.orderType == 'Open') {
       this.toastr.error("This orders you are viewing have already been released.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
       return
     }
