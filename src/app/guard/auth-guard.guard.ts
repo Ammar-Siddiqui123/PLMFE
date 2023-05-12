@@ -77,7 +77,7 @@ export class AuthGuardGuard implements CanActivate {
       }
     }
     const userPermission = this.authService.userPermission();
-    var pathSet: any;
+    var pathSet: any; 
     var Index: any = 0;
     route.url.forEach(item => {
       if (Index == 0) pathSet = item.path;
@@ -96,7 +96,7 @@ export class AuthGuardGuard implements CanActivate {
         this.router.navigate(['/login']);
         return false;
       }
-    } else if (!this.ConfigJson?.length && pathSet.toLowerCase() == 'dashboard') {
+    } else if (!this.ConfigJson?.length) {
       return true;
     }
     this.router.navigate(['/login']);
