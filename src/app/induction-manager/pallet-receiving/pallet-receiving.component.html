@@ -1,4 +1,5 @@
 <div class="inner-layout-1">
+    <form  [formGroup]="processForm" (ngSubmit)="processPallet()">
     <div>
         <mat-card class="mat-elevation-z g-card mt-3 mb-3">
             <mat-card-content>
@@ -16,19 +17,19 @@
                     <div class="col-xl-4">
                         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                             <mat-label>Tote ID</mat-label>
-                            <input matInput value="000000">
+                            <input matInput type="text"  formControlName="toteID">
                         </mat-form-field>
                     </div>
                     <div class="col-xl-4">
                         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                             <mat-label>Item No.</mat-label>
-                            <input matInput value="000000">
+                            <input matInput  type="text"  formControlName="itemNo">
                         </mat-form-field>
                     </div>
                     <div class="col-xl-4">
                         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                             <mat-label>Quantity</mat-label>
-                            <input matInput value="000000">
+                            <input [NumbersOnly]="true" matInput  type="number"  formControlName="quantity">
                         </mat-form-field>
                     </div>
                 </div>
@@ -40,5 +41,5 @@
     <div>
         <button type="submit" mat-flat-button class="btn-lg w-100" color="primary">Process Pallet</button>
     </div>
-
+</form>
 </div>
