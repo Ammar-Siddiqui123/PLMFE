@@ -16,6 +16,9 @@ import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.ser
 import { InputFilterComponent } from '../input-filter/input-filter.component';
 import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-om-create-orders',
@@ -71,7 +74,7 @@ export class OmCreateOrdersComponent implements OnInit {
     orderNumber: "",
     filter: "1=1"
   };
-  tableData: any = [];
+  public tableData: any = new MatTableDataSource();
   userData: any;
   AllowInProc: any = 'False';
   otcreatecount: any = 0;
@@ -84,6 +87,18 @@ export class OmCreateOrdersComponent implements OnInit {
   selectedFilterColumn: string = "";
   selectedFilterString: string;
 
+  
+  @ViewChild(MatSort) sort: MatSort;
+
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+    this.tableData.sort = this.sort;
+  }
+
   constructor(
     private dialog: MatDialog,
     private toastr: ToastrService,
@@ -91,7 +106,8 @@ export class OmCreateOrdersComponent implements OnInit {
     private router: Router,
     public dialogRef: MatDialogRef<OmCreateOrdersComponent>,
     private orderManagerService: OrderManagerService,
-    private filterService: ContextMenuFiltersService
+    private filterService: ContextMenuFiltersService,
+    private _liveAnnouncer: LiveAnnouncer
   ) { }
 
   ngOnInit(): void {
@@ -333,6 +349,7 @@ export class OmCreateOrdersComponent implements OnInit {
   onSearchSelect(e: any) {
     this.createOrdersDTPayload.orderNumber = e.option.value;
     this.createOrdersDT();
+    this.orderNumberSearchList = [];
   }
 
   onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
