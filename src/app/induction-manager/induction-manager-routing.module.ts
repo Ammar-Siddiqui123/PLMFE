@@ -13,9 +13,15 @@ import { InventoryMapComponent } from '../admin/inventory-map/inventory-map.comp
 import { InventoryMasterComponent } from '../admin/inventory-master/inventory-master.component';
 import { ManualTransactionsComponent } from '../admin/manual-transactions/manual-transactions.component';
 import { PalletReceivingComponent } from './pallet-receiving/pallet-receiving.component';
+import { MarkEmptyReelsComponent } from './mark-empty-reels/mark-empty-reels.component';
 
 const routes: Routes = [
   { path: '', component: InductionManagerComponent },
+  {
+    path: 'MarkEmptyReels',
+    component: MarkEmptyReelsComponent,
+    canActivate: [AuthGuardGuard],
+  },
   {
     path: 'PalletReceiving',
     component: PalletReceivingComponent,
@@ -82,7 +88,7 @@ const routes: Routes = [
     component: ManualTransactionsComponent,
     canActivate: [AuthGuardGuard]
   },
-
+ 
   
 ];
 

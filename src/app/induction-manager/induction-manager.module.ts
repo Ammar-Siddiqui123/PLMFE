@@ -12,6 +12,7 @@ import { ProcessPicksComponent } from './process-picks/process-picks.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminPrefrencesComponent } from './admin-prefrences/admin-prefrences.component';
 import { PalletReceivingComponent } from './pallet-receiving/pallet-receiving.component';
+import { MarkEmptyReelsComponent } from './mark-empty-reels/mark-empty-reels.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { PalletReceivingComponent } from './pallet-receiving/pallet-receiving.co
     ProcessPicksComponent,
     AdminComponent,
     AdminPrefrencesComponent,
-    PalletReceivingComponent
+    PalletReceivingComponent,
+    MarkEmptyReelsComponent
   ],
   imports: [
     CommonModule,
