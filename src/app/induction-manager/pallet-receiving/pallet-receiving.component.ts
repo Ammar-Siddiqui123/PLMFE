@@ -132,21 +132,8 @@ export class PalletReceivingComponent implements OnInit {
     }
   }
 
-  async validateTote() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-      }, 1000);
-    });
-  }
+ 
 
-  async validateItem() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-      }, 1000);
-    });
-  }
 
   showNotification(heading, message) {
     const dialogRef = this.dialog.open(AlertConfirmationComponent, {
