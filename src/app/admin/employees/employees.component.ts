@@ -155,8 +155,7 @@ getFuncationAllowedList(){
     }
   }) 
 }
-applyFunctionAllowedFilter(event: any) {
-  debugger
+applyFunctionAllowedFilter(event: any) { 
   if(!this.OldFuncationAllowedList?.length && this.FuncationAllowedList.filteredData?.length) {
     this.OldFuncationAllowedList = this.FuncationAllowedList.filteredData;
   }
