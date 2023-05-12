@@ -16,7 +16,7 @@ component: EventLogComponent,
 canActivate: [AuthGuardGuard],
 },
 
-{ path: 'OmPreferences', 
+{ path: 'Preferences', 
 component: OmPreferencesComponent, 
 canActivate: [AuthGuardGuard], 
 },
