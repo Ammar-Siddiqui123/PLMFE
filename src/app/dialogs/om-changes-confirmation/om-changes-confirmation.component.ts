@@ -47,52 +47,7 @@ export class OmChangesConfirmationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.userData = this.authService.userData();
-    // if(this.data.reqDateDis) this.orderForm.controls['reqDate'].disable();
-    // else this.orderForm.controls['reqDate'].enable();
-
-    // if(this.data.notesDis) this.orderForm.controls['notes'].disable();
-    // else this.orderForm.controls['notes'].enable();
-    
-    // if(this.data.priorityDis) this.orderForm.controls['priority'].disable();
-    // else this.orderForm.controls['priority'].enable();
-
-    // if(this.data.user1Dis) this.orderForm.controls['user1'].disable();
-    // else this.orderForm.controls['user1'].enable();
-
-    // if(this.data.user2Dis) this.orderForm.controls['user2'].disable();
-    // else this.orderForm.controls['user2'].enable();
-
-    // if(this.data.user3Dis) this.orderForm.controls['user3'].disable();
-    // else this.orderForm.controls['user3'].enable();
-
-    // if(this.data.user4Dis) this.orderForm.controls['user4'].disable();
-    // else this.orderForm.controls['user4'].enable();
-    
-    // if(this.data.user5Dis) this.orderForm.controls['user5'].disable();
-    // else this.orderForm.controls['user5'].enable();
-
-    // if(this.data.user6Dis) this.orderForm.controls['user6'].disable();
-    // else this.orderForm.controls['user6'].enable();
-
-    // if(this.data.user7Dis) this.orderForm.controls['user7'].disable();
-    // else this.orderForm.controls['user7'].enable();
-
-    // if(this.data.user8Dis) this.orderForm.controls['user8'].disable();
-    // else this.orderForm.controls['user8'].enable();
-
-    // if(this.data.user9Dis) this.orderForm.controls['user9'].disable();
-    // else this.orderForm.controls['user9'].enable();
-
-    // if(this.data.user10Dis) this.orderForm.controls['user10'].disable();
-    // else this.orderForm.controls['user10'].enable();
-    
-    // if(this.data.emergencyDis) this.orderForm.controls['emergency'].disable();
-    // else this.orderForm.controls['emergency'].enable();
-
-    // if(this.data.labelDis) this.orderForm.controls['label'].disable();
-    // else this.orderForm.controls['label'].enable();
   }
 
   updateOrder() {
@@ -103,7 +58,7 @@ export class OmChangesConfirmationComponent implements OnInit {
         wsid: this.userData.wsid,
         viewType: this.data.viewType,
         orderType: this.data.orderType,
-        id: this.data.order.id,
+        id: this.data.order.id.toString(),
         requiredDate: this.data.order.reqDate,
         notes: this.data.order.notes,
         priority: this.data.order.priority,
@@ -140,7 +95,6 @@ export class OmChangesConfirmationComponent implements OnInit {
         if (res.isExecuted) {
           this.dialogRef.close({
             isExecuted: true,
-            disableUpdateBtn: true,
             clickDisplayRecord: true,
           });
         }

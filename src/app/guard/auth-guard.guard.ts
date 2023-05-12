@@ -63,9 +63,8 @@ export class AuthGuardGuard implements CanActivate {
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    // debugger 
-  
-    const pathSet = state.url; 
+      
+    const pathSet = state.url.split('?')[0]; 
     if (!this.ConfigJson?.length) {
       var Storagepermission = JSON.parse(localStorage.getItem('Permission') || '[]');
       if (Storagepermission?.length) {

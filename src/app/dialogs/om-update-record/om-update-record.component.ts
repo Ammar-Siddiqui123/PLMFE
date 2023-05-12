@@ -75,6 +75,8 @@ export class OmUpdateRecordComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         order      : { id : this.data.id, ...this.orderForm.value },
+        viewType   : this.data.viewType,
+        orderType  : this.data.orderType,
         reqDateDis : (values.reqDate != this.data.requiredDate) ? false : true,
         notesDis   : (values.notes != this.data.notes) ? false : true,
         priorityDis: (values.priority != this.data.priority) ? false : true,
@@ -88,13 +90,17 @@ export class OmUpdateRecordComponent implements OnInit {
         user8Dis   : (values.user8 != this.data.userField8) ? false : true,
         user9Dis   : (values.user9 != this.data.userField9) ? false : true,
         user10Dis  : (values.user10 != this.data.userField10) ? false : true,        
-        emergencyDis: (values.emergency != this.data.emergency) || (values.emergency.toLowerCase() == 'true' && this.data.emergency == '0') || (values.emergency.toLowerCase() == 'false' && this.data.emergency == '1')
+        emergencyDis: (values.emergency.toLowerCase() == 'true' && this.data.emergency == false) || (values.emergency.toLowerCase() == 'false' && this.data.emergency == true)
                       ? false : true,
-        labelDis    : (values.label != this.data.label) || (values.label == 'True' && this.data.label == '0') || (values.label == 'False' && this.data.label == '1')
+        labelDis    : (values.label == 'True' && this.data.label == false) || (values.label == 'False' && this.data.label == true)
                       ? false : true,        
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.isExecuted) {
+        this.dialogRef.close(result);
+      }
+    });
   }
 }
