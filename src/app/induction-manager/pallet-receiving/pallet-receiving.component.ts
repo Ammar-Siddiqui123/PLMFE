@@ -54,7 +54,7 @@ export class PalletReceivingComponent implements OnInit {
         wsid: this.userData.wsid,
       };
       this.imService
-        .get(payloadTote, '/Induction/ValidateTotesForPutAways') //validate tote
+        .get(payloadTote, '/Induction/ValidateTote') //validate tote
         .subscribe((response: any) => {
           if (response.data) {
             let payloadItem = {
