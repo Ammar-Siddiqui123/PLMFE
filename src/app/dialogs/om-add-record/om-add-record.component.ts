@@ -51,7 +51,7 @@ export class OmAddRecordComponent implements OnInit {
     "inProcess": false,
     "processBy": "",
     "importBy": "",
-    "importDate": new Date().toLocaleDateString(),
+    "importDate": "",
     "importFileName": "",
     "wsid": ""
   };
@@ -99,7 +99,7 @@ export class OmAddRecordComponent implements OnInit {
     else{
       this.oTTempUpdatePayload.processBy = this.userData.userName;
       this.oTTempUpdatePayload.importBy = this.userData.userName;
-      this.oTTempUpdatePayload.importDate = new Date().toLocaleDateString();
+      this.oTTempUpdatePayload.importDate = new Date().toISOString();
       this.oTTempUpdatePayload.importFileName = "Create Pending Transaction";
       this.getUserFieldData();
     }

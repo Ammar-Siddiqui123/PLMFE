@@ -66,7 +66,7 @@
                     <!-- <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.importDate"> -->
 
                     <input matInput [value]="this.oTTempUpdatePayload.importDate" [(ngModel)]="this.oTTempUpdatePayload.importDate" 
-                    [matDatepicker]="importDate" (dateChange)="onDateChange($event.value.toLocaleDateString(),'importDate')">
+                    [matDatepicker]="importDate" (dateChange)="onDateChange($event.value.toISOString(),'importDate')">
                     <mat-datepicker-toggle matSuffix [for]="importDate" ngDefaultControl></mat-datepicker-toggle>
                     <mat-datepicker #importDate></mat-datepicker>
 
@@ -156,7 +156,7 @@
                     <!-- <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.expirationDate"> -->
 
                     <input matInput [value]="this.oTTempUpdatePayload.expirationDate" [(ngModel)]="this.oTTempUpdatePayload.expirationDate" 
-                    [matDatepicker]="expirationDate" (dateChange)="onDateChange($event.value.toLocaleDateString(),'expirationDate')">
+                    [matDatepicker]="expirationDate" (dateChange)="onDateChange($event.value.toISOString(),'expirationDate')">
                     <mat-datepicker-toggle matSuffix [for]="expirationDate" ngDefaultControl></mat-datepicker-toggle>
                     <mat-datepicker #expirationDate></mat-datepicker>
 
@@ -212,7 +212,7 @@
                     <!-- <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.requiredDate"> -->
 
                     <input matInput [value]="this.oTTempUpdatePayload.requiredDate" [(ngModel)]="this.oTTempUpdatePayload.requiredDate" 
-                    [matDatepicker]="requiredDate" (dateChange)="onDateChange($event.value.toLocaleDateString(),'requiredDate')">
+                    [matDatepicker]="requiredDate" (dateChange)="onDateChange($event.value.toISOString(),'requiredDate')">
                     <mat-datepicker-toggle matSuffix [for]="requiredDate" ngDefaultControl></mat-datepicker-toggle>
                     <mat-datepicker #requiredDate></mat-datepicker>
 
