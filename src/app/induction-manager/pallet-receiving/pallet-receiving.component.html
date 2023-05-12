@@ -17,19 +17,19 @@
                     <div class="col-xl-4">
                         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                             <mat-label>Tote ID</mat-label>
-                            <input matInput type="text"  formControlName="toteID">
+                            <input matInput type="text" maxlength="50" formControlName="toteID">
                         </mat-form-field>
                     </div>
                     <div class="col-xl-4">
                         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                             <mat-label>Item No.</mat-label>
-                            <input matInput  type="text"  formControlName="itemNo">
+                            <input matInput  type="text" maxlength="50" formControlName="itemNo">
                         </mat-form-field>
                     </div>
                     <div class="col-xl-4">
                         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                             <mat-label>Quantity</mat-label>
-                            <input [NumbersOnly]="true" matInput  type="number"  formControlName="quantity">
+                            <input [NumbersOnly]="true" matInput type="number"  formControlName="quantity">
                         </mat-form-field>
                     </div>
                 </div>
