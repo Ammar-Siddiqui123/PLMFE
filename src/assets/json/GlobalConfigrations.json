@@ -126,6 +126,10 @@
         "Permission": "Admin Menu"
     },
     {
+        "path": "/InductionManager/PalletReceiving",
+        "Permission": "Induction Manager"
+    },
+    {
         "path": "/InductionManager/Admin",
         "Permission": "Tote Admin Menu"
     },
