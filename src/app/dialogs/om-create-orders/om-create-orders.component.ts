@@ -256,8 +256,10 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   goToOrderStatus() {
-    // this.router.navigate(['/admin/transaction?tabIndex=0']);
-    this.router.navigate(['/OrderManager/OrderStatus']);
+    this.router.navigate(
+      ['/admin/transaction'],
+      { queryParams: { tabIndex: 0 } }
+    );
     this.dialogRef.close();
   }
 
