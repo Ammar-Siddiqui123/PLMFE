@@ -11,11 +11,14 @@
             </h2>
             <div class="d-flex gap-12 flex-wrap">
                 <div class="mb-3">
+                    <button type="submit" mat-flat-button class="btn-regular" color="primary" (click)="openOrderStatus({}, false)">Order Status</button>
+                </div>
+                <div class="mb-3">
                     <button type="submit" mat-flat-button class="btn-regular" color="primary" (click)="displayRecords()">Display Records</button>
-                  </div>
-                  <div class="mb-3">
+                </div>
+                <div class="mb-3">
                     <button type="submit" mat-flat-button class="btn-regular" *ngIf="authService.UserPermissonByFuncName('Admin Create Orders')" color="primary" (click)="openOmCreateOrders()">Add/Edit Order</button>
-                  </div>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -173,7 +176,7 @@
                             <mat-option value="0"> Release Viewed </mat-option>
                             <mat-option value="1" (click)="deleteViewed()"> Delete Viewed </mat-option>
                             <mat-option value="2"> Print Viewed </mat-option>
-                            <mat-option value="3"> Select Column Sequence </mat-option>
+                            <mat-option value="3" (click)="selectColumnSequence()"> Select Column Sequence </mat-option>
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
                             expand_more
