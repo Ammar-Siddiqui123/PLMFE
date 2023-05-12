@@ -261,7 +261,7 @@
                                             Master</button>
                                         <button mat-menu-item (click)="viewOrderInOrder(seletedRecord)">View Order in Order
                                             Status</button>
-                                        <button mat-menu-item  *ngIf="!hideDelete" (click)="deleteItem(seletedRecord)">Delete
+                                        <button mat-menu-item  *ngIf="!hideDelete && authService.UserPermissonByFuncName('Transaction Journal Delete') "  (click)="deleteItem(seletedRecord)">Delete
                                             Transaction</button>
                                         <!-- <button mat-menu-item   *ngIf="!hideDelete" (click)="sendCompletedToHistory()">Send Completed to
                                             History</button> -->

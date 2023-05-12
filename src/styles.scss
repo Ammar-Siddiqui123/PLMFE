@@ -692,6 +692,9 @@ mat-toolbar {
 .dashboard-section{
 
   padding:20px 30px 20px 90px;
+  .inner-layout-1{
+    padding:20px 30px 20px 90px;
+  }
 }
 
 .mat-drawer{
@@ -702,6 +705,9 @@ mat-toolbar {
 
 .side-bar-opened.dashboard-section {
   padding: 20px 30px;
+  .inner-layout-1{
+    padding:20px 30px;
+  }
 }
 
 .mat-sidenav:not(.mat-drawer-opened) .mat-nav-list .mat-list-item {

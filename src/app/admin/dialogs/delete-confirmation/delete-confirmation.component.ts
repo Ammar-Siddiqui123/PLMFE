@@ -223,7 +223,7 @@ export class DeleteConfirmationComponent implements OnInit {
           controlName: this.data.controlName,
           userName: this.data.userName,
         };
-        this.employeeService.DeleteControl(groupData).subscribe((res: any) => {
+        this.employeeService.deleteControlName(groupData).subscribe((res: any) => {
           if (res.isExecuted) {
             this.dialog.closeAll();
             this.toastr.success(labels.alert.delete, 'Success!', {
