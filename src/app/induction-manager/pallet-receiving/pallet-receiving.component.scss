@@ -8,8 +8,9 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    div:first-child{
+    .main-content{
         flex: 1;
         height: 100%;
+        margin-bottom: 10px;
     }
 }
