@@ -25,6 +25,7 @@ export class InductionManagerComponent implements OnInit {
         const prevRoute= events[0].urlAfterRedirects.split('/');
         const nextRoute = events[1].urlAfterRedirects.split('/');
 
+    // console.log(prevRoute[1],nextRoute[1]);
     
         
         // if (events[0].urlAfterRedirects == '/InductionManager' || events[1].urlAfterRedirects == '/InductionManager') {
@@ -38,6 +39,9 @@ export class InductionManagerComponent implements OnInit {
           localStorage.setItem('routeFromInduction','false')
           // this.showReprocess=true;
           // this.showReprocessed=true;
+        }
+        if(prevRoute[1]== 'OrderManager' || nextRoute[1] == 'OrderManager'){
+          localStorage.setItem('routeFromInduction','true')
         }
       });
   }

@@ -181,7 +181,7 @@ announceSortChange1(sortState: Sort) {
   //   }
   // }); 
 }
-announceSortChange2(sortState: Sort) {   
+announceSortChange2(sortState: Sort) {    
   if (sortState.direction) {
     // Announce the sort direction, and the fact that sorting is cleared.
     this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
