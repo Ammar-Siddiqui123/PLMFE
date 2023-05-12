@@ -1,0 +1,148 @@
+[
+    {
+        "path": "dashboard",
+        "Permission": "Home"
+    },
+    {
+        "path": "ImportExport",
+        "Permission": "Import Export"
+    },
+    {
+        "path": "InductionManager",
+        "Permission": "Induction Manager"
+    },
+    {
+        "path": "WorkManager",
+        "Permission": "Work Manager"
+    },
+    {
+        "path": "ConsolidationManager",
+        "Permission": "Consolidation Manager"
+    },
+    {
+        "path": "OrderManager",
+        "Permission": "Order Manager"
+    },
+    {
+        "path": "FlowRackReplenish",
+        "Permission": "FlowRack Replenish"
+    },
+
+    {
+        "path": "inventoryMaster",
+        "Permission": "Inventory"
+    },
+    {
+        "path": "inventoryMap",
+        "Permission": "Inventory Map"
+    },
+    {
+        "path": "Reports",
+        "Permission": "Reports"
+    }, 
+    {
+        "path": "transaction",
+        "Permission": "Transaction Journal"
+    },
+    {
+        "path": "batchManager",
+        "Permission": "Batch Manager"
+    },
+    {
+        "path": "DeAllocateOrders",
+        "Permission": "De-Allocate Orders"
+    },  
+    {
+        "path": "employees",
+        "Permission": "employees"
+    },
+    {
+        "path": "Event Log",
+        "Permission": "Event Log Manager"
+    },
+    {
+        "path": "systemReplenishment",
+        "Permission": "Replenishment"
+    },
+
+    {
+        "path": "StagingLocations",
+        "Permission": "Consolidation Manager"
+    },
+    {
+        "path": "ConsolidationPreferences",
+        "Permission": "Consolidation Mgr Admin"
+    },
+    {
+        "path": "cycleCounts",
+        "Permission": "Cycle Count Manager"
+    },
+    {
+        "path": "systemReplenishment",
+        "Permission": "Replenishment"
+    },
+    {
+        "path": "ProcessPicks",
+        "Permission": "Induction Manager"
+    },
+    {
+        "path": "ProcessPutAways",
+        "Permission": "Induction Manager"
+    },
+    {
+        "path": "SuperBatch",
+        "Permission": "Induction Manager"
+    },
+    {
+        "path": "OmOrderManager",
+        "Permission": "Order Manager"
+    },
+    {
+        "path": "OmOrderStatus",
+        "Permission": "Order Status"
+    },
+    {
+        "path": "OmInventoryMaster",
+        "Permission": "Admin Inventory Master"
+    },
+    {
+        "path": "OmInventoryMap",
+        "Permission": "Admin Stock Locations"
+    },
+    {
+        "path": "OmPreferences",
+        "Permission": "Admin Preferences"
+    },
+    {
+        "path": "Consolidation",
+        "Permission": "Consolidation Manager"
+    },
+    {
+        "path": "InductionManager",
+        "Permission": "Induction Manager"
+    },
+    {
+        "path": "Admin",
+        "Permission": "Admin Menu"
+    },
+    {
+        "path": "Admin/InventoryMap",
+        "Permission": "Induction Manager"
+    },
+    {
+        "path": "Admin/InventoryMaster",
+        "Permission": "Induction Manager"
+    },
+    {
+        "path": "Admin/ManualTransactions",
+        "Permission": "Induction Manager"
+    }  ,
+    {
+        "path": "Admin/TransactionJournal",
+        "Permission": "Induction Manager"
+    }  ,
+    {
+        "path": "Admin/AdminPrefrences",
+        "Permission": "Induction Manager"
+    }
+]
