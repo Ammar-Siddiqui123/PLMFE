@@ -63,7 +63,7 @@ export class AuthGuardGuard implements CanActivate {
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    debugger 
+    // debugger 
   
     const pathSet = state.url; 
     if (!this.ConfigJson?.length) {
