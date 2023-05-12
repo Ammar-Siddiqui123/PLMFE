@@ -73,7 +73,7 @@
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label *ngIf="v1Show || v1DShow">Value 1</mat-label>
-                    <input matInput [(ngModel)]="value1" *ngIf="v1Show" (keyup)="callDisplayRecords($event)">
+                    <input matInput [(ngModel)]="value1" *ngIf="v1Show" (keyup)="callDisplayRecords($event)" matTooltip="For dates use mm/dd/yy" matTooltipPosition="above">
                     <input matInput [(ngModel)]="value1D" *ngIf="v1DShow" (dateChange)="displayRecords()" [matDatepicker]="v1D">
                     <mat-datepicker-toggle matSuffix [for]="v1D" ngDefaultControl *ngIf="v1DShow"></mat-datepicker-toggle>
                     <mat-datepicker #v1D></mat-datepicker>
@@ -83,7 +83,7 @@
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline" *ngIf="v2Show || v2DShow">
                     <mat-label *ngIf="v2Show || v2DShow">Value 2</mat-label>
-                    <input matInput [(ngModel)]="value2" *ngIf="v2Show" (keyup)="callDisplayRecords($event)">
+                    <input matInput [(ngModel)]="value2" *ngIf="v2Show" (keyup)="callDisplayRecords($event)" matTooltip="For dates use mm/dd/yy" matTooltipPosition="above">
                     <input matInput [(ngModel)]="value2D" *ngIf="v2DShow" (dateChange)="displayRecords()" [matDatepicker]="v2D">
                     <mat-datepicker-toggle matSuffix [for]="v2D" ngDefaultControl *ngIf="v2DShow"></mat-datepicker-toggle>
                     <mat-datepicker #v2D></mat-datepicker>
@@ -94,7 +94,7 @@
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Max Orders</mat-label>
-                    <input matInput [(ngModel)]="maxOrders">
+                    <input matInput [(ngModel)]="maxOrders" #maxOrd (input)="maxOrd.value = globalService.setNumericInRange(maxOrd.value, globalService.sqlLimits.numerics.int, '');">
                 </mat-form-field>
             </div>
 
@@ -173,7 +173,7 @@
                     <mat-form-field class="action-dropdown" appearance="outline">
                         <mat-label>Actions</mat-label>
                         <mat-select #matRef class="employees-action" placeholder="Actions">
-                            <mat-option value="0"> Release Viewed </mat-option>
+                            <mat-option value="0" (click)="releaseViewed()"> Release Viewed </mat-option>
                             <mat-option value="1" (click)="deleteViewed()"> Delete Viewed </mat-option>
                             <mat-option value="2"> Print Viewed </mat-option>
                             <mat-option value="3" (click)="selectColumnSequence()"> Select Column Sequence </mat-option>
