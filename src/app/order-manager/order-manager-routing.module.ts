@@ -16,7 +16,7 @@ component: EventLogComponent,
 canActivate: [AuthGuardGuard],
 },
 
-{ path: 'OmPreferences', 
+{ path: 'Preferences', 
 component: OmPreferencesComponent, 
 canActivate: [AuthGuardGuard], 
 },
@@ -30,15 +30,15 @@ component: OmOrderManagerComponent,
 canActivate: [AuthGuardGuard], 
 },
 
-{ path: 'OmOrderStatus', 
+{ path: 'OrderStatus', 
 component: TransactionComponent,
 canActivate: [AuthGuardGuard],  },
 
-{ path: 'OmInventoryMaster', 
+{ path: 'InventoryMaster', 
 component: InventoryMasterComponent,
 canActivate: [AuthGuardGuard],  },
 
-{ path: 'OmInventoryMap', 
+{ path: 'InventoryMap', 
 component: InventoryMapComponent,
 canActivate: [AuthGuardGuard],  },
 ];
