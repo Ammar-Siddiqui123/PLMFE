@@ -66,7 +66,7 @@
                     <!-- <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.importDate"> -->
 
                     <input matInput [value]="this.oTTempUpdatePayload.importDate" [(ngModel)]="this.oTTempUpdatePayload.importDate" 
-                    [matDatepicker]="importDate" (dateChange)="onDateChange($event.value,'importDate')">
+                    [matDatepicker]="importDate" (dateChange)="onDateChange($event.value.toLocaleDateString(),'importDate')">
                     <mat-datepicker-toggle matSuffix [for]="importDate" ngDefaultControl></mat-datepicker-toggle>
                     <mat-datepicker #importDate></mat-datepicker>
 
@@ -86,7 +86,7 @@
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Item Number</mat-label>
                     <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.itemNumber"
-                        (keyup)="searchItem(true)" [matAutocomplete]="searchauto" maxlength="50">
+                        (keyup)="searchItem(true)" [matAutocomplete]="searchauto" maxlength="50" (focusout)="itemNumberFocusOut()">
                     <mat-autocomplete class="card custom-scroll" #searchauto="matAutocomplete"
                         (optionSelected)="onSearchSelect($event)">
                         <h6 class="card-header matAutoCompHeader ">
@@ -156,7 +156,7 @@
                     <!-- <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.expirationDate"> -->
 
                     <input matInput [value]="this.oTTempUpdatePayload.expirationDate" [(ngModel)]="this.oTTempUpdatePayload.expirationDate" 
-                    [matDatepicker]="expirationDate" (dateChange)="onDateChange($event.value,'expirationDate')">
+                    [matDatepicker]="expirationDate" (dateChange)="onDateChange($event.value.toLocaleDateString(),'expirationDate')">
                     <mat-datepicker-toggle matSuffix [for]="expirationDate" ngDefaultControl></mat-datepicker-toggle>
                     <mat-datepicker #expirationDate></mat-datepicker>
 
@@ -172,7 +172,7 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Transaction Quantity</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.transQty">
+                    <input type="number" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.transQty" (focusout)="resetDefaultValues('transQty',0)">
                 </mat-form-field>
             </div>
         </div>
@@ -181,13 +181,13 @@
             <div class="col-xl-3">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Line Number</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.lineNumber">
+                    <input type="number" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.lineNumber" (focusout)="resetDefaultValues('lineNumber',0)">
                 </mat-form-field>
             </div>
             <div class="col-xl-3">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Priority</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.priority">
+                    <input type="number" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.priority" (focusout)="resetDefaultValues('priority',0)">
                 </mat-form-field>
             </div>
             <div class="col-xl-3">
@@ -212,7 +212,7 @@
                     <!-- <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.requiredDate"> -->
 
                     <input matInput [value]="this.oTTempUpdatePayload.requiredDate" [(ngModel)]="this.oTTempUpdatePayload.requiredDate" 
-                    [matDatepicker]="requiredDate" (dateChange)="onDateChange($event.value,'requiredDate')">
+                    [matDatepicker]="requiredDate" (dateChange)="onDateChange($event.value.toLocaleDateString(),'requiredDate')">
                     <mat-datepicker-toggle matSuffix [for]="requiredDate" ngDefaultControl></mat-datepicker-toggle>
                     <mat-datepicker #requiredDate></mat-datepicker>
 

@@ -15,6 +15,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from '../input-filter/input-filter.component';
 import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-om-create-orders',
@@ -205,14 +206,14 @@ export class OmCreateOrdersComponent implements OnInit {
       });
       return;
     }
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+    
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
       data: {
-        mode: 'release-all-orders',
-        ErrorMessage: 'Release all orders for this order number?',
-        action: 'delete'
+        heading: 'Release Transaction',
+        message: 'Release all orders for this order number?',
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -390,7 +391,6 @@ export class OmCreateOrdersComponent implements OnInit {
     };
     this.orderManagerService.get(payload, '/Admin/GetColumnSequence').subscribe((res: any) => {
       if (res.isExecuted) {
-        debugger;
         this.displayedColumns = JSON.parse(JSON.stringify(res.data));
         this.filterColumnNames = JSON.parse(JSON.stringify(res.data));
         this.displayedColumns.push('actions');
