@@ -270,8 +270,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     router: Router,
   ) {
-    console.log(router.url);
-    if(router.url == '/OrderManager/OmOrderStatus' || router.url == '/OrderManager/OmOrderStatus?type=TransactionHistory'){
+    // console.log(router.url);
+    if(router.url == '/OrderManager/OrderStatus' || router.url == '/OrderManager/OrderStatus?type=TransactionHistory'){
       this.priority = true;
     }
     else if(router.url == '/admin/transaction'){

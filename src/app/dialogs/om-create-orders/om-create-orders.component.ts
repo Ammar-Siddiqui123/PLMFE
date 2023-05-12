@@ -15,6 +15,11 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from '../input-filter/input-filter.component';
 import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-om-create-orders',
@@ -64,6 +69,50 @@ export class OmCreateOrdersComponent implements OnInit {
     // 'cell',
     // 'action'
   ];
+
+  sequenceKeyMapping:any = [
+    {sequence: 'Transaction Type',key:'transactionType'},
+    {sequence: 'Order Number',key:'orderNumber'},
+    {sequence: 'Priority',key:'priority'},
+    {sequence: 'Required Date',key:'requiredDate'},
+    {sequence: 'User Field1',key:'userField1'},
+    {sequence: 'User Field2',key:'userField2'},
+    {sequence: 'User Field3',key:'userField3'},
+    {sequence: 'User Field4',key:'userField4'},
+    {sequence: 'User Field5',key:'userField5'},
+    {sequence: 'User Field6',key:'userField6'},
+    {sequence: 'User Field7',key:'userField7'},
+    {sequence: 'User Field8',key:'userField8'},
+    {sequence: 'User Field9',key:'userField9'},
+    {sequence: 'User Field10',key:'userField10'},
+    {sequence: 'Item Number',key:'itemNumber'},
+    {sequence: 'Description',key:'description'},
+    {sequence: 'Line Number',key:'lineNumber'},
+    {sequence: 'Transaction Quantity',key:'transactionQuantity'},
+    {sequence: 'Warehouse',key:'warehouse'},
+    {sequence: 'Line Sequence',key:'lineSequence'},
+    {sequence: 'In Process',key:'inProcess'},
+    {sequence: 'Processing By',key:'processingBy'},
+    {sequence: 'Unit of Measure',key:'unitOfMeasure'},
+    {sequence: 'Import By',key:'importBy'},
+    {sequence: 'Import Date',key:'importDate'},
+    {sequence: 'Import Filename',key:'importFilename'},
+    {sequence: 'Expiration Date',key:'expirationDate'},
+    {sequence: 'Lot Number',key:'lotNumber'},
+    {sequence: 'Serial Number',key:'serialNumber'},
+    {sequence: 'Notes',key:'notes'},
+    {sequence: 'Revision',key:'revision'},
+    {sequence: 'ID',key:'id'},
+    {sequence: 'Host Transaction ID',key:'hostTransactionID'},
+    {sequence: 'Emergency',key:'emergency'},
+    {sequence: 'Label',key:'label'},
+    {sequence: 'Batch Pick ID',key:'batchPickID'},
+    {sequence: 'Tote ID',key:'toteID'},
+    {sequence: 'Cell',key:'cell'},
+    {sequence: 'Label',key:'label'},
+    {sequence: 'Label',key:'label'},
+  ];
+
   filterColumnNames: any = [];
   createOrdersDTSubscribe: any;
   createOrdersDTPayload: any = {
@@ -82,6 +131,8 @@ export class OmCreateOrdersComponent implements OnInit {
   selectedTransaction: any = {};
   selectedFilterColumn: string = "";
   selectedFilterString: string;
+  @ViewChild(MatSort) sort1: MatSort;
+  @ViewChild('paginator1') paginator1: MatPaginator;
 
   constructor(
     private dialog: MatDialog,
@@ -90,7 +141,8 @@ export class OmCreateOrdersComponent implements OnInit {
     private router: Router,
     public dialogRef: MatDialogRef<OmCreateOrdersComponent>,
     private orderManagerService: OrderManagerService,
-    private filterService: ContextMenuFiltersService
+    private filterService: ContextMenuFiltersService,
+    private _liveAnnouncer: LiveAnnouncer
   ) { }
 
   ngOnInit(): void {
@@ -101,7 +153,7 @@ export class OmCreateOrdersComponent implements OnInit {
   openOmAddRecord() {
     let dialogRef = this.dialog.open(OmAddRecordComponent, {
       height: 'auto',
-      width: '50vw',
+      width: '75vw',
       autoFocus: '__non_existing_element__',
       data: {
         from: "add-new-order",
@@ -119,7 +171,7 @@ export class OmCreateOrdersComponent implements OnInit {
   openOmEditTransaction(element: any) {
     let dialogRef = this.dialog.open(OmAddRecordComponent, {
       height: 'auto',
-      width: '50vw',
+      width: '75vw',
       autoFocus: '__non_existing_element__',
       data: {
         from: "edit-transaction",
@@ -136,10 +188,20 @@ export class OmCreateOrdersComponent implements OnInit {
     });
   }
 
+  announceSortChange(sortState: Sort) {
+    sortState.active = this.sequenceKeyMapping.filter((x:any) => x.sequence == sortState.active)[0]?.key;
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+    this.tableData.sort = this.sort1;
+  }
+
   openOmAddTransaction(element: any = {}) {
     let dialogRef = this.dialog.open(OmAddRecordComponent, {
       height: 'auto',
-      width: '50vw',
+      width: '75vw',
       autoFocus: '__non_existing_element__',
       data: {
         from: "add-transaction",
@@ -172,12 +234,14 @@ export class OmCreateOrdersComponent implements OnInit {
     if (this.createOrdersDTPayload.orderNumber.trim() != '') {
       this.orderManagerService.get(this.createOrdersDTPayload, '/OrderManager/CreateOrdersDT', loader).subscribe((res: any) => {
         if (res.isExecuted && res.data) {
-          this.tableData = res.data;
-          if (this.tableData.length > 0) {
-            this.tableData.forEach(element => {
-              element.isSelected = false;
-            });
-          }
+          // this.tableData = res.data;
+          // if (res.data.length > 0) {
+          //   this.tableData.forEach(element => {
+          //     element.isSelected = false;
+          //   });
+          // }
+          this.tableData = new MatTableDataSource(res.data);  
+          this.tableData.paginator = this.paginator1;
         } else {
           this.toastr.error(res.responseMessage, 'Error!', {
             positionClass: 'toast-bottom-right',
@@ -187,13 +251,13 @@ export class OmCreateOrdersComponent implements OnInit {
       });
     }
     else {
-      this.tableData = [];
+      this.tableData = new MatTableDataSource([]);
     }
   }
 
   goToOrderStatus() {
     // this.router.navigate(['/admin/transaction?tabIndex=0']);
-    this.router.navigate(['/admin/transaction']);
+    this.router.navigate(['/OrderManager/OrderStatus']);
     this.dialogRef.close();
   }
 
@@ -205,14 +269,14 @@ export class OmCreateOrdersComponent implements OnInit {
       });
       return;
     }
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+    
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
       data: {
-        mode: 'release-all-orders',
-        ErrorMessage: 'Release all orders for this order number?',
-        action: 'delete'
+        heading: 'Release Transaction',
+        message: 'Release all orders for this order number?',
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -247,7 +311,6 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   deleteViewed() {
-    console.log(this.tableData.map(x => x.id));
     if (this.tableData.length == 0) {
       this.toastr.error('There are currently no records within the table', 'Warning', {
         positionClass: 'toast-bottom-right',
@@ -256,7 +319,7 @@ export class OmCreateOrdersComponent implements OnInit {
     }
     else {
       let ids = [];
-      ids = this.tableData.map(x => x.id.toString());
+      ids = this.tableData.filteredData.map(x => x.id.toString());
       const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
         width: '560px',
@@ -332,6 +395,7 @@ export class OmCreateOrdersComponent implements OnInit {
   onSearchSelect(e: any) {
     this.createOrdersDTPayload.orderNumber = e.option.value;
     this.createOrdersDT();
+    this.orderNumberSearchList = [];
   }
 
   onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
@@ -389,10 +453,13 @@ export class OmCreateOrdersComponent implements OnInit {
       tableName: 'Order Manager Create'
     };
     this.orderManagerService.get(payload, '/Admin/GetColumnSequence').subscribe((res: any) => {
-      if (res.isExecuted) {
-        debugger;
-        this.displayedColumns = JSON.parse(JSON.stringify(res.data));
+      if (res.isExecuted && res.data) {
         this.filterColumnNames = JSON.parse(JSON.stringify(res.data));
+        this.displayedColumns = [];
+        res.data.forEach((x:any) => {
+        if(this.sequenceKeyMapping.filter((y:any)=> x == y.sequence)[0]?.key){
+          this.displayedColumns.push(this.sequenceKeyMapping.filter((y:any)=> x == y.sequence)[0]?.key)
+        }});
         this.displayedColumns.push('actions');
         refresh ? this.createOrdersDT() : '';
       }

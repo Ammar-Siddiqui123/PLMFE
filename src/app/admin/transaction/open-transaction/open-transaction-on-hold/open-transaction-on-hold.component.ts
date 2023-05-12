@@ -123,6 +123,8 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   searchAutocompleteList: any;
   searchAutocompleteListByCol: any;
   isDeleteVisible:any=localStorage.getItem('routeFromInduction')
+  // isResetVisible:any=localStorage.getItem('routeFromOrderStatus')
+ 
   /*for data col. */
   public columnValues: any = [];
   onDestroy$: Subject<boolean> = new Subject();
@@ -139,6 +141,11 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   transStatusSelect = 'All Transactions';
   rowClicked;
   hideDelete
+  hideReset
+
+  directAdmin;
+  throughOrderManager
+
   public detailDataInventoryMap: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -227,6 +234,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       value: 'Completed Transactions',
     },
   ];
+
   constructor(
     private router: Router,
     private seqColumn: SetColumnSeqService,
@@ -256,7 +264,20 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   };
 
   ngOnInit(): void {
+    console.log(  this.router.url)
+    if(this.router.url == '/OrderManager/OrderStatus'){
+      this.throughOrderManager = true;
+      this.directAdmin = false;
+    }
+    else if(this.router.url == '/admin/transaction'){
+      this.throughOrderManager = false;
+      this.directAdmin = true;
+    }
     this.hideDelete=JSON.parse(this.isDeleteVisible);
+
+    // this.hideReset=JSON.parse(this.isResetVisible);
+
+
     this.customPagination = {
       total: '',
       recordsPerPage: 10,

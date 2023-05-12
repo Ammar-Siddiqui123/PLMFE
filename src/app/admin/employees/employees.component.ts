@@ -155,8 +155,7 @@ getFuncationAllowedList(){
     }
   }) 
 }
-applyFunctionAllowedFilter(event: any) {
-  debugger
+applyFunctionAllowedFilter(event: any) { 
   if(!this.OldFuncationAllowedList?.length && this.FuncationAllowedList.filteredData?.length) {
     this.OldFuncationAllowedList = this.FuncationAllowedList.filteredData;
   }
@@ -721,7 +720,8 @@ initialzeEmpForm() {
       data: {
         mode: 'delete-allowed-funcation',
         controlName: controlName,
-        userName :this.grp_data
+        userName :this.grp_data,
+        action: "delete"
       }
     })
     dialogRef.afterClosed().subscribe(result => {
