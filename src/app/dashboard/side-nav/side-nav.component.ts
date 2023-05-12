@@ -93,13 +93,14 @@ export class SideNavComponent implements OnInit {
 
   orderManagerMenus: any = [
     { icon: 'arrow_back', title: 'Order Manager', route: '/dashboard', class: 'back-class' , permission: 'Order Manager'},
+
     { icon: ' pending_actions', title: 'Order Manager', route: '/OrderManager/OrderManager' ,permission:'Admin Release Orders'},
-    { icon: 'view_module', title: 'Order Status ', route: '/OrderManager/OmOrderStatus' ,permission:'Order Status'},
-    { icon: 'event_note', title: 'Event Log ', route: '/OrderManager/EventLog' ,permission:'Event Log Manager'},
-    { icon: 'dataset', title: 'Inventory Master Info', route: '/OrderManager/OmInventoryMaster' ,permission:'Admin Inventory Master'},
-    { icon: 'warehouse', title: 'Stock Location & Quantity ', route: '/OrderManager/OmInventoryMap' ,permission:'Admin Stock Locations'},
+    { icon: 'view_module', title: 'Order Status ', route: '/OrderManager/OrderStatus' ,permission:'Order Status'},
+    { icon: 'event_note', title: 'Event Log ', route: '/OrderManager/EventLog' ,permission:'Admin Release Orders'},
+    { icon: 'dataset', title: 'Inventory Master Info', route: '/OrderManager/InventoryMaster' ,permission:'Admin Inventory Master'},  
+    { icon: 'warehouse', title: 'Stock Location & Quantity ', route: '/OrderManager/InventoryMap' ,permission:'Admin Stock Locations'},
     { icon: 'analytics', title: 'Reports ', route: '#' ,permission:'Admin Reports'},
-    { icon: 'tune', title: 'Preferences ', route: '/OrderManager/OmPreferences' ,permission:'Admin Preferences'},
+    { icon: 'tune', title: 'Preferences ', route: '/OrderManager/Preferences' ,permission:'Admin Preferences'},
   ];
   
 

@@ -52,7 +52,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
 
     //get absolute url
     // console.log(router.url);
-   if(router.url == '/OrderManager/OmOrderStatus'){
+   if(router.url == '/OrderManager/OrderStatus'){
     this.TabIndex = 0;
    }
    else if(router.url == '/admin/transaction'){

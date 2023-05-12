@@ -98,19 +98,19 @@
         "Permission": "Order Manager"
     },
     {
-        "path": "/OrderManager/OmOrderStatus",
+        "path": "/OrderManager/OrderStatus",
         "Permission": "Order Status"
     },
     {
-        "path": "/OrderManager/OmInventoryMaster",
+        "path": "/OrderManager/InventoryMaster",
         "Permission": "Admin Inventory Master"
     },
     {
-        "path": "/OrderManager/OmInventoryMap",
+        "path": "/OrderManager/InventoryMap",
         "Permission": "Admin Stock Locations"
     },
     {
-        "path": "/OrderManager/OmPreferences",
+        "path": "/OrderManager/Preferences",
         "Permission": "Admin Preferences"
     },
     {
