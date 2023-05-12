@@ -74,7 +74,7 @@ export class OmCreateOrdersComponent implements OnInit {
     orderNumber: "",
     filter: "1=1"
   };
-  public tableData: any = new MatTableDataSource();
+  tableData: any = [];
   userData: any;
   AllowInProc: any = 'False';
   otcreatecount: any = 0;
@@ -195,6 +195,7 @@ export class OmCreateOrdersComponent implements OnInit {
               element.isSelected = false;
             });
           }
+          // this.tableData = new MatTableDataSource<any>(res.data);
         } else {
           this.toastr.error(res.responseMessage, 'Error!', {
             positionClass: 'toast-bottom-right',
@@ -264,7 +265,6 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   deleteViewed() {
-    console.log(this.tableData.map(x => x.id));
     if (this.tableData.length == 0) {
       this.toastr.error('There are currently no records within the table', 'Warning', {
         positionClass: 'toast-bottom-right',
