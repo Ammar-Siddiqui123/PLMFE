@@ -153,7 +153,7 @@ export class OmCreateOrdersComponent implements OnInit {
   openOmAddRecord() {
     let dialogRef = this.dialog.open(OmAddRecordComponent, {
       height: 'auto',
-      width: '50vw',
+      width: '75vw',
       autoFocus: '__non_existing_element__',
       data: {
         from: "add-new-order",
@@ -171,7 +171,7 @@ export class OmCreateOrdersComponent implements OnInit {
   openOmEditTransaction(element: any) {
     let dialogRef = this.dialog.open(OmAddRecordComponent, {
       height: 'auto',
-      width: '50vw',
+      width: '75vw',
       autoFocus: '__non_existing_element__',
       data: {
         from: "edit-transaction",
@@ -187,6 +187,7 @@ export class OmCreateOrdersComponent implements OnInit {
       }
     });
   }
+
   announceSortChange(sortState: Sort) {
     sortState.active = this.sequenceKeyMapping.filter((x:any) => x.sequence == sortState.active)[0]?.key;
     if (sortState.direction) {
@@ -196,10 +197,11 @@ export class OmCreateOrdersComponent implements OnInit {
     }
     this.tableData.sort = this.sort1;
   }
+
   openOmAddTransaction(element: any = {}) {
     let dialogRef = this.dialog.open(OmAddRecordComponent, {
       height: 'auto',
-      width: '50vw',
+      width: '75vw',
       autoFocus: '__non_existing_element__',
       data: {
         from: "add-transaction",
