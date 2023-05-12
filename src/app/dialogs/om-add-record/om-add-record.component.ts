@@ -64,7 +64,7 @@ export class OmAddRecordComponent implements OnInit {
   isEdit: boolean = false;
   itemNumberSearchList: any;
   @ViewChild("searchauto", { static: false }) autocompleteOpened: MatAutocomplete;
-  wharehouseRequired: any = '';
+  wharehouseRequired: any = false;
   heading:string = "";
   orderNumberDisabled: boolean = false;
 
@@ -97,11 +97,9 @@ export class OmAddRecordComponent implements OnInit {
       this.autofillModal();
     }
     else{
-      debugger
       this.oTTempUpdatePayload.processBy = this.userData.userName;
       this.oTTempUpdatePayload.importBy = this.userData.userName;
-      this.oTTempUpdatePayload.importDate = new Date().toLocaleDateString();
-      // this.oTTempUpdatePayload.importDate = this.oTTempUpdatePayload.importDate.toLocaleDateString();
+      this.oTTempUpdatePayload.importDate = new Date().toISOString();
       this.oTTempUpdatePayload.importFileName = "Create Pending Transaction";
       this.getUserFieldData();
     }
@@ -109,7 +107,6 @@ export class OmAddRecordComponent implements OnInit {
   }
 
   autofillModal(){
-    debugger;
     this.oTTempUpdatePayload.id = this.data.transaction.id;
     this.oTTempUpdatePayload.orderNumber = this.data.transaction.orderNumber;
     this.oTTempUpdatePayload.transType = this.data.transaction.transactionType;
@@ -309,12 +306,41 @@ export class OmAddRecordComponent implements OnInit {
     });
   }
 
-
-
   onDateChange(event,key:any): void {
-    // debugger;
     this.oTTempUpdatePayload[key] = "";
-    this.oTTempUpdatePayload[key] = new Date(event).toLocaleDateString();
+    this.oTTempUpdatePayload[key] = event;
   }
 
+  resetDefaultValues(key:any, value:any){
+    if(this.oTTempUpdatePayload[key] == null){
+      this.oTTempUpdatePayload[key] = value;
+    }
+  }
+
+  itemNumberFocusOut(){
+    if(this.oTTempUpdatePayload.itemNumber != ""){
+      let payload = {
+        "appName": "",
+        "itemNumber": this.oTTempUpdatePayload.itemNumber,
+        "beginItem": "---",
+        "isEqual": false,
+        "userName": this.userData.userName,
+        "wsid": this.userData.wsid
+      }
+      this.orderManagerService.get(payload, '/Common/SearchItem', true).subscribe((res: any) => {
+        if (res.isExecuted && res.data && res.data.length > 0) {
+          this.oTTempUpdatePayload.description = res.data[0].description;
+          this.oTTempUpdatePayload.unitofMeasure = res.data[0].description;
+          this.wharehouseRequired = res.data[0].warehouseSensitive;
+        }
+        else{
+          this.toastr.error(`Item ${this.oTTempUpdatePayload.itemNumber} Does not exist!`, 'Inventory', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+          this.oTTempUpdatePayload.itemNumber = "";
+        }
+      });
+    }
+  }
 }

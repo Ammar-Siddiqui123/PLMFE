@@ -113,8 +113,8 @@
                 <div class=" col-6"></div>
             </div>
 
-
-            <div class="row" *ngIf="hideDelete">
+            
+            <div class="row" *ngIf="hideDelete " >
                 <div class="col-xl-3 offset-xl-6">
                     
                 </div>
@@ -124,18 +124,40 @@
                     </button>
                 </div>
             </div>
-            <div class="row" *ngIf="!hideDelete">
+
+        <div *ngIf="throughOrderManager" >
+            <div class="row" >
                 <div class="col-xl-3 offset-xl-6">
-                    <button  mat-flat-button color="primary"  class="btn-regular w-100 mb-3" (click)="resetToTodaysDate()">
+                    
+                </div>
+                <div class="col-xl-3" >
+                    <button mat-flat-button color="primary" class="btn-regular w-100 mb-3" (click)="resetToTodaysDate()">
                         Reset to Today's Date
                     </button>
                 </div>
-                <div class="col-xl-3"  >
-                    <button (click)="retunrToPrev()" mat-stroked-button color="primary" class="btn-regular w-100 mb-3">
-                        Place Trans. on Hold
-                    </button>
+            </div>
+        </div>
+
+                
+            <div *ngIf="directAdmin ">
+                <div class="row" *ngIf="!hideDelete">
+                    <div class="col-xl-3 offset-xl-6">
+                        <button  mat-flat-button color="primary"  class="btn-regular w-100 mb-3" (click)="resetToTodaysDate()">
+                            Reset to Today's Date
+                        </button>
+                    </div>
+                    <div class="col-xl-3"  >
+                        <button (click)="retunrToPrev()" mat-stroked-button color="primary" class="btn-regular w-100 mb-3">
+                            Place Trans. on Hold
+                        </button>
+                    </div>
                 </div>
             </div>
+
+
+
+
+
 
         </mat-card-content>
 
