@@ -56,7 +56,7 @@ export class PalletReceivingComponent implements OnInit {
       this.imService
         .get(payloadTote, '/Induction/ValidateTotesForPutAways') //validate tote
         .subscribe((response: any) => {
-          if (response.data != '') {
+          if (response.data) {
             let payloadItem = {
               item: this.processForm.value.itemNo,
               username: this.userData.userName,
@@ -65,7 +65,7 @@ export class PalletReceivingComponent implements OnInit {
             this.imService
               .get(payloadItem, '/Induction/ValidateItem') //validate item number
               .subscribe((response: any) => {
-                if (response.data != '') {
+                if (response.data) {
                   // if item number is valid process pallet
                   let payload = {
                     toteId: this.processForm.value.toteID,
