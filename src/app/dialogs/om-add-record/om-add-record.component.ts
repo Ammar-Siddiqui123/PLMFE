@@ -65,7 +65,7 @@ export class OmAddRecordComponent implements OnInit {
   itemNumberSearchList: any;
   @ViewChild("searchauto", { static: false }) autocompleteOpened: MatAutocomplete;
   wharehouseRequired: any = false;
-  heading:string = "";
+  heading: string = "";
   orderNumberDisabled: boolean = false;
 
   constructor(
@@ -85,18 +85,18 @@ export class OmAddRecordComponent implements OnInit {
 
   initializaAutoComplete() {
     this.heading = this.data.heading;
-    if(this.data.from == 'edit-transaction'){
+    if (this.data.from == 'edit-transaction') {
       this.isEdit = true;
       this.orderNumberDisabled = true;
       this.getWarehouses();
       this.autofillModal();
     }
-    else if (this.data.from == 'add-transaction'){
+    else if (this.data.from == 'add-transaction') {
       this.orderNumberDisabled = true;
       this.getWarehouses();
       this.autofillModal();
     }
-    else{
+    else {
       this.oTTempUpdatePayload.processBy = this.userData.userName;
       this.oTTempUpdatePayload.importBy = this.userData.userName;
       this.oTTempUpdatePayload.importDate = new Date().toISOString();
@@ -106,7 +106,7 @@ export class OmAddRecordComponent implements OnInit {
     this.oTTempUpdatePayload.wsid = this.userData.wsid;
   }
 
-  autofillModal(){
+  autofillModal() {
     this.oTTempUpdatePayload.id = this.data.transaction.id;
     this.oTTempUpdatePayload.orderNumber = this.data.transaction.orderNumber;
     this.oTTempUpdatePayload.transType = this.data.transaction.transactionType;
@@ -139,10 +139,10 @@ export class OmAddRecordComponent implements OnInit {
     this.oTTempUpdatePayload.userField8 = this.data.transaction.userField8;
     this.oTTempUpdatePayload.userField9 = this.data.transaction.userField9;
     this.oTTempUpdatePayload.userField10 = this.data.transaction.userField10;
-    if(this.data.transaction.inProcess == "False"){
+    if (this.data.transaction.inProcess == "False") {
       this.oTTempUpdatePayload.inProcess = false;
     }
-    else if(this.data.transaction.inProcess == "True"){
+    else if (this.data.transaction.inProcess == "True") {
       this.oTTempUpdatePayload.inProcess = true;
     }
     // this.oTTempUpdatePayload.inProcess = this.data.transaction.inProcess;
@@ -151,16 +151,16 @@ export class OmAddRecordComponent implements OnInit {
     this.oTTempUpdatePayload.importDate = this.data.transaction.importDate;
     this.oTTempUpdatePayload.importFileName = this.data.transaction.importFilename;
 
-    if(this.oTTempUpdatePayload.processBy == "" || this.oTTempUpdatePayload.processBy == null || this.oTTempUpdatePayload.processBy == undefined){
+    if (this.oTTempUpdatePayload.processBy == "" || this.oTTempUpdatePayload.processBy == null || this.oTTempUpdatePayload.processBy == undefined) {
       this.oTTempUpdatePayload.processBy = this.userData.userName;
     }
-    if(this.oTTempUpdatePayload.importBy == "" || this.oTTempUpdatePayload.importBy == null || this.oTTempUpdatePayload.importBy == undefined){
+    if (this.oTTempUpdatePayload.importBy == "" || this.oTTempUpdatePayload.importBy == null || this.oTTempUpdatePayload.importBy == undefined) {
       this.oTTempUpdatePayload.importBy = this.userData.userName;
     }
-    if(this.oTTempUpdatePayload.importFileName == "" || this.oTTempUpdatePayload.importFileName == null || this.oTTempUpdatePayload.importFileName == undefined){
+    if (this.oTTempUpdatePayload.importFileName == "" || this.oTTempUpdatePayload.importFileName == null || this.oTTempUpdatePayload.importFileName == undefined) {
       this.oTTempUpdatePayload.importFileName = "Create Pending Transaction";
     }
-    if(this.oTTempUpdatePayload.orderNumber == "" || this.oTTempUpdatePayload.orderNumber == null || this.oTTempUpdatePayload.orderNumber == undefined){
+    if (this.oTTempUpdatePayload.orderNumber == "" || this.oTTempUpdatePayload.orderNumber == null || this.oTTempUpdatePayload.orderNumber == undefined) {
       this.oTTempUpdatePayload.orderNumber = this.data.orderNumber;
     }
   }
@@ -198,14 +198,14 @@ export class OmAddRecordComponent implements OnInit {
     });
   }
 
-  save(loader: boolean = false) {
+  async save(loader: boolean = false) {
     if (this.oTTempUpdatePayload.orderNumber.trim() == '' || this.oTTempUpdatePayload.itemNumber.trim() == '' || this.oTTempUpdatePayload.transType.trim() == '') {
       this.toastr.error("Order Number, Item Number and Transaction Type must be completed in order to continue.", 'Warning!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
     }
-    else if(this.wharehouseRequired && this.oTTempUpdatePayload.warehouse == ''){
+    else if (this.wharehouseRequired && this.oTTempUpdatePayload.warehouse == '') {
       this.toastr.error("The selected item is warehouse sensitive.  Please set a warehouse to continue.", 'Warning!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
@@ -218,6 +218,10 @@ export class OmAddRecordComponent implements OnInit {
       });
     }
     else {
+      let check: any = await this.checkItemNumberBeforeSave();
+      if (!check) {
+        return;
+      }
       if (!this.isEdit) {
         this.orderManagerService.get(this.oTTempUpdatePayload, '/OrderManager/OTTempInsert', loader).subscribe((res: any) => {
           if (res.isExecuted && res.data) {
@@ -274,7 +278,7 @@ export class OmAddRecordComponent implements OnInit {
         }
       });
     }
-    else{
+    else {
       this.itemNumberSearchList = [];
     }
   }
@@ -289,7 +293,7 @@ export class OmAddRecordComponent implements OnInit {
     this.wharehouseRequired = option.warehouseSensitive;
   }
 
-  getWarehouses(){
+  getWarehouses() {
     let payload = {
       "userName": this.userData.userName,
       "wsid": this.userData.wsid
@@ -306,19 +310,19 @@ export class OmAddRecordComponent implements OnInit {
     });
   }
 
-  onDateChange(event,key:any): void {
+  onDateChange(event, key: any): void {
     this.oTTempUpdatePayload[key] = "";
     this.oTTempUpdatePayload[key] = event;
   }
 
-  resetDefaultValues(key:any, value:any){
-    if(this.oTTempUpdatePayload[key] == null){
+  resetDefaultValues(key: any, value: any) {
+    if (this.oTTempUpdatePayload[key] == null) {
       this.oTTempUpdatePayload[key] = value;
     }
   }
 
-  itemNumberFocusOut(){
-    if(this.oTTempUpdatePayload.itemNumber != ""){
+  itemNumberFocusOut() {
+    if (this.oTTempUpdatePayload.itemNumber != "") {
       let payload = {
         "appName": "",
         "itemNumber": this.oTTempUpdatePayload.itemNumber,
@@ -333,7 +337,7 @@ export class OmAddRecordComponent implements OnInit {
           this.oTTempUpdatePayload.unitofMeasure = res.data[0].description;
           this.wharehouseRequired = res.data[0].warehouseSensitive;
         }
-        else{
+        else {
           this.toastr.error(`Item ${this.oTTempUpdatePayload.itemNumber} Does not exist!`, 'Inventory', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
@@ -343,4 +347,43 @@ export class OmAddRecordComponent implements OnInit {
       });
     }
   }
+
+  async checkItemNumberBeforeSave(): Promise<boolean> {
+    if (this.oTTempUpdatePayload.itemNumber != "") {
+      let payload = {
+        "appName": "",
+        "itemNumber": this.oTTempUpdatePayload.itemNumber,
+        "beginItem": "---",
+        "isEqual": false,
+        "userName": this.userData.userName,
+        "wsid": this.userData.wsid
+      }
+      let res: any = await this.orderManagerService.get(payload, '/Common/SearchItem', true).toPromise();
+      if (res.isExecuted && res.data && res.data.length > 0) {
+        if (res.isExecuted && res.data && res.data.length > 0) {
+          let filtered = res.data.filter((item: any) => (item.itemNumber == this.oTTempUpdatePayload.itemNumber));
+          if (filtered.length > 0) {
+            this.oTTempUpdatePayload.description = filtered[0].description;
+            this.oTTempUpdatePayload.unitofMeasure = filtered[0].description;
+            this.wharehouseRequired = filtered[0].warehouseSensitive;
+            return true;
+          }
+          else {
+            this.oTTempUpdatePayload.itemNumber = "";
+            return false;
+          }
+        }
+        else {
+          // this.toastr.error(`Item ${this.oTTempUpdatePayload.itemNumber} Does not exist!`, 'Inventory', {
+          //   positionClass: 'toast-bottom-right',
+          //   timeOut: 2000
+          // });
+          this.oTTempUpdatePayload.itemNumber = "";
+          return false;
+        }
+      }
+    }
+    return false;
+  }
+
 }

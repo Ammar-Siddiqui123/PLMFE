@@ -720,7 +720,8 @@ initialzeEmpForm() {
       data: {
         mode: 'delete-allowed-funcation',
         controlName: controlName,
-        userName :this.grp_data
+        userName :this.grp_data,
+        action: "delete"
       }
     })
     dialogRef.afterClosed().subscribe(result => {
