@@ -57,7 +57,7 @@ export class AuthService {
     return true;
   }
   public UserPermissonByFuncName(FuncName:any){
-    var userRights = this.userPermission().indexOf(FuncName);
+    var userRights = this.userPermission()?.includes(FuncName);
     if(userRights) return true;
     else  return false;
   }
