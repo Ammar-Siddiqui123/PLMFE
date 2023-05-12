@@ -45,7 +45,7 @@
 // }
 
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, NavigationEnd } from '@angular/router';
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../init/auth.service';
 import { HttpClient } from '@angular/common/http'
 import { Location } from '@angular/common';
@@ -56,13 +56,16 @@ export class AuthGuardGuard implements CanActivate {
   ConfigJson: any[] = [];
   constructor(
     private router: Router,
+    private activatedRoute:ActivatedRoute,
     public authService: AuthService, private http: HttpClient, private location: Location
   ) {
 
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    debugger
+    debugger 
+  
+    const pathSet = state.url; 
     if (!this.ConfigJson?.length) {
       var Storagepermission = JSON.parse(localStorage.getItem('Permission') || '[]');
       if (Storagepermission?.length) {
@@ -76,19 +79,10 @@ export class AuthGuardGuard implements CanActivate {
         });
       }
     }
-    const userPermission = this.authService.userPermission();
-    var pathSet: any; 
-    var Index: any = 0;
-    route.url.forEach(item => {
-      if (Index == 0) pathSet = item.path;
-      else pathSet = pathSet + "/" + item.path;
-      Index++;
-    });
+    const userPermission = this.authService.userPermission(); 
     if (this.ConfigJson?.length) {
 
-      if (route.url.length == 0) {
-        pathSet = route.url[0].path;
-      }
+     
       var permission = this.ConfigJson.find(x => x.path.toLowerCase() == pathSet.toLowerCase());
       if (userPermission.filter(x => x.toLowerCase() == permission.Permission.toLowerCase()).length > 0) {
         return true;
