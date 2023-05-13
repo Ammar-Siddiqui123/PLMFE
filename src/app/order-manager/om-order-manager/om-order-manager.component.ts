@@ -15,6 +15,7 @@ import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.ser
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-om-order-manager',
@@ -97,7 +98,7 @@ export class OmOrderManagerComponent implements OnInit {
     { colHeader: "cell", colDef: "Cell" },
   ];
   displayedColumns  : string[] = []; // ['orderNo', 'priority', 'requiredDate', 'uf1', 'uf2', 'uf3', 'actions']; 
-  orderTable        : any = [] // ['10','10','10','10','10','10'];
+  orderTable        : any = new MatTableDataSource([]);  // ['10','10','10','10','10','10'];
   customPagination  : any = {
                               total : '',
                               recordsPerPage : 20,
@@ -116,7 +117,8 @@ export class OmOrderManagerComponent implements OnInit {
               private _liveAnnouncer  : LiveAnnouncer,
               private toastr          : ToastrService,
               private OMService       : OrderManagerService,
-              public authService     : AuthService,
+              public authService      : AuthService,
+              public globalService    : GlobalService,
               private filterService   : ContextMenuFiltersService) { }
 
   ngOnInit(): void {
@@ -265,11 +267,12 @@ export class OmOrderManagerComponent implements OnInit {
         if (result == 'Yes') {
           let payload = {
             username: this.userData.userName,
+            user: this.userData.userName,
             wsid: this.userData.wsid,
             viewType: this.viewType
           };
       
-          this.OMService.get(payload, 'OrderManager/OMOTPendDelete').subscribe((res: any) => {
+          this.OMService.create(payload, '/OrderManager/OMOTPendDelete').subscribe((res: any) => {
             if (res.isExecuted) {
               this.getOrders();
             }
@@ -314,7 +317,6 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   openOrderStatus(ele : any, fromTable : boolean) {
-
     if((this.value1 == "" || this.column != "Order Number") && !fromTable) {
       this.toastr.error("You must select an Order Number to view the order status.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
     } else {
@@ -358,7 +360,7 @@ export class OmOrderManagerComponent implements OnInit {
             page: 'Order Manager'
           };
       
-          this.OMService.get(payload, 'OrderManager/ReleaseOrders').subscribe((res: any) => {
+          this.OMService.get(payload, '/OrderManager/ReleaseOrders').subscribe((res: any) => {
             if (res.isExecuted) {
               this.getOrders();
               this.clearSearch();
@@ -393,7 +395,7 @@ export class OmOrderManagerComponent implements OnInit {
             page: 'Order Manager'
           };
       
-          this.OMService.get(payload, 'OrderManager/ReleaseOrders').subscribe((res: any) => {
+          this.OMService.get(payload, '/OrderManager/ReleaseOrders').subscribe((res: any) => {
             if (res.isExecuted) {
               this.getOrders();
               this.clearSearch();
