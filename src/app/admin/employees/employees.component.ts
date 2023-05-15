@@ -50,6 +50,7 @@ export class EmployeesComponent implements OnInit {
   public env;
   @ViewChild('matRef') matRef: MatSelect;
  // public searchGrpAllowed = '';
+  public allGroups:any = [];
   public searchfuncAllowed = '';
   public grpAllFilter='';
 bpSettingInp='';
@@ -335,6 +336,8 @@ initialzeEmpForm() {
 
   actionDialog(event: any, emp_data: any, matEvent: MatSelectChange) {
 
+    emp_data.env = this.env;
+    emp_data.allGroups = this.allGroups;
     if (event === 'edit') {
       let dialogRef = this.dialog.open(AddNewEmployeeComponent, {
         height: 'auto',
@@ -342,7 +345,7 @@ initialzeEmpForm() {
         autoFocus: '__non_existing_element__',
         data: {
           mode: 'edit',
-          emp_data: emp_data
+          emp_data: emp_data,
         }
       })
       dialogRef.afterClosed().subscribe(result => {
@@ -672,6 +675,7 @@ initialzeEmpForm() {
     this.employeeService.getEmployeeData(employeRes).subscribe((res: any) => {
       if(res.isExecuted) {
         this.ButtonAccessList =  new MatTableDataSource(res.data.allAccess);
+        this.allGroups = res.data.allGroups;
         this.ButtonAccessList.paginator = this.paginator1;
       }
       else this.ButtonAccessList = [];
