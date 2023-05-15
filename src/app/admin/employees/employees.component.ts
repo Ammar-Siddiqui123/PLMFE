@@ -536,7 +536,7 @@ initialzeEmpForm() {
 
   saveMaximumOrders(){
     this.initialzeEmpForm();
-    this.empForm.removeControl('password');
+    // this.empForm.removeControl('password');
     this.empForm.value.wsid = "TESTWID";
     this.empForm.value.username = this.empData.username;
     this.empForm.value.groupName = "";
