@@ -72,7 +72,7 @@ export class CmShippingComponent implements OnInit {
           indx=indx+1;
             }
           }
-       //   this.shippingComp = res.data.shippingComp;
+         this.shippingComp = res.data.shippingComp;
           this.orderNumber = res.data.orderNumber;
           this.IsLoading = false; 
         }else  this.IsLoading = false; 
@@ -187,7 +187,7 @@ export class CmShippingComponent implements OnInit {
     }
     this.http.get(obj, '/Consolidation/CompleteShipment').subscribe((res: any) => {
       if (res && res.isExecuted) {
-        this.dialogRef.close(true);
+        this.toast.success(`Order Number: ${this.orderNumber} is marked as Shipping Complete`, "Success", { positionClass: 'toast-bottom-right', timeOut: 2000 });
       } else {
         this.toast.error("An error has occurred", "Error", { positionClass: 'toast-bottom-right', timeOut: 2000 });
       }
