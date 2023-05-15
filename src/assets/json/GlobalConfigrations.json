@@ -157,5 +157,10 @@
     {
         "path": "/InductionManager/Admin/AdminPrefrences",
         "Permission": "Induction Manager"
+    },
+
+    {
+        "path": "/admin/manualTransactions",
+        "Permission": "Manual Transactions"
     }
 ]
