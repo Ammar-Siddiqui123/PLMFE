@@ -57,6 +57,10 @@
         "Permission": "employees"
     },
     {
+        "path": "/admin/createCountBatches",
+        "Permission": "Cycle Count Manager"
+    },
+    {
         "path": "/OrderManager/EventLog",
         "Permission": "Event Log Manager"
     },
@@ -90,6 +94,9 @@
         "path": "/InductionManager/ProcessPicks",
         "Permission": "Induction Manager"
     },
+
+
+    
     {
         "path": "/InductionManager/ProcessPutAways",
         "Permission": "Induction Manager"
