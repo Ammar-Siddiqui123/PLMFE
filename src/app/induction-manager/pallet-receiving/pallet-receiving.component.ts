@@ -86,7 +86,7 @@ export class PalletReceivingComponent implements OnInit {
                           }
                         );
 
-                        this.processForm.reset();
+                        this.resetForm();
                       } else {
                         this.toastService.error(
                           'An error occurred processing this pallet setup',
@@ -134,8 +134,16 @@ export class PalletReceivingComponent implements OnInit {
     }
   }
 
- 
-
+  resetForm() {
+    // this.processForm.reset();
+    this.processForm.reset();
+    this.processForm.get('quantity')?.setValue(0);
+    Object.keys(this.processForm.controls).forEach((key) => {
+      this.processForm.get(key)?.setErrors(null);
+      this.processForm.get(key)?.markAsPristine();
+      this.processForm.get(key)?.markAsUntouched();
+    });
+  }
 
   showNotification(heading, message) {
     const dialogRef = this.dialog.open(AlertConfirmationComponent, {
@@ -144,6 +152,7 @@ export class PalletReceivingComponent implements OnInit {
       data: {
         message: message,
         heading: heading,
+        disableCancel: true,
       },
       autoFocus: '__non_existing_element__',
     });
