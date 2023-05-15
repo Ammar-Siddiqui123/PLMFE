@@ -81,6 +81,11 @@
         "path": "/admin/systemReplenishment",
         "Permission": "Replenishment"
     },
+
+    {
+        "path": "/InductionManager/MarkEmptyReels",
+        "Permission": "Induction Manager"
+    },
     {
         "path": "/InductionManager/ProcessPicks",
         "Permission": "Induction Manager"
