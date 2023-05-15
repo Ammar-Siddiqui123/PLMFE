@@ -94,7 +94,7 @@
                         <mat-form-field class="action-dropdown custom-form-field-bg-white" appearance="outline">
                             <mat-label>Actions</mat-label>
                             <mat-select #matRef class="employees-action" placeholder="Actions">
-                                <mat-option value="add_new_transaction" [disabled]="tableData.length == 0" (click)="openOmAddTransaction()">Add Transaction</mat-option>
+                                <mat-option value="add_new_transaction" [disabled]="!tableData.filteredData || tableData.filteredData.length == 0" (click)="openOmAddTransaction()">Add Transaction</mat-option>
                                 <mat-option value="post_order" (click)="releaseOrders()">Release Orders</mat-option>
                                 <mat-option value="delete_order" (click)="deleteViewed()">Delete Viewed</mat-option>
                                 <mat-option value="add_new_transaction" (click)="printViewed()">Print Viewed</mat-option>
