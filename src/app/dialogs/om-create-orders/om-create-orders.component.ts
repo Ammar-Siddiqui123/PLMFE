@@ -199,6 +199,10 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   openOmAddTransaction(element: any = {}) {
+    debugger;
+    if(this.tableData.filteredData.length == 0){
+      return;
+    }
     let dialogRef = this.dialog.open(OmAddRecordComponent, {
       height: 'auto',
       width: '75vw',
