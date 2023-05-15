@@ -5,6 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-mark-empty-reels',
@@ -19,6 +22,8 @@ export class MarkEmptyReelsComponent implements OnInit {
   itemInvalid = false;
   itemEmpty = false;
   @ViewChild('autoFocusField') searchBoxField: ElementRef;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
   scannedSerialList: MatTableDataSource<any>;
   displayedColumns_1: string[] = ['scannedserialnumbers', 'actions'];
   userData;
@@ -27,7 +32,8 @@ export class MarkEmptyReelsComponent implements OnInit {
     private dialog: MatDialog,
     public imService: ProcessPutAwayService,
     public toastService: ToastrService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _liveAnnouncer: LiveAnnouncer,
   ) {
     this.scannedSerialList = new MatTableDataSource();
   }
@@ -53,38 +59,43 @@ export class MarkEmptyReelsComponent implements OnInit {
       };
       this.imService
         .get(payload, '/Induction/ValidateSerialNumber') //validate tote
-        .subscribe((response: any) => {
-          if (response.isExecuted) {
-            switch (response.data) {
-              case 'Error':
-                this.itemInvalid = true;
-                this.notifyMessage =
-                  'There was an error validating serial number';
-                this.scanSerial = '';
-                break;
+        .subscribe(
+          (response: any) => {
+            if (response.isExecuted) {
+              switch (response.data) {
+                case 'Error':
+                  this.itemInvalid = true;
+                  this.notifyMessage =
+                    'There was an error validating serial number';
+                  this.scanSerial = '';
+                  break;
 
-              case 'InValid':
-                this.itemInvalid = true;
+                case 'InValid':
+                  this.itemInvalid = true;
 
-                this.notifyMessage = 'Serial Number Does Not Exist';
-                this.scanSerial = '';
+                  this.notifyMessage = 'Serial Number Does Not Exist';
+                  this.scanSerial = '';
 
-                break;
+                  break;
 
-              case 'Valid':
-                this.itemInvalid = false;
-                this.itemEmpty = false;
-                // append in row
-                const newRow = { scannedserialnumbers: this.scanSerial };
-                this.scannedSerialList.data.push(newRow);
-                this.scannedSerialList._updateChangeSubscription();
-                this.scanSerial = '';
-                break;
-              default:
-                break;
+                case 'Valid':
+                  this.itemInvalid = false;
+                  this.itemEmpty = false;
+                  // append in row
+                  const newRow = { scannedserialnumbers: this.scanSerial };
+                  this.scannedSerialList.data.push(newRow);
+                  this.scannedSerialList._updateChangeSubscription();
+                  this.scanSerial = '';
+                  break;
+                default:
+                  break;
+              }
             }
+          },
+          (error) => {
+            console.error('An error occurred:', error);
           }
-        });
+        );
       this.itemInvalid = false;
       this.lastScannedList.push(this.scanSerial);
       this.lastScanned = this.scanSerial;
@@ -100,26 +111,31 @@ export class MarkEmptyReelsComponent implements OnInit {
         action: 'delete',
       },
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'Yes') {
-        // Remove item from last scanned list
-        const indexToRemove = this.lastScannedList.findIndex(
-          (item) => item === el.scannedserialnumbers
-        );
-        console.log(indexToRemove);
+    dialogRef.afterClosed().subscribe(
+      (result) => {
+        if (result === 'Yes') {
+          // Remove item from last scanned list
+          const indexToRemove = this.lastScannedList.findIndex(
+            (item) => item === el.scannedserialnumbers
+          );
+          console.log(indexToRemove);
 
-        if (indexToRemove !== -1) {
-          this.lastScannedList.splice(indexToRemove, 1);
+          if (indexToRemove !== -1) {
+            this.lastScannedList.splice(indexToRemove, 1);
+          }
+          console.log(this.lastScannedList);
+
+          //  remove row from datasource
+          this.scannedSerialList.data.splice(index, 1);
+          this.scannedSerialList._updateChangeSubscription();
+          this.itemInvalid = false;
+          this.itemEmpty = false;
         }
-        console.log(this.lastScannedList);
-
-        //  remove row from datasource
-        this.scannedSerialList.data.splice(index, 1);
-        this.scannedSerialList._updateChangeSubscription();
-        this.itemInvalid = false;
-        this.itemEmpty = false;
+      },
+      (error) => {
+        console.error('An error occurred:', error);
       }
-    });
+    );
   }
   markReelAsEmpty() {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
@@ -133,39 +149,67 @@ export class MarkEmptyReelsComponent implements OnInit {
           'You are about to mark the scanned reels as empty. This will delete ALL current open transactions associated with the scanned reels.',
       },
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'Yes') {
-        let serialNumbersArr: any = [];
-        this.scannedSerialList.data.forEach((item) => {
-          serialNumbersArr.push(item.scannedserialnumbers);
-        });
+    dialogRef.afterClosed().subscribe(
+      (result) => {
+        if (result === 'Yes') {
+          let serialNumbersArr: any = [];
+          this.scannedSerialList.data.forEach((item) => {
+            serialNumbersArr.push(item.scannedserialnumbers);
+          });
 
-        //  Renmoves all serial numbers from list 
+          //  Renmoves all serial numbers from list
 
-        let payload = {
-          serialNumbers: serialNumbersArr,
-          username: this.userData.userName,
-          wsid: this.userData.wsid,
-        };
-        this.imService
-        .get(payload, '/Induction/DeleteSerialNumber') //validate tote
-        .subscribe((response: any) => {
-          if (response.isExecuted) {
-            this.toastService.success(response.responseMessage, 'Success!',{
-              positionClass: 'toast-bottom-right',
-              timeOut:2000
-           });
-          }else{
-            this.toastService.error(response.responseMessage, 'Error!',{
-              positionClass: 'toast-bottom-right',
-              timeOut:2000
-           });
-          }
-        });
+          let payload = {
+            serialNumbers: serialNumbersArr,
+            username: this.userData.userName,
+            wsid: this.userData.wsid,
+          };
+          this.imService
+            .get(payload, '/Induction/DeleteSerialNumber') //validate tote
+            .subscribe((response: any) => {
+              if (response.isExecuted) {
+                this.toastService.success(
+                  response.responseMessage,
+                  'Success!',
+                  {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000,
+                  }
+                );
+                this.itemInvalid = false;
+                this.itemEmpty = false;
+                this.scannedSerialList = new MatTableDataSource();
+                this.lastScannedList.length = 0;
+              } else {
+                this.toastService.error(response.responseMessage, 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+              }
+            });
+        }
+      },
+      (error) => {
+        console.error('An error occurred:', error);
       }
-    });
+    );
+  }
+
+  
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
   ngAfterViewInit() {
     this.searchBoxField.nativeElement.focus();
+    this.scannedSerialList.sort = this.sort;
   }
 }
