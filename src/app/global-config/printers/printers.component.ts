@@ -8,10 +8,14 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class PrintersComponent implements OnInit {
   sideBarOpen: boolean = true;
+  displayedColumns: string[] = ['printerName', 'printerAddress', 'labelPrinter', 'actions'];
+  toteTable: any[] = ['10', '10', '10', '10', '10', '10'];
 
   running: boolean = false;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(
+    private dialog: MatDialog
+    ) { }
 
   ngOnInit(): void {
   }
@@ -19,9 +23,6 @@ export class PrintersComponent implements OnInit {
   sideBarToggler() {
     this.sideBarOpen = !this.sideBarOpen;
   }
-
-  displayedColumns: string[] = ['printerName', 'printerAddress', 'labelPrinter', 'actions'];
-  toteTable: any[] = ['10', '10', '10', '10', '10', '10'];
 
   ServiceToggle(text: any) {
     if (text == "Start Print Service") {
