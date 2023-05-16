@@ -117,7 +117,7 @@ export class OmCreateOrdersComponent implements OnInit {
   createOrdersDTSubscribe: any;
   createOrdersDTPayload: any = {
     orderNumber: "",
-    filter: "1=1"
+    filter: "1 = 1"
   };
   tableData: any = [];
   userData: any;
@@ -247,10 +247,12 @@ export class OmCreateOrdersComponent implements OnInit {
           this.tableData = new MatTableDataSource(res.data);  
           this.tableData.paginator = this.paginator1;
         } else {
-          this.toastr.error(res.responseMessage, 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
+          console.log('Error',res.responseMessage);
+          this.tableData = new MatTableDataSource(); 
+          // this.toastr.error(res.responseMessage, 'Error!', {
+          //   positionClass: 'toast-bottom-right',
+          //   timeOut: 2000
+          // });
         }
       });
     }
@@ -417,7 +419,7 @@ export class OmCreateOrdersComponent implements OnInit {
       this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
       this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
     }
-    this.createOrdersDTPayload.filter = this.FilterString != "" ? this.FilterString : "1=1";
+    this.createOrdersDTPayload.filter = this.FilterString != "" ? this.FilterString : "1 = 1";
     this.createOrdersDT(true);
   }
 
