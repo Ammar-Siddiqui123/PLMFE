@@ -15,7 +15,7 @@
                         <div class="col-6  mb-2">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Location Number</mat-label>
-                                <input matInput  disabled name="locationNumber" value="{{autoFillLocNumber}}">
+                                <input matInput disabled name="locationNumber" value="{{autoFillLocNumber}}">
                             </mat-form-field>
                         </div>
                         <div class="col-6 mb-2">
@@ -28,7 +28,7 @@
 
                                     <h6 class="loc_name"><span>Location</span> <span>Zone</span></h6>
                                     <mat-option *ngFor="let option of filteredOptions | async"
-                                        [value]="option.locationName">
+                                        [value]="option.locationName" >
                                         <div class="loc_option">
                                             <span>{{option.locationName}}</span> <span>{{option.zone}}</span>
                                         </div>
@@ -245,15 +245,15 @@
                 <h1 mat-dialog-title>Assigned Item Details</h1>
                 <div class="row">
                     <div class="col-6 mb-2">
-                        <mat-form-field class="d-block w-100" appearance="outline">
+                        <mat-form-field class="d-block w-100" appearance="outline" >
                             <mat-label>Item Number</mat-label>
-                            <input placeholder="Item Number" aria-label="Item Number" matInput
+                            <input  placeholder="Item Number" aria-label="Item Number" matInput 
                                 formControlName="item" [matAutocomplete]="itemNumAuto" #searchItam (keyup)="searchItemNumber(searchItam)">
                             <mat-autocomplete  #itemNumAuto="matAutocomplete" [panelWidth]="400" (optionSelected)="loadItemDetails($event.option.value)">
                                 <h6 class="loc_name"><span>Item Number</span> <span>Description</span></h6>
                                 <mat-option *ngFor="let option of itemNumberList"
                                     [value]="option.itemNumber">
-                                    <div class="itemNum">
+                                    <div class="itemNum" >
                                         <span>{{option.itemNumber}}</span> <span>{{option.description}}</span>
                                     </div>
                                 </mat-option>
@@ -330,8 +330,8 @@
     </div>
     <!-- <mat-dialog-actions align="end"> -->
         <div class="d-flex gap-12">
-        <button type="button" mat-stroked-button color="warn" class="form-button-submit btn-lg" (click)="clearFields()"  *ngIf="!routeFromIM">Clear</button>
-        <button type="submit" mat-flat-button class="form-button-submit btn-lg w-100" color="primary"  *ngIf="!routeFromIM"  [disabled]="!isValid()">Save Changes</button>
+        <button type="button" mat-stroked-button color="warn" class="form-button-submit btn-lg" (click)="clearFields()"  *ngIf="myroute1">Clear</button>
+        <button type="submit" mat-flat-button class="form-button-submit btn-lg w-100" color="primary"  *ngIf="myroute2"  [disabled]="!isValid()">Save Changes</button>
     </div>
     <!-- </mat-dialog-actions> -->
 </form>

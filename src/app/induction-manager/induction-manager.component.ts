@@ -32,18 +32,11 @@ export class InductionManagerComponent implements OnInit {
     
         if (prevRoute[1]== 'InductionManager' || nextRoute[1] == 'InductionManager') {
           localStorage.setItem('routeFromInduction','true')
-            // this.showReprocess=false;
-            // this.showReprocessed=false;
          
         }else{
           localStorage.setItem('routeFromInduction','false')
-          localStorage.setItem('routeFromOrderStatus','false')
-          // this.showReprocess=true;
-          // this.showReprocessed=true;
         }
-        if(prevRoute[1]== 'OrderManager' || nextRoute[1] == 'OrderManager'){
-          localStorage.setItem('routeFromOrderStatus','true')
-        }
+       
       });
   }
 
