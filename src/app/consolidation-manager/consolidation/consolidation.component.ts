@@ -89,8 +89,8 @@ export class ConsolidationComponent implements OnInit {
   constructor(private dialog: MatDialog, 
               private toastr: ToastrService,
               private router: Router, 
-              public consolidationHub: ConsolidationManagerService, 
-              private authService: AuthService,  
+              private consolidationHub: ConsolidationManagerService, 
+              public authService: AuthService,  
               private _liveAnnouncer: LiveAnnouncer,) { }
 
   ngOnInit(): void {

@@ -79,10 +79,10 @@ export class CmStagingLocationComponent implements OnInit {
               this.OrderNumberTote = null;
               break;
             case "DNENP":
-              $('#StagingLocsOrderNum').val('')
+              this.OrderNumberTote = null;
               var promptResponse = prompt("Order/Tote was not found in the system, enter an order number to correspond to the Tote value scanned")
               if (promptResponse != null) {
-                $('#StagingLocsOrderNum').val(promptResponse)
+                this.OrderNumberTote = promptResponse;
                 this.stagetables.push({ toteID: inputVal });
               }
               break;
@@ -97,6 +97,8 @@ export class CmStagingLocationComponent implements OnInit {
         else { 
           this.stagetables = res.data.stageTable;
         }
+        if(res?.data?.orderNumber) this.OrderNumberTote  = res?.data?.orderNumber;
+        if(!res.data.stageTable) this.stagetables  = [];
         this.IsLoading = false;
       });
     }

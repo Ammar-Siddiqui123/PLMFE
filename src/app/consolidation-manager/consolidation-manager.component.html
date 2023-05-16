@@ -10,7 +10,7 @@
           (click)="updateMenu('consolidationManager', '/ConsolidationManager/Consolidation')">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
-              <span class="material-symbols-outlined">manage_accounts</span>
+              <span class="material-symbols-outlined">insert_chart</span>
             </div>
             <h4 class="main-section-title" style="font-size:22px;">Consolidation</h4>
           </div>
@@ -24,44 +24,49 @@
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
               <span class="material-symbols-outlined">
-                checklist
+                add_location_alt
               </span>
             </div>
             <h4 class="main-section-title" style="font-size:22px;">Staging Locations</h4>
           </div>
         </div>
   
-        <div class="col-xl-3 col-lg-6">
+        <div class="col-xl-3 col-lg-6" 
+        [ngClass]="isAuthorized('Consolidation Mgr Admin') ? 'isDivDisabled' : ''"
+        >
           <div matRipple [matRippleColor]="tab_hover_color" routerLink="ConsolidationPreferences"  class="main-section-option bg-white">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
               <span class="material-symbols-outlined">
-                fact_check
+                tune
               </span>
             </div>
             <h4 class="main-section-title" style="font-size:22px;">Preferences</h4>
           </div>
         </div>
   
-        <div class="col-xl-3 col-lg-6">
+        <div class="col-xl-3 col-lg-6" 
+        [ngClass]="isAuthorized('Consolidation Mgr Admin') ? 'isDivDisabled' : ''">
           <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
               <span class="material-symbols-outlined">
-                insert_chart
+                analytics
               </span>
             </div>
             <h4 class="main-section-title" style="font-size:22px;">Reporting</h4>
           </div>
         </div>
   
-        <div class="col-xl-3 col-lg-6">
+        <div class="col-xl-3 col-lg-6" 
+        [ngClass]="isAuthorized('Order Status') ? 'isDivDisabled' : ''"
+        >
           <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white"
           routerLink="/admin/transaction" [queryParams]="{IsOrderStatus:true}">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
               <span class="material-symbols-outlined">
-                pending_actions
+                view_module
               </span>
             </div>
             <h4 class="main-section-title" style="font-size:22px;">Order Status</h4>

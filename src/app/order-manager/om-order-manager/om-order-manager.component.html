@@ -11,48 +11,57 @@
             </h2>
             <div class="d-flex gap-12 flex-wrap">
                 <div class="mb-3">
-                    <button type="submit" mat-flat-button class="btn-regular" color="primary">Display Records</button>
-                  </div>
-                  <div class="mb-3">
-                    <button type="submit" mat-flat-button class="btn-regular" color="primary" (click)="openOmCreateOrders()">Add/Edit Order</button>
-                  </div>
+                    <button type="submit" mat-flat-button class="btn-regular" color="primary" (click)="openOrderStatus({}, false)">Order Status</button>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" mat-flat-button class="btn-regular" color="primary" (click)="displayRecords()">Display Records</button>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" mat-flat-button class="btn-regular" *ngIf="authService.UserPermissonByFuncName('Admin Create Orders')" color="primary" (click)="openOmCreateOrders()">Add/Edit Order</button>
+                </div>
             </div>
-            <!-- <div>
-                <mat-form-field class="action-dropdown w-100" appearance="outline">
-                    <mat-label>Actions</mat-label>
-                    <mat-select #matRef class="employees-action" placeholder="Actions">
-                        <mat-option value="0"> Display Records </mat-option>
-                        <mat-option value="1" (click)="openOmCreateOrders()"> Add/Edit Order </mat-option>
-                    </mat-select>
-                    <span class="material-symbols-outlined icon-expand-more">
-                        expand_more
-                    </span>
-                </mat-form-field>
-            </div> -->
         </div>
         <div class="row">
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Find Order(s) By:</mat-label>
-                    <mat-select value="0">
-                        <mat-option value="0">
-                            case
-                        </mat-option>
+                    <mat-select [(ngModel)]="column" (selectionChange)="showHideValues(1)">
+                        <!-- <mat-option value="0">case</mat-option> -->
+                        <mat-option value="Category">Category</mat-option>
+                        <mat-option value="Description">Description</mat-option>
+                        <mat-option value="Host Transaction ID">Host Transaction ID</mat-option>
+                        <mat-option value="Import Date">Import Date</mat-option>
+                        <mat-option value="Item Number"> Item Number</mat-option>
+                        <mat-option value="Notes">Notes</mat-option>
+                        <mat-option value="Order Number" selected="selected">Order Number</mat-option>
+                        <mat-option value="Priority">Priority</mat-option>
+                        <mat-option value="Required Date">Required Date</mat-option>
+                        <mat-option value="Sub Category">Sub Category</mat-option>
+                        <mat-option value="Supplier Item ID">Supplier Item ID</mat-option>
+                        <mat-option value="User Field1">User Field1</mat-option>
+                        <mat-option value="User Field2">User Field2</mat-option>
+                        <mat-option value="User Field3">User Field3</mat-option>
+                        <mat-option value="User Field4">User Field4</mat-option>
+                        <mat-option value="User Field5">User Field5</mat-option>
+                        <mat-option value="User Field6">User Field6</mat-option>
+                        <mat-option value="User Field7">User Field7</mat-option>
+                        <mat-option value="User Field8">User Field8</mat-option>
+                        <mat-option value="User Field9">User Field9</mat-option>
+                        <mat-option value="Warehouse">Warehouse</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more text-20">
                         expand_more
                     </span>
-
                 </mat-form-field>
             </div>
 
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Case</mat-label>
-                    <mat-select value="0">
-                        <mat-option value="0">
-                            Between
-                        </mat-option>
+                    <mat-select [(ngModel)]="case" (selectionChange)="showHideValues(2)">
+                        <mat-option value="Equals">Equals</mat-option>
+                        <mat-option value="Between">Between</mat-option>
+                        <mat-option value="Like">Like</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more text-20">
                         expand_more
@@ -63,15 +72,21 @@
 
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
-                    <mat-label>Value 1</mat-label>
-                    <input matInput value="000000">
+                    <mat-label *ngIf="v1Show || v1DShow">Value 1</mat-label>
+                    <input matInput [(ngModel)]="value1" *ngIf="v1Show" (keyup)="callDisplayRecords($event)" matTooltip="For dates use mm/dd/yy" matTooltipPosition="above">
+                    <input matInput [(ngModel)]="value1D" *ngIf="v1DShow" (dateChange)="displayRecords()" [matDatepicker]="v1D">
+                    <mat-datepicker-toggle matSuffix [for]="v1D" ngDefaultControl *ngIf="v1DShow"></mat-datepicker-toggle>
+                    <mat-datepicker #v1D></mat-datepicker>
                 </mat-form-field>
             </div>
 
             <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
-                    <mat-label>Value 2</mat-label>
-                    <input matInput value="000000">
+                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline" *ngIf="v2Show || v2DShow">
+                    <mat-label *ngIf="v2Show || v2DShow">Value 2</mat-label>
+                    <input matInput [(ngModel)]="value2" *ngIf="v2Show" (keyup)="callDisplayRecords($event)" matTooltip="For dates use mm/dd/yy" matTooltipPosition="above">
+                    <input matInput [(ngModel)]="value2D" *ngIf="v2DShow" (dateChange)="displayRecords()" [matDatepicker]="v2D">
+                    <mat-datepicker-toggle matSuffix [for]="v2D" ngDefaultControl *ngIf="v2DShow"></mat-datepicker-toggle>
+                    <mat-datepicker #v2D></mat-datepicker>
                 </mat-form-field>
             </div>
         </div>
@@ -79,17 +94,17 @@
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Max Orders</mat-label>
-                    <input matInput value="000000">
+                    <input matInput [(ngModel)]="maxOrders" #maxOrd (input)="maxOrd.value = globalService.setNumericInRange(maxOrd.value, globalService.sqlLimits.numerics.int, '');">
                 </mat-form-field>
             </div>
 
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Trans Type</mat-label>
-                    <mat-select value="0">
-                        <mat-option value="0">
-                            000000
-                        </mat-option>
+                    <mat-select [(ngModel)]="transType" (selectionChange)="getOrders()">
+                        <mat-option value="Pick">Pick</mat-option>
+                        <mat-option value="Put Away">Put Away</mat-option>
+                        <mat-option value="Count">Count</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more text-20">
                         expand_more
@@ -101,25 +116,22 @@
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>View Type</mat-label>
-                    <mat-select value="0">
-                        <mat-option value="0">
-                            000000
-                        </mat-option>
+                    <mat-select [(ngModel)]="viewType" (selectionChange)="getOrders()">
+                        <mat-option value="Headers">Order Headers</mat-option>
+                        <mat-option value="Lines">Order Lines</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more text-20">
                         expand_more
                     </span>
-
                 </mat-form-field>
             </div>
 
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Order Type</mat-label>
-                    <mat-select value="0">
-                        <mat-option value="0">
-                            000000
-                        </mat-option>
+                    <mat-select [(ngModel)]="orderType" (selectionChange)="getOrders()">
+                        <mat-option value="Open">Open</mat-option>
+                        <mat-option value="Pending">Pending</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more text-20">
                         expand_more
@@ -138,26 +150,20 @@
                 <div class="d-flex gap-12 align-items-center mb-3">
                     <mat-form-field class="action-dropdown" appearance="outline" style="flex:1">
                         <!-- <mat-label>Select</mat-label> -->
-                        <mat-select class="employees-action" placeholder="Select">
-                            <mat-option value="0">Transaction Type</mat-option>
-                        <mat-option value="1">Order number</mat-option>
-                        <mat-option value="2">Priority</mat-option>
-                        <mat-option value="3">Required Date</mat-option>
-                        <mat-option value="4">User Field 1</mat-option>
-                        <mat-option value="5">User Field 2</mat-option>
+                        <mat-select class="employees-action" placeholder="Select" [(ngModel)]="searchCol" (selectionChange)="fillTable()">
+                            <mat-option *ngFor="let col of colList" value="{{col}}">{{col}}</mat-option>                            
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
                             expand_more
                         </span>
-                    </mat-form-field>
-                
+                    </mat-form-field>                
                     <span class="v-br bold">-</span>
                     <div class="d-flex g-mini-search-box" style="flex:1">
                         <mat-form-field class="w-100 bg-white br-8" appearance="fill">
                             <span class="material-symbols-outlined icon-search">
                                 search
                             </span>
-                            <input type="text" placeholder="Search" aria-label="Number" matInput>
+                            <input type="text" placeholder="Search" [(ngModel)]="searchTxt" (input)="fillTable()" aria-label="Number" matInput>
                         </mat-form-field>
                     </div>
                 </div>
@@ -167,10 +173,10 @@
                     <mat-form-field class="action-dropdown" appearance="outline">
                         <mat-label>Actions</mat-label>
                         <mat-select #matRef class="employees-action" placeholder="Actions">
-                            <mat-option value="0"> Release Viewed </mat-option>
-                            <mat-option value="1"> Delete Viewed </mat-option>
+                            <mat-option value="0" (click)="releaseViewed()"> Release Viewed </mat-option>
+                            <mat-option value="1" (click)="deleteViewed()"> Delete Viewed </mat-option>
                             <mat-option value="2"> Print Viewed </mat-option>
-                            <mat-option value="3"> Select Column Sequence </mat-option>
+                            <mat-option value="3" (click)="selectColumnSequence()"> Select Column Sequence </mat-option>
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
                             expand_more
@@ -182,68 +188,76 @@
 
         <div class="card br-14 borderless px-0" style="overflow-x: auto;">
             <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 320px">
-                <table class="w-100 table-borderless" mat-table matSort [dataSource]="toteTable">
-                    <ng-container matColumnDef="transType">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Trans Type </th>
-                        <td mat-cell *matCellDef="let element">123</td>
-                    </ng-container>
-                    <ng-container matColumnDef="orderNo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Order No. </th>
-                        <td mat-cell *matCellDef="let element">123</td>
-                    </ng-container>
-                    <ng-container matColumnDef="priority">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Priority </th>
-                        <td mat-cell *matCellDef="let element">123</td>
-                    </ng-container>
-                    <ng-container matColumnDef="requiredDate">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Required Date </th>
-                        <td mat-cell *matCellDef="let element">123</td>
-                    </ng-container>
-                    <ng-container matColumnDef="uf1">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> User Field 1 </th>
-                        <td mat-cell *matCellDef="let element">123</td>
-                    </ng-container>
-                    <ng-container matColumnDef="uf2">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> User Field 2 </th>
-                        <td mat-cell *matCellDef="let element">123</td>
-                    </ng-container>
-                    <ng-container matColumnDef="uf3">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> User Field 3 </th>
-                        <td mat-cell *matCellDef="let element">123</td>
-                    </ng-container>
+                <table class="w-100 table-borderless" mat-table matSort [dataSource]="orderTable" (matSortChange)="announceSortChange($event)">                                                        
 
-                    <ng-container matColumnDef="actions" stickyEnd>
-
-                        <th mat-header-cell *matHeaderCellDef style="border: 0;height: 66px; padding-left:65px;">
-                        </th>
-        
-                        <td mat-cell *matCellDef style="border: 0; padding-left: 24px; background: #fff;" >
-                          <div class="d-flex justify-content-end">
-                          <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o" appearance="outline">
-                            <mat-icon>more_horiz</mat-icon>
-                          </button>
-        
-                          <mat-menu #appMenu="matMenu">
-                            <button mat-menu-item>Order Status</button>
-                            <button mat-menu-item (click)="openOmUpdateRecord()">Update Records</button>
-                          </mat-menu>
-                        </div>
-        
+                    <ng-container *ngFor="let col of allColumns; let i = index;" matColumnDef="{{col.colDef}}">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{col.colDef}} </th>
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event,  element[col.colHeader], col.colDef)">
+                            {{ element[col.colHeader] }}
                         </td>
-        
-                      </ng-container>
+                    </ng-container>
 
+                    <ng-container matColumnDef="status" sticky>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="label label-red px-2" *ngIf="element.transactionType == 'Pick' && element.transactionQuantity > element.availableQuantity">Danger</div>
+                        </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="actions" stickyEnd>
+                        <th mat-header-cell *matHeaderCellDef>Actions</th>        
+                        <td mat-cell *matCellDef="let element" >
+                            <div class="d-flex justify-content-end">
+                                <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o" appearance="outline">
+                                    <mat-icon>more_horiz</mat-icon>
+                                </button>                
+                                <mat-menu #appMenu="matMenu">
+                                    <button mat-menu-item (click)="openOrderStatus(element, true)">Order Status</button>
+                                    <button mat-menu-item (click)="updateRecord(element)">Update Records</button>
+                                </mat-menu>
+                            </div>
+                        </td>        
+                    </ng-container>
 
-
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" style=" background-color: #F9F9FF;">
-                    </tr>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" style=" background-color: #F9F9FF;"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
                 </table>
             </ng-scrollbar>
         </div>
         <div class="d-flex justify-content-between bg-white"> 
-            <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 100]"
-            ></mat-paginator>
+            <mat-paginator [length]="this.customPagination.total" [pageSize]="20" [pageSizeOptions]="[10, 20, 100]" (page)="handlePageEvent($event)"></mat-paginator>
         </div>
     </mat-card-content>
 </mat-card>
+
+
+
+<div #trigger="matMenuTrigger" style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x" [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenuFilter"></div>
+<mat-menu #contextMenuFilter="matMenu">
+    <ng-template matMenuContent let-item="item">
+        <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'equals to',getType(item.SelectedItem))"> Equals</button>
+        <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is not equals to', getType(item.SelectedItem))">Not Equals</button>
+        <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is greater than or equal to', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'number' || getType(item.FilterColumnName) == 'date'" >Greater than or Equal</button>
+        <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is less than or equal to', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'number' || getType(item.FilterColumnName) == 'date'" >Less than or Equal</button>
+        <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is like', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'string' && getType(item.FilterColumnName) != 'date'" >Like</button>
+        <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is not like', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'string' && getType(item.FilterColumnName) != 'date'" >Not Like</button>
+        <button mat-menu-item [matMenuTriggerFor]="InputFiltersList" [matMenuTriggerData]="{category: item}" *ngIf="getType(item.SelectedItem) != 'boolean'" >Input FIlters</button>
+        <button mat-menu-item (click)="onContextMenuCommand('', '', 'clear', '')">Clear Filters</button>
+    </ng-template>
+</mat-menu>
+<mat-menu #InputFiltersList="matMenu">
+    <ng-template matMenuContent let-category="category">
+        <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'equals to', getType(category.SelectedItem))">Equals</button>
+        <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is not equals to', getType(category.SelectedItem))">Not Equals</button>
+        <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'begins with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Begins</button>
+        <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not begins with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not Begin</button>
+        <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'ends with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Ends With</button>
+        <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not ends with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not End With</button>
+        <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'contains', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Contains</button>
+        <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not contains', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not Contain</button>
+        <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is less than', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Less Than</button>
+        <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is greater than', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Greater Than</button>
+        <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is between', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Between</button>
+    </ng-template>
+</mat-menu>

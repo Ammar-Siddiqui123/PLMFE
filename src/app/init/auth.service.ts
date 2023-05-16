@@ -56,12 +56,17 @@ export class AuthService {
     }
     return true;
   }
-
+  public UserPermissonByFuncName(FuncName:any){
+    var userRights = this.userPermission()?.includes(FuncName);
+    if(userRights) return true;
+    else  return false;
+  }
   public userPermission(){
     if(localStorage.getItem('userRights')){
       return JSON.parse(localStorage.getItem('userRights') || '{}');
     }
   }
+
 
   getUrl() {
     return (this.pLocation as any).location.href;

@@ -12,9 +12,21 @@ import { TransactionComponent } from '../admin/transaction/transaction.component
 import { InventoryMapComponent } from '../admin/inventory-map/inventory-map.component';
 import { InventoryMasterComponent } from '../admin/inventory-master/inventory-master.component';
 import { ManualTransactionsComponent } from '../admin/manual-transactions/manual-transactions.component';
+import { PalletReceivingComponent } from './pallet-receiving/pallet-receiving.component';
+import { MarkEmptyReelsComponent } from './mark-empty-reels/mark-empty-reels.component';
 
 const routes: Routes = [
   { path: '', component: InductionManagerComponent },
+  {
+    path: 'MarkEmptyReels',
+    component: MarkEmptyReelsComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'PalletReceiving',
+    component: PalletReceivingComponent,
+    canActivate: [AuthGuardGuard],
+  },
   {
     path: 'SuperBatch',
     component: SuperBatchComponent,
@@ -76,7 +88,7 @@ const routes: Routes = [
     component: ManualTransactionsComponent,
     canActivate: [AuthGuardGuard]
   },
-
+ 
   
 ];
 

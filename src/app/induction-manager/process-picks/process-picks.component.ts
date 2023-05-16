@@ -392,7 +392,7 @@ export class ProcessPicksComponent implements OnInit {
         autoFocus: '__non_existing_element__'
       });
       dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(resultObj => {
-        console.log(resultObj);
+        // console.log(resultObj);
         
         let result:any = [];
         resultObj?.forEach((val: any) => {

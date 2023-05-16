@@ -42,7 +42,10 @@
             <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
               <mat-label>Delete Batch</mat-label>
               <mat-select [(ngModel)]="batchID">
-                <mat-option *ngFor="let batch of batchList" value="{{batch}}">{{batch}}</mat-option>
+                <mat-option *ngFor="let batch of batchList"
+                [disabled]="!authService.UserPermissonByFuncName('Batch Manager Delete All') && batch == 'All Transaction'"
+                
+                value="{{batch}}">{{batch}}</mat-option>
               </mat-select>
               <span class="material-symbols-outlined icon-expand-more">
                 expand_more
@@ -50,8 +53,8 @@
             </mat-form-field>
           </div>
 
-          <div class="col-3 d-flex  justify-content-center ">
-            <button [disabled]="!batchID" mat-stroked-button color="warn" class="button-remove-all-w-stroke bg-white button custom-button-width"
+          <div class="col-3 d-flex  justify-content-center " > 
+            <button [disabled]="!batchID && !authService.UserPermissonByFuncName('Batch Manager Delete All')" mat-stroked-button color="warn" class="button-remove-all-w-stroke bg-white button custom-button-width"
               (click)="deleteBatch(transType, batchID)">
               <mat-icon>delete_outline</mat-icon>
               Delete

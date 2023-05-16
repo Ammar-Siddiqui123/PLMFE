@@ -6,6 +6,9 @@ import { AuthGuardGuard } from '../guard/auth-guard.guard';
 import { OmOrderManagerComponent } from './om-order-manager/om-order-manager.component';
 import { OmPreferencesComponent } from './om-preferences/om-preferences.component';
 import { OmCreateOrdersComponent } from '../dialogs/om-create-orders/om-create-orders.component';
+import { TransactionComponent } from '../admin/transaction/transaction.component';
+import { InventoryMasterComponent } from '../admin/inventory-master/inventory-master.component';
+import { InventoryMapComponent } from '../admin/inventory-map/inventory-map.component';
 
 const routes: Routes = [{ path: '', component: OrderManagerComponent },
 { path: 'EventLog', 
@@ -13,7 +16,7 @@ component: EventLogComponent,
 canActivate: [AuthGuardGuard],
 },
 
-{ path: 'OmPreferences', 
+{ path: 'Preferences', 
 component: OmPreferencesComponent, 
 canActivate: [AuthGuardGuard], 
 },
@@ -22,10 +25,23 @@ canActivate: [AuthGuardGuard],
 component: OmCreateOrdersComponent,
 canActivate: [AuthGuardGuard],  },
 
-{ path: 'OmOrderManager', 
+{ path: 'OrderManager', 
 component: OmOrderManagerComponent, 
 canActivate: [AuthGuardGuard], 
-}];
+},
+
+{ path: 'OrderStatus', 
+component: TransactionComponent,
+canActivate: [AuthGuardGuard],  },
+
+{ path: 'InventoryMaster', 
+component: InventoryMasterComponent,
+canActivate: [AuthGuardGuard],  },
+
+{ path: 'InventoryMap', 
+component: InventoryMapComponent,
+canActivate: [AuthGuardGuard],  },
+];
 
 
 @NgModule({

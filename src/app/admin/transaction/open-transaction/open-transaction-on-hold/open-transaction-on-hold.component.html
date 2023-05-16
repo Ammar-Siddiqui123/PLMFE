@@ -113,8 +113,8 @@
                 <div class=" col-6"></div>
             </div>
 
-
-            <div class="row" *ngIf="hideDelete">
+            
+            <div class="row" *ngIf="hideDelete " >
                 <div class="col-xl-3 offset-xl-6">
                     
                 </div>
@@ -124,18 +124,40 @@
                     </button>
                 </div>
             </div>
-            <div class="row" *ngIf="!hideDelete">
+
+        <div *ngIf="throughOrderManager" >
+            <div class="row" >
                 <div class="col-xl-3 offset-xl-6">
-                    <button  mat-flat-button color="primary"  class="btn-regular w-100 mb-3" (click)="resetToTodaysDate()">
+                    
+                </div>
+                <div class="col-xl-3" >
+                    <button mat-flat-button color="primary" class="btn-regular w-100 mb-3" (click)="resetToTodaysDate()">
                         Reset to Today's Date
                     </button>
                 </div>
-                <div class="col-xl-3" >
-                    <button (click)="retunrToPrev()" mat-stroked-button color="primary" class="btn-regular w-100 mb-3">
-                        Place Trans. on Hold
-                    </button>
+            </div>
+        </div>
+
+                
+            <div *ngIf="directAdmin ">
+                <div class="row" *ngIf="!hideDelete">
+                    <div class="col-xl-3 offset-xl-6">
+                        <button  mat-flat-button color="primary"  class="btn-regular w-100 mb-3" (click)="resetToTodaysDate()">
+                            Reset to Today's Date
+                        </button>
+                    </div>
+                    <div class="col-xl-3"  >
+                        <button (click)="retunrToPrev()" mat-stroked-button color="primary" class="btn-regular w-100 mb-3">
+                            Place Trans. on Hold
+                        </button>
+                    </div>
                 </div>
             </div>
+
+
+
+
+
 
         </mat-card-content>
 
@@ -169,7 +191,7 @@
                                 <mat-label>Search</mat-label>
                                 <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn.colDef"
                                     (selectionChange)="resetFields($event.value)">
-                                    <mat-option *ngFor="let item of displayedColumns" [value]="item.colDef">
+                                    <mat-option *ngFor="let item of displayedColumns | sort:'colDef':false" [value]="item.colDef">
                                         {{item.colDef}}
                                     </mat-option>
                                 </mat-select>
@@ -207,7 +229,7 @@
                                 (openedChange)="actionDialog($event)">
                                 <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
                                 <mat-option value="set_column_sq">Set Column Sequence</mat-option>
-                                <mat-option (click)="sendCompletedToHistory()" value="send_completed_history">Send Completed to History</mat-option>
+                                <mat-option (click)="sendCompletedToHistory()" *ngIf="authService.UserPermissonByFuncName('Transaction Journal Send To History')" value="send_completed_history">Send Completed to History</mat-option>
                             </mat-select>
                             <span class="material-symbols-outlined icon-expand-more">
                                 expand_more
@@ -261,7 +283,7 @@
                                             Master</button>
                                         <button mat-menu-item (click)="viewOrderInOrder(seletedRecord)">View Order in Order
                                             Status</button>
-                                        <button mat-menu-item  *ngIf="!hideDelete" (click)="deleteItem(seletedRecord)">Delete
+                                        <button mat-menu-item  *ngIf="!hideDelete && authService.UserPermissonByFuncName('Transaction Journal Delete') "  (click)="deleteItem(seletedRecord)">Delete
                                             Transaction</button>
                                         <!-- <button mat-menu-item   *ngIf="!hideDelete" (click)="sendCompletedToHistory()">Send Completed to
                                             History</button> -->
