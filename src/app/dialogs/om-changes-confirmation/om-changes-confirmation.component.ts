@@ -61,7 +61,7 @@ export class OmChangesConfirmationComponent implements OnInit {
         id: this.data.order.id.toString(),
         requiredDate: this.data.order.reqDate,
         notes: this.data.order.notes,
-        priority: this.data.order.priority,
+        priority: this.data.order.priority.toString(),
         user1: this.data.order.user1,
         user2: this.data.order.user2,
         user3: this.data.order.user3,
