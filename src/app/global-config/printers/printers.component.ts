@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { GcPrintServiceTestBeginComponent } from 'src/app/dialogs/gc-print-service-test-begin/gc-print-service-test-begin.component';
-import { GcPrintServiceTestComponent } from 'src/app/dialogs/gc-print-service-test/gc-print-service-test.component';
 
 @Component({
   selector: 'app-printers',
@@ -10,6 +8,8 @@ import { GcPrintServiceTestComponent } from 'src/app/dialogs/gc-print-service-te
 })
 export class PrintersComponent implements OnInit {
   sideBarOpen: boolean = true;
+
+  running: boolean = false;
 
   constructor(private dialog: MatDialog) { }
 
@@ -21,30 +21,62 @@ export class PrintersComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['printerName', 'printerAddress', 'labelPrinter', 'actions'];
-  toteTable:any[]=['10','10','10','10','10','10'];
+  toteTable: any[] = ['10', '10', '10', '10', '10', '10'];
 
-  openGcBeginTest() { 
-    let dialogRef = this.dialog.open(GcPrintServiceTestBeginComponent, { 
-      height: 'auto',
-      width: '1424px',
-      autoFocus: '__non_existing_element__', 
-    })
+  ServiceToggle(text: any) {
+    if (text == "Start Print Service") {
+      this.running = true;
+      this.WaitForService();
+      // config.server.startService().done(function (success) {
+      this.ServiceStatus('start', true);
+      // });
     }
+    else {
+      this.running = false;
+      this.WaitForService();
+      // config.server.stopService().done(function (success) {
+      this.ServiceStatus('stop', true);
+      // });
+    }
+  }
 
+  RestartService(){
+    this.WaitForService();
+    // config.server.restartService().done(function (success) {
+        this.ServiceStatus('restart', true);
+    // });
+  }
 
+  ServiceStatus(changeType: any, success: any) {
+    if (changeType == 'start' || changeType == 'restart') {
+      if (success) {
+        this.setOnline();
+        // alert('Service ' + changeType + ' was successful.');
+      } else {
+        this.setOffline();
+        // alert('Service ' + changeType + ' was unsuccessful.  Please try again or contact Scott Tech for support.');
+      };
+    } else {
+      this.setOffline();
+      if (success) {
+        // alert('Service stop was successful.');
+      } else {
+        // alert('Service stop encountered an error.  Please try again or contact Scott Tech for support.');
+      };
+    };
+  }
 
+  WaitForService() {
 
-  openGcPrintServiceTest() {
-  let dialogRef = this.dialog.open(GcPrintServiceTestComponent, {
-    height: 'auto',
-    width: '680px',
-    autoFocus: '__non_existing_element__',
-   
-  })
-  dialogRef.afterClosed().subscribe(result => {
-    
-    
-  })
- }
+  }
+
+  setOnline() {
+
+  }
+
+  setOffline() {
+
+  }
 
 }
+
