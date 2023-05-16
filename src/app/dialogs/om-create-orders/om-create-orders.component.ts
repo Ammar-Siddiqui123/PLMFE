@@ -381,7 +381,7 @@ export class OmCreateOrdersComponent implements OnInit {
     });
   }
 
-  searchItem(loader: boolean = false) {
+  searchItem(loader: boolean = false,searchData:boolean = false) {
     if (this.createOrdersDTPayload.orderNumber.trim() != '') {
       let payload = {
         "orderNumber": this.createOrdersDTPayload.orderNumber,
@@ -393,6 +393,9 @@ export class OmCreateOrdersComponent implements OnInit {
           this.orderNumberSearchList = res.data;
         }
       });
+      if(searchData == true){
+        this.createOrdersDT();
+      }
     }
     else {
       this.orderNumberSearchList = [];
