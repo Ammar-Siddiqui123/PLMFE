@@ -199,6 +199,10 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   openOmAddTransaction(element: any = {}) {
+    debugger;
+    if(this.tableData.filteredData.length == 0){
+      return;
+    }
     let dialogRef = this.dialog.open(OmAddRecordComponent, {
       height: 'auto',
       width: '75vw',
@@ -257,8 +261,7 @@ export class OmCreateOrdersComponent implements OnInit {
 
   goToOrderStatus() {
     this.router.navigate(
-      ['/admin/transaction'],
-      { queryParams: { tabIndex: 0 } }
+      ['/OrderManager/OrderStatus']
     );
     this.dialogRef.close();
   }
