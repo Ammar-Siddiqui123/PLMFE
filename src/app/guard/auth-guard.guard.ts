@@ -63,7 +63,7 @@ export class AuthGuardGuard implements CanActivate {
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-      debugger
+      
     const pathSet = state.url.split('?')[0]; 
     if(this.router.url.indexOf('globalconfig') > -1 ){
       if(!(pathSet.indexOf('/globalconfig/') > -1))    {localStorage.clear(); window.location.href = '/globalconfig';} //this.router.navigate(['/globalconfig']); 
