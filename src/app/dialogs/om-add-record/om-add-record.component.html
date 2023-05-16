@@ -86,7 +86,7 @@
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Item Number</mat-label>
                     <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.itemNumber"
-                        (keyup)="searchItem(true)" [matAutocomplete]="searchauto" maxlength="50" (focusout)="itemNumberFocusOut()">
+                        (keyup)="searchItem(true)" [matAutocomplete]="searchauto" maxlength="50" (focusout)="itemNumberFocusOut($event)">
                     <mat-autocomplete class="card custom-scroll" #searchauto="matAutocomplete"
                         (optionSelected)="onSearchSelect($event)">
                         <h6 class="card-header matAutoCompHeader ">
@@ -95,7 +95,7 @@
                             <span style="width:  140px;">Unit of Measure</span>
                         </h6>
                         <mat-option *ngFor="let option of itemNumberSearchList" [value]="option.itemNumber" class="matAutoCompTableContent">
-                            <div class="loc_option" (click)="selectItemNumber(option)" >
+                            <div class="loc_option" (click)="selectItemNumber(option,$event)" >
                                 <span class="searchColumn" style="width:  140px;">{{option.itemNumber}}</span> 
                                 <span class="searchColumn" style="width:  140px;" matTooltip="{{option.description}}" matTooltipPosition="above">{{option.description}}</span> 
                                 <span class="searchColumn" style="width:  140px;">{{option.unitOfMeasure}}</span>
@@ -172,7 +172,7 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Transaction Quantity</mat-label>
-                    <input type="number" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.transQty" (focusout)="resetDefaultValues('transQty',0)">
+                    <input type="number" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.transQty" (focusout)="resetDefaultValues('transQty',1)">
                 </mat-form-field>
             </div>
         </div>
@@ -250,7 +250,7 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>User Field 3</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField2">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField3">
                 </mat-form-field>
             </div>
         </div>

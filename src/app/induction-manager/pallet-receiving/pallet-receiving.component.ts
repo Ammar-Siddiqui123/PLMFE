@@ -23,7 +23,7 @@ export class PalletReceivingComponent implements OnInit {
     this.processForm = new FormGroup({
       toteID: new FormControl('', Validators.required),
       itemNo: new FormControl('', Validators.required),
-      quantity: new FormControl('', Validators.required),
+      quantity: new FormControl(0, Validators.required),
     });
   }
 
@@ -54,9 +54,9 @@ export class PalletReceivingComponent implements OnInit {
         wsid: this.userData.wsid,
       };
       this.imService
-        .get(payloadTote, '/Induction/ValidateTotesForPutAways') //validate tote
+        .get(payloadTote, '/Induction/ValidateTote') //validate tote
         .subscribe((response: any) => {
-          if (response.data != '') {
+          if (response.data) {
             let payloadItem = {
               item: this.processForm.value.itemNo,
               username: this.userData.userName,
@@ -65,7 +65,7 @@ export class PalletReceivingComponent implements OnInit {
             this.imService
               .get(payloadItem, '/Induction/ValidateItem') //validate item number
               .subscribe((response: any) => {
-                if (response.data != '') {
+                if (response.data) {
                   // if item number is valid process pallet
                   let payload = {
                     toteId: this.processForm.value.toteID,
@@ -85,6 +85,8 @@ export class PalletReceivingComponent implements OnInit {
                             timeOut: 2000,
                           }
                         );
+
+                        this.resetForm();
                       } else {
                         this.toastService.error(
                           'An error occurred processing this pallet setup',
@@ -132,8 +134,16 @@ export class PalletReceivingComponent implements OnInit {
     }
   }
 
- 
-
+  resetForm() {
+    // this.processForm.reset();
+    this.processForm.reset();
+    this.processForm.get('quantity')?.setValue(0);
+    Object.keys(this.processForm.controls).forEach((key) => {
+      this.processForm.get(key)?.setErrors(null);
+      this.processForm.get(key)?.markAsPristine();
+      this.processForm.get(key)?.markAsUntouched();
+    });
+  }
 
   showNotification(heading, message) {
     const dialogRef = this.dialog.open(AlertConfirmationComponent, {
@@ -142,6 +152,7 @@ export class PalletReceivingComponent implements OnInit {
       data: {
         message: message,
         heading: heading,
+        disableCancel: true,
       },
       autoFocus: '__non_existing_element__',
     });

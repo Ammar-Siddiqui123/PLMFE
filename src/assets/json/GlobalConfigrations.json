@@ -57,6 +57,10 @@
         "Permission": "employees"
     },
     {
+        "path": "/admin/createCountBatches",
+        "Permission": "Cycle Count Manager"
+    },
+    {
         "path": "/OrderManager/EventLog",
         "Permission": "Event Log Manager"
     },
@@ -81,10 +85,18 @@
         "path": "/admin/systemReplenishment",
         "Permission": "Replenishment"
     },
+
+    {
+        "path": "/InductionManager/MarkEmptyReels",
+        "Permission": "Induction Manager"
+    },
     {
         "path": "/InductionManager/ProcessPicks",
         "Permission": "Induction Manager"
     },
+
+
+    
     {
         "path": "/InductionManager/ProcessPutAways",
         "Permission": "Induction Manager"
@@ -152,5 +164,10 @@
     {
         "path": "/InductionManager/Admin/AdminPrefrences",
         "Permission": "Induction Manager"
+    },
+
+    {
+        "path": "/admin/manualTransactions",
+        "Permission": "Manual Transactions"
     }
 ]

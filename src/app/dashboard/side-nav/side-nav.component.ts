@@ -34,7 +34,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'hub', title: 'Database Connections', route: '/globalconfig/database-connections' ,permission: ''},
     { icon: 'print', title: 'Printers', route: '/globalconfiq/printers' ,permission: ''},
     { icon: 'online_prediction', title: 'Workstation', route: '/globalconfig/workstation' ,permission: ''},
-    { icon: 'nest_wifi_gale', title: 'CCSIF', route: '#' ,permission: 'CCSIF'},
+    { icon: 'nest_wifi_gale', title: 'CCSIF', route: '/globalconfig/ccsif' ,permission: 'CCSIF'},
     { icon: 'subtitles', title: 'Licensing', route: '/globalconfig/licensing' ,permission: ''},
 
   ];
@@ -50,7 +50,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'assignment_ind', title: 'Employees', route: '/admin/employees' ,permission: 'Employees'},
     { icon: 'event_note', title: 'Event Log', route: '#' ,permission: 'Event Log Manager'},
     { icon: 'my_location', title: 'Location Assignment', route: '#' ,permission: 'Location Assignment'},
-    { icon: 'ads_click', title: 'Manual Transactions', route: '#' ,permission: 'Manual Transactions'},
+    { icon: 'ads_click', title: 'Manual Transactions', route: '/admin/manualTransactions' ,permission: 'Manual Transactions'},
     { icon: 'trolley', title: 'Move Items', route: '#' ,permission: 'Move Items'},
     { icon: 'tune', title: 'Preferences', route: '#' ,permission: 'Preferences'},
     { icon: 'published_with_changes', title: 'System Replenishment', route: '/admin/systemReplenishment' ,permission: 'Replenishment'},
@@ -61,7 +61,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'directions_alt', title: 'Process Picks', route: '/InductionManager/ProcessPicks' ,permission:'Induction Manager'},
     { icon: 'dashboard', title: 'Process Put Aways', route: '/InductionManager/ProcessPutAways' ,permission:'Induction Manager'},
     { icon: 'manage_accounts', title: 'Admin', route: '/InductionManager/Admin' ,permission:'Tote Admin Menu'},
-    { icon: 'edit_attributes', title: 'Mark Empty Reels', route: '#' ,permission:'Induction Manager'},
+    { icon: 'edit_attributes', title: 'Mark Empty Reels', route: '/InductionManager/MarkEmptyReels' ,permission:'Induction Manager'},
     { icon: 'linear_scale', title: 'Pallet Receiving', route: '/InductionManager/PalletReceiving' ,permission:'Induction Manager'},
     { icon: 'line_style', title: 'Super Batch', route: '/InductionManager/SuperBatch' ,permission:'Induction Manager'},
   ];
@@ -147,7 +147,7 @@ export class SideNavComponent implements OnInit {
     });
 
     this.sharedService.updateInductionAdminObserver.subscribe(InvadminMenu => {
-      // console.log(this.router.url); 
+  
       if (InvadminMenu.menu === 'transaction-admin'){
         
         if (InvadminMenu.route.includes('/InductionManager/Admin/')) {
@@ -319,9 +319,17 @@ export class SideNavComponent implements OnInit {
       this.isChildMenu = true;
     }
     if (menu.route.includes('/OrderManager')) {
+        let splittedRoute=menu.route.split('/');
+      if(splittedRoute[2]===undefined){
+        this.orderManagerMenus[0].route='/dashboard'
+      }else{
+        this.orderManagerMenus[0].route='/OrderManager'
+        
+      }
       this.childMenus = this.orderManagerMenus;
       this.isParentMenu = false;
       this.isChildMenu = true;
+      return
     }
 
     if (menu.route.includes('/InductionManager/Admin')) {
@@ -349,7 +357,7 @@ export class SideNavComponent implements OnInit {
   }
 
   isAuthorized(controlName:any) {
-     return !this.authService.isAuthorized(controlName);
+     return !this.authService.UserPermissonByFuncName(controlName);
   }
 
 }
