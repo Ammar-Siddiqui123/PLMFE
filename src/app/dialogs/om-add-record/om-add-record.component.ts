@@ -199,6 +199,9 @@ export class OmAddRecordComponent implements OnInit {
   }
 
   async save(loader: boolean = false) {
+    this.oTTempUpdatePayload.importDate = this.oTTempUpdatePayload.importDate ? this.oTTempUpdatePayload.importDate : "";
+    this.oTTempUpdatePayload.requiredDate = this.oTTempUpdatePayload.requiredDate ? this.oTTempUpdatePayload.requiredDate : "";
+    this.oTTempUpdatePayload.expirationDate = this.oTTempUpdatePayload.expirationDate ? this.oTTempUpdatePayload.expirationDate : "";
     if (this.oTTempUpdatePayload.orderNumber.trim() == '' || this.oTTempUpdatePayload.itemNumber.trim() == '' || this.oTTempUpdatePayload.transType.trim() == '') {
       this.toastr.error("Order Number, Item Number and Transaction Type must be completed in order to continue.", 'Warning!', {
         positionClass: 'toast-bottom-right',
