@@ -287,7 +287,7 @@ export class OmAddRecordComponent implements OnInit {
     this.oTTempUpdatePayload.itemNumber = e.option.value;
   }
 
-  selectItemNumber(option: any) {
+  selectItemNumber(option: any,event:any) {
     this.oTTempUpdatePayload.description = option.description;
     this.oTTempUpdatePayload.unitofMeasure = option.unitOfMeasure;
     this.wharehouseRequired = option.warehouseSensitive;
@@ -321,7 +321,7 @@ export class OmAddRecordComponent implements OnInit {
     }
   }
 
-  itemNumberFocusOut() {
+  itemNumberFocusOut(event: any) {
     if (this.oTTempUpdatePayload.itemNumber != "") {
       let payload = {
         "appName": "",
@@ -334,7 +334,7 @@ export class OmAddRecordComponent implements OnInit {
       this.orderManagerService.get(payload, '/Common/SearchItem', true).subscribe((res: any) => {
         if (res.isExecuted && res.data && res.data.length > 0) {
           this.oTTempUpdatePayload.description = res.data[0].description;
-          this.oTTempUpdatePayload.unitofMeasure = res.data[0].description;
+          this.oTTempUpdatePayload.unitofMeasure = res.data[0].unitOfMeasure;
           this.wharehouseRequired = res.data[0].warehouseSensitive;
         }
         else {
@@ -360,27 +360,30 @@ export class OmAddRecordComponent implements OnInit {
       }
       let res: any = await this.orderManagerService.get(payload, '/Common/SearchItem', true).toPromise();
       if (res.isExecuted && res.data && res.data.length > 0) {
-        if (res.isExecuted && res.data && res.data.length > 0) {
-          let filtered = res.data.filter((item: any) => (item.itemNumber == this.oTTempUpdatePayload.itemNumber));
-          if (filtered.length > 0) {
-            this.oTTempUpdatePayload.description = filtered[0].description;
-            this.oTTempUpdatePayload.unitofMeasure = filtered[0].description;
-            this.wharehouseRequired = filtered[0].warehouseSensitive;
-            return true;
-          }
-          else {
-            this.oTTempUpdatePayload.itemNumber = "";
+        let filtered = res.data.filter((item: any) => (item.itemNumber == this.oTTempUpdatePayload.itemNumber));
+        if (filtered.length > 0) {
+          this.oTTempUpdatePayload.description = filtered[0].description;
+          this.oTTempUpdatePayload.unitofMeasure = filtered[0].unitOfMeasure;
+          this.wharehouseRequired = filtered[0].warehouseSensitive;
+          if(this.wharehouseRequired == true && this.oTTempUpdatePayload.warehouse == ""){
+            this.toastr.error("The selected item is warehouse sensitive.  Please set a warehouse to continue.", 'Warning!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
             return false;
+          }
+          else{
+            return true;
           }
         }
         else {
-          // this.toastr.error(`Item ${this.oTTempUpdatePayload.itemNumber} Does not exist!`, 'Inventory', {
-          //   positionClass: 'toast-bottom-right',
-          //   timeOut: 2000
-          // });
           this.oTTempUpdatePayload.itemNumber = "";
           return false;
         }
+      }
+      else {
+        this.oTTempUpdatePayload.itemNumber = "";
+        return false;
       }
     }
     return false;
