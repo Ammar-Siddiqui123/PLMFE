@@ -25,7 +25,7 @@ export class InductionManagerComponent implements OnInit {
         const prevRoute= events[0].urlAfterRedirects.split('/');
         const nextRoute = events[1].urlAfterRedirects.split('/');
 
-    console.log(prevRoute[1],nextRoute[1]);
+    
     
         // debugger;
         // if (events[0].urlAfterRedirects == '/InductionManager' || events[1].urlAfterRedirects == '/InductionManager') {

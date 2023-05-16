@@ -147,7 +147,7 @@ export class SideNavComponent implements OnInit {
     });
 
     this.sharedService.updateInductionAdminObserver.subscribe(InvadminMenu => {
-      // console.log(this.router.url); 
+  
       if (InvadminMenu.menu === 'transaction-admin'){
         
         if (InvadminMenu.route.includes('/InductionManager/Admin/')) {
@@ -319,9 +319,17 @@ export class SideNavComponent implements OnInit {
       this.isChildMenu = true;
     }
     if (menu.route.includes('/OrderManager')) {
+        let splittedRoute=menu.route.split('/');
+      if(splittedRoute[2]===undefined){
+        this.orderManagerMenus[0].route='/dashboard'
+      }else{
+        this.orderManagerMenus[0].route='/OrderManager'
+        
+      }
       this.childMenus = this.orderManagerMenus;
       this.isParentMenu = false;
       this.isChildMenu = true;
+      return
     }
 
     if (menu.route.includes('/InductionManager/Admin')) {
