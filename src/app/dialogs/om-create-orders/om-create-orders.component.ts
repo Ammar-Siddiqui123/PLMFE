@@ -295,7 +295,7 @@ export class OmCreateOrdersComponent implements OnInit {
         };
         this.orderManagerService.get(payload, '/OrderManager/ReleaseOrders').subscribe((res: any) => {
           if (res.isExecuted && res.data) {
-            this.toastr.success(labels.alert.delete, 'Success!', {
+            this.toastr.success("Order Released Successfully!", 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
