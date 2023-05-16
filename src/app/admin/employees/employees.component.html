@@ -77,6 +77,11 @@
                     <div class="g-field-content">
                       {{empData.accessLevel==='administrator'?'Administrator':empData.accessLevel==='staff_member'?'Staff  Member':'' }}</div>
                   </div>
+                  <div class="g-detail">
+                    <label class="g-field-label">Group</label>
+                    <div class="g-field-content">
+                      {{empData.groupName}}</div>
+                  </div>
                 </div>
               </mat-card-content>
             </mat-card>
@@ -314,7 +319,7 @@
                                     <input type="text" placeholder="Search Functions allowed"
                                       aria-label="Search Group Allowed" matInput [(ngModel)]="searchfuncAllowed"  (keyup)="applyFunctionAllowedFilter($event)">
                                   </mat-form-field>
-                                  <button mat-flat-button color="primary" class=" mat-button-icon"
+                                  <button mat-flat-button color="primary" class=" mat-button-icon" [disabled]="!isLookUp"
                                     (click)="AddFunctionAllowedDialog()">
                                     <span class="material-symbols-outlined">
                                       add
@@ -323,7 +328,7 @@
                                 </div>
                                 <div class="row mt-1 mb-2">
                                   <div class="col-md-12">
-                                    <button mat-stroked-button color="primary" class="button-add-all w-100 mb-3" 
+                                    <button mat-stroked-button color="primary" class="button-add-all w-100 mb-3"  [disabled]="!isLookUp"
                                     (click)="getFuncationAllowedList()" >
                                       Add All
                                     </button>

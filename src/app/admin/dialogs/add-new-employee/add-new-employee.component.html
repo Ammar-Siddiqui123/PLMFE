@@ -60,6 +60,16 @@
       </span>
     </mat-form-field>
 
+    <mat-form-field class="mb-3 w-100" appearance="outline"  *ngIf="env === 'DB'">
+      <mat-label>Group</mat-label>
+      <mat-select formControlName="groupName">
+        <mat-option *ngFor="let item of allGroups" [value]="item.groupName">{{item.groupName}}</mat-option>
+      </mat-select>
+      <span class="material-symbols-outlined icon-expand-more">
+        expand_more
+      </span>
+    </mat-form-field>
+
     <mat-form-field class="mb-3 w-100" appearance="outline" (click)="toggleDisabled()">
       <mat-label>Password</mat-label>
       <input matInput [type]="toggle_password ? 'password' : 'text'" #focusFeild formControlName="password" (focusout)="isEmptyPass()" (keydown.space)="$event.preventDefault()" maxlength="16">
