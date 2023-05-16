@@ -88,4 +88,11 @@ export class AuthService {
   public configLogout(userData:any): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/Logout`, userData);
   }
+  public startCCSIF(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/startCCSIF`,{});
+  }
+  public stopCCSIF(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/stopCCSIF`,{});
+  }
+  
 }
