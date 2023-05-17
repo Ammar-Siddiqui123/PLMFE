@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { AuthService } from 'src/app/init/auth.service';
 
@@ -11,7 +12,7 @@ import { AuthService } from 'src/app/init/auth.service';
 export class SteComponent implements OnInit {
   sideBarOpen: boolean = true;
   Status:any = 'Offline';
-  constructor( public dialog: MatDialog,    public authService: AuthService) { }
+  constructor( public dialog: MatDialog,    public authService: AuthService,private toastr:ToastrService) { }
 
   ngOnInit(): void {
     this.CheckStatus();
@@ -24,38 +25,49 @@ export class SteComponent implements OnInit {
     if (changeType == 'start' || changeType == 'restart') {
         if (success) {
             this.Status = 'Online';
-            this.ConfirmationPopup('Service ' + changeType + ' was successful.');
+            this.toastr.success('Service ' + changeType + ' was successful.','Success', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
         } else {
           this.Status = 'Offline'; 
-          this.ConfirmationPopup('Service ' + changeType + ' was unsuccessful.  Please try again or contact Scott Tech for support.');
+          this.toastr.error('Service ' + changeType + ' was unsuccessful.  Please try again or contact Scott Tech for support.','Error', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
         };
     } else {
       this.Status = 'Offline'; 
         if (success) {
-          this.ConfirmationPopup('Service stop was successful.');
+          this.toastr.success('Service stop was successful.','Success', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
         } else {
-          this.ConfirmationPopup('Service stop encountered an error.  Please try again or contact Scott Tech for support.');
+          this.toastr.error('Service stop encountered an error.  Please try again or contact Scott Tech for support.','Error', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
         };
     };
 };
-  ConfirmationPopup(msg:any) {
-    const dialogRef  = this.dialog.open(ConfirmationDialogComponent, {
-      height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        message: msg,
-      },
-    });  
-     dialogRef.afterClosed().subscribe((result) => {
-      if (result==='Yes') {
-        this.ServiceStatus('start',true);
-      }
-    }); 
-  }
+  // ConfirmationPopup(msg:any) {
+  //   const dialogRef  = this.dialog.open(ConfirmationDialogComponent, {
+  //     height: 'auto',
+  //     width: '560px',
+  //     autoFocus: '__non_existing_element__',
+  //     data: {
+  //       message: msg,
+  //     },
+  //   });  
+  //    dialogRef.afterClosed().subscribe((result) => {
+  //     if (result==='Yes') {
+  //       this.ServiceStatus('start',true);
+  //     }
+  //   }); 
+  // }
   async STEToggle(){  
-    try{
-      this.Status = 'Pending';
+    try{ 
       if(this.Status != 'Online'){
       this.authService.startSTEService().subscribe((res: any) => {
         if(res.data) this.ServiceStatus('start',res.data);
