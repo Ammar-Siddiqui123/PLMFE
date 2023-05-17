@@ -20,6 +20,8 @@ export class TransactionHistoryComponent implements OnInit {
   orderNoEvent:Event;
   resetDateEvent:Event;
 
+  clearEvent: Event;
+
   constructor() {}
   startDateChange(event: Event) {
     this.startDateEvent = event;
@@ -33,5 +35,12 @@ export class TransactionHistoryComponent implements OnInit {
   resetDate(event: Event){
     this.resetDateEvent=event;
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
+  
+
+  onClearFromStatus(event: Event) {
+    this.clearEvent = event;
+    console.log(this.clearEvent)
+  }
 }

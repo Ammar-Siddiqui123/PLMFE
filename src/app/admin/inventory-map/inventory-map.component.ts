@@ -83,7 +83,9 @@ export class InventoryMapComponent implements OnInit {
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   setStorage;
+  setStorageOM;
   routeFromIM:boolean=false;
+  routeFromOM:boolean=false;
   public displayedColumns: any ;
   public dataSource: any = [];
   customPagination: any = {
@@ -117,6 +119,7 @@ export class InventoryMapComponent implements OnInit {
 
   detailDataInventoryMap: any;
   transHistory:boolean = false;
+  myroute:any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   // @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -202,6 +205,7 @@ export class InventoryMapComponent implements OnInit {
       }
     }
 
+    // console.log(this.router.url)
     if(router.url == '/OrderManager/InventoryMap'){
       this.transHistory = true;
     }
@@ -254,7 +258,23 @@ export class InventoryMapComponent implements OnInit {
 
   ngAfterViewInit() {
     this.setStorage =localStorage.getItem('routeFromInduction')
-   this.routeFromIM=JSON.parse(this.setStorage)
+    this.setStorageOM =localStorage.getItem('routeFromOrderStatus')
+
+    // console.log(this.setStorage)
+    console.log(this.router.url)
+
+    if( this.router.url=="/InductionManager/Admin/InventoryMap" || this.router.url=="/OrderManager/InventoryMap" ){
+       this.myroute =false
+    }
+    else {
+      this.myroute = true
+
+    }
+
+  //  this.routeFromIM=JSON.parse(this.setStorage)
+    // this.routeFromOM=JSON.parse(this.setStorageOM)
+
+    
     }
   pageEvent: PageEvent;
 
@@ -530,13 +550,13 @@ export class InventoryMapComponent implements OnInit {
     // this.router.navigate(['/admin/inventoryMaster']);
 
     this.router.navigate([]).then((result) => {
-      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_self');
+      window.open(`/#/OrderManager/InventoryMaster?itemNumber=${row.itemNumber}`, '_blank');
     });
   }
 
   viewLocationHistory(row : any){
     this.router.navigate([]).then((result) => {
-      window.open(`/#/admin/transaction?location=${row.locationNumber}`, '_self');
+      window.open(`/#/OrderManager/OrderStatus?location=${row.locationNumber}`, '_blank');
     });
   }
 
