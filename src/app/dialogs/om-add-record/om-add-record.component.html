@@ -95,9 +95,9 @@
                         </h6>
                         <mat-option *ngFor="let option of itemNumberSearchList" [value]="option.itemNumber" class="matAutoCompTableContent">
                             <div class="loc_option" (click)="selectItemNumber(option,$event)" >
-                                <span class="searchColumn" style="width:  140px;">{{option.itemNumber}}</span> 
-                                <span class="searchColumn" style="width:  140px;" matTooltip="{{option.description}}" matTooltipPosition="above">{{option.description}}</span> 
-                                <span class="searchColumn" style="width:  140px;">{{option.unitOfMeasure}}</span>
+                                <span class="searchColumn over-flow" style="width:  140px;" #tooltip="matTooltip" [matTooltip]="option.itemNumber" matTooltipPosition="above">{{option.itemNumber}}</span> 
+                                <span class="searchColumn over-flow" style="width:  140px;" #tooltip="matTooltip" [matTooltip]="option.description" matTooltipPosition="above">{{option.description}}</span> 
+                                <span class="searchColumn over-flow" style="width:  140px;" #tooltip="matTooltip" [matTooltip]="option.unitOfMeasure" matTooltipPosition="above">{{option.unitOfMeasure}}</span>
                             </div>
                         </mat-option>
                     </mat-autocomplete>
