@@ -36,6 +36,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'online_prediction', title: 'Workstation', route: '/globalconfig/workstation' ,permission: ''},
     { icon: 'nest_wifi_gale', title: 'CCSIF', route: '/globalconfig/ccsif' ,permission: 'CCSIF'},
     { icon: 'subtitles', title: 'Licensing', route: '/globalconfig/licensing' ,permission: ''},
+    { icon: 'subtitles', title: 'STE', route: '/globalconfig/ste' ,permission: 'STE'},
 
   ];
   adminMenus: any = [
@@ -72,7 +73,7 @@ export class SideNavComponent implements OnInit {
     // Vector
     { icon: 'add_location_alt', title: 'Staging Locations', route: '/ConsolidationManager/StagingLocations' ,permission:'Consolidation Manager'},
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
-    { icon: 'tune', title: 'Consolidation Preferences ', route: '/ConsolidationManager/ConsolidationPreferences' ,permission:'Consolidation Mgr Admin'},
+    { icon: 'tune', title: ' Preferences ', route: '/ConsolidationManager/Preferences' ,permission:'Consolidation Mgr Admin'},
     // Vector (Stroke)
     { icon: 'analytics', title: 'Reporting ', route: '#' ,permission:'Consolidation Mgr Admin'},
      { icon: 'view_module', title: 'Order Status', route: '/admin/transaction',paramsObj:{IsOrderStatus:true} ,permission:'Order Status'}
