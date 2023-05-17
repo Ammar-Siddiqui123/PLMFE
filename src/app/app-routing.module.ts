@@ -12,6 +12,7 @@ import { PrintersComponent } from './global-config/printers/printers.component';
 import { WorkstationComponent } from './global-config/workstation/workstation.component';
 import { LicensingComponent } from './global-config/licensing/licensing.component';
 import { CcsifComponent } from './global-config/ccsif/ccsif.component';
+import { SteComponent } from './global-config/ste/ste.component';
 import { SteServicesComponent } from './global-config/ste-services/ste-services.component';
 const routes: Routes = [
   {
@@ -57,6 +58,10 @@ const routes: Routes = [
   {
     path: 'globalconfig/ccsif',
     component: CcsifComponent,
+    canActivate:[AuthGuardGuard]
+  },{
+    path: 'globalconfig/ste',
+    component: SteComponent,
     canActivate:[AuthGuardGuard]
   },
   {
