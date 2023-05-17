@@ -94,5 +94,13 @@ export class AuthService {
   public stopCCSIF(): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/stopCCSIF`,{});
   }
-  
+  public startSTEService(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/startSTEService`,{});
+  }
+  public stopSTEService(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/stopSTEService`,{});
+  }
+  public restartService(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/restartService`,{});
+  }
 }
