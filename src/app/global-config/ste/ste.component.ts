@@ -14,6 +14,7 @@ export class SteComponent implements OnInit {
   constructor( public dialog: MatDialog,    public authService: AuthService) { }
 
   ngOnInit(): void {
+    this.CheckStatus();
   }
   sideBarToggler() {
     this.sideBarOpen = !this.sideBarOpen;
@@ -80,5 +81,12 @@ async STERestart(){
     this.Status = 'Offline'
     console.log(ex);
   }
+}
+async CheckStatus(){
+  this.authService.ServiceStatusSTE().subscribe((res: any) => {
+    if(res.data) this.ServiceStatus('start',res.data);
+    else this.ServiceStatus('stop',res.data);
+  })
+  
 }
 }

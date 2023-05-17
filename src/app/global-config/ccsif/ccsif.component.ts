@@ -14,6 +14,7 @@ export class CcsifComponent implements OnInit {
   constructor( public dialog: MatDialog,    public authService: AuthService) { }
 
   ngOnInit(): void {
+    this.CheckStatus(); 
   }
   sideBarToggler() {
     this.sideBarOpen = !this.sideBarOpen;
@@ -63,5 +64,12 @@ export class CcsifComponent implements OnInit {
       if(res.data) this.ServiceStatus('stop',res.data);
     })
   }
+}
+async CheckStatus(){
+  this.authService.ServiceStatusCCSIF().subscribe((res: any) => {
+    if(res.data) this.ServiceStatus('start',res.data);
+    else this.ServiceStatus('stop',res.data);
+  })
+  
 }
 }
