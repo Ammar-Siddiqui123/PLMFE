@@ -34,7 +34,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'hub', title: 'Database Connections', route: '/globalconfig/database-connections' ,permission: ''},
     { icon: 'print', title: 'Printers', route: '/globalconfiq/printers' ,permission: ''},
     { icon: 'online_prediction', title: 'Workstation', route: '/globalconfig/workstation' ,permission: ''},
-    { icon: 'nest_wifi_gale', title: 'CCSIF', route: '#' ,permission: 'CCSIF'},
+    { icon: 'nest_wifi_gale', title: 'CCSIF', route: '/globalconfig/ccsif' ,permission: 'CCSIF'},
     { icon: 'subtitles', title: 'Licensing', route: '/globalconfig/licensing' ,permission: ''},
 
   ];
@@ -147,7 +147,7 @@ export class SideNavComponent implements OnInit {
     });
 
     this.sharedService.updateInductionAdminObserver.subscribe(InvadminMenu => {
-      // console.log(this.router.url); 
+  
       if (InvadminMenu.menu === 'transaction-admin'){
         
         if (InvadminMenu.route.includes('/InductionManager/Admin/')) {
@@ -319,9 +319,17 @@ export class SideNavComponent implements OnInit {
       this.isChildMenu = true;
     }
     if (menu.route.includes('/OrderManager')) {
+        let splittedRoute=menu.route.split('/');
+      if(splittedRoute[2]===undefined){
+        this.orderManagerMenus[0].route='/dashboard'
+      }else{
+        this.orderManagerMenus[0].route='/OrderManager'
+        
+      }
       this.childMenus = this.orderManagerMenus;
       this.isParentMenu = false;
       this.isChildMenu = true;
+      return
     }
 
     if (menu.route.includes('/InductionManager/Admin')) {
