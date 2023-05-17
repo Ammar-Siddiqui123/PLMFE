@@ -97,7 +97,7 @@ export class PrintersComponent implements OnInit {
           // $this.parent().parent().remove();
           // $('#printer_add').removeAttr('disabled');
         }
-        else{
+        else {
           // let payload = {
           //   "ids": ids,
           //   "user": this.userData.userName,
@@ -120,6 +120,34 @@ export class PrintersComponent implements OnInit {
         }
       }
     });
+  }
+
+  SavePrinter(printer: any) {
+    // if (printer == "New") {
+    //   config.server.insertNewPrinter($('[name="New_printerinput"]').val(), $('[name="New_addinput"]').val(), $this.parent().siblings().children('.toggles').data('toggles').active).done(function (data) {
+    //     if (data == '') {
+    //       $('#printer_add').removeAttr('disabled');
+    //       $this.attr('disabled', 'disabled');
+    //       var newName = $('[name="New_printerinput"]');
+    //       newName.attr('name', newName.val() + '_name')
+    //       $('[name="New_addinput"]').attr('name', newName.val() + '_add');
+    //       $this.parent().siblings().children('.toggles').data('name', newName.val());
+    //       $this.parent().siblings().children('.remove-printer').attr('name', newName.val());
+    //       $this.attr('name', newName.val());
+
+    //     } else {
+    //       alert(data);
+    //     };
+    //   });
+    // } else {
+    //   config.server.updateCurrentPrinter(printer, $('[name="' + printer + '_name"]').val(), $('[name="' + printer + '_add"]').val(), $this.parent().siblings().children('.toggles').data('toggles').active).done(function (data) {
+    //     if (data != '') {
+    //       alert(data);
+    //     } else {
+    //       $this.attr('disabled', 'disabled');
+    //     };
+    //   });
+    // };
   }
 }
 
