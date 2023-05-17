@@ -20,7 +20,7 @@
     <div class="col-xl-6">
         <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
             <mat-label>Maximum Orders to Retrieve:</mat-label>
-            <input [NumbersOnly]="true"  type="number"   formControlName="maxOrder" matInput>
+            <input [NumbersOnly]="true" #myInput (keyup)="restrictTo10Digits($event)" type="number"   formControlName="maxOrder" matInput>
         </mat-form-field>
     </div>
     <div class="col-xl-6">
