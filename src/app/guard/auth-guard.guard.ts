@@ -62,12 +62,11 @@ export class AuthGuardGuard implements CanActivate {
 
   }
 
-  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-      
+  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) { 
     const pathSet = state.url.split('?')[0]; 
-    if(this.router.url.indexOf('globalconfig') > -1 ){
-      if(!(pathSet.indexOf('/globalconfig/') > -1))    {localStorage.clear(); window.location.href = '/globalconfig';} //this.router.navigate(['/globalconfig']); 
-      return true;
+    if(this.router.url.indexOf('globalconfig') > -1 ||  pathSet.indexOf('/globalconfig') > -1){
+      if(!(pathSet.indexOf('/globalconfig/') > -1))    {localStorage.clear(); this.router.navigate(['/globalconfig']);}  
+      if(this.authService.IsConfigLogin()) return true; else return false;
     }
     if (!this.ConfigJson?.length) {
       var Storagepermission = JSON.parse(localStorage.getItem('Permission') || '[]');
@@ -94,7 +93,7 @@ export class AuthGuardGuard implements CanActivate {
         window.location.href = '/login';
         return false;
       }
-    } else if (!this.ConfigJson?.length) {
+    } else if (!this.ConfigJson?.length && this.authService.IsloggedIn()) {
       return true;
     }
     localStorage.clear();
