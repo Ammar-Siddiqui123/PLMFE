@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderManagerService } from '../order-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
@@ -84,7 +84,7 @@ export class OmPreferencesComponent implements OnInit {
             response.data.customAdmin?response.data.customAdmin:""
           );
           this.filtersForm.controls['custReportsMenuText'].setValue(
-            response.customAdminText?response.data.customAdminText:""
+            response.data.customAdminText?response.data.customAdminText:""
           );
         }else{
         }
