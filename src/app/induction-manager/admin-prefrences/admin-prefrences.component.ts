@@ -19,7 +19,7 @@ import labels from '../../labels/labels.json';
 export class AdminPrefrencesComponent implements OnInit {
   public userData: any;
   preferencesForm: FormGroup;
-
+  trackIndIsDisable = false;
   shortMethodList: any = [
     {
       id: 'Complete Short',
@@ -115,6 +115,8 @@ export class AdminPrefrencesComponent implements OnInit {
     },
   ];
 
+  superBatchFilterList: any;
+
   constructor(
     private authService: AuthService,
     private adminPrefrencesService: AdminPrefrencesService,
@@ -185,6 +187,15 @@ export class AdminPrefrencesComponent implements OnInit {
       printDirectly: new FormControl(false, Validators.compose([])),
       maxNumberOfPutAwayLabels: new FormControl(0, Validators.compose([])),
 
+      // Misc Setup
+      trackInductionLocation: new FormControl(false, Validators.compose([])),
+      stageUsingBulk: new FormControl(false, Validators.compose([])),
+      confirmSuperBatch: new FormControl(false, Validators.compose([])),
+
+      inductionLocation: new FormControl('', Validators.compose([])),
+      stageVelocityCode: new FormControl('', Validators.compose([])),
+      defaultSuperBatchSize: new FormControl('', Validators.compose([])),
+      superBatchFilter: new FormControl('', Validators.compose([])),
       // Reel tracking
       userField1: new FormControl('', Validators.compose([])),
       userField2: new FormControl('', Validators.compose([])),
@@ -215,6 +226,24 @@ export class AdminPrefrencesComponent implements OnInit {
             if (res.data && res.isExecuted) {
               const values = res.data.imPreference;
               const reelVal = res.data.rtUserFieldData[0];
+              if (values.superBatchByToteID) {
+                this.superBatchFilterList = [
+                  { id: 1, name: 'Tote ID' },
+                  { id: 0, name: 'Order Number' },
+                ];
+                this.preferencesForm.get('superBatchFilter')?.setValue('1');
+              } else {
+                this.superBatchFilterList = [
+                  { id: 0, name: 'Order Number' },
+                  { id: 1, name: 'Tote ID' },
+                ];
+                this.preferencesForm.get('superBatchFilter')?.setValue('0');
+              }
+              if (!values.trackInductionTransactions) {
+                this.preferencesForm.get('inductionLocation')?.disable();
+                this.trackIndIsDisable = true;
+              }
+
               this.preferencesForm.patchValue({
                 // System Settings
                 useDefault: values.useDefaultFilter ? 'filter' : 'zone',
@@ -270,6 +299,18 @@ export class AdminPrefrencesComponent implements OnInit {
                 printDirectly: values.printDirectly,
                 maxNumberOfPutAwayLabels: values.maxNumberOfPutAwayLabels,
 
+                //  MISC Setup
+
+                trackInductionLocation: values.trackInductionTransactions,
+                inductionLocation: values.inductionLocation,
+                stageUsingBulk: values.stageUsingBulkPro,
+                stageVelocityCode: values.stageVelocityCode,
+                confirmSuperBatch: values.confirmSuperBatch,
+                defaultSuperBatchSize:
+                  values.defaultSuperBatchSize < 2
+                    ? 2
+                    : values.defaultSuperBatchSize,
+
                 // Reel Tracking
                 userField1: reelVal.userField1,
                 userField2: reelVal.userField2,
@@ -297,7 +338,7 @@ export class AdminPrefrencesComponent implements OnInit {
     }
   }
 
-  updatePreferences(type: any) {
+  updatePreferences(type: any, event?) {
     try {
       const values = this.preferencesForm.value;
       let payLoad = {};
@@ -357,6 +398,26 @@ export class AdminPrefrencesComponent implements OnInit {
           WSID: this.userData.wsid,
         };
         endPoint = '/Induction/RTSUserDataUpdate';
+      } else if (type == 3) {
+        if (event && event.checked) {
+          this.preferencesForm.get('inductionLocation')?.enable();
+          this.trackIndIsDisable = false;
+        } else if(event && !event.checked) {
+          this.preferencesForm.get('inductionLocation')?.disable();
+          this.trackIndIsDisable = true;
+        }
+
+        payLoad = {
+          TrackInductTrans: values.trackInductionLocation,
+          InductLoc: this.preferencesForm.get('inductionLocation')?.value,
+          StageBulkPro: values.stageUsingBulk,
+          StageVelCode: values.stageVelocityCode,
+          DefaultSuperBatch: values.defaultSuperBatchSize,
+          ConfirmSuperBatch: values.confirmSuperBatch,
+          superBatchFilt: values.superBatchFilter === '1' ? true : false,
+          WSID: this.userData.wsid,
+        };
+        endPoint = '/Induction/IMMiscSetupUpdate';
       } else {
         payLoad = {
           AutoPrintCross: values.autoPrintCrossDockLabel,
@@ -397,7 +458,32 @@ export class AdminPrefrencesComponent implements OnInit {
       console.log(error);
     }
   }
+  getCompName() {
+    let payload = {
+      WSID: this.userData.wsid,
+    };
+    this.adminPrefrencesService.get(payload, '/Induction/CompName',true).subscribe(
+      (res: any) => {
+        if (res.data && res.isExecuted) {
 
+          this.preferencesForm.get('inductionLocation')?.setValue(res.data);
+          this.updatePreferences(3);
+          // this.preferencesForm.get('inductionLocation')?.enable();
+          // this.trackIndIsDisable=false;
+          this.toast.success(labels.alert.update, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        } else {
+          this.toast.error('Something went wrong', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      },
+      (error) => {}
+    );
+  }
   checkDBQ() {
     if (this.preferencesForm.value.pickBatchQuantity >= 20) {
       this.preferencesForm.patchValue({
