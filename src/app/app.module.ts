@@ -78,6 +78,7 @@ import { GcPrintServiceTestBeginComponent } from './dialogs/gc-print-service-tes
 import { GcPrintServiceTestComponent } from './dialogs/gc-print-service-test/gc-print-service-test.component';
 import { OmChangePriorityComponent } from './dialogs/om-change-priority/om-change-priority.component';
 import { AuthGuard } from './init/AuthGuard.service';
+import { StagingLocationOrderComponent } from './dialogs/staging-location-order/staging-location-order.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -142,6 +143,7 @@ import { AuthGuard } from './init/AuthGuard.service';
     GcPrintServiceTestBeginComponent,
     GcPrintServiceTestComponent,
     OmChangePriorityComponent,
+    StagingLocationOrderComponent,
     // ActionDisableDirective,
   ],
   imports: [
