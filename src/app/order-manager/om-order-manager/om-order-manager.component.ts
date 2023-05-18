@@ -315,8 +315,11 @@ export class OmOrderManagerComponent implements OnInit {
     if((this.value1 == "" || this.column != "Order Number") && !fromTable)
       this.toastr.error("You must select an Order Number to view the order status.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
     else
-      if (!fromTable) window.open(`/#/OrderManager/OrderManager=${this.value1 ? this.value1 : ''}`, '_blank');
-      else window.open(`/#/OrderManager/OrderManager=${ele.orderNumber ? ele.orderNumber : ''}`, '_blank');
+      if (!fromTable) window.open(`/#/OrderManager/OrderStatus?orderStatus=${this.value1 ? this.value1 : ''}`, '_blank');
+      else {
+        if (!fromTable) window.open(`/#/OrderManager/OrderStatus?orderStatus=${this.value1 ? this.value1 : ''}`, '_blank');
+        else window.open(`/#/OrderManager/OrderStatus?orderStatus=${ele.orderNumber ? ele.orderNumber : ''}`, '_blank');
+      } 
   }
 
   releaseViewed() {
