@@ -16,6 +16,7 @@ import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { GlobalService } from 'src/app/common/services/global.service';
+import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-om-order-manager',
@@ -164,7 +165,7 @@ export class OmOrderManagerComponent implements OnInit {
     this.OMService.get(payload, '/Admin/GetColumnSequence').subscribe((res: any) => {
       if (res.isExecuted) {
         this.displayedColumns = res.data;        
-        this.displayedColumns.push('status', 'actions');
+        this.displayedColumns.push( 'actions');
         this.colList = structuredClone(res.data);
         this.searchCol = this.colList[0];
       }
@@ -181,9 +182,7 @@ export class OmOrderManagerComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result && result.isExecuted) {
-        this.getColumnSequence();
-      }
+      if (result && result.isExecuted) this.getColumnSequence();
     });
   }
 
@@ -221,7 +220,7 @@ export class OmOrderManagerComponent implements OnInit {
     });
   }
 
-  fillTable() {
+  fillTable(loader : boolean = false) {
     let payload2 = {
       username: this.userData.userName,
       user: this.userData.userName,
@@ -234,9 +233,8 @@ export class OmOrderManagerComponent implements OnInit {
       searchString: this.searchTxt,
     };
 
-    this.OMService.get(payload2, '/OrderManager/SelectOrderManagerTempDTNew').subscribe((res: any) => {
+    this.OMService.get(payload2, '/OrderManager/SelectOrderManagerTempDTNew',loader).subscribe((res: any) => {
       this.orderTable = new MatTableDataSource(res.data?.transactions);
-      // this.orderTable.paginator = this.paginator;
       this.customPagination.total = res.data?.recordsFiltered;
       this.orderTable.sort = this.sort;
     });   
@@ -251,10 +249,11 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   deleteViewed() {
+    
     if (this.orderType == "Open") {
       this.toastr.error("You can only delete pending transactions.", 'Warning!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
     } else {
-      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
@@ -284,17 +283,13 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   callDisplayRecords(e : KeyboardEvent) {
-    if (e.key == "Enter") {
-      this.displayRecords();
-    }
+    if (e.key == "Enter") this.displayRecords();
   }
 
   displayRecords() {
-    if ((this.searchCol == "Import Date" || this.searchCol == "Required Date" || this.searchCol == "Priority") && this.case == "Like") {
-        this.toastr.warning("Cannot use the 'Like' option with Required Date, Import Date, or Priority column options", 'Warning!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
-    } else {
-        this.getOrders();
-    }
+    if ((this.column == "Import Date" || this.column == "Required Date" || this.column == "Priority") && this.case == "Like") 
+      this.toastr.error("Cannot use the 'Like' option with Required Date, Import Date, or Priority column options", 'Warning!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+    else this.getOrders();
   }
 
   updateRecord(ele : any) {
@@ -317,12 +312,14 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   openOrderStatus(ele : any, fromTable : boolean) {
-    if((this.value1 == "" || this.column != "Order Number") && !fromTable) {
+    if((this.value1 == "" || this.column != "Order Number") && !fromTable)
       this.toastr.error("You must select an Order Number to view the order status.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
-    } else {
-      if (!fromTable) window.open(`/#/admin/transaction?orderStatus=${this.value1 ? this.value1 : ''}`, '_blank');
-      else window.open(`/#/admin/transaction?orderStatus=${ele.orderNumber ? ele.orderNumber : ''}`, '_blank');
-    }    
+    else
+      if (!fromTable) window.open(`/#/OrderManager/OrderStatus?orderStatus=${this.value1 ? this.value1 : ''}`, '_blank');
+      else {
+        if (!fromTable) window.open(`/#/OrderManager/OrderStatus?orderStatus=${this.value1 ? this.value1 : ''}`, '_blank');
+        else window.open(`/#/OrderManager/OrderStatus?orderStatus=${ele.orderNumber ? ele.orderNumber : ''}`, '_blank');
+      } 
   }
 
   releaseViewed() {
@@ -434,11 +431,8 @@ export class OmOrderManagerComponent implements OnInit {
     }
     else if (type == 2) {
       if (this.case == "Between") {
-        if (this.column.indexOf('Date') > -1) {
-          this.v2DShow = true;
-        } else {
-          this.v2Show = true;
-        }        
+        if (this.column.indexOf('Date') > -1) this.v2DShow = true;
+        else this.v2Show = true;
       } else {
           this.v2Show = false;
           this.v2DShow = false;
@@ -458,15 +452,6 @@ export class OmOrderManagerComponent implements OnInit {
 
   // Announce the new sort state, if any.
   announceSortChange(e : any) {
-    // if (sortState.direction) {
-    //   // Announce the sort direction, and the fact that sorting is cleared.
-    //   this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    // } else {
-    //   this._liveAnnouncer.announce('Sorting cleared');
-    // }
-
-    // // Set the data source's sort property to the new sort.
-    // this.orderTable.sort = this.sort;
     let index = this.displayedColumns.findIndex(x => x === e.active);
     this.sortColumn = {
       columnName: index,
@@ -476,7 +461,6 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   @ViewChild('trigger') trigger: MatMenuTrigger;
-
   contextMenuPosition = { x: '0px', y: '0px' };
 
   onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
@@ -511,6 +495,7 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   FilterString : string = "";
+
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem,FilterColumnName,Condition,Type);
    this.getOrders();

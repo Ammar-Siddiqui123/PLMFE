@@ -446,7 +446,11 @@
     </ng-scrollbar>
 </div>
 <div class="d-flex justify-content-between bg-white">
-    <!-- <mat-paginator class="mt-2" disabled [length]="tableData.length"> </mat-paginator> -->
+    <mat-paginator class="mt-2" 
+    #paginator1
+    pageSize="10" 
+    [hidePageSize]="true"
+    > </mat-paginator>
 </div>
 
       </div>

@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/init/auth.service';
 import { OrderManagerService } from 'src/app/order-manager/order-manager.service';
 import labels from '../../labels/labels.json';
 import { MatAutocomplete } from '@angular/material/autocomplete';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-om-add-record',
@@ -68,6 +69,23 @@ export class OmAddRecordComponent implements OnInit {
   heading: string = "";
   orderNumberDisabled: boolean = false;
 
+  sqlLimits : any = {
+    numerics: {
+        lineNumber: {
+            min : 0,
+            max: 2147483647
+        },
+        int: {
+            min: -2147483648,
+            max: 2147483647
+        },
+        smallint: {
+            min: -32768,
+            max: 32767
+        }
+    }
+  };
+
   constructor(
     private toastr: ToastrService,
     private authService: AuthService,
@@ -75,6 +93,7 @@ export class OmAddRecordComponent implements OnInit {
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<OmAddRecordComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    public globalService: GlobalService,
   ) { }
 
   ngOnInit(): void {
@@ -199,9 +218,6 @@ export class OmAddRecordComponent implements OnInit {
   }
 
   async save(loader: boolean = false) {
-    this.oTTempUpdatePayload.importDate = this.oTTempUpdatePayload.importDate ? this.oTTempUpdatePayload.importDate : "";
-    this.oTTempUpdatePayload.requiredDate = this.oTTempUpdatePayload.requiredDate ? this.oTTempUpdatePayload.requiredDate : "";
-    this.oTTempUpdatePayload.expirationDate = this.oTTempUpdatePayload.expirationDate ? this.oTTempUpdatePayload.expirationDate : "";
     if (this.oTTempUpdatePayload.orderNumber.trim() == '' || this.oTTempUpdatePayload.itemNumber.trim() == '' || this.oTTempUpdatePayload.transType.trim() == '') {
       this.toastr.error("Order Number, Item Number and Transaction Type must be completed in order to continue.", 'Warning!', {
         positionClass: 'toast-bottom-right',
@@ -225,6 +241,9 @@ export class OmAddRecordComponent implements OnInit {
       if (!check) {
         return;
       }
+      this.oTTempUpdatePayload.importDate = this.oTTempUpdatePayload.importDate ? new Date(this.oTTempUpdatePayload.importDate).getMonth() + '/' +  new Date(this.oTTempUpdatePayload.importDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.importDate).getFullYear() : "";
+      this.oTTempUpdatePayload.requiredDate = this.oTTempUpdatePayload.requiredDate ? new Date(this.oTTempUpdatePayload.requiredDate).getMonth() + '/' +  new Date(this.oTTempUpdatePayload.requiredDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.requiredDate).getFullYear() : "";
+      this.oTTempUpdatePayload.expirationDate = this.oTTempUpdatePayload.expirationDate ? new Date(this.oTTempUpdatePayload.expirationDate).getMonth() + '/' +  new Date(this.oTTempUpdatePayload.expirationDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.expirationDate).getFullYear() : "";
       if (!this.isEdit) {
         this.orderManagerService.get(this.oTTempUpdatePayload, '/OrderManager/OTTempInsert', loader).subscribe((res: any) => {
           if (res.isExecuted && res.data) {
@@ -304,6 +323,8 @@ export class OmAddRecordComponent implements OnInit {
     this.orderManagerService.get(payload, '/Common/GetWarehouses', false).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.wharehouses = res.data;
+        this.wharehouses = res.data.sort();
+        this.wharehouses.unshift("")
       } else {
         // this.toastr.error(res.responseMessage, 'Error!', {
         //   positionClass: 'toast-bottom-right',
