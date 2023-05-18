@@ -433,7 +433,7 @@ export class InventoryMapComponent implements OnInit {
 
   edit(event: any){
     let dialogRef = this.dialog.open(AddInvMapLocationComponent, {
-      height: '750px',
+      height: 'auto',
       width: '100%',
       autoFocus: '__non_existing_element__',
       data: {

@@ -8,8 +8,9 @@
 <form [formGroup]="addInvMapLocation" (ngSubmit)="onSubmit(addInvMapLocation)">
     <div class="row mb-3">
         <div class="col-6">
-            <ng-scrollbar style="height: 500px">
+            
                 <div class="container location_detail">
+                    <ng-scrollbar style="height: 500px">
                     <h1 mat-dialog-title>Location Details</h1>
                     <div class="row">
                         <div class="col-6  mb-2">
@@ -236,9 +237,9 @@
                         <mat-checkbox formControlName="dateSensitive" class="ld_checkbox" color="primary">Date Sensitive
                         </mat-checkbox>
                     </section>
-
+                </ng-scrollbar>
                 </div>
-            </ng-scrollbar>
+            
         </div>
         <div class="col-6">
             <div class="container item_detail">
