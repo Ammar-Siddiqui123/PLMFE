@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConsolidationManagerService } from '../consolidation-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { CmOrderToteConflictComponent } from 'src/app/dialogs/cm-order-tote-conflict/cm-order-tote-conflict.component';
+import { StagingLocationOrderComponent } from 'src/app/dialogs/staging-location-order/staging-location-order.component';
 
 export interface PeriodicElement {
   name: string;
@@ -79,12 +80,22 @@ export class CmStagingLocationComponent implements OnInit {
               this.OrderNumberTote = null;
               break;
             case "DNENP":
-              this.OrderNumberTote = null;
-              var promptResponse = prompt("Order/Tote was not found in the system, enter an order number to correspond to the Tote value scanned")
-              if (promptResponse != null) {
-                this.OrderNumberTote = promptResponse;
-                this.stagetables.push({ toteID: inputVal });
-              }
+              this.OrderNumberTote = null; 
+              let dialogRef = this.dialog.open(StagingLocationOrderComponent, { 
+                height: 'auto',
+                width: '620px',
+                autoFocus: '__non_existing_element__', 
+              })
+              dialogRef.afterClosed().subscribe(result => { 
+                  if(result) {this.OrderNumberTote = result;
+                  this.stagetables.push({ toteID: inputVal });
+                  }
+                })
+              // var promptResponse = prompt("Order/Tote was not found in the system, enter an order number to correspond to the Tote value scanned")
+              // if (promptResponse != null) {
+              //   this.OrderNumberTote = promptResponse;
+              //   this.stagetables.push({ toteID: inputVal });
+              // }
               break;
             case "Conflict":
                 this.openCmOrderToteConflict(inputVal); 
@@ -122,7 +133,7 @@ export class CmStagingLocationComponent implements OnInit {
         this.toast.error("The Location entered was not valid", "Staging", { positionClass: 'toast-bottom-right', timeOut: 2000 });
 
       } else if (res.responseMessage == "Redirect") {
-        window.location.href = "/Logon/";
+        window.location.href = "/#/Logon/";
       } else {
         if (typeof this.stagetables != 'undefined') {
           for (var x = 0; x < this.stagetables.length; x++) {
