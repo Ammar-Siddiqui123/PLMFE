@@ -5,17 +5,17 @@ import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-
 import { AuthService } from 'src/app/init/auth.service';
 
 @Component({
-  selector: 'app-ccsif',
-  templateUrl: './ccsif.component.html',
-  styleUrls: ['./ccsif.component.scss']
+  selector: 'app-ste',
+  templateUrl: './ste.component.html',
+  styleUrls: ['./ste.component.scss']
 })
-export class CcsifComponent implements OnInit {
+export class SteComponent implements OnInit {
   sideBarOpen: boolean = true;
   Status:any = 'Offline';
   constructor( public dialog: MatDialog,    public authService: AuthService,private toastr:ToastrService) { }
 
   ngOnInit(): void {
-    this.CheckStatus(); 
+    this.CheckStatus();
   }
   sideBarToggler() {
     this.sideBarOpen = !this.sideBarOpen;
@@ -66,21 +66,38 @@ export class CcsifComponent implements OnInit {
   //     }
   //   }); 
   // }
-  async CCSIFToggle(){     
-    if(this.Status != 'Online'){
-    this.authService.startCCSIF().subscribe((res: any) => {
-      if(res.data) this.ServiceStatus('start',res.data);
-    }) 
-  }else  {
-    this.authService.stopCCSIF().subscribe((res: any) => {
-      if(res.data) this.ServiceStatus('stop',res.data);
+  async STEToggle(){  
+    try{ 
+      if(this.Status != 'Online'){
+      this.authService.startSTEService().subscribe((res: any) => {
+        if(res.data) this.ServiceStatus('start',res.data);
+      }) 
+    }else  {
+      this.authService.stopSTEService().subscribe((res: any) => {
+        if(res.data) this.ServiceStatus('stop',res.data);
+      })
+    }
+    }catch(ex){
+      this.Status = 'Offline'
+      console.log(ex);
+    }
+}
+async STERestart(){  
+  try{
+    this.Status = 'Pending'; 
+    this.authService.stopSTEService().subscribe((res: any) => {
+      if(res.data) this.ServiceStatus('restart',res.data);
     })
+   
+  }catch(ex){
+    this.Status = 'Offline'
+    console.log(ex);
   }
 }
 async CheckStatus(){
-  this.authService.ServiceStatusCCSIF().subscribe((res: any) => {
-    if(res.data)   this.Status = 'Online';
-    else    this.Status = 'Offline';
+  this.authService.ServiceStatusSTE().subscribe((res: any) => {
+    if(res.data) this.ServiceStatus('start',res.data);
+    else this.ServiceStatus('stop',res.data);
   })
   
 }
