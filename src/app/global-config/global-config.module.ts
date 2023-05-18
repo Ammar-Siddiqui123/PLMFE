@@ -17,6 +17,8 @@ import { ConnectionStringsComponent } from './database-connections/connection-st
 import { LicensingComponent } from './licensing/licensing.component';
 import { GeneralModule } from '../gen-module';
 import { CcsifComponent } from './ccsif/ccsif.component';
+import { SteComponent } from './ste/ste.component';
+import { SteServicesComponent } from './ste-services/ste-services.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { CcsifComponent } from './ccsif/ccsif.component';
     ConnectionStringsComponent,
     LicensingComponent,
     CcsifComponent,
+    SteComponent,
+    SteServicesComponent,
     
   ],
   imports: [
