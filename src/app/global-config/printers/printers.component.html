@@ -30,15 +30,15 @@
               </div>
               <div class="row">
                 <div class="col-xl-4">
-                  <button mat-flat-button color="primary" class="primary-button btn-regular w-100 mb-2" *ngIf="!running" (click)="ServiceToggle('Start Print Service')">
+                  <button mat-flat-button color="primary" class="primary-button btn-regular w-100 mb-2" *ngIf="!running" (click)="startService()">
                     Start Print Service
                   </button>
-                  <button mat-flat-button color="warn" class="primary-button btn-regular w-100 mb-2" *ngIf="running" (click)="ServiceToggle('Stop Print Service')">
+                  <button mat-flat-button color="warn" class="primary-button btn-regular w-100 mb-2" *ngIf="running" (click)="stopService()">
                     Stop Print Service
                   </button>
                 </div>
                 <div class="col-xl-4">
-                  <button mat-flat-button color="primary" class="primary-button btn-regular w-100 mb-2" [disabled]="!running" (click)="RestartService()">
+                  <button mat-flat-button color="primary" class="primary-button btn-regular w-100 mb-2" [disabled]="!running" (click)="restartService()">
                     Restart Print Service
                   </button>
                 </div>
