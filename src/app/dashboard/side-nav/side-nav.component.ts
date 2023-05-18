@@ -348,6 +348,7 @@ export class SideNavComponent implements OnInit {
         let splittedRoute=menu.route.split('/');
       if(splittedRoute[2]===undefined){
         this.orderManagerMenus[0].route='/dashboard'
+        
       }else{
         this.orderManagerMenus[0].route='/OrderManager'
         

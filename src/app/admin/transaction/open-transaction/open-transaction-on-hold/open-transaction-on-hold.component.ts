@@ -145,6 +145,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
 
   directAdmin;
   throughOrderManager
+  setVal
 
   public detailDataInventoryMap: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -264,12 +265,13 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   };
 
   ngOnInit(): void {
-    console.log(  this.router.url)
-    if(this.router.url == '/OrderManager/OrderStatus'){
+    this.setVal = localStorage.getItem('routeFromOrderStatus')
+    console.log(  this.setVal,'chechlocal')
+    if(this.router.url == '/OrderManager/OrderStatus' || this.setVal == 'true'){
       this.throughOrderManager = true;
       this.directAdmin = false;
     }
-    else if(this.router.url == '/admin/transaction'){
+    else if(this.router.url == '/admin/transaction'|| this.setVal != 'true'){
       this.throughOrderManager = false;
       this.directAdmin = true;
     }

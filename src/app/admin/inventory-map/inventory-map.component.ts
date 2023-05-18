@@ -83,7 +83,6 @@ export class InventoryMapComponent implements OnInit {
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   setStorage;
-  setStorageOM;
   routeFromIM:boolean=false;
   routeFromOM:boolean=false;
   public displayedColumns: any ;
@@ -116,6 +115,7 @@ export class InventoryMapComponent implements OnInit {
   public itemList: any;
   public filterLoc:any = 'Nothing';
   public isSearchColumn:boolean = false;
+  spliUrl;
 
   detailDataInventoryMap: any;
   transHistory:boolean = false;
@@ -258,12 +258,13 @@ export class InventoryMapComponent implements OnInit {
 
   ngAfterViewInit() {
     this.setStorage =localStorage.getItem('routeFromInduction')
-    this.setStorageOM =localStorage.getItem('routeFromOrderStatus')
 
     // console.log(this.setStorage)
-    console.log(this.router.url)
+    // console.log(this.router.url)
+    this.spliUrl=this.router.url.split('/');
+    // console.log(spliUrl)
 
-    if( this.router.url=="/InductionManager/Admin/InventoryMap" || this.router.url=="/OrderManager/InventoryMap" ){
+    if( this.spliUrl[1] == 'InductionManager' || this.spliUrl[1] == 'OrderManager' ){
        this.myroute =false
     }
     else {
@@ -272,7 +273,6 @@ export class InventoryMapComponent implements OnInit {
     }
 
   //  this.routeFromIM=JSON.parse(this.setStorage)
-    // this.routeFromOM=JSON.parse(this.setStorageOM)
 
     
     }
@@ -549,15 +549,38 @@ export class InventoryMapComponent implements OnInit {
 
     // this.router.navigate(['/admin/inventoryMaster']);
 
+
+    if( this.spliUrl[1] == 'OrderManager' ){
+      this.router.navigate([]).then((result) => {
+        window.open(`/#/OrderManager/InventoryMaster?itemNumber=${row.itemNumber}`, '_blank');
+      });
+   }
+   else {
     this.router.navigate([]).then((result) => {
-      window.open(`/#/OrderManager/InventoryMaster?itemNumber=${row.itemNumber}`, '_blank');
+      window.open(`/#/admin/transaction?itemNumber=${row.locationNumber}`, '_blank');
     });
+
+   }
+
+   
   }
 
   viewLocationHistory(row : any){
+
+    if( this.spliUrl[1] == 'OrderManager' ){
+      this.router.navigate([]).then((result) => {
+        window.open(`/#/OrderManager/OrderStatus?location=${row.locationNumber}`, '_blank');
+      });
+   }
+   else {
     this.router.navigate([]).then((result) => {
-      window.open(`/#/OrderManager/OrderStatus?location=${row.locationNumber}`, '_blank');
+      window.open(`/#/admin/transaction?location=${row.locationNumber}`, '_blank');
     });
+
+   }
+
+
+   
   }
 
   autocompleteSearchColumn(){
