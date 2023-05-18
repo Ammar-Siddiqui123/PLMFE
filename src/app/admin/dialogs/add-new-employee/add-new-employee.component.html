@@ -72,8 +72,11 @@
 
     <mat-form-field class="mb-3 w-100" appearance="outline" (click)="toggleDisabled()">
       <mat-label>Password</mat-label>
-      <input matInput [type]="toggle_password ? 'password' : 'text'" #focusFeild formControlName="password" (focusout)="isEmptyPass()" (keydown.space)="$event.preventDefault()" maxlength="16">
-      <button *ngIf="!isDisabledPassword" type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
+      <input matInput [type]="toggle_password ? 'password' : 'text'" #focusFeild formControlName="password" 
+      (ngModelChange)="ChangePassword($event)"
+      (focusout)="isEmptyPass()" (keydown.space)="$event.preventDefault()" maxlength="16">
+      <button *ngIf="!isDisabledPassword && (!IsEdit)"
+       type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
         <mat-icon>{{toggle_password ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
@@ -93,7 +96,8 @@
     
 
     <mat-dialog-actions align="end">
-      <button type="submit" mat-flat-button class="form-button-submit btn-lg w-100 mb-3" [disabled]="!empForm.valid" color="primary">{{form_btn_label}}</button>
+       
+      <button type="submit" mat-flat-button class="form-button-submit btn-lg w-100 mb-3" [disabled]="!empForm.valid || (password == OldPassword && IsEdit)" color="primary">{{form_btn_label}}</button>
     </mat-dialog-actions>
 
   </form>

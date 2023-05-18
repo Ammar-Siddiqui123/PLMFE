@@ -42,6 +42,8 @@ export class AddNewEmployeeComponent implements OnInit {
   isSubmitting = false;
   allGroups:any=[];
   empForm: FormGroup;
+  OldPassword:any;
+  IsEdit:any=false;
   @ViewChild('focusFeild') focusFeild: ElementRef;
 
   constructor(
@@ -66,8 +68,10 @@ export class AddNewEmployeeComponent implements OnInit {
     this.data?.mode === 'edit' ? this.isDisabledUsername = true : false;
     this.mi = this.empData?.mi ?? '';
     this.firstName = this.empData?.firstName ?? '';
+    this.OldPassword = this.empData?.password ?? '';
     this.lastName = this.empData?.lastName ?? '';
-    debugger
+    
+    if(this.empData)this.IsEdit =true; 
     this.groupName = this.empData?.groupName ?? '';
     this.username = this.empData?.username ?? '';
     this.emailAddress = this.empData?.emailAddress ?? '';
@@ -105,11 +109,15 @@ export class AddNewEmployeeComponent implements OnInit {
       password: [this.password || '',{disabled:this.isDisabledPassword},[Validators.required]],
       emailAddress: [this.emailAddress || '', [Validators.email]],
       accessLevel: [this.accessLevel || '', [Validators.required]],
-      groupName: [this.groupName || '', [Validators.required]],
+      groupName: [this.groupName || '', this.env === 'DB' ? [Validators.required]:[]],
       active: [this.active || '', []],
     });
   }
-
+ChangePassword(data){
+  debugger
+  // if(this.OldPassword == this.password) this.OldPassword = -1;
+  this.password = data;
+}
   onSubmit(form: FormGroup) {
     if (form.valid) {
       // this.isSubmitting = true;
