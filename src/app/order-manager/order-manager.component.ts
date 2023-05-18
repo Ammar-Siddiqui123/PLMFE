@@ -3,7 +3,7 @@ import { OmCreateOrdersComponent } from '../dialogs/om-create-orders/om-create-o
 import { MatDialog } from '@angular/material/dialog';
 import { OrderManagerService } from './order-manager.service';
 import { AuthService } from '../init/auth.service';
-import { Router, RoutesRecognized } from '@angular/router';
+import { NavigationEnd, Router, RoutesRecognized } from '@angular/router';
 import { filter, pairwise } from 'rxjs';
 
 @Component({
@@ -28,30 +28,42 @@ export class OrderManagerComponent implements OnInit {
     private router: Router,
   ) {
 
-    router.events
-    .pipe(
-      filter((evt: any) => evt instanceof RoutesRecognized),
-      pairwise()
-    )
-    .subscribe((events: RoutesRecognized[]) => {
-      const prevRoute= events[0].urlAfterRedirects.split('/');
-      const nextRoute = events[1].urlAfterRedirects.split('/');
+  //   router.events
+  //   .pipe(
+  //     filter((evt: any) => evt instanceof RoutesRecognized),
+  //     pairwise()
+  //   )
+  //   .subscribe((events: RoutesRecognized[]) => {
+  //     const prevRoute= events[0].urlAfterRedirects.split('/');
+  //     const nextRoute = events[1].urlAfterRedirects.split('/');
 
-  console.log(prevRoute[1],nextRoute[1]);
+  // console.log(prevRoute[1],nextRoute[1]);
   
-      // debugger;
-      // if (events[0].urlAfterRedirects == '/InductionManager' || events[1].urlAfterRedirects == '/InductionManager') {
+  //     // debugger;
+  //     // if (events[0].urlAfterRedirects == '/InductionManager' || events[1].urlAfterRedirects == '/InductionManager') {
   
-      if(prevRoute[1]== 'OrderManager' || nextRoute[1] == 'OrderManager'){
-        localStorage.setItem('routeFromOrderStatus','true')
-      }
-      else{
-        localStorage.setItem('routeFromOrderStatus','false')
-        // this.showReprocess=true;
-        // this.showReprocessed=true;
-      }
+  //     if(prevRoute[1]== 'OrderManager' || nextRoute[1] == 'OrderManager'){
+  //       localStorage.setItem('routeFromOrderStatus','true')
+  //     }
+  //     else{
+  //       localStorage.setItem('routeFromOrderStatus','false')
+  //       // this.showReprocess=true;
+  //       // this.showReprocessed=true;
+  //     }
       
-    });
+  //   });
+
+        this.router.events.subscribe((event) => {
+          if (event instanceof NavigationEnd) {
+
+            let spliUrl=event.url.split('/');
+            if(spliUrl[1]=='OrderManager'){
+              localStorage.setItem('routeFromOrderStatus','true')
+            }else{
+              localStorage.setItem('routeFromOrderStatus','false')
+            }
+         }
+          });
   }
 
   ngOnInit(): void {

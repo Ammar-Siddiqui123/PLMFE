@@ -229,7 +229,7 @@
                                 (openedChange)="actionDialog($event)">
                                 <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
                                 <mat-option value="set_column_sq">Set Column Sequence</mat-option>
-                                <mat-option (click)="sendCompletedToHistory()" *ngIf="authService.UserPermissonByFuncName('Transaction Journal Send To History')" value="send_completed_history">Send Completed to History</mat-option>
+                                <mat-option (click)="sendCompletedToHistory()" *ngIf="authService.UserPermissonByFuncName('Transaction Journal Send To History')&& !throughOrderManager" value="send_completed_history">Send Completed to History</mat-option>
                             </mat-select>
                             <span class="material-symbols-outlined icon-expand-more">
                                 expand_more
@@ -283,7 +283,7 @@
                                             Master</button>
                                         <button mat-menu-item (click)="viewOrderInOrder(seletedRecord)">View Order in Order
                                             Status</button>
-                                        <button mat-menu-item  *ngIf="!hideDelete && authService.UserPermissonByFuncName('Transaction Journal Delete') "  (click)="deleteItem(seletedRecord)">Delete
+                                        <button mat-menu-item  *ngIf="!hideDelete && !throughOrderManager && authService.UserPermissonByFuncName('Transaction Journal Delete') "  (click)="deleteItem(seletedRecord)">Delete
                                             Transaction</button>
                                         <!-- <button mat-menu-item   *ngIf="!hideDelete" (click)="sendCompletedToHistory()">Send Completed to
                                             History</button> -->

@@ -176,6 +176,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   public catchToteId;
   isToolTipDisabled = false;
   searchByInput = new Subject<string>();
+  setVal
 
   compDate = '';
   @Input()
@@ -270,8 +271,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     router: Router,
   ) {
-    // console.log(router.url);
-    if(router.url == '/OrderManager/OrderStatus' || router.url == '/OrderManager/OrderStatus?type=TransactionHistory'){
+    this.setVal = localStorage.getItem('routeFromOrderStatus')
+    if(router.url == '/OrderManager/OrderStatus' || router.url == '/OrderManager/OrderStatus?type=TransactionHistory'|| this.setVal == 'true'){
       this.priority = true;
     }
     else if(router.url == '/admin/transaction'){
