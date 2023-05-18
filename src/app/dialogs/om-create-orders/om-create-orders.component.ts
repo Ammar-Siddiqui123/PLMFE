@@ -390,7 +390,7 @@ export class OmCreateOrdersComponent implements OnInit {
       }
       this.orderManagerService.get(payload, '/OrderManager/CreateOrderTypeahead', loader).subscribe((res: any) => {
         if (res.isExecuted && res.data) {
-          this.orderNumberSearchList = res.data;
+          this.orderNumberSearchList = res.data.sort();
         }
       });
       if(searchData == true){
