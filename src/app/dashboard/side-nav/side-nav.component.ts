@@ -68,7 +68,7 @@ export class SideNavComponent implements OnInit {
   ];
 
   consolidationMenus: any = [
-    { icon: 'arrow_back', title: 'Consolidation Manager', route: '/dashboard', class: 'back-class' , permission: 'Consolidation Manager'},
+    { icon: 'arrow_back', title: 'Consolidation Manager', route: '/ConsolidationManager', class: 'back-class' , permission: 'Consolidation Manager'},
     { icon: 'insert_chart', title: 'Consolidation', route: '/ConsolidationManager/Consolidation', class: 'back-class' , permission: 'Consolidation Manager'},
     // Vector
     { icon: 'add_location_alt', title: 'Staging Locations', route: '/ConsolidationManager/StagingLocations' ,permission:'Consolidation Manager'},
@@ -169,6 +169,23 @@ export class SideNavComponent implements OnInit {
         }
 
         this.childMenus = this.inductionMenus;
+        this.isParentMenu = false;
+        this.isChildMenu = true;
+      }
+      else if(InvadminMenu.route.includes('/ConsolidationManager')){
+        
+      
+
+
+          let splittedRoute=InvadminMenu.route.split('/');
+          if(splittedRoute[2]===undefined){
+            this.consolidationMenus[0].route='/dashboard'
+          }else{
+            this.consolidationMenus[0].route='/ConsolidationManager'
+          }
+      
+
+        this.childMenus = this.consolidationMenus;
         this.isParentMenu = false;
         this.isChildMenu = true;
       }
@@ -310,9 +327,17 @@ export class SideNavComponent implements OnInit {
          
     }
     if (menu.route.includes('/ConsolidationManager')) {
+      let splittedRoute=menu.route.split('/');
+      if(splittedRoute[2]===undefined){
+        this.consolidationMenus[0].route='/dashboard'
+      }else{
+        this.consolidationMenus[0].route='/ConsolidationManager'
+        
+      }
       this.childMenus = this.consolidationMenus;
       this.isParentMenu = false;
       this.isChildMenu = true;
+      return
     } 
     if (menu.route.includes('/InductionManager')) {
       this.childMenus = this.inductionMenus;
