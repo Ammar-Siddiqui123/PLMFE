@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
+import { GlobalconfigService } from '../globalconfig.service';
+import { AuthService } from 'src/app/init/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-printers',
@@ -11,73 +14,89 @@ export class PrintersComponent implements OnInit {
   sideBarOpen: boolean = true;
   displayedColumns: string[] = ['printerName', 'printerAddress', 'labelPrinter', 'actions'];
   toteTable: any[] = ['10', '10', '10', '10', '10', '10'];
-
   running: boolean = false;
+  userData: any;
 
   constructor(
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private globalconfigService : GlobalconfigService,
+    private authService: AuthService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
+    this.userData = this.authService.userData();
+    this.getServiceStatus();
+  }
+
+  getServiceStatus(loader: boolean = false){
+    let payload: any = {};
+    this.globalconfigService.get(payload, '/GlobalConfig/StatusPrintService',loader).subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.running = res.data;
+      }
+    });
+  }
+
+  startService(loader: boolean = false){
+    let payload: any = {};
+    this.globalconfigService.get(payload, '/GlobalConfig/StartPrintService',loader).subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.running = true;
+        this.toastr.success("Service start was successful.", 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+      else{
+        this.toastr.error("Service start was unsuccessful. Please try again or contact Scott Tech for support.", 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    });
+  }
+
+  stopService(loader: boolean = false){
+    let payload: any = {};
+    this.globalconfigService.get(payload, '/GlobalConfig/StopPrintService',loader).subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.running = false;
+        this.toastr.success("Service stop was successful.", 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+      else{
+        this.toastr.error("Service stop encountered an error. Please try again or contact Scott Tech for support.", 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    });
+  }
+
+  restartService(loader: boolean = false){
+    let payload: any = {};
+    this.globalconfigService.get(payload, '/GlobalConfig/RestartPrintService',loader).subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.running = true;
+        this.toastr.success("Service restart was successful.", 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+      else{
+        this.toastr.error("Service restart was unsuccessful. Please try again or contact Scott Tech for support.", 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    });
   }
 
   sideBarToggler() {
     this.sideBarOpen = !this.sideBarOpen;
-  }
-
-  ServiceToggle(text: any) {
-    if (text == "Start Print Service") {
-      this.running = true;
-      this.WaitForService();
-      // config.server.startService().done(function (success) {
-      this.ServiceStatus('start', true);
-      // });
-    }
-    else {
-      this.running = false;
-      this.WaitForService();
-      // config.server.stopService().done(function (success) {
-      this.ServiceStatus('stop', true);
-      // });
-    }
-  }
-
-  RestartService() {
-    this.WaitForService();
-    // config.server.restartService().done(function (success) {
-    this.ServiceStatus('restart', true);
-    // });
-  }
-
-  ServiceStatus(changeType: any, success: any) {
-    if (changeType == 'start' || changeType == 'restart') {
-      if (success) {
-        this.setOnline();
-        // alert('Service ' + changeType + ' was successful.');
-      } else {
-        this.setOffline();
-        // alert('Service ' + changeType + ' was unsuccessful.  Please try again or contact Scott Tech for support.');
-      };
-    } else {
-      this.setOffline();
-      if (success) {
-        // alert('Service stop was successful.');
-      } else {
-        // alert('Service stop encountered an error.  Please try again or contact Scott Tech for support.');
-      };
-    };
-  }
-
-  WaitForService() {
-
-  }
-
-  setOnline() {
-
-  }
-
-  setOffline() {
-
   }
 
   RemovePrinter(printer: any) {
