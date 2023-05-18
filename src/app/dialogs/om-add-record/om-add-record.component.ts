@@ -218,9 +218,6 @@ export class OmAddRecordComponent implements OnInit {
   }
 
   async save(loader: boolean = false) {
-    this.oTTempUpdatePayload.importDate = this.oTTempUpdatePayload.importDate ? this.oTTempUpdatePayload.importDate : "";
-    this.oTTempUpdatePayload.requiredDate = this.oTTempUpdatePayload.requiredDate ? this.oTTempUpdatePayload.requiredDate : "";
-    this.oTTempUpdatePayload.expirationDate = this.oTTempUpdatePayload.expirationDate ? this.oTTempUpdatePayload.expirationDate : "";
     if (this.oTTempUpdatePayload.orderNumber.trim() == '' || this.oTTempUpdatePayload.itemNumber.trim() == '' || this.oTTempUpdatePayload.transType.trim() == '') {
       this.toastr.error("Order Number, Item Number and Transaction Type must be completed in order to continue.", 'Warning!', {
         positionClass: 'toast-bottom-right',
@@ -244,6 +241,9 @@ export class OmAddRecordComponent implements OnInit {
       if (!check) {
         return;
       }
+      this.oTTempUpdatePayload.importDate = this.oTTempUpdatePayload.importDate ? new Date(this.oTTempUpdatePayload.importDate).getMonth() + '/' +  new Date(this.oTTempUpdatePayload.importDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.importDate).getFullYear() : "";
+      this.oTTempUpdatePayload.requiredDate = this.oTTempUpdatePayload.requiredDate ? new Date(this.oTTempUpdatePayload.requiredDate).getMonth() + '/' +  new Date(this.oTTempUpdatePayload.requiredDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.requiredDate).getFullYear() : "";
+      this.oTTempUpdatePayload.expirationDate = this.oTTempUpdatePayload.expirationDate ? new Date(this.oTTempUpdatePayload.expirationDate).getMonth() + '/' +  new Date(this.oTTempUpdatePayload.expirationDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.expirationDate).getFullYear() : "";
       if (!this.isEdit) {
         this.orderManagerService.get(this.oTTempUpdatePayload, '/OrderManager/OTTempInsert', loader).subscribe((res: any) => {
           if (res.isExecuted && res.data) {
