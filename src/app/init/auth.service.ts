@@ -88,4 +88,25 @@ export class AuthService {
   public configLogout(userData:any): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/Logout`, userData);
   }
+  public startCCSIF(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StartCCSIF`,{});
+  }
+  public stopCCSIF(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StopCCSIF`,{});
+  }
+  public ServiceStatusCCSIF(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/ServiceStatusCCSIF`,{});
+  }
+  public startSTEService(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StartSTE`,{});
+  }
+  public stopSTEService(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StopSTE`,{});
+  }
+  public restartService(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/RestartSTE`,{});
+  }
+  public ServiceStatusSTE(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/ServiceStatusSTE`,{});
+  }
 }

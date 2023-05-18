@@ -34,8 +34,9 @@ export class SideNavComponent implements OnInit {
     { icon: 'hub', title: 'Database Connections', route: '/globalconfig/database-connections' ,permission: ''},
     { icon: 'print', title: 'Printers', route: '/globalconfiq/printers' ,permission: ''},
     { icon: 'online_prediction', title: 'Workstation', route: '/globalconfig/workstation' ,permission: ''},
-    { icon: 'nest_wifi_gale', title: 'CCSIF', route: '#' ,permission: 'CCSIF'},
+    { icon: 'nest_wifi_gale', title: 'CCSIF', route: '/globalconfig/ccsif' ,permission: 'CCSIF'},
     { icon: 'subtitles', title: 'Licensing', route: '/globalconfig/licensing' ,permission: ''},
+    { icon: 'subtitles', title: 'STE', route: '/globalconfig/ste' ,permission: 'STE'},
 
   ];
   adminMenus: any = [

@@ -13,7 +13,7 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Order Number</mat-label>
-                    <input type="text" aria-label="Search" matInput [disabled]="orderNumberDisabled" [(ngModel)]="this.oTTempUpdatePayload.orderNumber">
+                    <input type="text" aria-label="Search" matInput [disabled]="orderNumberDisabled" [(ngModel)]="this.oTTempUpdatePayload.orderNumber" maxlength="50">
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
@@ -50,13 +50,13 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Processing By</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.processBy">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.processBy" maxlength="50">
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Import By</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.importBy">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.importBy" maxlength="50">
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
@@ -78,15 +78,14 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Import File</mat-label>
-                    <input type="text" aria-label="Search" matInput
-                        [(ngModel)]="this.oTTempUpdatePayload.importFileName">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.importFileName" maxlength="50">
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Item Number</mat-label>
                     <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.itemNumber"
-                        (keyup)="searchItem(true)" [matAutocomplete]="searchauto" maxlength="50" (focusout)="itemNumberFocusOut($event)">
+                        (keyup)="searchItem(true)" [matAutocomplete]="searchauto" maxlength="50" (focusout)="itemNumberFocusOut($event)" maxlength="50">
                     <mat-autocomplete class="card custom-scroll" #searchauto="matAutocomplete"
                         (optionSelected)="onSearchSelect($event)">
                         <h6 class="card-header matAutoCompHeader ">
@@ -96,9 +95,9 @@
                         </h6>
                         <mat-option *ngFor="let option of itemNumberSearchList" [value]="option.itemNumber" class="matAutoCompTableContent">
                             <div class="loc_option" (click)="selectItemNumber(option,$event)" >
-                                <span class="searchColumn" style="width:  140px;">{{option.itemNumber}}</span> 
-                                <span class="searchColumn" style="width:  140px;" matTooltip="{{option.description}}" matTooltipPosition="above">{{option.description}}</span> 
-                                <span class="searchColumn" style="width:  140px;">{{option.unitOfMeasure}}</span>
+                                <span class="searchColumn over-flow" style="width:  140px;" #tooltip="matTooltip" [matTooltip]="option.itemNumber" matTooltipPosition="above">{{option.itemNumber}}</span> 
+                                <span class="searchColumn over-flow" style="width:  140px;" #tooltip="matTooltip" [matTooltip]="option.description" matTooltipPosition="above">{{option.description}}</span> 
+                                <span class="searchColumn over-flow" style="width:  140px;" #tooltip="matTooltip" [matTooltip]="option.unitOfMeasure" matTooltipPosition="above">{{option.unitOfMeasure}}</span>
                             </div>
                         </mat-option>
                     </mat-autocomplete>
@@ -107,7 +106,7 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Lot Number</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.lotNumber">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.lotNumber" maxlength="50">  
                 </mat-form-field>
             </div>
         </div>
@@ -116,19 +115,19 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Serial Number</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.serialNumber">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.serialNumber" maxlength="50">
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Revision</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.revision">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.revision" maxlength="50">
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Tote ID</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.toteID">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.toteID" maxlength="50">
                 </mat-form-field>
             </div>
         </div>
@@ -137,13 +136,13 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Batch Pick ID</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.batchPickID">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.batchPickID" maxlength="50">
                 </mat-form-field>
             </div>
             <div class="col-xl-8">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Description</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.description" disabled>
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.description" disabled maxlength="255">
                 </mat-form-field>
             </div>
         </div>
@@ -165,8 +164,7 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Unit Of Measure</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.unitofMeasure"
-                        disabled>
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.unitofMeasure" disabled maxlength="50">
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
@@ -193,13 +191,13 @@
             <div class="col-xl-3">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Host Transaction ID</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.hostTransID">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.hostTransID" maxlength="50">
                 </mat-form-field>
             </div>
             <div class="col-xl-3">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Cell</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.cell">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.cell" maxlength="50">
                 </mat-form-field>
             </div>
         </div>
@@ -221,7 +219,7 @@
             <div class="col-xl-8">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Notes</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.notes">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.notes" maxlength="255">
                 </mat-form-field>
             </div>
         </div>
@@ -238,19 +236,19 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>User Field 1</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField1">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField1" maxlength="255">
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>User Field 2</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField2">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField2" maxlength="255">
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>User Field 3</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField3">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField3" maxlength="255">
                 </mat-form-field>
             </div>
         </div>
@@ -259,19 +257,19 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>User Field 4</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField4">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField4" maxlength="255">
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>User Field 5</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField5">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField5" maxlength="255">
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>User Field 6</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField6">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField6" maxlength="255">
                 </mat-form-field>
             </div>
         </div>
@@ -280,19 +278,19 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>User Field 7</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField7">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField7" maxlength="255">
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>User Field 8</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField8">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField8" maxlength="255">
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>User Field 9</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField9">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField9" maxlength="255">
                 </mat-form-field>
             </div>
         </div>
@@ -301,7 +299,7 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>User Field 10</mat-label>
-                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField10">
+                    <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.userField10" maxlength="255">
                 </mat-form-field>
             </div>
         </div>
