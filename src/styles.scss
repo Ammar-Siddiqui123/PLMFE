@@ -1788,6 +1788,12 @@ button{
   justify-content: center;
   color: #DE2654;
 }
+.container.location_detail{
+  padding: 20px 10px;
+  .ng-scroll-viewport-wrapper{
+    right: 14px;
+  }
+}
 
 .container.location_detail,
 .item_detail {
