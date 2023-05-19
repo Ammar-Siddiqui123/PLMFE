@@ -286,7 +286,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   getContentData() {
     if (this.searchCol === 'Tote ID') {
     }
-    this.payload = {
+     
+    this.payload = { 
       draw: 0,
       compDate: this.compDate,
       identify: this.orderNo ? 0 : 1,
