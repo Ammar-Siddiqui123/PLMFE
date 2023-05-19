@@ -146,6 +146,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   directAdmin;
   throughOrderManager
   setVal
+  spliUrl;
 
   public detailDataInventoryMap: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -327,9 +328,28 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   }
   viewOrderInOrder(row) {
     this.returnToOrder.emit();
-    this.router.navigate([]).then((result) => {
-      window.open(`/#/admin/transaction?orderStatus=${row.orderNumber}`, '_self');
-    });
+    // this.router.navigate([]).then((result) => {
+    //   window.open(`/#/admin/transaction?orderStatus=${row.orderNumber}`, '_self');
+    // });
+
+
+if( this.spliUrl[1] == 'OrderManager' ){
+  this.router.navigate([]).then((result) => {
+    // window.open(`/#/OrderManager/OrderStatus?itemNumber=${row.itemNumber}`, '_blank');
+    window.open(`/#/OrderManager/OrderStatus?orderStatus=${row.orderNumber}`, '_self');
+  });
+}
+else {
+localStorage.setItem('routeFromInduction','false')
+this.router.navigate([]).then((result) => {
+  window.open(`/#/admin/transaction?orderStatus=${row.orderNumber}`, '_self');
+});
+
+}
+
+
+
+
   }
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
@@ -360,6 +380,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       }
        })
     )
+    this.spliUrl=this.router.url.split('/');
   }
   /*FUnctions for Table*/
   isAuthorized(controlName: any) {
@@ -435,10 +456,26 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   }
 
   viewInInventoryMaster(row) {
-    // this.router.navigate(['/admin/inventoryMaster']);
+
+
+    
+    if( this.spliUrl[1] == 'OrderManager' ){
+      this.router.navigate([]).then((result) => {
+        window.open(`/#/OrderManager/InventoryMaster?itemNumber=${row.itemNumber}`, '_blank');
+      });
+   }
+   else {
+    localStorage.setItem('routeFromInduction','false')
     this.router.navigate([]).then((result) => {
-      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_self');
+      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_blank');
     });
+
+   }
+
+    //////////////////////////////////////////////////////////
+    // this.router.navigate([]).then((result) => {
+    //   window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_self');
+    // });
   }
   sendComp(event) {
     let dialogRef = this.dialog.open(FunctionAllocationComponent, {

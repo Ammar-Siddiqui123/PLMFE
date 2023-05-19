@@ -136,12 +136,12 @@ export class OmAddRecordComponent implements OnInit {
     this.oTTempUpdatePayload.transQty = this.data.transaction.transactionQuantity;
     this.oTTempUpdatePayload.lineNumber = this.data.transaction.lineNumber;
     this.oTTempUpdatePayload.priority = this.data.transaction.priority;
-    this.oTTempUpdatePayload.requiredDate = this.data.transaction.requiredDate;
+    this.oTTempUpdatePayload.requiredDate = this.data.transaction.requiredDate == "1/1/1900 12:00:00 AM" ? "" : this.data.transaction.requiredDate;
     this.oTTempUpdatePayload.hostTransID = this.data.transaction.hostTransactionID;
     this.oTTempUpdatePayload.emergency = this.data.transaction.emergency;
     this.oTTempUpdatePayload.label = this.data.transaction.label;
     this.oTTempUpdatePayload.lotNumber = this.data.transaction.lotNumber;
-    this.oTTempUpdatePayload.expirationDate = this.data.transaction.expirationDate;
+    this.oTTempUpdatePayload.expirationDate = this.data.transaction.expirationDate == "1/1/1900 12:00:00 AM" ? "" : this.data.transaction.expirationDate;
     this.oTTempUpdatePayload.serialNumber = this.data.transaction.serialNumber;
     this.oTTempUpdatePayload.revision = this.data.transaction.revision;
     this.oTTempUpdatePayload.batchPickID = this.data.transaction.batchPickID;
@@ -342,6 +342,9 @@ export class OmAddRecordComponent implements OnInit {
   resetDefaultValues(key: any, value: any) {
     if (this.oTTempUpdatePayload[key] == null) {
       this.oTTempUpdatePayload[key] = value;
+    }
+    if(this.oTTempUpdatePayload[key] < 0){
+      this.oTTempUpdatePayload[key] = 0;
     }
   }
 

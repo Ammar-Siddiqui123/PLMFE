@@ -59,6 +59,7 @@ export class OrderManagerComponent implements OnInit {
             let spliUrl=event.url.split('/');
             if(spliUrl[1]=='OrderManager'){
               localStorage.setItem('routeFromOrderStatus','true')
+              localStorage.setItem('routeFromInduction','false')
             }else{
               localStorage.setItem('routeFromOrderStatus','false')
             }
