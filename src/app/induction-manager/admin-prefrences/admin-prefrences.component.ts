@@ -408,9 +408,14 @@ export class AdminPrefrencesComponent implements OnInit {
         }
 
         if(values.defaultSuperBatchSize<2){
-          this.preferencesForm.get('defaultSuperBatchSize')?.setValue(2);
+          // this.preferencesForm.get('defaultSuperBatchSize')?.setValue(2);
+          this.toast.error('Default Super Batch Size must be greater than 1', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+          return 
         }
-
+        
         payLoad = {
           TrackInductTrans: values.trackInductionLocation,
           InductLoc: this.preferencesForm.get('inductionLocation')?.value,
