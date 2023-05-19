@@ -42,7 +42,7 @@
                                     {{Status}}
                                 </div>
                             </div>
-                            <button type="submit" mat-flat-button class="btn-regular" color="primary" [disabled]="Status == 'Pending'"
+                            <button type="submit" mat-flat-button class="btn-regular" [color]="Status == 'Online' ? 'warn':'primary'" [disabled]="Status == 'Pending'"
                                 (click)="CCSIFToggle()"> <ng-container *ngIf="Status == 'Online'">
                                     Stop CCSIF Service
                                 </ng-container>
