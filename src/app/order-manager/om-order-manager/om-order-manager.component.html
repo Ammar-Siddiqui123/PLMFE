@@ -192,7 +192,11 @@
 
                     <ng-container *ngFor="let col of allColumns; let i = index;" matColumnDef="{{col.colDef}}">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{col.colDef}} </th>
-                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event,  element[col.colHeader], col.colDef)">
+
+                        <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event,  element[col.colHeader], col.colDef)"
+                             #tooltip="matTooltip" matTooltipPosition="above" [matTooltip]="element[col.colHeader]" 
+                             style="text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;"
+                             [matTooltipDisabled]="element[col.colHeader] && element[col.colHeader].length>=20?false:true">
                             <!-- {{ col.colHeader == 'transactionType' && element.transactionType.toLowerCase() == 'pick' && element.transactionQuantity > element.availableQuantity }} -->
                             <!-- <div class="label label-red px-2" *ngIf="element.transactionType.toLowerCase() == 'pick' && element.transactionQuantity > element.availableQuantity">{{ element[col.colHeader] }}</div> -->
                             <div *ngIf="col.colDef != 'Transaction Type'">{{ element[col.colHeader] }}</div>
