@@ -407,6 +407,10 @@ export class AdminPrefrencesComponent implements OnInit {
           this.trackIndIsDisable = true;
         }
 
+        if(values.defaultSuperBatchSize<2){
+          this.preferencesForm.get('defaultSuperBatchSize')?.setValue(2);
+        }
+
         payLoad = {
           TrackInductTrans: values.trackInductionLocation,
           InductLoc: this.preferencesForm.get('inductionLocation')?.value,

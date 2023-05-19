@@ -170,7 +170,8 @@
             <div class="col-xl-4">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Transaction Quantity</mat-label>
-                    <input type="number" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.transQty" (focusout)="resetDefaultValues('transQty',1)">
+                    <input type="number" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.transQty" (focusout)="resetDefaultValues('transQty',1)"
+                    oninput="javascript: if (this.value > 2147483647 || this.value < 0) this.value = this.value.slice(0, this.value.length-1);">
                 </mat-form-field>
             </div>
         </div>
@@ -179,13 +180,15 @@
             <div class="col-xl-3">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Line Number</mat-label>
-                    <input type="number" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.lineNumber" (focusout)="resetDefaultValues('lineNumber',0)">
+                    <input type="number" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.lineNumber" (focusout)="resetDefaultValues('lineNumber',0)"
+                    oninput="javascript: if (this.value > 2147483647 || this.value < 0) this.value = this.value.slice(0, this.value.length-1);">
                 </mat-form-field>
             </div>
             <div class="col-xl-3">
                 <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                     <mat-label>Priority</mat-label>
-                    <input type="number" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.priority" (focusout)="resetDefaultValues('priority',0)">
+                    <input type="number" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.priority" (focusout)="resetDefaultValues('priority',0)"
+                    oninput="javascript: if (this.value > 32767 || this.value < 0) this.value = this.value.slice(0, this.value.length-1);">
                 </mat-form-field>
             </div>
             <div class="col-xl-3">
