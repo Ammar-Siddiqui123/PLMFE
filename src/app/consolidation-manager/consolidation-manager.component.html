@@ -4,9 +4,9 @@
         <!-- Main Section Option (Import Export) -->
     
         <div class="col-xl-3 col-lg-6">
+          <!-- [ngClass]="isAuthorized('Tote Transactions') ? 'isDivDisabled' : ''" -->
           <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option" 
           routerLink="/ConsolidationManager/Consolidation"
-          [ngClass]="isAuthorized('Tote Transactions') ? 'isDivDisabled' : ''"
           (click)="updateMenu('consolidationManager', '/ConsolidationManager/Consolidation')">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
@@ -17,9 +17,9 @@
         </div>
   
         <div class="col-xl-3 col-lg-6"  >
+          <!-- [ngClass]="isAuthorized('Tote Transactions') ? 'isDivDisabled' : ''" -->
           <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option" 
           routerLink="/ConsolidationManager/StagingLocations"
-          [ngClass]="isAuthorized('Tote Transactions') ? 'isDivDisabled' : ''"
           (click)="updateMenu('consolidationManager', '/ConsolidationManager/StagingLocations')">
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
@@ -62,7 +62,7 @@
         [ngClass]="isAuthorized('Order Status') ? 'isDivDisabled' : ''"
         >
           <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option bg-white"
-          routerLink="/admin/transaction" [queryParams]="{IsOrderStatus:true}" >
+          routerLink="/ConsolidationManager/OrderStatus" [queryParams]="{IsOrderStatus:true}" >
             <a class="main-section-option-link" href="#"></a>
             <div class="main-section-icon">
               <span class="material-symbols-outlined">
