@@ -6,7 +6,7 @@
         <mat-icon class="close-icon">close</mat-icon>
     </button>
 </div>
-<mat-dialog-content>
+<mat-dialog-content id="scrr">
 <div class="bg-light-blue bg-50 px-4 py-4 br-14 mb-3">
     <div class="justify-content-between">
         <div class="row">
@@ -14,7 +14,8 @@
                 <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-xl-0 mb-2" appearance="outline">
                     <mat-label>Order Number</mat-label>
                     <input matInput value="value" type="text" [(ngModel)]="createOrdersDTPayload.orderNumber" 
-                    (keyup)="searchItem(true)" (keyup.enter)="searchItem(true,true)" [matAutocomplete]="searchauto" maxlength="50">
+                    (keyup)="searchItem(true)" (keyup.enter)="searchItem(true,true)" [matAutocomplete]="searchauto" maxlength="50" 
+                    (focus)="focusinmethod()" (focusout)="focusoutmethod()">
                     <mat-autocomplete class="card custom-scroll" #searchauto="matAutocomplete"
                         (optionSelected)="onSearchSelect($event)">
                         <h6 class="card-header matAutoCompHeader ">
