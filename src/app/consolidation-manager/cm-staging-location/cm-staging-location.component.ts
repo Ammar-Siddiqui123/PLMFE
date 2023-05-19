@@ -73,7 +73,7 @@ export class CmStagingLocationComponent implements OnInit {
       };
       var inputVal = this.OrderNumberTote;
       this.http.get(obj, '/Consolidation/ConsolidationData').subscribe((res: any) => {
-        if (typeof res?.data == 'string') {
+        if (typeof res?.data == 'string') { 
           switch (res?.data) {
             case "DNE":
               this.toast.error("The Order/Tote that you entered is invalid or no longer exists in the system.", 'Consolidation!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
@@ -87,8 +87,9 @@ export class CmStagingLocationComponent implements OnInit {
                 autoFocus: '__non_existing_element__', 
               })
               dialogRef.afterClosed().subscribe(result => { 
+                this.stagetables = [];
                   if(result) {this.OrderNumberTote = result;
-                  this.stagetables.push({ toteID: inputVal });
+                  this.stagetables.push({ toteID: inputVal, stagingLocation:null});
                   }
                 })
               // var promptResponse = prompt("Order/Tote was not found in the system, enter an order number to correspond to the Tote value scanned")

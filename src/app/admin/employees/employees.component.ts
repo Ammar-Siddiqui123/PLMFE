@@ -134,8 +134,7 @@ getgroupAllowedList(){
     "wsid": "TESTWSID"
   };
   this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
-    console.log('sssssssss',res.data);
-    
+     
    // this.groupAllowedList = res.data;
     this.groupAllowedList = new MatTableDataSource(res.data);
   //   this.groupAllowedList.filterPredicate = (data: any, filter: string) => {
@@ -569,6 +568,9 @@ initialzeEmpForm() {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      data: {
+        emp_data: null,
+      }
     });
     dialogRef.afterClosed().subscribe(result => {
         if (result !== undefined) {
