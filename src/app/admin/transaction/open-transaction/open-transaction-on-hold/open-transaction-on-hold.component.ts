@@ -461,13 +461,13 @@ this.router.navigate([]).then((result) => {
     
     if( this.spliUrl[1] == 'OrderManager' ){
       this.router.navigate([]).then((result) => {
-        window.open(`/#/OrderManager/InventoryMaster?itemNumber=${row.itemNumber}`, '_blank');
+        window.open(`/#/OrderManager/InventoryMaster?itemNumber=${row.itemNumber}`, '_self');
       });
    }
    else {
     localStorage.setItem('routeFromInduction','false')
     this.router.navigate([]).then((result) => {
-      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_blank');
+      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_self');
     });
 
    }
