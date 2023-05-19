@@ -103,7 +103,7 @@ export class AuthService {
   public stopSTEService(): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StopSTE`,{});
   }
-  public restartService(): Observable<any> {
+  public RestartService(): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/RestartSTE`,{});
   }
   public ServiceStatusSTE(): Observable<any> {
