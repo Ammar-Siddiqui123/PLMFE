@@ -30,15 +30,15 @@
               </div>
               <div class="row">
                 <div class="col-xl-4">
-                  <button mat-flat-button color="primary" class="primary-button btn-regular w-100 mb-2" *ngIf="!running" (click)="ServiceToggle('Start Print Service')">
+                  <button mat-flat-button color="primary" class="primary-button btn-regular w-100 mb-2" *ngIf="!running" (click)="startService()">
                     Start Print Service
                   </button>
-                  <button mat-flat-button color="warn" class="primary-button btn-regular w-100 mb-2" *ngIf="running" (click)="ServiceToggle('Stop Print Service')">
+                  <button mat-flat-button color="warn" class="primary-button btn-regular w-100 mb-2" *ngIf="running" (click)="stopService()">
                     Stop Print Service
                   </button>
                 </div>
                 <div class="col-xl-4">
-                  <button mat-flat-button color="primary" class="primary-button btn-regular w-100 mb-2" [disabled]="!running" (click)="RestartService()">
+                  <button mat-flat-button color="primary" class="primary-button btn-regular w-100 mb-2" [disabled]="!running" (click)="restartService()">
                     Restart Print Service
                   </button>
                 </div>
@@ -108,16 +108,16 @@
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="actions">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>  </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
                             <td mat-cell *matCellDef="let element">
                               <div class="d-flex gap-12 align-items-center">
                                 <button mat-flat-button color="primary" class="xsm-icon-button mb-2">
                                   <mat-icon class="material-symbols-outlined" matTooltip="Print Test Page" matTooltipPosition="above">print</mat-icon>
                               </button>
-                                <button mat-flat-button color="primary" class="xsm-icon-button mb-2">
+                                <button mat-flat-button color="primary" class="xsm-icon-button mb-2" (click)="SavePrinter(element)">
                                     <mat-icon class="material-symbols-outlined" matTooltip="Save" matTooltipPosition="above">save</mat-icon>
                                 </button>
-                                <button mat-flat-button color="warn" class="xsm-icon-button mb-2">
+                                <button mat-flat-button color="warn" class="xsm-icon-button mb-2" (click)="RemovePrinter(element)">
                                     <mat-icon class="material-symbols-outlined" matTooltip="Delete" matTooltipPosition="above">close</mat-icon>
                                 </button>
                             </div>
