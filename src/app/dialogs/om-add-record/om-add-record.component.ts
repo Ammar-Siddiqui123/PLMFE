@@ -68,23 +68,7 @@ export class OmAddRecordComponent implements OnInit {
   wharehouseRequired: any = false;
   heading: string = "";
   orderNumberDisabled: boolean = false;
-
-  sqlLimits : any = {
-    numerics: {
-        lineNumber: {
-            min : 0,
-            max: 2147483647
-        },
-        int: {
-            min: -2147483648,
-            max: 2147483647
-        },
-        smallint: {
-            min: -32768,
-            max: 32767
-        }
-    }
-  };
+  itemNumberScroll:any = "all";
 
   constructor(
     private toastr: ToastrService,
@@ -416,4 +400,10 @@ export class OmAddRecordComponent implements OnInit {
     return false;
   }
 
+  focusinmethod(){
+    this.itemNumberScroll = "horizontal";
+  }
+  focusoutmethod(){
+    this.itemNumberScroll = "all";
+  }
 }
