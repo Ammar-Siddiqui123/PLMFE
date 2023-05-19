@@ -497,8 +497,14 @@ export class OmOrderManagerComponent implements OnInit {
   FilterString : string = "";
 
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-   this.FilterString = this.filterService.onContextMenuCommand(SelectedItem,FilterColumnName,Condition,Type);
-   this.getOrders();
+    if (SelectedItem != undefined) {
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem,FilterColumnName,Condition,Type);
+    }
+    this.customPagination.startIndex = 0;
+    this.paginator.pageIndex = 0;
+    this.FilterString = this.FilterString != "" ? this.FilterString : "1 = 1";
+    this.getOrders();
   }
 
 }
