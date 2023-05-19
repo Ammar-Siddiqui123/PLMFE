@@ -110,6 +110,7 @@ export class OmAddRecordComponent implements OnInit {
   }
 
   autofillModal() {
+    debugger;
     this.oTTempUpdatePayload.id = this.data.transaction.id;
     this.oTTempUpdatePayload.orderNumber = this.data.transaction.orderNumber;
     this.oTTempUpdatePayload.transType = this.data.transaction.transactionType;
@@ -120,12 +121,12 @@ export class OmAddRecordComponent implements OnInit {
     this.oTTempUpdatePayload.transQty = this.data.transaction.transactionQuantity;
     this.oTTempUpdatePayload.lineNumber = this.data.transaction.lineNumber;
     this.oTTempUpdatePayload.priority = this.data.transaction.priority;
-    this.oTTempUpdatePayload.requiredDate = this.data.transaction.requiredDate == "1/1/1900 12:00:00 AM" ? "" : this.data.transaction.requiredDate;
     this.oTTempUpdatePayload.hostTransID = this.data.transaction.hostTransactionID;
     this.oTTempUpdatePayload.emergency = this.data.transaction.emergency;
     this.oTTempUpdatePayload.label = this.data.transaction.label;
     this.oTTempUpdatePayload.lotNumber = this.data.transaction.lotNumber;
-    this.oTTempUpdatePayload.expirationDate = this.data.transaction.expirationDate == "1/1/1900 12:00:00 AM" ? "" : this.data.transaction.expirationDate;
+    this.oTTempUpdatePayload.requiredDate = (this.data.transaction.requiredDate == "1/1/1900 12:00:00 AM" || this.data.transaction.requiredDate == "") ? "" : new Date(this.data.transaction.requiredDate);
+    this.oTTempUpdatePayload.expirationDate = (this.data.transaction.expirationDate == "1/1/1900 12:00:00 AM" || this.data.transaction.expirationDate == "") ? "" : new Date(this.data.transaction.expirationDate);
     this.oTTempUpdatePayload.serialNumber = this.data.transaction.serialNumber;
     this.oTTempUpdatePayload.revision = this.data.transaction.revision;
     this.oTTempUpdatePayload.batchPickID = this.data.transaction.batchPickID;
@@ -151,7 +152,7 @@ export class OmAddRecordComponent implements OnInit {
     // this.oTTempUpdatePayload.inProcess = this.data.transaction.inProcess;
     this.oTTempUpdatePayload.processBy = this.data.transaction.processingBy;
     this.oTTempUpdatePayload.importBy = this.data.transaction.importBy;
-    this.oTTempUpdatePayload.importDate = this.data.transaction.importDate;
+    this.oTTempUpdatePayload.importDate = new Date(this.data.transaction.importDate);
     this.oTTempUpdatePayload.importFileName = this.data.transaction.importFilename;
 
     if (this.oTTempUpdatePayload.processBy == "" || this.oTTempUpdatePayload.processBy == null || this.oTTempUpdatePayload.processBy == undefined) {
@@ -225,9 +226,9 @@ export class OmAddRecordComponent implements OnInit {
       if (!check) {
         return;
       }
-      this.oTTempUpdatePayload.importDate = this.oTTempUpdatePayload.importDate ? new Date(this.oTTempUpdatePayload.importDate).getMonth() + '/' +  new Date(this.oTTempUpdatePayload.importDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.importDate).getFullYear() : "";
-      this.oTTempUpdatePayload.requiredDate = this.oTTempUpdatePayload.requiredDate ? new Date(this.oTTempUpdatePayload.requiredDate).getMonth() + '/' +  new Date(this.oTTempUpdatePayload.requiredDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.requiredDate).getFullYear() : "";
-      this.oTTempUpdatePayload.expirationDate = this.oTTempUpdatePayload.expirationDate ? new Date(this.oTTempUpdatePayload.expirationDate).getMonth() + '/' +  new Date(this.oTTempUpdatePayload.expirationDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.expirationDate).getFullYear() : "";
+      this.oTTempUpdatePayload.importDate = this.oTTempUpdatePayload.importDate ? new Date(this.oTTempUpdatePayload.importDate).getMonth()+1 + '/' +  new Date(this.oTTempUpdatePayload.importDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.importDate).getFullYear() : "";
+      this.oTTempUpdatePayload.requiredDate = this.oTTempUpdatePayload.requiredDate ? new Date(this.oTTempUpdatePayload.requiredDate).getMonth()+1 + '/' +  new Date(this.oTTempUpdatePayload.requiredDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.requiredDate).getFullYear() : "";
+      this.oTTempUpdatePayload.expirationDate = this.oTTempUpdatePayload.expirationDate ? new Date(this.oTTempUpdatePayload.expirationDate).getMonth()+1 + '/' +  new Date(this.oTTempUpdatePayload.expirationDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.expirationDate).getFullYear() : "";
       if (!this.isEdit) {
         this.orderManagerService.get(this.oTTempUpdatePayload, '/OrderManager/OTTempInsert', loader).subscribe((res: any) => {
           if (res.isExecuted && res.data) {
