@@ -487,4 +487,12 @@ export class OmCreateOrdersComponent implements OnInit {
       this.createOrdersDT(true);
     }
   }
+
+  focusinmethod(){
+    document.getElementById("scrr")?.setAttribute("style", "overflow: hidden;");
+  }
+  
+  focusoutmethod(){
+    document.getElementById("scrr")?.setAttribute("style", "overflow: auto;");
+  }
 }
