@@ -150,7 +150,7 @@ private subscription: Subscription = new Subscription();
         route: '/ConsolidationManager',
         iconName: 'insert_chart',
         name: 'Consolidation Manager',
-        updateMenu: '',
+        updateMenu: 'consolidation',
         permission: 'Consolidation Manager',
       },
       {
@@ -233,6 +233,9 @@ private subscription: Subscription = new Subscription();
       // this.sharedService.updateInductionAdminMenu(menu)
     }
     else if(menu=='orderManager'){ 
+      this.sharedService.BroadCastMenuUpdate(obj.route);
+      // this.sharedService.updateInductionAdminMenu(menu)
+    }  else if(menu=='consolidation'){ 
       this.sharedService.BroadCastMenuUpdate(obj.route);
       // this.sharedService.updateInductionAdminMenu(menu)
     }

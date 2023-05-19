@@ -50,6 +50,7 @@ export class EmployeesComponent implements OnInit {
   public env;
   @ViewChild('matRef') matRef: MatSelect;
  // public searchGrpAllowed = '';
+  public allGroups:any = [];
   public searchfuncAllowed = '';
   public grpAllFilter='';
 bpSettingInp='';
@@ -133,8 +134,7 @@ getgroupAllowedList(){
     "wsid": "TESTWSID"
   };
   this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
-    console.log('sssssssss',res.data);
-    
+     
    // this.groupAllowedList = res.data;
     this.groupAllowedList = new MatTableDataSource(res.data);
   //   this.groupAllowedList.filterPredicate = (data: any, filter: string) => {
@@ -335,6 +335,8 @@ initialzeEmpForm() {
 
   actionDialog(event: any, emp_data: any, matEvent: MatSelectChange) {
 
+    emp_data.env = this.env;
+    emp_data.allGroups = this.allGroups;
     if (event === 'edit') {
       let dialogRef = this.dialog.open(AddNewEmployeeComponent, {
         height: 'auto',
@@ -342,7 +344,7 @@ initialzeEmpForm() {
         autoFocus: '__non_existing_element__',
         data: {
           mode: 'edit',
-          emp_data: emp_data
+          emp_data: emp_data,
         }
       })
       dialogRef.afterClosed().subscribe(result => {
@@ -536,7 +538,7 @@ initialzeEmpForm() {
 
   saveMaximumOrders(){
     this.initialzeEmpForm();
-    this.empForm.removeControl('password');
+    // this.empForm.removeControl('password');
     this.empForm.value.wsid = "TESTWID";
     this.empForm.value.username = this.empData.username;
     this.empForm.value.groupName = "";
@@ -566,6 +568,9 @@ initialzeEmpForm() {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      data: {
+        emp_data: null,
+      }
     });
     dialogRef.afterClosed().subscribe(result => {
         if (result !== undefined) {
@@ -672,6 +677,7 @@ initialzeEmpForm() {
     this.employeeService.getEmployeeData(employeRes).subscribe((res: any) => {
       if(res.isExecuted) {
         this.ButtonAccessList =  new MatTableDataSource(res.data.allAccess);
+        this.allGroups = res.data.allGroups;
         this.ButtonAccessList.paginator = this.paginator1;
       }
       else this.ButtonAccessList = [];

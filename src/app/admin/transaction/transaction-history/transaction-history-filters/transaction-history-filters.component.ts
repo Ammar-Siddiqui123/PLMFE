@@ -21,6 +21,9 @@ export class TransactionHistoryFiltersComponent implements OnInit {
   @Output() endDate = new EventEmitter<any>();
   @Output() orderNo = new EventEmitter<any>();
   @Output() resetDates = new EventEmitter<any>();
+
+  @Output() clearData = new EventEmitter<Event>();
+
   searchByOrderNumber = new Subject<string>();
   orderNumber: any;
   searchAutocompleteList: any;
@@ -59,8 +62,10 @@ export class TransactionHistoryFiltersComponent implements OnInit {
     this.edate=new Date().toISOString()
     this.sdate=new Date().toISOString()
     this.orderNumber='';
-    this.searchAutocompleteList.length=0;
+    // this.searchAutocompleteList.length=0;
+    this.searchAutocompleteList && this.searchAutocompleteList.length?this.searchAutocompleteList.length=0:'';
     this.resetDates.emit({endDate : new Date().toISOString(),startDate : new Date().toISOString()})
+    this.clearData.emit(event);
    
   }
 
@@ -115,4 +120,9 @@ export class TransactionHistoryFiltersComponent implements OnInit {
       this.orderNumber = 0;
     }
   }
+
+
+  // sendToParent(event:any){
+  //   this.childToParent.emit(event);
+  //   }
 }

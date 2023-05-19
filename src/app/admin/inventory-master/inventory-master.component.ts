@@ -83,7 +83,7 @@ export class InventoryMasterComponent implements OnInit {
 
   @ViewChild("searchauto", { static: false }) autocompleteOpened: MatAutocomplete;
 
-
+  public setVal: boolean = false;
   ngOnInit(): void {
     // window.addEventListener('scroll', this.scrollEvent, true);
     this.userData = this.authService.userData();
@@ -135,6 +135,8 @@ export class InventoryMasterComponent implements OnInit {
     if (this.autoComplete.panelOpen) this.autoComplete.updatePosition();
   }
   ngAfterViewInit() {
+    this.setVal = localStorage.getItem('routeFromOrderStatus') == 'true' ? true : false;
+    console.log(this.setVal);
     this.itemNumberParam$ = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('itemNumber')),
     );
@@ -598,7 +600,12 @@ export class InventoryMasterComponent implements OnInit {
 
 
   viewLocations() {
-    this.router.navigate(['/admin/inventoryMap'], { state: { colHeader: 'itemNumber', colDef: 'Item Number', searchValue: this.currentPageItemNo } })
+    if(this.setVal == true){
+      this.router.navigate(['/OrderManager/InventoryMap'], { state: { colHeader: 'itemNumber', colDef: 'Item Number', searchValue: this.currentPageItemNo } })
+    }
+    else{
+      this.router.navigate(['/admin/inventoryMap'], { state: { colHeader: 'itemNumber', colDef: 'Item Number', searchValue: this.currentPageItemNo } })
+    }
   }
 
   getSearchList(e: any) {
