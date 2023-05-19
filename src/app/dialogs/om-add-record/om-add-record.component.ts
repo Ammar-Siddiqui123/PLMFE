@@ -343,6 +343,9 @@ export class OmAddRecordComponent implements OnInit {
     if (this.oTTempUpdatePayload[key] == null) {
       this.oTTempUpdatePayload[key] = value;
     }
+    if(this.oTTempUpdatePayload[key] < 0){
+      this.oTTempUpdatePayload[key] = 0;
+    }
   }
 
   itemNumberFocusOut(event: any) {
