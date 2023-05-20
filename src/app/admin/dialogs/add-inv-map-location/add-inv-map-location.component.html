@@ -8,8 +8,9 @@
 <form [formGroup]="addInvMapLocation" (ngSubmit)="onSubmit(addInvMapLocation)">
     <div class="row mb-3">
         <div class="col-6">
-            <ng-scrollbar style="height: 500px">
+            
                 <div class="container location_detail">
+                    <ng-scrollbar style="height: 500px">
                     <h1 mat-dialog-title>Location Details</h1>
                     <div class="row">
                         <div class="col-6  mb-2">
@@ -153,9 +154,9 @@
                     </div>
                     <div class="row">
                         <div class="col-6 mb-2">
-                            <mat-form-field class="d-block w-100 "  [ngClass]="{'readonly': this.data.detailData}" appearance="outline">
+                            <mat-form-field class="d-block w-100 "   appearance="outline">
                                 <mat-label>Unit of Measure</mat-label>
-                                <input matInput formControlName="unitOfMeasure" class="readonly" [ngClass]="{'readonly': this.data.detailData}"   name="unitOfMeasure" [readonly]="this.data.detailData? true: false">
+                                <input matInput formControlName="unitOfMeasure"   name="unitOfMeasure" >
                             </mat-form-field>
                         </div>
                         <div class="col-6 mb-2">
@@ -215,15 +216,15 @@
                     </div>
                     <div class="row" *ngIf="data.mode == 'editInvMapLocation'">
                         <div class="col-6 mb-2">
-                            <mat-form-field class="d-block w-100 readonly" appearance="outline">
+                            <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Inv Map ID</mat-label>
-                                <input type="text" matInput class="readonly" formControlName="inventoryMapID" name="inventoryMapID" readonly>
+                                <input type="text" matInput formControlName="inventoryMapID" name="inventoryMapID" >
                             </mat-form-field>
                         </div>
                         <div class="col-6 mb-2">
-                            <mat-form-field class="d-block w-100 readonly" appearance="outline">
+                            <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Master Inv Map ID</mat-label>
-                                <input type="text" class="readonly" matInput formControlName="masterInventoryMapID" name="masterInventoryMapID" readonly>
+                                <input type="text" matInput formControlName="masterInventoryMapID" name="masterInventoryMapID" >
                             </mat-form-field>
                         </div>
                     </div>
@@ -236,9 +237,9 @@
                         <mat-checkbox formControlName="dateSensitive" class="ld_checkbox" color="primary">Date Sensitive
                         </mat-checkbox>
                     </section>
-
+                </ng-scrollbar>
                 </div>
-            </ng-scrollbar>
+            
         </div>
         <div class="col-6">
             <div class="container item_detail">

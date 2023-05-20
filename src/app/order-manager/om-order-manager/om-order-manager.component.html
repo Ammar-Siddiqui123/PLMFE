@@ -228,7 +228,7 @@
                             </div>
                         </td>        
                     </ng-container>
-                    <tr class="mat-row" *matNoDataRow >
+                    <tr class="mat-row" *matNoDataRow (contextmenu)="onContextMenu($event, undefined, '')"> 
                         <td class="mat-cell " [attr.colspan]="displayedColumns.length">
                           No Matching Record Found.
                         </td>
