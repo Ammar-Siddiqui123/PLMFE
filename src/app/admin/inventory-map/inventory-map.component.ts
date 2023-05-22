@@ -361,6 +361,7 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+      // console.log(result)
       if(result!='close'){
         this.getContentData();
       }
@@ -443,7 +444,11 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+      if(this.router.url=="/InductionManager/Admin/InventoryMap" || this.router.url=="/OrderManager/InventoryMap"){
+        this.getContentData();
+      }
       if(result!='close'){
+      
         this.getContentData();
       }
     })
