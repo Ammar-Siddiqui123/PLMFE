@@ -75,11 +75,11 @@ export class CmStagingLocationComponent implements OnInit {
       this.http.get(obj, '/Consolidation/ConsolidationData').subscribe((res: any) => {
         if (typeof res?.data == 'string') { 
           switch (res?.data) {
-            case "DNENP":
+            case "DNE":
               this.toast.error("The Order/Tote that you entered is invalid or no longer exists in the system.", 'Consolidation!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
               this.OrderNumberTote = null;
               break;
-            case "DNE":
+            case "DNENP":
               this.OrderNumberTote = null; 
               let dialogRef = this.dialog.open(StagingLocationOrderComponent, { 
                 height: 'auto',
