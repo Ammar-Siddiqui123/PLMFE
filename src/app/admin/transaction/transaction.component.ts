@@ -61,7 +61,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
 
   }
   ngAfterViewInit() {
-
+    
 
     this.setval = localStorage.getItem('routeFromInduction')
     this.showReprocess = JSON.parse(this.setval)
@@ -155,5 +155,9 @@ export class TransactionComponent implements OnInit, AfterViewInit {
 
   switchToOrder(event) {
     this.TabIndex = 0;
+  }
+
+  onTabChanged(event) {
+    this.sharedService.updateBreadcrumb(event)
   }
 }

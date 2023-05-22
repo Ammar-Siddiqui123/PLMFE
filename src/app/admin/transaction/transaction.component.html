@@ -1,4 +1,4 @@
-<mat-tab-group dynamicHeight [(selectedIndex)]="TabIndex">
+<mat-tab-group dynamicHeight [(selectedIndex)]="TabIndex" (selectedTabChange)="onTabChanged($event);">
     <mat-tab *ngIf="authService.UserPermissonByFuncName('Order Status')" label="Order Status">
         <app-order-status></app-order-status>
     </mat-tab>
