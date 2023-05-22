@@ -423,6 +423,7 @@ export class OmCreateOrdersComponent implements OnInit {
       this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
     }
     this.createOrdersDTPayload.filter = this.FilterString != "" ? this.FilterString : "1 = 1";
+    this.paginator1.pageIndex = 0;
     this.createOrdersDT(true);
   }
 
