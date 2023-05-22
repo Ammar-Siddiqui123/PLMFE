@@ -85,7 +85,7 @@ export class SteComponent implements OnInit {
 async STERestart(){  
   try{
     this.Status = 'Pending'; 
-    this.authService.stopSTEService().subscribe((res: any) => {
+    this.authService.RestartService().subscribe((res: any) => {
       if(res.data) this.ServiceStatus('restart',res.data);
     })
    
@@ -97,7 +97,7 @@ async STERestart(){
 async CheckStatus(){
   this.authService.ServiceStatusSTE().subscribe((res: any) => {
     if(res.data) this.ServiceStatus('start',res.data);
-    else this.ServiceStatus('stop',res.data);
+    else this.Status = 'Offline';
   })
   
 }

@@ -114,6 +114,10 @@
         "Permission": "Order Status"
     },
     {
+        "path": "/ConsolidationManager/OrderStatus",
+        "Permission": "Order Status"
+    },
+    {
         "path": "/OrderManager/InventoryMaster",
         "Permission": "Admin Inventory Master"
     },

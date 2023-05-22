@@ -49,6 +49,7 @@ export class OmOrderManagerComponent implements OnInit {
   colList   : any = [];
   searchCol : string = "";
   searchTxt : string = "";
+  totalRecords:any;
   
   allColumns : any = [
     { colHeader: "transactionType", colDef: "Transaction Type" },
@@ -132,6 +133,7 @@ export class OmOrderManagerComponent implements OnInit {
     this.userData = this.authService.userData();
     this.getOMIndex();
     this.getColumnSequence();
+    this.fillTable();
   }  
 
   getOMIndex() {
@@ -187,7 +189,6 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   getOrders() {
-
     let val1 : any, val2 : any;
 
     if (this.column.indexOf('Date') > -1) {
@@ -213,6 +214,7 @@ export class OmOrderManagerComponent implements OnInit {
       orderType: this.orderType,
       filter: this.FilterString
     };
+    console.log(payload)
 
     this.OMService.get(payload, '/OrderManager/FillOrderManTempData').subscribe((res: any) => {
       if (res.isExecuted) this.fillTable();
@@ -232,10 +234,14 @@ export class OmOrderManagerComponent implements OnInit {
       searchColumn: this.searchCol,
       searchString: this.searchTxt,
     };
+    console.log(payload2)
 
     this.OMService.get(payload2, '/OrderManager/SelectOrderManagerTempDTNew',loader).subscribe((res: any) => {
       this.orderTable = new MatTableDataSource(res.data?.transactions);
       this.customPagination.total = res.data?.recordsFiltered;
+      this.totalRecords = res.data?.recordsFiltered;
+      console.log(res );
+
       this.orderTable.sort = this.sort;
     });   
   }
@@ -258,7 +264,8 @@ export class OmOrderManagerComponent implements OnInit {
         width: '560px',
         autoFocus: '__non_existing_element__',
         data: {
-          message: 'Are you sure you wish to delete all viewed orders?',
+          ErrorMessage: 'Are you sure you want to delete these records?',
+          action: 'delete'
         },
       });
 
@@ -323,6 +330,10 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   releaseViewed() {
+    debugger;
+    console.log(this.OMIndex.preferences[0].allowPartRel)
+    console.log(this.totalRecords)
+    console.log(this.FilterString)
     if (this.orderTable.data.length == 0) {
       this.toastr.error("No Transactions match your current filters to release.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
       return
@@ -336,7 +347,7 @@ export class OmOrderManagerComponent implements OnInit {
       return
     }
 
-    if (this.OMIndex.preferences[0].allowPartRel == false && this.FilterString != '1 = 1') {      
+    if (this.OMIndex.preferences[0].allowPartRel == false && this.totalRecords > -1 || this.FilterString != '1 = 1') {      
 
       let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
@@ -497,8 +508,14 @@ export class OmOrderManagerComponent implements OnInit {
   FilterString : string = "";
 
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-   this.FilterString = this.filterService.onContextMenuCommand(SelectedItem,FilterColumnName,Condition,Type);
-   this.getOrders();
+    if (SelectedItem != undefined) {
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem,FilterColumnName,Condition,Type);
+    }
+    this.customPagination.startIndex = 0;
+    this.paginator.pageIndex = 0;
+    this.FilterString = this.FilterString != "" ? this.FilterString : "1 = 1";
+    this.getOrders();
   }
 
 }

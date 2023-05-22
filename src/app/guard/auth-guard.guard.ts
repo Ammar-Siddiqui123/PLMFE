@@ -90,14 +90,14 @@ export class AuthGuardGuard implements CanActivate {
         return true;
       } else{
         localStorage.clear();
-        window.location.href = '/login';
+        window.location.href = '/#/login';
         return false;
       }
     } else if (!this.ConfigJson?.length && this.authService.IsloggedIn()) {
       return true;
     }
     localStorage.clear();
-    window.location.href = '/login';
+    window.location.href = '/#/login';
     return false;
   }
 }

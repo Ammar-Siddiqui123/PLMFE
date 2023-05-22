@@ -19,7 +19,7 @@
                                 <div class="mx-2 mb-1 w-100 pe-xl-2">
                                     <div class="mb-2"><mat-label><b>Super Batch By</b></mat-label></div>
                                     <div class="d-flex align-items-center flex-wrap" style="min-height:56px">
-                                    <mat-radio-group class="d-flex flex-wrap" (change)="onChangeBatch($event)">
+                                    <mat-radio-group  [(ngModel)]="selectedOption" class="d-flex flex-wrap" (change)="onChangeBatch($event)">
                                         <mat-radio-button class="me-4 my-2" color="primary" value="Order" checked>Order Number</mat-radio-button>
                                         <mat-radio-button class="me-4 my-2" color="primary" value="Tote">Tote ID</mat-radio-button>
                                         <mat-radio-button class="me-4 my-2" color="primary" value="Item">Item Number</mat-radio-button>

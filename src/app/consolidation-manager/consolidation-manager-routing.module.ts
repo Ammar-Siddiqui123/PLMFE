@@ -5,6 +5,7 @@ import { ConsolidationManagerComponent } from './consolidation-manager.component
 import { ConsolidationComponent } from './consolidation/consolidation.component';
 import { ConsolidationPreferencesComponent } from './consolidation-preferences/consolidation-preferences.component';
 import { CmStagingLocationComponent } from './cm-staging-location/cm-staging-location.component';
+import { TransactionComponent } from '../admin/transaction/transaction.component';
 
 const routes: Routes = [{ path: '', component: ConsolidationManagerComponent },
 {
@@ -19,7 +20,12 @@ canActivate: [AuthGuardGuard],
 { path: 'StagingLocations', 
 component: CmStagingLocationComponent, 
 canActivate: [AuthGuardGuard], 
-}];
+},
+{ path: 'OrderStatus', 
+component: TransactionComponent, 
+canActivate: [AuthGuardGuard], 
+}
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
