@@ -22,6 +22,7 @@ import { CreateBatchComponent } from '../../dialogs/create-batch/create-batch.co
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { SharedService } from 'src/app/services/shared.service';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
+import { CreateBatchConfirmationComponent } from '../../dialogs/create-batch-confirmation/create-batch-confirmation.component';
 
 @Component({
   selector: 'app-batch-selected-orders',
@@ -126,20 +127,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
   }
 
   removeOrders(order: any) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '480px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'delete-batch',
-      },
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
-      if (result === 'Yes') {
-        this.removeOrderEmitter.emit(order);
-      }
-    });
+  this.removeOrderEmitter.emit(order);
   }
 
   createBatch() {
@@ -232,7 +220,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => {});
     } else {
       let dialogRef;
-      dialogRef = this.dialog.open(CreateBatchComponent, {
+      dialogRef = this.dialog.open(CreateBatchConfirmationComponent, {
         height: 'auto',
         width: '550px',
         autoFocus: '__non_existing_element__',
