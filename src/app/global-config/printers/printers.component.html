@@ -115,7 +115,7 @@
                                 <button mat-flat-button color="primary" class="xsm-icon-button mb-2" [hidden]="element.isNew">
                                   <mat-icon class="material-symbols-outlined" matTooltip="Print Test Page" matTooltipPosition="above" (click)="Print(element)">print</mat-icon>
                                 </button>
-                                <button mat-flat-button color="primary" class="xsm-icon-button mb-2" (click)="SavePrinter(element)">
+                                <button mat-flat-button color="primary" class="xsm-icon-button mb-2" (click)="SavePrinter(element)" [disabled]="!isEdited(element)">
                                     <mat-icon class="material-symbols-outlined" matTooltip="Save" matTooltipPosition="above">save</mat-icon>
                                 </button>
                                 <button mat-flat-button color="warn" class="xsm-icon-button mb-2" (click)="RemovePrinter(element)">

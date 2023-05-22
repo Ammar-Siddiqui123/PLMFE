@@ -46,9 +46,18 @@ export class PrintersComponent implements OnInit {
           element.labelPrinter = element.label == "Able to Print Labels" ? "Yes" : "No";
           element.isNew = false;
           element.currentPrinter = element.printer;
+          element.currentprinterAdd = element.printerAdd;
+          element.currentlabelPrinter = element.labelPrinter;
         });
       }
     });
+  }
+
+  isEdited(printer: any) {
+    if ((printer.currentPrinter != printer.printer || printer.currentprinterAdd != printer.printerAdd || printer.currentlabelPrinter != printer.labelPrinter) && printer.printer.trim() != '') {
+      return true;
+    }
+    return false;
   }
 
   getServiceStatus(loader: boolean = false) {
@@ -163,7 +172,18 @@ export class PrintersComponent implements OnInit {
 
   addNewPrinter() {
     this.addingNew = true;
-    this.allPinters.push({ printer: '', currentPrinter: '', printerAdd: '', label: 'Not Able to Print Labels', labelPrinter: 'No', isNew: true });
+    this.allPinters.push(
+      { 
+        printer: '', 
+        currentPrinter: '',
+        printerAdd: '',
+        currentprinterAdd: '',
+        label: 'Not Able to Print Labels', 
+        labelPrinter: 'No',
+        currentlabelPrinter: 'No',
+        isNew: true 
+      }
+    );
     this.allPinters = [...this.allPinters];
   }
 
@@ -182,6 +202,8 @@ export class PrintersComponent implements OnInit {
           });
           printer.isNew = false;
           printer.currentPrinter = printer.printer;
+          printer.currentprinterAdd = printer.printerAdd;
+          printer.currentlabelPrinter = printer.labelPrinter;
           this.addingNew = false;
         } else {
           this.toastr.error(res.responseMessage, 'Error!', {
@@ -205,6 +227,8 @@ export class PrintersComponent implements OnInit {
             timeOut: 2000
           });
           printer.currentPrinter = printer.printer;
+          printer.currentprinterAdd = printer.printerAdd;
+          printer.currentlabelPrinter = printer.labelPrinter;
         } else {
           this.toastr.error(res.responseMessage, 'Error!', {
             positionClass: 'toast-bottom-right',

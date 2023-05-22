@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
   breadcrumbList: any = [];
   userData: any;
 isConfigUser
+statusTab;
   // public user_data  = JSON.parse(localStorage.getItem('user') || '');
   constructor(
     private router: Router,
@@ -54,6 +55,8 @@ isConfigUser
          if(element==='createCountBatches' || element==='cycleCounts'){
           element='CycleCount'
          }
+
+         
          
          this.titleService.setTitle(`LogixPro  ${element.toLowerCase() !='adminprefrences'? this.capitalizeFirstLetter(element).replace(/([a-z])([A-Z])/g, "$1 $2").replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2"):'Preferences'}`);
          
@@ -62,10 +65,23 @@ isConfigUser
           menu: element,
           value:'/'+element
         })
+        if(element === 'transaction'){
+          this.breadcrumbList.push({
+            name:'Open Transaction',
+            menu: element,
+            value:'/'+element
+          })
+        }
       });
       
       }
       // console.log(this.breadcrumbList) 
+
+      // if(this.breadcrumbList[this.breadcrumbList.length-1].name == '/OrderStatus'){
+      //   this.breadcrumbList[this.breadcrumbList.length-1].value = this.statusTab
+      // }
+      // console.log(this.breadcrumbList) 
+     
   });
 
    }
@@ -78,6 +94,15 @@ isConfigUser
     this.loading = false;
     this.userData = this.authService.userData();
 
+  }
+
+
+  ngAfterViewInit() {
+      this.sharedService.breadCrumObserver.subscribe((res: any) => {
+      console.log(res,'ss');
+      this.statusTab = res.tab.textLabel;
+      this.breadcrumbList[this.breadcrumbList.length-1].name = this.statusTab
+    } )
   }
 
   toggleSidebar() {
