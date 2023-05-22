@@ -162,7 +162,7 @@ export class PrintersComponent implements OnInit {
 
   addNewPrinter() {
     this.addingNew = true;
-    this.allPinters.push({ printer: '', printerAdd: '', label: 'Not Able to Print Labels', labelPrinter: 'No', isNew: true });
+    this.allPinters.push({ printer: '',currentPrinter: '', printerAdd: '', label: 'Not Able to Print Labels', labelPrinter: 'No', isNew: true });
     this.allPinters = [...this.allPinters];
   }
 
@@ -180,6 +180,7 @@ export class PrintersComponent implements OnInit {
             timeOut: 2000
           });
           printer.isNew = false;
+          printer.currentPrinter = printer.printer;
           this.addingNew = false;
         } else {
           this.toastr.error(labels.alert.went_worng, 'Error!', {
@@ -202,6 +203,7 @@ export class PrintersComponent implements OnInit {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
+          printer.currentPrinter = printer.printer;
         } else {
           this.toastr.error(labels.alert.went_worng, 'Error!', {
             positionClass: 'toast-bottom-right',
