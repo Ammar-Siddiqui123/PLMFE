@@ -52,9 +52,9 @@ export class InvMapLocationService {
   public createInventoryMap(body: any): Observable<any> {
     const asArray = Object.entries(body);
 
-    const filtered = asArray.filter(([key, value]) =>  value != '');
+    // const filtered = asArray.filter(([key, value]) =>  value != '');
 
-    let payload = Object.fromEntries(filtered);
+    let payload = Object.fromEntries(asArray);
 
     
     let userData = this.authService.userData();
