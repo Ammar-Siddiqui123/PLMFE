@@ -330,6 +330,7 @@ export class SrNewOrderComponent implements OnInit {
   // }
 
   paginatorChange(event: PageEvent) {
+    // debugger
     this.tablePayloadObj.start = event.pageSize * event.pageIndex;
     this.tablePayloadObj.length = event.pageSize;
     this.newReplenishmentOrders();
