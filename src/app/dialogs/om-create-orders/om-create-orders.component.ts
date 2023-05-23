@@ -203,6 +203,9 @@ export class OmCreateOrdersComponent implements OnInit {
     if(this.tableData.filteredData.length == 0){
       return;
     }
+    if(!element.orderNumber && this.tableData.filteredData.length == 1){
+      element = this.tableData.filteredData[0];
+    }
     let dialogRef = this.dialog.open(OmAddRecordComponent, {
       height: 'auto',
       width: '75vw',
