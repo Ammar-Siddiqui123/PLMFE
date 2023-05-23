@@ -353,7 +353,10 @@ export class OmCreateOrdersComponent implements OnInit {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
-              this.createOrdersDTPayload.orderNumber = '';
+              // this.createOrdersDTPayload.orderNumber = '';
+              this.createOrdersDTPayload.filter = "1 = 1";
+              this.selectedFilterColumn = '';
+              this.selectedFilterString = '';
               this.createOrdersDT();
               dialogRef.close();
             } else {
