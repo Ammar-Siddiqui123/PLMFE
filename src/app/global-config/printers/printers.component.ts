@@ -137,14 +137,14 @@ export class PrintersComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'remove-printer',
-        ErrorMessage: `Are you sure you wish to delete this printer: ${printer.isNew ? 'New' : printer.printer}?`,
+        ErrorMessage: `Are you sure you wish to delete this printer: ${printer.isNew ? 'New' : printer.currentPrinter}?`,
         action: 'delete'
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'Yes') {
         if (printer.isNew) {
-          this.allPinters = this.allPinters.filter((item: any) => item.printer != printer.printer);
+          this.allPinters = this.allPinters.filter((item: any) => !item.isNew);
           this.addingNew = false;
         }
         else {
@@ -157,7 +157,7 @@ export class PrintersComponent implements OnInit {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
-              this.allPinters = this.allPinters.filter((item: any) => item.printer != printer.printer);
+              this.allPinters = this.allPinters.filter((item: any) => item.currentPrinter != printer.currentPrinter);
             } else {
               this.toastr.error("Delete Failed", 'Error!', {
                 positionClass: 'toast-bottom-right',
