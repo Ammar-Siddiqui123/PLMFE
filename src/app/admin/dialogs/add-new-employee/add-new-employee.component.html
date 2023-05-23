@@ -60,7 +60,7 @@
       </span>
     </mat-form-field>
 
-    <mat-form-field class="mb-3 w-100" appearance="outline"  *ngIf="env === 'DB'">
+    <mat-form-field class="mb-3 w-100" appearance="outline"  *ngIf="env === 'DB' && this.IsEdit == true">
       <mat-label>Group</mat-label>
       <mat-select formControlName="groupName">
         <mat-option *ngFor="let item of allGroups" [value]="item.groupName">{{item.groupName}}</mat-option>
@@ -70,16 +70,22 @@
       </span>
     </mat-form-field>
 
-    <mat-form-field class="mb-3 w-100" appearance="outline" (click)="toggleDisabled()">
+    <mat-form-field class="mb-1 w-100" appearance="outline" (click)="toggleDisabled()">
       <mat-label>Password</mat-label>
       <input matInput [type]="toggle_password ? 'password' : 'text'" #focusFeild formControlName="password" 
       (ngModelChange)="ChangePassword($event)"
-      (focusout)="isEmptyPass()" (keydown.space)="$event.preventDefault()" maxlength="16">
+      (focusout)="isEmptyPass()" (keydown.space)="$event.preventDefault()" maxlength="8">
       <button *ngIf="!isDisabledPassword && (!IsEdit)"
        type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
         <mat-icon>{{toggle_password ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
+    <div *ngIf="empForm.get('password')?.invalid && (empForm.get('password')?.dirty || empForm.get('password')?.touched)"
+    style="color: red;
+    font-size: 13px;
+    margin: 0;
+    padding: 0;"
+    >Password must be maximum 8 characters long.</div> 
     <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
 
     <mat-form-field class="mb-1 w-100" appearance="outline" *ngIf="isEmail">
@@ -97,7 +103,7 @@
 
     <mat-dialog-actions align="end">
        
-      <button type="submit" mat-flat-button class="form-button-submit btn-lg w-100 mb-3" [disabled]="!empForm.valid || (password == OldPassword && IsEdit)" color="primary">{{form_btn_label}}</button>
+      <button type="submit" mat-flat-button class="form-button-submit btn-lg w-100 mb-3" [disabled]="!empForm.valid" color="primary">{{form_btn_label}}</button>
     </mat-dialog-actions>
 
   </form>

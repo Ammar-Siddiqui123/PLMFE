@@ -97,7 +97,7 @@ export class AdjustQuantityComponent implements OnInit {
     });
   }
   onSubmit(form: FormGroup) {
-    //console.log('create',form);
+    // console.log('create',form);
 
     if(form.valid){
       this.adjustQuantityService.updateItemQuantity(form.value).subscribe((res) => {
@@ -106,8 +106,8 @@ export class AdjustQuantityComponent implements OnInit {
             positionClass: 'toast-bottom-right',
             timeOut:2000
          });
-          // console.log(res.responseMessage)
-         // this.dialog.closeAll(form.value.quantity);
+          // console.log(form.value.quantity)
+        //  this.dialog.closeAll(form.value.quantity);
           this.dialogRef.close(form.value.quantity);   
         }
       });
