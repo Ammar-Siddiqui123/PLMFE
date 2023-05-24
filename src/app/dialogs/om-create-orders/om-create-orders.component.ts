@@ -114,6 +114,7 @@ export class OmCreateOrdersComponent implements OnInit {
   ];
 
   filterColumnNames: any = [];
+  sortedFilterColumnNames: any = [];
   createOrdersDTSubscribe: any;
   createOrdersDTPayload: any = {
     orderNumber: "",
@@ -472,6 +473,7 @@ export class OmCreateOrdersComponent implements OnInit {
     this.orderManagerService.get(payload, '/Admin/GetColumnSequence').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.filterColumnNames = JSON.parse(JSON.stringify(res.data));
+        this.sortedFilterColumnNames = [...this.filterColumnNames.sort()];
         this.displayedColumns = [];
         res.data.forEach((x:any) => {
         if(this.sequenceKeyMapping.filter((y:any)=> x == y.sequence)[0]?.key){
