@@ -91,7 +91,7 @@ bpSettingLocInp='';
   @ViewChild('paginator1') paginator1: MatPaginator;
 
   // table initialization
-  displayedColumns: string[] = ['start_location', 'end_location', 'delete_location'];
+  displayedColumns: string[] = ['startLocation', 'endLocation', 'delete_location'];
   zoneColumns: string[] = ['zones', 'actions'];
   groupsColumns: string[] = ['groups', 'actions'];
   funcationsColumns: string[] = ['Function', 'actions'];
@@ -119,7 +119,7 @@ bpSettingLocInp='';
   }
 
   @ViewChild(MatSort) sort: MatSort;
-
+  @ViewChild('MatSortLocation', { static: true }) sortLocation: MatSort;
   ngAfterViewInit() {
     // this.location_data_source.sort = this.sort;
     // this.employee_fetched_zones.sort = this.sort;
@@ -199,10 +199,10 @@ initialzeEmpForm() {
         this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
         this.FuncationAllowedList = new MatTableDataSource(response.data.userRights);
         this.location_data = response.data?.bulkRange
-        // let res=response.data?.handledZones.map(item=>{
-        //   return {zones:item}
-        // })
-        this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones); 
+        let res=response.data?.handledZones.map(item=>{
+          return {zones:item}
+        })
+        this.employee_fetched_zones = new MatTableDataSource(res); 
         this.employee_fetched_zones.filterPredicate = (data: String, filter: string) => {
           return data.toLowerCase().includes(filter.trim().toLowerCase());
       };
@@ -226,7 +226,10 @@ initialzeEmpForm() {
         this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
         this.FuncationAllowedList = new MatTableDataSource(response.data.userRights);
         this.location_data = response.data?.bulkRange
-        this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones);
+        let res=response.data?.handledZones.map(item=>{
+          return {zones:item}
+        })
+        this.employee_fetched_zones = new MatTableDataSource(res);
         this.emp_all_zones = response.data?.allZones;
       });
   }
@@ -328,6 +331,7 @@ initialzeEmpForm() {
       this._liveAnnouncer.announce('Sorting cleared');
     }
     this.employee_fetched_zones.sort = this.sort;
+    this.location_data_source.sort=this.sortLocation;
   }
 
 
@@ -486,7 +490,8 @@ initialzeEmpForm() {
     })
     dialogRef.afterClosed().subscribe(result => {
       if(result.mode === 'addZone'){
-        this.employee_fetched_zones.filteredData.push(result.data.zone)
+        this.employee_fetched_zones.filteredData.push({zones:result.data.zone})
+        this.employee_fetched_zones.sort=this.sort;
         this.zoneDataRefresh.renderRows()
       }
       // this.reloadData();
@@ -500,7 +505,7 @@ initialzeEmpForm() {
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-zone',
-        zone: zone,
+        zone: zone.zones,
         userName:this.grp_data
       }
     })
@@ -517,8 +522,9 @@ initialzeEmpForm() {
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'edit-zone',
-        zone: zone,
+        zone: zone.zones,
         allZones: this.emp_all_zones,
+        fetchedZones:this.employee_fetched_zones.filteredData,
         userName:this.grp_data
       }
     })
@@ -527,8 +533,10 @@ initialzeEmpForm() {
       // console.log(result);
       
       if(result.mode === 'editZone'){
-        this.employee_fetched_zones.filteredData.push(result.data.zone)
-        const index = this.employee_fetched_zones.filteredData.indexOf(result.oldZone);
+        
+        this.employee_fetched_zones.filteredData.push({zones:result.data.zone})
+        // const index = this.employee_fetched_zones.filteredData.indexOf({zones:result.oldZone});
+        const index =this.employee_fetched_zones.filteredData.findIndex(item => item.zones === result.oldZone);
         if (index > -1) { 
           this.employee_fetched_zones.filteredData.splice(index, 1);
         }
