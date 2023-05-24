@@ -29,7 +29,7 @@ canActivate: [AuthGuardGuard],  },
 component: OmOrderManagerComponent, 
 canActivate: [AuthGuardGuard], 
 },
-
+ 
 { path: 'OrderStatus', 
 component: TransactionComponent,
 canActivate: [AuthGuardGuard],  },
