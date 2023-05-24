@@ -17,6 +17,9 @@ import { map } from 'rxjs/internal/operators/map';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { SpinnerService } from 'src/app/init/spinner.service'; 
+import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { KitItemComponent } from './kit-item/kit-item.component';
 
 
 @Component({
@@ -25,7 +28,9 @@ import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autoc
   styleUrls: ['./inventory-master.component.scss']
 })
 export class InventoryMasterComponent implements OnInit {
-
+public textLabel:any = 'Details'; 
+tabIndex:any=0;
+PrevtabIndex:any=0;
   public userData: any;
   public invData: any;
   public getInvMasterData: any;
@@ -59,6 +64,7 @@ export class InventoryMasterComponent implements OnInit {
   isDisabledSubmit: boolean = false;
   kitAttempts: number = 0;
   scanAttempts: number = 0;
+  IstabChange:boolean=false;
   constructor(
     private invMasterService: InventoryMasterService,
     private authService: AuthService,
@@ -66,12 +72,15 @@ export class InventoryMasterComponent implements OnInit {
     private fb: FormBuilder,
     private toastr: ToastrService,
     private router: Router,
+    private spinnerService:SpinnerService,
     private route: ActivatedRoute
     // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
   ) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
   @ViewChild('UNquarantineAction') unquarantineTemp: TemplateRef<any>;
   @ViewChild('propertiesChanged') propertiesChanged: TemplateRef<any>;
+  @ViewChild(KitItemComponent) kititemcom: KitItemComponent;
+  OldinvMaster: any= {}; 
   invMaster: FormGroup;
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
@@ -135,8 +144,7 @@ export class InventoryMasterComponent implements OnInit {
     if (this.autoComplete.panelOpen) this.autoComplete.updatePosition();
   }
   ngAfterViewInit() {
-    this.setVal = localStorage.getItem('routeFromOrderStatus') == 'true' ? true : false;
-    console.log(this.setVal);
+    this.setVal = localStorage.getItem('routeFromOrderStatus') == 'true' ? true : false; 
     this.itemNumberParam$ = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('itemNumber')),
     );
@@ -245,7 +253,8 @@ export class InventoryMasterComponent implements OnInit {
 
       supplierName: ['']
     });
-
+    var CopyObject = JSON.stringify(this.invMaster.value);
+    this.OldinvMaster = JSON.parse(CopyObject || '{}'); 
   }
   onSubmit(form: FormGroup) {
     // console.log(form.value);
@@ -383,8 +392,7 @@ export class InventoryMasterComponent implements OnInit {
 
   }
 
-  updateInventoryMasterValidate(){
-    // debugger
+  updateInventoryMasterValidate(){ 
     if(this.invMaster.value?.avgPieceWeight == null || this.invMaster.value?.avgPieceWeight < 0 || this.invMaster.value?.avgPieceWeight > 99999999999){
       return false;
     }
@@ -422,6 +430,7 @@ export class InventoryMasterComponent implements OnInit {
           });
         }
       })
+      this.OldinvMaster = {...this.invMaster.value};
     }
   }
   
@@ -638,7 +647,7 @@ export class InventoryMasterComponent implements OnInit {
   }
   getNotification(e: any) {
     // console.log(e);
-
+   
     if (e?.newItemNumber) {
       this.currentPageItemNo = e.newItemNumber;
       this.getInventory();
@@ -655,16 +664,96 @@ export class InventoryMasterComponent implements OnInit {
       this.getInventory();
     }
     this.isDisabledSubmit = false;
+  
+}
+kitItemChecks(){
+ var IsReturn:any=false;
+  if(this.invMaster.value.kitInventories.length){ 
+    for (let i = 0; i < this.invMaster.value.kitInventories.length; i++) {
+      for (var key in this.OldinvMaster.kitInventories[0] ){
+        if(this.OldinvMaster.kitInventories[i][key] == this.invMaster.value.kitInventories[i][key]){
+
+        } else {
+          IsReturn = true;
+          break;
+        }
+      }
+    }
   }
-  tabChanged(tabChangeEvent: MatTabChangeEvent) {
-    if (tabChangeEvent.index == 2 || tabChangeEvent.index == 5) {
-      this.saveDisabled = true;
+  return IsReturn;
+}
+  getChangesCheck(){   
+  var IsReturn:any=false; 
+  for (var key in this.invMaster.value ){ 
+    if((typeof this.invMaster.value[key]) == 'object' && key == 'kitInventories'){
+      if(this.kitItemChecks()){
+        console.log(true);
+        IsReturn = true;
+        break;
+      };
+    }
+    else if(this.invMaster.value[key] != this.OldinvMaster[key] && (typeof this.invMaster.value[key]) != 'object'){ 
+        IsReturn = true;
+        break; 
+  }
+} 
+return IsReturn;
+}
+
+   tabChanged(Index: any) { 
+    debugger
+    if(!this.IstabChange){
+      this.IstabChange =  true;
+    this.spinnerService.show(); 
+     var IsCheck =  this.getChangesCheck();
+    
+    if(IsCheck) {   
+         this.ConfirmationDialog(Index);
+       this.tabIndex = this.PrevtabIndex;
+    
+      }
+    else if (Index == 2 || Index == 5) {
+      this.saveDisabled = true; 
+      this.PrevtabIndex = Index; 
+      this.tabIndex = Index; 
+      this.IstabChange =  false;
     }
     else {
-      this.saveDisabled = false;
+      this.saveDisabled = false; 
+      this.PrevtabIndex =Index; 
+      this.tabIndex = Index; 
+      this.IstabChange =  false;
     }
+    setTimeout(() => {
+      this.spinnerService.hide();
+    }, 500);
+    // this.PrevtabIndex =this.tabIndex; 
   }
+}
 
-
+  ConfirmationDialog(tabIndex) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '786px',
+      data: {
+        message: 'Changes you made may not be saved.',
+        heading: 'Inventory Master' 
+      },
+      autoFocus: '__non_existing_element__',
+      
+    });
+    dialogRef.afterClosed().subscribe((result) => { 
+      if (result==='Yes') {  
+          this.getInvMasterDetail(this.searchValue); 
+      setTimeout(() => {
+        this.tabIndex = tabIndex; 
+        this.PrevtabIndex = tabIndex;
+        this.IstabChange =  false;
+      }, 600);
+      }else   { 
+        this.IstabChange =  false;
+      }
+    });
+  }
 
 }

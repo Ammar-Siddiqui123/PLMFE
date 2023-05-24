@@ -63,9 +63,23 @@ export class AuthGuardGuard implements CanActivate {
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) { 
-    const pathSet = state.url.split('?')[0]; 
-    if(this.router.url.indexOf('globalconfig') > -1 ||  pathSet.indexOf('/globalconfig') > -1){
-      if(!(pathSet.indexOf('/globalconfig/') > -1))    {localStorage.clear(); this.router.navigate(['/globalconfig']);}  
+    const pathSet = state.url.split('?')[0];
+      debugger
+    if(pathSet.indexOf('/login') > -1) {
+      if(this.authService.IsloggedIn()) {
+        window.location.href = '/#/dashboard'; 
+      return false;
+      } 
+      else return true;
+    }
+  if(pathSet == '/globalconfig'){ 
+   if(this.authService.IsConfigLogin()) {
+    window.location.href = '/#/globalconfig/home'; 
+  return false;
+  }  else return true;
+  }
+    if(pathSet.indexOf('/globalconfig') > -1){
+      if(!(pathSet.indexOf('/globalconfig/') > -1))    { this.router.navigate(['/globalconfig']);}  
       if(this.authService.IsConfigLogin()) return true; else return false;
     }
     if (!this.ConfigJson?.length) {
@@ -88,8 +102,7 @@ export class AuthGuardGuard implements CanActivate {
       var permission = this.ConfigJson.find(x => x.path.toLowerCase() == pathSet.toLowerCase());
       if (userPermission.filter(x => x.toLowerCase() == permission.Permission.toLowerCase()).length > 0) {
         return true;
-      } else{
-        localStorage.clear();
+      } else{ 
         window.location.href = '/#/login';
         return false;
       }
