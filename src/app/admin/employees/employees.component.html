@@ -138,7 +138,7 @@
                                       <!-- Start Location Column -->
                                       <ng-container matColumnDef="zones">
                                         <th width="80%" mat-header-cell *matHeaderCellDef mat-sort-header>Zone</th>
-                                        <td width="80%" mat-cell *matCellDef="let element"> {{element}} </td>
+                                        <td width="80%" mat-cell *matCellDef="let element ; let i = index"> {{element}} </td>
                                       </ng-container>
                                       <ng-container matColumnDef="actions">
                                         <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action

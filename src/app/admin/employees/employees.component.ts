@@ -199,6 +199,9 @@ initialzeEmpForm() {
         this.location_data_source = new MatTableDataSource(response.data?.bulkRange);
         this.FuncationAllowedList = new MatTableDataSource(response.data.userRights);
         this.location_data = response.data?.bulkRange
+        // let res=response.data?.handledZones.map(item=>{
+        //   return {zones:item}
+        // })
         this.employee_fetched_zones = new MatTableDataSource(response.data?.handledZones); 
         this.employee_fetched_zones.filterPredicate = (data: String, filter: string) => {
           return data.toLowerCase().includes(filter.trim().toLowerCase());
@@ -324,6 +327,7 @@ initialzeEmpForm() {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+    this.employee_fetched_zones.sort = this.sort;
   }
 
 

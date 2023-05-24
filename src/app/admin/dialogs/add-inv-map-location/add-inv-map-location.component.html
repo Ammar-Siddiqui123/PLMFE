@@ -22,7 +22,7 @@
                         <div class="col-6 mb-2">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Location Name</mat-label>
-                                <input   placeholder="Location Name" aria-label="Location Name" matInput
+                                <input   placeholder="Location Name" aria-label="Location Name" matInput maxlength="50"
                                     formControlName="location" [matAutocomplete]="auto">
                                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
                                     (optionSelected)="loadZones($event)">
