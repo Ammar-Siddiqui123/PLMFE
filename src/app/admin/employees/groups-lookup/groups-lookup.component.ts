@@ -29,8 +29,7 @@ export class GroupsLookupComponent implements OnInit {
   employees_details_data: any = [];
   @Input('childGroupLookUp') isGroupLookUp: boolean;
   @Input('updateGrpTable') updateGrpTable: any;
-  @Output() updateGrpLookUp = new EventEmitter();
-  @ViewChild('groupDataRefresh', { static: true,read:MatTable }) groupDataRefresh;
+  @Output() updateGrpLookUp = new EventEmitter(); 
 
   selectedRowIndex = -1;
 
@@ -124,10 +123,9 @@ export class GroupsLookupComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-   this.group_data_source.filteredData.push({groupName:this.updateGrpTable});
+   this.group_data_source && this.group_data_source.filteredData && this.group_data_source.filteredData.push({groupName:this.updateGrpTable});
    // console.log(this.group_data_source.filteredData);
-   
-   this.groupDataRefresh.renderRows();
+    
   }
 
 

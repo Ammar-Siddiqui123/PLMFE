@@ -31,6 +31,8 @@ export class SharedService {
   updateCompDateObserver: Subject<any> = new Subject<any>();
   updateOrderStatusSelectObserver: Subject<any> = new Subject<any>();
   batchManagerObserver: Subject<any> = new Subject<any>();
+  breadCrumObserver: Subject<any> = new Subject<any>();
+  
 
   resetSidebar() {
     this.startMenu.next(true);
@@ -135,5 +137,9 @@ export class SharedService {
   }
   BroadCastMenuUpdate(str: any) {
     this.SidebarMenupdate.next(str);
+  }
+
+  updateBreadcrumb(breadCrumb: any){
+    this.breadCrumObserver.next(breadCrumb);
   }
 }

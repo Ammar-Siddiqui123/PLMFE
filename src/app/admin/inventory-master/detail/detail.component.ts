@@ -24,6 +24,9 @@ export class DetailComponent implements OnInit {
   sendNotification(e) {
       this.notifyParent.emit(e);
   }
+
+  public setVal: boolean = false;
+  spliUrl;
   
 
   constructor(   
@@ -36,6 +39,9 @@ export class DetailComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     // console.log(this.details)
+    this.setVal = localStorage.getItem('routeFromOrderStatus') == 'true' ? true : false;
+    console.log(this.setVal,'setval')
+    this.spliUrl=this.router.url.split('/');
 
   }
 
@@ -149,9 +155,36 @@ export class DetailComponent implements OnInit {
 
  RedirectInv(type){
 
+
+
+
+//   if( this.spliUrl[1] == 'OrderManager' ){
+//     this.router.navigate([]).then((result) => {
+//       let url = '/#/OrderManager/OrderStatus?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
+//       window.open(url, '_blank');
+//     });
+//  }
+//  else {
+//   this.router.navigate([]).then((result) => {
+//     let url = '/#/admin/transaction?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
+//     window.open(url, '_blank');
+//   });
+
+//  }
+
+  if(this.setVal == true){
+
+this.router.navigate([]).then((result) => {
+      let url = '/#/OrderManager/OrderStatus?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
+      window.open(url, '_blank');
+    });
+  }else{
+
     this.router.navigate([]).then((result) => {
       let url = '/#/admin/transaction?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
       window.open(url, '_blank');
     });
+  }
+
   }
 }

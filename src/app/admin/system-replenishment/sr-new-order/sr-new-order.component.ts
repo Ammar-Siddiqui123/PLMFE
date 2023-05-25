@@ -201,7 +201,7 @@ export class SrNewOrderComponent implements OnInit {
         // this.changeSearchOptions();
         // this.tablePayloadObj.filter = "1=1";
       } else {
-        console.log(res.responseMessage);
+        // console.log(res.responseMessage);
         // this.toastr.error(res.responseMessage, 'Error!', {
         //   positionClass: 'toast-bottom-right',
         //   timeOut: 2000
@@ -274,7 +274,7 @@ export class SrNewOrderComponent implements OnInit {
         //     timeOut: 2000
         //   });
         // }
-        console.log(res.responseMessage);
+        // console.log(res.responseMessage);
       }
       this.newReplenishmentOrders();
     });
@@ -330,6 +330,7 @@ export class SrNewOrderComponent implements OnInit {
   // }
 
   paginatorChange(event: PageEvent) {
+    // debugger
     this.tablePayloadObj.start = event.pageSize * event.pageIndex;
     this.tablePayloadObj.length = event.pageSize;
     this.newReplenishmentOrders();

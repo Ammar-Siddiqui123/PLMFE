@@ -56,12 +56,17 @@ export class AuthService {
     }
     return true;
   }
-
+  public UserPermissonByFuncName(FuncName:any){
+    var userRights = this.userPermission()?.includes(FuncName);
+    if(userRights) return true;
+    else  return false;
+  }
   public userPermission(){
     if(localStorage.getItem('userRights')){
       return JSON.parse(localStorage.getItem('userRights') || '{}');
     }
   }
+
 
   getUrl() {
     return (this.pLocation as any).location.href;
@@ -82,5 +87,26 @@ export class AuthService {
 
   public configLogout(userData:any): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/Logout`, userData);
+  }
+  public startCCSIF(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StartCCSIF`,{});
+  }
+  public stopCCSIF(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StopCCSIF`,{});
+  }
+  public ServiceStatusCCSIF(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/ServiceStatusCCSIF`,{});
+  }
+  public startSTEService(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StartSTE`,{});
+  }
+  public stopSTEService(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StopSTE`,{});
+  }
+  public RestartService(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/RestartSTE`,{});
+  }
+  public ServiceStatusSTE(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/ServiceStatusSTE`,{});
   }
 }

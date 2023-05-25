@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConditionalExpr } from '@angular/compiler';
 import { AuthService } from '../../../../app/init/auth.service';
 import { AdjustQuantityComponent } from '../adjust-quantity/adjust-quantity.component';
+import { Router } from '@angular/router';
 
 export interface InventoryMapDataStructure {
   invMapID: string | '',
@@ -72,8 +73,10 @@ export class AddInvMapLocationComponent implements OnInit {
   shelf = '';
   bin = '';
   setStorage;
+  setStorageOM;
   quantity: any;
   routeFromIM: boolean = false;
+  routeFromOM: boolean = false;
 
   @ViewChild('cellSizeVal') cellSizeVal: ElementRef;
   @ViewChild('velCodeVal') velCodeVal: ElementRef;
@@ -122,6 +125,11 @@ export class AddInvMapLocationComponent implements OnInit {
   clickSubmit: boolean = true;
   headerLable: any;
   userData: any;
+  FromOm:boolean=false;
+
+  myroute1:boolean=true;
+  myroute2:boolean=true;
+
 
   constructor(
     private dialog: MatDialog,
@@ -130,12 +138,18 @@ export class AddInvMapLocationComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private authService: AuthService,
     private toastr: ToastrService,
-    public dialogRef: MatDialogRef<any>
+    public dialogRef: MatDialogRef<any>,
+    private router: Router
   ) {
     if (data.mode == "addInvMapLocation") {
       this.headerLable = 'Add Location';
     } else if (data.mode == "editInvMapLocation") {
       this.headerLable = 'Update Location';
+    }
+
+    if(this.router.url=="/InductionManager/Admin/InventoryMap" || this.router.url=="/OrderManager/InventoryMap"){
+      this.myroute1=false;
+      this.myroute2=false;
     }
 
   }
@@ -178,8 +192,43 @@ export class AddInvMapLocationComponent implements OnInit {
     });
 
 
-    this.setStorage = localStorage.getItem('routeFromInduction')
-    this.routeFromIM = JSON.parse(this.setStorage)
+    // this.setStorage = localStorage.getItem('routeFromInduction')
+    // this.setStorage = localStorage.getItem('routeFromOrderStatus')
+    // this.routeFromIM = JSON.parse(this.setStorage)
+    // this.routeFromOM = JSON.parse(this.setStorageOM)
+
+  }
+
+  ngAfterViewInit() {
+    if(this.router.url == '/OrderManager/InventoryMap'){
+      this.addInvMapLocation.get('location')?.disable();
+      this.addInvMapLocation.get('zone')?.disable();
+      this.addInvMapLocation.get('laserX')?.disable();
+      this.addInvMapLocation.get('laserY')?.disable();
+      this.addInvMapLocation.get('warehouse')?.disable();
+      this.addInvMapLocation.get('carousel')?.disable();
+      this.addInvMapLocation.get('row')?.disable();
+      this.addInvMapLocation.get('shelf')?.disable();
+      this.addInvMapLocation.get('bin')?.disable();
+      this.addInvMapLocation.get('unitOfMeasure')?.disable();
+      this.addInvMapLocation.get('cell')?.disable();
+      this.addInvMapLocation.get('velocity')?.disable();
+      this.addInvMapLocation.get('altLight')?.disable();
+      this.addInvMapLocation.get('userField1')?.disable();
+      this.addInvMapLocation.get('userField2')?.disable();
+      this.addInvMapLocation.get('quantityAllocatedPutAway')?.disable();
+      this.addInvMapLocation.get('inventoryMapID')?.disable();
+      this.addInvMapLocation.get('masterInventoryMapID')?.disable();
+      this.addInvMapLocation.get('item')?.disable();
+      this.addInvMapLocation.get('maxQuantity')?.disable();
+      this.addInvMapLocation.get('minQuantity')?.disable();
+
+    
+    }
+
+
+
+    
 
   }
 
@@ -239,8 +288,8 @@ export class AddInvMapLocationComponent implements OnInit {
 
   initializeDataSet() {
     this.addInvMapLocation = this.fb.group({
-      location: [this.getDetailInventoryMapData.location || '', [Validators.required]],
-      zone: [this.getDetailInventoryMapData.zone || '', [Validators.required, Validators.maxLength(2)]],
+      location: [this.getDetailInventoryMapData.location  || '', [Validators.required]],
+      zone: [this.getDetailInventoryMapData.zone|| '', [Validators.required, Validators.maxLength(2)]],
       carousel: [this.getDetailInventoryMapData.carousel || '', [Validators.pattern("^[0-9]*$"), Validators.maxLength(1)]],
       row: [this.getDetailInventoryMapData.row || '', [Validators.maxLength(5)]],
       shelf: [this.getDetailInventoryMapData.shelf || '', [Validators.maxLength(2)]],
@@ -255,18 +304,18 @@ export class AddInvMapLocationComponent implements OnInit {
       serialNumber: new FormControl({ value: this.getDetailInventoryMapData.serialNumber || 0, disabled: true }),
       lotNumber: new FormControl({ value: this.getDetailInventoryMapData.lotNumber || 0, disabled: true }),
       expirationDate: new FormControl({ value: this.getDetailInventoryMapData.expirationDate || '', disabled: true }),
-      unitOfMeasure: [this.getDetailInventoryMapData.unitOfMeasure || ''],
+      unitOfMeasure: [{value:this.getDetailInventoryMapData.unitOfMeasure ,disabled:this.data.detailData?true:false}],
       quantityAllocatedPick: new FormControl({ value: this.getDetailInventoryMapData.quantityAllocatedPick || 0, disabled: true }),
       quantityAllocatedPutAway: new FormControl({ value: this.getDetailInventoryMapData.quantityAllocatedPutAway || 0, disabled: true }),
       putAwayDate: new FormControl({ value: this.getDetailInventoryMapData.putAwayDate || '', disabled: true }),
       warehouse: [this.getDetailInventoryMapData.warehouse || ''],
       revision: new FormControl({ value: this.getDetailInventoryMapData.revision || '', disabled: true }),
-      inventoryMapID: new FormControl({ value: this.getDetailInventoryMapData.invMapID || '', disabled: false }),
+      inventoryMapID: new FormControl({ value: this.getDetailInventoryMapData.invMapID || '', disabled: true }),
       userField1: [this.getDetailInventoryMapData.userField1 || '', [Validators.maxLength(255)]],
       userField2: [this.getDetailInventoryMapData.userField2 || '', [Validators.maxLength(255)]],
       masterLocation: [this.getDetailInventoryMapData.masterLocation || false],
       dateSensitive: [this.getDetailInventoryMapData.dateSensitive || false],
-      masterInventoryMapID: new FormControl({ value: this.getDetailInventoryMapData.masterInvMapID || '', disabled: false }),
+      masterInventoryMapID: new FormControl({ value: this.getDetailInventoryMapData.masterInvMapID || '', disabled: true }),
       minQuantity: [this.getDetailInventoryMapData.minQuantity || 0, [Validators.maxLength(9)]],
       laserX: [this.getDetailInventoryMapData.laserX || 0, [Validators.pattern("^[0-9]*$"), Validators.maxLength(9)]],
       laserY: [this.getDetailInventoryMapData.laserY || 0, [Validators.pattern("^[0-9]*$"), Validators.maxLength(9)]],
@@ -424,7 +473,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
     const cellSizeVal = this.cellSizeVal.nativeElement.value
     const velCodeVal = this.velCodeVal.nativeElement.value
-    console.log(cellSizeVal);
+    // console.log(cellSizeVal);
 
     this.invMapService.getItemNumDetail(payload).subscribe((res) => {
       if (res.isExecuted) {

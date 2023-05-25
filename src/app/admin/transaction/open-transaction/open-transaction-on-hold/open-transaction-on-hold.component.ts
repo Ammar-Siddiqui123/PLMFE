@@ -123,6 +123,8 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   searchAutocompleteList: any;
   searchAutocompleteListByCol: any;
   isDeleteVisible:any=localStorage.getItem('routeFromInduction')
+  // isResetVisible:any=localStorage.getItem('routeFromOrderStatus')
+ 
   /*for data col. */
   public columnValues: any = [];
   onDestroy$: Subject<boolean> = new Subject();
@@ -139,6 +141,13 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   transStatusSelect = 'All Transactions';
   rowClicked;
   hideDelete
+  hideReset
+
+  directAdmin;
+  throughOrderManager
+  setVal
+  spliUrl;
+
   public detailDataInventoryMap: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -227,11 +236,12 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       value: 'Completed Transactions',
     },
   ];
+
   constructor(
     private router: Router,
     private seqColumn: SetColumnSeqService,
     private transactionService: TransactionService,
-    private authService: AuthService,
+    public authService: AuthService,
     private toastr: ToastrService,
     private invMapService: InventoryMapService,
     private dialog: MatDialog,
@@ -256,7 +266,21 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   };
 
   ngOnInit(): void {
+    this.setVal = localStorage.getItem('routeFromOrderStatus')
+    console.log(  this.setVal,'chechlocal')
+    if(this.router.url == '/OrderManager/OrderStatus' || this.setVal == 'true'){
+      this.throughOrderManager = true;
+      this.directAdmin = false;
+    }
+    else if(this.router.url == '/admin/transaction'|| this.setVal != 'true'){
+      this.throughOrderManager = false;
+      this.directAdmin = true;
+    }
     this.hideDelete=JSON.parse(this.isDeleteVisible);
+
+    // this.hideReset=JSON.parse(this.isResetVisible);
+
+
     this.customPagination = {
       total: '',
       recordsPerPage: 10,
@@ -304,9 +328,28 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   }
   viewOrderInOrder(row) {
     this.returnToOrder.emit();
-    this.router.navigate([]).then((result) => {
-      window.open(`/#/admin/transaction?orderStatus=${row.orderNumber}`, '_self');
-    });
+    // this.router.navigate([]).then((result) => {
+    //   window.open(`/#/admin/transaction?orderStatus=${row.orderNumber}`, '_self');
+    // });
+
+
+if( this.spliUrl[1] == 'OrderManager' ){
+  this.router.navigate([]).then((result) => {
+    // window.open(`/#/OrderManager/OrderStatus?itemNumber=${row.itemNumber}`, '_blank');
+    window.open(`/#/OrderManager/OrderStatus?orderStatus=${row.orderNumber}`, '_self');
+  });
+}
+else {
+localStorage.setItem('routeFromInduction','false')
+this.router.navigate([]).then((result) => {
+  window.open(`/#/admin/transaction?orderStatus=${row.orderNumber}`, '_self');
+});
+
+}
+
+
+
+
   }
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
@@ -337,6 +380,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       }
        })
     )
+    this.spliUrl=this.router.url.split('/');
   }
   /*FUnctions for Table*/
   isAuthorized(controlName: any) {
@@ -412,10 +456,26 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   }
 
   viewInInventoryMaster(row) {
-    // this.router.navigate(['/admin/inventoryMaster']);
+
+
+    
+    if( this.spliUrl[1] == 'OrderManager' ){
+      this.router.navigate([]).then((result) => {
+        window.open(`/#/OrderManager/InventoryMaster?itemNumber=${row.itemNumber}`, '_self');
+      });
+   }
+   else {
+    localStorage.setItem('routeFromInduction','false')
     this.router.navigate([]).then((result) => {
       window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_self');
     });
+
+   }
+
+    //////////////////////////////////////////////////////////
+    // this.router.navigate([]).then((result) => {
+    //   window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_self');
+    // });
   }
   sendComp(event) {
     let dialogRef = this.dialog.open(FunctionAllocationComponent, {

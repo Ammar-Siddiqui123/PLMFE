@@ -692,6 +692,9 @@ mat-toolbar {
 .dashboard-section{
 
   padding:20px 30px 20px 90px;
+  .inner-layout-1{
+    padding:20px 30px 20px 90px;
+  }
 }
 
 .mat-drawer{
@@ -702,6 +705,9 @@ mat-toolbar {
 
 .side-bar-opened.dashboard-section {
   padding: 20px 30px;
+  .inner-layout-1{
+    padding:20px 30px;
+  }
 }
 
 .mat-sidenav:not(.mat-drawer-opened) .mat-nav-list .mat-list-item {
@@ -1286,6 +1292,19 @@ button.add-icon-button {
     align-items: center;
   }
 }
+button.add-icon-button-lg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px !important;
+  max-width: 56px !important;
+  min-width: 56px !important;
+  border-radius: 14px !important;
+  .mat-button-wrapper{
+    display: flex;
+    align-items: center;
+  }
+}
 button.icon-button {
   display: flex;
   align-items: center;
@@ -1768,6 +1787,12 @@ button{
   align-items: center;
   justify-content: center;
   color: #DE2654;
+}
+.container.location_detail{
+  padding: 20px 10px;
+  .ng-scroll-viewport-wrapper{
+    right: 14px;
+  }
 }
 
 .container.location_detail,

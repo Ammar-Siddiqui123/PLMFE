@@ -28,8 +28,9 @@ export class SuperBatchComponent implements OnInit {
   tote_id: any;
   batchRowData: any;
   isConfirmation: boolean = false;
+  isConfirmSuperBatch:boolean=false;
   itemNum : any;
-
+  selectedOption:any;
   @ViewChild('batchOrderConfirmation') batchOrderConfirmation: TemplateRef<any>;
 
   constructor(
@@ -50,7 +51,9 @@ export class SuperBatchComponent implements OnInit {
       this.itemNumbers = res.data.itemNums;
       this.defaultSuperBatchSize = preferences.defaultSuperBatchSize;
       this.superBatches = res.data.superBatches;
-      this.getSuperBatchBy('Order');
+      this.selectedOption=preferences.superBatchByToteID?'Tote':'Order'
+      this.isConfirmSuperBatch=preferences.confirmSuperBatch
+      this.getSuperBatchBy(this.selectedOption);
     })
   }
 
@@ -123,6 +126,7 @@ export class SuperBatchComponent implements OnInit {
       return;
     }
 
+    if(this.isConfirmSuperBatch){
     const dialogRef = this.dialog.open(this.batchOrderConfirmation, {
       width: 'auto',
       autoFocus: '__non_existing_element__',
@@ -133,6 +137,9 @@ export class SuperBatchComponent implements OnInit {
         this.saveBatch(element);
       }
     });
+  }else{
+    this.saveBatch(element);
+  }
   }
 
   saveBatch(element: any) {

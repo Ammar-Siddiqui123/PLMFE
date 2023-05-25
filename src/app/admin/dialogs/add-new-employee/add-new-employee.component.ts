@@ -32,12 +32,18 @@ export class AddNewEmployeeComponent implements OnInit {
   emailAddress: string;
   accessLevel: string;
   active: boolean;
+  groupName:string = "";
   isEmail: boolean;
+  env: any;
   isDisabledPassword: boolean;
+  password:string;
   isDisabledUsername: boolean;
   toggle_password = true;
   isSubmitting = false;
+  allGroups:any=[];
   empForm: FormGroup;
+  OldPassword:any;
+  IsEdit:any=false;
   @ViewChild('focusFeild') focusFeild: ElementRef;
 
   constructor(
@@ -51,8 +57,10 @@ export class AddNewEmployeeComponent implements OnInit {
     public dialogRef: MatDialogRef<any>
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
     this.empData = this.data?.emp_data;
+    this.env =  JSON.parse(localStorage.getItem('env') || ''); 
+    this.allGroups  = this.empData?.allGroups;
     this.data?.mode === 'edit' ? this.form_heading = 'Edit Employee' : 'Add New Employee';
     this.data?.mode === 'edit' ? this.form_btn_label = 'Save' : 'Add';
     this.data?.mode === 'edit' ? this.isEmail = true : false;
@@ -60,9 +68,15 @@ export class AddNewEmployeeComponent implements OnInit {
     this.data?.mode === 'edit' ? this.isDisabledUsername = true : false;
     this.mi = this.empData?.mi ?? '';
     this.firstName = this.empData?.firstName ?? '';
+    this.OldPassword = this.empData?.password ?? '';
     this.lastName = this.empData?.lastName ?? '';
+    
+    if(this.empData)this.IsEdit =true; 
+    this.groupName = this.empData?.groupName ?? '';
     this.username = this.empData?.username ?? '';
     this.emailAddress = this.empData?.emailAddress ?? '';
+    this.emailAddress = this.empData?.emailAddress ?? '';
+    this.password = this.empData?.password ?? '';
     this.accessLevel = this.empData?.accessLevel.toLowerCase() ?? '';
     this.active = this.empData?.active ?? true;
     this.initialzeEmpForm();
@@ -91,14 +105,20 @@ export class AddNewEmployeeComponent implements OnInit {
       mi: [this.mi || '', []],
       firstName: [this.firstName || '',[Validators.required, this.cusValidator.customTrim]],
       lastName: [this.lastName || '', [Validators.required, this.cusValidator.customTrim]],
-      username: [{ value: this.username, disabled: this.isDisabledPassword } || '', [Validators.required]],
-      password: [{ value: '', disabled: this.isDisabledPassword }, [Validators.required]],
-      emailAddress: [this.emailAddress || '', []],
+      username: [{ value: this.username, disabled: this.isDisabledPassword } || '', [Validators.required]], 
+      password: [this.password || '',[Validators.required, this.cusValidator.customTrim]],
+      emailAddress: [this.emailAddress || '', [Validators.email]],
       accessLevel: [this.accessLevel || '', [Validators.required]],
+      groupName: [this.groupName || '', []],
       active: [this.active || '', []],
+
     });
   }
-
+ChangePassword(data){
+  debugger
+  // if(this.OldPassword == this.password) this.OldPassword = -1;
+  this.password = data;
+}
   onSubmit(form: FormGroup) {
     if (form.valid) {
       // this.isSubmitting = true;
@@ -107,7 +127,7 @@ export class AddNewEmployeeComponent implements OnInit {
       if (this.data?.mode === 'edit') {
         form.value.wsid = "TESTWID";
         form.value.username = this.username;
-        form.value.groupName = "",
+        // form.value.groupName = this.groupName,
           this.employeeService.updateAdminEmployee(form.value).subscribe((res: any) => {
             if (res.isExecuted) {
               this.dialogRef.close({mode: 'edit-employee', data: form.value});
@@ -169,5 +189,6 @@ export class AddNewEmployeeComponent implements OnInit {
   hasError(fieldName: string, errorName: string) {
     return this.empForm.get(fieldName)?.touched && this.empForm.get(fieldName)?.hasError(errorName);
   }
+  
 
 }

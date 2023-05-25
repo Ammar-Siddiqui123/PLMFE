@@ -158,6 +158,14 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     //   this.getContentData()
     // }
   }
+
+  @Input()
+  set clearEvent(event: Event) {
+    if (event) {
+      this.selectedDropdown='';
+      this.columnSearch.searchValue = ''
+    }
+  }
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   pageEvent: PageEvent;

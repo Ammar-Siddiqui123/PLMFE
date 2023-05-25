@@ -83,7 +83,7 @@ export class InventoryMasterComponent implements OnInit {
 
   @ViewChild("searchauto", { static: false }) autocompleteOpened: MatAutocomplete;
 
-
+  public setVal: boolean = false;
   ngOnInit(): void {
     // window.addEventListener('scroll', this.scrollEvent, true);
     this.userData = this.authService.userData();
@@ -92,7 +92,7 @@ export class InventoryMasterComponent implements OnInit {
     this.route
       .paramMap
       .subscribe(params => {
-        console.log(params.get('itemNumber'));
+        // console.log(params.get('itemNumber'));
       });
   }
 
@@ -135,6 +135,8 @@ export class InventoryMasterComponent implements OnInit {
     if (this.autoComplete.panelOpen) this.autoComplete.updatePosition();
   }
   ngAfterViewInit() {
+    this.setVal = localStorage.getItem('routeFromOrderStatus') == 'true' ? true : false;
+    console.log(this.setVal);
     this.itemNumberParam$ = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('itemNumber')),
     );
@@ -399,10 +401,12 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   public updateInventoryMaster() {
-    if(this.updateInventoryMasterValidate()){
+    if(this.updateInventoryMasterValidate()){      
       this.invMaster.patchValue({
         'bulkGoldZone': this.invMaster.value?.bulkVelocity,
-        'CfGoldZone': this.invMaster.value?.cfVelocity
+        'CfGoldZone': this.invMaster.value?.cfVelocity,
+        'splitCase': this.invMaster.value.splitCase ? true : false,
+        'active': this.invMaster.value.active ? true : false
       });
       this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
         if (res.isExecuted) {
@@ -420,6 +424,7 @@ export class InventoryMasterComponent implements OnInit {
       })
     }
   }
+  
   public updateItemNumber(form: any) {
     let paylaod = {
       "oldItemNumber": form.oldItemNumber,
@@ -431,7 +436,6 @@ export class InventoryMasterComponent implements OnInit {
       // console.log(res.data);
     })
   }
-
 
   public openAddItemDialog() {
     let dialogRef = this.dialog.open(ItemNumberComponent, {
@@ -596,7 +600,12 @@ export class InventoryMasterComponent implements OnInit {
 
 
   viewLocations() {
-    this.router.navigate(['/admin/inventoryMap'], { state: { colHeader: 'itemNumber', colDef: 'Item Number', searchValue: this.currentPageItemNo } })
+    if(this.setVal == true){
+      this.router.navigate(['/OrderManager/InventoryMap'], { state: { colHeader: 'itemNumber', colDef: 'Item Number', searchValue: this.currentPageItemNo } })
+    }
+    else{
+      this.router.navigate(['/admin/inventoryMap'], { state: { colHeader: 'itemNumber', colDef: 'Item Number', searchValue: this.currentPageItemNo } })
+    }
   }
 
   getSearchList(e: any) {

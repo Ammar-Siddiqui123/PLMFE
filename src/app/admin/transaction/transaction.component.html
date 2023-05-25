@@ -1,7 +1,8 @@
-<mat-tab-group dynamicHeight [(selectedIndex)]="TabIndex">
-    <mat-tab label="Order Status">
+<mat-tab-group dynamicHeight [(selectedIndex)]="TabIndex" (selectedTabChange)="onTabChanged($event);">
+    <mat-tab *ngIf="authService.UserPermissonByFuncName('Order Status')" label="Order Status">
         <app-order-status></app-order-status>
     </mat-tab>
+    <ng-container *ngIf="authService.UserPermissonByFuncName('Transaction Journal') || authService.UserPermissonByFuncName('Admin Transaction Journal')"   >
     <mat-tab label="Open Transactions" *ngIf="!IsOrderStatus" >
         <app-open-transaction (emitOrderTab)="switchToOrder($event)" ></app-open-transaction>
     </mat-tab>
@@ -14,4 +15,5 @@
     <mat-tab label="Reprocessed Transactions" *ngIf="!showReprocessed && !IsOrderStatus">
         <app-reprocessed-transaction></app-reprocessed-transaction>
     </mat-tab>
+</ng-container>
 </mat-tab-group>

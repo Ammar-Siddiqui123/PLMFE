@@ -84,6 +84,7 @@ export class InventoryMapComponent implements OnInit {
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   setStorage;
   routeFromIM:boolean=false;
+  routeFromOM:boolean=false;
   public displayedColumns: any ;
   public dataSource: any = [];
   customPagination: any = {
@@ -114,8 +115,11 @@ export class InventoryMapComponent implements OnInit {
   public itemList: any;
   public filterLoc:any = 'Nothing';
   public isSearchColumn:boolean = false;
+  spliUrl;
 
   detailDataInventoryMap: any;
+  transHistory:boolean = false;
+  myroute:any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   // @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -201,6 +205,14 @@ export class InventoryMapComponent implements OnInit {
       }
     }
 
+    // console.log(this.router.url)
+    if(router.url == '/OrderManager/InventoryMap'){
+      this.transHistory = true;
+    }
+    else if(router.url == '/admin/inventoryMap' || '/InductionManager/Admin/InventoryMap'){
+      this.transHistory = false;
+    }
+
 
     // router.events
     //   .pipe(
@@ -246,7 +258,23 @@ export class InventoryMapComponent implements OnInit {
 
   ngAfterViewInit() {
     this.setStorage =localStorage.getItem('routeFromInduction')
-   this.routeFromIM=JSON.parse(this.setStorage)
+
+    // console.log(this.setStorage)
+    // console.log(this.router.url)
+    this.spliUrl=this.router.url.split('/');
+    // console.log(spliUrl)
+
+    if( this.spliUrl[1] == 'InductionManager' || this.spliUrl[1] == 'OrderManager' ){
+       this.myroute =false
+    }
+    else {
+      this.myroute = true
+
+    }
+
+  //  this.routeFromIM=JSON.parse(this.setStorage)
+
+    
     }
   pageEvent: PageEvent;
 
@@ -333,6 +361,7 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+      // console.log(result)
       if(result!='close'){
         this.getContentData();
       }
@@ -405,7 +434,7 @@ export class InventoryMapComponent implements OnInit {
 
   edit(event: any){
     let dialogRef = this.dialog.open(AddInvMapLocationComponent, {
-      height: '750px',
+      height: 'auto',
       width: '100%',
       autoFocus: '__non_existing_element__',
       data: {
@@ -415,7 +444,11 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+      if(this.router.url=="/InductionManager/Admin/InventoryMap" || this.router.url=="/OrderManager/InventoryMap"){
+        this.getContentData();
+      }
       if(result!='close'){
+      
         this.getContentData();
       }
     })
@@ -521,15 +554,40 @@ export class InventoryMapComponent implements OnInit {
 
     // this.router.navigate(['/admin/inventoryMaster']);
 
+
+    if( this.spliUrl[1] == 'OrderManager' ){
+      this.router.navigate([]).then((result) => {
+        window.open(`/#/OrderManager/InventoryMaster?itemNumber=${row.itemNumber}`, '_blank');
+      });
+   }
+   else {
+    localStorage.setItem('routeFromInduction','false')
     this.router.navigate([]).then((result) => {
-      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_self');
+      window.open(`/#/admin/transaction?itemNumber=${row.locationNumber}`, '_blank');
     });
+
+   }
+
+   
   }
 
   viewLocationHistory(row : any){
+
+    if( this.spliUrl[1] == 'OrderManager' ){
+      this.router.navigate([]).then((result) => {
+        window.open(`/#/OrderManager/OrderStatus?location=${row.locationNumber}`, '_blank');
+      });
+   }
+   else {
+    localStorage.setItem('routeFromInduction','false')
     this.router.navigate([]).then((result) => {
-      window.open(`/#/admin/transaction?location=${row.locationNumber}`, '_self');
+      window.open(`/#/admin/transaction?location=${row.locationNumber}`, '_blank');
     });
+
+   }
+
+
+   
   }
 
   autocompleteSearchColumn(){
@@ -616,6 +674,15 @@ export class InventoryMapComponent implements OnInit {
     return !this.authService.isAuthorized(controlName);
  }
 
+
+ tranhistory(){
+  this.router.navigate([]).then((result) => {
+    window.open(`/#/OrderManager/OrderStatus?type=TransactionHistory`, '_blank');
+   
+
+  }
+  );
+ }
 
 
 }
