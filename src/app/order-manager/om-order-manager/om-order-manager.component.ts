@@ -123,7 +123,7 @@ export class OmOrderManagerComponent implements OnInit {
               public globalService    : GlobalService,
               private filterService   : ContextMenuFiltersService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.customPagination = {
       total : '',
       recordsPerPage : 20,
@@ -131,6 +131,7 @@ export class OmOrderManagerComponent implements OnInit {
       endIndex: 20
     }    
     this.userData = this.authService.userData();
+    await this.deleteTemp();
     this.getOMIndex();
     this.getColumnSequence();
     this.fillTable();
@@ -227,7 +228,7 @@ export class OmOrderManagerComponent implements OnInit {
       username: this.userData.userName,
       user: this.userData.userName,
       wsid: this.userData.wsid,
-      startRow: this.customPagination.startIndex.toString(),
+      startRow: this.customPagination.startIndex == 0 ? this.customPagination.startIndex.toString() : (this.customPagination.startIndex + 1).toString(),
       endRow: this.customPagination.endIndex.toString(),
       sortCol: this.sortColumn.columnName,
       sortOrder: this.sortColumn.sortOrder,
@@ -247,6 +248,7 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   handlePageEvent(e: PageEvent) {
+    debugger;
     this.customPagination.startIndex =  e.pageSize*e.pageIndex
     this.customPagination.endIndex =  (e.pageSize*e.pageIndex + e.pageSize)
     this.customPagination.recordsPerPage = e.pageSize;
@@ -264,7 +266,7 @@ export class OmOrderManagerComponent implements OnInit {
         width: '560px',
         autoFocus: '__non_existing_element__',
         data: {
-          ErrorMessage: 'Are you sure you want to delete these records?',
+          ErrorMessage: 'Are you sure you want to delete all viewed orders?',
           action: 'delete'
         },
       });
@@ -516,6 +518,15 @@ export class OmOrderManagerComponent implements OnInit {
     this.paginator.pageIndex = 0;
     this.FilterString = this.FilterString != "" ? this.FilterString : "1 = 1";
     this.getOrders();
+  }
+
+  async deleteTemp(){
+    let payload = {
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+      appName: ""
+    }
+    await this.OMService.get(payload, '/OrderManager/OrderManagerTempDelete',true).toPromise();
   }
 
 }

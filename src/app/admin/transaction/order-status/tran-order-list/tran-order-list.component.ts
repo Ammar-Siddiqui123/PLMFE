@@ -609,7 +609,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
         this.autocompleteSearchColumn();
         this.getContentData();
       });
-    this.getContentData();
+    // this.getContentData();
 
     // Data coming from select order when user enter / check tote filter by Id it gets object type it tote id selected only
     // then it will do send back the order number to select order component and set order field and also check if

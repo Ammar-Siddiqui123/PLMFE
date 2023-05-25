@@ -5,6 +5,7 @@ import { GlobalconfigService } from '../globalconfig.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../labels/labels.json'
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-printers',
@@ -45,9 +46,18 @@ export class PrintersComponent implements OnInit {
           element.labelPrinter = element.label == "Able to Print Labels" ? "Yes" : "No";
           element.isNew = false;
           element.currentPrinter = element.printer;
+          element.currentprinterAdd = element.printerAdd;
+          element.currentlabelPrinter = element.labelPrinter;
         });
       }
     });
+  }
+
+  isEdited(printer: any) {
+    if ((printer.currentPrinter != printer.printer || printer.currentprinterAdd != printer.printerAdd || printer.currentlabelPrinter != printer.labelPrinter) && printer.printer.trim() != '') {
+      return true;
+    }
+    return false;
   }
 
   getServiceStatus(loader: boolean = false) {
@@ -127,14 +137,14 @@ export class PrintersComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'remove-printer',
-        ErrorMessage: `Are you sure you wish to delete this printer: ${printer.isNew ? 'New' : printer.printer}?`,
+        ErrorMessage: `Are you sure you wish to delete this printer: ${printer.isNew ? 'New' : printer.currentPrinter}?`,
         action: 'delete'
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'Yes') {
         if (printer.isNew) {
-          this.allPinters = this.allPinters.filter((item: any) => item.printer != printer.printer);
+          this.allPinters = this.allPinters.filter((item: any) => !item.isNew);
           this.addingNew = false;
         }
         else {
@@ -147,7 +157,7 @@ export class PrintersComponent implements OnInit {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
-              this.allPinters = this.allPinters.filter((item: any) => item.printer != printer.printer);
+              this.allPinters = this.allPinters.filter((item: any) => item.currentPrinter != printer.currentPrinter);
             } else {
               this.toastr.error("Delete Failed", 'Error!', {
                 positionClass: 'toast-bottom-right',
@@ -162,7 +172,18 @@ export class PrintersComponent implements OnInit {
 
   addNewPrinter() {
     this.addingNew = true;
-    this.allPinters.push({ printer: '',currentPrinter: '', printerAdd: '', label: 'Not Able to Print Labels', labelPrinter: 'No', isNew: true });
+    this.allPinters.push(
+      { 
+        printer: '', 
+        currentPrinter: '',
+        printerAdd: '',
+        currentprinterAdd: '',
+        label: 'Not Able to Print Labels', 
+        labelPrinter: 'No',
+        currentlabelPrinter: 'No',
+        isNew: true 
+      }
+    );
     this.allPinters = [...this.allPinters];
   }
 
@@ -181,9 +202,11 @@ export class PrintersComponent implements OnInit {
           });
           printer.isNew = false;
           printer.currentPrinter = printer.printer;
+          printer.currentprinterAdd = printer.printerAdd;
+          printer.currentlabelPrinter = printer.labelPrinter;
           this.addingNew = false;
         } else {
-          this.toastr.error(labels.alert.went_worng, 'Error!', {
+          this.toastr.error(res.responseMessage, 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
@@ -204,11 +227,37 @@ export class PrintersComponent implements OnInit {
             timeOut: 2000
           });
           printer.currentPrinter = printer.printer;
+          printer.currentprinterAdd = printer.printerAdd;
+          printer.currentlabelPrinter = printer.labelPrinter;
         } else {
-          this.toastr.error(labels.alert.went_worng, 'Error!', {
+          this.toastr.error(res.responseMessage, 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
+        }
+      });
+    }
+  }
+
+  Print(printer: any) {
+    if (printer.printer.trim() == '' || printer.printerAdd.trim() == '') {
+      this.toastr.error("Must specify name and address to print!", 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    } 
+    else {
+      let dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '560px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message: `Click OK to test print.`
+        },
+      });
+      dialogRef2.afterClosed().subscribe((result) => {
+        if (result == 'Yes') {
+          // testPrint API Call Here
         }
       });
     }
