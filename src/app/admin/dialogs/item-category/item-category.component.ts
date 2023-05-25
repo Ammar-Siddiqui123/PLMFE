@@ -69,11 +69,15 @@ export class ItemCategoryComponent implements OnInit {
          positionClass: 'toast-bottom-right',
          timeOut: 2000
        });
-       return;
-      }   
+   
+      }  
+      return; 
     });
+
   } 
-    if(category || (subCategory && cond)){
+  if(cond){
+  
+    if(category || subCategory){
       let paylaod = {      
         "category": category,
         "oldCategory": oldCat.toString(),
@@ -94,7 +98,7 @@ export class ItemCategoryComponent implements OnInit {
       }
       });
     }
-
+  }
   }
 
   dltCategory(category : any, subCategory : any , fromDb:any){
@@ -145,7 +149,7 @@ export class ItemCategoryComponent implements OnInit {
   }
 
   selectCategory(selectedCat: any){
-    if(selectedCat.category!='' && selectedCat.subCategory!='')
+    if(selectedCat.category=='' && selectedCat.subCategory!='')
     {
 
       this.dialogRef.close(selectedCat);

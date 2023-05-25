@@ -20,7 +20,12 @@ export class ItemSetupComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
+  getSelected(event){
+  
+    if(event.value===''){
+      this.itemSetup.controls['secondaryPickZone'].setValue('')
+    }
+  }
   public openCellSizeDialog(param) {
     let currentValue="";
     if(param == 'cellSize'){

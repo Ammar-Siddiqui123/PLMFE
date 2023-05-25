@@ -20,8 +20,10 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   @Input() scanCodes: FormGroup;
   public userData: any;
   scanCodesList: any;
+  disableButton=false;
   scanTypeList: any = [];
   scanRangeList: any =['Yes', 'No'];
+  isAddRow=false;
   @Output() notifyParent: EventEmitter<any> = new EventEmitter();
   sendNotification(e?) {
     this.notifyParent.emit(e);
@@ -53,11 +55,26 @@ export class ScanCodesComponent implements OnInit , OnChanges {
 
 
   numberOnly(event): boolean {
+
     return this.cusValidator.numberOnly(event);
 
   }
 
-  
+  handleInputChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    let value = parseFloat(inputElement.value);
+    let limit = inputElement.value.trim();
+
+    if (value < 0) {
+      value = 0; // Or any other desired behavior when a negative value is entered
+      inputElement.value = value.toString();
+    }
+    if (limit.length > 9) {
+      limit = limit.slice(0, 9);
+      inputElement.value = limit;
+    }
+
+  }
 
   ngOnInit(): void {
   }
@@ -66,7 +83,8 @@ export class ScanCodesComponent implements OnInit , OnChanges {
 
   }
   addCatRow(e: any){
-    this.scanCodesList.unshift({scanCode: '', scanType: '', scanRange: 'No', startPosition:0, codeLength:0})
+    this.isAddRow=true
+    this.scanCodesList.unshift({scanCode: '', scanType: '', scanRange: 'No', startPosition:0, codeLength:0,isDisabled:true})
 
   }
 
@@ -93,12 +111,14 @@ export class ScanCodesComponent implements OnInit , OnChanges {
         }
         this.invMasterService.get(paylaod, '/Admin/DeleteScanCode').subscribe((res: any) => {
           if (res.isExecuted) {
+            this.isAddRow=false
             this.toastr.success(labels.alert.delete, 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
             this.refreshScanCodeList();
           } else{
+            
             this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
@@ -106,6 +126,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
           }
         })
       } else{
+        this.isAddRow=false
         this.scanCodesList.shift();
       }
      }
@@ -158,6 +179,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
     }
     this.invMasterService.get(paylaod, '/Admin/InsertScanCodes').subscribe((res: any) => {
       if (res.isExecuted) {
+        this.isAddRow=false
         this.toastr.success(labels.alert.success, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
@@ -189,6 +211,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
     }
     this.invMasterService.get(paylaod, '/Admin/UpdateScanCodes').subscribe((res: any) => {
       if (res.isExecuted) {
+        this.isAddRow=false
         this.toastr.success(labels.alert.success, 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
@@ -223,7 +246,11 @@ export class ScanCodesComponent implements OnInit , OnChanges {
     }
     this.invMasterService.get(paylaod, '/Admin/RefreshScanCodes').subscribe((res: any) => {
       if (res.isExecuted) {
+
         this.scanCodes.controls['scanCode'].setValue([...res.data]);
+           res.data=res.data.map(item=>{
+          return { ...item, isDisabled: true };
+        })
         this.scanCodesList = res.data;
       }
     })

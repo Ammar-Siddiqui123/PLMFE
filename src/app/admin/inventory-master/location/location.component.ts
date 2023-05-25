@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-location',
@@ -15,7 +16,8 @@ export class LocationComponent implements OnInit {
 
   @Input() location: FormGroup;
   @Input() count: any;
-
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  nextDir='desc';
   @Output() notifyParent: EventEmitter<any> = new EventEmitter();
   sendNotification(e?) {
     this.notifyParent.emit(e);
@@ -25,7 +27,9 @@ export class LocationComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log(this.location.controls['count'].value);
-    
+    setTimeout(() => {
+      this.location.controls['inventoryTable'].value.sort = this.sort;
+      });
   }
   ngOnChanges(changes: SimpleChanges) {
     // console.log(this.count);
@@ -40,7 +44,18 @@ export class LocationComponent implements OnInit {
   }
     
   announceSortChange(sortState: any) {
-   this.sendNotification({sortingColumn: this.displayedColumns.indexOf(sortState.active) , sortingSeq: sortState.direction})
+    if (sortState.direction != "") {
+      this.nextDir = sortState.direction === "asc" ? "desc" : "asc";
+      // this.nextDir = this.nextDir  === "asc" ? "desc" : "asc";
+    }
+    if(sortState.direction!=''){
+      this.sendNotification({sortingColumn: this.displayedColumns.indexOf(sortState.active) , sortingSeq:sortState.direction})
+
+    }else{
+      this.sendNotification({sortingColumn: this.displayedColumns.indexOf(sortState.active) , sortingSeq:this.nextDir})
+
+    }
+   
   }
 
   refreshGrid(){

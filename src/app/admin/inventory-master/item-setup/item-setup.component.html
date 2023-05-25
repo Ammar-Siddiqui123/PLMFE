@@ -3,9 +3,10 @@
     <div class="py-4 br-14">
       <div class="row">
         <div class="col-md-4 mb-3">
-          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
+          <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline" >
             <mat-label>Primary Zone</mat-label>
-            <mat-select formControlName="primaryPickZone">
+            <mat-select formControlName="primaryPickZone" (selectionChange)="getSelected($event)">
+              <mat-option value=""></mat-option>
               <mat-option value="carousel">Carousel</mat-option>
               <mat-option value="bulk">Bulk</mat-option>
               <mat-option value="carton flow">Carton Flow</mat-option>
@@ -16,6 +17,7 @@
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Secondary Zone</mat-label>
             <mat-select formControlName="secondaryPickZone" [disabled]="this.itemSetup.controls['primaryPickZone'].value == '' ">
+              <mat-option value=""></mat-option>
               <mat-option value="carousel">Carousel</mat-option>
               <mat-option value="bulk">Bulk</mat-option>
               <mat-option value="carton flow">Carton Flow</mat-option>

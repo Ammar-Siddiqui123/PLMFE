@@ -38,7 +38,8 @@ export class InventoryMasterComponent implements OnInit {
   public currentPageItemNo: any = '';
   searchList: any;
   searchValue: any = '';
-
+  isDataFound=false;
+  isDataFoundCounter=0;
   saveDisabled = false;
   count;
 
@@ -284,6 +285,9 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
+        res.data['scanCode']=res.data['scanCode'].map(item=>{
+          return { ...item, isDisabled: true };
+        })
       this.getInvMasterData = res.data;
 
       // console.log('====GET INVENTORY MASTER=====');
@@ -608,6 +612,16 @@ export class InventoryMasterComponent implements OnInit {
     }
   }
 
+  
+  handleFocusOut(){
+    if(!this.isDataFound && this.isDataFoundCounter>0){
+      this.isDataFoundCounter=0;
+      this.toastr.error('Value undefined Does not exist!', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+  }
   getSearchList(e: any) {
 
     this.searchValue = e.currentTarget.value;
@@ -617,9 +631,15 @@ export class InventoryMasterComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.invMasterService.get(paylaod, '/Admin/GetLocationTable').subscribe((res: any) => {
-      if (res.data) {
-        this.searchList = res.data
+    this.invMasterService.get(paylaod, '/Admin/GetLocationTable',true).subscribe((res: any) => {
+      if (res.data?.length) {
+
+        this.searchList = res.data;
+        this.isDataFound=true;
+        this.isDataFoundCounter=0;
+      }else{
+        this.isDataFound=false;
+        this.isDataFoundCounter=1;
       }
     });
   }

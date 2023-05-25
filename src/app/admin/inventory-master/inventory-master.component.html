@@ -41,7 +41,7 @@
                         search
                       </span>
                       <input #alertInput [matAutocomplete]="searchauto" type="text" placeholder="Item No."
-                        aria-label="Search" matInput (keyup)="getSearchList($event)" [value]="searchValue"
+                        aria-label="Search" matInput (blur)="handleFocusOut()" (keyup)="getSearchList($event)" [value]="searchValue"
                         maxlength="50">
                       <mat-autocomplete class="card custom-scroll" #searchauto="matAutocomplete"
                         (optionSelected)="onSearchSelect($event)">
