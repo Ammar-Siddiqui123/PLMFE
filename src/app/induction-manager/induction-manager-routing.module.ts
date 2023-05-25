@@ -14,6 +14,8 @@ import { InventoryMasterComponent } from '../admin/inventory-master/inventory-ma
 import { ManualTransactionsComponent } from '../admin/manual-transactions/manual-transactions.component';
 import { PalletReceivingComponent } from './pallet-receiving/pallet-receiving.component';
 import { MarkEmptyReelsComponent } from './mark-empty-reels/mark-empty-reels.component';
+import { ToteTransactionManagerComponent } from './tote-transaction-manager/tote-transaction-manager.component';
+import { ImToteManagerComponent } from './im-tote-manager/im-tote-manager.component';
 
 const routes: Routes = [
   { path: '', component: InductionManagerComponent },
@@ -86,6 +88,16 @@ const routes: Routes = [
   {
     path: 'Admin/ManualTransactions',
     component: ManualTransactionsComponent,
+    canActivate: [AuthGuardGuard]
+  },
+  {
+    path: 'Admin/ToteTransactionManager',
+    component: ToteTransactionManagerComponent,
+    canActivate: [AuthGuardGuard]
+  },
+  {
+    path: 'Admin/ImToteManager',
+    component: ImToteManagerComponent,
     canActivate: [AuthGuardGuard]
   },
  
