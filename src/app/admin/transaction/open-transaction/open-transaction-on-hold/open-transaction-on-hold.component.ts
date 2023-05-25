@@ -771,9 +771,6 @@ this.router.navigate([]).then((result) => {
   contextMenuPosition = { x: '0px', y: '0px' };
   FilterString: string = "1 = 1";
 
-  getColDef(colHeader:any){
-    // return this.Order_Table_Config.filter((item) => item.colHeader == colHeader)[0]?.colDef ?? '';
-  }
 
   onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
     event.preventDefault();
