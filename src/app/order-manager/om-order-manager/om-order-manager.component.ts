@@ -193,12 +193,13 @@ export class OmOrderManagerComponent implements OnInit {
     let val1 : any, val2 : any;
 
     if (this.column.indexOf('Date') > -1) {
-      val1 = this.value1D;
-      val2 = this.value2D;
+      val1 = this.value1D.toLocaleDateString();
+      val2 = this.value2D.toLocaleDateString();
     } else {
       val1 = this.value1;
       val2 = this.value2;      
     }
+
 
     if(this.FilterString == "") this.FilterString = "1 = 1";
 
@@ -207,7 +208,7 @@ export class OmOrderManagerComponent implements OnInit {
       wsid: this.userData.wsid,
       col: this.column,
       whereClause: this.case,
-      colVal1: val1,
+      colVal1: val1 ,
       colVal2: val2,
       maxOrders: this.maxOrders.toString(),
       transType: this.transType,
@@ -215,7 +216,7 @@ export class OmOrderManagerComponent implements OnInit {
       orderType: this.orderType,
       filter: this.FilterString
     };
-    console.log(payload)
+    // console.log(payload)
 
     this.OMService.get(payload, '/OrderManager/FillOrderManTempData').subscribe((res: any) => {
       if (res.isExecuted) this.fillTable();
@@ -235,13 +236,13 @@ export class OmOrderManagerComponent implements OnInit {
       searchColumn: this.searchCol,
       searchString: this.searchTxt,
     };
-    console.log(payload2)
+    // console.log(payload2)
 
     this.OMService.get(payload2, '/OrderManager/SelectOrderManagerTempDTNew',loader).subscribe((res: any) => {
       this.orderTable = new MatTableDataSource(res.data?.transactions);
       this.customPagination.total = res.data?.recordsFiltered;
       this.totalRecords = res.data?.recordsFiltered;
-      console.log(res );
+      // console.log(res );
 
       this.orderTable.sort = this.sort;
     });   
@@ -332,10 +333,10 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   releaseViewed() {
-    debugger;
-    console.log(this.OMIndex.preferences[0].allowPartRel)
-    console.log(this.totalRecords)
-    console.log(this.FilterString)
+    // debugger;
+    // console.log(this.OMIndex.preferences[0].allowPartRel)
+    // console.log(this.totalRecords)
+    // console.log(this.FilterString)
     if (this.orderTable.data.length == 0) {
       this.toastr.error("No Transactions match your current filters to release.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
       return

@@ -563,7 +563,7 @@ export class InventoryMapComponent implements OnInit {
    else {
     localStorage.setItem('routeFromInduction','false')
     this.router.navigate([]).then((result) => {
-      window.open(`/#/admin/transaction?itemNumber=${row.locationNumber}`, '_blank');
+      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_blank');
     });
 
    }

@@ -114,6 +114,10 @@
                                     <input type="text" [(ngModel)]="bpSettingInp" placeholder="Search Zones"
                                       aria-label="Search zone-search-box" matInput (keyup)="zoneFilter($event)"
                                       maxlength="2">
+
+                                      <button *ngIf="bpSettingInp" matSuffix mat-icon-button aria-label="Clear" (click)="bpSettingInp=''">
+                                        <mat-icon>close</mat-icon>
+                                      </button>
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="addZoneDialog()" [disabled]="!isLookUp">
@@ -191,6 +195,10 @@
                                     <input type="text" placeholder="Search Locations" aria-label="Search Locations"
                                       [(ngModel)]="bpSettingLocInp" matInput (keyup)="applyFilter($event)"
                                       maxlength="50">
+
+                                      <button *ngIf="bpSettingLocInp" matSuffix mat-icon-button aria-label="Clear" (click)="bpSettingLocInp=''">
+                                        <mat-icon>close</mat-icon>
+                                      </button>
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="addLocationDialog()" [disabled]="!isLookUp" matTooltip="Add new location"
@@ -406,6 +414,9 @@
                                     <input type="text" placeholder="Search Groups Allowed" [(ngModel)]="grpAllFilter"
                                       aria-label="Search Groups Allowed" matInput (keyup)="groupAllowedFilter($event)"
                                       maxlength="50">
+                                      <button *ngIf="grpAllFilter" matSuffix mat-icon-button aria-label="Clear" (click)="grpAllFilter=''">
+                                        <mat-icon>close</mat-icon>
+                                      </button>
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     [disabled]="!isLookUp" (click)="grpAllowedDialog()">
