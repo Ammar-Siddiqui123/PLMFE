@@ -33,6 +33,9 @@ import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequ
 import { FunctionAllocationComponent } from 'src/app/admin/dialogs/function-allocation/function-allocation.component';
 import { SendTranHistoryComponent } from 'src/app/admin/dialogs/send-tran-history/send-tran-history.component';
 import { SharedService } from 'src/app/services/shared.service';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
+import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
@@ -245,7 +248,8 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     private toastr: ToastrService,
     private invMapService: InventoryMapService,
     private dialog: MatDialog,
-    private sharedService:SharedService
+    private sharedService:SharedService,
+    private filterService: ContextMenuFiltersService
   ) {
     if (this.router.getCurrentNavigation()?.extras?.state?.['searchValue']) {
       this.columnSearch.searchValue =
@@ -601,7 +605,7 @@ this.router.navigate([]).then((result) => {
       toteID: this.toteId,
       sortColumnNumber: this.sortCol,
       sortOrder: this.sortOrder,
-      filter: '1=1',
+      filter: this.FilterString,
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
@@ -760,5 +764,61 @@ this.router.navigate([]).then((result) => {
     this.searchByOrderNumber.unsubscribe();
     this.searchByColumn.unsubscribe();
     this.subscription.unsubscribe();
+  }
+
+
+  @ViewChild('trigger') trigger: MatMenuTrigger;
+  contextMenuPosition = { x: '0px', y: '0px' };
+  FilterString: string = "1 = 1";
+
+  getColDef(colHeader:any){
+    // return this.Order_Table_Config.filter((item) => item.colHeader == colHeader)[0]?.colDef ?? '';
+  }
+
+  onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.trigger.menuData = { item: { SelectedItem: SelectedItem, FilterColumnName: FilterColumnName, FilterConditon: FilterConditon, FilterItemType: FilterItemType } };
+    this.trigger.menu?.focusFirstItem('mouse');
+    this.trigger.openMenu();
+  }
+
+  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
+    debugger;
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+    if(FilterColumnName != "" || Condition == "clear"){
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+      this.FilterString = this.FilterString != "" ? this.FilterString : "1=1";
+      this.resetPagination();
+      this.getContentData();
+    }
+  }
+
+  resetPagination(){
+    this.customPagination.startIndex = 0;
+    this.customPagination.endIndex = 20;
+    this.paginator.pageIndex = 0;
+  }
+
+  getType(val): string {
+    return this.filterService.getType(val);
+  }
+
+  InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
+    const dialogRef = this.dialog.open(InputFilterComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        FilterColumnName: FilterColumnName,
+        Condition: Condition,
+        TypeOfElement: TypeOfElement
+      },
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe((result) => {
+      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
+    }
+    );
   }
 }
