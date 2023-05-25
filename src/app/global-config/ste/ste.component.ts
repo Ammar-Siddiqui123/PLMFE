@@ -96,7 +96,7 @@ async STERestart(){
 }
 async CheckStatus(){
   this.authService.ServiceStatusSTE().subscribe((res: any) => {
-    if(res.data) this.ServiceStatus('start',res.data);
+    if(res.data) this.Status = 'Online';
     else this.Status = 'Offline';
   })
   
