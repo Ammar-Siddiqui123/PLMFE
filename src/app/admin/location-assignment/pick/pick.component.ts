@@ -17,31 +17,35 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class PickComponent implements OnInit {
 
-  displayedColumns1: string[] = ['status', 'order_no', 'priority', 'quantity', 'req_date', 'action'];
-  displayedColumns2: string[] = ['order_no', 'priority', 'quantity', 'req_date', 'action'];
-  tableData1:any = new MatTableDataSource([]);
+  displayedColumns1: string[] = ['status', 'orderNumber', 'priority', 'itemCount', 'requiredDate', 'action'];
+  displayedColumns2: string[] = ['orderNumber', 'priority', 'itemCount', 'requiredDate', 'action'];
+  tableData1: any = new MatTableDataSource([]);
   tableData2: any = new MatTableDataSource([]);
   userData: any;
   orderNumberSearch: string = '';
-  
+
   @ViewChild('MatSort1') sort1: MatSort;
-  sequenceKeyMapping1:any = [
-    {sequence: 'order_no',key:'order_no'},
-    {sequence: 'priority',key:'priority'},
-    {sequence: 'quantity',key:'quantity'},
-    {sequence: 'req_date',key:'req_date'},
+  sequenceKeyMapping1: any = [
+    { sequence: 'orderNumber', key: 'orderNumber' },
+    { sequence: 'priority', key: 'priority' },
+    { sequence: 'itemCount', key: 'itemCount' },
+    { sequence: 'requiredDate', key: 'requiredDate' },
   ];
-  
+
   @ViewChild('MatSort2') sort2: MatSort;
-  sequenceKeyMapping2:any = [
-    {sequence: 'order_no',key:'order_no'},
-    {sequence: 'quantity',key:'quantity'},
-    {sequence: 'priority',key:'priority'},
-    {sequence: 'req_date',key:'req_date'},
+  sequenceKeyMapping2: any = [
+    { sequence: 'orderNumber', key: 'orderNumber' },
+    { sequence: 'itemCount', key: 'itemCount' },
+    { sequence: 'priority', key: 'priority' },
+    { sequence: 'requiredDate', key: 'requiredDate' },
   ];
 
   @ViewChild('paginator1') paginator1: MatPaginator;
   @ViewChild('paginator2') paginator2: MatPaginator;
+
+  allShortList: any = [];
+  fpzList: any = [];
+  shortList: any = [];
 
   constructor(
     private toastr: ToastrService,
@@ -54,47 +58,46 @@ export class PickComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.tableData1 = new MatTableDataSource([
-      { order_no: '1', priority: '1', quantity: '1', req_date: '20/May/2023' },
-      { order_no: '2', priority: '2', quantity: '320', req_date: '20/May/2023' },
-      { order_no: '3', priority: '3', quantity: '66', req_date: '20/May/2023' },
-      { order_no: '4', priority: '4', quantity: '320', req_date: '20/May/2023' },
-      { order_no: '5', priority: '5', quantity: '43', req_date: '20/May/2023' },
-      { order_no: '6', priority: '6', quantity: '320', req_date: '20/May/2023' },
-      { order_no: '7', priority: '7', quantity: '320', req_date: '20/May/2023' },
-      { order_no: '8', priority: '12', quantity: '320', req_date: '20/May/2023' },
-      { order_no: '9', priority: '12', quantity: '33', req_date: '20/May/2023' },
-      { order_no: '10', priority: '12', quantity: '343', req_date: '20/May/2023' },
-      { order_no: '11', priority: '7', quantity: '3444', req_date: '20/May/2023' },
-      { order_no: '12', priority: '12', quantity: '320', req_date: '20/May/2023' },
-      { order_no: '13', priority: '12', quantity: '44', req_date: '20/May/2023' },
-      { order_no: '14', priority: '3', quantity: '320', req_date: '20/May/2023' },
-      { order_no: '15', priority: '12', quantity: '320', req_date: '20/May/2023' },
-      { order_no: '16', priority: '8', quantity: '34', req_date: '20/May/2023' },
-      { order_no: '17', priority: '12', quantity: '320', req_date: '20/May/2023' },
-      { order_no: '18', priority: '12', quantity: '77', req_date: '20/May/2023' },
-      { order_no: '19', priority: '12', quantity: '320', req_date: '20/May/2023' },
-      { order_no: '20', priority: '2', quantity: '320', req_date: '20/May/2023' },
-      { order_no: '21', priority: '12', quantity: '320', req_date: '20/May/2023' },
-      { order_no: '22', priority: '12', quantity: '320', req_date: '20/May/2023' },
-      { order_no: '23', priority: '2', quantity: '88', req_date: '20/May/2023' },
-      { order_no: '24', priority: '3', quantity: '223', req_date: '20/May/2023' },
-    ]);
-    this.tableData1.paginator = this.paginator1;
-    this.tableData2.paginator = this.paginator2;
+    this.GetLocationAssignmentPickTable();
+  }
+
+  GetLocationAssignmentPickTable(loader: boolean = false) {
+    let payload:any = {
+      orderNumber: this.orderNumberSearch,
+    };
+    this.orderManagerService.get(payload, '/Admin/GetLocationAssignmentPickTable', loader).subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        this.allShortList = res.data.allShortList;
+        this.fpzList = res.data.fpzList;
+        this.shortList = res.data.shortList;
+        this.tableData1 = new MatTableDataSource(res.data.transactionTypes);
+        this.tableData1.filteredData.forEach(element => {
+          element.status = this.getOrderStatus(element.orderNumber);
+        }
+        );
+        this.tableData1.paginator = this.paginator1;
+      } else {
+        console.log('Error', res.responseMessage);
+        this.tableData1 = new MatTableDataSource([]); 
+        // this.toastr.error(res.responseMessage, 'Error!', {
+        //   positionClass: 'toast-bottom-right',
+        //   timeOut: 2000
+        // });
+      }
+    });
   }
 
   add(order: any) {
     this.tableData2 = new MatTableDataSource(this.tableData2.filteredData.concat(order));
-    this.tableData1 =  new MatTableDataSource(this.tableData1.filteredData.filter((value, key) => {
-      return value.order_no != order.order_no;
+    this.tableData1 = new MatTableDataSource(this.tableData1.filteredData.filter((value, key) => {
+      return value.orderNumber != order.orderNumber;
     }));
   }
 
   remove(order: any) {
     this.tableData1 = new MatTableDataSource(this.tableData1.filteredData.concat(order));
     this.tableData2 = new MatTableDataSource(this.tableData2.filteredData.filter((value, key) => {
-      return value.order_no != order.order_no;
+      return value.orderNumber != order.orderNumber;
     }));
   }
 
@@ -129,7 +132,7 @@ export class PickComponent implements OnInit {
         if (result === 'Yes') {
           let payload: any = {
             "transType": 1,
-            "orders": this.tableData2.map((item: any) => { return item.order_no }),
+            "orders": this.tableData2.map((item: any) => { return item.orderNumber }),
             "username": this.userData.userName,
             "wsid": this.userData.wsid
           };
@@ -151,15 +154,16 @@ export class PickComponent implements OnInit {
     };
   }
 
-  Search(){
-    this.tableData1 = new MatTableDataSource();
-    this.tableData2 = new MatTableDataSource();
+  Search() {
+    this.tableData1 = new MatTableDataSource([]);
+    this.tableData2 = new MatTableDataSource([]);
+    this.GetLocationAssignmentPickTable(true);
   }
 
 
   //Sorting
   announceSortChange1(sortState: Sort) {
-    sortState.active = this.sequenceKeyMapping1.filter((x:any) => x.sequence == sortState.active)[0]?.key;
+    sortState.active = this.sequenceKeyMapping1.filter((x: any) => x.sequence == sortState.active)[0]?.key;
     if (sortState.direction) {
       this._liveAnnouncer1.announce(`Sorted ${sortState.direction}ending`);
     } else {
@@ -170,7 +174,7 @@ export class PickComponent implements OnInit {
 
   announceSortChange2(sortState: Sort) {
     debugger;
-    sortState.active = this.sequenceKeyMapping2.filter((x:any) => x.sequence == sortState.active)[0]?.key;
+    sortState.active = this.sequenceKeyMapping2.filter((x: any) => x.sequence == sortState.active)[0]?.key;
     if (sortState.direction) {
       this._liveAnnouncer2.announce(`Sorted ${sortState.direction}ending`);
     } else {
@@ -179,4 +183,18 @@ export class PickComponent implements OnInit {
     this.tableData2.sort = this.sort2;
   }
 
+  getOrderStatus(orderNumber: any) {
+    if(this.shortList.includes(orderNumber)){
+      return 'Short Lines';
+    }
+    if(this.shortList.includes(orderNumber) && this.allShortList.includes(orderNumber)){
+      return 'All Short';
+    }
+    if(this.fpzList.includes(orderNumber)){
+      return 'All in FPZ';
+    }
+    else{
+      return 'In Stock';
+    }
+  }
 }
