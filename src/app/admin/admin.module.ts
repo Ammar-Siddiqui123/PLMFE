@@ -137,6 +137,7 @@ import { SrNewOrderComponent } from './system-replenishment/sr-new-order/sr-new-
 import { FilterItemNumbersComponent } from './dialogs/filter-item-numbers/filter-item-numbers.component';
 import { SrCurrentOrderComponent } from './system-replenishment/sr-current-order/sr-current-order.component';
 import { SortPipe } from '../init/sort.pipe';
+import { LaLocationAssignmentQuantitiesComponent } from './dialogs/la-location-assignment-quantities/la-location-assignment-quantities.component';
 
 
 
@@ -264,6 +265,7 @@ import { SortPipe } from '../init/sort.pipe';
     FilterItemNumbersComponent,
     SrCurrentOrderComponent,
     SortPipe,
+    LaLocationAssignmentQuantitiesComponent,
 
   ],
   imports: [
