@@ -114,6 +114,7 @@ export class OmCreateOrdersComponent implements OnInit {
   ];
 
   filterColumnNames: any = [];
+  sortedFilterColumnNames: any = [];
   createOrdersDTSubscribe: any;
   createOrdersDTPayload: any = {
     orderNumber: "",
@@ -202,6 +203,9 @@ export class OmCreateOrdersComponent implements OnInit {
     debugger;
     if(this.tableData.filteredData.length == 0){
       return;
+    }
+    if(!element.orderNumber && this.tableData.filteredData.length == 1){
+      element = this.tableData.filteredData[0];
     }
     let dialogRef = this.dialog.open(OmAddRecordComponent, {
       height: 'auto',
@@ -350,7 +354,10 @@ export class OmCreateOrdersComponent implements OnInit {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
-              this.createOrdersDTPayload.orderNumber = '';
+              // this.createOrdersDTPayload.orderNumber = '';
+              this.createOrdersDTPayload.filter = "1 = 1";
+              this.selectedFilterColumn = '';
+              this.selectedFilterString = '';
               this.createOrdersDT();
               dialogRef.close();
             } else {
@@ -423,6 +430,7 @@ export class OmCreateOrdersComponent implements OnInit {
       this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
     }
     this.createOrdersDTPayload.filter = this.FilterString != "" ? this.FilterString : "1 = 1";
+    this.paginator1.pageIndex = 0;
     this.createOrdersDT(true);
   }
 
@@ -465,6 +473,7 @@ export class OmCreateOrdersComponent implements OnInit {
     this.orderManagerService.get(payload, '/Admin/GetColumnSequence').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.filterColumnNames = JSON.parse(JSON.stringify(res.data));
+        this.sortedFilterColumnNames = [...this.filterColumnNames.sort()];
         this.displayedColumns = [];
         res.data.forEach((x:any) => {
         if(this.sequenceKeyMapping.filter((y:any)=> x == y.sequence)[0]?.key){

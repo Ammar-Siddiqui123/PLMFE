@@ -169,7 +169,7 @@ export class OmOrderManagerComponent implements OnInit {
       if (res.isExecuted) {
         this.displayedColumns = res.data;        
         this.displayedColumns.push( 'actions');
-        this.colList = structuredClone(res.data);
+        this.colList = structuredClone(res.data.filter(x => x != 'actions'));
         this.searchCol = this.colList[0];
       }
     });

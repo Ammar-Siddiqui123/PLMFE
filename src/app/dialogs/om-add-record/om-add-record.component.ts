@@ -110,38 +110,39 @@ export class OmAddRecordComponent implements OnInit {
   }
 
   autofillModal() {
-    this.oTTempUpdatePayload.id = this.data.transaction.id;
-    this.oTTempUpdatePayload.orderNumber = this.data.transaction.orderNumber;
-    this.oTTempUpdatePayload.transType = this.data.transaction.transactionType;
-    this.oTTempUpdatePayload.warehouse = this.data.transaction.warehouse;
-    this.oTTempUpdatePayload.itemNumber = this.data.transaction.itemNumber;
-    this.oTTempUpdatePayload.description = this.data.transaction.description;
-    this.oTTempUpdatePayload.unitofMeasure = this.data.transaction.unitOfMeasure;
-    this.oTTempUpdatePayload.transQty = this.data.transaction.transactionQuantity;
-    this.oTTempUpdatePayload.lineNumber = this.data.transaction.lineNumber;
-    this.oTTempUpdatePayload.priority = this.data.transaction.priority;
-    this.oTTempUpdatePayload.requiredDate = this.data.transaction.requiredDate == "1/1/1900 12:00:00 AM" ? "" : this.data.transaction.requiredDate;
-    this.oTTempUpdatePayload.hostTransID = this.data.transaction.hostTransactionID;
-    this.oTTempUpdatePayload.emergency = this.data.transaction.emergency;
-    this.oTTempUpdatePayload.label = this.data.transaction.label;
-    this.oTTempUpdatePayload.lotNumber = this.data.transaction.lotNumber;
-    this.oTTempUpdatePayload.expirationDate = this.data.transaction.expirationDate == "1/1/1900 12:00:00 AM" ? "" : this.data.transaction.expirationDate;
-    this.oTTempUpdatePayload.serialNumber = this.data.transaction.serialNumber;
-    this.oTTempUpdatePayload.revision = this.data.transaction.revision;
-    this.oTTempUpdatePayload.batchPickID = this.data.transaction.batchPickID;
-    this.oTTempUpdatePayload.toteID = this.data.transaction.toteID;
-    this.oTTempUpdatePayload.cell = this.data.transaction.cell;
-    this.oTTempUpdatePayload.notes = this.data.transaction.notes;
-    this.oTTempUpdatePayload.userField1 = this.data.transaction.userField1;
-    this.oTTempUpdatePayload.userField2 = this.data.transaction.userField2;
-    this.oTTempUpdatePayload.userField3 = this.data.transaction.userField3;
-    this.oTTempUpdatePayload.userField4 = this.data.transaction.userField4;
-    this.oTTempUpdatePayload.userField5 = this.data.transaction.userField5;
-    this.oTTempUpdatePayload.userField6 = this.data.transaction.userField6;
-    this.oTTempUpdatePayload.userField7 = this.data.transaction.userField7;
-    this.oTTempUpdatePayload.userField8 = this.data.transaction.userField8;
-    this.oTTempUpdatePayload.userField9 = this.data.transaction.userField9;
-    this.oTTempUpdatePayload.userField10 = this.data.transaction.userField10;
+    debugger;
+    this.oTTempUpdatePayload.id = this.data.transaction.id ? this.data.transaction.id : 0;
+    this.oTTempUpdatePayload.orderNumber = this.data.transaction.orderNumber ? this.data.transaction.orderNumber : "";
+    this.oTTempUpdatePayload.transType = this.data.transaction.transactionType ? this.data.transaction.transactionType : "";
+    this.oTTempUpdatePayload.warehouse = this.data.transaction.warehouse ? this.data.transaction.warehouse : "";
+    this.oTTempUpdatePayload.itemNumber = this.data.transaction.itemNumber ? this.data.transaction.itemNumber : "";
+    this.oTTempUpdatePayload.description = this.data.transaction.description ? this.data.transaction.description : "";
+    this.oTTempUpdatePayload.unitofMeasure = this.data.transaction.unitOfMeasure ? this.data.transaction.unitOfMeasure : "";
+    this.oTTempUpdatePayload.transQty = this.data.transaction.transactionQuantity ? this.data.transaction.transactionQuantity : 1;
+    this.oTTempUpdatePayload.lineNumber = this.data.transaction.lineNumber ? this.data.transaction.lineNumber : 0;
+    this.oTTempUpdatePayload.priority = this.data.transaction.priority ? this.data.transaction.priority : 0;
+    this.oTTempUpdatePayload.hostTransID = this.data.transaction.hostTransactionID ? this.data.transaction.hostTransactionID : "";
+    this.oTTempUpdatePayload.emergency = this.data.transaction.emergency ? this.data.transaction.emergency : false;
+    this.oTTempUpdatePayload.label = this.data.transaction.label ? this.data.transaction.label : false;
+    this.oTTempUpdatePayload.lotNumber = this.data.transaction.lotNumber ? this.data.transaction.lotNumber : "";
+    this.oTTempUpdatePayload.requiredDate = (this.data.transaction.requiredDate == undefined || this.data.transaction.requiredDate == "1/1/1900 12:00:00 AM" || this.data.transaction.requiredDate == "") ? "" : new Date(this.data.transaction.requiredDate);
+    this.oTTempUpdatePayload.expirationDate = (this.data.transaction.expirationDate == undefined || this.data.transaction.expirationDate == "1/1/1900 12:00:00 AM" || this.data.transaction.expirationDate == "") ? "" : new Date(this.data.transaction.expirationDate);
+    this.oTTempUpdatePayload.serialNumber = this.data.transaction.serialNumber ? this.data.transaction.serialNumber : "";
+    this.oTTempUpdatePayload.revision = this.data.transaction.revision ? this.data.transaction.revision : "";
+    this.oTTempUpdatePayload.batchPickID = this.data.transaction.batchPickID ? this.data.transaction.batchPickID : "";
+    this.oTTempUpdatePayload.toteID = this.data.transaction.toteID ? this.data.transaction.toteID : "";
+    this.oTTempUpdatePayload.cell = this.data.transaction.cell ? this.data.transaction.cell : "";
+    this.oTTempUpdatePayload.notes = this.data.transaction.notes ? this.data.transaction.notes : "";
+    this.oTTempUpdatePayload.userField1 = this.data.transaction.userField1 ? this.data.transaction.userField1 : "";
+    this.oTTempUpdatePayload.userField2 = this.data.transaction.userField2 ? this.data.transaction.userField2 : "";
+    this.oTTempUpdatePayload.userField3 = this.data.transaction.userField3 ? this.data.transaction.userField3 : "";
+    this.oTTempUpdatePayload.userField4 = this.data.transaction.userField4 ? this.data.transaction.userField4 : "";
+    this.oTTempUpdatePayload.userField5 = this.data.transaction.userField5 ? this.data.transaction.userField5 : "";
+    this.oTTempUpdatePayload.userField6 = this.data.transaction.userField6 ? this.data.transaction.userField6 : "";
+    this.oTTempUpdatePayload.userField7 = this.data.transaction.userField7 ? this.data.transaction.userField7 : "";
+    this.oTTempUpdatePayload.userField8 = this.data.transaction.userField8 ? this.data.transaction.userField8 : "";
+    this.oTTempUpdatePayload.userField9 = this.data.transaction.userField9 ? this.data.transaction.userField9 : "";
+    this.oTTempUpdatePayload.userField10 = this.data.transaction.userField10 ? this.data.transaction.userField10 : "";
     if (this.data.transaction.inProcess == "False") {
       this.oTTempUpdatePayload.inProcess = false;
     }
@@ -151,7 +152,7 @@ export class OmAddRecordComponent implements OnInit {
     // this.oTTempUpdatePayload.inProcess = this.data.transaction.inProcess;
     this.oTTempUpdatePayload.processBy = this.data.transaction.processingBy;
     this.oTTempUpdatePayload.importBy = this.data.transaction.importBy;
-    this.oTTempUpdatePayload.importDate = this.data.transaction.importDate;
+    this.oTTempUpdatePayload.importDate = this.data.transaction.importDate ? new Date(this.data.transaction.importDate) : new Date();
     this.oTTempUpdatePayload.importFileName = this.data.transaction.importFilename;
 
     if (this.oTTempUpdatePayload.processBy == "" || this.oTTempUpdatePayload.processBy == null || this.oTTempUpdatePayload.processBy == undefined) {
@@ -202,6 +203,7 @@ export class OmAddRecordComponent implements OnInit {
   }
 
   async save(loader: boolean = false) {
+    debugger;
     if (this.oTTempUpdatePayload.orderNumber.trim() == '' || this.oTTempUpdatePayload.itemNumber.trim() == '' || this.oTTempUpdatePayload.transType.trim() == '') {
       this.toastr.error("Order Number, Item Number and Transaction Type must be completed in order to continue.", 'Warning!', {
         positionClass: 'toast-bottom-right',
@@ -225,9 +227,9 @@ export class OmAddRecordComponent implements OnInit {
       if (!check) {
         return;
       }
-      this.oTTempUpdatePayload.importDate = this.oTTempUpdatePayload.importDate ? new Date(this.oTTempUpdatePayload.importDate).getMonth() + '/' +  new Date(this.oTTempUpdatePayload.importDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.importDate).getFullYear() : "";
-      this.oTTempUpdatePayload.requiredDate = this.oTTempUpdatePayload.requiredDate ? new Date(this.oTTempUpdatePayload.requiredDate).getMonth() + '/' +  new Date(this.oTTempUpdatePayload.requiredDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.requiredDate).getFullYear() : "";
-      this.oTTempUpdatePayload.expirationDate = this.oTTempUpdatePayload.expirationDate ? new Date(this.oTTempUpdatePayload.expirationDate).getMonth() + '/' +  new Date(this.oTTempUpdatePayload.expirationDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.expirationDate).getFullYear() : "";
+      this.oTTempUpdatePayload.importDate = this.oTTempUpdatePayload.importDate ? new Date(this.oTTempUpdatePayload.importDate).getMonth()+1 + '/' +  new Date(this.oTTempUpdatePayload.importDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.importDate).getFullYear() : "";
+      this.oTTempUpdatePayload.requiredDate = this.oTTempUpdatePayload.requiredDate ? new Date(this.oTTempUpdatePayload.requiredDate).getMonth()+1 + '/' +  new Date(this.oTTempUpdatePayload.requiredDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.requiredDate).getFullYear() : "";
+      this.oTTempUpdatePayload.expirationDate = this.oTTempUpdatePayload.expirationDate ? new Date(this.oTTempUpdatePayload.expirationDate).getMonth()+1 + '/' +  new Date(this.oTTempUpdatePayload.expirationDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.expirationDate).getFullYear() : "";
       if (!this.isEdit) {
         this.orderManagerService.get(this.oTTempUpdatePayload, '/OrderManager/OTTempInsert', loader).subscribe((res: any) => {
           if (res.isExecuted && res.data) {
@@ -344,9 +346,21 @@ export class OmAddRecordComponent implements OnInit {
       }
       this.orderManagerService.get(payload, '/Common/SearchItem', true).subscribe((res: any) => {
         if (res.isExecuted && res.data && res.data.length > 0) {
-          this.oTTempUpdatePayload.description = res.data[0].description;
-          this.oTTempUpdatePayload.unitofMeasure = res.data[0].unitOfMeasure;
-          this.wharehouseRequired = res.data[0].warehouseSensitive;
+          if(res.data[0].itemNumber == this.oTTempUpdatePayload.itemNumber){
+            this.oTTempUpdatePayload.description = res.data[0].description;
+            this.oTTempUpdatePayload.unitofMeasure = res.data[0].unitOfMeasure;
+            this.wharehouseRequired = res.data[0].warehouseSensitive;
+          }
+          else{
+            this.toastr.error(`Item ${this.oTTempUpdatePayload.itemNumber} Does not exist!`, 'Inventory', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+            this.oTTempUpdatePayload.itemNumber = "";
+            this.oTTempUpdatePayload.description = "";
+            this.oTTempUpdatePayload.unitofMeasure = ""; 
+            this.wharehouseRequired = false;
+          }
         }
         else {
           this.toastr.error(`Item ${this.oTTempUpdatePayload.itemNumber} Does not exist!`, 'Inventory', {
@@ -354,6 +368,9 @@ export class OmAddRecordComponent implements OnInit {
             timeOut: 2000
           });
           this.oTTempUpdatePayload.itemNumber = "";
+          this.oTTempUpdatePayload.description = "";
+          this.oTTempUpdatePayload.unitofMeasure = ""; 
+          this.wharehouseRequired = false;
         }
       });
     }

@@ -6,6 +6,7 @@ import labels from '../../../labels/labels.json'
 import { AuthService } from 'src/app/init/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-kit-item',
@@ -43,7 +44,8 @@ export class KitItemComponent implements OnInit, OnChanges {
     private toastr: ToastrService,
     private authService: AuthService,
     private dialog: MatDialog,
-    private el: ElementRef
+    private el: ElementRef,
+    private sharedService:SharedService
     ) { }
 
   ngOnInit(): void {
@@ -78,6 +80,7 @@ export class KitItemComponent implements OnInit, OnChanges {
   }
 
   onRowUpdate(oldVal :any , event: Event, i){
+    this.sharedService.updateInvMasterState(event,true)
     if(oldVal !== event){
       this.kitItemsList[i].isSaved = false;
     }
@@ -226,6 +229,7 @@ export class KitItemComponent implements OnInit, OnChanges {
         e.itemNumber =  this.dialogitemNumber!=""?this.dialogitemNumber:e.itemNumber;
         e.description = this.dialogDescription!=""?this.dialogDescription:e.description;
         this.isFormFilled = true;
+        this.sharedService.updateInvMasterState(x,true)
       }
     })
   }
@@ -239,6 +243,8 @@ export class KitItemComponent implements OnInit, OnChanges {
 
       if (x) {
         e.description =  this.dialogDescription!=""?this.dialogDescription:e.description 
+        this.sharedService.updateInvMasterState(x,true)
+
       }
     })
   }
@@ -354,5 +360,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       this.isFormFilled = false;
     }  
   }
-
+  handleInputChange(event: any) {
+    this.sharedService.updateInvMasterState(event,true)
+  }
 }

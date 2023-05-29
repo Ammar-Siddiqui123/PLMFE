@@ -13,6 +13,8 @@ import { AdminComponent } from './admin/admin.component';
 import { AdminPrefrencesComponent } from './admin-prefrences/admin-prefrences.component';
 import { PalletReceivingComponent } from './pallet-receiving/pallet-receiving.component';
 import { MarkEmptyReelsComponent } from './mark-empty-reels/mark-empty-reels.component';
+import { ToteTransactionManagerComponent } from './tote-transaction-manager/tote-transaction-manager.component';
+import { ImToteManagerComponent } from './im-tote-manager/im-tote-manager.component';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { MarkEmptyReelsComponent } from './mark-empty-reels/mark-empty-reels.com
     AdminComponent,
     AdminPrefrencesComponent,
     PalletReceivingComponent,
-    MarkEmptyReelsComponent
+    MarkEmptyReelsComponent,
+    ToteTransactionManagerComponent,
+    ImToteManagerComponent
   ],
   imports: [
     CommonModule,
