@@ -272,36 +272,44 @@ export class ProcessPicksComponent implements OnInit {
         if (val === 'batchWithID') {
           this.pPickService.get('', '/Induction/NextBatchID').subscribe(res => {
             this.batchID = res.data;
-          });
-          let payload = {
-            "wsid": this.userData.wsid,
-            "type": this.pickType
-          }
-          if (!this.useInZonePickScreen) {
-            if (!this.usePickBatchManager) {
-              if (this.autoPickOrderSelection) {
-                this.pPickService.get(payload, '/Induction/FillOrderNumber').subscribe(res => {
-                  this.TOTE_SETUP.forEach((element, key) => {
-                    element.orderNumber = res.data[key];
+            let payload = {
+              "wsid": this.userData.wsid,
+              "type": this.pickType
+            }
+            if (!this.useInZonePickScreen) {
+              if (!this.usePickBatchManager) {
+                if (this.autoPickOrderSelection) {
+                  this.pPickService.get(payload, '/Induction/FillOrderNumber').subscribe(res => {
+                    this.TOTE_SETUP.forEach((element, key) => {
+                      element.orderNumber = res.data[key];
+                    });
                   });
-                });
+                }
+                if (this.autoPickToteID) {
+                  this.getAllToteIds(true)
+                }
               }
+              if(this.batchID != ''){
+                if (this.autoPickToteID) {
+                  this.getAllToteIds(true);
+                  if(this.usePickBatchManager){
+                    this.openPickToteDialogue();
+                  }
+                }
+              }
+              this.TOTE_SETUP.map(obj => {
+                obj.toteID = '';
+                obj.orderNumber = '';
+                obj.priority = '';
+              });
+              this.allOrders = [];
+            }
+            else {
               if (this.autoPickToteID) {
-                this.getAllToteIds(true)
+                this.getAllToteIds(true);
               }
             }
-            this.TOTE_SETUP.map(obj => {
-              obj.toteID = '';
-              obj.orderNumber = '';
-              obj.priority = '';
-            });
-            this.allOrders = [];
-          }
-          else {
-            if (this.autoPickToteID) {
-              this.getAllToteIds(true)
-            }
-          }
+          });
         }
         else {
           if (this.batchID === '') {
