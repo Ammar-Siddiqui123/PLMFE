@@ -16,14 +16,14 @@
                 </h2>
               </div>
               <div class="d-flex align-items-center gap-12">
-                <button mat-flat-button color="primary" class="sm-icon-button" (click)="prevPage()">
+                <button mat-flat-button color="primary" class="sm-icon-button"  [disabled]="paginationData && paginationData.position<2"  (click)="prevPage()">
                   <span class="material-symbols-outlined">
                     keyboard_arrow_left
                   </span>
                 </button>
                 <div class="text-chrome-600"><b>{{paginationData && paginationData.position}}</b> of {{paginationData &&
                   paginationData.total}}</div>
-                <button mat-flat-button color="primary" class="sm-icon-button" (click)="nextPage()">
+                <button mat-flat-button color="primary" class="sm-icon-button" [disabled]="paginationData && paginationData.position===paginationData.total" (click)="nextPage()">
                   <span class="material-symbols-outlined">
                     keyboard_arrow_right
                   </span>
@@ -97,7 +97,7 @@
             <div class="card bg-white bg-50 px-4 py-4 br-20 mb-3" style="min-height: 450px;">
               <mat-tab-group dynamicHeight (selectedTabChange)="tabChanged($event)">
                 <mat-tab label="Details">
-                  <app-detail [details]="invMaster" (notifyParent)="getNotification($event)"></app-detail>
+                  <app-detail [events]="eventsSubject.asObservable()" [details]="invMaster"  (notifyParent)="getNotification($event)"></app-detail>
                 </mat-tab>
                 <mat-tab label="Item Setup">
                   <app-item-setup [itemSetup]="invMaster"></app-item-setup>
@@ -110,7 +110,7 @@
                     (notifyParent)="getNotification($event)"></app-location>
                 </mat-tab>
                 <mat-tab label="Reel Tracking">
-                  <app-reel-tracking [reelTracking]="invMaster"></app-reel-tracking>
+                  <app-reel-tracking  [events]="reelSubject.asObservable()" [reelTracking]="invMaster"></app-reel-tracking>
                 </mat-tab>
                 <mat-tab label="Scan  Codes">
                   <app-scan-codes [scanCodes]="invMaster" (notifyParent)="getNotification($event)"></app-scan-codes>

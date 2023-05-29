@@ -9,6 +9,7 @@ import { ScanTypeCodeComponent } from '../../dialogs/scan-type-code/scan-type-co
 import { CustomValidatorService } from '../../../../app/init/custom-validator.service';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-scan-codes',
@@ -30,7 +31,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   }
   
 
-  constructor( private invMasterService: InventoryMasterService,
+  constructor( private invMasterService: InventoryMasterService, private sharedService:SharedService,
     private authService: AuthService, private toastr: ToastrService,  private dialog: MatDialog,private cusValidator: CustomValidatorService) {
 
     this.userData = this.authService.userData();
@@ -73,7 +74,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
       limit = limit.slice(0, 9);
       inputElement.value = limit;
     }
-
+    this.sharedService.updateInvMasterState(event,true)
   }
 
   ngOnInit(): void {
@@ -146,6 +147,20 @@ export class ScanCodesComponent implements OnInit , OnChanges {
     let newRecord = true;
     if(scanCode=='') {
       this.toastr.error('Scan code not saved, scan code field must not be empty.', 'Alert!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
+    if(startPosition=='') {
+      this.toastr.error('Scan code not saved,Start position field must be an integer.', 'Alert!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
+    if(codeLength=='') {
+      this.toastr.error('Scan code not saved, Scan code field must not be empty..', 'Alert!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
@@ -235,7 +250,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
       item.startPosition = 0
       item.codeLength = 0
     }
-
+    this.sharedService.updateInvMasterState(item,true)
   }
 
   refreshScanCodeList(){
@@ -269,9 +284,12 @@ export class ScanCodesComponent implements OnInit , OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
       item.scanType = result
+      this.sharedService.updateInvMasterState(result,true)
     }
 
     })
   }
-
+  handleInputChangeInput(event: any) {
+    this.sharedService.updateInvMasterState(event,true)
+  }
 }

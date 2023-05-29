@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CellSizeComponent } from '../../dialogs/cell-size/cell-size.component';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { VelocityCodeComponent } from '../../dialogs/velocity-code/velocity-code.component';
+import { SharedService } from 'src/app/services/shared.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 @Component({
   selector: 'app-item-setup',
   templateUrl: './item-setup.component.html',
@@ -14,8 +16,8 @@ export class ItemSetupComponent implements OnInit {
 
   @Input() itemSetup: FormGroup;
   public userData: any;
-
-  constructor(private dialog: MatDialog) { }
+  
+  constructor(private dialog: MatDialog, private sharedService:SharedService) { }
 
   ngOnInit(): void {
   }
@@ -60,6 +62,7 @@ export class ItemSetupComponent implements OnInit {
           'cfCellSize' : result
         });
       }
+      this.sharedService.updateInvMasterState(result,true)
     }
 
 
@@ -99,7 +102,7 @@ export class ItemSetupComponent implements OnInit {
           'cfVelocity' : result
         });
       }
-
+      this.sharedService.updateInvMasterState(result,true)
     }
     })
 
@@ -116,6 +119,17 @@ export class ItemSetupComponent implements OnInit {
       this.itemSetup.controls['cfMinimumQuantity'].setValue(this.itemSetup.controls['cfMaximumQuantity'].value)
     } 
   }
-
-
+  handleInputChange(event: any) {
+    this.sharedService.updateInvMasterState(event,true)
+  }
+  handleInputChangeCheckbox(event: MatCheckboxChange) {
+    this.sharedService.updateInvMasterState(event,true)
+  }
+  defaultVal(event,type){
+   
+    if(event.target.value==='' || event.target.value===undefined){
+      this.itemSetup.controls[`${type}`].setValue(0)    
+    }
+    
+  }
 }
