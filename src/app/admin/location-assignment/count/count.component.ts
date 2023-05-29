@@ -6,6 +6,11 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { LaLocationAssignmentQuantitiesComponent } from '../../dialogs/la-location-assignment-quantities/la-location-assignment-quantities.component';
+import { AuthService } from 'src/app/init/auth.service';
+import { LocationAssignmentService } from '../location-assignment.service';
+import { data } from 'jquery';
+import { ToastrService } from 'ngx-toastr';
+import { left } from '@popperjs/core';
 
 export interface PeriodicElement {
   location: number;
@@ -15,9 +20,9 @@ export interface PeriodicElement {
   row: string;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {location: 10124, warehouse: '0110203C01', zone: '05', carousel: '14-Feb-2022',row:''},
-];
+// const ELEMENT_DATA: PeriodicElement[] = [
+//   {location: 10124, warehouse: '0110203C01', zone: '05', carousel: '14-Feb-2022',row:''},
+// ];
 @Component({
   selector: 'app-count',
   templateUrl: './count.component.html',
@@ -25,68 +30,157 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class CountComponent implements OnInit {
 
-  displayedColumns: string[] = ['location', 'warehouse', 'zone', 'carousel','row'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-  constructor(private _liveAnnouncer: LiveAnnouncer , private dialog: MatDialog) {}
+  public userData: any;
+  public totalCount: any;
+  public searchOrder: any;
+
+  // displayedColumns: string[] = ['location', 'warehouse', 'zone', 'carousel','row'];
+  displayedColumns: string[] = ['orderNumber'  , 'itemCount', 'priority', 'requiredDate','actions'];
+  displayedColumns1: string[] = ['orderNumber', 'itemCount', 'priority', 'requiredDate','actions'];
+  
+  OldleftTable:any = [];
+  leftTable:any = [];
+  rightTable:any = [];
+
+  // dataSource = new MatTableDataSource([]);
+  constructor(private _liveAnnouncer: LiveAnnouncer ,
+              private dialog: MatDialog ,
+              private authservice : AuthService,
+              private locationService: LocationAssignmentService,
+              private toastr: ToastrService) {}
 
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ViewChild(MatPaginator) paginator1: MatPaginator;
+
+  @ViewChild('paginator') paginator: MatPaginator;
 
   @ViewChild('deleteAction') quarantineTemp: TemplateRef<any>;
 
   @ViewChild('addOrder') addOrderTemp: TemplateRef<any>;
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
+    // this.dataSource.paginator = this.paginator;
   }
 
   ngOnInit(): void {
+    this.userData = this.authservice.userData()
+    this.openLAQ();
   }
 
   quarantineDialog(): void {
-    const dialogRef = this.dialog.open(this.quarantineTemp, {
-      width: '550px',
-      autoFocus: '__non_existing_element__',
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      // console.log('The dialog was closed');
-    });
+    if(this.rightTable.length > 0){
+      let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+        height: 'auto',
+        width: '400px',
+        autoFocus: '__non_existing_element__',
+        data: {  
+          'title': 'Quarantine',
+          'ErrorMessage': 'Are you sure you want to quarantine these orders?'
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        if(result){
+          this.locationAssignment()
+        }
+      })
+    }
+    else{
+      this.toastr.error('Item not in order or has already been consolidated', 'error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+  }
+
+  locationAssignment(){
+
+    let orders = this.rightTable.map((data) => data.orderNumber)
+    console.log(orders)
+
+    let payload = {
+      "transType": "count",
+      "orders": orders,
+      "userName" : this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    console.log(payload)
+    this.locationService.get(payload,'/Admin/LocationAssignmentOrderInsert').subscribe((res => {
+     console.log(res.data.orders,'insertion')
+     let testdata = res.data.orders
+     this.rightTable = this.rightTable.filter((data) => !testdata.includes(data.orderNumber))
+     console.log(this.rightTable)
+    }))
   }
 
   addOrdereDialog(): void {
-    const dialogRef = this.dialog.open(this.addOrderTemp, {
-      width: '550px',
-      autoFocus: '__non_existing_element__',
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      // console.log('The dialog was closed');
-    });
-  }
-  deleteItem($event) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '450px',
-      autoFocus: '__non_existing_element__',
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      // console.log('The dialog was closed');
-    });
+    this.rightTable = this.rightTable.concat(this.leftTable)
+    this.leftTable = []
   }
 
+  deleteItem() {
+    this.leftTable = this.leftTable.concat(this.rightTable)
+    this.rightTable = []
+  }
 
 
 
   openLAQ() {
+    let payload = {
+      "userName" : this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+
+    this.locationService.get(payload,'/Admin/GetTransactionTypeCounts').subscribe((res =>{
     let dialogRef = this.dialog.open(LaLocationAssignmentQuantitiesComponent, {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      data: {  
+        'totalCount': res.data
+      }
+      ,
+      disableClose: true
     
     })
     dialogRef.afterClosed().subscribe(result => {
-      
-      
+      console.log(result)
+      this.leftTable = result;
+      this.OldleftTable = result;
     })
+  }))
+    
   }
+
+
+
+
+  add(e:any){
+    this.rightTable = this.rightTable.concat(e)
+    this.leftTable = this.leftTable.filter((data) => data.orderNumber != e.orderNumber)
+  }
+  remove(e:any){
+    this.leftTable = this.leftTable.concat(e)
+    this.rightTable = this.rightTable.filter((data) => data.orderNumber != e.orderNumber)
+  }
+  
+
+  test(e){
+    var  LTable:any = []
+    for(var key in this.OldleftTable[0]) {  
+      var item =  this.OldleftTable?.filter((data) =>  data[key]?.toString()?.toLowerCase()?.includes(e?.toLowerCase()) )
+      if(item.length > 0){
+        item.forEach(data => {
+          if(! LTable.length) LTable.push(data);
+          else if(!LTable.find((data1) => data1.orderNumber == data.orderNumber))  LTable.push(data);
+        });
+      }
+    }
+   this.leftTable = LTable;
+  }
+
+
+
+
 
 }
