@@ -71,7 +71,7 @@ export class PickComponent implements OnInit {
         this.fpzList = res.data.fpzList;
         this.shortList = res.data.shortList;
         this.tableData1 = new MatTableDataSource(res.data.transactionTypes);
-        this.tableData1.filteredData.forEach(element => {
+        this.tableData1.data.forEach(element => {
           element.status = this.getOrderStatus(element.orderNumber);
         }
         );
@@ -88,33 +88,36 @@ export class PickComponent implements OnInit {
   }
 
   add(order: any) {
-    this.tableData2 = new MatTableDataSource(this.tableData2.filteredData.concat(order));
+    this.tableData2 = new MatTableDataSource(this.tableData2.data.concat(order));
     this.tableData2.paginator = this.paginator2;
     this.tableData2.sort = this.sort2;
+    this.tableData2.filter = this.filterValue.trim().toLowerCase();
 
-    let index:any = this.tableData1.filteredData.findIndex(x => x.orderNumber == order.orderNumber);
-    this.tableData1.filteredData.splice(index,1);
-    this.tableData1 = new MatTableDataSource(this.tableData1.filteredData);
+    let index:any = this.tableData1.data.findIndex(x => x.orderNumber == order.orderNumber);
+    this.tableData1.data.splice(index,1);
+    this.tableData1 = new MatTableDataSource(this.tableData1.data);
     this.tableData1.paginator = this.paginator1;
     this.tableData1.sort = this.sort1;
   }
 
   remove(order: any) {
-    this.tableData1 = new MatTableDataSource(this.tableData1.filteredData.concat(order));
+    this.tableData1 = new MatTableDataSource(this.tableData1.data.concat(order));
     this.tableData1.paginator = this.paginator1;
     this.tableData1.sort = this.sort1;
 
-    let index:any = this.tableData2.filteredData.findIndex(x => x.orderNumber == order.orderNumber);
-    this.tableData2.filteredData.splice(index,1);
-    this.tableData2 = new MatTableDataSource(this.tableData2.filteredData);
+    let index:any = this.tableData2.data.findIndex(x => x.orderNumber == order.orderNumber);
+    this.tableData2.data.splice(index,1);
+    this.tableData2 = new MatTableDataSource(this.tableData2.data);
     this.tableData2.paginator = this.paginator2;
     this.tableData2.sort = this.sort2;
+    this.tableData2.filter = this.filterValue.trim().toLowerCase();
   }
 
   addAll() {
-    this.tableData2 = new MatTableDataSource(this.tableData2.filteredData.concat(this.tableData1.filteredData));
+    this.tableData2 = new MatTableDataSource(this.tableData2.data.concat(this.tableData1.data));
     this.tableData2.paginator = this.paginator2;
     this.tableData2.sort = this.sort2;
+    this.tableData2.filter = this.filterValue.trim().toLowerCase();
 
     this.tableData1 = new MatTableDataSource([]);
     this.tableData1.paginator = this.paginator1;
@@ -122,17 +125,18 @@ export class PickComponent implements OnInit {
   }
 
   removeAll() {
-    this.tableData1 = new MatTableDataSource(this.tableData1.filteredData.concat(this.tableData2.filteredData));
+    this.tableData1 = new MatTableDataSource(this.tableData1.data.concat(this.tableData2.data));
     this.tableData1.paginator = this.paginator1;
     this.tableData1.sort = this.sort1;
 
     this.tableData2 = new MatTableDataSource([]);
     this.tableData2.paginator = this.paginator2;
     this.tableData2.sort = this.sort2;
+    this.tableData2.filter = this.filterValue.trim().toLowerCase();
   }
 
   locationAssignment() {
-    if (this.tableData2.filteredData.length == 0) {
+    if (this.tableData2.data.length == 0) {
       this.toastr.error("There were no orders selected for location assignment marking", 'No Orders Selected', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
@@ -152,7 +156,7 @@ export class PickComponent implements OnInit {
         if (result === 'Yes') {
           let payload: any = {
             "transType": 'pick',
-            "orders": this.tableData2.filteredData.map((item: any) => { return item.orderNumber }),
+            "orders": this.tableData2.data.map((item: any) => { return item.orderNumber }),
             "username": this.userData.userName,
             "wsid": this.userData.wsid
           };
@@ -217,5 +221,11 @@ export class PickComponent implements OnInit {
     else{
       return 'In Stock';
     }
+  }
+
+  filterValue:string = '';
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.tableData2.filter = filterValue.trim().toLowerCase();
   }
 }
