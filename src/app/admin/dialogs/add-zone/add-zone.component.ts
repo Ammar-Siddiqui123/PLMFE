@@ -17,7 +17,8 @@ import labels from '../../../labels/labels.json';
 export class AddZoneComponent implements OnInit {
   form_heading: string = 'Add New Zone';
   form_btn_label: string = 'Add';
-  zone = new FormControl('');;
+  zone = new FormControl('');
+  fetchedZones:any;
   all_zones: any = this.data.allZones;
   filteredOptions: Observable<string[]>;
   addZoneForm: FormGroup;
@@ -32,11 +33,13 @@ export class AddZoneComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<any>
+
   ) { }
 
   ngOnInit(): void {
     this.data?.mode === 'edit-zone' ? this.form_heading = 'Edit Zone' : 'Update Zone';
     this.data?.mode === 'edit-zone' ? this.form_btn_label = 'Update' : 'Add';
+    this.fetchedZones=this.data?.fetchedZones;
 
     this.initialzeEmpForm();
     this.filteredOptions = this.addZoneForm.controls['zoneList'].valueChanges.pipe(
@@ -95,11 +98,22 @@ export class AddZoneComponent implements OnInit {
           "zone": oldZone,
           "username": this.data.userName
         }
-        this.employeeService.deleteEmployeeZone(zoneData).subscribe((res: any) => {
-          if (res.isExecuted) {
-            this.addUpdateZone(addZoneData, oldZone, mode)
-          }
-        });
+
+        let fetchedIndex=this.fetchedZones.findIndex(item => item.zones === form.value.zoneList )
+        if(fetchedIndex===-1){
+          this.employeeService.deleteEmployeeZone(zoneData).subscribe((res: any) => {
+            if (res.isExecuted) {
+              this.addUpdateZone(addZoneData, oldZone, mode)
+            }
+          });
+        }else{
+          this.toastr.error('Zone Already Exists!', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+     
+    
       }
       else {
         this.addUpdateZone(addZoneData, oldZone, mode);

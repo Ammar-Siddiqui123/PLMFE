@@ -15,7 +15,7 @@
 
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Supplier Item ID</mat-label>
-            <input matInput type="text" formControlName="supplierItemID" maxlength="50">
+            <input (keyup)="handleInputChange($event)" matInput type="text" formControlName="supplierItemID" maxlength="50">
           </mat-form-field>
 
         </div>
@@ -33,12 +33,12 @@
         <div class="d-flex gap-20 mb-3">
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Reorder Point</mat-label>
-            <input matInput type="text" formControlName="reorderPoint" maxlength="9">
+            <input (keyup)="handleInputChange($event)" [NumbersOnly]="true"  matInput type="text" formControlName="reorderPoint" maxlength="9">
           </mat-form-field>
 
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Replenishment Point</mat-label>
-            <input matInput type="text" formControlName="replenishmentPoint" maxlength="9">
+            <input  (input)="handleInputChange($event)" [NumbersOnly]="true"  matInput type="text" formControlName="replenishmentPoint" maxlength="9">
           </mat-form-field>
           
           <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="opencategoryDialog()">
@@ -55,12 +55,12 @@
           
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Reorder Quantity</mat-label>
-            <input matInput type="text" formControlName="reorderQuantity" maxlength="9">
+            <input (input)="handleInputChange($event)" [NumbersOnly]="true" matInput type="text" formControlName="reorderQuantity" maxlength="9">
           </mat-form-field>
           
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Replenishment Level</mat-label>
-            <input matInput type="text" formControlName="replenishmentLevel" >
+            <input (input)="handleInputChange($event)" [NumbersOnly]="true"  matInput type="text" formControlName="replenishmentLevel" maxlength="9" >
           </mat-form-field>
           
           <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="opencategoryDialog()">
@@ -85,12 +85,12 @@
           
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>KanBan Replenishment Point </mat-label>
-            <input matInput type="text" formControlName="kanbanReplenishmentPoint"  maxlength="9">
+            <input [NumbersOnly]="true" (input)="handleInputChange($event)" matInput type="text" formControlName="kanbanReplenishmentPoint"  maxlength="9">
           </mat-form-field>
           
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>KanBan Replenishment Level</mat-label>                            
-            <input matInput type="text" formControlName="kanbanReplenishmentLevel" >
+            <input [NumbersOnly]="true" (input)="handleInputChange($event)" matInput type="text" formControlName="kanbanReplenishmentLevel" maxlength="9" >
           </mat-form-field>
 
         </div>
@@ -141,21 +141,21 @@
               <div class="employees text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['openCount'].value }}</p>
                 <p class="employee-p text-tertiary-900 mb-1  ">Open</p>
-                <button (click)="RedirectInv('OpenTransaction')" mat-flat-button color="button-default" [disabled]="this.details.controls['openCount'].value==0" [class.disabledBtn] = "this.details.controls['openCount'].value==0" class="default-btn bg-white text-primary-900 btn-md backgroundColor " >
+                <button (click)="RedirectInv('OpenTransaction')" mat-flat-button color="button-default" [disabled]="this.details.controls['openCount'].value==0" [class.disabledBtn] = "this.details.controls['openCount'].value==0" class="default-btn   btn-md  " >
                   View
                 </button>
               </div>
               <div class="customer text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['histCount'].value }}</p>
                 <p class="customer-p text-tertiary-900 mb-1  ">History</p>
-                <button (click)="RedirectInv('TransactionHistory')" mat-flat-button color="button-default" [disabled]="this.details.controls['histCount'].value==0" [class.disabledBtn] = "this.details.controls['histCount'].value==0" class="default-btn bg-white text-primary-900 btn-md  backgroundColor" >
+                <button (click)="RedirectInv('TransactionHistory')" mat-flat-button color="button-default" [disabled]="this.details.controls['histCount'].value==0" [class.disabledBtn] = "this.details.controls['histCount'].value==0" class="default-btn   btn-md  " >
                   View
                 </button>
               </div>
               <div class="customer text-center">
                 <p class="counter-count mb-1 bg-primary-900">{{this.details.controls['procCount'].value }}</p>
                 <p class="customer-p text-tertiary-900 mb-1  ">Reprocess</p>
-                <button (click)="RedirectInv('ReprocessTransaction')" mat-flat-button color="button-default" [class.disabledBtn] = "this.details.controls['procCount'].value==0"  [disabled]="this.details.controls['procCount'].value==0" class="default-btn bg-white text-primary-900 btn-md  backgroundColor" >
+                <button (click)="RedirectInv('ReprocessTransaction')" mat-flat-button color="button-default" [class.disabledBtn] = "this.details.controls['procCount'].value==0"  [disabled]="this.details.controls['procCount'].value==0" class="default-btn  btn-md  " >
                   View
                 </button>
               </div>
