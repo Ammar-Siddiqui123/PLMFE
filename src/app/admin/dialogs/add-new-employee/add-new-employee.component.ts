@@ -105,12 +105,13 @@ export class AddNewEmployeeComponent implements OnInit {
       mi: [this.mi || '', []],
       firstName: [this.firstName || '',[Validators.required, this.cusValidator.customTrim]],
       lastName: [this.lastName || '', [Validators.required, this.cusValidator.customTrim]],
-      username: [{ value: this.username, disabled: this.isDisabledPassword } || '', [Validators.required]],
-      password: [this.password || '',{disabled:this.isDisabledPassword},[Validators.required]],
+      username: [{ value: this.username, disabled: this.isDisabledPassword } || '', [Validators.required]], 
+      password: [this.password || '',[Validators.required, this.cusValidator.customTrim]],
       emailAddress: [this.emailAddress || '', [Validators.email]],
       accessLevel: [this.accessLevel || '', [Validators.required]],
-      groupName: [this.groupName || '', this.env === 'DB' ? [Validators.required]:[]],
+      groupName: [this.groupName || '', []],
       active: [this.active || '', []],
+
     });
   }
 ChangePassword(data){

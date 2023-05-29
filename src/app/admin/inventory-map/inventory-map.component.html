@@ -103,7 +103,8 @@
 
                 </th>
 
-                <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event,  element[col.colHeader], col.colDef)" style=" padding: 10px 12px; text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;"
+                <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event,  element[col.colHeader], col.colDef)" 
+                style=" padding: 10px 12px; text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;"
                 [ngClass]="{'quarantineColor': element.warehouse.includes('Quarantine')}" > {{ element[col.colHeader] }}</td>
 
               </ng-container>
@@ -196,7 +197,7 @@ style="visibility: hidden; position: fixed"
 <ng-template #viewAllLocation>
   <!-- <div class="d-flex justify-content-between align-items-center">
 <h2 class="card-header-title mb-0 d-flex align-items-center">
-<span>Inventory Map</span>
+<span>f</span>
 </h2>
 </div>
 <mat-radio-group
