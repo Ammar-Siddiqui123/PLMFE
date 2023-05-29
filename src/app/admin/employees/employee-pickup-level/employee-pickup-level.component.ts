@@ -42,7 +42,7 @@ export class EmployeePickupLevelComponent implements OnInit {
     //this.pickup_level_data_source.sort = this.sort;
   }
 
-   displayedColumns: string[] = ['pickLevel', 'startCarousel', 'endCarousel', 'edit'];
+   displayedColumns: string[] = ['pickLevel', 'startShelf', 'endShelf', 'edit'];
 
 
   ngOnInit(): void {
