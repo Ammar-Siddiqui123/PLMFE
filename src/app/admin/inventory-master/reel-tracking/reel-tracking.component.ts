@@ -5,6 +5,8 @@ import { InventoryMasterService } from '../inventory-master.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { MinReelQtyComponent } from 'src/app/dialogs/min-reel-qty/min-reel-qty.component';
+import { SharedService } from 'src/app/services/shared.service';
+import { Observable, Subscription } from 'rxjs';
 
 
 @Component({
@@ -19,16 +21,24 @@ export class ReelTrackingComponent implements OnInit {
   constructor(private dialog: MatDialog,
     private invMasterService: InventoryMasterService,
     private authService: AuthService,
+    private sharedService:SharedService,
     private toastr: ToastrService) { }
 
   @ViewChild('addItemAction') addItemTemp: TemplateRef<any>;
   @Input() reelTracking: FormGroup;
   public userData: any;
-
+  @Input() events: Observable<String>;
+  private eventsSubscription: Subscription;
   ngOnInit(): void {
     this.userData = this.authService.userData();
     // console.log(this.userData)
     // console.log(this.reelTracking.controls['minimumRTSReelQuantity'].value)
+    this.eventsSubscription = this.events.subscribe((val) => {
+      if(val){
+        this.updateReelQty();
+      }
+ 
+    })
   }
 
   onFocusOutEvent(event: any){
@@ -52,6 +62,7 @@ export class ReelTrackingComponent implements OnInit {
 
     // console.log(res)
     if(res.isExecuted){
+      this.sharedService.updateInvMasterState(event,true)
       // console.log(res)
       // console.log(res.responseMessage)
       if(event.checked){
@@ -131,5 +142,11 @@ export class ReelTrackingComponent implements OnInit {
         });        
       }
     });
+  }
+  handleInputChange(event: any) {
+    this.sharedService.updateInvMasterState(event,true)
+  }
+  ngOnDestroy() {
+    this.eventsSubscription.unsubscribe();
   }
 }

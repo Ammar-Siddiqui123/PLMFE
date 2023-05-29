@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
+import { LaLocationAssignmentQuantitiesComponent } from '../../dialogs/la-location-assignment-quantities/la-location-assignment-quantities.component';
 
 export interface PeriodicElement {
   location: number;
@@ -70,6 +71,22 @@ export class CountComponent implements OnInit {
     dialogRef.afterClosed().subscribe(() => {
       // console.log('The dialog was closed');
     });
+  }
+
+
+
+
+  openLAQ() {
+    let dialogRef = this.dialog.open(LaLocationAssignmentQuantitiesComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+    
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      
+      
+    })
   }
 
 }

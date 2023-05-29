@@ -7,6 +7,7 @@ import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json'
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
+import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 
 @Component({
   selector: 'app-item-category',
@@ -69,11 +70,15 @@ export class ItemCategoryComponent implements OnInit {
          positionClass: 'toast-bottom-right',
          timeOut: 2000
        });
-       return;
-      }   
+   
+      }  
+      return; 
     });
+
   } 
-    if(category || (subCategory && cond)){
+  if(cond){
+  
+    if(category || subCategory){
       let paylaod = {      
         "category": category,
         "oldCategory": oldCat.toString(),
@@ -94,7 +99,7 @@ export class ItemCategoryComponent implements OnInit {
       }
       });
     }
-
+  }
   }
 
   dltCategory(category : any, subCategory : any , fromDb:any){
@@ -145,7 +150,7 @@ export class ItemCategoryComponent implements OnInit {
   }
 
   selectCategory(selectedCat: any){
-    if(selectedCat.category!='' && selectedCat.subCategory!='')
+    if(selectedCat.category!='' || selectedCat.subCategory!='')
     {
 
       this.dialogRef.close(selectedCat);
@@ -157,17 +162,30 @@ export class ItemCategoryComponent implements OnInit {
   }
 
   public openPrintRangeDialog(){
-    let dialogRef = this.dialog.open(PrintRangeComponent, {
+    const dialogRef = this.dialog.open(AlertConfirmationComponent, {
       height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
+      width: '786px',
       data: {
-        mode: '',
-      }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
+        message: 'The print service is currently offline',
+        heading: 'Print Service Unavailable',
+        disableCancel: true,
+      },
+      autoFocus: '__non_existing_element__',
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
+ 
+
+    // let dialogRef = this.dialog.open(PrintRangeComponent, {
+    //   height: 'auto',
+    //   width: '560px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     mode: '',
+    //   }
+    // })
+    // dialogRef.afterClosed().subscribe(result => {
+    //   // console.log(result);
       
-    })
+    // })
   }
 }
