@@ -85,7 +85,7 @@ export class SideNavComponent implements OnInit {
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
     { icon: ' directions_alt', title: 'Inventory Map', route: '/InductionManager/Admin/InventoryMap' ,permission:'Induction Manager'},
     { icon: ' dashboard ', title: 'Inventory ', route: '/InductionManager/Admin/InventoryMaster' ,permission:'Induction Manager'},
-    { icon: '  line_style  ', title: 'Tote Transaction Manager ', route: '#' ,permission:'Induction Manager'},
+    { icon: '  line_style  ', title: 'Tote Transaction Manager ', route: '/InductionManager/Admin/ToteTransactionManager' ,permission:'Induction Manager'},
     { icon: 'linear_scale   ', title: 'Manual Transactions ', route: '/InductionManager/Admin/ManualTransactions' ,permission:'Induction Manager'},
     { icon: 'edit_attributes ', title: 'Transaction Journal ', route: '/InductionManager/Admin/TransactionJournal' ,permission:'Induction Manager'},
     { icon: '     manage_accounts     ', title: 'Reports ', route: '#' ,permission:'Induction Manager'},
