@@ -132,7 +132,7 @@ export class PickComponent implements OnInit {
   }
 
   locationAssignment() {
-    if (this.tableData2.length == 0) {
+    if (this.tableData2.filteredData.length == 0) {
       this.toastr.error("There were no orders selected for location assignment marking", 'No Orders Selected', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
@@ -151,13 +151,14 @@ export class PickComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => {
         if (result === 'Yes') {
           let payload: any = {
-            "transType": 1,
-            "orders": this.tableData2.map((item: any) => { return item.orderNumber }),
+            "transType": 'pick',
+            "orders": this.tableData2.filteredData.map((item: any) => { return item.orderNumber }),
             "username": this.userData.userName,
             "wsid": this.userData.wsid
           };
           this.orderManagerService.get(payload, '/Admin/LocationAssignmentOrderInsert').subscribe((res: any) => {
             if (res.isExecuted && res.data) {
+              this.tableData2 = new MatTableDataSource([]);
               this.toastr.success(labels.alert.success, 'Success!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
