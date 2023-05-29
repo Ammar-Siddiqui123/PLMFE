@@ -89,26 +89,46 @@ export class PickComponent implements OnInit {
 
   add(order: any) {
     this.tableData2 = new MatTableDataSource(this.tableData2.filteredData.concat(order));
-    this.tableData1 = new MatTableDataSource(this.tableData1.filteredData.filter((value, key) => {
-      return value.orderNumber != order.orderNumber;
-    }));
+    this.tableData2.paginator = this.paginator2;
+    this.tableData2.sort = this.sort2;
+
+    let index:any = this.tableData1.filteredData.findIndex(x => x.orderNumber == order.orderNumber);
+    this.tableData1.filteredData.splice(index,1);
+    this.tableData1 = new MatTableDataSource(this.tableData1.filteredData);
+    this.tableData1.paginator = this.paginator1;
+    this.tableData1.sort = this.sort1;
   }
 
   remove(order: any) {
     this.tableData1 = new MatTableDataSource(this.tableData1.filteredData.concat(order));
-    this.tableData2 = new MatTableDataSource(this.tableData2.filteredData.filter((value, key) => {
-      return value.orderNumber != order.orderNumber;
-    }));
+    this.tableData1.paginator = this.paginator1;
+    this.tableData1.sort = this.sort1;
+
+    let index:any = this.tableData2.filteredData.findIndex(x => x.orderNumber == order.orderNumber);
+    this.tableData2.filteredData.splice(index,1);
+    this.tableData2 = new MatTableDataSource(this.tableData2.filteredData);
+    this.tableData2.paginator = this.paginator2;
+    this.tableData2.sort = this.sort2;
   }
 
   addAll() {
     this.tableData2 = new MatTableDataSource(this.tableData2.filteredData.concat(this.tableData1.filteredData));
+    this.tableData2.paginator = this.paginator2;
+    this.tableData2.sort = this.sort2;
+
     this.tableData1 = new MatTableDataSource([]);
+    this.tableData1.paginator = this.paginator1;
+    this.tableData1.sort = this.sort1;
   }
 
   removeAll() {
     this.tableData1 = new MatTableDataSource(this.tableData1.filteredData.concat(this.tableData2.filteredData));
+    this.tableData1.paginator = this.paginator1;
+    this.tableData1.sort = this.sort1;
+
     this.tableData2 = new MatTableDataSource([]);
+    this.tableData2.paginator = this.paginator2;
+    this.tableData2.sort = this.sort2;
   }
 
   locationAssignment() {
