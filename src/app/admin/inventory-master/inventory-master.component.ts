@@ -17,6 +17,9 @@ import { map } from 'rxjs/internal/operators/map';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { SharedService } from 'src/app/services/shared.service';
+import { MatTabGroup } from '@angular/material/tabs';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -30,6 +33,7 @@ export class InventoryMasterComponent implements OnInit {
   public invData: any;
   public getInvMasterData: any;
   public invMasterLocations: any;
+  public isDialogOpen=false;
   public paginationData: {
     total: 0,
     position: 0,
@@ -38,8 +42,9 @@ export class InventoryMasterComponent implements OnInit {
   public currentPageItemNo: any = '';
   searchList: any;
   searchValue: any = '';
-
-  saveDisabled = false;
+  isDataFound=false;
+  isDataFoundCounter=0;
+  saveDisabled = true;
   count;
 
 
@@ -66,18 +71,121 @@ export class InventoryMasterComponent implements OnInit {
     private fb: FormBuilder,
     private toastr: ToastrService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sharedService: SharedService,
     // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
   ) { }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
   @ViewChild('UNquarantineAction') unquarantineTemp: TemplateRef<any>;
   @ViewChild('propertiesChanged') propertiesChanged: TemplateRef<any>;
   invMaster: FormGroup;
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  eventsSubject: Subject<String> = new Subject<String>();
+  reelSubject: Subject<String> = new Subject<String>();
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
   onScroll(event) {
     alert();
   }
+  @HostListener('document:keydown', ['$event'])
+
+//  SHORTCUT KEYS
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+
+    if (!this.isInputField(target) && event.key === 'a') {
+      event.preventDefault();
+      if(this.isDialogOpen) return
+     this.openAddItemDialog();
+    }
+
+    if (!this.isInputField(target) &&  event.key === 'c') {
+      event.preventDefault();
+      this.clearSearchField();
+    }
+    if (!this.isInputField(target) &&  event.key === 'd') {
+      event.preventDefault();
+      if(this.isDialogOpen || this.searchValue==='' ) return
+      this.deleteItem(null);
+    }
+
+    if (!this.isInputField(target) &&  event.key === 'e') {
+      event.preventDefault();
+     
+      this.tabGroup.selectedIndex = 0;
+    }
+    if (!this.isInputField(target) &&  event.key === 'k') {
+      event.preventDefault();
+     
+      this.tabGroup.selectedIndex = 2;
+    }
+
+    if (!this.isInputField(target) &&  event.key === 'l') {
+      event.preventDefault();
+     
+      this.tabGroup.selectedIndex =3;
+    }
+
+    if (!this.isInputField(target) &&  event.key === 'o') {
+      event.preventDefault();
+     
+      this.tabGroup.selectedIndex =7;
+    }
+    if (!this.isInputField(target) &&  event.key === 'q') {
+      event.preventDefault();
+      if(this.isDialogOpen || this.searchValue==='' ) return
+      this.quarantineDialog();
+    }
+
+    if (!this.isInputField(target) &&  event.key === 'g') {
+      event.preventDefault();
+      this.tabGroup.selectedIndex =4;
+    }
+    if (!this.isInputField(target) &&  event.key === 's') {
+      event.preventDefault();
+      this.tabGroup.selectedIndex =5;
+    }
+    if (!this.isInputField(target) &&  event.key === 'i') {
+      event.preventDefault();
+      this.tabGroup.selectedIndex =1;
+    }
+    if (!this.isInputField(target) &&  event.key === 'w') {
+      event.preventDefault();
+      this.tabGroup.selectedIndex =6;
+    }
+    if (!this.isInputField(target) &&  event.key === 'h') {
+      event.preventDefault();
+      if(this.tabGroup.selectedIndex!=0) return
+      this.eventsSubject.next('h');
+    }
+
+    if (!this.isInputField(target) &&  event.key === 'v') {
+      event.preventDefault();
+      if(this.tabGroup.selectedIndex!=0) return
+      this.eventsSubject.next('v');
+    }
+    if (!this.isInputField(target) &&  event.key === 'r') {
+      event.preventDefault();
+      if(this.tabGroup.selectedIndex!=0) return
+      this.eventsSubject.next('r');
+    }
+    if (!this.isInputField(target) &&  event.key === 'r') {
+      event.preventDefault();
+      if(this.tabGroup.selectedIndex!=0) return
+      this.eventsSubject.next('r');
+    }
+    if (!this.isInputField(target) &&  event.key === 'u') {
+      event.preventDefault();
+      if(this.tabGroup.selectedIndex!=4) return
+        this.reelSubject.next('reel')
+    }
+  }
+
+  isInputField(element: HTMLElement): boolean {
+    return element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.isContentEditable;
+  }
+
   @ViewChild('alertInput', { read: MatAutocompleteTrigger })
   autoComplete: MatAutocompleteTrigger;
 
@@ -149,6 +257,20 @@ export class InventoryMasterComponent implements OnInit {
         this.getInvMasterDetail(this.searchValue)
       }
     });
+
+
+
+    this.sharedService.invMasterParentObserver.subscribe(evt => {
+      
+      if(evt.isEnable){
+        this.saveDisabled=false;
+      }else{
+        this.saveDisabled=true;
+      }
+    
+      
+       
+       })
   }
 
   initialzeIMFeilds() {
@@ -269,7 +391,7 @@ export class InventoryMasterComponent implements OnInit {
         position: res.data?.filterCount.pos,
         itemNumber: res.data?.filterCount.itemNumber,
       }
-
+      this.saveDisabled=true;
       this.getInvMasterDetail(this.currentPageItemNo);
       this.getInvMasterLocations(this.currentPageItemNo);
       //this.getInvMasterDetail('024768000010');
@@ -284,6 +406,9 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
+        res.data['scanCode']=res.data['scanCode'].map(item=>{
+          return { ...item, isDisabled: true };
+        })
       this.getInvMasterData = res.data;
 
       // console.log('====GET INVENTORY MASTER=====');
@@ -410,12 +535,14 @@ export class InventoryMasterComponent implements OnInit {
       });
       this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
         if (res.isExecuted) {
+          this.saveDisabled=true
           this.getInventory();
           this.toastr.success(labels.alert.update, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
         } else {
+          this.saveDisabled=false
           this.toastr.error(res.responseMessage, 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
@@ -438,6 +565,7 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   public openAddItemDialog() {
+    this.isDialogOpen=true
     let dialogRef = this.dialog.open(ItemNumberComponent, {
       height: 'auto',
       width: '560px',
@@ -452,6 +580,7 @@ export class InventoryMasterComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.isDialogOpen=false;
       if (result.itemNumber) {
         const { itemNumber, description } = result;
         let paylaod = {
@@ -486,13 +615,19 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   deleteItem($event) {
+    this.isDialogOpen=true
     let itemToDelete = this.currentPageItemNo
 
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      data: {
+        actionMessage:`item :${this.searchValue}`,
+        action: 'delete',
+      },
     });
     dialogRef.afterClosed().subscribe((res) => {
+      this.isDialogOpen=false
       if (res == 'Yes') {
 
         let paylaodNextItemNumber = {
@@ -533,11 +668,13 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   quarantineDialog(): void {
+    this.isDialogOpen=true
     const dialogRef = this.dialog.open(this.quarantineTemp, {
       width: '560px',
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((x) => {
+      this.isDialogOpen=false
       if (x) {
         let paylaod = {
           "itemNumber": this.currentPageItemNo,
@@ -568,11 +705,13 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   unquarantineDialog(): void {
+    this.isDialogOpen=false
     const dialogRef = this.dialog.open(this.unquarantineTemp, {
       width: '450px',
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((x) => {
+      this.isDialogOpen=true
       if (x) {
         let paylaod = {
           "itemNumber": this.currentPageItemNo,
@@ -608,6 +747,16 @@ export class InventoryMasterComponent implements OnInit {
     }
   }
 
+  
+  handleFocusOut(){
+    if(!this.isDataFound && this.isDataFoundCounter>0){
+      this.isDataFoundCounter=0;
+      this.toastr.error('Value undefined Does not exist!', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+  }
   getSearchList(e: any) {
 
     this.searchValue = e.currentTarget.value;
@@ -617,9 +766,17 @@ export class InventoryMasterComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.invMasterService.get(paylaod, '/Admin/GetLocationTable').subscribe((res: any) => {
-      if (res.data) {
-        this.searchList = res.data
+    this.invMasterService.get(paylaod, '/Admin/GetLocationTable',true).subscribe((res: any) => {
+      if (res.data?.length) {
+
+        this.searchList = res.data;
+        this.isDataFound=true;
+        this.isDataFoundCounter=0;
+        this.saveDisabled=true;
+      }else{
+        this.isDataFound=false;
+        this.isDataFoundCounter=1;
+        this.saveDisabled=false;
       }
     });
   }
@@ -658,10 +815,10 @@ export class InventoryMasterComponent implements OnInit {
   }
   tabChanged(tabChangeEvent: MatTabChangeEvent) {
     if (tabChangeEvent.index == 2 || tabChangeEvent.index == 5) {
-      this.saveDisabled = true;
+      // this.saveDisabled = true;
     }
     else {
-      this.saveDisabled = false;
+      // this.saveDisabled = false;
     }
   }
 

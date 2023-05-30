@@ -34,6 +34,9 @@ import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequ
 import { SharedService } from 'src/app/services/shared.service';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 
 const TRNSC_DATA = [
   { colHeader: 'tH_ID', colDef: 'TH_ID' },
@@ -196,7 +199,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     private authService: AuthService,
     private toastr: ToastrService,
     private dialog: MatDialog,
-    private sharedService:SharedService
+    private sharedService:SharedService,
+    private filterService: ContextMenuFiltersService
   ) {
     this.userData = this.authService.userData();
   }
@@ -355,7 +359,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       orderNumber: this.orderNo,
       sortColumnNumber: this.sortCol,
       sortOrder: this.sortOrder,
-      filter: '1=1',
+      filter: this.FilterString ,
       username: this.userData?.userName,
       wsid: this.userData?.wsid,
     };
@@ -438,5 +442,57 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     if (Number(value) < 0) {
       this.columnSearch.searchValue = 0;
     }
+  }
+
+
+  @ViewChild('trigger') trigger: MatMenuTrigger;
+  contextMenuPosition = { x: '0px', y: '0px' };
+  FilterString: string = "1 = 1";
+
+  onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.trigger.menuData = { item: { SelectedItem: SelectedItem, FilterColumnName: FilterColumnName, FilterConditon: FilterConditon, FilterItemType: FilterItemType } };
+    this.trigger.menu?.focusFirstItem('mouse');
+    this.trigger.openMenu();
+  }
+
+  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
+    debugger;
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+    if(FilterColumnName != "" || Condition == "clear"){
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+      this.FilterString = this.FilterString != "" ? this.FilterString : "1=1";
+      this.resetPagination();
+      this.getContentData();
+    }
+  }
+
+  resetPagination(){
+    this.customPagination.startIndex = 0;
+    this.customPagination.endIndex = 20;
+    this.paginator.pageIndex = 0;
+  }
+
+  getType(val): string {
+    return this.filterService.getType(val);
+  }
+
+  InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
+    const dialogRef = this.dialog.open(InputFilterComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        FilterColumnName: FilterColumnName,
+        Condition: Condition,
+        TypeOfElement: TypeOfElement
+      },
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe((result) => {
+      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
+    }
+    );
   }
 }

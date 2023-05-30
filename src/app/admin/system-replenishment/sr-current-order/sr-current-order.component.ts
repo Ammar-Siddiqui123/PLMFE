@@ -26,7 +26,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 })
 export class SrCurrentOrderComponent implements OnInit {
 
-  displayedColumns2: string[] = ['Item Number', 'Trans Type', 'warehouse', 'zone', 'carousel', 'row', 'shelf', 'bin', 'cell', 'lotNumber', 'Trans Qty', 'description', 'Order Number', 'UofM', 'Batch Pick ID', 'Serial Number', 'Completed Date', 'Print Date'];
+  displayedColumns2: string[] = ['Item Number', 'Trans Type', 'warehouse', 'zone', 'carousel', 'row', 'shelf', 'bin', 'cell', 'lotNumber', 'Trans Qty', 'description', 'Order Number', 'UofM', 'Batch Pick ID', 'Serial Number', 'Completed Date', 'Print Date','action'];
   noOfPicks: number = 0;
   noOfPutAways: number = 0;
   public userData: any;
@@ -474,11 +474,11 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   selectOrder(element) {
-    if (this.selectedOrder.itemNumber && this.selectedOrder.itemNumber == element.itemNumber && this.selectedOrder.transactionType == element.transactionType) {
-      this.selectedOrder = {};
-    } else {
-      this.selectedOrder = element;
-    }
+    // if (this.selectedOrder.itemNumber && this.selectedOrder.itemNumber == element.itemNumber && this.selectedOrder.transactionType == element.transactionType) {
+    //   this.selectedOrder = {};
+    // } else {
+    //   this.selectedOrder = element;
+    // }
   }
 
   getSearchOptionsSubscribe: any;

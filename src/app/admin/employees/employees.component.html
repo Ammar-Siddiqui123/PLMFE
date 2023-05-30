@@ -114,6 +114,10 @@
                                     <input type="text" [(ngModel)]="bpSettingInp" placeholder="Search Zones"
                                       aria-label="Search zone-search-box" matInput (keyup)="zoneFilter($event)"
                                       maxlength="2">
+
+                                      <button *ngIf="bpSettingInp" matSuffix mat-icon-button aria-label="Clear" (click)="bpSettingInp=''">
+                                        <mat-icon>close</mat-icon>
+                                      </button>
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="addZoneDialog()" [disabled]="!isLookUp">
@@ -137,8 +141,8 @@
                                       </tr>
                                       <!-- Start Location Column -->
                                       <ng-container matColumnDef="zones">
-                                        <th width="80%" mat-header-cell *matHeaderCellDef>Zone</th>
-                                        <td width="80%" mat-cell *matCellDef="let element"> {{element}} </td>
+                                        <th width="80%" mat-header-cell *matHeaderCellDef mat-sort-header>Zone</th>
+                                        <td width="80%" mat-cell *matCellDef="let element ; let i = index"> {{element.zones}} </td>
                                       </ng-container>
                                       <ng-container matColumnDef="actions">
                                         <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action
@@ -191,6 +195,10 @@
                                     <input type="text" placeholder="Search Locations" aria-label="Search Locations"
                                       [(ngModel)]="bpSettingLocInp" matInput (keyup)="applyFilter($event)"
                                       maxlength="50">
+
+                                      <button *ngIf="bpSettingLocInp" matSuffix mat-icon-button aria-label="Clear" (click)="bpSettingLocInp=''">
+                                        <mat-icon>close</mat-icon>
+                                      </button>
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="addLocationDialog()" [disabled]="!isLookUp" matTooltip="Add new location"
@@ -202,7 +210,7 @@
                                 </div>
                                 <div class="card br-14 table-responsive my-3">
                                   <ng-scrollbar class="mat-table-scrollbar " style="height: 200px">
-                                    <table mat-table [dataSource]="location_data_source" matSort
+                                    <table mat-table [dataSource]="location_data_source" matSort #MatSortLocation="matSort"
                                       (matSortChange)="announceSortChange($event)"
                                       class="g-card-table employee-location-table table-minimal-action-buttons">
                                       <tr class="mat-row" *matNoDataRow>
@@ -213,7 +221,7 @@
                                       </tr>
 
                                       <!-- Start Location Column -->
-                                      <ng-container matColumnDef="start_location">
+                                      <ng-container matColumnDef="startLocation">
                                         <th width="40%" mat-header-cell *matHeaderCellDef mat-sort-header>Start Location
                                         </th>
                                         <td width="40%" mat-cell *matCellDef="let element"> {{element.startLocation}}
@@ -221,7 +229,7 @@
                                       </ng-container>
 
                                       <!-- End Location Column -->
-                                      <ng-container matColumnDef="end_location">
+                                      <ng-container matColumnDef="endLocation">
                                         <th width="40%" mat-header-cell *matHeaderCellDef mat-sort-header>End Location
                                         </th>
                                         <td width="40%" mat-cell *matCellDef="let element"> {{element.endLocation}}
@@ -406,6 +414,9 @@
                                     <input type="text" placeholder="Search Groups Allowed" [(ngModel)]="grpAllFilter"
                                       aria-label="Search Groups Allowed" matInput (keyup)="groupAllowedFilter($event)"
                                       maxlength="50">
+                                      <button *ngIf="grpAllFilter" matSuffix mat-icon-button aria-label="Clear" (click)="grpAllFilter=''">
+                                        <mat-icon>close</mat-icon>
+                                      </button>
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     [disabled]="!isLookUp" (click)="grpAllowedDialog()">

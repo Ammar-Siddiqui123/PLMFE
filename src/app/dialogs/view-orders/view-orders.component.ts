@@ -141,7 +141,7 @@ export class ViewOrdersComponent implements OnInit {
 
       }
       else{
-        this.toastr.error('An error has occurred using the selected zone.', 'Error!', {
+        this.toastr.error('There are no orders for your zone', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });

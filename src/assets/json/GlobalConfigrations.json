@@ -41,6 +41,10 @@
         "Permission": "Inventory Map"
     },
     {
+        "path": "/admin/locationAssignment",
+        "Permission": "Location Assignment"
+    },
+    {
         "path": "/admin/Reports",
         "Permission": "Reports"
     }, 

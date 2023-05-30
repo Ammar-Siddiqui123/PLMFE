@@ -35,11 +35,11 @@
                 <span class="v-br">-</span>
                 <div class="d-flex g-mini-search-box">
                   <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
-                    [hideRequiredMarker]="hideRequiredControl.value" (keyup.enter)="closeautoMenu()">
+                    [hideRequiredMarker]="hideRequiredControl.value" (keyup.enter)="closeautoMenu()" (change)="reset()" >
                     <span class="material-symbols-outlined icon-search">
                       search
                     </span>
-                    <input type="text" placeholder="Search" aria-label="Number" matInput
+                    <input type="text" placeholder="Search" aria-label="Number" matInput maxlength="255"
                       [(ngModel)]='this.columnSearch.searchValue' [matAutocomplete]="auto"
                       (keyup)="autocompleteSearchColumn()"  (keyup.enter)="searchData()"  [disabled]="!isSearchColumn">
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()" #autocompleteInventory>
