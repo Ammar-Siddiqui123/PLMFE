@@ -7,9 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LocationAssignmentComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    
+   }
+
+  public Tab;
 
   ngOnInit(): void {
+    
   }
 
+  ngAfterViewInit(){
+    // this.addItem()
+  }
+
+  addItem(newItem: Event) {
+    this.Tab = newItem
+  }
 }
