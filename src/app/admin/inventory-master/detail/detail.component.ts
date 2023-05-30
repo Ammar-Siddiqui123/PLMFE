@@ -22,7 +22,7 @@ export class DetailComponent implements OnInit {
   private eventsSubscription: Subscription;
   @Input() events: Observable<String>;
 
-  @Input() details: FormGroup;
+  @Input() details: FormGroup;  
   public userData: any;
   @Output() notifyParent: EventEmitter<any> = new EventEmitter();
   sendNotification(e) {
@@ -40,10 +40,10 @@ export class DetailComponent implements OnInit {
     private authService: AuthService, 
     private dialog: MatDialog,
     private toastr: ToastrService,) { }
-
+  
   ngOnInit(): void {
+     
     this.userData = this.authService.userData();
-    // console.log(this.details)
     this.setVal = localStorage.getItem('routeFromOrderStatus') == 'true' ? true : false;
    
     this.spliUrl=this.router.url.split('/');
@@ -80,7 +80,7 @@ export class DetailComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+      if (result) { 
         let paylaod = {
           "oldItemNumber": this.details.controls['itemNumber'].value,
           "newItemNumber": result,
@@ -165,8 +165,7 @@ export class DetailComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       // console.log(result);
       if(result!='' && result!=true)
-      {
-
+      { 
         this.details.patchValue({
           'unitOfMeasure' : result
         });

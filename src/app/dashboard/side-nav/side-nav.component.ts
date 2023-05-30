@@ -30,13 +30,13 @@ export class SideNavComponent implements OnInit {
     { icon: 'schema', title: 'FlowRack Replenishment', route: '#',permission: 'FlowRack Replenish' }
   ];
   globalMenus: any = [
-    { icon: 'door_front', title: 'Home', route: '/globalconfig/home' ,permission: ''},
-    { icon: 'hub', title: 'Database Connections', route: '/globalconfig/database-connections' ,permission: ''},
+    { icon: 'door_front', title: 'Home', route: '/globalconfig/home' ,permission: true},
+    { icon: 'hub', title: 'Database Connections', route: '/globalconfig/database-connections' ,permission: true},
     { icon: 'print', title: 'Printers', route: '/globalconfig/printers' ,permission: ''},
-    { icon: 'online_prediction', title: 'Workstation', route: '/globalconfig/workstation' ,permission: ''},
-    { icon: 'nest_wifi_gale', title: 'CCSIF', route: '/globalconfig/ccsif' ,permission: 'CCSIF'},
-    { icon: 'subtitles', title: 'Licensing', route: '/globalconfig/licensing' ,permission: ''},
-    { icon: 'subtitles', title: 'STE', route: '/globalconfig/ste' ,permission: 'STE'},
+    { icon: 'online_prediction', title: 'Workstation', route: '/globalconfig/workstation' ,permission: true},
+    { icon: 'nest_wifi_gale', title: 'CCSIF', route: '/globalconfig/ccsif' ,permission: true},
+    { icon: 'subtitles', title: 'Licensing', route: '/globalconfig/licensing' ,permission: true},
+    { icon: 'subtitles', title: 'STE', route: '/globalconfig/ste' ,permission: true},
 
   ];
   adminMenus: any = [

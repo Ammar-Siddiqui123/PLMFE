@@ -10,7 +10,7 @@
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
-            <input matInput readonly class="__grab_cursor readonly" type="text" formControlName="itemNumber" maxlength="50">
+            <input matInput readonly class="__grab_cursor readonly" type="text" formControlName="itemNumber"  maxlength="50">
           </mat-form-field>
 
           <mat-form-field class="custom-form-field w-100" appearance="outline">
@@ -26,19 +26,23 @@
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
-            <input readonly class="__grab_cursor readonly" matInput type="text" formControlName="description" maxlength="255"/>
+            <input readonly class="__grab_cursor readonly" matInput type="text" formControlName="description"  maxlength="255"/>
           </mat-form-field>
         </div>
 
         <div class="d-flex gap-20 mb-3">
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Reorder Point</mat-label>
+ 
             <input (keyup)="handleInputChange($event)" [NumbersOnly]="true"  matInput type="text" formControlName="reorderPoint" maxlength="9">
+ 
           </mat-form-field>
 
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Replenishment Point</mat-label>
+ 
             <input  (input)="handleInputChange($event)" [NumbersOnly]="true"  matInput type="text" formControlName="replenishmentPoint" maxlength="9">
+ 
           </mat-form-field>
           
           <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="opencategoryDialog()">
@@ -46,7 +50,7 @@
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
-            <input matInput type="text" formControlName="category" maxlength="50" readonly>
+            <input matInput type="text" formControlName="category" maxlength="50" readonly >
           </mat-form-field>
           
         </div>
@@ -54,13 +58,16 @@
         <div class="d-flex gap-20 mb-3">
           
           <mat-form-field class="custom-form-field w-100" appearance="outline">
-            <mat-label>Reorder Quantity</mat-label>
+            <mat-label>Reorder Quantity</mat-label> 
             <input (input)="handleInputChange($event)" [NumbersOnly]="true" matInput type="text" formControlName="reorderQuantity" maxlength="9">
+ 
           </mat-form-field>
           
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Replenishment Level</mat-label>
+ 
             <input (input)="handleInputChange($event)" [NumbersOnly]="true"  matInput type="text" formControlName="replenishmentLevel" maxlength="9" >
+ 
           </mat-form-field>
           
           <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="opencategoryDialog()">
@@ -68,7 +75,7 @@
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
-            <input matInput type="text" formControlName="subCategory" maxlength="50" readonly>
+            <input matInput type="text" formControlName="subCategory" maxlength="50" readonly >
           </mat-form-field>
 
         </div>
@@ -80,11 +87,11 @@
             <span matSuffix>
               <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
             </span>
-            <input matInput type="text" formControlName="unitOfMeasure" maxlength="50" readonly>
+            <input matInput type="text" formControlName="unitOfMeasure" maxlength="50" readonly >
           </mat-form-field>
           
           <mat-form-field class="custom-form-field w-100" appearance="outline">
-            <mat-label>KanBan Replenishment Point </mat-label>
+            <mat-label>KanBan Replenishment Point </mat-label> 
             <input [NumbersOnly]="true" (input)="handleInputChange($event)" matInput type="text" formControlName="kanbanReplenishmentPoint"  maxlength="9">
           </mat-form-field>
           
