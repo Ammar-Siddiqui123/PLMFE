@@ -19,7 +19,7 @@
       <mat-list-item 
         routerLinkActive="{{ (childMenu.route != '/InductionManager' && childMenu.route != '/InductionManager/Admin' && childMenu.route != '/OrderManager' && childMenu.route != '/ConsolidationManager'  && childMenu.route != '/admin') ? 'active' : ''}}" 
         routerLink="{{childMenu.route}}" (click)="loadMenus(childMenu)"
-        [disabled]="isAuthorized(childMenu.permission) || childMenu.route==='#'"
+        [disabled]="childMenu.permission != true ? (isAuthorized(childMenu.permission) || childMenu.route==='#'):false"
         [queryParams]="childMenu.paramsObj"
         >
         <span mat-list-icon class="material-symbols-outlined">

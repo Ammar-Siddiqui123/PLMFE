@@ -65,6 +65,7 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
     }
     this.locationService.get(payload,'/Admin/PreviewLocAssignmentPickShort').subscribe((res:any)=>{
       this.listLabel = res.data;
+      console.log(this.listLabel,'printshortage')
     })
   }
 
@@ -75,6 +76,7 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
     }
     this.locationService.get(payload,'/Admin/PreviewLocAssignmentPickShortFPZ').subscribe((res:any)=>{
       this.listLabelFPZ = res.data;
+      console.log(this.listLabelFPZ,'print FPZ')
     })
   }
 
