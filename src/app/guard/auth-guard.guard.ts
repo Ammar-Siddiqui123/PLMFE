@@ -1,48 +1,4 @@
-// import { PlatformLocation } from '@angular/common';
-// import { Injectable } from '@angular/core';
-// import {
-//   ActivatedRouteSnapshot,
-//   CanActivate,
-//   Router,
-//   RouterStateSnapshot,
-//   UrlTree,
-// } from '@angular/router';
-// import { Observable } from 'rxjs';
-// import { AuthService } from '../init/auth.service';
-
-// @Injectable({
-//   providedIn: 'root',
-// })
-// export class AuthGuardGuard implements CanActivate {
-//   constructor(private auth: AuthService, private router: Router) {}
-//   canActivate(
-//     route: ActivatedRouteSnapshot,
-//     state: RouterStateSnapshot
-//   ):
-//     | Observable<boolean | UrlTree>
-//     | Promise<boolean | UrlTree>
-//     | boolean
-//     | UrlTree {
-//     if (this.auth.isConfigUser()) {
-//       if (this.auth.IsConfigLogin()) {
-//         return true;
-//       } else {
-//         localStorage.clear();
-//         this.router.navigate(['/globalconfig']);
-//         return false;
-//       }
-//     } else {
-//       if (this.auth.IsloggedIn()) {
-//         return true;
-//       } else {
-//         localStorage.clear();
-//         this.router.navigate(['/login']);
-//         return false;
-//       }
-//     }
-//     return false;
-//   }
-// }
+ 
 
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, NavigationEnd, ActivatedRoute } from '@angular/router';
@@ -96,10 +52,11 @@ export class AuthGuardGuard implements CanActivate {
     }
     const userPermission = this.authService.userPermission(); 
     if (this.ConfigJson?.length) {
-
-     
+      
       var permission = this.ConfigJson.find(x => x.path.toLowerCase() == pathSet.toLowerCase());
-      if (userPermission.filter(x => x.toLowerCase() == permission.Permission.toLowerCase()).length > 0) {
+      if(permission.Permission == true) return true;
+      
+      else if (userPermission.filter(x => x.toLowerCase() == permission.Permission.toLowerCase()).length > 0) {
         return true;
       } else{ 
         window.location.href = '/#/login';
