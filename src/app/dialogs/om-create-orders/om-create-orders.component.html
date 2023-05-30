@@ -66,7 +66,7 @@
                 <mat-form-field class="br-8 w-100" appearance="outline">
                     <mat-label>Select</mat-label>
                     <mat-select class="employees-action" [(ngModel)]="selectedFilterColumn">
-                        <mat-option *ngFor="let option of filterColumnNames" [value]="option">{{option}}</mat-option>
+                        <mat-option *ngFor="let option of sortedFilterColumnNames" [value]="option">{{option}}</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
                         expand_more

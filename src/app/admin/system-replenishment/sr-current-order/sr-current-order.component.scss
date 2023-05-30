@@ -30,35 +30,35 @@
     }
   }
 
-  .selected {
-    // background-color: #5555EC !important;
+  // .selected {
+  //   // background-color: #5555EC !important;
 
-    color: #fff;
-    &:before{
-      content: '';
-      background-color: #5555EC;
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      left: 0px;
-      top: 0px;
-      z-index: -1;
+  //   color: #fff;
+  //   &:before{
+  //     content: '';
+  //     background-color: #5555EC;
+  //     height: 100%;
+  //     width: 100%;
+  //     position: absolute;
+  //     left: 0px;
+  //     top: 0px;
+  //     z-index: -1;
       
-    }
-    &:first-child{
-      &:before{
-      border-top-left-radius: 8px;
-      border-bottom-left-radius: 8px;
-      margin-left: 8px;
-      }
-    }
-    &:last-child{
-      &:before{
-      border-top-right-radius: 8px;
-      border-bottom-right-radius: 8px;
-      right: 12px;
-      left: auto;
-      }
-    }
+  //   }
+  //   &:first-child{
+  //     &:before{
+  //     border-top-left-radius: 8px;
+  //     border-bottom-left-radius: 8px;
+  //     margin-left: 8px;
+  //     }
+  //   }
+  //   &:last-child{
+  //     &:before{
+  //     border-top-right-radius: 8px;
+  //     border-bottom-right-radius: 8px;
+  //     right: 12px;
+  //     left: auto;
+  //     }
+  //   }
     
-  }
+  // }
