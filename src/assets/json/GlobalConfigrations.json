@@ -100,14 +100,14 @@
     },
     {
         "path": "/InductionManager/ProcessPicks",
-        "Permission": "Induction Manager"
+        "Permission": "Tote Transactions"
     },
 
 
     
     {
         "path": "/InductionManager/ProcessPutAways",
-        "Permission": "Induction Manager"
+        "Permission": "Tote Transactions"
     },
     {
         "path": "/InductionManager/SuperBatch",
@@ -119,7 +119,7 @@
     },
     {
         "path": "/OrderManager/OrderStatus",
-        "Permission": "Order Status"
+        "Permission": true
     },
     {
         "path": "/ConsolidationManager/OrderStatus",
