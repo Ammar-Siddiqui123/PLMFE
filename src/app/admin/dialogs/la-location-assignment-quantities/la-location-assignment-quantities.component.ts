@@ -41,10 +41,11 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
     this.putaway = this.data.totalCount[2].count;
   }
 
-  viewOrderSelection(event:any){
+  viewOrderSelection(event:any,index?){
     
     this.locationService.getAll('/Admin/GetLocAssCountTable').subscribe((res:any)=>{
       if(res.isExecuted){
+        res.data.tabIndex = index
         this.dialogRef.close(res.data);  
       }
       else{

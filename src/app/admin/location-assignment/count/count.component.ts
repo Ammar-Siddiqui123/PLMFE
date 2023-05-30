@@ -1,8 +1,8 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { LaLocationAssignmentQuantitiesComponent } from '../../dialogs/la-location-assignment-quantities/la-location-assignment-quantities.component';
@@ -33,14 +33,15 @@ export class CountComponent implements OnInit {
   public userData: any;
   public totalCount: any;
   public searchOrder: any;
+  public searchOrder1: any;
 
   // displayedColumns: string[] = ['location', 'warehouse', 'zone', 'carousel','row'];
   displayedColumns: string[] = ['orderNumber'  , 'itemCount', 'priority', 'requiredDate','actions'];
   displayedColumns1: string[] = ['orderNumber', 'itemCount', 'priority', 'requiredDate','actions'];
   
   OldleftTable:any = [];
-  leftTable:any = [];
-  rightTable:any = [];
+  leftTable:any = new MatTableDataSource([]);
+  rightTable:any = new MatTableDataSource([]);
 
   // dataSource = new MatTableDataSource([]);
   constructor(private _liveAnnouncer: LiveAnnouncer ,
@@ -49,14 +50,21 @@ export class CountComponent implements OnInit {
               private locationService: LocationAssignmentService,
               private toastr: ToastrService) {}
 
-  @ViewChild(MatSort) sort: MatSort;
+  // @ViewChild(MatSort) sort: MatSort;
   // @ViewChild(MatPaginator) paginator1: MatPaginator;
 
   @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('paginator1') paginator1: MatPaginator;
+
+ 
+
+  @ViewChild('matSort') sort: MatSort;
+  @ViewChild('matSort1') sort1: MatSort;
 
   @ViewChild('deleteAction') quarantineTemp: TemplateRef<any>;
 
   @ViewChild('addOrder') addOrderTemp: TemplateRef<any>;
+  @Output() newItemEvent = new EventEmitter<Event>();
 
   ngAfterViewInit() {
     // this.dataSource.sort = this.sort;
@@ -66,6 +74,27 @@ export class CountComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authservice.userData()
     this.openLAQ();
+    // this.leftTable.filterPredicate = function(data, filter: string): boolean {
+    //   debugger
+    //   return data.name.toLowerCase().includes(filter) || data.symbol.toLowerCase().includes(filter) || data.weight.toString().includes(filter);
+    // };
+  }
+
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+    this.leftTable.sort = this.sort;    
+  }
+  announceSortChange1(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+    this.rightTable.sort = this.sort1;    
   }
 
   quarantineDialog(): void {
@@ -114,16 +143,18 @@ export class CountComponent implements OnInit {
   }
 
   addOrdereDialog(): void {
-    this.rightTable = this.rightTable.concat(this.leftTable)
-    this.leftTable = []
+    this.rightTable = new MatTableDataSource(this.rightTable.data.concat(this.leftTable.data));
+    this.leftTable = new MatTableDataSource([]);
+    this.leftTable.paginator = this.paginator
+    this.rightTable.paginator = this.paginator1
   }
 
   deleteItem() {
-    this.leftTable = this.leftTable.concat(this.rightTable)
-    this.rightTable = []
+    this.leftTable = new MatTableDataSource(this.leftTable.data.concat(this.rightTable.data));
+    this.rightTable = new MatTableDataSource([]);
+    this.leftTable.paginator = this.paginator
+    this.rightTable.paginator = this.paginator1
   }
-
-
 
   openLAQ() {
     let payload = {
@@ -144,9 +175,10 @@ export class CountComponent implements OnInit {
     
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      this.leftTable = result;
-      this.OldleftTable = result;
+      this.leftTable = new MatTableDataSource(result);
+      this.leftTable.paginator = this.paginator
+      this.newItemEvent.emit(result.tabIndex);
+      
     })
   }))
     
@@ -154,33 +186,33 @@ export class CountComponent implements OnInit {
 
 
 
-
   add(e:any){
-    this.rightTable = this.rightTable.concat(e)
-    this.leftTable = this.leftTable.filter((data) => data.orderNumber != e.orderNumber)
+    this.rightTable = new MatTableDataSource(this.rightTable.data.concat(e));
+    this.leftTable = new MatTableDataSource(this.leftTable.data.filter((data) => data.orderNumber != e.orderNumber));
+    this.leftTable.paginator = this.paginator
+    this.rightTable.paginator = this.paginator1
   }
   remove(e:any){
-    this.leftTable = this.leftTable.concat(e)
-    this.rightTable = this.rightTable.filter((data) => data.orderNumber != e.orderNumber)
+    this.leftTable = new MatTableDataSource(this.leftTable.data.concat(e));
+    this.rightTable =new MatTableDataSource(this.rightTable.data.filter((data) => data.orderNumber != e.orderNumber));
+    this.leftTable.paginator = this.paginator
+    this.rightTable.paginator = this.paginator1
   }
   
 
-  test(e){
-    var  LTable:any = []
-    for(var key in this.OldleftTable[0]) {  
-      var item =  this.OldleftTable?.filter((data) =>  data[key]?.toString()?.toLowerCase()?.includes(e?.toLowerCase()) )
-      if(item.length > 0){
-        item.forEach(data => {
-          if(! LTable.length) LTable.push(data);
-          else if(!LTable.find((data1) => data1.orderNumber == data.orderNumber))  LTable.push(data);
-        });
-      }
-    }
-   this.leftTable = LTable;
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase(); 
+    this.leftTable.filter = filterValue;
+    console.log(this.leftTable.filter)
   }
 
 
-
-
+  applyFilter1(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase(); 
+    this.rightTable.filter = filterValue;
+  }
+  
 
 }

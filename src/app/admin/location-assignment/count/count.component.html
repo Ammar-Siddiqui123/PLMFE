@@ -22,7 +22,7 @@
                 </span>
                 <input #alertInput type="text" placeholder="Search"
                   aria-label="Search" matInput
-                  maxlength="50" [(ngModel)]="searchOrder" (ngModelChange)="test($event)">
+                  maxlength="50" [(ngModel)]="searchOrder" (ngModelChange)="applyFilter($event)">
 
               </mat-form-field>
               
@@ -42,7 +42,7 @@
         <div class="card br-14 table-responsive borderless">
           <ng-scrollbar style="height:340px" track="all">
 
-          <table mat-table [dataSource]="leftTable" class="w-100" matSort>
+          <table mat-table [dataSource]="leftTable" class="w-100" matSort #matSort="matSort" (matSortChange)="announceSortChange($event)">
 
             <!--- Note that these columns can be defined in any order.
                           The actual rendered columns are set as a property on the row definition" -->
@@ -127,7 +127,7 @@
                 </span>
                 <input #alertInput type="text" placeholder="Search"
                   aria-label="Search" matInput
-                  maxlength="50">
+                  maxlength="50"  [(ngModel)]="searchOrder1" (ngModelChange)="applyFilter1($event)">
 
               </mat-form-field>
             </div>
@@ -145,7 +145,7 @@
 
         <div class="card br-14 table-responsive borderless">
           <ng-scrollbar style="height:340px" track="all">
-          <table mat-table [dataSource]="rightTable" class="w-100" matSort>
+          <table mat-table [dataSource]="rightTable" class="w-100" matSort #matSort="matSort" (matSortChange)="announceSortChange1($event)"  #matSort1="matSort">
 
             <!--- Note that these columns can be defined in any order.
                           The actual rendered columns are set as a property on the row definition" -->
@@ -200,7 +200,7 @@
         </div>
          
         <mat-paginator class="d-flex justify-content-start" [pageSizeOptions]="[5, 10, 20]" [pageSize]="5"
-        aria-label="Select page of periodic elements">
+        aria-label="Select page of periodic elements" #paginator1>
       </mat-paginator>
 
 
