@@ -74,10 +74,6 @@ export class CountComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authservice.userData()
     this.openLAQ();
-    // this.leftTable.filterPredicate = function(data, filter: string): boolean {
-    //   debugger
-    //   return data.name.toLowerCase().includes(filter) || data.symbol.toLowerCase().includes(filter) || data.weight.toString().includes(filter);
-    // };
   }
 
   announceSortChange(sortState: Sort) {
@@ -101,7 +97,7 @@ export class CountComponent implements OnInit {
     if(this.rightTable.data.length > 0){
       let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
-        width: '400px',
+        width: '560px',
         autoFocus: '__non_existing_element__',
         data: {  
           'title': 'Quarantine',
