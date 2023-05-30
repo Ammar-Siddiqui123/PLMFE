@@ -33,8 +33,16 @@
         "Permission": "Inventory"
     },
     {
+        "path": "/admin/locationAssignment",
+        "Permission": "Location Assignment"
+    },
+    {
         "path": "/admin/inventoryMap",
         "Permission": "Inventory Map"
+    },
+    {
+        "path": "/admin/locationAssignment",
+        "Permission": "Location Assignment"
     },
     {
         "path": "/admin/Reports",
@@ -159,6 +167,14 @@
     },
     {
         "path": "/InductionManager/Admin/ManualTransactions",
+        "Permission": "Induction Manager"
+    }  ,
+    {
+        "path": "/InductionManager/Admin/ToteTransactionManager",
+        "Permission": "Induction Manager"
+    }  ,
+    {
+        "path": "/InductionManager/Admin/ImToteManager",
         "Permission": "Induction Manager"
     }  ,
     {
