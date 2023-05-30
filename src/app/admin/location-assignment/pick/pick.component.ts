@@ -9,6 +9,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
+import { LaLocationAssignmentQuantitiesComponent } from '../../dialogs/la-location-assignment-quantities/la-location-assignment-quantities.component';
 
 @Component({
   selector: 'app-pick',
@@ -227,5 +228,30 @@ export class PickComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.tableData2.filter = filterValue.trim().toLowerCase();
+  }
+
+
+  openLAQ() {
+    let payload = {
+      "userName" : this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+
+    this.orderManagerService.get(payload,'/Admin/GetTransactionTypeCounts').subscribe((res =>{
+    let dialogRef = this.dialog.open(LaLocationAssignmentQuantitiesComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {  
+        'totalCount': res.data
+      }
+      ,
+      disableClose: true
+    
+    })
+    dialogRef.afterClosed().subscribe(result => {
+    })
+  }))
+    
   }
 }
