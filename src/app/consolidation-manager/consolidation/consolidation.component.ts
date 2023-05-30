@@ -68,13 +68,13 @@ export class ConsolidationComponent implements OnInit {
   searchAutocompleteItemNum: any = [];
 
   displayedColumns: string[] = ['toteID', 'complete', 'stagingLocation', 'stagedBy', 'stagedDate'];
-  stageTable;
+  stageTable = new MatTableDataSource<any>([]);
 
   displayedColumns_1: string[] = ['itemNumber', 'lineStatus', 'lineNumber', 'transactionQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
-  tableData_1: any;
+  tableData_1 = new MatTableDataSource<any>([]);
 
   displayedColumns_2: string[] = ['itemNumber', 'lineStatus','supplierItemID', 'lineNumber', 'completedQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
-  tableData_2 :any;
+  tableData_2 = new MatTableDataSource<any>([]);
 
   filterOption :any= [
     {key: '1', value: 'Item Number'},
@@ -101,6 +101,9 @@ export class ConsolidationComponent implements OnInit {
     .subscribe((value) => {
       this.autocompleteSearchColumnItem()
     });
+
+    // this.getTableData('','')
+    // console.log(this.stageTable)
   }
 
   hideRow = true;
@@ -338,16 +341,7 @@ export class ConsolidationComponent implements OnInit {
   }
 
   unVerifyAll(){
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '600px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'remove-batch-list',
-      },
-    });
-    dialogRef.afterClosed().subscribe((res) => {
-      if(res == 'Yes'){
+   
         let z:any = [];
         z = this.tableData_2.data.filter((element) => element.lineStatus != 'Waiting Reprocess')
         let IDS :any = [];
@@ -382,8 +376,6 @@ export class ConsolidationComponent implements OnInit {
          
         })
 
-      }
-    });
   }
 
  verifyLine(element:any,Index?:any){

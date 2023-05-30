@@ -63,7 +63,7 @@ export class CCBCreateCountsComponent implements OnInit {
   searchAutocompletBeginCost: any = [];
   searchAutocompletEndCost: any = [];
 
-  dataSource: any;
+  dataSource: any = [];
   time = new Date();
 
   locRangeDiv: boolean = false;
@@ -95,6 +95,7 @@ export class CCBCreateCountsComponent implements OnInit {
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   searchAutocompleteListDescription = [];
   selection: any = 'LocationRange';
+  location:boolean = false;
   sdate: any = new Date();
   edate: any = new Date();
   notCountSince: any = new Date();
@@ -717,18 +718,7 @@ export class CCBCreateCountsComponent implements OnInit {
   }
 
   insertQueue() {
-    try {
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        height: 'auto',
-        width: '786px',
-        autoFocus: '__non_existing_element__',
-        data: {
-          message: 'Would you like to Insert into Queue ?',
-          heading: 'Insert Into Queue',
-        },
-      });
-      dialogRef.afterClosed().subscribe((res) => {
-        if (res === 'Yes') {
+
           let invMapIDs = new Array();
           let finaliter = Math.floor(this.dataSource.data.length / 1000);
           let curriter = 0;
@@ -782,11 +772,7 @@ export class CCBCreateCountsComponent implements OnInit {
               }
             });
           }
-        }
-      });
-    } catch (error) {
-      // console.log(error);
-    }
+
   }
   deleteRow(rowId) {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
@@ -856,5 +842,17 @@ export class CCBCreateCountsComponent implements OnInit {
     this.categoryTA.unsubscribe();
     this.beginCostTA.unsubscribe();
     this.endCostTA.unsubscribe();
+  }
+
+  checkvalue(event){
+    if(event != 'LocationRange'){
+      console.log(event)
+      this.location = true;
+      
+    }
+    else{
+      this.location = false;
+    }
+
   }
 }
