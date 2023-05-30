@@ -70,7 +70,7 @@ export class ConsolidationComponent implements OnInit {
   displayedColumns: string[] = ['toteID', 'complete', 'stagingLocation', 'stagedBy', 'stagedDate'];
   stageTable;
 
-  displayedColumns_1: string[] = ['itemNumber', 'lineStatus', 'lineNumber', 'transactionQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
+  displayedColumns_1: string[] = ['itemNumber', 'lineStatus', 'lineNumber', 'completedQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
   tableData_1: any;
 
   displayedColumns_2: string[] = ['itemNumber', 'lineStatus','supplierItemID', 'lineNumber', 'completedQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];

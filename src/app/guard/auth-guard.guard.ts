@@ -63,8 +63,7 @@ export class AuthGuardGuard implements CanActivate {
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) { 
-    const pathSet = state.url.split('?')[0];
-      debugger
+    const pathSet = state.url.split('?')[0]; 
     if(pathSet.indexOf('/login') > -1) {
       if(this.authService.IsloggedIn()) {
         window.location.href = '/#/dashboard'; 

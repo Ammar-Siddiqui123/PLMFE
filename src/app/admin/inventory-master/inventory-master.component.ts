@@ -20,6 +20,8 @@ import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autoc
 import { SpinnerService } from 'src/app/init/spinner.service'; 
 import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { KitItemComponent } from './kit-item/kit-item.component';
+import { ConfirmationGuard } from 'src/app/guard/confirmation-guard.guard';
+import { ScanCodesComponent } from './scan-codes/scan-codes.component';
 
 
 @Component({
@@ -30,6 +32,7 @@ import { KitItemComponent } from './kit-item/kit-item.component';
 export class InventoryMasterComponent implements OnInit {
 public textLabel:any = 'Details'; 
 tabIndex:any=0;
+ifAllowed:boolean= false;
 PrevtabIndex:any=0;
   public userData: any;
   public invData: any;
@@ -73,13 +76,16 @@ PrevtabIndex:any=0;
     private toastr: ToastrService,
     private router: Router,
     private spinnerService:SpinnerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private confirmationGuard:ConfirmationGuard
     // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
-  ) { }
+  ) {  
+  }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
   @ViewChild('UNquarantineAction') unquarantineTemp: TemplateRef<any>;
   @ViewChild('propertiesChanged') propertiesChanged: TemplateRef<any>;
   @ViewChild(KitItemComponent) kititemcom: KitItemComponent;
+  @ViewChild(ScanCodesComponent) ScanCodesCom: ScanCodesComponent;
   OldinvMaster: any= {}; 
   invMaster: FormGroup;
 
@@ -159,7 +165,7 @@ PrevtabIndex:any=0;
     });
   }
 
-  initialzeIMFeilds() {
+ async initialzeIMFeilds() {
     this.invMaster = this.fb.group({
 
       itemNumber: [this.getInvMasterData?.itemNumber || '', [Validators.required, Validators.maxLength(50)]],
@@ -286,22 +292,21 @@ PrevtabIndex:any=0;
     });
   }
 
-  public getInvMasterDetail(itemNum: any) {
+  async getInvMasterDetail(itemNum: any): Promise<void> {
     let paylaod = {
       "itemNumber": itemNum,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
+    };
+  
+    try {
+      const res: any = await this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').toPromise();
+      this.getInvMasterData = res.data; 
+  
+     await this.initialzeIMFeilds();
+    } catch (error) { 
     }
-    this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
-      this.getInvMasterData = res.data;
-
-      // console.log('====GET INVENTORY MASTER=====');
-      // console.log(res.data);
-
-      this.initialzeIMFeilds();
-    })
   }
-
   private getChangedProperties(): string[] {
     let changedProperties: any = [];
 
@@ -668,12 +673,13 @@ PrevtabIndex:any=0;
 }
 kitItemChecks(){
  var IsReturn:any=false;
-  if(this.invMaster.value.kitInventories.length){ 
-    for (let i = 0; i < this.invMaster.value.kitInventories.length; i++) {
+  if(this.kititemcom.kitItemsList.length){ 
+    for (let i = 0; i < this.kititemcom.kitItemsList.length; i++) {
       for (var key in this.OldinvMaster.kitInventories[0] ){
-        if(this.OldinvMaster.kitInventories[i][key] == this.invMaster.value.kitInventories[i][key]){
+        if(this.OldinvMaster.kitInventories[i] && this.OldinvMaster.kitInventories[i][key] == this.kititemcom.kitItemsList[i][key]){
 
         } else {
+          debugger
           IsReturn = true;
           break;
         }
@@ -682,12 +688,34 @@ kitItemChecks(){
   }
   return IsReturn;
 }
+ScanCodesChecks(){ 
+  var IsReturn:any=false;
+   if(this.ScanCodesCom.scanCodesList.length){ 
+     for (let i = 0; i < this.ScanCodesCom.scanCodesList.length; i++) {
+       for (var key in this.ScanCodesCom.scanCodesList[0] ){
+         if(this.OldinvMaster.scanCode[i]  && this.OldinvMaster.scanCode[i][key] == this.ScanCodesCom.scanCodesList[i][key]){
+ 
+         } else {
+          debugger
+           IsReturn = true;
+           break;
+         }
+       }
+     }
+   }
+   return IsReturn;
+ }
   getChangesCheck(){   
   var IsReturn:any=false; 
   for (var key in this.invMaster.value ){ 
-    if((typeof this.invMaster.value[key]) == 'object' && key == 'kitInventories'){
-      if(this.kitItemChecks()){
-        console.log(true);
+    if((typeof this.invMaster.value[key]) == 'object' && key == 'kitInventories'){ 
+      if(this.kitItemChecks()){ 
+        IsReturn = true;
+        break;
+      };
+    }
+    if((typeof this.invMaster.value[key]) == 'object' && key == 'scanCode'){  
+      if(this.ScanCodesChecks()){ 
         IsReturn = true;
         break;
       };
@@ -700,8 +728,7 @@ kitItemChecks(){
 return IsReturn;
 }
 
-   tabChanged(Index: any) { 
-    debugger
+   tabChanged(Index: any) {  
     if(!this.IstabChange){
       this.IstabChange =  true;
     this.spinnerService.show(); 
@@ -731,29 +758,39 @@ return IsReturn;
   }
 }
 
-  ConfirmationDialog(tabIndex) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      height: 'auto',
-      width: '786px',
-      data: {
-        message: 'Changes you made may not be saved.',
-        heading: 'Inventory Master' 
-      },
-      autoFocus: '__non_existing_element__',
-      
-    });
-    dialogRef.afterClosed().subscribe((result) => { 
-      if (result==='Yes') {  
-          this.getInvMasterDetail(this.searchValue); 
-      setTimeout(() => {
+async ConfirmationDialog(tabIndex) {
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    height: 'auto',
+    width: '786px',
+    data: {
+      message: 'Changes you made may not be saved.',
+      heading: 'Inventory Master' 
+    },
+    autoFocus: '__non_existing_element__',
+  });
+
+  dialogRef.afterClosed().subscribe(async (result) => { 
+    if (result === 'Yes') {
+      await this.getInvMasterDetail(this.searchValue); 
         this.tabIndex = tabIndex; 
         this.PrevtabIndex = tabIndex;
-        this.IstabChange =  false;
-      }, 600);
-      }else   { 
-        this.IstabChange =  false;
-      }
-    });
-  }
+        this.IstabChange = false; 
+    } else {
+      this.IstabChange = false;
+    }
+  });
+}
 
+@HostListener('window:beforeunload', ['$event'])
+onbeforeunload(event) { 
+  if (this.ifAllowed) { 
+     event.preventDefault();
+    event.returnValue = '';
+  }
+}
+ 
+@HostListener('click')
+documentClick(event: MouseEvent) { 
+  this.ifAllowed = true
+}
 }

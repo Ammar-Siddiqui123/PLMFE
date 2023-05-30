@@ -2068,3 +2068,13 @@ mat-row{
 .Carrier-select .mat-select-placeholder {
   color:#2c2c2c !important;
 }
+.confirmation-dialog { 
+  position: fixed !important;
+  top: 0;
+  z-index: 10000;
+  background: #0000002e;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  top: 97px;
+}
