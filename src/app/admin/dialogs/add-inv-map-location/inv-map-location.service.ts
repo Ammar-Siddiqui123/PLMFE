@@ -54,7 +54,9 @@ export class InvMapLocationService {
 
     const filtered = asArray.filter(([key, value]) =>  value != '');
 
-    let payload = Object.fromEntries(filtered);
+    
+    
+    let payload = Object.fromEntries(asArray); //  (filtered)  -> changed to (asArray) because API required all keys with empty values
 
     
     let userData = this.authService.userData();

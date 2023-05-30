@@ -14,6 +14,7 @@ import { LocationAssignmentComponent } from './location-assignment/location-assi
 import { ManualTransactionsComponent } from './manual-transactions/manual-transactions.component';
 import { SystemReplenishmentComponent } from './system-replenishment/system-replenishment.component';
 import { TransactionComponent } from './transaction/transaction.component';
+import { ConfirmationGuard } from '../guard/confirmation-guard.guard';
 
 const routes: Routes = [
   { path: '', component: AdminComponent },
@@ -36,6 +37,7 @@ const routes: Routes = [
     path: 'inventoryMaster',
     component: InventoryMasterComponent,
     canActivate: [AuthGuardGuard],
+    canDeactivate: [ConfirmationGuard]
   },
   {
     path: 'batchManager',

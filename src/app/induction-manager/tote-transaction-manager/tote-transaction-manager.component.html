@@ -14,17 +14,31 @@
 
 
             <div class="card p-3 m-2">
-                <div class="d-flex align-item-center">
-                    <div class="col-4 p-2">
-                        <mat-form-field class="custom-form-field w-100" appearance="outline">
+                <div class="row align-items-center">
+                    <div class="col-xl-4 p-2">
+                        <!-- <mat-form-field class="custom-form-field w-100" appearance="outline">
                             <mat-label>Batch ID</mat-label>
                             <input matInput type="text" value="1235413">
-                        </mat-form-field>
+                        </mat-form-field> -->
+
+                        <mat-form-field [floatLabel]="getFloatLabelValue()"
+                        [hideRequiredMarker]="hideRequiredControl.value"
+                        class="custom-form-field w-100  mb-2" appearance="outline">
+                        <mat-label>From Cost</mat-label>
+                        <input  [NumbersOnly]="true" [matAutocomplete]="fromCost" (ngModelChange)="this.batchPickId.next($event)"
+                            formControlName="costStart" matInput class=" " type="text" maxlength="50">
+                        <mat-autocomplete #fromCost="matAutocomplete" (optionSelected)="searchData()">
+                            <mat-option *ngFor="let option of searchAutocompletBatchPick" [value]="">
+                               
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    
                     </div>
-                    <div class="col-4 p-2">
+                    <div class="col-xl-4 p-2">
                         <button mat-stroked-button class="btn-regular button-remove-all-w-stroke" color="warn">Clear</button>
                     </div>
-                    <div class="col-4 p-2">
+                    <div class="col-xl-4 p-2">
                         <button mat-flat-button class="form-button-submit w-100" color="primary">Clear Pick Tote
                             Info</button>
                     </div>
@@ -80,18 +94,19 @@
                                 </ng-container>
 
 
-                                <ng-container matColumnDef="action">
+                                <ng-container matColumnDef="action" stickyEnd>
                                     <th mat-header-cell *matHeaderCellDef></th>
                                     <td mat-cell *matCellDef="let element; let i = index;">
-                                        <div class="d-flex justify-content-end">
+                                        <div class="d-flex justify-content-end ps-2">
                                             <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o" appearance="outline">
                                                 <mat-icon>more_horiz</mat-icon>
                                               </button>
                             
                                               <mat-menu #appMenu="matMenu">
-                                                <button mat-menu-item>Print</button>
-                                                <button mat-menu-item>Clear</button>
-                                                <button mat-menu-item>Assign Next ID</button>
+                                                <button mat-menu-item>Clear Info</button>
+                                                <button mat-menu-item>Print Off Carousel List</button>
+                                                <button mat-menu-item>Print Tote Contents</button>
+                                                <button mat-menu-item>Print Tote Labels</button>
                                               </mat-menu>
                                         </div>
                                     </td>
