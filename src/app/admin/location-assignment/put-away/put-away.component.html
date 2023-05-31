@@ -1,4 +1,5 @@
 <div class="row my-3">
+
   <div class="col-xl-6">
     <mat-card class="mat-elevation-z g-card mb-2">
       <mat-card-content>
@@ -37,8 +38,8 @@
 
         <div class="card br-14 table-responsive borderless">
           <ng-scrollbar style="height:305px" track="all">
-            <table mat-table [dataSource]="tableData1" class="w-100" matSort #MatSort2="matSort"
-            (matSortChange)="announceSortChange2($event)">
+            <table mat-table [dataSource]="tableData1" class="w-100" matSort #MatSort1="matSort"
+            (matSortChange)="announceSortChange1($event)">
 
               <ng-container matColumnDef="orderNumber">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number"> Order No.
@@ -101,7 +102,6 @@
       </mat-card-content>
     </mat-card>
   </div>
-
 
   <div class="col-xl-6">
     <mat-card class="mat-elevation-z g-card mb-2">
