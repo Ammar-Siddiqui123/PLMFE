@@ -64,7 +64,7 @@
                                     <div class="d-flex gap-12 align-items-center">
 
                                         <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                            <mat-select value="{{item.scanRange}}" #scanRange (selectionChange)="changeScanRange(item)">
+                                            <mat-select value="{{item.scanRange}}" #scanRange [(ngModel)]="item.scanRange" (selectionChange)="changeScanRange(item)">
                                                 <mat-option *ngFor="let val of scanRangeList"   [value]="val" >{{val}}</mat-option>
                                               </mat-select>
                                         </mat-form-field>
