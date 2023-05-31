@@ -74,10 +74,6 @@ export class CountComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authservice.userData()
     this.openLAQ();
-    // this.leftTable.filterPredicate = function(data, filter: string): boolean {
-    //   debugger
-    //   return data.name.toLowerCase().includes(filter) || data.symbol.toLowerCase().includes(filter) || data.weight.toString().includes(filter);
-    // };
   }
 
   announceSortChange(sortState: Sort) {
@@ -98,10 +94,10 @@ export class CountComponent implements OnInit {
   }
 
   quarantineDialog(): void {
-    if(this.rightTable.length > 0){
+    if(this.rightTable.data.length > 0){
       let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
-        width: '400px',
+        width: '560px',
         autoFocus: '__non_existing_element__',
         data: {  
           'title': 'Quarantine',
@@ -124,8 +120,8 @@ export class CountComponent implements OnInit {
 
   locationAssignment(){
 
-    let orders = this.rightTable.map((data) => data.orderNumber)
-    console.log(orders)
+    let orders = this.rightTable.data.map((data) => data.orderNumber)
+    // console.log(orders)
 
     let payload = {
       "transType": "count",
@@ -133,12 +129,11 @@ export class CountComponent implements OnInit {
       "userName" : this.userData.userName,
       "wsid": this.userData.wsid
     }
-    console.log(payload)
     this.locationService.get(payload,'/Admin/LocationAssignmentOrderInsert').subscribe((res => {
      console.log(res.data.orders,'insertion')
      let testdata = res.data.orders
-     this.rightTable = this.rightTable.filter((data) => !testdata.includes(data.orderNumber))
-     console.log(this.rightTable)
+     this.rightTable.data = this.rightTable.data.filter((data) => !testdata.includes(data.orderNumber))
+     console.log(this.rightTable.data)
     }))
   }
 
@@ -155,7 +150,7 @@ export class CountComponent implements OnInit {
     this.leftTable.paginator = this.paginator
     this.rightTable.paginator = this.paginator1
   }
-
+  
   openLAQ() {
     let payload = {
       "userName" : this.userData.userName,
@@ -183,8 +178,6 @@ export class CountComponent implements OnInit {
   }))
     
   }
-
-
 
   add(e:any){
     this.rightTable = new MatTableDataSource(this.rightTable.data.concat(e));

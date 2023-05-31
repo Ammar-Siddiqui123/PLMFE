@@ -113,27 +113,37 @@
                 <mat-tab label="Details">
                   <app-detail [events]="eventsSubject.asObservable()" [details]="invMaster"  (notifyParent)="getNotification($event)"></app-detail>
                 </mat-tab>
-                <mat-tab label="Item Setup">
-                  <app-item-setup [itemSetup]="invMaster"></app-item-setup>
+                <mat-tab label="Item Setup" >
+                  <div class="remaining"></div> 
+                  <app-item-setup [itemSetup]="invMaster"  ></app-item-setup>
                 </mat-tab>
-                <mat-tab label="Kit Items">
-                  <app-kit-item [kitItem]="invMaster" (notifyParent)="getNotification($event)"></app-kit-item>
+                <mat-tab label="Kit Items" >
+                  <div class="remaining"></div> 
+                  <app-kit-item [kitItem]="invMaster"   (notifyParent)="getNotification($event)"></app-kit-item>
                 </mat-tab>
-                <mat-tab label="Location">
-                  <app-location [count]="count" [location]="invMaster"
+                <mat-tab label="Location"  >
+                  <div class="remaining"></div>
+
+                  <app-location [count]="count" [location]="invMaster" 
                     (notifyParent)="getNotification($event)"></app-location>
                 </mat-tab>
                 <mat-tab label="Reel Tracking">
                   <app-reel-tracking  [events]="reelSubject.asObservable()" [reelTracking]="invMaster"></app-reel-tracking>
                 </mat-tab>
-                <mat-tab label="Scan  Codes">
-                  <app-scan-codes [scanCodes]="invMaster" (notifyParent)="getNotification($event)"></app-scan-codes>
+                <mat-tab label="Scan Codes">
+                  <div class="remaining"></div>
+
+                  <app-scan-codes [scanCodes]="invMaster"   (notifyParent)="getNotification($event)"></app-scan-codes>
                 </mat-tab>
                 <mat-tab label="Weigh Scale">
-                  <app-weight-scale [weighScale]="invMaster"></app-weight-scale>
+                  <div class="remaining"></div>
+
+                  <app-weight-scale [weighScale]="invMaster"  ></app-weight-scale>
                 </mat-tab>
                 <mat-tab label="Other">
-                  <app-others [others]="invMaster"></app-others>
+                  <div class="remaining"></div>
+
+                  <app-others [others]="invMaster"  ></app-others>
                 </mat-tab>
               </mat-tab-group>
             </div>
@@ -237,3 +247,6 @@
     </div>
   </div>
 </ng-template>
+
+
+<div class="confirmation-dialog" style="display: none;">h1</div>
