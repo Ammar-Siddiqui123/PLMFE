@@ -32,7 +32,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private sharedService: SharedService,
     public authService: AuthService
-  ) {
+  ) { 
     // router.events
     //   .pipe(
     //     filter((evt: any) => evt instanceof RoutesRecognized),

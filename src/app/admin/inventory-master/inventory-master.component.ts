@@ -16,7 +16,16 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete'; 
+import { SpinnerService } from 'src/app/init/spinner.service'; 
+import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { KitItemComponent } from './kit-item/kit-item.component';
+import { ConfirmationGuard } from 'src/app/guard/confirmation-guard.guard';
+import { ScanCodesComponent } from './scan-codes/scan-codes.component'; 
+import { MatTabGroup } from '@angular/material/tabs';
+import { Subject } from 'rxjs';
+import { SharedService } from 'src/app/services/shared.service';
+ 
 
 
 @Component({
@@ -25,11 +34,15 @@ import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autoc
   styleUrls: ['./inventory-master.component.scss']
 })
 export class InventoryMasterComponent implements OnInit {
-
+public textLabel:any = 'Details'; 
+tabIndex:any=0;
+ifAllowed:boolean= false;
+PrevtabIndex:any=0;
   public userData: any;
   public invData: any;
   public getInvMasterData: any;
   public invMasterLocations: any;
+  public isDialogOpen=false;
   public paginationData: {
     total: 0,
     position: 0,
@@ -38,8 +51,9 @@ export class InventoryMasterComponent implements OnInit {
   public currentPageItemNo: any = '';
   searchList: any;
   searchValue: any = '';
-
-  saveDisabled = false;
+  isDataFound=false;
+  isDataFoundCounter=0;
+  saveDisabled = true;
   count;
 
 
@@ -59,6 +73,7 @@ export class InventoryMasterComponent implements OnInit {
   isDisabledSubmit: boolean = false;
   kitAttempts: number = 0;
   scanAttempts: number = 0;
+  IstabChange:boolean=false;
   constructor(
     private invMasterService: InventoryMasterService,
     private authService: AuthService,
@@ -66,18 +81,127 @@ export class InventoryMasterComponent implements OnInit {
     private fb: FormBuilder,
     private toastr: ToastrService,
     private router: Router,
-    private route: ActivatedRoute
+    private spinnerService:SpinnerService,
+    private route: ActivatedRoute,
+    private confirmationGuard:ConfirmationGuard, 
+    private sharedService: SharedService,
     // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
-  ) { }
+  ) {  
+  }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
   @ViewChild('UNquarantineAction') unquarantineTemp: TemplateRef<any>;
   @ViewChild('propertiesChanged') propertiesChanged: TemplateRef<any>;
+  @ViewChild(KitItemComponent) kititemcom: KitItemComponent;
+  @ViewChild(ScanCodesComponent) ScanCodesCom: ScanCodesComponent;
+  OldinvMaster: any= {}; 
   invMaster: FormGroup;
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  eventsSubject: Subject<String> = new Subject<String>();
+  reelSubject: Subject<String> = new Subject<String>();
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
   onScroll(event) {
     alert();
   }
+  @HostListener('document:keydown', ['$event'])
+
+//  SHORTCUT KEYS
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+
+    if (!this.isInputField(target) && event.key === 'a') {
+      event.preventDefault();
+      if(this.isDialogOpen) return
+     this.openAddItemDialog();
+    }
+
+    if (!this.isInputField(target) &&  event.key === 'c') {
+      event.preventDefault();
+      this.clearSearchField();
+    }
+    if (!this.isInputField(target) &&  event.key === 'd') {
+      event.preventDefault();
+      if(this.isDialogOpen || this.searchValue==='' ) return
+      this.deleteItem(null);
+    }
+
+    if (!this.isInputField(target) &&  event.key === 'e') {
+      event.preventDefault();
+     
+      this.tabGroup.selectedIndex = 0;
+    }
+    if (!this.isInputField(target) &&  event.key === 'k') {
+      event.preventDefault();
+     
+      this.tabGroup.selectedIndex = 2;
+    }
+
+    if (!this.isInputField(target) &&  event.key === 'l') {
+      event.preventDefault();
+     
+      this.tabGroup.selectedIndex =3;
+    }
+
+    if (!this.isInputField(target) &&  event.key === 'o') {
+      event.preventDefault();
+     
+      this.tabGroup.selectedIndex =7;
+    }
+    if (!this.isInputField(target) &&  event.key === 'q') {
+      event.preventDefault();
+      if(this.isDialogOpen || this.searchValue==='' ) return
+      this.quarantineDialog();
+    }
+
+    if (!this.isInputField(target) &&  event.key === 'g') {
+      event.preventDefault();
+      this.tabGroup.selectedIndex =4;
+    }
+    if (!this.isInputField(target) &&  event.key === 's') {
+      event.preventDefault();
+      this.tabGroup.selectedIndex =5;
+    }
+    if (!this.isInputField(target) &&  event.key === 'i') {
+      event.preventDefault();
+      this.tabGroup.selectedIndex =1;
+    }
+    if (!this.isInputField(target) &&  event.key === 'w') {
+      event.preventDefault();
+      this.tabGroup.selectedIndex =6;
+    }
+    if (!this.isInputField(target) &&  event.key === 'h') {
+      event.preventDefault();
+      if(this.tabGroup.selectedIndex!=0) return
+      this.eventsSubject.next('h');
+    }
+
+    if (!this.isInputField(target) &&  event.key === 'v') {
+      event.preventDefault();
+      if(this.tabGroup.selectedIndex!=0) return
+      this.eventsSubject.next('v');
+    }
+    if (!this.isInputField(target) &&  event.key === 'r') {
+      event.preventDefault();
+      if(this.tabGroup.selectedIndex!=0) return
+      this.eventsSubject.next('r');
+    }
+    if (!this.isInputField(target) &&  event.key === 'r') {
+      event.preventDefault();
+      if(this.tabGroup.selectedIndex!=0) return
+      this.eventsSubject.next('r');
+    }
+    if (!this.isInputField(target) &&  event.key === 'u') {
+      event.preventDefault();
+      if(this.tabGroup.selectedIndex!=4) return
+        this.reelSubject.next('reel')
+    }
+  }
+
+  isInputField(element: HTMLElement): boolean {
+    return element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.isContentEditable;
+  }
+
   @ViewChild('alertInput', { read: MatAutocompleteTrigger })
   autoComplete: MatAutocompleteTrigger;
 
@@ -135,8 +259,7 @@ export class InventoryMasterComponent implements OnInit {
     if (this.autoComplete.panelOpen) this.autoComplete.updatePosition();
   }
   ngAfterViewInit() {
-    this.setVal = localStorage.getItem('routeFromOrderStatus') == 'true' ? true : false;
-    console.log(this.setVal);
+    this.setVal = localStorage.getItem('routeFromOrderStatus') == 'true' ? true : false; 
     this.itemNumberParam$ = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('itemNumber')),
     );
@@ -149,9 +272,23 @@ export class InventoryMasterComponent implements OnInit {
         this.getInvMasterDetail(this.searchValue)
       }
     });
+
+
+
+    this.sharedService.invMasterParentObserver.subscribe(evt => {
+      
+      if(evt.isEnable){
+        this.saveDisabled=false;
+      }else{
+        this.saveDisabled=true;
+      }
+    
+      
+       
+       })
   }
 
-  initialzeIMFeilds() {
+ async initialzeIMFeilds() {
     this.invMaster = this.fb.group({
 
       itemNumber: [this.getInvMasterData?.itemNumber || '', [Validators.required, Validators.maxLength(50)]],
@@ -245,7 +382,8 @@ export class InventoryMasterComponent implements OnInit {
 
       supplierName: ['']
     });
-
+    var CopyObject = JSON.stringify(this.invMaster.value);
+    this.OldinvMaster = JSON.parse(CopyObject || '{}'); 
   }
   onSubmit(form: FormGroup) {
     // console.log(form.value);
@@ -269,7 +407,7 @@ export class InventoryMasterComponent implements OnInit {
         position: res.data?.filterCount.pos,
         itemNumber: res.data?.filterCount.itemNumber,
       }
-
+      this.saveDisabled=true;
       this.getInvMasterDetail(this.currentPageItemNo);
       this.getInvMasterLocations(this.currentPageItemNo);
       //this.getInvMasterDetail('024768000010');
@@ -277,13 +415,24 @@ export class InventoryMasterComponent implements OnInit {
     });
   }
 
-  public getInvMasterDetail(itemNum: any) {
+  async getInvMasterDetail(itemNum: any): Promise<void> {
     let paylaod = {
       "itemNumber": itemNum,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
+    };
+  
+    try {
+      const res: any = await this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').toPromise();
+      this.getInvMasterData = res.data; 
+  
+     await this.initialzeIMFeilds();
+    } catch (error) { 
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
+        res.data['scanCode']=res.data['scanCode'].map(item=>{
+          return { ...item, isDisabled: true };
+        })
       this.getInvMasterData = res.data;
 
       // console.log('====GET INVENTORY MASTER=====');
@@ -292,7 +441,6 @@ export class InventoryMasterComponent implements OnInit {
       this.initialzeIMFeilds();
     })
   }
-
   private getChangedProperties(): string[] {
     let changedProperties: any = [];
 
@@ -383,8 +531,7 @@ export class InventoryMasterComponent implements OnInit {
 
   }
 
-  updateInventoryMasterValidate(){
-    // debugger
+  updateInventoryMasterValidate(){ 
     if(this.invMaster.value?.avgPieceWeight == null || this.invMaster.value?.avgPieceWeight < 0 || this.invMaster.value?.avgPieceWeight > 99999999999){
       return false;
     }
@@ -410,18 +557,21 @@ export class InventoryMasterComponent implements OnInit {
       });
       this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
         if (res.isExecuted) {
+          this.saveDisabled=true
           this.getInventory();
           this.toastr.success(labels.alert.update, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
         } else {
+          this.saveDisabled=false
           this.toastr.error(res.responseMessage, 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
         }
       })
+      this.OldinvMaster = {...this.invMaster.value};
     }
   }
   
@@ -438,6 +588,7 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   public openAddItemDialog() {
+    this.isDialogOpen=true
     let dialogRef = this.dialog.open(ItemNumberComponent, {
       height: 'auto',
       width: '560px',
@@ -452,6 +603,7 @@ export class InventoryMasterComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.isDialogOpen=false;
       if (result.itemNumber) {
         const { itemNumber, description } = result;
         let paylaod = {
@@ -486,13 +638,19 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   deleteItem($event) {
+    this.isDialogOpen=true
     let itemToDelete = this.currentPageItemNo
 
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      data: {
+        actionMessage:`item :${this.searchValue}`,
+        action: 'delete',
+      },
     });
     dialogRef.afterClosed().subscribe((res) => {
+      this.isDialogOpen=false
       if (res == 'Yes') {
 
         let paylaodNextItemNumber = {
@@ -533,11 +691,13 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   quarantineDialog(): void {
+    this.isDialogOpen=true
     const dialogRef = this.dialog.open(this.quarantineTemp, {
       width: '560px',
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((x) => {
+      this.isDialogOpen=false
       if (x) {
         let paylaod = {
           "itemNumber": this.currentPageItemNo,
@@ -568,11 +728,13 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   unquarantineDialog(): void {
+    this.isDialogOpen=false
     const dialogRef = this.dialog.open(this.unquarantineTemp, {
       width: '450px',
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((x) => {
+      this.isDialogOpen=true
       if (x) {
         let paylaod = {
           "itemNumber": this.currentPageItemNo,
@@ -608,6 +770,16 @@ export class InventoryMasterComponent implements OnInit {
     }
   }
 
+  
+  handleFocusOut(){
+    if(!this.isDataFound && this.isDataFoundCounter>0){
+      this.isDataFoundCounter=0;
+      this.toastr.error('Value undefined Does not exist!', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+  }
   getSearchList(e: any) {
 
     this.searchValue = e.currentTarget.value;
@@ -617,9 +789,17 @@ export class InventoryMasterComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.invMasterService.get(paylaod, '/Admin/GetLocationTable').subscribe((res: any) => {
-      if (res.data) {
-        this.searchList = res.data
+    this.invMasterService.get(paylaod, '/Admin/GetLocationTable',true).subscribe((res: any) => {
+      if (res.data?.length) {
+
+        this.searchList = res.data;
+        this.isDataFound=true;
+        this.isDataFoundCounter=0;
+        this.saveDisabled=true;
+      }else{
+        this.isDataFound=false;
+        this.isDataFoundCounter=1;
+        this.saveDisabled=false;
       }
     });
   }
@@ -638,7 +818,7 @@ export class InventoryMasterComponent implements OnInit {
   }
   getNotification(e: any) {
     // console.log(e);
-
+   
     if (e?.newItemNumber) {
       this.currentPageItemNo = e.newItemNumber;
       this.getInventory();
@@ -655,16 +835,128 @@ export class InventoryMasterComponent implements OnInit {
       this.getInventory();
     }
     this.isDisabledSubmit = false;
+  
+}
+kitItemChecks(){
+ var IsReturn:any=false;
+  if(this.kititemcom.kitItemsList.length){ 
+    for (let i = 0; i < this.kititemcom.kitItemsList.length; i++) {
+      for (var key in this.OldinvMaster.kitInventories[0] ){
+        if(this.OldinvMaster.kitInventories[i] && this.OldinvMaster.kitInventories[i][key] == this.kititemcom.kitItemsList[i][key]){
+
+        } else {
+          debugger
+          IsReturn = true;
+          break;
+        }
+      }
+    }
   }
-  tabChanged(tabChangeEvent: MatTabChangeEvent) {
-    if (tabChangeEvent.index == 2 || tabChangeEvent.index == 5) {
-      this.saveDisabled = true;
+  return IsReturn;
+}
+ScanCodesChecks(){ 
+  var IsReturn:any=false;
+   if(this.ScanCodesCom.scanCodesList.length){ 
+     for (let i = 0; i < this.ScanCodesCom.scanCodesList.length; i++) {
+       for (var key in this.ScanCodesCom.scanCodesList[0] ){
+         if(this.OldinvMaster.scanCode[i]  && this.OldinvMaster.scanCode[i][key] == this.ScanCodesCom.scanCodesList[i][key]){
+ 
+         } else {
+          debugger
+           IsReturn = true;
+           break;
+         }
+       }
+     }
+   }
+   return IsReturn;
+ }
+  getChangesCheck(){   
+  var IsReturn:any=false; 
+  for (var key in this.invMaster.value ){ 
+    if((typeof this.invMaster.value[key]) == 'object' && key == 'kitInventories'){ 
+      if(this.kitItemChecks()){ 
+        IsReturn = true;
+        break;
+      };
+    }
+    if((typeof this.invMaster.value[key]) == 'object' && key == 'scanCode'){  
+      if(this.ScanCodesChecks()){ 
+        IsReturn = true;
+        break;
+      };
+    }
+    else if(this.invMaster.value[key] != this.OldinvMaster[key] && (typeof this.invMaster.value[key]) != 'object'){ 
+        IsReturn = true;
+        break; 
+  }
+} 
+return IsReturn;
+}
+
+   tabChanged(Index: any) {  
+    if(!this.IstabChange){
+      this.IstabChange =  true;
+    this.spinnerService.show(); 
+     var IsCheck =  this.getChangesCheck();
+    
+    if(IsCheck) {   
+         this.ConfirmationDialog(Index);
+       this.tabIndex = this.PrevtabIndex;
+    
+      }
+    else if (Index == 2 || Index == 5) {
+      this.saveDisabled = true; 
+      this.PrevtabIndex = Index; 
+      this.tabIndex = Index; 
+      this.IstabChange =  false;
     }
     else {
-      this.saveDisabled = false;
+      this.saveDisabled = false; 
+      this.PrevtabIndex =Index; 
+      this.tabIndex = Index; 
+      this.IstabChange =  false;
     }
+    setTimeout(() => {
+      this.spinnerService.hide();
+    }, 500);
+    // this.PrevtabIndex =this.tabIndex; 
   }
+}
 
+async ConfirmationDialog(tabIndex) {
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    height: 'auto',
+    width: '786px',
+    data: {
+      message: 'Changes you made may not be saved.',
+      heading: 'Inventory Master' 
+    },
+    autoFocus: '__non_existing_element__',
+  });
 
+  dialogRef.afterClosed().subscribe(async (result) => { 
+    if (result === 'Yes') {
+      await this.getInvMasterDetail(this.searchValue); 
+        this.tabIndex = tabIndex; 
+        this.PrevtabIndex = tabIndex;
+        this.IstabChange = false; 
+    } else {
+      this.IstabChange = false;
+    }
+  });
+}
 
+@HostListener('window:beforeunload', ['$event'])
+onbeforeunload(event) { 
+  if (this.ifAllowed) { 
+     event.preventDefault();
+    event.returnValue = '';
+  }
+}
+ 
+@HostListener('click')
+documentClick(event: MouseEvent) { 
+  this.ifAllowed = true
+}
 }

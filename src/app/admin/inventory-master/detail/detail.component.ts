@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -10,6 +10,8 @@ import { UnitMeasureComponent } from '../../dialogs/unit-measure/unit-measure.co
 import { UpdateDescriptionComponent } from '../../dialogs/update-description/update-description.component';
 import { InventoryMasterService } from '../inventory-master.service';
 import { Router } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detail',
@@ -17,8 +19,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+  private eventsSubscription: Subscription;
+  @Input() events: Observable<String>;
 
-  @Input() details: FormGroup;
+  @Input() details: FormGroup;  
   public userData: any;
   @Output() notifyParent: EventEmitter<any> = new EventEmitter();
   sendNotification(e) {
@@ -32,21 +36,39 @@ export class DetailComponent implements OnInit {
   constructor(   
     private invMasterService: InventoryMasterService, 
     private router: Router,
+    private sharedService:SharedService,
     private authService: AuthService, 
     private dialog: MatDialog,
     private toastr: ToastrService,) { }
-
+  
   ngOnInit(): void {
+     
     this.userData = this.authService.userData();
-    // console.log(this.details)
     this.setVal = localStorage.getItem('routeFromOrderStatus') == 'true' ? true : false;
-    console.log(this.setVal,'setval')
+   
     this.spliUrl=this.router.url.split('/');
-
+   
+    this.eventsSubscription = this.events.subscribe((val) => {
+      if(val==='h' && this.details.controls['histCount'].value!=0){
+        this.RedirectInv('TransactionHistory')
+      }
+      if(val==='v' && this.details.controls['openCount'].value!=0){
+        this.RedirectInv('OpenTransaction')
+      }
+      if(val==='r' && this.details.controls['procCount'].value!=0){
+        this.RedirectInv('ReprocessTransaction')
+      }
+    
+    });
   }
 
 
+
+  handleInputChange(event: Event) {
+    this.sharedService.updateInvMasterState(event,true)
+  }
   public openItemNumDialog() {
+
     let dialogRef = this.dialog.open(ItemNumberComponent, {
       height: 'auto',
       width: '560px',
@@ -58,7 +80,7 @@ export class DetailComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+      if (result) { 
         let paylaod = {
           "oldItemNumber": this.details.controls['itemNumber'].value,
           "newItemNumber": result,
@@ -95,6 +117,7 @@ export class DetailComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.sharedService.updateInvMasterState(result,true)
         this.details.patchValue({
           'description' : result.description
         });
@@ -113,20 +136,20 @@ export class DetailComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      if(result.category!='' && result!=true)
-      {
+      // if(result.category!='' && result!=true)
+      // {
         this.details.patchValue({        
           'category': result.category      
         });
-      }
-      if(result.subCategory!='' && result!=true)
-      {
+      // }
+      // if(result.subCategory!='' && result!=true)
+      // {
         this.details.patchValue({            
           'subCategory': result.subCategory,        
         });
-      }
+      // }
       
-      
+      this.sharedService.updateInvMasterState(result,true)
     })
   }
   public openUmDialog() {
@@ -142,8 +165,7 @@ export class DetailComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       // console.log(result);
       if(result!='' && result!=true)
-      {
-
+      { 
         this.details.patchValue({
           'unitOfMeasure' : result
         });
@@ -155,7 +177,7 @@ export class DetailComponent implements OnInit {
 
  RedirectInv(type){
 
-
+// if(this.details.controls['histCount'].value==0 || this.details.controls['openCount'].value==0 ||this.details.controls['procCount'].value==0 ) return
 
 
 //   if( this.spliUrl[1] == 'OrderManager' ){
@@ -186,5 +208,8 @@ this.router.navigate([]).then((result) => {
     });
   }
 
+  }
+  ngOnDestroy() {
+    this.eventsSubscription.unsubscribe();
   }
 }

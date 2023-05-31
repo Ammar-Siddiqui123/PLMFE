@@ -21,10 +21,10 @@ const routes: Routes = [
     redirectTo: 'login',
     pathMatch: 'full',
   },
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent,canActivate: [AuthGuardGuard] },
   {
     path: 'globalconfig',
-    component: GlobalConfigComponent,
+    component: GlobalConfigComponent,canActivate: [AuthGuardGuard],
     children: []
     
   },

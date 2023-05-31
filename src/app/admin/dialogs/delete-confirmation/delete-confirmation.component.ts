@@ -107,28 +107,7 @@ export class DeleteConfirmationComponent implements OnInit {
             }
           });
       }
-      // else if (this.data.mode === 'delete-allowedgroup') {
-      //   let pickLevelData = {
-      //     "wsid": "TESTWID",
-      //     "GroupName": this.data.allowedGroup,
-      //     "userName": "1234"
-      //   }
-      //   this.employeeService.deletePickLevels(pickLevelData).subscribe((res: any) => {
-      //     if (res.isExecuted) {
-      //       this.dialog.closeAll();
-      //       this.toastr.success(labels.alert.delete, 'Success!', {
-      //         positionClass: 'toast-bottom-right',
-      //         timeOut: 2000
-      //       });
-      //     } else {
-      //       this.dialog.closeAll();
-      //       this.toastr.error(labels.alert.went_worng, 'Error!', {
-      //         positionClass: 'toast-bottom-right',
-      //         timeOut: 2000
-      //       });
-      //     }
-      //   });
-      // }
+
       else if (this.data.mode === 'delete-location') {
         let locationData = {
           startLocation: this.data.location.startLocation,
