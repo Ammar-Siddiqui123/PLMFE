@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
@@ -84,6 +84,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   dataSourceList: any;
   contextMenuPosition = { x: '0px', y: '0px' };
   @ViewChild('trigger') trigger: MatMenuTrigger;
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
 
 
 
@@ -316,4 +317,7 @@ export class ToteTransactionManagerComponent implements OnInit {
     );
   }
 
+  ngAfterViewInit() {
+    this.searchBoxField.nativeElement.focus();
+  }
 }

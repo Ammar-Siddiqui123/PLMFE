@@ -42,7 +42,7 @@
                       </span>
                       <input #alertInput [matAutocomplete]="searchauto" type="text" placeholder="Item No."
                         aria-label="Search" matInput (blur)="handleFocusOut()" (keyup)="getSearchList($event)" [value]="searchValue"
-                        maxlength="50">
+                        maxlength="50" #autoFocusField>
                       <mat-autocomplete class="card custom-scroll" #searchauto="matAutocomplete"
                         (optionSelected)="onSearchSelect($event)">
                         <h6 class="card-header matAutoCompHeader "><span style="width:  140px;">Item No./Supp No./Supp
@@ -91,7 +91,7 @@
                             </mat-select>
                             <span class="material-symbols-outlined icon-expand-more">
                                 expand_more
-                            </span>
+                            </span> 
                         </mat-form-field>
                     </div>
                 </div>

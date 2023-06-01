@@ -105,6 +105,7 @@ bpSettingLocInp='';
   displayedColumns_1: string[] = ['controlName', 'function', 'adminLevel'];
   tableData_1 = this.ELEMENT_DATA_1
   dataSourceList_1: any
+  selectedIndex:number = 0
   constructor(
     private authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer, 

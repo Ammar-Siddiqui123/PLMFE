@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../../app/init/auth.service';
 import { InventoryMasterService } from './inventory-master.service';
@@ -206,6 +206,7 @@ PrevtabIndex:any=0;
   autoComplete: MatAutocompleteTrigger;
 
   @ViewChild("searchauto", { static: false }) autocompleteOpened: MatAutocomplete;
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
 
   public setVal: boolean = false;
   ngOnInit(): void {
@@ -262,7 +263,8 @@ PrevtabIndex:any=0;
     this.setVal = localStorage.getItem('routeFromOrderStatus') == 'true' ? true : false; 
     this.itemNumberParam$ = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('itemNumber')),
-    );
+      );
+      this.searchBoxField.nativeElement.focus();
 
     this.itemNumberParam$.subscribe((param) => {
       // console.log(param)
@@ -931,7 +933,7 @@ async ConfirmationDialog(tabIndex) {
     data: {
       message: 'Changes you made may not be saved.',
       heading: 'Inventory Master' 
-    },
+    }, 
     autoFocus: '__non_existing_element__',
   });
 
@@ -960,3 +962,4 @@ documentClick(event: MouseEvent) {
   this.ifAllowed = true
 }
 }
+ 
