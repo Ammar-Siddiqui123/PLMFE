@@ -933,7 +933,7 @@ async ConfirmationDialog(tabIndex) {
     data: {
       message: 'Changes you made may not be saved.',
       heading: 'Inventory Master' 
-    },
+    }, 
     autoFocus: '__non_existing_element__',
   });
 
@@ -962,3 +962,4 @@ documentClick(event: MouseEvent) {
   this.ifAllowed = true
 }
 }
+ 
