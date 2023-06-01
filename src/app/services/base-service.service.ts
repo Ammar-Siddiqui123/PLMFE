@@ -1,4 +1,4 @@
-import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from '../../environments/environment';
@@ -33,6 +33,7 @@ export class BaseService {
             context: new HttpContext().set(BYPASS_LOG, isLoader)
         };
         return this.http.get<any>(`${environment.apiUrl}${endPoint}`,httpOptions);  
+
     }
 
     public create(reqPaylaod: any, endPoint: string): Observable<any> {
@@ -61,5 +62,5 @@ export class BaseService {
             })
         };
         return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
-    }
+    }  
 }
