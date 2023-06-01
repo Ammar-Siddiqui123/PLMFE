@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FloatLabelType } from '@angular/material/form-field';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
@@ -50,6 +50,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   tableData = this.ELEMENT_DATA;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   dataSourceList: any;
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
 
   constructor() {}
 
@@ -63,5 +64,9 @@ export class ToteTransactionManagerComponent implements OnInit {
       .subscribe((value) => {
         console.log(value);
       });
+  }
+
+  ngAfterViewInit() {
+    this.searchBoxField.nativeElement.focus();
   }
 }

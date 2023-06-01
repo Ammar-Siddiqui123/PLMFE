@@ -1,5 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -36,9 +36,12 @@ export class PutAwayComponent implements OnInit {
 
   @ViewChild('addOrder') addOrderTemp: TemplateRef<any>;
 
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
+
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.searchBoxField.nativeElement.focus();
   }
 
   ngOnInit(): void {
