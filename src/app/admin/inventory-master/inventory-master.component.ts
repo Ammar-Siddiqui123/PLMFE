@@ -846,8 +846,7 @@ kitItemChecks(){
       for (var key in this.OldinvMaster.kitInventories[0] ){
         if(this.OldinvMaster.kitInventories[i] && this.OldinvMaster.kitInventories[i][key] == this.kititemcom.kitItemsList[i][key]){
 
-        } else {
-          debugger
+        } else { 
           IsReturn = true;
           break;
         }
@@ -896,27 +895,28 @@ ScanCodesChecks(){
 return IsReturn;
 }
 
-   tabChanged(Index: any) {  
+   tabChanged(tab: any) {  
     if(!this.IstabChange){
       this.IstabChange =  true;
     this.spinnerService.show(); 
      var IsCheck =  this.getChangesCheck();
     
     if(IsCheck) {   
-         this.ConfirmationDialog(Index);
-       this.tabIndex = this.PrevtabIndex;
+      debugger
+      this.ConfirmationDialog(tab.index); 
+      this.tabIndex = this.PrevtabIndex;
     
       }
-    else if (Index == 2 || Index == 5) {
+    else if (tab.index == 2 || tab.index == 5) {
       this.saveDisabled = true; 
-      this.PrevtabIndex = Index; 
-      this.tabIndex = Index; 
+      this.PrevtabIndex = tab.index; 
+      this.tabIndex = tab.index; 
       this.IstabChange =  false;
     }
     else {
       this.saveDisabled = false; 
-      this.PrevtabIndex =Index; 
-      this.tabIndex = Index; 
+      this.PrevtabIndex =tab.index; 
+      this.tabIndex = tab.index; 
       this.IstabChange =  false;
     }
     setTimeout(() => {
@@ -939,7 +939,9 @@ async ConfirmationDialog(tabIndex) {
 
   dialogRef.afterClosed().subscribe(async (result) => { 
     if (result === 'Yes') {
+      debugger
       await this.getInvMasterDetail(this.searchValue); 
+      console.log( this.tabIndex);
         this.tabIndex = tabIndex; 
         this.PrevtabIndex = tabIndex;
         this.IstabChange = false; 
