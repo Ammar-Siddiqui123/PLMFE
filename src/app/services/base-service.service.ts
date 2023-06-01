@@ -54,7 +54,7 @@ export class BaseService {
                 'Authorization': 'Basic '
             })
         };
-        return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
+        return this.http.post<any>(`${environment.apiUrl}${endPoint}`, decodeURIComponent(reqPaylaod), httpOptions);
     }
     public delete(reqPaylaod: any, endPoint: string): Observable<any> {
         const httpOptions = {

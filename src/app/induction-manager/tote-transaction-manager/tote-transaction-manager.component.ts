@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
@@ -11,7 +11,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/init/auth.service';
 import { BatchDeleteComponent } from 'src/app/dialogs/batch-delete/batch-delete.component';
 import labels from '../../labels/labels.json';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
+import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 @Component({
   selector: 'app-tote-transaction-manager',
   templateUrl: './tote-transaction-manager.component.html',
@@ -79,12 +82,17 @@ export class ToteTransactionManagerComponent implements OnInit {
   tableData = this.ELEMENT_DATA;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   dataSourceList: any;
+  contextMenuPosition = { x: '0px', y: '0px' };
+  @ViewChild('trigger') trigger: MatMenuTrigger;
+
+
 
   constructor(
     private dialog: MatDialog,
     private toastr: ToastrService,
     private toteService: ToteTransactionManagerService,
-    private authService: AuthService
+    private authService: AuthService,
+    private filterService: ContextMenuFiltersService
   ) {
     this.userData = this.authService.userData();
   }
@@ -106,6 +114,8 @@ export class ToteTransactionManagerComponent implements OnInit {
   clearBatchButt() {
     this.batchId = '';
     this.searchAutocompletBatchPick.length = 0;
+    this.FilterString='1 = 1';
+    this.resetPagination();
     this.getToteTrans();
   }
 
@@ -169,7 +179,10 @@ export class ToteTransactionManagerComponent implements OnInit {
   //       this.dataSource = new MatTableDataSource(res?.data);
   //     });
   // }
+  
  getToteTrans() {
+  console.log(this.FilterString);
+  
     let payload = {
    
       BatchID: this.batchId?this.batchId:'',
@@ -177,7 +190,7 @@ export class ToteTransactionManagerComponent implements OnInit {
       EndRow: this.endRow,
       SortCol: this.sortCol,
       SortOrder:this.sortOrder,
-      Filter: '1=1',
+      Filter: this.FilterString,
     };
     this.toteService
       .getAll('/Induction/SelectToteTransManTable',payload,true)
@@ -255,4 +268,52 @@ export class ToteTransactionManagerComponent implements OnInit {
     this.sortOrder = event.direction;
     this.getToteTrans();
   }
+
+  onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.trigger.menuData = { item: { SelectedItem: SelectedItem, FilterColumnName: FilterColumnName, FilterConditon: FilterConditon, FilterItemType: FilterItemType } };
+    this.trigger.menu?.focusFirstItem('mouse');
+    this.trigger.openMenu();
+  }
+
+  FilterString: string = "1 = 1";
+  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+    this.FilterString = this.FilterString != "" ? this.FilterString : "1 = 1";
+    // this.resetPagination();
+    this.getToteTrans();
+  }
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  resetPagination() {
+    this.startRow = 0;
+    // this.tablePayloadObj.length = 10;
+    this.paginator.pageIndex = 0;
+  }
+
+  getType(val): string {
+    return this.filterService.getType(val);
+  }
+
+  InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
+    const dialogRef = this.dialog.open(InputFilterComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        FilterColumnName: FilterColumnName,
+        Condition: Condition,
+        TypeOfElement: TypeOfElement
+      },
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log(result);
+      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
+    }
+    );
+  }
+
 }
