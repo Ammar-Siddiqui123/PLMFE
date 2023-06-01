@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../../labels/labels.json';
 import { OrderManagerService } from 'src/app/order-manager/order-manager.service';
@@ -26,6 +26,7 @@ export class PickComponent implements OnInit {
   orderNumberSearch: string = '';
 
   @ViewChild('MatSort1') sort1: MatSort;
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
   sequenceKeyMapping1: any = [
     { sequence: 'orderNumber', key: 'orderNumber' },
     { sequence: 'priority', key: 'priority' },
@@ -60,6 +61,9 @@ export class PickComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.GetLocationAssignmentPickTable();
+  }
+  ngAfterViewInit() {
+    this.searchBoxField.nativeElement.focus();
   }
 
   GetLocationAssignmentPickTable(loader: boolean = false) {

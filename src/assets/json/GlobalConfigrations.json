@@ -100,11 +100,9 @@
     },
     {
         "path": "/InductionManager/ProcessPicks",
-        "Permission": "Tote Transactions"
-    },
+        "Permission": "Induction Manager"
+    },    
 
-
-    
     {
         "path": "/InductionManager/ProcessPutAways",
         "Permission": "Tote Transactions"
@@ -189,5 +187,11 @@
     {
         "path": "/admin/manualTransactions",
         "Permission": "Manual Transactions"
+    },
+    
+    {
+        "path": "/flowrack",
+        "Permission":"FlowRack Replenish"
     }
+    
 ]

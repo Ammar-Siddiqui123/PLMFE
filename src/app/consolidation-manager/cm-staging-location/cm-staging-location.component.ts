@@ -1,4 +1,4 @@
-import { Component , OnInit } from '@angular/core';
+import { Component , ElementRef, OnInit, ViewChild } from '@angular/core';
 import {  MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ConsolidationManagerService } from '../consolidation-manager.service';
@@ -35,6 +35,9 @@ export class CmStagingLocationComponent implements OnInit {
   IsLoading: any = false;
   type: any = "";
   OrderNumberTote: any = null;
+
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
+
   constructor(private toast: ToastrService,
     private http: ConsolidationManagerService,
     private authService: AuthService,
@@ -44,6 +47,9 @@ export class CmStagingLocationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+  ngAfterViewInit() {
+    this.searchBoxField.nativeElement.focus(); 
   }
   async SearchToteAndLocation($event:any){ 
     if($event.target.value != ""){

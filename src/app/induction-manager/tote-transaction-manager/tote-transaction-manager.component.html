@@ -26,7 +26,7 @@
                         class="custom-form-field w-100  mb-2" appearance="outline">
                         <mat-label>From Cost</mat-label>
                         <input  [NumbersOnly]="true" [matAutocomplete]="fromCost" (ngModelChange)="this.batchPickId.next($event)"
-                            formControlName="costStart" matInput class=" " type="text" maxlength="50">
+                            formControlName="costStart" matInput class=" " type="text" maxlength="50" #autoFocusField>
                         <mat-autocomplete #fromCost="matAutocomplete" (optionSelected)="searchData()">
                             <mat-option *ngFor="let option of searchAutocompletBatchPick" [value]="">
                                

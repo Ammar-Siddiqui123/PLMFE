@@ -1,5 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import labels from '../../../labels/labels.json';
+import { Component, ElementRef, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -11,6 +12,7 @@ import { LocationAssignmentService } from '../location-assignment.service';
 import { data } from 'jquery';
 import { ToastrService } from 'ngx-toastr';
 import { left } from '@popperjs/core';
+import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 export interface PeriodicElement {
   location: number;
@@ -65,19 +67,17 @@ export class CountComponent implements OnInit {
 
   @ViewChild('addOrder') addOrderTemp: TemplateRef<any>;
   @Output() newItemEvent = new EventEmitter<Event>();
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
 
   ngAfterViewInit() {
     // this.dataSource.sort = this.sort;
     // this.dataSource.paginator = this.paginator;
+    this.searchBoxField.nativeElement.focus();
   }
 
   ngOnInit(): void {
     this.userData = this.authservice.userData()
     this.openLAQ();
-    // this.leftTable.filterPredicate = function(data, filter: string): boolean {
-    //   debugger
-    //   return data.name.toLowerCase().includes(filter) || data.symbol.toLowerCase().includes(filter) || data.weight.toString().includes(filter);
-    // };
   }
 
   announceSortChange(sortState: Sort) {
@@ -99,23 +99,23 @@ export class CountComponent implements OnInit {
 
   quarantineDialog(): void {
     if(this.rightTable.data.length > 0){
-      let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
-        width: '400px',
+        width: '560px',
         autoFocus: '__non_existing_element__',
-        data: {  
-          'title': 'Quarantine',
-          'ErrorMessage': 'Are you sure you want to quarantine these orders?'
-        }
-      })
+        data: {
+          heading: 'Mark Selected Orders for COUNT Location Assignment?',
+          message: 'Do you want to mark these orders for location assignment?',
+        },
+      });
       dialogRef.afterClosed().subscribe(result => {
-        if(result){
+        if (result === 'Yes') {
           this.locationAssignment()
         }
       })
     }
     else{
-      this.toastr.error('Item not in order or has already been consolidated', 'error!', {
+      this.toastr.error("There were no orders selected for location assignment marking", 'No Orders Selected', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
@@ -135,9 +135,21 @@ export class CountComponent implements OnInit {
     }
     this.locationService.get(payload,'/Admin/LocationAssignmentOrderInsert').subscribe((res => {
      console.log(res.data.orders,'insertion')
-     let testdata = res.data.orders
+     if(res.isExecuted){
+      let testdata = res.data.orders
      this.rightTable.data = this.rightTable.data.filter((data) => !testdata.includes(data.orderNumber))
      console.log(this.rightTable.data)
+     this.toastr.success(labels.alert.success, 'Success!', {
+      positionClass: 'toast-bottom-right',
+      timeOut: 2000
+    });
+     }
+     else{
+      this.toastr.success(res.responseMessage, 'Success!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+     }
     }))
   }
 
