@@ -13,7 +13,6 @@ import { data } from 'jquery';
 import { ToastrService } from 'ngx-toastr';
 import { left } from '@popperjs/core';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
-import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 export interface PeriodicElement {
   location: number;
@@ -101,7 +100,6 @@ export class CountComponent implements OnInit {
   quarantineDialog(): void {
     if(this.rightTable.data.length > 0){
       let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
@@ -110,20 +108,13 @@ export class CountComponent implements OnInit {
           message: 'Do you want to mark these orders for location assignment?',
         },
       });
-        data: {
-          heading: 'Mark Selected Orders for COUNT Location Assignment?',
-          message: 'Do you want to mark these orders for location assignment?',
-        },
-      });
       dialogRef.afterClosed().subscribe(result => {
-        if (result === 'Yes') {
         if (result === 'Yes') {
           this.locationAssignment()
         }
       })
     }
     else{
-      this.toastr.error("There were no orders selected for location assignment marking", 'No Orders Selected', {
       this.toastr.error("There were no orders selected for location assignment marking", 'No Orders Selected', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
@@ -146,21 +137,8 @@ export class CountComponent implements OnInit {
      console.log(res.data.orders,'insertion')
      if(res.isExecuted){
       let testdata = res.data.orders
-     if(res.isExecuted){
-      let testdata = res.data.orders
      this.rightTable.data = this.rightTable.data.filter((data) => !testdata.includes(data.orderNumber))
      console.log(this.rightTable.data)
-     this.toastr.success(labels.alert.success, 'Success!', {
-      positionClass: 'toast-bottom-right',
-      timeOut: 2000
-    });
-     }
-     else{
-      this.toastr.success(res.responseMessage, 'Success!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
-     }
      this.toastr.success(labels.alert.success, 'Success!', {
       positionClass: 'toast-bottom-right',
       timeOut: 2000
