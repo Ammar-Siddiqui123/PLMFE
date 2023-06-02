@@ -14,16 +14,17 @@ import { LicensingComponent } from './global-config/licensing/licensing.componen
 import { CcsifComponent } from './global-config/ccsif/ccsif.component';
 import { SteComponent } from './global-config/ste/ste.component';
 import { SteServicesComponent } from './global-config/ste-services/ste-services.component';
+import { FlowrackReplenishmentComponent } from './flowrack-replenishment/flowrack-replenishment.component';
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',
   },
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent,canActivate: [AuthGuardGuard] },
   {
     path: 'globalconfig',
-    component: GlobalConfigComponent,
+    component: GlobalConfigComponent,canActivate: [AuthGuardGuard],
     children: []
     
   },
@@ -78,6 +79,7 @@ const routes: Routes = [
         component: MainComponent,
         canActivate: [AuthGuardGuard],
       },
+      
       // {
       //   path: 'globalconfig/dashboard',
       //   component: MainComponent,
@@ -104,6 +106,11 @@ const routes: Routes = [
         path: 'OrderManager', 
         loadChildren: () => import('./order-manager/order-manager.module').then(m => m.OrderManagerModule),
         canActivate:[AuthGuardGuard]
+      },
+      {
+        path: 'flowrack',
+        component: FlowrackReplenishmentComponent,
+        // canActivate: [AuthGuardGuard],
       },
 
     ]

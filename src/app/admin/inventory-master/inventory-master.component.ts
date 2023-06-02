@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../../app/init/auth.service';
 import { InventoryMasterService } from './inventory-master.service';
@@ -16,10 +16,16 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { SharedService } from 'src/app/services/shared.service';
+import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete'; 
+import { SpinnerService } from 'src/app/init/spinner.service'; 
+import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { KitItemComponent } from './kit-item/kit-item.component';
+import { ConfirmationGuard } from 'src/app/guard/confirmation-guard.guard';
+import { ScanCodesComponent } from './scan-codes/scan-codes.component'; 
 import { MatTabGroup } from '@angular/material/tabs';
 import { Subject } from 'rxjs';
+import { SharedService } from 'src/app/services/shared.service';
+ 
 
 
 @Component({
@@ -28,7 +34,10 @@ import { Subject } from 'rxjs';
   styleUrls: ['./inventory-master.component.scss']
 })
 export class InventoryMasterComponent implements OnInit {
-
+public textLabel:any = 'Details'; 
+tabIndex:any=0;
+ifAllowed:boolean= false;
+PrevtabIndex:any=0;
   public userData: any;
   public invData: any;
   public getInvMasterData: any;
@@ -64,6 +73,7 @@ export class InventoryMasterComponent implements OnInit {
   isDisabledSubmit: boolean = false;
   kitAttempts: number = 0;
   scanAttempts: number = 0;
+  IstabChange:boolean=false;
   constructor(
     private invMasterService: InventoryMasterService,
     private authService: AuthService,
@@ -71,13 +81,19 @@ export class InventoryMasterComponent implements OnInit {
     private fb: FormBuilder,
     private toastr: ToastrService,
     private router: Router,
+    private spinnerService:SpinnerService,
     private route: ActivatedRoute,
+    private confirmationGuard:ConfirmationGuard, 
     private sharedService: SharedService,
     // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
-  ) { }
+  ) {  
+  }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
   @ViewChild('UNquarantineAction') unquarantineTemp: TemplateRef<any>;
   @ViewChild('propertiesChanged') propertiesChanged: TemplateRef<any>;
+  @ViewChild(KitItemComponent) kititemcom: KitItemComponent;
+  @ViewChild(ScanCodesComponent) ScanCodesCom: ScanCodesComponent;
+  OldinvMaster: any= {}; 
   invMaster: FormGroup;
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   eventsSubject: Subject<String> = new Subject<String>();
@@ -190,6 +206,7 @@ export class InventoryMasterComponent implements OnInit {
   autoComplete: MatAutocompleteTrigger;
 
   @ViewChild("searchauto", { static: false }) autocompleteOpened: MatAutocomplete;
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
 
   public setVal: boolean = false;
   ngOnInit(): void {
@@ -243,11 +260,11 @@ export class InventoryMasterComponent implements OnInit {
     if (this.autoComplete.panelOpen) this.autoComplete.updatePosition();
   }
   ngAfterViewInit() {
-    this.setVal = localStorage.getItem('routeFromOrderStatus') == 'true' ? true : false;
-    console.log(this.setVal);
+    this.setVal = localStorage.getItem('routeFromOrderStatus') == 'true' ? true : false; 
     this.itemNumberParam$ = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('itemNumber')),
-    );
+      );
+      this.searchBoxField.nativeElement.focus();
 
     this.itemNumberParam$.subscribe((param) => {
       // console.log(param)
@@ -273,7 +290,7 @@ export class InventoryMasterComponent implements OnInit {
        })
   }
 
-  initialzeIMFeilds() {
+ async initialzeIMFeilds() {
     this.invMaster = this.fb.group({
 
       itemNumber: [this.getInvMasterData?.itemNumber || '', [Validators.required, Validators.maxLength(50)]],
@@ -367,7 +384,8 @@ export class InventoryMasterComponent implements OnInit {
 
       supplierName: ['']
     });
-
+    var CopyObject = JSON.stringify(this.invMaster.value);
+    this.OldinvMaster = JSON.parse(CopyObject || '{}'); 
   }
   onSubmit(form: FormGroup) {
     // console.log(form.value);
@@ -399,11 +417,19 @@ export class InventoryMasterComponent implements OnInit {
     });
   }
 
-  public getInvMasterDetail(itemNum: any) {
+  async getInvMasterDetail(itemNum: any): Promise<void> {
     let paylaod = {
       "itemNumber": itemNum,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
+    };
+  
+    try {
+      const res: any = await this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').toPromise();
+      this.getInvMasterData = res.data; 
+  
+     await this.initialzeIMFeilds();
+    } catch (error) { 
     }
     this.invMasterService.get(paylaod, '/Admin/GetInventoryMasterData').subscribe((res: any) => {
         res.data['scanCode']=res.data['scanCode'].map(item=>{
@@ -417,7 +443,6 @@ export class InventoryMasterComponent implements OnInit {
       this.initialzeIMFeilds();
     })
   }
-
   private getChangedProperties(): string[] {
     let changedProperties: any = [];
 
@@ -508,8 +533,7 @@ export class InventoryMasterComponent implements OnInit {
 
   }
 
-  updateInventoryMasterValidate(){
-    // debugger
+  updateInventoryMasterValidate(){ 
     if(this.invMaster.value?.avgPieceWeight == null || this.invMaster.value?.avgPieceWeight < 0 || this.invMaster.value?.avgPieceWeight > 99999999999){
       return false;
     }
@@ -549,6 +573,7 @@ export class InventoryMasterComponent implements OnInit {
           });
         }
       })
+      this.OldinvMaster = {...this.invMaster.value};
     }
   }
   
@@ -795,7 +820,7 @@ export class InventoryMasterComponent implements OnInit {
   }
   getNotification(e: any) {
     // console.log(e);
-
+   
     if (e?.newItemNumber) {
       this.currentPageItemNo = e.newItemNumber;
       this.getInventory();
@@ -812,16 +837,131 @@ export class InventoryMasterComponent implements OnInit {
       this.getInventory();
     }
     this.isDisabledSubmit = false;
+  
+}
+kitItemChecks(){
+ var IsReturn:any=false;
+  if(this.kititemcom.kitItemsList.length){ 
+    for (let i = 0; i < this.kititemcom.kitItemsList.length; i++) {
+      for (var key in this.OldinvMaster.kitInventories[0] ){
+        if(this.OldinvMaster.kitInventories[i] && this.OldinvMaster.kitInventories[i][key] == this.kititemcom.kitItemsList[i][key]){
+
+        } else { 
+          IsReturn = true;
+          break;
+        }
+      }
+    }
   }
-  tabChanged(tabChangeEvent: MatTabChangeEvent) {
-    if (tabChangeEvent.index == 2 || tabChangeEvent.index == 5) {
-      // this.saveDisabled = true;
+  return IsReturn;
+}
+ScanCodesChecks(){ 
+  var IsReturn:any=false;
+   if(this.ScanCodesCom.scanCodesList.length){ 
+     for (let i = 0; i < this.ScanCodesCom.scanCodesList.length; i++) {
+       for (var key in this.ScanCodesCom.scanCodesList[0] ){
+         if(this.OldinvMaster.scanCode[i]  && this.OldinvMaster.scanCode[i][key] == this.ScanCodesCom.scanCodesList[i][key]){
+ 
+         } else {
+          debugger
+           IsReturn = true;
+           break;
+         }
+       }
+     }
+   }
+   return IsReturn;
+ }
+  getChangesCheck(){   
+  var IsReturn:any=false; 
+  for (var key in this.invMaster.value ){ 
+    if((typeof this.invMaster.value[key]) == 'object' && key == 'kitInventories'){ 
+      if(this.kitItemChecks()){ 
+        IsReturn = true;
+        break;
+      };
+    }
+    if((typeof this.invMaster.value[key]) == 'object' && key == 'scanCode'){  
+      if(this.ScanCodesChecks()){ 
+        IsReturn = true;
+        break;
+      };
+    }
+    else if(this.invMaster.value[key] != this.OldinvMaster[key] && (typeof this.invMaster.value[key]) != 'object'){ 
+        IsReturn = true;
+        break; 
+  }
+} 
+return IsReturn;
+}
+
+   tabChanged(tab: any) {  
+    if(!this.IstabChange){
+      this.IstabChange =  true;
+    this.spinnerService.show(); 
+     var IsCheck =  this.getChangesCheck();
+    
+    if(IsCheck) {   
+      debugger
+      this.ConfirmationDialog(tab.index); 
+      this.tabIndex = this.PrevtabIndex;
+    
+      }
+    else if (tab.index == 2 || tab.index == 5) {
+      this.saveDisabled = true; 
+      this.PrevtabIndex = tab.index; 
+      this.tabIndex = tab.index; 
+      this.IstabChange =  false;
     }
     else {
-      // this.saveDisabled = false;
+      this.saveDisabled = false; 
+      this.PrevtabIndex =tab.index; 
+      this.tabIndex = tab.index; 
+      this.IstabChange =  false;
     }
+    setTimeout(() => {
+      this.spinnerService.hide();
+    }, 500);
+    // this.PrevtabIndex =this.tabIndex; 
   }
-
-
-
 }
+
+async ConfirmationDialog(tabIndex) {
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    height: 'auto',
+    width: '786px',
+    data: {
+      message: 'Changes you made may not be saved.',
+      heading: 'Inventory Master' 
+    }, 
+    autoFocus: '__non_existing_element__',
+  });
+
+  dialogRef.afterClosed().subscribe(async (result) => { 
+    if (result === 'Yes') {
+      debugger
+      await this.getInvMasterDetail(this.searchValue); 
+      console.log( this.tabIndex);
+        this.tabIndex = tabIndex; 
+        this.PrevtabIndex = tabIndex;
+        this.IstabChange = false; 
+    } else {
+      this.IstabChange = false;
+    }
+  });
+}
+
+@HostListener('window:beforeunload', ['$event'])
+onbeforeunload(event) { 
+  if (this.ifAllowed) { 
+     event.preventDefault();
+    event.returnValue = '';
+  }
+}
+ 
+@HostListener('click')
+documentClick(event: MouseEvent) { 
+  this.ifAllowed = true
+}
+}
+ 

@@ -19,7 +19,7 @@ export class ItemSetupComponent implements OnInit {
   
   constructor(private dialog: MatDialog, private sharedService:SharedService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
   }
 
   getSelected(event){
@@ -131,5 +131,11 @@ export class ItemSetupComponent implements OnInit {
       this.itemSetup.controls[`${type}`].setValue(0)    
     }
     
+  }
+  limitInputLength(event: any): void {
+    const inputValue = event.target.value;
+    if (inputValue.length > 9) {
+      event.target.value = inputValue.slice(0, 9);
+    }
   }
 }

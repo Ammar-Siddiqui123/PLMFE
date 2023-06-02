@@ -1580,6 +1580,11 @@ button.default-btn {
     width: auto !important;
   }
 }
+.clear-btn-init.custom-form-field.mat-form-field-appearance-outline {
+  .mat-form-field-suffix {
+    top: 0.25em !important;
+  }
+}
 
 .custom-form-field-bg-white.mat-form-field-disabled .mat-form-field-label mat-label {
   background: var(--clr-tertiary-10);
@@ -2255,4 +2260,10 @@ button.default-btn {
   color: #2c2c2c !important;
 }
 
+.ng-scrollbar:hover {
+
+  --scrollbar-size: 10px!important; /* Change the value as per your desired scrollbar width */
+  
+  
+  }
  

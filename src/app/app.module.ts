@@ -79,6 +79,8 @@ import { GcPrintServiceTestComponent } from './dialogs/gc-print-service-test/gc-
 import { OmChangePriorityComponent } from './dialogs/om-change-priority/om-change-priority.component';
 import { AuthGuard } from './init/AuthGuard.service';
 import { StagingLocationOrderComponent } from './dialogs/staging-location-order/staging-location-order.component';
+import { FlowrackReplenishmentComponent } from './flowrack-replenishment/flowrack-replenishment.component';
+import { FrNumpadComponent } from './dialogs/fr-numpad/fr-numpad.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -144,6 +146,8 @@ import { StagingLocationOrderComponent } from './dialogs/staging-location-order/
     GcPrintServiceTestComponent,
     OmChangePriorityComponent,
     StagingLocationOrderComponent,
+    FlowrackReplenishmentComponent,
+    FrNumpadComponent,
     // ActionDisableDirective,
   ],
   imports: [

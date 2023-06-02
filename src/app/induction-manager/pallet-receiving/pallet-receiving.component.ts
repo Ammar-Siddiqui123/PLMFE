@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ProcessPutAwayService } from '../processPutAway.service';
@@ -14,6 +14,7 @@ import labels from './../../labels/labels.json';
 export class PalletReceivingComponent implements OnInit {
   processForm: FormGroup;
   userData;
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
   constructor(
     public imService: ProcessPutAwayService,
     public toastService: ToastrService,
@@ -157,5 +158,8 @@ export class PalletReceivingComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((result) => {});
+  }
+  ngAfterViewInit() {
+    this.searchBoxField.nativeElement.focus();
   }
 }
