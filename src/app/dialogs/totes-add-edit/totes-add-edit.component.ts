@@ -6,6 +6,8 @@ import { ProcessPutAwayService } from '../../induction-manager/processPutAway.se
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { DeleteConfirmationComponent } from '../../admin/dialogs/delete-confirmation/delete-confirmation.component';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 export interface PeriodicElement {
   name: string;
@@ -33,13 +35,13 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class TotesAddEditComponent implements OnInit {
   ELEMENT_DATA_TOTE = [{toteID:"" , cells:"" , position: 1 ,oldToteID:"",isInserted:1}];
-  displayedColumns: string[] = ['select', 'zone', 'locationdesc'];
+  displayedColumns: string[] = [ 'zone', 'locationdesc','actions'];
   alreadySavedTotesList:any;
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   dataSourceManagedTotes = new MatTableDataSource<ToteElement>(this.ELEMENT_DATA_TOTE);
   selection = new SelectionModel<PeriodicElement>(true, []);
   position:any;
-
+  isIMPath=false;
   toteID="";
   cellID="";
   userData:any;
@@ -274,8 +276,16 @@ export class TotesAddEditComponent implements OnInit {
   dataSource1 = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection1 = new SelectionModel<PeriodicElement>(true, []);
 
-  constructor(public dialogRef: MatDialogRef<TotesAddEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data : any,private authService: AuthService,private service: ProcessPutAwayService,private toastr: ToastrService,private dialog: MatDialog,) { }
+  constructor(public dialogRef: MatDialogRef<TotesAddEditComponent>,private route: ActivatedRoute,private location: Location,
+    @Inject(MAT_DIALOG_DATA) public data : any,private authService: AuthService,private service: ProcessPutAwayService,private toastr: ToastrService,private dialog: MatDialog,) {
+
+      let pathArr= this.location.path().split('/')
+      this.isIMPath=pathArr[pathArr.length-1]==='ImToteManager'?true:false
+
+    
+      
+      
+     }
 
   ngOnInit(): void {
     this.ELEMENT_DATA_TOTE.length=0;

@@ -163,7 +163,7 @@ private subscription: Subscription = new Subscription();
       },
       {
         appName: 'FlowRackReplenish',
-        route: '#',
+        route: '/flowrack',
         iconName: 'schema',
         name: 'FlowRack Replenishment',
         updateMenu: '',

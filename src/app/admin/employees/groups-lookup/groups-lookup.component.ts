@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -30,7 +30,7 @@ export class GroupsLookupComponent implements OnInit {
   @Input('childGroupLookUp') isGroupLookUp: boolean;
   @Input('updateGrpTable') updateGrpTable: any;
   @Output() updateGrpLookUp = new EventEmitter(); 
-
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
   selectedRowIndex = -1;
 
   highlight(row) {
@@ -46,6 +46,14 @@ export class GroupsLookupComponent implements OnInit {
 
   // table initialization
   displayedColumns: string[] = ['groupName'];
+
+  @Input() set tab(event : any) {
+    if (event) {
+      setTimeout(()=>{
+        this.searchBoxField.nativeElement.focus(); 
+      }, 500);
+    }
+  }
 
   constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog, private employeeService: EmployeeService, private authService: AuthService) { }
 

@@ -27,7 +27,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'fact_check', title: 'Work Manager', route: '#' ,permission: 'Work Manager'},
     { icon: 'insert_chart', title: 'Consolidation Manager', route: '/ConsolidationManager' ,permission: 'Consolidation Manager'},
     { icon: 'pending_actions', title: 'Order Manager', route: '/OrderManager' ,permission: 'Order Manager'},
-    { icon: 'schema', title: 'FlowRack Replenishment', route: '#',permission: 'FlowRack Replenish' }
+    { icon: 'schema', title: 'FlowRack Replenishment', route: '/flowrack',permission: 'FlowRack Replenish' }
   ];
   globalMenus: any = [
     { icon: 'door_front', title: 'Home', route: '/globalconfig/home' ,permission: true},
@@ -87,6 +87,7 @@ export class SideNavComponent implements OnInit {
     { icon: ' dashboard ', title: 'Inventory ', route: '/InductionManager/Admin/InventoryMaster' ,permission:'Induction Manager'},
     { icon: '  line_style  ', title: 'Tote Transaction Manager ', route: '/InductionManager/Admin/ToteTransactionManager' ,permission:'Induction Manager'},
     { icon: 'linear_scale   ', title: 'Manual Transactions ', route: '/InductionManager/Admin/ManualTransactions' ,permission:'Induction Manager'},
+    { icon: 'elevator   ', title: 'Tote Manager ', route: '/InductionManager/Admin/ImToteManager' ,permission:'Induction Manager'},
     { icon: 'edit_attributes ', title: 'Transaction Journal ', route: '/InductionManager/Admin/TransactionJournal' ,permission:'Induction Manager'},
     { icon: '     manage_accounts     ', title: 'Reports ', route: '#' ,permission:'Induction Manager'},
     { icon: '      manage_accounts       ', title: 'Preferences ', route: '/InductionManager/Admin/AdminPrefrences' ,permission:'Induction Manager'},

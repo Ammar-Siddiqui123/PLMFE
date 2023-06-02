@@ -33,7 +33,7 @@
             <mat-form-field class="custom-form-field custom-form-field-bg-white w-100" appearance="outline"
               [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
               <mat-label>Order Number</mat-label>
-              <input type="text" placeholder="Search"  #inputVal aria-label="Number" matInput [(ngModel)]='orderNumber'
+              <input type="text" placeholder="Search"  #autoFocusField aria-label="Number" matInput [(ngModel)]='orderNumber'
                 maxlength="255" [matAutocomplete]="auto" (ngModelChange)="this.searchByInput.next($event)">
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">

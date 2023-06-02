@@ -21,7 +21,7 @@
                                         search
                                     </span>
                                     <input #alertInput type="text" placeholder="Search" aria-label="Search" matInput
-                                        maxlength="255" [(ngModel)]="orderNumberSearch" (keyup)="Search()">
+                                        maxlength="255" [(ngModel)]="orderNumberSearch" (keyup)="Search()" #autoFocusField>
                                 </mat-form-field>
 
                             </div>

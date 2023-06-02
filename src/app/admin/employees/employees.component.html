@@ -1,4 +1,4 @@
-<mat-tab-group dynamicHeight>
+<mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex">
   <mat-tab label="Employees">
     <div class="employees-tab g-tab">
       <div class="container-fluid p-0">
@@ -545,7 +545,7 @@
 
                   <!-- groups lookup here -->
                   <app-groups-lookup [updateGrpTable]="updateGrpTable" [childGroupLookUp]="isGroupLookUp"
-                    (updateGrpLookUp)="updateGrpLookUp($event)">
+                    (updateGrpLookUp)="updateGrpLookUp($event)" [tab]="selectedIndex">
                   </app-groups-lookup>
 
                 </div>
