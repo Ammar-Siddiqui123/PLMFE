@@ -25,12 +25,16 @@ export class HeaderInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let authReq: any;
+ 
+      // const headerValue = request.headers.get('Payload') ?? '';
+    
+
     if(localStorage.getItem('user')){
       const { _token }  = JSON.parse(localStorage.getItem('user') || "{}");
       authReq = request.clone({
         headers: new HttpHeaders({
           'Content-Type':  'application/json',
-          '_token': _token
+          '_token': _token,
         })
       });    
     }
