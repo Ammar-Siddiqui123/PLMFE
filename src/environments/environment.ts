@@ -5,8 +5,12 @@
 export const environment = {
   production: false,
   // apiUrl: "http://localhost:63590/api",
+<<<<<<< HEAD
+  apiUrl: "https://staging-e64.com:9012/api",
+=======
   // apiUrl: "https://staging-e64.com:9012/api",
   apiUrl: "http://localhost:63590/api",  
+>>>>>>> 09a6ae66b7b3b2f8872ad46b8dbe257cdc6a9853
   userName: "pickpro",
   ////////////////////////////////////////////
   password: "Admin$11"
