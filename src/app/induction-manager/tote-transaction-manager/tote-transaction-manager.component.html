@@ -79,33 +79,33 @@
                     <table mat-table [dataSource]="dataSource" matSort class="w-100" (matSortChange)="sortChange($event)">
                         <ng-container matColumnDef="batchPickID">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch ID </th>
-                            <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.zoneLabel, 'Batch ID')">{{element.batchPickID}}</td>
+                            <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.batchPickID, 'Batch Pick ID')">{{element.batchPickID}}</td>
 
                         </ng-container>
                         <ng-container matColumnDef="filterCount">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> POS No </th>
-                            <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.zoneLabel, 'POS No')">{{element.filterCount}}</td>
+                            <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.filterCount, 'Filter Count')">{{element.filterCount}}</td>
 
                         </ng-container>
                         
                         <ng-container matColumnDef="toteId">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Tote ID </th>
-                            <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.zoneLabel, 'Tote ID')">{{element.toteId}}</td>
+                            <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.toteId, 'Tote ID')">{{element.toteId}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="zoneLabel">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Zones </th>
-                            <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.zoneLabel, 'Zones')">{{element.zoneLabel}}</td>
+                            <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.zoneLabel, 'Zone Label')">{{element.zoneLabel}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="transactionType">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Type </th>
-                            <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.zoneLabel, 'Transaction Type')">{{element.transactionType}}</td>
+                            <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.transactionType, 'Transaction Type')">{{element.transactionType}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="hostTransaction">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Host Transaction ID</th>
-                            <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.zoneLabel, 'Host Transaction ID')">{{element.hostTransaction}}</td>
+                            <td mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.hostTransaction, 'Host Transaction ID')">{{element.hostTransaction}}</td>
                         </ng-container>
                         <!-- <ng-container matColumnDef="orderNumber">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Order Number </th>
