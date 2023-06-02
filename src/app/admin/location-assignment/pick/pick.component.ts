@@ -164,6 +164,7 @@ export class PickComponent implements OnInit {
           this.orderManagerService.get(payload, '/Admin/LocationAssignmentOrderInsert').subscribe((res: any) => {
             if (res.isExecuted && res.data) {
               this.tableData2 = new MatTableDataSource([]);
+              this.tableData2.paginator = this.paginator2;
               this.toastr.success(labels.alert.success, 'Success!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
