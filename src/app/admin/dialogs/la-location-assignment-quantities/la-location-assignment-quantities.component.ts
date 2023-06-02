@@ -14,9 +14,9 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
 
   public userData:any;
   public totalCount:any;
-  public count:any;
-  public pick:any;
-  public putaway:any;
+  public count:any = 0
+  public pick:any = 0
+  public putaway:any = 0
   public listLabel:any;
   public listLabelFPZ:any;
   
@@ -36,9 +36,20 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
 
   getTotalValues(){
     this.totalCount = this.data.totalCount;
-    this.count = this.data.totalCount[0].count;
-    this.pick = this.data.totalCount[1].count;
-    this.putaway = this.data.totalCount[2].count;
+
+    this.totalCount.forEach(item => {
+      if (item.transactionType === "Count") {
+        this.count = item.count;
+      } else if (item.transactionType === "Pick") {
+        this.pick = item.count;
+      } else if (item.transactionType === "Put Away") {
+        this.putaway = item.count;
+      }
+    });
+
+    // this.count = this.data.totalCount[0].count;
+    // this.pick = this.data.totalCount[1].count;
+    // this.putaway = this.data.totalCount[2].count;
   }
 
   viewOrderSelection(event:any,index?){
