@@ -16,7 +16,7 @@
                     <div class="col-xl-7">
                         <mat-form-field class="w-100 custom-form-field custom-form-field-bg-white" appearance="outline">
                             <mat-label>Order Number/Tote</mat-label>
-                            <input type="text" aria-label="Search" [(ngModel)]="OrderNumberTote" (keypress)="StagingLocsOrderNum($event)" matInput>
+                            <input type="text" aria-label="Search" [(ngModel)]="OrderNumberTote" (keypress)="StagingLocsOrderNum($event)" matInput #autoFocusField>
                         </mat-form-field>
                     </div>
                 </div>

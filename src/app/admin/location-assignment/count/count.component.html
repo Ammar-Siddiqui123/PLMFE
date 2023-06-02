@@ -22,7 +22,7 @@
                 </span>
                 <input #alertInput type="text" placeholder="Search"
                   aria-label="Search" matInput
-                  maxlength="50" [(ngModel)]="searchOrder" (ngModelChange)="applyFilter($event)">
+                  maxlength="50" [(ngModel)]="searchOrder" (ngModelChange)="applyFilter($event)" #autoFocusField>
 
               </mat-form-field>
               

@@ -36,12 +36,14 @@ const routes: Routes = [
     component: SuperBatchComponent,
     canActivate: [AuthGuardGuard],
     canDeactivate: [ConfirmationGuard],
+    data: {title: 'Super Batch'}
   },
   {
     path: 'ProcessPutAways',
     component: ProcessPutAwaysComponent,
     canActivate: [AuthGuardGuard],
     canDeactivate: [ConfirmationGuard],
+    data: {title: 'Process Put Aways'}
   },
 
   {
@@ -49,6 +51,7 @@ const routes: Routes = [
     component: ProcessPicksComponent,
     canActivate: [AuthGuardGuard],
     canDeactivate: [ConfirmationGuard],
+    data: {title: 'Process Picks'}
   },
   {
     path: 'Admin/AdminPrefrences',
