@@ -138,6 +138,7 @@ import { FilterItemNumbersComponent } from './dialogs/filter-item-numbers/filter
 import { SrCurrentOrderComponent } from './system-replenishment/sr-current-order/sr-current-order.component';
 import { SortPipe } from '../init/sort.pipe';
 import { LaLocationAssignmentQuantitiesComponent } from './dialogs/la-location-assignment-quantities/la-location-assignment-quantities.component';
+import { MoveItemsComponent } from './move-items/move-items.component';
 
 
 
@@ -266,6 +267,7 @@ import { LaLocationAssignmentQuantitiesComponent } from './dialogs/la-location-a
     SrCurrentOrderComponent,
     SortPipe,
     LaLocationAssignmentQuantitiesComponent,
+    MoveItemsComponent,
 
   ],
   imports: [
