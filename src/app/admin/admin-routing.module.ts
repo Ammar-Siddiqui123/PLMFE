@@ -38,7 +38,8 @@ const routes: Routes = [
     path: 'inventoryMaster',
     component: InventoryMasterComponent,
     canActivate: [AuthGuardGuard],
-    canDeactivate: [ConfirmationGuard]
+    canDeactivate: [ConfirmationGuard],
+    data: {title: 'Inventory Master'}
   },
   {
     path: 'batchManager',

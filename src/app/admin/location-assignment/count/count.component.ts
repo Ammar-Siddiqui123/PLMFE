@@ -1,6 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import labels from '../../../labels/labels.json';
-import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -67,10 +67,12 @@ export class CountComponent implements OnInit {
 
   @ViewChild('addOrder') addOrderTemp: TemplateRef<any>;
   @Output() newItemEvent = new EventEmitter<Event>();
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
 
   ngAfterViewInit() {
     // this.dataSource.sort = this.sort;
     // this.dataSource.paginator = this.paginator;
+    this.searchBoxField.nativeElement.focus();
   }
 
   ngOnInit(): void {

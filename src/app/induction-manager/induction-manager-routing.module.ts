@@ -16,6 +16,8 @@ import { PalletReceivingComponent } from './pallet-receiving/pallet-receiving.co
 import { MarkEmptyReelsComponent } from './mark-empty-reels/mark-empty-reels.component';
 import { ToteTransactionManagerComponent } from './tote-transaction-manager/tote-transaction-manager.component';
 import { ImToteManagerComponent } from './im-tote-manager/im-tote-manager.component';
+import { TotesAddEditComponent } from '../dialogs/totes-add-edit/totes-add-edit.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 const routes: Routes = [
   { path: '', component: InductionManagerComponent },
@@ -33,20 +35,23 @@ const routes: Routes = [
     path: 'SuperBatch',
     component: SuperBatchComponent,
     canActivate: [AuthGuardGuard],
-    canDeactivate: [ConfirmationGuard]
+    canDeactivate: [ConfirmationGuard],
+    data: {title: 'Super Batch'}
   },
   {
     path: 'ProcessPutAways',
     component: ProcessPutAwaysComponent,
     canActivate: [AuthGuardGuard],
-    canDeactivate: [ConfirmationGuard]
+    canDeactivate: [ConfirmationGuard],
+    data: {title: 'Process Put Aways'}
   },
-  
+
   {
     path: 'ProcessPicks',
     component: ProcessPicksComponent,
     canActivate: [AuthGuardGuard],
-    canDeactivate: [ConfirmationGuard]
+    canDeactivate: [ConfirmationGuard],
+    data: {title: 'Process Picks'}
   },
   {
     path: 'Admin/AdminPrefrences',
@@ -57,57 +62,64 @@ const routes: Routes = [
     path: 'Admin',
     component: AdminComponent,
     canActivate: [AuthGuardGuard],
-    children:[
-      // { 
+    children: [
+      // {
       //   path: 'Transaction',
       //   loadChildren: () =>
       //     import('../admin/admin.module').then((m) => m.AdminModule),
       // },
-      // { 
+      // {
       //   path: 'TransactionJournal',
       //   component: TransactionComponent
       // },
-      
-    ]
+    ],
   },
 
   {
     path: 'Admin/TransactionJournal',
     component: TransactionComponent,
-    canActivate: [AuthGuardGuard]
+    canActivate: [AuthGuardGuard],
   },
-  
+
   {
     path: 'Admin/InventoryMap',
     component: InventoryMapComponent,
-    canActivate: [AuthGuardGuard]
+    canActivate: [AuthGuardGuard],
   },
   {
     path: 'Admin/InventoryMaster',
     component: InventoryMasterComponent,
-    canActivate: [AuthGuardGuard]
+    canActivate: [AuthGuardGuard],
   },
   {
     path: 'Admin/ManualTransactions',
     component: ManualTransactionsComponent,
-    canActivate: [AuthGuardGuard]
+    canActivate: [AuthGuardGuard],
   },
   {
     path: 'Admin/ToteTransactionManager',
     component: ToteTransactionManagerComponent,
-    canActivate: [AuthGuardGuard]
+    canActivate: [AuthGuardGuard],
   },
+  // {
+  //   path: 'Admin/ImToteManager',
+  //   component: ImToteManagerComponent,
+  //   canActivate: [AuthGuardGuard]
+  // },
   {
     path: 'Admin/ImToteManager',
-    component: ImToteManagerComponent,
-    canActivate: [AuthGuardGuard]
+    component: TotesAddEditComponent,
+    canActivate: [AuthGuardGuard],
   },
- 
-  
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    { provide: MatDialogRef, useValue: {} },
+
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+  ],
 })
-export class InductionManagerRoutingModule { }
+export class InductionManagerRoutingModule {}
