@@ -13,9 +13,9 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 })
 export class FlowrackReplenishmentComponent implements OnInit {
   public userData : any;
-  public itemQtyRow : boolean = false;
-  public LocationRow: boolean = false;
-  public submitBtnDisplay  : boolean = false;
+  public itemQtyRow : boolean = true;
+  public LocationRow: boolean = true;
+  public submitBtnDisplay  : boolean = true;
   public itemnumscan : any;
   public itemLocation : any;
   public itemQty:any
@@ -27,46 +27,67 @@ export class FlowrackReplenishmentComponent implements OnInit {
   @ViewChild('autoFocusField') autoFocusField : ElementRef
   @ViewChild('itemQtyFocus') itemQtyFocus : ElementRef
   @ViewChild('itemLocationFocus') itemLocationFocus : ElementRef
+  @ViewChild('scrollbar') scrollbar : ElementRef
   
   constructor(private dialog: MatDialog,
               private flowrackHub : FlowrackService,
               private authservice : AuthService,
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              private _elementRef : ElementRef) { }
 
   ngOnInit(): void {
     this.userData = this.authservice.userData()
+    this.searchByItem
+    .pipe(debounceTime(400), distinctUntilChanged())
+    .subscribe((value) => {
+      // console.log(value)
+    });
+    
   }
+
+  ModifyDOMElement() : void
+  { 
+    // debugger
+    //Do whatever you wish with the DOM element.
+    let domElement = this._elementRef.nativeElement.querySelector(`#someID`);
+    // console.log(domElement)
+  } 
 
   findItemLocation(event){
     
     if(event.keyCode == 13){
-     debugger
+      this.LocationRow = false;
+      this.itemnumscan = event.target.value
+      // this.onLocationSelected(this.itemnumscan)
+    //  debugger
     // console.log(event.target.value)
-    this.itemnumscan = event.target.value
     let payload = {
       "ItemNumber": this.itemnumscan,
     }
     this.flowrackHub.getAll('/FlowRackReplenish/CFData',payload).subscribe((res=>{
-      console.log(res)
-      console.log('test')
+      // console.log(res)
       if(res.data != null){
         let payload = {
           "itemNumber": this.itemnumscan,
-          "Zone": 'FC'
+          "wsid": this.userData.wsid
         }
 
         // later change this fc with api from preferences
-        console.log(payload)
+        // console.log(payload)
         this.flowrackHub.getAll('/FlowRackReplenish/ItemLocation',payload).subscribe((res=>{
           // console.log(res.data.length)
           if(res.data.length<1){
             this.locationSuggestions = [];
-            this.flowrackHub.get('','').subscribe((res=>{
-              if(res.length<1){
+            let payload = {
+              "wsid": this.userData.wsid
+            }
+            this.flowrackHub.getAll('/FlowRackReplenish/openlocation',payload).subscribe((res=>{
+              if(res.data.length<1){
                 this.toastr.error("There are no open locations.", 'Error!', {
                   positionClass: 'toast-bottom-right',
                   timeOut: 2000
                 });
+                this.LocationRow = true;
                 // destroy type ahead
               }
               else{
@@ -75,17 +96,26 @@ export class FlowrackReplenishmentComponent implements OnInit {
                   timeOut: 2000
                 });
                 this.locationSuggestions = res.data
+                this.LocationRow = false;
+                this.itemLocationFocus.nativeElement.focus();
+                this.itemLocationFocus.nativeElement.select();
                 // open typeahead
               }
             }))
           }
           else{
             this.locationSuggestions = res.data
-            console.log(this.locationSuggestions )
+            this.ModifyDOMElement()
+            // this.itemLocation = res.data[0].location;
+            // this.autoFocusField.nativeElement.focus();
+            // this.LocationRow = false;
             // open typeahead
           }
-          this.LocationRow = true;
-          // this.itemLocationFocus.nativeElement.focus()
+          this.LocationRow = false;
+          this.itemLocation = res.data[0].location;
+          // this.itemLocation= '55'
+          this.itemLocationFocus.nativeElement.focus();
+          this.itemLocationFocus.nativeElement.select();
         }))
       }
       else{
@@ -101,22 +131,28 @@ export class FlowrackReplenishmentComponent implements OnInit {
   }
 
   onLocationSelected(location){
+    // debugger
+    console.log(location)
+    this.itemLocation = location.location
+    console.log(this.itemLocation)
+
     let payload = {
       "itemNumber": this.itemnumscan,
-      "username": this.userData.userName,
+      "Input": location.location,
       "wsid": this.userData.wsid,
     }
-    this.flowrackHub.get(payload,'verifyitemLoc').subscribe((res=>{
+    console.log(payload)
+    this.flowrackHub.getAll('/FlowRackReplenish/verifyitemlocation',payload).subscribe((res=>{
       console.log(res)
       if(res){
-        this.itemQtyRow = true;
+        this.itemQtyRow = false;
         this.itemQty = '';
-        this,this.itemQtyFocus.nativeElement.focus()
+        this.itemQtyFocus.nativeElement.focus()
         this.openCal()
       }
       else{
         this.clearLocationField()
-        this.LocationRow = false;
+        this.LocationRow = true;
         this.autoFocusField.nativeElement.focus
         this.toastr.error("Location unavailable.", 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -129,11 +165,11 @@ export class FlowrackReplenishmentComponent implements OnInit {
   updateQty(val){
     
     if(val !== 0){
-      this.submitBtnDisplay = true;
+      this.submitBtnDisplay = false;
       this.itemQtyFocus.nativeElement.focus()
     }
     if(val === 0 || val === ''){
-      this.submitBtnDisplay = false;
+      this.submitBtnDisplay = true;
     }
   }
 
@@ -151,17 +187,18 @@ export class FlowrackReplenishmentComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       // console.log('The dialog was closed');
-      console.log(result)
+      // console.log(result)
       this.itemQty = !result?'':result;
+      console.log(this.itemQty)
     });
   }
 
   clearAllFields(){
-    this.submitBtnDisplay = false;
+    this.submitBtnDisplay =true;
     this.itemQty = '';
-    this.itemQtyRow= false;
+    this.itemQtyRow=true;
     this.itemLocation = '';
-    this.LocationRow = false;
+    this.LocationRow =true;
     this.itemnumscan = '';
     this.autoFocusField.nativeElement.focus()
     // end typeahead
@@ -179,22 +216,64 @@ export class FlowrackReplenishmentComponent implements OnInit {
     this.itemQtyRow = false;
   }
 
-  async autocompleteSearchColumnItem() {
-// function for location typeahead
-    let payload = {
+//   async autocompleteSearchColumnItem() {
+// // function for location typeahead
+//     let payload = {
  
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
+//       "username": this.userData.userName,
+//       "wsid": this.userData.wsid,
+//     }
+
+//     this.flowrackHub.get(payload, '').subscribe((res: any) => {
+//       // this.searchAutocompleteItemNum = res.data;
+//     });
+
+//   }
+
+
+  updateItemQuantity(){
+    if(this.itemQty <= 0){
+      this.toastr.error("Quantity can not be negative.", 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      this.itemQty = ''
+      this.itemQty.nativeElement.focus()
     }
 
-    this.flowrackHub.get(payload, '').subscribe((res: any) => {
-      this.searchAutocompleteItemNum = res.data;
-    });
+    if(this.itemQty == ''){
+      this.toastr.error("Please enter a quantity.", 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
 
+    else{
+      let payload = {
+        
+      }
+    }
   }
 
-  getRow(){
-    
+  tests(e){
+  console.log(e)
   }
+
+  onDown(e : any){
+    console.log('selection changed using keyboard arrow');
+    console.log(e)
+  }
+
+  scanItemChange(e){
+    if(e === ''){
+      this.clearAllFields()
+    }
+  }
+
+
+
+
+
+
 
 }
