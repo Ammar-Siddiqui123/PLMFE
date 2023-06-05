@@ -15,6 +15,7 @@ import { ManualTransactionsComponent } from './manual-transactions/manual-transa
 import { SystemReplenishmentComponent } from './system-replenishment/system-replenishment.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { ConfirmationGuard } from '../guard/confirmation-guard.guard';
+import { MoveItemsComponent } from './move-items/move-items.component';
 
 const routes: Routes = [
   { path: '', component: AdminComponent },
@@ -68,6 +69,11 @@ const routes: Routes = [
     path: 'manualTransactions',
     component: ManualTransactionsComponent,
     canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'moveItems',
+    component: MoveItemsComponent,
+    // canActivate: [AuthGuardGuard],
   },
   {
     path: 'systemReplenishment',
