@@ -5,6 +5,9 @@ import { OmEventLogEntryDetailComponent } from 'src/app/dialogs/om-event-log-ent
 import { OrderManagerService } from '../order-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
+import { ToastrService } from 'ngx-toastr';
+import labels from '../../labels/labels.json';
 
 @Component({
   selector: 'app-event-log',
@@ -13,7 +16,7 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class EventLogComponent implements OnInit {
 
-  displayedColumns: string[] = ['dateStamp', 'message', 'eventCode', 'nameStamp', 'eventType', 'eventLocation', 'notes', 'transactionID'];
+  displayedColumns: string[] = ['dateStamp', 'message', 'eventCode', 'nameStamp', 'eventType', 'eventLocation', 'notes', 'transactionID','actions'];
   dataSourceList: any;
 
   ignoreDateRange: boolean = false;
@@ -44,6 +47,7 @@ export class EventLogComponent implements OnInit {
     private dialog: MatDialog,
     private orderManagerService: OrderManagerService,
     private authService: AuthService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -80,9 +84,12 @@ export class EventLogComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
-      data: {data:element}
+      data: { data: element }
     });
     dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.eventLogTable(true);
+      }
     });
   }
 
@@ -125,15 +132,15 @@ export class EventLogComponent implements OnInit {
     this.paginator.pageIndex = 0;
   }
 
-  autocompleteSearchColumn(columnName:any,message:any) {
+  autocompleteSearchColumn(columnName: any, message: any) {
     this.resetPagination();
     this.eventLogTypeAheadSubscribe.unsubscribe();
-    this.eventLogTypeAhead(columnName,message,true);
+    this.eventLogTypeAhead(columnName, message, true);
     this.eventLogTableSubscribe.unsubscribe();
     this.eventLogTable(true);
   }
 
-  eventLogTypeAhead(columnName:any,message:any,loader: boolean = false) {
+  eventLogTypeAhead(columnName: any, message: any, loader: boolean = false) {
     this.searchAutocompleteList = [];
     let payload: any = {
       "message": message,
@@ -150,6 +157,56 @@ export class EventLogComponent implements OnInit {
     });
   }
 
+  refresh() {
+    this.start = 0;
+    this.eventLogTable(true);
+  }
 
+  deleteRange() {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        mode: 'delete-event-log',
+        ErrorMessage: 'Are you sure you want to delete all Event Log entries with specified date, message, event location and name stamp filters?',
+        action: 'delete'
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'Yes') {
+        let payload: any = {
+          "beginDate": "2023-05-05",
+          "endDate": "2023-06-05",
+          "message": this.message,
+          "eLocation": this.eventLocation,
+          "nStamp": this.userName,
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid
+        }
+        this.orderManagerService.get(payload, '/Admin/EventRangeDelete').subscribe((res: any) => {
+          if (res.isExecuted && res.data) {
+            this.toastr.success(labels.alert.delete, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          } else {
+            this.toastr.error(labels.alert.went_worng, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        });
+      }
+    });
+  }
+
+  printRange(){
+    alert('The print service is currently offline');
+  }
+
+  printSelected(){
+    alert('The print service is currently offline');
+  }
 }
 

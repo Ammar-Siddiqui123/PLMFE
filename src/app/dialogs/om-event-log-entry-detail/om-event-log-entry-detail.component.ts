@@ -36,7 +36,7 @@ export class OmEventLogEntryDetailComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'delete-event-log',
-        ErrorMessage: 'Click OK to delete the selected event.',
+        ErrorMessage: 'Are you sure you want to delete the selected event?',
         action: 'delete'
       },
     });
@@ -64,11 +64,10 @@ export class OmEventLogEntryDetailComponent implements OnInit {
         });
       }
     });
-
   }
 
   printEvent() {
-
+    alert('The print service is currently offline');
   }
 
 }
