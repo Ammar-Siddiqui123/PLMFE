@@ -99,12 +99,14 @@ export class EventLogComponent implements OnInit {
   }
 
   clearFilters() {
-    this.startDate = new Date();
-    this.endDate = new Date();
+    this.startDate = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
+    this.endDate = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
     this.message = "";
     this.eventLocation = "";
     this.userName = "";
     this.message = "";
+    this.resetPagination();
+    this.eventLogTable(true);
   }
 
   openOmEventLogEntryDetail(element: any) {
