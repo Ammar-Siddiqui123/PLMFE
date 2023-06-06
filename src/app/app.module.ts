@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MaterialModule } from './material-module';
 import { MatTableModule } from '@angular/material/table';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { CustomHttpInterceptor } from './init/http-interceptor';
 import { ChangePasswordComponent } from './login/change-password/change-password.component';
 import { HeaderInterceptor } from './init/header-interceptor.interceptor';
@@ -186,7 +186,8 @@ import { FrNumpadComponent } from './dialogs/fr-numpad/fr-numpad.component';
       provide: HTTP_INTERCEPTORS,
       useClass: HeaderInterceptor,
       multi: true
-    },AuthGuard
+    },AuthGuard,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
