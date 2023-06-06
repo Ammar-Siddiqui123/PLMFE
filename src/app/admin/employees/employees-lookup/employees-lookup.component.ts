@@ -38,7 +38,7 @@ export class EmployeesLookupComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
   employees_details_data: [] = [];
-
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.env = JSON.parse(localStorage.getItem('env') || '');
@@ -59,6 +59,10 @@ export class EmployeesLookupComponent implements OnInit {
 
   ngAfterViewInit() {
     this.employee_data_source.sort = this.sort;
+    setTimeout(()=>{
+      this.searchBoxField.nativeElement.focus();  
+    }, 500);
+
   }
 
 

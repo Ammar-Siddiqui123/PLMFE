@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
@@ -205,4 +205,35 @@ export class ColumnSequenceDialogComponent implements OnInit {
         }
       });
   }
+
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    debugger
+    const target = event.target as HTMLElement;
+    if (!this.isInputField(target) && event.key === 'a') {
+      event.preventDefault();
+      this.autofill();
+    }
+    if (!this.isInputField(target) && event.key === 'b') {
+      event.preventDefault();
+      this.dialogRef.close();
+    }
+    if (!this.isInputField(target) && event.key === 'c') {
+      event.preventDefault();
+      this.deleteColSeq();
+    }
+    if (!this.isInputField(target) && event.key === 'r') {
+      event.preventDefault();
+      this.restoreCol();
+    }
+    if (!this.isInputField(target) && event.key === 's') {
+      event.preventDefault();
+      this.save();
+    }
+  }
+
+  isInputField(element: HTMLElement): boolean {
+    return element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.isContentEditable;
+  }
+
 }

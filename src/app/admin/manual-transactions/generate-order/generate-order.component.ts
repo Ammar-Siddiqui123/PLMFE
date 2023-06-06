@@ -22,7 +22,7 @@ import { TransactionService } from '../../transaction/transaction.service';
 })
 export class GenerateOrderComponent implements OnInit {
   @ViewChild('matRef') matRef: MatSelect;
-  @ViewChild('inputVal') inputVal: ElementRef;
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
 
   transType: any = 'Pick';
   floatLabelControl = new FormControl('auto' as FloatLabelType);
@@ -48,8 +48,9 @@ export class GenerateOrderComponent implements OnInit {
 
   @Input() set tab(event : any) {
     if (event) {
+      console.log(event)
       setTimeout(()=>{
-        this.inputVal.nativeElement.focus();
+        this.searchBoxField.nativeElement.focus();
       }, 500);
     }
   }

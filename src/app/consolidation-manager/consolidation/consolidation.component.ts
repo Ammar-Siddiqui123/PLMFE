@@ -37,7 +37,7 @@ export class ConsolidationComponent implements OnInit {
   @ViewChild('paginator3') paginator3: MatPaginator;
 
 
-  @ViewChild('ordernum') ordernum: ElementRef;
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
 
   public startSelectFilter: any ;
   public startSelectFilterLabel: any;
@@ -70,7 +70,7 @@ export class ConsolidationComponent implements OnInit {
   displayedColumns: string[] = ['toteID', 'complete', 'stagingLocation', 'stagedBy', 'stagedDate'];
   stageTable = new MatTableDataSource<any>([]);
 
-  displayedColumns_1: string[] = ['itemNumber', 'lineStatus', 'lineNumber', 'transactionQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
+  displayedColumns_1: string[] = ['itemNumber', 'lineStatus', 'lineNumber', 'completedQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
   tableData_1 = new MatTableDataSource<any>([]);
 
   displayedColumns_2: string[] = ['itemNumber', 'lineStatus','supplierItemID', 'lineNumber', 'completedQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
@@ -104,6 +104,10 @@ export class ConsolidationComponent implements OnInit {
 
     // this.getTableData('','')
     // console.log(this.stageTable)
+  }
+
+  ngAfterViewInit() {
+    this.searchBoxField.nativeElement.focus();
   }
 
   hideRow = true;
@@ -208,7 +212,7 @@ export class ConsolidationComponent implements OnInit {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
-              this.ordernum.nativeElement.focus();
+              this.searchBoxField.nativeElement.focus();
               break;
 
             case "Conflict":
@@ -688,7 +692,7 @@ export class ConsolidationComponent implements OnInit {
 
   openCmOrderNo() {
     this.clearpagedata();
-    this.ordernum.nativeElement.focus();
+    this.searchBoxField.nativeElement.focus();
     this.disableConButts();  
   }
 
@@ -770,7 +774,7 @@ export class ConsolidationComponent implements OnInit {
  
   focusOnOrderNum() {
     setTimeout(() => {
-      this.ordernum.nativeElement.focus();
+      this.searchBoxField.nativeElement.focus();
     }, 100);  
   }
   navigateToOrder() {
