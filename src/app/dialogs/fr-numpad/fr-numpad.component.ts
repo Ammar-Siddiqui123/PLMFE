@@ -20,19 +20,7 @@ check1:boolean = false
   ngOnInit(): void {
   }
 
-  // pressNum1(num){
-  //   if(this.itemQuantity.includes('-')){
-  //     // console.log(this.itemQuantity.split(''))
-  //     let test = this.itemQuantity.split('')
-  //      test.shift()
-  //      console.log(test)
-  //      this.itemQuantity = test.join("")
-  //      console.log(this.itemQuantity)
-  //   }
-  //   else{
-  //     this.itemQuantity = '-'+ this.itemQuantity
-  //   }
-  // }
+
 
   pressNum(number){
     if(number == '-'){
@@ -44,9 +32,9 @@ check1:boolean = false
      else{
       let test = this.itemQuantity.split('')
       test.unshift('-')
-      console.log(test)
+      // console.log(test)
       this.itemQuantity =  test.join("")
-      console.log(this.itemQuantity)
+      // console.log(this.itemQuantity)
      }   
     } 
     else if(number == ','){
@@ -71,36 +59,7 @@ check1:boolean = false
       }
      
     }
-    // debugger
-  // if(number == '-'){
-  //   console.log(this.itemQuantity)
-  //   console.log(this.itemQuantity.includes('-'))
-  //   if(this.itemQuantity.includes('-')){
-  //     let test = this.itemQuantity.split('')
-  //      test.shift()
-  //      console.log(test)
-  //      this.itemQuantity = test.join("")
-  //      console.log(this.itemQuantity)
-  //   }
-  //   else{
-  //     this.itemQuantity = '-'+ this.itemQuantity
-  //   }
-  // }
-    // this.itemQuantity = this.itemQuantity + number
-    // console.log(this.itemQuantity)
-    // if(number.includes('-')){
-    //   console.log('test')
-    //   this.itemQuantity = '-'+ this.itemQuantity
-    //   this.check = true
-    // }
-    // else if(number.includes(',')){
-    //   this.itemQuantity =  this.itemQuantity + ','
-    //   this.check1 = true
-    // }
-    // else{
-    //   this.itemQuantity = this.itemQuantity + number
-      
-    // }
+
   }
 
   clearLast(){
@@ -108,12 +67,12 @@ check1:boolean = false
     let last = this.itemQuantity.split('')
     last.pop()
     this.itemQuantity =  last.join("")
-    console.log(last)
+    // console.log(last)
 
   }
 
   getItemQuantity(){
-    console.log(this.itemQuantity)
+    // console.log(this.itemQuantity)
     if(this.itemQuantity.includes(',')){
       this.dialogRef.close('0')
     }

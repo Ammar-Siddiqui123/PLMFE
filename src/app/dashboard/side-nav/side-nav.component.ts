@@ -27,7 +27,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'fact_check', title: 'Work Manager', route: '#' ,permission: 'Work Manager'},
     { icon: 'insert_chart', title: 'Consolidation Manager', route: '/ConsolidationManager' ,permission: 'Consolidation Manager'},
     { icon: 'pending_actions', title: 'Order Manager', route: '/OrderManager' ,permission: 'Order Manager'},
-    { icon: 'schema', title: 'FlowRack Replenishment', route: '/flowrack',permission: 'FlowRack Replenish' }
+    { icon: 'schema', title: 'FlowRack Replenish', route: '/flowrack',permission: 'FlowRack Replenish' }
   ];
   globalMenus: any = [
     { icon: 'door_front', title: 'Home', route: '/globalconfig/home' ,permission: true},
@@ -114,6 +114,7 @@ export class SideNavComponent implements OnInit {
               private authService: AuthService,
               private sharedService:SharedService, 
               private globalService: GlobalconfigService) { 
+                
                 this.sharedService.SidebarMenupdate.subscribe((data: any) => {
                   var Menuobj = this.menus.find(x=>x.route == data);
                   if(Menuobj==null&&this.authService.UserPermissonByFuncName('Admin Menu'))Menuobj = this.adminMenus.find(x=>x.route == data);
@@ -137,10 +138,11 @@ export class SideNavComponent implements OnInit {
         this.isChildMenu = false;
       }
     });
-  
+    if(this.router.url == '/flowrack') this.dynamicMenu = this.menus
     this.loadMenus({route: this.router.url});
-
+ 
     this.sharedService.updateAdminMenuObserver.subscribe(adminMenu => {
+       
       if (adminMenu){
         this.childMenus = this.adminMenus;
         this.isParentMenu = false;
@@ -149,7 +151,7 @@ export class SideNavComponent implements OnInit {
     });
 
     this.sharedService.updateInductionAdminObserver.subscribe(InvadminMenu => {
-  
+      
       if (InvadminMenu.menu === 'transaction-admin'){
         
         if (InvadminMenu.route.includes('/InductionManager/Admin/')) {
@@ -217,14 +219,20 @@ export class SideNavComponent implements OnInit {
     //   })
 
      
+    
      this.sharedService.menuData$.subscribe(data => { 
-      if(this.menuData.length===0){
+       if(this.menuData.length===0){
         this.menuData = data;
-        
         this.menuData.filter((item,i)=>{
-        this.dynamicMenu[0]={icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'}
-        this.dynamicMenu.push({icon:item.info.iconName,title:item.displayname,route:item.info.route,permission:item.info.permission});
-    //updating child menus with display names
+debugger
+          if(this.dynamicMenu.find(x=>x.title ==  item.displayname)){   
+           
+   //updating child menus with display names
+  }else{
+    this.dynamicMenu[0]={icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'}
+    this.dynamicMenu.push({icon:item.info.iconName,title:item.displayname,route:item.info.route,permission:item.info.permission});
+
+  }
         if(item.appname==='ICSAdmin'){
         let obj={ icon: 'arrow_back', title: `${item.displayname}`, route: '/dashboard', class: 'back-class' ,permission: 'Dashboard'}
         this.adminMenus.splice(0,1,obj);
@@ -314,7 +322,7 @@ export class SideNavComponent implements OnInit {
         this.isChildMenu = true;
         return;
       }
-      if (menu.route === '/dashboard') {
+      if (['/dashboard','/flowrack'].indexOf(menu.route) > -1) {
         this.isParentMenu = true;
         this.isChildMenu = false;
       }
@@ -372,7 +380,7 @@ export class SideNavComponent implements OnInit {
       return;
     }
 
-    if (menu.route === '/dashboard') {
+    if (['/dashboard','/flowrack'].indexOf(menu.route) > -1) {
       this.isParentMenu = true;
       this.isChildMenu = false;
     }
