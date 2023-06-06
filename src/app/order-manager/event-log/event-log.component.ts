@@ -19,7 +19,7 @@ import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.
 })
 export class EventLogComponent implements OnInit {
 
-  displayedColumns: string[] = ['eventID','dateStamp', 'message', 'eventCode', 'nameStamp', 'eventType', 'eventLocation', 'notes', 'transactionID','actions'];
+  displayedColumns: string[] = ['dateStamp', 'message', 'eventCode', 'nameStamp', 'eventType', 'eventLocation', 'notes', 'transactionID','actions'];
   dataSourceList: any;
 
   ignoreDateRange: boolean = false;
