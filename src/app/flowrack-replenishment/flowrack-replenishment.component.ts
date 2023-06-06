@@ -22,6 +22,8 @@ export class FlowrackReplenishmentComponent implements OnInit {
   public itemQty: any
   public locationSuggestions: any = [];
   public zone: any;
+  public calculator: boolean = true;
+
 
   @ViewChild(MatAutocompleteTrigger) autocompleteTrigger: MatAutocompleteTrigger;
 
@@ -56,15 +58,6 @@ export class FlowrackReplenishmentComponent implements OnInit {
 
 
 
-  locationchange(e) {
-    if (e === '') {
-      this.clearQtyField()
-    }
-    if (e.keyCode == 13) {      
-      this.onLocationSelected(this.itemLocation)
-    }
-  }
-
 
   cartonFlow() {
     let payload = {
@@ -72,22 +65,26 @@ export class FlowrackReplenishmentComponent implements OnInit {
     }
     this.flowrackHub.getAll('/FlowRackReplenish/wslocation', payload).subscribe((res) => {
       console.log(res)
-      this.zone = res.data == 'No'||'' ? 'This workstation is not assigned to a zone' : res.data
+      this.zone = res.data == 'No'||res.data == '' ? 'This workstation is not assigned to a zone' : res.data
       console.log(res)
     })
   }
 
   updateQty(val) {
+    
     // console.log(val)
     if (val !== 0) {
       this.submitBtnDisplay = false;
       this.itemQtyFocus.nativeElement.focus()
+      this.calculator = false
     }
     if (val === 0 || val === '') {
       this.submitBtnDisplay = true;
+      this.calculator = false
     }
     if (val == '') {
       this.submitBtnDisplay = true;
+      this.calculator = false
     }
   }
 
@@ -99,7 +96,20 @@ export class FlowrackReplenishmentComponent implements OnInit {
     if (e === '') {
       this.clearAllFields()
     }
+    else{
+      this.clearAllFields()
+    }
   }
+
+
+  locationchange(e) {
+   
+    if (e.keyCode == 13) {      
+      this.onLocationSelected(this.itemLocation)
+    }
+    this.clearQtyField()
+  }
+
 
 
   locationchangeClick(e) {
@@ -189,19 +199,22 @@ export class FlowrackReplenishmentComponent implements OnInit {
   }
 
   onLocationSelected(location) {
+    // debugger
     let payload = {
       "itemNumber": this.itemnumscan,
       "Input": this.itemLocation,
       "wsid": this.userData.wsid,
     }
     this.flowrackHub.getAll('/FlowRackReplenish/verifyitemlocation', payload).subscribe((res => {
-      if (res) {
+      console.log(res)
+      if (res.data) {
         this.itemQtyRow = false;
         this.itemQty = '';
-
+        this.calculator = false
         this.openCal()
       }
-      else {
+      else if (!res.data) {
+        this.autocompleteTrigger.closePanel()
         this.clearLocationField()
         this.LocationRow = true;
         this.autoFocusField.nativeElement.focus()
@@ -248,6 +261,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
     this.submitBtnDisplay = true;
     this.itemQty = '';
     this.itemQtyRow = true;
+    this.calculator = true
   }
 
   clearLocationField() {
