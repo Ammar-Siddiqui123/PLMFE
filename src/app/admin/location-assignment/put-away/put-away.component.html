@@ -91,6 +91,12 @@
                 </td>
               </ng-container>
 
+              <tr class="mat-row" *matNoDataRow >
+                <td class="mat-cell " [attr.colspan]="displayedColumns1.length">
+                    No data available in table.
+                </td>
+              </tr>
+
               <tr mat-header-row *matHeaderRowDef="displayedColumns1; sticky: true;"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
             </table>
@@ -193,6 +199,12 @@
                   </button>
                 </td>
               </ng-container>
+
+              <tr class="mat-row" *matNoDataRow >
+                <td class="mat-cell " [attr.colspan]="displayedColumns2.length">
+                    No data available in table.
+                </td>
+              </tr>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns2; sticky: true;"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
