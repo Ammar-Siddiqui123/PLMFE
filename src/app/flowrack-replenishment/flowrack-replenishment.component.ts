@@ -71,8 +71,9 @@ export class FlowrackReplenishmentComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.flowrackHub.getAll('/FlowRackReplenish/wslocation', payload).subscribe((res) => {
-      this.zone = res.data == 'NO' ? 'This workstation is not assigned to a zone' : res.data
-
+      console.log(res)
+      this.zone = res.data == 'No'||'' ? 'This workstation is not assigned to a zone' : res.data
+      console.log(res)
     })
   }
 
@@ -217,6 +218,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
       width: '480px',
       minWidth: '480px',
       autoFocus: '__non_existing_element__',
+   
     });
     dialogRef.afterClosed().subscribe((result) => {
       // console.log(result)
@@ -266,16 +268,19 @@ export class FlowrackReplenishmentComponent implements OnInit {
   }
 
   updateItemQuantity() {
+    // debugger
     if (this.itemQty <= 0) {
-      this.toastr.error("Quantity can not be negative.", 'Error!', {
+      // console.log('less than zero')
+      this.toastr.error("Quantity must be greater than zero.", 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
-      this.itemQty = ''
-      this.itemQty.nativeElement.focus()
+      // this.itemQty = ''
+      // this.itemQty.nativeElement.focus()
     }
 
-    if (this.itemQty == '') {
+    else if (this.itemQty == '') {
+      // console.log('empty')
       this.toastr.error("Please enter a quantity.", 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
@@ -303,6 +308,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
 
           this.flowrackHub.put(payload, '/FlowRackReplenish/itemquantity').subscribe((res => {
             if (res.isExecuted) {
+              // console.log('added')
               this.toastr.success('Item Quantity Added', 'Success!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000,
