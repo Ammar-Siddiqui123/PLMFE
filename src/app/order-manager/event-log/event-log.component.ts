@@ -12,6 +12,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { DatePipe } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-log',
@@ -32,7 +33,7 @@ export class EventLogComponent implements OnInit {
   eventType: string = "";
   userName: string = "";
   start: number = 0;
-  length: number = 10;
+  length: number = 15;
   filterString: string = "1 = 1";
   sortColumn: number = 0;
   sortOrder: string = "desc";
@@ -61,13 +62,16 @@ export class EventLogComponent implements OnInit {
     { value: 'transactionID', sortValue: '7' },
   ];
 
+  isAdmin: boolean = false;
+
   constructor(
     private dialog: MatDialog,
     private orderManagerService: OrderManagerService,
     private authService: AuthService,
     private toastr: ToastrService,
     private filterService: ContextMenuFiltersService,
-    private datepipe: DatePipe
+    private datepipe: DatePipe,
+    private router: Router
   ) { }
 
   event(e:any){
@@ -76,6 +80,7 @@ export class EventLogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isAdmin = this.router.url == "/OrderManager/EventLog" ? false : true;
     this.userData = this.authService.userData();
     this.startDate = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
     this.endDate = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
@@ -90,7 +95,7 @@ export class EventLogComponent implements OnInit {
 
   onIgnoreDateRange(ob: MatCheckboxChange) {
     this.resetPagination();
-    this.eventLogTable(true);
+    this.eventLogTable();
   }
 
   clearFilters() {

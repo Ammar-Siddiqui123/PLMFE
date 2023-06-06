@@ -80,6 +80,10 @@
         "path": "/admin/systemReplenishment",
         "Permission": "Replenishment"
     },
+    {
+        "path": "/admin/EventLog",
+        "Permission": "Event Log Manager"
+    },
 
     {
         "path": "/ConsolidationManager/StagingLocations",
