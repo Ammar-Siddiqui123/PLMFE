@@ -49,6 +49,17 @@ export class EventLogComponent implements OnInit {
   @ViewChild('trigger') trigger: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
 
+  sortMapping: any = [
+    { value: 'dateStamp', sortValue: '0' },
+    { value: 'message', sortValue: '1' },
+    { value: 'eventCode', sortValue: '2' },
+    { value: 'nameStamp', sortValue: '3' },
+    { value: 'eventType', sortValue: '4' },
+    { value: 'eventLocation', sortValue: '5' },
+    { value: 'notes', sortValue: '6' },
+    { value: 'transactionID', sortValue: '7' },
+  ];
+
   constructor(
     private dialog: MatDialog,
     private orderManagerService: OrderManagerService,
@@ -105,8 +116,8 @@ export class EventLogComponent implements OnInit {
       "draw": 0,
       "start": this.start,
       "length": this.length,
-      "sortColumn": 0,
-      "sortOrder": "desc",
+      "sortColumn": this.sortColumn,
+      "sortOrder": this.sortOrder,
       "messageFilter": this.message,
       "eventLocation": this.eventLocation,
       "transStatus": this.eventCode,
@@ -265,6 +276,13 @@ export class EventLogComponent implements OnInit {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
+  }
+
+  announceSortChange(e: any) {
+    this.sortColumn = this.sortMapping.filter((item: any) => item.value == e.active)[0].sortValue;
+    this.sortOrder = e.direction;
+    this.resetPagination();
+    this.eventLogTable(true);
   }
 }
 
