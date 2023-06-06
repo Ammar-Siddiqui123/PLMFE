@@ -171,7 +171,7 @@
                 <button mat-stroked-button color="primary" class="btn-regular mb-3" (click)="printRange()">
                     Print Range (By Date)
                 </button>
-                <button mat-stroked-button color="primary" class="btn-regular mb-3">
+                <button mat-stroked-button color="primary" class="btn-regular mb-3" (click)="refresh()">
                     <mat-icon>cached</mat-icon>
                     Refresh
                 </button>
@@ -183,52 +183,103 @@
             <ng-scrollbar class="mat-table-scrollbar" style="height:340px" track="all">
                 <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData">
 
+                    <ng-container matColumnDef="eventID">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> eventID </th>
+                        <td mat-cell *matCellDef="let element"
+                        #tooltip="matTooltip" matTooltipPosition="above" [matTooltip]="element.eventID" 
+                style="text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;"
+                [matTooltipDisabled]="element.eventID && element.eventID.length>=20?false:true"
+                        (dblclick)="openOmEventLogEntryDetail(element)"
+                        (contextmenu)="onContextMenu($event, element.eventID, 'Event ID')"
+                        >{{element.eventID}}</td>
+                    </ng-container>
+
                     <ng-container matColumnDef="dateStamp">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-                        <td mat-cell *matCellDef="let element" (dblclick)="openOmEventLogEntryDetail(element)">
-                            {{element.dateStamp}}</td>
+                        <td mat-cell *matCellDef="let element"
+                        #tooltip="matTooltip" matTooltipPosition="above" [matTooltip]="element.dateStamp" 
+                style="text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;"
+                [matTooltipDisabled]="element.dateStamp && element.dateStamp.length>=20?false:true"
+                        (dblclick)="openOmEventLogEntryDetail(element)"
+                        (contextmenu)="onContextMenu($event, element.dateStamp, 'Date Stamp')"
+                        >{{element.dateStamp}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="message">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Message </th>
-                        <td mat-cell *matCellDef="let element" (dblclick)="openOmEventLogEntryDetail(element)">
-                            {{element.message}}</td>
+                        <td mat-cell *matCellDef="let element" 
+                        #tooltip="matTooltip" matTooltipPosition="above" [matTooltip]="element.message" 
+                style="text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;"
+                [matTooltipDisabled]="element.message && element.message.length>=20?false:true"
+                        (dblclick)="openOmEventLogEntryDetail(element)"
+                        (contextmenu)="onContextMenu($event, element.message, 'Message')"
+                        >{{element.message}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="eventCode">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Event Code </th>
-                        <td mat-cell *matCellDef="let element" (dblclick)="openOmEventLogEntryDetail(element)">
-                            {{element.eventCode}}</td>
+                        <td mat-cell *matCellDef="let element" 
+                        #tooltip="matTooltip" matTooltipPosition="above" [matTooltip]="element.eventCode" 
+                style="text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;"
+                [matTooltipDisabled]="element.eventCode && element.eventCode.length>=20?false:true"
+                        (dblclick)="openOmEventLogEntryDetail(element)"
+                        (contextmenu)="onContextMenu($event, element.eventCode, 'Event Code')"
+                        >{{element.eventCode}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="nameStamp">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
-                        <td mat-cell *matCellDef="let element" (dblclick)="openOmEventLogEntryDetail(element)">
-                            {{element.nameStamp}}</td>
+                        <td mat-cell *matCellDef="let element" 
+                        #tooltip="matTooltip" matTooltipPosition="above" [matTooltip]="element.nameStamp" 
+                style="text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;"
+                [matTooltipDisabled]="element.nameStamp && element.nameStamp.length>=20?false:true"
+                        (dblclick)="openOmEventLogEntryDetail(element)"
+                        (contextmenu)="onContextMenu($event, element.nameStamp, 'Name Stamp')"
+                        >{{element.nameStamp}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="eventType">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Event Type </th>
-                        <td mat-cell *matCellDef="let element" (dblclick)="openOmEventLogEntryDetail(element)">
-                            {{element.eventType}}</td>
+                        <td mat-cell *matCellDef="let element" 
+                        #tooltip="matTooltip" matTooltipPosition="above" [matTooltip]="element.eventType" 
+                style="text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;"
+                [matTooltipDisabled]="element.eventType && element.eventType.length>=20?false:true"
+                        (dblclick)="openOmEventLogEntryDetail(element)"
+                        (contextmenu)="onContextMenu($event, element.eventType, 'Event Type')"
+                        >{{element.eventType}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="eventLocation">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Event Location </th>
-                        <td mat-cell *matCellDef="let element" (dblclick)="openOmEventLogEntryDetail(element)">
-                            {{element.eventLocation}}</td>
+                        <td mat-cell *matCellDef="let element" 
+                        #tooltip="matTooltip" matTooltipPosition="above" [matTooltip]="element.eventLocation" 
+                style="text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;"
+                [matTooltipDisabled]="element.eventLocation && element.eventLocation.length>=20?false:true"
+                        (dblclick)="openOmEventLogEntryDetail(element)"
+                        (contextmenu)="onContextMenu($event, element.eventLocation, 'Event Location')"
+                        >{{element.eventLocation}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="notes">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Notes </th>
-                        <td mat-cell *matCellDef="let element" (dblclick)="openOmEventLogEntryDetail(element)">
-                            {{element.notes}}</td>
+                        <td mat-cell *matCellDef="let element" 
+                        #tooltip="matTooltip" matTooltipPosition="above" [matTooltip]="element.notes" 
+                style="text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;"
+                [matTooltipDisabled]="element.notes && element.notes.length>=20?false:true"
+                        (dblclick)="openOmEventLogEntryDetail(element)"
+                        (contextmenu)="onContextMenu($event, element.notes, 'Notes')"
+                        >{{element.notes}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="transactionID">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Trans ID </th>
-                        <td mat-cell *matCellDef="let element" (dblclick)="openOmEventLogEntryDetail(element)">
-                            {{element.transactionID}}</td>
+                        <td mat-cell *matCellDef="let element" 
+                        #tooltip="matTooltip" matTooltipPosition="above" [matTooltip]="element.transactionID" 
+                style="text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;"
+                [matTooltipDisabled]="element.transactionID && element.transactionID.length>=20?false:true"
+                        (dblclick)="openOmEventLogEntryDetail(element)"
+                        (contextmenu)="onContextMenu($event, element.transactionID, 'Transaction ID')"
+                        >{{element.transactionID}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="actions">
@@ -242,20 +293,26 @@
                         </td>
                     </ng-container>
 
-                    <tr class="mat-row" *matNoDataRow>
+                    <tr class="mat-row" *matNoDataRow (contextmenu)="onContextMenu($event, undefined, '')">
                         <td class="mat-cell " [attr.colspan]="displayedColumns.length">
                             No data available in table.
                         </td>
                     </tr>
 
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns" style=" background-color: #F9F9FF;"></tr>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;" style=" background-color: #F9F9FF;"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
             </ng-scrollbar>
         </div>
 
         <div class="d-flex justify-content-between bg-white">
-            <mat-paginator [pageSize]="10" [pageSizeOptions]="[10,15,20,25,50,100]"></mat-paginator>
+            <mat-paginator 
+            [pageSizeOptions]="[10,15,20,25,50,100]"
+            [length]="recordsFiltered" 
+            [pageSize]="length" 
+            [disabled]="tableData.length == 0"
+            (page)="paginatorChange($event)"
+            ></mat-paginator>
         </div>
     </mat-card-content>
 </mat-card>
@@ -265,3 +322,41 @@
     <button type="submit" mat-flat-button class="form-button-submit btn-lg w-100 mb-3" color="primary">Export Range</button>
 </div>
 <button mat-stroked-button color="warn" class="button-remove-all-w-stroke w-100" (click)="deleteRange()">Delete Range</button>
+
+
+
+
+<div #trigger="matMenuTrigger"
+style="visibility: hidden; position: fixed"
+[style.left]="contextMenuPosition.x"
+[style.top]="contextMenuPosition.y"
+[matMenuTriggerFor]="contextMenuFilter"
+></div>
+<mat-menu #contextMenuFilter="matMenu">
+<ng-template matMenuContent let-item="item">
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'equals to',getType(item.SelectedItem))"> Equals</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is not equals to', getType(item.SelectedItem))">Not Equals</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is greater than or equal to', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'number' || getType(item.FilterColumnName) == 'date'" >Greater than or Equal</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is less than or equal to', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'number' || getType(item.FilterColumnName) == 'date'" >Less than or Equal</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is like', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'string' && getType(item.FilterColumnName) != 'date'" >Like</button>
+  <button mat-menu-item (click)="onContextMenuCommand(item.SelectedItem, item.FilterColumnName, 'is not like', getType(item.SelectedItem))" *ngIf="getType(item.SelectedItem) == 'string' && getType(item.FilterColumnName) != 'date'" >Not Like</button>
+  <button mat-menu-item [matMenuTriggerFor]="InputFiltersList" [matMenuTriggerData]="{category: item}" *ngIf="getType(item.SelectedItem) != 'boolean'" >Input FIlters</button>
+  <button mat-menu-item (click)="onContextMenuCommand('', '', 'clear', '')">Clear Filters</button>
+</ng-template>
+</mat-menu>
+
+<mat-menu #InputFiltersList="matMenu">
+    <ng-template matMenuContent let-category="category">
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'equals to', getType(category.SelectedItem))">Equals</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is not equals to', getType(category.SelectedItem))">Not Equals</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'begins with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Begins</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not begins with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not Begin</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'ends with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Ends With</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not ends with', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not End With</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'contains', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Contains</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'does not contains', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'string' && getType(category.FilterColumnName) != 'date'">Does Not Contain</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is less than', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Less Than</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is greater than', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Greater Than</button>
+      <button mat-menu-item (click)="InputFilterSearch(category.FilterColumnName, 'is between', getType(category.SelectedItem))" *ngIf="getType(category.SelectedItem) == 'number' || getType(category.FilterColumnName) == 'date'">Between</button>
+    </ng-template>
+  </mat-menu>

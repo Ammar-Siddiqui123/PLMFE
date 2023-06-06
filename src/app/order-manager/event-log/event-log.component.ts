@@ -4,10 +4,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { OmEventLogEntryDetailComponent } from 'src/app/dialogs/om-event-log-entry-detail/om-event-log-entry-detail.component';
 import { OrderManagerService } from '../order-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../labels/labels.json';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
+import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 
 @Component({
   selector: 'app-event-log',
@@ -16,7 +19,7 @@ import labels from '../../labels/labels.json';
 })
 export class EventLogComponent implements OnInit {
 
-  displayedColumns: string[] = ['dateStamp', 'message', 'eventCode', 'nameStamp', 'eventType', 'eventLocation', 'notes', 'transactionID','actions'];
+  displayedColumns: string[] = ['eventID','dateStamp', 'message', 'eventCode', 'nameStamp', 'eventType', 'eventLocation', 'notes', 'transactionID','actions'];
   dataSourceList: any;
 
   ignoreDateRange: boolean = false;
@@ -43,11 +46,15 @@ export class EventLogComponent implements OnInit {
   searchAutocompleteList: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  @ViewChild('trigger') trigger: MatMenuTrigger;
+  contextMenuPosition = { x: '0px', y: '0px' };
+
   constructor(
     private dialog: MatDialog,
     private orderManagerService: OrderManagerService,
     private authService: AuthService,
     private toastr: ToastrService,
+    private filterService: ContextMenuFiltersService
   ) { }
 
   ngOnInit(): void {
@@ -117,6 +124,11 @@ export class EventLogComponent implements OnInit {
         this.recordsTotal = res.data.recordsTotal;
         this.recordsFiltered = res.data.recordsFiltered;
       }
+      else{
+        this.tableData = [];
+        this.recordsTotal = 0;
+        this.recordsFiltered = 0;
+      }
     });
   }
 
@@ -128,7 +140,6 @@ export class EventLogComponent implements OnInit {
 
   resetPagination() {
     this.start = 0;
-    this.length = 10;
     this.paginator.pageIndex = 0;
   }
 
@@ -158,7 +169,7 @@ export class EventLogComponent implements OnInit {
   }
 
   refresh() {
-    this.start = 0;
+    this.resetPagination();
     this.eventLogTable(true);
   }
 
@@ -207,6 +218,53 @@ export class EventLogComponent implements OnInit {
 
   printSelected(){
     alert('The print service is currently offline');
+  }
+
+  paginatorChange(event: PageEvent) {
+    this.start = event.pageSize * event.pageIndex;
+    this.length = event.pageSize;
+    this.eventLogTable(true);
+  }
+
+
+  onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.trigger.menuData = { item: { SelectedItem: SelectedItem, FilterColumnName: FilterColumnName, FilterConditon: FilterConditon, FilterItemType: FilterItemType } };
+    this.trigger.menu?.focusFirstItem('mouse');
+    this.trigger.openMenu();
+  }
+
+  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
+    if (SelectedItem != undefined) {
+      this.filterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+      this.filterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+    }
+    this.filterString= this.filterString != "" ? this.filterString : "1 = 1";
+    this.resetPagination();
+    this.eventLogTable(true);
+  }
+
+  getType(val): string {
+    return this.filterService.getType(val);
+  }
+
+  InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
+    const dialogRef = this.dialog.open(InputFilterComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        FilterColumnName: FilterColumnName,
+        Condition: Condition,
+        TypeOfElement: TypeOfElement
+      },
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe((result) => {
+      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
+    }
+    );
   }
 }
 
