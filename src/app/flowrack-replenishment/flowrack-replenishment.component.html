@@ -15,27 +15,45 @@
             
         </div>
         <div class="mb-4">
-            <mat-label>Current Zone: <span class="bold text-danger">Connection not set</span>&nbsp;<span class="bold">Connection Name</span></mat-label>
+            <mat-label>Current Zone: <span class="bold">{{zone}}</span></mat-label>
         </div>
-        <div class="row">
+        <div class="row" >
             <div class="col-xl-4">
                 <mat-form-field class="custom-form-field  clear-btn-init w-100  mb-3" appearance="outline">
                     <mat-label>Scan Item</mat-label>
-                    <input matInput type="text" value="000000">
-                    <button matSuffix class="clear-btn"><mat-icon class="text-20 text-danger">cancel</mat-icon></button>
+                    <input matInput type="text" [(ngModel)] = 'itemnumscan' (keypress)="findItemLocation($event)" #autoFocusField (ngModelChange)="scanItemChange($event)">
+                    <button matSuffix class="clear-btn" (click)="clearItemNum()"><mat-icon class="text-20 text-danger">cancel</mat-icon></button>
                 </mat-form-field>
             </div>
-            <div class="col-xl-4">
-                <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
+            <!-- {{itemLocation|json}} -->
+            <div class="col-xl-4"  [hidden]="LocationRow">
+                <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline" >
+                   
                     <mat-label>Select Location</mat-label>
-                    <input matInput type="text" value="000000">
+                  
+                  <input matInput type="text" [(ngModel)]="itemLocation" [matAutocomplete]="auto" (keypress)="locationchange($event)" #itemLocationFocus>
+                  <mat-autocomplete class="card custom-scroll"  #auto="matAutocomplete" (optionActivated)="values($event)" (optionSelected)="locationchangeSelect($event)" >                            
+                    <h6 class ="card-header matAutoCompHeader ">
+                      <span style="width:  140px;">Location</span> 
+                      <span style="width:  140px;">Item Quantity</span> 
+                    </h6> 
+                    <ng-scrollbar style="height:350px" >
+                      <mat-option  [value]="option"  *ngFor="let option of locationSuggestions"  class="matAutoCompTableContent" style="line-height: 24px; height:auto; min-height: auto!important; padding: 12px 16px; overflow: unset;" >
+                        <div class="loc_option">
+                          <span  class="searchColumn" style="width:  140px; white-space: normal;">{{option.location}}</span> 
+                          <span  class="searchColumn" style="width:  140px; white-space: normal;">{{option.itemQuantity}}</span> 
+                        </div>
+                      </mat-option>
+                    </ng-scrollbar>
+                  </mat-autocomplete> 
                 </mat-form-field>
             </div>
-            <div class="col-xl-4">
+            <!-- *ngIf="itemQtyRow" -->
+            <div class="col-xl-4"  [hidden]="itemQtyRow" >
                 <div class="d-flex gap-12 align-items-center">
                 <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                     <mat-label>Enter Quantity</mat-label>
-                    <input matInput type="text" value="000000">
+                    <input matInput type="text" [(ngModel)] = 'itemQty' (ngModelChange)="updateQty(itemQty)" #itemQtyFocus>
                 </mat-form-field>
                 <button mat-mini-fab color="Default" class="button-default-i icon-button-8br  mb-3" (click)="openCal()">
               <mat-icon class="material-symbols-outlined">calculate</mat-icon>
@@ -50,7 +68,7 @@
 </mat-card>
 </div>
 
-<div>
-    <button type="submit" mat-flat-button class="btn-lg w-100" color="primary">Submit</button>
+<div [hidden]="submitBtnDisplay">
+    <button type="submit" mat-flat-button class="btn-lg w-100" color="primary" (click)="updateItemQuantity()">Submit</button>
 </div>
 </div>

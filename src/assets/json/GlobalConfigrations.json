@@ -24,7 +24,7 @@
         "Permission": "Admin Release Orders"
     },
     {
-        "path": "/FlowRackReplenish",
+        "path": "/flowrack",
         "Permission": "FlowRack Replenish"
     },
 
@@ -191,11 +191,8 @@
     {
         "path": "/admin/manualTransactions",
         "Permission": "Manual Transactions"
-    },
+    } 
     
-    {
-        "path": "/flowrack",
-        "Permission":"FlowRack Replenish"
-    }
+   
     
 ]
