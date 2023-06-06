@@ -11,6 +11,7 @@ import labels from '../../labels/labels.json';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-event-log',
@@ -23,8 +24,8 @@ export class EventLogComponent implements OnInit {
   dataSourceList: any;
 
   ignoreDateRange: boolean = false;
-  startDate: any = "";
-  endDate: any = "";
+  startDate:any = "";
+  endDate:any = "";
   message: string = "";
   eventLocation: string = "";
   eventCode: string = "";
@@ -65,13 +66,21 @@ export class EventLogComponent implements OnInit {
     private orderManagerService: OrderManagerService,
     private authService: AuthService,
     private toastr: ToastrService,
-    private filterService: ContextMenuFiltersService
+    private filterService: ContextMenuFiltersService,
+    private datepipe: DatePipe
   ) { }
+
+  event(e:any){
+    this.resetPagination();
+    this.eventLogTable(true);
+  }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.startDate = new Date().toISOString();
-    this.endDate = new Date().toISOString();
+    this.startDate = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
+    this.endDate = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
+    // console.log(this.startDate);
+    // console.log(this.endDate);
     this.eventLogTable();
   }
 
@@ -79,18 +88,14 @@ export class EventLogComponent implements OnInit {
     this.eventLogTableSubscribe.unsubscribe();
   }
 
-  onDateChange(event, key: any): void {
-    this.startDate = "";
-    this.startDate = event;
-  }
-
   onIgnoreDateRange(ob: MatCheckboxChange) {
-
+    this.resetPagination();
+    this.eventLogTable(true);
   }
 
   clearFilters() {
-    this.startDate = new Date().toISOString();
-    this.endDate = new Date().toISOString();
+    this.startDate = new Date();
+    this.endDate = new Date();
     this.message = "";
     this.eventLocation = "";
     this.userName = "";
@@ -122,8 +127,8 @@ export class EventLogComponent implements OnInit {
       "eventLocation": this.eventLocation,
       "transStatus": this.eventCode,
       "transType": this.eventType,
-      "sDate": "2023-05-05",
-      "eDate": "2023-06-05",
+      "sDate": !this.ignoreDateRange ? this.startDate: new Date(new Date().setFullYear(1990)),
+      "eDate": !this.ignoreDateRange ? this.endDate : new Date(),
       "nameStamp": this.userName,
       "filter": this.filterString,
       "username": this.userData.userName,
@@ -185,6 +190,13 @@ export class EventLogComponent implements OnInit {
   }
 
   deleteRange() {
+    if(this.startDate > this.endDate){
+      this.toastr.error('Start date must be before end date!', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '560px',
@@ -198,8 +210,8 @@ export class EventLogComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'Yes') {
         let payload: any = {
-          "beginDate": "2023-05-05",
-          "endDate": "2023-06-05",
+          "beginDate": this.startDate,
+          "endDate": this.endDate,
           "message": this.message,
           "eLocation": this.eventLocation,
           "nStamp": this.userName,
@@ -208,12 +220,14 @@ export class EventLogComponent implements OnInit {
         }
         this.orderManagerService.get(payload, '/Admin/EventRangeDelete').subscribe((res: any) => {
           if (res.isExecuted && res.data) {
+            this.resetPagination();
+            this.eventLogTable(true);
             this.toastr.success(labels.alert.delete, 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
           } else {
-            this.toastr.error(labels.alert.went_worng, 'Error!', {
+            this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
@@ -236,7 +250,6 @@ export class EventLogComponent implements OnInit {
     this.length = event.pageSize;
     this.eventLogTable(true);
   }
-
 
   onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
     event.preventDefault();
