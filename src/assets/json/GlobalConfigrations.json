@@ -65,6 +65,10 @@
         "Permission": "employees"
     },
     {
+        "path": "/admin/moveItems",
+        "Permission": "Move Items"
+    },
+    {
         "path": "/admin/createCountBatches",
         "Permission": "Cycle Count Manager"
     },
