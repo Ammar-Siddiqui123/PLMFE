@@ -9,9 +9,9 @@ import { AuthService } from 'src/app/init/auth.service';
 })
 export class LocationAssignmentComponent implements OnInit {
 
-  countLabel:string = "Count";
-  pickLabel:string = "Pick";
-  putAwayLabel:string = "Put Away";
+  countLabel:string = "Count (0)";
+  pickLabel:string = "Pick (0)";
+  putAwayLabel:string = "Put Away (0)";
   public userData: any;
 
   constructor(
