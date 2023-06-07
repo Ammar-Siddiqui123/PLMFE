@@ -80,6 +80,10 @@
         "path": "/admin/systemReplenishment",
         "Permission": "Replenishment"
     },
+    {
+        "path": "/admin/adminPreferences",
+        "Permission": "Preferences"
+    },
 
     {
         "path": "/ConsolidationManager/StagingLocations",

@@ -1,0 +1,280 @@
+<div class="row w-100 mt-2 mx-0">
+    <div class="col-xl-9">
+        <h2 class="text-18 bold my-3">Company Information</h2>
+        <div class="card p-3">
+            <div class="row">
+            <div class="col-xl-6">
+                <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                    <mat-label>Company Name</mat-label>
+                    <input type="text"    matInput maxlength="255">
+                  </mat-form-field>
+                  <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                    <mat-label>Address</mat-label>
+                    <input type="text"    matInput maxlength="255">
+                  </mat-form-field>
+                  <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                    <mat-label>City</mat-label>
+                    <input type="text"   matInput maxlength="255">
+                  </mat-form-field>
+                  <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                    <mat-label>State</mat-label>
+                    <input type="text"   matInput maxlength="255">
+                  </mat-form-field>
+                  <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                    <mat-label>Early Break Time</mat-label>
+                    <input type="text"   matInput maxlength="255">
+                  </mat-form-field>
+                  <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                    <mat-label>Early Break Duration (Min)</mat-label>
+                    <input type="text"   matInput maxlength="255">
+                  </mat-form-field>
+            </div>
+            <div class="col-xl-6">
+                <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                    <mat-label>Mid Break Time</mat-label>
+                    <input type="text"   matInput maxlength="255">
+                  </mat-form-field>
+                  <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                    <mat-label>Early Mid Duration (Min)</mat-label>
+                    <input type="text"   matInput maxlength="255">
+                  </mat-form-field>
+                  <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                    <mat-label>Late Break Time</mat-label>
+                    <input type="text"   matInput maxlength="255">
+                  </mat-form-field>
+                  <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                    <mat-label>Early Late Duration (Min)</mat-label>
+                    <input type="text"   matInput maxlength="255">
+                  </mat-form-field>
+    
+                  <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3 btn-init" appearance="outline">
+                    <mat-label>Company Logo</mat-label>
+                    <input type="text"   matInput maxlength="255">
+                    <span matSuffix><button mat-button color="primary">Browse</button></span>
+                  </mat-form-field>
+                  <div class="d-flex gap-12">
+                  <button mat-stroked-button color="primary" class="btn-md mb-3">View Current Company Logo</button>
+                  <button mat-flat-button color="primary" class="btn-md mb-3" style="flex: 1;">Upload</button>
+                </div>
+            </div>
+        </div>
+              
+        </div>
+        <h2 class="text-18 bold my-4">System Logic Preferences</h2>
+        <div class="card p-3">
+            <div class="row">
+                <div class="col-xl-6">
+                    <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                        <mat-label>Show Trans Qty</mat-label>
+                        <mat-select class="employees-action" value="pick">
+                          <mat-option value="Pick">Pick</mat-option>
+                          <mat-option value="Put Away">Put Away</mat-option>
+          
+                        </mat-select>
+                        <span class="material-symbols-outlined icon-expand-more">
+                          expand_more
+                        </span>
+                      </mat-form-field>
+                      <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                        <mat-label>Next Tote ID</mat-label>
+                        <input type="text"   matInput maxlength="255">
+                      </mat-form-field>
+                      <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                        <mat-label>Next Serial Number</mat-label>
+                        <input type="text"   matInput maxlength="255">
+                      </mat-form-field>
+                </div>
+                <div class="col-xl-6">
+                    <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                        <mat-label>Max Number of Put Away Labels</mat-label>
+                        <input type="text"   matInput maxlength="255">
+                      </mat-form-field>
+                      <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                        <mat-label>Pick Type</mat-label>
+                        <input type="text"   matInput maxlength="255">
+                      </mat-form-field>
+                      <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                        <mat-label>Reel Tracking Pick Logic</mat-label>
+                        <input type="text"   matInput maxlength="255">
+                      </mat-form-field>
+                </div>
+                <div class="col-xl-6">
+                    <div class="d-flex justify-content-between mb-3">
+                        Order Manifest <mat-slide-toggle
+                           color="primary"
+                          ></mat-slide-toggle>
+                      </div>
+                      <div class="d-flex justify-content-between mb-3">
+                        FIFO Pick Across Warehouse <mat-slide-toggle
+                           color="primary"
+                          ></mat-slide-toggle>
+                      </div>
+                      <div class="d-flex justify-content-between mb-3">
+                        Check For Valid Tote ID <mat-slide-toggle
+                           color="primary"
+                          ></mat-slide-toggle>
+                      </div>
+                      <div class="d-flex justify-content-between mb-3">
+                        Replenish Dedicated Only <mat-slide-toggle
+                           color="primary"
+                          ></mat-slide-toggle>
+                      </div>
+                      <div class="d-flex justify-content-between mb-3">
+                        Pick Labels One Per Qty <mat-slide-toggle
+                           color="primary"
+                          ></mat-slide-toggle>
+                      </div>
+                      <div class="d-flex justify-content-between mb-3">
+                        Short Pick Find New Location <mat-slide-toggle
+                           color="primary"
+                          ></mat-slide-toggle>
+                      </div>
+                      <div class="d-flex justify-content-between mb-3">
+                        Zero Location Qty Check <mat-slide-toggle
+                           color="primary"
+                          ></mat-slide-toggle>
+                      </div>
+                </div>
+                <div class="col-xl-6">
+                    
+                      <div class="d-flex justify-content-between mb-3">
+                        Request # Put Away Labels <mat-slide-toggle
+                           color="primary"
+                          ></mat-slide-toggle>
+                      </div>
+                      <div class="d-flex justify-content-between mb-3">
+                        Multi Batch Cart Selection <mat-slide-toggle
+                           color="primary"
+                          ></mat-slide-toggle>
+                      </div>
+                      <div class="d-flex justify-content-between mb-3">
+                        Confirm Inventory Changes <mat-slide-toggle
+                           color="primary"
+                          ></mat-slide-toggle>
+                      </div>
+                      <div class="d-flex justify-content-between mb-3">
+                        OT Temp to OT Pending <mat-slide-toggle
+                           color="primary"
+                          ></mat-slide-toggle>
+                      </div>
+                      <div class="d-flex justify-content-between mb-3">
+                        Distinct Kit Orders <mat-slide-toggle
+                           color="primary"
+                          ></mat-slide-toggle>
+                      </div>
+                      <div class="d-flex justify-content-between mb-3">
+                        Print Replen Put Labels <mat-slide-toggle
+                           color="primary"
+                          ></mat-slide-toggle>
+                      </div>
+                      <div class="d-flex justify-content-between mb-0">
+                        Create Transactions When (Un)Quarantining <mat-slide-toggle
+                           color="primary"
+                          ></mat-slide-toggle>
+                      </div>
+                </div>
+            </div>
+            
+
+              
+              
+              
+        </div>
+    </div>
+
+    <div class="col-xl-3">
+        <h2 class="text-18 bold my-3">Database and User Authentication</h2>
+        <div class="card p-3 mb-3">
+              <div class="d-flex justify-content-between">
+                Domain Authentication <mat-slide-toggle
+                  formControlName="offCarouselToteIDPicks" color="primary"
+                  matTooltip="Domain Authentication"></mat-slide-toggle>
+              </div>
+        </div>
+
+        <h2 class="text-18 bold my-3">POD Setup (System wide)</h2>
+        <div class="card p-3">
+            <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                <mat-label>Order Sort</mat-label>
+                <mat-select class="employees-action" value="pick">
+                  <mat-option value="Pick">Pick</mat-option>
+                  <mat-option value="Put Away">Put Away</mat-option>
+  
+                </mat-select>
+                <span class="material-symbols-outlined icon-expand-more">
+                  expand_more
+                </span>
+              </mat-form-field>
+              <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                <mat-label>Carton Flow Display</mat-label>
+                <mat-select class="employees-action" value="pick">
+                  <mat-option value="Pick">Pick</mat-option>
+                  <mat-option value="Put Away">Put Away</mat-option>
+  
+                </mat-select>
+                <span class="material-symbols-outlined icon-expand-more">
+                  expand_more
+                </span>
+              </mat-form-field>
+
+              <div class="d-flex justify-content-between mb-3">
+                Auto Display Images <mat-slide-toggle
+                  formControlName="offCarouselToteIDPicks" color="primary"
+                  matTooltip="Domain Authentication"></mat-slide-toggle>
+              </div>
+
+              <h2 class="text-18 bold my-3">Order Selection Color Filter</h2>
+
+              <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                <mat-label>Red Filter Field</mat-label>
+                <mat-select class="employees-action" value="pick">
+                  <mat-option value="Pick">Pick</mat-option>
+                  <mat-option value="Put Away">Put Away</mat-option>
+  
+                </mat-select>
+                <span class="material-symbols-outlined icon-expand-more">
+                  expand_more
+                </span>
+              </mat-form-field>
+
+              <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                <mat-label>Red Filter Value</mat-label>
+                <input type="text"   matInput maxlength="255">
+              </mat-form-field>
+
+              <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                <mat-label>Green Filter Field</mat-label>
+                <mat-select class="employees-action" value="pick">
+                  <mat-option value="Pick">Pick</mat-option>
+                  <mat-option value="Put Away">Put Away</mat-option>
+  
+                </mat-select>
+                <span class="material-symbols-outlined icon-expand-more">
+                  expand_more
+                </span>
+              </mat-form-field>
+
+              <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                <mat-label>Green Filter Value</mat-label>
+                <input type="text"   matInput maxlength="255">
+              </mat-form-field>
+
+              <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                <mat-label>Blue Filter Field</mat-label>
+                <mat-select class="employees-action" value="pick">
+                  <mat-option value="Pick">Pick</mat-option>
+                  <mat-option value="Put Away">Put Away</mat-option>
+  
+                </mat-select>
+                <span class="material-symbols-outlined icon-expand-more">
+                  expand_more
+                </span>
+              </mat-form-field>
+
+              <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                <mat-label>Blue Filter Value</mat-label>
+                <input type="text"   matInput maxlength="255">
+              </mat-form-field>
+        </div>
+    </div>
+</div>

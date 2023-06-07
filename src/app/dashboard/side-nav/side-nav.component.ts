@@ -53,7 +53,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'my_location', title: 'Location Assignment', route: '/admin/locationAssignment' ,permission: 'Location Assignment'},
     { icon: 'ads_click', title: 'Manual Transactions', route: '/admin/manualTransactions' ,permission: 'Manual Transactions'},
     { icon: 'trolley', title: 'Move Items', route: '/admin/moveItems' ,permission: 'Move Items'},
-    { icon: 'tune', title: 'Preferences', route: '#' ,permission: 'Preferences'},
+    { icon: 'tune', title: 'Preferences', route: '/admin/adminPreferences' ,permission: 'Preferences'},
     { icon: 'published_with_changes', title: 'System Replenishment', route: '/admin/systemReplenishment' ,permission: 'Replenishment'},
   ];
   inductionMenus: any = [
