@@ -16,9 +16,15 @@ import { SystemReplenishmentComponent } from './system-replenishment/system-repl
 import { TransactionComponent } from './transaction/transaction.component';
 import { ConfirmationGuard } from '../guard/confirmation-guard.guard';
 import { MoveItemsComponent } from './move-items/move-items.component';
+import { EventLogComponent } from '../order-manager/event-log/event-log.component';
 
 const routes: Routes = [
   { path: '', component: AdminComponent },
+  {
+    path: 'EventLog',
+    component: EventLogComponent,
+    canActivate: [AuthGuardGuard],
+  },
   {
     path: 'employees',
     component: EmployeesComponent,

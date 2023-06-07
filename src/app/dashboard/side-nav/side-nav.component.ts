@@ -49,7 +49,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'low_priority', title: 'Cycle Count', route: '/admin/cycleCounts' ,permission: 'Cycle Count Manager'},
     { icon: 'airline_stops', title: 'De-Allocate Orders', route: '#' ,permission: 'De-Allocate Orders'},
     { icon: 'assignment_ind', title: 'Employees', route: '/admin/employees' ,permission: 'Employees'},
-    { icon: 'event_note', title: 'Event Log', route: '#' ,permission: 'Event Log Manager'},
+    { icon: 'event_note', title: 'Event Log', route: '/admin/EventLog' ,permission: 'Event Log Manager'},
     { icon: 'my_location', title: 'Location Assignment', route: '/admin/locationAssignment' ,permission: 'Location Assignment'},
     { icon: 'ads_click', title: 'Manual Transactions', route: '/admin/manualTransactions' ,permission: 'Manual Transactions'},
     { icon: 'trolley', title: 'Move Items', route: '/admin/moveItems' ,permission: 'Move Items'},
@@ -98,7 +98,7 @@ export class SideNavComponent implements OnInit {
 
     { icon: ' pending_actions', title: 'Order Manager', route: '/OrderManager/OrderManager' ,permission:'Admin Release Orders'},
     { icon: 'view_module', title: 'Order Status ', route: '/OrderManager/OrderStatus' ,permission:true},
-    { icon: 'event_note', title: 'Event Log ', route: '#' ,permission:'Admin Release Orders'},
+    { icon: 'event_note', title: 'Event Log ', route: '/OrderManager/EventLog' ,permission:'Admin Release Orders'},
     { icon: 'dataset', title: 'Inventory Master Info', route: '/OrderManager/InventoryMaster' ,permission:'Admin Inventory Master'},  
     { icon: 'warehouse', title: 'Stock Location & Quantity ', route: '/OrderManager/InventoryMap' ,permission:'Admin Stock Locations'},
     { icon: 'analytics', title: 'Reports ', route: '#' ,permission:'Admin Reports'},
