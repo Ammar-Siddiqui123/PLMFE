@@ -21,8 +21,8 @@
                   <span class="material-symbols-outlined icon-search">
                     search
                   </span>
-                  <input #alertInput type="text" placeholder="Search" aria-label="Search" matInput maxlength="50"
-                    (keyup)="applyFilter1($event)" [(ngModel)]="filterValue1">
+                  <input #alertInput type="text" placeholder="Search" aria-label="Search" matInput maxlength="50" (keyup)="applyFilter1($event)" [(ngModel)]="filterValue1">
+                  <button *ngIf="filterValue1 != ''" matSuffix class="clear-btn" (click)="filterValue1 = ''; this.tableData1.filter = filterValue1;"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                 </mat-form-field>
               </div>
             </div>
@@ -37,7 +37,7 @@
         </div>
 
         <div class="card br-14 table-responsive borderless">
-          <ng-scrollbar style="height:305px" track="all">
+          <ng-scrollbar style="height: 550px;" track="all">
             <table mat-table [dataSource]="tableData1" class="w-100" matSort #MatSort1="matSort"
             (matSortChange)="announceSortChange1($event)">
 
@@ -102,7 +102,7 @@
             </table>
           </ng-scrollbar>
         </div>
-        <mat-paginator class="d-flex justify-content-start" [pageSizeOptions]="[5, 10, 20]" [pageSize]="5" #paginator1
+        <mat-paginator class="d-flex justify-content-start" [pageSizeOptions]="[10, 20]" [pageSize]="10" #paginator1
           aria-label="Select page of periodic elements">
         </mat-paginator>
       </mat-card-content>
@@ -130,8 +130,8 @@
                   <span class="material-symbols-outlined icon-search">
                     search
                   </span>
-                  <input #alertInput type="text" placeholder="Search" aria-label="Search" matInput maxlength="50"
-                    (keyup)="applyFilter2($event)" [(ngModel)]="filterValue2">
+                  <input #alertInput type="text" placeholder="Search" aria-label="Search" matInput maxlength="50" (keyup)="applyFilter2($event)" [(ngModel)]="filterValue2">
+                  <button *ngIf="filterValue2 != ''" matSuffix class="clear-btn" (click)="filterValue2 = ''; this.tableData2.filter = filterValue2;"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                 </mat-form-field>
               </div>
             </div>
@@ -146,7 +146,7 @@
         </div>
 
         <div class="card br-14 table-responsive borderless">
-          <ng-scrollbar style="height:305px" track="all">
+          <ng-scrollbar style="height:550px" track="all">
             <table mat-table [dataSource]="tableData2" class="w-100" matSort #MatSort2="matSort"
               (matSortChange)="announceSortChange2($event)">
 
@@ -211,7 +211,7 @@
             </table>
           </ng-scrollbar>
         </div>
-        <mat-paginator class="d-flex justify-content-start" [pageSizeOptions]="[5, 10, 20]" [pageSize]="5" #paginator2
+        <mat-paginator class="d-flex justify-content-start" [pageSizeOptions]="[10, 20]" [pageSize]="10" #paginator2
           aria-label="Select page of periodic elements">
         </mat-paginator>
       </mat-card-content>
