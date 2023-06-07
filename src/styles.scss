@@ -1580,6 +1580,11 @@ button.default-btn {
     width: auto !important;
   }
 }
+.btn-init.custom-form-field.mat-form-field-appearance-outline {
+  .mat-form-field-suffix {
+    top: 0 !important;
+  }
+}
 .clear-btn-init.custom-form-field.mat-form-field-appearance-outline {
   .mat-form-field-suffix {
     top: 0.25em !important;
