@@ -20,8 +20,8 @@
                                     <span class="material-symbols-outlined icon-search">
                                         search
                                     </span>
-                                    <input #alertInput type="text" placeholder="Search" aria-label="Search" matInput
-                                        maxlength="255" [(ngModel)]="orderNumberSearch" (keyup)="Search()" #autoFocusField>
+                                    <input #alertInput type="text" placeholder="Search" aria-label="Search" matInput maxlength="255" [(ngModel)]="orderNumberSearch" (keyup)="Search()" #autoFocusField>
+                                    <button *ngIf="orderNumberSearch != ''" matSuffix class="clear-btn" (click)="orderNumberSearch = ''; Search()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                                 </mat-form-field>
 
                             </div>
@@ -164,9 +164,8 @@
                                     <span class="material-symbols-outlined icon-search">
                                         search
                                     </span>
-                                    <input #alertInput type="text" placeholder="Search" aria-label="Search" matInput
-                                        maxlength="50" (keyup)="applyFilter($event)" [(ngModel)]="filterValue">
-
+                                    <input #alertInput type="text" placeholder="Search" aria-label="Search" matInput maxlength="50" (keyup)="applyFilter($event)" [(ngModel)]="filterValue">
+                                    <button *ngIf="filterValue != ''" matSuffix class="clear-btn" (click)="filterValue = ''; this.tableData2.filter = filterValue;"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                                 </mat-form-field>
                             </div>
                         </div>
