@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/init/auth.service';
@@ -8,6 +8,10 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
+import { ToastrService } from 'ngx-toastr';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
+import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 
 const TRNSC_DATA = [
   { colHeader: 'warehouse', colDef: 'Warehouse' },
@@ -53,11 +57,14 @@ export class MoveItemsComponent implements OnInit {
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   public dataSource: any = new MatTableDataSource();
   public moveToDatasource: any = new MatTableDataSource();
-
+  @ViewChild('trigger') trigger: MatMenuTrigger;
+  contextMenuPosition = { x: '0px', y: '0px' };
+  moveFromFilter:string="1 = 1";
+  moveToFilter:string="1 = 1";
+  tableType="MoveFrom";
   userData: any;
   itemNo: any = '';
- 
-  
+  isValidateMove = false;
   reqDate: Date = new Date();
   sortOrder = 'asc';
   sortCol = 0;
@@ -66,7 +73,8 @@ export class MoveItemsComponent implements OnInit {
   endRow = 10;
   recordsPerPage = 10;
   recordsFiltered = 0;
-
+  itemSelected = true;
+  from_zone='';
   sortOrderTo = 'asc';
   sortColTo = 0;
   totalRecordsTo = 0;
@@ -78,9 +86,10 @@ export class MoveItemsComponent implements OnInit {
   viewMode = 'NOA';
   viewModeTo = 'NOA';
 
-  invMapID=-1;
-  invMapIDToItem=-1;
-
+  invMapID = -1;
+  invMapIDToItem = -1;
+  invMapmoveToID=0;
+  invMapmoveFromID=0;
   viewAll = false;
   customLabel = '';
   customLabelTo = '';
@@ -91,12 +100,24 @@ export class MoveItemsComponent implements OnInit {
   from_description = '';
   from_itemQuantity = 0;
   from_cellSize = '';
-
   from_lotNo = '';
   from_serialNo = '';
   from_moveQty = '';
+
+  to_priority = 0;
+  to_warehouse = '';
+  to_location = '';
+  to_itemNo = '';
+  to_description = '';
+  to_itemQuantity = 0;
+  to_cellSize = '';
+  to_lotNo = '';
+  to_serialNo = '';
+  to_moveQty = '';
+  to_zone='';
   fillQty = 0;
   maxMoveQty = 0;
+  isMoveQty = false;
   dedicateMoveTo = false;
   undedicateMoveFrom = false;
   isDedicated = false;
@@ -110,7 +131,9 @@ export class MoveItemsComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private toastr: ToastrService,
+    private filterService: ContextMenuFiltersService,
   ) {
     this.userData = this.authService.userData();
   }
@@ -158,48 +181,54 @@ export class MoveItemsComponent implements OnInit {
   ];
   stageTable: any = [];
   columnSeq: any = [];
-  getMoveItemList(tableName,fromPagination=false) {
-    if (tableName === 'MoveTo') {
 
+  getMoveItemList(tableName, fromPagination = false) {
+    if (tableName === 'MoveTo') {
       if (this.viewAll || this.dataSource.data.length === 0) {
         this.viewModeTo = 'All';
-      } else if(fromPagination){
+      } else if (fromPagination) {
         this.viewModeTo = 'All';
-      }else {
+      } else {
         this.viewModeTo = 'NOA';
       }
     }
 
     let payload = {
       draw: 1,
-      sRow: tableName === 'MoveFrom' ?this.startRow:this.startRowTo,
-      eRow: tableName === 'MoveFrom' ?this.endRow:this.endRowTo,
-      searchString: tableName === 'MoveFrom' ? this.itemNo:this.from_itemNo,
+      sRow: tableName === 'MoveFrom' ? this.startRow : this.startRowTo,
+      eRow: tableName === 'MoveFrom' ? this.endRow : this.endRowTo,
+      searchString: tableName === 'MoveFrom' ? this.itemNo : this.from_itemNo,
       searchColumn: 'Item Number',
-      sortColumnIndex: tableName === 'MoveFrom' ? this.sortCol:this.sortColTo,
-      sortOrder:  tableName === 'MoveFrom' ? this.sortOrder :this.sortOrderTo,
+      sortColumnIndex: tableName === 'MoveFrom' ? this.sortCol : this.sortColTo,
+      sortOrder: tableName === 'MoveFrom' ? this.sortOrder : this.sortOrderTo,
       username: this.userData.userName,
       tableName: tableName,
       cellSize: this.from_cellSize,
       warehouse: this.from_warehouse,
-      invMapid: tableName === 'MoveFrom' ? this.invMapID:this.invMapIDToItem,
+      invMapid: tableName === 'MoveFrom' ? this.invMapID : this.invMapIDToItem,
       viewMode: tableName === 'MoveFrom' ? this.viewMode : this.viewModeTo,
-      filter: '1 = 1',
+      filter: this.moveFromFilter,
       wsid: this.userData.wsid,
     };
     this.adminService
       .get(payload, '/Admin/GetMoveItemsTable')
       .subscribe((res: any) => {
         if (tableName === 'MoveTo') {
+          res?.data['moveMapItems'].map((item) => {
+            item.isSelected = false;
+          });
           this.moveToDatasource = new MatTableDataSource(
             res?.data['moveMapItems']
           );
-          this.totalRecordsTo=res?.data.recordsTotal;
+          this.totalRecordsTo = res?.data.recordsTotal;
           this.recordsFilteredTo = res?.data.recordsFiltered;
-          this.customLabelTo = `Showing page ${this.totalRecords} of ${Math.ceil(
-            this.totalRecords / this.recordsPerPage
-          )}`;
+          this.customLabelTo = `Showing page ${
+            this.totalRecords
+          } of ${Math.ceil(this.totalRecords / this.recordsPerPage)}`;
         } else {
+          res?.data['moveMapItems'].map((item) => {
+            item.isSelected = false;
+          });
           this.dataSource = new MatTableDataSource(res?.data['moveMapItems']);
           this.totalRecords = res?.data.recordsTotal;
           this.recordsFiltered = res?.data.recordsFiltered;
@@ -207,9 +236,6 @@ export class MoveItemsComponent implements OnInit {
             this.totalRecords / this.recordsPerPage
           )}`;
         }
-
-    
-     
 
         // this.displayedColumns = TRNSC_DATA;
       });
@@ -301,49 +327,113 @@ export class MoveItemsComponent implements OnInit {
     // this.pageIndex = e.pageIndex;
 
     // this.initializeApi();
-    this.getMoveItemList('MoveTo',true);
+    this.getMoveItemList('MoveTo', true);
   }
-  getMoveFromDetails(row) {
-    this.invMapIDToItem=row.invMapID;
-    this.from_warehouse = row.warehouse;
-    this.from_location = row.location;
-    this.from_itemNo = row.itemNumber;
-    this.from_description = row.description;
-    this.from_itemQuantity = row.itemQuantity;
-    this.from_cellSize = row.cellSize;
-    this.from_lotNo = row.lotNumber;
-    this.from_serialNo = row.serialNumber;
-    this.from_itemQuantity = row.itemQuantity;
-    this.MoveFromDedicated =
-      row.dedicated === true ? 'Dedicated' : 'Not Dedicated';
-    this.isDedicated = row.dedicated === true ? true : false;
-    this.fillQty =
-      row.itemQuantity - row.maximumQuantity - row.quantityAllocatedPutAway;
-   
-    if (this.fillQty < 0) {
-      this.fillQty = 0;
-    }
-    this.maxMoveQty = row.itemQuantity - row.quantityAllocatedPick;
-    if (this.maxMoveQty <= 0) {
-      this.openAlertDialog('MaxAlloc');
-    } else if (row.quantityAllocatedPick > 0) {
-      this.openAlertDialog('MoveCap', this.maxMoveQty);
-    } else {
-      this.from_itemQuantity = this.maxMoveQty;
-    }
 
-    this.getMoveItemList('MoveTo');
+  getMoveFromDetails(row, i?, type?) {
+    debugger
+    let isMoveFromSelected = false;
+
+    if (type === 'MoveTo') {
+      debugger
+      this.dataSource._data._value.forEach((element, index) => {
+        if (!element.isSelected) return;
+        isMoveFromSelected = element.isSelected;
+      });
+      if (!isMoveFromSelected) {
+        this.itemSelected = false;
+        return;
+      } else {
+        this.itemSelected = true;
+        this.moveToDatasource._data._value[i].isSelected =
+          !this.moveToDatasource._data._value[i].isSelected;
+        this.moveToDatasource._data._value.forEach((element, index) => {
+          if (row.rn === element.rn) return;
+          this.moveToDatasource._data._value[index].isSelected = false;
+        });
+      }
+
+      this.invMapIDToItem = row.invMapID;
+      this.to_warehouse = row.warehouse;
+      this.to_location = row.location;
+      this.to_itemNo = row.itemNumber;
+      this.to_description = row.description;
+      this.to_itemQuantity = row.itemQuantity;
+      this.to_cellSize = row.cellSize;
+      this.to_lotNo = row.lotNumber;
+      this.to_serialNo = row.serialNumber;
+      this.to_itemQuantity = row.itemQuantity;
+      this.to_zone=row.zone;
+      this.invMapmoveToID=row.invMapID;
+      this.MoveToDedicated =
+        row.dedicated === true ? 'Dedicated' : 'Not Dedicated';
+      this.isValidateMove = true;
+      if (!row.isSelected) {
+        this.clearFields('MoveTo');
+      } else {
+        this.isMoveQty = false;
+      }
+    } else if (type === 'MoveFrom') {
+      this.dataSource._data._value[i].isSelected =
+        !this.dataSource._data._value[i].isSelected;
+      this.dataSource._data._value.forEach((element, index) => {
+        if (row.rn === element.rn) return;
+        this.dataSource._data._value[index].isSelected = false;
+      });
+
+      this.invMapIDToItem = row.invMapID;
+      this.invMapmoveFromID=row.invMapID;
+      this.from_warehouse = row.warehouse;
+      this.from_location = row.location;
+      this.from_itemNo = row.itemNumber;
+      this.from_description = row.description;
+      this.from_itemQuantity = row.itemQuantity;
+      this.from_cellSize = row.cellSize;
+      this.from_lotNo = row.lotNumber;
+      this.from_serialNo = row.serialNumber;
+      this.from_itemQuantity = row.itemQuantity;
+      this.MoveFromDedicated =
+        row.dedicated === true ? 'Dedicated' : 'Not Dedicated';
+      this.isDedicated = row.dedicated === true ? true : false;
+      this.fillQty =
+        row.itemQuantity - row.maximumQuantity - row.quantityAllocatedPutAway;
+      this.from_zone=row.zone;
+      if (this.fillQty < 0) {
+        this.fillQty = 0;
+      }
+      this.maxMoveQty = row.itemQuantity - row.quantityAllocatedPick;
+      if (this.maxMoveQty <= 0) {
+        this.openAlertDialog('MaxAlloc');
+        this.dataSource._data._value.forEach((element, index) => {
+          element.isSelected=false;
+        });
+        return
+      } else if (row.quantityAllocatedPick > 0) {
+        this.openAlertDialog('MoveCap', this.maxMoveQty);
+      } else {
+        this.from_itemQuantity = this.maxMoveQty;
+      }
+      if (!row.isSelected) {
+        this.clearFields('MoveFrom');
+      } else {
+        this.isMoveQty = false;
+      }
+      this.getMoveItemList('MoveTo');
+    }
   }
 
   openAlertDialog(type, maxMoveQty?) {
     let message = '';
+    let isDisableButton=true;
     switch (type) {
       case 'Un-Dedicate':
         message = 'Would you like to Undedicate your move from Location?';
+        isDisableButton=false
         break;
 
       case 'Dedicate':
         message = 'Would you like to Dedicate your move to Location?';
+        isDisableButton=false;
         break;
       case 'ZeroQty':
         message =
@@ -385,14 +475,28 @@ export class MoveItemsComponent implements OnInit {
       data: {
         message: message,
         heading: '',
-        disableCancel: true,
+        disableCancel: isDisableButton,
       },
       autoFocus: '__non_existing_element__',
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result){
+        if(type==='Un-Dedicate'){
+          this.undedicateMoveFrom=true;
+        
+        }else if(type==='Dedicate'){
+          this.dedicateMoveTo=true;
+        }
+      }else{
+        this.undedicateMoveFrom=false;
+        this.dedicateMoveTo=false;
+      }
+       
+    });
   }
 
   validateMove() {
+    
     let moveQty: any = this.from_itemQuantity;
     this.dedicateMoveTo = false;
     this.undedicateMoveFrom = false;
@@ -403,5 +507,129 @@ export class MoveItemsComponent implements OnInit {
       this.openAlertDialog('MaxMove', this.maxMoveQty);
       return;
     }
+
+    let moveFromDedicated = this.MoveFromDedicated;
+    let moveToDedicated = this.MoveToDedicated;
+    if (this.isDedicated) {
+      this.openAlertDialog('Dedicate');
+      return;
+    }
+    if (this.MoveFromDedicated == 'Dedicated') {
+      this.openAlertDialog('Un-Dedicate');
+      return;
+    }
+    this.callCreateMoveTrans();
+  }
+  tabChanged(tab: any) {
+  
+    if(tab.index===0){
+      this.tableType='MoveFrom'
+    }else if(tab.index===1){
+      this.tableType='MoveTo'
+    }
+  } 
+
+  clearFields(type?) {
+    if (type === 'MoveFrom') {
+      this.from_priority = 0;
+      this.from_warehouse = '';
+      this.from_location = '';
+      this.from_itemNo = '';
+      this.from_description = '';
+      this.from_itemQuantity = 0;
+      this.from_cellSize = '';
+      this.from_lotNo = '';
+      this.from_serialNo = '';
+      this.from_moveQty = '';
+      this.isMoveQty = true;
+      this.MoveFromDedicated = '';
+    } else if (type === 'MoveTo') {
+      this.to_priority = 0;
+      this.to_warehouse = '';
+      this.to_location = '';
+      this.to_itemNo = '';
+      this.to_description = '';
+      this.to_itemQuantity = 0;
+      this.to_cellSize = '';
+      this.to_lotNo = '';
+      this.to_serialNo = '';
+      this.to_moveQty = '';
+      this.MoveToDedicated = '';
+      this.isValidateMove = false;
+    }
+  }
+
+  callCreateMoveTrans() {
+    let payload = {
+      moveFromID:this.invMapmoveFromID,
+      moveToID: this.invMapmoveToID,
+      moveFromItemNumber: this.from_itemNo,
+      moveToItemNumber: this.to_itemNo,
+      moveToZone: this.from_zone,
+      moveQty: this.from_itemQuantity,
+      reqDate: this.reqDate,
+      priority: this.from_priority,
+      dedicateMoveTo: this.dedicateMoveTo,
+      unDedicateMoveFrom: this.undedicateMoveFrom,
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+    };
+
+    this.adminService
+    .get(payload, '/Admin/CreateMoveTransactions')
+    .subscribe((res: any) => {
+      if(res.isExecuted){
+        this.toastr.success(res.responseMessage, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }else{
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    });
+  }
+
+
+  getType(val): string {
+    return this.filterService.getType(val);
+  }
+  onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.trigger.menuData = { item: { SelectedItem: SelectedItem, FilterColumnName: FilterColumnName, FilterConditon: FilterConditon, FilterItemType: FilterItemType } };
+    this.trigger.menu?.focusFirstItem('mouse');
+    this.trigger.openMenu();
+  }
+  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
+    if (SelectedItem != undefined) {
+      this.moveFromFilter = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+      this.moveFromFilter = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+    }
+    this.moveFromFilter = this.moveFromFilter != "" ? this.moveFromFilter : "1 = 1";
+    // this.paginator1.pageIndex = 0; 
+   
+    this.getMoveItemList(this.tableType);
+  }
+
+  InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
+    const dialogRef = this.dialog.open(InputFilterComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        FilterColumnName: FilterColumnName,
+        Condition: Condition,
+        TypeOfElement: TypeOfElement
+      },
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe((result) => {
+
+      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
+    }
+    );
   }
 }
