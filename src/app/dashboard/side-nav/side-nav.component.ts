@@ -81,7 +81,7 @@ export class SideNavComponent implements OnInit {
   ];
 
   inductionAdminMenus: any = [
-    { icon: 'arrow_back', title: 'Induction Manager', route: '/InductionManager', class: 'back-class' , permission: 'Induction Manager'},
+    { icon: 'arrow_back', title: 'Admin', route: '/InductionManager', class: 'back-class' , permission: 'Induction Manager'},
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
     { icon: ' directions_alt', title: 'Inventory Map', route: '/InductionManager/Admin/InventoryMap' ,permission:'Induction Manager'},
     { icon: ' dashboard ', title: 'Inventory ', route: '/InductionManager/Admin/InventoryMaster' ,permission:'Induction Manager'},

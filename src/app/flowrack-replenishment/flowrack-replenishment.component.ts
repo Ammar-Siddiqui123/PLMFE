@@ -56,9 +56,6 @@ export class FlowrackReplenishmentComponent implements OnInit {
  
   }
 
-
-
-
   cartonFlow() {
     let payload = {
       "wsid": this.userData.wsid,
@@ -279,6 +276,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
     this.LocationRow = true;
     this.itemnumscan = '';
     this.autoFocusField.nativeElement.focus()
+    this.calculator = true
   }
 
   updateItemQuantity() {
