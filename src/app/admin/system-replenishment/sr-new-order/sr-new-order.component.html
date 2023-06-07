@@ -60,7 +60,7 @@
                 <div class="d-flex gap-12 align-items-center flex-wrap">
                     <mat-form-field class="action-dropdown" appearance="outline">
                         <mat-label>Search</mat-label>
-                        <mat-select class="employees-action" (selectionChange)="searchChange($event.value)" [disabled]="tableData.length == 0 && filteredTableData.length == 0" >
+                        <mat-select class="employees-action" (selectionChange)="searchChange($event.value)" >
                             <mat-option *ngFor="let option of searchColumnOptions" [value]="option.value">{{option.viewValue}}</mat-option>
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
