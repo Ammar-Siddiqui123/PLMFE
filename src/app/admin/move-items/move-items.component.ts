@@ -58,6 +58,7 @@ export class MoveItemsComponent implements OnInit {
   public dataSource: any = new MatTableDataSource();
   public moveToDatasource: any = new MatTableDataSource();
   @ViewChild('trigger') trigger: MatMenuTrigger;
+  tabIndex:any=0;
   contextMenuPosition = { x: '0px', y: '0px' };
   moveFromFilter:string="1 = 1";
   moveToFilter:string="1 = 1";
@@ -96,6 +97,7 @@ export class MoveItemsComponent implements OnInit {
   from_priority = 0;
   from_warehouse = '';
   from_location = '';
+  from_locationShow='';
   from_itemNo = '';
   from_description = '';
   from_itemQuantity = 0;
@@ -103,10 +105,12 @@ export class MoveItemsComponent implements OnInit {
   from_lotNo = '';
   from_serialNo = '';
   from_moveQty = '';
+  from_itemQtyShow = '';
 
   to_priority = 0;
   to_warehouse = '';
   to_location = '';
+  to_locationShow='';
   to_itemNo = '';
   to_description = '';
   to_itemQuantity = 0;
@@ -114,8 +118,10 @@ export class MoveItemsComponent implements OnInit {
   to_lotNo = '';
   to_serialNo = '';
   to_moveQty = '';
+  to_itemQtyShow='';
   to_zone='';
   fillQty = 0;
+  fillQtytoShow=0;
   maxMoveQty = 0;
   isMoveQty = false;
   dedicateMoveTo = false;
@@ -331,11 +337,11 @@ export class MoveItemsComponent implements OnInit {
   }
 
   getMoveFromDetails(row, i?, type?) {
-    debugger
+    
     let isMoveFromSelected = false;
 
     if (type === 'MoveTo') {
-      debugger
+      
       this.dataSource._data._value.forEach((element, index) => {
         if (!element.isSelected) return;
         isMoveFromSelected = element.isSelected;
@@ -356,15 +362,24 @@ export class MoveItemsComponent implements OnInit {
       this.invMapIDToItem = row.invMapID;
       this.to_warehouse = row.warehouse;
       this.to_location = row.location;
+      this.to_locationShow = row.locationNumber;
       this.to_itemNo = row.itemNumber;
       this.to_description = row.description;
       this.to_itemQuantity = row.itemQuantity;
+      this.to_itemQtyShow=row.itemQuantity
       this.to_cellSize = row.cellSize;
       this.to_lotNo = row.lotNumber;
       this.to_serialNo = row.serialNumber;
       this.to_itemQuantity = row.itemQuantity;
       this.to_zone=row.zone;
       this.invMapmoveToID=row.invMapID;
+
+      this.fillQty =
+      row.itemQuantity - row.maximumQuantity - row.quantityAllocatedPutAway;
+      this.fillQtytoShow=this.fillQty
+      if (this.fillQty < 0) {
+        this.fillQty = 0;
+      }
       this.MoveToDedicated =
         row.dedicated === true ? 'Dedicated' : 'Not Dedicated';
       this.isValidateMove = true;
@@ -374,24 +389,25 @@ export class MoveItemsComponent implements OnInit {
         this.isMoveQty = false;
       }
     } else if (type === 'MoveFrom') {
-      this.dataSource._data._value[i].isSelected =
-        !this.dataSource._data._value[i].isSelected;
+      this.dataSource._data._value[i].isSelected =!this.dataSource._data._value[i].isSelected;
       this.dataSource._data._value.forEach((element, index) => {
         if (row.rn === element.rn) return;
         this.dataSource._data._value[index].isSelected = false;
       });
 
+      if( !this.dataSource._data._value[i].isSelected) return
       this.invMapIDToItem = row.invMapID;
       this.invMapmoveFromID=row.invMapID;
       this.from_warehouse = row.warehouse;
       this.from_location = row.location;
+      this.from_locationShow = row.locationNumber;
       this.from_itemNo = row.itemNumber;
       this.from_description = row.description;
       this.from_itemQuantity = row.itemQuantity;
       this.from_cellSize = row.cellSize;
       this.from_lotNo = row.lotNumber;
       this.from_serialNo = row.serialNumber;
-      this.from_itemQuantity = row.itemQuantity;
+      this.from_itemQtyShow=row.itemQuantity
       this.MoveFromDedicated =
         row.dedicated === true ? 'Dedicated' : 'Not Dedicated';
       this.isDedicated = row.dedicated === true ? true : false;
@@ -409,6 +425,7 @@ export class MoveItemsComponent implements OnInit {
         });
         return
       } else if (row.quantityAllocatedPick > 0) {
+        this.from_itemQuantity=this.maxMoveQty;
         this.openAlertDialog('MoveCap', this.maxMoveQty);
       } else {
         this.from_itemQuantity = this.maxMoveQty;
@@ -429,11 +446,13 @@ export class MoveItemsComponent implements OnInit {
       case 'Un-Dedicate':
         message = 'Would you like to Undedicate your move from Location?';
         isDisableButton=false
+          this.undedicateMoveFrom=true;
         break;
 
       case 'Dedicate':
         message = 'Would you like to Dedicate your move to Location?';
         isDisableButton=false;
+        this.dedicateMoveTo=true;
         break;
       case 'ZeroQty':
         message =
@@ -464,7 +483,11 @@ export class MoveItemsComponent implements OnInit {
       case 'MaxAlloc':
         message =
           'Your Allocations for the Location exceed or match the current qty. To move from this location, de-allocate transactions to free up inventory';
-        break;
+          this.isMoveQty=true;
+          this.from_priority=0;
+          this.from_itemQuantity=0;
+          break;
+  
       default:
         break;
     }
@@ -480,17 +503,17 @@ export class MoveItemsComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if(result){
-        if(type==='Un-Dedicate'){
-          this.undedicateMoveFrom=true;
+      // if(result){
+      //   if(type==='Un-Dedicate'){
+      //     this.undedicateMoveFrom=true;
         
-        }else if(type==='Dedicate'){
-          this.dedicateMoveTo=true;
-        }
-      }else{
-        this.undedicateMoveFrom=false;
-        this.dedicateMoveTo=false;
-      }
+      //   }else if(type==='Dedicate'){
+      //     this.dedicateMoveTo=true;
+      //   }
+      // }else{
+      //   this.undedicateMoveFrom=false;
+      //   this.dedicateMoveTo=false;
+      // }
        
     });
   }
@@ -541,6 +564,8 @@ export class MoveItemsComponent implements OnInit {
       this.from_lotNo = '';
       this.from_serialNo = '';
       this.from_moveQty = '';
+      this.from_itemQtyShow='';
+      this.from_locationShow='';
       this.isMoveQty = true;
       this.MoveFromDedicated = '';
     } else if (type === 'MoveTo') {
@@ -554,9 +579,12 @@ export class MoveItemsComponent implements OnInit {
       this.to_lotNo = '';
       this.to_serialNo = '';
       this.to_moveQty = '';
+      this.to_itemQtyShow='';
+      this.to_locationShow='';
       this.MoveToDedicated = '';
       this.isValidateMove = false;
     }
+    this.reqDate = new Date();
   }
 
   callCreateMoveTrans() {
@@ -579,10 +607,17 @@ export class MoveItemsComponent implements OnInit {
     .get(payload, '/Admin/CreateMoveTransactions')
     .subscribe((res: any) => {
       if(res.isExecuted){
-        this.toastr.success(res.responseMessage, 'Success!', {
+        this.toastr.success('Item moved successfully', 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
+        this.resetPagination();
+        this.tabIndex=0;
+        this.itemNumberSearch.next('');
+        this.getMoveItemList('MoveFrom');
+        this.getMoveItemList('MoveTo');
+        this.clearFields('MoveFrom')
+        this.clearFields('MoveTo')
       }else{
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -631,5 +666,26 @@ export class MoveItemsComponent implements OnInit {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
+  }
+  onChangeLocation(event:any){
+    this.getMoveItemList('MoveTo')
+    
+  }
+
+  resetPagination(){
+    this.sortOrder = 'asc';
+    this.sortCol = 0;
+    this.totalRecords = 0;
+    this.startRow = 0;
+    this.endRow = 10;
+    this.recordsPerPage = 10;
+    this.recordsFiltered = 0;
+    this.sortOrderTo = 'asc';
+    this.sortColTo = 0;
+    this.totalRecordsTo = 0;
+    this.startRowTo = 0;
+    this.endRowTo = 10;
+   this.recordsPerPageTo = 10;
+    this.recordsFilteredTo = 0;
   }
 }
