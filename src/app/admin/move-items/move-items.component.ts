@@ -148,6 +148,7 @@ export class MoveItemsComponent implements OnInit {
     this.itemNumberSearch
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
+        
         // this.autocompleteSearchColumn();
         this.autocompleteSearchColumn();
       });
