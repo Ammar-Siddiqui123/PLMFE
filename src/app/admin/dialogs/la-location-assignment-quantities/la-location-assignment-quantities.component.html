@@ -8,28 +8,28 @@
 
 <div class="custom bg-white bg-50 br-14">
       <div>
-        <div class="d-flex gap-20 justify-content-between mb-4">
-         <div>
+        <div class="row mb-4">
+         <div class="col text-center">
           <div class="employees text-center">
             <p class="counter-count mb-1 bg-primary-900">{{count}}</p>
           </div>
-          <button  mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md backgroundColor " (click)="viewOrderSelection($event,0)" >
+          <button  mat-stroked-button color="button-default" class="default-btn bg-white text-primary-900 btn-sm backgroundColor " (click)="viewOrderSelection($event,0)" >
             Count
           </button>
         </div>
-         <div>
+         <div class="col text-center">
           <div class="employees text-center">
             <p class="counter-count mb-1 bg-primary-900">{{pick}}</p>
           </div>
-          <button  mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md backgroundColor " (click)="viewOrderSelection($event,1)" >
+          <button  mat-stroked-button color="button-default" class="default-btn bg-white text-primary-900 btn-sm backgroundColor " (click)="viewOrderSelection($event,1)" >
             Pick
           </button>
         </div>
-         <div>
+         <div class="col text-center">
           <div class="employees text-center">
             <p class="counter-count mb-1 bg-primary-900">{{putaway}}</p>
           </div>
-          <button  mat-flat-button color="button-default" class="default-btn bg-white text-primary-900 btn-md backgroundColor " (click)="viewOrderSelection($event,2)">
+          <button  mat-stroked-button color="button-default" class="default-btn bg-white text-primary-900 btn-sm backgroundColor " (click)="viewOrderSelection($event,2)">
             Put Away
           </button>
         </div>
