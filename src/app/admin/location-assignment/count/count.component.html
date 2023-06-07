@@ -20,10 +20,8 @@
                 <span class="material-symbols-outlined icon-search">
                   search
                 </span>
-                <input #alertInput type="text" placeholder="Search"
-                  aria-label="Search" matInput
-                  maxlength="50" [(ngModel)]="searchOrder" (ngModelChange)="applyFilter($event)" #autoFocusField>
-
+                <input #alertInput type="text" placeholder="Search" aria-label="Search" matInput maxlength="50" [(ngModel)]="searchOrder" (ngModelChange)="applyFilter($event)" #autoFocusField>
+                <button *ngIf="searchOrder != ''" matSuffix class="clear-btn" (click)="searchOrder = ''; this.leftTable.filter = searchOrder;"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
               </mat-form-field>
               
             </div>
@@ -125,10 +123,8 @@
                 <span class="material-symbols-outlined icon-search">
                   search
                 </span>
-                <input #alertInput type="text" placeholder="Search"
-                  aria-label="Search" matInput
-                  maxlength="50"  [(ngModel)]="searchOrder1" (ngModelChange)="applyFilter1($event)">
-
+                <input #alertInput type="text" placeholder="Search" aria-label="Search" matInput maxlength="50"  [(ngModel)]="searchOrder1" (ngModelChange)="applyFilter1($event)">
+                <button *ngIf="searchOrder1 != ''" matSuffix class="clear-btn" (click)="searchOrder1 = ''; this.rightTable.filter = searchOrder1;"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
               </mat-form-field>
             </div>
           </div>
