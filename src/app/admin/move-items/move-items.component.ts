@@ -59,6 +59,7 @@ export class MoveItemsComponent implements OnInit {
   public moveToDatasource: any = new MatTableDataSource();
   @ViewChild('trigger') trigger: MatMenuTrigger;
   tabIndex:any=0;
+  isRowSelected=false;
   contextMenuPosition = { x: '0px', y: '0px' };
   moveFromFilter:string="1 = 1";
   moveToFilter:string="1 = 1";
@@ -193,7 +194,7 @@ export class MoveItemsComponent implements OnInit {
     if (tableName === 'MoveTo') {
       if (this.viewAll || this.dataSource.data.length === 0) {
         this.viewModeTo = 'All';
-      } else if (fromPagination) {
+      } else if (fromPagination && !this.isRowSelected) {
         this.viewModeTo = 'All';
       } else {
         this.viewModeTo = 'NOA';
@@ -214,7 +215,7 @@ export class MoveItemsComponent implements OnInit {
       warehouse: this.from_warehouse,
       invMapid: tableName === 'MoveFrom' ? this.invMapID : this.invMapIDToItem,
       viewMode: tableName === 'MoveFrom' ? this.viewMode : this.viewModeTo,
-      filter: this.moveFromFilter,
+      filter: tableName === 'MoveFrom' ?this.moveFromFilter:this.moveToFilter,
       wsid: this.userData.wsid,
     };
     this.adminService
@@ -391,6 +392,9 @@ export class MoveItemsComponent implements OnInit {
       }
     } else if (type === 'MoveFrom') {
       this.dataSource._data._value[i].isSelected =!this.dataSource._data._value[i].isSelected;
+      this.isRowSelected=!this.isRowSelected;
+      
+      
       this.dataSource._data._value.forEach((element, index) => {
         if (row.rn === element.rn) return;
         this.dataSource._data._value[index].isSelected = false;
@@ -613,6 +617,8 @@ export class MoveItemsComponent implements OnInit {
           timeOut: 2000
         });
         this.resetPagination();
+        this.moveToFilter='1 = 1';
+        this.moveFromFilter='1 = 1';
         this.tabIndex=0;
         this.itemNumberSearch.next('');
         this.getMoveItemList('MoveFrom');
@@ -641,13 +647,25 @@ export class MoveItemsComponent implements OnInit {
     this.trigger.openMenu();
   }
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    if (SelectedItem != undefined) {
-      this.moveFromFilter = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
-      this.moveFromFilter = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+    if(this.tableType==='MoveFrom'){
+      if (SelectedItem != undefined) {
+        this.moveFromFilter = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+        this.moveFromFilter = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+        this.resetFromFilters();
+      }
+      this.moveFromFilter = this.moveFromFilter != "" ? this.moveFromFilter : "1 = 1";
+    }else if(this.tableType==='MoveTo'){
+      if (SelectedItem != undefined) {
+        this.moveToFilter = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+        this.moveToFilter = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+        this.resetToFilters();
+      }
+      this.moveToFilter = this.moveToFilter != "" ? this.moveToFilter : "1 = 1";
     }
-    this.moveFromFilter = this.moveFromFilter != "" ? this.moveFromFilter : "1 = 1";
+  
+
     // this.paginator1.pageIndex = 0; 
-   
+    
     this.getMoveItemList(this.tableType);
   }
 
@@ -688,5 +706,13 @@ export class MoveItemsComponent implements OnInit {
     this.endRowTo = 10;
    this.recordsPerPageTo = 10;
     this.recordsFilteredTo = 0;
+  }
+  resetFromFilters(){
+    this.startRow=0;
+    
+  }
+  resetToFilters(){
+    this.startRowTo=0;
+    this.viewModeTo='All';
   }
 }
