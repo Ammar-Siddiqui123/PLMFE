@@ -320,6 +320,7 @@ export class EventLogComponent implements OnInit {
     }
     if (!this.isInputField(target) && event.key === 'd' && this.isAdmin) {
       event.preventDefault();
+      if(this.dialog.openDialogs.length > 0) return;
       this.deleteRange();
     }
     if (!this.isInputField(target) && event.key === 'e') {
