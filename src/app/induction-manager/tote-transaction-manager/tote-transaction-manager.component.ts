@@ -187,7 +187,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   }
 
   async autocompleteSearchColumn() {
-    debugger
+    // debugger
     let searchPayload = {
       batchID:this.batchId
     };
