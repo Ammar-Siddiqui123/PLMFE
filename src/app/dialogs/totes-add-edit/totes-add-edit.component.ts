@@ -46,6 +46,8 @@ export class TotesAddEditComponent implements OnInit {
   cellID="";
   userData:any;
 
+  // emptyField:boolean = false
+
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -205,7 +207,6 @@ export class TotesAddEditComponent implements OnInit {
 
   }
   
-  
   }
 
   selectTote(toteIDs=null,cells=null)
@@ -286,6 +287,8 @@ export class TotesAddEditComponent implements OnInit {
       
       
      }
+
+   
 
   ngOnInit(): void {
     this.ELEMENT_DATA_TOTE.length=0;

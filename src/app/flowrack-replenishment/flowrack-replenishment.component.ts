@@ -17,7 +17,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
   public itemQtyRow: boolean = true;
   public LocationRow: boolean = true;
   public submitBtnDisplay: boolean = true;
-  public itemnumscan: any;
+  public itemnumscan: any = '';
   public itemLocation: string;
   public itemQty: any
   public locationSuggestions: any = [];
@@ -61,9 +61,9 @@ export class FlowrackReplenishmentComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.flowrackHub.getAll('/FlowRackReplenish/wslocation', payload).subscribe((res) => {
-      console.log(res)
-      this.zone = res.data == 'No'||res.data == '' ? 'This workstation is not assigned to a zone' : res.data
-      console.log(res)
+      // console.log(res)
+      this.zone = res.data == 'No'||res.data == ''||res.data == null ? 'This workstation is not assigned to a zone' : res.data
+      // console.log(res)
     })
   }
 
@@ -89,13 +89,14 @@ export class FlowrackReplenishmentComponent implements OnInit {
     this.clearAllFields();
   }
 
-  scanItemChange(e) {
-    if (e === '') {
-      this.clearAllFields()
-    }
-    else{
-      this.clearAllFields()
-    }
+  scanItemChange() {
+    this.submitBtnDisplay = true;
+    this.itemQty = '';
+    this.itemQtyRow = true;
+    this.itemLocation = '';
+    this.LocationRow = true;
+    // this.itemnumscan = ''
+    this.autoFocusField.nativeElement.focus()
   }
 
 
@@ -124,10 +125,10 @@ export class FlowrackReplenishmentComponent implements OnInit {
 
 
   findItemLocation(event) {
-    this.clearQtyField()
+    this.itemnumscan = event.target.value;
+    this.clearQtyField();
     if (event.keyCode == 13) {
       this.LocationRow = false;
-      this.itemnumscan = event.target.value
       let payload = {
         "ItemNumber": this.itemnumscan,
       }
@@ -193,10 +194,12 @@ export class FlowrackReplenishmentComponent implements OnInit {
       }))
 
     }
+    if(event.keyCode == 8){
+      this.itemnumscan = '';
+    }
   }
 
   onLocationSelected(location) {
-    // debugger
     let payload = {
       "itemNumber": this.itemnumscan,
       "Input": this.itemLocation,
@@ -215,7 +218,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
         this.clearLocationField()
         this.LocationRow = true;
         this.autoFocusField.nativeElement.focus()
-        this.toastr.error("Location unavailable.", 'Error!', {
+        this.toastr.error("Location Unavailable.", 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
@@ -231,11 +234,8 @@ export class FlowrackReplenishmentComponent implements OnInit {
    
     });
     dialogRef.afterClosed().subscribe((result) => {
-      // console.log(result)
       this.itemQty = !result ? '' : result;
       this.submitBtnDisplay = !result ? true : false;
-  
-      // console.log(this.itemLocation)
       this.autocompleteTrigger.closePanel()
       setTimeout(() => {
         this.itemQtyFocus.nativeElement.focus();
@@ -250,7 +250,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
     this.itemQtyRow = true;
     this.itemLocation = '';
     this.LocationRow = true;
-    this.itemnumscan = '';
+    this.itemnumscan = ''
     this.autoFocusField.nativeElement.focus()
   }
 
@@ -280,15 +280,11 @@ export class FlowrackReplenishmentComponent implements OnInit {
   }
 
   updateItemQuantity() {
-    // debugger
     if (this.itemQty <= 0) {
-      // console.log('less than zero')
       this.toastr.error("Quantity must be greater than zero.", 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
-      // this.itemQty = ''
-      // this.itemQty.nativeElement.focus()
     }
 
     else if (this.itemQty == '') {

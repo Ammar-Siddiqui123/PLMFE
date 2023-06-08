@@ -21,8 +21,8 @@
             <div class="col-xl-4">
                 <mat-form-field class="custom-form-field  clear-btn-init w-100  mb-3" appearance="outline">
                     <mat-label>Scan Item</mat-label>
-                    <input matInput type="text" [(ngModel)] = 'itemnumscan' (keypress)="findItemLocation($event)" #autoFocusField (ngModelChange)="scanItemChange($event)">
-                    <button matSuffix *ngIf="itemnumscan" class="clear-btn" (click)="clearItemNum()"><mat-icon class="text-20 text-danger">cancel</mat-icon></button>
+                    <input matInput type="text" [(ngModel)]="itemnumscan" (keyup)="findItemLocation($event)" #autoFocusField (ngModelChange)="scanItemChange()">
+                    <button matSuffix *ngIf="itemnumscan != ''" class="clear-btn" (click)="clearItemNum()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                 </mat-form-field>
             </div>
             <!-- {{itemLocation|json}} -->
