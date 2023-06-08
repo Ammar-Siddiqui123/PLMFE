@@ -306,7 +306,7 @@
 
 <div class="d-flex gap-12 mb-3">
     <button *ngIf="isAdmin" mat-stroked-button color="warn" class="bg-white btn-lg button-remove-all-w-stroke" (click)="deleteRange()">Delete Range</button>
-    <button type="submit" mat-flat-button class="form-button-submit btn-lg" color="primary" style="flex:1">Export Range</button>
+    <button type="submit" mat-flat-button class="form-button-submit btn-lg" color="primary" style="flex:1" (click)="exportRange()">Export Range</button>
 </div>
 
 
