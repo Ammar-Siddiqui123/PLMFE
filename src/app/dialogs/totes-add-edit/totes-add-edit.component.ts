@@ -126,6 +126,7 @@ export class TotesAddEditComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         mode: '',
+        action: 'delete',
       }
     })
     dialogRef.afterClosed().subscribe(result => {
