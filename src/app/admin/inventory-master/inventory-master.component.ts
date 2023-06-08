@@ -559,7 +559,8 @@ PrevtabIndex:any=0;
       });
       this.invMasterService.update(this.invMaster.value, '/Admin/UpdateInventoryMaster').subscribe((res: any) => {
         if (res.isExecuted) {
-          this.saveDisabled=true
+          this.saveDisabled=true;
+          this.ifAllowed = false;
           this.getInventory();
           this.toastr.success(labels.alert.update, 'Success!', {
             positionClass: 'toast-bottom-right',
@@ -959,9 +960,12 @@ onbeforeunload(event) {
   }
 }
  
-@HostListener('click')
+@HostListener('document:keyup', ['$event'])
 documentClick(event: MouseEvent) { 
-  this.ifAllowed = true
+  var IsCheck =  this.getChangesCheck();
+  if(IsCheck){
+    this.ifAllowed = true;
+  }
 }
 }
  

@@ -182,8 +182,8 @@ export class LoginComponent {
   }
   sortAppsData() {
     this.applicationData.sort(function (a, b) {
-      var nameA = a.info.name.toLowerCase(),
-        nameB = b.info.name.toLowerCase();
+      var nameA = a.info?.name?.toLowerCase(),
+        nameB = b.info?.name?.toLowerCase();
       if (nameA < nameB)
         //sort string ascending
         return -1;
@@ -216,14 +216,6 @@ export class LoginComponent {
         name: 'Induction Manager',
         updateMenu: 'induction',
         permission: 'Induction Manager',
-      },
-      {
-        appName: 'FlowRackReplenish',
-        route: '#',
-        iconName: 'schema',
-        name: 'FlowRack Replenishment',
-        updateMenu: '',
-        permission: 'FlowRack Replenish',
       },
       {
         appName: 'ImportExport',
@@ -320,7 +312,7 @@ export class LoginComponent {
         this.router.navigate(['/#']);
         break;
       case 'FlowRackReplenish':
-        this.router.navigate(['/#']);
+        this.router.navigate(['/flowrack']);
         break;
         case 'ICSAdmin':
         this.router.navigate(['/admin']);

@@ -56,6 +56,9 @@ statusTab;
          if(element==='createCountBatches' || element==='cycleCounts'){
           element='CycleCount'
          }
+         if(element==='ImToteManager' ){
+          element='ToteManager'
+         }
 
          
          
