@@ -895,7 +895,7 @@ mat-toolbar {
   font-size: 22px;
   // color:#11116999;
   color: rgba($tertiary-900, 0.6);
-  top: 0;
+  top: 13px;
 }
 
 .g-mini-search-box input.mat-input-element {
@@ -906,6 +906,15 @@ mat-toolbar {
 .g-mini-search-box input.mat-input-element::placeholder {
   color: rgba($tertiary-900, 0.6);
   font-weight: 500;
+}
+.g-mini-search-box{
+  .mat-form-field-infix{
+    border-top: 0px;
+    padding: 14px 0 14px 0;
+  }
+  .mat-form-field-suffix{
+    top: 5px;
+  }
 }
 
 

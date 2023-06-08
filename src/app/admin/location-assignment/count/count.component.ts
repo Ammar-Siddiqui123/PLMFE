@@ -34,8 +34,8 @@ export class CountComponent implements OnInit {
 
   public userData: any;
   public totalCount: any;
-  public searchOrder: any;
-  public searchOrder1: any;
+  public searchOrder: string = '';
+  public searchOrder1: string = '';
 
   // displayedColumns: string[] = ['location', 'warehouse', 'zone', 'carousel','row'];
   displayedColumns: string[] = ['orderNumber'  , 'itemCount', 'priority', 'requiredDate','actions'];

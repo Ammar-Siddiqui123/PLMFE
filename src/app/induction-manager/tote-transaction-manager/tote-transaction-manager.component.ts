@@ -121,21 +121,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   }
 
   clearInfo(type,row?) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '600px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'clear-pick-tote-info',
-        action: 'clear',
-        actionMessage:
-          type === 'pickTote'
-            ? 'the info for all pick batches'
-            : 'this batch or tote id',
-      },
-    });
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res === 'Yes') {
+   
         if (type != 'pickTote') {
           const dialogRef = this.dialog.open(BatchDeleteComponent, {
             height: 'auto',
@@ -159,8 +145,6 @@ export class ToteTransactionManagerComponent implements OnInit {
           // Clear tote info
           this.clearToteInfo();
         }
-      }
-    });
   }
 
   // getToteTrans() {

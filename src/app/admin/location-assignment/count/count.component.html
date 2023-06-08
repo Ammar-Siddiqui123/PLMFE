@@ -20,10 +20,8 @@
                 <span class="material-symbols-outlined icon-search">
                   search
                 </span>
-                <input #alertInput type="text" placeholder="Search"
-                  aria-label="Search" matInput
-                  maxlength="50" [(ngModel)]="searchOrder" (ngModelChange)="applyFilter($event)" #autoFocusField>
-
+                <input #alertInput type="text" placeholder="Search" aria-label="Search" matInput maxlength="50" [(ngModel)]="searchOrder" (ngModelChange)="applyFilter($event)" #autoFocusField>
+                <button *ngIf="searchOrder != ''" matSuffix class="clear-btn" (click)="searchOrder = ''; this.leftTable.filter = searchOrder;"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
               </mat-form-field>
               
             </div>
@@ -40,8 +38,7 @@
         </div>
           
         <div class="card br-14 table-responsive borderless">
-          <ng-scrollbar style="height:340px" track="all">
-
+          <ng-scrollbar style="height:550px" track="all">
           <table mat-table [dataSource]="leftTable" class="w-100" matSort #matSort="matSort" (matSortChange)="announceSortChange($event)">
 
             <!--- Note that these columns can be defined in any order.
@@ -94,7 +91,7 @@
           </table>
         </ng-scrollbar>
       </div>
-          <mat-paginator class="d-flex justify-content-start" [pageSizeOptions]="[5, 10, 20]" [pageSize]="5"
+          <mat-paginator class="d-flex justify-content-start" [pageSizeOptions]="[10, 20]" [pageSize]="10"
             aria-label="Select page of periodic elements" #paginator>
           </mat-paginator>
         
@@ -125,10 +122,8 @@
                 <span class="material-symbols-outlined icon-search">
                   search
                 </span>
-                <input #alertInput type="text" placeholder="Search"
-                  aria-label="Search" matInput
-                  maxlength="50"  [(ngModel)]="searchOrder1" (ngModelChange)="applyFilter1($event)">
-
+                <input #alertInput type="text" placeholder="Search" aria-label="Search" matInput maxlength="50"  [(ngModel)]="searchOrder1" (ngModelChange)="applyFilter1($event)">
+                <button *ngIf="searchOrder1 != ''" matSuffix class="clear-btn" (click)="searchOrder1 = ''; this.rightTable.filter = searchOrder1;"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
               </mat-form-field>
             </div>
           </div>
@@ -144,7 +139,7 @@
         </div>
 
         <div class="card br-14 table-responsive borderless">
-          <ng-scrollbar style="height:340px" track="all">
+          <ng-scrollbar style="height:550px" track="all">
           <table mat-table [dataSource]="rightTable" class="w-100" matSort #matSort="matSort" (matSortChange)="announceSortChange1($event)"  #matSort1="matSort">
 
             <!--- Note that these columns can be defined in any order.
@@ -199,7 +194,7 @@
           </ng-scrollbar>
         </div>
          
-        <mat-paginator class="d-flex justify-content-start" [pageSizeOptions]="[5, 10, 20]" [pageSize]="5"
+        <mat-paginator class="d-flex justify-content-start" [pageSizeOptions]="[10, 20]" [pageSize]="10"
         aria-label="Select page of periodic elements" #paginator1>
       </mat-paginator>
 
