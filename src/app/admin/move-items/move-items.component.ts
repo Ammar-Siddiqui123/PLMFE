@@ -124,7 +124,7 @@ export class MoveItemsComponent implements OnInit {
   fillQty = 0;
   fillQtytoShow=0;
   maxMoveQty = 0;
-  isMoveQty = false;
+  isMoveQty = true;
   dedicateMoveTo = false;
   undedicateMoveFrom = false;
   isDedicated = false;
@@ -393,7 +393,12 @@ export class MoveItemsComponent implements OnInit {
     } else if (type === 'MoveFrom') {
       this.dataSource._data._value[i].isSelected =!this.dataSource._data._value[i].isSelected;
       this.isRowSelected=!this.isRowSelected;
-      
+       if(!this.isRowSelected){
+        this.moveToDatasource._data._value.forEach((element, index) => {
+          element.isSelected = false;
+        });
+        this.clearFields('MoveTo')
+       } 
       
       this.dataSource._data._value.forEach((element, index) => {
         if (row.rn === element.rn) return;
@@ -430,6 +435,7 @@ export class MoveItemsComponent implements OnInit {
         this.fillQty = 0;
       }
       this.maxMoveQty = row.itemQuantity - row.quantityAllocatedPick;
+      this.isMoveQty = false;
       if (this.maxMoveQty <= 0) {
         this.openAlertDialog('MaxAlloc');
         this.dataSource._data._value.forEach((element, index) => {
