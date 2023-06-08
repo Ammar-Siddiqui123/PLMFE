@@ -375,7 +375,7 @@ export class MoveItemsComponent implements OnInit {
       this.to_itemQuantity = row.itemQuantity;
       this.to_zone=row.zone;
       this.invMapmoveToID=row.invMapID;
-
+      this.isDedicated = row.dedicated === true ? true : false;
       this.fillQty =
       row.itemQuantity - row.maximumQuantity - row.quantityAllocatedPutAway;
       this.fillQtytoShow=this.fillQty
@@ -400,7 +400,14 @@ export class MoveItemsComponent implements OnInit {
         this.dataSource._data._value[index].isSelected = false;
       });
 
-      if( !this.dataSource._data._value[i].isSelected) return
+      if( !this.dataSource._data._value[i].isSelected) {
+        if (!row.isSelected) {
+          this.clearFields('MoveFrom');
+        } else {
+          this.isMoveQty = false;
+        }
+        return
+      }
       this.invMapIDToItem = row.invMapID;
       this.invMapmoveFromID=row.invMapID;
       this.from_warehouse = row.warehouse;
@@ -435,11 +442,7 @@ export class MoveItemsComponent implements OnInit {
       } else {
         this.from_itemQuantity = this.maxMoveQty;
       }
-      if (!row.isSelected) {
-        this.clearFields('MoveFrom');
-      } else {
-        this.isMoveQty = false;
-      }
+ 
       this.getMoveItemList('MoveTo');
     }
   }
