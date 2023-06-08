@@ -99,6 +99,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.autocompleteSearchColumn();
     this.batchPickId
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
@@ -186,6 +187,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   }
 
   async autocompleteSearchColumn() {
+    // debugger
     let searchPayload = {
       batchID:this.batchId
     };
@@ -303,5 +305,10 @@ export class ToteTransactionManagerComponent implements OnInit {
 
   ngAfterViewInit() {
     this.searchBoxField.nativeElement.focus();
+  }
+
+  test(){
+    this.batchPickId.next('');
+    this.batchId='';
   }
 }
