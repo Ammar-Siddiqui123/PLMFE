@@ -959,9 +959,12 @@ onbeforeunload(event) {
   }
 }
  
-@HostListener('click')
+@HostListener('document:keyup', ['$event'])
 documentClick(event: MouseEvent) { 
-  this.ifAllowed = true
+  var IsCheck =  this.getChangesCheck();
+  if(IsCheck){
+    this.ifAllowed = true;
+  }
 }
 }
  
