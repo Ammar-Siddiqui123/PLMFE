@@ -138,6 +138,13 @@ import { FilterItemNumbersComponent } from './dialogs/filter-item-numbers/filter
 import { SrCurrentOrderComponent } from './system-replenishment/sr-current-order/sr-current-order.component';
 import { SortPipe } from '../init/sort.pipe';
 import { LaLocationAssignmentQuantitiesComponent } from './dialogs/la-location-assignment-quantities/la-location-assignment-quantities.component';
+import { MoveItemsComponent } from './move-items/move-items.component';
+import { AdminPreferencesComponent } from './admin-preferences/admin-preferences.component';
+import { WorkstationPreferencesComponent } from './admin-preferences/workstation-preferences/workstation-preferences.component';
+import { SystemPreferencesComponent } from './admin-preferences/system-preferences/system-preferences.component';
+import { SpGeneralSetupComponent } from './admin-preferences/system-preferences/sp-general-setup/sp-general-setup.component';
+import { SpLocationZonesComponent } from './admin-preferences/system-preferences/sp-location-zones/sp-location-zones.component';
+import { SpFieldNameMappingComponent } from './admin-preferences/system-preferences/sp-field-name-mapping/sp-field-name-mapping.component';
 
 
 
@@ -266,6 +273,13 @@ import { LaLocationAssignmentQuantitiesComponent } from './dialogs/la-location-a
     SrCurrentOrderComponent,
     SortPipe,
     LaLocationAssignmentQuantitiesComponent,
+    MoveItemsComponent,
+    AdminPreferencesComponent,
+    WorkstationPreferencesComponent,
+    SystemPreferencesComponent,
+    SpGeneralSetupComponent,
+    SpLocationZonesComponent,
+    SpFieldNameMappingComponent,
 
   ],
   imports: [
