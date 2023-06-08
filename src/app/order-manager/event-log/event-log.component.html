@@ -176,7 +176,7 @@
 
 
         <div class="card br-14 table-responsive borderless">
-            <ng-scrollbar class="mat-table-scrollbar" style="height:790px" track="all">
+            <ng-scrollbar class="mat-table-scrollbar" style="height:545px" track="all">
                 <table class="w-100 table-borderless" mat-table matSort [dataSource]="tableData" (matSortChange)="announceSortChange($event)">
 
                     <ng-container matColumnDef="dateStamp">
@@ -306,7 +306,7 @@
 
 <div class="d-flex gap-12 mb-3">
     <button *ngIf="isAdmin" mat-stroked-button color="warn" class="bg-white btn-lg button-remove-all-w-stroke" (click)="deleteRange()">Delete Range</button>
-    <button type="submit" mat-flat-button class="form-button-submit btn-lg" color="primary" style="flex:1">Export Range</button>
+    <button type="submit" mat-flat-button class="form-button-submit btn-lg" color="primary" style="flex:1" (click)="exportRange()">Export Range</button>
 </div>
 
 

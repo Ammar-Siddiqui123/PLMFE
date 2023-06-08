@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { OmEventLogEntryDetailComponent } from 'src/app/dialogs/om-event-log-entry-detail/om-event-log-entry-detail.component';
@@ -197,6 +197,7 @@ export class EventLogComponent implements OnInit {
   }
 
   deleteRange() {
+    debugger
     if(this.startDate > this.endDate){
       this.toastr.error('Start date must be before end date!', 'Error!', {
         positionClass: 'toast-bottom-right',
@@ -303,6 +304,36 @@ export class EventLogComponent implements OnInit {
     this.sortOrder = e.direction;
     this.resetPagination();
     this.eventLogTable(true);
+  }
+
+  exportRange(){
+
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    debugger
+    const target = event.target as HTMLElement;
+    if (!this.isInputField(target) && event.key === 'c') {
+      event.preventDefault();
+      this.clearFilters();
+    }
+    if (!this.isInputField(target) && event.key === 'd' && this.isAdmin) {
+      event.preventDefault();
+      this.deleteRange();
+    }
+    if (!this.isInputField(target) && event.key === 'e') {
+      event.preventDefault();
+      this.exportRange();
+    }
+    if (!this.isInputField(target) && event.key === 'r') {
+      event.preventDefault();
+      this.refresh();
+    }
+  }
+
+  isInputField(element: HTMLElement): boolean {
+    return element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.isContentEditable;
   }
 }
 
