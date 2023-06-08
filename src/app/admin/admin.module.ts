@@ -145,6 +145,7 @@ import { SystemPreferencesComponent } from './admin-preferences/system-preferenc
 import { SpGeneralSetupComponent } from './admin-preferences/system-preferences/sp-general-setup/sp-general-setup.component';
 import { SpLocationZonesComponent } from './admin-preferences/system-preferences/sp-location-zones/sp-location-zones.component';
 import { SpFieldNameMappingComponent } from './admin-preferences/system-preferences/sp-field-name-mapping/sp-field-name-mapping.component';
+import { SpBulkHandheldSettingComponent } from './admin-preferences/system-preferences/sp-bulk-handheld-setting/sp-bulk-handheld-setting.component';
 
 
 
@@ -280,6 +281,7 @@ import { SpFieldNameMappingComponent } from './admin-preferences/system-preferen
     SpGeneralSetupComponent,
     SpLocationZonesComponent,
     SpFieldNameMappingComponent,
+    SpBulkHandheldSettingComponent,
 
   ],
   imports: [
