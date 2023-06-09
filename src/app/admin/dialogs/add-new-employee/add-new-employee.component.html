@@ -74,18 +74,18 @@
       <mat-label>Password</mat-label>
       <input matInput [type]="toggle_password ? 'password' : 'text'" #focusFeild formControlName="password" 
       (ngModelChange)="ChangePassword($event)"
-      (focusout)="isEmptyPass()" (keydown.space)="$event.preventDefault()" maxlength="8">
+      (focusout)="isEmptyPass()" (keydown.space)="$event.preventDefault()" [maxlength]="env === 'DB' ? 8 : 16">
       <button *ngIf="!isDisabledPassword && (!IsEdit)"
        type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
         <mat-icon>{{toggle_password ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
-    <div *ngIf="empForm.get('password')?.invalid && (empForm.get('password')?.dirty || empForm.get('password')?.touched)"
+    <!-- <div *ngIf="empForm.get('password')?.invalid && (empForm.get('password')?.dirty || empForm.get('password')?.touched)"
     style="color: red;
     font-size: 13px;
     margin: 0;
     padding: 0;"
-    >Password must be maximum 8 characters long.</div> 
+    >Password must be maximum {{env === 'DB'?'16':'8'}} characters long.</div>  -->
     <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
 
     <mat-form-field class="mb-1 w-100" appearance="outline" *ngIf="isEmail">

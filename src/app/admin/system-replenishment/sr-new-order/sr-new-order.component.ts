@@ -45,28 +45,26 @@ export class SrNewOrderComponent implements OnInit {
     username: "",
     wsid: ""
   };
-
   tableDataTotalCount: number = 0;
   filterItemNumbersText: string = "";
-
   searchColumnOptions: any = [
-    { value: 'Item Number', viewValue: 'Item Number', sortValue: '0', key: 'itemNumber' },
-    { value: 'Description', viewValue: 'Description', sortValue: '1', key: 'description' },
-    { value: 'Warehouse', viewValue: 'Warehouse', sortValue: '2', key: 'warehouse' },
-    { value: 'Stock Qty', viewValue: 'Stock Qty', sortValue: '3', key: 'stockQuantity' },
-    { value: 'Replenishment Point', viewValue: 'Replenishment Point', sortValue: '4', key: 'replenishmentPoint' },
-    { value: 'Replenishment Level', viewValue: 'Replenishment Level', sortValue: '5', key: 'replenishmentLevel' },
-    { value: 'Available Qty', viewValue: 'Available Qty', sortValue: '6', key: 'availableQuantity' },
-    { value: 'Replenishment Qty', viewValue: 'Replenishment Qty', sortValue: '7', key: 'replenishmentQuantity' },
-    { value: 'Case Qty', viewValue: 'Case Qty', sortValue: '8', key: 'caseQuantity' },
-    { value: 'Transaction Qty', viewValue: 'Transaction Qty', sortValue: '9', key: 'transactionQuantity' },
-    { value: 'Replenish', viewValue: 'Replenish', sortValue: '10', key: 'replenish' },
-    { value: 'Replenish Exists', viewValue: 'Replenish Exists', sortValue: '11', key: 'replenishExists' },
     { value: 'Alloc Pick', viewValue: 'Alloc Pick', sortValue: '12', key: 'allocPick' },
     { value: 'Alloc Put', viewValue: 'Alloc Put', sortValue: '13', key: 'allocPut' },
+    { value: 'Available Qty', viewValue: 'Available Qty', sortValue: '6', key: 'availableQuantity' },
+    { value: 'Case Qty', viewValue: 'Case Qty', sortValue: '8', key: 'caseQuantity' },
+    { value: 'Description', viewValue: 'Description', sortValue: '1', key: 'description' },
+    { value: 'Item Number', viewValue: 'Item Number', sortValue: '0', key: 'itemNumber' },
+    { value: 'Replenish', viewValue: 'Replenish', sortValue: '10', key: 'replenish' },
+    { value: 'Replenish Exists', viewValue: 'Replenish Exists', sortValue: '11', key: 'replenishExists' },
+    { value: 'Replenishment Level', viewValue: 'Replenishment Level', sortValue: '5', key: 'replenishmentLevel' },
+    { value: 'Replenishment Point', viewValue: 'Replenishment Point', sortValue: '4', key: 'replenishmentPoint' },
+    { value: 'Replenishment Qty', viewValue: 'Replenishment Qty', sortValue: '7', key: 'replenishmentQuantity' },
+    { value: 'Stock Qty', viewValue: 'Stock Qty', sortValue: '3', key: 'stockQuantity' },
+    { value: 'Transaction Qty', viewValue: 'Transaction Qty', sortValue: '9', key: 'transactionQuantity' },
+    { value: 'Warehouse', viewValue: 'Warehouse', sortValue: '2', key: 'warehouse' },
   ];
-
   searchAutocompleteList: any;
+  newOrderListCreated:boolean = false;
 
   constructor(
     private dialog: MatDialog,
@@ -189,70 +187,75 @@ export class SrNewOrderComponent implements OnInit {
 
   newReplenishmentOrdersSubscribe: any;
   newReplenishmentOrders(loader:boolean =false) {
-    this.tablePayloadObj.searchString = this.tablePayloadObj.searchString.toString();
-    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentNewTable',loader).subscribe((res: any) => {
-      if (res.isExecuted && res.data) {
-        this.tableData = res.data.sysTable;
-        this.numberSelectedRep = res.data.selectedOrders;
-        this.tableDataTotalCount = res.data.recordsFiltered;
-        this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
-        // this.searchAutocompleteList = [];
-        // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
-        // this.changeSearchOptions();
-        // this.tablePayloadObj.filter = "1=1";
-      } else {
-        // console.log(res.responseMessage);
-        // this.toastr.error(res.responseMessage, 'Error!', {
-        //   positionClass: 'toast-bottom-right',
-        //   timeOut: 2000
-        // });
-        // this.tablePayloadObj.filter = "1=1";
-      }
-    });
+    if(this.newOrderListCreated){
+      this.tablePayloadObj.searchString = this.tablePayloadObj.searchString.toString();
+      this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentNewTable',loader).subscribe((res: any) => {
+        if (res.isExecuted && res.data) {
+          this.tableData = res.data.sysTable;
+          this.numberSelectedRep = res.data.selectedOrders;
+          this.tableDataTotalCount = res.data.recordsFiltered;
+          this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
+          // this.searchAutocompleteList = [];
+          // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
+          // this.changeSearchOptions();
+          // this.tablePayloadObj.filter = "1=1";
+        } else {
+          // console.log(res.responseMessage);
+          // this.toastr.error(res.responseMessage, 'Error!', {
+          //   positionClass: 'toast-bottom-right',
+          //   timeOut: 2000
+          // });
+          // this.tablePayloadObj.filter = "1=1";
+        }
+      });
+    }
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   resetPagination() {
     this.tablePayloadObj.start = 0;
-    this.tablePayloadObj.length = 10;
+    // this.tablePayloadObj.length = 10;
     this.paginator.pageIndex = 0;
   }
 
   onChangeKanban(ob: MatCheckboxChange) {
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        message: 'Click OK to create a new replenishment list.',
-      },
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result == 'Yes') {
-        this.resetPagination();
-        this.createNewReplenishments(ob.checked);
-      }
-      else{
-        ob.checked = !ob.checked;
-        this.kanban = ob.checked;
-      }
-    });
+    this.resetPagination();
+    this.createNewReplenishments(ob.checked);
+    // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    //   height: 'auto',
+    //   width: '560px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     message: 'Click OK to create a new replenishment list.',
+    //   },
+    // });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   if (result == 'Yes') {
+    //     this.resetPagination();
+    //     this.createNewReplenishments(ob.checked);
+    //   }
+    //   else{
+    //     ob.checked = !ob.checked;
+    //     this.kanban = ob.checked;
+    //   }
+    // });
   }
 
   createNewOrdersList() {
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        message: 'Click OK to create a new replenishment list.',
-      },
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result == 'Yes') {
-        this.createNewReplenishments(this.kanban);
-      }
-    });
+    this.createNewReplenishments(this.kanban);
+    // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    //   height: 'auto',
+    //   width: '560px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     message: 'Click OK to create a new replenishment list.',
+    //   },
+    // });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   if (result == 'Yes') {
+    //     this.createNewReplenishments(this.kanban);
+    //   }
+    // });
   }
 
   createNewReplenishments(kanban: boolean) {
@@ -263,6 +266,7 @@ export class SrNewOrderComponent implements OnInit {
     }
     this.systemReplenishmentService.create(paylaod, '/Admin/ReplenishmentInsert').subscribe((res: any) => {
       if (res.isExecuted && res.data) {
+        this.newOrderListCreated = true;
         // this.toastr.success(labels.alert.success, 'Success!', {
         //   positionClass: 'toast-bottom-right',
         //   timeOut: 2000
@@ -316,7 +320,9 @@ export class SrNewOrderComponent implements OnInit {
 
   searchChange(event: any) {
     this.tablePayloadObj.searchColumn = event;
-    this.getSearchOptions()
+    this.getSearchOptions();
+    this.resetPagination();
+    this.newReplenishmentOrders(true);
   }
 
   // changeSearchOptions() {
@@ -357,35 +363,37 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   selectAll() {
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        message: `Click OK to mark ${(this.tablePayloadObj.reOrder ? 'Re-Order' : 'all')} entries.`,
-      },
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result == 'Yes') {
-        this.ReplenishmentsIncludeAllUpdate(true);
-      }
-    });
+    this.ReplenishmentsIncludeAllUpdate(true);
+    // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    //   height: 'auto',
+    //   width: '560px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     message: `Click OK to mark ${(this.tablePayloadObj.reOrder ? 'Re-Order' : 'all')} entries.`,
+    //   },
+    // });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   if (result == 'Yes') {
+    //     this.ReplenishmentsIncludeAllUpdate(true);
+    //   }
+    // });
   }
 
   unSelectAll() {
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        message: `Click OK to unmark ${((this.tablePayloadObj.reOrder == '' || this.tablePayloadObj.reOrder == 'all') ? 'all' : 'Re-Order')} entries.`,
-      },
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result == 'Yes') {
-        this.ReplenishmentsIncludeAllUpdate(false);
-      }
-    });
+    this.ReplenishmentsIncludeAllUpdate(false);
+    // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    //   height: 'auto',
+    //   width: '560px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     message: `Click OK to unmark ${((this.tablePayloadObj.reOrder == '' || this.tablePayloadObj.reOrder == 'all') ? 'all' : 'Re-Order')} entries.`,
+    //   },
+    // });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   if (result == 'Yes') {
+    //     this.ReplenishmentsIncludeAllUpdate(false);
+    //   }
+    // });
   }
 
   viewAllItems() {

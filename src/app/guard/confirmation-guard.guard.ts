@@ -13,20 +13,20 @@ export class ConfirmationGuard implements CanDeactivate<any> {
     private router: Router
     // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
   ) { }
-  async  canDeactivate(component: any):Promise<boolean> { 
+  async  canDeactivate(component: any,route:ActivatedRouteSnapshot):Promise<boolean> { 
     if(component.ifAllowed){ 
-   return     this.OpenConfirmationDialog();
+   return     this.OpenConfirmationDialog(route.data['title']);
     } 
     return true;
   }
-  async OpenConfirmationDialog(): Promise<boolean> {
+  async OpenConfirmationDialog(title:string): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
         width: '786px',
         data: {
           message: 'Changes you made may not be saved.',
-          heading: 'Inventory Master'
+          heading: title
         },
         autoFocus: '__non_existing_element__',
       });

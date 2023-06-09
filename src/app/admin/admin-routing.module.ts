@@ -15,9 +15,17 @@ import { ManualTransactionsComponent } from './manual-transactions/manual-transa
 import { SystemReplenishmentComponent } from './system-replenishment/system-replenishment.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { ConfirmationGuard } from '../guard/confirmation-guard.guard';
+import { MoveItemsComponent } from './move-items/move-items.component';
+import { AdminPreferencesComponent } from './admin-preferences/admin-preferences.component';
+import { EventLogComponent } from '../order-manager/event-log/event-log.component';
 
 const routes: Routes = [
   { path: '', component: AdminComponent },
+  {
+    path: 'EventLog',
+    component: EventLogComponent,
+    canActivate: [AuthGuardGuard],
+  },
   {
     path: 'employees',
     component: EmployeesComponent,
@@ -37,7 +45,8 @@ const routes: Routes = [
     path: 'inventoryMaster',
     component: InventoryMasterComponent,
     canActivate: [AuthGuardGuard],
-    canDeactivate: [ConfirmationGuard]
+    canDeactivate: [ConfirmationGuard],
+    data: {title: 'Inventory Master'}
   },
   {
     path: 'batchManager',
@@ -70,9 +79,19 @@ const routes: Routes = [
     canActivate: [AuthGuardGuard],
   },
   {
+    path: 'moveItems',
+    component: MoveItemsComponent,
+    // canActivate: [AuthGuardGuard],
+  },
+  {
     path: 'systemReplenishment',
     component: SystemReplenishmentComponent,
     canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'adminPreferences',
+    component: AdminPreferencesComponent,
+    // canActivate: [AuthGuardGuard],
   },
   
 ];
