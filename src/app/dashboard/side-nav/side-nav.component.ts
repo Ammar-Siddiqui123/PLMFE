@@ -138,7 +138,7 @@ export class SideNavComponent implements OnInit {
         this.isChildMenu = false;
       }
     });
-    if(this.router.url == '/flowrack') this.dynamicMenu = this.menus
+    // if(this.router.url == '/FlowrackReplenishment') this.dynamicMenu = this.menus
     this.loadMenus({route: this.router.url});
  
     this.sharedService.updateAdminMenuObserver.subscribe(adminMenu => {
@@ -219,12 +219,12 @@ export class SideNavComponent implements OnInit {
     //   })
 
      
-    
-     this.sharedService.menuData$.subscribe(data => { 
+    this.sharedService.menuData$.subscribe(data => { 
+      //  debugger
        if(this.menuData.length===0){
         this.menuData = data;
         this.menuData.filter((item,i)=>{
-debugger
+ 
           if(this.dynamicMenu.find(x=>x.title ==  item.displayname)){   
            
    //updating child menus with display names
@@ -299,7 +299,11 @@ debugger
     }
 
     if(menu.route!='')
-    {
+    { 
+        // if(menu.route.includes('/FlowrackReplenishment')){
+        //   this.adminMenus[0].route = '/FlowrackReplenishment';
+        //   this.dynamicMenu = this.menus;
+        // }
       if (menu.route.includes('/admin')) {
         if (menu.route.includes('/admin/')) {
           this.adminMenus[0].route = '/admin';
@@ -322,7 +326,7 @@ debugger
         this.isChildMenu = true;
         return;
       }
-      if (['/dashboard','/flowrack'].indexOf(menu.route) > -1) {
+      if (['/dashboard','/FlowrackReplenishment'].indexOf(menu.route) > -1) {
         this.isParentMenu = true;
         this.isChildMenu = false;
       }
@@ -380,7 +384,7 @@ debugger
       return;
     }
 
-    if (['/dashboard','/flowrack'].indexOf(menu.route) > -1) {
+    if (['/dashboard','/FlowrackReplenishment'].indexOf(menu.route) > -1) {
       this.isParentMenu = true;
       this.isChildMenu = false;
     }
