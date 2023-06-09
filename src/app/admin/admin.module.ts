@@ -145,6 +145,8 @@ import { SystemPreferencesComponent } from './admin-preferences/system-preferenc
 import { SpGeneralSetupComponent } from './admin-preferences/system-preferences/sp-general-setup/sp-general-setup.component';
 import { SpLocationZonesComponent } from './admin-preferences/system-preferences/sp-location-zones/sp-location-zones.component';
 import { SpFieldNameMappingComponent } from './admin-preferences/system-preferences/sp-field-name-mapping/sp-field-name-mapping.component';
+import { SpDevicePreferenceComponent } from './admin-preferences/system-preferences/sp-device-preference/sp-device-preference.component';
+import { AddNewDeviceComponent } from './dialogs/add-new-device/add-new-device.component';
 import { SpBulkHandheldSettingComponent } from './admin-preferences/system-preferences/sp-bulk-handheld-setting/sp-bulk-handheld-setting.component';
 
 
@@ -281,6 +283,8 @@ import { SpBulkHandheldSettingComponent } from './admin-preferences/system-prefe
     SpGeneralSetupComponent,
     SpLocationZonesComponent,
     SpFieldNameMappingComponent,
+    SpDevicePreferenceComponent,
+    AddNewDeviceComponent,
     SpBulkHandheldSettingComponent,
 
   ],
