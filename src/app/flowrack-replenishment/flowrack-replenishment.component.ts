@@ -51,8 +51,9 @@ export class FlowrackReplenishmentComponent implements OnInit {
 
 
   values(event) {
-   
+  //  debugger
     this.itemLocation = this.autocompleteTrigger.activeOption?.value.location;
+    this.itemQty = this.autocompleteTrigger.activeOption?.value.itemQuantity;
  
   }
 
@@ -116,9 +117,12 @@ export class FlowrackReplenishmentComponent implements OnInit {
   }
 
   locationchangeSelect(event: MatAutocompleteSelectedEvent): void {
+    // debugger
     this.itemLocation = '';
     setTimeout(() => { 
       this.itemLocation = event.option.value.location; 
+      this.itemQty = Number(event.option.value.itemQuantity)
+      // console.log(event.option.value.itemQuantity)
       this.onLocationSelected(this.itemLocation)
     }, 1);
   }
@@ -206,10 +210,9 @@ export class FlowrackReplenishmentComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.flowrackHub.getAll('/FlowRackReplenish/verifyitemlocation', payload).subscribe((res => {
-      console.log(res)
+      // console.log(res)
       if (res.data) {
         this.itemQtyRow = false;
-        this.itemQty = '';
         this.calculator = false
         this.openCal()
       }
@@ -231,6 +234,9 @@ export class FlowrackReplenishmentComponent implements OnInit {
       width: '480px',
       minWidth: '480px',
       autoFocus: '__non_existing_element__',
+      data:{
+        itemQuantity: this.itemQty
+      }
    
     });
     dialogRef.afterClosed().subscribe((result) => {

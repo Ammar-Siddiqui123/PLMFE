@@ -53,7 +53,7 @@
                 <div class="d-flex gap-12 align-items-center">
                 <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                     <mat-label>Enter Quantity</mat-label>
-                    <input matInput type="text" [(ngModel)] = 'itemQty' [disabled]="itemQtyRow" (ngModelChange)="updateQty(itemQty)" #itemQtyFocus>
+                    <input matInput type="number" [(ngModel)] = 'itemQty' [disabled]="itemQtyRow" (ngModelChange)="updateQty(itemQty)" #itemQtyFocus>
                 </mat-form-field>
                 <button [disabled]="calculator" mat-mini-fab color="Default" class="button-default-i icon-button-8br  mb-3" (click)="openCal()">
               <mat-icon class="material-symbols-outlined">calculate</mat-icon>
