@@ -146,6 +146,8 @@ import { SpGeneralSetupComponent } from './admin-preferences/system-preferences/
 import { SpLocationZonesComponent } from './admin-preferences/system-preferences/sp-location-zones/sp-location-zones.component';
 import { SpFieldNameMappingComponent } from './admin-preferences/system-preferences/sp-field-name-mapping/sp-field-name-mapping.component';
 import { SpBulkHandheldSettingComponent } from './admin-preferences/system-preferences/sp-bulk-handheld-setting/sp-bulk-handheld-setting.component';
+import { SpScanVerificationSetupComponent } from './admin-preferences/system-preferences/sp-scan-verification-setup/sp-scan-verification-setup.component';
+import { ScanVerificationDefaultsComponent } from './dialogs/scan-verification-defaults/scan-verification-defaults.component';
 
 
 
@@ -282,6 +284,8 @@ import { SpBulkHandheldSettingComponent } from './admin-preferences/system-prefe
     SpLocationZonesComponent,
     SpFieldNameMappingComponent,
     SpBulkHandheldSettingComponent,
+    SpScanVerificationSetupComponent,
+    ScanVerificationDefaultsComponent,
 
   ],
   imports: [

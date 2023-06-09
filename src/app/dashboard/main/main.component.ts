@@ -57,8 +57,7 @@ private subscription: Subscription = new Subscription();
         (res: any) => {
           if (res && res.data) {
             this.convertToObj(res.data);
-            localStorage.setItem('availableApps',JSON.stringify(this.applicationData))
-            debugger
+            localStorage.setItem('availableApps',JSON.stringify(this.applicationData)) 
             this.sharedService.setMenuData(this.applicationData)
           }
         },
@@ -164,7 +163,7 @@ private subscription: Subscription = new Subscription();
       },
       {
         appName: 'FlowRackReplenish',
-        route: '/flowrack',
+        route: '/FlowrackReplenishment',
         iconName: 'schema',
         name: 'FlowRack Replenishment',
         updateMenu: '',
