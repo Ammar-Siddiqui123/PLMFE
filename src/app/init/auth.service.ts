@@ -109,4 +109,21 @@ export class AuthService {
   public ServiceStatusSTE(): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/ServiceStatusSTE`,{});
   }
+  public CompanyInfo(body:any): Observable<any> { 
+    return this.http.post<any>(`${environment.apiUrl}/Admin/CompanyInfo`,body);
+  }
+  public OSFieldFilterNames(): Observable<any> { 
+    return this.http.get<any>(`${environment.apiUrl}/Admin/OSFieldFilterNames`);
+  }
+  
+  public GeneralPreferenceSave(body:any): Observable<any> { 
+    return this.http.post<any>(`${environment.apiUrl}/Admin/GeneralPreferenceSave`,body);
+  }
+  public ColumnAlias(): Observable<any> { 
+    return this.http.get<any>(`${environment.apiUrl}/Admin/ColumnAlias`);
+  }
+  public FieldNameSave(body:any): Observable<any> { 
+    return this.http.post<any>(`${environment.apiUrl}/Admin/FieldNameSave`,body);
+  }
+  
 }
