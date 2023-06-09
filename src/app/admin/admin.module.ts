@@ -148,6 +148,7 @@ import { SpFieldNameMappingComponent } from './admin-preferences/system-preferen
 import { SpDevicePreferenceComponent } from './admin-preferences/system-preferences/sp-device-preference/sp-device-preference.component';
 import { AddNewDeviceComponent } from './dialogs/add-new-device/add-new-device.component';
 import { SpBulkHandheldSettingComponent } from './admin-preferences/system-preferences/sp-bulk-handheld-setting/sp-bulk-handheld-setting.component';
+import { SpLightTreeSetupComponent } from './admin-preferences/system-preferences/sp-light-tree-setup/sp-light-tree-setup.component';
 
 
 
@@ -286,6 +287,7 @@ import { SpBulkHandheldSettingComponent } from './admin-preferences/system-prefe
     SpDevicePreferenceComponent,
     AddNewDeviceComponent,
     SpBulkHandheldSettingComponent,
+    SpLightTreeSetupComponent,
 
   ],
   imports: [
