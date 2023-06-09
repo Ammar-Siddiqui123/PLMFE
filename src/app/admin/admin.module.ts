@@ -148,6 +148,8 @@ import { SpFieldNameMappingComponent } from './admin-preferences/system-preferen
 import { SpDevicePreferenceComponent } from './admin-preferences/system-preferences/sp-device-preference/sp-device-preference.component';
 import { AddNewDeviceComponent } from './dialogs/add-new-device/add-new-device.component';
 import { SpBulkHandheldSettingComponent } from './admin-preferences/system-preferences/sp-bulk-handheld-setting/sp-bulk-handheld-setting.component';
+import { SpScanVerificationSetupComponent } from './admin-preferences/system-preferences/sp-scan-verification-setup/sp-scan-verification-setup.component';
+import { ScanVerificationDefaultsComponent } from './dialogs/scan-verification-defaults/scan-verification-defaults.component';
 
 
 
@@ -286,6 +288,8 @@ import { SpBulkHandheldSettingComponent } from './admin-preferences/system-prefe
     SpDevicePreferenceComponent,
     AddNewDeviceComponent,
     SpBulkHandheldSettingComponent,
+    SpScanVerificationSetupComponent,
+    ScanVerificationDefaultsComponent,
 
   ],
   imports: [

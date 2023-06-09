@@ -202,6 +202,14 @@ export class LoginComponent {
         permission: 'Admin Menu',
       },
       {
+        appName: 'FlowRackReplenish',
+        route: '/FlowrackReplenishment',
+        iconName: 'schema',
+        name: 'FlowRack Replenishment',
+        updateMenu: '',
+        permission: 'FlowRack Replenish',
+      },
+      {
         appName: 'Consolidation Manager',
         route: '#',
         iconName: 'insert_chart',
@@ -312,7 +320,7 @@ export class LoginComponent {
         this.router.navigate(['/#']);
         break;
       case 'FlowRackReplenish':
-        this.router.navigate(['/flowrack']);
+        this.router.navigate(['/FlowrackReplenishment']);
         break;
         case 'ICSAdmin':
         this.router.navigate(['/admin']);
