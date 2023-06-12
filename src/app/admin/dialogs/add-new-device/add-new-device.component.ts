@@ -1,7 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
+import { AdminService } from '../../admin.service';
+import { AuthService } from 'src/app/init/auth.service';
 
 @Component({
   selector: 'app-add-new-device',
@@ -11,22 +17,25 @@ import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confi
 export class AddNewDeviceComponent implements OnInit {
   headerLable = 'Devices-Add Edit, Delete';
   newDeviceForm: FormGroup;
-  isEdit:boolean=false;
-  item:any;
+  isEdit: boolean = false;
+  item: any;
+  public userData: any;
   constructor(
     public dialogRef: MatDialogRef<any>,
     private dialog: MatDialog,
     private fb: FormBuilder,
+    private adminService: AdminService,
+    public authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.isEdit=data?.isEdit;
-    this.item=data?.item;
+    this.isEdit = data?.isEdit;
+    this.item = data?.item;
   }
 
   ngOnInit(): void {
     this.initializeDataSet();
-
-    
+    this.userData = this.authService.userData();
+    this.getDeviceInformation();
   }
   dialogClose() {
     this.dialogRef.close('close');
@@ -56,9 +65,9 @@ export class AddNewDeviceComponent implements OnInit {
   }
 
   deleteSelected() {
-    if(!this.isEdit){
+    if (!this.isEdit) {
       this.dialog.closeAll();
-      return
+      return;
     }
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
@@ -66,12 +75,23 @@ export class AddNewDeviceComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         action: 'delete',
-        
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'Yes') {
       }
     });
+  }
+
+  getDeviceInformation() {
+    let payload = {
+      deviceID: this.data && this.data.item ? this.data.item.deviceID : 0,
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+    };
+
+    this.adminService
+      .get(payload, '/Admin/DeviceInformation')
+      .subscribe((res: any) => {});
   }
 }
