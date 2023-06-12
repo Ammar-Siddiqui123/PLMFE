@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild,} from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CellSizeComponent } from '../../dialogs/cell-size/cell-size.component';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
@@ -15,11 +15,15 @@ export class ItemSetupComponent implements OnInit {
 
 
   @Input() itemSetup: FormGroup;
+  
   public userData: any;
   
-  constructor(private dialog: MatDialog, private sharedService:SharedService) { }
+  constructor(private dialog: MatDialog, private sharedService:SharedService,    private fb: FormBuilder) {
+    
+   }
 
-  ngOnInit(): void {  
+  ngOnInit(): void {
+   
   }
 
   getSelected(event){
@@ -67,7 +71,7 @@ export class ItemSetupComponent implements OnInit {
 
 
     })
-  }
+  } 
   public openVelocityCodeDialog(param) {
     let currentValue="";
     if(param == 'goldenZone'){
