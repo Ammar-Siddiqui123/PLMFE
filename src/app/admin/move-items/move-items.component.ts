@@ -67,6 +67,7 @@ export class MoveItemsComponent implements OnInit {
   userData: any;
   itemNo: any = '';
   isValidateMove = false;
+  isViewAll=false;
   reqDate: Date = new Date();
   sortOrder = 'asc';
   sortCol = 0;
@@ -397,6 +398,7 @@ export class MoveItemsComponent implements OnInit {
         this.moveToDatasource._data._value.forEach((element, index) => {
           element.isSelected = false;
         });
+        this.clearFields('MoveFrom');
         this.clearFields('MoveTo')
        } 
       
@@ -500,6 +502,7 @@ export class MoveItemsComponent implements OnInit {
           this.isMoveQty=true;
           this.from_priority=0;
           this.from_itemQuantity=0;
+          this.clearFields('MoveFrom')
           break;
   
       default:
@@ -517,17 +520,21 @@ export class MoveItemsComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      // if(result){
-      //   if(type==='Un-Dedicate'){
-      //     this.undedicateMoveFrom=true;
+
+
+      if(result){
+        if(type==='Un-Dedicate'){
+          // this.undedicateMoveFrom=true;
+          this.callCreateMoveTrans();
         
-      //   }else if(type==='Dedicate'){
-      //     this.dedicateMoveTo=true;
-      //   }
-      // }else{
-      //   this.undedicateMoveFrom=false;
-      //   this.dedicateMoveTo=false;
-      // }
+        }else if(type==='Dedicate'){
+          // this.dedicateMoveTo=true;
+          this.callCreateMoveTrans();
+        }
+      }else{
+        this.undedicateMoveFrom=false;
+        // this.dedicateMoveTo=false;
+      }
        
     });
   }
@@ -561,8 +568,11 @@ export class MoveItemsComponent implements OnInit {
   
     if(tab.index===0){
       this.tableType='MoveFrom'
+      this.isViewAll=false
+
     }else if(tab.index===1){
       this.tableType='MoveTo'
+      this.isViewAll=true
     }
   } 
 
@@ -582,6 +592,7 @@ export class MoveItemsComponent implements OnInit {
       this.from_locationShow='';
       this.isMoveQty = true;
       this.MoveFromDedicated = '';
+      this.isDedicated=false;
     } else if (type === 'MoveTo') {
       this.to_priority = 0;
       this.to_warehouse = '';
@@ -597,6 +608,7 @@ export class MoveItemsComponent implements OnInit {
       this.to_locationShow='';
       this.MoveToDedicated = '';
       this.isValidateMove = false;
+      this.isDedicated=false;
     }
     this.reqDate = new Date();
   }
