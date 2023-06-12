@@ -13,25 +13,21 @@
                 <ng-scrollbar style="height: 400px">
                     <div class="row">
                         <div class="col-8">
-                    <h1 mat-dialog-title>Device Details</h1>
-                </div>
-                <div class="col-4 ">
-                    <span class="float-end"><strong>Device ID:1231</strong></span>
-                </div>
-                </div>
+                            <h1 mat-dialog-title>Device Details</h1>
+                        </div>
+                        <div class="col-4 ">
+                            <span class="float-end"><strong >Device ID:{{this.item && this.item.deviceID?this.item.deviceID:'(new)'}}</strong></span>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-4  mb-2">
 
                             <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
                                 <mat-label>Zone</mat-label>
-                                <mat-select formControlName="zone" >
-            
-                                    <mat-option value="Order Number">
-                                        Order Number
-                                    </mat-option>
-                                    <mat-option value="Item Number">
-                                        Item Number.
-                                    </mat-option>
+                                <mat-select formControlName="zone">
+                                    <mat-option *ngFor="let item of zoneList;let index = index"
+                                        [value]="item">{{item}}</mat-option>
+
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
                                     expand_more
@@ -40,26 +36,26 @@
 
                         </div>
                         <div class="col-4  mb-2">
-                        
+
 
 
                             <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
                                 <mat-label>Device Type</mat-label>
 
-                                       <!-- <mat-select formControlName="unitOfMeasure">
+                                <!-- <mat-select formControlName="unitOfMeasure">
                         <mat-option *ngFor="let type of unitOfMeasure_list" value="{{type}}">{{type}}</mat-option>                        
                       </mat-select>
                       <span class="material-symbols-outlined icon-expand-more">
                         expand_more
                     </span> -->
-                                <mat-select formControlName="deviceType" >
+                                <mat-select formControlName="deviceType">
                                     <mat-option value="Carousel">Carousel</mat-option>
                                     <mat-option value="Carton Flow">Carton Flow</mat-option>
                                     <mat-option value="Light Tree">Light Tree</mat-option>
                                     <mat-option value="Scale">Scale</mat-option>
                                     <mat-option value="Scanner">Scanner</mat-option>
                                     <mat-option value="Sort Bar">Sort Bar</mat-option>
-                               
+
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
                                     expand_more
@@ -67,12 +63,12 @@
                             </mat-form-field>
                         </div>
                         <div class="col-4  mb-2">
-                         
+
 
                             <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
                                 <mat-label>Device Number</mat-label>
-                                <mat-select formControlName="deviceNumber" >
-            
+                                <mat-select formControlName="deviceNumber">
+
                                     <mat-option value="1">1</mat-option>
                                     <mat-option value="2">2</mat-option>
                                     <mat-option value="3">3</mat-option>
@@ -91,18 +87,15 @@
                     </div>
                     <div class="row">
                         <div class="col-4  mb-2">
-                      
+
 
                             <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
                                 <mat-label> Device Model</mat-label>
-                                <mat-select formControlName="deviceModel" >
-            
-                                    <mat-option value="Order Number">
-                                        Order Number
-                                    </mat-option>
-                                    <mat-option value="Item Number">
-                                        Item Number.
-                                    </mat-option>
+                                <mat-select formControlName="deviceModel">
+
+                                    <mat-option *ngFor="let item of deviceModelList;let index = index"
+                                        [value]="item">{{item}}</mat-option>
+
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
                                     expand_more
@@ -110,19 +103,16 @@
                             </mat-form-field>
                         </div>
                         <div class="col-4  mb-2">
-                      
 
-                            
+
+
                             <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
                                 <mat-label>Controller Type</mat-label>
-                                <mat-select formControlName="controllerType" >
-            
-                                    <mat-option value="Order Number">
-                                        Order Number
-                                    </mat-option>
-                                    <mat-option value="Item Number">
-                                        Item Number.
-                                    </mat-option>
+                                <mat-select formControlName="controllerType">
+
+                                    <mat-option *ngFor="let item of controllerTypeList;let index = index"
+                                        [value]="item">{{item}}</mat-option>
+
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
                                     expand_more
@@ -130,12 +120,12 @@
                             </mat-form-field>
                         </div>
                         <div class="col-4  mb-2">
-                         
+
 
                             <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
                                 <mat-label> Controller Terminal Port</mat-label>
-                                <mat-select formControlName="controllerTerminalPort" >
-            
+                                <mat-select formControlName="controllerTerminalPort">
+
 
 
                                     <mat-option value="11">11</mat-option>
@@ -185,11 +175,11 @@
 
                     <div class="row">
                         <div class="col-4  mb-2">
-                       
+
 
                             <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
                                 <mat-label>Arrow Direction</mat-label>
-                                <mat-select formControlName="arrowDirection" >
+                                <mat-select formControlName="arrowDirection">
                                     <mat-option value="L">Left</mat-option>
                                     <mat-option value="R">Right</mat-option>
                                     <mat-option value="U">Up</mat-option>
@@ -197,20 +187,20 @@
                                     <mat-option value="B">Left and Right</mat-option>
                                     <mat-option value="P">Up and Down</mat-option>
                                     <mat-option value="N">None</mat-option>
-                               
-                                    </mat-select>
+
+                                </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
                                     expand_more
                                 </span>
                             </mat-form-field>
                         </div>
                         <div class="col-4  mb-2">
-                          
+
 
                             <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
                                 <mat-label>Light Direction</mat-label>
-                                <mat-select formControlName="lightDirection" >
-            
+                                <mat-select formControlName="lightDirection">
+
                                     <mat-option value="L">Left to Right</mat-option>
                                     <mat-option value="R">Right to Left</mat-option>
                                     <mat-option value="U">Bottom Up</mat-option>
@@ -224,13 +214,13 @@
                             </mat-form-field>
                         </div>
                         <div class="col-4  mb-2">
-                       
 
-                            
+
+
                             <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
                                 <mat-label>Use Light Tree Number</mat-label>
-                                <mat-select formControlName="useLightTreeNumber" >
-            
+                                <mat-select formControlName="useLightTreeNumber">
+
                                     <mat-option value="0">0</mat-option>
                                     <mat-option value="1">1</mat-option>
                                     <mat-option value="2">2</mat-option>
@@ -271,7 +261,7 @@
 
                     </div>
 
-                    
+
                     <div class="row">
                         <div class="col-4  mb-2">
                             <mat-form-field class="d-block w-100 " appearance="outline">
@@ -282,10 +272,11 @@
                         <div class="col-4  mb-2">
                             <div class="d-flex justify-content-between mb-2">
                                 <span>Use Laser Pointer:</span>
-                                <mat-slide-toggle  formControlName="useLaserPointer"  checked color="primary"></mat-slide-toggle>
+                                <mat-slide-toggle formControlName="useLaserPointer" checked
+                                    color="primary"></mat-slide-toggle>
                             </div>
                         </div>
-                     
+
 
                     </div>
 
@@ -330,9 +321,10 @@
     </div>
 
     <div class="d-flex gap-12">
-        <button type="button" mat-stroked-button color="secondary" class=" btn-lg text-danger" (click)="deleteSelected()" >Delete</button>
-        <button type="submit" mat-stroked-button class="  btn-lg" color="primary" >Save & Close</button>
-        <button type="submit" mat-flat-button class="  btn-lg" color="primary"  style="flex:1">Save</button>
+        <button type="button" mat-stroked-button color="secondary" class=" btn-lg text-danger"
+            (click)="deleteSelected()">Delete</button>
+        <button type="submit" mat-stroked-button class="  btn-lg" color="primary">Save & Close</button>
+        <button type="submit" mat-flat-button class="  btn-lg" color="primary" style="flex:1">Save</button>
     </div>
 
 </form>

@@ -8,6 +8,7 @@ import {
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 import { AdminService } from '../../admin.service';
 import { AuthService } from 'src/app/init/auth.service';
+import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 
 @Component({
   selector: 'app-add-new-device',
@@ -19,6 +20,10 @@ export class AddNewDeviceComponent implements OnInit {
   newDeviceForm: FormGroup;
   isEdit: boolean = false;
   item: any;
+  zoneList=[];
+  controllerTypeList=[];
+  deviceModelList=[];
+
   public userData: any;
   constructor(
     public dialogRef: MatDialogRef<any>,
@@ -30,6 +35,9 @@ export class AddNewDeviceComponent implements OnInit {
   ) {
     this.isEdit = data?.isEdit;
     this.item = data?.item;
+    console.log(this.item);
+
+ 
   }
 
   ngOnInit(): void {
@@ -40,27 +48,41 @@ export class AddNewDeviceComponent implements OnInit {
   dialogClose() {
     this.dialogRef.close('close');
   }
-  onSubmit(form) {}
+  onSubmit(form:FormGroup) {
+    if(form.value.zone===null){
+      this.openAlertDialog('Zone cannot be left blank.')
+    }
+    if(form.value.deviceType===null){
+      this.openAlertDialog('Device Type cannot be left blank.')
+    }
+    if(form.value.deviceNumber===null){
+      this.openAlertDialog('Device Number cannot be left blank.')
+    }else{
+
+      const preferences = Object.values(form.value);
+      console.log(preferences)
+    }
+  }
 
   initializeDataSet() {
     this.newDeviceForm = this.fb.group({
-      zone: new FormControl({ value: '' || '', disabled: false }),
-      deviceType: new FormControl({ value: '' || '', disabled: false }),
-      deviceNumber: new FormControl({ value: '' || '', disabled: false }),
-      deviceModel: new FormControl({ value: '' || '', disabled: false }),
-      controllerType: new FormControl({ value: '' || '', disabled: false }),
+      zone: new FormControl({ value: this.item && this.item.zone || '', disabled: false }),
+      deviceType: new FormControl({ value: this.item && this.item.deviceType || '', disabled: false }),
+      deviceNumber: new FormControl({ value: this.item && this.item.deviceNumber || '', disabled: false }),
+      deviceModel: new FormControl({ value: this.item && this.item.deviceModel || '', disabled: false }),
+      controllerType: new FormControl({ value: this.item && this.item.controllerType || '', disabled: false }),
       controllerTerminalPort: new FormControl({
-        value: '' || '',
+        value: this.item && this.item.controllerTermPort || '',
         disabled: false,
       }),
-      arrowDirection: new FormControl({ value: '' || '', disabled: false }),
-      lightDirection: new FormControl({ value: '' || '', disabled: false }),
-      useLightTreeNumber: new FormControl({ value: '' || '', disabled: false }),
-      firstAddress: new FormControl({ value: '' || '', disabled: false }),
-      displayPositions: new FormControl({ value: '' || '', disabled: false }),
-      displayCharacters: new FormControl({ value: '' || '', disabled: false }),
-      pairKey: new FormControl({ value: '' || '', disabled: false }),
-      useLaserPointer: new FormControl({ value: '' || '', disabled: false }),
+      arrowDirection: new FormControl({ value: this.item && this.item.arrowDirection || '', disabled: false }),
+      lightDirection: new FormControl({ value: this.item && this.item.lightDirection || '', disabled: false }),
+      useLightTreeNumber: new FormControl({ value: this.item && this.item.lightTreeNumber || 0, disabled: false }),
+      firstAddress: new FormControl({ value: this.item && this.item.beginAddress || 0, disabled: false }),
+      displayPositions: new FormControl({ value: this.item && this.item.displayPositions || 0, disabled: false }),
+      displayCharacters: new FormControl({ value: this.item && this.item.displayCharacters || 0, disabled: false }),
+      pairKey: new FormControl({ value: this.item && this.item.pairKey || '', disabled: false }),
+      useLaserPointer: new FormControl({ value: this.item && this.item.laserPointer || '', disabled: false }),
     });
   }
 
@@ -92,6 +114,32 @@ export class AddNewDeviceComponent implements OnInit {
 
     this.adminService
       .get(payload, '/Admin/DeviceInformation')
-      .subscribe((res: any) => {});
+      .subscribe((res: any) => {
+        this.zoneList=res && res.data?res.data.zoneList:[];
+        this.controllerTypeList=res && res.data?res.data.controllerTypeList:[];
+        this.deviceModelList=res && res.data?res.data.deviceModelList:[]
+      });
   }
+
+
+
+  openAlertDialog(message) {
+    
+
+    const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+      height: 'auto',
+      width: '786px',
+      data: {
+        message: message,
+        heading: '',
+        disableCancel: true,
+      },
+      autoFocus: '__non_existing_element__',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+
+    });
+  }
+
+  
 }
