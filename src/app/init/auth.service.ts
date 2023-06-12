@@ -23,7 +23,8 @@ export class AuthService {
     { icon: 'ads_click', title: 'Manual Transactions', route: '#' ,permission: 'Manual Transactions'},
     { icon: 'event_note', title: 'Event Log', route: '#' ,permission: 'Event Log Manager'},
     { icon: 'airline_stops', title: 'De-Allocate Orders', route: '#' ,permission: 'De-Allocate Orders'},
-    { icon: 'dashboard', title: 'Inventory', route: '/admin/inventoryMaster',permission: 'Inventory' }
+    { icon: 'dashboard', title: 'Inventory', route: '/admin/inventoryMaster',permission: 'Inventory' }, 
+    
   ];
   constructor(private http: HttpClient,private pLocation: PlatformLocation) { }
   
@@ -109,4 +110,21 @@ export class AuthService {
   public ServiceStatusSTE(): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/ServiceStatusSTE`,{});
   }
+  public CompanyInfo(body:any): Observable<any> { 
+    return this.http.post<any>(`${environment.apiUrl}/Admin/CompanyInfo`,body);
+  }
+  public OSFieldFilterNames(): Observable<any> { 
+    return this.http.get<any>(`${environment.apiUrl}/Admin/OSFieldFilterNames`);
+  }
+  
+  public GeneralPreferenceSave(body:any): Observable<any> { 
+    return this.http.post<any>(`${environment.apiUrl}/Admin/GeneralPreferenceSave`,body);
+  }
+  public ColumnAlias(): Observable<any> { 
+    return this.http.get<any>(`${environment.apiUrl}/Admin/ColumnAlias`);
+  }
+  public FieldNameSave(body:any): Observable<any> { 
+    return this.http.post<any>(`${environment.apiUrl}/Admin/FieldNameSave`,body);
+  }
+  
 }

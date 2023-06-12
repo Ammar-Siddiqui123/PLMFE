@@ -79,7 +79,11 @@ const routes: Routes = [
         component: MainComponent,
         canActivate: [AuthGuardGuard],
       },
-      
+      {
+        path: 'FlowrackReplenishment',
+        component: FlowrackReplenishmentComponent,
+        canActivate: [AuthGuardGuard] 
+      },
       // {
       //   path: 'globalconfig/dashboard',
       //   component: MainComponent,
@@ -106,12 +110,7 @@ const routes: Routes = [
         path: 'OrderManager', 
         loadChildren: () => import('./order-manager/order-manager.module').then(m => m.OrderManagerModule),
         canActivate:[AuthGuardGuard]
-      },
-      {
-        path: 'flowrack',
-        component: FlowrackReplenishmentComponent,
-        // canActivate: [AuthGuardGuard],
-      },
+      } 
 
     ]
 

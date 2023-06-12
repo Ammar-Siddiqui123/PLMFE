@@ -6,50 +6,50 @@
             <div class="col-xl-6">
                 <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                     <mat-label>Company Name</mat-label>
-                    <input type="text"    matInput maxlength="255">
+                    <input type="text" [(ngModel)]="CompanyObj.companyName"   matInput maxlength="255">
                   </mat-form-field>
                   <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                     <mat-label>Address</mat-label>
-                    <input type="text"    matInput maxlength="255">
+                    <input type="text" [(ngModel)]="CompanyObj.address1"   matInput maxlength="255">
                   </mat-form-field>
                   <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                     <mat-label>City</mat-label>
-                    <input type="text"   matInput maxlength="255">
+                    <input type="text" [(ngModel)]="CompanyObj.city"  matInput maxlength="255">
                   </mat-form-field>
                   <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                     <mat-label>State</mat-label>
-                    <input type="text"   matInput maxlength="255">
+                    <input type="text" [(ngModel)]="CompanyObj.state"  matInput maxlength="255">
                   </mat-form-field>
                   <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                     <mat-label>Early Break Time</mat-label>
-                    <input type="text"   matInput maxlength="255">
+                    <input type="text" [(ngModel)]="CompanyObj.earlyBreakTime"  matInput maxlength="255">
                   </mat-form-field>
                   <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                     <mat-label>Early Break Duration (Min)</mat-label>
-                    <input type="text"   matInput maxlength="255">
+                    <input type="text" [(ngModel)]="CompanyObj.earlyBreakDuration"  matInput maxlength="255">
                   </mat-form-field>
             </div>
             <div class="col-xl-6">
                 <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                     <mat-label>Mid Break Time</mat-label>
-                    <input type="text"   matInput maxlength="255">
+                    <input type="text" [(ngModel)]="CompanyObj.midBreakTime"  matInput maxlength="255">
                   </mat-form-field>
                   <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                     <mat-label>Early Mid Duration (Min)</mat-label>
-                    <input type="text"   matInput maxlength="255">
+                    <input type="text" [(ngModel)]="CompanyObj.midBreakDuration"  matInput maxlength="255">
                   </mat-form-field>
                   <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                     <mat-label>Late Break Time</mat-label>
-                    <input type="text"   matInput maxlength="255">
+                    <input type="text"  [(ngModel)]="CompanyObj.lateBreakTime" matInput maxlength="255">
                   </mat-form-field>
                   <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                     <mat-label>Early Late Duration (Min)</mat-label>
-                    <input type="text"   matInput maxlength="255">
+                    <input type="text" [(ngModel)]="CompanyObj.lateBreakDuration"  matInput maxlength="255">
                   </mat-form-field>
     
                   <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3 btn-init" appearance="outline">
                     <mat-label>Company Logo</mat-label>
-                    <input type="text"   matInput maxlength="255">
+                    <input type="text" [(ngModel)]="CompanyObj.companylogo"  matInput maxlength="255">
                     <span matSuffix><button mat-button color="primary">Browse</button></span>
                   </mat-form-field>
                   <div class="d-flex gap-12">
@@ -66,10 +66,10 @@
                 <div class="col-xl-6">
                     <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
                         <mat-label>Show Trans Qty</mat-label>
-                        <mat-select class="employees-action" value="pick">
-                          <mat-option value="Pick">Pick</mat-option>
-                          <mat-option value="Put Away">Put Away</mat-option>
-          
+                        <mat-select [(ngModel)]="CompanyObj.showTransQty"  class="employees-action" value="pick">
+                          <mat-option value="Display Always">Display Always</mat-option> 
+                          <mat-option value="Recount Only">Recount Only</mat-option> 
+                          <mat-option value="Never Display">Never Display</mat-option>  
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
                           expand_more
@@ -77,60 +77,67 @@
                       </mat-form-field>
                       <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                         <mat-label>Next Tote ID</mat-label>
-                        <input type="text"   matInput maxlength="255">
+                        <input type="text" [(ngModel)]="CompanyObj.nextToteID"   matInput maxlength="255">
                       </mat-form-field>
                       <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                         <mat-label>Next Serial Number</mat-label>
-                        <input type="text"   matInput maxlength="255">
+                        <input type="text" [(ngModel)]="CompanyObj.nextSerialNumber"   matInput maxlength="255">
                       </mat-form-field>
                 </div>
                 <div class="col-xl-6">
                     <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                         <mat-label>Max Number of Put Away Labels</mat-label>
-                        <input type="text"   matInput maxlength="255">
+                        <input type="text" [(ngModel)]="CompanyObj.maxNumberOfPutAwayLabels"    matInput maxlength="255">
                       </mat-form-field>
                       <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                         <mat-label>Pick Type</mat-label>
-                        <input type="text"   matInput maxlength="255">
+                        <mat-select [(ngModel)]="CompanyObj.pickType"  class="employees-action" value="pick">
+                          <mat-option value="Pick and Pass">Pick and Pass</mat-option> 
+                          <mat-option value="Parallel Pick">Parallel Pick</mat-option>  
+                        </mat-select> 
                       </mat-form-field>
                       <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                         <mat-label>Reel Tracking Pick Logic</mat-label>
-                        <input type="text"   matInput maxlength="255">
+                        <mat-select [(ngModel)]="CompanyObj.reelTrackingPickLogic"  class="employees-action" value="pick">
+                          <mat-option value="Closest Demand Quantity">Closest Demand Quantity</mat-option> 
+                          <mat-option value="Dynamic">Dynamic</mat-option>  
+                          <mat-option value="Serial Number Sort - FIFO">Serial Number Sort - FIFO</mat-option>  
+                        </mat-select> 
                       </mat-form-field>
                 </div>
                 <div class="col-xl-6">
                     <div class="d-flex justify-content-between mb-3">
-                        Order Manifest <mat-slide-toggle
+                        Order Manifest <mat-slide-toggle [(ngModel)]="CompanyObj.orderManifest" 
                            color="primary"
                           ></mat-slide-toggle>
                       </div>
                       <div class="d-flex justify-content-between mb-3">
-                        FIFO Pick Across Warehouse <mat-slide-toggle
+                        FIFO Pick Across Warehouse <mat-slide-toggle [(ngModel)]="CompanyObj.fifoPickAcrossWarehouse"
                            color="primary"
                           ></mat-slide-toggle>
                       </div>
                       <div class="d-flex justify-content-between mb-3">
-                        Check For Valid Tote ID <mat-slide-toggle
+                        Check For Valid Tote ID <mat-slide-toggle [(ngModel)]="CompanyObj.checkForValidTotes"
                            color="primary"
                           ></mat-slide-toggle>
                       </div>
                       <div class="d-flex justify-content-between mb-3">
-                        Replenish Dedicated Only <mat-slide-toggle
+                        Replenish Dedicated Only <mat-slide-toggle [(ngModel)]="CompanyObj.replenishDedicatedOnly"
                            color="primary"
                           ></mat-slide-toggle>
                       </div>
                       <div class="d-flex justify-content-between mb-3">
-                        Pick Labels One Per Qty <mat-slide-toggle
+                        Pick Labels One Per Qty <mat-slide-toggle [(ngModel)]="CompanyObj.pickLabelsOnePerQty"
                            color="primary"
                           ></mat-slide-toggle>
                       </div>
                       <div class="d-flex justify-content-between mb-3">
-                        Short Pick Find New Location <mat-slide-toggle
+                        Short Pick Find New Location <mat-slide-toggle [(ngModel)]="CompanyObj.shortPickFindNewLocation"
                            color="primary"
                           ></mat-slide-toggle>
                       </div>
                       <div class="d-flex justify-content-between mb-3">
-                        Zero Location Qty Check <mat-slide-toggle
+                        Zero Location Qty Check <mat-slide-toggle [(ngModel)]="CompanyObj.zeroLocationQuantityCheck"
                            color="primary"
                           ></mat-slide-toggle>
                       </div>
@@ -138,37 +145,37 @@
                 <div class="col-xl-6">
                     
                       <div class="d-flex justify-content-between mb-3">
-                        Request # Put Away Labels <mat-slide-toggle
+                        Request # Put Away Labels <mat-slide-toggle [(ngModel)]="CompanyObj.requestNumberofPutAwayLabels"
                            color="primary"
                           ></mat-slide-toggle>
                       </div>
                       <div class="d-flex justify-content-between mb-3">
-                        Multi Batch Cart Selection <mat-slide-toggle
+                        Multi Batch Cart Selection <mat-slide-toggle [(ngModel)]="CompanyObj.multiBatchCartSelection"
                            color="primary"
                           ></mat-slide-toggle>
                       </div>
                       <div class="d-flex justify-content-between mb-3">
-                        Confirm Inventory Changes <mat-slide-toggle
+                        Confirm Inventory Changes <mat-slide-toggle [(ngModel)]="CompanyObj.confirmInventoryChanges"
                            color="primary"
                           ></mat-slide-toggle>
                       </div>
                       <div class="d-flex justify-content-between mb-3">
-                        OT Temp to OT Pending <mat-slide-toggle
+                        OT Temp to OT Pending <mat-slide-toggle [(ngModel)]="CompanyObj.otTemptoOTPending"
                            color="primary"
                           ></mat-slide-toggle>
                       </div>
                       <div class="d-flex justify-content-between mb-3">
-                        Distinct Kit Orders <mat-slide-toggle
+                        Distinct Kit Orders <mat-slide-toggle [(ngModel)]="CompanyObj.distinctKitOrders"
                            color="primary"
                           ></mat-slide-toggle>
                       </div>
                       <div class="d-flex justify-content-between mb-3">
-                        Print Replen Put Labels <mat-slide-toggle
+                        Print Replen Put Labels <mat-slide-toggle [(ngModel)]="CompanyObj.printReplenPutLabels"
                            color="primary"
                           ></mat-slide-toggle>
                       </div>
                       <div class="d-flex justify-content-between mb-0">
-                        Create Transactions When (Un)Quarantining <mat-slide-toggle
+                        Create Transactions When (Un)Quarantining <mat-slide-toggle [(ngModel)]="CompanyObj.generateQuarantineTransactions"
                            color="primary"
                           ></mat-slide-toggle>
                       </div>
@@ -186,8 +193,8 @@
         <h2 class="text-18 bold my-3">Database and User Authentication</h2>
         <div class="card p-3 mb-3">
               <div class="d-flex justify-content-between">
-                Domain Authentication <mat-slide-toggle
-                  formControlName="offCarouselToteIDPicks" color="primary"
+                Domain Authentication <mat-slide-toggle [(ngModel)]="CompanyObj.domainAuthentication"
+                   color="primary"
                   matTooltip="Domain Authentication"></mat-slide-toggle>
               </div>
         </div>
@@ -196,7 +203,7 @@
         <div class="card p-3">
             <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
                 <mat-label>Order Sort</mat-label>
-                <mat-select class="employees-action" value="pick">
+                <mat-select class="employees-action">
                   <mat-option value="Pick">Pick</mat-option>
                   <mat-option value="Put Away">Put Away</mat-option>
   
@@ -219,7 +226,7 @@
 
               <div class="d-flex justify-content-between mb-3">
                 Auto Display Images <mat-slide-toggle
-                  formControlName="offCarouselToteIDPicks" color="primary"
+                   color="primary"
                   matTooltip="Domain Authentication"></mat-slide-toggle>
               </div>
 
@@ -227,10 +234,10 @@
 
               <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
                 <mat-label>Red Filter Field</mat-label>
-                <mat-select class="employees-action" value="pick">
-                  <mat-option value="Pick">Pick</mat-option>
-                  <mat-option value="Put Away">Put Away</mat-option>
-  
+                <mat-select class="employees-action"  [(ngModel)]="CompanyObj.redField">
+                  <ng-container *ngFor="let item of FieldNames | keyvalue"> 
+                  <mat-option [value]="item.key">{{item.value}}</mat-option>  
+                </ng-container>
                 </mat-select>
                 <span class="material-symbols-outlined icon-expand-more">
                   expand_more
@@ -239,14 +246,15 @@
 
               <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                 <mat-label>Red Filter Value</mat-label>
-                <input type="text"   matInput maxlength="255">
+                <input type="text"   [(ngModel)]="CompanyObj.redValue"  matInput maxlength="255">
               </mat-form-field>
 
               <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
                 <mat-label>Green Filter Field</mat-label>
-                <mat-select class="employees-action" value="pick">
-                  <mat-option value="Pick">Pick</mat-option>
-                  <mat-option value="Put Away">Put Away</mat-option>
+                <mat-select class="employees-action"  [(ngModel)]="CompanyObj.greenField">
+                  <ng-container *ngFor="let item of FieldNames | keyvalue"> 
+                    <mat-option [value]="item.key">{{item.value}}</mat-option>  
+                  </ng-container> 
   
                 </mat-select>
                 <span class="material-symbols-outlined icon-expand-more">
@@ -256,15 +264,15 @@
 
               <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                 <mat-label>Green Filter Value</mat-label>
-                <input type="text"   matInput maxlength="255">
+                <input type="text"  [(ngModel)]="CompanyObj.greenvalue"   matInput maxlength="255">
               </mat-form-field>
 
               <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
                 <mat-label>Blue Filter Field</mat-label>
-                <mat-select class="employees-action" value="pick">
-                  <mat-option value="Pick">Pick</mat-option>
-                  <mat-option value="Put Away">Put Away</mat-option>
-  
+                <mat-select class="employees-action"  [(ngModel)]="CompanyObj.blueField">
+                  <ng-container *ngFor="let item of FieldNames | keyvalue"> 
+                    <mat-option [value]="item.key">{{item.value}}</mat-option>  
+                  </ng-container>  
                 </mat-select>
                 <span class="material-symbols-outlined icon-expand-more">
                   expand_more
@@ -273,7 +281,7 @@
 
               <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
                 <mat-label>Blue Filter Value</mat-label>
-                <input type="text"   matInput maxlength="255">
+                <input type="text"  [(ngModel)]="CompanyObj.bluevalue"   matInput maxlength="255">
               </mat-form-field>
         </div>
     </div>

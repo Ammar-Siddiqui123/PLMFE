@@ -99,6 +99,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.autocompleteSearchColumn();
     this.batchPickId
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
@@ -120,8 +121,7 @@ export class ToteTransactionManagerComponent implements OnInit {
     this.getToteTrans();
   }
 
-  clearInfo(type,row?) {
-   
+   clearInfo(type,row?) {
         if (type != 'pickTote') {
           const dialogRef = this.dialog.open(BatchDeleteComponent, {
             height: 'auto',
@@ -142,8 +142,25 @@ export class ToteTransactionManagerComponent implements OnInit {
             }
           });
         } else {
+          const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+            height: 'auto',
+            width: '600px',
+            autoFocus: '__non_existing_element__',
+            data: {
+              mode: 'clear-pick-tote-info',
+              action: 'clear',
+              actionMessage:
+                type === 'pickTote'
+                  ? 'the info for all pick batches'
+                  : 'this batch or tote id',
+            },
+          });
+          dialogRef.afterClosed().subscribe((res) => {
+            if (res === 'Yes') {
+              this.clearToteInfo();
+            }
+          })
           // Clear tote info
-          this.clearToteInfo();
         }
   }
 
@@ -186,6 +203,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   }
 
   async autocompleteSearchColumn() {
+    // debugger
     let searchPayload = {
       batchID:this.batchId
     };
@@ -303,5 +321,10 @@ export class ToteTransactionManagerComponent implements OnInit {
 
   ngAfterViewInit() {
     this.searchBoxField.nativeElement.focus();
+  }
+
+  test(){
+    this.batchPickId.next('');
+    this.batchId='';
   }
 }
