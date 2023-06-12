@@ -45,14 +45,21 @@
 
                             <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
                                 <mat-label>Device Type</mat-label>
+
+                                       <!-- <mat-select formControlName="unitOfMeasure">
+                        <mat-option *ngFor="let type of unitOfMeasure_list" value="{{type}}">{{type}}</mat-option>                        
+                      </mat-select>
+                      <span class="material-symbols-outlined icon-expand-more">
+                        expand_more
+                    </span> -->
                                 <mat-select formControlName="deviceType" >
-            
-                                    <mat-option value="Order Number">
-                                        Order Number
-                                    </mat-option>
-                                    <mat-option value="Item Number">
-                                        Item Number.
-                                    </mat-option>
+                                    <mat-option value="Carousel">Carousel</mat-option>
+                                    <mat-option value="Carton Flow">Carton Flow</mat-option>
+                                    <mat-option value="Light Tree">Light Tree</mat-option>
+                                    <mat-option value="Scale">Scale</mat-option>
+                                    <mat-option value="Scanner">Scanner</mat-option>
+                                    <mat-option value="Sort Bar">Sort Bar</mat-option>
+                               
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
                                     expand_more
@@ -66,12 +73,14 @@
                                 <mat-label>Device Number</mat-label>
                                 <mat-select formControlName="deviceNumber" >
             
-                                    <mat-option value="Order Number">
-                                        Order Number
-                                    </mat-option>
-                                    <mat-option value="Item Number">
-                                        Item Number.
-                                    </mat-option>
+                                    <mat-option value="1">1</mat-option>
+                                    <mat-option value="2">2</mat-option>
+                                    <mat-option value="3">3</mat-option>
+                                    <mat-option value="Scale">4</mat-option>
+                                    <mat-option value="Scanner">5</mat-option>
+                                    <mat-option value="Sort Bar">6</mat-option>
+                                    <mat-option value="Sort Bar">7</mat-option>
+                                    <mat-option value="Sort Bar">8</mat-option>
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
                                     expand_more
