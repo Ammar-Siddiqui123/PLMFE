@@ -48,12 +48,12 @@ export class SpDevicePreferenceComponent implements OnInit {
     this.adminService
       .get(payload, '/Admin/GetAdminMenu')
       .subscribe((res: any) => {
-        if (res && res.data.totalOrders) {
+        if (res && res?.data?.totalOrders) {
           this.dataSource = new MatTableDataSource(
             res.data.totalOrders.orderTable
           );
         }
-        if (res && res.data.totalOrders && res.data.totalOrders.adminValues) {
+        if (res && res?.data?.totalOrders && res?.data?.totalOrders?.adminValues) {
         }
       });
   }

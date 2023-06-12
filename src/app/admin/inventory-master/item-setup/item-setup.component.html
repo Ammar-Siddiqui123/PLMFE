@@ -11,17 +11,23 @@
               <mat-option value="bulk">Bulk</mat-option>
               <mat-option value="carton flow">Carton Flow</mat-option>
             </mat-select>
+            <span class="material-symbols-outlined icon-expand-more">
+              expand_more
+            </span>
           </mat-form-field>
         </div>
         <div class="col-md-4 mb-3">
           <mat-form-field class="custom-form-field w-100" appearance="outline">
             <mat-label>Secondary Zone</mat-label>
-            <mat-select  (selectionChange)="handleInputChange($event)"  formControlName="secondaryPickZone" [disabled]="this.itemSetup.controls['primaryPickZone'].value == '' ">
+            <mat-select  (selectionChange)="handleInputChange($event)"  formControlName="secondaryPickZone"  >
               <mat-option value=""></mat-option>
               <mat-option value="carousel">Carousel</mat-option>
               <mat-option value="bulk">Bulk</mat-option>
               <mat-option value="carton flow">Carton Flow</mat-option>
             </mat-select>
+            <span class="material-symbols-outlined icon-expand-more">
+              expand_more
+            </span>
           </mat-form-field>
         </div>
         <div class="col-md-4 mb-3">
