@@ -21,8 +21,8 @@
             <div class="col-xl-4">
                 <mat-form-field class="custom-form-field  clear-btn-init w-100  mb-3" appearance="outline">
                     <mat-label>Scan Item</mat-label>
-                    <input matInput type="text" [(ngModel)] = 'itemnumscan' (keypress)="findItemLocation($event)" #autoFocusField (ngModelChange)="scanItemChange($event)">
-                    <button matSuffix *ngIf="itemnumscan" class="clear-btn" (click)="clearItemNum()"><mat-icon class="text-20 text-danger">cancel</mat-icon></button>
+                    <input matInput type="text" [(ngModel)]="itemnumscan" (keyup)="findItemLocation($event)" #autoFocusField (ngModelChange)="scanItemChange()">
+                    <button matSuffix *ngIf="itemnumscan != ''" class="clear-btn" (click)="clearItemNum()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                 </mat-form-field>
             </div>
             <!-- {{itemLocation|json}} -->
@@ -53,7 +53,7 @@
                 <div class="d-flex gap-12 align-items-center">
                 <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                     <mat-label>Enter Quantity</mat-label>
-                    <input matInput type="text" [(ngModel)] = 'itemQty' [disabled]="itemQtyRow" (ngModelChange)="updateQty(itemQty)" #itemQtyFocus>
+                    <input matInput type="number" [(ngModel)] = 'itemQty' [disabled]="itemQtyRow" (ngModelChange)="updateQty(itemQty)" #itemQtyFocus>
                 </mat-form-field>
                 <button [disabled]="calculator" mat-mini-fab color="Default" class="button-default-i icon-button-8br  mb-3" (click)="openCal()">
               <mat-icon class="material-symbols-outlined">calculate</mat-icon>

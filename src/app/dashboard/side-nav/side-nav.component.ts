@@ -85,12 +85,12 @@ export class SideNavComponent implements OnInit {
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
     { icon: ' directions_alt', title: 'Inventory Map', route: '/InductionManager/Admin/InventoryMap' ,permission:'Induction Manager'},
     { icon: ' dashboard ', title: 'Inventory ', route: '/InductionManager/Admin/InventoryMaster' ,permission:'Induction Manager'},
-    { icon: '  line_style  ', title: 'Tote Transaction Manager ', route: '/InductionManager/Admin/ToteTransactionManager' ,permission:'Induction Manager'},
-    { icon: 'linear_scale   ', title: 'Manual Transactions ', route: '/InductionManager/Admin/ManualTransactions' ,permission:'Induction Manager'},
+    { icon: ' inventory_2 ', title: 'Tote Transaction Manager ', route: '/InductionManager/Admin/ToteTransactionManager' ,permission:'Induction Manager'},
+    { icon: 'ads_click   ', title: 'Manual Transactions ', route: '/InductionManager/Admin/ManualTransactions' ,permission:'Induction Manager'},
     { icon: 'elevator   ', title: 'Tote Manager ', route: '/InductionManager/Admin/ImToteManager' ,permission:'Induction Manager'},
-    { icon: 'edit_attributes ', title: 'Transaction Journal ', route: '/InductionManager/Admin/TransactionJournal' ,permission:'Induction Manager'},
-    { icon: '     manage_accounts     ', title: 'Reports ', route: '#' ,permission:'Induction Manager'},
-    { icon: '      manage_accounts       ', title: 'Preferences ', route: '/InductionManager/Admin/AdminPrefrences' ,permission:'Induction Manager'},
+    { icon: 'post_add ', title: 'Transaction Journal ', route: '/InductionManager/Admin/TransactionJournal' ,permission:'Induction Manager'},
+    { icon: '     analytics     ', title: 'Reports ', route: '#' ,permission:'Induction Manager'},
+    { icon: '      tune       ', title: 'Preferences ', route: '/InductionManager/Admin/AdminPrefrences' ,permission:'Induction Manager'},
   ];
 
   orderManagerMenus: any = [
@@ -138,7 +138,7 @@ export class SideNavComponent implements OnInit {
         this.isChildMenu = false;
       }
     });
-    if(this.router.url == '/flowrack') this.dynamicMenu = this.menus
+    // if(this.router.url == '/FlowrackReplenishment') this.dynamicMenu = this.menus
     this.loadMenus({route: this.router.url});
  
     this.sharedService.updateAdminMenuObserver.subscribe(adminMenu => {
@@ -219,12 +219,12 @@ export class SideNavComponent implements OnInit {
     //   })
 
      
-    
-     this.sharedService.menuData$.subscribe(data => { 
+    this.sharedService.menuData$.subscribe(data => { 
+      //  debugger
        if(this.menuData.length===0){
         this.menuData = data;
         this.menuData.filter((item,i)=>{
-debugger
+ 
           if(this.dynamicMenu.find(x=>x.title ==  item.displayname)){   
            
    //updating child menus with display names
@@ -299,7 +299,11 @@ debugger
     }
 
     if(menu.route!='')
-    {
+    { 
+        // if(menu.route.includes('/FlowrackReplenishment')){
+        //   this.adminMenus[0].route = '/FlowrackReplenishment';
+        //   this.dynamicMenu = this.menus;
+        // }
       if (menu.route.includes('/admin')) {
         if (menu.route.includes('/admin/')) {
           this.adminMenus[0].route = '/admin';
@@ -322,7 +326,7 @@ debugger
         this.isChildMenu = true;
         return;
       }
-      if (['/dashboard','/flowrack'].indexOf(menu.route) > -1) {
+      if (['/dashboard','/FlowrackReplenishment'].indexOf(menu.route) > -1) {
         this.isParentMenu = true;
         this.isChildMenu = false;
       }
@@ -380,7 +384,7 @@ debugger
       return;
     }
 
-    if (['/dashboard','/flowrack'].indexOf(menu.route) > -1) {
+    if (['/dashboard','/FlowrackReplenishment'].indexOf(menu.route) > -1) {
       this.isParentMenu = true;
       this.isChildMenu = false;
     }

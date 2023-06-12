@@ -136,7 +136,7 @@
           </ng-container>
           <!-- Position Column -->
           <ng-container matColumnDef="zone">
-            <th mat-header-cell *matHeaderCellDef> Managed Tote IDs </th>
+            <th mat-header-cell *matHeaderCellDef>Tote IDs </th>
             <td mat-cell *matCellDef="let element; let i = index">
               <div class="pe-2">
                 <mat-form-field class="custom-form-field w-100" appearance="outline">
@@ -172,23 +172,23 @@
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let element; let i = index">
               <div class="d-flex gap-12">
-                <button mat-flat-button color="primary" class="xsm-icon-button" (click)="selectTote(element.toteID,element.cells)">
+                <button [disabled]="!element.toteID || !element.cells" matTooltip="Check" [hidden]="isIMPath" mat-flat-button color="primary" class="xsm-icon-button" (click)="selectTote(element.toteID,element.cells)">
                   <mat-icon class="material-symbols-outlined">
                     check
                   </mat-icon>
                 </button>
-                <button mat-flat-button color="primary" class="xsm-icon-button">
+                <button [disabled]="!element.toteID || !element.cells" matTooltip="Print" mat-flat-button color="primary" class="xsm-icon-button">
                   <mat-icon class="material-symbols-outlined">
                     print
                   </mat-icon>
                 </button>
-                <button mat-flat-button color="primary" class="xsm-icon-button"
+                <button [disabled]="!element.toteID || !element.cells" matTooltip="Save" mat-flat-button color="primary" class="xsm-icon-button"
                   (click)="saveTote(element.toteID,element.cells,element.oldToteID,element.isInserted,i)">
                   <mat-icon class="material-symbols-outlined">
                     save
                   </mat-icon>
                 </button>
-                <button mat-flat-button color="warn" class="xsm-icon-button" (click)="deleteTote(element.toteID)">
+                <button [disabled]="!element.toteID || !element.cells" matTooltip="Delete" mat-flat-button color="warn" class="xsm-icon-button" (click)="deleteTote(element.toteID)">
                   <mat-icon class="material-symbols-outlined">
                     close
                   </mat-icon>

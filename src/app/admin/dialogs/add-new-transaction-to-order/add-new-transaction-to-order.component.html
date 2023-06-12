@@ -350,13 +350,18 @@
 
             </div>
         </div>
-        <button [disabled]="quantity===0 || quantity===undefined  ||  quantity<0 || itemNumber===''" type="submit" mat-flat-button class="form-button-submit mt-3 w-100" color="primary" >
-            Save
-          </button>
+        
     </form>
 
 </div>
 </ng-scrollbar>
+
+<mat-dialog-actions>
+    <button (click)="saveTransaction()" [disabled]="quantity===0 || quantity===undefined  ||  quantity<0 || itemNumber===''" type="submit" mat-flat-button class="btn-lg mt-3 w-100" color="primary" >
+        Save
+      </button>
+    </mat-dialog-actions>
+
 <!-- 
 <button type="submit" mat-flat-button class="form-button-submit w-100" color="primary" >
     Save
