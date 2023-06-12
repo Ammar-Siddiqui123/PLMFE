@@ -232,7 +232,7 @@
 
 
                         </div>
-                        <mat-checkbox [(ngModel)]="viewAll" color="primary" (change)="onChangeLocation($event)" >View All Locations</mat-checkbox>
+                        <mat-checkbox [(ngModel)]="viewAll" color="primary" (change)="onChangeLocation($event)" [disabled]="!isViewAll">View All Locations</mat-checkbox>
                     </div>
                 </div>
                 <div class="card p-4">

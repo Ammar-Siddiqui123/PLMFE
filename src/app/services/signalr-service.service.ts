@@ -40,5 +40,6 @@ export class SignalrServiceService {
         //this.connection = null;
       }
     }
+    
   constructor() { }
 }

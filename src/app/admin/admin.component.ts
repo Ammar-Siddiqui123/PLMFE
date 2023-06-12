@@ -292,7 +292,7 @@ export class AdminComponent implements OnInit {
     this.adminService
       .get(payload, '/Admin/GetAdminMenu')
       .subscribe((res: any) => {
-        if (res && res.data.totalOrders) {
+        if (res && res?.data?.totalOrders) {
           this.dataSource = new MatTableDataSource(
             res.data.totalOrders.orderTable
           );

@@ -6,6 +6,8 @@ import { AuthService } from '../init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { GlobalconfigService } from '../global-config/globalconfig.service';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-flowrack-replenishment',
@@ -34,13 +36,15 @@ export class FlowrackReplenishmentComponent implements OnInit {
   @ViewChild('itemQtyFocus') itemQtyFocus: ElementRef
   @ViewChild('itemLocationFocus') itemLocationFocus: ElementRef
   @ViewChild('scrollbar') scrollbar: ElementRef
-
+  applicationData: any = [];
   @ViewChild('auto') matAutocomplete: MatAutocompleteTrigger;
 
 
   constructor(private dialog: MatDialog,
     private flowrackHub: FlowrackService,
     private authservice: AuthService,
+    private sharedService: SharedService,
+    private globalService: GlobalconfigService,
     private toastr: ToastrService,
     private _elementRef: ElementRef) { }
 
@@ -228,7 +232,9 @@ export class FlowrackReplenishmentComponent implements OnInit {
       }
     }))
   }
-
+  ngAfterViewInit() {
+    this.getAppLicense();  
+  }
   openCal() {
     const dialogRef = this.dialog.open(FrNumpadComponent, {
       width: '480px',
@@ -258,6 +264,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
     this.LocationRow = true;
     this.itemnumscan = ''
     this.autoFocusField.nativeElement.focus()
+    this.calculator = true
   }
 
   clearQtyField() {
@@ -344,4 +351,133 @@ export class FlowrackReplenishmentComponent implements OnInit {
     }
   }
 
+  getAppLicense() {
+    
+
+    // moved the logic to login component and added these 2 lines to fetch the apps from localstorage and commented the api below in getAppLicence  .. 
+    // this.applicationData=JSON.parse(localStorage.getItem('availableApps') || '');
+    // this.sharedService.setMenuData(this.applicationData)
+
+    let payload = {
+      WSID: this.userData.wsid,
+    };
+    this.globalService
+      .get(payload, '/GlobalConfig/AppNameByWorkstation')
+      .subscribe(
+        (res: any) => {
+          if (res && res.data) {
+            this.convertToObj(res.data);
+            localStorage.setItem('availableApps',JSON.stringify(this.applicationData)) 
+            this.sharedService.setMenuData(this.applicationData)
+          }
+        },
+        (error) => {}
+      );
+  }
+  
+  convertToObj(data) {
+    data.wsAllAppPermission.forEach((item,i) => {
+      for (const key of Object.keys(data.appLicenses)) {
+        // arrayOfObjects.push({ key, value: this.licAppData[key] });
+        if (item.includes(key)  && data.appLicenses[key].isLicenseValid) {
+          this.applicationData.push({
+            appname: data.appLicenses[key].info.name,
+            displayname: data.appLicenses[key].info.displayName,
+            license: data.appLicenses[key].info.licenseString,
+            numlicense: data.appLicenses[key].numLicenses,
+            info: this.appNameDictionary(item),
+            // status: data[key].isLicenseValid ? 'Valid' : 'Invalid',
+            appurl: data.appLicenses[key].info.url,
+            isButtonDisable: true,
+          });
+        }
+      }
+    });
+    this.sortAppsData();
+    
+  }
+  
+  appNameDictionary(appName) {
+    let routes = [
+      {
+        appName: 'ICSAdmin',
+        route: '/admin',
+        iconName: 'manage_accounts',
+        name: 'Admin',
+        updateMenu: 'admin',
+        permission: 'Admin Menu',
+      },
+      {
+        appName: 'Consolidation Manager',
+        route: '/ConsolidationManager',
+        iconName: 'insert_chart',
+        name: 'Consolidation Manager',
+        updateMenu: 'consolidation',
+        permission: 'Consolidation Manager',
+      },
+      {
+        appName: 'Induction',
+        route: '/InductionManager',
+        iconName: 'checklist',
+        name: 'Induction Manager',
+        updateMenu: 'induction',
+        permission: 'Induction Manager',
+      },
+      {
+        appName: 'FlowRackReplenish',
+        route: '/FlowrackReplenishment',
+        iconName: 'schema',
+        name: 'FlowRack Replenishment',
+        updateMenu: '',
+        permission: 'FlowRack Replenish',
+      },
+      {
+        appName: 'ImportExport',
+        route: '#',
+        iconName: 'electric_bolt',
+        name: 'Import Export',
+        updateMenu: '',
+        permission: 'Import Export',
+      },
+      {
+        appName: 'Markout',
+        route: '#',
+        iconName: 'manage_accounts',
+        name: 'Markout',
+        updateMenu: '',
+        permission: 'Markout',
+      },
+      {
+        appName: 'OrderManager',
+        route: '/OrderManager',
+        iconName: 'pending_actions',
+        name: 'Order Manager',
+        updateMenu: 'orderManager',
+        permission: 'Order Manager',
+      },
+      {
+        appName: 'WorkManager',
+        route: '#',
+        iconName: 'fact_check',
+        name: 'Work Manager',
+        updateMenu: '',
+        permission: 'Work Manager',
+      },
+    ];
+
+    let obj: any = routes.find((o) => o.appName === appName);
+    return obj;
+  }
+
+  sortAppsData() {
+    this.applicationData.sort(function (a, b) {
+      var nameA = a.info.name.toLowerCase(),
+        nameB = b.info.name.toLowerCase();
+      if (nameA < nameB)
+        //sort string ascending
+        return -1;
+      if (nameA > nameB) return 1;
+      return 0; //default return value (no sorting)
+    });
+  }
 }

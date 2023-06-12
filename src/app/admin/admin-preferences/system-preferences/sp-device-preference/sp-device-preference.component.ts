@@ -72,9 +72,12 @@ export class SpDevicePreferenceComponent implements OnInit {
     this.adminService
       .get(payload, '/Admin/DevicePreferenceTable')
       .subscribe((res: any) => {
-        if (res && res.data) {
-          this.dataSource = new MatTableDataSource(res.data.devicePreferences);
-          this.customPagination.total = res.data?.recordsTotal;
+        if (res && res?.data?.totalOrders) {
+          this.dataSource = new MatTableDataSource(
+            res.data.totalOrders.orderTable
+          );
+        }
+        if (res && res?.data?.totalOrders && res?.data?.totalOrders?.adminValues) {
         }
       });
   }
