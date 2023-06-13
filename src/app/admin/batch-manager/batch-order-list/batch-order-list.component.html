@@ -4,7 +4,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
       <div>
         <h2 class="card-header-title mb-0 d-flex align-items-center">
-          <div class="mat-icon-wrap me-lg-3">
+          <div class="mat-icon-wrap me-1 me-lg-3">
             <span class="material-symbols-outlined">
               playlist_add_check_circle
             </span>
@@ -22,14 +22,14 @@
     <ng-container>
 
       <div class="row" *ngIf="extraField != '' || extraField !=0 ;else autoBatch">
-        <div class="col-md-6">
+        <div class="col-12 col-xl-6">
           <div class="mb-3  w-100 ">
             <button (click)="appendMax()" style="color:#1A1AD3!important" mat-button mat-stroked-button color="default-btn" class="button-add-all bg-white br-18 w-100">
               Append Max Orders
         </button>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-xl-6">
           <div class="mb-3  w-100 ">
             <button (click)="addRemoveAllOrder()" mat-flat-button color="primary"
               class="br-18 w-100 form-button-submit">
