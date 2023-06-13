@@ -18,6 +18,8 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 export class ScanCodesComponent implements OnInit , OnChanges {
 
+  displayedColumns: string[] = ['ScanCode', 'ScanType', 'ScanRange', 'StartPosition','CodeLength','Actions'];
+
   @Input() scanCodes: FormGroup;
   public userData: any;
   scanCodesList: any;
@@ -85,7 +87,8 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   }
   addCatRow(e: any){
     this.isAddRow=true
-    this.scanCodesList.unshift({scanCode: '', scanType: '', scanRange: 'No', startPosition:0, codeLength:0,isDisabled:true})
+    this.scanCodesList.unshift({scanCode: '', scanType: '', scanRange: 'No', startPosition:0, codeLength:0,isDisabled:true});
+    this.scanCodesList = [...this.scanCodesList];
 
   }
 
