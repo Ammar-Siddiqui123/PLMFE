@@ -67,6 +67,7 @@ export class MoveItemsComponent implements OnInit {
   userData: any;
   itemNo: any = '';
   isValidateMove = false;
+  isViewAll=false;
   reqDate: Date = new Date();
   sortOrder = 'asc';
   sortCol = 0;
@@ -124,7 +125,7 @@ export class MoveItemsComponent implements OnInit {
   fillQty = 0;
   fillQtytoShow=0;
   maxMoveQty = 0;
-  isMoveQty = false;
+  isMoveQty = true;
   dedicateMoveTo = false;
   undedicateMoveFrom = false;
   isDedicated = false;
@@ -375,7 +376,7 @@ export class MoveItemsComponent implements OnInit {
       this.to_itemQuantity = row.itemQuantity;
       this.to_zone=row.zone;
       this.invMapmoveToID=row.invMapID;
-
+      this.isDedicated = row.dedicated === true ? true : false;
       this.fillQty =
       row.itemQuantity - row.maximumQuantity - row.quantityAllocatedPutAway;
       this.fillQtytoShow=this.fillQty
@@ -393,14 +394,27 @@ export class MoveItemsComponent implements OnInit {
     } else if (type === 'MoveFrom') {
       this.dataSource._data._value[i].isSelected =!this.dataSource._data._value[i].isSelected;
       this.isRowSelected=!this.isRowSelected;
-      
+       if(!this.isRowSelected){
+        this.moveToDatasource._data._value.forEach((element, index) => {
+          element.isSelected = false;
+        });
+        this.clearFields('MoveFrom');
+        this.clearFields('MoveTo')
+       } 
       
       this.dataSource._data._value.forEach((element, index) => {
         if (row.rn === element.rn) return;
         this.dataSource._data._value[index].isSelected = false;
       });
 
-      if( !this.dataSource._data._value[i].isSelected) return
+      if( !this.dataSource._data._value[i].isSelected) {
+        if (!row.isSelected) {
+          this.clearFields('MoveFrom');
+        } else {
+          this.isMoveQty = false;
+        }
+        return
+      }
       this.invMapIDToItem = row.invMapID;
       this.invMapmoveFromID=row.invMapID;
       this.from_warehouse = row.warehouse;
@@ -423,6 +437,7 @@ export class MoveItemsComponent implements OnInit {
         this.fillQty = 0;
       }
       this.maxMoveQty = row.itemQuantity - row.quantityAllocatedPick;
+      this.isMoveQty = false;
       if (this.maxMoveQty <= 0) {
         this.openAlertDialog('MaxAlloc');
         this.dataSource._data._value.forEach((element, index) => {
@@ -435,11 +450,7 @@ export class MoveItemsComponent implements OnInit {
       } else {
         this.from_itemQuantity = this.maxMoveQty;
       }
-      if (!row.isSelected) {
-        this.clearFields('MoveFrom');
-      } else {
-        this.isMoveQty = false;
-      }
+ 
       this.getMoveItemList('MoveTo');
     }
   }
@@ -491,6 +502,7 @@ export class MoveItemsComponent implements OnInit {
           this.isMoveQty=true;
           this.from_priority=0;
           this.from_itemQuantity=0;
+          this.clearFields('MoveFrom')
           break;
   
       default:
@@ -508,17 +520,21 @@ export class MoveItemsComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      // if(result){
-      //   if(type==='Un-Dedicate'){
-      //     this.undedicateMoveFrom=true;
+
+
+      if(result){
+        if(type==='Un-Dedicate'){
+          // this.undedicateMoveFrom=true;
+          this.callCreateMoveTrans();
         
-      //   }else if(type==='Dedicate'){
-      //     this.dedicateMoveTo=true;
-      //   }
-      // }else{
-      //   this.undedicateMoveFrom=false;
-      //   this.dedicateMoveTo=false;
-      // }
+        }else if(type==='Dedicate'){
+          // this.dedicateMoveTo=true;
+          this.callCreateMoveTrans();
+        }
+      }else{
+        this.undedicateMoveFrom=false;
+        // this.dedicateMoveTo=false;
+      }
        
     });
   }
@@ -552,8 +568,11 @@ export class MoveItemsComponent implements OnInit {
   
     if(tab.index===0){
       this.tableType='MoveFrom'
+      this.isViewAll=false
+
     }else if(tab.index===1){
       this.tableType='MoveTo'
+      this.isViewAll=true
     }
   } 
 
@@ -573,6 +592,7 @@ export class MoveItemsComponent implements OnInit {
       this.from_locationShow='';
       this.isMoveQty = true;
       this.MoveFromDedicated = '';
+      this.isDedicated=false;
     } else if (type === 'MoveTo') {
       this.to_priority = 0;
       this.to_warehouse = '';
@@ -588,6 +608,7 @@ export class MoveItemsComponent implements OnInit {
       this.to_locationShow='';
       this.MoveToDedicated = '';
       this.isValidateMove = false;
+      this.isDedicated=false;
     }
     this.reqDate = new Date();
   }

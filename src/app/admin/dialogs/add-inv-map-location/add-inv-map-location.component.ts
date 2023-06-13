@@ -347,11 +347,16 @@ export class AddInvMapLocationComponent implements OnInit {
     this.addInvMapLocation.controls['locationNumber'].setValue(value);
   }
   onSubmit(form: FormGroup) {
+    
+    let invMapIDs={
+      invMapID:this.getDetailInventoryMapData.invMapID,
+      masterInvMapID:this.getDetailInventoryMapData.masterInvMapID
+    }
       this.clickSubmit = true;
         if (this.clickSubmit) {
           if (this.data.detailData) {
             this.clickSubmit = false;
-            this.invMapService.updateInventoryMap(form.value).subscribe((res) => {
+            this.invMapService.updateInventoryMap(form.value,invMapIDs).subscribe((res) => {
               this.clickSubmit = true;
               //console.log(res);
               if (res.isExecuted) {

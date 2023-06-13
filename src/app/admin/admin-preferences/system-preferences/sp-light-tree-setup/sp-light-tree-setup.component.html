@@ -1,0 +1,235 @@
+<mat-card class="mat-elevation-z g-card mt-3">
+    <mat-card-content>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="card-header-title mb-0 d-flex align-items-center">
+                <div class="mat-icon-wrap me-lg-3 me-2">
+                    <span class="mat-icon material-symbols-outlined">
+                        ballot
+                    </span>
+                </div>
+                <span>Light Tree Setup</span>
+            </h2>
+        </div>
+
+
+        <div class="card p-3 mx-2">
+            <div class="row">
+                <div class="col-xl-3">
+                    <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
+                        <mat-label>Zone</mat-label>
+                        <mat-select formControlName="zone">
+
+                            <mat-option value="Order Number">
+                                Order Number
+                            </mat-option>
+                            <mat-option value="Item Number">
+                                Item Number.
+                            </mat-option>
+                        </mat-select>
+                        <span class="material-symbols-outlined icon-expand-more">
+                            expand_more
+                        </span>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-3">
+                    <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
+                        <mat-label>Zone</mat-label>
+                        <mat-select formControlName="zone">
+
+                            <mat-option value="Order Number">
+                                Order Number
+                            </mat-option>
+                            <mat-option value="Item Number">
+                                Item Number.
+                            </mat-option>
+                        </mat-select>
+                        <span class="material-symbols-outlined icon-expand-more">
+                            expand_more
+                        </span>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-3">
+                    <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
+                        <mat-label>Zone</mat-label>
+                        <mat-select formControlName="zone">
+
+                            <mat-option value="Order Number">
+                                Order Number
+                            </mat-option>
+                            <mat-option value="Item Number">
+                                Item Number.
+                            </mat-option>
+                        </mat-select>
+                        <span class="material-symbols-outlined icon-expand-more">
+                            expand_more
+                        </span>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-xl-3">
+                    <div class="row">
+                        <div class="col-12">
+
+                            <b> <span>Shelf Direction</span> </b>
+
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="d-flex flex-wrap gap-12 px-3">
+                                <mat-checkbox class="example-margin custom-checkbox mb-2"
+                                    color="primary">Ascending</mat-checkbox>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6">
+                            <div class="d-flex flex-wrap gap-12 px-3">
+                                <mat-checkbox class="example-margin custom-checkbox mb-2"
+                                    color="primary">Descending</mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="d-flex justify-content-between align-items-center mb-3 mt-4">
+            <h2 class="card-header-title mb-0 d-flex align-items-center">
+                <!-- <div class="mat-icon-wrap me-lg-3 me-2">
+                    <span class="mat-icon material-symbols-outlined">
+                        airline_stops
+                    </span>
+                </div> -->
+                <span>Alternate Light Settings</span>
+            </h2>
+        </div>
+
+
+
+        <div class="card p-3 mx-2">
+
+            <div class="row">
+                <div class="col-xl-1">
+
+                </div>
+                <div class="col-xl-5">
+                    <strong> <span>Shelf</span></strong>
+                </div>
+                <div class="col-xl-3">
+                    <strong> <span>Alternate Light Position</span></strong>
+                </div>
+                <div class="col-xl-2">
+
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+                <mat-radio-button color="primary">
+                </mat-radio-button>
+                <div class="container w-100">
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="d-flex justify-content-between align-items-center gap-12">
+                                <mat-form-field class="d-block w-100" appearance="outline">
+                                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #whname
+                                        maxlength="50">
+                                </mat-form-field>
+                                <mat-form-field class="d-block w-100" appearance="outline">
+                                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #whname
+                                        maxlength="50">
+                                </mat-form-field>
+                                <button mat-flat-button color="primary" class=" mat-button-icon h-100 float-end ">
+                                    <span class="material-symbols-outlined" matTooltip="Add New Device"
+                                        matTooltipPosition="above">
+                                        unfold_more
+                                    </span>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="d-flex align-items-center mb-3">
+                <mat-radio-button color="primary">
+                </mat-radio-button>
+                <div class="container w-100">
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="d-flex justify-content-between align-items-center gap-12">
+                                <mat-form-field class="d-block w-100" appearance="outline">
+                                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #whname
+                                        maxlength="50">
+                                </mat-form-field>
+                                <mat-form-field class="d-block w-100" appearance="outline">
+                                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #whname
+                                        maxlength="50">
+                                </mat-form-field>
+                                <button mat-flat-button color="primary" class=" mat-button-icon h-100 float-end ">
+                                    <span class="material-symbols-outlined" matTooltip="Add New Device"
+                                        matTooltipPosition="above">
+                                        unfold_more
+                                    </span>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+                <mat-radio-button color="primary">
+                </mat-radio-button>
+                <div class="container w-100">
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="d-flex justify-content-between align-items-center gap-12">
+                                <mat-form-field class="d-block w-100" appearance="outline">
+                                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #whname
+                                        maxlength="50">
+                                </mat-form-field>
+                                <mat-form-field class="d-block w-100" appearance="outline">
+                                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" #whname
+                                        maxlength="50">
+                                </mat-form-field>
+                                <button mat-flat-button color="primary" class=" mat-button-icon h-100 float-end ">
+                                    <span class="material-symbols-outlined" matTooltip="Add New Device"
+                                        matTooltipPosition="above">
+                                        unfold_more
+                                    </span>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row mt-3">
+
+                <div class="d-flex flex-start  justify-content-end gap-12">
+                    <button type="button" mat-stroked-button color="secondary" class=" btn-lg">Reset</button>
+                    <button type="submit" mat-flat-button class="  btn-lg" color="primary">Update Shelf in Zone</button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </mat-card-content>
+
+</mat-card>
