@@ -3,10 +3,12 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/admin/admin.service';
 import { AddNewDeviceComponent } from 'src/app/admin/dialogs/add-new-device/add-new-device.component';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { AuthService } from 'src/app/init/auth.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-sp-device-preference',
@@ -45,7 +47,9 @@ export class SpDevicePreferenceComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     public authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private toastr: ToastrService,
+    private sharedService: SharedService
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +59,12 @@ export class SpDevicePreferenceComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+
+    this.sharedService.devicePrefObserver.subscribe((evt) => {
+
+      console.log(evt)
+      this.getDevicePrefTable();
+    });
   }
 
   getDevicePrefTable() {
@@ -72,13 +82,14 @@ export class SpDevicePreferenceComponent implements OnInit {
     this.adminService
       .get(payload, '/Admin/DevicePreferenceTable')
       .subscribe((res: any) => {
-        if (res && res?.data?.totalOrders) {
-          this.dataSource = new MatTableDataSource(
-            res.data.totalOrders.orderTable
-          );
+        console.log(res);
+
+        if (res && res?.data?.devicePreferences) {
+          this.dataSource = new MatTableDataSource(res.data.devicePreferences);
+          this.customPagination.total = res.data?.recordsFiltered;
         }
-        if (res && res?.data?.totalOrders && res?.data?.totalOrders?.adminValues) {
-        }
+        // if (res && res?.data?.devicePreferences && res?.data?.devicePreferences) {
+        // }
       });
   }
 
@@ -92,7 +103,11 @@ export class SpDevicePreferenceComponent implements OnInit {
         item: item,
       },
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'Yes') {
+        this.getDevicePrefTable();
+      }
+    });
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
@@ -101,7 +116,7 @@ export class SpDevicePreferenceComponent implements OnInit {
     this.customPagination.recordsPerPage = e.pageSize;
     this.getDevicePrefTable();
   }
-  deleteAllOrders(item) {
+  deleteAllOrders(deviceID) {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '560px',
@@ -112,7 +127,68 @@ export class SpDevicePreferenceComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'Yes') {
+        let payload = {
+          deviceID: deviceID,
+          username: this.userData.userName,
+          wsid: this.userData.wsid,
+        };
+        this.adminService
+          .get(payload, '/Admin/DevicePreferencesDelete')
+          .subscribe((res: any) => {
+            if (res.isExecuted) {
+              this.toastr.success(res.responseMessage, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+              this.getDevicePrefTable();
+            } else {
+              this.toastr.error(res.responseMessage, 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            }
+          });
       }
     });
+  }
+  sortChange(event) {
+    if (
+      !this.dataSource._data._value ||
+      event.direction == '' ||
+      event.direction == this.sortCol
+    )
+      return;
+    let index;
+    this.displayedColumns.find((x, i) => {
+      if (x === event.active) {
+        index = i + 1;
+      }
+    });
+
+    this.sortCol = index;
+    this.sortDir = event.direction;
+    this.getDevicePrefTable();
+  }
+  deleteRecord() {
+    // let payload = {
+    //   deviceID: this.data && this.data.item ? this.data.item.deviceID : 0,
+    //   username: this.userData.userName,
+    //   wsid: this.userData.wsid,
+    // };
+    // this.adminService
+    //   .get(payload, '/Admin/DevicePreferencesDelete')
+    //   .subscribe((res: any) => {
+    //     if (res.isExecuted) {
+    //       this.toastr.success(res.responseMessage, 'Success!', {
+    //         positionClass: 'toast-bottom-right',
+    //         timeOut: 2000,
+    //       });
+    //     } else {
+    //       this.toastr.error(res.responseMessage, 'Error!', {
+    //         positionClass: 'toast-bottom-right',
+    //         timeOut: 2000,
+    //       });
+    //     }
+    //   });
   }
 }
