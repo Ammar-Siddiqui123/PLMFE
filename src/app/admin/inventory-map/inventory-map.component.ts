@@ -379,7 +379,7 @@ export class InventoryMapComponent implements OnInit {
 
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: '96%',
-        width: '70vw',
+        width: '100vw',
         data: {
           mode: event,
           tableName: 'Inventory Map',

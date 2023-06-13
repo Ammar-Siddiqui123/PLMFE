@@ -5,21 +5,20 @@
     <mat-icon class="close-icon">close</mat-icon>
 </button>
 </div>
-<form [formGroup]="addInvMapLocation" (ngSubmit)="onSubmit(addInvMapLocation)">
+<form [formGroup]="addInvMapLocation" (ngSubmit)="onSubmit(addInvMapLocation)" mat-dialog-content>
     <div class="row mb-3">
-        <div class="col-6">
-            
-                <div class="container location_detail">
+        <div class="col-xl-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-xl-0 ">
+                <div class="container location_detail px-md-3">
                     <ng-scrollbar style="height: 500px">
                     <h1 mat-dialog-title>Location Details</h1>
                     <div class="row">
-                        <div class="col-6  mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Location Number</mat-label>
                                 <input matInput disabled name="locationNumber" value="{{autoFillLocNumber}}">
                             </mat-form-field>
                         </div>
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Location Name</mat-label>
                                 <input   placeholder="Location Name" aria-label="Location Name" matInput maxlength="50"
@@ -41,7 +40,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6  mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Laser X</mat-label>
                                 <input [NumbersOnly]="true" maxlength="9" matInput formControlName="laserX"   name="laserX"  >
@@ -50,7 +49,7 @@
                             <div class="error" *ngIf="hasError('laserX', 'pattern')">Please enter numbers only.</div>
                             <div class="error" *ngIf="hasError('laserX', 'maxlength')">Max number allowed is 9.</div>
                         </div>
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Laser Y</mat-label>
                                 <input [NumbersOnly]="true" maxlength="9" matInput formControlName="laserY"   name="laserY" >
@@ -61,17 +60,17 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100 " appearance="outline" (click)="loadWarehouse()">
                                 <mat-label>Warehouse</mat-label>
                                 <input matInput formControlName="warehouse" name="warehouse" readonly="true">
                                 <span matSuffix>
-                                    <mat-icon style="color:#8B8BA3;">open_in_full</mat-icon>
+                                    <mat-icon style="color:#8B8BA3; transform: rotate(45deg);" >unfold_more</mat-icon>
                                 </span>
                             </mat-form-field>
                             <div class="error" *ngIf="hasError('warehouse', 'required')">This field is required.</div>
                         </div>
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <!-- <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Zone</mat-label>
                                 <input   placeholder="Zone" aria-label="Zone" matInput
@@ -105,18 +104,12 @@
                             </mat-form-field>
 
 
-
-
-
-
-
-
                             <div class="error" *ngIf="hasError('zone', 'required')">This field is required.</div>
                             <div class="error" *ngIf="hasError('zone', 'maxlength')">Max number allowed is 2.</div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Carousel</mat-label>
                                 <input [NumbersOnly]="true" matInput formControlName="carousel" #carousel   name="carousel"  [maxlength]="1" (change)="updateItemNumber('carousel', carousel.value)">
@@ -125,7 +118,7 @@
                             <div class="error" *ngIf="hasError('carousel', 'maxlength')">Max number allowed is 1.</div>
                             <div class="error" *ngIf="hasError('carousel', 'pattern')">Please enter numbers only.</div>
                         </div>
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Row</mat-label>
                                 <input maxlength="5" matInput formControlName="row" #row   name="row" (change)="updateItemNumber('row', row.value)">
@@ -135,7 +128,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Shelf</mat-label>
                                 <input  maxlength="2"  matInput formControlName="shelf" #shelf   name="shelf" (change)="updateItemNumber('shelf', shelf.value)">
@@ -143,7 +136,7 @@
                             <div class="error" *ngIf="hasError('shelf', 'required')">This field is required.</div>
                             <div class="error" *ngIf="hasError('shelf', 'maxlength')">Max number allowed is 2.</div>
                         </div>
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Bin</mat-label>
                                 <input  maxlength="3"  matInput formControlName="bin" #bin   name="bin" (change)="updateItemNumber('bin', bin.value)">
@@ -153,33 +146,33 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100 "   appearance="outline">
                                 <mat-label>Unit of Measure</mat-label>
                                 <input matInput formControlName="unitOfMeasure"   name="unitOfMeasure" >
                             </mat-form-field>
                         </div>
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100" appearance="outline" (click)="loadCellSize()">
                                 <mat-label>Cell Size</mat-label>
                                 <input matInput formControlName="cell" name="cell" readonly #cellSizeVal>
                                 <span matSuffix>
-                                    <mat-icon style="color:#8B8BA3;">open_in_full</mat-icon>
+                                    <mat-icon style="color:#8B8BA3; transform: rotate(45deg);" >unfold_more</mat-icon>
                                 </span>
                             </mat-form-field>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100 " appearance="outline" (click)="loadVelocityCode()">
                                 <mat-label>Velocity Code</mat-label>
                                 <input matInput formControlName="velocity" name="velocity" readonly #velCodeVal>
                                 <span matSuffix>
-                                    <mat-icon style="color:#8B8BA3;">open_in_full</mat-icon>
+                                    <mat-icon style="color:#8B8BA3; transform: rotate(45deg);" >unfold_more</mat-icon>
                                 </span>
                             </mat-form-field>
                         </div>
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Alternate Light</mat-label>
                                 <input [NumbersOnly]="true"  maxlength="9"  matInput formControlName="altLight"   name="altLight"  >
@@ -201,13 +194,13 @@
                         <input  maxlength="255" type="text" matInput formControlName="userField2"   name="userField2">
                     </mat-form-field>
                     <div class="row mt-2" *ngIf="data.mode == 'editInvMapLocation'">
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Quantity Allocated Pick</mat-label>
                                 <input  type="text" matInput formControlName="quantityAllocatedPick" name="quantityAllocatedPick">
                             </mat-form-field>
                         </div>
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Quantity Allocated Put Away</mat-label>
                                 <input type="text" matInput formControlName="quantityAllocatedPutAway" name="quantityAllocatedPutAway">
@@ -215,13 +208,13 @@
                         </div>
                     </div>
                     <div class="row" *ngIf="data.mode == 'editInvMapLocation'">
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Inv Map ID</mat-label>
                                 <input type="text" matInput formControlName="inventoryMapID" name="inventoryMapID" >
                             </mat-form-field>
                         </div>
-                        <div class="col-6 mb-2">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Master Inv Map ID</mat-label>
                                 <input type="text" matInput formControlName="masterInventoryMapID" name="masterInventoryMapID" >
@@ -229,23 +222,23 @@
                         </div>
                     </div>
                     
-                    <section class="ld_checks">
+                    <section class="ld_checks d-block d-xl-flex">
                         <mat-checkbox *ngIf="data.mode == 'editInvMapLocation'" formControlName="masterLocation" class="ld_checkbox" color="primary">Master Location 
                         </mat-checkbox>
-                        <mat-checkbox formControlName="dedicated" class="ld_checkbox" color="primary">Dedicated
+                        <mat-checkbox formControlName="dedicated" class="ld_checkbox col-12 col-xl-4 " color="primary">Dedicated
                         </mat-checkbox>
-                        <mat-checkbox formControlName="dateSensitive" class="ld_checkbox" color="primary">Date Sensitive
+                        <mat-checkbox formControlName="dateSensitive" class="ld_checkbox col-12 col-xl-4 " color="primary">Date Sensitive
                         </mat-checkbox>
                     </section>
                 </ng-scrollbar>
                 </div>
             
         </div>
-        <div class="col-6">
-            <div class="container item_detail">
+        <div class="col-xl-6 col-md-12 col-sm-12 col-xs-12">
+            <div class="container item_detail px-md-3">
                 <h1 mat-dialog-title>Assigned Item Details</h1>
                 <div class="row">
-                    <div class="col-6 mb-2">
+                    <div class="col-xl-6 col-md-12 mb-2">
                         <mat-form-field class="d-block w-100" appearance="outline" >
                             <mat-label>Item Number</mat-label>
                             <input  maxlength="50" placeholder="Item Number" aria-label="Item Number" matInput 
@@ -277,14 +270,14 @@
                             </span>
                         </mat-form-field>
                     </div>
-                    <div class="mb-2" [ngClass]="{'col-4': data.mode != 'addInvMapLocation', 'col-6' : data.mode == 'addInvMapLocation' }">
+                    <div class="mb-2" [ngClass]="{'col-xl-4 col-md-12': data.mode != 'addInvMapLocation', 'col-6' : data.mode == 'addInvMapLocation' }">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Maximum (Location) Quantity</mat-label>
                             <input [NumbersOnly]="true" maxlength="9" matInput formControlName="maxQuantity"   name="maxQuantity" (keydown)="onMaxChange($event)" (keyup)="onMaxChange($event)" (change)="onMaxChange($event)" (keypress)="onMaxChange($event)"  type="text" [NumbersOnly]="true" maxlength="9">
                         </mat-form-field>
                         <div class="error" *ngIf="hasError('maxQuantity', 'maxlength')">Max number allowed is 9.</div>
                     </div>
-                    <div class="mb-2" [ngClass]="{'col-4': data.mode != 'addInvMapLocation', 'col-6' : data.mode == 'addInvMapLocation' }">
+                    <div class="mb-2" [ngClass]="{'col-xl-4 col-md-12': data.mode != 'addInvMapLocation', 'col-6' : data.mode == 'addInvMapLocation' }">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Min (Location) Quantity</mat-label>
                             <input [NumbersOnly]="true" maxlength="9" matInput formControlName="minQuantity"   name="minQuantity" (keydown)="onMinChange($event)" (keyup)="onMinChange($event)" (change)="onMinChange($event)" (keypress)="onMinChange($event)"  type="text" [NumbersOnly]="true" maxlength="9">
@@ -294,13 +287,13 @@
                     </div>
                 </div>
                 <div class="row">
-                     <div class="col-6">
+                     <div class="col-xl-4 col-md-12">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Put Away Date</mat-label>
                             <input matInput type="text" formControlName="putAwayDate" name="putAwayDate">
                         </mat-form-field>
                     </div>
-                    <div class="col-6">
+                    <div class="col-xl-4 col-md-12">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Serial Number</mat-label>
                             <input type="text" matInput  formControlName="serialNumber" name="serialNumber">
@@ -308,13 +301,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-xl-4 col-md-12">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Lot Number</mat-label>
                             <input matInput formControlName="lotNumber" name="lotNumber">
                         </mat-form-field>
                     </div>
-                    <div class="col-6">
+                    <div class="col-xl-4 col-md-12">
                         <mat-form-field class="d-block w-100 " appearance="outline">
                             <mat-label>Revision</mat-label>
                             <input matInput formControlName="revision" name="revision">
