@@ -3,8 +3,8 @@
 
         <div class="row">
             <div class="col-xl-5">
-                <div class="d-flex gap-12 align-items-center ">
-                    <mat-form-field class="action-dropdown" appearance="outline">
+                <div class="d-block d-xl-flex gap-12 align-items-center">
+                    <mat-form-field class="action-dropdown w-100 mb-3" appearance="outline" style="flex:1">
                         <mat-label>Search</mat-label>
                         <mat-select class="employees-action" [(ngModel)]="selectedDropdown"
                             (selectionChange)="selectStatus($event.value)">
@@ -17,8 +17,8 @@
                         </span>
                     </mat-form-field>
 
-                    <span class="v-br">-</span>
-                    <div class="d-flex g-mini-search-box w-100">
+                    <span class="v-br d-none d-xl-flex mb-3">-</span>
+                    <div class="d-flex g-mini-search-box w-100 mb-3">
 
 
 
@@ -41,8 +41,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-7 d-flex flex-row-reverse">
-                <mat-form-field class="action-dropdown w-30" appearance="outline">
+            <div class="col-xl-2 offset-xl-5 d-flex justify-content-end">
+                <div class="d-block d-lg-flex d-flex w-100 justify-content-end">
+                <mat-form-field class="action-dropdown mb-3" appearance="outline" style="flex:1 auto">
                     <mat-label>Action</mat-label>
                     <mat-select   #matRef class="employees-action" (openedChange)="actionDialog($event)"
                         [(value)]="selectedVariable">
@@ -53,7 +54,7 @@
                         expand_more
                     </span>
                 </mat-form-field>
-
+            </div>
 
             </div>
         </div>

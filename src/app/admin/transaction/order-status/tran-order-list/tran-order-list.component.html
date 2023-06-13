@@ -73,14 +73,17 @@
 
 
           </div>
+          <div class="d-block d-lg-flex">
           <button  (click)="clearData($event)" mat-stroked-button appearance="outline" color="warn"
-            class="button-remove-all-w-stroke mb-3">
+            class="button-remove-all-w-stroke mb-3 w-100" style="flex:1">
             Clear
           </button>
+          </div>
         </div>
       </div>
-      <div class="col-xl-7 d-flex flex-row-reverse">
-        <mat-form-field class="action-dropdown w-30" appearance="outline">
+      <div class="col-xl-2 offset-xl-5 d-flex justify-content-end">
+        <div class="d-block d-lg-flex w-100 justify-content-end">
+        <mat-form-field class="action-dropdown" appearance="outline" style="flex:1 auto">
           <mat-label>Action</mat-label>
           <mat-select class="employees-action">
             <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
@@ -90,6 +93,7 @@
             expand_more
           </span>
         </mat-form-field>
+        </div>
       
         <!-- <div style="flex:1">
           

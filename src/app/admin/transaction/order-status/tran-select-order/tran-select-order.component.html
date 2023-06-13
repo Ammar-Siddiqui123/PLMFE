@@ -1,8 +1,8 @@
 <mat-card class="mat-elevation-z g-card h-100">
   <mat-card-content>
 
-    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-      <h2 class="card-header-title d-flex align-items-center mb-3">
+    <div class="row d-block d-xl-flex justify-content-between align-items-center mb-3 flex-wrap">
+      <h2 class="col card-header-title d-flex align-items-center mb-3">
         <div class="mat-icon-wrap me-3">
           <span class="material-symbols-outlined">
             filter_frames
@@ -10,7 +10,7 @@
         </div>
         <span>Select Order</span>
       </h2>
-      <div class="col-xl-4">
+      <div class="col-xxl-4">
         <button (click)="deleteOrder()" *ngIf="authService.UserPermissonByFuncName('Order Status Delete')" [disabled]="totalLinesOrder==0 || !(authService.UserPermissonByFuncName('Order Status Delete'))" mat-flat-button color="warn"
           class="btn-regular w-100 mb-3"
           [ngClass]="{'disabled-button' : totalLinesOrder==0, 'delete-button' : totalLinesOrder>0 }">
