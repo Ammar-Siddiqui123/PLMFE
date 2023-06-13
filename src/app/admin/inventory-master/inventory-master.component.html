@@ -4,10 +4,10 @@
       <div class="col-12">
         <mat-card class="mat-elevation-z g-card">
           <mat-card-content>
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <div>
-                <h2 class="card-header-title mb-0 d-flex align-items-center">
-                  <div class="mat-icon-wrap me-lg-3">
+            <div class="row align-items-center">
+              <div class="col">
+                <h2 class="card-header-title mb-0 d-flex align-items-center mb-2">
+                  <div class="mat-icon-wrap me-3">
                     <span class="material-symbols-outlined">
                       manage_search
                     </span>
@@ -15,26 +15,29 @@
                   <span>Item Number Lookup</span>
                 </h2>
               </div>
-              <div class="d-flex align-items-center gap-12">
-                <button mat-flat-button color="primary" class="sm-icon-button"  [disabled]="paginationData && paginationData.position<2"  (click)="prevPage()">
-                  <span class="material-symbols-outlined">
-                    keyboard_arrow_left
-                  </span>
-                </button>
-                <div class="text-chrome-600"><b>{{paginationData && paginationData.position}}</b> of {{paginationData &&
-                  paginationData.total}}</div>
-                <button mat-flat-button color="primary" class="sm-icon-button" [disabled]="paginationData && paginationData.position===paginationData.total" (click)="nextPage()">
-                  <span class="material-symbols-outlined">
-                    keyboard_arrow_right
-                  </span>
-                </button>
-                <!-- <mat-paginator>
-                </mat-paginator> -->
+              <div class="col-xl-3 col-lg-4 ms-xl-5">
+                <div class="d-flex align-items-center gap-12 ms-xl-5 ps-xl-5 mb-2">
+                  <button mat-flat-button color="primary" class="sm-icon-button"  [disabled]="paginationData && paginationData.position<2"  (click)="prevPage()">
+                    <span class="material-symbols-outlined">
+                      keyboard_arrow_left
+                    </span>
+                  </button>
+                  <div class="text-chrome-600 text-center" style="flex:1; white-space: nowrap;"><b>{{paginationData && paginationData.position}}</b> of {{paginationData &&
+                    paginationData.total}}</div>
+                  <button mat-flat-button color="primary" class="sm-icon-button" [disabled]="paginationData && paginationData.position===paginationData.total" (click)="nextPage()">
+                    <span class="material-symbols-outlined">
+                      keyboard_arrow_right
+                    </span>
+                  </button>
+                  <!-- <mat-paginator>
+                  </mat-paginator> -->
+                </div>
               </div>
+              
             </div>
             <div class="card bg-light-blue bg-50 br-none px-4 py-4 br-20 mb-3">
               <div class="d-flex justify-content-between">
-                <div class="d-flex g-mini-search-box gap-20 align-items-center w-100">
+                <div class="d-flex g-mini-search-box gap-20 align-items-center w-100 flex-wrap">
                   <div class="search-box" style="flex:1" >
                     <mat-form-field class="w-100 bg-white br-14" appearance="fill">
                       <span class="material-symbols-outlined icon-search">
