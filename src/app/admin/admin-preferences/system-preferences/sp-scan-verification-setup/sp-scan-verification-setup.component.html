@@ -6,7 +6,7 @@
                 Click “ Manage Default Scan Verification(s)” to default handling.</span>
         </div>
     </div>
-    <div class="col-xl-12 d-flex justify-content-between align-items-center  mb-3">
+    <div class="col-xl-12 d-block d-xl-flex justify-content-between align-items-center  mb-3">
 
         <div class="d-flex justify-content-between align-items-center">
             <h2 class="card-header-title mb-0 d-flex align-items-center">
@@ -20,7 +20,7 @@
         </div>
 
         <div class="d-flex align-items-center gap-12">
-                <button type="button" mat-flat-button color="primary" class="button-primary-i button-sm"
+                <button type="button" mat-flat-button color="primary" class="button-primary-i btn-regular w-100"
                     (click)="openScanVerification()">Manage Default Scan Verification(S)</button>
 
             <button mat-flat-button color="primary" class="add-icon-button">
@@ -43,7 +43,7 @@
                                 <th mat-header-cell *matHeaderCellDef> Trans. Type </th>
                                 <td mat-cell *matCellDef="let element">
                                     <mat-form-field
-                                        class="action-dropdown custom-form-field custom-form-field-bg-white w-100 mb-3"
+                                        class="action-dropdown custom-form-field custom-form-field-bg-white w-100"
                                         appearance="outline">
                                         <mat-label>Trans. Type</mat-label>
                                         <mat-select class="employees-action" placeholder="Actions">
@@ -72,7 +72,7 @@
                                 <th mat-header-cell *matHeaderCellDef> Field</th>
                                 <td mat-cell *matCellDef="let element; let i = index;">
                                     <mat-form-field
-                                        class="action-dropdown custom-form-field custom-form-field-bg-white w-100 mb-3"
+                                        class="action-dropdown custom-form-field custom-form-field-bg-white w-100"
                                         appearance="outline">
                                         <mat-label>Expiration Date</mat-label>
                                         <mat-select class="employees-action" placeholder="Actions">
@@ -97,7 +97,7 @@
                                 <th mat-header-cell *matHeaderCellDef>Verify Type</th>
                                 <td mat-cell *matCellDef="let element">
                                     <mat-form-field
-                                        class="action-dropdown custom-form-field custom-form-field-bg-white w-100 mb-3"
+                                        class="action-dropdown custom-form-field custom-form-field-bg-white w-100"
                                         appearance="outline">
                                         <mat-label>All</mat-label>
                                         <mat-select class="employees-action" placeholder="Actions">
@@ -131,8 +131,8 @@
                             </ng-container>
 
                             <ng-container matColumnDef="actions" stickyEnd>
-                                <th mat-header-cell *matHeaderCellDef>Actions</th>
-                                <td mat-cell *matCellDef="let element; let i = index">
+                                <th mat-header-cell *matHeaderCellDef class="ps-2">Actions</th>
+                                <td mat-cell *matCellDef="let element; let i = index" class="ps-2">
                                     <div class="d-flex gap-12">
 
                                         <button matTooltip="Delete" mat-flat-button color="warn"

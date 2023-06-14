@@ -1,8 +1,8 @@
 <mat-card class="mat-elevation-z g-card mt-3">
     <mat-card-content>
 
-        <div class="d-flex justify-content-between">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-block d-lg-flex justify-content-between">
+        <div class="col d-flex justify-content-between align-items-center mb-3">
             <h2 class="card-header-title mb-0 d-flex align-items-center">
                 <div class="mat-icon-wrap me-lg-3 me-2">
                     <span class="mat-icon material-symbols-outlined">
@@ -13,8 +13,9 @@
             </h2>
         </div>
 
-          <div class="col-xl-3 d-flex flex-row-reverse">
-            <mat-form-field class="action-dropdown w-30" appearance="outline">
+          <div class="col-xl-3">
+            <div class="w-100 d-flex d-lg-block">
+            <mat-form-field class="action-dropdown float-end mb-3" appearance="outline" style="flex:1">
                 <mat-label>Action</mat-label>
                 <mat-select #matRef class="employees-action">
                     <mat-option value="pagesNumber">Reset All Alternate Light Positions</mat-option>
@@ -24,10 +25,11 @@
                     expand_more
                 </span>
             </mat-form-field>
+            </div>
         </div>
     </div>
 
-        <div class="card p-3 mx-2">
+        <div class="card p-3">
             <div class="row">
                 <div class="col-xl-3">
                     <mat-form-field class=" custom-form-field w-100 __grab_cursor" appearance="outline">
@@ -162,9 +164,9 @@
                         </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="other">
-                        <th mat-header-cell *matHeaderCellDef></th>
-                        <td mat-cell *matCellDef="let element; let i = index;">
+                    <ng-container matColumnDef="other" stickyEnd>
+                        <th mat-header-cell *matHeaderCellDef class="ps-2"></th>
+                        <td mat-cell *matCellDef="let element; let i = index;" class="ps-2">
                             <div class="d-flex justify-content-end">
                                 <button type="button" mat-icon-button [matMenuTriggerFor]="appMenu" aria-label=""
                                     class="circle-icon-o" appearance="outline">
