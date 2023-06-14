@@ -20,11 +20,12 @@
       </div>
     </mat-dialog-content>
     <mat-dialog-actions class="d-flex flex-column justify-content-center">
-      <button  class=" prompt-action-danger-button mb-3 w-100 btn-lg" mat-stroked-button  [mat-dialog-close]="true" >OK</button>
-      <button  class="  prompt-action-basic-button mb-3 w-100 btn-lg" mat-stroked-button  [mat-dialog-close]="false" *ngIf="!disableCancel">Cancel</button>
+      <button  class=" prompt-action-danger-button mb-3 w-100 btn-lg" mat-stroked-button  [mat-dialog-close]="true" >{{buttonFields?'YES':'OK'}}</button>
+      <button  class="  prompt-action-basic-button mb-3 w-100 btn-lg" mat-stroked-button  [mat-dialog-close]="false" *ngIf="!disableCancel">{{buttonFields?'NO':'Cancel'}}</button>
       
       <!-- <button class="mat-button-base prompt-action-basic-button" mat-button mat-dialog-close>
         Cancel
       </button> -->
     </mat-dialog-actions>
+    
   </div>

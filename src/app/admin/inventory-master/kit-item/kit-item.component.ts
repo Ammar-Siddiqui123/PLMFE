@@ -15,6 +15,8 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 export class KitItemComponent implements OnInit, OnChanges {
 
+  displayedColumns: string[] = ['ItemNumber', 'Description', 'SpecialFeatures', 'KitQuantity','Actions'];
+
   @Input() kitItem: FormGroup;
   public userData: any;
   kitItemsList: any = [];
@@ -74,7 +76,8 @@ export class KitItemComponent implements OnInit, OnChanges {
       kitQuantity: 0,
       isSaved: false,
       
-    })
+    });
+    this.kitItemsList = [...this.kitItemsList];
     // console.log(this.kitItemsList);
     
   }
