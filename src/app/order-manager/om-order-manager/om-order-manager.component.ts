@@ -17,6 +17,8 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { GlobalService } from 'src/app/common/services/global.service';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
+import { MatButton } from '@angular/material/button';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-om-order-manager',
@@ -123,6 +125,12 @@ export class OmOrderManagerComponent implements OnInit {
               public globalService    : GlobalService,
               private filterService   : ContextMenuFiltersService) { }
 
+  @ViewChild('btnRef') buttonRef: MatButton;
+
+  ngAfterViewInit() {
+  //  this.buttonRef.focus();
+  }
+
   async ngOnInit(): Promise<void> {
     this.customPagination = {
       total : '',
@@ -169,7 +177,9 @@ export class OmOrderManagerComponent implements OnInit {
       if (res.isExecuted) {
         this.displayedColumns = res.data;        
         this.displayedColumns.push( 'actions');
+        debugger
         this.colList = structuredClone(res.data.filter(x => x != 'actions'));
+        this.colList = this.colList.sort();
         this.searchCol = this.colList[0];
       }
     });
@@ -528,6 +538,11 @@ export class OmOrderManagerComponent implements OnInit {
       appName: ""
     }
     await this.OMService.get(payload, '/OrderManager/OrderManagerTempDelete',true).toPromise();
+  }
+
+  actionDialog(matEvent: MatSelectChange) {
+    const matSelect: MatSelect = matEvent.source;
+    matSelect.writeValue(null);
   }
 
 }

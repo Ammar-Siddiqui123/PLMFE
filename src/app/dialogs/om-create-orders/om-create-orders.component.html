@@ -30,13 +30,13 @@
                 </mat-form-field>
             </div>
             <div class="col-xl-3">
-                <button type="submit" mat-flat-button class="btn-regular w-100 mb-xl-0 mb-md-2" color="primary" (click)="goToOrderStatus()">Order Status</button>
+                <button type="submit" mat-stroked-button class="btn-regular w-100 mb-xl-0 mb-md-2" color="primary" (click)="goToOrderStatus()">Order Status</button>
             </div>
             <div class="col-xl-3">
                 <button type="submit" mat-flat-button class="btn-regular w-100 mb-xl-0 mb-md-2" color="primary" (click)="openOmAddRecord()">Add New Order</button>
             </div>
             <div class="col-xl-3">
-                <button type="submit" mat-flat-button class="btn-regular w-100 mb-xl-0 mb-md-2" color="primary" (click)="openOmUserFieldData()">Default User Fields</button>
+                <button type="submit" mat-stroked-button class="btn-regular w-100 mb-xl-0 mb-md-2" color="primary" (click)="openOmUserFieldData()">Default User Fields</button>
             </div>
             <!-- <div class="col-xl-3 offset-xl-6">
                 <div class="d-flex justify-content-end">
@@ -94,7 +94,7 @@
                     <div class="d-flex justify-content-end">
                         <mat-form-field class="action-dropdown custom-form-field-bg-white" appearance="outline">
                             <mat-label>Actions</mat-label>
-                            <mat-select #matRef class="employees-action" placeholder="Actions">
+                            <mat-select #matRef class="employees-action" placeholder="Actions" (selectionChange)="actionDialog($event)">
                                 <mat-option value="add_new_transaction" [disabled]="!tableData.filteredData || tableData.filteredData.length == 0" (click)="openOmAddTransaction()">Add Transaction</mat-option>
                                 <mat-option value="post_order" (click)="releaseOrders()">Release Orders</mat-option>
                                 <mat-option value="delete_order" (click)="deleteViewed()">Delete Viewed</mat-option>
