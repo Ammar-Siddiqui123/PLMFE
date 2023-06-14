@@ -33,6 +33,7 @@ export class SharedService {
   batchManagerObserver: Subject<any> = new Subject<any>();
   breadCrumObserver: Subject<any> = new Subject<any>();
   invMasterParentObserver: Subject<any> = new Subject<any>();
+  devicePrefObserver: Subject<any> = new Subject<any>();
   
 
   resetSidebar() {
@@ -108,6 +109,10 @@ export class SharedService {
   }
   updateInvMasterState(obj,type) {
     this.invMasterParentObserver.next({event:obj,isEnable:type});
+  }
+
+  updateDevicePref(obj){
+    this.devicePrefObserver.next({event:obj});
   }
   getSidebarStatus() {
     return this.loadMenu;
