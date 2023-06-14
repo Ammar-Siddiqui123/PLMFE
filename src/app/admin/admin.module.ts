@@ -150,6 +150,8 @@ import { AddNewDeviceComponent } from './dialogs/add-new-device/add-new-device.c
 import { SpBulkHandheldSettingComponent } from './admin-preferences/system-preferences/sp-bulk-handheld-setting/sp-bulk-handheld-setting.component';
 import { SpScanVerificationSetupComponent } from './admin-preferences/system-preferences/sp-scan-verification-setup/sp-scan-verification-setup.component';
 import { ScanVerificationDefaultsComponent } from './dialogs/scan-verification-defaults/scan-verification-defaults.component';
+import { LocationNameComponent } from './dialogs/location-name/location-name.component';
+import { KanbanZoneAllocationConflictComponent } from './dialogs/kanban-zone-allocation-conflict/kanban-zone-allocation-conflict.component';
 
 
 
@@ -290,6 +292,8 @@ import { ScanVerificationDefaultsComponent } from './dialogs/scan-verification-d
     SpBulkHandheldSettingComponent,
     SpScanVerificationSetupComponent,
     ScanVerificationDefaultsComponent,
+    LocationNameComponent,
+    KanbanZoneAllocationConflictComponent,
 
   ],
   imports: [
