@@ -319,10 +319,13 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   searchChange(event: any) {
-    this.tablePayloadObj.searchColumn = event;
-    this.getSearchOptions();
-    this.resetPagination();
-    this.newReplenishmentOrders(true);
+    if(event == ""){
+      this.tablePayloadObj.searchString = "";
+    }
+      this.tablePayloadObj.searchColumn = event;
+      this.getSearchOptions();
+      this.resetPagination();
+      this.newReplenishmentOrders(true);
   }
 
   // changeSearchOptions() {
