@@ -19,6 +19,7 @@ import { GlobalService } from 'src/app/common/services/global.service';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { MatButton } from '@angular/material/button';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-om-order-manager',
@@ -123,7 +124,8 @@ export class OmOrderManagerComponent implements OnInit {
               private OMService       : OrderManagerService,
               public authService      : AuthService,
               public globalService    : GlobalService,
-              private filterService   : ContextMenuFiltersService) { }
+              private filterService   : ContextMenuFiltersService,
+              private router: Router) { }
 
   @ViewChild('btnRef') buttonRef: MatButton;
 
@@ -332,14 +334,22 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   openOrderStatus(ele : any, fromTable : boolean) {
-    if((this.value1 == "" || this.column != "Order Number") && !fromTable)
+    if((this.value1 == "" || this.column != "Order Number") && !fromTable){
       this.toastr.error("You must select an Order Number to view the order status.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
-    else
-      if (!fromTable) window.open(`/#/OrderManager/OrderStatus?orderStatus=${this.value1 ? this.value1 : ''}`, '_blank');
-      else {
-        if (!fromTable) window.open(`/#/OrderManager/OrderStatus?orderStatus=${this.value1 ? this.value1 : ''}`, '_blank');
-        else window.open(`/#/OrderManager/OrderStatus?orderStatus=${ele.orderNumber ? ele.orderNumber : ''}`, '_blank');
+    }
+    else{
+      if (!fromTable){
+        this.router.navigateByUrl(`/OrderManager/OrderStatus?orderStatus=${this.value1 ? this.value1 : ''}`);
       } 
+      else {
+        if (!fromTable){
+          this.router.navigateByUrl(`/OrderManager/OrderStatus?orderStatus=${this.value1 ? this.value1 : ''}`);
+        } 
+        else{
+          this.router.navigateByUrl(`/OrderManager/OrderStatus?orderStatus=${ele.orderNumber ? ele.orderNumber : ''}`);
+        } 
+      } 
+    }
   }
 
   releaseViewed() {
