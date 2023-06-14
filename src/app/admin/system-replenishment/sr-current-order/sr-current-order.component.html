@@ -37,7 +37,7 @@
         <div class="row mb-3">
             <div class="col-12 col-xl-7">
                 <div class="d-xl-flex gap-12 align-items-center flex-wrap">
-                    <mat-form-field class="action-dropdown d-xl-flex d-block" appearance="outline">
+                    <mat-form-field class="action-dropdown d-xl-flex d-block mb-3 mb-xl-0" appearance="outline">
                         <mat-label>Search</mat-label>
                         <mat-select class="employees-action" (selectionChange)="searchChange($event.value)">
                             <mat-option *ngFor="let option of searchColumnOptions" [value]="option.value">{{option.viewValue}}</mat-option>
@@ -47,8 +47,8 @@
                         </span>
                     </mat-form-field>
 
-                    <span class="v-br">-</span>
-                    <div class="d-xl-flex g-mini-search-box" style="flex:1">
+                    <span class="v-br d-none d-xl-block">-</span>
+                    <div class="d-xl-flex g-mini-search-box mb-3 mb-xl-0" style="flex:1">
                         <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
                         [hideRequiredMarker]="hideRequiredControl.value" (keyup.enter)="closeautoMenu()">
                             <span class="material-symbols-outlined icon-search">
@@ -76,7 +76,7 @@
                             </mat-autocomplete>
                         </mat-form-field>
                     </div>
-                    <mat-form-field class="action-dropdown d-xl-flex d-block  " appearance="outline">
+                    <mat-form-field class="action-dropdown d-xl-flex d-block  mb-3 mb-xl-0 " appearance="outline">
                         <mat-label>Show</mat-label>
                         <mat-select class="employees-action" (selectionChange)="showChange($event.value)">
                             <mat-option value="All">All</mat-option>
