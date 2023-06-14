@@ -1,4 +1,4 @@
-<mat-card class="mat-elevation-z g-card mb-4 h-100">
+<mat-card class="mat-elevation-z g-card h-100">
     <mat-card-content>
 
         <div class="row mb-3 ">
@@ -17,7 +17,7 @@
         <div class="row align-items-center ">
             <div class="col-12 h-100">
                 <div class="card br-14 table-responsive">
-                    <ng-scrollbar style="height:260px;"  class="mat-table-scrollbar">
+                    <ng-scrollbar style="height:260px;" track="all"  class="mat-table-scrollbar">
                         <table   #zoneSort="matSort"  mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)" class="w-100" >
                             <ng-container matColumnDef="Carousel">
                                 <th mat-header-cell mat-sort-header  *matHeaderCellDef>Carousel </th>

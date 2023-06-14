@@ -11,7 +11,7 @@
 
     <h2 *ngIf="isIMPath" class="card-header-title mb-3 d-flex align-items-center">
 
-      <div class="mat-icon-wrap me-lg-3">
+      <div class="mat-icon-wrap me-1 me-lg-3">
         <span class="material-symbols-outlined">
           ballot
         </span>
@@ -20,16 +20,16 @@
     </h2>
 
     <div class="card br-14 p-3 mb-3">
-      <div class="d-flex gap-12 align-items-center">
-        <mat-form-field class="custom-form-field w-100" appearance="outline">
+      <div class="d-xl-flex gap-12 align-items-center">
+        <mat-form-field class="custom-form-field w-100 mb-3 mb-xl-0" appearance="outline">
           <mat-label>From Tote ID</mat-label>
           <input matInput type="text" maxlength="255" value="0000000" disabled>
         </mat-form-field>
-        <mat-form-field class="custom-form-field w-100" appearance="outline">
+        <mat-form-field class="custom-form-field w-100 mb-3 mb-xl-0" appearance="outline">
           <mat-label>To Tote ID</mat-label>
           <input matInput type="text" maxlength="255" value="0000000" disabled>
         </mat-form-field>
-        <div><button disabled type="submit" mat-flat-button class="form-button-submit btn-regular" color="primary">Print
+        <div class="d-flex d-xl-block"><button style="flex: 1 auto;" disabled type="submit" mat-flat-button class="float-end form-button-submit btn-regular" color="primary">Print
             Range</button></div>
       </div>
     </div>
