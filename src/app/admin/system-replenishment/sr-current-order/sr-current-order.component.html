@@ -1,7 +1,7 @@
 <mat-card class="mat-elevation-z g-card mt-2 mb-4">
     <div class="mb-3">
         <h2 class="card-header-title mb-0 d-flex align-items-center">
-            <div class="mat-icon-wrap me-lg-3">
+            <div class="mat-icon-wrap me-1 me-lg-3">
                 <span class="material-symbols-outlined">
                     ads_click
                 </span>
@@ -35,9 +35,9 @@
 <mat-card class="mat-elevation-z g-card mb-4">
     <mat-card-content>
         <div class="row mb-3">
-            <div class="col-xl-7">
-                <div class="d-flex gap-12 align-items-center flex-wrap">
-                    <mat-form-field class="action-dropdown" appearance="outline">
+            <div class="col-12 col-xl-7">
+                <div class="d-xl-flex gap-12 align-items-center flex-wrap">
+                    <mat-form-field class="action-dropdown d-xl-flex d-block mb-3 mb-xl-0" appearance="outline">
                         <mat-label>Search</mat-label>
                         <mat-select class="employees-action" (selectionChange)="searchChange($event.value)">
                             <mat-option *ngFor="let option of searchColumnOptions" [value]="option.value">{{option.viewValue}}</mat-option>
@@ -47,8 +47,8 @@
                         </span>
                     </mat-form-field>
 
-                    <span class="v-br">-</span>
-                    <div class="d-flex g-mini-search-box" style="flex:1">
+                    <span class="v-br d-none d-xl-block">-</span>
+                    <div class="d-xl-flex g-mini-search-box mb-3 mb-xl-0" style="flex:1">
                         <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
                         [hideRequiredMarker]="hideRequiredControl.value" (keyup.enter)="closeautoMenu()">
                             <span class="material-symbols-outlined icon-search">
@@ -76,7 +76,7 @@
                             </mat-autocomplete>
                         </mat-form-field>
                     </div>
-                    <mat-form-field class="action-dropdown" appearance="outline">
+                    <mat-form-field class="action-dropdown d-xl-flex d-block  mb-3 mb-xl-0 " appearance="outline">
                         <mat-label>Show</mat-label>
                         <mat-select class="employees-action" (selectionChange)="showChange($event.value)">
                             <mat-option value="All">All</mat-option>
@@ -89,8 +89,8 @@
                     </mat-form-field>
                 </div>
             </div>
-            <div class="col-xl-5 d-flex flex-row-reverse">
-                <mat-form-field class="action-dropdown w-30" appearance="outline">
+            <div class="col-xl-5 d-xl-flex flex-row-reverse">
+                <mat-form-field class="action-dropdown d-xl-flex d-block w-30" appearance="outline">
                     <mat-label>Actions</mat-label>
                     <mat-select class="employees-action">
                         <mat-option value="Print Orders" (click)="actionChange('Print Orders')">Print Orders</mat-option>

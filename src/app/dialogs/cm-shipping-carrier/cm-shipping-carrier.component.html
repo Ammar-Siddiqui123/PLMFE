@@ -18,16 +18,16 @@
     <div class="card w-100">
         <div class="card-header">
             <div class="row">
-                <div class="col-6" style="padding-left:64px;">
+                <div class="col-6" style="padding-left:34px;">
                    Carrier
                 </div>
             </div>
         </div>
 
-        <ng-scrollbar style="height: 250px;">
+        <ng-scrollbar style="height: 250px;" track="all">
             <div class="card-body">
 
-                <ng-container *ngFor="let item of carrierList;let i = index">
+                <ng-container *ngFor="let item of carrierList;let i = index" >
                     <div class="d-flex align-items-center mb-3">
 
                         <div class="container w-100">

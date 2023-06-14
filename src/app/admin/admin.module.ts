@@ -151,6 +151,8 @@ import { SpBulkHandheldSettingComponent } from './admin-preferences/system-prefe
 import { SpLightTreeSetupComponent } from './admin-preferences/system-preferences/sp-light-tree-setup/sp-light-tree-setup.component';
 import { SpScanVerificationSetupComponent } from './admin-preferences/system-preferences/sp-scan-verification-setup/sp-scan-verification-setup.component';
 import { ScanVerificationDefaultsComponent } from './dialogs/scan-verification-defaults/scan-verification-defaults.component';
+import { LocationNameComponent } from './dialogs/location-name/location-name.component';
+import { KanbanZoneAllocationConflictComponent } from './dialogs/kanban-zone-allocation-conflict/kanban-zone-allocation-conflict.component';
 
 
 
@@ -292,6 +294,8 @@ import { ScanVerificationDefaultsComponent } from './dialogs/scan-verification-d
     SpLightTreeSetupComponent,
     SpScanVerificationSetupComponent,
     ScanVerificationDefaultsComponent,
+    LocationNameComponent,
+    KanbanZoneAllocationConflictComponent,
 
   ],
   imports: [
