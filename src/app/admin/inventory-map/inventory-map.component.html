@@ -17,7 +17,7 @@
           <div class="header-filter-bar">
             <div class="header-filter-options w-100 d-xl-flex d-lg-block align-items-center justify-content-between" style="gap:12px">
               <div class="d-xl-flex d-lg-block gap-12 align-items-center">
-                <mat-form-field class="action-dropdown d-block " appearance="outline">
+                <mat-form-field class="action-dropdown d-block mb-3 mb-xl-0" appearance="outline">
                   <!-- <mat-label>Select</mat-label> -->
                   <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn"
                     (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()" [compareWith]="compareObjects"
@@ -32,7 +32,7 @@
                   </span>
                 </mat-form-field>
 
-                <span class="v-br">-</span>
+                <span class="v-br d-none d-xl-block">-</span>
                 <div class="d-xl-flex d-lg-block g-mini-search-box">
                   <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
                     [hideRequiredMarker]="hideRequiredControl.value" (keyup.enter)="closeautoMenu()" (change)="reset()" >
