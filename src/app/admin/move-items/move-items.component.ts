@@ -455,20 +455,23 @@ export class MoveItemsComponent implements OnInit {
     }
   }
 
-  openAlertDialog(type, maxMoveQty?) {
+  openAlertDialog(type, maxMoveQty?,callback?) {
     let message = '';
     let isDisableButton=true;
+    let buttonFields=false;
     switch (type) {
       case 'Un-Dedicate':
         message = 'Would you like to Undedicate your move from Location?';
         isDisableButton=false
-          this.undedicateMoveFrom=true;
+        buttonFields=true;
+          // this.undedicateMoveFrom=true;
         break;
 
       case 'Dedicate':
         message = 'Would you like to Dedicate your move to Location?';
         isDisableButton=false;
-        this.dedicateMoveTo=true;
+        // this.dedicateMoveTo=true;
+        buttonFields=true;
         break;
       case 'ZeroQty':
         message =
@@ -516,25 +519,94 @@ export class MoveItemsComponent implements OnInit {
         message: message,
         heading: '',
         disableCancel: isDisableButton,
+        buttonField:  buttonFields
       },
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((result) => {
+      if(this.isDedicated && this.MoveFromDedicated==='Dedicated'){ // open dedicated and undedicated popups case
+       if(type==='Dedicate'){
+        if(result){  
+          this.dedicateMoveTo=true;
+          // callback(true)
+          this.openAlertDialog('Un-Dedicate')
+        }else{
+          this.dedicateMoveTo=false;
+          // callback(true)
+          this.openAlertDialog('Un-Dedicate')
+        }
+       }
 
-
-      if(result){
-        if(type==='Un-Dedicate'){
-          // this.undedicateMoveFrom=true;
+       if(type==='Un-Dedicate'){
+        if(result){  
+          this.undedicateMoveFrom=true;
+          // console.log('dedicateMoveTo',this.dedicateMoveTo);
+          // console.log('undedicateMoveFrom',this.undedicateMoveFrom);
+          this.callCreateMoveTrans();
+          // this.openAlertDialog('Un-Dedicate')
+        }else{
+          this.undedicateMoveFrom=false;
+          // console.log('dedicateMoveTo',this.dedicateMoveTo);
+          // console.log('undedicateMoveFrom',this.undedicateMoveFrom);
           this.callCreateMoveTrans();
         
-        }else if(type==='Dedicate'){
-          // this.dedicateMoveTo=true;
+        }
+       }
+      
+      }
+      else if(!this.isDedicated && this.MoveFromDedicated==='Dedicated' ){ // On undedicated popup  when dedicated unchecked move from is dedicated and move to is undedicted
+        if(result){
+          this.undedicateMoveFrom=true
+          // console.log('dedicateMoveTo',this.dedicateMoveTo);
+          // console.log('undedicateMoveFrom',this.undedicateMoveFrom);
+          this.callCreateMoveTrans();
+        }else{
+          this.undedicateMoveFrom=false
+          // console.log('dedicateMoveTo',this.dedicateMoveTo);
+          // console.log('undedicateMoveFrom',this.undedicateMoveFrom);
           this.callCreateMoveTrans();
         }
-      }else{
-        this.undedicateMoveFrom=false;
-        // this.dedicateMoveTo=false;
       }
+
+      else if (this.isDedicated && this.MoveFromDedicated==='Not Dedicated'){ // when move from undedicated moveto dedicated and dedicated checked only dedicated popup show
+        if(result){
+          this.dedicateMoveTo=true
+          // console.log('dedicateMoveTo',this.dedicateMoveTo);
+          // console.log('undedicateMoveFrom',this.undedicateMoveFrom);
+          this.callCreateMoveTrans();
+        }else{
+          this.dedicateMoveTo=false
+          // console.log('dedicateMoveTo',this.dedicateMoveTo);
+          // console.log('undedicateMoveFrom',this.undedicateMoveFrom);
+          this.callCreateMoveTrans();
+        }
+      }
+    //  else if(!result &&  type==='Dedicate' && this.isDedicated && this.MoveFromDedicated==='Dedicated'){ // no on dedicated
+       
+      
+    //   }
+    //   else if (result &&  type==='Un-Dedicate'){
+    //     this.undedicateMoveFrom=true;
+    //   }else if(!result &&  type==='Un-Dedicate'){
+    //     this.undedicateMoveFrom=false;
+    //   }
+      
+
+      // if(result){
+      //   if(type==='Un-Dedicate'){
+      //     this.undedicateMoveFrom=true;
+      //       callback(this.undedicateMoveFrom)
+      //     // this.callCreateMoveTrans();
+        
+      //   }else if(type==='Dedicate'){
+      //     this.dedicateMoveTo=true;
+      //     callback(this.dedicateMoveTo)
+      //     // this.callCreateMoveTrans();
+      //   }
+      // }else{
+      //   this.undedicateMoveFrom=false;
+      //   // this.dedicateMoveTo=false;
+      // }
        
     });
   }
@@ -548,17 +620,27 @@ export class MoveItemsComponent implements OnInit {
       this.openAlertDialog('ZeroQty');
       return;
     } else if (moveQty > this.maxMoveQty) {
-      this.openAlertDialog('MaxMove', this.maxMoveQty);
+      this.openAlertDialog('MaxMove', null,this.maxMoveQty);
       return;
     }
 
     let moveFromDedicated = this.MoveFromDedicated;
     let moveToDedicated = this.MoveToDedicated;
     if (this.isDedicated) {
-      this.openAlertDialog('Dedicate');
+      this.openAlertDialog('Dedicate',null,(val)=>{
+      //  if(val){
+      //   console.log('dedicateMoveTo',this.dedicateMoveTo);
+      //   console.log('undedicateMoveFrom',this.undedicateMoveFrom);
+        
+      //   // this.openAlertDialog('Un-Dedicate');
+      //  }
+     
+        
+      });
+  
       return;
     }
-    if (this.MoveFromDedicated == 'Dedicated') {
+    if (this.MoveFromDedicated === 'Dedicated') {
       this.openAlertDialog('Un-Dedicate');
       return;
     }
