@@ -1,0 +1,13 @@
+.custom-scrollbar {
+    height: 63vh;
+    overflow: scroll;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 11px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgb(216, 215, 215);
+    border-radius: 10px;
+}
