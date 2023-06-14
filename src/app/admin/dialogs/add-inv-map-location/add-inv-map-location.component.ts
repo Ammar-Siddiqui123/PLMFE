@@ -295,7 +295,7 @@ export class AddInvMapLocationComponent implements OnInit {
       shelf: [this.getDetailInventoryMapData.shelf || '', [Validators.maxLength(2)]],
       bin: [this.getDetailInventoryMapData.bin || '', [Validators.maxLength(3)]],
       item: [this.getDetailInventoryMapData.itemNumber || '', [Validators.maxLength(50)]],
-      itemQuantity: [this.getDetailInventoryMapData.itemQuantity || ''],
+      itemQuantity: new FormControl({value:this.getDetailInventoryMapData.itemQuantity || '',disabled:this.getDetailInventoryMapData.itemNumber == ''? true: false}),
       description: [this.getDetailInventoryMapData.description || ''],
       cell: [this.getDetailInventoryMapData.cellSize || ''],
       velocity: [this.getDetailInventoryMapData.goldenZone || ''],

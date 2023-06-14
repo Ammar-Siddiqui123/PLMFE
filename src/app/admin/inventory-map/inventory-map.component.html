@@ -127,7 +127,7 @@
                       (click)="quarantine(seletedRecord)" >Quarantine</button>
                     <button *ngIf="seletedRecord.warehouse.includes('Quarantine')" mat-menu-item
                       (click)="unQuarantine(seletedRecord)">Unquarantine</button>
-                    <button mat-menu-item (click)="adjustQuantity(seletedRecord)">Adjust Quantity</button>
+                    <button mat-menu-item (click)="adjustQuantity(seletedRecord)" [disabled]="seletedRecord.itemNumber == ''">Adjust Quantity</button>
                     <button mat-menu-item *ngIf="transHistory" (click)="tranhistory()" >Transaction History</button>
                     <button mat-menu-item (click)="duplicate(seletedRecord)" *ngIf="myroute">Duplicate</button>
                     <button mat-menu-item (click)="viewInInventoryMaster(seletedRecord)">View item in Inventory Master</button>
