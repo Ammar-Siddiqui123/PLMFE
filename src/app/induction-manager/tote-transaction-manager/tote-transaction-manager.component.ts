@@ -129,6 +129,7 @@ export class ToteTransactionManagerComponent implements OnInit {
             autoFocus: '__non_existing_element__',
             data: {
               deleteAllDisable:true,
+              enableClear:true,
               batchId: row.batchPickID,
               toteId: row.toteId,
               userName: this.userData.userName,

@@ -6,8 +6,12 @@
     </button>
 </div>
 <div class="pb-3">
-    <mat-radio-group color="primary" [(ngModel)]="clearBatchTote" >
-        <mat-radio-button class="me-3" value="clearBatch" [disabled]="deleteAllDisable">Clear Batch</mat-radio-button>
+    <mat-radio-group color="primary" [(ngModel)]="clearBatchTote" *ngIf="!this.enableClear">
+        <mat-radio-button class="me-3" value="clearBatch" [disabled]="deleteAllDisable">Clear Batch false</mat-radio-button>
+        <mat-radio-button value="clearTote"  >Clear Tote</mat-radio-button>
+    </mat-radio-group>
+    <mat-radio-group color="primary" [(ngModel)]="clearBatchTote" *ngIf="this.enableClear">
+        <mat-radio-button class="me-3" value="clearBatch" >Clear Batch true</mat-radio-button>
         <mat-radio-button value="clearTote"  >Clear Tote</mat-radio-button>
     </mat-radio-group>
 </div>
