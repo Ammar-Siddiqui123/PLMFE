@@ -21,6 +21,8 @@ export class SpLocationZonesComponent implements OnInit {
   public newLocation = false;
   public locationSaveBtn = true
 
+  includeCf:false
+
   locationzone: any = [];
   duplicatelocationzone: any = [];
   constructor(private preferencehub: AdminPreferencesService,
@@ -73,24 +75,51 @@ export class SpLocationZonesComponent implements OnInit {
 
 
 
-  zoneChange(zone: any,check) {
-    // debugger
-  if(!check){
-    // if(zone.carousel == true){
-    //   zone.cartonFlow = false;
-    //   zone.includeCFCarouselPick = false;
-    // }
+  zoneChange(zone: any,check,type?) {
   
-    // //  else if(zone.carousel==false){
-    // // }
-    //  if(zone.cartonFlow == true){
-    //   zone.carousel = false
-    // }
-    // if(zone.includeCFCarouselPick == true){
-    //   zone.cartonFlow = true
-    //   zone.carousel = false
+  if(!check){
+    if(type==='carousel'){
+      if(zone.carousel){
+        this.alterParentZones(true,zone.zone)
+        if(zone.cartonFlow){
+          zone.cartonFlow = false;
+        } 
+        if(zone.includeCFCarouselPick){
+          zone.includeCFCarouselPick=false;
+      }
+        // zone.includeCFCarouselPick = false;
+      }else{
+        this.alterParentZones(false,zone.zone)
+        if(zone.cartonFlow){
+          zone.cartonFlow=false;
+        }
+    
+      }
+    }
+    if(type==='cartonFlow'){
+      if(zone.cartonFlow){
+        this.alterParentZones(false,zone.zone)
+        if(zone.carousel){
+          zone.carousel=false
+        }
+      }
+     
+    }
+    if(type==='includePick'){
+        if(zone.includeCFCarouselPick){
+          if(!zone.cartonFlow){
+            this.alterParentZones(false,zone.zone)
+            zone.cartonFlow=true;
+          }
+          if(zone.carousel){
+            zone.carousel=false
+          }
+         
+        }
 
-    // }
+    }
+
+
     
     console.log(zone)
     let oldZone: any = this.duplicatelocationzone.filter((x: any) => x.ID == zone.ID)[0].zone;
@@ -111,44 +140,7 @@ export class SpLocationZonesComponent implements OnInit {
       }
     }
 
-    // if(zone.carousel == true){
-    //   zone.cartonFlow = false
-    //   zone.includeCFCarouselPick = false
-    //   // this.alterParentZones(true,zone.zone)
-    // }
-    // if(zone.carousel == false){
-    //   // this.alterParentZones(false,zone.zone)
-    // }
-    // if(zone.cartonFlow == true){
-    //   zone.carousel = false
-    //   // this.alterParentZones(false,zone.zone)
-    // }
-    // if(zone.includeCFCarouselPick == true){
-    //   // this.alterParentZones(false,zone.zone)
-    //   zone.carousel = false
-    // }
-    
-   
 
-    // if(zone.allocable == true && zone.kanbanZone == true){
-    //   let dialogRef = this.dialog.open(KanbanZoneAllocationConflictComponent, {
-    //     height: 'auto',
-    //     width: '56vw',
-    //     autoFocus: '__non_existing_element__',
-    //   })
-    //   dialogRef.afterClosed().subscribe(result => { 
-    //     if (result) {
-    //       const targetIndex = this.locationzone.findIndex(obj => obj.zone === newZone);
-    //       if (targetIndex !== -1) {
-    //         this.locationzone[targetIndex].allocable = result.allocation ;
-    //         this.locationzone[targetIndex].kanbanZone = result.kanban ;
-    //         this.duplicatelocationzone[targetIndex].allocable = result.allocation ;
-    //         this.duplicatelocationzone[targetIndex].kanbanZone = result.kanban ;
-    //       }
-          
-    //     }
-    //   })
-    // }
 
     let check = oldZone.toLowerCase() != newZone.toLowerCase();
     if(check){
