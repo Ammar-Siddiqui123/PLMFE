@@ -249,6 +249,7 @@ export class AddInvMapLocationComponent implements OnInit {
   }
 
   adjustQuantity() {
+    if(this.getDetailInventoryMapData.itemNumber == '') return;
     let dialogRef = this.dialog.open(AdjustQuantityComponent, {
       height: 'auto',
       width: '800px',
