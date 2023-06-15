@@ -136,6 +136,7 @@ export class MoveItemsComponent implements OnInit {
   itemNumberSearch = new Subject<string>();
   hideRequiredControl = new FormControl(false);
   searchAutocompletItemNo: any = [];
+  public itemnumscan: any = '';
   constructor(
     private adminService: AdminService,
     private authService: AuthService,
@@ -590,7 +591,7 @@ export class MoveItemsComponent implements OnInit {
       this.openAlertDialog('ZeroQty');
       return;
     } else if (moveQty > this.maxMoveQty) {
-      this.openAlertDialog('MaxMove', null,this.maxMoveQty);
+      this.openAlertDialog('MaxMove',this.maxMoveQty);
       return;
     }
 
@@ -788,4 +789,15 @@ export class MoveItemsComponent implements OnInit {
     this.startRowTo=0;
     this.viewModeTo='All';
   }
+
+  clearItemNum(){
+    this.itemNo='';
+    this.getMoveItemList('MoveFrom');
+    this.autocompleteSearchColumn();
+    if(this.tabIndex===1){
+      this.tabIndex=0;
+    }
+  }
+
+  
 }

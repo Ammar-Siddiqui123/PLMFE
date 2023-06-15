@@ -33,7 +33,7 @@
                         <mat-form-field class="custom-form-field w-100 mb-3"
                             appearance="outline">
                             <mat-label>Priority</mat-label>
-                            <input [disabled]="isMoveQty"  [NumbersOnly]="true" [(ngModel)]="from_priority" type="number" placeholder="Search" matInput maxlength="255">
+                            <input [disabled]="isMoveQty"  [NumbersOnly]="true" [(ngModel)]="from_priority" type="number" placeholder="Search" matInput maxlength="4">
                         </mat-form-field>
                     </div>
                 </div>
@@ -174,7 +174,7 @@
         </mat-card>
     </div>
     <div class="col-xl-7">
-        <mat-card class="mat-elevation-z g-card mb-4">
+        <mat-card class="mat-elevation-z g-card mb-4" style="height: 97%">
             <mat-card-content>
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
@@ -205,19 +205,19 @@
                         </mat-form-field> -->
 
 
-                            <mat-form-field class="custom-form-field w-100" appearance="outline"
+                            <mat-form-field class="w-100 bg-white br-8" appearance="fill"
                                 [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
                                 <span class="material-symbols-outlined icon-search"> search </span>
                                 <!-- <mat-label> Item No.</mat-label> -->
                                 <input type="text" placeholder="Item No." aria-label="Number" matInput autoFocus
                                     [(ngModel)]='itemNo' maxlength="255" [matAutocomplete]="auto"
                                     (ngModelChange)="this.itemNumberSearch.next($event)">
-
-                                <mat-autocomplete class="card custom-scroll" #auto="matAutocomplete"
+                                    <button matSuffix *ngIf="itemNo != ''" class="clear-btn" (click)="clearItemNum()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
+                                <mat-autocomplete class="card custom-scroll panel-custom-scroll" #auto="matAutocomplete"
                                     (optionSelected)="searchData($event)">
 
                                     <h6 class="card-header matAutoCompHeader "><span style="width:  140px;">Item
-                                            Number</span><span style="width:  140px;">Description</span> </h6>
+                                            Number</span><span style="width:  140px;" >Description</span> </h6>
 
                                     <mat-option *ngFor="let option of searchAutocompletItemNo"
                                         [value]="option.itemNumber" class="matAutoCompTableContent">
@@ -401,7 +401,7 @@
 
                         </mat-tab>
                         <mat-tab label="Move To">
-                            <div class="card br-14 borderless px-0 mt-3" style="overflow-x: auto;">
+                            <div class="card br-14 borderless px-0 mt-3 " style="overflow-x: auto;">
                                 <ng-scrollbar track="all" class="mat-table-scrollbar  scrollbar-hover-padding" style="height: 450px">
                                     <table class=" g-card-table table1 employee-location-table action-clickable-table" mat-table [dataSource]="moveToDatasource" matSort
                                         (matSortChange)="sortChangeToItems($event)">
