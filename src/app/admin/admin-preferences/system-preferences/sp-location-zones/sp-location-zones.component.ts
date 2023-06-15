@@ -171,7 +171,7 @@ export class SpLocationZonesComponent implements OnInit {
         };
          
         // console.log('checking')
-        this.preferencehub.get(payload,'/Admin/LocationZoneSave').subscribe((res=>{
+        this.preferencehub.get(payload,'/Admin/LocationZoneSave',true).subscribe((res=>{
           if(res.isExecuted){
             // debugger
             console.log(res)
