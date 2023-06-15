@@ -33,7 +33,7 @@
                         <mat-form-field class="custom-form-field w-100 mb-3"
                             appearance="outline">
                             <mat-label>Priority</mat-label>
-                            <input [disabled]="isMoveQty"  [NumbersOnly]="true" [(ngModel)]="from_priority" type="number" placeholder="Search" matInput maxlength="4">
+                            <input [disabled]="isMoveQty"  [NumbersOnly]="true" #myInput (input)="restrictTo4Digits()"    [(ngModel)]="from_priority" type="number" placeholder="Search" matInput maxlength="4">
                         </mat-form-field>
                     </div>
                 </div>
