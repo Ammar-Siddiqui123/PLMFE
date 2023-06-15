@@ -2,7 +2,7 @@
     <mat-card-content>
         <h2 class="card-header-title mb-0 d-flex align-items-center mb-3">
 
-            <div class="mat-icon-wrap me-lg-3">
+            <div class="mat-icon-wrap me-lg-3 me-2">
                 <span class="material-symbols-outlined">
                     receipt
                 </span>
@@ -65,9 +65,9 @@
             </div>
         </div>
 
-        <div class="row align-items-center mb-3">
-            <div class="d-flex align-items-center gap-12">
-                <div class="w-100" style="flex:1">
+        <div class="row align-items-center">
+            <div class="d-block d-lg-flex align-items-center gap-12">
+                <div class="w-100 mb-3" style="flex:1">
 
                     <!-- <mat-form-field class="custom-form-field custom-form-field-bg-white w-100" appearance="outline">
                         <mat-label>Order Number</mat-label>
@@ -92,7 +92,7 @@
 
 
                     </mat-form-field>  -->
-                    <mat-form-field class="w-100 bg-white br-8" appearance="outline">
+                    <mat-form-field class="w-100 bg-white" appearance="outline">
                         <mat-label>Order Number</mat-label>
                         <input type="text" maxlength="50" aria-label="Number" matInput
                             [matAutocomplete]="autoOrder" [(ngModel)]="orderNumber" (keypress)="getFilteredList()" (keyup)="orderSelected()">
@@ -114,8 +114,8 @@
 
 
                 </div>
-                <span class="bg-tertiary-900" style="width: 14px; height:2px;"></span>
-                <div class="d-flex g-mini-search-box w-100" style="flex:1">
+                <span class="bg-tertiary-900 d-none d-lg-flex mb-3" style="width: 14px; height:2px;"></span>
+                <div class="d-flex w-100 mb-3" style="flex:1">
                     <mat-form-field class="w-100 bg-white" appearance="outline">
                         <mat-label>Item Number</mat-label>
                         <input type="text" maxlength="50" matInput [matAutocomplete]="auto" [(ngModel)]="itemNumber" style="padding-left: 0px !important;">

@@ -1,8 +1,8 @@
 <mat-card class="mat-elevation-z g-card mt-2 mb-3">
     <div class="mb-0">
-        <div class="col-xl-12 d-flex justify-content-between">
+        <div class="col-xl-12 d-xl-flex justify-content-between">
             <h2 class="card-header-title mb-0 d-flex align-items-center">
-                <div class="mat-icon-wrap me-lg-3">
+                <div class="mat-icon-wrap me-1 me-lg-3">
                     <span class="material-symbols-outlined">
                         stacked_bar_chart
                     </span>
@@ -10,15 +10,15 @@
                 <span>Preferences</span>
             </h2>
 
-            <div class="d-flex gap-12 justify-content-end">
-                <button mat-flat-button color="primary" class="btn-md px-4" (click)="openCarrier()">
+            <div class="d-flex d-xl-block gap-12 justify-content-end">
+                <button style="flex: 1 auto;" mat-flat-button color="primary" class="float-end btn-md" (click)="openCarrier()">
                     Carriers
                 </button>
 
             </div>
         </div>
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-6">
                 <p class="text-tertiary-800 bold py-3 mb-0"> Choose the desired Consolidation options for your business.
                 </p>
@@ -28,7 +28,7 @@
 
                 </p>
             </div>
-        </div>
+        </div> -->
         <!-- <p class="text-tertiary-800 bold py-3 mb-0"> Choose the desired Consolidation options for your business.
         </p> -->
     </div>
@@ -36,7 +36,9 @@
     <form [formGroup]="shippingForm">
         <div class="row pb-5 mb-5">
             <div class="col-xl-6">
-                <div class="d-flex gap-12 mb-2 pb-5">
+                <p class="text-tertiary-800 bold py-3 mb-0"> Choose the desired Consolidation options for your business.
+                </p>
+                <div class="d-xl-flex gap-12 mb-2 pb-5">
                     <div class="col-xl-12 text-left admin-prefrences py-2 ps-1">
                         <div class="d-flex justify-content-between mb-2 text-tertiary-900">
                             Allow Shipping: <mat-slide-toggle formControlName="allowShip" checked class="primary"
@@ -105,7 +107,10 @@
             </div>
 
             <div class="col-xl-6">
-                <div class="d-flex gap-12 mb-2 pb-5">
+                <p class="text-tertiary-800 bold py-3 mb-0"> Select from the field list those that you will be collecting data for in Shipping.
+
+                </p>
+                <div class="d-xl-flex gap-12 mb-2 pb-5">
                     <div class="col-xl-12 text-left admin-prefrences py-2 ps-1">
                     <ng-container *ngIf="selectionShipping">
                         <div class="d-flex justify-content-between mb-2 text-tertiary-900">

@@ -2,7 +2,7 @@
     <mat-card-content>
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="card-header-title mb-0 d-flex align-items-center">
-                <div class="mat-icon-wrap me-lg-3">
+                <div class="mat-icon-wrap me-lg-3 me-2">
                     <span class="material-symbols-outlined">
                         ballot
                     </span>
@@ -22,8 +22,8 @@
             </mat-menu>
         </div>
         <div class="row">
-            <div [ngClass]="useInZonePickScreen === true ? 'col-xl-12' : 'col-xl-4'">
-                <div class="card p-3 mb-2">
+            <div class="mb-3 mb-xxl-0" [ngClass]="useInZonePickScreen === true ? 'col-xxl-12' : 'col-xxl-4'">
+                <div class="card p-3">
                     <div class="row">
                         <div [ngClass]="useInZonePickScreen === true ? 'col-xl-6' : 'col-xl-12'">
                             <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
@@ -34,26 +34,26 @@
                         </div>
                     </div>
 
-                    <div class="d-flex gap-12">
-                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
+                    <div class="d-block d-xl-flex gap-12">
+                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100 mb-3 mb-xl-0"
                             style="min-width: 150px;" (click)="onAddBatch('batchWithID')">
                             New Batch with ID
                         </button>
-                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
+                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100 mb-3 mb-xl-0"
                             style="min-width: 150px;" (click)="onAddBatch('newBatch')">
                             New Batch
                         </button>
-                        <button *ngIf="useInZonePickScreen" mat-stroked-button color="primary" class="w-100"
+                        <button *ngIf="useInZonePickScreen" mat-stroked-button color="primary" class="w-100 mb-3 mb-xl-0"
                             style="min-width: 150px;" (click)="openBlossomToteDialogue()">
                             Blossom
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-8" *ngIf="!useInZonePickScreen">
-                <div class="card p-3 mb-2">
-                    <mat-radio-group color="primary" class="d-flex" name="radioOpt1" [(ngModel)]="pickType">
-                        <div class="d-flex w-100 pe-2 align-items-center">
+            <div class="col-xxl-8" *ngIf="!useInZonePickScreen">
+                <div class="card p-3">
+                    <mat-radio-group color="primary" class="d-block d-xl-flex" name="radioOpt1" [(ngModel)]="pickType">
+                        <div class="d-flex w-100 pe-2 align-items-center mb-3 mb-xl-0">
                             <mat-radio-button class=" custom-horizontal-radio" value="MixedZones">
                             </mat-radio-button>
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
@@ -62,7 +62,7 @@
                                     value="{{countInfo?.mixed}}" disabled="true">
                             </mat-form-field>
                         </div>
-                        <div class="d-flex w-100 pe-2 align-items-center">
+                        <div class="d-flex w-100 pe-2 align-items-center mb-3 mb-xl-0">
                             <mat-radio-button class=" custom-horizontal-radio" value="OffCarousel">
                             </mat-radio-button>
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
@@ -71,7 +71,7 @@
                                     value="{{countInfo?.offCarousel}}" disabled="true">
                             </mat-form-field>
                         </div>
-                        <div class="d-flex w-100 pe-2 align-items-center">
+                        <div class="d-flex w-100 pe-2 align-items-center mb-3 mb-xl-0">
                             <mat-radio-button class=" custom-horizontal-radio" value="Carousel">
                             </mat-radio-button>
                             <mat-form-field class="custom-form-field w-100" appearance="outline">
@@ -81,8 +81,8 @@
                             </mat-form-field>
                         </div>
                     </mat-radio-group>
-                    <div class="d-flex gap-12 mt-2">
-                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100"
+                    <div class="d-block d-xl-flex gap-12 mt-2">
+                        <button mat-flat-button color="primary" class="primary-button btn-regular w-100 mb-3 mb-xl-0"
                             style="min-width: 150px;">
                             Refresh Order Count
                         </button>
@@ -102,7 +102,7 @@
             <mat-card-content class=" h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
-                        <div class="mat-icon-wrap me-lg-3">
+                        <div class="mat-icon-wrap me-lg-3 me-2">
                             <span class="material-symbols-outlined">
                                 print
                             </span>
@@ -210,16 +210,17 @@
 
 <mat-card class="mat-elevation-z g-card mb-3">
     <mat-card-content>
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="card-header-title mb-0 d-flex align-items-center">
-                <div class="mat-icon-wrap me-lg-3">
+        <div class="d-block d-lg-flex justify-content-between align-items-center">
+            <h2 class="card-header-title mb-3 d-flex align-items-center">
+                <div class="mat-icon-wrap me-lg-3 me-2">
                     <span class="material-symbols-outlined">
                         inbox
                     </span>
                 </div>
                 <span>Totes</span>
             </h2>
-            <mat-form-field class="action-dropdown" appearance="outline">
+            <div class="d-flex">
+            <mat-form-field class="action-dropdown mb-3" appearance="outline" style="flex:1">
                 <mat-label>Actions</mat-label>
                 <mat-select class="employees-action" placeholder="Actions" (selectionChange)="onToteAction($event)">
                     <mat-option value="fill_all_tote"><b class="text-tertiary-900">Fill All Empty Tote
@@ -232,6 +233,7 @@
                     expand_more
                 </span>
             </mat-form-field>
+            </div>
         </div>
         <div class="card br-14 table-responsive borderless px-0 mb-3">
             <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 620px;">
@@ -289,9 +291,9 @@
                         </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="other">
-                        <th mat-header-cell *matHeaderCellDef></th>
-                        <td mat-cell *matCellDef="let element; let i = index;">
+                    <ng-container matColumnDef="other" stickyEnd>
+                        <th mat-header-cell *matHeaderCellDef class="ps-2"></th>
+                        <td mat-cell *matCellDef="let element; let i = index;"  class="ps-2">
                             <div class="d-flex justify-content-end">
                                 <button type="button" mat-icon-button [matMenuTriggerFor]="appMenu" aria-label=""
                                     class="circle-icon-o" appearance="outline">
@@ -350,12 +352,12 @@
                 </ng-container>
             </p>
             <div class="mb-3">
-                <button mat-flat-button color="primary" class="custom-btn w-100" (click)="confirmAddBatchDialog()">
+                <button mat-flat-button color="primary" class="btn-lg w-100" (click)="confirmAddBatchDialog()">
                     Ok
                 </button>
             </div>
             <div>
-                <button mat-stroked-button color="basic" class="custom-btn bg-white w-100" (click)="closeBatchDialog()">
+                <button mat-stroked-button color="basic" class="btn-lg bg-white w-100" (click)="closeBatchDialog()">
                     Cancel
                 </button>
             </div>
@@ -368,16 +370,16 @@
         <div color="warn" class="circle-icon circle-66 circle-primary mb-4 text-primary-900">
             <mat-icon color="primary">ballot</mat-icon>
         </div>
-        <div>
+        <div class="w-100">
             <h4 class="bold text-primary-900 mb-4">Process Batch</h4>
             <p class="bold mb-4">Process the current setup?</p>
             <div class="mb-3">
-                <button mat-flat-button color="primary" class="custom-btn w-100" (click)="onPrcessBatch()">
+                <button mat-flat-button color="primary" class="btn-lg w-100" (click)="onPrcessBatch()">
                     Ok
                 </button>
             </div>
             <div>
-                <button mat-stroked-button color="basic" class="custom-btn bg-white w-100" (click)="closeBatchDialog()">
+                <button mat-stroked-button color="basic" class="btn-lg bg-white w-100" (click)="closeBatchDialog()">
                     Cancel
                 </button>
             </div>

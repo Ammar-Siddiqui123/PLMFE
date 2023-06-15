@@ -68,14 +68,14 @@
     </div>
     </div>
     <div class="row">
-        <div [ngClass]="isHistory === true ? 'col-xl-12' : 'col-xl-8'">
-            <mat-card class="mat-elevation-z g-card  mb-4 h-100">
+        <div class="mb-4" [ngClass]="isHistory === true ? 'col-xl-12' : 'col-xl-8'">
+            <mat-card class="mat-elevation-z g-card  mb-3 h-100">
                 <mat-card-content>
     
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <div>
                             <h2 class="card-header-title mb-0 d-flex align-items-center">
-                                <div class="mat-icon-wrap me-lg-3">
+                                <div class="mat-icon-wrap me-lg-3 me-2">
                                     <span class="material-symbols-outlined">
                                         list_alt
                                     </span>
@@ -85,9 +85,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-6">
-                            <div class="d-flex gap-12 align-items-center ">
-                                <mat-form-field class="action-dropdown" appearance="outline">
+                        <div class="col-xl-5">
+                            <div class="d-block d-xl-flex gap-12 align-items-center">
+                                <mat-form-field class="action-dropdown w-100 mb-3" appearance="outline" style="flex:1">
                                     <mat-label>Select</mat-label>
                                     <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn.colDef"
                                         (selectionChange)="resetFields($event.value)">
@@ -100,8 +100,8 @@
                                     </span>
                                 </mat-form-field>
     
-                                <span class="v-br">-</span>
-                                <div class="d-flex g-mini-search-box w-100">
+                                <span class="v-br d-none d-xl-flex mb-3">-</span>
+                                <div class="d-flex g-mini-search-box w-100 mb-3">
                                     <mat-form-field class="w-100 bg-white br-8" appearance="fill"
                                         [floatLabel]="getFloatFormabelValue()"
                                         [hideRequiredMarker]="hideRequiredFormControl.value">
@@ -122,8 +122,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-6 d-flex flex-row-reverse">
-                            <mat-form-field class="action-dropdown w-30" appearance="outline">
+                        <div class="col-xl-2 offset-xl-5 d-flex justify-content-end">
+                            <div class="d-block d-lg-flex d-flex w-100 justify-content-end">
+                            <mat-form-field class="action-dropdown mb-3" appearance="outline" style="flex:1 auto">
                                 <mat-label>Action</mat-label>
                                 <mat-select [(value)]="selectedVariable" class="employees-action"
                                     (openedChange)="actionDialog($event)">
@@ -152,6 +153,7 @@
                                     expand_more
                                 </span>
                             </mat-form-field>
+                            </div>
                         </div>
                     </div>
     

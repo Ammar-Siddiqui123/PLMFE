@@ -2,7 +2,7 @@
     <mat-card-content>
         <div class="d-flex justify-content-between flex-wrap mb-3">
             <h2 class="card-header-title mb-3 d-flex align-items-center">
-                <div class="mat-icon-wrap me-lg-3">
+                <div class="mat-icon-wrap me-1 me-lg-3">
                     <span class="material-symbols-outlined">
                         filter_list
                     </span>
@@ -11,13 +11,13 @@
             </h2>
             <div class="d-flex gap-12 flex-wrap">
                 <div class="mb-3">
-                    <button type="submit" mat-flat-button class="btn-regular" color="primary" (click)="openOrderStatus({}, false)">Order Status</button>
+                    <button type="submit" mat-flat-button class=" btn-regular" color="primary" (click)="openOrderStatus({}, false)">Order Status</button>
                 </div>
                 <div class="mb-3">
-                    <button type="submit" mat-flat-button class="btn-regular" color="primary" (click)="displayRecords()">Display Records</button>
+                    <button  type="submit" mat-flat-button class=" btn-regular" color="primary" (click)="displayRecords()">Display Records</button>
                 </div>
                 <div class="mb-3">
-                    <button type="submit" mat-flat-button class="btn-regular" *ngIf="authService.UserPermissonByFuncName('Admin Create Orders')" color="primary" (click)="openOmCreateOrders()">Add/Edit Order</button>
+                    <button  type="submit" mat-flat-button class="btn-regular" *ngIf="authService.UserPermissonByFuncName('Admin Create Orders')" color="primary" (click)="openOmCreateOrders()">Add/Edit Order</button>
                 </div>
             </div>
         </div>
@@ -147,8 +147,8 @@
     <mat-card-content>
         <div class="row">
             <div class="col-xl-5">
-                <div class="d-flex gap-12 align-items-center mb-3">
-                    <mat-form-field class="action-dropdown" appearance="outline" style="flex:1">
+                <div class="d-xl-flex d-block gap-12 align-items-center mb-3">
+                    <mat-form-field class="action-dropdown d-block mb-3 mb-xl-0" appearance="outline" style="flex:1">
                         <!-- <mat-label>Select</mat-label> -->
                         <mat-select class="employees-action" placeholder="Select" [(ngModel)]="searchCol" (selectionChange)="fillTable()">
                             <mat-option *ngFor="let col of colList" value="{{col}}">{{col}}</mat-option>                            
@@ -157,7 +157,7 @@
                             expand_more
                         </span>
                     </mat-form-field>                
-                    <span class="v-br bold">-</span>
+                    <span class="v-br bold d-none d-xl-block">-</span>
                     <div class="d-flex g-mini-search-box" style="flex:1">
                         <mat-form-field class="w-100 bg-white br-8" appearance="fill">
                             <span class="material-symbols-outlined icon-search">
@@ -169,8 +169,8 @@
                 </div>
             </div>
             <div class="col-xl-5 offset-xl-2">
-                <div class="d-flex justify-content-end mb-3">
-                    <mat-form-field class="action-dropdown" appearance="outline">
+                <div class="d-xl-flex d-block justify-content-end mb-3">
+                    <mat-form-field class="action-dropdown d-xl-flex d-block" appearance="outline">
                         <mat-label>Actions</mat-label>
                         <mat-select #matRef class="employees-action" placeholder="Actions">
                             <mat-option value="0" (click)="releaseViewed()"> Release Viewed </mat-option>
