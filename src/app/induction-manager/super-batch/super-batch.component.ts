@@ -4,9 +4,9 @@ import { MatRadioChange } from '@angular/material/radio';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { RequiredDateStatusComponent } from '../../../app/dialogs/required-date-status/required-date-status.component';
-import { AuthService } from '../../../app/init/auth.service';
-import { SuperBatchService } from './super-batch.service';
+import { AuthService } from '../../../app/init/auth.service'; 
 import labels from '../../labels/labels.json';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-super-batch',
@@ -37,15 +37,12 @@ export class SuperBatchComponent implements OnInit {
     private authService: AuthService,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private sb_service: SuperBatchService
+    private Api: ApiFuntions
   ) { }
 
   ngOnInit(): void {
-    this.user_data = this.authService.userData();
-    let payload = {
-      "WSID": this.user_data.wsid
-    }
-    this.sb_service.get(payload, '/Induction/SuperBatchIndex').subscribe(res => {
+    this.user_data = this.authService.userData(); 
+    this.Api.SuperBatchIndex().subscribe(res => {
       const { preferences } = res.data;
       // console.log(res.data);
       this.itemNumbers = res.data.itemNums;
@@ -72,7 +69,7 @@ export class SuperBatchComponent implements OnInit {
       "Type": type,
       "ItemNumber": itemNumber
     }
-    this.sb_service.get(payload, '/Induction/ItemZoneDataSelect').subscribe(res => {
+    this.Api.ItemZoneDataSelect(payload).subscribe(res => {
       const batchTableData = res.data.map((v, key) => ({ ...v, 'key': key, 'orderToBatch': this.defaultSuperBatchSize, 'newToteID': '' }))
       this.dataSource = batchTableData;
     });
@@ -159,10 +156,10 @@ export class SuperBatchComponent implements OnInit {
       "ItemNum": this.itemNum.toString(),
       "BatchByOrder": BatchByOrder.toString()
     }
-    this.sb_service.create(payload, '/Induction/SuperBatchCreate').subscribe(response => {
+    this.Api.SuperBatchCreate(payload).subscribe(response => {
       // console.log(response);
       if (response.isExecuted) {
-        this.sb_service.create({ "ToteID": element.newToteID.toString() }, '/Induction/TotePrintTableInsert').subscribe(res => {
+        this.Api.TotePrintTableInsert({ "ToteID": element.newToteID.toString() }).subscribe(res => {
           // console.log(res);
           if(res.isExecuted){
             this.superBatches.push(element.newToteID);

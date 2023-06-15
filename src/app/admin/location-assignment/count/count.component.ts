@@ -7,12 +7,12 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { LaLocationAssignmentQuantitiesComponent } from '../../dialogs/la-location-assignment-quantities/la-location-assignment-quantities.component';
-import { AuthService } from 'src/app/init/auth.service';
-import { LocationAssignmentService } from '../location-assignment.service';
+import { AuthService } from 'src/app/init/auth.service'; 
 import { data } from 'jquery';
 import { ToastrService } from 'ngx-toastr';
 import { left } from '@popperjs/core';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface PeriodicElement {
   location: number;
@@ -49,7 +49,7 @@ export class CountComponent implements OnInit {
   constructor(private _liveAnnouncer: LiveAnnouncer ,
               private dialog: MatDialog ,
               private authservice : AuthService,
-              private locationService: LocationAssignmentService,
+              private Api: ApiFuntions,
               private toastr: ToastrService) {}
 
   // @ViewChild(MatSort) sort: MatSort;
@@ -133,7 +133,7 @@ export class CountComponent implements OnInit {
       "userName" : this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.locationService.get(payload,'/Admin/LocationAssignmentOrderInsert').subscribe((res => {
+    this.Api.LocationAssignmentOrderInsert(payload).subscribe((res => {
      console.log(res.data.orders,'insertion')
      if(res.isExecuted){
       let testdata = res.data.orders
@@ -173,7 +173,7 @@ export class CountComponent implements OnInit {
       "wsid": this.userData.wsid
     }
 
-    this.locationService.get(payload,'/Admin/GetTransactionTypeCounts').subscribe((res =>{
+    this.Api.GetTransactionTypeCounts(payload).subscribe((res =>{
     let dialogRef = this.dialog.open(LaLocationAssignmentQuantitiesComponent, {
       height: 'auto',
       width: '560px',

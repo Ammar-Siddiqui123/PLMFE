@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { SystemReplenishmentService } from 'src/app/admin/system-replenishment/system-replenishment.service';
+import { ToastrService } from 'ngx-toastr'; 
 import labels from '../../labels/labels.json'
 import { AuthService } from 'src/app/init/auth.service';
 import { GlobalService } from 'src/app/common/services/global.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-transaction-qty-edit',
   templateUrl: './transaction-qty-edit.component.html',
@@ -16,7 +16,7 @@ export class TransactionQtyEditComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private systemReplenishmentService: SystemReplenishmentService,
+    private Api: ApiFuntions,
     private toastr: ToastrService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<TransactionQtyEditComponent>,
@@ -40,7 +40,7 @@ export class TransactionQtyEditComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.systemReplenishmentService.get(payload, '/Admin/TransactionQtyReplenishmentUpdate').subscribe((res: any) => {
+    this.Api.TransactionQtyReplenishmentUpdate(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.toastr.success(labels.alert.success, 'Success!', {
           positionClass: 'toast-bottom-right',

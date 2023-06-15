@@ -3,8 +3,7 @@ import {
   MatDialog,
   MAT_DIALOG_DATA,
   MatDialogRef,
-} from '@angular/material/dialog';
-import { ProcessPutAwayService } from 'src/app/induction-manager/processPutAway.service';
+} from '@angular/material/dialog'; 
 import { BatchDeleteConfirmationComponent } from '../batch-delete-confirmation/batch-delete-confirmation.component';
 
 @Component({
@@ -21,8 +20,7 @@ export class BatchDeleteComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<BatchDeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialog: MatDialog,
-    private service: ProcessPutAwayService
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {

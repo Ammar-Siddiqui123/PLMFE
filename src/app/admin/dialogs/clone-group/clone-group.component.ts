@@ -2,9 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { CustomValidatorService } from '../../../../app/init/custom-validator.service';
-import { EmployeeService } from '../../../../app/employee.service';
+import { CustomValidatorService } from '../../../../app/init/custom-validator.service'; 
 import labels from '../../../labels/labels.json';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-clone-group',
@@ -19,7 +19,7 @@ export class CloneGroupComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any, 
     private dialog: MatDialog, 
     private toastr: ToastrService, 
-    private employeeService: EmployeeService,
+    private employeeService: ApiFuntions,
     private cusValidator: CustomValidatorService
     
     ) { }

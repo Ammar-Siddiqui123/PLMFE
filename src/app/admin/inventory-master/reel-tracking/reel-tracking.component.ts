@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup} from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { InventoryMasterService } from '../inventory-master.service';
+import { MatDialog } from '@angular/material/dialog'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { MinReelQtyComponent } from 'src/app/dialogs/min-reel-qty/min-reel-qty.component';
 import { SharedService } from 'src/app/services/shared.service';
 import { Observable, Subscription } from 'rxjs';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class ReelTrackingComponent implements OnInit {
   btnDisabled : boolean = false;
 
   constructor(private dialog: MatDialog,
-    private invMasterService: InventoryMasterService,
+    private api: ApiFuntions,
     private authService: AuthService,
     private sharedService:SharedService,
     private toastr: ToastrService) { }
@@ -58,7 +58,7 @@ export class ReelTrackingComponent implements OnInit {
     "username": this.userData.userName,
     "wsid": this.userData.wsid
  }
-  this.invMasterService.update(payload,'/Admin/UpdateReelQuantity').subscribe((res:any)=>{
+  this.api.UpdateReelQuantity(payload).subscribe((res:any)=>{
 
     // console.log(res)
     if(res.isExecuted){
@@ -106,7 +106,7 @@ export class ReelTrackingComponent implements OnInit {
           username: this.userData.userName,
           wsid: this.userData.wsid
         }
-        this.invMasterService.update(payload,'/Admin/UpdateReelAll').subscribe((res:any)=>{
+        this.api.UpdateReelAll(payload).subscribe((res:any)=>{
           // console.log(res);
 
           if(res.isExecuted){
@@ -117,7 +117,7 @@ export class ReelTrackingComponent implements OnInit {
               "wsid": this.userData.wsid
            }
 
-            this.invMasterService.get(payload2,'/Admin/RefreshRTS').subscribe((res:any)=>{
+            this.api.RefreshRTS(payload2).subscribe((res:any)=>{
               // console.log(res)
               if (res.isExecuted) {
                 this.reelTracking.patchValue({

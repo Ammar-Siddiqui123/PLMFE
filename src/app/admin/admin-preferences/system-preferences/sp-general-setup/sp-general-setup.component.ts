@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-sp-general-setup',
@@ -10,7 +11,7 @@ export class SpGeneralSetupComponent implements OnInit {
   public userData: any;
   public CompanyObj: any={};
   public FieldNames :any={};
-  constructor(    public authService: AuthService) {
+  constructor(    public authService: AuthService,private Api:ApiFuntions) {
     this.userData = authService.userData();
    }
 
@@ -19,7 +20,7 @@ export class SpGeneralSetupComponent implements OnInit {
     this.OSFieldFilterNames();
   }
   public OSFieldFilterNames() { 
-    this.authService.OSFieldFilterNames().subscribe((res: any) => {
+    this.Api.OSFieldFilterNames().subscribe((res: any) => {
       this.FieldNames = res.data;
     })
   }
@@ -28,7 +29,7 @@ export class SpGeneralSetupComponent implements OnInit {
       "userName": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.authService.CompanyInfo(paylaod).subscribe((res: any) => {
+    this.Api.CompanyInfo().subscribe((res: any) => {
       this.CompanyObj = res.data;
     })
   }
@@ -60,7 +61,7 @@ export class SpGeneralSetupComponent implements OnInit {
     this.SaveForm(paylaod3);
   }
     async SaveForm(paylaod){ 
-      this.authService.GeneralPreferenceSave(paylaod).subscribe((res: any) => { 
+      this.Api.GeneralPreferenceSave(paylaod).subscribe((res: any) => { 
       })
     }
 }

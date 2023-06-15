@@ -5,9 +5,9 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-import { ProcessPutAwayService } from 'src/app/induction-manager/processPutAway.service';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs'; 
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-choose-location',
@@ -23,7 +23,7 @@ export class ChooseLocationComponent implements OnInit {
   selectedLocation : any;
 
   constructor(private toastr: ToastrService,
-              private service: ProcessPutAwayService,
+              private Api:ApiFuntions,
               private authService: AuthService,
               public dialogRef                  : MatDialogRef<ChooseLocationComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -61,7 +61,7 @@ export class ChooseLocationComponent implements OnInit {
         wsid: this.userData.wsid,
       };
 
-      this.service.get(searchPayload, '/Induction/BatchLocationTypeAhead', true).subscribe(
+      this.Api.BatchLocationTypeAhead(searchPayload).subscribe(
         (res: any) => {
           if (res.data) {
             this.searchAutocompleteItemNum = res.data;
@@ -88,7 +88,7 @@ export class ChooseLocationComponent implements OnInit {
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.service.create(payLoad, '/Induction/ReserveLocation').subscribe(
+      this.Api.ReserveLocation(payLoad).subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
             this.dialogRef.close({responseMessage : res.responseMessage, ...this.selectedLocation});

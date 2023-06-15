@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Output, EventEmitter } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
-import { AuthService } from '../../../../../app/init/auth.service';
-import { TransactionService } from '../../transaction.service';
+import { AuthService } from '../../../../../app/init/auth.service'; 
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-tran-in-reprocess',
@@ -28,7 +28,7 @@ export class TranInReprocessComponent implements OnInit {
   @Output() filterCleared = new EventEmitter<string>();
 
   constructor(
-    private transService: TransactionService,
+    private Api: ApiFuntions,
     private authService: AuthService,
     private sharedService:SharedService
 
@@ -107,7 +107,7 @@ export class TranInReprocessComponent implements OnInit {
       "username":  this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.transService.get(payload, '/Admin/ReprocessTypeahead').subscribe(res => {
+    this.Api.ReprocessTypeahead(payload).subscribe(res => {
       // console.log(res);
       this.orderList = res.data;
     });
@@ -131,7 +131,7 @@ export class TranInReprocessComponent implements OnInit {
       "username":  this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.transService.get(payload, '/Admin/ReprocessTypeahead').subscribe(res => {
+    this.Api.ReprocessTypeahead(payload).subscribe(res => {
       // console.log(res.data);
       this.itemNumberList = res.data;
     });

@@ -9,8 +9,7 @@ import { SetItemLocationComponent } from '../../dialogs/set-item-location/set-it
 import { SupplierItemIdComponent } from '../../dialogs/supplier-item-id/supplier-item-id.component';
 import { TemporaryManualOrderNumberAddComponent } from '../../dialogs/temporary-manual-order-number-add/temporary-manual-order-number-add.component';
 import { UnitMeasureComponent } from '../../dialogs/unit-measure/unit-measure.component';
-import { UserFieldsEditComponent } from '../../dialogs/user-fields-edit/user-fields-edit.component';
-import { TransactionService } from '../../transaction/transaction.service';
+import { UserFieldsEditComponent } from '../../dialogs/user-fields-edit/user-fields-edit.component'; 
 import labels from '../../../labels/labels.json';
 import { PostManualTransactionComponent } from '../../dialogs/post-manual-transaction/post-manual-transaction.component';
 import { DeleteConfirmationTransactionComponent } from '../../dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
@@ -19,6 +18,7 @@ import { WarehouseComponent } from '../../dialogs/warehouse/warehouse.component'
 import { InvalidQuantityComponent } from '../../dialogs/invalid-quantity/invalid-quantity.component';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-generate-transaction',
@@ -77,7 +77,7 @@ export class GenerateTransactionComponent implements OnInit {
   emergency = false;
   constructor(
     private authService: AuthService,
-    private transactionService: TransactionService,
+    private Api:ApiFuntions,
     private dialog: MatDialog,
     private toastr: ToastrService
   ) {
@@ -115,8 +115,8 @@ export class GenerateTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(payLoad, '/Admin/TransactionInfo', true)
+    this.Api
+      .TransactionInfo(payLoad)
       .subscribe(
         (res: any) => {
           if (res && res.data && res.data.getTransaction) {
@@ -197,8 +197,8 @@ export class GenerateTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(searchPayload, '/Admin/ManualTransactionTypeAhead', true)
+    this.Api
+      .ManualTransactionTypeAhead(searchPayload)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
@@ -287,8 +287,8 @@ export class GenerateTransactionComponent implements OnInit {
               wsid: this.userData.wsid,
             };
     
-            this.transactionService
-              .get(payload, '/Admin/PostTransaction')
+            this.Api
+              .PostTransaction(payload)
               .subscribe(
                 (res: any) => {
                   if (res && res.isExecuted) {
@@ -362,8 +362,8 @@ export class GenerateTransactionComponent implements OnInit {
         wsid: this.userData.wsid,
       };
 
-      this.transactionService
-        .get(payload, '/Admin/UpdateTransaction',true)
+      this.Api
+        .UpdateTransaction(payload)
         .subscribe((res: any) => {
           // if (res && res.isExecuted) {
           //   this.toastr.success(labels.alert.success, 'Success!', {
@@ -411,7 +411,7 @@ export class GenerateTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService.get(payload, '/Admin/LocationData', true).subscribe(
+    this.Api.LocationData(payload).subscribe(
       (res: any) => {
         if (res && res.isExecuted) {
           let items = res.data.locationTables[0];
@@ -513,8 +513,8 @@ export class GenerateTransactionComponent implements OnInit {
         wsid: this.userData.wsid,
       };
 
-      this.transactionService
-        .get(payload, '/Admin/UpdateTransaction')
+      this.Api
+        .UpdateTransaction(payload)
         .subscribe((res: any) => {
           if (res && res.isExecuted) {
             this.toastr.success(labels.alert.success, 'Success!', {
@@ -560,8 +560,8 @@ export class GenerateTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid
     }
-    this.transactionService
-    .get(payload, '/Common/SupplierItemIDInfo', true)
+    this.Api
+    .SupplierItemIDInfo(payload)
     .subscribe(
       (res: any) => {
       if(res && res.isExecuted){

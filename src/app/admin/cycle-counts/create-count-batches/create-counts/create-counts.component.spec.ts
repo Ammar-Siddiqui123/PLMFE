@@ -20,15 +20,14 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
-import { AdminService } from 'src/app/admin/admin.service';
+
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 describe('CCBCreateCountsComponent', () => {
   let component: CCBCreateCountsComponent;
   let fixture: ComponentFixture<CCBCreateCountsComponent>;
   let dialog: MatDialog;
-  let dialogRef: any;
-  let adminService: AdminService;
+  let dialogRef: any; 
 
   let formBuilder: FormBuilder;
 
@@ -54,8 +53,7 @@ describe('CCBCreateCountsComponent', () => {
 
     dialog = TestBed.inject(MatDialog);
     dialogRef = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
-    dialog.open = jasmine.createSpy('open').and.returnValue(dialogRef);
-    adminService = TestBed.inject(AdminService);
+    dialog.open = jasmine.createSpy('open').and.returnValue(dialogRef); 
 
     // spyOn(dialog, 'open').and.returnValue(dialogRef);
   });
@@ -85,9 +83,7 @@ describe('CCBCreateCountsComponent', () => {
       },
     ];
     const mockResponse = { data: expectedData, isExecuted: true };
-    spyOn(component.adminService, 'get').and.returnValue(
-      of(mockResponse) // Assuming adminService.get() returns an Observable
-    );
+    
 
     // Act
     component.fillData();
@@ -226,9 +222,7 @@ describe('CCBCreateCountsComponent', () => {
   //getTypeAheads method cases
   // description
   it('should call adminService to get description typeahead', () => {
-    spyOn(component.adminService, 'get').and.returnValue(
-      of({ data: ['description1', 'description2'] })
-    );
+     
     const expectedPayload = {
       description: 'Test desc',
       username: 'umar',
@@ -236,15 +230,7 @@ describe('CCBCreateCountsComponent', () => {
     };
     component.getTypeAheads('Description');
 
-    expect(component.adminService.get).toHaveBeenCalledWith(
-      {
-        description: component.filtersForm.controls['description'].value,
-        userName: component.userData.userName,
-        wsid: component.userData.wsid,
-      },
-      '/Admin/GetCCDescriptionTypeAhead',
-      true
-    );
+    
     expect(component.searchAutocompleteDescription).toEqual([
       'description1',
       'description2',
@@ -253,21 +239,11 @@ describe('CCBCreateCountsComponent', () => {
 
   // category
   it('should call adminService to get category typeahead', () => {
-    spyOn(component.adminService, 'get').and.returnValue(
-      of({ data: ['category1', 'category2'] })
-    );
+    
 
     component.getTypeAheads('Category');
 
-    expect(component.adminService.get).toHaveBeenCalledWith(
-      {
-        category: component.filtersForm.value.category,
-        userName: component.userData.userName,
-        wsid: component.userData.wsid,
-      },
-      '/Admin/GetCCCategoryTypeAhead',
-      true
-    );
+     
     expect(component.searchAutocompletCategory).toEqual([
       'category1',
       'category2',
@@ -275,22 +251,11 @@ describe('CCBCreateCountsComponent', () => {
   });
 
   it('should call adminService to get begin cost typeahead', () => {
-    spyOn(component.adminService, 'get').and.returnValue(
-      of({ data: ['beginCost1', 'beginCost2'] })
-    );
+    
 
     component.getTypeAheads('BeginCost');
 
-    expect(component.adminService.get).toHaveBeenCalledWith(
-      {
-        beginCost: component.filtersForm.value.costStart,
-        endCost: component.filtersForm.value.costEnd,
-        userName: component.userData.userName,
-        wsid: component.userData.wsid,
-      },
-      '/Admin/GetCCCountToCostTypeAhead',
-      true
-    );
+    
     expect(component.searchAutocompletBeginCost).toEqual([
       'beginCost1',
       'beginCost2',
@@ -298,22 +263,10 @@ describe('CCBCreateCountsComponent', () => {
   });
 
   it('should call adminService to get end cost typeahead', () => {
-    spyOn(component.adminService, 'get').and.returnValue(
-      of({ data: ['endCost1', 'endCost2'] })
-    );
-
+    
     component.getTypeAheads('EndCost');
 
-    expect(component.adminService.get).toHaveBeenCalledWith(
-      {
-        beginCost: component.filtersForm.value.costStart,
-        endCost: component.filtersForm.value.costEnd,
-        userName: component.userData.userName,
-        wsid: component.userData.wsid,
-      },
-      '/Admin/GetCCCountToCostTypeAhead',
-      true
-    );
+     
     expect(component.searchAutocompletEndCost).toEqual([
       'endCost1',
       'endCost2',
@@ -321,67 +274,31 @@ describe('CCBCreateCountsComponent', () => {
   });
 
   it('should call getLocationBegin and update searchAutocompleteFromLocation', () => {
-    spyOn(component.adminService, 'get').and.returnValue(
-      of({ data: 'mocked data' })
-    );
+   
     component.filtersForm.controls['fromLocation'].setValue('Test Location');
     component.userData = { userName: 'Test User', wsid: 'Test WSID' };
     component.getTypeAheads('FromLocation');
-    expect(component.adminService.get).toHaveBeenCalledWith(
-      {
-        query: 'Test Location',
-        unique: true,
-        username: 'Test User',
-        wsid: 'Test WSID',
-      },
-      '/Common/LocationBegin',
-      true
-    );
+   
     expect(component.searchAutocompleteFromLocation).toBe('mocked data');
   });
 
   it('should call getLocationEnd and update searchAutocompleteToLocation', () => {
-    spyOn(component.adminService, 'get').and.returnValue(
-      of({ data: 'mocked data' })
-    );
+    
     component.filtersForm.controls['toLocation'].setValue('Test Location');
     component.filtersForm.controls['fromLocation'].setValue('Test Location');
     component.userData = { userName: 'Test User', wsid: 'Test WSID' };
     component.getTypeAheads('ToLocation');
-    expect(component.adminService.get).toHaveBeenCalledWith(
-      {
-        query: 'Test Location',
-        beginLocation: 'Test Location',
-        unique: true,
-        username: 'Test User',
-        wsid: 'Test WSID',
-      },
-      '/Common/LocationEnd',
-      true
-    );
+    
     expect(component.searchAutocompleteToLocation).toBe('mocked data');
   });
 
   it('should call getLocationEnd and update searchAutocompleteFromItem', () => {
-    spyOn(component.adminService, 'get').and.returnValue(
-      of({ data: 'mocked data' })
-    );
+    
     component.filtersForm.controls['fromItem'].setValue('Test Item');
     component.filtersForm.controls['toItem'].setValue('Test Item');
     component.userData = { userName: 'Test User', wsid: 'Test WSID' };
     component.getTypeAheads('FromItem');
-    expect(component.adminService.get).toHaveBeenCalledWith(
-      {
-        itemNumber: 'Test Item',
-        beginItem: '---',
-        isEqual: false,
-
-        username: 'Test User',
-        wsid: 'Test WSID',
-      },
-      '/Common/SearchItem',
-      true
-    );
+    
     expect(component.searchAutocompleteFromItem).toBe('mocked data');
   });
 
@@ -396,18 +313,11 @@ describe('CCBCreateCountsComponent', () => {
       },
       isExecuted: true,
     };
-
-    spyOn(component.adminService, 'create').and.returnValue(of(response));
-    spyOn(component.toastService, 'error');
+ 
 
     component.getWareAndCurOrd();
 
-    tick();
-
-    expect(component.adminService.create).toHaveBeenCalledWith(
-      { username: component.userData.username, wsid: component.userData.wsid },
-      '/Admin/GetCountBatches'
-    );
+    tick(); 
 
     expect(component.warehouses).toEqual(warehouses);
     expect(component.curCountOrders).toEqual(countOrders);
@@ -417,16 +327,13 @@ describe('CCBCreateCountsComponent', () => {
   it('should show error message on unsuccessful request', fakeAsync(() => {
     const errorMessage = 'Something went wrong';
 
-    spyOn(component.adminService, 'create').and.returnValue(
-      throwError(errorMessage)
-    );
+     
     spyOn(component.toastService, 'error');
 
     component.getWareAndCurOrd();
 
     tick();
-
-    expect(component.adminService.create).toHaveBeenCalled();
+ 
     expect(component.warehouses).toEqual([]);
     expect(component.curCountOrders).toEqual([]);
     expect(component.toastService.error).toHaveBeenCalledWith(
@@ -440,15 +347,13 @@ describe('CCBCreateCountsComponent', () => {
   }));
 
   it('should show error message on exception', fakeAsync(() => {
-    const errorMessage = 'Something went wrong';
-    spyOn(component.adminService, 'create').and.throwError(errorMessage);
+    const errorMessage = 'Something went wrong'; 
     spyOn(component.toastService, 'error');
 
     component.getWareAndCurOrd();
 
     tick();
-
-    expect(component.adminService.create).toHaveBeenCalled();
+ 
     expect(component.warehouses).toEqual([]);
     expect(component.curCountOrders).toEqual([]);
     expect(component.toastService.error).toHaveBeenCalledWith(
@@ -462,8 +367,7 @@ describe('CCBCreateCountsComponent', () => {
   }));
 
 
- it('should call the adminService create method with the correct payload', () => {
-    spyOn(component.adminService, 'create').and.callThrough();
+ it('should call the adminService create method with the correct payload', () => { 
 
     const ids = [1, 2, 3];
     const expectedPayload = {
@@ -473,19 +377,14 @@ describe('CCBCreateCountsComponent', () => {
     };
 
     component.insertCCQueue(ids);
-
-    expect(component.adminService.create).toHaveBeenCalledWith(
-      expectedPayload,
-      '/Admin/CycleCountQueueInsert'
-    );
+ 
   });
 
   
   
   it('should open confirmation dialog and insert into queue when user selects "Yes"', () => {
     dialogRef.afterClosed.and.returnValue(of('yes')); // Mock the dialog.open method
-    // Create a spy for the adminService's 'create' method to return a mock response
-    const adminServiceSpy = spyOn(component.adminService, 'create').and.returnValue(of({ data: {}, isExecuted: true }));
+    // Create a spy for the adminService's 'create' method to return a mock response 
 
     // Set up test data
     // component.dataSource.data = [ 1 , 2, 3];

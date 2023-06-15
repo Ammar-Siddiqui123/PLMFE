@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/init/auth.service';
-import { OrderManagerService } from 'src/app/order-manager/order-manager.service';
+import { AuthService } from 'src/app/init/auth.service'; 
 import labels from '../../labels/labels.json';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-om-user-field-data',
@@ -18,7 +18,7 @@ export class OmUserFieldDataComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private authService: AuthService,
-    private orderManagerService: OrderManagerService,
+    private Api: ApiFuntions,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<OmUserFieldDataComponent>,
   ) { }
@@ -34,7 +34,7 @@ export class OmUserFieldDataComponent implements OnInit {
       "wsid": this.userData.wsid,
       "appName": ""
     }
-    this.orderManagerService.get(payload, '/OrderManager/UserFieldData', loader).subscribe((res: any) => {
+    this.Api.UserFieldData().subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.userFieldData = res.data[0];
       } else {
@@ -60,7 +60,7 @@ export class OmUserFieldDataComponent implements OnInit {
       userField10: this.userFieldData.userField10,
       wsid: this.userData.wsid
     };
-    this.orderManagerService.get(payload, '/OrderManager/UserFieldDataUpdate',loader).subscribe((res: any) => {
+    this.Api.UserFieldDataUpdate(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.toastr.success(labels.alert.success, 'Success!', {
           positionClass: 'toast-bottom-right',

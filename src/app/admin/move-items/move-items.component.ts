@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AdminService } from '../admin.service';
+import { Component, OnInit, ViewChild } from '@angular/core'; 
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/init/auth.service';
 import { FloatLabelType } from '@angular/material/form-field';
@@ -12,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
+import { Api } from 'datatables.net';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 const TRNSC_DATA = [
   { colHeader: 'warehouse', colDef: 'Warehouse' },
@@ -137,7 +138,7 @@ export class MoveItemsComponent implements OnInit {
   hideRequiredControl = new FormControl(false);
   searchAutocompletItemNo: any = [];
   constructor(
-    private adminService: AdminService,
+    private Api: ApiFuntions,
     private authService: AuthService,
     private dialog: MatDialog,
     private toastr: ToastrService,
@@ -219,8 +220,8 @@ export class MoveItemsComponent implements OnInit {
       filter: tableName === 'MoveFrom' ?this.moveFromFilter:this.moveToFilter,
       wsid: this.userData.wsid,
     };
-    this.adminService
-      .get(payload, '/Admin/GetMoveItemsTable')
+    this.Api
+      .GetMoveItemsTable(payload)
       .subscribe((res: any) => {
         if (tableName === 'MoveTo') {
           res?.data['moveMapItems'].map((item) => {
@@ -261,7 +262,7 @@ export class MoveItemsComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.adminService.get(searchPayload, '/Common/SearchItem').subscribe(
+    this.Api.SearchItem(searchPayload).subscribe(
       (res: any) => {
         this.searchAutocompletItemNo = res.data;
         this.getMoveItemList('MoveFrom');
@@ -629,8 +630,8 @@ export class MoveItemsComponent implements OnInit {
       wsid: this.userData.wsid,
     };
 
-    this.adminService
-    .get(payload, '/Admin/CreateMoveTransactions')
+    this.Api
+    .CreateMoveTransactions(payload)
     .subscribe((res: any) => {
       if(res.isExecuted){
         this.toastr.success('Item moved successfully', 'Success!', {

@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OmAddRecordComponent } from 'src/app/dialogs/om-add-record/om-add-record.component';
 import { OmCreateOrdersComponent } from 'src/app/dialogs/om-create-orders/om-create-orders.component';
-import { OmUpdateRecordComponent } from 'src/app/dialogs/om-update-record/om-update-record.component';
-import { OrderManagerService } from '../order-manager.service';
+import { OmUpdateRecordComponent } from 'src/app/dialogs/om-update-record/om-update-record.component'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -17,6 +16,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { GlobalService } from 'src/app/common/services/global.service';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-om-order-manager',
@@ -118,7 +118,7 @@ export class OmOrderManagerComponent implements OnInit {
   constructor(private dialog          : MatDialog,
               private _liveAnnouncer  : LiveAnnouncer,
               private toastr          : ToastrService,
-              private OMService       : OrderManagerService,
+              private Api       : ApiFuntions,
               public authService      : AuthService,
               public globalService    : GlobalService,
               private filterService   : ContextMenuFiltersService) { }
@@ -137,12 +137,8 @@ export class OmOrderManagerComponent implements OnInit {
     this.fillTable();
   }  
 
-  getOMIndex() {
-    var payLoad = {
-      username: this.userData.userName,
-      wsid: this.userData.wsid,
-    };
-    this.OMService.create(payLoad, '/OrderManager/OrderManagerPreferenceIndex').subscribe(
+  getOMIndex() { 
+    this.Api.OrderManagerPreferenceIndex().subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
           this.OMIndex = res.data;
@@ -165,7 +161,7 @@ export class OmOrderManagerComponent implements OnInit {
       tableName: 'Order Manager'
     };
 
-    this.OMService.get(payload, '/Admin/GetColumnSequence').subscribe((res: any) => {
+    this.Api.GetColumnSequence(payload).subscribe((res: any) => {
       if (res.isExecuted) {
         this.displayedColumns = res.data;        
         this.displayedColumns.push( 'actions');
@@ -218,7 +214,7 @@ export class OmOrderManagerComponent implements OnInit {
     };
     // console.log(payload)
 
-    this.OMService.get(payload, '/OrderManager/FillOrderManTempData').subscribe((res: any) => {
+    this.Api.FillOrderManTempData(payload).subscribe((res: any) => {
       if (res.isExecuted) this.fillTable();
       else this.toastr.error("An Error occured while retrieving data.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
     });
@@ -238,7 +234,7 @@ export class OmOrderManagerComponent implements OnInit {
     };
     // console.log(payload2)
 
-    this.OMService.get(payload2, '/OrderManager/SelectOrderManagerTempDTNew',loader).subscribe((res: any) => {
+    this.Api.SelectOrderManagerTempDTNew(payload2).subscribe((res: any) => {
       this.orderTable = new MatTableDataSource(res.data?.transactions);
       this.customPagination.total = res.data?.recordsFiltered;
       this.totalRecords = res.data?.recordsFiltered;
@@ -281,7 +277,7 @@ export class OmOrderManagerComponent implements OnInit {
             viewType: this.viewType
           };
       
-          this.OMService.create(payload, '/OrderManager/OMOTPendDelete').subscribe((res: any) => {
+          this.Api.OMOTPendDelete(payload).subscribe((res: any) => {
             if (res.isExecuted) {
               this.getOrders();
             }
@@ -371,7 +367,7 @@ export class OmOrderManagerComponent implements OnInit {
             page: 'Order Manager'
           };
       
-          this.OMService.get(payload, '/OrderManager/ReleaseOrders').subscribe((res: any) => {
+          this.Api.ReleaseOrders(payload).subscribe((res: any) => {
             if (res.isExecuted) {
               this.getOrders();
               this.clearSearch();
@@ -406,7 +402,7 @@ export class OmOrderManagerComponent implements OnInit {
             page: 'Order Manager'
           };
       
-          this.OMService.get(payload, '/OrderManager/ReleaseOrders').subscribe((res: any) => {
+          this.Api.ReleaseOrders(payload).subscribe((res: any) => {
             if (res.isExecuted) {
               this.getOrders();
               this.clearSearch();
@@ -527,7 +523,7 @@ export class OmOrderManagerComponent implements OnInit {
       wsid: this.userData.wsid,
       appName: ""
     }
-    await this.OMService.get(payload, '/OrderManager/OrderManagerTempDelete',true).toPromise();
+    await this.Api.OrderManagerTempDelete(payload).toPromise();
   }
 
 }

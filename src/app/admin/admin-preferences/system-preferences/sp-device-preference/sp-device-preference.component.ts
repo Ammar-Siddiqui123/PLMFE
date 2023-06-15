@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { AdminService } from 'src/app/admin/admin.service';
+import { MatTableDataSource } from '@angular/material/table'; 
 import { AddNewDeviceComponent } from 'src/app/admin/dialogs/add-new-device/add-new-device.component';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-sp-device-preference',
@@ -26,7 +26,7 @@ export class SpDevicePreferenceComponent implements OnInit {
     'actions',
   ];
   constructor(
-    private adminService: AdminService,
+    private Api: ApiFuntions,
     public authService: AuthService,
     private dialog: MatDialog
   ) {}
@@ -45,8 +45,8 @@ export class SpDevicePreferenceComponent implements OnInit {
       wsid: this.userData.wsid,
     };
 
-    this.adminService
-      .get(payload, '/Admin/GetAdminMenu')
+    this.Api
+      .GetAdminMenu()
       .subscribe((res: any) => {
         if (res && res?.data?.totalOrders) {
           this.dataSource = new MatTableDataSource(

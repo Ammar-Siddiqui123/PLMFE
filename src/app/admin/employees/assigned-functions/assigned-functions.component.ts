@@ -2,9 +2,9 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChil
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { map, Observable, startWith } from 'rxjs';
-import { AssignService } from 'src/app/assign.service';
-import { EmployeeService } from 'src/app/employee.service';
+import { AssignService } from 'src/app/assign.service'; 
 import { FunctionAllocationComponent } from '../../dialogs/function-allocation/function-allocation.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-assigned-functions',
@@ -35,7 +35,7 @@ export class AssignedFunctionsComponent implements OnInit {
   employee_fetched_zones: string[] = [];
   group_fetched_unassigned_function:string[] = [];
   userName:any;
-  constructor( private employeeService: EmployeeService, private assignService:AssignService,private dialog: MatDialog) { }
+  constructor( private employeeService: ApiFuntions, private assignService:AssignService,private dialog: MatDialog) { }
 
   ngOnInit(): void {
 

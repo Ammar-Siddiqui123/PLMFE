@@ -8,10 +8,10 @@ import labels from '../labels/labels.json'
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { SpinnerService } from '../init/spinner.service';
-import { AuthService } from '../init/auth.service';
-import { GlobalconfigService } from '../global-config/globalconfig.service';
+import { AuthService } from '../init/auth.service'; 
 import packJSON from '../../../package.json'
 import { SharedService } from '../services/shared.service';
+import { ApiFuntions } from '../services/ApiFuntions';
 
 @Component({
   selector: 'login',
@@ -31,14 +31,13 @@ export class LoginComponent {
   applicationData: any = [];
   isAppAccess=false;
   constructor(
-    public loginService: LoginService,
+    public api: ApiFuntions,
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private dialog: MatDialog,
     public loader: SpinnerService,
-    private auth: AuthService,
-    private globalService: GlobalconfigService,
+    private auth: AuthService, 
     private sharedService: SharedService,
   ) { 
     this.url = this.router.url;
@@ -65,7 +64,7 @@ export class LoginComponent {
     this.login = this.addLoginForm.value;
     const workStation:any = JSON.parse(localStorage.getItem('workStation') || '');
     this.login.wsid = workStation.workStationID;
-    this.loginService
+    this.api
       .login(this.login)
       .subscribe((response: any) => {
         const exe = response.isExecuted
@@ -119,7 +118,7 @@ export class LoginComponent {
       this.router.navigate(['/dashboard']);
     }
     else{
-      this.loginService.getSecurityEnvironment().subscribe((res:any) => {
+      this.api.getSecurityEnvironment().subscribe((res:any) => {
         this.env = res.data.securityEnvironment;
         if(this.env){
           const { workStation } = res.data;
@@ -145,8 +144,7 @@ export class LoginComponent {
     let payload = {
       WSID:  this.login.wsid,
     };
-    this.globalService
-      .get(payload, '/GlobalConfig/AppNameByWorkstation')
+    this.api.AppNameByWorkstation()
       .subscribe(
         (res: any) => {
           if (res && res.data) {
@@ -267,9 +265,7 @@ export class LoginComponent {
     let paylaod={
       WSID: wsid
     }
-     this.globalService
-.get(paylaod, '/GlobalConfig/WorkStationDefaultAppSelect')
-.subscribe(
+     this.api.workstationdefaultapp().subscribe(
   (res: any) => {
   
     if (res && res.data) {

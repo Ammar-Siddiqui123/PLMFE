@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { ProcessPicksService } from 'src/app/induction-manager/process-picks/process-picks.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirmation.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-blossom-tote',
@@ -20,7 +19,7 @@ export class BlossomToteComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
     private toastr: ToastrService,
-    private pPickService: ProcessPicksService,
+    private Api: ApiFuntions,
     private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -35,7 +34,7 @@ export class BlossomToteComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.pPickService.update(updatePayload, '/Induction/NextToteUpdate').subscribe(res => {
+    this.Api.NextToteUpdate(updatePayload).subscribe(res => {
       if (!res.isExecuted) {
         this.toastr.error('Something is wrong.', 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -51,7 +50,7 @@ export class BlossomToteComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.pPickService.get(paylaod, '/Induction/NextTote').subscribe(res => {
+    this.Api.NextTote().subscribe(res => {
       if(res.data){
         this.nxtToteID = res.data;
         this.nxtToteID = this.nxtToteID + 1
@@ -84,7 +83,7 @@ export class BlossomToteComponent implements OnInit {
             "OldTote": this.oldToteID?.toString(),
             "NewTote": this.nxtToteID?.toString()
           }
-          this.pPickService.get(paylaod, '/Induction/ProcessBlossom').subscribe(res => {
+          this.Api.ProcessBlossom(paylaod).subscribe(res => {
             // console.log(res.data);
             if (res.data) {
               this.toastr.success('Updated Successfully', 'Success!', {

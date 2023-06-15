@@ -5,8 +5,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { EmployeeService } from 'src/app/employee.service';
+import { map, startWith } from 'rxjs/operators'; 
 import { AdminEmployeeLookupResponse, EmployeeObject, IEmployee } from 'src/app/Iemployee';
 import { MatDialog ,MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AddNewEmployeeComponent } from '../dialogs/add-new-employee/add-new-employee.component';
@@ -26,6 +25,7 @@ import { AuthService } from '../../../app/init/auth.service';
 import { SpinnerService } from '../../../app/init/spinner.service';
 import { MatOption } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface location {
   start_location: string;
@@ -109,7 +109,7 @@ bpSettingLocInp='';
   constructor(
     private authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer, 
-    private employeeService: EmployeeService, 
+    private employeeService: ApiFuntions, 
     private dialog: MatDialog,
     private toastr: ToastrService, 
     public router: Router,
@@ -130,11 +130,7 @@ bpSettingLocInp='';
     this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
 getgroupAllowedList(){
-  const emp_grp = {
-    "userName": this.grp_data,
-    "wsid": "TESTWSID"
-  };
-  this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
+  this.employeeService.Groupnames().subscribe((res:any) => {
      
    // this.groupAllowedList = res.data;
     this.groupAllowedList = new MatTableDataSource(res.data);

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-sp-field-name-mapping',
@@ -11,7 +12,7 @@ export class SpFieldNameMappingComponent implements OnInit {
   public CompanyObj: any={};
   Object=Object;
   public columns :any={};
-  constructor(    public authService: AuthService) {
+  constructor(    public authService: AuthService,private Api:ApiFuntions) {
     this.userData = authService.userData();
    }
 
@@ -27,7 +28,7 @@ export class SpFieldNameMappingComponent implements OnInit {
     this.FieldNameSave();
   }
   public OSFieldFilterNames() { 
-    this.authService.ColumnAlias().subscribe((res: any) => {
+    this.Api.ColumnAlias().subscribe((res: any) => {
       this.columns = res.data;
     })
   }
@@ -42,7 +43,7 @@ export class SpFieldNameMappingComponent implements OnInit {
       "username":  this.userData.userName,
       "wsid":this.userData.wsid
     };
-    this.authService.FieldNameSave(payload).subscribe((res: any) => {
+    this.Api.FieldNameSave(payload).subscribe((res: any) => {
       this.columns = res.data;
     })
   }

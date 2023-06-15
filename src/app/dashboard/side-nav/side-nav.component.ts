@@ -2,10 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '../../../app/services/shared.service';
 import { AuthService } from '../../../app/init/auth.service';
-import { GlobalconfigService } from 'src/app/global-config/globalconfig.service';
 import { of, from } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http'; 
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-side-nav',
@@ -113,7 +113,7 @@ export class SideNavComponent implements OnInit {
               private router: Router,
               private authService: AuthService,
               private sharedService:SharedService, 
-              private globalService: GlobalconfigService) { 
+              private Api:ApiFuntions) { 
                 
                 this.sharedService.SidebarMenupdate.subscribe((data: any) => {
                   var Menuobj = this.menus.find(x=>x.route == data);
@@ -280,7 +280,7 @@ export class SideNavComponent implements OnInit {
 
   async getAppLicense() {
 
-    this.globalService.get(null, '/GlobalConfig/AppLicense').subscribe(
+    this.Api.AppLicense().subscribe(
       (res: any) => {
         if (res && res.data) {
           // console.log(res.data);

@@ -6,9 +6,9 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { ProcessPutAwayService } from 'src/app/induction-manager/processPutAway.service';
 import { AuthService } from 'src/app/init/auth.service';
 import labels from '../../labels/labels.json';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-user-fields',
@@ -26,7 +26,7 @@ export class UserFieldsComponent implements OnInit {
     public formBuilder: FormBuilder,
     private authService: AuthService,
     private toast: ToastrService,
-    private service: ProcessPutAwayService) {
+    private Api: ApiFuntions) {
 
     this.userForm = this.formBuilder.group({
       userField1: new FormControl('', Validators.compose([])),

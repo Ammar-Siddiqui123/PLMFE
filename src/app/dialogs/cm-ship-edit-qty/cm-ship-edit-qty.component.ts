@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { GlobalService } from 'src/app/common/services/global.service';
-import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
+import { GlobalService } from 'src/app/common/services/global.service'; 
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-cm-ship-edit-qty',
@@ -25,7 +25,7 @@ export class CmShipEditQtyComponent implements OnInit {
   constructor(private dialog: MatDialog,
               public dialogRef: MatDialogRef<CmShipEditQtyComponent>,
               private toast: ToastrService,
-              private service: ConsolidationManagerService,
+              private Api: ApiFuntions,
               private authService: AuthService,
               public globalService: GlobalService,
               @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -70,7 +70,7 @@ export class CmShipEditQtyComponent implements OnInit {
         reason: this.adjustReason,
         username: this.userData.userName,
       }
-      this.service.create(payLoad, '/Consolidation/ShipQTYShipTransUpdate').subscribe((res:any)=>{
+      this.Api.ShipQTYShipTransUpdate(payLoad).subscribe((res:any)=>{
         if (res.isExecuted) {
 
           let Exists = false;

@@ -18,9 +18,7 @@ import { AddInvMapLocationComponent } from '../dialogs/add-inv-map-location/add-
 import { AdjustQuantityComponent } from '../dialogs/adjust-quantity/adjust-quantity.component';
 import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/delete-confirmation.component';
 import { QuarantineConfirmationComponent } from '../dialogs/quarantine-confirmation/quarantine-confirmation.component';
-import { SetColumnSeqComponent } from '../dialogs/set-column-seq/set-column-seq.component';
-import { SetColumnSeqService } from '../dialogs/set-column-seq/set-column-seq.service';
-import { InventoryMapService } from './inventory-map.service';
+import { SetColumnSeqComponent } from '../dialogs/set-column-seq/set-column-seq.component';  
 import { filter, pairwise } from 'rxjs/operators';
 import { ColumnSequenceDialogComponent } from '../dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -30,6 +28,7 @@ import { ContextMenuFiltersService } from '../../../app/init/context-menu-filter
 import { MatMenuTrigger} from '@angular/material/menu';
 import { InputFilterComponent } from '../../dialogs/input-filter/input-filter.component';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 
 const INVMAP_DATA = [
@@ -192,9 +191,8 @@ export class InventoryMapComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private seqColumn: SetColumnSeqService,
     private authService: AuthService,
-    private invMapService: InventoryMapService,
+    private Api: ApiFuntions,
     private toastr: ToastrService, 
     private router: Router,
     private loader: SpinnerService,
@@ -325,7 +323,12 @@ export class InventoryMapComponent implements OnInit {
    }
   }
   getColumnsData(){
-    this.invMapService.getSetColumnSeq( this.userData.userName,this.userData.wsid).pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
+    let payload = {
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+      "tableName": "Inventory Map"
+    }
+    this.Api.getSetColumnSeq(payload).pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
       this.displayedColumns = INVMAP_DATA;
 
       if(res.data){
@@ -342,7 +345,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   getContentData(){
-    this.invMapService.getInventoryMap(this.payload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
+    this.Api.getInventoryMap(this.payload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
       // console.log(res.data);
       this.itemList =  res.data?.inventoryMaps?.map((arr => {
         return {'itemNumber': arr.itemNumber, 'desc': arr.description}
@@ -541,7 +544,10 @@ export class InventoryMapComponent implements OnInit {
   }
 
   duplicate(event){
-  this.invMapService.duplicate( this.userData.userName,this.userData.wsid,event.invMapID).pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
+    var obj:any = {
+      userName:this.userData.userName,wsid:this.userData.wsid,invMapID:event.invMapID
+    }
+  this.Api.duplicate(obj).pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
     this.displayedColumns = INVMAP_DATA;
 
     if(res.data){
@@ -603,7 +609,7 @@ export class InventoryMapComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.invMapService.getSearchData(searchPayload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
+    this.Api.getSearchData(searchPayload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
       if(res.data){
         this.searchAutocompleteList = res.data;
       }

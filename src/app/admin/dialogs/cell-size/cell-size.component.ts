@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { CellSizeService } from '../../../../app/common/services/cell-size.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json'
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-cell-size',
@@ -18,7 +18,7 @@ export class CellSizeComponent implements OnInit {
   enableButton = [{ index: -1, value: true }];
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private cellSizeService: CellSizeService,
+    private api: ApiFuntions,
     private authService: AuthService,
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<any>,
@@ -34,7 +34,7 @@ export class CellSizeComponent implements OnInit {
 
   getCellSizeList() {
     this.enableButton = [];
-    this.cellSizeService.getCellSize().subscribe((res) => {
+    this.api.getCellSize().subscribe((res) => {
       for(var i=0;i<res.data.length;i++){
         res.data[i].isInserted = 1;
         this.enableButton.push({ index: i, value: true });
@@ -82,7 +82,7 @@ export class CellSizeComponent implements OnInit {
           "username": this.userData.userName,
           "wsid": this.userData.wsid,
         }
-        this.cellSizeService.saveCellSize(paylaod).subscribe((res) => {
+        this.api.saveCellSize(paylaod).subscribe((res) => {
           //console.log(res);
           if (res.isExecuted) {
             this.getCellSizeList();
@@ -122,7 +122,7 @@ export class CellSizeComponent implements OnInit {
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
       }
-      this.cellSizeService.dltCellSize(paylaod).subscribe((res) => {
+      this.api.dltCellSize(paylaod).subscribe((res) => {
         if (res.isExecuted) {
           this.getCellSizeList();
           this.toastr.success(labels.alert.delete, 'Success!', {

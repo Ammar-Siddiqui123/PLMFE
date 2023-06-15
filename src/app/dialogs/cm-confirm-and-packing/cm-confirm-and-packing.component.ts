@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CmConfirmAndPackingProcessTransactionComponent } from '../cm-confirm-and-packing-process-transaction/cm-confirm-and-packing-process-transaction.component';
@@ -11,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-cm-confirm-and-packing',
@@ -39,7 +39,7 @@ userData:any={};
 @ViewChild('paginator2') paginator2: MatPaginator;
 displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transactionQuantity', 'completedQuantity', 'containerID',
  'shipQuantity', 'complete']; 
-  constructor(private http:ConsolidationManagerService,public authService: AuthService,private toast:ToastrService,private dialog: MatDialog,
+  constructor(private Api:ApiFuntions,public authService: AuthService,private toast:ToastrService,private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,private _liveAnnouncer: LiveAnnouncer,
     public dialogRef: MatDialogRef<any>) { 
     this.userData = this.authService.userData();
@@ -66,7 +66,7 @@ displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transacti
       username: this.userData.userName,
       wsid: this.userData.wsid, 
     };
-   this.http.get(obj,'/Consolidation/SelContIDConfirmPack').subscribe((res:any) => { 
+   this.Api.SelContIDConfirmPack(obj).subscribe((res:any) => { 
     if(res.data == ''){
       this.toast.error("An error has occurred",'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});
     }else this.contID = res.data;
@@ -75,7 +75,7 @@ displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transacti
 
 
 async UnPack(id:any){  
-  this.http.get({id:id},'/Consolidation/ShipTransUnPackUpdate').subscribe((res:any) => {
+  this.Api.ShipTransUnPackUpdate({id:id}).subscribe((res:any) => {
     if (res.data == "Fail") {
       this.toast.error("An error has occurred", 'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});  
   } else {  
@@ -97,7 +97,7 @@ if(this.orderNumber != ""){
     username: this.userData.userName,
     wsid: this.userData.wsid, 
   };
- this.http.get(obj,'/Consolidation/ConfirmAndPackingIndex').subscribe((res:any) => { 
+ this.Api.ConfirmAndPackingIndex(obj).subscribe((res:any) => { 
   
   this.orderNumber = res.data.orderNumber;
 
@@ -134,7 +134,7 @@ async ClickConfirmAll(){
       username: this.userData.userName,
       wsid: this.userData.wsid, 
     };
-   this.http.get(obj,'/Consolidation/ConfirmAllConfPack').subscribe((res:any) => {
+   this.Api.ConfirmAllConfPack(obj).subscribe((res:any) => {
     if (res.data == "Fail") {
       this.toast.error('An error has occurred', 'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000}); 
   } else { 
@@ -254,7 +254,7 @@ if(searchCount == 0){
     userName: this.userData.userName,
     wsid: this.userData.wsid
   };
- this.http.get(obj,'/Consolidation/ConfPackProcModalUpdate').subscribe((res:any) => {
+ this.Api.ConfPackProcModalUpdate(obj).subscribe((res:any) => {
    
   if (res.data == "Fail") {
     this.toast.error('An error has occurred', 'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});  

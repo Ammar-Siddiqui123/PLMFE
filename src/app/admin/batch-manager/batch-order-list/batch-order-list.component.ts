@@ -14,13 +14,13 @@ import {
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { BatchManagerService } from '../batch-manager.service';
+import { Router } from '@angular/router'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { BatchManagerDetailViewComponent } from '../../dialogs/batch-manager-detail-view/batch-manager-detail-view.component';
 import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-batch-order-list',
@@ -62,7 +62,7 @@ export class BatchOrderListComponent implements OnInit {
     private sharedService: SharedService,
     private _liveAnnouncer: LiveAnnouncer,
     private router: Router,
-    private batchService: BatchManagerService,
+    private Api: ApiFuntions,
     private authService: AuthService,
     private dialog: MatDialog
   ) {}
@@ -145,8 +145,8 @@ export class BatchOrderListComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.batchService
-      .get(payload, '/Admin/DetailView')
+    this.Api
+      .DetailView(payload)
       .subscribe((res: any) => {
         const { data, isExecuted } = res;
         if (isExecuted && data.length > 0) {

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-ste',
@@ -12,7 +13,7 @@ import { AuthService } from 'src/app/init/auth.service';
 export class SteComponent implements OnInit {
   sideBarOpen: boolean = true;
   Status:any = 'Offline';
-  constructor( public dialog: MatDialog,    public authService: AuthService,private toastr:ToastrService) { }
+  constructor( public dialog: MatDialog,    public Api: ApiFuntions,private toastr:ToastrService) { }
 
   ngOnInit(): void {
     this.CheckStatus();
@@ -69,11 +70,11 @@ export class SteComponent implements OnInit {
   async STEToggle(){  
     try{ 
       if(this.Status != 'Online'){
-      this.authService.startSTEService().subscribe((res: any) => {
+      this.Api.startSTEService().subscribe((res: any) => {
         if(res.data) this.ServiceStatus('start',res.data);
       }) 
     }else  {
-      this.authService.stopSTEService().subscribe((res: any) => {
+      this.Api.stopSTEService().subscribe((res: any) => {
         if(res.data) this.ServiceStatus('stop',res.data);
       })
     }
@@ -85,7 +86,7 @@ export class SteComponent implements OnInit {
 async STERestart(){  
   try{
     this.Status = 'Pending'; 
-    this.authService.RestartService().subscribe((res: any) => {
+    this.Api.RestartSTEService().subscribe((res: any) => {
       if(res.data) this.ServiceStatus('restart',res.data);
     })
    
@@ -95,7 +96,7 @@ async STERestart(){
   }
 }
 async CheckStatus(){
-  this.authService.ServiceStatusSTE().subscribe((res: any) => {
+  this.Api.ServiceStatusSTE().subscribe((res: any) => {
     if(res.data) this.Status = 'Online';
     else this.Status = 'Offline';
   })

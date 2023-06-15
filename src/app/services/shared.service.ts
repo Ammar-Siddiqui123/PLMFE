@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { SetColumnSeqService } from '../admin/dialogs/set-column-seq/set-column-seq.service';
+import { Subject, from } from 'rxjs'; 
+import { ApiFuntions } from './ApiFuntions';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SharedService {
-  constructor(private columnSequence: SetColumnSeqService) {}
+  constructor(private api: ApiFuntions) { }
   loadMenu: boolean = false;
   private data: any;
   private menuData = new Subject<any>();
@@ -33,7 +33,7 @@ export class SharedService {
   batchManagerObserver: Subject<any> = new Subject<any>();
   breadCrumObserver: Subject<any> = new Subject<any>();
   invMasterParentObserver: Subject<any> = new Subject<any>();
-  
+
 
   resetSidebar() {
     this.startMenu.next(true);
@@ -106,8 +106,8 @@ export class SharedService {
   updateBatchManagerObject(obj) {
     this.batchManagerObserver.next(obj);
   }
-  updateInvMasterState(obj,type) {
-    this.invMasterParentObserver.next({event:obj,isEnable:type});
+  updateInvMasterState(obj, type) {
+    this.invMasterParentObserver.next({ event: obj, isEnable: type });
   }
   getSidebarStatus() {
     return this.loadMenu;
@@ -128,13 +128,20 @@ export class SharedService {
   }
 
   updateLoggedInUser(userName: any, wsid: any, menu: any) {
-    let appName : any;
-    if (menu.includes('/FlowrackReplenishment')) appName = 'FlowrackReplenishment';    
-    if (menu.includes('/admin')) appName = 'Admin';    
+    let appName: any;
+    if (menu.includes('/FlowrackReplenishment')) appName = 'FlowrackReplenishment';
+    if (menu.includes('/admin')) appName = 'Admin';
     if (menu.includes('/InductionManager')) appName = 'Induction Manager';
     if (menu.includes('/ConsolidationManager')) appName = 'Consolidation Manager';
     if (menu.includes('/globalconfig')) return;
-    else this.columnSequence.updateAppName(userName, wsid, appName).subscribe((res: any) => {});
+    
+    else{
+      var object:any = {
+        userName:userName,
+        wsid:wsid, appName:appName
+      }
+      this.api.UserAppNameAdd(object).subscribe((res: any) => { }); 
+    } 
   }
 
   setMenuData(value: any) {
@@ -144,7 +151,7 @@ export class SharedService {
     this.SidebarMenupdate.next(str);
   }
 
-  updateBreadcrumb(breadCrumb: any){
+  updateBreadcrumb(breadCrumb: any) {
     this.breadCrumObserver.next(breadCrumb);
   }
 }
