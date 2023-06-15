@@ -19,6 +19,7 @@ export class BatchDeleteComponent implements OnInit {
   clearBatchTote: string = '';
   deleteAllDisable:any;
   enableClear=false;
+  deleteBtnHide = false
   constructor(
     public dialogRef: MatDialogRef<BatchDeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -33,6 +34,7 @@ export class BatchDeleteComponent implements OnInit {
     this.deleteAllDisable=this.data.deleteAllDisable;
     this.clearBatchTote=this.data.deleteAllDisable?'clearTote':'clearBatch';
     this.enableClear=this.data && this.data.enableClear
+    this.deleteBtnHide = this.data && this.data.delButtonHide ? this.data.delButtonHide : false
   }
 
   batchTotesDelete(deAllocate?) {

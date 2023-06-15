@@ -43,12 +43,12 @@
         </button>
     </div>
     <div class="col-xl-4 mb-2">
-        <button mat-flat-button color="warn" class=" btn-lg w-100"  (click)="batchTotesDelete(true)">
+        <button mat-flat-button color="warn" class=" btn-lg w-100"  (click)="batchTotesDelete(false)">
             Clear Only
         </button>
     </div>
     <div class="col-xl-4 mb-2">
-        <button mat-flat-button color="warn" class="btn-lg w-100" [disabled]="deleteAllDisable" (click)="allBatchDelete()">
+        <button mat-flat-button color="warn" class="btn-lg w-100" [disabled]="deleteAllDisable" [hidden]="deleteBtnHide" (click)="allBatchDelete()">
             Delete All Batches 
         </button>
     </div>
