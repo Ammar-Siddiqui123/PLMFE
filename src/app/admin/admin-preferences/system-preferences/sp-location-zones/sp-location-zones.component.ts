@@ -32,7 +32,7 @@ export class SpLocationZonesComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.alterParentZones('','1s0')
+    // this.alterParentZones('','1s0')
     this.getLocationZones()
   }
   
@@ -76,7 +76,7 @@ export class SpLocationZonesComponent implements OnInit {
 
 
   zoneChange(zone: any,check,type?) {
-  
+  debugger
   if(!check){
     if(type==='carousel'){
       if(zone.carousel){
@@ -121,7 +121,7 @@ export class SpLocationZonesComponent implements OnInit {
 
 
     
-    console.log(zone)
+    // console.log(zone)
     let oldZone: any = this.duplicatelocationzone.filter((x: any) => x.ID == zone.ID)[0].zone;
     let newZone:any = zone.zone;
     let seq = zone.sequence;
@@ -130,6 +130,9 @@ export class SpLocationZonesComponent implements OnInit {
         positionClass: 'toast-bottom-right',
         timeOut: 2000,
       });
+      zone.zone = oldZone
+      return
+      
     }
     else if (seq < 0 || seq == '') {
       if (seq < 0) {
@@ -137,6 +140,7 @@ export class SpLocationZonesComponent implements OnInit {
           positionClass: 'toast-bottom-right',
           timeOut: 2000,
         });
+        return
       }
     }
 
@@ -174,7 +178,7 @@ export class SpLocationZonesComponent implements OnInit {
         this.preferencehub.get(payload,'/Admin/LocationZoneSave',true).subscribe((res=>{
           if(res.isExecuted){
             // debugger
-            console.log(res)
+            // console.log(res)
           }
         }))
   }
@@ -196,7 +200,7 @@ export class SpLocationZonesComponent implements OnInit {
       this.locationzone = [];
       res.data.forEach((zone: any, i) => {
         zone.ID = i + 1;
-        if(zone.carousel){
+        if(zone.carousel && zone.zone!=''){
           this.parentZones.push(zone.zone);
         }
         this.locationzone.push(zone);
@@ -264,14 +268,27 @@ export class SpLocationZonesComponent implements OnInit {
   }
 
   alterParentZones(add,item){
-    if(add){
-      this.parentZones.push(item)
+    if(add && item != ''){
+      let parentzone = this.parentZones
+      const isNumberExist = (item, parentzone) => {
+        return parentzone.some(element => element === item);
+      };
+      console.log(isNumberExist(item, parentzone))
+      if (isNumberExist(item, parentzone)){
+
+        console.log("The number already exists in the array.");
+      }
+      else{
+        this.parentZones.push(item)
+        console.log("The number does not exist in the array."); 
+      }
     }
     else{
-    this.parentZones.filter((ele=>{
-      ele != item
-    }))
-    // console.log(this.parentZones)
+
+
+  let newArray = this.parentZones.filter(number => number != item);
+  console.log(newArray); // [ 3, 4 ]
+  this.parentZones = newArray
       
     }
   }
