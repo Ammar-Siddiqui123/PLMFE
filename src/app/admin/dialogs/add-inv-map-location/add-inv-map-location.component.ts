@@ -249,7 +249,14 @@ export class AddInvMapLocationComponent implements OnInit {
   }
 
   adjustQuantity() {
-    if(this.getDetailInventoryMapData.itemNumber == '') return;
+    if(this.addInvMapLocation.value.item == '') return;
+    if(this.getDetailInventoryMapData.itemNumber == ''){
+      this.toastr.error('No item found at the location specified.  Ensure that the entry selected has been saved since an item was assigned to it.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
     let dialogRef = this.dialog.open(AdjustQuantityComponent, {
       height: 'auto',
       width: '800px',
