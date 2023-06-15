@@ -125,7 +125,7 @@ export class ToteTransactionManagerComponent implements OnInit {
         if (type != 'pickTote') {
           const dialogRef = this.dialog.open(BatchDeleteComponent, {
             height: 'auto',
-            width: '50vw',
+            width: '60vw',
             autoFocus: '__non_existing_element__',
             data: {
               deleteAllDisable:true,

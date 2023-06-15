@@ -5,12 +5,12 @@
   <mat-tab-group dynamicHeight>
 
     <mat-tab label="System Settings">
-      <mat-card class="mat-elevation-z g-card mt-3 p-4">
+      <mat-card class="mat-elevation-z g-card mt-3">
         <mat-card-content>
 
-          <div class="d-flex justify-content-between mb-2 align-items-center mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="card-header-title mb-0 d-flex align-items-center">
-              <div class="mat-icon-wrap me-lg-3">
+              <div class="mat-icon-wrap me-lg-3 m-2">
                 <span class="material-symbols-outlined">
                   settings_applications
                 </span>
@@ -22,7 +22,7 @@
           <div class="row mb-3">
             <div class="pb-1">
               <mat-radio-group formControlName="useDefault" (change)="updatePreferences(1)"
-                class="d-flex align-items-center gap-12" aria-label="Select an option">
+                class="d-flex flex-wrap align-items-center gap-12" aria-label="Select an option">
 
                 <mat-radio-button class="p-2" value="filter" color="primary"
                   matTooltip="Sets if custom filter or zone is to be used in pick batch manager">
@@ -38,7 +38,7 @@
             </div>
           </div>
 
-          <div class="row pb-5">
+          <div class="row mb-3">
 
             <div class="col-xl-4">
               <div class="d-flex gap-12 mb-2">
@@ -82,41 +82,39 @@
             </div>
 
             <div class="col-xl-4">
-              <div class="d-flex gap-12 mb-2">
-                <div class="col-md-12 text-left admin-prefrences">
-                  <div class="d-flex justify-content-between mb-2">
+              <div class="d-flex gap-12 mb-2 flex-wrap">
+                  <div class="col-12 d-flex justify-content-between mb-2">
                     Select if One: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="selectIfOne"
-                      class="primary" color="primary"
+                      class="primary" color="primary" 
                       matTooltip="Controls if transaction select screen is opened if only one transaction exists. If Checked, will auto select an existing transaction if it is the last one"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-2">
+                  <div class="col-12 d-flex justify-content-between mb-2">
                     Validate Totes: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="validateTotes"
                       color="primary" matTooltip="Controls if Tote IDs need to be validated"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-2">
+                  <div class="col-12 d-flex justify-content-between mb-2">
                     Auto Forward Replenish: <mat-slide-toggle (change)="updatePreferences(1)"
                       formControlName="autoForwardReplenish" color="primary"
                       matTooltip="Toggles if Auto Forward Replenishments will be displayed"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-2">
+                  <div class="col-12 d-flex justify-content-between mb-2">
                     Create Item Master: <mat-slide-toggle (change)="updatePreferences(1)"
                       formControlName="createItemMaster" color="primary"
                       matTooltip="Toggles if new items can be created if they do not exist from put away batch manager"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-2">
+                  <div class="col-12 d-flex justify-content-between mb-2">
                     SAP Location Transactions: <mat-slide-toggle (change)="updatePreferences(1)"
                       formControlName="sapLocationTransactions" color="primary"
                       matTooltip="Toggles if SAP location transactions are created"></mat-slide-toggle>
                   </div>
-                  <div class="d-flex justify-content-between mb-2">
+                  <div class="col-12 d-flex justify-content-between mb-2">
                     Strip Scan: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="stripScan"
                       color="primary"
                       matTooltip="Controls if characters are to be removed from scans"></mat-slide-toggle>
                   </div>
-                </div>
               </div>
             </div>
-
+          </div>
             <div class="row" *ngIf="preferencesForm.value.stripScan">
 
               <div class="col-xl-4">
@@ -135,8 +133,9 @@
                   </mat-form-field>
                 </div>
               </div>
+              
 
-              <div class="col-xl-4 ps-3">
+              <div class="col-xl-4">
                 <div class="d-flex gap-12 mb-2">
                   <mat-form-field class="custom-form-field w-100" appearance="outline">
                     <mat-label>Strip Number</mat-label>
@@ -149,7 +148,7 @@
               </div>
 
             </div>
-          </div>
+          
 
         </mat-card-content>
       </mat-card>
@@ -159,16 +158,16 @@
       <mat-card class="mat-elevation-z g-card mt-3 mb-4 p-4">
         <mat-card-content>
 
-          <div class="d-flex justify-content-between mb-2 align-items-center mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="card-header-title mb-0 d-flex align-items-center">
-              <div class="mat-icon-wrap me-lg-3">
+              <div class="mat-icon-wrap me-lg-3 m-2">
                 <span class="material-symbols-outlined"> open_in_browser </span>
               </div>
               <span>Pick Settings</span>
             </h2>
           </div>
 
-          <div class="row pb-5">
+          <div class="row mb-3">
             <div class="col-xl-4">
               <div class="d-flex gap-12 mb-2">
                 <div class="col-md-12 text-left admin-prefrences">
@@ -220,6 +219,7 @@
                 </div>
               </div>
             </div>
+          </div>
 
             <div class="row">
               <div class="col-xl-4">
@@ -240,7 +240,7 @@
               </div>
             </div>
 
-          </div>
+          
         </mat-card-content>
       </mat-card>
     </mat-tab>
@@ -251,14 +251,14 @@
 
           <div class="d-flex justify-content-between mb-2 align-items-center mb-3">
             <h2 class="card-header-title mb-0 d-flex align-items-center">
-              <div class="mat-icon-wrap me-lg-3">
+              <div class="mat-icon-wrap me-lg-3 m-2">
                 <span class="material-symbols-outlined"> browser_updated </span>
               </div>
               <span>Put Away Settings</span>
             </h2>
           </div>
 
-          <div class="row pb-5">
+          <div class="row mb-3">
 
             <div class="col-xl-4">
               <div class="d-flex gap-12 mb-2">
@@ -286,8 +286,9 @@
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="row pb-5">
+            <div class="row mb-3">
 
               <div class="col-xl-4">
                 <div class="d-flex gap-12 mb-2">
@@ -347,7 +348,7 @@
 
             </div>
 
-          </div>
+          
         </mat-card-content>
       </mat-card>
     </mat-tab>
@@ -356,16 +357,16 @@
       <mat-card class="mat-elevation-z g-card mt-3 mb-4 p-4">
         <mat-card-content>
 
-          <div class="d-flex justify-content-between mb-2 align-items-center mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="card-header-title mb-0 d-flex align-items-center">
-              <div class="mat-icon-wrap me-lg-3">
+              <div class="mat-icon-wrap me-lg-3 m-2">
                 <span class="material-symbols-outlined"> print </span>
               </div>
               <span>Print Settings</span>
             </h2>
           </div>
 
-          <div class="row pb-5">
+          <div class="row mb-3">
 
             <div class="col-xl-4">
               <div class="d-flex gap-12 mb-2">
@@ -417,6 +418,7 @@
                 </div>
               </div>
             </div>
+          </div>
 
             <div class="row">
               <div class="col-xl-4">
@@ -438,7 +440,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          
         </mat-card-content>
       </mat-card>
     </mat-tab>
@@ -448,7 +450,7 @@
       <mat-card class="mat-elevation-z g-card mt-3 mb-4 p-4" style="min-height: 500px;">
         <mat-card-content>
 
-          <div class="d-flex justify-content-between mb-2 align-items-center mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="card-header-title mb-0 d-flex align-items-center">
               <div class="mat-icon-wrap me-lg-3">
                 <span class="material-symbols-outlined">perm_data_setting</span>
@@ -474,8 +476,8 @@
               </div>
             </div>
             <div class="col-xl-4">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-              <button type="submit" mat-flat-button class="btn-regular" (click)="getCompName()" [disabled]="trackIndIsDisable"  color="primary">Use Computer Name</button>
+            <div class="d-block d-xl-flex align-items-center justify-content-between mb-3">
+              <button type="submit" mat-flat-button class="btn-regular w-100" (click)="getCompName()" [disabled]="trackIndIsDisable"  color="primary">Use Computer Name</button>
             </div>
           </div>
           </div>
@@ -526,7 +528,7 @@
           <div class="row align-items-center">
             <div class="col-xl-4">
               <div class="align-items-center justify-content-between">
-               <h4 class="text-16"> <b>Super Batch Filter:</b> </h4>
+               <h4 class="text-16 mb-3"> <b>Super Batch Filter:</b> </h4>
                 <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
                   <mat-label>Default Filter:</mat-label>
                   <mat-select formControlName="superBatchFilter" (selectionChange)="updatePreferences(3)">
@@ -553,9 +555,9 @@
       <mat-card class="mat-elevation-z g-card mt-3 mb-4 p-4" style="min-height:500px">
         <mat-card-content>
       
-          <div class="d-flex justify-content-between mb-2 align-items-center mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="card-header-title mb-3 d-flex align-items-center">
-              <div class="mat-icon-wrap me-lg-3">
+              <div class="mat-icon-wrap me-lg-3 m-2">
                 <span class="material-symbols-outlined"> timeline </span>
               </div>
               <span>Reel Tracking</span>

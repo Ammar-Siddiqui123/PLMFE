@@ -519,7 +519,8 @@ export class MoveItemsComponent implements OnInit {
         message: message,
         heading: '',
         disableCancel: isDisableButton,
-        buttonField:  buttonFields
+        buttonField:  buttonFields,
+        notificationPrimary:true
       },
       autoFocus: '__non_existing_element__',
     });
@@ -540,14 +541,12 @@ export class MoveItemsComponent implements OnInit {
        if(type==='Un-Dedicate'){
         if(result){  
           this.undedicateMoveFrom=true;
-          // console.log('dedicateMoveTo',this.dedicateMoveTo);
-          // console.log('undedicateMoveFrom',this.undedicateMoveFrom);
+  
           this.callCreateMoveTrans();
           // this.openAlertDialog('Un-Dedicate')
         }else{
           this.undedicateMoveFrom=false;
-          // console.log('dedicateMoveTo',this.dedicateMoveTo);
-          // console.log('undedicateMoveFrom',this.undedicateMoveFrom);
+       
           this.callCreateMoveTrans();
         
         }
@@ -557,13 +556,11 @@ export class MoveItemsComponent implements OnInit {
       else if(!this.isDedicated && this.MoveFromDedicated==='Dedicated' ){ // On undedicated popup  when dedicated unchecked move from is dedicated and move to is undedicted
         if(result){
           this.undedicateMoveFrom=true
-          // console.log('dedicateMoveTo',this.dedicateMoveTo);
-          // console.log('undedicateMoveFrom',this.undedicateMoveFrom);
+    
           this.callCreateMoveTrans();
         }else{
           this.undedicateMoveFrom=false
-          // console.log('dedicateMoveTo',this.dedicateMoveTo);
-          // console.log('undedicateMoveFrom',this.undedicateMoveFrom);
+
           this.callCreateMoveTrans();
         }
       }
@@ -571,42 +568,15 @@ export class MoveItemsComponent implements OnInit {
       else if (this.isDedicated && this.MoveFromDedicated==='Not Dedicated'){ // when move from undedicated moveto dedicated and dedicated checked only dedicated popup show
         if(result){
           this.dedicateMoveTo=true
-          // console.log('dedicateMoveTo',this.dedicateMoveTo);
-          // console.log('undedicateMoveFrom',this.undedicateMoveFrom);
+  
           this.callCreateMoveTrans();
         }else{
           this.dedicateMoveTo=false
-          // console.log('dedicateMoveTo',this.dedicateMoveTo);
-          // console.log('undedicateMoveFrom',this.undedicateMoveFrom);
+     
           this.callCreateMoveTrans();
         }
       }
-    //  else if(!result &&  type==='Dedicate' && this.isDedicated && this.MoveFromDedicated==='Dedicated'){ // no on dedicated
-       
-      
-    //   }
-    //   else if (result &&  type==='Un-Dedicate'){
-    //     this.undedicateMoveFrom=true;
-    //   }else if(!result &&  type==='Un-Dedicate'){
-    //     this.undedicateMoveFrom=false;
-    //   }
-      
-
-      // if(result){
-      //   if(type==='Un-Dedicate'){
-      //     this.undedicateMoveFrom=true;
-      //       callback(this.undedicateMoveFrom)
-      //     // this.callCreateMoveTrans();
-        
-      //   }else if(type==='Dedicate'){
-      //     this.dedicateMoveTo=true;
-      //     callback(this.dedicateMoveTo)
-      //     // this.callCreateMoveTrans();
-      //   }
-      // }else{
-      //   this.undedicateMoveFrom=false;
-      //   // this.dedicateMoveTo=false;
-      // }
+   
        
     });
   }
