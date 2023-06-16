@@ -23,9 +23,7 @@ export class SpFieldNameMappingComponent implements OnInit {
       this.columns[item] = null;
     }
   }
-  ngOnDestroy(){  
-    this.FieldNameSave();
-  }
+   
   public OSFieldFilterNames() { 
     this.authService.ColumnAlias().subscribe((res: any) => {
       this.columns = res.data;
@@ -42,8 +40,7 @@ export class SpFieldNameMappingComponent implements OnInit {
       "username":  this.userData.userName,
       "wsid":this.userData.wsid
     };
-    this.authService.FieldNameSave(payload).subscribe((res: any) => {
-      this.columns = res.data;
+    this.authService.FieldNameSave(payload).subscribe((res: any) => {   
     })
   }
   

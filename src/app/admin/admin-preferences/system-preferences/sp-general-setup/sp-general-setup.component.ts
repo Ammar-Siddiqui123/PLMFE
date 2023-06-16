@@ -32,11 +32,9 @@ export class SpGeneralSetupComponent implements OnInit {
       this.CompanyObj = res.data;
     })
   }
-  ngOnDestroy(){ 
-    debugger
-    this.payload();
+  ngOnDestroy(){  
   }
-  payload(){ 
+  payload(no){ 
     var paylaod1:any = {
       "preference": [
         this.CompanyObj.companyName,this.CompanyObj.address1,this.CompanyObj.city,this.CompanyObj.state,
@@ -56,8 +54,8 @@ export class SpGeneralSetupComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }; 
-    this.SaveForm(paylaod1);
-    this.SaveForm(paylaod3);
+    if(no==1) this.SaveForm(paylaod1);
+    if(no==3)  this.SaveForm(paylaod3);
   }
     async SaveForm(paylaod){ 
       this.authService.GeneralPreferenceSave(paylaod).subscribe((res: any) => { 
