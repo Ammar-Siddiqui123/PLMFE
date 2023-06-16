@@ -51,13 +51,14 @@ export class FlowrackReplenishmentComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authservice.userData()
     this.cartonFlow()
+    
   }
 
 
   values(event) {
   //  debugger
     this.itemLocation = this.autocompleteTrigger.activeOption?.value.location;
-    this.itemQty = this.autocompleteTrigger.activeOption?.value.itemQuantity;
+    // this.itemQty = this.autocompleteTrigger.activeOption?.value.itemQuantity;
  
   }
 
@@ -73,18 +74,20 @@ export class FlowrackReplenishmentComponent implements OnInit {
   }
 
   updateQty(val) {
-    
+    // debugger
     // console.log(val)
-    if (val !== 0) {
+    if (val !== 0 &&val !=null) {
       this.submitBtnDisplay = false;
       this.itemQtyFocus.nativeElement.focus()
       this.calculator = false
+      this.itemQty = val.toString()
+
     }
-    if (val === 0 || val === '') {
-      this.submitBtnDisplay = true;
+    if (val == 0 ) {
+      this.submitBtnDisplay = false;
       this.calculator = false
     }
-    if (val == '') {
+    if (val == null) {
       this.submitBtnDisplay = true;
       this.calculator = false
     }
@@ -125,7 +128,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
     this.itemLocation = '';
     setTimeout(() => { 
       this.itemLocation = event.option.value.location; 
-      this.itemQty = Number(event.option.value.itemQuantity)
+      // this.itemQty = Number(event.option.value.itemQuantity)
       // console.log(event.option.value.itemQuantity)
       this.onLocationSelected(this.itemLocation)
     }, 1);
@@ -203,11 +206,17 @@ export class FlowrackReplenishmentComponent implements OnInit {
 
     }
     if(event.keyCode == 8){
-      this.itemnumscan = '';
+      // debugger
+      // this.itemnumscan = '';
+      console.log(this.LocationRow)
+      if(!this.LocationRow){
+        this.itemnumscan = '';
+      }
     }
   }
 
   onLocationSelected(location) {
+    debugger
     let payload = {
       "itemNumber": this.itemnumscan,
       "Input": this.itemLocation,
@@ -224,7 +233,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
         this.autocompleteTrigger.closePanel()
         this.clearLocationField()
         this.LocationRow = true;
-        this.autoFocusField.nativeElement.focus()
+        // this.autoFocusField.nativeElement.focus()
         this.toastr.error("Location Unavailable.", 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
@@ -236,6 +245,8 @@ export class FlowrackReplenishmentComponent implements OnInit {
     this.getAppLicense();  
   }
   openCal() {
+    // debugger
+    console.log(this.itemQty)
     const dialogRef = this.dialog.open(FrNumpadComponent, {
       width: '480px',
       minWidth: '480px',
@@ -246,8 +257,9 @@ export class FlowrackReplenishmentComponent implements OnInit {
    
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.itemQty = !result ? '' : result;
-      this.submitBtnDisplay = !result ? true : false;
+      console.log(result)
+      this.itemQty = !result ? this.itemQty : result;
+      this.submitBtnDisplay = !this.itemQty ? true : false;
       this.autocompleteTrigger.closePanel()
       setTimeout(() => {
         this.itemQtyFocus.nativeElement.focus();

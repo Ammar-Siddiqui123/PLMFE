@@ -29,6 +29,16 @@ export class LoginService {
     };
     return this.http.post<any>(`${environment.apiUrl}/Login/LoginUser`, login, httpOptions);
   }
+  public CompanyInfo(body:any): Observable<any> {
+    let basicAuth = '';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + basicAuth
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/Login/CompanyInfo`,body ,httpOptions);
+  }
 
   public getSecurityEnvironment(): Observable<ILoginInfo> {
     let basicAuth = '';
