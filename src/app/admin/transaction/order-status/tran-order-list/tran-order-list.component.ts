@@ -32,9 +32,6 @@ import { OmChangePriorityComponent } from 'src/app/dialogs/om-change-priority/om
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
-import { SignalrServiceService } from 'src/app/services/signalr-service.service';
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
-import { environment } from 'src/environments/environment';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
@@ -44,7 +41,6 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 })
 export class TranOrderListComponent implements OnInit, AfterViewInit {
   public columnValues: any = [];
-  private hubConnection: HubConnection;
   public Order_Table_Config = [
     { colHeader: 'status', colDef: 'Status' },
     { colHeader: 'transactionType', colDef: 'Transaction Type' },
@@ -215,7 +211,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   @Input() set toteIdEvent(event: Event) {
     if (event) {
       this.toteId = event;
-    } 
+    }
+    // this.getContentData();
   }
   // Emitters
   @Output() openOrders = new EventEmitter<any>();
@@ -269,14 +266,13 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   public priority = false;
 
   constructor(
-    private Api: ApiFuntions,
+    private Api:ApiFuntions,
     private authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer,
     private sharedService: SharedService,
     private dialog: MatDialog,
     router: Router,
-    private filterService: ContextMenuFiltersService,
-    private signalrService:SignalrServiceService
+    private filterService: ContextMenuFiltersService
   ) {
     this.setVal = localStorage.getItem('routeFromOrderStatus')
     if(router.url == '/OrderManager/OrderStatus' || router.url == '/OrderManager/OrderStatus?type=TransactionHistory'|| this.setVal == 'true'){
@@ -290,7 +286,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   getEleLength(ele) {
     // console.log('=----',ele)
   }
-  getContentDatas() {
+  getContentData() {
     if (this.searchCol === 'Tote ID') {
     }
      
@@ -377,114 +373,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
         (error) => {}
       );
   }
-async  StartConnection(){
-    this.hubConnection = new HubConnectionBuilder()
-    .withUrl(`${environment.apiUrl}/hubOrderStatus`) // Replace with your hub URL
-    .build();
-    this.hubConnection.start()
-    .then(() => { 
-      this.ReceiveData();
-    })
-    .catch(error => {
-      console.error('Error while establishing SignalR connection:', error);
-    });
-  }
 
-  
- 
-  getContentData(){  
-    if (this.searchCol === 'Tote ID') {
-    }
-     
-    this.payload = { 
-      draw: 0,
-      compDate: this.compDate,
-      identify: this.orderNo ? 0 : 1,
-      searchString: this.searchString,
-      direct: 'asc',
-      searchColumn: this.searchCol,
-      sRow: this.customPagination.startIndex,
-      eRow: this.customPagination.endIndex,
-      checkValue: true,
-      checkColumn: 0,
-      orderNumber: this.orderNo,
-      toteID: this.toteId,
-      sortColumnNumber: this.sortCol,
-      sortOrder: this.sortOrder,
-      filter: this.FilterString,
-      username: this.userData.userName,
-      wsid: this.userData.wsid,
-    };
-    this.hubConnection.invoke('OrderStatus', this.payload)
-    .then(() => {
-      console.log('SendItems method called successfully.');
-    })
-    .catch(error => {
-      console.error('Error while calling SendItems method:', error);
-    });
-  
-}
- 
-ReceiveData(){
-   
-  this.hubConnection.on('ReceiveItems', (res:any) => {  
-    if(res.data && res.data?.orderStatus.length > 0 && res.data?.orderStatus[0].orderNumber == this.orderNo){
-      
-   this.detailDataInventoryMap = res.data?.orderStatus;
-   this.getOrderForTote = res.data?.orderNo;
-   this.dataSource = new MatTableDataSource(res.data?.orderStatus); 
-   this.columnValues = res.data?.orderStatusColSequence; 
-   this.customPagination.total = res.data?.totalRecords;
-   this.getOrderForTote =
-     res.data &&
-     res.data.orderStatus &&
-     res.data.orderStatus[0].orderNumber; 
-   if (res.data) {
-     this.onOpenOrderChange(res.data?.opLines);
-     this.onCompleteOrderChange(res.data?.compLines);
-     this.onReprocessOrderChange(res.data?.reLines);
-     if (
-       res.data &&
-       res.data.orderStatus &&
-       res.data.orderStatus.length > 0
-     ) {
-       res.data.orderStatus.find((el) => {
-         return el.completedDate === ''
-           ? (res.data.completedStatus = 'In Progres.datas')
-           : (res.data.completedStatus = 'Completed');
-       });
-     }
-     this.onOrderTypeOrderChange(
-       res.data &&
-         res.data.orderStatus &&
-         res.data.orderStatus.length > 0 &&
-         res.data.orderStatus[0].transactionType
-     );
-     this.currentStatusChange(res.data.completedStatus);
-     this.totalLinesOrderChange(res.data?.totalRecords);
-     this.sharedService.updateOrderStatusSelect({
-       totalRecords: res.data?.totalRecords,
-     });
-   }
-
-   if (res.data?.onCar.length) {
-     res.data.onCar.filter((item) => {
-       return (item.carousel = 'on');
-     });
-     this.onLocationZoneChange(res.data?.onCar);
-   } else if (res.data?.offCar.length) {
-     res.data.offCar.filter((item) => {
-       return (item.carousel = 'off');
-     });
-     this.onLocationZoneChange(res.data?.offCar);
-     // this.onCompleteOrderChange(res.data?.offCar);
-   } else {
-     this.onLocationZoneChange(res.data?.onCar);
-   }
-  }
-}) 
-
-}
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
   }
@@ -712,9 +601,8 @@ ReceiveData(){
     this.dataSource.sort = this.sort;
   }
 
- async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.userData = this.authService.userData();
-  await  this.StartConnection()
     this.orderNo = '';
     this.toteId = '';
     this.searchByInput
@@ -722,9 +610,6 @@ ReceiveData(){
       .subscribe((value) => {
         this.searchString = value;
         this.autocompleteSearchColumn();
-        // this.getContentData();
-        debugger
-    
         this.getContentData();
       });
     // this.getContentData();
@@ -799,7 +684,7 @@ ReceiveData(){
     this.dataSource.paginator = this.paginator;
   }
 
-  ngOnDestroy() { 
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
@@ -876,5 +761,5 @@ ReceiveData(){
     }
     );
   }
- 
+
 }
