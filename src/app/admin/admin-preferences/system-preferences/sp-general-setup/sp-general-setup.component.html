@@ -4,7 +4,7 @@
         <h2 class="card-header-title mb-0 d-flex align-items-center">
             <div class="mat-icon-wrap me-lg-3 me-2">
                 <span class="mat-icon material-symbols-outlined">
-                  corporate_fare
+                  info
                 </span>
             </div>
             <span>Company Information</span>
@@ -109,20 +109,26 @@
                         <mat-label>Max Number of Put Away Labels</mat-label>
                         <input type="text" [(ngModel)]="CompanyObj.maxNumberOfPutAwayLabels"    matInput maxlength="255">
                       </mat-form-field>
-                      <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                      <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
                         <mat-label>Pick Type</mat-label>
                         <mat-select [(ngModel)]="CompanyObj.pickType"  class="employees-action" value="pick">
                           <mat-option value="Pick and Pass">Pick and Pass</mat-option> 
                           <mat-option value="Parallel Pick">Parallel Pick</mat-option>  
                         </mat-select> 
+                        <span class="material-symbols-outlined icon-expand-more">
+                          expand_more
+                        </span>
                       </mat-form-field>
-                      <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                      <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
                         <mat-label>Reel Tracking Pick Logic</mat-label>
                         <mat-select [(ngModel)]="CompanyObj.reelTrackingPickLogic"  class="employees-action" value="pick">
                           <mat-option value="Closest Demand Quantity">Closest Demand Quantity</mat-option> 
                           <mat-option value="Dynamic">Dynamic</mat-option>  
                           <mat-option value="Serial Number Sort - FIFO">Serial Number Sort - FIFO</mat-option>  
                         </mat-select> 
+                        <span class="material-symbols-outlined icon-expand-more">
+                          expand_more
+                        </span>
                       </mat-form-field>
                 </div>
                 <div class="col-xl-6">
@@ -266,7 +272,7 @@
               <div class="d-flex justify-content-between mb-3">
                 Auto Display Images <mat-slide-toggle
                    color="primary"
-                  matTooltip="Domain Authentication"></mat-slide-toggle>
+                  matTooltip="Auto Display Images"></mat-slide-toggle>
               </div>
 
               <h2 class="text-18 bold my-3">Order Selection Color Filter</h2>
