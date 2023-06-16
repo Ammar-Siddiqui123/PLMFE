@@ -71,10 +71,10 @@ export class ToteTransactionManagerComponent implements OnInit {
   public displayedColumns: string[] = [
     'batchPickID',
     'filterCount',
-    'hostTransaction',
     'toteId',
     'transactionType',
     'zoneLabel',
+    'hostTransaction',
     'action'
   ];
 
