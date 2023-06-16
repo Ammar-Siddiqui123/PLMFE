@@ -1,7 +1,5 @@
 <mat-card class="mat-elevation-z g-card mt-3">
     <mat-card-content>
-        <div class="row">
-            <div class="col-xl-9">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
                         <div class="mat-icon-wrap me-lg-3 me-2">
@@ -11,22 +9,18 @@
                         </div>
                         <span>Device Preferences</span>
                     </h2>
-                </div>
-            </div>
-            <div class="col-xl-3">
-                <button (click)="addEditNewDevice()" mat-flat-button color="primary"
-                    class=" mat-button-icon h-100 float-end ">
+               
+                <button (click)="addEditNewDevice()" mat-flat-button color="primary" class="add-icon-button">
                     <span class="material-symbols-outlined" matTooltip="Add New Device" matTooltipPosition="above">
                         add
                     </span>
                 </button>
             </div>
-        </div>
 
 
         <div class="card br-14 table-responsive my-3">
             <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 600px">
-                <table mat-table [dataSource]="dataSource" matSort style=" min-height: 150px;width: 100%;">
+                <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)" style=" min-height: 150px;width: 100%;">
                     <ng-container matColumnDef="zone">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef> Zone </th>
                         <td mat-cell *matCellDef="let element">
@@ -38,25 +32,66 @@
 
                     </ng-container>
 
-                    <ng-container matColumnDef="warehouse">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef> Warehouse </th>
-                        <td mat-cell *matCellDef="let element"> {{element.warehouse}} </td>
+                    <ng-container matColumnDef="deviceType">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef> Device Type </th>
+                        <td mat-cell *matCellDef="let element"> {{element.deviceType}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="locationName">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef> Location </th>
-                        <td mat-cell *matCellDef="let element"> {{element.locationName}} </td>
+                    <ng-container matColumnDef="device">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef> Device Number</th>
+                        <td mat-cell *matCellDef="let element"> {{element.deviceNumber}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="totalPicks">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef> Lines </th>
-                        <td mat-cell *matCellDef="let element"> {{element.totalPicks}} </td>
+                    <ng-container matColumnDef="deviceModel">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef> Device Model </th>
+                        <td mat-cell *matCellDef="let element"> {{element.deviceModel}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="transactionType">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef> Transaction Type</th>
-                        <td mat-cell *matCellDef="let element"> {{element.transactionType}} </td>
+                    <ng-container matColumnDef="controllerType">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef> Controller Type</th>
+                        <td mat-cell *matCellDef="let element"> {{element.controllerType}} </td>
                     </ng-container>
+
+                    <ng-container matColumnDef="controllerTermPort">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef> Controller Term Port</th>
+                        <td mat-cell *matCellDef="let element"> {{element.controllerTermPort}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="arrowDirection">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef> Arrow Direction</th>
+                        <td mat-cell *matCellDef="let element"> {{element.arrowDirection}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="lightDirection">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef>Light Direction</th>
+                        <td mat-cell *matCellDef="let element"> {{element.lightDirection}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="userLaserPointer">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef> User Laser Pointer</th>
+                        <td mat-cell *matCellDef="let element"> {{element.laserPointer}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="useLightTree">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef> Use Light Tree</th>
+                        <td mat-cell *matCellDef="let element"> {{element.lightTreeNumber}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="firstAddress">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef>First Address</th>
+                        <td mat-cell *matCellDef="let element"> {{element.beginAddress}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="positions">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef>Positions</th>
+                        <td mat-cell *matCellDef="let element"> {{element.displayPositions}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="displayCharacters">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef>Display Characters</th>
+                        <td mat-cell *matCellDef="let element"> {{element.displayCharacters}} </td>
+                    </ng-container>
+
 
                     <ng-container matColumnDef="actions" stickyEnd>
                         <th mat-header-cell *matHeaderCellDef
@@ -72,7 +107,7 @@
 
                                 <mat-menu #appMenu="matMenu">
                                     <button mat-menu-item (click)="addEditNewDevice(element,true)">Edit Selected Device</button>
-                                    <button mat-menu-item (click)="deleteAllOrders(element)">Delete Selected Device</button>
+                                    <button mat-menu-item (click)="deleteAllOrders(element.deviceID)">Delete Selected Device</button>
                                     <!-- <button mat-menu-item   *ngIf="!hideDelete" (click)="sendCompletedToHistory()">Send Completed to
                                                         History</button> -->
 
@@ -97,7 +132,7 @@
         </div>
 
         <div class="table-pagination d-flex justify-content-start" >
-            <mat-paginator [length]="10" [pageSize]="10" [pageSizeOptions]="[10, 20, 100]"
+            <mat-paginator [length]="this.customPagination.total" [pageSize]="10" [pageSizeOptions]="[10, 20, 100]" (page)="handlePageEvent($event)"
                 mat-paginator-range-label="customLabelTo" #paginatorTo></mat-paginator>
 
 

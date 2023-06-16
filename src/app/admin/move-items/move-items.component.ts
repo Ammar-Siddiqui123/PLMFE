@@ -67,6 +67,7 @@ export class MoveItemsComponent implements OnInit {
   userData: any;
   itemNo: any = '';
   isValidateMove = false;
+  isViewAll=false;
   reqDate: Date = new Date();
   sortOrder = 'asc';
   sortCol = 0;
@@ -397,6 +398,7 @@ export class MoveItemsComponent implements OnInit {
         this.moveToDatasource._data._value.forEach((element, index) => {
           element.isSelected = false;
         });
+        this.clearFields('MoveFrom');
         this.clearFields('MoveTo')
        } 
       
@@ -453,20 +455,23 @@ export class MoveItemsComponent implements OnInit {
     }
   }
 
-  openAlertDialog(type, maxMoveQty?) {
+  openAlertDialog(type, maxMoveQty?,callback?) {
     let message = '';
     let isDisableButton=true;
+    let buttonFields=false;
     switch (type) {
       case 'Un-Dedicate':
         message = 'Would you like to Undedicate your move from Location?';
         isDisableButton=false
-          this.undedicateMoveFrom=true;
+        buttonFields=true;
+          // this.undedicateMoveFrom=true;
         break;
 
       case 'Dedicate':
         message = 'Would you like to Dedicate your move to Location?';
         isDisableButton=false;
-        this.dedicateMoveTo=true;
+        // this.dedicateMoveTo=true;
+        buttonFields=true;
         break;
       case 'ZeroQty':
         message =
@@ -500,6 +505,7 @@ export class MoveItemsComponent implements OnInit {
           this.isMoveQty=true;
           this.from_priority=0;
           this.from_itemQuantity=0;
+          this.clearFields('MoveFrom')
           break;
   
       default:
@@ -513,21 +519,64 @@ export class MoveItemsComponent implements OnInit {
         message: message,
         heading: '',
         disableCancel: isDisableButton,
+        buttonField:  buttonFields,
+        notificationPrimary:true
       },
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      // if(result){
-      //   if(type==='Un-Dedicate'){
-      //     this.undedicateMoveFrom=true;
+      if(this.isDedicated && this.MoveFromDedicated==='Dedicated'){ // open dedicated and undedicated popups case
+       if(type==='Dedicate'){
+        if(result){  
+          this.dedicateMoveTo=true;
+          // callback(true)
+          this.openAlertDialog('Un-Dedicate')
+        }else{
+          this.dedicateMoveTo=false;
+          // callback(true)
+          this.openAlertDialog('Un-Dedicate')
+        }
+       }
+
+       if(type==='Un-Dedicate'){
+        if(result){  
+          this.undedicateMoveFrom=true;
+  
+          this.callCreateMoveTrans();
+          // this.openAlertDialog('Un-Dedicate')
+        }else{
+          this.undedicateMoveFrom=false;
+       
+          this.callCreateMoveTrans();
         
-      //   }else if(type==='Dedicate'){
-      //     this.dedicateMoveTo=true;
-      //   }
-      // }else{
-      //   this.undedicateMoveFrom=false;
-      //   this.dedicateMoveTo=false;
-      // }
+        }
+       }
+      
+      }
+      else if(!this.isDedicated && this.MoveFromDedicated==='Dedicated' ){ // On undedicated popup  when dedicated unchecked move from is dedicated and move to is undedicted
+        if(result){
+          this.undedicateMoveFrom=true
+    
+          this.callCreateMoveTrans();
+        }else{
+          this.undedicateMoveFrom=false
+
+          this.callCreateMoveTrans();
+        }
+      }
+
+      else if (this.isDedicated && this.MoveFromDedicated==='Not Dedicated'){ // when move from undedicated moveto dedicated and dedicated checked only dedicated popup show
+        if(result){
+          this.dedicateMoveTo=true
+  
+          this.callCreateMoveTrans();
+        }else{
+          this.dedicateMoveTo=false
+     
+          this.callCreateMoveTrans();
+        }
+      }
+   
        
     });
   }
@@ -541,17 +590,27 @@ export class MoveItemsComponent implements OnInit {
       this.openAlertDialog('ZeroQty');
       return;
     } else if (moveQty > this.maxMoveQty) {
-      this.openAlertDialog('MaxMove', this.maxMoveQty);
+      this.openAlertDialog('MaxMove', null,this.maxMoveQty);
       return;
     }
 
     let moveFromDedicated = this.MoveFromDedicated;
     let moveToDedicated = this.MoveToDedicated;
     if (this.isDedicated) {
-      this.openAlertDialog('Dedicate');
+      this.openAlertDialog('Dedicate',null,(val)=>{
+      //  if(val){
+      //   console.log('dedicateMoveTo',this.dedicateMoveTo);
+      //   console.log('undedicateMoveFrom',this.undedicateMoveFrom);
+        
+      //   // this.openAlertDialog('Un-Dedicate');
+      //  }
+     
+        
+      });
+  
       return;
     }
-    if (this.MoveFromDedicated == 'Dedicated') {
+    if (this.MoveFromDedicated === 'Dedicated') {
       this.openAlertDialog('Un-Dedicate');
       return;
     }
@@ -561,8 +620,11 @@ export class MoveItemsComponent implements OnInit {
   
     if(tab.index===0){
       this.tableType='MoveFrom'
+      this.isViewAll=false
+
     }else if(tab.index===1){
       this.tableType='MoveTo'
+      this.isViewAll=true
     }
   } 
 
@@ -582,6 +644,7 @@ export class MoveItemsComponent implements OnInit {
       this.from_locationShow='';
       this.isMoveQty = true;
       this.MoveFromDedicated = '';
+      this.isDedicated=false;
     } else if (type === 'MoveTo') {
       this.to_priority = 0;
       this.to_warehouse = '';
@@ -597,6 +660,7 @@ export class MoveItemsComponent implements OnInit {
       this.to_locationShow='';
       this.MoveToDedicated = '';
       this.isValidateMove = false;
+      this.isDedicated=false;
     }
     this.reqDate = new Date();
   }

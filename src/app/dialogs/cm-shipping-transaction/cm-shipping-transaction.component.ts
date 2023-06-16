@@ -232,7 +232,7 @@ export class CmShippingTransactionComponent implements OnInit {
   openShipSplitLine(order : any, i : any) {
     let dialogRef = this.dialog.open(CmShipSplitLineComponent, {
       height: 'auto',
-      width: '30vw',
+      width: '560px',
       autoFocus: '__non_existing_element__',
       data: {
         order,
