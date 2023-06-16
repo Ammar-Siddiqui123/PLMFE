@@ -2,9 +2,9 @@
     <div class="main-content mb-4">
 <mat-card class="mat-elevation-z g-card mb-3 mt-2" style="height: 100%;">
     <mat-card-content>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
             <h2 class="card-header-title mb-3 d-flex align-items-center">
-                <div class="mat-icon-wrap me-lg-3">
+                <div class="mat-icon-wrap me-lg-3 me-2">
                     <span class="material-symbols-outlined">
                         schema
                     </span>
@@ -51,7 +51,7 @@
             <!-- *ngIf="itemQtyRow" -->
             <div class="col-xl-4"   >
                 <div class="d-flex gap-12 align-items-center">
-                <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
+                <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline" style="min-width: 100px;">
                     <mat-label>Enter Quantity</mat-label>
                     <input matInput type="number" [(ngModel)] = 'itemQty' [disabled]="itemQtyRow" (ngModelChange)="updateQty(itemQty)" #itemQtyFocus>
                 </mat-form-field>

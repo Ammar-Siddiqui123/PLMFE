@@ -1,6 +1,15 @@
-<div class="row w-100 mt-2 mx-0">
-    <div class="col-xl-9">
-        <h2 class="text-18 bold my-3">Company Information</h2>
+<div class="row w-100 mt-4 mx-0">
+    <div class="col-xl-9 mb-3 mb-xl-0">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="card-header-title mb-0 d-flex align-items-center">
+            <div class="mat-icon-wrap me-lg-3 me-2">
+                <span class="mat-icon material-symbols-outlined">
+                  corporate_fare
+                </span>
+            </div>
+            <span>Company Information</span>
+        </h2>
+    </div>
         <div class="card p-3">
             <div class="row">
             <div class="col-xl-6">
@@ -52,15 +61,26 @@
                     <input type="text" [(ngModel)]="CompanyObj.companylogo"  matInput maxlength="255">
                     <span matSuffix><button mat-button color="primary">Browse</button></span>
                   </mat-form-field>
-                  <div class="d-flex gap-12">
-                  <button mat-stroked-button color="primary" class="btn-md mb-3">View Current Company Logo</button>
-                  <button mat-flat-button color="primary" class="btn-md mb-3" style="flex: 1;">Upload</button>
+                  <div class="d-block d-xxl-flex gap-12">
+                  <button mat-stroked-button color="primary" class="btn-md mb-3 w-100">View Current Company Logo</button>
+                  <button mat-flat-button color="primary" class="btn-md mb-3 w-100">Upload</button>
                 </div>
             </div>
         </div>
               
         </div>
-        <h2 class="text-18 bold my-4">System Logic Preferences</h2>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="card-header-title mt-4 d-flex align-items-center">
+              <div class="mat-icon-wrap me-lg-3 me-2">
+                  <span class="mat-icon material-symbols-outlined">
+                    settings_suggest
+                  </span>
+              </div>
+              <span>System Logic Preferences</span>
+          </h2>
+      </div>
+
         <div class="card p-3">
             <div class="row">
                 <div class="col-xl-6">
@@ -190,7 +210,16 @@
     </div>
 
     <div class="col-xl-3">
-        <h2 class="text-18 bold my-3">Database and User Authentication</h2>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="card-header-title mb-0 d-flex align-items-center">
+              <div class="mat-icon-wrap me-lg-3 me-2">
+                  <span class="mat-icon material-symbols-outlined">
+                    database
+                  </span>
+              </div>
+              <span>Database and User Authentication</span>
+          </h2>
+      </div>
         <div class="card p-3 mb-3">
               <div class="d-flex justify-content-between">
                 Domain Authentication <mat-slide-toggle [(ngModel)]="CompanyObj.domainAuthentication"
@@ -199,7 +228,17 @@
               </div>
         </div>
 
-        <h2 class="text-18 bold my-3">POD Setup (System wide)</h2>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="card-header-title mt-4 d-flex align-items-center">
+              <div class="mat-icon-wrap me-lg-3 me-2">
+                  <span class="mat-icon material-symbols-outlined">
+                    phonelink_setup
+                  </span>
+              </div>
+              <span>POD Setup (System wide)</span>
+          </h2>
+      </div>
+
         <div class="card p-3">
             <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
                 <mat-label>Order Sort</mat-label>
