@@ -9,7 +9,7 @@
             <span>Location Zones</span>
         </h2>
         <div class="d-block d-xl-flex justify-content-end">
-            <button mat-flat-button color="primary" class="btn-md w-100 mb-3">Add New Location Zone</button>
+            <button mat-flat-button color="primary" class="btn-md w-100 mb-3" (click)="addNewLocation()">Add New Location Zone</button>
         </div>
     </div>
 
@@ -58,9 +58,10 @@
                             <div class="row">
                             <div class="col-xl-4">
                                 <div class="d-flex justify-content-between mb-3">
-                                    Carousel <mat-slide-toggle  name="carousel" [(ngModel)]="i.carousel" (ngModelChange)="zoneChange(i,false)" [checked]="i.carousel"
+                                    Carousel <mat-slide-toggle  name="carousel" [(ngModel)]="i.carousel" (ngModelChange)="zoneChange(i,false,'carousel')" [checked]="i.carousel"
                                        color="primary"
                                       ></mat-slide-toggle>
+                                     
                                   </div>
                             </div>
                             <div class="col-xl-4">
@@ -86,9 +87,10 @@
                             </div>
                             <div class="col-xl-4">
                                 <div class="d-flex justify-content-between mb-3">
-                                    Carton Flow <mat-slide-toggle    name="cartonFlow" [(ngModel)]="i.cartonFlow" (ngModelChange)="zoneChange(i,false)" [checked]="i.cartonFlow"
+                                    Carton Flow <mat-slide-toggle    name="cartonFlow" [(ngModel)]="i.cartonFlow" (ngModelChange)="zoneChange(i,false,'cartonFlow')" [checked]="i.cartonFlow"
                                        color="primary"
                                       ></mat-slide-toggle>
+                                     
                                   </div>
                             </div>
                             <div class="col-xl-4">
@@ -121,9 +123,10 @@
                             </div>
                             <div class="col-xl-4">
                                 <div class="d-flex justify-content-between mb-3">
-                                    Include CF Carousel Pick<mat-slide-toggle    name="includeCFCarouselPick" [(ngModel)]="i.includeCFCarouselPick" (ngModelChange)="zoneChange(i,false)" [checked]="i.includeCFCarouselPick"
+                                    Include CF Carousel Pick<mat-slide-toggle    name="includeCFCarouselPick" [(ngModel)]="i.includeCFCarouselPick" (ngModelChange)="zoneChange(i,false,'includePick')" [checked]="i.includeCFCarouselPick"
                                        color="primary"
                                       ></mat-slide-toggle>
+                                      
                                   </div>
                             </div>
                             <div class="col-xl-4">
@@ -160,7 +163,7 @@
 
                                 <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
                                     <mat-label>Parent Zone</mat-label>
-                                    <mat-select  [(ngModel)]="i.parentZone" (ngModelChange)="zoneChange(i,false)"  class="employees-action" >
+                                    <mat-select [disabled]="i.includeCFCarouselPick"  [(ngModel)]="i.parentZone" (ngModelChange)="zoneChange(i,false)"  class="employees-action" >
                                       <mat-option *ngFor="let s of parentZones" value={{s}}>{{s}}</mat-option> 
                                      
                                     </mat-select>

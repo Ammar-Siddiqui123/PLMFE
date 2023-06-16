@@ -30,6 +30,7 @@ export class LoginComponent {
   version : string;
   applicationData: any = [];
   isAppAccess=false;
+  info:any=  {};
   constructor(
     public loginService: LoginService,
     private router: Router,
@@ -104,6 +105,15 @@ export class LoginComponent {
 
       });
   }
+  CompanyInfo(){
+    var obj:any = { 
+    }
+    this.loginService
+    .CompanyInfo(obj)
+    .subscribe((response: any) => {
+      this.info = response.data;
+    });
+  }
   ngAfterContentInit(): void {
     // setTimeout(() => {
     //   this.addLoginForm.get("username")?.setValue('');
@@ -113,6 +123,7 @@ export class LoginComponent {
 
 
   ngOnInit() {
+    
     this.version = packJSON.version;
     localStorage.clear();
     if(this.auth.IsloggedIn()){
@@ -134,7 +145,8 @@ export class LoginComponent {
         }
       });
     }
-   
+   this.CompanyInfo();
+    
 
   }
 
