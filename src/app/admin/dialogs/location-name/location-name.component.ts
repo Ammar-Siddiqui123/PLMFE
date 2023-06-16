@@ -12,7 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./location-name.component.scss']
 })
 export class LocationNameComponent implements OnInit {
-  displayedColumns: string[] = ['locationName','actions'];
+  displayedColumns: string[] = ['check','locationName','actions'];
   userData;
   LocationName;
     locationNames :any = new MatTableDataSource([]);
