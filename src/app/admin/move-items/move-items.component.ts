@@ -197,13 +197,15 @@ export class MoveItemsComponent implements OnInit {
   stageTable: any = [];
   columnSeq: any = [];
 
-  getMoveItemList(tableName, fromPagination = false) {
+  getMoveItemList(tableName, fromPagination = false,unselectFrom = false) {
     if (tableName === 'MoveTo') {
       if (this.viewAll || this.dataSource.data.length === 0) {
         this.viewModeTo = 'All';
       } else if (fromPagination && !this.isRowSelected) {
         this.viewModeTo = 'All';
-      } else {
+      } else if (unselectFrom){
+        this.viewModeTo = 'All';
+      }else {
         this.viewModeTo = 'NOA';
       }
     }
@@ -432,7 +434,14 @@ export class MoveItemsComponent implements OnInit {
         } else {
           this.isMoveQty = false;
         }
-        return;
+
+        this.from_itemNo = "";
+        this.from_cellSize = "";
+        this.invMapIDToItem = -1;
+        this.viewModeTo = "All";
+        this.getMoveItemList('MoveTo',false,true);
+        return
+        
       }
       this.invMapIDToItem = row.invMapID;
       this.invMapmoveFromID = row.invMapID;
