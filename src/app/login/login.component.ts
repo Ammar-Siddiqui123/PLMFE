@@ -46,6 +46,7 @@ export class LoginComponent {
   }
 
   removeReadOnly(){ 
+    console.log("focusin");
     this.isReadOnly = !this.isReadOnly;
   }
 
