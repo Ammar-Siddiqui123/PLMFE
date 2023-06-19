@@ -1,11 +1,11 @@
-<div class="d-flex justify-content-between mb-4 align-items-center">
+<div class="d-flex justify-content-between mb-4 align-items-center" mat-dialog-title>
     <div style="width:48px"></div>
     <h1 class="m-0 text-22" mat-dialog-title>Warehouse - Add, Delete, Edit and Set</h1>
     <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="false">
         <mat-icon class="close-icon">close</mat-icon>
     </button>
 </div>
-<div class="d-flex gap-12 my-4 justify-content-end">
+<div class="d-flex gap-12 my-4 justify-content-end" mat-dialog-content>
     <button mat-flat-button color="primary" class="add-icon-button" (click)="addwhRow($event)">
         <span class="material-symbols-outlined">
             add
@@ -16,13 +16,13 @@
     <div class="card w-100">
         <div class="card-header">
             <div class="row">
-                <div class="col-6" style="padding-left:64px;">
+                <div class="col-6" style="padding-left:20px;">
                     Warehouse
                 </div>
             </div>
         </div>
 
-        <ng-scrollbar style="height: 240px;">
+        <ng-scrollbar style="height: 400px;" track="all">
             <div class="card-body">
                 <ng-container *ngFor="let warehouse of warehouse_list;let i = index">
                     <div class="d-flex align-items-center mb-3">
@@ -38,6 +38,8 @@
                                             <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
                                                 #whname name="{{warehouse}}" value="{{warehouse}}" (keydown)="enableDisableButton(i)" maxlength="50">
                                         </mat-form-field>
+
+                                        <ng-container stickyEnd>
                                         <div class="d-flex gap-12">
                                             <button mat-flat-button color="primary" class="xsm-icon-button"
                                                 (click)="saveWareHouse(whname.value, warehouse)" 
@@ -52,6 +54,7 @@
 
 
                                         </div>
+                                    </ng-container>
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +64,7 @@
             </div>
         </ng-scrollbar>
     </div>
-    <mat-dialog-actions align="end">
+    <mat-dialog-actions>
         <!-- <button mat-button matDialogClose="no" color="danger">Cancel</button> -->
         <button type="button" (click)="clearWareHouse()" mat-flat-button class="btn-lg w-100" color="warn">Clear
             Warehouse</button>
