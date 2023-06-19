@@ -76,7 +76,7 @@ export class SpLocationZonesComponent implements OnInit {
 
 
   zoneChange(zone: any,check,type?) {
-  debugger
+  // debugger
   if(!check){
     if(type==='carousel'){
       if(zone.carousel){
@@ -213,7 +213,7 @@ export class SpLocationZonesComponent implements OnInit {
   LocationName(item:any) {
     let dialogRef = this.dialog.open(LocationNameComponent, {
       height: 'auto',
-      width: '96vw',
+      width: '50vw',
       autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe(result => {

@@ -7,11 +7,11 @@
 </div>
 <div class="pb-3">
     <mat-radio-group color="primary" [(ngModel)]="clearBatchTote" *ngIf="!this.enableClear">
-        <mat-radio-button class="me-3" value="clearBatch" [disabled]="deleteAllDisable">Clear Batch false</mat-radio-button>
+        <mat-radio-button class="me-3" value="clearBatch" [disabled]="deleteAllDisable">Clear Batch </mat-radio-button>
         <mat-radio-button value="clearTote"  >Clear Tote</mat-radio-button>
     </mat-radio-group>
     <mat-radio-group color="primary" [(ngModel)]="clearBatchTote" *ngIf="this.enableClear">
-        <mat-radio-button class="me-3" value="clearBatch" >Clear Batch true</mat-radio-button>
+        <mat-radio-button class="me-3" value="clearBatch" >Clear Batch </mat-radio-button>
         <mat-radio-button value="clearTote"  >Clear Tote</mat-radio-button>
     </mat-radio-group>
 </div>
@@ -37,19 +37,27 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-xl-4 mb-2">
-        <button mat-flat-button color="warn" class=" btn-lg w-100" (click)="batchTotesDelete(true)">
-           Clear/De-Allocate
+    <div [ngClass]="{
+        'col-xl-4': !deleteAllDisable,
+        'col-xl-6': deleteAllDisable,
+        'mb-2': true
+      }">
+        <button mat-flat-button color="warn" class="btn-lg w-100" (click)="batchTotesDelete(true)">
+          Clear/De-Allocate
         </button>
-    </div>
-    <div class="col-xl-4 mb-2">
-        <button mat-flat-button color="warn" class=" btn-lg w-100"  (click)="batchTotesDelete(false)">
-            Clear Only
+      </div>
+      <div [ngClass]="{
+        'col-xl-4': !deleteAllDisable,
+        'col-xl-6': deleteAllDisable,
+        'mb-2': true
+      }">
+        <button mat-flat-button color="warn" class="btn-lg w-100" (click)="batchTotesDelete(false)">
+          Clear Only
         </button>
-    </div>
-    <div class="col-xl-4 mb-2">
+      </div>
+      <div class="col-xl-4 mb-2">
         <button mat-flat-button color="warn" class="btn-lg w-100" [disabled]="deleteAllDisable" [hidden]="deleteBtnHide" (click)="allBatchDelete()">
-            Delete All Batches 
+          Delete All Batches
         </button>
-    </div>
+      </div>
 </div>
