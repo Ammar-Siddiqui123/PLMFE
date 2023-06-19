@@ -43,7 +43,7 @@
                     <mat-form-field appearance="outline" style=" width: 100%;">
                       <mat-label>Username</mat-label>
                       <input type="text" matInput placeholder="Enter Username" formControlName="username" maxlength="50"
-                        required autocomplete="off" [readonly]="isReadOnly" (focus)="removeReadOnly()" (focusout)="removeReadOnly()" />
+                        required autocomplete="off" [readonly]="isReadOnly" (click)="removeReadOnly()" (focusout)="removeReadOnly()" />
                       <mat-icon matPrefix style="color: #090948;">account_circle</mat-icon>
                     </mat-form-field>
                     <mat-hint class="error-message" style="color: red;font-size: 14px;"
@@ -61,7 +61,7 @@
                       <mat-label>Password</mat-label>
                       <input placeholder="Password" formControlName="password" maxlength="50" matInput
                         [type]="toggle_password ? 'password' : 'text'" autocomplete="off" [readonly]="isReadOnly"
-                        (focus)="removeReadOnly()" (focusout)="removeReadOnly()">
+                        (click)="removeReadOnly()" (focusout)="removeReadOnly()">
                       <mat-icon matPrefix style="color: #090948;">lock</mat-icon>
                       <button type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password"
                         [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">

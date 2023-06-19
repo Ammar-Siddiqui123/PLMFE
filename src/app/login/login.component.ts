@@ -45,8 +45,7 @@ export class LoginComponent {
     this.url = this.router.url;
   }
 
-  removeReadOnly(){
-    debugger
+  removeReadOnly(){ 
     this.isReadOnly = !this.isReadOnly;
   }
 
