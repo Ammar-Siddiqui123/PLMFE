@@ -24,7 +24,9 @@
 
                 <div class="text-center mb-2 mt-3 pt-2">
                   <h1 class="text-32 text-tertiary-900 fw-bold pb-3">LogixPro</h1>
-                  
+                  <h3 class="text-20 text-tertiary-800 fw-bold pb-3" *ngIf="info.companyName">{{info.companyName}}</h3>
+                  <h4 class="text-18 text-tertiary-800 fw-bold pb-3" *ngIf="info.address1">{{info.address1}}</h4>
+                  <h4 class="text-18 text-tertiary-800 fw-bold pb-3" *ngIf="info?.city && info.state">{{info.city}} , {{info.state}}</h4>
                 </div>
 
                 <form [formGroup]="addLoginForm" (ngSubmit)="loginUser()" name="addLoginForm" autocomplete="off" style="flex: 1;">
