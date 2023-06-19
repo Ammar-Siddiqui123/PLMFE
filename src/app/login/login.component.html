@@ -22,11 +22,9 @@
             <div class="col-md-5 col-lg-6 d-flex">
               <div class="card-body p-4 text-black mx-auto d-flex flex-column" style="max-width: 380px;">
 
-                <div class="text-center mb-3 mt-5 pt-2">
+                <div class="text-center mb-2 mt-3 pt-2">
                   <h1 class="text-32 text-tertiary-900 fw-bold pb-3">LogixPro</h1>
-                  <h3 class="text-20 text-tertiary-800 fw-bold pb-3">{{info.companyName}}</h3>
-                  <h4 class="text-18 text-tertiary-800 fw-bold pb-3">{{info.address1}}</h4>
-                  <h4 class="text-18 text-tertiary-800 fw-bold pb-3">{{info.city}} , {{info.state}}</h4>
+                  
                 </div>
 
                 <form [formGroup]="addLoginForm" (ngSubmit)="loginUser()" name="addLoginForm" autocomplete="off" style="flex: 1;">
@@ -35,7 +33,7 @@
                     <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                     <span class="h1 fw-bold mb-0" class="account_login">Account Login</span>
                   </div> -->
-                  <div class="text-center  mb-4 pb-1">
+                  <div class="text-center  mb-2 pb-1">
                     <h2 class="text-tertiary-900 text-24 fw-bold">Account Login</h2>
                   </div>
                   <div class="form-outline mb-2">
@@ -104,6 +102,12 @@
                   <!-- <a href="#!" class="small text-muted">Terms of use.</a>
                    <a href="#!" class="small text-muted">Privacy policy</a> -->
                 </form>
+
+                <div class="p-2 text-center mb-3" style="border-top:1px solid var(--clr-tertiary-50)">
+                <h3 class="text-18 text-tertiary-800 fw-bold mb-1">{{info.companyName}}</h3>
+                  <h4 class="text-16 text-tertiary-800 fw-bold mb-1">{{info.address1}}</h4>
+                  <h4 class="text-16 text-tertiary-800 fw-bold">{{info.city}} , {{info.state}}</h4>
+                </div>
 
                 <div class="text-center text-14">
                   v{{version}}
