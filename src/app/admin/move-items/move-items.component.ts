@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild,Renderer2  } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/init/auth.service';
@@ -145,7 +145,9 @@ export class MoveItemsComponent implements OnInit {
     private authService: AuthService,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private filterService: ContextMenuFiltersService
+    private filterService: ContextMenuFiltersService,
+    private renderer: Renderer2,
+    private elementRef: ElementRef
   ) {
     this.userData = this.authService.userData();
   }
@@ -162,6 +164,11 @@ export class MoveItemsComponent implements OnInit {
       });
     this.getMoveItemList('MoveFrom');
     this.getMoveItemList('MoveTo');
+  }
+
+  ngAfterViewInit() {
+    // const targetElement = this.elementRef.nativeElement.querySelector('.mat-toolbar');
+    // this.renderer.addClass(targetElement, 'overLay');
   }
   public displayedColumns: any = [
     'warehouse',
