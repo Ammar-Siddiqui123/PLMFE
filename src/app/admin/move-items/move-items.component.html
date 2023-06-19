@@ -217,13 +217,12 @@
                                     (optionSelected)="searchData($event)">
 
                                     <h6 class="card-header matAutoCompHeader stickyHeader "><span style="width:  140px;">Item
-                                            Number</span><span style="width:  140px;" >Description</span> </h6>
+                                            Number</span><span style="width: 43%;" >Description</span> </h6>
 
                                     <mat-option *ngFor="let option of searchAutocompletItemNo"
                                         [value]="option.itemNumber" class="matAutoCompTableContent">
                                         <div class="loc_option">
-                                            <span class="searchColumn"
-                                                style="width:  140px;">{{option.itemNumber}}</span><span>{{option.description}}</span>
+                                            <span class="searchColumn" style="width:  140px;" >{{option.itemNumber}}</span><span  style="padding: 10px 12px; border: 0; text-overflow: ellipsis; overflow: hidden; max-width: 29ch; white-space: nowrap;" [matTooltip]="option.description" matTooltipPosition="above" [matTooltipDisabled]="option.description && option.description.length>=29?false:true" >{{option.description}}</span>
                                         </div>
                                     </mat-option>
                                 </mat-autocomplete>
