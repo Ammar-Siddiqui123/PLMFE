@@ -2342,4 +2342,17 @@ button.default-btn {
     height: 64px
   }
 
+  .mat-accordion .mat-expansion-panel:not(.mat-expanded), 
+  .mat-accordion .mat-expansion-panel:not(.mat-expansion-panel-spacing) {
+    border-radius: 10px !important;
+}
+.mat-expansion-panel.mat-expansion-panel.mat-expanded.mat-expansion-panel-spacing {
+  border-radius: 10px !important;
+}
+
   //-------------- ACCORDIAN-CLASSES ----END-------------------
+
+
+  input{
+    -webkit-user-select:all !important;
+  }
