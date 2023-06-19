@@ -19,7 +19,7 @@ check1:boolean = false
 
   ngOnInit(): void {
    this.itemQuantity = this.data.itemQuantity.toString()
-  //  this.itemQuantity.toString();
+   console.log(this.itemQuantity)
   //  console.log(typeof this.itemQuantity)
   }
 
