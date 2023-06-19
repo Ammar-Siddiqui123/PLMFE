@@ -50,7 +50,7 @@
                       *ngIf="addLoginForm.controls['username'].invalid && (addLoginForm.controls['username'].dirty || addLoginForm.controls['username'].touched)">
                       Username is required
                     </mat-hint>
-                    <br>
+                    <br> 
                     <mat-hint class="error-message" style="color: red;font-size: 14px;"
                       *ngIf="addLoginForm.get('username')?.hasError('whitespace')">
                       Please enter valid username
