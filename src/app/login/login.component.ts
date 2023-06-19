@@ -45,8 +45,7 @@ export class LoginComponent {
     this.url = this.router.url;
   }
 
-  removeReadOnly(){ 
-    console.log("focusin");
+  removeReadOnly(){  
     this.isReadOnly = !this.isReadOnly;
   }
 
