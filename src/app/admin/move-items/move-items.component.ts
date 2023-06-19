@@ -521,7 +521,7 @@ export class MoveItemsComponent implements OnInit {
 
     const dialogRef = this.dialog.open(AlertConfirmationComponent, {
       height: 'auto',
-      width: '786px',
+      width: '560px',
       data: {
         message: message,
         heading: '',
