@@ -173,7 +173,7 @@
 
                                 <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
                                     <mat-label>Parent Zone</mat-label>
-                                    <mat-select [disabled]="i.includeCFCarouselPick"  [(ngModel)]="i.parentZone" (ngModelChange)="zoneChange(i,false)"  class="employees-action" >
+                                    <mat-select [disabled]="!i.includeCFCarouselPick"  [(ngModel)]="i.parentZone" (ngModelChange)="zoneChange(i,false)"  class="employees-action" >
                                       <mat-option *ngFor="let s of parentZones" value={{s}}>{{s}}</mat-option> 
                                      
                                     </mat-select>
