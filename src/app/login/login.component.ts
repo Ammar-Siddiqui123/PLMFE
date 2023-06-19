@@ -26,7 +26,7 @@ export class LoginComponent {
   public env;
   public toggle_password = true;
   url = '';
-  isReadOnly: boolean = false;
+  isReadOnly: boolean = true;
   version : string;
   applicationData: any = [];
   isAppAccess=false;
@@ -46,7 +46,8 @@ export class LoginComponent {
   }
 
   removeReadOnly(){
-    // this.isReadOnly = !this.isReadOnly;
+    debugger
+    this.isReadOnly = !this.isReadOnly;
   }
 
   addLoginForm = new FormGroup({
