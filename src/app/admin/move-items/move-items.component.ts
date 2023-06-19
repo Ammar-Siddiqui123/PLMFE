@@ -58,6 +58,7 @@ export class MoveItemsComponent implements OnInit {
   @ViewChild(MatPaginator) paginatorTo: MatPaginator;
   @ViewChild('myInput') myInput: ElementRef<HTMLInputElement>;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
+  @ViewChild('matToolbar') matToolbar: ElementRef;
   public dataSource: any = new MatTableDataSource();
   public moveToDatasource: any = new MatTableDataSource();
   @ViewChild('trigger') trigger: MatMenuTrigger;
@@ -167,8 +168,9 @@ export class MoveItemsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    // const targetElement = this.elementRef.nativeElement.querySelector('.mat-toolbar');
-    // this.renderer.addClass(targetElement, 'overLay');
+  const appHeaderElement = document.querySelector('app-header');
+  this.renderer.setStyle(appHeaderElement, 'z-index', '99999');
+
   }
   public displayedColumns: any = [
     'warehouse',
