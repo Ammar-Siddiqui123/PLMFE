@@ -55,3 +55,13 @@ table{
   }
 }
 
+.stickyHeader{
+  position: sticky;
+  top: 0px;
+  z-index: 200000000;
+}
+
+.overLay{
+  z-index: 99999!important;
+}
+
