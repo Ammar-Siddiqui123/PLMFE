@@ -58,9 +58,10 @@
                   </div>
                   <div class="form-outline mb-2">
                     <mat-form-field appearance="outline" style=" width: 100%;">
-                      <mat-label>Password 1</mat-label>
-                      <input placeholder="Password" formControlName="password" [attr.name]="toggle_password == true ? 'password' : 'text'" maxlength="50" matInput
-                        [type]="toggle_password == true ? 'password' : 'text'" autocomplete="false"  >
+                      <mat-label>Password</mat-label>
+                      <input placeholder="Password" formControlName="password"  maxlength="50" matInput
+                        [type]="toggle_password == true ? 'password' : 'text'" autocomplete="false"   [disabled]="isReadOnly"
+                        (focusin)="removeReadOnly()" (focusout)="removeReadOnly()">
                       <mat-icon matPrefix style="color: #090948;">lock</mat-icon>
                       <button type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password"
                         [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
