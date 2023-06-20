@@ -235,8 +235,8 @@ export class ReprocessedTransactionComponent implements OnInit {
     if (!opened && this.selectedVariable) {
       this.sortCol=0;
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
-        height: '96%',
-        width: '70vw',
+        height: 'auto',
+        width: '960px',
         data: {
           mode: event,
           tableName: 'ReProcessed',
