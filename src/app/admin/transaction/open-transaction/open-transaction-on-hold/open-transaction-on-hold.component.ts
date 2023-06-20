@@ -680,8 +680,8 @@ this.router.navigate([]).then((result) => {
   actionDialog(opened: boolean) {
     if (!opened && this.selectedVariable && this.selectedVariable==='set_column_sq') {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
-        height: '96%',
-        width: '70vw',
+        height: 'auto',
+        width: '960',
         data: {
           mode: event,
           tableName: 'Open Transactions',
@@ -741,7 +741,8 @@ this.router.navigate([]).then((result) => {
   sendCompletedToHistory() {
     let dialogRef = this.dialog.open(SendTranHistoryComponent, {
       height: 'auto',
-      width: '800px',
+      width: '580px',
+      autoFocus: '__non_existing_element__',
       data: {
         user: this.userData.userName,
         wsid: this.userData.wsid,
