@@ -42,7 +42,9 @@
                   <div class="form-outline mb-2">
                     <mat-form-field appearance="outline" style=" width: 100%;">
                       <mat-label>Username</mat-label>
-                      <input type="text" matInput placeholder="Enter Username" [(ngModel)]="addLoginForm.username" name="username" #userName="ngModel" maxlength="50"
+                      <input type="text" matInput placeholder="Enter Username"
+                      (keyup.enter)="enterUserName()"
+                      [(ngModel)]="addLoginForm.username" name="username" #userName="ngModel" maxlength="50"
                         
                         required autocomplete="off"    />
                       <mat-icon matPrefix style="color: #090948;">account_circle</mat-icon>
@@ -62,7 +64,9 @@
                   <div class="form-outline mb-1">
                     <mat-form-field appearance="outline" style=" width: 100%;">
                       <mat-label>Password</mat-label>
-                      <input placeholder="Password" [(ngModel)]="addLoginForm.password" #password="ngModel"  maxlength="50" matInput
+                      <input #passwordInput placeholder="Password" [(ngModel)]="addLoginForm.password" #password="ngModel"   maxlength="50"
+                      (keyup.enter)="loginUser()"
+                      matInput
                         [type]="toggle_password == true ? 'password' : 'text'" autocomplete="false"   required="" >
                       <mat-icon matPrefix style="color: #090948;">lock</mat-icon>
                       <button type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password"

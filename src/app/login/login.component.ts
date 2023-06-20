@@ -51,7 +51,9 @@ export class LoginComponent {
 
   addLoginForm:any = {};
 
-
+enterUserName(){
+  this.passwordInput.nativeElement.focus();
+}
   public noWhitespaceValidator(control: FormControl) {
     const isSpace = (control.value || '').match(/\s/g);
     return isSpace ? { 'whitespace': true } : null;
