@@ -742,7 +742,8 @@ this.router.navigate([]).then((result) => {
   sendCompletedToHistory() {
     let dialogRef = this.dialog.open(SendTranHistoryComponent, {
       height: 'auto',
-      width: '800px',
+      width: '580px',
+      autoFocus: '__non_existing_element__',
       data: {
         user: this.userData.userName,
         wsid: this.userData.wsid,
