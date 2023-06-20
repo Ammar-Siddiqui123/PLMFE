@@ -18,6 +18,7 @@ import { ConfirmationGuard } from '../guard/confirmation-guard.guard';
 import { MoveItemsComponent } from './move-items/move-items.component';
 import { AdminPreferencesComponent } from './admin-preferences/admin-preferences.component';
 import { EventLogComponent } from '../order-manager/event-log/event-log.component';
+import { DeallocateOrderComponent } from './deallocate-order/deallocate-order.component';
 
 const routes: Routes = [
   { path: '', component: AdminComponent },
@@ -86,6 +87,11 @@ const routes: Routes = [
   {
     path: 'systemReplenishment',
     component: SystemReplenishmentComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'deallocate',
+    component: DeallocateOrderComponent,
     canActivate: [AuthGuardGuard],
   },
   {

@@ -1,0 +1,21 @@
+<div>
+    <input type="text" [(ngModel)="itemNumber">
+
+    <mat-form-field class="w-100 bg-white br-8" appearance="fill" 
+    style="min-width: 20px;">
+    <span class="material-symbols-outlined icon-search">
+      Search
+    </span>
+    <!-- (ngModelChange)="this.searchBar.next($event)" -->
+    <input   (keyup)="getItemLookup($event)" type="text" placeholder="Search" aria-label="Number" matInput 
+      [(ngModel)]='itemNumber' [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" >
+      <!-- <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
+        {{option}}
+      </mat-option> -->
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+<div>
+    <input type="text" [(ngModel)="orderNumber">
+</div>

@@ -199,6 +199,10 @@
     {
         "path": "/admin/manualTransactions",
         "Permission": "Manual Transactions"
+    } ,
+    {
+        "path": "/deallocate",
+        "Permission": true
     } 
     
    
