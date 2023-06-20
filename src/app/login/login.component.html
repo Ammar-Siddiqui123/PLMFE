@@ -58,7 +58,7 @@
                   </div>
                   <div class="form-outline mb-2">
                     <mat-form-field appearance="outline" style=" width: 100%;">
-                      <mat-label>Password</mat-label>
+                      <mat-label>Password {{toggle_password}}</mat-label>
                       <input placeholder="Password" formControlName="password" maxlength="50" matInput
                         [type]="toggle_password == true ? 'password' : 'text'" autocomplete="off" [disabled]="isReadOnly"
                         (focusin)="removeReadOnly()" (focusout)="removeReadOnly()">
