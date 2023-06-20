@@ -131,7 +131,7 @@
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline"
                         (click)="openSetItemLocationDialogue()">
-                        <mat-label>Item number</mat-label>
+                        <mat-label>{{columns.itemNumber}}</mat-label>
                         <input readonly [disabled]="!item || this.orderNumber==''"  [(ngModel)]="itemNumber" matInput type="text" maxlength="255" value="Value">
                         <span matSuffix>
                             <mat-icon

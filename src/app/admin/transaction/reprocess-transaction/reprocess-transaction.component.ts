@@ -422,8 +422,8 @@ export class ReprocessTransactionComponent implements OnInit {
     {
       if (!opened && this.selectedVariable && this.selectedVariable === 'set_column_sq') {
         let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
-          height: '96%',
-          width: '70vw',
+          height: 'auto',
+          width: '960px',
           data: {
             mode: event,
             tableName: 'Open Transactions Temp',
