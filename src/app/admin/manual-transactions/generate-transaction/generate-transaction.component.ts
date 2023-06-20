@@ -30,7 +30,7 @@ export class GenerateTransactionComponent implements OnInit {
   @ViewChild('publicSearchBox') searchBoxField: ElementRef;
 
   selectedAction='';
-  
+  columns:any = {};
   invMapIDget;
   transactionID;
   selectedOrder;
@@ -92,6 +92,7 @@ export class GenerateTransactionComponent implements OnInit {
       .subscribe((value) => {
         this.autocompleteSearchColumn();
       });
+      this.OSFieldFilterNames();
   }
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
@@ -101,6 +102,11 @@ export class GenerateTransactionComponent implements OnInit {
   }
   clearMatSelectList(){
     this.openAction.options.forEach((data: MatOption) => data.deselect());
+  }
+  public OSFieldFilterNames() { 
+    this.authService.ColumnAlias().subscribe((res: any) => {
+      this.columns = res.data;
+    })
   }
   getRow(row?,type?) {
     // console.log(this.selectedAction);

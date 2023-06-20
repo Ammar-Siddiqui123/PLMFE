@@ -213,7 +213,7 @@ export class SpLocationZonesComponent implements OnInit {
   LocationName(item:any) {
     let dialogRef = this.dialog.open(LocationNameComponent, {
       height: 'auto',
-      width: '50vw',
+      width: '786px',
       autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe(result => {
