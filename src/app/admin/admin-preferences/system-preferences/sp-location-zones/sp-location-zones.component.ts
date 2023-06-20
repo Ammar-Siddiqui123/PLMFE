@@ -76,7 +76,7 @@ export class SpLocationZonesComponent implements OnInit {
 
 
   zoneChange(zone: any,check,type?) {
-  debugger
+  // debugger
   if(!check){
     if(type==='carousel'){
       if(zone.carousel){
