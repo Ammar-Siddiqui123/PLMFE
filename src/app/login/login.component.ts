@@ -49,10 +49,7 @@ export class LoginComponent {
     this.isReadOnly = !this.isReadOnly;
   }
 
-  addLoginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
-    password: new FormControl('', [Validators.required]),
-  });
+  addLoginForm:any = {};
 
 
   public noWhitespaceValidator(control: FormControl) {
@@ -62,8 +59,8 @@ export class LoginComponent {
 
   loginUser() {
     this.loader.show();
-    this.addLoginForm.get("username")?.setValue(this.addLoginForm.value.username?.replace(/\s/g, "")||null);
-    this.login = this.addLoginForm.value;
+    this.addLoginForm.username = this.addLoginForm.username?.replace(/\s/g, "")||null;
+    this.login = this.addLoginForm;
     const workStation:any = JSON.parse(localStorage.getItem('workStation') || '');
     this.login.wsid = workStation.workStationID;
     this.loginService
@@ -293,7 +290,7 @@ export class LoginComponent {
      }
     else{
       localStorage.setItem('isAppVerified',JSON.stringify({appName:'',isVerified:true}))
-      this.addLoginForm.reset();
+      // this.addLoginForm.reset();
       this.router.navigate(['/dashboard']);
     }
   },
