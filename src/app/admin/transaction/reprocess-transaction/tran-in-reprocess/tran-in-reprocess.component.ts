@@ -107,8 +107,7 @@ export class TranInReprocessComponent implements OnInit {
       "username":  this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.transService.get(payload, '/Admin/ReprocessTypeahead').subscribe(res => {
-      // console.log(res);
+    this.transService.get(payload, '/Admin/ReprocessTypeahead').subscribe(res => { 
       this.orderList = res.data;
     });
   }

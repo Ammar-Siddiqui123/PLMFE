@@ -107,8 +107,7 @@ statusTab;
 
 
   ngAfterViewInit() {
-      this.sharedService.breadCrumObserver.subscribe((res: any) => {
-      console.log(res,'ss');
+      this.sharedService.breadCrumObserver.subscribe((res: any) => { 
       this.statusTab = res.tab.textLabel;
       this.breadcrumbList[this.breadcrumbList.length-1].name = this.statusTab
     } )

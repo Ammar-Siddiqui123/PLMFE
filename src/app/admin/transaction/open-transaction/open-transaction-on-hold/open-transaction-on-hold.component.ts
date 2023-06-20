@@ -270,8 +270,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   };
 
   ngOnInit(): void {
-    this.setVal = localStorage.getItem('routeFromOrderStatus')
-    console.log(  this.setVal,'chechlocal')
+    this.setVal = localStorage.getItem('routeFromOrderStatus') 
     if(this.router.url == '/OrderManager/OrderStatus' || this.setVal == 'true'){
       this.throughOrderManager = true;
       this.directAdmin = false;

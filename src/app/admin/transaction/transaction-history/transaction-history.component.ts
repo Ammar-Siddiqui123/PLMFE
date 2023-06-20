@@ -40,7 +40,6 @@ export class TransactionHistoryComponent implements OnInit {
   
 
   onClearFromStatus(event: Event) {
-    this.clearEvent = event;
-    console.log(this.clearEvent)
+    this.clearEvent = event; 
   }
 }
