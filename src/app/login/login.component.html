@@ -30,8 +30,8 @@
                 -->
                 </div>
 
-                <form [formGroup]="addLoginForm" (ngSubmit)="loginUser()" name="addLoginForm" autocomplete="off" style="flex: 1;">
-
+                <!-- <form  autocomplete="false " style="flex: 1;"> -->
+<div [formGroup]="addLoginForm"  name="addLoginForm">
                   <!-- <div class="d-flex align-items-center mb-3 pb-1" style="justify-content: center;">
                     <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                     <span class="h1 fw-bold mb-0" class="account_login">Account Login</span>
@@ -43,7 +43,7 @@
                     <mat-form-field appearance="outline" style=" width: 100%;">
                       <mat-label>Username</mat-label>
                       <input type="text" matInput placeholder="Enter Username" formControlName="username" maxlength="50"
-                        required autocomplete="off" [disabled]="isReadOnly" (focusin)="removeReadOnly()" (focusout)="removeReadOnly()" />
+                        required autocomplete="off"  [disabled]="isReadOnly" (focusin)="removeReadOnly()" (focusout)="removeReadOnly()" />
                       <mat-icon matPrefix style="color: #090948;">account_circle</mat-icon>
                     </mat-form-field>
                     <mat-hint class="error-message" style="color: red;font-size: 14px;"
@@ -59,8 +59,8 @@
                   <div class="form-outline mb-1">
                     <mat-form-field appearance="outline" style=" width: 100%;">
                       <mat-label>Password</mat-label>
-                      <input placeholder="Password" formControlName="password" maxlength="50" matInput
-                        [type]="toggle_password ? 'password' : 'text'" autocomplete="off" [disabled]="isReadOnly"
+                      <input placeholder="Password" formControlName="password"  maxlength="50" matInput
+                        [type]="toggle_password == true ? 'password' : 'text'" autocomplete="false"   [disabled]="isReadOnly"
                         (focusin)="removeReadOnly()" (focusout)="removeReadOnly()">
                       <mat-icon matPrefix style="color: #090948;">lock</mat-icon>
                       <button type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password"
@@ -91,8 +91,8 @@
                     <mat-checkbox color="primary">Remember me</mat-checkbox> -->
                   <!-- <button class="btn btn-dark btn-lg btn-block" [disabled]="!addLoginForm.valid"
                       type="submit">Login</button> -->
-                  <div class="d-flex justify-content-center my-2">
-                    <button class="form-button-submit w-100" [disabled]="!addLoginForm.valid" mat-flat-button
+                  <div class="d-flex justify-content-center my-3">
+                    <button class="form-button-submit w-100" (click)="loginUser()" [disabled]="!addLoginForm.valid" mat-flat-button
                       color="primary">Login</button>
                   </div>
                   <!-- </div> -->
@@ -104,7 +104,7 @@
                       style="color: #393f81;">Register here</a></p> -->
                   <!-- <a href="#!" class="small text-muted">Terms of use.</a>
                    <a href="#!" class="small text-muted">Privacy policy</a> -->
-                </form>
+                  </div>
 
                 <div class="p-2 text-center mb-3" style="border-top:1px solid var(--clr-tertiary-50)">
                 <h3 class="text-18 text-tertiary-800 fw-bold mb-1" *ngIf="info.companyName">{{info.companyName}}</h3>
