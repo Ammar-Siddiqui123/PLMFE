@@ -353,6 +353,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
                 res.data.orderStatus.length > 0 &&
                 res.data.orderStatus[0].transactionType
             );
+            debugger
             this.currentStatusChange(res.data.completedStatus);
             this.totalLinesOrderChange(res.data?.totalRecords);
             this.sharedService.updateOrderStatusSelect({
@@ -430,7 +431,7 @@ ReceiveData(){
    
   this.hubConnection.on('ReceiveItems', (res:any) => {  
     if(res.data && res.data?.orderStatus.length > 0 && res.data?.orderStatus[0].orderNumber == this.orderNo){
-      
+       
    this.detailDataInventoryMap = res.data?.orderStatus;
    this.getOrderForTote = res.data?.orderNo;
    this.dataSource = new MatTableDataSource(res.data?.orderStatus); 
@@ -451,7 +452,7 @@ ReceiveData(){
      ) {
        res.data.orderStatus.find((el) => {
          return el.completedDate === ''
-           ? (res.data.completedStatus = 'In Progres.datas')
+           ? (res.data.completedStatus = 'In Progress')
            : (res.data.completedStatus = 'Completed');
        });
      }
@@ -461,6 +462,7 @@ ReceiveData(){
          res.data.orderStatus.length > 0 &&
          res.data.orderStatus[0].transactionType
      );
+     debugger
      this.currentStatusChange(res.data.completedStatus);
      this.totalLinesOrderChange(res.data?.totalRecords);
      this.sharedService.updateOrderStatusSelect({
