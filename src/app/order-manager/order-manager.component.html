@@ -1,8 +1,8 @@
 <div class="container-fluid p-0">
     <mat-card class="mat-elevation-z g-card">
         <mat-card-content>
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="card-header-title mb-0 d-flex align-items-center">
+          <div class="d-xl-flex justify-content-between align-items-center mb-3">
+            <h2 class="card-header-title mb-0 d-flex align-items-center mb-3 mb-xl-0">
               <div class="mat-icon-wrap me-lg-3 me-2">
                 <span class="mat-icon material-symbols-outlined">
                     dvr
@@ -10,9 +10,11 @@
               </div>
               <span>Transaction Count Information</span>
             </h2>
-            <button mat-flat-button class="btn-regular" (click)="getInvDetailsList()" color="primary">Refresh Status Info</button>
+            <div class="d-xl-flex d-block">
+            <button style="flex: 1 auto;" mat-flat-button class="col-12 col-xl-3 float-end btn-regular" (click)="getInvDetailsList()" color="primary">Refresh Status Info</button>
           </div>
-    <div class="row">
+          </div>
+    <div class="row d-xl-flex">
         <div class="col-xl-4 main-widget">
             <div class="custom bg-white bg-50 br-14 mb-3">
               <div class="counter bg-tertiary-10">

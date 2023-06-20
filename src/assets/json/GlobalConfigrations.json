@@ -24,7 +24,7 @@
         "Permission": "Admin Release Orders"
     },
     {
-        "path": "/FlowRackReplenish",
+        "path": "/FlowrackReplenishment",
         "Permission": "FlowRack Replenish"
     },
 
@@ -33,8 +33,16 @@
         "Permission": "Inventory"
     },
     {
+        "path": "/admin/locationAssignment",
+        "Permission": "Location Assignment"
+    },
+    {
         "path": "/admin/inventoryMap",
         "Permission": "Inventory Map"
+    },
+    {
+        "path": "/admin/locationAssignment",
+        "Permission": "Location Assignment"
     },
     {
         "path": "/admin/Reports",
@@ -57,6 +65,10 @@
         "Permission": "employees"
     },
     {
+        "path": "/admin/moveItems",
+        "Permission": "Move Items"
+    },
+    {
         "path": "/admin/createCountBatches",
         "Permission": "Cycle Count Manager"
     },
@@ -67,6 +79,14 @@
     {
         "path": "/admin/systemReplenishment",
         "Permission": "Replenishment"
+    },
+    {
+        "path": "/admin/adminPreferences",
+        "Permission": "Preferences"
+    },
+    {
+        "path": "/admin/EventLog",
+        "Permission": "Event Log Manager"
     },
 
     {
@@ -93,13 +113,11 @@
     {
         "path": "/InductionManager/ProcessPicks",
         "Permission": "Induction Manager"
-    },
+    },    
 
-
-    
     {
         "path": "/InductionManager/ProcessPutAways",
-        "Permission": "Induction Manager"
+        "Permission": "Tote Transactions"
     },
     {
         "path": "/InductionManager/SuperBatch",
@@ -111,7 +129,7 @@
     },
     {
         "path": "/OrderManager/OrderStatus",
-        "Permission": "Order Status"
+        "Permission": true
     },
     {
         "path": "/ConsolidationManager/OrderStatus",
@@ -162,6 +180,14 @@
         "Permission": "Induction Manager"
     }  ,
     {
+        "path": "/InductionManager/Admin/ToteTransactionManager",
+        "Permission": "Induction Manager"
+    }  ,
+    {
+        "path": "/InductionManager/Admin/ImToteManager",
+        "Permission": "Induction Manager"
+    }  ,
+    {
         "path": "/InductionManager/Admin/TransactionJournal",
         "Permission": "Induction Manager"
     }  ,
@@ -173,5 +199,8 @@
     {
         "path": "/admin/manualTransactions",
         "Permission": "Manual Transactions"
-    }
+    } 
+    
+   
+    
 ]

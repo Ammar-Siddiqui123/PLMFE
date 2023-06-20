@@ -1,8 +1,8 @@
 <mat-card class="mat-elevation-z g-card mb-3 mt-2" style="height: 100%;">
     <mat-card-content>
-        <div class="d-flex justify-content-between">
+        <div class="d-xl-flex d-block justify-content-between">
             <h2 class="card-header-title mb-3 d-flex align-items-center">
-                <div class="mat-icon-wrap me-lg-3">
+                <div class="mat-icon-wrap me-lg-3 me-2">
                     <span class="material-symbols-outlined">
                         filter_frames
                     </span>
@@ -11,7 +11,7 @@
             </h2>
 
             <div>
-                <mat-form-field class="action-dropdown w-100" appearance="outline">
+                <mat-form-field class="action-dropdown w-100 mb-3" appearance="outline">
                     <mat-label>Actions</mat-label>
                     <mat-select #matRef class="employees-action" placeholder="Actions">
                         <mat-option value="0" [disabled]="stagingbtn" (click)="!stagingbtn && this.stageTable.data.length > 0 ? openCmOrderNumber() : ''"> Staging Location</mat-option>
@@ -33,23 +33,27 @@
                 </mat-form-field>
             </div>
         </div>
-        <div class="d-flex align-items-center">
-            <div class="col-xl-9 d-flex align-items-center gap-12">
+        <div class="row">
+            <div class="col-xl-9">
+                <div class="d-xl-flex d-block align-items-center gap-12">
                 <div class="d-flex flex-wrap">
-                    <mat-form-field class="custom-form-field w-100  mb-2" appearance="outline">
-                        <mat-label>Order Number/Tote ID</mat-label>
+                    <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
+                        <mat-label class="pe-2">Order Number/Tote ID</mat-label>
                         <input matInput  class="        " type="text"                          
-                            maxlength="50"  [(ngModel)]="TypeValue"  (keypress)="enterOrderID($event)" #ordernum>
+                            maxlength="50"  [(ngModel)]="TypeValue"  (keypress)="enterOrderID($event)" #autoFocusField>
                     </mat-form-field>
                 </div>
                 <div class="d-flex flex-wrap">
-                    <button type="button" [disabled]="nextOrderbtn" mat-flat-button color="primary" class="button-primary-i mb-2 button-sm" (click)="openCmOrderNo()">Next
+                    <button type="button" [disabled]="nextOrderbtn" mat-flat-button color="primary" class="mb-3 btn-regular w-100" (click)="openCmOrderNo()">Next
                         Order</button>
                 </div>
+                </div>
             </div>
-            <div class="col-xl-3 d-flex align-items-end justify-content-end">
-                <button type="button" mat-flat-button color="secondary" class="secondary-btn btn-lg"
+            <div class="col-xl-3 d-xl-flex d-block align-items-end justify-content-end">
+                <div class="mx-auto mx-xl-0">
+                <button type="button" mat-flat-button color="secondary" class="secondary-btn btn-regular mb-3 px-0 w-100"
                     style="color:#1A1AD3;" (click)="clickToHide()"> {{ firstTable == true ? 'Hide Order Detail' : 'Show Order Detail' }}</button>
+                </div>
             </div>
         </div>
 
@@ -105,12 +109,14 @@
                                 <td mat-cell *matCellDef="let element">{{element.stagedDate}}</td>
                             </ng-container>
 
-                            <tr class="mat-row" *matNoDataRow>
-                                <td class="mat-cell " [attr.colspan]="displayedColumns.length">
+                            <tr class="mat-row" *matNoDataRow >
+                                <td class="mat-cell " [attr.colspan]="displayedColumns.length ">
                                   No data available in table.
                                 </td>
                             </tr>
 
+                           
+                            
                             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" style=" background-color: #F9F9FF;"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         </table>
@@ -127,11 +133,11 @@
 
 <div class="row">
     <div class="col-lg-6">
-    <mat-card class="mat-elevation-z g-card">
+    <mat-card class="mat-elevation-z g-card mb-3">
         <mat-card-content>
             <div class="d-flex justify-content-between">
                 <h2 class="card-header-title mb-3 d-flex align-items-center">
-                    <div class="mat-icon-wrap me-lg-3">
+                    <div class="mat-icon-wrap me-lg-3 me-2">
                         <span class="material-symbols-outlined">
                             gpp_maybe
                         </span>
@@ -141,9 +147,9 @@
             </div>
 
             <div class="row align-items-center">
-                <div class="col-xl-8">
-                    <div class="d-flex gap-12 align-items-center mb-3">
-                        <mat-form-field class="action-dropdown" appearance="outline">
+                <div class="col-xxl-7">
+                    <div class="d-block d-xl-flex gap-12 align-items-center">
+                        <mat-form-field class="action-dropdown w-100 mb-3" appearance="outline">
                             <mat-label>{{startSelectFilterLabel}}</mat-label>
                             <mat-select id="SelectFilter" class="employees-action" [value]="startSelectFilter" (selectionChange)="getSelected($event)">
                                 <mat-option *ngFor="let s of filterOption" value={{s.key}}>{{s.value}}</mat-option>
@@ -159,8 +165,8 @@
                             </span>
                         </mat-form-field>
 
-                        <span class="v-br">-</span>
-                        <div class="d-flex g-mini-search-box w-100">
+                        <span class="v-br d-none d-xl-flex mb-3">-</span>
+                        <div class="d-flex g-mini-search-box w-100 mb-3">
                             <mat-form-field class="w-100 bg-white br-8" appearance="fill">
                                 <span class="material-symbols-outlined icon-search">
                                     Search
@@ -187,11 +193,13 @@
                     </div>
                 </div>
 
-                <div class="col-xl-4 d-flex flex-row-reverse">
-                    <button mat-stroked-button color="primary"
-                        class="mat-focus-indicator btn-regular w-80 mb-3 mat-stroked-button mat-button-base mat-primary" (click)="verifyAll()" [disabled]="verifybtn">
+                <div class="col-xxl-3 offset-xxl-2">
+                    <div class="d-xxl-block d-flex justify-content-end">
+                    <button mat-stroked-button color="primary" style="flex:1"
+                        class="mat-focus-indicator btn-regular w-80 mb-3 mat-stroked-button mat-button-base mat-primary float-end" (click)="verifyAll()" [disabled]="verifybtn">
                         Verify All
-                    </button  >
+                    </button>
+                </div>
                 </div>
             </div>
 
@@ -211,9 +219,9 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Line No. </th>
                             <td mat-cell *matCellDef="let element">{{element.lineNumber}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="transactionQuantity">
+                        <ng-container matColumnDef="completedQuantity">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Completed Qty </th>
-                            <td mat-cell *matCellDef="let element">{{element.transactionQuantity}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.completedQuantity}}</td>
                         </ng-container>
                         <ng-container matColumnDef="toteID">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Tote ID </th>
@@ -264,11 +272,11 @@
 </div>
 
 <div class="col-lg-6">
-    <mat-card class="mat-elevation-z g-card">
+    <mat-card class="mat-elevation-z g-card mb-3">
         <mat-card-content>
             <div class="d-flex justify-content-between">
                 <h2 class="card-header-title mb-3 d-flex align-items-center">
-                    <div class="mat-icon-wrap me-lg-3">
+                    <div class="mat-icon-wrap me-lg-3 me-2">
                         <span class="material-symbols-outlined">
                             verified_user
                         </span>
@@ -278,11 +286,13 @@
             </div>
 
             <div class="row">
-                <div class="col-xl-12 d-flex flex-row-reverse">
+                <div class="col-xl-12 d-flex d-xl-block">
+                    <div class="float-end" style="flex:1">
                     <button mat-stroked-button color="warn"
-                        class="mat-focus-indicator button-remove-all-w-stroke w-80 mb-3 mat-stroked-button mat-button-base mat-warn"  (click)=" unVerifyAll()" [disabled]="unverifybtn">
+                        class="mat-focus-indicator button-remove-all-w-stroke w-100 mb-3 mat-stroked-button mat-button-base mat-warn" (click)=" unVerifyAll()" [disabled]="unverifybtn">
                         Unverify All
                     </button>
+                    </div>
                 </div>
             </div>
 

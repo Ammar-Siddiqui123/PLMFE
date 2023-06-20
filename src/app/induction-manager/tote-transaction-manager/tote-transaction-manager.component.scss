@@ -1,0 +1,22 @@
+table{
+    tr{
+        display: table-row!important;
+        white-space: nowrap;
+        th, td{
+            vertical-align: middle;
+            border-bottom: 1px solid #fff;
+            padding-right: 18px;
+
+            &:first-child{
+                padding-left: 20px !important;
+            }
+            &:last-child{
+                padding-right:20px !important;
+            }
+            &:nth-child(6){
+
+                width: 100% !important;
+            }
+        }
+    }
+}

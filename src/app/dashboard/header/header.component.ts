@@ -16,15 +16,16 @@ export class HeaderComponent implements OnInit {
 
   @Output() toggleSidebarForMe: EventEmitter<any> = new EventEmitter();
   loading:boolean = true;
-
+  ConfigUserLogin:boolean = false;
   breadcrumbList: any = [];
   userData: any;
+  configUser:any;
 isConfigUser
 statusTab;
   // public user_data  = JSON.parse(localStorage.getItem('user') || '');
   constructor(
     private router: Router,
-    public spinnerService: SpinnerService,
+    public spinnerService: SpinnerService, 
     private authService: AuthService,
     private toastr: ToastrService,
     private sharedService: SharedService,
@@ -54,6 +55,9 @@ statusTab;
         splittedArray.forEach((element,i) => {
          if(element==='createCountBatches' || element==='cycleCounts'){
           element='CycleCount'
+         }
+         if(element==='ImToteManager' ){
+          element='ToteManager'
          }
 
          
@@ -92,6 +96,11 @@ statusTab;
 
   ngOnInit(): void {
     this.loading = false;
+    this.userData = JSON.parse(localStorage.getItem('user') || '{}');
+    this.configUser = JSON.parse(localStorage.getItem('userConfig') || '{}'); 
+    if(this.router.url.indexOf('globalconfig') > -1){
+      this.ConfigUserLogin =  true;
+    }else this.ConfigUserLogin =  false; 
     this.userData = this.authService.userData();
 
   }

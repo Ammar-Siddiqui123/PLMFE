@@ -31,6 +31,12 @@ import { SharedService } from 'src/app/services/shared.service';
 import { FilterToteComponent } from 'src/app/admin/dialogs/filter-tote/filter-tote.component';
 import { MatDialog } from '@angular/material/dialog';
 import { OmChangePriorityComponent } from 'src/app/dialogs/om-change-priority/om-change-priority.component';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
+import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
+import { SignalrServiceService } from 'src/app/services/signalr-service.service';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-tran-order-list',
@@ -39,6 +45,7 @@ import { OmChangePriorityComponent } from 'src/app/dialogs/om-change-priority/om
 })
 export class TranOrderListComponent implements OnInit, AfterViewInit {
   public columnValues: any = [];
+  private hubConnection: HubConnection;
   public Order_Table_Config = [
     { colHeader: 'status', colDef: 'Status' },
     { colHeader: 'transactionType', colDef: 'Transaction Type' },
@@ -209,8 +216,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   @Input() set toteIdEvent(event: Event) {
     if (event) {
       this.toteId = event;
-    }
-    // this.getContentData();
+    } 
   }
   // Emitters
   @Output() openOrders = new EventEmitter<any>();
@@ -270,6 +276,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     private sharedService: SharedService,
     private dialog: MatDialog,
     router: Router,
+    private filterService: ContextMenuFiltersService,
+    private signalrService:SignalrServiceService
   ) {
     this.setVal = localStorage.getItem('routeFromOrderStatus')
     if(router.url == '/OrderManager/OrderStatus' || router.url == '/OrderManager/OrderStatus?type=TransactionHistory'|| this.setVal == 'true'){
@@ -283,7 +291,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   getEleLength(ele) {
     // console.log('=----',ele)
   }
-  getContentData() {
+  getContentDatas() {
     if (this.searchCol === 'Tote ID') {
     }
      
@@ -302,7 +310,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       toteID: this.toteId,
       sortColumnNumber: this.sortCol,
       sortOrder: this.sortOrder,
-      filter: '1=1',
+      filter: this.FilterString,
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
@@ -370,7 +378,114 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
         (error) => {}
       );
   }
+async  StartConnection(){
+    this.hubConnection = new HubConnectionBuilder()
+    .withUrl(`${environment.apiUrl}/hubOrderStatus`) // Replace with your hub URL
+    .build();
+    this.hubConnection.start()
+    .then(() => { 
+      this.ReceiveData();
+    })
+    .catch(error => {
+      console.error('Error while establishing SignalR connection:', error);
+    });
+  }
 
+  
+ 
+  getContentData(){  
+    if (this.searchCol === 'Tote ID') {
+    }
+     
+    this.payload = { 
+      draw: 0,
+      compDate: this.compDate,
+      identify: this.orderNo ? 0 : 1,
+      searchString: this.searchString,
+      direct: 'asc',
+      searchColumn: this.searchCol,
+      sRow: this.customPagination.startIndex,
+      eRow: this.customPagination.endIndex,
+      checkValue: true,
+      checkColumn: 0,
+      orderNumber: this.orderNo,
+      toteID: this.toteId,
+      sortColumnNumber: this.sortCol,
+      sortOrder: this.sortOrder,
+      filter: this.FilterString,
+      username: this.userData.userName,
+      wsid: this.userData.wsid,
+    };
+    this.hubConnection.invoke('OrderStatus', this.payload)
+    .then(() => {
+      console.log('SendItems method called successfully.');
+    })
+    .catch(error => {
+      console.error('Error while calling SendItems method:', error);
+    });
+  
+}
+ 
+ReceiveData(){
+   
+  this.hubConnection.on('ReceiveItems', (res:any) => {  
+    if(res.data && res.data?.orderStatus.length > 0 && res.data?.orderStatus[0].orderNumber == this.orderNo){
+      
+   this.detailDataInventoryMap = res.data?.orderStatus;
+   this.getOrderForTote = res.data?.orderNo;
+   this.dataSource = new MatTableDataSource(res.data?.orderStatus); 
+   this.columnValues = res.data?.orderStatusColSequence; 
+   this.customPagination.total = res.data?.totalRecords;
+   this.getOrderForTote =
+     res.data &&
+     res.data.orderStatus &&
+     res.data.orderStatus[0].orderNumber; 
+   if (res.data) {
+     this.onOpenOrderChange(res.data?.opLines);
+     this.onCompleteOrderChange(res.data?.compLines);
+     this.onReprocessOrderChange(res.data?.reLines);
+     if (
+       res.data &&
+       res.data.orderStatus &&
+       res.data.orderStatus.length > 0
+     ) {
+       res.data.orderStatus.find((el) => {
+         return el.completedDate === ''
+           ? (res.data.completedStatus = 'In Progres.datas')
+           : (res.data.completedStatus = 'Completed');
+       });
+     }
+     this.onOrderTypeOrderChange(
+       res.data &&
+         res.data.orderStatus &&
+         res.data.orderStatus.length > 0 &&
+         res.data.orderStatus[0].transactionType
+     );
+     this.currentStatusChange(res.data.completedStatus);
+     this.totalLinesOrderChange(res.data?.totalRecords);
+     this.sharedService.updateOrderStatusSelect({
+       totalRecords: res.data?.totalRecords,
+     });
+   }
+
+   if (res.data?.onCar.length) {
+     res.data.onCar.filter((item) => {
+       return (item.carousel = 'on');
+     });
+     this.onLocationZoneChange(res.data?.onCar);
+   } else if (res.data?.offCar.length) {
+     res.data.offCar.filter((item) => {
+       return (item.carousel = 'off');
+     });
+     this.onLocationZoneChange(res.data?.offCar);
+     // this.onCompleteOrderChange(res.data?.offCar);
+   } else {
+     this.onLocationZoneChange(res.data?.onCar);
+   }
+  }
+}) 
+
+}
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
   }
@@ -598,8 +713,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  ngOnInit(): void {
+ async ngOnInit(): Promise<void> {
     this.userData = this.authService.userData();
+  await  this.StartConnection()
     this.orderNo = '';
     this.toteId = '';
     this.searchByInput
@@ -607,6 +723,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       .subscribe((value) => {
         this.searchString = value;
         this.autocompleteSearchColumn();
+        // this.getContentData();
+        debugger
+    
         this.getContentData();
       });
     // this.getContentData();
@@ -681,7 +800,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy() { 
     this.subscription.unsubscribe();
   }
 
@@ -703,5 +822,60 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       }
     })
     }
-    
+
+  @ViewChild('trigger') trigger: MatMenuTrigger;
+  contextMenuPosition = { x: '0px', y: '0px' };
+  FilterString: string = "1 = 1";
+
+  getColDef(colHeader:any){
+    return this.Order_Table_Config.filter((item) => item.colHeader == colHeader)[0]?.colDef ?? '';
+  }
+
+  onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.trigger.menuData = { item: { SelectedItem: SelectedItem, FilterColumnName: FilterColumnName, FilterConditon: FilterConditon, FilterItemType: FilterItemType } };
+    this.trigger.menu?.focusFirstItem('mouse');
+    this.trigger.openMenu();
+  }
+
+  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
+    debugger;
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+    if(FilterColumnName != "" || Condition == "clear"){
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+      this.FilterString = this.FilterString != "" ? this.FilterString : "1=1";
+      this.resetPagination();
+      this.getContentData();
+    }
+  }
+
+  resetPagination(){
+    this.customPagination.startIndex = 0;
+    this.customPagination.endIndex = 20;
+    this.paginator.pageIndex = 0;
+  }
+
+  getType(val): string {
+    return this.filterService.getType(val);
+  }
+
+  InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
+    const dialogRef = this.dialog.open(InputFilterComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        FilterColumnName: FilterColumnName,
+        Condition: Condition,
+        TypeOfElement: TypeOfElement
+      },
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe((result) => {
+      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
+    }
+    );
+  }
+ 
 }

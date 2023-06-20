@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../init/auth.service';
 import { AdminService } from './admin.service';
@@ -85,6 +85,8 @@ export class AdminComponent implements OnInit {
     'totalPicks',
     'transactionType',
   ];
+
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
   constructor(
     public authService: AuthService,
     private adminService: AdminService,
@@ -290,7 +292,7 @@ export class AdminComponent implements OnInit {
     this.adminService
       .get(payload, '/Admin/GetAdminMenu')
       .subscribe((res: any) => {
-        if (res && res.data.totalOrders) {
+        if (res && res?.data?.totalOrders) {
           this.dataSource = new MatTableDataSource(
             res.data.totalOrders.orderTable
           );
@@ -316,7 +318,12 @@ export class AdminComponent implements OnInit {
   isLookUp = false;
 
   backAdminAction() {
-    this.isLookUp = !this.isLookUp;
+  this.isLookUp = !this.isLookUp;
+  setTimeout(()=>{
+    this.searchBoxField.nativeElement.focus();
+
+  }, 500);
+
   }
 
   ngOnDestroy() {

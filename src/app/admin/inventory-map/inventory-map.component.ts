@@ -165,7 +165,9 @@ export class InventoryMapComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
-      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition,result.Type)
+      if(result.SelectedColumn){
+        this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition,result.Type)
+      }
     }
     );
   }
@@ -175,11 +177,15 @@ export class InventoryMapComponent implements OnInit {
      return this.filterService.getType(val);
   }
  
-  FilterString : string = "";
+  FilterString : string = "1 = 1";
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-   this.FilterString = this.filterService.onContextMenuCommand(SelectedItem,FilterColumnName,Condition,Type);
-   this.initializeApi();
-   this.getContentData();
+    if (SelectedItem != undefined) {
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+    }
+    this.FilterString = this.FilterString != "" ? this.FilterString : "1 = 1";
+    this.initializeApi();
+    this.getContentData();
   }
 
  //---------------------for mat menu End ----------------------------
@@ -373,7 +379,7 @@ export class InventoryMapComponent implements OnInit {
 
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: '96%',
-        width: '70vw',
+        width: '100vw',
         data: {
           mode: event,
           tableName: 'Inventory Map',
@@ -563,7 +569,7 @@ export class InventoryMapComponent implements OnInit {
    else {
     localStorage.setItem('routeFromInduction','false')
     this.router.navigate([]).then((result) => {
-      window.open(`/#/admin/transaction?itemNumber=${row.locationNumber}`, '_blank');
+      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_blank');
     });
 
    }
@@ -630,6 +636,16 @@ export class InventoryMapComponent implements OnInit {
       this.initializeApi();
       this.getContentData();
     }
+  }
+
+  reset(){
+   
+    if( this.columnSearch.searchValue==''){
+    
+      this.initializeApi()
+      this.getContentData()
+    }
+  
   }
 
   announceSortChange(e : any){

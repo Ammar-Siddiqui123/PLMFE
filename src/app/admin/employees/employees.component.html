@@ -1,4 +1,4 @@
-<mat-tab-group dynamicHeight>
+<mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex">
   <mat-tab label="Employees">
     <div class="employees-tab g-tab">
       <div class="container-fluid p-0">
@@ -8,8 +8,8 @@
           <div class="col-xl-7 mb-3">
             <mat-card class="mat-elevation-z g-card mb-3" style="height: 100%;">
               <mat-card-content>
-                <div class="d-flex justify-content-between align-items-center">
-                  <h2 class="card-header-title mb-0 d-flex align-items-center">
+                <div class="d-xl-flex justify-content-between align-items-center">
+                  <h2 class="card-header-title mb-0 mb-sm-3 mb-md-3 mb-lg-0 d-flex align-items-center">
                     <div
                       class="dialog-close-button-fix close-button d-flex justify-content-center align-items-center me-lg-3"
                       *ngIf="isLookUp">
@@ -18,14 +18,14 @@
                         arrow_back
                       </span>
                     </div>
-                    <div class="mat-icon-wrap me-lg-3">
+                    <div class="mat-icon-wrap mx-1 me-lg-3">
                       <span class="material-symbols-outlined">
                         assignment_ind
                       </span>
                     </div>
                     <span>Employees Information</span>
                   </h2>
-                  <mat-form-field class="action-dropdown" appearance="outline">
+                  <mat-form-field class="action-dropdown d-block" appearance="outline">
                     <mat-label>Actions</mat-label>
                     <mat-select #matRef class="employees-action"
                       (selectionChange)="actionDialog($event.value, empData, $event)">
@@ -77,7 +77,7 @@
                     <div class="g-field-content">
                       {{empData.accessLevel==='administrator'?'Administrator':empData.accessLevel==='staff_member'?'Staff  Member':'' }}</div>
                   </div>
-                  <div class="g-detail">
+                  <div class="g-detail" *ngIf="env  == 'AD'">
                     <label class="g-field-label">Group</label>
                     <div class="g-field-content">
                       {{empData.groupName}}</div>
@@ -114,6 +114,10 @@
                                     <input type="text" [(ngModel)]="bpSettingInp" placeholder="Search Zones"
                                       aria-label="Search zone-search-box" matInput (keyup)="zoneFilter($event)"
                                       maxlength="2">
+
+                                      <button *ngIf="bpSettingInp" matSuffix mat-icon-button aria-label="Clear" (click)="bpSettingInp=''">
+                                        <mat-icon>close</mat-icon>
+                                      </button>
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="addZoneDialog()" [disabled]="!isLookUp">
@@ -137,8 +141,8 @@
                                       </tr>
                                       <!-- Start Location Column -->
                                       <ng-container matColumnDef="zones">
-                                        <th width="80%" mat-header-cell *matHeaderCellDef>Zone</th>
-                                        <td width="80%" mat-cell *matCellDef="let element"> {{element}} </td>
+                                        <th width="80%" mat-header-cell *matHeaderCellDef mat-sort-header>Zone</th>
+                                        <td width="80%" mat-cell *matCellDef="let element ; let i = index"> {{element.zones}} </td>
                                       </ng-container>
                                       <ng-container matColumnDef="actions">
                                         <th width="20%" class="text-center" mat-header-cell *matHeaderCellDef>Action
@@ -191,6 +195,10 @@
                                     <input type="text" placeholder="Search Locations" aria-label="Search Locations"
                                       [(ngModel)]="bpSettingLocInp" matInput (keyup)="applyFilter($event)"
                                       maxlength="50">
+
+                                      <button *ngIf="bpSettingLocInp" matSuffix mat-icon-button aria-label="Clear" (click)="bpSettingLocInp=''">
+                                        <mat-icon>close</mat-icon>
+                                      </button>
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="addLocationDialog()" [disabled]="!isLookUp" matTooltip="Add new location"
@@ -202,7 +210,7 @@
                                 </div>
                                 <div class="card br-14 table-responsive my-3">
                                   <ng-scrollbar class="mat-table-scrollbar " style="height: 200px">
-                                    <table mat-table [dataSource]="location_data_source" matSort
+                                    <table mat-table [dataSource]="location_data_source" matSort #MatSortLocation="matSort"
                                       (matSortChange)="announceSortChange($event)"
                                       class="g-card-table employee-location-table table-minimal-action-buttons">
                                       <tr class="mat-row" *matNoDataRow>
@@ -213,7 +221,7 @@
                                       </tr>
 
                                       <!-- Start Location Column -->
-                                      <ng-container matColumnDef="start_location">
+                                      <ng-container matColumnDef="startLocation">
                                         <th width="40%" mat-header-cell *matHeaderCellDef mat-sort-header>Start Location
                                         </th>
                                         <td width="40%" mat-cell *matCellDef="let element"> {{element.startLocation}}
@@ -221,7 +229,7 @@
                                       </ng-container>
 
                                       <!-- End Location Column -->
-                                      <ng-container matColumnDef="end_location">
+                                      <ng-container matColumnDef="endLocation">
                                         <th width="40%" mat-header-cell *matHeaderCellDef mat-sort-header>End Location
                                         </th>
                                         <td width="40%" mat-cell *matCellDef="let element"> {{element.endLocation}}
@@ -406,6 +414,9 @@
                                     <input type="text" placeholder="Search Groups Allowed" [(ngModel)]="grpAllFilter"
                                       aria-label="Search Groups Allowed" matInput (keyup)="groupAllowedFilter($event)"
                                       maxlength="50">
+                                      <button *ngIf="grpAllFilter" matSuffix mat-icon-button aria-label="Clear" (click)="grpAllFilter=''">
+                                        <mat-icon>close</mat-icon>
+                                      </button>
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     [disabled]="!isLookUp" (click)="grpAllowedDialog()">
@@ -502,22 +513,22 @@
           <div class="col-xl-5 mb-3">
             <mat-card class="mat-elevation-z g-card" style="height: 100%;">
               <mat-card-content>
-                <div class="d-flex justify-content-between align-items-center">
-                  <h2 class="card-header-title mb-0 d-flex align-items-center">
+                <div class="d-xl-flex justify-content-between align-items-center">
+                  <h2 class="card-header-title mb-0 mb-sm-3 mb-md-3 mb-lg-0 d-flex align-items-center">
                     <div class="mat-icon-wrap me-lg-3" *ngIf="isGroupLookUp" (click)="backGroupAction()">
                       <span class="material-symbols-outlined" style="cursor:pointer;" matTooltip="Back to group list"
                         matTooltipPosition="above">
                         arrow_back
                       </span>
                     </div>
-                    <div class="mat-icon-wrap me-lg-3">
+                    <div class="mat-icon-wrap me-1 me-lg-3">
                       <span class="material-symbols-outlined">
                         diversity_2
                       </span>
                     </div>
                     <span>Employee Group Management</span>
                   </h2>
-                  <mat-form-field class="action-dropdown" appearance="outline">
+                  <mat-form-field class="action-dropdown d-block" appearance="outline">
                     <mat-label>Actions</mat-label>
                     <mat-select class="employees-action"
                       (selectionChange)="actionGroupDialog($event.value, grpData, $event)">
@@ -534,7 +545,7 @@
 
                   <!-- groups lookup here -->
                   <app-groups-lookup [updateGrpTable]="updateGrpTable" [childGroupLookUp]="isGroupLookUp"
-                    (updateGrpLookUp)="updateGrpLookUp($event)">
+                    (updateGrpLookUp)="updateGrpLookUp($event)" [tab]="selectedIndex">
                   </app-groups-lookup>
 
                 </div>
@@ -555,7 +566,7 @@
                 <div class="row align-items-center">
                   <div class="col-6">
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
-                      <div class="mat-icon-wrap me-lg-3">
+                      <div class="mat-icon-wrap me-1 me-lg-3">
                         <span class="material-symbols-outlined">
                           assignment_turned_in
                         </span>
@@ -570,12 +581,12 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-6">
+                  <div class="col-12 col-xl-6">
                     <app-unassigned-functions (addFunction)="addPermission($event)"
                       [unassignedFunctions]="unassignedFunctions"
                       [isGroupLookUp]="isGroupLookUp"></app-unassigned-functions>
                   </div>
-                  <div class="col-6">
+                  <div class="col-12 col-xl-6">
                     <!-- <app-assigned-functions ></app-assigned-functions> -->
 
                     <app-assigned-functions (removeFunction)="removePermission($event)"
@@ -612,7 +623,7 @@
             <mat-card-content>
               <div class="d-flex align-items-center">
                 <h2 class="card-header-title mb-3 me-4 d-flex align-items-center">
-                  <div class="mat-icon-wrap me-lg-3">
+                  <div class="mat-icon-wrap me-1 me-lg-3">
                     <span class="material-symbols-outlined">
                       switch
                     </span>

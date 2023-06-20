@@ -40,7 +40,7 @@ export interface InventoryMapDataStructure {
   userField2: string | '',
   masterLocation: string | '',
   dateSensitive: boolean | '',
-  dedicated: string | '',
+  dedicated: boolean | '',
   masterInvMapID: string | '',
   minQuantity: string | '',
   quantityAllocatedPick: string | '',
@@ -108,7 +108,7 @@ export class AddInvMapLocationComponent implements OnInit {
     userField2: '',
     masterLocation: '',
     dateSensitive: false,
-    dedicated: '',
+    dedicated: false,
     masterInvMapID: '',
     minQuantity: '',
     quantityAllocatedPick: '',
@@ -300,11 +300,11 @@ export class AddInvMapLocationComponent implements OnInit {
       cell: [this.getDetailInventoryMapData.cellSize || ''],
       velocity: [this.getDetailInventoryMapData.goldenZone || ''],
       maxQuantity: [this.getDetailInventoryMapData.maxQuantity || 0, [Validators.maxLength(9)]],
-      dedicated: [this.getDetailInventoryMapData.dedicated || ''],
+      dedicated: [this.getDetailInventoryMapData.dedicated || false],
       serialNumber: new FormControl({ value: this.getDetailInventoryMapData.serialNumber || 0, disabled: true }),
       lotNumber: new FormControl({ value: this.getDetailInventoryMapData.lotNumber || 0, disabled: true }),
       expirationDate: new FormControl({ value: this.getDetailInventoryMapData.expirationDate || '', disabled: true }),
-      unitOfMeasure: [{value:this.getDetailInventoryMapData.unitOfMeasure ,disabled:this.data.detailData?true:false}],
+      unitOfMeasure: [{value:this.getDetailInventoryMapData.unitOfMeasure ,disabled:true}],//disabled:this.data.detailData?true:false
       quantityAllocatedPick: new FormControl({ value: this.getDetailInventoryMapData.quantityAllocatedPick || 0, disabled: true }),
       quantityAllocatedPutAway: new FormControl({ value: this.getDetailInventoryMapData.quantityAllocatedPutAway || 0, disabled: true }),
       putAwayDate: new FormControl({ value: this.getDetailInventoryMapData.putAwayDate || '', disabled: true }),
@@ -347,11 +347,16 @@ export class AddInvMapLocationComponent implements OnInit {
     this.addInvMapLocation.controls['locationNumber'].setValue(value);
   }
   onSubmit(form: FormGroup) {
+    
+    let invMapIDs={
+      invMapID:this.getDetailInventoryMapData.invMapID,
+      masterInvMapID:this.getDetailInventoryMapData.masterInvMapID
+    }
       this.clickSubmit = true;
         if (this.clickSubmit) {
           if (this.data.detailData) {
             this.clickSubmit = false;
-            this.invMapService.updateInventoryMap(form.value).subscribe((res) => {
+            this.invMapService.updateInventoryMap(form.value,invMapIDs).subscribe((res) => {
               this.clickSubmit = true;
               //console.log(res);
               if (res.isExecuted) {

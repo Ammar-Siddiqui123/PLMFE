@@ -10,4 +10,5 @@ import { BaseService } from "src/app/services/base-service.service";
     constructor(http: HttpClient) {
       super(http);
     }
+    
   }

@@ -137,6 +137,23 @@ import { SrNewOrderComponent } from './system-replenishment/sr-new-order/sr-new-
 import { FilterItemNumbersComponent } from './dialogs/filter-item-numbers/filter-item-numbers.component';
 import { SrCurrentOrderComponent } from './system-replenishment/sr-current-order/sr-current-order.component';
 import { SortPipe } from '../init/sort.pipe';
+import { LaLocationAssignmentQuantitiesComponent } from './dialogs/la-location-assignment-quantities/la-location-assignment-quantities.component';
+import { MoveItemsComponent } from './move-items/move-items.component';
+import { AdminPreferencesComponent } from './admin-preferences/admin-preferences.component';
+import { WorkstationPreferencesComponent } from './admin-preferences/workstation-preferences/workstation-preferences.component';
+import { SystemPreferencesComponent } from './admin-preferences/system-preferences/system-preferences.component';
+import { SpGeneralSetupComponent } from './admin-preferences/system-preferences/sp-general-setup/sp-general-setup.component';
+import { SpLocationZonesComponent } from './admin-preferences/system-preferences/sp-location-zones/sp-location-zones.component';
+import { SpFieldNameMappingComponent } from './admin-preferences/system-preferences/sp-field-name-mapping/sp-field-name-mapping.component';
+import { SpDevicePreferenceComponent } from './admin-preferences/system-preferences/sp-device-preference/sp-device-preference.component';
+import { AddNewDeviceComponent } from './dialogs/add-new-device/add-new-device.component';
+import { SpBulkHandheldSettingComponent } from './admin-preferences/system-preferences/sp-bulk-handheld-setting/sp-bulk-handheld-setting.component';
+import { SpLightTreeSetupComponent } from './admin-preferences/system-preferences/sp-light-tree-setup/sp-light-tree-setup.component';
+import { SpScanVerificationSetupComponent } from './admin-preferences/system-preferences/sp-scan-verification-setup/sp-scan-verification-setup.component';
+import { ScanVerificationDefaultsComponent } from './dialogs/scan-verification-defaults/scan-verification-defaults.component';
+import { LocationNameComponent } from './dialogs/location-name/location-name.component';
+import { KanbanZoneAllocationConflictComponent } from './dialogs/kanban-zone-allocation-conflict/kanban-zone-allocation-conflict.component';
+import { WpWorkstationSetupComponent } from './admin-preferences/workstation-preferences/wp-workstation-setup/wp-workstation-setup.component';
 
 
 
@@ -264,6 +281,23 @@ import { SortPipe } from '../init/sort.pipe';
     FilterItemNumbersComponent,
     SrCurrentOrderComponent,
     SortPipe,
+    LaLocationAssignmentQuantitiesComponent,
+    MoveItemsComponent,
+    AdminPreferencesComponent,
+    WorkstationPreferencesComponent,
+    SystemPreferencesComponent,
+    SpGeneralSetupComponent,
+    SpLocationZonesComponent,
+    SpFieldNameMappingComponent,
+    SpDevicePreferenceComponent,
+    AddNewDeviceComponent,
+    SpBulkHandheldSettingComponent,
+    SpLightTreeSetupComponent,
+    SpScanVerificationSetupComponent,
+    ScanVerificationDefaultsComponent,
+    LocationNameComponent,
+    KanbanZoneAllocationConflictComponent,
+    WpWorkstationSetupComponent,
 
   ],
   imports: [

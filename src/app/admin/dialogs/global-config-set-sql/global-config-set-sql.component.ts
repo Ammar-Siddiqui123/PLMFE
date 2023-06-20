@@ -18,6 +18,7 @@ export class GlobalConfigSetSqlComponent implements OnInit {
   form_heading = 'SQL Auth Username and Password';
   userName: any ;
   password: any;
+  message:string='';
   connectionName:any;
   public toggle_password = true;
   constructor(
@@ -61,10 +62,18 @@ export class GlobalConfigSetSqlComponent implements OnInit {
   }
   saveLogin() {
 
+    if(this.userName===''|| this.password===''){
+      this.message='Username and/or Password are empty. This will set this connection for Windows Authentication. Press OK to set this';
+    }else{
+      this.message='Username and Password are set. This will set this connection for SQL Authentication. Press OK to set this';
+
+    }
     const dialogRef = this.dialog.open(SqlAuthConfirmationComponent, {
       height: 'auto',
       width: '560px',
-    
+      data:{
+        message:this.message
+      }
     });
     dialogRef.afterClosed().subscribe((res) => {
     

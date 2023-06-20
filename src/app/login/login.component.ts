@@ -26,10 +26,11 @@ export class LoginComponent {
   public env;
   public toggle_password = true;
   url = '';
-  isReadOnly: boolean = true;
+  isReadOnly: boolean = false;
   version : string;
   applicationData: any = [];
   isAppAccess=false;
+  info:any=  {};
   constructor(
     public loginService: LoginService,
     private router: Router,
@@ -45,7 +46,7 @@ export class LoginComponent {
   }
 
   removeReadOnly(){
-    this.isReadOnly = !this.isReadOnly;
+    // this.isReadOnly = !this.isReadOnly;
   }
 
   addLoginForm = new FormGroup({
@@ -104,6 +105,15 @@ export class LoginComponent {
 
       });
   }
+  CompanyInfo(){
+    var obj:any = { 
+    }
+    this.loginService
+    .CompanyInfo(obj)
+    .subscribe((response: any) => {
+      this.info = response.data;
+    });
+  }
   ngAfterContentInit(): void {
     // setTimeout(() => {
     //   this.addLoginForm.get("username")?.setValue('');
@@ -113,6 +123,7 @@ export class LoginComponent {
 
 
   ngOnInit() {
+    
     this.version = packJSON.version;
     localStorage.clear();
     if(this.auth.IsloggedIn()){
@@ -134,7 +145,8 @@ export class LoginComponent {
         }
       });
     }
-   
+   this.CompanyInfo();
+    
 
   }
 
@@ -182,8 +194,8 @@ export class LoginComponent {
   }
   sortAppsData() {
     this.applicationData.sort(function (a, b) {
-      var nameA = a.info.name.toLowerCase(),
-        nameB = b.info.name.toLowerCase();
+      var nameA = a.info?.name?.toLowerCase(),
+        nameB = b.info?.name?.toLowerCase();
       if (nameA < nameB)
         //sort string ascending
         return -1;
@@ -202,6 +214,14 @@ export class LoginComponent {
         permission: 'Admin Menu',
       },
       {
+        appName: 'FlowRackReplenish',
+        route: '/FlowrackReplenishment',
+        iconName: 'schema',
+        name: 'FlowRack Replenishment',
+        updateMenu: '',
+        permission: 'FlowRack Replenish',
+      },
+      {
         appName: 'Consolidation Manager',
         route: '#',
         iconName: 'insert_chart',
@@ -216,14 +236,6 @@ export class LoginComponent {
         name: 'Induction Manager',
         updateMenu: 'induction',
         permission: 'Induction Manager',
-      },
-      {
-        appName: 'FlowRackReplenish',
-        route: '#',
-        iconName: 'schema',
-        name: 'FlowRack Replenishment',
-        updateMenu: '',
-        permission: 'FlowRack Replenish',
       },
       {
         appName: 'ImportExport',
@@ -320,7 +332,7 @@ export class LoginComponent {
         this.router.navigate(['/#']);
         break;
       case 'FlowRackReplenish':
-        this.router.navigate(['/#']);
+        this.router.navigate(['/FlowrackReplenishment']);
         break;
         case 'ICSAdmin':
         this.router.navigate(['/admin']);

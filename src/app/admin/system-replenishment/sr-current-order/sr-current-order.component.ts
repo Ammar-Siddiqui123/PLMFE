@@ -26,7 +26,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 })
 export class SrCurrentOrderComponent implements OnInit {
 
-  displayedColumns2: string[] = ['Item Number', 'Trans Type', 'warehouse', 'zone', 'carousel', 'row', 'shelf', 'bin', 'cell', 'lotNumber', 'Trans Qty', 'description', 'Order Number', 'UofM', 'Batch Pick ID', 'Serial Number', 'Completed Date', 'Print Date'];
+  displayedColumns2: string[] = ['Item Number', 'Trans Type', 'warehouse', 'zone', 'carousel', 'row', 'shelf', 'bin', 'cell', 'lotNumber', 'Trans Qty', 'description', 'Order Number', 'UofM', 'Batch Pick ID', 'Serial Number', 'Completed Date', 'Print Date','action'];
   noOfPicks: number = 0;
   noOfPutAways: number = 0;
   public userData: any;
@@ -47,24 +47,24 @@ export class SrCurrentOrderComponent implements OnInit {
   filteredTableData: any = [];
   tableDataTotalCount: number = 0;
   searchColumnOptions: any = [
+    { value: 'Batch Pick ID', viewValue: 'Batch Pick ID', sortColumn: '14', key: 'batchPickID' },
+    { value: 'Bin', viewValue: 'Bin', sortColumn: '7', key: 'bin' },
+    { value: 'Carsl', viewValue: 'Carsl', sortColumn: '4', key: 'carousel' },
+    { value: 'Cell', viewValue: 'Cell', sortColumn: '8', key: 'cell' },
+    { value: 'Comp Date', viewValue: 'Comp Date', sortColumn: '16', key: 'completedDate' },
+    { value: 'Description', viewValue: 'Description', sortColumn: '11', key: 'description' },
     { value: 'Item Number', viewValue: 'Item Number', sortColumn: '0', key: 'itemNumber' },
+    { value: 'Lot Number', viewValue: 'Lot Number', sortColumn: '9', key: 'lotNumber' },
+    { value: 'Order Number', viewValue: 'Order Number', sortColumn: '12', key: 'orderNumber' },
+    { value: 'Print Date', viewValue: 'Print Date', sortColumn: '17', key: 'printDate' },
+    { value: 'Row', viewValue: 'Row', sortColumn: '5', key: 'row' },
+    { value: 'Serial Number', viewValue: 'Serial Number', sortColumn: '15', key: 'serialNumber' },
+    { value: 'Shelf', viewValue: 'Shelf', sortColumn: '6', key: 'shelf' },
+    { value: 'Trans Qty', viewValue: 'Trans Qty', sortColumn: '10', key: 'transactionQuantity' },
     { value: 'Transaction Type', viewValue: 'Trans Type', sortColumn: '1', key: 'transactionType' },
+    { value: 'UofM', viewValue: 'UofM', sortColumn: '13', key: 'unitOfMeasure' },
     { value: 'Warehouse', viewValue: 'Warehouse', sortColumn: '2', key: 'warehouse' },
     { value: 'Zone', viewValue: 'Zone', sortColumn: '3', key: 'zone' },
-    { value: 'Carsl', viewValue: 'Carsl', sortColumn: '4', key: 'carousel' },
-    { value: 'Row', viewValue: 'Row', sortColumn: '5', key: 'row' },
-    { value: 'Shelf', viewValue: 'Shelf', sortColumn: '6', key: 'shelf' },
-    { value: 'Bin', viewValue: 'Bin', sortColumn: '7', key: 'bin' },
-    { value: 'Cell', viewValue: 'Cell', sortColumn: '8', key: 'cell' },
-    { value: 'Lot Number', viewValue: 'Lot Number', sortColumn: '9', key: 'lotNumber' },
-    { value: 'Trans Qty', viewValue: 'Trans Qty', sortColumn: '10', key: 'transactionQuantity' },
-    { value: 'Description', viewValue: 'Description', sortColumn: '11', key: 'description' },
-    { value: 'Order Number', viewValue: 'Order Number', sortColumn: '12', key: 'orderNumber' },
-    { value: 'UofM', viewValue: 'UofM', sortColumn: '13', key: 'unitOfMeasure' },
-    { value: 'Batch Pick ID', viewValue: 'Batch Pick ID', sortColumn: '14', key: 'batchPickID' },
-    { value: 'Serial Number', viewValue: 'Serial Number', sortColumn: '15', key: 'serialNumber' },
-    { value: 'Comp Date', viewValue: 'Comp Date', sortColumn: '16', key: 'completedDate' },
-    { value: 'Print Date', viewValue: 'Print Date', sortColumn: '17', key: 'printDate' },
   ];
   repByDeletePayload: any = {
     identity: "",
@@ -437,13 +437,15 @@ export class SrCurrentOrderComponent implements OnInit {
 
   searchChange(event: any) {
     this.tablePayloadObj.searchColumn = event;
-    this.getSearchOptions()
+    this.getSearchOptions();
+    this.resetPagination();
+    this.newReplenishmentOrders(true);
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   resetPagination() {
     this.tablePayloadObj.start = 0;
-    this.tablePayloadObj.length = 10;
+    // this.tablePayloadObj.length = 10;
     this.paginator.pageIndex = 0;
   }
 
@@ -474,11 +476,11 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   selectOrder(element) {
-    if (this.selectedOrder.itemNumber && this.selectedOrder.itemNumber == element.itemNumber && this.selectedOrder.transactionType == element.transactionType) {
-      this.selectedOrder = {};
-    } else {
-      this.selectedOrder = element;
-    }
+    // if (this.selectedOrder.itemNumber && this.selectedOrder.itemNumber == element.itemNumber && this.selectedOrder.transactionType == element.transactionType) {
+    //   this.selectedOrder = {};
+    // } else {
+    //   this.selectedOrder = element;
+    // }
   }
 
   getSearchOptionsSubscribe: any;

@@ -1,7 +1,7 @@
 <mat-card class="mat-elevation-z g-card mt-2 mb-3">
     <div class="mb-3">
         <h2 class="card-header-title mb-0 d-flex align-items-center">
-            <div class="mat-icon-wrap me-lg-3">
+            <div class="mat-icon-wrap me-1 me-lg-3">
                 <span class="material-symbols-outlined">
                     ads_click
                 </span>
@@ -19,8 +19,8 @@
                             <input type="text" aria-label="Search" matInput disabled [(ngModel)]="numberSelectedRep">
                         </mat-form-field>
                     </div>
-                    <div class="col-xl-5">
-                        <div class="d-flex gap-20">
+                    <div class="col-xl-5 mb-3 mb-lg-0">
+                        <div class="d-flex gap-20 mb-0">
                             <mat-checkbox [checked]="kanban" color="primary" (change)="onChangeKanban($event)" [(ngModel)]="kanban">
                                 Kanban
                             </mat-checkbox>
@@ -39,8 +39,8 @@
 
             </div>
             <div class="col-xl-4 offset-xl-2">
-                <div class="d-flex gap-12 justify-content-end">
-                    <button mat-flat-button color="primary" class="btn-md px-4" (click)="createNewOrdersList()">
+                <div class="d-flex d-xl-block justify-content-end">
+                    <button style="flex:1 auto" mat-flat-button color="primary" class="btn-md float-end" (click)="createNewOrdersList()">
                         Create New Order List
                     </button>
                     <!-- <button mat-flat-button color="primary" class=" mat-button-icon">
@@ -56,11 +56,11 @@
 <mat-card class="mat-elevation-z g-card mb-3">
     <mat-card-content>
         <div class="row mb-3">
-            <div class="col-xl-7">
-                <div class="d-flex gap-12 align-items-center flex-wrap">
-                    <mat-form-field class="action-dropdown" appearance="outline">
+            <div class="col-12 col-xl-7">
+                <div class="d-xl-flex gap-12 align-items-center flex-wrap">
+                    <mat-form-field class="action-dropdown d-xl-flex d-block mb-3 mb-xl-0" appearance="outline">
                         <mat-label>Search</mat-label>
-                        <mat-select class="employees-action" (selectionChange)="searchChange($event.value)" [disabled]="tableData.length == 0 && filteredTableData.length == 0" >
+                        <mat-select class="employees-action" (selectionChange)="searchChange($event.value)" >
                             <mat-option *ngFor="let option of searchColumnOptions" [value]="option.value">{{option.viewValue}}</mat-option>
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
@@ -68,8 +68,8 @@
                         </span>
                     </mat-form-field>
 
-                    <span class="v-br">-</span>
-                    <div class="d-flex g-mini-search-box" style="flex:1">
+                    <span class="v-br d-none d-xl-block">-</span>
+                    <div class="d-xl-flex g-mini-search-box mb-3 mb-xl-0" style="flex:1">
                         <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
                         [hideRequiredMarker]="hideRequiredControl.value" (keyup.enter)="closeautoMenu()">
                             <span class="material-symbols-outlined icon-search">
@@ -99,7 +99,7 @@
 
 
                     </div>
-                    <mat-form-field class="action-dropdown" appearance="outline">
+                    <mat-form-field class="action-dropdown d-xl-flex d-block  mb-3 mb-xl-0" appearance="outline">
                         <mat-label>Show</mat-label>
                         <mat-select class="employees-action" (selectionChange)="showChange($event.value)"  >
                             <mat-option value="1">All</mat-option>
@@ -111,8 +111,8 @@
                     </mat-form-field>
                 </div>
             </div>
-            <div class="col-xl-5 d-flex flex-row-reverse">
-                <mat-form-field class="action-dropdown w-30" appearance="outline">
+            <div class="col-xl-5 d-xl-flex flex-row-reverse">
+                <mat-form-field class="action-dropdown d-xl-flex d-block w-30" appearance="outline">
                     <mat-label>Action</mat-label>
                     <mat-select class="employees-action">
                         <mat-option value="1" [disabled]="tableData.length == 0" (click)="actionChange('1')">Filter Item No.</mat-option>

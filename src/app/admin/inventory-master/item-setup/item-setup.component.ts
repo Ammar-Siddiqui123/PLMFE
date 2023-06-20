@@ -1,9 +1,11 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild,} from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CellSizeComponent } from '../../dialogs/cell-size/cell-size.component';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { VelocityCodeComponent } from '../../dialogs/velocity-code/velocity-code.component';
+import { SharedService } from 'src/app/services/shared.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 @Component({
   selector: 'app-item-setup',
   templateUrl: './item-setup.component.html',
@@ -13,14 +15,23 @@ export class ItemSetupComponent implements OnInit {
 
 
   @Input() itemSetup: FormGroup;
+  
   public userData: any;
-
-  constructor(private dialog: MatDialog) { }
+  
+  constructor(private dialog: MatDialog, private sharedService:SharedService,    private fb: FormBuilder) {
+    
+   }
 
   ngOnInit(): void {
+   
   }
 
-
+  getSelected(event){
+  
+    if(event.value===''){
+      this.itemSetup.controls['secondaryPickZone'].setValue('')
+    }
+  }
   public openCellSizeDialog(param) {
     let currentValue="";
     if(param == 'cellSize'){
@@ -55,11 +66,12 @@ export class ItemSetupComponent implements OnInit {
           'cfCellSize' : result
         });
       }
+      this.sharedService.updateInvMasterState(result,true)
     }
 
 
     })
-  }
+  } 
   public openVelocityCodeDialog(param) {
     let currentValue="";
     if(param == 'goldenZone'){
@@ -94,7 +106,7 @@ export class ItemSetupComponent implements OnInit {
           'cfVelocity' : result
         });
       }
-
+      this.sharedService.updateInvMasterState(result,true)
     }
     })
 
@@ -111,6 +123,23 @@ export class ItemSetupComponent implements OnInit {
       this.itemSetup.controls['cfMinimumQuantity'].setValue(this.itemSetup.controls['cfMaximumQuantity'].value)
     } 
   }
-
-
+  handleInputChange(event: any) {
+    this.sharedService.updateInvMasterState(event,true)
+  }
+  handleInputChangeCheckbox(event: MatCheckboxChange) {
+    this.sharedService.updateInvMasterState(event,true)
+  }
+  defaultVal(event,type){
+   
+    if(event.target.value==='' || event.target.value===undefined){
+      this.itemSetup.controls[`${type}`].setValue(0)    
+    }
+    
+  }
+  limitInputLength(event: any): void {
+    const inputValue = event.target.value;
+    if (inputValue.length > 9) {
+      event.target.value = inputValue.slice(0, 9);
+    }
+  }
 }

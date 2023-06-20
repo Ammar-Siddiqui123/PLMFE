@@ -32,6 +32,8 @@ export class SharedService {
   updateOrderStatusSelectObserver: Subject<any> = new Subject<any>();
   batchManagerObserver: Subject<any> = new Subject<any>();
   breadCrumObserver: Subject<any> = new Subject<any>();
+  invMasterParentObserver: Subject<any> = new Subject<any>();
+  devicePrefObserver: Subject<any> = new Subject<any>();
   
 
   resetSidebar() {
@@ -105,6 +107,13 @@ export class SharedService {
   updateBatchManagerObject(obj) {
     this.batchManagerObserver.next(obj);
   }
+  updateInvMasterState(obj,type) {
+    this.invMasterParentObserver.next({event:obj,isEnable:type});
+  }
+
+  updateDevicePref(obj){
+    this.devicePrefObserver.next({event:obj});
+  }
   getSidebarStatus() {
     return this.loadMenu;
   }
@@ -125,6 +134,7 @@ export class SharedService {
 
   updateLoggedInUser(userName: any, wsid: any, menu: any) {
     let appName : any;
+    if (menu.includes('/FlowrackReplenishment')) appName = 'FlowrackReplenishment';    
     if (menu.includes('/admin')) appName = 'Admin';    
     if (menu.includes('/InductionManager')) appName = 'Induction Manager';
     if (menu.includes('/ConsolidationManager')) appName = 'Consolidation Manager';

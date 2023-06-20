@@ -54,7 +54,9 @@ export class InvMapLocationService {
 
     const filtered = asArray.filter(([key, value]) =>  value != '');
 
-    let payload = Object.fromEntries(filtered);
+    
+    
+    let payload = Object.fromEntries(asArray); //  (filtered)  -> changed to (asArray) because API required all keys with empty values
 
     
     let userData = this.authService.userData();
@@ -71,8 +73,10 @@ export class InvMapLocationService {
     };
     return this.http.post<any>(`${environment.apiUrl}/Admin/InsertInventoryMap`, payload, httpOptions);
   }
-
-  public updateInventoryMap(body: any): Observable<any> {
+  updateInventoryMap(body: any,mapID?): Observable<any> {
+   body.inventoryMapID=mapID && mapID.invMapID?mapID.invMapID:0;
+   body.masterInventoryMapID=mapID && mapID.masterInvMapID?mapID.masterInvMapID:0;
+   
     const asArray = Object.entries(body);
 
     const filtered = asArray.filter(([key, value]) =>  value != '');
