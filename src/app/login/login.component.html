@@ -24,9 +24,10 @@
 
                 <div class="text-center mb-2 mt-3 pt-2">
                   <h1 class="text-32 text-tertiary-900 fw-bold pb-3">LogixPro</h1>
-                  <h3 class="text-20 text-tertiary-800 fw-bold pb-3" *ngIf="info.companyName">{{info.companyName}}</h3>
+                  <!-- <h3 class="text-20 text-tertiary-800 fw-bold pb-3" *ngIf="info.companyName">{{info.companyName}}</h3>
                   <h4 class="text-18 text-tertiary-800 fw-bold pb-3" *ngIf="info.address1">{{info.address1}}</h4>
                   <h4 class="text-18 text-tertiary-800 fw-bold pb-3" *ngIf="info?.city && info.state">{{info.city}} , {{info.state}}</h4>
+                -->
                 </div>
 
                 <form [formGroup]="addLoginForm" (ngSubmit)="loginUser()" name="addLoginForm" autocomplete="off" style="flex: 1;">
@@ -42,7 +43,7 @@
                     <mat-form-field appearance="outline" style=" width: 100%;">
                       <mat-label>Username</mat-label>
                       <input type="text" matInput placeholder="Enter Username" formControlName="username" maxlength="50"
-                        required autocomplete="off" [readonly]="isReadOnly" (focus)="removeReadOnly()" (focusout)="removeReadOnly()" />
+                        required autocomplete="off" [disabled]="isReadOnly" (focusin)="removeReadOnly()" (focusout)="removeReadOnly()" />
                       <mat-icon matPrefix style="color: #090948;">account_circle</mat-icon>
                     </mat-form-field>
                     <mat-hint class="error-message" style="color: red;font-size: 14px;"
@@ -59,8 +60,8 @@
                     <mat-form-field appearance="outline" style=" width: 100%;">
                       <mat-label>Password</mat-label>
                       <input placeholder="Password" formControlName="password" maxlength="50" matInput
-                        [type]="toggle_password ? 'password' : 'text'" autocomplete="off" [readonly]="isReadOnly"
-                        (focus)="removeReadOnly()" (focusout)="removeReadOnly()">
+                        [type]="toggle_password ? 'password' : 'text'" autocomplete="off" [disabled]="isReadOnly"
+                        (focusin)="removeReadOnly()" (focusout)="removeReadOnly()">
                       <mat-icon matPrefix style="color: #090948;">lock</mat-icon>
                       <button type="button" mat-icon-button matSuffix (click)="toggle_password = !toggle_password"
                         [attr.aria-label]="'Hide password'" [attr.aria-pressed]="toggle_password">
@@ -106,9 +107,9 @@
                 </form>
 
                 <div class="p-2 text-center mb-3" style="border-top:1px solid var(--clr-tertiary-50)">
-                <h3 class="text-18 text-tertiary-800 fw-bold mb-1">{{info.companyName}}</h3>
-                  <h4 class="text-16 text-tertiary-800 fw-bold mb-1">{{info.address1}}</h4>
-                  <h4 class="text-16 text-tertiary-800 fw-bold">{{info.city}} , {{info.state}}</h4>
+                <h3 class="text-18 text-tertiary-800 fw-bold mb-1" *ngIf="info.companyName">{{info.companyName}}</h3>
+                  <h4 class="text-16 text-tertiary-800 fw-bold mb-1" *ngIf="info.address1">{{info.address1}}</h4>
+                  <h4 class="text-16 text-tertiary-800 fw-bold"*ngIf="info.city&&info.state">{{info.city}} , {{info.state}}</h4>
                 </div>
 
                 <div class="text-center text-14">
