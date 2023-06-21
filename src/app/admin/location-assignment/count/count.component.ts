@@ -4,7 +4,7 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, TemplateRef, ViewC
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { LaLocationAssignmentQuantitiesComponent } from '../../dialogs/la-location-assignment-quantities/la-location-assignment-quantities.component';
 import { AuthService } from 'src/app/init/auth.service';
@@ -223,5 +223,27 @@ export class CountComponent implements OnInit {
     this.rightTable.filter = filterValue;
   }
   
+  @ViewChild('table1') table1: MatTable<any>;
+
+  @ViewChild('table2') table2: MatTable<any>;
+
+
+
+
+ngAfterViewChecked(): void {
+
+    if (this.table1) {
+
+        this.table1.updateStickyColumnStyles();
+
+    }
+
+    if (this.table2) {
+
+      this.table2.updateStickyColumnStyles();
+
+  }
+
+}
 
 }
