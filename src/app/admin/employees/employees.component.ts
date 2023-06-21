@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, Inject, Input } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, Inject, Input, NgZone } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -26,6 +26,8 @@ import { AuthService } from '../../../app/init/auth.service';
 import { SpinnerService } from '../../../app/init/spinner.service';
 import { MatOption } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { GroupsLookupComponent } from './groups-lookup/groups-lookup.component';
+import { EmployeesLookupComponent } from './employees-lookup/employees-lookup.component';
 
 export interface location {
   start_location: string;
@@ -43,6 +45,8 @@ export interface location {
   styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent implements OnInit {
+  @ViewChild(GroupsLookupComponent) groupsLookup: GroupsLookupComponent;
+  @ViewChild(EmployeesLookupComponent) employeesLookup: EmployeesLookupComponent;
   emp: IEmployee;
   public isLookUp: boolean = false;
   public lookUpEvnt:any=false;
@@ -112,6 +116,7 @@ bpSettingLocInp='';
     private employeeService: EmployeeService, 
     private dialog: MatDialog,
     private toastr: ToastrService, 
+    private zone: NgZone,
     public router: Router,
     public laoder: SpinnerService,
     private fb: FormBuilder
@@ -394,7 +399,8 @@ initialzeEmpForm() {
     });
     dialogRef.afterClosed().subscribe(result => {
       // console.log(result);
-      this.updateGrpTable = result.groupName;
+      this.updateGrpTable = result.groupName; 
+      this.groupsLookup.loadEmpData();
       // this.loadEmpData();
     })
 
@@ -533,16 +539,17 @@ initialzeEmpForm() {
       // this.reloadData();
       // console.log(result);
       
-      if(result.mode === 'editZone'){
-        
-        this.employee_fetched_zones.filteredData.push({zones:result.data.zone})
-        // const index = this.employee_fetched_zones.filteredData.indexOf({zones:result.oldZone});
-        const index =this.employee_fetched_zones.filteredData.findIndex(item => item.zones === result.oldZone);
+      if (result.mode === 'editZone') {
+        const newData = { zones: result.data.zone }; 
+        const index = this.employee_fetched_zones.filteredData.findIndex(item => item.zones === result.oldZone);
+      
         if (index > -1) { 
-          this.employee_fetched_zones.filteredData.splice(index, 1);
+          this.employee_fetched_zones.filteredData.splice(index, 1, newData);
+        } else { 
+          this.employee_fetched_zones.filteredData.push(newData);
         }
-        // console.log(this.employee_fetched_zones.filteredData);
-        this.zoneDataRefresh.renderRows();
+      
+        this.employee_fetched_zones = new MatTableDataSource(this.employee_fetched_zones.filteredData);
       }
 
     })
@@ -586,13 +593,12 @@ initialzeEmpForm() {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
+      debugger
         if (result !== undefined) {
-            if (result !== 'no') {
-              const enabled = "Y"
-                // console.log(result);
-            } else if (result === 'no') {
-               // console.log('User clicked no.');
-            }
+          if(result == true){
+            this.employeesLookup.EmployeeLookUp();
+          }
+            
         }
     })
 }
