@@ -74,6 +74,7 @@ PrevtabIndex:any=0;
   kitAttempts: number = 0;
   scanAttempts: number = 0;
   IstabChange:boolean=false;
+  columns:any={};
   constructor(
     private invMasterService: InventoryMasterService,
     private authService: AuthService,
@@ -214,6 +215,7 @@ PrevtabIndex:any=0;
     this.userData = this.authService.userData();
     this.initialzeIMFeilds();
     this.getInventory();
+    this.OSFieldFilterNames();
     this.route
       .paramMap
       .subscribe(params => {
@@ -456,7 +458,11 @@ PrevtabIndex:any=0;
 
     return changedProperties;
   }
-
+  public OSFieldFilterNames() { 
+    this.authService.ColumnAlias().subscribe((res: any) => {
+      this.columns = res.data;
+    })
+  }
   public getInvMasterLocations(itemNum: any, pageSize?, startIndex?, sortingColumnName?, sortingOrder?) {
     // console.log(pageSize);
 

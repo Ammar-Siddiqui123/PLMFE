@@ -123,7 +123,7 @@ export class ToteTransactionManagerComponent implements OnInit {
 
    clearInfo(type,row?) {
  let enablebatch = false
-  if(row.batchPickID != ''){
+  if(row?.batchPickID != ''){
     enablebatch = true
   }
         if (type != 'pickTote') {
@@ -134,8 +134,8 @@ export class ToteTransactionManagerComponent implements OnInit {
             data: {
               deleteAllDisable:true,
               enableClear:enablebatch,
-              batchId: row.batchPickID,
-              toteId: row.toteId,
+              batchId: row && row.batchPickID?row.batchPickID:'',
+              toteId: row && row.toteId?row.toteId:'',
               userName: this.userData.userName,
               wsid: this.userData.wsid,
               delButtonHide:true
