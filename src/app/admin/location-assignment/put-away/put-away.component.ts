@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { OrderManagerService } from 'src/app/order-manager/order-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
@@ -199,5 +199,27 @@ export class PutAwayComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.tableData2.filter = filterValue.trim().toLowerCase();
   }
+  @ViewChild('table1') table1: MatTable<any>;
+
+  @ViewChild('table2') table2: MatTable<any>;
+
+
+
+
+ngAfterViewChecked(): void {
+
+    if (this.table1) {
+
+        this.table1.updateStickyColumnStyles();
+
+    }
+
+    if (this.table2) {
+
+      this.table2.updateStickyColumnStyles();
+
+  }
+
+}
 
 }

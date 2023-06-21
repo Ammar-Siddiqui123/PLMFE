@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { LaLocationAssignmentQuantitiesComponent } from '../../dialogs/la-location-assignment-quantities/la-location-assignment-quantities.component';
 
 @Component({
@@ -258,4 +258,27 @@ export class PickComponent implements OnInit {
   }))
     
   }
+  
+  @ViewChild('table1') table1: MatTable<any>;
+
+  @ViewChild('table2') table2: MatTable<any>;
+
+
+
+
+ngAfterViewChecked(): void {
+
+    if (this.table1) {
+
+        this.table1.updateStickyColumnStyles();
+
+    }
+
+    if (this.table2) {
+
+      this.table2.updateStickyColumnStyles();
+
+  }
+
+}
 }
