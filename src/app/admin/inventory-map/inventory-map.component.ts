@@ -378,8 +378,8 @@ export class InventoryMapComponent implements OnInit {
     if (actionEvent.value === 'set_column_sq') {
 
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
-        height: '96%',
-        width: '100vw',
+        height: 'auto',
+        width: '960px',
         data: {
           mode: event,
           tableName: 'Inventory Map',

@@ -11,9 +11,7 @@ import {
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { SelectionModel } from '@angular/cdk/collections';
-import { SetColumnSeqService } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.service';
+import { Router } from '@angular/router'; 
 import { TransactionService } from '../../transaction.service';
 import { AuthService } from 'src/app/init/auth.service';
 import {
@@ -189,8 +187,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   @Input()
   set deleteEvnt(event: Event) {
     if (event) {
-      this.getContentData();
-      // console.log(this.detailDataInventoryMap);
+      this.getContentData(); 
     }
   }
 
@@ -288,8 +285,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getEleLength(ele) {
-    // console.log('=----',ele)
+  getEleLength(ele) { 
   }
   getContentDatas() {
     if (this.searchCol === 'Tote ID') {
@@ -353,6 +349,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
                 res.data.orderStatus.length > 0 &&
                 res.data.orderStatus[0].transactionType
             );
+            debugger
             this.currentStatusChange(res.data.completedStatus);
             this.totalLinesOrderChange(res.data?.totalRecords);
             this.sharedService.updateOrderStatusSelect({
@@ -417,11 +414,9 @@ async  StartConnection(){
       wsid: this.userData.wsid,
     };
     this.hubConnection.invoke('OrderStatus', this.payload)
-    .then(() => {
-      console.log('SendItems method called successfully.');
+    .then(() => { 
     })
-    .catch(error => {
-      console.error('Error while calling SendItems method:', error);
+    .catch(error => { 
     });
   
 }
@@ -430,7 +425,7 @@ ReceiveData(){
    
   this.hubConnection.on('ReceiveItems', (res:any) => {  
     if(res.data && res.data?.orderStatus.length > 0 && res.data?.orderStatus[0].orderNumber == this.orderNo){
-      
+       
    this.detailDataInventoryMap = res.data?.orderStatus;
    this.getOrderForTote = res.data?.orderNo;
    this.dataSource = new MatTableDataSource(res.data?.orderStatus); 
@@ -451,7 +446,7 @@ ReceiveData(){
      ) {
        res.data.orderStatus.find((el) => {
          return el.completedDate === ''
-           ? (res.data.completedStatus = 'In Progres.datas')
+           ? (res.data.completedStatus = 'In Progress')
            : (res.data.completedStatus = 'Completed');
        });
      }
@@ -461,6 +456,7 @@ ReceiveData(){
          res.data.orderStatus.length > 0 &&
          res.data.orderStatus[0].transactionType
      );
+     debugger
      this.currentStatusChange(res.data.completedStatus);
      this.totalLinesOrderChange(res.data?.totalRecords);
      this.sharedService.updateOrderStatusSelect({
@@ -503,8 +499,7 @@ ReceiveData(){
     this.transactionService
       .get(this.payload, '/Admin/DeleteOrder', true)
       .subscribe(
-        (res: any) => {
-          // console.log(res);
+        (res: any) => { 
         },
         (error) => {}
       );
