@@ -164,22 +164,18 @@ export class AddInvMapLocationComponent implements OnInit {
       this.shelf = this.getDetailInventoryMapData.shelf
       this.bin = this.getDetailInventoryMapData.bin
       this.itemDescription = this.getDetailInventoryMapData.description;
-      this.quantity = this.getDetailInventoryMapData.itemQuantity;
-      // console.log(this.getDetailInventoryMapData.masterInventoryMapID);
+      this.quantity = this.getDetailInventoryMapData.itemQuantity; 
 
       this.updateItemNumber();
       this.initializeDataSet();
     } else {
       this.initializeDataSet();
-    }
-    // console.log(this.data.itemList);
+    } 
 
     //  this.itemNumberList = this.data.itemList;
 
     this.invMapService.getLocZTypeInvMap().subscribe((res) => {
-      this.locZoneList = res.data;
-      // console.log("ZONES===>");
-      // console.log(res.data);
+      this.locZoneList = res.data; 
       this.filteredOptions = this.addInvMapLocation.controls['location'].valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value || '')),
@@ -358,7 +354,7 @@ export class AddInvMapLocationComponent implements OnInit {
             this.clickSubmit = false;
             this.invMapService.updateInventoryMap(form.value,invMapIDs).subscribe((res) => {
               this.clickSubmit = true;
-              //console.log(res);
+              
               if (res.isExecuted) {
                 this.toastr.success("Your details have been updated", 'Success!', {
                   positionClass: 'toast-bottom-right',
@@ -372,7 +368,7 @@ export class AddInvMapLocationComponent implements OnInit {
             this.clickSubmit = false;
             this.invMapService.createInventoryMap(form.value).subscribe((res) => {
               this.clickSubmit = true;
-              //console.log(res);
+              
               if (res.isExecuted) {
                 this.toastr.success("Your details have been added", 'Success!', {
                   positionClass: 'toast-bottom-right',
@@ -407,7 +403,7 @@ export class AddInvMapLocationComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
+      ;
 
       if (result != true && result != false) {
         this.addInvMapLocation.controls['warehouse'].setValue(result);
@@ -478,7 +474,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
     const cellSizeVal = this.cellSizeVal.nativeElement.value
     const velCodeVal = this.velCodeVal.nativeElement.value
-    // console.log(cellSizeVal);
+    
 
     this.invMapService.getItemNumDetail(payload).subscribe((res) => {
       if (res.isExecuted) {
@@ -531,7 +527,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
   @HostListener('unloaded')
   ngOnDestroy() {
-    // console.log('Items destroyed');
+    
   }
 
 }

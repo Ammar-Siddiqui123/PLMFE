@@ -120,8 +120,7 @@ bpSettingLocInp='';
     public router: Router,
     public laoder: SpinnerService,
     private fb: FormBuilder
-    ) { 
-    // console.log(router.url); 
+    ) {  
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -185,8 +184,7 @@ initialzeEmpForm() {
     this.empData = {};
     this.empData = event.userData;
     this.isLookUp = event;
-    this.lookUpEvnt=true;
-    // console.log(event.userData?.username);
+    this.lookUpEvnt=true; 
     this.grp_data = event.userData?.username
 
     this.max_orders = event.userData.maximumOrders;
@@ -196,8 +194,7 @@ initialzeEmpForm() {
     };
  
     this.employeeService.getAdminEmployeeDetails(emp_data)
-      .subscribe((response: any) => {
-        // console.log(response);
+      .subscribe((response: any) => { 
         this.isLookUp = event;
         this.lookUpEvnt=true;
         this.employee_group_allowed = response.data?.userRights
@@ -252,8 +249,7 @@ initialzeEmpForm() {
 
     }
   }
-  removePermission(event:any){
-    // console.log(this.unassignedFunctions);
+  removePermission(event:any){ 
     if(typeof(event.function) == 'string'){
       this.assignedFunctions = this.assignedFunctions.filter(name => name !== event.function);
       this.unassignedFunctions.unshift(event.function);
@@ -300,18 +296,16 @@ initialzeEmpForm() {
     this.grpData = event.groupData;
     this.isGroupLookUp = event;
     this.max_orders = 10;
-    // console.log("event", event);
+    
 
     const grp_data = {
       "userName":this.userName,
       "wsid": "TESTWSID",
       "groupName":this.grpData.groupName
 
-      };
-      // console.log("grp_data",grp_data)
+      }; 
     this.employeeService.getFunctionByGroup(grp_data)
-    .subscribe((response:any) => {
-      // console.log("function data",response);
+    .subscribe((response:any) => { 
       this.assignedFunctions = response.data?.groupFunc
       this.unassignedFunctions = response.data?.allFunc
     });
@@ -398,7 +392,7 @@ initialzeEmpForm() {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
+      ;
       this.updateGrpTable = result.groupName; 
       this.groupsLookup.loadEmpData();
       // this.loadEmpData();
@@ -419,8 +413,7 @@ initialzeEmpForm() {
       this.isTabChanged=true;
       this.demo1TabIndex = 0;
   }
-  actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
-    // console.log(event.value)
+  actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) { 
     if (event === 'edit') {
       let dialogRef = this.dialog.open(AddNewGroupComponent, {
         height: 'auto',
@@ -456,8 +449,7 @@ initialzeEmpForm() {
         matSelect.writeValue(null);
       })
     }
-    if (event === 'clone') {
-      // console.log(grp_data);
+    if (event === 'clone') { 
       let dialogRef = this.dialog.open(CloneGroupComponent, {
         height: 'auto',
         width: '480px',
@@ -537,7 +529,7 @@ initialzeEmpForm() {
     })
     dialogRef.afterClosed().subscribe(result => {
       // this.reloadData();
-      // console.log(result);
+      ;
       
       if (result.mode === 'editZone') {
         const newData = { zones: result.data.zone }; 

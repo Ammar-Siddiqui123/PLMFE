@@ -78,13 +78,10 @@ statusTab;
         }
       });
       
-      }
-      // console.log(this.breadcrumbList) 
-
+      }  
       // if(this.breadcrumbList[this.breadcrumbList.length-1].name == '/OrderStatus'){
       //   this.breadcrumbList[this.breadcrumbList.length-1].value = this.statusTab
-      // }
-      // console.log(this.breadcrumbList) 
+      // } 
      
   });
 

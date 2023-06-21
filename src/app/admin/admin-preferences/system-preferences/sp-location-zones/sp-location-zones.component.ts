@@ -121,7 +121,7 @@ export class SpLocationZonesComponent implements OnInit {
 
 
     
-    // console.log(zone)
+    
     let oldZone: any = this.duplicatelocationzone.filter((x: any) => x.ID == zone.ID)[0].zone;
     let newZone:any = zone.zone;
     let seq = zone.sequence;
@@ -148,8 +148,7 @@ export class SpLocationZonesComponent implements OnInit {
 
     let check = oldZone.toLowerCase() != newZone.toLowerCase();
     if(check){
-      let test = this.duplicatelocationzone.find((x:any)=>x.zone == newZone)
-      console.log(test)
+      let test = this.duplicatelocationzone.find((x:any)=>x.zone == newZone) 
       if(test){
         this.toastr.error(`Zone is currently set to be a duplicate. Zone will not be saved until this is fixed.`, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -174,11 +173,11 @@ export class SpLocationZonesComponent implements OnInit {
           "wsid": this.userData.wsid
         };
          
-        // console.log('checking')
+        
         this.preferencehub.get(payload,'/Admin/LocationZoneSave',true).subscribe((res=>{
           if(res.isExecuted){
             // debugger
-            // console.log(res)
+            
           }
         }))
   }
@@ -217,7 +216,7 @@ export class SpLocationZonesComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result)
+      
       if (result) {
         item.locationName = result;
         this.zoneChange(item,false);
@@ -248,7 +247,7 @@ export class SpLocationZonesComponent implements OnInit {
           "zone": zone
         }
         this.preferencehub.get(payload, '/Admin/LocationZoneDelete').subscribe((res => {
-          // console.log(res)
+          
           if (res.isExecuted) {
             this.getLocationZones()
             this.toastr.success("Deleted successfully", 'Success!', {
@@ -272,36 +271,30 @@ export class SpLocationZonesComponent implements OnInit {
       let parentzone = this.parentZones
       const isNumberExist = (item, parentzone) => {
         return parentzone.some(element => element === item);
-      };
-      console.log(isNumberExist(item, parentzone))
+      }; 
       if (isNumberExist(item, parentzone)){
-
-        console.log("The number already exists in the array.");
+ 
       }
       else{
-        this.parentZones.push(item)
-        console.log("The number does not exist in the array."); 
+        this.parentZones.push(item) 
       }
     }
     else{
 
 
-  let newArray = this.parentZones.filter(number => number != item);
-  console.log(newArray); // [ 3, 4 ]
+  let newArray = this.parentZones.filter(number => number != item); 
   this.parentZones = newArray
       
     }
   }
 
-  // DelLocationZone(zone) {
-  //   console.log(zone)
+  // DelLocationZone(zone) { 
   //   let payload = {
   //     'username': this.userData.userName,
   //     "wsid": this.userData.wsid,
   //     "zone": zone
   //   }
-  //   this.preferencehub.get(payload, '/Admin/LocationZoneDelete').subscribe((res => {
-  //     console.log(res)
+  //   this.preferencehub.get(payload, '/Admin/LocationZoneDelete').subscribe((res => { 
   //     if (res.isExecuted) {
   //       const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
   //         height: 'auto',

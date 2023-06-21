@@ -108,14 +108,13 @@ export class GenerateTransactionComponent implements OnInit {
       this.columns = res.data;
     })
   }
-  getRow(row?,type?) {
-    // console.log(this.selectedAction);
+  getRow(row?,type?) { 
     if( type != 'save'){
       this.clear();
     }
   
     this.transactionID = row.id;
-    // console.log(row);
+    
     let payLoad = {
       id: row.id,
       username: this.userData.userName,
@@ -224,8 +223,7 @@ export class GenerateTransactionComponent implements OnInit {
         itemNumber: this.itemNumber,
       },
     });
-    dialogRef.afterClosed().subscribe((res) => {
-      // console.log('---', res);
+    dialogRef.afterClosed().subscribe((res) => { 
       if (res && res.invMapID) {
         this.invMapIDget = res.invMapID;
         this.itemNumber = res.itemNumber;
@@ -457,8 +455,7 @@ export class GenerateTransactionComponent implements OnInit {
     });
   }
   
-  updateTransaction() {
-    // console.log(this.isLocation);
+  updateTransaction() { 
     
     if(this.isLocation && this.transQuantity>this.totalQuantity){
       const dialogRef = this.dialog.open(InvalidQuantityComponent, {
@@ -627,7 +624,7 @@ export class GenerateTransactionComponent implements OnInit {
         
       }
 
-      // console.log(res);
+      ;
     });
   }
 
@@ -665,7 +662,7 @@ export class GenerateTransactionComponent implements OnInit {
       this.clearMatSelectList();
       if (res.isExecuted) {
       }
-      // console.log(res);
+      ;
     });
   }
 }

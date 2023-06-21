@@ -89,8 +89,7 @@ export class AddNewEmployeeComponent implements OnInit {
       this.focusFeild.nativeElement.focus();
     }
   }
-  isEmptyPass() {
-    // console.log(this.empForm.controls['password']?.value);
+  isEmptyPass() { 
     if (this.data?.mode === 'edit') {
       if (this.empForm.controls['password']?.value === '') {
         this.isDisabledPassword = true;

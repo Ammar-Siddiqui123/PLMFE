@@ -37,8 +37,7 @@ export class WarehouseComponent implements OnInit {
 
   }
 
-  deleteWH(warehosue: any) {
-    // console.log(warehosue);
+  deleteWH(warehosue: any) { 
     if(warehosue != ''){
       let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
@@ -103,9 +102,7 @@ export class WarehouseComponent implements OnInit {
         "warehouse": warehosue,
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
-      }
-      // console.log(paylaod);
-
+      } 
       this.whService.saveWareHouse(paylaod).subscribe((res) => {
         if(res.isExecuted){
           this.toastr.success(labels.alert.success, 'Success!', {

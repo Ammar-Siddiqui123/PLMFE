@@ -125,20 +125,17 @@ export class CountComponent implements OnInit {
   locationAssignment(){
 
     let orders = this.rightTable.data.map((data) => data.orderNumber)
-    // console.log(orders)
-
+     
     let payload = {
       "transType": "count",
       "orders": orders,
       "userName" : this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.locationService.get(payload,'/Admin/LocationAssignmentOrderInsert').subscribe((res => {
-     console.log(res.data.orders,'insertion')
+    this.locationService.get(payload,'/Admin/LocationAssignmentOrderInsert').subscribe((res => { 
      if(res.isExecuted){
       let testdata = res.data.orders
-     this.rightTable.data = this.rightTable.data.filter((data) => !testdata.includes(data.orderNumber))
-     console.log(this.rightTable.data)
+     this.rightTable.data = this.rightTable.data.filter((data) => !testdata.includes(data.orderNumber)) 
      this.toastr.success(labels.alert.success, 'Success!', {
       positionClass: 'toast-bottom-right',
       timeOut: 2000
@@ -212,8 +209,7 @@ export class CountComponent implements OnInit {
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase(); 
-    this.leftTable.filter = filterValue;
-    console.log(this.leftTable.filter)
+    this.leftTable.filter = filterValue; 
   }
 
 

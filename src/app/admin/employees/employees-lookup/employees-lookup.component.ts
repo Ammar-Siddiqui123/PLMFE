@@ -54,8 +54,7 @@ EmployeeLookUp(){
   this.employeeService.getAdminEmployeeLookup(this.emp)
     .subscribe((response: AdminEmployeeLookupResponse) => {
       this.employees_res = response
-      this.employees_details_data = this.employees_res.data.employees
-      // console.log(this.employees_details_data)
+      this.employees_details_data = this.employees_res.data.employees 
       this.employee_data_source = new MatTableDataSource(this.employees_details_data);
     });
 }

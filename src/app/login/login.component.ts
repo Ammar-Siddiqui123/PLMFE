@@ -315,7 +315,7 @@ enterUserName(){
     if(this.isAppAccess){
       localStorage.setItem('isAppVerified',JSON.stringify({appName:appName,isVerified:true}))
       this.redirection(appName)
-      this.addLoginForm.reset();
+      // this.addLoginForm.reset();
       
       
     }else{
@@ -365,7 +365,7 @@ enterUserName(){
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
+      ;
 
     });
   }

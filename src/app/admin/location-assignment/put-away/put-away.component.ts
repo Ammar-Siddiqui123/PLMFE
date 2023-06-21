@@ -65,8 +65,7 @@ export class PutAwayComponent implements OnInit {
       if (res.isExecuted && res.data) {
         this.tableData1 = new MatTableDataSource(res.data);
         this.tableData1.paginator = this.paginator1;
-      } else {
-        console.log('Error', res.responseMessage);
+      } else { 
         this.tableData1 = new MatTableDataSource([]); 
       }
     });
