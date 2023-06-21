@@ -46,7 +46,8 @@ export class WarehouseComponent implements OnInit {
         autoFocus: '__non_existing_element__',
         data: {
           mode: 'delete-warehouse',
-          warehouse: warehosue
+          warehouse: warehosue,
+          action: 'delete',
           //  grp_data: grp_data
         }
       })
