@@ -60,10 +60,10 @@ export class ChangePasswordComponent implements OnInit {
           this.dialogRef.close();
         }
         else {
-          this.toastr.error(responseMessage?.toString() + '. Please contact your Administrator.', 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
+          // this.toastr.error(responseMessage?.toString() + '. Please contact your Administrator.', 'Error!', {
+          //   positionClass: 'toast-bottom-right',
+          //   timeOut: 2000
+          // });
           // this.dialogRef.close();
         }
       })

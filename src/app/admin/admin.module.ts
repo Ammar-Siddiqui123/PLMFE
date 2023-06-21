@@ -156,6 +156,8 @@ import { KanbanZoneAllocationConflictComponent } from './dialogs/kanban-zone-all
 import { WpWorkstationSetupComponent } from './admin-preferences/workstation-preferences/wp-workstation-setup/wp-workstation-setup.component';
 import { DeAllocateOrdersComponent } from './de-allocate-orders/de-allocate-orders.component';
 import { ReportsComponent } from './reports/reports.component';
+import { WpBulkZonesComponent } from './admin-preferences/workstation-preferences/wp-bulk-zones/wp-bulk-zones.component';
+import { WpPodSetupComponent } from './admin-preferences/workstation-preferences/wp-pod-setup/wp-pod-setup.component';
 
 
 
@@ -302,6 +304,8 @@ import { ReportsComponent } from './reports/reports.component';
     WpWorkstationSetupComponent,
     DeAllocateOrdersComponent,
     ReportsComponent,
+    WpBulkZonesComponent,
+    WpPodSetupComponent,
 
   ],
   imports: [
