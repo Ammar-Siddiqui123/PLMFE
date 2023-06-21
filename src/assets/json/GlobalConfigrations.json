@@ -201,7 +201,7 @@
         "Permission": "Manual Transactions"
     } ,
     {
-        "path": "/deallocate",
+        "path": "/admin/deallocate",
         "Permission": true
     } 
     
