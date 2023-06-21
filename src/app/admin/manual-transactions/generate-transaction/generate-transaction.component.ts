@@ -19,6 +19,7 @@ import { WarehouseComponent } from '../../dialogs/warehouse/warehouse.component'
 import { InvalidQuantityComponent } from '../../dialogs/invalid-quantity/invalid-quantity.component';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { AddNotesComponent } from '../../dialogs/add-notes/add-notes.component';
 
 @Component({
   selector: 'app-generate-transaction',
@@ -444,6 +445,7 @@ export class GenerateTransactionComponent implements OnInit {
         userName: this.userData.userName,
         wsid: this.userData.wsid,
         supplierID: this.supplierID,
+     
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
@@ -456,7 +458,22 @@ export class GenerateTransactionComponent implements OnInit {
       }
     });
   }
-  
+  openNotes(){
+    const dialogRef = this.dialog.open(AddNotesComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data:{
+        notes:this.notes
+      }
+    
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if(res){
+        this.notes=res
+      }
+    });
+  }
   updateTransaction() {
     // console.log(this.isLocation);
     
