@@ -206,9 +206,9 @@
             <div class="row">
                 <div class="col-xl-6">
                     <mat-form-field class="custom-form-field w-100 mb-3"
-                        appearance="outline">
+                    (click)="openNotes()"  appearance="outline">
                         <mat-label>Notes</mat-label>
-                        <input [disabled]="!item" [(ngModel)]="notes" matInput type="text" maxlength="255" value="Value">
+                        <input readonly [disabled]="!item" [(ngModel)]="notes" matInput type="text" maxlength="255" value="Value">
                         <span matSuffix>
                             <mat-icon
                                 style="color:var(--clr-tertiary-900); transform: rotate(45deg);">unfold_more</mat-icon>

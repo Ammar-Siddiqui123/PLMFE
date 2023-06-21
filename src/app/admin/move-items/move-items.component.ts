@@ -908,7 +908,7 @@ export class MoveItemsComponent implements OnInit {
 
     this.clearFields('MoveFrom');
     this.clearFields('MoveTo');
-    
+
     this.resetFromFilters();
     this.resetToFilters();
 
@@ -930,9 +930,14 @@ export class MoveItemsComponent implements OnInit {
     } else {
       value = value.substr(0, 4);
     }
-    if (value === '') {
-      value = '0';
-    }
+    // if (value === '') {
+    //   value = '0';
+    // }
     inputElement.value = value;
+  }
+  onBlurPriority(){
+  if(this.from_priority=== undefined || this.from_priority=== null){
+    this.from_priority=0;
+  }
   }
 }

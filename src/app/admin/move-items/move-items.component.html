@@ -33,7 +33,7 @@
                         <mat-form-field class="custom-form-field w-100 mb-3"
                             appearance="outline">
                             <mat-label>Priority</mat-label>
-                            <input [disabled]="isMoveQty"  [NumbersOnly]="true" #myInput (input)="restrictTo4Digits()"    [(ngModel)]="from_priority" type="number" placeholder="Search" matInput maxlength="4">
+                            <input [disabled]="isMoveQty"  [NumbersOnly]="true" #myInput (input)="restrictTo4Digits()"   (focusout)="onBlurPriority()"  [(ngModel)]="from_priority" type="number" placeholder="Search" matInput maxlength="4">
                         </mat-form-field>
                     </div>
                 </div>
@@ -222,7 +222,7 @@
                                     <mat-option *ngFor="let option of searchAutocompletItemNo"
                                         [value]="option.itemNumber" class="matAutoCompTableContent">
                                         <div class="loc_option">
-                                            <span class="searchColumn" style="width:  140px;" >{{option.itemNumber}}</span><span  style="padding: 10px 12px; border: 0; text-overflow: ellipsis; overflow: hidden; max-width: 29ch; white-space: nowrap;" [matTooltip]="option.description" matTooltipPosition="above" [matTooltipDisabled]="option.description && option.description.length>=29?false:true" >{{option.description}}</span>
+                                            <span class="searchColumn" style="width:  140px;" >{{option.itemNumber}}</span><span  style="padding: 10px 12px; border: 0; text-overflow: ellipsis; overflow: hidden; width:45%; white-space: nowrap;" [matTooltip]="option.description" matTooltipPosition="above" [matTooltipDisabled]="option.description && option.description.length>=29?false:true" >{{option.description}}</span>
                                         </div>
                                     </mat-option>
                                 </mat-autocomplete>
