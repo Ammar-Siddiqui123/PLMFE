@@ -116,7 +116,7 @@ export class GroupsLookupComponent implements OnInit {
 
   }
 
-  private loadEmpData(){
+  public loadEmpData(){
     this.emp = {
       "userName": this.userData.userName,
       "wsid": this.userData.wsid

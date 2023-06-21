@@ -42,21 +42,23 @@ export class EmployeesLookupComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.env = JSON.parse(localStorage.getItem('env') || '');
-    this.emp = {
-      "lastName": "%",
-      "userName": this.userData.userName,
-      "wsid": this.userData.wsid
-    };
-    this.employeeService.getAdminEmployeeLookup(this.emp)
-      .subscribe((response: AdminEmployeeLookupResponse) => {
-        this.employees_res = response
-        this.employees_details_data = this.employees_res.data.employees
-        // console.log(this.employees_details_data)
-        this.employee_data_source = new MatTableDataSource(this.employees_details_data);
-      });
+    this.EmployeeLookUp();
 
   }
-
+EmployeeLookUp(){
+  this.emp = {
+    "lastName": "%",
+    "userName": this.userData.userName,
+    "wsid": this.userData.wsid
+  };
+  this.employeeService.getAdminEmployeeLookup(this.emp)
+    .subscribe((response: AdminEmployeeLookupResponse) => {
+      this.employees_res = response
+      this.employees_details_data = this.employees_res.data.employees
+      // console.log(this.employees_details_data)
+      this.employee_data_source = new MatTableDataSource(this.employees_details_data);
+    });
+}
   ngAfterViewInit() {
     this.employee_data_source.sort = this.sort;
     setTimeout(()=>{
