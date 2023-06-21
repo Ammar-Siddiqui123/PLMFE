@@ -154,6 +154,8 @@ import { ScanVerificationDefaultsComponent } from './dialogs/scan-verification-d
 import { LocationNameComponent } from './dialogs/location-name/location-name.component';
 import { KanbanZoneAllocationConflictComponent } from './dialogs/kanban-zone-allocation-conflict/kanban-zone-allocation-conflict.component';
 import { WpWorkstationSetupComponent } from './admin-preferences/workstation-preferences/wp-workstation-setup/wp-workstation-setup.component';
+import { DeAllocateOrdersComponent } from './de-allocate-orders/de-allocate-orders.component';
+import { ReportsComponent } from './reports/reports.component';
 import { WpBulkZonesComponent } from './admin-preferences/workstation-preferences/wp-bulk-zones/wp-bulk-zones.component';
 import { WpPodSetupComponent } from './admin-preferences/workstation-preferences/wp-pod-setup/wp-pod-setup.component';
 
@@ -300,6 +302,8 @@ import { WpPodSetupComponent } from './admin-preferences/workstation-preferences
     LocationNameComponent,
     KanbanZoneAllocationConflictComponent,
     WpWorkstationSetupComponent,
+    DeAllocateOrdersComponent,
+    ReportsComponent,
     WpBulkZonesComponent,
     WpPodSetupComponent,
 
