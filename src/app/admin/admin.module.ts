@@ -160,6 +160,7 @@ import { WpBulkZonesComponent } from './admin-preferences/workstation-preference
 import { WpPodSetupComponent } from './admin-preferences/workstation-preferences/wp-pod-setup/wp-pod-setup.component';
 import { AddNotesComponent } from './dialogs/add-notes/add-notes.component';
 import { WpPickLevelsComponent } from './admin-preferences/workstation-preferences/wp-pick-levels/wp-pick-levels.component';
+import { WpCustomAppsComponent } from './admin-preferences/workstation-preferences/wp-custom-apps/wp-custom-apps.component';
 
 
 
@@ -310,6 +311,7 @@ import { WpPickLevelsComponent } from './admin-preferences/workstation-preferenc
     WpPodSetupComponent,
     AddNotesComponent,
     WpPickLevelsComponent,
+    WpCustomAppsComponent,
 
   ],
   imports: [
