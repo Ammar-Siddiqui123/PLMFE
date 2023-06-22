@@ -75,8 +75,7 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
       "wsid": this.userData.wsid
     }
     this.locationService.get(payload,'/Admin/PreviewLocAssignmentPickShort').subscribe((res:any)=>{
-      this.listLabel = res.data;
-      console.log(this.listLabel,'printshortage')
+      this.listLabel = res.data; 
     })
   }
 
@@ -86,8 +85,7 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
       "wsid": this.userData.wsid
     }
     this.locationService.get(payload,'/Admin/PreviewLocAssignmentPickShortFPZ').subscribe((res:any)=>{
-      this.listLabelFPZ = res.data;
-      console.log(this.listLabelFPZ,'print FPZ')
+      this.listLabelFPZ = res.data; 
     })
   }
 

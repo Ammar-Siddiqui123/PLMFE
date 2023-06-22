@@ -199,8 +199,7 @@ export class SrNewOrderComponent implements OnInit {
           // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
           // this.changeSearchOptions();
           // this.tablePayloadObj.filter = "1=1";
-        } else {
-          // console.log(res.responseMessage);
+        } else { 
           // this.toastr.error(res.responseMessage, 'Error!', {
           //   positionClass: 'toast-bottom-right',
           //   timeOut: 2000
@@ -277,8 +276,7 @@ export class SrNewOrderComponent implements OnInit {
         //     positionClass: 'toast-bottom-right',
         //     timeOut: 2000
         //   });
-        // }
-        // console.log(res.responseMessage);
+        // } 
       }
       this.newReplenishmentOrders();
     });
@@ -319,10 +317,13 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   searchChange(event: any) {
-    this.tablePayloadObj.searchColumn = event;
-    this.getSearchOptions();
-    this.resetPagination();
-    this.newReplenishmentOrders(true);
+    if(event == ""){
+      this.tablePayloadObj.searchString = "";
+    }
+      this.tablePayloadObj.searchColumn = event;
+      this.getSearchOptions();
+      this.resetPagination();
+      this.newReplenishmentOrders(true);
   }
 
   // changeSearchOptions() {
@@ -440,52 +441,54 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   processReplenishments() {
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        message: `Click OK to create replenishment orders for all selected items.`,
-      },
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result == 'Yes') {
-        let paylaod = {
-          "kanban": this.kanban,
-          "username": this.userData.userName,
-          "wsid": this.userData.wsid
+    // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    //   height: 'auto',
+    //   width: '560px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     message: `Click OK to create replenishment orders for all selected items.`,
+    //   },
+    // });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   if (result == 'Yes') {
+        
+    //   }
+    // });
+
+    let paylaod = {
+      "kanban": this.kanban,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        if(res.responseMessage == "Update Successful"){
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
         }
-        this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
-          if (res.isExecuted && res.data) {
-            if(res.responseMessage == "Update Successful"){
-              this.toastr.success(labels.alert.success, 'Success!', {
-                positionClass: 'toast-bottom-right',
-                timeOut: 2000
-              });
+        if(res.responseMessage == "Reprocess"){
+          let dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
+            height: 'auto',
+            width: '560px',
+            autoFocus: '__non_existing_element__',
+            data: {
+              message: `Replenishments finished. There are reprocess transactions due to the replenishment process. Click Ok to print a process report now.`,
+            },
+          });
+          dialogRef2.afterClosed().subscribe((result) => {
+            if (result == 'Yes') {
+              alert('The print service is currently offline');
             }
-            if(res.responseMessage == "Reprocess"){
-              let dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
-                height: 'auto',
-                width: '560px',
-                autoFocus: '__non_existing_element__',
-                data: {
-                  message: `Replenishments finished. There are reprocess transactions due to the replenishment process. Click Ok to print a process report now.`,
-                },
-              });
-              dialogRef2.afterClosed().subscribe((result) => {
-                if (result == 'Yes') {
-                  alert('The print service is currently offline');
-                }
-              });
-            }
-            this.createNewReplenishments(this.kanban);
-            this.replenishmentsProcessed.emit();
-          } else {
-            this.toastr.error(res.responseMessage, 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-          }
+          });
+        }
+        this.createNewReplenishments(this.kanban);
+        this.replenishmentsProcessed.emit();
+      } else {
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
         });
       }
     });

@@ -59,7 +59,9 @@ statusTab;
          if(element==='ImToteManager' ){
           element='ToteManager'
          }
-
+         if(element==='ccsif' ||element==='ste'  ){
+          element=element.toLocaleUpperCase();
+         }
          
          
          this.titleService.setTitle(`LogixPro  ${element.toLowerCase() !='adminprefrences'? this.capitalizeFirstLetter(element).replace(/([a-z])([A-Z])/g, "$1 $2").replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2"):'Preferences'}`);
@@ -78,13 +80,10 @@ statusTab;
         }
       });
       
-      }
-      // console.log(this.breadcrumbList) 
-
+      }  
       // if(this.breadcrumbList[this.breadcrumbList.length-1].name == '/OrderStatus'){
       //   this.breadcrumbList[this.breadcrumbList.length-1].value = this.statusTab
-      // }
-      // console.log(this.breadcrumbList) 
+      // } 
      
   });
 

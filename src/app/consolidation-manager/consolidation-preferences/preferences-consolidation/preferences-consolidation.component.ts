@@ -56,8 +56,7 @@ export class PreferencesConsolidationComponent implements OnInit {
          
   }
   
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes['pref']);
+  ngOnChanges(changes: SimpleChanges) { 
     if (changes['pref']['currentValue']) {
       this.setPreferences(changes['pref']['currentValue'])
     }

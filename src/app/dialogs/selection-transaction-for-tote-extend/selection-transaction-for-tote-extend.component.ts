@@ -225,7 +225,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         (error) => { }
       );
     } catch (error) {
-      console.log(error);
+      
     }
   }
 
@@ -318,7 +318,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       }); 
       
     } catch (error) {
-      console.log(error);
+      
     }
   }
 
@@ -492,7 +492,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       );      
 
     } catch (error) {
-      console.log(error);
+      
     }    
   }
 
@@ -736,7 +736,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               
       
     } catch (error) {
-      console.log(error);
+      
     }
   }
 
@@ -797,7 +797,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
           
           this.service.create(payload2, '/Induction/TaskComplete').subscribe(
             (res: any) => {
-              // console.log(res)
+              
               if (res.data && res.isExecuted) {
                 this.dialogRef.close("Task Completed");
                 this.toast.success(labels.alert.update, 'Success!',{

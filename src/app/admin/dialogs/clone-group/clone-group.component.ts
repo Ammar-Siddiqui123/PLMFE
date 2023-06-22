@@ -36,8 +36,7 @@ export class CloneGroupComponent implements OnInit {
 
   checkIfValid(){
     if(this.cloneForm.controls['group_name'].value.trim() === ''){
-      // this.cloneForm.controls['group_name'].setErrors({'incorrect': true});
-      // console.log(this.noWhitespaceValidator);
+      // this.cloneForm.controls['group_name'].setErrors({'incorrect': true}); 
       
     }
   }

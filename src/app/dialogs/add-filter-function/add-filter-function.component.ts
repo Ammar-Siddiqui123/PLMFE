@@ -28,7 +28,7 @@ export class AddFilterFunction implements OnInit {
 
   ngOnInit(): void {  
     this.userData = this.authService.userData();
-    // console.log(this.data)
+    
     if(this.data.savedFilter){
       this.filter_name = this.data.savedFilter;
     }
@@ -43,7 +43,7 @@ export class AddFilterFunction implements OnInit {
      
       }
       this.pPickService.update(paylaod, '/Induction/PickBatchFilterRename').subscribe(res => {
-        // console.log(res);
+        ;
         if(res.isExecuted){
           this.dialogRef.close({"oldFilter": this.data.savedFilter,"newFilter":this.filter_name,})
         }

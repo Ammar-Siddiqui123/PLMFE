@@ -196,8 +196,7 @@ export class SelectZonesComponent implements OnInit {
     this.service.create(payLoad, '/Induction/AvailableZone').subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
-        this.zoneDetails = res.data.zoneDetails;
-        // console.log('TEST');
+        this.zoneDetails = res.data.zoneDetails; 
         // console.log(this.alreadyAssignedZones);
         for(var i=0;i<this.zoneDetails.length;i++)
         {

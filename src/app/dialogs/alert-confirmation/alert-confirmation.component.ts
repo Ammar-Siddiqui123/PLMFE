@@ -24,8 +24,7 @@ export class AlertConfirmationComponent implements OnInit {
     this.isAlert=this.data && this.data.notificationPrimary;
   }
   ngAfterViewInit(){
-    this.disableCancel=this.data.disableCancel?this.data.disableCancel:false
-    console.log(this.disableCancel);
+    this.disableCancel=this.data.disableCancel?this.data.disableCancel:false;
     
   }
 }
