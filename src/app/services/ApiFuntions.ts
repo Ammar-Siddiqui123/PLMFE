@@ -1198,4 +1198,8 @@ public saveVelocityCode(body: any): Observable<any> {
 public dltVelocityCode(body: any): Observable<any> { 
   return this.ApiBase.Delete(`/Common/velocitycode`, body);
 }
+public DevicePreferencesDelete(body){
+  return this.ApiBase.Delete(`/Admin/devicepreferences`, body);
+
+}
 }
