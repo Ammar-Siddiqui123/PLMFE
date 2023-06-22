@@ -110,7 +110,7 @@ export class ApiFuntions {
     return this.ApiBase.Get("/Admin/inventorymasterlocation",body);
   }
   public DeleteItem(body:any):  Observable<any> {
-    return this.ApiBase.Delete("/Admin/item",body);
+    return this.ApiBase.Post("/Admin/itemdelete",body);
   }
   public UpdateInventoryMasterOTQuarantine(body:any):  Observable<any> {
     return this.ApiBase.Update("/Admin/inventorymasterotquarantine",body);
@@ -140,7 +140,7 @@ export class ApiFuntions {
     return this.ApiBase.Update("/common/category",body);
   }
   public   dltCategory(body:any):  Observable<any> {
-    return this.ApiBase.Delete("/common/category",body);
+    return this.ApiBase.Post("/common/category",body);
   }
   public   getUnitOfMeasure():  Observable<any> {
     return this.ApiBase.Get("/common/unitofmeasure");
@@ -164,7 +164,7 @@ export class ApiFuntions {
     return this.ApiBase.Update("/Admin/scancodes",body);
   }
   public  DeleteScanCode(body:any):  Observable<any> {
-    return this.ApiBase.Delete("/Admin/scancode",body);
+    return this.ApiBase.Post("/Admin/scancodedelete",body);
   }
   public InsertScanCodes(body:any):  Observable<any> {
     return this.ApiBase.Post("/Admin/scancodes",body);
@@ -188,7 +188,7 @@ export class ApiFuntions {
     return this.ApiBase.Get("/Admin/batchesdeletedrop",body);
   }
   public BatchDeleteAll(body:any):  Observable<any> {
-    return this.ApiBase.Delete("/Admin/batch",body);
+    return this.ApiBase.Post("/Admin/batchdelete",body);
   }
   public PickToteIDUpdate(body:any):  Observable<any> {
     return this.ApiBase.Update("/Admin/picktoteid",body);
@@ -326,7 +326,7 @@ export class ApiFuntions {
     return this.ApiBase.Post("/OrderManager/releaseorders",body);
   }
   public OrderManagerTempDelete(body:any): Observable<any> { 
-    return this.ApiBase.Post("/OrderManager/temp",body);
+    return this.ApiBase.Delete("/OrderManager/temp",body);
   }
   public OrderManagerMenuIndex(): Observable<any> { 
     return this.ApiBase.Get("/OrderManager/menuindex");
@@ -679,7 +679,7 @@ export class ApiFuntions {
     return this.ApiBase.Post("/Consolidation/verifyitems",body); 
   }
   public UnVerifyAll(body:any): Observable<any> { 
-    return this.ApiBase.Delete("/Consolidation/verifyitemsdelete",body); 
+    return this.ApiBase.Post("/Consolidation/verifyitemsdelete",body); 
   }
   public VerifyItemPost(body:any): Observable<any> { 
     return this.ApiBase.Post("/Consolidation/verifyitem",body); 
@@ -991,7 +991,7 @@ public DeleteOrderStatus(Body: any ): Observable<any> {
   return this.ApiBase.Post(`/Admin/orderstatus`, Body);
 } 
 public CarrierDelete(Body: any ): Observable<any> {
-  return this.ApiBase.Delete(`/Consolidation/carriers`, Body);
+  return this.ApiBase.Delete(`/Consolidation/carrier`, Body);
 } 
 public TransactionHistoryTable(Body: any ): Observable<any> {
   return this.ApiBase.Get(`/Admin/transactionhistory`, Body);
@@ -1179,7 +1179,7 @@ public dltWareHouse(body: any): Observable<any> {
 }
  
 public deleteInventoryMap(reqPaylaod:any): Observable<any>{ 
-  return this.ApiBase.Post(`/Admin/DeleteInventoryMap`, reqPaylaod);
+  return this.ApiBase.Delete(`/Admin/inventorymap`, reqPaylaod);
 }
 
 public quarantineInventoryMap(reqPaylaod:any): Observable<any>{ 

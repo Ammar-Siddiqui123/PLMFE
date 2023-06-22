@@ -1,9 +1,9 @@
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { Router } from "angular-routing";
-import { ToastrService } from "ngx-toastr";
-import { ConsolidationManagerService } from "../consolidation-manager.service";
+import { ToastrService } from "ngx-toastr"; 
 import { AuthService } from "src/app/init/auth.service";
 import { Component, Inject, OnInit } from "@angular/core";
+import { ApiFuntions } from "src/app/services/ApiFuntions";
 
 @Component({
     template: ''
@@ -31,8 +31,8 @@ export class ItemSelected implements OnInit {
         {key: '6', value: 'Tote ID'},
       ];
     constructor(private dialog: MatDialog, private toastr: ToastrService,
-        private router: Router, private consolidationHub: ConsolidationManagerService, private authService: AuthService,
-        @Inject(MAT_DIALOG_DATA) public data: any,) { }
+        private router: Router,   private authService: AuthService,private Api:ApiFuntions,
+        @Inject(MAT_DIALOG_DATA) public data: any) { }
 
     ngOnInit(): void {
         
@@ -55,7 +55,7 @@ export class ItemSelected implements OnInit {
             "wsid": this.userData.wsid
         }
 
-        this.consolidationHub.get(payload ,'/Consolidation/ItemModelData').subscribe((res=>{
+        this.Api.ItemModelData(payload).subscribe((res=>{
             // console.log(res)
 
             this.itemSelectTable = res;
@@ -81,7 +81,7 @@ export class ItemSelected implements OnInit {
                 "username": this.userData.userName,
                 "wsid": this.userData.wsid
             }
-            this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res: any) => {
+            this.Api.VerifyItemPost(payload).subscribe((res: any) => {
                 // console.log(res);
                 if (!res.isExecuted) {
                     this.toastr.error(res.responseMessage, 'Error!', {
@@ -119,7 +119,7 @@ export class ItemSelected implements OnInit {
                     "wsid": this.userData.wsid
                 }
 
-                this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res: any) => {
+                this.Api.VerifyItemPost(payload).subscribe((res: any) => {
                     // console.log(res);
                     if (!res.isExecuted) {
                         this.toastr.error(res.responseMessage, 'Error!', {
