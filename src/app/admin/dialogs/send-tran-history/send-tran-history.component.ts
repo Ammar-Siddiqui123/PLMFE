@@ -30,14 +30,14 @@ export class SendTranHistoryComponent implements OnInit {
       wsid: this.dialogData.wsid,
     };
     this.transactionService.get(payload, '/Admin/SendCompletedToTH').subscribe(
-      (res: any) => {
+      (res: any) => { 
         if (res.isExecuted) {
           this.toastr.success(labels.alert.success, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000,
           });
           this.dialogRef.close({ isExecuted: true });
-        } else {
+        } else { 
           this.toastr.error(labels.alert.went_worng, 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000,

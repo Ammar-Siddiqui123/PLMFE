@@ -4,7 +4,7 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, TemplateRef, ViewC
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { LaLocationAssignmentQuantitiesComponent } from '../../dialogs/la-location-assignment-quantities/la-location-assignment-quantities.component';
 import { AuthService } from 'src/app/init/auth.service';
@@ -125,20 +125,17 @@ export class CountComponent implements OnInit {
   locationAssignment(){
 
     let orders = this.rightTable.data.map((data) => data.orderNumber)
-    // console.log(orders)
-
+     
     let payload = {
       "transType": "count",
       "orders": orders,
       "userName" : this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.locationService.get(payload,'/Admin/LocationAssignmentOrderInsert').subscribe((res => {
-     console.log(res.data.orders,'insertion')
+    this.locationService.get(payload,'/Admin/LocationAssignmentOrderInsert').subscribe((res => { 
      if(res.isExecuted){
       let testdata = res.data.orders
-     this.rightTable.data = this.rightTable.data.filter((data) => !testdata.includes(data.orderNumber))
-     console.log(this.rightTable.data)
+     this.rightTable.data = this.rightTable.data.filter((data) => !testdata.includes(data.orderNumber)) 
      this.toastr.success(labels.alert.success, 'Success!', {
       positionClass: 'toast-bottom-right',
       timeOut: 2000
@@ -212,8 +209,7 @@ export class CountComponent implements OnInit {
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase(); 
-    this.leftTable.filter = filterValue;
-    console.log(this.leftTable.filter)
+    this.leftTable.filter = filterValue; 
   }
 
 
@@ -223,5 +219,27 @@ export class CountComponent implements OnInit {
     this.rightTable.filter = filterValue;
   }
   
+  @ViewChild('table1') table1: MatTable<any>;
+
+  @ViewChild('table2') table2: MatTable<any>;
+
+
+
+
+ngAfterViewChecked(): void {
+
+    if (this.table1) {
+
+        this.table1.updateStickyColumnStyles();
+
+    }
+
+    if (this.table2) {
+
+      this.table2.updateStickyColumnStyles();
+
+  }
+
+}
 
 }

@@ -151,6 +151,14 @@ import { SpBulkHandheldSettingComponent } from './admin-preferences/system-prefe
 import { SpLightTreeSetupComponent } from './admin-preferences/system-preferences/sp-light-tree-setup/sp-light-tree-setup.component';
 import { SpScanVerificationSetupComponent } from './admin-preferences/system-preferences/sp-scan-verification-setup/sp-scan-verification-setup.component';
 import { ScanVerificationDefaultsComponent } from './dialogs/scan-verification-defaults/scan-verification-defaults.component';
+import { LocationNameComponent } from './dialogs/location-name/location-name.component';
+import { KanbanZoneAllocationConflictComponent } from './dialogs/kanban-zone-allocation-conflict/kanban-zone-allocation-conflict.component';
+import { WpWorkstationSetupComponent } from './admin-preferences/workstation-preferences/wp-workstation-setup/wp-workstation-setup.component';
+import { DeAllocateOrdersComponent } from './de-allocate-orders/de-allocate-orders.component';
+import { ReportsComponent } from './reports/reports.component';
+import { WpBulkZonesComponent } from './admin-preferences/workstation-preferences/wp-bulk-zones/wp-bulk-zones.component';
+import { WpPodSetupComponent } from './admin-preferences/workstation-preferences/wp-pod-setup/wp-pod-setup.component';
+import { AddNotesComponent } from './dialogs/add-notes/add-notes.component';
 
 
 
@@ -292,6 +300,14 @@ import { ScanVerificationDefaultsComponent } from './dialogs/scan-verification-d
     SpLightTreeSetupComponent,
     SpScanVerificationSetupComponent,
     ScanVerificationDefaultsComponent,
+    LocationNameComponent,
+    KanbanZoneAllocationConflictComponent,
+    WpWorkstationSetupComponent,
+    DeAllocateOrdersComponent,
+    ReportsComponent,
+    WpBulkZonesComponent,
+    WpPodSetupComponent,
+    AddNotesComponent,
 
   ],
   imports: [

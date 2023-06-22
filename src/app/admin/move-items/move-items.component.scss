@@ -55,3 +55,21 @@ table{
   }
 }
 
+.stickyHeader{
+  position: sticky;
+  top: 0px;
+  z-index: 200000000;
+}
+
+
+.action-clickable-table .mat-row{
+  position: relative;
+}
+.toolTipConf{
+  padding: 10px 12px;
+   border: 0; 
+   text-overflow: ellipsis;
+    overflow: hidden; 
+    max-width: 23ch;
+     white-space: nowrap;
+}

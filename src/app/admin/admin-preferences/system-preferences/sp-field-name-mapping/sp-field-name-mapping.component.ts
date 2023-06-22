@@ -23,9 +23,7 @@ export class SpFieldNameMappingComponent implements OnInit {
       this.columns[item] = null;
     }
   }
-  ngOnDestroy(){  
-    this.FieldNameSave();
-  }
+   
   public OSFieldFilterNames() { 
     this.authService.ColumnAlias().subscribe((res: any) => {
       this.columns = res.data;
@@ -42,9 +40,25 @@ export class SpFieldNameMappingComponent implements OnInit {
       "username":  this.userData.userName,
       "wsid":this.userData.wsid
     };
-    this.authService.FieldNameSave(payload).subscribe((res: any) => {
-      this.columns = res.data;
+    this.authService.FieldNameSave(payload).subscribe((res: any) => {   
     })
+  }
+  
+  labelSet(input: string): string {
+    const formattedText = this.capitalizeFirstAlpha(input).replace(/([A-Z])/g, ' $1');
+    return formattedText.trim();
+  }
+  capitalizeFirstAlpha(input: string): string {
+    const firstAlphaIndex = input.search(/[a-zA-Z]/);
+  
+    if (firstAlphaIndex === -1) {
+      return input;
+    }
+  
+    const firstAlpha = input.charAt(firstAlphaIndex).toUpperCase();
+    const capitalizedString = input.slice(0, firstAlphaIndex) + firstAlpha + input.slice(firstAlphaIndex + 1);
+  
+    return capitalizedString;
   }
   
 }

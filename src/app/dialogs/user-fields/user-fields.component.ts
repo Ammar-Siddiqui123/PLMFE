@@ -44,7 +44,7 @@ export class UserFieldsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // console.log(this.data);
+    ;
 
     this.userData = this.authService.userData();
     this.setValues();
@@ -123,7 +123,7 @@ export class UserFieldsComponent implements OnInit {
     //       (error) => { }
     //     );
     //   } catch (error) {
-    //     console.log(error);
+    //     
     //   }
     // }
 

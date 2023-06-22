@@ -95,8 +95,7 @@ export class GroupAllowedComponent implements OnInit {
       
     }
   }
-  onSend(form: any) {
-    // console.log(this.data.grp_data);
+  onSend(form: any) { 
     let payload = {
       "groupname": form.value.controlName,
       "username": this.data.grp_data,

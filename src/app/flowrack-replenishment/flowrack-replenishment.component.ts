@@ -51,13 +51,14 @@ export class FlowrackReplenishmentComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authservice.userData()
     this.cartonFlow()
+    
   }
 
 
   values(event) {
   //  debugger
     this.itemLocation = this.autocompleteTrigger.activeOption?.value.location;
-    this.itemQty = this.autocompleteTrigger.activeOption?.value.itemQuantity;
+    // this.itemQty = this.autocompleteTrigger.activeOption?.value.itemQuantity;
  
   }
 
@@ -66,25 +67,27 @@ export class FlowrackReplenishmentComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.flowrackHub.getAll('/FlowRackReplenish/wslocation', payload).subscribe((res) => {
-      // console.log(res)
+      
       this.zone = res.data == 'No'||res.data == ''||res.data == null ? 'This workstation is not assigned to a zone' : res.data
-      // console.log(res)
+      
     })
   }
 
   updateQty(val) {
-    
+    // debugger
     // console.log(val)
-    if (val !== 0) {
+    if (val !== 0 &&val !=null) {
       this.submitBtnDisplay = false;
       this.itemQtyFocus.nativeElement.focus()
       this.calculator = false
+      this.itemQty = val.toString()
+
     }
-    if (val === 0 || val === '') {
-      this.submitBtnDisplay = true;
+    if (val == 0 ) {
+      this.submitBtnDisplay = false;
       this.calculator = false
     }
-    if (val == '') {
+    if (val == null) {
       this.submitBtnDisplay = true;
       this.calculator = false
     }
@@ -125,8 +128,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
     this.itemLocation = '';
     setTimeout(() => { 
       this.itemLocation = event.option.value.location; 
-      this.itemQty = Number(event.option.value.itemQuantity)
-      // console.log(event.option.value.itemQuantity)
+      // this.itemQty = Number(event.option.value.itemQuantity) 
       this.onLocationSelected(this.itemLocation)
     }, 1);
   }
@@ -154,7 +156,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
                 "wsid": this.userData.wsid
               }
               this.flowrackHub.getAll('/FlowRackReplenish/openlocation', payload).subscribe((res => {
-                // console.log(res)
+                
                 if (res.data.length < 1) {
                   this.toastr.error("There are no open locations.", 'Error!', {
                     positionClass: 'toast-bottom-right',
@@ -203,18 +205,23 @@ export class FlowrackReplenishmentComponent implements OnInit {
 
     }
     if(event.keyCode == 8){
-      this.itemnumscan = '';
+      // debugger
+      // this.itemnumscan = ''; 
+      if(!this.LocationRow){
+        this.itemnumscan = '';
+      }
     }
   }
 
   onLocationSelected(location) {
+    debugger
     let payload = {
       "itemNumber": this.itemnumscan,
       "Input": this.itemLocation,
       "wsid": this.userData.wsid,
     }
     this.flowrackHub.getAll('/FlowRackReplenish/verifyitemlocation', payload).subscribe((res => {
-      // console.log(res)
+      
       if (res.data) {
         this.itemQtyRow = false;
         this.calculator = false
@@ -224,7 +231,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
         this.autocompleteTrigger.closePanel()
         this.clearLocationField()
         this.LocationRow = true;
-        this.autoFocusField.nativeElement.focus()
+        // this.autoFocusField.nativeElement.focus()
         this.toastr.error("Location Unavailable.", 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
@@ -235,7 +242,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
   ngAfterViewInit() {
     this.getAppLicense();  
   }
-  openCal() {
+  openCal() { 
     const dialogRef = this.dialog.open(FrNumpadComponent, {
       width: '480px',
       minWidth: '480px',
@@ -245,9 +252,9 @@ export class FlowrackReplenishmentComponent implements OnInit {
       }
    
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      this.itemQty = !result ? '' : result;
-      this.submitBtnDisplay = !result ? true : false;
+    dialogRef.afterClosed().subscribe((result) => { 
+      this.itemQty = !result ? this.itemQty : result;
+      this.submitBtnDisplay = !this.itemQty ? true : false;
       this.autocompleteTrigger.closePanel()
       setTimeout(() => {
         this.itemQtyFocus.nativeElement.focus();
@@ -300,8 +307,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
       });
     }
 
-    else if (this.itemQty == '') {
-      // console.log('empty')
+    else if (this.itemQty == '') { 
       this.toastr.error("Please enter a quantity.", 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
@@ -316,9 +322,9 @@ export class FlowrackReplenishmentComponent implements OnInit {
         "Quantity": this.itemQty,
         "wsid": this.userData.wsid,
       }
-      // console.log(payload)
+      
       this.flowrackHub.getAll('/FlowRackReplenish/verifyitemquantity', payload).subscribe((res => {
-        // console.log(res)
+        
         if (res.data) {
           let payload = {
             "itemNumber": this.itemnumscan,
@@ -328,8 +334,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
           }
 
           this.flowrackHub.put(payload, '/FlowRackReplenish/itemquantity').subscribe((res => {
-            if (res.isExecuted) {
-              // console.log('added')
+            if (res.isExecuted) { 
               this.toastr.success('Item Quantity Added', 'Success!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000,

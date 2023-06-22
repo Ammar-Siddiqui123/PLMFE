@@ -3,7 +3,7 @@
 
     <div class="row" style="display: flex;
     justify-content: space-between;">
-      <div class="col-md-4 mb-3">
+      <div class="col-lg-4 mb-3">
         <mat-form-field class="filter w-100 stats-filters" appearance="outline">
           <mat-label>Unit Cost</mat-label>
             <mat-icon style="margin-right: 15px;" matPrefix >attach_money</mat-icon>
@@ -12,14 +12,14 @@
         </mat-form-field>
       </div>
 
-        <div class="col-md-4 mb-3">
+        <div class="col-lg-4 mb-3">
             <mat-form-field class="filter w-100 stats-filters" appearance="outline">
               <mat-label>Supplier ID</mat-label>
               <input (input)="handleInputChange($event)" matInput type="text" class="custom-input-number" formControlName="supplierItemID"  maxlength="50">
             </mat-form-field>
           </div>
 
-          <div class="col-md-4 mb-3">
+          <div class="col-lg-4 mb-3">
             <mat-form-field class="filter w-100 stats-filters" appearance="outline">
               <mat-label>Manufacturer ID</mat-label>
               <input (input)="handleInputChange($event)" matInput type="text" class="custom-input-number" formControlName="manufacturer"  maxlength="50">
@@ -27,7 +27,7 @@
           </div>
     </div>
     <div class="row">
-        <div class="col-md-12 mb-3">
+        <div class="col-lg-12 mb-3">
             <mat-form-field class="filter w-100 stats-filters" appearance="outline">
               <mat-label>Special Features</mat-label>
               <textarea (input)="handleInputChange($event)" matInput type="text" class="custom-input-number" formControlName="specialFeatures"  maxlength="255">

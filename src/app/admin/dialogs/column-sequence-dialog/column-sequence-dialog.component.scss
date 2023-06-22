@@ -11,3 +11,8 @@
     background: rgb(216, 215, 215);
     border-radius: 10px;
 }
+@media screen and (max-width: 769px) {
+button.restore-to-default-btn {
+    margin-left: 2px !important;
+}
+}

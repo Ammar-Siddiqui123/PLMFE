@@ -19,6 +19,7 @@ import { WarehouseComponent } from '../../dialogs/warehouse/warehouse.component'
 import { InvalidQuantityComponent } from '../../dialogs/invalid-quantity/invalid-quantity.component';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { AddNotesComponent } from '../../dialogs/add-notes/add-notes.component';
 
 @Component({
   selector: 'app-generate-transaction',
@@ -30,7 +31,7 @@ export class GenerateTransactionComponent implements OnInit {
   @ViewChild('publicSearchBox') searchBoxField: ElementRef;
 
   selectedAction='';
-  
+  columns:any = {};
   invMapIDget;
   transactionID;
   selectedOrder;
@@ -92,6 +93,7 @@ export class GenerateTransactionComponent implements OnInit {
       .subscribe((value) => {
         this.autocompleteSearchColumn();
       });
+      this.OSFieldFilterNames();
   }
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
@@ -102,14 +104,18 @@ export class GenerateTransactionComponent implements OnInit {
   clearMatSelectList(){
     this.openAction.options.forEach((data: MatOption) => data.deselect());
   }
-  getRow(row?,type?) {
-    // console.log(this.selectedAction);
+  public OSFieldFilterNames() { 
+    this.authService.ColumnAlias().subscribe((res: any) => {
+      this.columns = res.data;
+    })
+  }
+  getRow(row?,type?) { 
     if( type != 'save'){
       this.clear();
     }
   
     this.transactionID = row.id;
-    // console.log(row);
+    
     let payLoad = {
       id: row.id,
       username: this.userData.userName,
@@ -218,8 +224,7 @@ export class GenerateTransactionComponent implements OnInit {
         itemNumber: this.itemNumber,
       },
     });
-    dialogRef.afterClosed().subscribe((res) => {
-      // console.log('---', res);
+    dialogRef.afterClosed().subscribe((res) => { 
       if (res && res.invMapID) {
         this.invMapIDget = res.invMapID;
         this.itemNumber = res.itemNumber;
@@ -438,6 +443,7 @@ export class GenerateTransactionComponent implements OnInit {
         userName: this.userData.userName,
         wsid: this.userData.wsid,
         supplierID: this.supplierID,
+     
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
@@ -450,9 +456,23 @@ export class GenerateTransactionComponent implements OnInit {
       }
     });
   }
-  
-  updateTransaction() {
-    // console.log(this.isLocation);
+  openNotes(){
+    const dialogRef = this.dialog.open(AddNotesComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data:{
+        notes:this.notes
+      }
+    
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if(res){
+        this.notes=res
+      }
+    });
+  }
+  updateTransaction() { 
     
     if(this.isLocation && this.transQuantity>this.totalQuantity){
       const dialogRef = this.dialog.open(InvalidQuantityComponent, {
@@ -621,7 +641,7 @@ export class GenerateTransactionComponent implements OnInit {
         
       }
 
-      // console.log(res);
+      ;
     });
   }
 
@@ -659,7 +679,7 @@ export class GenerateTransactionComponent implements OnInit {
       this.clearMatSelectList();
       if (res.isExecuted) {
       }
-      // console.log(res);
+      ;
     });
   }
 }

@@ -199,8 +199,7 @@ export class SrNewOrderComponent implements OnInit {
           // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
           // this.changeSearchOptions();
           // this.tablePayloadObj.filter = "1=1";
-        } else {
-          // console.log(res.responseMessage);
+        } else { 
           // this.toastr.error(res.responseMessage, 'Error!', {
           //   positionClass: 'toast-bottom-right',
           //   timeOut: 2000
@@ -277,8 +276,7 @@ export class SrNewOrderComponent implements OnInit {
         //     positionClass: 'toast-bottom-right',
         //     timeOut: 2000
         //   });
-        // }
-        // console.log(res.responseMessage);
+        // } 
       }
       this.newReplenishmentOrders();
     });

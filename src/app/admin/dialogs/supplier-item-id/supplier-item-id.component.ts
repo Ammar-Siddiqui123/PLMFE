@@ -80,8 +80,7 @@ export class SupplierItemIdComponent implements OnInit {
     //       if(res && res.data){
     //         this.setLocationByItemList=res.data.map((item)=>{
     //           return {invMapID:item.invMapID,select:`${item.itemQty}@${item.locationNumber}`}
-    //         })
-    //         console.log(this.setLocationByItemList);
+    //         }) 
     //       }
     //       // this.searchAutocompleteItemNum = res.data;
     //     },

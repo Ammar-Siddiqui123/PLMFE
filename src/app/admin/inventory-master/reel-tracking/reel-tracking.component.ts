@@ -30,9 +30,7 @@ export class ReelTrackingComponent implements OnInit {
   @Input() events: Observable<String>;
   private eventsSubscription: Subscription;
   ngOnInit(): void {
-    this.userData = this.authService.userData();
-    // console.log(this.userData)
-    // console.log(this.reelTracking.controls['minimumRTSReelQuantity'].value)
+    this.userData = this.authService.userData(); 
     this.eventsSubscription = this.events.subscribe((val) => {
       if(val){
         this.updateReelQty();
@@ -60,11 +58,10 @@ export class ReelTrackingComponent implements OnInit {
  }
   this.invMasterService.update(payload,'/Admin/UpdateReelQuantity').subscribe((res:any)=>{
 
-    // console.log(res)
+    
     if(res.isExecuted){
       this.sharedService.updateInvMasterState(event,true)
-      // console.log(res)
-      // console.log(res.responseMessage)
+       
       if(event.checked){
         this.toastr.success(res.responseMessage, 'Success!', {
           positionClass: 'toast-bottom-right',
@@ -75,7 +72,7 @@ export class ReelTrackingComponent implements OnInit {
       this.btnDisabled = false;
   }
   else if (res.responseMessage != 'Update Successful'){
-    // console.log(res)
+    
     this.toastr.error("Changes not saved!  Please reenter the information.", 'Error!', {
       positionClass: 'toast-bottom-right',
       timeOut: 2000
@@ -97,8 +94,7 @@ export class ReelTrackingComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        
-        // console.log(result.thresholdQty)
+         
 
         let payload = {
           rtsAmount: result.minDollarRTS,
@@ -107,7 +103,7 @@ export class ReelTrackingComponent implements OnInit {
           wsid: this.userData.wsid
         }
         this.invMasterService.update(payload,'/Admin/UpdateReelAll').subscribe((res:any)=>{
-          // console.log(res);
+          ;
 
           if(res.isExecuted){
 
@@ -118,7 +114,7 @@ export class ReelTrackingComponent implements OnInit {
            }
 
             this.invMasterService.get(payload2,'/Admin/RefreshRTS').subscribe((res:any)=>{
-              // console.log(res)
+              
               if (res.isExecuted) {
                 this.reelTracking.patchValue({
                   'minimumRTSReelQuantity' : res.data[0]

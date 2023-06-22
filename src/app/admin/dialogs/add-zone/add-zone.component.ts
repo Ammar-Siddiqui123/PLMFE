@@ -20,7 +20,7 @@ export class AddZoneComponent implements OnInit {
   zone = new FormControl('');
   fetchedZones:any;
   all_zones: any = this.data.allZones;
-  filteredOptions: Observable<string[]>;
+  filteredOptions: Observable<any>;
   addZoneForm: FormGroup;
   isValid = false;
   public editZoneName: any;
@@ -40,6 +40,8 @@ export class AddZoneComponent implements OnInit {
     this.data?.mode === 'edit-zone' ? this.form_heading = 'Edit Zone' : 'Update Zone';
     this.data?.mode === 'edit-zone' ? this.form_btn_label = 'Update' : 'Add';
     this.fetchedZones=this.data?.fetchedZones;
+    
+    this.editZoneName=this.data?.fetchedZones;
 
     this.initialzeEmpForm();
     this.filteredOptions = this.addZoneForm.controls['zoneList'].valueChanges.pipe(

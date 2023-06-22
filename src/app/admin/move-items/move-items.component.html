@@ -4,7 +4,7 @@
             <mat-card-content>
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
-                        <div class="mat-icon-wrap me-lg-3">
+                        <div class="mat-icon-wrap me-lg-3 me-2">
                             <span class="material-symbols-outlined">
                                 analytics
                             </span>
@@ -21,7 +21,7 @@
                             <input type="text" placeholder="Search" matInput maxlength="255">
                         </mat-form-field> -->
 
-                        <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                        <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
                             <mat-label>Required Date</mat-label>
                             <input matInput [value]="reqDate" [(ngModel)]="reqDate" [matDatepicker]="requiredDate"
                                 >
@@ -30,16 +30,16 @@
                         </mat-form-field>
                     </div>
                     <div class="col-xl-6">
-                        <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"
+                        <mat-form-field class="custom-form-field w-100 mb-3"
                             appearance="outline">
                             <mat-label>Priority</mat-label>
-                            <input [disabled]="isMoveQty"  [NumbersOnly]="true" [(ngModel)]="from_priority" type="number" placeholder="Search" matInput maxlength="255">
+                            <input [disabled]="isMoveQty"  [NumbersOnly]="true" #myInput (input)="restrictTo4Digits()"   (focusout)="onBlurPriority()"  [(ngModel)]="from_priority" type="number" placeholder="Search" matInput maxlength="4">
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="row row-flex align-items-center">
                     <div class="col-xl-6">
-                        <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"
+                        <mat-form-field class="custom-form-field w-100 mb-3"
                             appearance="outline">
                             <mat-label>Move Qty</mat-label>
                             <input [disabled]="isMoveQty" [NumbersOnly]="true" [(ngModel)]="from_itemQuantity" type="number" placeholder="Search" matInput maxlength="255">
@@ -53,116 +53,116 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-xl-6">
+                    <div class="col-xl-6 mb-3">
                         <div class="d-flex justify-content-between align-items-center flex-wrap">
                             <mat-label class="bold mb-2">Move From</mat-label>
                             <div class="label label-yellow px-2 mb-2"  *ngIf="MoveFromDedicated!=''">{{MoveFromDedicated}} </div>
                         </div>
                         <div class="card p-2">
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2"
+                            <mat-form-field class="custom-form-field w-100 mb-2"
                                 appearance="outline">
                                 <mat-label>Warehouse</mat-label>
                                 <input disabled [(ngModel)]="from_warehouse" type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2"
+                            <mat-form-field class="custom-form-field w-100 mb-2"
                                 appearance="outline">
                                 <mat-label>Location</mat-label>
                                 <input disabled [(ngModel)]="from_locationShow"  type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2"
+                            <mat-form-field class="custom-form-field  w-100 mb-2"
                                 appearance="outline">
                                 <mat-label>Item Number</mat-label>
                                 <input disabled [(ngModel)]="from_itemNo"  type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2"
+                            <mat-form-field class="custom-form-field  w-100 mb-2"
                                 appearance="outline">
                                 <mat-label>Description</mat-label>
                                 <input disabled [(ngModel)]="from_description"  type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2"
+                            <mat-form-field class="custom-form-field  w-100 mb-2"
                                 appearance="outline">
                                 <mat-label>Item Quantity</mat-label>
                                 <input disabled [(ngModel)]="from_itemQtyShow"  type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2"
+                            <mat-form-field class="custom-form-field  w-100 mb-2"
                                 appearance="outline">
                                 <mat-label>Cell Size</mat-label>
                                 <input disabled [(ngModel)]="from_cellSize"  type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2"
+                            <mat-form-field class="custom-form-field  w-100 mb-2"
                                 appearance="outline">
                                 <mat-label>Lot Number</mat-label>
                                 <input disabled [(ngModel)]="from_lotNo"  type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100"
+                            <mat-form-field class="custom-form-field  w-100"
                                 appearance="outline">
                                 <mat-label>Serial Number</mat-label>
                                 <input disabled [(ngModel)]="from_serialNo"  type="text" matInput maxlength="255">
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="col-xl-6">
+                    <div class="col-xl-6 mb-3">
                         <div class="d-flex justify-content-between align-items-center flex-wrap" >
                             <mat-label class="bold mb-2">Move To</mat-label>
                             <div class="label label-yellow px-2 mb-2"  *ngIf="MoveToDedicated!=''" >{{MoveToDedicated}}</div>
                         </div>
                         <div class="card p-2">
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2"
+                            <mat-form-field class="custom-form-field  w-100 mb-2"
                                 appearance="outline">
                                 <mat-label>Warehouse</mat-label>
                                 <input disabled [(ngModel)]="to_warehouse"  type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2"
+                            <mat-form-field class="custom-form-field  w-100 mb-2"
                                 appearance="outline">
                                 <mat-label>Location</mat-label>
                                 <input disabled [(ngModel)]="to_locationShow"  type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2"
+                            <mat-form-field class="custom-form-field  w-100 mb-2"
                                 appearance="outline">
                                 <mat-label>Item Number</mat-label>
                                 <input disabled [(ngModel)]="to_itemNo" type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2"
+                            <mat-form-field class="custom-form-field  w-100 mb-2"
                                 appearance="outline">
                                 <mat-label>Description</mat-label>
                                 <input disabled [(ngModel)]="to_description" type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2"
+                            <mat-form-field class="custom-form-field  w-100 mb-2"
                                 appearance="outline">
                                 <mat-label>Item Quantity</mat-label>
                                 <input disabled [(ngModel)]="to_itemQtyShow" type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2"
+                            <mat-form-field class="custom-form-field  w-100 mb-2"
                                 appearance="outline">
                                 <mat-label>Cell Size</mat-label>
                                 <input disabled [(ngModel)]="to_cellSize" type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2"
+                            <mat-form-field class="custom-form-field  w-100 mb-2"
                                 appearance="outline">
                                 <mat-label>Lot Number</mat-label>
                                 <input disabled [(ngModel)]="to_lotNo" type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100"
+                            <mat-form-field class="custom-form-field mb-2  w-100"
                                 appearance="outline">
                                 <mat-label>Serial Number</mat-label>
                                 <input disabled [(ngModel)]="to_serialNo" type="text" matInput maxlength="255">
                             </mat-form-field>
 
-                            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100"
+                            <mat-form-field class="custom-form-field  w-100"
                                 appearance="outline">
                                 <mat-label>Qty to Fill Location</mat-label>
                                 <input [(ngModel)]="fillQtytoShow" disabled type="text" matInput maxlength="255">
@@ -174,11 +174,11 @@
         </mat-card>
     </div>
     <div class="col-xl-7">
-        <mat-card class="mat-elevation-z g-card mb-4">
+        <mat-card class="mat-elevation-z g-card mb-4" style="height: 97%">
             <mat-card-content>
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
-                        <div class="mat-icon-wrap me-lg-3">
+                        <div class="mat-icon-wrap me-lg-3 me-2">
                             <span class="material-symbols-outlined">
                                 blur_short
                             </span>
@@ -192,7 +192,7 @@
                         location</span>
                 </div>
                 <div class="card bg-light-blue bg-50 br-none px-4 py-4 br-20 mb-3">
-                    <div class="d-flex g-mini-search-box gap-20 align-items-center w-100">
+                    <div class="d-flex g-mini-search-box gap-20 align-items-center w-100 flex-wrap">
                         <div class="search-box" style="flex:1">
                             <!-- <mat-form-field class="w-100 bg-white br-14" appearance="fill">
                           <span class="material-symbols-outlined icon-search">
@@ -205,25 +205,24 @@
                         </mat-form-field> -->
 
 
-                            <mat-form-field class="custom-form-field w-100" appearance="outline"
+                            <mat-form-field class="w-100 bg-white br-8" appearance="fill"
                                 [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
                                 <span class="material-symbols-outlined icon-search"> search </span>
                                 <!-- <mat-label> Item No.</mat-label> -->
                                 <input type="text" placeholder="Item No." aria-label="Number" matInput autoFocus
                                     [(ngModel)]='itemNo' maxlength="255" [matAutocomplete]="auto"
                                     (ngModelChange)="this.itemNumberSearch.next($event)">
-
-                                <mat-autocomplete class="card custom-scroll" #auto="matAutocomplete"
+                                    <button matSuffix *ngIf="itemNo != ''" class="clear-btn" (click)="clearItemNum()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
+                                <mat-autocomplete class="card custom-scroll panel-custom-scroll" #auto="matAutocomplete"
                                     (optionSelected)="searchData($event)">
 
-                                    <h6 class="card-header matAutoCompHeader "><span style="width:  140px;">Item
-                                            Number</span><span style="width:  140px;">Description</span> </h6>
+                                    <h6 class="card-header matAutoCompHeader stickyHeader "><span style="width:  140px;">Item
+                                            Number</span><span style="width: 43%;" >Description</span> </h6>
 
                                     <mat-option *ngFor="let option of searchAutocompletItemNo"
                                         [value]="option.itemNumber" class="matAutoCompTableContent">
                                         <div class="loc_option">
-                                            <span class="searchColumn"
-                                                style="width:  140px;">{{option.itemNumber}}</span><span>{{option.description}}</span>
+                                            <span class="searchColumn" style="width:  140px;" >{{option.itemNumber}}</span><span  style="padding: 10px 12px; border: 0; text-overflow: ellipsis; overflow: hidden; width:45%; white-space: nowrap;" [matTooltip]="option.description" matTooltipPosition="above" [matTooltipDisabled]="option.description && option.description.length>=29?false:true" >{{option.description}}</span>
                                         </div>
                                     </mat-option>
                                 </mat-autocomplete>
@@ -255,7 +254,7 @@
                                             </td>
                                         </ng-container>
                                         <ng-container matColumnDef="goldenZone">
-                                            <th mat-header-cell mat-sort-header *matHeaderCellDef> Golden Zone </th>
+                                            <th mat-header-cell mat-sort-header *matHeaderCellDef> Velocity Code </th>
                                             <td  (contextmenu)="onContextMenu($event, element.goldenZone, 'Velocity Code')"  [class.selected]="element.isSelected" mat-cell *matCellDef="let element">{{element.goldenZone}}</td>
                                         </ng-container>
                                         <ng-container matColumnDef="itemNumber">
@@ -264,7 +263,7 @@
                                         </ng-container>
                                         <ng-container matColumnDef="description">
                                             <th mat-header-cell mat-sort-header *matHeaderCellDef> Description </th>
-                                            <td  (contextmenu)="onContextMenu($event, element.description, 'Description')" [class.selected]="element.isSelected" mat-cell *matCellDef="let element">{{element.description}}</td>
+                                            <td class="toolTipConf" (contextmenu)="onContextMenu($event, element.description, 'Description')" [class.selected]="element.isSelected" mat-cell *matCellDef="let element"  [matTooltip]="element.description"   matTooltipPosition="above"  [matTooltipDisabled]="element.description && element.description.length>25?false:true" >{{element.description}}</td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="itemQuantity">
@@ -401,7 +400,7 @@
 
                         </mat-tab>
                         <mat-tab label="Move To">
-                            <div class="card br-14 borderless px-0 mt-3" style="overflow-x: auto;">
+                            <div class="card br-14 borderless px-0 mt-3 " style="overflow-x: auto;">
                                 <ng-scrollbar track="all" class="mat-table-scrollbar  scrollbar-hover-padding" style="height: 450px">
                                     <table class=" g-card-table table1 employee-location-table action-clickable-table" mat-table [dataSource]="moveToDatasource" matSort
                                         (matSortChange)="sortChangeToItems($event)">
@@ -418,7 +417,7 @@
                                             </td>
                                         </ng-container>
                                         <ng-container matColumnDef="goldenZone">
-                                            <th mat-header-cell mat-sort-header *matHeaderCellDef> Golden Zone </th>
+                                            <th mat-header-cell mat-sort-header *matHeaderCellDef> Velocity Code </th>
                                             <td (contextmenu)="onContextMenu($event, element.goldenZone, 'Velocity Code')" [class.selected]="element.isSelected" mat-cell *matCellDef="let element">{{element.goldenZone}}</td>
                                         </ng-container>
                                         <ng-container matColumnDef="itemNumber">
@@ -427,7 +426,7 @@
                                         </ng-container>
                                         <ng-container matColumnDef="description">
                                             <th mat-header-cell mat-sort-header *matHeaderCellDef> Description </th>
-                                            <td (contextmenu)="onContextMenu($event, element.description, 'Description')" [class.selected]="element.isSelected" mat-cell *matCellDef="let element">{{element.description}}</td>
+                                            <td (contextmenu)="onContextMenu($event, element.description, 'Description')" [class.selected]="element.isSelected" mat-cell *matCellDef="let element" [matTooltip]="element.description"   matTooltipPosition="above"  [matTooltipDisabled]="element.description && element.description.length>25?false:true"   >{{element.description}}</td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="itemQuantity">

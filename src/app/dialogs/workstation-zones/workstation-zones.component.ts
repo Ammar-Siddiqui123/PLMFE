@@ -55,8 +55,7 @@ export class WorkstationZonesComponent implements OnInit {
         res.data.map(val => {
           this.velocity_code_list.push({ 'zone': val, isSaved: true })
         })
-      }
-      // console.log(this.velocity_code_list);
+      } 
     });
   }
   getAllZoneList() {
@@ -161,7 +160,7 @@ export class WorkstationZonesComponent implements OnInit {
           "wsid": this.userData.wsid,
         }
         this.proPickService.delete(paylaod, '/Induction/WSPickZoneDelete').subscribe((res) => {
-          // console.log(res);
+          ;
           if (res.isExecuted) {
             this.toastr.success(labels.alert.delete, 'Success!', {
               positionClass: 'toast-bottom-right',
