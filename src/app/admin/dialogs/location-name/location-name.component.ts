@@ -1,10 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AdminPreferencesService } from '../../admin-preferences/admin-preferences.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-location-name',
@@ -17,7 +17,7 @@ export class LocationNameComponent implements OnInit {
   LocationName;
     locationNames :any = new MatTableDataSource([]);
   save
-  constructor(private preferencehub: AdminPreferencesService,
+  constructor(private Api: ApiFuntions,
             public authService: AuthService,
             private toastr: ToastrService,
             public dialogRef: MatDialogRef<any>,
@@ -28,14 +28,8 @@ export class LocationNameComponent implements OnInit {
     this.getLocation()
   }
 
-  getLocation(){
-
-    let payload = {
-      'username': this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-
-    this.preferencehub.get(payload,'/Admin/LocationNames').subscribe((res=>{
+  getLocation(){ 
+    this.Api.LocationNames().subscribe((res=>{
       if(res && res.isExecuted){
         
         let tempLocationNames:any = [];
@@ -72,7 +66,7 @@ export class LocationNameComponent implements OnInit {
           "wsid": this.userData.wsid,
           "name": ele.currentVal,
         }
-        this.preferencehub.get(payload,'/Admin/DeleteLocationNames').subscribe((res=>{ 
+        this.Api.DeleteLocationNames(payload).subscribe((res=>{ 
           if(res.isExecuted){
             this.getLocation()
           }
@@ -96,7 +90,7 @@ export class LocationNameComponent implements OnInit {
       "oldName":ele.oldVal,
       "newName":ele.currentVal
     }
-    this.preferencehub.get(payload,'/Admin/LocationNamesSave').subscribe((res=>{
+    this.Api.LocationNamesSave(payload).subscribe((res=>{
       if(res.isExecuted){
         this.toastr.success("Location Name Updated Succesfully", 'Success!', {
           positionClass: 'toast-bottom-right',

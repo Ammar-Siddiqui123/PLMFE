@@ -82,49 +82,8 @@ export class AuthService {
     
   }
 
-  public logout(userData:any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/Login/Logout`, userData);
-  }
-
-  public configLogout(userData:any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/Logout`, userData);
-  }
-  public startCCSIF(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StartCCSIF`,{});
-  }
-  public stopCCSIF(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StopCCSIF`,{});
-  }
-  public ServiceStatusCCSIF(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/ServiceStatusCCSIF`,{});
-  }
-  public startSTEService(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StartSTE`,{});
-  }
-  public stopSTEService(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StopSTE`,{});
-  }
-  public RestartService(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/RestartSTE`,{});
-  }
-  public ServiceStatusSTE(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/ServiceStatusSTE`,{});
-  }
-  public CompanyInfo(body:any): Observable<any> { 
-    return this.http.post<any>(`${environment.apiUrl}/Admin/CompanyInfo`,body);
-  }
-  public OSFieldFilterNames(): Observable<any> { 
-    return this.http.get<any>(`${environment.apiUrl}/Admin/OSFieldFilterNames`);
-  }
   
-  public GeneralPreferenceSave(body:any): Observable<any> { 
-    return this.http.post<any>(`${environment.apiUrl}/Admin/GeneralPreferenceSave`,body);
-  }
-  public ColumnAlias(): Observable<any> { 
-    return this.http.get<any>(`${environment.apiUrl}/Admin/ColumnAlias`);
-  }
-  public FieldNameSave(body:any): Observable<any> { 
-    return this.http.post<any>(`${environment.apiUrl}/Admin/FieldNameSave`,body);
-  }
+
+ 
   
 }

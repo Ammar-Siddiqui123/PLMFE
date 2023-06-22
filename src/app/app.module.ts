@@ -81,6 +81,8 @@ import { AuthGuard } from './init/AuthGuard.service';
 import { StagingLocationOrderComponent } from './dialogs/staging-location-order/staging-location-order.component';
 import { FlowrackReplenishmentComponent } from './flowrack-replenishment/flowrack-replenishment.component';
 import { FrNumpadComponent } from './dialogs/fr-numpad/fr-numpad.component';
+import { ApiFuntions } from './services/ApiFuntions';
+import { BaseService } from './services/base-service.service';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -187,6 +189,8 @@ import { FrNumpadComponent } from './dialogs/fr-numpad/fr-numpad.component';
       useClass: HeaderInterceptor,
       multi: true
     },AuthGuard,
+    ApiFuntions,
+    BaseService,
     DatePipe
   ],
   bootstrap: [AppComponent]

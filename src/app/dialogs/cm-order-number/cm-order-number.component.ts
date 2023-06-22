@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild, Inject, ViewChildren, QueryList } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/init/auth.service';
-import { ConsolidationManagerService } from '../../consolidation-manager/consolidation-manager.service';
+import { AuthService } from 'src/app/init/auth.service'; 
 import { CmOrderToteConflictComponent } from '../cm-order-tote-conflict/cm-order-tote-conflict.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-cm-order-number',
@@ -26,7 +26,7 @@ export class CmOrderNumberComponent implements OnInit {
   constructor(private dialog          : MatDialog,
               public dialogRef        : MatDialogRef<CmOrderNumberComponent>,
               private toast           : ToastrService,
-              private service         : ConsolidationManagerService,
+              private Api: ApiFuntions,
               private authService     : AuthService,
               @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -59,7 +59,7 @@ export class CmOrderNumberComponent implements OnInit {
         wsid: this.userData.wsid,
       };
 
-      this.service.get(obj, '/Consolidation/ConsolidationData').subscribe((res: any) => {
+      this.Api.ConsolidationData(obj).subscribe((res: any) => {
         if (typeof res?.data == 'string') {
           switch (res?.data) {
             case "DNE":
@@ -113,7 +113,7 @@ export class CmOrderNumberComponent implements OnInit {
       "wsid": this.userData.wsid
     }
 
-    this.service.create(obj, '/Consolidation/StagingLocationsUpdate').subscribe((res: any) => {
+    this.Api.StagingLocationsUpdate(obj).subscribe((res: any) => {
       if (res.responseMessage == "Fail") {
         this.toast.error("Error Has Occured", "Consolidation", { positionClass: 'toast-bottom-right', timeOut: 2000 });
       } else {

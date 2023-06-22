@@ -4,12 +4,12 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
-import { BatchManagerService } from '../../batch-manager/batch-manager.service';
+import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../../labels/labels.json';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-bm-toteid-entry',
@@ -24,7 +24,7 @@ export class BmToteidEntryComponent implements OnInit {
     public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
-    private batchManagerService: BatchManagerService,
+    private api: ApiFuntions,
     private authService: AuthService,
     private toastr: ToastrService
   ) {
@@ -93,8 +93,8 @@ export class BmToteidEntryComponent implements OnInit {
       wsid: this.userData.wsid,
     };
 
-    this.batchManagerService
-      .get(paylaod, '/Admin/PickToteIDUpdate')
+    this.api
+      .PickToteIDUpdate(paylaod)
       .subscribe((res: any) => {
         if (res.isExecuted) {
           this.toastr.success(res.responseMessage, 'Success!', {

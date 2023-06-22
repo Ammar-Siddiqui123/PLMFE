@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { disableDebugTools } from '@angular/platform-browser';
 
-import { IEmployee,EmployeeObject,AdminEmployeeLookupResponse,AccessGroupObject } from '../Iemployee';
-import { EmployeeService } from '../employee.service';
+import { IEmployee,EmployeeObject,AdminEmployeeLookupResponse,AccessGroupObject } from '../Iemployee'; 
 import { Router,NavigationEnd  } from '@angular/router';
+import { ApiFuntions } from '../services/ApiFuntions';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
   emp: IEmployee;
   empRes:EmployeeObject;
   breadcrumbList: any = [];
-  constructor(public employeeService: EmployeeService,  public router: Router,) {
+  constructor(public employeeService: ApiFuntions,  public router: Router,) {
 
   //   router.events.subscribe((val: any) => {
   //     this.breadcrumbList = [];
@@ -299,12 +299,8 @@ this.employeeService.deleteEmployeeZone(this.emp)
 
 
 
-getZones() {
-  this.emp = {
-  "userName": "1234",
-  "wsid": "TESTWID"
-  };
-this.employeeService.getZones(this.emp)
+getZones() { 
+this.employeeService.getZones()
 .subscribe((response: AdminEmployeeLookupResponse) => {
 
 

@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { AdminPreferencesService } from '../../admin-preferences.service';
+import { Component, OnInit } from '@angular/core'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { LocationNameComponent } from 'src/app/admin/dialogs/location-name/location-name.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { ToastrService } from 'ngx-toastr';
 import { KanbanZoneAllocationConflictComponent } from 'src/app/admin/dialogs/kanban-zone-allocation-conflict/kanban-zone-allocation-conflict.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-sp-location-zones',
@@ -25,7 +25,7 @@ export class SpLocationZonesComponent implements OnInit {
 
   locationzone: any = [];
   duplicatelocationzone: any = [];
-  constructor(private preferencehub: AdminPreferencesService,
+  constructor(private Api:ApiFuntions,
     public authService: AuthService,
     private dialog: MatDialog,
     private toastr: ToastrService) { }
@@ -73,7 +73,7 @@ export class SpLocationZonesComponent implements OnInit {
   //   }
   // }
 
-
+  
 
   zoneChange(zone: any,check,type?) {
   // debugger
@@ -174,7 +174,7 @@ export class SpLocationZonesComponent implements OnInit {
         };
          
         
-        this.preferencehub.get(payload,'/Admin/LocationZoneSave',true).subscribe((res=>{
+        this.Api.LocationZoneSave(payload).subscribe((res=>{
           if(res.isExecuted){
             // debugger
             
@@ -195,7 +195,7 @@ export class SpLocationZonesComponent implements OnInit {
       'username': this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.preferencehub.get(payload, '/Admin/LocationZone').subscribe((res => {
+    this.Api.LocationZone().subscribe((res => {
       this.locationzone = [];
       res.data.forEach((zone: any, i) => {
         zone.ID = i + 1;
@@ -246,7 +246,7 @@ export class SpLocationZonesComponent implements OnInit {
           "wsid": this.userData.wsid,
           "zone": zone
         }
-        this.preferencehub.get(payload, '/Admin/LocationZoneDelete').subscribe((res => {
+        this.Api.LocationZoneDelete(payload).subscribe((res => {
           
           if (res.isExecuted) {
             this.getLocationZones()
@@ -352,7 +352,7 @@ export class SpLocationZonesComponent implements OnInit {
       'username': this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.preferencehub.get(payload, '/Admin/LocationZoneNewSave').subscribe((res => {
+    this.Api.LocationZoneNewSave(payload).subscribe((res => {
       if (res.isExecuted) {
         this.toastr.success(`Location Zone: ${this.newLocationVal} added succesfully`, 'Success!', {
           positionClass: 'toast-bottom-right',

@@ -6,15 +6,10 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { EmployeeService } from 'src/app/employee.service';
-import { WarehouseService } from 'src/app/common/services/warehouse.service';
+import { ToastrService } from 'ngx-toastr';  
 import { AuthService } from '../../../../app/init/auth.service';
-import labels from '../../../labels/labels.json';
-import { InventoryMapService } from '../../inventory-map/inventory-map.service';
-import { VelocityCodeService } from 'src/app/common/services/velocity-code.service';
-import { GlobalconfigService } from 'src/app/global-config/globalconfig.service';
-import { TransactionService } from '../../transaction/transaction.service';
+import labels from '../../../labels/labels.json';  
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-delete-confirmation',
@@ -30,15 +25,10 @@ export class DeleteConfirmationComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private employeeService: EmployeeService,
-    private invMapService: InventoryMapService,
+    private Api: ApiFuntions, 
     public dialogRef: MatDialogRef<DeleteConfirmationComponent>,
     private authService: AuthService,
-    private router: Router,
-    private whService: WarehouseService,
-    private velcodeService: VelocityCodeService,
-    private globalconfigService: GlobalconfigService,
-    private transactionService: TransactionService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -62,7 +52,7 @@ export class DeleteConfirmationComponent implements OnInit {
           zone: this.data.zone,
           username: this.data.userName,
         };
-        this.employeeService
+        this.Api
           .deleteEmployeeZone(zoneData)
           .subscribe((res: any) => {
             if (res.isExecuted) {
@@ -88,7 +78,7 @@ export class DeleteConfirmationComponent implements OnInit {
           endShelf: this.data.picklevel.endCarousel.toString(),
           userName: this.data.userName,
         };
-        this.employeeService
+        this.Api
           .deletePickLevels(pickLevelData)
           .subscribe((res: any) => {
             if (res.isExecuted) {
@@ -113,7 +103,7 @@ export class DeleteConfirmationComponent implements OnInit {
           endLocation: this.data.location.endLocation,
           username: this.data.userName,
         };
-        this.employeeService
+        this.Api
           .deleteEmployeeLocation(locationData)
           .subscribe((res: any) => {
             if (res.isExecuted) {
@@ -134,8 +124,8 @@ export class DeleteConfirmationComponent implements OnInit {
         let payload = {
           ConnectionName: this.data.connectionName,
         };
-        this.globalconfigService
-          .get(payload, '/GlobalConfig/ConnectionDelete')
+        this.Api
+          .ConnectionDelete(payload)
           .subscribe(
             (res: any) => {
               if (res.isExecuted) {
@@ -159,7 +149,7 @@ export class DeleteConfirmationComponent implements OnInit {
           GroupName: this.data.grp_data.groupName,
           userName: this.data.userName,
         };
-        this.employeeService.deleteGroup(groupData).subscribe((res: any) => {
+        this.Api.deleteGroup(groupData).subscribe((res: any) => {
           if (res.isExecuted) {
             this.dialog.closeAll();
             this.toastr.success(labels.alert.delete, 'Success!', {
@@ -180,7 +170,7 @@ export class DeleteConfirmationComponent implements OnInit {
           GroupName: this.data.allowedGroup,
           userName: this.data.userName,
         };
-        this.employeeService.deleteGroup(groupData).subscribe((res: any) => {
+        this.Api.deleteGroup(groupData).subscribe((res: any) => {
           if (res.isExecuted) {
             this.dialog.closeAll();
             this.toastr.success(labels.alert.delete, 'Success!', {
@@ -201,7 +191,7 @@ export class DeleteConfirmationComponent implements OnInit {
           controlName: this.data.controlName,
           userName: this.data.userName,
         };
-        this.employeeService.deleteControlName(groupData).subscribe((res: any) => {
+        this.Api.deleteControlName(groupData).subscribe((res: any) => {
           if (res.isExecuted) {
             this.dialog.closeAll();
             this.toastr.success(labels.alert.delete, 'Success!', {
@@ -223,7 +213,7 @@ export class DeleteConfirmationComponent implements OnInit {
           username: this.userData.userName,
           wsid: this.userData.wsid,
         };
-        this.invMapService.deleteInventoryMap(payload).subscribe((res: any) => {
+        this.Api.deleteInventoryMap(payload).subscribe((res: any) => {
           if (res.isExecuted) {
             this.dialog.closeAll();
             this.toastr.success(labels.alert.delete, 'Success!', {
@@ -244,7 +234,7 @@ export class DeleteConfirmationComponent implements OnInit {
           deleteBy: this.userData.userName,
           wsid: 'TESTWSID',
         };
-        this.employeeService
+        this.Api
           .deleteAdminEmployee(emp_data)
           .subscribe((res: any) => {
             if (res.isExecuted) {
@@ -260,7 +250,7 @@ export class DeleteConfirmationComponent implements OnInit {
           groupname: this.data.allowedGroup.groupName,
           username: this.data.allowedGroup.userName,
         };
-        this.employeeService.deleteUserGroup(emp_data).subscribe((res: any) => {
+        this.Api.deleteUserGroup(emp_data).subscribe((res: any) => {
           if (res.isExecuted) {
             this.dialog.closeAll();
             this.toastr.success(labels.alert.delete, 'Success!', {
@@ -281,7 +271,7 @@ export class DeleteConfirmationComponent implements OnInit {
           username: this.userData.userName,
           wsid: this.userData.wsid,
         };
-        this.whService.dltWareHouse(emp_data).subscribe((res: any) => {
+        this.Api.dltWareHouse(emp_data).subscribe((res: any) => {
           if (res.isExecuted) {
             //this.dialog.closeAll();
             this.dialogRef.close('Yes');
@@ -303,7 +293,7 @@ export class DeleteConfirmationComponent implements OnInit {
           username: this.userData.userName,
           wsid: this.userData.wsid,
         };
-        this.velcodeService.dltVelocityCode(emp_data).subscribe((res: any) => {
+        this.Api.dltVelocityCode(emp_data).subscribe((res: any) => {
           if (res.isExecuted) {
             //this.dialog.closeAll();
             this.dialogRef.close('Yes');
@@ -320,8 +310,8 @@ export class DeleteConfirmationComponent implements OnInit {
           }
         });
       } else if (this.data.mode === 'delete-order-status') {
-        this.transactionService
-          .get(this.data.paylaod, '/Admin/DeleteOrderStatus')
+        this.Api
+          .DeleteOrderStatus(this.data.paylaod)
           .subscribe(
             (res: any) => {
               if (res.isExecuted) {
@@ -349,8 +339,8 @@ export class DeleteConfirmationComponent implements OnInit {
           username: this.userData.userName,
           wsid: this.userData.wsid,
         };
-        this.transactionService
-          .get(payload, '/Consolidation/CarrierDelete')
+        this.Api
+          .CarrierDelete(payload)
           .subscribe(
             (res: any) => {
               if (res.isExecuted) {
@@ -377,8 +367,8 @@ export class DeleteConfirmationComponent implements OnInit {
           WSID: this.data.wsid,
         };
 
-        this.globalconfigService
-          .get(payload, '/GlobalConfig/WorkStationDelete')
+        this.Api
+          .WorkStationDelete(payload)
           .subscribe(
             (res: any) => {
               if (res.isExecuted) {
@@ -403,7 +393,7 @@ export class DeleteConfirmationComponent implements OnInit {
             }
           );
 
-        // this.employeeService.deleteEmployeeLocation(locationData).subscribe((res: any) => {
+        // this.Api.deleteEmployeeLocation(locationData).subscribe((res: any) => {
         //   // if (res.isExecuted) {
         //   //   this.dialog.closeAll();
         //   //   this.toastr.success(labels.alert.delete, 'Success!', {

@@ -10,11 +10,11 @@ import {
   Input,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-
-import { BatchManagerService } from '../batch-manager.service';
+ 
 import { AuthService } from '../../../../app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-batch-delete',
@@ -57,7 +57,7 @@ export class BatchDeleteComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private batchService: BatchManagerService,
+    private api: ApiFuntions,
     public authService: AuthService,
     private toastr: ToastrService
   ) {}
@@ -80,8 +80,8 @@ export class BatchDeleteComponent implements OnInit {
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.batchService
-        .get(paylaod, '/Admin/SelectBatchesDeleteDrop')
+      this.api
+        .SelectBatchesDeleteDrop(paylaod)
         .subscribe((res: any) => {
           this.batchList = [];
           if (res.isExecuted && res.data.length > 0) {
@@ -121,8 +121,8 @@ export class BatchDeleteComponent implements OnInit {
           } else {
             payload.identity = 1;
           }
-          this.batchService
-            .delete(payload, '/Admin/BatchDeleteAll')
+          this.api
+            .BatchDeleteAll(payload)
             .subscribe((res: any) => {
               if (res.isExecuted) {
                 this.ngOnInit();
@@ -143,8 +143,8 @@ export class BatchDeleteComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(() => {
         if (this.dltType === 'batch_tote_trans') {
-          this.batchService
-            .delete(payload, '/Admin/BatchDeleteAll')
+          this.api
+            .BatchDeleteAll(payload)
             .subscribe((res: any) => {
               if (res.isExecuted) {
                 this.ngOnInit();

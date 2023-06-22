@@ -5,9 +5,9 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AddNewEmployeeComponent } from '../../dialogs/add-new-employee/add-new-employee.component';
 import { NgForm } from '@angular/forms';
-import { AdminEmployeeLookupResponse, IEmployee } from 'src/app/Iemployee';
-import { EmployeeService } from 'src/app/employee.service';
+import { AdminEmployeeLookupResponse, IEmployee } from 'src/app/Iemployee'; 
 import { AuthService } from '../../../../app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 // employee_details table data
 
@@ -34,7 +34,7 @@ export class EmployeesLookupComponent implements OnInit {
 
   // table initialization
   displayedColumns: string[] = ['lastName', 'firstName', 'mi', 'username'];
-  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog, private employeeService: EmployeeService, private authService: AuthService) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog, private employeeService: ApiFuntions, private authService: AuthService) { }
 
   @ViewChild(MatSort) sort: MatSort;
   employees_details_data: [] = [];
