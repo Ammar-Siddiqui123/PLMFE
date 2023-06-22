@@ -67,8 +67,8 @@
                                             <div class="card br-14" >
                                                 <div class="card-header">Workstations</div>
                                                
-                                                 <ng-scrollbar style="height: 500px;" track="all">
-                                                    <div class="card-body">
+                                                 <ng-scrollbar class="mat-table-scrollbar"  style="height: 500px;" track="all">
+                                                    <div class="card-body table-responsive">
 
                                                 <mat-radio-group color="primary" [(ngModel)]="selectedItem">
                                                     <div *ngFor="let item of workstationData; let i = index"
