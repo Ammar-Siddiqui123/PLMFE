@@ -1142,10 +1142,10 @@ public ClearPickToteInfo(body:any): Observable<any> {
   return this.ApiBase.Update(`/Induction/columnsequencedetail`,body);
 }
 public SelectBatchPickTA(body:any): Observable<any> {
-  return this.ApiBase.Get(`/Admin/SelectBatchPickTA`,body);
+  return this.ApiBase.Get(`/Induction/batchpickta`,body);
 }
 public SelectToteTransManTable(body:any): Observable<any> {
-  return this.ApiBase.Get(`/Admin/SelectToteTransManTable`,body);
+  return this.ApiBase.Get(`/Induction/totetransmantable`,body);
 }
 
  

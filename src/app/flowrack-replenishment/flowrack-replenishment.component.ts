@@ -43,8 +43,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
     private authservice: AuthService,
     private sharedService: SharedService,
     private Api:ApiFuntions,
-    private toastr: ToastrService,
-    private _elementRef: ElementRef) { }
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.userData = this.authservice.userData()
@@ -62,7 +61,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
 
   cartonFlow() {
     let payload = {
-      "wsid": this.userData.wsid,
+      "WSID": this.userData.wsid,
     }
     this.Api.wslocation(payload).subscribe((res) => {
       // console.log(res)
