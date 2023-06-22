@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
-import { TransactionQtyEditComponent } from 'src/app/dialogs/transaction-qty-edit/transaction-qty-edit.component';
-import { SystemReplenishmentService } from '../system-replenishment.service';
+import { TransactionQtyEditComponent } from 'src/app/dialogs/transaction-qty-edit/transaction-qty-edit.component'; 
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import labels from '../../../labels/labels.json'
@@ -17,6 +16,7 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { Subject } from 'rxjs';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 
 @Component({
@@ -68,7 +68,7 @@ export class SrNewOrderComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private systemReplenishmentService: SystemReplenishmentService,
+    private Api: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService,
     private router: Router,
@@ -189,7 +189,7 @@ export class SrNewOrderComponent implements OnInit {
   newReplenishmentOrders(loader:boolean =false) {
     if(this.newOrderListCreated){
       this.tablePayloadObj.searchString = this.tablePayloadObj.searchString.toString();
-      this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentNewTable',loader).subscribe((res: any) => {
+      this.newReplenishmentOrdersSubscribe = this.Api.SystemReplenishmentNewTable(this.tablePayloadObj).subscribe((res: any) => {
         if (res.isExecuted && res.data) {
           this.tableData = res.data.sysTable;
           this.numberSelectedRep = res.data.selectedOrders;
@@ -199,8 +199,7 @@ export class SrNewOrderComponent implements OnInit {
           // this.numberSelectedRep = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0).length;
           // this.changeSearchOptions();
           // this.tablePayloadObj.filter = "1=1";
-        } else {
-          // console.log(res.responseMessage);
+        } else { 
           // this.toastr.error(res.responseMessage, 'Error!', {
           //   positionClass: 'toast-bottom-right',
           //   timeOut: 2000
@@ -264,7 +263,7 @@ export class SrNewOrderComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.systemReplenishmentService.create(paylaod, '/Admin/ReplenishmentInsert').subscribe((res: any) => {
+    this.Api.ReplenishmentInsert(paylaod).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.newOrderListCreated = true;
         // this.toastr.success(labels.alert.success, 'Success!', {
@@ -277,8 +276,7 @@ export class SrNewOrderComponent implements OnInit {
         //     positionClass: 'toast-bottom-right',
         //     timeOut: 2000
         //   });
-        // }
-        // console.log(res.responseMessage);
+        // } 
       }
       this.newReplenishmentOrders();
     });
@@ -319,10 +317,13 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   searchChange(event: any) {
-    this.tablePayloadObj.searchColumn = event;
-    this.getSearchOptions();
-    this.resetPagination();
-    this.newReplenishmentOrders(true);
+    if(event == ""){
+      this.tablePayloadObj.searchString = "";
+    }
+      this.tablePayloadObj.searchColumn = event;
+      this.getSearchOptions();
+      this.resetPagination();
+      this.newReplenishmentOrders(true);
   }
 
   // changeSearchOptions() {
@@ -440,52 +441,54 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   processReplenishments() {
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        message: `Click OK to create replenishment orders for all selected items.`,
-      },
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result == 'Yes') {
-        let paylaod = {
-          "kanban": this.kanban,
-          "username": this.userData.userName,
-          "wsid": this.userData.wsid
+    // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    //   height: 'auto',
+    //   width: '560px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     message: `Click OK to create replenishment orders for all selected items.`,
+    //   },
+    // });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   if (result == 'Yes') {
+        
+    //   }
+    // });
+
+    let paylaod = {
+      "kanban": this.kanban,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
+    }
+    this.Api.ProcessReplenishments(paylaod).subscribe((res: any) => {
+      if (res.isExecuted && res.data) {
+        if(res.responseMessage == "Update Successful"){
+          this.toastr.success(labels.alert.success, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
         }
-        this.systemReplenishmentService.create(paylaod, '/Admin/ProcessReplenishments').subscribe((res: any) => {
-          if (res.isExecuted && res.data) {
-            if(res.responseMessage == "Update Successful"){
-              this.toastr.success(labels.alert.success, 'Success!', {
-                positionClass: 'toast-bottom-right',
-                timeOut: 2000
-              });
+        if(res.responseMessage == "Reprocess"){
+          let dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
+            height: 'auto',
+            width: '560px',
+            autoFocus: '__non_existing_element__',
+            data: {
+              message: `Replenishments finished. There are reprocess transactions due to the replenishment process. Click Ok to print a process report now.`,
+            },
+          });
+          dialogRef2.afterClosed().subscribe((result) => {
+            if (result == 'Yes') {
+              alert('The print service is currently offline');
             }
-            if(res.responseMessage == "Reprocess"){
-              let dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
-                height: 'auto',
-                width: '560px',
-                autoFocus: '__non_existing_element__',
-                data: {
-                  message: `Replenishments finished. There are reprocess transactions due to the replenishment process. Click Ok to print a process report now.`,
-                },
-              });
-              dialogRef2.afterClosed().subscribe((result) => {
-                if (result == 'Yes') {
-                  alert('The print service is currently offline');
-                }
-              });
-            }
-            this.createNewReplenishments(this.kanban);
-            this.replenishmentsProcessed.emit();
-          } else {
-            this.toastr.error(res.responseMessage, 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-          }
+          });
+        }
+        this.createNewReplenishments(this.kanban);
+        this.replenishmentsProcessed.emit();
+      } else {
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
         });
       }
     });
@@ -512,7 +515,7 @@ export class SrNewOrderComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.systemReplenishmentService.create(paylaod, '/Admin/ReplenishmentsIncludeUpdate').subscribe((res: any) => {
+    this.Api.ReplenishmentsIncludeUpdate(paylaod).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         // this.toastr.success(labels.alert.success, 'Success!', {
         //   positionClass: 'toast-bottom-right',
@@ -538,7 +541,7 @@ export class SrNewOrderComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.systemReplenishmentService.create(paylaod, '/Admin/ReplenishmentsIncludeAllUpdate').subscribe((res: any) => {
+    this.Api.ReplenishmentsIncludeAllUpdate(paylaod).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         // this.toastr.success(labels.alert.success, 'Success!', {
         //   positionClass: 'toast-bottom-right',
@@ -569,7 +572,7 @@ export class SrNewOrderComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/SystemReplenishNewTA',loader).subscribe((res: any) => {
+    this.getSearchOptionsSubscribe = this.Api.SystemReplenishNewTA(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.searchAutocompleteList = res.data.sort();
       }

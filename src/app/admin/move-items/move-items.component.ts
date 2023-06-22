@@ -1,5 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild,Renderer2  } from '@angular/core';
-import { AdminService } from '../admin.service';
+ 
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  Renderer2,
+  ViewChildren,
+  QueryList,
+} from '@angular/core'; 
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/init/auth.service';
 import { FloatLabelType } from '@angular/material/form-field';
@@ -12,6 +20,8 @@ import { ToastrService } from 'ngx-toastr';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
+import { Api } from 'datatables.net';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 const TRNSC_DATA = [
   { colHeader: 'warehouse', colDef: 'Warehouse' },
@@ -56,6 +66,7 @@ const TRNSC_DATA = [
 export class MoveItemsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatPaginator) paginatorTo: MatPaginator;
+  @ViewChildren(MatPaginator) paginators: QueryList<MatPaginator>;
   @ViewChild('myInput') myInput: ElementRef<HTMLInputElement>;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   @ViewChild('matToolbar') matToolbar: ElementRef;
@@ -142,7 +153,7 @@ export class MoveItemsComponent implements OnInit {
   searchAutocompletItemNo: any = [];
   public itemnumscan: any = '';
   constructor(
-    private adminService: AdminService,
+    private Api: ApiFuntions,
     private authService: AuthService,
     private dialog: MatDialog,
     private toastr: ToastrService,
@@ -157,9 +168,9 @@ export class MoveItemsComponent implements OnInit {
     this.itemNumberSearch
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
-     this.startRow=0;
-     this.endRow=10;
-     this.resetPaginationFrom();
+        this.startRow = 0;
+        this.endRow = 10;
+        this.resetPaginationFrom();
         // this.autocompleteSearchColumn();
         this.autocompleteSearchColumn();
       });
@@ -168,9 +179,8 @@ export class MoveItemsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-  const appHeaderElement = document.querySelector('app-header');
-  this.renderer.setStyle(appHeaderElement, 'z-index', '99999');
-
+    const appHeaderElement = document.querySelector('app-header');
+    this.renderer.setStyle(appHeaderElement, 'z-index', '99999');
   }
   public displayedColumns: any = [
     'warehouse',
@@ -206,15 +216,15 @@ export class MoveItemsComponent implements OnInit {
   stageTable: any = [];
   columnSeq: any = [];
 
-  getMoveItemList(tableName, fromPagination = false,unselectFrom = false) {
+  getMoveItemList(tableName, fromPagination = false, unselectFrom = false) {
     if (tableName === 'MoveTo') {
       if (this.viewAll || this.dataSource.data.length === 0) {
         this.viewModeTo = 'All';
       } else if (fromPagination && !this.isRowSelected) {
         this.viewModeTo = 'All';
-      } else if (unselectFrom){
+      } else if (unselectFrom) {
         this.viewModeTo = 'All';
-      }else {
+      } else {
         this.viewModeTo = 'NOA';
       }
     }
@@ -237,23 +247,24 @@ export class MoveItemsComponent implements OnInit {
         tableName === 'MoveFrom' ? this.moveFromFilter : this.moveToFilter,
       wsid: this.userData.wsid,
     };
-    this.adminService
-      .get(payload, '/Admin/GetMoveItemsTable')
+    this.Api
+      .GetMoveItemsTable(payload)
       .subscribe((res: any) => {
-        if(res && res.data && (res.data['moveMapItems'].length===0)){
-          if(tableName === 'MoveFrom'){
+        if (res && res.data && res.data['moveMapItems'].length === 0) {
+          if (tableName === 'MoveFrom') {
             this.resetPaginationFrom();
-          }else{
+          } else {
             this.resetPaginationTo();
           }
-          
         }
         if (tableName === 'MoveTo') {
-          res?.data['moveMapItems'].map((item) => {
-            item.isSelected = false;
-          });
+          res &&
+            res.data &&
+            res.data['moveMapItems'].map((item) => {
+              item.isSelected = false;
+            });
           this.moveToDatasource = new MatTableDataSource(
-            res?.data['moveMapItems']
+            res && res.data && res.data['moveMapItems']
           );
           this.totalRecordsTo = res?.data.recordsTotal;
           this.recordsFilteredTo = res?.data.recordsFiltered;
@@ -261,9 +272,11 @@ export class MoveItemsComponent implements OnInit {
             this.totalRecords
           } of ${Math.ceil(this.totalRecords / this.recordsPerPage)}`;
         } else {
-          res?.data['moveMapItems'].map((item) => {
-            item.isSelected = false;
-          });
+          res &&
+            res.data &&
+            res.data['moveMapItems'].map((item) => {
+              item.isSelected = false;
+            });
           this.dataSource = new MatTableDataSource(res?.data['moveMapItems']);
           this.totalRecords = res?.data.recordsTotal;
           this.recordsFiltered = res?.data.recordsFiltered;
@@ -287,7 +300,7 @@ export class MoveItemsComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.adminService.get(searchPayload, '/Common/SearchItem').subscribe(
+    this.Api.SearchItem(searchPayload).subscribe(
       (res: any) => {
         this.searchAutocompletItemNo = res.data;
         this.getMoveItemList('MoveFrom');
@@ -296,9 +309,8 @@ export class MoveItemsComponent implements OnInit {
     );
   }
   searchData(event) {
-
-    if(this.tabIndex===1){
-      this.tabIndex=0;
+    if (this.tabIndex === 1) {
+      this.tabIndex = 0;
     }
   }
   isQuantityGreater(quantity: number): boolean {
@@ -325,6 +337,8 @@ export class MoveItemsComponent implements OnInit {
   }
 
   sortChangeToItems(event) {
+    console.log(this.itemSelected);
+
     if (
       !this.moveToDatasource._data._value ||
       event.direction == '' ||
@@ -343,6 +357,7 @@ export class MoveItemsComponent implements OnInit {
     this.sortOrderTo = event.direction;
     this.getMoveItemList('MoveTo');
   }
+
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
     // this.customPagination.startIndex =  e.pageIndex
@@ -444,13 +459,15 @@ export class MoveItemsComponent implements OnInit {
           this.isMoveQty = false;
         }
 
-        this.from_itemNo = "";
-        this.from_cellSize = "";
+        this.from_itemNo = '';
+        this.from_cellSize = '';
         this.invMapIDToItem = -1;
-        this.viewModeTo = "All";
-        this.getMoveItemList('MoveTo',false,true);
-        return
-        
+        this.viewModeTo = 'All';
+        this.startRowTo = 0;
+        this.endRowTo = 10;
+        this.paginator.pageIndex = 0;
+        this.getMoveItemList('MoveTo', false, true);
+        return;
       }
       this.invMapIDToItem = row.invMapID;
       this.invMapmoveFromID = row.invMapID;
@@ -711,32 +728,30 @@ export class MoveItemsComponent implements OnInit {
       wsid: this.userData.wsid,
     };
 
-    this.adminService
-      .get(payload, '/Admin/CreateMoveTransactions')
-      .subscribe((res: any) => {
-        if (res.isExecuted) {
-          this.toastr.success('Item moved successfully', 'Success!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000,
-          });
-          this.resetPagination();
-          this.moveToFilter = '1 = 1';
-          this.moveFromFilter = '1 = 1';
-          this.tabIndex = 0;
-          this.itemNumberSearch.next('');
-          this.getMoveItemList('MoveFrom');
-          this.getMoveItemList('MoveTo');
-          this.clearFields('MoveFrom');
-          this.clearFields('MoveTo');
-          this.resetFromFilters();
-          this.resetToFilters();
-        } else {
-          this.toastr.error(res.responseMessage, 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000,
-          });
-        }
-      });
+    this.Api
+    .CreateMoveTransactions(payload)
+    .subscribe((res: any) => {
+      if(res.isExecuted){
+        this.toastr.success('Item moved successfully', 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        this.resetPagination();
+        this.moveToFilter='1 = 1';
+        this.moveFromFilter='1 = 1';
+        this.tabIndex=0;
+        this.itemNumberSearch.next('');
+        this.getMoveItemList('MoveFrom');
+        this.getMoveItemList('MoveTo');
+        this.clearFields('MoveFrom')
+        this.clearFields('MoveTo')
+      }else{
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    });
   }
 
   getType(val): string {
@@ -855,7 +870,7 @@ export class MoveItemsComponent implements OnInit {
     this.paginator.pageIndex = 0;
     this.paginatorTo.pageIndex = 0;
   }
-  resetPaginationTo(){
+  resetPaginationTo() {
     this.sortOrderTo = 'asc';
     this.sortColTo = 0;
     this.totalRecordsTo = 0;
@@ -873,7 +888,7 @@ export class MoveItemsComponent implements OnInit {
     this.endRow = 10;
     this.recordsPerPage = 10;
     this.recordsFiltered = 0;
-   this.paginator.pageIndex = 0;
+    this.paginator.pageIndex = 0;
   }
   resetFromFilters() {
     this.startRow = 0;
@@ -881,16 +896,28 @@ export class MoveItemsComponent implements OnInit {
   resetToFilters() {
     this.startRowTo = 0;
     this.viewModeTo = 'All';
+    this.paginatorTo.pageIndex = 0;
   }
 
   clearItemNum() {
     this.itemNo = '';
-    this.getMoveItemList('MoveFrom');
+    this.invMapIDToItem = -1;
+    this.paginators.forEach((paginator) => {
+      paginator.pageIndex = 0;
+    });
+
+    this.clearFields('MoveFrom');
+    this.clearFields('MoveTo');
+
     this.resetFromFilters();
     this.resetToFilters();
+
     this.autocompleteSearchColumn();
-this.resetPaginationFrom();
-this.resetPaginationTo();
+    this.resetPaginationFrom();
+    this.resetPaginationTo();
+
+    this.getMoveItemList('MoveFrom');
+    this.getMoveItemList('MoveTo', false, true);
     if (this.tabIndex === 1) {
       this.tabIndex = 0;
     }
@@ -903,9 +930,14 @@ this.resetPaginationTo();
     } else {
       value = value.substr(0, 4);
     }
-    if (value === '') {
-      value = '0';
-    }
+    // if (value === '') {
+    //   value = '0';
+    // }
     inputElement.value = value;
+  }
+  onBlurPriority(){
+  if(this.from_priority=== undefined || this.from_priority=== null){
+    this.from_priority=0;
+  }
   }
 }

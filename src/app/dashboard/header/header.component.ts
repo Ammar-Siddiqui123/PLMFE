@@ -6,6 +6,7 @@ import { AuthService } from '../../../app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/services/shared.service'; 
 import { Title } from '@angular/platform-browser';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +28,7 @@ statusTab;
     private router: Router,
     public spinnerService: SpinnerService, 
     private authService: AuthService,
+    private api:ApiFuntions,
     private toastr: ToastrService,
     private sharedService: SharedService,
     private titleService: Title
@@ -59,7 +61,9 @@ statusTab;
          if(element==='ImToteManager' ){
           element='ToteManager'
          }
-
+         if(element==='ccsif' ||element==='ste'  ){
+          element=element.toLocaleUpperCase();
+         }
          
          
          this.titleService.setTitle(`LogixPro  ${element.toLowerCase() !='adminprefrences'? this.capitalizeFirstLetter(element).replace(/([a-z])([A-Z])/g, "$1 $2").replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2"):'Preferences'}`);
@@ -78,13 +82,10 @@ statusTab;
         }
       });
       
-      }
-      // console.log(this.breadcrumbList) 
-
+      }  
       // if(this.breadcrumbList[this.breadcrumbList.length-1].name == '/OrderStatus'){
       //   this.breadcrumbList[this.breadcrumbList.length-1].value = this.statusTab
-      // }
-      // console.log(this.breadcrumbList) 
+      // } 
      
   });
 
@@ -162,7 +163,7 @@ statusTab;
     }
     if(this.authService.isConfigUser()){
       localStorage.clear();
-      this.authService.configLogout(paylaod).subscribe((res:any) => {
+      this.api.configLogout(paylaod).subscribe((res:any) => {
         if (res.isExecuted) 
         {
      
@@ -180,7 +181,7 @@ statusTab;
      
     }else{
       localStorage.clear();
-      this.authService.logout(paylaod).subscribe((res:any) => {
+      this.api.Logout(paylaod).subscribe((res:any) => {
         if (res.isExecuted) 
         {
           // this.toastr.success(res.responseMessage, 'Success!', {

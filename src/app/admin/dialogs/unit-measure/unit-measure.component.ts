@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PrintRangeComponent } from '../print-range/print-range.component';
-import { ToastrService } from 'ngx-toastr';
-import { UnitOfMeasureService } from 'src/app/common/services/unit-measure.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json'
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-unit-measure',
@@ -20,7 +20,7 @@ export class UnitMeasureComponent implements OnInit {
 
 
   constructor(private dialog: MatDialog,
-              private umService: UnitOfMeasureService,
+              private api: ApiFuntions,
               private authService: AuthService,
               private toastr: ToastrService,
               public dialogRef: MatDialogRef<any>) { }
@@ -32,7 +32,7 @@ export class UnitMeasureComponent implements OnInit {
   getUOM(){
     // this.enableButton.shift();
     this.enableButton = [];
-    this.umService.getUnitOfMeasure().subscribe((res) => {
+    this.api.getUnitOfMeasure().subscribe((res) => {
       if (res.isExecuted) {
         this.unitOfMeasure_list = res.data;
 
@@ -51,8 +51,7 @@ export class UnitMeasureComponent implements OnInit {
   // }
   addUMRow(row : any){
     this.unitOfMeasure_list.unshift("");
-    this.enableButton.push({index:-1,value:true})
-    // console.log(this.unitOfMeasure_list)
+    this.enableButton.push({index:-1,value:true}) 
   }
 
   saveUnitMeasure(um : any, oldUM : any) {
@@ -78,7 +77,7 @@ export class UnitMeasureComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     
-    this.umService.saveUnitOfMeasure(paylaod).subscribe((res) => {
+    this.api.saveUnitOfMeasure(paylaod).subscribe((res) => {
       if(res.isExecuted){
         this.getUOM();
         this.toastr.success( oldUM.toString()==''?labels.alert.success:labels.alert.update, 'Success!', {
@@ -97,9 +96,7 @@ export class UnitMeasureComponent implements OnInit {
   }
 
   dltUnitMeasure(um : any,fromDB:any) {
-
-
-    // console.log(um, fromDB);
+ 
     
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
@@ -115,7 +112,7 @@ export class UnitMeasureComponent implements OnInit {
           "wsid": this.userData.wsid,
         }
         
-        this.umService.dltUnitOfMeasure(paylaod).subscribe((res) => {
+        this.api.dltUnitOfMeasure(paylaod).subscribe((res) => {
           // console.log(res);
           
           if(res.isExecuted){

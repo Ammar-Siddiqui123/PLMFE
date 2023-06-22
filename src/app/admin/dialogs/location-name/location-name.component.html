@@ -62,11 +62,7 @@
                     <td mat-cell *matCellDef="let element; let i = index" >
                       <div class="d-flex gap-12 cl justify-content-center ps-2">
                         
-                          <button (click)="delLocation(element)"  matTooltip="Delete" mat-flat-button color="warn" class="xsm-icon-button" >
-                            <mat-icon class="material-symbols-outlined">
-                              close
-                            </mat-icon>
-                          </button>
+                          
                           <!-- <button (click)="selectLocation(element)" [disabled]="element.currentVal != element.oldVal" matTooltip="Edit" mat-flat-button color="warn" class="xsm-icon-button" >
                             <mat-icon class="material-symbols-outlined">
                               edit
@@ -75,6 +71,11 @@
                         <button (click)="saveLocation(element)" [disabled]="element.currentVal == element.oldVal"  matTooltip="Print" mat-flat-button color="primary" class="xsm-icon-button">
                           <mat-icon class="material-symbols-outlined">
                             save
+                          </mat-icon>
+                        </button>
+                        <button (click)="delLocation(element)"  matTooltip="Delete" mat-flat-button color="warn" class="xsm-icon-button" >
+                          <mat-icon class="material-symbols-outlined">
+                            close
                           </mat-icon>
                         </button>
                         

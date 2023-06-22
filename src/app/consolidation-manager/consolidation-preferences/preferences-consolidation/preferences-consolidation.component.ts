@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { ConsolidationManagerService } from '../../consolidation-manager.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { MatDialog } from '@angular/material/dialog';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-preferences-consolidation',
@@ -17,7 +17,7 @@ export class PreferencesConsolidationComponent implements OnInit {
   @Output() consolidationEvnt= new EventEmitter<void>();
 
   constructor(
-    private cmService: ConsolidationManagerService,
+    private Api: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService,
     public dialog: MatDialog
@@ -56,8 +56,7 @@ export class PreferencesConsolidationComponent implements OnInit {
          
   }
   
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes['pref']);
+  ngOnChanges(changes: SimpleChanges) { 
     if (changes['pref']['currentValue']) {
       this.setPreferences(changes['pref']['currentValue'])
     }
@@ -82,8 +81,8 @@ export class PreferencesConsolidationComponent implements OnInit {
       wsid: this.userData.wsid,
     };
     // Get the email slip data from the server
-this.cmService
-  .get(payload, `/Consolidation/SystemPreferenceEmailSlip`)
+this.Api
+  .SystemPreferenceEmailSlip(payload)
   .subscribe(
     // When the request has completed
     (response: any) => {
@@ -127,8 +126,8 @@ this.cmService
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.cmService
-      .get(payload, `/Consolidation/ConsolidationPreferenceUpdate`)
+    this.Api
+      .ConsolidationPreferenceUpdate(payload)
       .subscribe(
         (response: any) => {
           if (response.isExecuted) {

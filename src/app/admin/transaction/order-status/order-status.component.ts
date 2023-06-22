@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/init/auth.service';
-import { TransactionService } from '../transaction.service';
+import { AuthService } from 'src/app/init/auth.service'; 
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-order-status',
@@ -24,7 +24,7 @@ export class OrderStatusComponent implements OnInit {
   userData;
   constructor(
     private authService: AuthService,
-    private transactionService: TransactionService,
+    private Api:ApiFuntions,
   ) {
 
  

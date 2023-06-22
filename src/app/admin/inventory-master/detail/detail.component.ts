@@ -7,11 +7,11 @@ import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/d
 import { ItemCategoryComponent } from '../../dialogs/item-category/item-category.component';
 import { ItemNumberComponent } from '../../dialogs/item-number/item-number.component';
 import { UnitMeasureComponent } from '../../dialogs/unit-measure/unit-measure.component';
-import { UpdateDescriptionComponent } from '../../dialogs/update-description/update-description.component';
-import { InventoryMasterService } from '../inventory-master.service';
+import { UpdateDescriptionComponent } from '../../dialogs/update-description/update-description.component'; 
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { Observable, Subscription } from 'rxjs';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-detail',
@@ -34,7 +34,7 @@ export class DetailComponent implements OnInit {
   
 
   constructor(   
-    private invMasterService: InventoryMasterService, 
+    private Api: ApiFuntions, 
     private router: Router,
     private sharedService:SharedService,
     private authService: AuthService, 
@@ -87,7 +87,7 @@ export class DetailComponent implements OnInit {
           "username": this.userData.userName,
           "wsid": this.userData.wsid
         }
-        this.invMasterService.update(paylaod, '/Admin/UpdateItemNumber').subscribe((res: any) => {
+        this.Api.UpdateItemNumber(paylaod).subscribe((res: any) => {
           // console.log(res.data);
           if (res.isExecuted) {
             this.details.patchValue({
@@ -152,8 +152,7 @@ export class DetailComponent implements OnInit {
       this.sharedService.updateInvMasterState(result,true)
     })
   }
-  public openUmDialog() {
-    // console.log(this.details.controls['replenishmentLevel'].value)
+  public openUmDialog() { 
     let dialogRef = this.dialog.open(UnitMeasureComponent, {
       height: 'auto',
       width: '750px',
@@ -163,7 +162,7 @@ export class DetailComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
+      ;
       if(result!='' && result!=true)
       { 
         this.details.patchValue({

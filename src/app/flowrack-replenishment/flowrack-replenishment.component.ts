@@ -1,13 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FrNumpadComponent } from '../dialogs/fr-numpad/fr-numpad.component';
-import { FlowrackService } from './flowrack.service';
+import { FrNumpadComponent } from '../dialogs/fr-numpad/fr-numpad.component'; 
 import { AuthService } from '../init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
-import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { GlobalconfigService } from '../global-config/globalconfig.service';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete'; 
 import { SharedService } from '../services/shared.service';
+import { ApiFuntions } from '../services/ApiFuntions';
 
 @Component({
   selector: 'app-flowrack-replenishment',
@@ -40,13 +39,11 @@ export class FlowrackReplenishmentComponent implements OnInit {
   @ViewChild('auto') matAutocomplete: MatAutocompleteTrigger;
 
 
-  constructor(private dialog: MatDialog,
-    private flowrackHub: FlowrackService,
+  constructor(private dialog: MatDialog, 
     private authservice: AuthService,
     private sharedService: SharedService,
-    private globalService: GlobalconfigService,
-    private toastr: ToastrService,
-    private _elementRef: ElementRef) { }
+    private Api:ApiFuntions,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.userData = this.authservice.userData()
@@ -64,12 +61,12 @@ export class FlowrackReplenishmentComponent implements OnInit {
 
   cartonFlow() {
     let payload = {
-      "wsid": this.userData.wsid,
+      "WSID": this.userData.wsid,
     }
-    this.flowrackHub.getAll('/FlowRackReplenish/wslocation', payload).subscribe((res) => {
+    this.Api.wslocation(payload).subscribe((res) => {
       // console.log(res)
       this.zone = res.data == 'No'||res.data == ''||res.data == null ? 'This workstation is not assigned to a zone' : res.data
-      // console.log(res)
+      
     })
   }
 
@@ -128,8 +125,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
     this.itemLocation = '';
     setTimeout(() => { 
       this.itemLocation = event.option.value.location; 
-      // this.itemQty = Number(event.option.value.itemQuantity)
-      // console.log(event.option.value.itemQuantity)
+      // this.itemQty = Number(event.option.value.itemQuantity) 
       this.onLocationSelected(this.itemLocation)
     }, 1);
   }
@@ -143,20 +139,20 @@ export class FlowrackReplenishmentComponent implements OnInit {
       let payload = {
         "ItemNumber": this.itemnumscan,
       }
-      this.flowrackHub.getAll('/FlowRackReplenish/CFData', payload).subscribe((res => {
+      this.Api.CFData(payload).subscribe((res => {
         if (res.data != '') {
           this.itemnumscan = res.data
           let payload = {
             "itemNumber": this.itemnumscan,
             "wsid": this.userData.wsid
           }
-          this.flowrackHub.getAll('/FlowRackReplenish/ItemLocation', payload).subscribe((res => {
+          this.Api.ItemLocation(payload).subscribe((res => {
             if (res.data.length < 1) {
               this.locationSuggestions = [];
               let payload = {
                 "wsid": this.userData.wsid
               }
-              this.flowrackHub.getAll('/FlowRackReplenish/openlocation', payload).subscribe((res => {
+              this.Api.openlocation(payload).subscribe((res => {
                 // console.log(res)
                 if (res.data.length < 1) {
                   this.toastr.error("There are no open locations.", 'Error!', {
@@ -207,8 +203,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
     }
     if(event.keyCode == 8){
       // debugger
-      // this.itemnumscan = '';
-      console.log(this.LocationRow)
+      // this.itemnumscan = ''; 
       if(!this.LocationRow){
         this.itemnumscan = '';
       }
@@ -222,7 +217,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
       "Input": this.itemLocation,
       "wsid": this.userData.wsid,
     }
-    this.flowrackHub.getAll('/FlowRackReplenish/verifyitemlocation', payload).subscribe((res => {
+    this.Api.verifyitemlocation( payload).subscribe((res => {
       // console.log(res)
       if (res.data) {
         this.itemQtyRow = false;
@@ -244,9 +239,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
   ngAfterViewInit() {
     this.getAppLicense();  
   }
-  openCal() {
-    // debugger
-    console.log(this.itemQty)
+  openCal() { 
     const dialogRef = this.dialog.open(FrNumpadComponent, {
       width: '480px',
       minWidth: '480px',
@@ -256,8 +249,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
       }
    
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result)
+    dialogRef.afterClosed().subscribe((result) => { 
       this.itemQty = !result ? this.itemQty : result;
       this.submitBtnDisplay = !this.itemQty ? true : false;
       this.autocompleteTrigger.closePanel()
@@ -312,8 +304,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
       });
     }
 
-    else if (this.itemQty == '') {
-      // console.log('empty')
+    else if (this.itemQty == '') { 
       this.toastr.error("Please enter a quantity.", 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
@@ -329,7 +320,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
         "wsid": this.userData.wsid,
       }
       // console.log(payload)
-      this.flowrackHub.getAll('/FlowRackReplenish/verifyitemquantity', payload).subscribe((res => {
+      this.Api.verifyitemquantity(payload).subscribe((res => {
         // console.log(res)
         if (res.data) {
           let payload = {
@@ -339,7 +330,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
             "wsid": this.userData.wsid,
           }
 
-          this.flowrackHub.put(payload, '/FlowRackReplenish/itemquantity').subscribe((res => {
+          this.Api.itemquantity(payload).subscribe((res => {
             if (res.isExecuted) {
               // console.log('added')
               this.toastr.success('Item Quantity Added', 'Success!', {
@@ -370,11 +361,8 @@ export class FlowrackReplenishmentComponent implements OnInit {
     // this.applicationData=JSON.parse(localStorage.getItem('availableApps') || '');
     // this.sharedService.setMenuData(this.applicationData)
 
-    let payload = {
-      WSID: this.userData.wsid,
-    };
-    this.globalService
-      .get(payload, '/GlobalConfig/AppNameByWorkstation')
+    this.Api
+      .AppNameByWorkstation()
       .subscribe(
         (res: any) => {
           if (res && res.data) {

@@ -2,12 +2,12 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, OnInit, ViewChild,AfterViewInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { GlobalconfigService } from '../../globalconfig.service';
+import { MatTableDataSource } from '@angular/material/table'; 
 import {MatPaginator} from '@angular/material/paginator';
 import { SignalrServiceService } from '../../../../app/services/signalr-service.service';
 import { HttpClient } from '@angular/common/http';
 import { ConnectedUsers } from '../../../Model/connected-users';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-connected-users',
@@ -19,7 +19,7 @@ export class ConnectedUsersComponent implements OnInit,AfterViewInit {
   user_connected_datasource: any = [];
   ConnectedUserSubscription : any;
   constructor(
-    private globalConfService: GlobalconfigService,
+    private Api:ApiFuntions,
     private _liveAnnouncer: LiveAnnouncer,
     public signalRService: SignalrServiceService, 
     private http: HttpClient
@@ -70,7 +70,7 @@ export class ConnectedUsersComponent implements OnInit,AfterViewInit {
       { username: 'Jupiter', wsid: 'q', appname: 'asad' },
       { username: 'Jupiter', wsid: 'q', appname: 'asad' },
     ];
-    this.globalConfService.get(null, '/GlobalConfig/ConnectedUser').subscribe(
+    this.Api.ConnectedUser().subscribe(
       (res: any) => {
         if (res.isExecuted) {
           res.data.map((obj) => ({

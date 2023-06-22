@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { CmSplitLineComponent } from '../cm-split-line/cm-split-line.component';
-import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
+import { CmSplitLineComponent } from '../cm-split-line/cm-split-line.component'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CmShipSplitLineComponent } from '../cm-ship-split-line/cm-ship-split-line.component';
 import { CmShipEditQtyComponent } from '../cm-ship-edit-qty/cm-ship-edit-qty.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-cm-confirm-and-packing-process-transaction',
@@ -22,7 +22,7 @@ contID: any;
 id:  any;
 userData:any = {};
 IsSelectModal: boolean = false;
-constructor(private dialog: MatDialog,private http:ConsolidationManagerService,private authService: AuthService,private toast:ToastrService,
+constructor(private dialog: MatDialog,private Api:ApiFuntions,private authService: AuthService,private toast:ToastrService,
   @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<CmConfirmAndPackingProcessTransactionComponent>,) {
   this.userData = this.authService.userData();
   this.confPackTransTable = this.data.confPackTransTable;
@@ -36,7 +36,7 @@ ngOnInit(): void {
   this.ConfPackProc();
 }  
 async ConfPackProc(){
-  this.http.get({id:this.id},'/Consolidation/ConfPackProcModal').subscribe((response:any) => { 
+  this.Api.ConfPackProcModal({id:this.id}).subscribe((response:any) => { 
     this.confPackProcTable = response.data;  
   });
 } 
@@ -98,7 +98,7 @@ openShipEditQuantity() {
       userName: this.userData.userName,
       wsid: this.userData.wsid
     };
-   this.http.get(obj,'/Consolidation/ConfPackProcModalUpdate').subscribe((res:any) => {
+   this.Api.ConfPackProcModalUpdate(obj).subscribe((res:any) => {
     if (res.data == "Fail") {
       this.toast.error(  "An error has occurred",'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});
   } else {

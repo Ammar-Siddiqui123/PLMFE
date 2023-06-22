@@ -12,8 +12,7 @@ import {
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { AuthService } from '../../../../app/init/auth.service';
-import { BatchManagerService } from '../batch-manager.service';
+import { AuthService } from '../../../../app/init/auth.service'; 
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -23,6 +22,7 @@ import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/d
 import { SharedService } from 'src/app/services/shared.service';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 import { CreateBatchConfirmationComponent } from '../../dialogs/create-batch-confirmation/create-batch-confirmation.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-batch-selected-orders',
@@ -65,7 +65,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
     private dialog: MatDialog,
     private _liveAnnouncer: LiveAnnouncer,
     private authService: AuthService,
-    private batchService: BatchManagerService,
+    private Api: ApiFuntions,
     private toastr: ToastrService,
     private sharedService: SharedService
   ) {}
@@ -107,9 +107,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
     this.batchManagerSettings.map((batchSetting) => {
       this.nextOrderNumber = batchSetting.batchID;
       this.pickToTotes = JSON.parse(batchSetting.pickToTotes.toLowerCase());
-      this.nextToteID = batchSetting.nextToteID;
-      // console.log(batchSetting.batchID);
-      // console.log(this.tableData.data.length);
+      this.nextToteID = batchSetting.nextToteID;  
     });
   }
 
@@ -142,9 +140,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
       ];
       iBactchData.push(result);
     });
-
-    // console.log(iBactchData);
-    // console.log(this.batchManagerSettings);
+ 
     let paylaod = {
       batch: iBactchData,
       nextBatchID:
@@ -156,8 +152,8 @@ export class BatchSelectedOrdersComponent implements OnInit {
       wsid: this.userData.wsid,
     };
     try {
-      this.batchService
-        .create(paylaod, '/Admin/BatchInsert')
+      this.Api
+        .BatchInsert(paylaod)
         .subscribe((res: any) => {
           const { isExecuted } = res;
           if (isExecuted) {
@@ -169,8 +165,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
             });
           }
         });
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 

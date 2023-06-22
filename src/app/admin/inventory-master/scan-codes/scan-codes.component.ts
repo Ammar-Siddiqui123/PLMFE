@@ -1,7 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild,Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FormGroup } from '@angular/forms';
-import { InventoryMasterService } from '../inventory-master.service';
+import { FormGroup } from '@angular/forms'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../../labels/labels.json'
@@ -10,6 +9,7 @@ import { CustomValidatorService } from '../../../../app/init/custom-validator.se
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { SharedService } from 'src/app/services/shared.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-scan-codes',
@@ -33,7 +33,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   }
   
 
-  constructor( private invMasterService: InventoryMasterService, private sharedService:SharedService,
+  constructor( private api:ApiFuntions, private sharedService:SharedService,
     private authService: AuthService, private toastr: ToastrService,  private dialog: MatDialog,private cusValidator: CustomValidatorService) {
 
     this.userData = this.authService.userData();
@@ -113,7 +113,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
           "username": this.userData.userName,
           "wsid": this.userData.wsid,
         }
-        this.invMasterService.get(paylaod, '/Admin/DeleteScanCode').subscribe((res: any) => {
+        this.api.DeleteScanCode(paylaod).subscribe((res: any) => {
           if (res.isExecuted) {
             this.isAddRow=false
             this.toastr.success(labels.alert.delete, 'Success!', {
@@ -195,7 +195,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.invMasterService.get(paylaod, '/Admin/InsertScanCodes').subscribe((res: any) => {
+    this.api.InsertScanCodes(paylaod).subscribe((res: any) => {
       if (res.isExecuted) {
         this.isAddRow=false
         this.toastr.success(labels.alert.success, 'Success!', {
@@ -227,7 +227,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.invMasterService.get(paylaod, '/Admin/UpdateScanCodes').subscribe((res: any) => {
+    this.api.UpdateScanCodes(paylaod).subscribe((res: any) => {
       if (res.isExecuted) {
         this.isAddRow=false
         this.toastr.success(labels.alert.success, 'Success!', {
@@ -262,7 +262,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.invMasterService.get(paylaod, '/Admin/RefreshScanCodes').subscribe((res: any) => {
+    this.api.RefreshScanCodes(paylaod).subscribe((res: any) => {
       if (res.isExecuted) {
 
         this.scanCodes.controls['scanCode'].setValue([...res.data]);

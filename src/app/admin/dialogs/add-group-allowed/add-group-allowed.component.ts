@@ -2,13 +2,13 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import labels from '../../../labels/labels.json';
-import { ToastrService } from 'ngx-toastr';
-import { EmployeeService } from 'src/app/employee.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { Observable } from 'rxjs/internal/Observable';
 import { startWith } from 'rxjs/internal/operators/startWith';
 import { map } from 'rxjs/internal/operators/map';
 import { AuthService } from '../../../../app/init/auth.service';
 import { Router } from '@angular/router';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-add-group-allowed',
@@ -29,7 +29,7 @@ export class AddGroupAllowedComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
-    private employeeService: EmployeeService,
+    private employeeService: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService,
     private fb: FormBuilder,
@@ -47,7 +47,7 @@ export class AddGroupAllowedComponent implements OnInit {
       "filter": "%"
     }
     this.employeeService.getControlName(payload).subscribe((res: any) => {
-      //console.log(res.data);
+      
       this.controlNameList = res.data;
       this.filteredOptions = this.controlNameForm.controls['controlName'].valueChanges.pipe(
         startWith(''),

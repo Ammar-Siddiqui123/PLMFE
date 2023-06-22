@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { BatchManagerService } from './batch-manager.service';
+import { MatTableDataSource } from '@angular/material/table'; 
 import { AuthService } from '../../../app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 const ELEMENT_DATA: any = [
   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H', action: ''},
@@ -84,7 +84,7 @@ export class BatchManagerComponent implements OnInit {
   seeOrderStatus:boolean;
   pickToTotes:boolean;
   extraField:any="";
-  constructor(private batchService : BatchManagerService, 
+  constructor(private Api : ApiFuntions, 
               private authService: AuthService) { 
                 this.permissions= JSON.parse(localStorage.getItem('userRights') || '');
               }
@@ -114,7 +114,7 @@ export class BatchManagerComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     try {
-      this.batchService.get(paylaod, '/Admin/BatchManagerOrder').subscribe((res: any) => {
+      this.Api.BatchManagerOrder(paylaod).subscribe((res: any) => {
         
         const { data, isExecuted } = res
         if (isExecuted && data.length > 0) {
@@ -149,7 +149,7 @@ export class BatchManagerComponent implements OnInit {
       
       
       });
-      this.batchService.get(paylaod, '/Admin/GetBatchManager').subscribe((res: any) => {
+      this.Api.GetBatchManager(paylaod).subscribe((res: any) => {
         const { data, isExecuted } = res
         if (isExecuted) {
           this.batchManagerSettings = data.batchManagerSettings;
@@ -162,8 +162,7 @@ export class BatchManagerComponent implements OnInit {
         }
        
       });
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   
   }

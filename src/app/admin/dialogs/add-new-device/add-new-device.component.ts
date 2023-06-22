@@ -5,13 +5,13 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
-import { AdminService } from '../../admin.service';
+import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../../labels/labels.json';
 import { SharedService } from 'src/app/services/shared.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-add-new-device',
@@ -56,7 +56,7 @@ export class AddNewDeviceComponent implements OnInit {
     public dialogRef: MatDialogRef<AddNewDeviceComponent>,
     private dialog: MatDialog,
     private fb: FormBuilder,
-    private adminService: AdminService,
+    private Api: ApiFuntions,
     public authService: AuthService,
     private toastr: ToastrService,
     private sharedService: SharedService,
@@ -152,8 +152,8 @@ export class AddNewDeviceComponent implements OnInit {
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.adminService
-        .get(paylaod, '/Admin/DevicePreference')
+      this.Api
+        .DevicePreference(paylaod)
         .subscribe((res: any) => {
           if (res.isExecuted) {
             this.toastr.success(res.responseMessage, 'Success!', {
@@ -281,8 +281,8 @@ export class AddNewDeviceComponent implements OnInit {
           username: this.userData.userName,
           wsid: this.userData.wsid,
         };
-        this.adminService
-          .get(payload, '/Admin/DevicePreferencesDelete')
+        this.Api
+          .DevicePreferencesDelete(payload)
           .subscribe((res: any) => {
             if (res.isExecuted) {
               this.toastr.success(res.responseMessage, 'Success!', {
@@ -313,8 +313,8 @@ export class AddNewDeviceComponent implements OnInit {
       wsid: this.userData.wsid,
     };
 
-    this.adminService
-      .get(payload, '/Admin/DeviceInformation')
+    this.Api
+      .DeviceInformation(payload)
       .subscribe((res: any) => {
         this.zoneList = res && res.data ? res.data.zoneList : [];
         this.controllerTypeList =
@@ -449,8 +449,8 @@ export class AddNewDeviceComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.adminService
-          .get(payload, '/Admin/ZoneDevicePreferencesUpdateAll')
+        this.Api
+          .ZoneDevicePreferencesUpdateAll(payload)
           .subscribe((res: any) => {
             if (res.isExecuted) {
               

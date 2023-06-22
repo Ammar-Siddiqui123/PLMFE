@@ -160,6 +160,7 @@ import { WpBulkZonesComponent } from './admin-preferences/workstation-preference
 import { WpPodSetupComponent } from './admin-preferences/workstation-preferences/wp-pod-setup/wp-pod-setup.component';
 import { BasicReportsAndLabelsComponent } from './reports/basic-reports-and-labels/basic-reports-and-labels.component';
 import { CustomReportsAndLabelsComponent } from './reports/custom-reports-and-labels/custom-reports-and-labels.component';
+import { AddNotesComponent } from './dialogs/add-notes/add-notes.component';
 
 
 
@@ -310,6 +311,7 @@ import { CustomReportsAndLabelsComponent } from './reports/custom-reports-and-la
     WpPodSetupComponent,
     BasicReportsAndLabelsComponent,
     CustomReportsAndLabelsComponent,
+    AddNotesComponent,
 
   ],
   imports: [

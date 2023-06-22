@@ -3,8 +3,8 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { GlobalService } from 'src/app/common/services/global.service';
-import { AuthService } from 'src/app/init/auth.service';
-import { OrderManagerService } from 'src/app/order-manager/order-manager.service';
+import { AuthService } from 'src/app/init/auth.service'; 
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-om-changes-confirmation',
@@ -23,7 +23,7 @@ export class OmChangesConfirmationComponent implements OnInit {
               public formBuilder      : FormBuilder,
               private authService     : AuthService,
               public globalService    : GlobalService,
-              private OMService       : OrderManagerService,
+              private Api : ApiFuntions,
               @Inject(MAT_DIALOG_DATA) public data: any) {
 
     this.orderForm = this.formBuilder.group({
@@ -91,7 +91,7 @@ export class OmChangesConfirmationComponent implements OnInit {
         checkLabel: this.orderForm.controls['label'].value,        
       };
   
-      this.OMService.get(payload, '/OrderManager/OrderManagerRecordUpdate').subscribe((res: any) => {
+      this.Api.OrderManagerRecordUpdate(payload).subscribe((res: any) => {
         if (res.isExecuted) {
           this.dialogRef.close({
             isExecuted: true,
@@ -101,8 +101,7 @@ export class OmChangesConfirmationComponent implements OnInit {
         else this.toastr.error("An Error occured while retrieving data.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
       });
 
-    } catch (error) {
-      console.log(error);      
+    } catch (error) {    
     }
   }
 

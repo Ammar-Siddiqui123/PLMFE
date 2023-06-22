@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OmAddRecordComponent } from 'src/app/dialogs/om-add-record/om-add-record.component';
 import { OmCreateOrdersComponent } from 'src/app/dialogs/om-create-orders/om-create-orders.component';
-import { OmUpdateRecordComponent } from 'src/app/dialogs/om-update-record/om-update-record.component';
-import { OrderManagerService } from '../order-manager.service';
+import { OmUpdateRecordComponent } from 'src/app/dialogs/om-update-record/om-update-record.component'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -17,6 +16,10 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { GlobalService } from 'src/app/common/services/global.service';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { MatButton } from '@angular/material/button';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-om-order-manager',
@@ -118,10 +121,17 @@ export class OmOrderManagerComponent implements OnInit {
   constructor(private dialog          : MatDialog,
               private _liveAnnouncer  : LiveAnnouncer,
               private toastr          : ToastrService,
-              private OMService       : OrderManagerService,
+              private Api       : ApiFuntions,
               public authService      : AuthService,
               public globalService    : GlobalService,
-              private filterService   : ContextMenuFiltersService) { }
+              private filterService   : ContextMenuFiltersService,
+              private router: Router) { }
+
+  @ViewChild('btnRef') buttonRef: MatButton;
+
+  ngAfterViewInit() {
+  //  this.buttonRef.focus();
+  }
 
   async ngOnInit(): Promise<void> {
     this.customPagination = {
@@ -137,12 +147,8 @@ export class OmOrderManagerComponent implements OnInit {
     this.fillTable();
   }  
 
-  getOMIndex() {
-    var payLoad = {
-      username: this.userData.userName,
-      wsid: this.userData.wsid,
-    };
-    this.OMService.create(payLoad, '/OrderManager/OrderManagerPreferenceIndex').subscribe(
+  getOMIndex() { 
+    this.Api.OrderManagerPreferenceIndex().subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
           this.OMIndex = res.data;
@@ -165,11 +171,13 @@ export class OmOrderManagerComponent implements OnInit {
       tableName: 'Order Manager'
     };
 
-    this.OMService.get(payload, '/Admin/GetColumnSequence').subscribe((res: any) => {
+    this.Api.GetColumnSequence(payload).subscribe((res: any) => {
       if (res.isExecuted) {
         this.displayedColumns = res.data;        
         this.displayedColumns.push( 'actions');
+        debugger
         this.colList = structuredClone(res.data.filter(x => x != 'actions'));
+        this.colList = this.colList.sort();
         this.searchCol = this.colList[0];
       }
     });
@@ -216,9 +224,9 @@ export class OmOrderManagerComponent implements OnInit {
       orderType: this.orderType,
       filter: this.FilterString
     };
-    // console.log(payload)
+    
 
-    this.OMService.get(payload, '/OrderManager/FillOrderManTempData').subscribe((res: any) => {
+    this.Api.FillOrderManTempData(payload).subscribe((res: any) => {
       if (res.isExecuted) this.fillTable();
       else this.toastr.error("An Error occured while retrieving data.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
     });
@@ -235,14 +243,13 @@ export class OmOrderManagerComponent implements OnInit {
       sortOrder: this.sortColumn.sortOrder,
       searchColumn: this.searchCol,
       searchString: this.searchTxt,
-    };
-    // console.log(payload2)
+    }; 
 
-    this.OMService.get(payload2, '/OrderManager/SelectOrderManagerTempDTNew',loader).subscribe((res: any) => {
+    this.Api.SelectOrderManagerTempDTNew(payload2).subscribe((res: any) => {
       this.orderTable = new MatTableDataSource(res.data?.transactions);
       this.customPagination.total = res.data?.recordsFiltered;
       this.totalRecords = res.data?.recordsFiltered;
-      // console.log(res );
+      
 
       this.orderTable.sort = this.sort;
     });   
@@ -281,7 +288,7 @@ export class OmOrderManagerComponent implements OnInit {
             viewType: this.viewType
           };
       
-          this.OMService.create(payload, '/OrderManager/OMOTPendDelete').subscribe((res: any) => {
+          this.Api.OMOTPendDelete(payload).subscribe((res: any) => {
             if (res.isExecuted) {
               this.getOrders();
             }
@@ -322,14 +329,22 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   openOrderStatus(ele : any, fromTable : boolean) {
-    if((this.value1 == "" || this.column != "Order Number") && !fromTable)
+    if((this.value1 == "" || this.column != "Order Number") && !fromTable){
       this.toastr.error("You must select an Order Number to view the order status.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
-    else
-      if (!fromTable) window.open(`/#/OrderManager/OrderStatus?orderStatus=${this.value1 ? this.value1 : ''}`, '_blank');
-      else {
-        if (!fromTable) window.open(`/#/OrderManager/OrderStatus?orderStatus=${this.value1 ? this.value1 : ''}`, '_blank');
-        else window.open(`/#/OrderManager/OrderStatus?orderStatus=${ele.orderNumber ? ele.orderNumber : ''}`, '_blank');
+    }
+    else{
+      if (!fromTable){
+        this.router.navigateByUrl(`/OrderManager/OrderStatus?orderStatus=${this.value1 ? this.value1 : ''}`);
       } 
+      else {
+        if (!fromTable){
+          this.router.navigateByUrl(`/OrderManager/OrderStatus?orderStatus=${this.value1 ? this.value1 : ''}`);
+        } 
+        else{
+          this.router.navigateByUrl(`/OrderManager/OrderStatus?orderStatus=${ele.orderNumber ? ele.orderNumber : ''}`);
+        } 
+      } 
+    }
   }
 
   releaseViewed() {
@@ -371,7 +386,7 @@ export class OmOrderManagerComponent implements OnInit {
             page: 'Order Manager'
           };
       
-          this.OMService.get(payload, '/OrderManager/ReleaseOrders').subscribe((res: any) => {
+          this.Api.ReleaseOrders(payload).subscribe((res: any) => {
             if (res.isExecuted) {
               this.getOrders();
               this.clearSearch();
@@ -406,7 +421,7 @@ export class OmOrderManagerComponent implements OnInit {
             page: 'Order Manager'
           };
       
-          this.OMService.get(payload, '/OrderManager/ReleaseOrders').subscribe((res: any) => {
+          this.Api.ReleaseOrders(payload).subscribe((res: any) => {
             if (res.isExecuted) {
               this.getOrders();
               this.clearSearch();
@@ -497,8 +512,7 @@ export class OmOrderManagerComponent implements OnInit {
       },
       autoFocus: '__non_existing_element__',
     })
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+    dialogRef.afterClosed().subscribe((result) => { 
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition,result.Type)
     }
     );
@@ -527,7 +541,12 @@ export class OmOrderManagerComponent implements OnInit {
       wsid: this.userData.wsid,
       appName: ""
     }
-    await this.OMService.get(payload, '/OrderManager/OrderManagerTempDelete',true).toPromise();
+    await this.Api.OrderManagerTempDelete(payload).toPromise();
+  }
+
+  actionDialog(matEvent: MatSelectChange) {
+    const matSelect: MatSelect = matEvent.source;
+    matSelect.writeValue(null);
   }
 
 }

@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { TransactionService } from '../../transaction/transaction.service';
+import { ToastrService } from 'ngx-toastr'; 
 import labels from '../../../labels/labels.json';
 import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-user-fields-edit',
@@ -38,7 +38,7 @@ export class UserFieldsEditComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private toastr: ToastrService,
-    private transactionService: TransactionService,
+    private Api: ApiFuntions,
     public dialogRef: MatDialogRef<any>
   ) {}
 
@@ -78,7 +78,7 @@ export class UserFieldsEditComponent implements OnInit {
       wsid: this.data.wsid,
     };
 
-    this.transactionService.get(payload,'/Common/UserFieldMTSave').subscribe((res:any)=>{
+    this.Api.UserFieldMTSave(payload).subscribe((res:any)=>{
       if(res.isExecuted){
              this.toastr.success(labels.alert.success, 'Success!', {
               positionClass: 'toast-bottom-right',
@@ -101,7 +101,7 @@ export class UserFieldsEditComponent implements OnInit {
     return this.floatLabelControlShipName.value || 'shipName';
   }
   searchData(event) {
-    // console.log(event);
+    
   }
 
   async autocompleteSearchColumn() {
@@ -112,8 +112,8 @@ export class UserFieldsEditComponent implements OnInit {
       username: this.data.userName,
       wsid: this.data.wsid,
     };
-    this.transactionService
-      .get(searchPayload, '/Common/UserFieldTypeAhead', true)
+    this.Api
+      .UserFieldTypeAhead(searchPayload)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteShipVia = res.data;
@@ -128,8 +128,8 @@ export class UserFieldsEditComponent implements OnInit {
       username: this.data.userName,
       wsid: this.data.wsid,
     };
-    this.transactionService
-      .get(payload, '/Common/UserFieldGetByID')
+    this.Api
+      .UserFieldGetByID(payload)
       .subscribe((res: any) => {
         if (res && res.data) {
           let item = res.data;
@@ -154,8 +154,8 @@ export class UserFieldsEditComponent implements OnInit {
       username: this.data.userName,
       wsid: this.data.wsid,
     };
-    this.transactionService
-      .get(searchPayload, '/Common/UserFieldTypeAhead', true)
+    this.Api
+      .UserFieldTypeAhead(searchPayload)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteShipName = res.data;

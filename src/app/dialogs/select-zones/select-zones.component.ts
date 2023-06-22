@@ -1,9 +1,9 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit , Inject, Output, EventEmitter} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ProcessPutAwayService } from 'src/app/induction-manager/processPutAway.service';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'; 
 import { ToastrService } from 'ngx-toastr';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface PeriodicElement {
   zone: string
@@ -193,11 +193,10 @@ export class SelectZonesComponent implements OnInit {
       username: this.username,
       wsid: this.wsid
     };
-    this.service.create(payLoad, '/Induction/AvailableZone').subscribe(
+    this.Api.AvailableZone(payLoad).subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
-        this.zoneDetails = res.data.zoneDetails;
-        // console.log('TEST');
+        this.zoneDetails = res.data.zoneDetails; 
         // console.log(this.alreadyAssignedZones);
         for(var i=0;i<this.zoneDetails.length;i++)
         {
@@ -235,7 +234,7 @@ export class SelectZonesComponent implements OnInit {
 
   }
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private service: ProcessPutAwayService , private toastr: ToastrService , public dialogRef: MatDialogRef<SelectZonesComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private Api: ApiFuntions , private toastr: ToastrService , public dialogRef: MatDialogRef<SelectZonesComponent>) { }
 
   ngOnInit(): void {
     this.ELEMENT_DATA.length=0;

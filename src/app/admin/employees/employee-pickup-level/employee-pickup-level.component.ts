@@ -48,8 +48,7 @@ export class EmployeePickupLevelComponent implements OnInit {
   ngOnInit(): void {
     
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    // console.log(this.pickUplevels);
+  ngOnChanges(changes: SimpleChanges): void { 
     if(this.pickUplevels){
       let max: number = Math.max(0,...this.pickUplevels.map(o => o.pickLevel));
       this.nextPickLvl = max+1;

@@ -16,8 +16,7 @@ both;
 
   ngOnInit(): void {
   }
-  changeValue(val,type){
-    // console.log(val,type)
+  changeValue(val,type){ 
     if(type == 'allocation'){
       this.allocation = true;
       this.kanban = false;
