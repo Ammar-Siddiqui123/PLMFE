@@ -6,12 +6,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
-import { ConsolidationManagerService } from '../../consolidation-manager/consolidation-manager.service';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { CmShipSplitLineComponent } from '../cm-ship-split-line/cm-ship-split-line.component';
 import { CmShipEditConIdComponent } from '../cm-ship-edit-con-id/cm-ship-edit-con-id.component';
 import { CmShipEditQtyComponent } from '../cm-ship-edit-qty/cm-ship-edit-qty.component';
 import { CmToteIdUpdateModalComponent } from '../cm-tote-id-update-modal/cm-tote-id-update-modal.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-cm-shipping-transaction',
@@ -34,7 +34,7 @@ export class CmShippingTransactionComponent implements OnInit {
   constructor(private dialog          : MatDialog,
               public dialogRef        : MatDialogRef<CmShippingTransactionComponent>,
               private toast           : ToastrService,
-              private service         : ConsolidationManagerService,
+              private Api: ApiFuntions,
               private authService     : AuthService,
               private _liveAnnouncer  : LiveAnnouncer,
               @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -55,7 +55,7 @@ export class CmShippingTransactionComponent implements OnInit {
       };
 
       // Call the GET API
-      this.service.get(payLoad, '/Consolidation/ShippingTransactionIndex').subscribe(
+      this.Api.ShippingTransactionIndex(payLoad).subscribe(
         (res: any) => {
           if (res.isExecuted) {
             this.STIndex = res.data;
@@ -137,7 +137,7 @@ export class CmShippingTransactionComponent implements OnInit {
         wsid: this.userData.wsid,
       };
 
-      this.service.get(payLoad, '/Consolidation/SelCountOfOpenTransactionsTemp').subscribe(
+      this.Api.SelCountOfOpenTransactionsTemp(payLoad).subscribe(
         (res: any) => {
           if (res.isExecuted) {
 
@@ -158,7 +158,7 @@ export class CmShippingTransactionComponent implements OnInit {
       
               dialogRef.afterClosed().subscribe((result) => {
                 if (result == 'Yes') {
-                  this.service.create(payLoad, '/Consolidation/CompletePackingUpdate').subscribe(
+                  this.Api.CompletePackingUpdate(payLoad).subscribe(
                     (res: any) => {
                       if (res.isExecuted) {
                         this.toast.success('Packing Completed Successfully', 'Success!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
@@ -198,7 +198,7 @@ export class CmShippingTransactionComponent implements OnInit {
 
                   dialogRef2.afterClosed().subscribe((result) => {
                     if (result == 'Yes') {
-                      this.service.create(payLoad, '/Consolidation/CompletePackingUpdate').subscribe(
+                      this.Api.CompletePackingUpdate(payLoad).subscribe(
                         (res: any) => {
                           if (res.isExecuted) {
                             this.toast.success('Packing Completed Successfully', 'Success!', { positionClass: 'toast-bottom-right', timeOut: 2000 });

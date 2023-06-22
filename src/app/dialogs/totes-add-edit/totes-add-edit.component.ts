@@ -1,13 +1,13 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import { ProcessPutAwayService } from '../../induction-manager/processPutAway.service';
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { DeleteConfirmationComponent } from '../../admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface PeriodicElement {
   name: string;
@@ -96,7 +96,7 @@ export class TotesAddEditComponent implements OnInit {
         toteID: toteID,
         cells: cells
       }
-      this.service.get(searchPayload, '/Admin/ToteSetupInsert', true).subscribe(
+      this.Api.ToteSetupInsert(searchPayload).subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
             this.toastr.success(isInserted=="1"?updateMessage:res.responseMessage, 'Success!', {
@@ -137,7 +137,7 @@ export class TotesAddEditComponent implements OnInit {
           wsid: this.userData.wsid,
           toteID: toteID
         }
-        this.service.create(deleteTote, '/Admin/ToteSetupDelete').subscribe(
+        this.Api.ToteSetupDelete(deleteTote).subscribe(
           (res: any) => {
             if (res.data && res.isExecuted) {
               this.toastr.success("Deleted successfuly", 'Success!', {
@@ -163,11 +163,7 @@ export class TotesAddEditComponent implements OnInit {
   getTotes()
   {
     this.ELEMENT_DATA_TOTE.length=0;
-    let searchPayload = {
-      username: this.userData.userName,
-      wsid: this.userData.wsid
-    }
-    this.service.get(searchPayload, '/Admin/ToteSetup').subscribe(
+    this.Api.ToteSetup().subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
           this.ELEMENT_DATA_TOTE = res.data;
@@ -279,7 +275,7 @@ export class TotesAddEditComponent implements OnInit {
   selection1 = new SelectionModel<PeriodicElement>(true, []);
 
   constructor(public dialogRef: MatDialogRef<TotesAddEditComponent>,private route: ActivatedRoute,private location: Location,
-    @Inject(MAT_DIALOG_DATA) public data : any,private authService: AuthService,private service: ProcessPutAwayService,private toastr: ToastrService,private dialog: MatDialog,) {
+    @Inject(MAT_DIALOG_DATA) public data : any,private authService: AuthService,private Api:ApiFuntions,private toastr: ToastrService,private dialog: MatDialog,) {
 
       let pathArr= this.location.path().split('/')
       this.isIMPath=pathArr[pathArr.length-1]==='ImToteManager'?true:false

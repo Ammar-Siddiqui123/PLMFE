@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PrintRangeComponent } from '../print-range/print-range.component';
-import { ToastrService } from 'ngx-toastr';
-import { UnitOfMeasureService } from 'src/app/common/services/unit-measure.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from '../../../../app/init/auth.service';
-import labels from '../../../labels/labels.json';
-import { InventoryMasterService } from '../../inventory-master/inventory-master.service';
+import labels from '../../../labels/labels.json'; 
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-scan-type-code',
@@ -21,7 +20,7 @@ export class ScanTypeCodeComponent implements OnInit {
 
 
   constructor(private dialog: MatDialog,
-    private invMasterService: InventoryMasterService, 
+    private Api: ApiFuntions, 
               private authService: AuthService,
               private toastr: ToastrService,
               public dialogRef: MatDialogRef<any>) { }
@@ -35,7 +34,7 @@ export class ScanTypeCodeComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.invMasterService.get(paylaod, '/Common/ScanCodeTypes').subscribe((res) => {
+    this.Api.ScanCodeTypes().subscribe((res) => {
       if (res.isExecuted) {
         this.scanTypeCode_list_Response = [...res.data];
         this.scanTypeCode_list = res.data;
@@ -69,7 +68,7 @@ export class ScanTypeCodeComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     
-    this.invMasterService.get(paylaod, '/Common/CodeTypeSave').subscribe((res) => {
+    this.Api.CodeTypeSave(paylaod).subscribe((res) => {
       if(res.isExecuted){
         this.getScanCodeType();
         this.toastr.success(labels.alert.success, 'Success!', {
@@ -107,7 +106,7 @@ export class ScanTypeCodeComponent implements OnInit {
             "wsid": this.userData.wsid,
           }
           
-          this.invMasterService.get(paylaod,'/Common/ScanCodeTypeDelete').subscribe((res) => {
+          this.Api.ScanCodeTypeDelete(paylaod).subscribe((res) => {
             if(res.isExecuted){
               this.getScanCodeType();
             this.toastr.success(labels.alert.delete, 'Success!', {

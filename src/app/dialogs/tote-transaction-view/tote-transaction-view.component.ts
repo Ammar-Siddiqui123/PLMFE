@@ -7,13 +7,13 @@ import {
 } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
-import { ToastrService } from 'ngx-toastr';
-import { ProcessPutAwayService } from 'src/app/induction-manager/processPutAway.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirmation.component';
 import { BatchDeleteComponent } from '../batch-delete/batch-delete.component';
 import { MarkToteFullComponent } from '../mark-tote-full/mark-tote-full.component';
 import labels from '../../labels/labels.json';
 import { PageEvent } from '@angular/material/paginator';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 
 @Component({
@@ -45,7 +45,7 @@ export class ToteTransactionViewComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<any>,
     private dialog: MatDialog,
-    private service: ProcessPutAwayService,
+    private Api: ApiFuntions,
     private toastr: ToastrService,
   ) {}
 
@@ -113,7 +113,7 @@ export class ToteTransactionViewComponent implements OnInit {
       wsid: this.data.wsid,
     };
 
-    this.service.get(payLoad,'/Induction/TransTableView').subscribe((res:any)=>{
+    this.Api.TransTableView(payLoad).subscribe((res:any)=>{
       
       if(res && res.data){
         this.isData=true
@@ -173,7 +173,7 @@ export class ToteTransactionViewComponent implements OnInit {
             wsid: this.data.wsid,
           };
 
-          this.service.create(payLoad, '/Induction/MarkToteFull').subscribe(
+          this.Api.MarkToteFull(payLoad).subscribe(
             (res: any) => {
               if (res.data && res.isExecuted) {
                 this.toastr.success(labels.alert.success, 'Success!', {
@@ -239,7 +239,7 @@ export class ToteTransactionViewComponent implements OnInit {
           wsid: this.data.wsid,
         }
         let baseUrl=type==='clear'?'/Induction/ClearItemFromTote':'/Induction/DeAllocateItemFromTote'
-        this.service.get(payLoad,baseUrl).subscribe((res:any)=>{
+        this.Api.DynamicMethod(payLoad,baseUrl).subscribe((res:any)=>{
           if (res && res.isExecuted) {
             this.toastr.success(labels.alert.success, 'Success!', {
               positionClass: 'toast-bottom-right',

@@ -2,11 +2,11 @@ import { Component, OnInit, Inject, ViewChild, TemplateRef, ElementRef } from '@
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import labels from '../../../labels/labels.json';
-import { EmployeeService } from 'src/app/employee.service';
+import labels from '../../../labels/labels.json'; 
 import { AdminEmployeeLookupResponse } from 'src/app/Iemployee';
 import { Router } from '@angular/router';
 import { CustomValidatorService } from '../../../../app/init/custom-validator.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion';
@@ -50,7 +50,7 @@ export class AddNewEmployeeComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private employeeService: EmployeeService,
+    private employeeService: ApiFuntions,
     private router: Router,
     private fb: FormBuilder,
     private cusValidator: CustomValidatorService,

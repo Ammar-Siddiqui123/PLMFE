@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
-import { OrderManagerService } from 'src/app/order-manager/order-manager.service';
+import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component'; 
 import labels from '../../labels/labels.json';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-om-event-log-entry-detail',
@@ -18,7 +18,7 @@ export class OmEventLogEntryDetailComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
-    private orderManagerService: OrderManagerService,
+    private Api: ApiFuntions,
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<OmEventLogEntryDetailComponent>,
     private authService: AuthService,
@@ -47,7 +47,7 @@ export class OmEventLogEntryDetailComponent implements OnInit {
           "username": this.userData.userName,
           "wsid": this.userData.wsid
         }
-        this.orderManagerService.get(payload, '/Admin/SelectedEventDelete').subscribe((res: any) => {
+        this.Api.SelectedEventDelete(payload).subscribe((res: any) => {
           if (res.isExecuted && res.data) {
             this.toastr.success(labels.alert.delete, 'Success!', {
               positionClass: 'toast-bottom-right',

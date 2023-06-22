@@ -6,9 +6,9 @@ import {
 } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
-import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
-import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
+import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component'; 
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-cm-shipping-carrier',
@@ -25,7 +25,7 @@ export class CmShippingCarrierComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private authService: AuthService,
-    private cmService: ConsolidationManagerService,
+    private Api: ApiFuntions,
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<any>,
     private dialog: MatDialog
@@ -36,13 +36,9 @@ export class CmShippingCarrierComponent implements OnInit {
     this.getCarrier();
   }
 
-  getCarrier() {
-    let payload = {
-      userName: this.userData.userName,
-      wsid: this.userData.wsid,
-    };
-    this.cmService
-      .get(payload, '/Consolidation/CarrierSelect')
+  getCarrier() { 
+    this.Api
+      .CarrierSelect()
       .subscribe((res: any) => {
         if (res.isExecuted) {
           this.disableAddField = false;
@@ -88,8 +84,8 @@ export class CmShippingCarrierComponent implements OnInit {
       };
     }
 
-    this.cmService
-      .get(paylaod, '/Consolidation/CarrierSave')
+    this.Api
+      .CarrierSave(paylaod)
       .subscribe((res: any) => {
         if (res.isExecuted) {
           this.toastr.success(res.message);
