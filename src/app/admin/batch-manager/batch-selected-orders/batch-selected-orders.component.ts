@@ -107,9 +107,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
     this.batchManagerSettings.map((batchSetting) => {
       this.nextOrderNumber = batchSetting.batchID;
       this.pickToTotes = JSON.parse(batchSetting.pickToTotes.toLowerCase());
-      this.nextToteID = batchSetting.nextToteID;
-      // console.log(batchSetting.batchID);
-      // console.log(this.tableData.data.length);
+      this.nextToteID = batchSetting.nextToteID;  
     });
   }
 
@@ -142,9 +140,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
       ];
       iBactchData.push(result);
     });
-
-    // console.log(iBactchData);
-    // console.log(this.batchManagerSettings);
+ 
     let paylaod = {
       batch: iBactchData,
       nextBatchID:
@@ -169,8 +165,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
             });
           }
         });
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 

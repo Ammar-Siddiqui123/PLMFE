@@ -50,8 +50,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     //     }
     //   });
 
-    //get absolute url
-    // console.log(router.url);
+    //get absolute url 
    if(router.url == '/OrderManager/OrderStatus'){
     this.TabIndex = 0;
    }
@@ -84,16 +83,14 @@ export class TransactionComponent implements OnInit, AfterViewInit {
         this.IsOrderStatus = true;
       }else this.IsOrderStatus = false;
     });
-    this.tabIndex$.subscribe((param) => {
-      // console.log(param)
+    this.tabIndex$.subscribe((param) => { 
       if (param) {
         this.TabIndex = 0;
         // this.sharedService.updateOrderStatus(param)
       }
     });
     
-    this.orderStatus$.subscribe((param) => {
-      // console.log(param)
+    this.orderStatus$.subscribe((param) => { 
       if(param!=null && param !== undefined){
        
         this.TabIndex = 0;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ILogin, ILoginInfo } from './Ilogin';
 import { LoginService } from '../login.service';
 import { FormControl, FormGroup, Validators, } from '@angular/forms';
@@ -21,7 +21,7 @@ import { SharedService } from '../services/shared.service';
 })
 export class LoginComponent {
   login: ILogin;
-
+  @ViewChild('passwordInput') passwordInput: ElementRef;
   returnUrl: string;
   public env;
   public toggle_password = true;
@@ -49,12 +49,11 @@ export class LoginComponent {
     this.isReadOnly = !this.isReadOnly;
   }
 
-  addLoginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
-    password: new FormControl('', [Validators.required]),
-  });
+  addLoginForm:any = {};
 
-
+enterUserName(){
+  this.passwordInput.nativeElement.focus();
+}
   public noWhitespaceValidator(control: FormControl) {
     const isSpace = (control.value || '').match(/\s/g);
     return isSpace ? { 'whitespace': true } : null;
@@ -62,8 +61,8 @@ export class LoginComponent {
 
   loginUser() {
     this.loader.show();
-    this.addLoginForm.get("username")?.setValue(this.addLoginForm.value.username?.replace(/\s/g, "")||null);
-    this.login = this.addLoginForm.value;
+    this.addLoginForm.username = this.addLoginForm.username?.replace(/\s/g, "")||null;
+    this.login = this.addLoginForm;
     const workStation:any = JSON.parse(localStorage.getItem('workStation') || '');
     this.login.wsid = workStation.workStationID;
     this.loginService
@@ -293,7 +292,7 @@ export class LoginComponent {
      }
     else{
       localStorage.setItem('isAppVerified',JSON.stringify({appName:'',isVerified:true}))
-      this.addLoginForm.reset();
+      // this.addLoginForm.reset();
       this.router.navigate(['/dashboard']);
     }
   },
@@ -316,7 +315,7 @@ export class LoginComponent {
     if(this.isAppAccess){
       localStorage.setItem('isAppVerified',JSON.stringify({appName:appName,isVerified:true}))
       this.redirection(appName)
-      this.addLoginForm.reset();
+      // this.addLoginForm.reset();
       
       
     }else{
@@ -366,7 +365,7 @@ export class LoginComponent {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
+      ;
 
     });
   }

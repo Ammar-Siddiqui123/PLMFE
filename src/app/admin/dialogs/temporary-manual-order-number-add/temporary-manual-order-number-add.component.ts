@@ -44,7 +44,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
     return this.floatLabelControlItem.value || 'item';
   }
   searchData(event) {
-    // console.log(event);
+    
   }
   setItem(event?) {
     let payLoad = {
@@ -61,8 +61,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
               select: `${item.itemQty} @ ${item.locationNumber}`,
             };
           });
-
-          // console.log(this.setLocationByItemList);
+ 
         }
 
         // this.searchAutocompleteItemNum = res.data;
@@ -104,8 +103,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
         (error) => {}
       );
   }
-  onFocusOutEvent(event,type){
-// console.log(event.target.value)
+  onFocusOutEvent(event,type){ 
 if(type==='order'){
 if(event.target.value===''){
 this.orderRequired=true
@@ -139,7 +137,7 @@ this.orderRequired=true
 }
   } 
   getRow(row) {
-    // console.log(row);
+    
     // let payLoad = {
     //   id: row.id,
     //   username: this.data.userName,
@@ -152,8 +150,7 @@ this.orderRequired=true
     //       if(res && res.data){
     //         this.setLocationByItemList=res.data.map((item)=>{
     //           return {invMapID:item.invMapID,select:`${item.itemQty}@${item.locationNumber}`}
-    //         })
-    //         console.log(this.setLocationByItemList);
+    //         }) 
     //       }
     //       // this.searchAutocompleteItemNum = res.data;
     //     },

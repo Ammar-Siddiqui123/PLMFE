@@ -77,8 +77,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       isSaved: false,
       
     });
-    this.kitItemsList = [...this.kitItemsList];
-    // console.log(this.kitItemsList);
+    this.kitItemsList = [...this.kitItemsList]; 
     
   }
 
@@ -191,8 +190,7 @@ export class KitItemComponent implements OnInit, OnChanges {
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
       }
-      
-      // console.log(paylaod);
+       
       this.invMasterService.get(paylaod, '/Admin/UpdateKit').subscribe((res: any) => {
 
         if (res.isExecuted) {
@@ -255,8 +253,7 @@ export class KitItemComponent implements OnInit, OnChanges {
 
   getSearchList(e: any) {
 
-    this.searchValue = e.currentTarget.value;
-    // console.log(e.currentTarget.value)
+    this.searchValue = e.currentTarget.value; 
     let paylaod = {
       "itemNumber": e.currentTarget.value,
       "beginItem": "---",
@@ -325,16 +322,13 @@ export class KitItemComponent implements OnInit, OnChanges {
     this.dialogitemNumberDisplay = '';
   }
   checkIfFilled(val: any, input?: any, index?:any){
-    //Work need to be continue from here
-    // console.log('kit_'+index);
-    // console.log(this.namebutton.nativeElement.classList);
+    //Work need to be continue from here 
     
     if(this.namebutton.nativeElement.classList.contains('kit_'+index)){
       this.namebutton.nativeElement.disabled = false;
       this.namebutton.nativeElement.classList.remove('mat-button-disabled')
     }
-    if(this.namebutton.nativeElement.classList.contains('kit_push_'+index)){
-      // console.log('kit_push_'+index);
+    if(this.namebutton.nativeElement.classList.contains('kit_push_'+index)){ 
       // const myHtmlEl = document.getElementsByClassName('kit_push_'+index).item(0) as HTMLElement;
       // myHtmlEl.removeAttribute('disabled');
       
@@ -346,9 +340,7 @@ export class KitItemComponent implements OnInit, OnChanges {
     // myTag.classList.remove('mat-button-disabled');
 
     if(input === 'kitQuantity'){
-      if(val > 0){
-        // console.log(index);
-        // console.log(val.target.dataset.index);
+      if(val > 0){ 
         this.isFormFilled = true;
       }
     }

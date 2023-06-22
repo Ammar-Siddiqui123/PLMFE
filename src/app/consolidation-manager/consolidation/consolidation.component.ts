@@ -102,8 +102,7 @@ export class ConsolidationComponent implements OnInit {
       this.autocompleteSearchColumnItem()
     });
 
-    // this.getTableData('','')
-    // console.log(this.stageTable)
+    // this.getTableData('','') 
   }
 
   ngAfterViewInit() {
@@ -243,8 +242,8 @@ export class ConsolidationComponent implements OnInit {
           this.stageTable =  new MatTableDataSource(res.data.stageTable);
           let z: any[] = [];
 
-          // console.log(this.tableData_1.data,'table1')
-          // console.log(this.tableData_2.data,'table2')
+          
+          
            z = this.tableData_1.data.filter((element) => element.lineStatus == 'Waiting Reprocess')
           let data = this.tableData_2.data;
           data.push(...z);
@@ -253,8 +252,8 @@ export class ConsolidationComponent implements OnInit {
           this.tableData_1.data = this.tableData_1.data.filter((el)=>{
             return !z.includes(el)
         })
-          // console.log(this.tableData_1.data,'table1')
-          // console.log(this.tableData_2.data,'table2')
+          
+          
           this.tableData_1.paginator = this.paginator;
           this.tableData_2.paginator = this.paginator2;
           this.stageTable.paginator = this.paginator3;
@@ -411,8 +410,7 @@ export class ConsolidationComponent implements OnInit {
 
     this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res:any)=>{
       if(res.isExecuted){
-        let data = this.tableData_2.data;
-        console.log({...this.tableData_1.data[index]})
+        let data = this.tableData_2.data; 
         data.push({...this.tableData_1.data[index]});
         this.tableData_2 = new MatTableDataSource(data);
         let data2 = this.tableData_1.data;
@@ -438,8 +436,7 @@ export class ConsolidationComponent implements OnInit {
 
     let id = element.id;
     let status = element.lineStatus;
-    let index = this.tableData_2.data.indexOf(element)
-    console.log(status)
+    let index = this.tableData_2.data.indexOf(element) 
 
 
     if(status == 'Waiting Reprocess'){
@@ -460,9 +457,7 @@ export class ConsolidationComponent implements OnInit {
             data.splice(index, 1);
             this.tableData_2 = new MatTableDataSource(data);
             this.tableData_1.paginator = this.paginator;
-            this.tableData_2.paginator = this.paginator2;
-            // console.log(this.tableData_1.data)
-            // console.log(this.tableData_2.data)
+            this.tableData_2.paginator = this.paginator2; 
           }
           else{
             this.toastr.error(res.responseMessage, 'Error!', {

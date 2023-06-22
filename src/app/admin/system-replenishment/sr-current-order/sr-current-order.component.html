@@ -40,6 +40,7 @@
                     <mat-form-field class="action-dropdown d-xl-flex d-block mb-3 mb-xl-0" appearance="outline">
                         <mat-label>Search</mat-label>
                         <mat-select class="employees-action" (selectionChange)="searchChange($event.value)">
+                            <mat-option value=""></mat-option>
                             <mat-option *ngFor="let option of searchColumnOptions" [value]="option.value">{{option.viewValue}}</mat-option>
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">

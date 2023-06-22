@@ -88,7 +88,7 @@ export class DetailComponent implements OnInit {
           "wsid": this.userData.wsid
         }
         this.invMasterService.update(paylaod, '/Admin/UpdateItemNumber').subscribe((res: any) => {
-          // console.log(res.data);
+          
           if (res.isExecuted) {
             this.details.patchValue({
               'itemNumber' : res.data.newItemNumber
@@ -152,8 +152,7 @@ export class DetailComponent implements OnInit {
       this.sharedService.updateInvMasterState(result,true)
     })
   }
-  public openUmDialog() {
-    // console.log(this.details.controls['replenishmentLevel'].value)
+  public openUmDialog() { 
     let dialogRef = this.dialog.open(UnitMeasureComponent, {
       height: 'auto',
       width: '750px',
@@ -163,7 +162,7 @@ export class DetailComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
+      ;
       if(result!='' && result!=true)
       { 
         this.details.patchValue({

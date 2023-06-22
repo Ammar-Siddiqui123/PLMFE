@@ -107,19 +107,16 @@ export class TranInReprocessComponent implements OnInit {
       "username":  this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.transService.get(payload, '/Admin/ReprocessTypeahead').subscribe(res => {
-      // console.log(res);
+    this.transService.get(payload, '/Admin/ReprocessTypeahead').subscribe(res => { 
       this.orderList = res.data;
     });
   }
 
-  orderSelected(){
-    // console.log(this.orderNumber);
+  orderSelected(){ 
     this.selectedOrderNumber.emit(this.orderNumber);
     this.getItemList();
   }
-  listSelected(event?){
-    // console.log(this.orderNumber);
+  listSelected(event?){ 
     this.selectedItemNum.emit(this.itemNumber);
     // this.getItemList();
   }
@@ -132,7 +129,7 @@ export class TranInReprocessComponent implements OnInit {
       "wsid": this.userData.wsid
     }
     this.transService.get(payload, '/Admin/ReprocessTypeahead').subscribe(res => {
-      // console.log(res.data);
+      
       this.itemNumberList = res.data;
     });
   }

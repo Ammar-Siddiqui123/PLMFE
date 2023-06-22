@@ -28,8 +28,7 @@ export class SignalrServiceService {
         .catch(err => console.log(err));
 
         this.hubConnection.on('GetLoginData', (data) => {
-          this.ConnectedUsers.next(data);
-          //console.log(data.data);
+          this.ConnectedUsers.next(data); 
          });
       }
 

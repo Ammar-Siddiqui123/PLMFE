@@ -270,8 +270,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   };
 
   ngOnInit(): void {
-    this.setVal = localStorage.getItem('routeFromOrderStatus')
-    console.log(  this.setVal,'chechlocal')
+    this.setVal = localStorage.getItem('routeFromOrderStatus') 
     if(this.router.url == '/OrderManager/OrderStatus' || this.setVal == 'true'){
       this.throughOrderManager = true;
       this.directAdmin = false;
@@ -742,7 +741,8 @@ this.router.navigate([]).then((result) => {
   sendCompletedToHistory() {
     let dialogRef = this.dialog.open(SendTranHistoryComponent, {
       height: 'auto',
-      width: '800px',
+      width: '580px',
+      autoFocus: '__non_existing_element__',
       data: {
         user: this.userData.userName,
         wsid: this.userData.wsid,

@@ -61,7 +61,7 @@ export class SetColumnSeqComponent implements OnInit {
       "viewName": "Inventory Map"
     }
     this.seqColumn.saveColumnSeq(payload).subscribe((res:any) => {
-      // console.log(res);
+      ;
       if(res.isExecuted){
         this.toastr.success(labels.alert.success, 'Success!', {
           positionClass: 'toast-bottom-right',

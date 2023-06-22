@@ -130,7 +130,7 @@ export class SrCurrentOrderComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe((result) => {
-      // console.log(result);
+      ;
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
@@ -436,6 +436,9 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   searchChange(event: any) {
+    if(event == ""){
+      this.tablePayloadObj.searchString = "";
+    }
     this.tablePayloadObj.searchColumn = event;
     this.getSearchOptions();
     this.resetPagination();

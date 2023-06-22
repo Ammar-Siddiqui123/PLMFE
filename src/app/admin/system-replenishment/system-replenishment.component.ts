@@ -27,7 +27,7 @@ export class SystemReplenishmentComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(() => {
-      // console.log('The dialog was closed');
+      
     });
   }
   printLabels(): void {
@@ -36,7 +36,7 @@ export class SystemReplenishmentComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(() => {
-      // console.log('The dialog was closed');
+      
     });
   }
 
@@ -46,7 +46,7 @@ export class SystemReplenishmentComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(() => {
-      // console.log('The dialog was closed');
+      
     });
   }
 

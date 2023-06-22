@@ -31,8 +31,7 @@ export class DashboardComponent implements OnInit {
   //         value:'/'+element
   //       })
   //     });
-  //     }
-  //     // console.log(val instanceof NavigationEnd) 
+  //     } 
   // });
    }
 
@@ -97,7 +96,7 @@ export class DashboardComponent implements OnInit {
     };
 this.employeeService.getEmployeeData(this.emp)
 .subscribe((response: EmployeeObject) => {
-  // console.log(response);
+  
 
 
   });
@@ -116,7 +115,7 @@ this.employeeService.getEmployeeData(this.emp)
     };
 this.employeeService.employeeStatsInfo(this.emp)
 .subscribe((response: AdminEmployeeLookupResponse) => {
-  // console.log(response);
+  
 
 
   });
@@ -137,7 +136,7 @@ this.employeeService.employeeStatsInfo(this.emp)
 
 // this.employeeService.saveAdminEmployee(this.emp)
 // .subscribe((response: AdminEmployeeLookupResponse) => {
-// console.log(response);
+
 
 
 // });
@@ -152,7 +151,7 @@ deleteEmployee() {
   };
 this.employeeService.deleteAdminEmployee(this.emp)
 .subscribe((response: AdminEmployeeLookupResponse) => {
-// console.log(response);
+
 
 
 });
@@ -176,7 +175,7 @@ updateEmployee() {
   };
 this.employeeService.updateAdminEmployee(this.emp)
 .subscribe((response: AdminEmployeeLookupResponse) => {
-// console.log(response);
+
 
 
 });
@@ -197,7 +196,7 @@ getControlName() {
   };
 this.employeeService.getControlName(this.emp)
 .subscribe((response: EmployeeObject) => {
-// console.log(response);
+
 
 
 });
@@ -212,7 +211,7 @@ updateControlName() {
   };
 this.employeeService.updateControlName(this.emp)
 .subscribe((response: EmployeeObject) => {
-//console.log(response);
+
 
 
 });
@@ -227,7 +226,7 @@ deleteControlName() {
   };
 this.employeeService.deleteControlName(this.emp)
 .subscribe((response: EmployeeObject) => {
-//console.log(response);
+
 
 
 });
@@ -242,7 +241,7 @@ submitControlName() {
   };
 this.employeeService.submitControlResponse(this.emp)
 .subscribe((response: EmployeeObject) => {
-//console.log(response);
+
 
 
 });
@@ -261,7 +260,7 @@ updateEmployeeZone() {
   };
 this.employeeService.updateEmployeeZone(this.emp)
 .subscribe((response: AdminEmployeeLookupResponse) => {
-//console.log(response);
+
 
 
 });
@@ -278,7 +277,7 @@ deleteEmployeeZone() {
   };
 this.employeeService.deleteEmployeeZone(this.emp)
 .subscribe((response: AdminEmployeeLookupResponse) => {
-//console.log(response);
+
 
 
 });
@@ -307,7 +306,7 @@ getZones() {
   };
 this.employeeService.getZones(this.emp)
 .subscribe((response: AdminEmployeeLookupResponse) => {
-//console.log(response);
+
 
 
 });
@@ -325,7 +324,7 @@ insertAllAccess() {
   };
 this.employeeService.insertAllAccess(this.emp)
 .subscribe((response: AdminEmployeeLookupResponse) => {
-//console.log(response);
+
 
 
 });
@@ -342,7 +341,7 @@ insertEmployeeLocation() {
   };
 this.employeeService.insertEmployeeLocation(this.emp)
 .subscribe((response: AdminEmployeeLookupResponse) => {
-//console.log(response);
+
 
 
 });
@@ -359,7 +358,7 @@ updateEmployeeLocation() {
   };
 this.employeeService.updateEmployeeLocation(this.emp)
 .subscribe((response: AdminEmployeeLookupResponse) => {
-//console.log(response);
+
 
 
 });
@@ -374,7 +373,7 @@ deleteEmployeeLocation() {
   };
 this.employeeService.deleteEmployeeLocation(this.emp)
 .subscribe((response: AdminEmployeeLookupResponse) => {
-//console.log(response);
+
 
 
 });
@@ -392,7 +391,7 @@ insertPickLevels() {
   };
 this.employeeService.insertPickLevels(this.emp)
 .subscribe((response: AdminEmployeeLookupResponse) => {
-//console.log(response);
+
 
 
 });
@@ -410,7 +409,7 @@ updatePickLevels() {
   };
 this.employeeService.updatePickLevels(this.emp)
 .subscribe((response: AdminEmployeeLookupResponse) => {
-//console.log(response);
+
 
 
 });
@@ -427,7 +426,7 @@ deletePickLevels() {
   };
 this.employeeService.deletePickLevels(this.emp)
 .subscribe((response: AdminEmployeeLookupResponse) => {
-//console.log(response);
+
 
 
 });
@@ -445,7 +444,7 @@ updateAccessGroup() {
   };
 this.employeeService.updateAccessGroup(this.emp)
 .subscribe((response: AccessGroupObject) => {
-//console.log(response);
+
 
 
 });
@@ -462,7 +461,7 @@ insertGroup() {
   };
 this.employeeService.updateAccessGroup(this.emp)
 .subscribe((response: AccessGroupObject) => {
-//console.log(response);
+
 
 
 });
