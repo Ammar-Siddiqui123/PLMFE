@@ -161,6 +161,7 @@ import { WpPodSetupComponent } from './admin-preferences/workstation-preferences
 import { AddNotesComponent } from './dialogs/add-notes/add-notes.component';
 import { WpPickLevelsComponent } from './admin-preferences/workstation-preferences/wp-pick-levels/wp-pick-levels.component';
 import { WpCustomAppsComponent } from './admin-preferences/workstation-preferences/wp-custom-apps/wp-custom-apps.component';
+import { WpMiscellaneousSettingsComponent } from './admin-preferences/workstation-preferences/wp-miscellaneous-settings/wp-miscellaneous-settings.component';
 
 
 
@@ -312,6 +313,7 @@ import { WpCustomAppsComponent } from './admin-preferences/workstation-preferenc
     AddNotesComponent,
     WpPickLevelsComponent,
     WpCustomAppsComponent,
+    WpMiscellaneousSettingsComponent,
 
   ],
   imports: [
