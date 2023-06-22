@@ -1,0 +1,21 @@
+.report-label-list ul {
+    line-height: 46px;
+    top: 0;
+    left: 8px;
+    right: 14px;
+    bottom: 0;
+
+    li {
+        cursor: pointer;
+
+        &:hover {
+            border-radius: 8px;
+            transition: 0.3s ease all;
+            color: #fff;
+            background: var(--clr-primary-300);
+
+
+
+        }
+    }
+}

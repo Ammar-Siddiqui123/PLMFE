@@ -158,6 +158,8 @@ import { DeAllocateOrdersComponent } from './de-allocate-orders/de-allocate-orde
 import { ReportsComponent } from './reports/reports.component';
 import { WpBulkZonesComponent } from './admin-preferences/workstation-preferences/wp-bulk-zones/wp-bulk-zones.component';
 import { WpPodSetupComponent } from './admin-preferences/workstation-preferences/wp-pod-setup/wp-pod-setup.component';
+import { BasicReportsAndLabelsComponent } from './reports/basic-reports-and-labels/basic-reports-and-labels.component';
+import { CustomReportsAndLabelsComponent } from './reports/custom-reports-and-labels/custom-reports-and-labels.component';
 
 
 
@@ -306,6 +308,8 @@ import { WpPodSetupComponent } from './admin-preferences/workstation-preferences
     ReportsComponent,
     WpBulkZonesComponent,
     WpPodSetupComponent,
+    BasicReportsAndLabelsComponent,
+    CustomReportsAndLabelsComponent,
 
   ],
   imports: [
