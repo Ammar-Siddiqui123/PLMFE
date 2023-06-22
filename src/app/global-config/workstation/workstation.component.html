@@ -42,7 +42,7 @@
                                                     online_prediction
                                                 </span>
                                             </div>
-                                            <span>Workstation Appss</span>
+                                            <span>Workstation Appsss</span>
                                         </h2>
 
                                         <mat-form-field class="action-dropdown d-block" appearance="outline">
@@ -64,11 +64,13 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-xl-5 mb-3 mb-xl-0">
-                                            <div class="card br-14 table-responsive">
+                                            <div class="card br-14" >
                                                 <div class="card-header">Workstations</div>
                                                
                                                 <!-- <ng-scrollbar style="height: 500px;" track="all"> -->
-                                                    <div class="card-body">
+                                                    <div class="card-body table-responsive" mat-dialog-content style="overflow-y: auto;
+                                                    height: 500px;">
+
                                                 <mat-radio-group color="primary" [(ngModel)]="selectedItem">
                                                     <div *ngFor="let item of workstationData; let i = index"
                                                         class="d-flex flex-column gap-12 mb-2">
