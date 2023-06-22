@@ -200,7 +200,7 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   openOmAddTransaction(element: any = {}) {
-    debugger;
+    // debugger;
     if(this.tableData.filteredData.length == 0){
       return;
     }

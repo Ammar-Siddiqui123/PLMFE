@@ -89,18 +89,18 @@ const routes: Routes = [
     component: SystemReplenishmentComponent,
     canActivate: [AuthGuardGuard],
   },
-  {
-    path: 'deallocate',
-    component: DeallocateOrderComponent,
-    canActivate: [AuthGuardGuard],
-  },
+  // {
+  //   path: 'deallocate',
+  //   component: DeallocateOrderComponent,
+  //   canActivate: [AuthGuardGuard],
+  // },
   {
     path: 'adminPreferences',
     component: AdminPreferencesComponent,
     // canActivate: [AuthGuardGuard],
   },
   {
-    path: 'deAllocateOrders',
+    path: 'DeAllocateOrders',
     component: DeAllocateOrdersComponent,
     // canActivate: [AuthGuardGuard],
   },

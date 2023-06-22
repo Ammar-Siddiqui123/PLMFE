@@ -26,14 +26,14 @@
                     </div>
                 <div class="mb-3">
                     <div>
-                        <mat-radio-group class="d-flex align-items-center gap-12 flex-wrap" aria-label="Select an option">
-                            <mat-radio-button color="primary" value="none">
+                        <mat-radio-group class="d-flex align-items-center gap-12 flex-wrap" aria-label="Select an option" (change)="getAllOrder($event)">
+                            <mat-radio-button color="primary" value="All" [checked]="true">
                                 All Trans. Type
                             </mat-radio-button>
-                            <mat-radio-button color="primary" value="hold">
+                            <mat-radio-button color="primary" value="Pick">
                                 Picks
                             </mat-radio-button>
-                            <mat-radio-button color="primary" value="hold">
+                            <mat-radio-button color="primary" value="Put Aways">
                                 Put Aways
                             </mat-radio-button>
                         </mat-radio-group>
@@ -90,9 +90,10 @@
                 <div class="col-xl-5">
                     <div class="d-block d-xl-flex gap-12 align-items-center ">
                         <mat-form-field class="action-dropdown w-100 mb-3" appearance="outline" style="flex:1">
-                            <mat-label>Item No.</mat-label>
-                            <mat-select class="employees-action">
-                                <mat-option>Order No.</mat-option>
+                            <mat-label>{{chooseSearchType}}</mat-label>
+                            <mat-select class="employees-action" [(ngModel)]="chooseSearchType" (ngModelChange)="check($event)">
+                                <mat-option value="Item Number">Item No.</mat-option>
+                                <mat-option value="Order Number">Order No.</mat-option>
                             </mat-select>
                             <span class="material-symbols-outlined icon-expand-more">
                                 expand_more
@@ -105,7 +106,21 @@
                                 <span class="material-symbols-outlined icon-search">
                                     Search
                                 </span>
-                                <input type="text" placeholder="Search" aria-label="Search" matInput>
+                                
+                                <input type="text" [(ngModel)]="TypeValue" placeholder="Search" aria-label="Search" [matAutocomplete]="item" matInput (ngModelChange)="this.searchByItem.next($event)">
+                                <mat-autocomplete  class="card custom-scroll"  #item="matAutocomplete" (optionSelected)="optionSelect($event)" >                            
+                                    <h6 class ="card-header matAutoCompHeader ">
+                                        <span style="width:  140px;">{{chooseSearchType}}</span> 
+                                        
+                                      </h6> 
+                                    <ng-scrollbar style="height:350px">
+                                      <mat-option [value]="option" *ngFor="let option of searchedItemOrder"  class="matAutoCompTableContent" style="line-height: 24px; height:auto; min-height: auto!important; padding: 12px 16px; overflow: unset;">
+                                        <div class="loc_option"  >
+                                          <span  class="searchColumn" style="width:  140px;">{{option}}</span> 
+                                        </div>
+                                      </mat-option>
+                                    </ng-scrollbar>
+                                  </mat-autocomplete>
                             </mat-form-field>
 
                         </div>
@@ -133,7 +148,7 @@
 
             <div class="card br-14  borderless" style="overflow-x: auto;">
                 <ng-scrollbar class="mat-table-scrollbar  scrollbar-hover-padding" style="height:550px" track="all">
-                <table mat-table [dataSource]="this.ELEMENT_DATA_1" class="w-100" matSort #matSort="matSort">
+                <table mat-table [dataSource]="dataSourceList" class="w-100" matSort #matSort="matSort">
 
                     <ng-container matColumnDef="select">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> Select
@@ -148,7 +163,7 @@
                       <ng-container matColumnDef="order_no">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> Order No.
                         </th>
-                        <td mat-cell *matCellDef="let element"> {{element.order_no}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element}} </td>
                       </ng-container>
 
                       <tr class="mat-row" *matNoDataRow>
@@ -169,37 +184,65 @@
 
     <div class="card br-14 borderless" style="overflow-x: auto;">
         <ng-scrollbar class="mat-table-scrollbar  scrollbar-hover-padding" style="height:550px" track="all">
-        <table mat-table [dataSource]="this.ELEMENT_DATA" class="w-100" matSort #matSort="matSort">
+        <table mat-table [dataSource]="dataSourceList_1" class="w-100" matSort #matSort="matSort">
+            <ng-container matColumnDef="order_no">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> Order Number
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.orderNumber}} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="item_no">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> Item Number
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.itemNumber}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> Description
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="priority">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> Priority
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.priority}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="transactionQuantity">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> Transaction Quantity
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.transactionQuantity}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="unitOfMeasure">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> Unit of Measure
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.unitOfMeasure}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="batchPickID">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> Batch ID
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.batchPickID}} </td>
+            </ng-container>
 
             <ng-container matColumnDef="trans_type">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> Trans Type
                 </th>
-                <td mat-cell *matCellDef="let element"> {{element.trans_type}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.transactionType}} </td>
               </ng-container>
 
-              <ng-container matColumnDef="order_no">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> Order No.
+            <ng-container matColumnDef="deallocate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> De-Allocate
                 </th>
-                <td mat-cell *matCellDef="let element"> {{element.order_no}} </td>
+                <td mat-cell *matCellDef="let element">  </td>
               </ng-container>
 
-              <ng-container matColumnDef="priority">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> Priority
-                </th>
-                <td mat-cell *matCellDef="let element"> {{element.priority}} </td>
-              </ng-container>
 
-              <ng-container matColumnDef="required_date">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> Required Date
-                </th>
-                <td mat-cell *matCellDef="let element"> {{element.required_date}} </td>
-              </ng-container>
 
-              <ng-container matColumnDef="user_field_1">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> User Field 1
-                </th>
-                <td mat-cell *matCellDef="let element"> {{element.user_field_1}} </td>
-              </ng-container>
+
+
 
               <tr class="mat-row" *matNoDataRow>
                 <td class="mat-cell " [attr.colspan]="displayedColumns.length">
