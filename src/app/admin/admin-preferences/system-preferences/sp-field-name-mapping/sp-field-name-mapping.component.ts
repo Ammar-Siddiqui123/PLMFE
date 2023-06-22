@@ -44,4 +44,21 @@ export class SpFieldNameMappingComponent implements OnInit {
     })
   }
   
+  labelSet(input: string): string {
+    const formattedText = this.capitalizeFirstAlpha(input).replace(/([A-Z])/g, ' $1');
+    return formattedText.trim();
+  }
+  capitalizeFirstAlpha(input: string): string {
+    const firstAlphaIndex = input.search(/[a-zA-Z]/);
+  
+    if (firstAlphaIndex === -1) {
+      return input;
+    }
+  
+    const firstAlpha = input.charAt(firstAlphaIndex).toUpperCase();
+    const capitalizedString = input.slice(0, firstAlphaIndex) + firstAlpha + input.slice(firstAlphaIndex + 1);
+  
+    return capitalizedString;
+  }
+  
 }

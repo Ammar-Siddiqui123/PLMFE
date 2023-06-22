@@ -47,7 +47,7 @@ export class AddGroupAllowedComponent implements OnInit {
       "filter": "%"
     }
     this.employeeService.getControlName(payload).subscribe((res: any) => {
-      //console.log(res.data);
+      
       this.controlNameList = res.data;
       this.filteredOptions = this.controlNameForm.controls['controlName'].valueChanges.pipe(
         startWith(''),

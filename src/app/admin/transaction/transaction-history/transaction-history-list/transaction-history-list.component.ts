@@ -261,8 +261,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     if (!opened && this.selectedVariable === 'set_column_sq') {
       this.sortCol=0;
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
-        height: '96%',
-        width: '70vw',
+        height: 'auto',
+        width: '960px',
         data: {
           mode: event,
           tableName: 'Transaction History',
@@ -362,8 +362,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       filter: this.FilterString ,
       username: this.userData?.userName,
       wsid: this.userData?.wsid,
-    };
-    // console.log('.:...................>',payload);
+    }; 
     
     this.transactionService
       .get(payload, '/Admin/TransactionHistoryTable', true)

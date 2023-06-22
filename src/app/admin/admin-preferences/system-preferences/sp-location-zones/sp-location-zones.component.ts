@@ -32,7 +32,7 @@ export class SpLocationZonesComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.alterParentZones('','1s0')
+    // this.alterParentZones('','1s0')
     this.getLocationZones()
   }
   
@@ -76,7 +76,7 @@ export class SpLocationZonesComponent implements OnInit {
 
 
   zoneChange(zone: any,check,type?) {
-  
+  // debugger
   if(!check){
     if(type==='carousel'){
       if(zone.carousel){
@@ -121,7 +121,7 @@ export class SpLocationZonesComponent implements OnInit {
 
 
     
-    console.log(zone)
+    
     let oldZone: any = this.duplicatelocationzone.filter((x: any) => x.ID == zone.ID)[0].zone;
     let newZone:any = zone.zone;
     let seq = zone.sequence;
@@ -130,6 +130,9 @@ export class SpLocationZonesComponent implements OnInit {
         positionClass: 'toast-bottom-right',
         timeOut: 2000,
       });
+      zone.zone = oldZone
+      return
+      
     }
     else if (seq < 0 || seq == '') {
       if (seq < 0) {
@@ -137,6 +140,7 @@ export class SpLocationZonesComponent implements OnInit {
           positionClass: 'toast-bottom-right',
           timeOut: 2000,
         });
+        return
       }
     }
 
@@ -144,8 +148,7 @@ export class SpLocationZonesComponent implements OnInit {
 
     let check = oldZone.toLowerCase() != newZone.toLowerCase();
     if(check){
-      let test = this.duplicatelocationzone.find((x:any)=>x.zone == newZone)
-      console.log(test)
+      let test = this.duplicatelocationzone.find((x:any)=>x.zone == newZone) 
       if(test){
         this.toastr.error(`Zone is currently set to be a duplicate. Zone will not be saved until this is fixed.`, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -170,11 +173,11 @@ export class SpLocationZonesComponent implements OnInit {
           "wsid": this.userData.wsid
         };
          
-        // console.log('checking')
+        
         this.preferencehub.get(payload,'/Admin/LocationZoneSave',true).subscribe((res=>{
           if(res.isExecuted){
             // debugger
-            console.log(res)
+            
           }
         }))
   }
@@ -196,7 +199,7 @@ export class SpLocationZonesComponent implements OnInit {
       this.locationzone = [];
       res.data.forEach((zone: any, i) => {
         zone.ID = i + 1;
-        if(zone.carousel){
+        if(zone.carousel && zone.zone!=''){
           this.parentZones.push(zone.zone);
         }
         this.locationzone.push(zone);
@@ -209,11 +212,11 @@ export class SpLocationZonesComponent implements OnInit {
   LocationName(item:any) {
     let dialogRef = this.dialog.open(LocationNameComponent, {
       height: 'auto',
-      width: '96vw',
+      width: '786px',
       autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result)
+      
       if (result) {
         item.locationName = result;
         this.zoneChange(item,false);
@@ -244,7 +247,7 @@ export class SpLocationZonesComponent implements OnInit {
           "zone": zone
         }
         this.preferencehub.get(payload, '/Admin/LocationZoneDelete').subscribe((res => {
-          // console.log(res)
+          
           if (res.isExecuted) {
             this.getLocationZones()
             this.toastr.success("Deleted successfully", 'Success!', {
@@ -264,27 +267,34 @@ export class SpLocationZonesComponent implements OnInit {
   }
 
   alterParentZones(add,item){
-    if(add){
-      this.parentZones.push(item)
+    if(add && item != ''){
+      let parentzone = this.parentZones
+      const isNumberExist = (item, parentzone) => {
+        return parentzone.some(element => element === item);
+      }; 
+      if (isNumberExist(item, parentzone)){
+ 
+      }
+      else{
+        this.parentZones.push(item) 
+      }
     }
     else{
-    this.parentZones.filter((ele=>{
-      ele != item
-    }))
-    // console.log(this.parentZones)
+
+
+  let newArray = this.parentZones.filter(number => number != item); 
+  this.parentZones = newArray
       
     }
   }
 
-  // DelLocationZone(zone) {
-  //   console.log(zone)
+  // DelLocationZone(zone) { 
   //   let payload = {
   //     'username': this.userData.userName,
   //     "wsid": this.userData.wsid,
   //     "zone": zone
   //   }
-  //   this.preferencehub.get(payload, '/Admin/LocationZoneDelete').subscribe((res => {
-  //     console.log(res)
+  //   this.preferencehub.get(payload, '/Admin/LocationZoneDelete').subscribe((res => { 
   //     if (res.isExecuted) {
   //       const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
   //         height: 'auto',

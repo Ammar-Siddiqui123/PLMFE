@@ -1,11 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  Renderer2,
+  ViewChildren,
+  QueryList,
+} from '@angular/core';
 import { AdminService } from '../admin.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/init/auth.service';
 import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 import { ToastrService } from 'ngx-toastr';
@@ -54,20 +62,25 @@ const TRNSC_DATA = [
   styleUrls: ['./move-items.component.scss'],
 })
 export class MoveItemsComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginatorTo: MatPaginator;
+  @ViewChildren(MatPaginator) paginators: QueryList<MatPaginator>;
+  @ViewChild('myInput') myInput: ElementRef<HTMLInputElement>;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
+  @ViewChild('matToolbar') matToolbar: ElementRef;
   public dataSource: any = new MatTableDataSource();
   public moveToDatasource: any = new MatTableDataSource();
   @ViewChild('trigger') trigger: MatMenuTrigger;
-  tabIndex:any=0;
-  isRowSelected=false;
+  tabIndex: any = 0;
+  isRowSelected = false;
   contextMenuPosition = { x: '0px', y: '0px' };
-  moveFromFilter:string="1 = 1";
-  moveToFilter:string="1 = 1";
-  tableType="MoveFrom";
+  moveFromFilter: string = '1 = 1';
+  moveToFilter: string = '1 = 1';
+  tableType = 'MoveFrom';
   userData: any;
   itemNo: any = '';
   isValidateMove = false;
-  isViewAll=false;
+  isViewAll = false;
   reqDate: Date = new Date();
   sortOrder = 'asc';
   sortCol = 0;
@@ -77,7 +90,7 @@ export class MoveItemsComponent implements OnInit {
   recordsPerPage = 10;
   recordsFiltered = 0;
   itemSelected = true;
-  from_zone='';
+  from_zone = '';
   sortOrderTo = 'asc';
   sortColTo = 0;
   totalRecordsTo = 0;
@@ -91,15 +104,15 @@ export class MoveItemsComponent implements OnInit {
 
   invMapID = -1;
   invMapIDToItem = -1;
-  invMapmoveToID=0;
-  invMapmoveFromID=0;
+  invMapmoveToID = 0;
+  invMapmoveFromID = 0;
   viewAll = false;
   customLabel = '';
   customLabelTo = '';
   from_priority = 0;
   from_warehouse = '';
   from_location = '';
-  from_locationShow='';
+  from_locationShow = '';
   from_itemNo = '';
   from_description = '';
   from_itemQuantity = 0;
@@ -112,7 +125,7 @@ export class MoveItemsComponent implements OnInit {
   to_priority = 0;
   to_warehouse = '';
   to_location = '';
-  to_locationShow='';
+  to_locationShow = '';
   to_itemNo = '';
   to_description = '';
   to_itemQuantity = 0;
@@ -120,10 +133,10 @@ export class MoveItemsComponent implements OnInit {
   to_lotNo = '';
   to_serialNo = '';
   to_moveQty = '';
-  to_itemQtyShow='';
-  to_zone='';
+  to_itemQtyShow = '';
+  to_zone = '';
   fillQty = 0;
-  fillQtytoShow=0;
+  fillQtytoShow = 0;
   maxMoveQty = 0;
   isMoveQty = true;
   dedicateMoveTo = false;
@@ -136,12 +149,15 @@ export class MoveItemsComponent implements OnInit {
   itemNumberSearch = new Subject<string>();
   hideRequiredControl = new FormControl(false);
   searchAutocompletItemNo: any = [];
+  public itemnumscan: any = '';
   constructor(
     private adminService: AdminService,
     private authService: AuthService,
     private dialog: MatDialog,
     private toastr: ToastrService,
     private filterService: ContextMenuFiltersService,
+    private renderer: Renderer2,
+    private elementRef: ElementRef
   ) {
     this.userData = this.authService.userData();
   }
@@ -150,12 +166,19 @@ export class MoveItemsComponent implements OnInit {
     this.itemNumberSearch
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
-        
+        this.startRow = 0;
+        this.endRow = 10;
+        this.resetPaginationFrom();
         // this.autocompleteSearchColumn();
         this.autocompleteSearchColumn();
       });
     this.getMoveItemList('MoveFrom');
     this.getMoveItemList('MoveTo');
+  }
+
+  ngAfterViewInit() {
+    const appHeaderElement = document.querySelector('app-header');
+    this.renderer.setStyle(appHeaderElement, 'z-index', '99999');
   }
   public displayedColumns: any = [
     'warehouse',
@@ -191,15 +214,15 @@ export class MoveItemsComponent implements OnInit {
   stageTable: any = [];
   columnSeq: any = [];
 
-  getMoveItemList(tableName, fromPagination = false,unselectFrom = false) {
+  getMoveItemList(tableName, fromPagination = false, unselectFrom = false) {
     if (tableName === 'MoveTo') {
       if (this.viewAll || this.dataSource.data.length === 0) {
         this.viewModeTo = 'All';
       } else if (fromPagination && !this.isRowSelected) {
         this.viewModeTo = 'All';
-      } else if (unselectFrom){
+      } else if (unselectFrom) {
         this.viewModeTo = 'All';
-      }else {
+      } else {
         this.viewModeTo = 'NOA';
       }
     }
@@ -218,18 +241,28 @@ export class MoveItemsComponent implements OnInit {
       warehouse: this.from_warehouse,
       invMapid: tableName === 'MoveFrom' ? this.invMapID : this.invMapIDToItem,
       viewMode: tableName === 'MoveFrom' ? this.viewMode : this.viewModeTo,
-      filter: tableName === 'MoveFrom' ?this.moveFromFilter:this.moveToFilter,
+      filter:
+        tableName === 'MoveFrom' ? this.moveFromFilter : this.moveToFilter,
       wsid: this.userData.wsid,
     };
     this.adminService
       .get(payload, '/Admin/GetMoveItemsTable')
       .subscribe((res: any) => {
+        if (res && res.data && res.data['moveMapItems'].length === 0) {
+          if (tableName === 'MoveFrom') {
+            this.resetPaginationFrom();
+          } else {
+            this.resetPaginationTo();
+          }
+        }
         if (tableName === 'MoveTo') {
-          res?.data['moveMapItems'].map((item) => {
-            item.isSelected = false;
-          });
+          res &&
+            res.data &&
+            res.data['moveMapItems'].map((item) => {
+              item.isSelected = false;
+            });
           this.moveToDatasource = new MatTableDataSource(
-            res?.data['moveMapItems']
+            res && res.data && res.data['moveMapItems']
           );
           this.totalRecordsTo = res?.data.recordsTotal;
           this.recordsFilteredTo = res?.data.recordsFiltered;
@@ -237,9 +270,11 @@ export class MoveItemsComponent implements OnInit {
             this.totalRecords
           } of ${Math.ceil(this.totalRecords / this.recordsPerPage)}`;
         } else {
-          res?.data['moveMapItems'].map((item) => {
-            item.isSelected = false;
-          });
+          res &&
+            res.data &&
+            res.data['moveMapItems'].map((item) => {
+              item.isSelected = false;
+            });
           this.dataSource = new MatTableDataSource(res?.data['moveMapItems']);
           this.totalRecords = res?.data.recordsTotal;
           this.recordsFiltered = res?.data.recordsFiltered;
@@ -271,7 +306,11 @@ export class MoveItemsComponent implements OnInit {
       (error) => {}
     );
   }
-  searchData(event) {}
+  searchData(event) {
+    if (this.tabIndex === 1) {
+      this.tabIndex = 0;
+    }
+  }
   isQuantityGreater(quantity: number): boolean {
     return quantity >= 2;
   }
@@ -296,6 +335,8 @@ export class MoveItemsComponent implements OnInit {
   }
 
   sortChangeToItems(event) {
+    console.log(this.itemSelected);
+
     if (
       !this.moveToDatasource._data._value ||
       event.direction == '' ||
@@ -314,6 +355,7 @@ export class MoveItemsComponent implements OnInit {
     this.sortOrderTo = event.direction;
     this.getMoveItemList('MoveTo');
   }
+
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
     // this.customPagination.startIndex =  e.pageIndex
@@ -342,11 +384,9 @@ export class MoveItemsComponent implements OnInit {
   }
 
   getMoveFromDetails(row, i?, type?) {
-    
     let isMoveFromSelected = false;
 
     if (type === 'MoveTo') {
-      
       this.dataSource._data._value.forEach((element, index) => {
         if (!element.isSelected) return;
         isMoveFromSelected = element.isSelected;
@@ -371,17 +411,17 @@ export class MoveItemsComponent implements OnInit {
       this.to_itemNo = row.itemNumber;
       this.to_description = row.description;
       this.to_itemQuantity = row.itemQuantity;
-      this.to_itemQtyShow=row.itemQuantity
+      this.to_itemQtyShow = row.itemQuantity;
       this.to_cellSize = row.cellSize;
       this.to_lotNo = row.lotNumber;
       this.to_serialNo = row.serialNumber;
       this.to_itemQuantity = row.itemQuantity;
-      this.to_zone=row.zone;
-      this.invMapmoveToID=row.invMapID;
+      this.to_zone = row.zone;
+      this.invMapmoveToID = row.invMapID;
       this.isDedicated = row.dedicated === true ? true : false;
       this.fillQty =
-      row.itemQuantity - row.maximumQuantity - row.quantityAllocatedPutAway;
-      this.fillQtytoShow=this.fillQty
+        row.itemQuantity - row.maximumQuantity - row.quantityAllocatedPutAway;
+      this.fillQtytoShow = this.fillQty;
       if (this.fillQty < 0) {
         this.fillQty = 0;
       }
@@ -394,36 +434,41 @@ export class MoveItemsComponent implements OnInit {
         this.isMoveQty = false;
       }
     } else if (type === 'MoveFrom') {
-      this.dataSource._data._value[i].isSelected =!this.dataSource._data._value[i].isSelected;
-      this.isRowSelected=!this.isRowSelected;
-       if(!this.isRowSelected){
+      this.dataSource._data._value[i].isSelected =
+        !this.dataSource._data._value[i].isSelected;
+      this.isRowSelected = !this.isRowSelected;
+      if (!this.isRowSelected) {
         this.moveToDatasource._data._value.forEach((element, index) => {
           element.isSelected = false;
         });
         this.clearFields('MoveFrom');
-        this.clearFields('MoveTo')
-       } 
-      
+        this.clearFields('MoveTo');
+      }
+
       this.dataSource._data._value.forEach((element, index) => {
         if (row.rn === element.rn) return;
         this.dataSource._data._value[index].isSelected = false;
       });
 
-      if( !this.dataSource._data._value[i].isSelected) {
+      if (!this.dataSource._data._value[i].isSelected) {
         if (!row.isSelected) {
           this.clearFields('MoveFrom');
         } else {
           this.isMoveQty = false;
         }
-        this.from_itemNo = "";
-        this.from_cellSize = "";
+
+        this.from_itemNo = '';
+        this.from_cellSize = '';
         this.invMapIDToItem = -1;
-        this.viewModeTo = "All";
-        this.getMoveItemList('MoveTo',false,true);
-        return
+        this.viewModeTo = 'All';
+        this.startRowTo = 0;
+        this.endRowTo = 10;
+        this.paginator.pageIndex = 0;
+        this.getMoveItemList('MoveTo', false, true);
+        return;
       }
       this.invMapIDToItem = row.invMapID;
-      this.invMapmoveFromID=row.invMapID;
+      this.invMapmoveFromID = row.invMapID;
       this.from_warehouse = row.warehouse;
       this.from_location = row.location;
       this.from_locationShow = row.locationNumber;
@@ -433,13 +478,13 @@ export class MoveItemsComponent implements OnInit {
       this.from_cellSize = row.cellSize;
       this.from_lotNo = row.lotNumber;
       this.from_serialNo = row.serialNumber;
-      this.from_itemQtyShow=row.itemQuantity
+      this.from_itemQtyShow = row.itemQuantity;
       this.MoveFromDedicated =
         row.dedicated === true ? 'Dedicated' : 'Not Dedicated';
       this.isDedicated = row.dedicated === true ? true : false;
       this.fillQty =
         row.itemQuantity - row.maximumQuantity - row.quantityAllocatedPutAway;
-      this.from_zone=row.zone;
+      this.from_zone = row.zone;
       if (this.fillQty < 0) {
         this.fillQty = 0;
       }
@@ -448,37 +493,37 @@ export class MoveItemsComponent implements OnInit {
       if (this.maxMoveQty <= 0) {
         this.openAlertDialog('MaxAlloc');
         this.dataSource._data._value.forEach((element, index) => {
-          element.isSelected=false;
+          element.isSelected = false;
         });
-        return
+        return;
       } else if (row.quantityAllocatedPick > 0) {
-        this.from_itemQuantity=this.maxMoveQty;
+        this.from_itemQuantity = this.maxMoveQty;
         this.openAlertDialog('MoveCap', this.maxMoveQty);
       } else {
         this.from_itemQuantity = this.maxMoveQty;
       }
- 
+
       this.getMoveItemList('MoveTo');
     }
   }
 
-  openAlertDialog(type, maxMoveQty?,callback?) {
+  openAlertDialog(type, maxMoveQty?, callback?) {
     let message = '';
-    let isDisableButton=true;
-    let buttonFields=false;
+    let isDisableButton = true;
+    let buttonFields = false;
     switch (type) {
       case 'Un-Dedicate':
         message = 'Would you like to Undedicate your move from Location?';
-        isDisableButton=false
-        buttonFields=true;
-          // this.undedicateMoveFrom=true;
+        isDisableButton = false;
+        buttonFields = true;
+        // this.undedicateMoveFrom=true;
         break;
 
       case 'Dedicate':
         message = 'Would you like to Dedicate your move to Location?';
-        isDisableButton=false;
+        isDisableButton = false;
         // this.dedicateMoveTo=true;
-        buttonFields=true;
+        buttonFields = true;
         break;
       case 'ZeroQty':
         message =
@@ -509,87 +554,85 @@ export class MoveItemsComponent implements OnInit {
       case 'MaxAlloc':
         message =
           'Your Allocations for the Location exceed or match the current qty. To move from this location, de-allocate transactions to free up inventory';
-          this.isMoveQty=true;
-          this.from_priority=0;
-          this.from_itemQuantity=0;
-          this.clearFields('MoveFrom')
-          break;
-  
+        this.isMoveQty = true;
+        this.from_priority = 0;
+        this.from_itemQuantity = 0;
+        this.clearFields('MoveFrom');
+        break;
+
       default:
         break;
     }
 
     const dialogRef = this.dialog.open(AlertConfirmationComponent, {
       height: 'auto',
-      width: '786px',
+      width: '560px',
       data: {
         message: message,
         heading: '',
         disableCancel: isDisableButton,
-        buttonField:  buttonFields,
-        notificationPrimary:true
+        buttonField: buttonFields,
+        notificationPrimary: true,
       },
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if(this.isDedicated && this.MoveFromDedicated==='Dedicated'){ // open dedicated and undedicated popups case
-       if(type==='Dedicate'){
-        if(result){  
-          this.dedicateMoveTo=true;
-          // callback(true)
-          this.openAlertDialog('Un-Dedicate')
-        }else{
-          this.dedicateMoveTo=false;
-          // callback(true)
-          this.openAlertDialog('Un-Dedicate')
+      if (this.isDedicated && this.MoveFromDedicated === 'Dedicated') {
+        // open dedicated and undedicated popups case
+        if (type === 'Dedicate') {
+          if (result) {
+            this.dedicateMoveTo = true;
+            // callback(true)
+            this.openAlertDialog('Un-Dedicate');
+          } else {
+            this.dedicateMoveTo = false;
+            // callback(true)
+            this.openAlertDialog('Un-Dedicate');
+          }
         }
-       }
 
-       if(type==='Un-Dedicate'){
-        if(result){  
-          this.undedicateMoveFrom=true;
-  
-          this.callCreateMoveTrans();
-          // this.openAlertDialog('Un-Dedicate')
-        }else{
-          this.undedicateMoveFrom=false;
-       
-          this.callCreateMoveTrans();
-        
+        if (type === 'Un-Dedicate') {
+          if (result) {
+            this.undedicateMoveFrom = true;
+
+            this.callCreateMoveTrans();
+            // this.openAlertDialog('Un-Dedicate')
+          } else {
+            this.undedicateMoveFrom = false;
+
+            this.callCreateMoveTrans();
+          }
         }
-       }
-      
-      }
-      else if(!this.isDedicated && this.MoveFromDedicated==='Dedicated' ){ // On undedicated popup  when dedicated unchecked move from is dedicated and move to is undedicted
-        if(result){
-          this.undedicateMoveFrom=true
-    
-          this.callCreateMoveTrans();
-        }else{
-          this.undedicateMoveFrom=false
+      } else if (!this.isDedicated && this.MoveFromDedicated === 'Dedicated') {
+        // On undedicated popup  when dedicated unchecked move from is dedicated and move to is undedicted
+        if (result) {
+          this.undedicateMoveFrom = true;
 
           this.callCreateMoveTrans();
-        }
-      }
+        } else {
+          this.undedicateMoveFrom = false;
 
-      else if (this.isDedicated && this.MoveFromDedicated==='Not Dedicated'){ // when move from undedicated moveto dedicated and dedicated checked only dedicated popup show
-        if(result){
-          this.dedicateMoveTo=true
-  
           this.callCreateMoveTrans();
-        }else{
-          this.dedicateMoveTo=false
-     
+        }
+      } else if (
+        this.isDedicated &&
+        this.MoveFromDedicated === 'Not Dedicated'
+      ) {
+        // when move from undedicated moveto dedicated and dedicated checked only dedicated popup show
+        if (result) {
+          this.dedicateMoveTo = true;
+
+          this.callCreateMoveTrans();
+        } else {
+          this.dedicateMoveTo = false;
+
           this.callCreateMoveTrans();
         }
       }
-   
-       
     });
   }
 
   validateMove() {
-    
     let moveQty: any = this.from_itemQuantity;
     this.dedicateMoveTo = false;
     this.undedicateMoveFrom = false;
@@ -597,24 +640,21 @@ export class MoveItemsComponent implements OnInit {
       this.openAlertDialog('ZeroQty');
       return;
     } else if (moveQty > this.maxMoveQty) {
-      this.openAlertDialog('MaxMove', null,this.maxMoveQty);
+      this.openAlertDialog('MaxMove', this.maxMoveQty);
       return;
     }
 
     let moveFromDedicated = this.MoveFromDedicated;
     let moveToDedicated = this.MoveToDedicated;
     if (this.isDedicated) {
-      this.openAlertDialog('Dedicate',null,(val)=>{
-      //  if(val){
-      //   console.log('dedicateMoveTo',this.dedicateMoveTo);
-      //   console.log('undedicateMoveFrom',this.undedicateMoveFrom);
-        
-      //   // this.openAlertDialog('Un-Dedicate');
-      //  }
-     
-        
+      this.openAlertDialog('Dedicate', null, (val) => {
+        //  if(val){
+        //   console.log('dedicateMoveTo',this.dedicateMoveTo);
+        //   console.log('undedicateMoveFrom',this.undedicateMoveFrom);
+        //   // this.openAlertDialog('Un-Dedicate');
+        //  }
       });
-  
+
       return;
     }
     if (this.MoveFromDedicated === 'Dedicated') {
@@ -624,16 +664,14 @@ export class MoveItemsComponent implements OnInit {
     this.callCreateMoveTrans();
   }
   tabChanged(tab: any) {
-  
-    if(tab.index===0){
-      this.tableType='MoveFrom'
-      this.isViewAll=false
-
-    }else if(tab.index===1){
-      this.tableType='MoveTo'
-      this.isViewAll=true
+    if (tab.index === 0) {
+      this.tableType = 'MoveFrom';
+      this.isViewAll = false;
+    } else if (tab.index === 1) {
+      this.tableType = 'MoveTo';
+      this.isViewAll = true;
     }
-  } 
+  }
 
   clearFields(type?) {
     if (type === 'MoveFrom') {
@@ -647,11 +685,11 @@ export class MoveItemsComponent implements OnInit {
       this.from_lotNo = '';
       this.from_serialNo = '';
       this.from_moveQty = '';
-      this.from_itemQtyShow='';
-      this.from_locationShow='';
+      this.from_itemQtyShow = '';
+      this.from_locationShow = '';
       this.isMoveQty = true;
       this.MoveFromDedicated = '';
-      this.isDedicated=false;
+      this.isDedicated = false;
     } else if (type === 'MoveTo') {
       this.to_priority = 0;
       this.to_warehouse = '';
@@ -663,18 +701,18 @@ export class MoveItemsComponent implements OnInit {
       this.to_lotNo = '';
       this.to_serialNo = '';
       this.to_moveQty = '';
-      this.to_itemQtyShow='';
-      this.to_locationShow='';
+      this.to_itemQtyShow = '';
+      this.to_locationShow = '';
       this.MoveToDedicated = '';
       this.isValidateMove = false;
-      this.isDedicated=false;
+      this.isDedicated = false;
     }
     this.reqDate = new Date();
   }
 
   callCreateMoveTrans() {
     let payload = {
-      moveFromID:this.invMapmoveFromID,
+      moveFromID: this.invMapmoveFromID,
       moveToID: this.invMapmoveToID,
       moveFromItemNumber: this.from_itemNo,
       moveToItemNumber: this.to_itemNo,
@@ -689,63 +727,104 @@ export class MoveItemsComponent implements OnInit {
     };
 
     this.adminService
-    .get(payload, '/Admin/CreateMoveTransactions')
-    .subscribe((res: any) => {
-      if(res.isExecuted){
-        this.toastr.success('Item moved successfully', 'Success!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-        this.resetPagination();
-        this.moveToFilter='1 = 1';
-        this.moveFromFilter='1 = 1';
-        this.tabIndex=0;
-        this.itemNumberSearch.next('');
-        this.getMoveItemList('MoveFrom');
-        this.getMoveItemList('MoveTo');
-        this.clearFields('MoveFrom')
-        this.clearFields('MoveTo')
-      }else{
-        this.toastr.error(res.responseMessage, 'Error!', {
-          positionClass: 'toast-bottom-right',
-          timeOut: 2000
-        });
-      }
-    });
+      .get(payload, '/Admin/CreateMoveTransactions')
+      .subscribe((res: any) => {
+        if (res.isExecuted) {
+          this.toastr.success('Item moved successfully', 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+          this.resetPagination();
+          this.moveToFilter = '1 = 1';
+          this.moveFromFilter = '1 = 1';
+          this.tabIndex = 0;
+          this.itemNumberSearch.next('');
+          this.getMoveItemList('MoveFrom');
+          this.getMoveItemList('MoveTo');
+          this.clearFields('MoveFrom');
+          this.clearFields('MoveTo');
+          this.resetFromFilters();
+          this.resetToFilters();
+        } else {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+        }
+      });
   }
-
 
   getType(val): string {
     return this.filterService.getType(val);
   }
-  onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
+  onContextMenu(
+    event: MouseEvent,
+    SelectedItem: any,
+    FilterColumnName?: any,
+    FilterConditon?: any,
+    FilterItemType?: any
+  ) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + 'px';
     this.contextMenuPosition.y = event.clientY + 'px';
-    this.trigger.menuData = { item: { SelectedItem: SelectedItem, FilterColumnName: FilterColumnName, FilterConditon: FilterConditon, FilterItemType: FilterItemType } };
+    this.trigger.menuData = {
+      item: {
+        SelectedItem: SelectedItem,
+        FilterColumnName: FilterColumnName,
+        FilterConditon: FilterConditon,
+        FilterItemType: FilterItemType,
+      },
+    };
     this.trigger.menu?.focusFirstItem('mouse');
     this.trigger.openMenu();
   }
-  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    if(this.tableType==='MoveFrom'){
+  onContextMenuCommand(
+    SelectedItem: any,
+    FilterColumnName: any,
+    Condition: any,
+    Type: any
+  ) {
+    if (this.tableType === 'MoveFrom') {
       if (SelectedItem != undefined) {
-        this.moveFromFilter = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
-        this.moveFromFilter = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+        this.moveFromFilter = this.filterService.onContextMenuCommand(
+          SelectedItem,
+          FilterColumnName,
+          'clear',
+          Type
+        );
+        this.moveFromFilter = this.filterService.onContextMenuCommand(
+          SelectedItem,
+          FilterColumnName,
+          Condition,
+          Type
+        );
         this.resetFromFilters();
+        this.resetPaginationFrom();
       }
-      this.moveFromFilter = this.moveFromFilter != "" ? this.moveFromFilter : "1 = 1";
-    }else if(this.tableType==='MoveTo'){
+      this.moveFromFilter =
+        this.moveFromFilter != '' ? this.moveFromFilter : '1 = 1';
+    } else if (this.tableType === 'MoveTo') {
       if (SelectedItem != undefined) {
-        this.moveToFilter = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
-        this.moveToFilter = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+        this.moveToFilter = this.filterService.onContextMenuCommand(
+          SelectedItem,
+          FilterColumnName,
+          'clear',
+          Type
+        );
+        this.moveToFilter = this.filterService.onContextMenuCommand(
+          SelectedItem,
+          FilterColumnName,
+          Condition,
+          Type
+        );
         this.resetToFilters();
+        this.resetPaginationTo();
       }
-      this.moveToFilter = this.moveToFilter != "" ? this.moveToFilter : "1 = 1";
+      this.moveToFilter = this.moveToFilter != '' ? this.moveToFilter : '1 = 1';
     }
-  
 
-    // this.paginator1.pageIndex = 0; 
-    
+    // this.paginator1.pageIndex = 0;
+
     this.getMoveItemList(this.tableType);
   }
 
@@ -756,22 +835,24 @@ export class MoveItemsComponent implements OnInit {
       data: {
         FilterColumnName: FilterColumnName,
         Condition: Condition,
-        TypeOfElement: TypeOfElement
+        TypeOfElement: TypeOfElement,
       },
       autoFocus: '__non_existing_element__',
-    })
+    });
     dialogRef.afterClosed().subscribe((result) => {
-
-      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
-    }
-    );
+      this.onContextMenuCommand(
+        result.SelectedItem,
+        result.SelectedColumn,
+        result.Condition,
+        result.Type
+      );
+    });
   }
-  onChangeLocation(event:any){
-    this.getMoveItemList('MoveTo')
-    
+  onChangeLocation(event: any) {
+    this.getMoveItemList('MoveTo');
   }
 
-  resetPagination(){
+  resetPagination() {
     this.sortOrder = 'asc';
     this.sortCol = 0;
     this.totalRecords = 0;
@@ -784,15 +865,79 @@ export class MoveItemsComponent implements OnInit {
     this.totalRecordsTo = 0;
     this.startRowTo = 0;
     this.endRowTo = 10;
-   this.recordsPerPageTo = 10;
+    this.recordsPerPageTo = 10;
     this.recordsFilteredTo = 0;
+    this.paginator.pageIndex = 0;
+    this.paginatorTo.pageIndex = 0;
   }
-  resetFromFilters(){
-    this.startRow=0;
-    
+  resetPaginationTo() {
+    this.sortOrderTo = 'asc';
+    this.sortColTo = 0;
+    this.totalRecordsTo = 0;
+    this.startRowTo = 0;
+    this.endRowTo = 10;
+    this.recordsPerPageTo = 10;
+    this.recordsFilteredTo = 0;
+    this.paginatorTo.pageIndex = 0;
   }
-  resetToFilters(){
-    this.startRowTo=0;
-    this.viewModeTo='All';
+  resetPaginationFrom() {
+    this.sortOrder = 'asc';
+    this.sortCol = 0;
+    this.totalRecords = 0;
+    this.startRow = 0;
+    this.endRow = 10;
+    this.recordsPerPage = 10;
+    this.recordsFiltered = 0;
+    this.paginator.pageIndex = 0;
+  }
+  resetFromFilters() {
+    this.startRow = 0;
+  }
+  resetToFilters() {
+    this.startRowTo = 0;
+    this.viewModeTo = 'All';
+    this.paginatorTo.pageIndex = 0;
+  }
+
+  clearItemNum() {
+    this.itemNo = '';
+    this.invMapIDToItem = -1;
+    this.paginators.forEach((paginator) => {
+      paginator.pageIndex = 0;
+    });
+
+    this.clearFields('MoveFrom');
+    this.clearFields('MoveTo');
+
+    this.resetFromFilters();
+    this.resetToFilters();
+
+    this.autocompleteSearchColumn();
+    this.resetPaginationFrom();
+    this.resetPaginationTo();
+
+    this.getMoveItemList('MoveFrom');
+    this.getMoveItemList('MoveTo', false, true);
+    if (this.tabIndex === 1) {
+      this.tabIndex = 0;
+    }
+  }
+  restrictTo4Digits(): void {
+    const inputElement = this.myInput.nativeElement;
+    let value = inputElement.value.replace(/\D/g, ''); // Remove non-digit characters
+    if (parseInt(value) > 2147483647) {
+      value = value.substr(0, 3);
+    } else {
+      value = value.substr(0, 4);
+    }
+    // if (value === '') {
+    //   value = '0';
+    // }
+    inputElement.value = value;
+  }
+  onBlurPriority(){
+  if(this.from_priority=== undefined || this.from_priority=== null){
+    this.from_priority=0;
+  }
   }
 }

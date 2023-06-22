@@ -61,8 +61,7 @@ export class SpDevicePreferenceComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
 
     this.sharedService.devicePrefObserver.subscribe((evt) => {
-
-      console.log(evt)
+ 
       this.getDevicePrefTable();
     });
   }
@@ -81,8 +80,7 @@ export class SpDevicePreferenceComponent implements OnInit {
 
     this.adminService
       .get(payload, '/Admin/DevicePreferenceTable')
-      .subscribe((res: any) => {
-        console.log(res);
+      .subscribe((res: any) => { 
 
         if (res && res?.data?.devicePreferences) {
           this.dataSource = new MatTableDataSource(res.data.devicePreferences);

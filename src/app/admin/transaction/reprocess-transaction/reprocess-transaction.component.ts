@@ -422,8 +422,8 @@ export class ReprocessTransactionComponent implements OnInit {
     {
       if (!opened && this.selectedVariable && this.selectedVariable === 'set_column_sq') {
         let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
-          height: '96%',
-          width: '70vw',
+          height: 'auto',
+          width: '960px',
           data: {
             mode: event,
             tableName: 'Open Transactions Temp',
@@ -712,8 +712,7 @@ export class ReprocessTransactionComponent implements OnInit {
           }
           this.transactionService.get(payload, '/Admin/SetAllReprocessColumn').subscribe(
             (res: any) => {
-              if (res.data && res.isExecuted) {
-                // console.log(res);
+              if (res.data && res.isExecuted) { 
                 this.getContentData();
                 this.getOrdersWithStatus();
                 this.toastr.success(labels.alert.update, 'Success!', {
@@ -897,8 +896,7 @@ export class ReprocessTransactionComponent implements OnInit {
     this.transactionService
       .get(payload, '/Admin/ReprocessTransactionTable', true)
       .subscribe(
-        (res: any) => {
-          //console.log(res)
+        (res: any) => { 
           // this.getTransactionModelIndex();
           this.detailDataInventoryMap = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);

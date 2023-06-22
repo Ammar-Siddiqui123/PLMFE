@@ -177,8 +177,8 @@ export class OmOrderManagerComponent implements OnInit {
 
   selectColumnSequence() {
     let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
-      height: '96%',
-      width: '70vw',
+      height: 'auto',
+      width: '960px',
       data: {
         mode: event,
         tableName: 'Order Manager',
@@ -216,7 +216,7 @@ export class OmOrderManagerComponent implements OnInit {
       orderType: this.orderType,
       filter: this.FilterString
     };
-    // console.log(payload)
+    
 
     this.OMService.get(payload, '/OrderManager/FillOrderManTempData').subscribe((res: any) => {
       if (res.isExecuted) this.fillTable();
@@ -235,14 +235,13 @@ export class OmOrderManagerComponent implements OnInit {
       sortOrder: this.sortColumn.sortOrder,
       searchColumn: this.searchCol,
       searchString: this.searchTxt,
-    };
-    // console.log(payload2)
+    }; 
 
     this.OMService.get(payload2, '/OrderManager/SelectOrderManagerTempDTNew',loader).subscribe((res: any) => {
       this.orderTable = new MatTableDataSource(res.data?.transactions);
       this.customPagination.total = res.data?.recordsFiltered;
       this.totalRecords = res.data?.recordsFiltered;
-      // console.log(res );
+      
 
       this.orderTable.sort = this.sort;
     });   
@@ -497,8 +496,7 @@ export class OmOrderManagerComponent implements OnInit {
       },
       autoFocus: '__non_existing_element__',
     })
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+    dialogRef.afterClosed().subscribe((result) => { 
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition,result.Type)
     }
     );
