@@ -106,8 +106,8 @@ enterUserName(){
   CompanyInfo(){
     var obj:any = { 
     }
-    this.loginService
-    .CompanyInfo(obj)
+    this.api
+    .CompanyInfo()
     .subscribe((response: any) => {
       this.info = response.data;
     });

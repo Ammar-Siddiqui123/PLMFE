@@ -1200,6 +1200,36 @@ public dltVelocityCode(body: any): Observable<any> {
 }
 public DevicePreferencesDelete(body){
   return this.ApiBase.Delete(`/Admin/devicepreferences`, body);
-
 }
+public LocationNamesSave(body){
+  return this.ApiBase.Post(`/Admin/locationnames`, body);
+}
+public LocationNames(){
+  return this.ApiBase.Get(`/Admin/locationnames`);
+}
+public DeleteLocationNames(body){
+  return this.ApiBase.Delete(`/Admin/locationnames`,body);
+}
+public ZoneDevicePreferencesUpdateAll(body){
+  return this.ApiBase.Update(`/Admin/zonedevicepreferencesall`,body);
+}
+public DeviceInformation(body){
+  return this.ApiBase.Get(`/Admin/deviceinformation`,body);
+}
+public DevicePreference(body){
+  return this.ApiBase.Get(`/Admin/devicepreference`,body);
+}
+public LocationZoneSave(body){
+  return this.ApiBase.Post(`/Admin/locationzone`,body);
+}
+public LocationZone(){
+  return this.ApiBase.Get(`/Admin/locationzone`);
+}
+public LocationZoneDelete(body){
+  return this.ApiBase.Delete(`/Admin/locationzone`,body);
+}
+public LocationZoneNewSave(body){
+  return this.ApiBase.Post(`/Admin/locationzonenew`,body);
+}
+
 }
