@@ -436,6 +436,9 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   searchChange(event: any) {
+    if(event == ""){
+      this.tablePayloadObj.searchString = "";
+    }
     this.tablePayloadObj.searchColumn = event;
     this.getSearchOptions();
     this.resetPagination();

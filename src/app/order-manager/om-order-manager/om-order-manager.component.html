@@ -11,13 +11,13 @@
             </h2>
             <div class="d-flex gap-12 flex-wrap">
                 <div class="mb-3">
-                    <button type="submit" mat-flat-button class=" btn-regular" color="primary" (click)="openOrderStatus({}, false)">Order Status</button>
+                    <button type="submit" mat-stroked-button class="btn-regular" color="primary" (click)="openOrderStatus({}, false)">Order Status</button>
                 </div>
                 <div class="mb-3">
-                    <button  type="submit" mat-flat-button class=" btn-regular" color="primary" (click)="displayRecords()">Display Records</button>
+                    <button type="submit" mat-flat-button class="btn-regular" color="primary" (click)="displayRecords()" #btnRef="matButton">Display Records</button>
                 </div>
                 <div class="mb-3">
-                    <button  type="submit" mat-flat-button class="btn-regular" *ngIf="authService.UserPermissonByFuncName('Admin Create Orders')" color="primary" (click)="openOmCreateOrders()">Add/Edit Order</button>
+                    <button type="submit" mat-stroked-button class="btn-regular" *ngIf="authService.UserPermissonByFuncName('Admin Create Orders')" color="primary" (click)="openOmCreateOrders()">Add/Edit Order</button>
                 </div>
             </div>
         </div>
@@ -172,7 +172,7 @@
                 <div class="d-xl-flex d-block justify-content-end mb-3">
                     <mat-form-field class="action-dropdown d-xl-flex d-block" appearance="outline">
                         <mat-label>Actions</mat-label>
-                        <mat-select #matRef class="employees-action" placeholder="Actions">
+                        <mat-select #matRef class="employees-action" placeholder="Actions" (selectionChange)="actionDialog($event)">
                             <mat-option value="0" (click)="releaseViewed()"> Release Viewed </mat-option>
                             <mat-option value="1" (click)="deleteViewed()"> Delete Viewed </mat-option>
                             <mat-option value="2"> Print Viewed </mat-option>
