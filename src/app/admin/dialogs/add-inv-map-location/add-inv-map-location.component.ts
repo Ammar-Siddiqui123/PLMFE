@@ -245,6 +245,14 @@ export class AddInvMapLocationComponent implements OnInit {
   }
 
   adjustQuantity() {
+    if(this.addInvMapLocation.value.item == '') return;
+    if(this.getDetailInventoryMapData.itemNumber == ''){
+      this.toastr.error('No item found at the location specified.  Ensure that the entry selected has been saved since an item was assigned to it.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
     let dialogRef = this.dialog.open(AdjustQuantityComponent, {
       height: 'auto',
       width: '800px',
@@ -291,7 +299,7 @@ export class AddInvMapLocationComponent implements OnInit {
       shelf: [this.getDetailInventoryMapData.shelf || '', [Validators.maxLength(2)]],
       bin: [this.getDetailInventoryMapData.bin || '', [Validators.maxLength(3)]],
       item: [this.getDetailInventoryMapData.itemNumber || '', [Validators.maxLength(50)]],
-      itemQuantity: [this.getDetailInventoryMapData.itemQuantity || ''],
+      itemQuantity: new FormControl({value:this.getDetailInventoryMapData.itemQuantity || '',disabled:this.getDetailInventoryMapData.itemNumber == ''? true: false}),
       description: [this.getDetailInventoryMapData.description || ''],
       cell: [this.getDetailInventoryMapData.cellSize || ''],
       velocity: [this.getDetailInventoryMapData.goldenZone || ''],

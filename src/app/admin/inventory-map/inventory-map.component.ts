@@ -520,6 +520,9 @@ export class InventoryMapComponent implements OnInit {
   }
 
   adjustQuantity(event){
+    if(event.itemNumber == ""){
+      return;
+    }
     let dialogRef = this.dialog.open(AdjustQuantityComponent, {
       height: 'auto',
       width: '800px',
