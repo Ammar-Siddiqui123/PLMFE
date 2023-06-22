@@ -1,11 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { ProcessPutAwayService } from '../processPutAway.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 import labels from './../../labels/labels.json';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-pallet-receiving',
   templateUrl: './pallet-receiving.component.html',
@@ -16,7 +16,7 @@ export class PalletReceivingComponent implements OnInit {
   userData;
   @ViewChild('autoFocusField') searchBoxField: ElementRef;
   constructor(
-    public imService: ProcessPutAwayService,
+    public Api: ApiFuntions,
     public toastService: ToastrService,
     private authService: AuthService,
     public dialog: MatDialog
@@ -54,8 +54,8 @@ export class PalletReceivingComponent implements OnInit {
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.imService
-        .get(payloadTote, '/Induction/ValidateTote') //validate tote
+      this.Api
+        .ValidateTote(payloadTote) //validate tote
         .subscribe((response: any) => {
           if (response.data) {
             let payloadItem = {
@@ -63,8 +63,8 @@ export class PalletReceivingComponent implements OnInit {
               username: this.userData.userName,
               wsid: this.userData.wsid,
             };
-            this.imService
-              .get(payloadItem, '/Induction/ValidateItem') //validate item number
+            this.Api
+              .ValidateItem(payloadItem) //validate item number
               .subscribe((response: any) => {
                 if (response.data) {
                   // if item number is valid process pallet
@@ -74,8 +74,8 @@ export class PalletReceivingComponent implements OnInit {
                     quantity: this.processForm.value.quantity,
                     username: this.userData.userName,
                   };
-                  this.imService
-                    .get(payload, '/Induction/ProcessPallet')
+                  this.Api
+                    .ProcessPallet(payload)
                     .subscribe((response: any) => {
                       if (response.isExecuted) {
                         this.toastService.success(

@@ -2,9 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import labels from '../../../labels/labels.json';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { EmployeeService } from 'src/app/employee.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from '../../../../app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-add-pickuplevels',
@@ -24,13 +24,12 @@ export class AddPickuplevelsComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
-    private employeeService: EmployeeService,
+    private employeeService: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService
   ) { }
 
-  ngOnInit(): void {
-    //console.log(this.data);
+  ngOnInit(): void { 
 
     this.userData = this.authService.userData();
     if (this.data.mode === 'edit') {

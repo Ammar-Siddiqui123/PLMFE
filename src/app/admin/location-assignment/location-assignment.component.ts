@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { LocationAssignmentService } from './location-assignment.service';
+import { Component, OnInit } from '@angular/core'; 
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-location-assignment',
@@ -15,7 +15,7 @@ export class LocationAssignmentComponent implements OnInit {
   public userData: any;
 
   constructor(
-    private locationService: LocationAssignmentService,
+    private Api: ApiFuntions,
     private authservice : AuthService,
   ) {}
 
@@ -31,7 +31,7 @@ export class LocationAssignmentComponent implements OnInit {
       "userName" : this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.locationService.get(payload,'/Admin/GetTransactionTypeCounts').subscribe((res =>{
+    this.Api.GetTransactionTypeCounts(payload).subscribe((res =>{
       if (res.isExecuted && res.data) {
         res.data.forEach(item => {
           if (item.transactionType === "Count") {

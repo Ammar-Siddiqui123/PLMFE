@@ -3,8 +3,8 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Subject, takeUntil, interval, Subscription, Observable } from 'rxjs';
 import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
-import { AuthService } from 'src/app/init/auth.service';
-import { TransactionService } from '../../transaction.service';
+import { AuthService } from 'src/app/init/auth.service'; 
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 let today = new Date();
 let year = today.getFullYear();
@@ -34,7 +34,7 @@ export class TransactionHistoryFiltersComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private transactionService: TransactionService
+    private Api:ApiFuntions
   ) {}
 
   ngOnInit(): void {
@@ -88,8 +88,8 @@ export class TransactionHistoryFiltersComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(searchPayload, '/Admin/NextSuggestedTransactions',true)
+    this.Api
+      .NextSuggestedTransactions(searchPayload)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;

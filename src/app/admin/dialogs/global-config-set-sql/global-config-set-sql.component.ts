@@ -4,10 +4,10 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { GlobalconfigService } from 'src/app/global-config/globalconfig.service';
+import { ToastrService } from 'ngx-toastr'; 
 import labels from '../../../labels/labels.json';
 import { SqlAuthConfirmationComponent } from '../sql-auth-confirmation/sql-auth-confirmation.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-global-config-set-sql',
@@ -26,7 +26,7 @@ export class GlobalConfigSetSqlComponent implements OnInit {
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<any>,
     private toastr: ToastrService,
-    private globalConfService: GlobalconfigService
+    private Api:ApiFuntions
   ) {
 
     this.userName=data.userName
@@ -84,8 +84,8 @@ export class GlobalConfigSetSqlComponent implements OnInit {
           UserName: this.userName,
           Password: this.password,
         };
-        this.globalConfService
-          .get(payload, '/GlobalConfig/ConnectionUserPasswordUpdate')
+        this.Api
+          .ConnectionUserPasswordUpdate(payload)
           .subscribe(
             (res: any) => {
               if (res.isExecuted) {

@@ -9,8 +9,7 @@ import { SetItemLocationComponent } from '../../dialogs/set-item-location/set-it
 import { SupplierItemIdComponent } from '../../dialogs/supplier-item-id/supplier-item-id.component';
 import { TemporaryManualOrderNumberAddComponent } from '../../dialogs/temporary-manual-order-number-add/temporary-manual-order-number-add.component';
 import { UnitMeasureComponent } from '../../dialogs/unit-measure/unit-measure.component';
-import { UserFieldsEditComponent } from '../../dialogs/user-fields-edit/user-fields-edit.component';
-import { TransactionService } from '../../transaction/transaction.service';
+import { UserFieldsEditComponent } from '../../dialogs/user-fields-edit/user-fields-edit.component'; 
 import labels from '../../../labels/labels.json';
 import { PostManualTransactionComponent } from '../../dialogs/post-manual-transaction/post-manual-transaction.component';
 import { DeleteConfirmationTransactionComponent } from '../../dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
@@ -19,6 +18,7 @@ import { WarehouseComponent } from '../../dialogs/warehouse/warehouse.component'
 import { InvalidQuantityComponent } from '../../dialogs/invalid-quantity/invalid-quantity.component';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { AddNotesComponent } from '../../dialogs/add-notes/add-notes.component';
 
 @Component({
@@ -78,7 +78,7 @@ export class GenerateTransactionComponent implements OnInit {
   emergency = false;
   constructor(
     private authService: AuthService,
-    private transactionService: TransactionService,
+    private Api:ApiFuntions,
     private dialog: MatDialog,
     private toastr: ToastrService
   ) {
@@ -105,25 +105,24 @@ export class GenerateTransactionComponent implements OnInit {
     this.openAction.options.forEach((data: MatOption) => data.deselect());
   }
   public OSFieldFilterNames() { 
-    this.authService.ColumnAlias().subscribe((res: any) => {
+    this.Api.ColumnAlias().subscribe((res: any) => {
       this.columns = res.data;
     })
   }
-  getRow(row?,type?) {
-    // console.log(this.selectedAction);
+  getRow(row?,type?) { 
     if( type != 'save'){
       this.clear();
     }
   
     this.transactionID = row.id;
-    // console.log(row);
+    
     let payLoad = {
       id: row.id,
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(payLoad, '/Admin/TransactionInfo', true)
+    this.Api
+      .TransactionInfo(payLoad)
       .subscribe(
         (res: any) => {
           if (res && res.data && res.data.getTransaction) {
@@ -204,8 +203,8 @@ export class GenerateTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(searchPayload, '/Admin/ManualTransactionTypeAhead', true)
+    this.Api
+      .ManualTransactionTypeAhead(searchPayload)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
@@ -225,8 +224,7 @@ export class GenerateTransactionComponent implements OnInit {
         itemNumber: this.itemNumber,
       },
     });
-    dialogRef.afterClosed().subscribe((res) => {
-      // console.log('---', res);
+    dialogRef.afterClosed().subscribe((res) => { 
       if (res && res.invMapID) {
         this.invMapIDget = res.invMapID;
         this.itemNumber = res.itemNumber;
@@ -294,8 +292,8 @@ export class GenerateTransactionComponent implements OnInit {
               wsid: this.userData.wsid,
             };
     
-            this.transactionService
-              .get(payload, '/Admin/PostTransaction')
+            this.Api
+              .PostTransaction(payload)
               .subscribe(
                 (res: any) => {
                   if (res && res.isExecuted) {
@@ -369,8 +367,8 @@ export class GenerateTransactionComponent implements OnInit {
         wsid: this.userData.wsid,
       };
 
-      this.transactionService
-        .get(payload, '/Admin/UpdateTransaction',true)
+      this.Api
+        .UpdateTransaction(payload)
         .subscribe((res: any) => {
           // if (res && res.isExecuted) {
           //   this.toastr.success(labels.alert.success, 'Success!', {
@@ -418,7 +416,7 @@ export class GenerateTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService.get(payload, '/Admin/LocationData', true).subscribe(
+    this.Api.LocationData(payload).subscribe(
       (res: any) => {
         if (res && res.isExecuted) {
           let items = res.data.locationTables[0];
@@ -474,8 +472,7 @@ export class GenerateTransactionComponent implements OnInit {
       }
     });
   }
-  updateTransaction() {
-    // console.log(this.isLocation);
+  updateTransaction() { 
     
     if(this.isLocation && this.transQuantity>this.totalQuantity){
       const dialogRef = this.dialog.open(InvalidQuantityComponent, {
@@ -536,8 +533,8 @@ export class GenerateTransactionComponent implements OnInit {
         wsid: this.userData.wsid,
       };
 
-      this.transactionService
-        .get(payload, '/Admin/UpdateTransaction')
+      this.Api
+        .UpdateTransaction(payload)
         .subscribe((res: any) => {
           if (res && res.isExecuted) {
             this.toastr.success(labels.alert.success, 'Success!', {
@@ -583,8 +580,8 @@ export class GenerateTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid
     }
-    this.transactionService
-    .get(payload, '/Common/SupplierItemIDInfo', true)
+    this.Api
+    .SupplierItemIDInfo(payload)
     .subscribe(
       (res: any) => {
       if(res && res.isExecuted){
@@ -644,7 +641,7 @@ export class GenerateTransactionComponent implements OnInit {
         
       }
 
-      // console.log(res);
+      ;
     });
   }
 
@@ -682,7 +679,7 @@ export class GenerateTransactionComponent implements OnInit {
       this.clearMatSelectList();
       if (res.isExecuted) {
       }
-      // console.log(res);
+      ;
     });
   }
 }

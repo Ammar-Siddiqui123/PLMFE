@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ReprocessTransactionDetailViewComponent } from '../reprocess-transaction-detail-view/reprocess-transaction-detail-view.component';
-import { ProcessPutAwayService } from '../../../app/induction-manager/processPutAway.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserFieldsComponent } from '../user-fields/user-fields.component';
 import { TotesAddEditComponent } from '../totes-add-edit/totes-add-edit.component';
@@ -10,6 +9,7 @@ import { Router } from '@angular/router';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { ConfirmationDialogComponent } from '../../../app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-cross-dock-transaction',
@@ -50,7 +50,7 @@ export class CrossDockTransactionComponent implements OnInit {
               public dialogRef: MatDialogRef<CrossDockTransactionComponent>, 
               private dialog: MatDialog, 
               @Inject(MAT_DIALOG_DATA) public data: any, 
-              private service: ProcessPutAwayService, 
+              private Api:ApiFuntions, 
               private toastr: ToastrService) { }
 
   ngOnInit(): void {
@@ -136,8 +136,8 @@ export class CrossDockTransactionComponent implements OnInit {
       wsid: this.wsid
     };
 
-    this.service
-      .get(payLoad, '/Induction/CrossDock')
+    this.Api
+      .CrossDock(payLoad)
       .subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
@@ -162,8 +162,7 @@ export class CrossDockTransactionComponent implements OnInit {
     this.getCrossDock();
   }
 
-  openUserFieldsDialogue() {
-    // console.log(this.selectedRowObj);
+  openUserFieldsDialogue() { 
     if (this.selectedRowObj) {
       const dialogRef = this.dialog.open(UserFieldsComponent, {
         height: 'auto',
@@ -208,13 +207,9 @@ export class CrossDockTransactionComponent implements OnInit {
   //   });
   // }
 
-  getNxtToteIds() {
-    let paylaod = {
-      username: this.userId,
-      wsid: this.wsid
-    }
+  getNxtToteIds() { 
     if (this.loopIndex >= 0) {
-      this.service.get(paylaod, '/Induction/NextTote').subscribe(res => {
+      this.Api.NextTote().subscribe(res => {
         this.transactions[this.loopIndex].toteID = res.data  + '-RT';
         this.nxtToteID = ++res.data;
         this.updateNxtTote();
@@ -237,7 +232,7 @@ export class CrossDockTransactionComponent implements OnInit {
       username: this.userId,
       wsid: this.wsid
     }
-    this.service.update(updatePayload, '/Induction/NextToteUpdate').subscribe(res => {
+    this.Api.NextToteUpdate(updatePayload).subscribe(res => {
       if (!res.isExecuted) {
         this.toastr.error('Something is wrong.', 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -284,8 +279,7 @@ export class CrossDockTransactionComponent implements OnInit {
     this.dialogRef.close({ data : "Submit", qtyToSubtract : this.qtyToSubtract });
   }
 
-  viewOrderStatus() {
-    // console.log(this.selectedRowObj);
+  viewOrderStatus() { 
     this.clearMatSelectList()
     this.router.navigate([]).then((result) => {
       window.open(`/#/InductionManager/TransactionJournal?orderStatus=${this.selectedRowObj.orderNumber}`, '_blank');
@@ -326,7 +320,7 @@ export class CrossDockTransactionComponent implements OnInit {
             "wsid": this.wsid
           };
     
-          this.service.create(payLoad, '/Induction/CompletePick').subscribe(
+          this.Api.CompletePick(payLoad).subscribe(
             (res: any) => {
               if (res.data && res.isExecuted) {
                 this.qtyToSubtract += this.selectedRowObj.completedQuantity ? parseInt(this.selectedRowObj.completedQuantity) : 0;
@@ -347,8 +341,7 @@ export class CrossDockTransactionComponent implements OnInit {
         }
       });
       
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 
@@ -374,8 +367,7 @@ export class CrossDockTransactionComponent implements OnInit {
         this.compPick();
       }
       
-    } catch (error) {
-      console.log(error)
+    } catch (error) { 
     }
   }
 }

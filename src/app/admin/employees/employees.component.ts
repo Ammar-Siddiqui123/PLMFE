@@ -5,8 +5,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { EmployeeService } from 'src/app/employee.service';
+import { map, startWith } from 'rxjs/operators'; 
 import { AdminEmployeeLookupResponse, EmployeeObject, IEmployee } from 'src/app/Iemployee';
 import { MatDialog ,MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AddNewEmployeeComponent } from '../dialogs/add-new-employee/add-new-employee.component';
@@ -26,6 +25,7 @@ import { AuthService } from '../../../app/init/auth.service';
 import { SpinnerService } from '../../../app/init/spinner.service';
 import { MatOption } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { GroupsLookupComponent } from './groups-lookup/groups-lookup.component';
 import { EmployeesLookupComponent } from './employees-lookup/employees-lookup.component';
 
@@ -113,15 +113,14 @@ bpSettingLocInp='';
   constructor(
     private authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer, 
-    private employeeService: EmployeeService, 
+    private employeeService: ApiFuntions, 
     private dialog: MatDialog,
     private toastr: ToastrService, 
     private zone: NgZone,
     public router: Router,
     public laoder: SpinnerService,
     private fb: FormBuilder
-    ) { 
-    // console.log(router.url); 
+    ) {  
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -135,11 +134,7 @@ bpSettingLocInp='';
     this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
 getgroupAllowedList(){
-  const emp_grp = {
-    "userName": this.grp_data,
-    "wsid": "TESTWSID"
-  };
-  this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
+  this.employeeService.Groupnames().subscribe((res:any) => {
      
    // this.groupAllowedList = res.data;
     this.groupAllowedList = new MatTableDataSource(res.data);
@@ -185,8 +180,7 @@ initialzeEmpForm() {
     this.empData = {};
     this.empData = event.userData;
     this.isLookUp = event;
-    this.lookUpEvnt=true;
-    // console.log(event.userData?.username);
+    this.lookUpEvnt=true; 
     this.grp_data = event.userData?.username
 
     this.max_orders = event.userData.maximumOrders;
@@ -196,8 +190,7 @@ initialzeEmpForm() {
     };
  
     this.employeeService.getAdminEmployeeDetails(emp_data)
-      .subscribe((response: any) => {
-        // console.log(response);
+      .subscribe((response: any) => { 
         this.isLookUp = event;
         this.lookUpEvnt=true;
         this.employee_group_allowed = response.data?.userRights
@@ -252,8 +245,7 @@ initialzeEmpForm() {
 
     }
   }
-  removePermission(event:any){
-    // console.log(this.unassignedFunctions);
+  removePermission(event:any){ 
     if(typeof(event.function) == 'string'){
       this.assignedFunctions = this.assignedFunctions.filter(name => name !== event.function);
       this.unassignedFunctions.unshift(event.function);
@@ -300,18 +292,16 @@ initialzeEmpForm() {
     this.grpData = event.groupData;
     this.isGroupLookUp = event;
     this.max_orders = 10;
-    // console.log("event", event);
+    
 
     const grp_data = {
       "userName":this.userName,
       "wsid": "TESTWSID",
       "groupName":this.grpData.groupName
 
-      };
-      // console.log("grp_data",grp_data)
+      }; 
     this.employeeService.getFunctionByGroup(grp_data)
-    .subscribe((response:any) => {
-      // console.log("function data",response);
+    .subscribe((response:any) => { 
       this.assignedFunctions = response.data?.groupFunc
       this.unassignedFunctions = response.data?.allFunc
     });
@@ -398,7 +388,7 @@ initialzeEmpForm() {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
+      ;
       this.updateGrpTable = result.groupName; 
       this.groupsLookup.loadEmpData();
       // this.loadEmpData();
@@ -419,8 +409,7 @@ initialzeEmpForm() {
       this.isTabChanged=true;
       this.demo1TabIndex = 0;
   }
-  actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
-    // console.log(event.value)
+  actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) { 
     if (event === 'edit') {
       let dialogRef = this.dialog.open(AddNewGroupComponent, {
         height: 'auto',
@@ -456,8 +445,7 @@ initialzeEmpForm() {
         matSelect.writeValue(null);
       })
     }
-    if (event === 'clone') {
-      // console.log(grp_data);
+    if (event === 'clone') { 
       let dialogRef = this.dialog.open(CloneGroupComponent, {
         height: 'auto',
         width: '480px',
@@ -537,7 +525,7 @@ initialzeEmpForm() {
     })
     dialogRef.afterClosed().subscribe(result => {
       // this.reloadData();
-      // console.log(result);
+      ;
       
       if (result.mode === 'editZone') {
         const newData = { zones: result.data.zone }; 

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PrintRangeComponent } from '../print-range/print-range.component';
-import { ToastrService } from 'ngx-toastr';
-import { CategoryService } from 'src/app/common/services/category.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json'
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-item-category',
@@ -21,7 +21,7 @@ export class ItemCategoryComponent implements OnInit {
   enableButton=[{index:-1,value:true}];
 
   constructor(private dialog: MatDialog,
-              private catService: CategoryService,
+              private api: ApiFuntions,
               private authService: AuthService,
               private toastr: ToastrService,
               public dialogRef: MatDialogRef<any>) {}
@@ -38,7 +38,7 @@ export class ItemCategoryComponent implements OnInit {
 
  getCategoryList(){ 
     // this.enableButton.shift();
-    this.catService.getCategory().subscribe((res) => {
+    this.api.getCategory().subscribe((res) => {
       this.category_list = res.data;
       this.enableButton=[];
       for(var i=0;i<this.category_list.length;i++)
@@ -59,7 +59,6 @@ export class ItemCategoryComponent implements OnInit {
   }
 
   saveCategory(category : any, oldCat : any, subCategory : any, oldSubCat : any) {
-    //console.log(category, oldCat, subCategory, oldSubCat);
     
     let cond = true;
     if(category){
@@ -86,10 +85,9 @@ export class ItemCategoryComponent implements OnInit {
         "oldSubCategory": oldSubCat.toString(),
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
-      }
-      // console.log(paylaod);
+      } 
       
-      this.catService.saveCategory(paylaod).subscribe((res) => {
+      this.api.saveCategory(paylaod).subscribe((res) => {
         if(res.isExecuted){
           this.getCategoryList();
         this.toastr.success(oldCat.toString()==''?labels.alert.success:labels.alert.update, 'Success!', {
@@ -120,7 +118,7 @@ export class ItemCategoryComponent implements OnInit {
         }
        // this.category_list.pop(category);
         
-        this.catService.dltCategory(paylaod).subscribe((res) => {
+        this.api.dltCategory(paylaod).subscribe((res) => {
           if(res.isExecuted){
             this.getCategoryList();
             this.toastr.success(labels.alert.delete, 'Success!', {
@@ -184,7 +182,7 @@ export class ItemCategoryComponent implements OnInit {
     //   }
     // })
     // dialogRef.afterClosed().subscribe(result => {
-    //   // console.log(result);
+    //   ;
       
     // })
   }

@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-cm-add-new-item-to-shipment',
@@ -14,7 +14,7 @@ export class CmAddNewItemToShipmentComponent implements OnInit {
   containerID:any;
   userData:any = {};
 
-  constructor(private http:ConsolidationManagerService,private authService: AuthService,private toast:ToastrService,
+  constructor(private Api:ApiFuntions,private authService: AuthService,private toast:ToastrService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CmAddNewItemToShipmentComponent>) {
       this.OrderNumber = this.data.orderNumber;
@@ -29,7 +29,7 @@ export class CmAddNewItemToShipmentComponent implements OnInit {
       containerID: this.containerID,
       userName: this.userData.userName
     }
-    this.http.get(obj,'/Consolidation/ShippingItemAdd').subscribe((res:any) => {
+    this.Api.ShippingItemAdd(obj).subscribe((res:any) => {
       if (res && res.isExecuted) {
         this.dialogRef.close(true);
       }

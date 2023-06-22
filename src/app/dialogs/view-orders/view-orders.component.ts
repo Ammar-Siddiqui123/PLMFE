@@ -3,10 +3,10 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../app/init/auth.service';
-import { ProcessPicksService } from '../../../app/induction-manager/process-picks/process-picks.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-view-orders',
@@ -97,7 +97,7 @@ export class ViewOrdersComponent implements OnInit {
   //   }
   // }
   constructor(
-    private pPickService: ProcessPicksService,
+    private Api: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -107,7 +107,7 @@ export class ViewOrdersComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getAllOrders();
-    // console.log(this.selectedOrders);
+    
 
   }
 
@@ -116,7 +116,7 @@ export class ViewOrdersComponent implements OnInit {
       "OrderView": this.data.viewType,
       "wsid": this.userData.wsid,
     }
-    this.pPickService.get(paylaod, '/Induction/OrdersInZone').subscribe((res) => {
+    this.Api.OrdersInZone(paylaod).subscribe((res) => {
       // console.log(res);
       
       if (res.data.length > 0) {
@@ -127,7 +127,7 @@ export class ViewOrdersComponent implements OnInit {
         // console.log(this.data.allOrders);
         if (this.data.allOrders.length > 0) {
           const selectedArr = this.allOrders.filter(element => this.data.allOrders.includes(element.orderNumber));
-          // console.log('Intersection', selectedArr);
+          
           selectedArr.map(ele => {
             ele.isSelected = true
             this.selectedOrders.push(ele.orderNumber);
@@ -171,8 +171,8 @@ export class ViewOrdersComponent implements OnInit {
   }
 
   onOrderSelect(row: any) {
-    // console.log(row);
-    // console.log(this.selectedOrders);
+    
+    
     
     if (this.selectedOrders.includes(row.orderNumber)) {
       this.allOrders.filter(val => {
@@ -207,7 +207,7 @@ export class ViewOrdersComponent implements OnInit {
         "Username": this.userData.username,
         "wsid": this.userData.wsid,
       }
-      this.pPickService.get(paylaod, '/Induction/InZoneTransDT').subscribe((res) => {
+      this.Api.InZoneTransDT(paylaod).subscribe((res) => {
         if (res.data) {
           this.transData = res.data.pickToteManTrans;
           this.orderTransDataSource = new MatTableDataSource<any>(this.transData);
