@@ -124,8 +124,7 @@ ChangePassword(data){
       this.cleanForm(form);
       form.value.active = Boolean(JSON.parse(form.value.active));
       if (this.data?.mode === 'edit') {
-        form.value.wsid = "TESTWID";
-        form.value.username = this.username;
+        form.value.wsid = "TESTWID"; 
         // form.value.groupName = this.groupName,
           this.employeeService.updateAdminEmployee(form.value).subscribe((res: any) => {
             if (res.isExecuted) {
