@@ -73,7 +73,7 @@ export class SpLocationZonesComponent implements OnInit {
   //   }
   // }
 
-
+  
 
   zoneChange(zone: any,check,type?) {
   // debugger
