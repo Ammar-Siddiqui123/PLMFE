@@ -89,8 +89,7 @@ export class AddNewEmployeeComponent implements OnInit {
       this.focusFeild.nativeElement.focus();
     }
   }
-  isEmptyPass() {
-    // console.log(this.empForm.controls['password']?.value);
+  isEmptyPass() { 
     if (this.data?.mode === 'edit') {
       if (this.empForm.controls['password']?.value === '') {
         this.isDisabledPassword = true;
@@ -148,12 +147,13 @@ ChangePassword(data){
         this.employeeService.saveAdminEmployee(form.value)
           .subscribe((response: AdminEmployeeLookupResponse) => {
             if (response.isExecuted) {
-              this.dialog.closeAll();
+              this.dialogRef.close(true);
               this.toastr.success(labels.alert.success, 'Success!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
-              this.reloadCurrentRoute();
+              
+               // this.reloadCurrentRoute();
             }
             else {
               if(response.responseMessage?.toString() === 'User already exists'){

@@ -188,9 +188,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   //     });
   // }
   
- getToteTrans() {
-  console.log(this.FilterString);
-  
+ getToteTrans() {  
     let payload = {
    
       BatchID: this.batchId?this.batchId:'',
@@ -319,7 +317,7 @@ export class ToteTransactionManagerComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe((result) => {
-      // console.log(result);
+      ;
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );

@@ -163,7 +163,7 @@ export class BatchOrderListComponent implements OnInit {
       data: detailData,
     });
     dialogRef.afterClosed().subscribe(() => {
-      // console.log('The dialog was closed');
+      
     });
   }
   ngOnDestroy() {

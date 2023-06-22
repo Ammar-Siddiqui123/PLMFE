@@ -250,8 +250,7 @@ export class OmCreateOrdersComponent implements OnInit {
           // }
           this.tableData = new MatTableDataSource(res.data);  
           this.tableData.paginator = this.paginator1;
-        } else {
-          console.log('Error',res.responseMessage);
+        } else { 
           this.tableData = new MatTableDataSource(); 
           // this.toastr.error(res.responseMessage, 'Error!', {
           //   positionClass: 'toast-bottom-right',
@@ -449,8 +448,7 @@ export class OmCreateOrdersComponent implements OnInit {
       },
       autoFocus: '__non_existing_element__',
     })
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+    dialogRef.afterClosed().subscribe((result) => { 
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );

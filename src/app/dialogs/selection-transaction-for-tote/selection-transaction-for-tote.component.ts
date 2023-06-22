@@ -168,8 +168,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
       username: this.userName,
       wsid: this.wsid
     };
-    //console.log(getTransaction);
-    this.service
+     this.service
       .get(getTransaction, '/Induction/TransactionForTote')
       .subscribe(
         (res: any) => {

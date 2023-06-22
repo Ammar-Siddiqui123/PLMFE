@@ -27,8 +27,7 @@ export class BlossomToteComponent implements OnInit {
     this.userData = this.authService.userData();
   }
 
-  updateNxtTote() {
-    // console.log(this.nxtToteID);
+  updateNxtTote() { 
     
     let updatePayload = {
       "tote": this.nxtToteID,
@@ -85,7 +84,7 @@ export class BlossomToteComponent implements OnInit {
             "NewTote": this.nxtToteID?.toString()
           }
           this.pPickService.get(paylaod, '/Induction/ProcessBlossom').subscribe(res => {
-            // console.log(res.data);
+            
             if (res.data) {
               this.toastr.success('Updated Successfully', 'Success!', {
                 positionClass: 'toast-bottom-right',

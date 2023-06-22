@@ -37,7 +37,7 @@ export class LocationNameComponent implements OnInit {
 
     this.preferencehub.get(payload,'/Admin/LocationNames').subscribe((res=>{
       if(res && res.isExecuted){
-        // console.log(res)
+        
         let tempLocationNames:any = [];
         res.data.forEach((element:any) => {
           let obj = {
@@ -47,7 +47,7 @@ export class LocationNameComponent implements OnInit {
           tempLocationNames.push(obj)
         });
         this.locationNames = new MatTableDataSource(tempLocationNames);
-        // console.log(this.locationNames)
+        
       }
     }))
   }
@@ -72,8 +72,7 @@ export class LocationNameComponent implements OnInit {
           "wsid": this.userData.wsid,
           "name": ele.currentVal,
         }
-        this.preferencehub.get(payload,'/Admin/DeleteLocationNames').subscribe((res=>{
-          console.log(res)
+        this.preferencehub.get(payload,'/Admin/DeleteLocationNames').subscribe((res=>{ 
           if(res.isExecuted){
             this.getLocation()
           }
@@ -116,7 +115,7 @@ export class LocationNameComponent implements OnInit {
   }
 
   addNewName(){
-    // console.log(this.locationNames)
+    
     let newOBj = {
       oldVal:'',
       currentVal:''
@@ -124,7 +123,7 @@ export class LocationNameComponent implements OnInit {
     let temL:any = []
     temL.push(newOBj)
     this.locationNames =  new MatTableDataSource(this.locationNames.data.concat(temL));
-    // console.log(this.locationNames)
+    
   }
 
 }

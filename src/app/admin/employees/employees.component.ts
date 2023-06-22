@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, Inject, Input } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, Inject, Input, NgZone } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -26,6 +26,8 @@ import { AuthService } from '../../../app/init/auth.service';
 import { SpinnerService } from '../../../app/init/spinner.service';
 import { MatOption } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { GroupsLookupComponent } from './groups-lookup/groups-lookup.component';
+import { EmployeesLookupComponent } from './employees-lookup/employees-lookup.component';
 
 export interface location {
   start_location: string;
@@ -43,6 +45,8 @@ export interface location {
   styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent implements OnInit {
+  @ViewChild(GroupsLookupComponent) groupsLookup: GroupsLookupComponent;
+  @ViewChild(EmployeesLookupComponent) employeesLookup: EmployeesLookupComponent;
   emp: IEmployee;
   public isLookUp: boolean = false;
   public lookUpEvnt:any=false;
@@ -112,11 +116,11 @@ bpSettingLocInp='';
     private employeeService: EmployeeService, 
     private dialog: MatDialog,
     private toastr: ToastrService, 
+    private zone: NgZone,
     public router: Router,
     public laoder: SpinnerService,
     private fb: FormBuilder
-    ) { 
-    // console.log(router.url); 
+    ) {  
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -180,8 +184,7 @@ initialzeEmpForm() {
     this.empData = {};
     this.empData = event.userData;
     this.isLookUp = event;
-    this.lookUpEvnt=true;
-    // console.log(event.userData?.username);
+    this.lookUpEvnt=true; 
     this.grp_data = event.userData?.username
 
     this.max_orders = event.userData.maximumOrders;
@@ -191,8 +194,7 @@ initialzeEmpForm() {
     };
  
     this.employeeService.getAdminEmployeeDetails(emp_data)
-      .subscribe((response: any) => {
-        // console.log(response);
+      .subscribe((response: any) => { 
         this.isLookUp = event;
         this.lookUpEvnt=true;
         this.employee_group_allowed = response.data?.userRights
@@ -247,8 +249,7 @@ initialzeEmpForm() {
 
     }
   }
-  removePermission(event:any){
-    // console.log(this.unassignedFunctions);
+  removePermission(event:any){ 
     if(typeof(event.function) == 'string'){
       this.assignedFunctions = this.assignedFunctions.filter(name => name !== event.function);
       this.unassignedFunctions.unshift(event.function);
@@ -295,18 +296,16 @@ initialzeEmpForm() {
     this.grpData = event.groupData;
     this.isGroupLookUp = event;
     this.max_orders = 10;
-    // console.log("event", event);
+    
 
     const grp_data = {
       "userName":this.userName,
       "wsid": "TESTWSID",
       "groupName":this.grpData.groupName
 
-      };
-      // console.log("grp_data",grp_data)
+      }; 
     this.employeeService.getFunctionByGroup(grp_data)
-    .subscribe((response:any) => {
-      // console.log("function data",response);
+    .subscribe((response:any) => { 
       this.assignedFunctions = response.data?.groupFunc
       this.unassignedFunctions = response.data?.allFunc
     });
@@ -393,8 +392,9 @@ initialzeEmpForm() {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
-      this.updateGrpTable = result.groupName;
+      ;
+      this.updateGrpTable = result.groupName; 
+      this.groupsLookup.loadEmpData();
       // this.loadEmpData();
     })
 
@@ -413,8 +413,7 @@ initialzeEmpForm() {
       this.isTabChanged=true;
       this.demo1TabIndex = 0;
   }
-  actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
-    // console.log(event.value)
+  actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) { 
     if (event === 'edit') {
       let dialogRef = this.dialog.open(AddNewGroupComponent, {
         height: 'auto',
@@ -450,8 +449,7 @@ initialzeEmpForm() {
         matSelect.writeValue(null);
       })
     }
-    if (event === 'clone') {
-      // console.log(grp_data);
+    if (event === 'clone') { 
       let dialogRef = this.dialog.open(CloneGroupComponent, {
         height: 'auto',
         width: '480px',
@@ -531,18 +529,19 @@ initialzeEmpForm() {
     })
     dialogRef.afterClosed().subscribe(result => {
       // this.reloadData();
-      // console.log(result);
+      ;
       
-      if(result.mode === 'editZone'){
-        
-        this.employee_fetched_zones.filteredData.push({zones:result.data.zone})
-        // const index = this.employee_fetched_zones.filteredData.indexOf({zones:result.oldZone});
-        const index =this.employee_fetched_zones.filteredData.findIndex(item => item.zones === result.oldZone);
+      if (result.mode === 'editZone') {
+        const newData = { zones: result.data.zone }; 
+        const index = this.employee_fetched_zones.filteredData.findIndex(item => item.zones === result.oldZone);
+      
         if (index > -1) { 
-          this.employee_fetched_zones.filteredData.splice(index, 1);
+          this.employee_fetched_zones.filteredData.splice(index, 1, newData);
+        } else { 
+          this.employee_fetched_zones.filteredData.push(newData);
         }
-        // console.log(this.employee_fetched_zones.filteredData);
-        this.zoneDataRefresh.renderRows();
+      
+        this.employee_fetched_zones = new MatTableDataSource(this.employee_fetched_zones.filteredData);
       }
 
     })
@@ -586,13 +585,12 @@ initialzeEmpForm() {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
+      debugger
         if (result !== undefined) {
-            if (result !== 'no') {
-              const enabled = "Y"
-                // console.log(result);
-            } else if (result === 'no') {
-               // console.log('User clicked no.');
-            }
+          if(result == true){
+            this.employeesLookup.EmployeeLookUp();
+          }
+            
         }
     })
 }

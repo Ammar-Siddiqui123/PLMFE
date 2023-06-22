@@ -67,8 +67,7 @@ export class CmShippingTransactionComponent implements OnInit {
         },
         (error) => { }
       );
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 
@@ -223,8 +222,7 @@ export class CmShippingTransactionComponent implements OnInit {
         },
         (error) => { }
       );
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 
