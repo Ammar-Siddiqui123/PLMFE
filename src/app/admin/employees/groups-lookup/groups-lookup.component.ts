@@ -107,15 +107,13 @@ export class GroupsLookupComponent implements OnInit {
   //   })
 
   // }
-  getGrpDetails(grpData: any) {
-    // console.log(grpData)
+  getGrpDetails(grpData: any) { 
     this.isGroupLookUp = true;
-    this.updateGrpLookUp.emit({ groupData: grpData, isGroupLookUp: this.isGroupLookUp });
-    // console.log(this.isGroupLookUp)
+    this.updateGrpLookUp.emit({ groupData: grpData, isGroupLookUp: this.isGroupLookUp }); 
 
   }
 
-  private loadEmpData(){
+  public loadEmpData(){
     this.emp = {
       "userName": this.userData.userName,
       "wsid": this.userData.wsid
@@ -131,7 +129,6 @@ export class GroupsLookupComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
    this.group_data_source && this.group_data_source.filteredData && this.group_data_source.filteredData.push({groupName:this.updateGrpTable});
-   // console.log(this.group_data_source.filteredData);
     
   }
 

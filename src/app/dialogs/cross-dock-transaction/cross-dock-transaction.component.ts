@@ -162,8 +162,7 @@ export class CrossDockTransactionComponent implements OnInit {
     this.getCrossDock();
   }
 
-  openUserFieldsDialogue() {
-    // console.log(this.selectedRowObj);
+  openUserFieldsDialogue() { 
     if (this.selectedRowObj) {
       const dialogRef = this.dialog.open(UserFieldsComponent, {
         height: 'auto',
@@ -280,8 +279,7 @@ export class CrossDockTransactionComponent implements OnInit {
     this.dialogRef.close({ data : "Submit", qtyToSubtract : this.qtyToSubtract });
   }
 
-  viewOrderStatus() {
-    // console.log(this.selectedRowObj);
+  viewOrderStatus() { 
     this.clearMatSelectList()
     this.router.navigate([]).then((result) => {
       window.open(`/#/InductionManager/TransactionJournal?orderStatus=${this.selectedRowObj.orderNumber}`, '_blank');
@@ -343,8 +341,7 @@ export class CrossDockTransactionComponent implements OnInit {
         }
       });
       
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 
@@ -370,8 +367,7 @@ export class CrossDockTransactionComponent implements OnInit {
         this.compPick();
       }
       
-    } catch (error) {
-      console.log(error)
+    } catch (error) { 
     }
   }
 }

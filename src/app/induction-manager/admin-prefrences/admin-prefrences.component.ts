@@ -333,8 +333,7 @@ export class AdminPrefrencesComponent implements OnInit {
           },
           (error) => {}
         );
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 
@@ -463,8 +462,7 @@ export class AdminPrefrencesComponent implements OnInit {
         },
         (error) => {}
       );
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
   getCompName() {

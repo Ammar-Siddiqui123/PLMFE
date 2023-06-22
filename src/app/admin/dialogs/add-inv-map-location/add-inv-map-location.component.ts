@@ -164,22 +164,18 @@ export class AddInvMapLocationComponent implements OnInit {
       this.shelf = this.getDetailInventoryMapData.shelf
       this.bin = this.getDetailInventoryMapData.bin
       this.itemDescription = this.getDetailInventoryMapData.description;
-      this.quantity = this.getDetailInventoryMapData.itemQuantity;
-      // console.log(this.getDetailInventoryMapData.masterInventoryMapID);
+      this.quantity = this.getDetailInventoryMapData.itemQuantity; 
 
       this.updateItemNumber();
       this.initializeDataSet();
     } else {
       this.initializeDataSet();
-    }
-    // console.log(this.data.itemList);
+    } 
 
     //  this.itemNumberList = this.data.itemList;
 
     this.invMapService.getLocZTypeInvMap().subscribe((res) => {
-      this.locZoneList = res.data;
-      // console.log("ZONES===>");
-      // console.log(res.data);
+      this.locZoneList = res.data; 
       this.filteredOptions = this.addInvMapLocation.controls['location'].valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value || '')),
@@ -249,6 +245,14 @@ export class AddInvMapLocationComponent implements OnInit {
   }
 
   adjustQuantity() {
+    if(this.addInvMapLocation.value.item == '') return;
+    if(this.getDetailInventoryMapData.itemNumber == ''){
+      this.toastr.error('No item found at the location specified.  Ensure that the entry selected has been saved since an item was assigned to it.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
     let dialogRef = this.dialog.open(AdjustQuantityComponent, {
       height: 'auto',
       width: '800px',
@@ -295,7 +299,7 @@ export class AddInvMapLocationComponent implements OnInit {
       shelf: [this.getDetailInventoryMapData.shelf || '', [Validators.maxLength(2)]],
       bin: [this.getDetailInventoryMapData.bin || '', [Validators.maxLength(3)]],
       item: [this.getDetailInventoryMapData.itemNumber || '', [Validators.maxLength(50)]],
-      itemQuantity: [this.getDetailInventoryMapData.itemQuantity || ''],
+      itemQuantity: new FormControl({value:this.getDetailInventoryMapData.itemQuantity || '',disabled:this.getDetailInventoryMapData.itemNumber == ''? true: false}),
       description: [this.getDetailInventoryMapData.description || ''],
       cell: [this.getDetailInventoryMapData.cellSize || ''],
       velocity: [this.getDetailInventoryMapData.goldenZone || ''],
@@ -358,7 +362,7 @@ export class AddInvMapLocationComponent implements OnInit {
             this.clickSubmit = false;
             this.invMapService.updateInventoryMap(form.value,invMapIDs).subscribe((res) => {
               this.clickSubmit = true;
-              //console.log(res);
+              
               if (res.isExecuted) {
                 this.toastr.success("Your details have been updated", 'Success!', {
                   positionClass: 'toast-bottom-right',
@@ -372,7 +376,7 @@ export class AddInvMapLocationComponent implements OnInit {
             this.clickSubmit = false;
             this.invMapService.createInventoryMap(form.value).subscribe((res) => {
               this.clickSubmit = true;
-              //console.log(res);
+              
               if (res.isExecuted) {
                 this.toastr.success("Your details have been added", 'Success!', {
                   positionClass: 'toast-bottom-right',
@@ -407,7 +411,7 @@ export class AddInvMapLocationComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
+      ;
 
       if (result != true && result != false) {
         this.addInvMapLocation.controls['warehouse'].setValue(result);
@@ -478,7 +482,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
     const cellSizeVal = this.cellSizeVal.nativeElement.value
     const velCodeVal = this.velCodeVal.nativeElement.value
-    // console.log(cellSizeVal);
+    
 
     this.invMapService.getItemNumDetail(payload).subscribe((res) => {
       if (res.isExecuted) {
@@ -531,7 +535,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
   @HostListener('unloaded')
   ngOnDestroy() {
-    // console.log('Items destroyed');
+    
   }
 
 }

@@ -44,7 +44,7 @@ export class AssignedFunctionsComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    // console.log(filterValue)
+    
     this.filterValue = filterValue
     const filteredArray = this.assignedFunctions.filter((option: string) => option.toLowerCase().includes(filterValue))
     
@@ -53,8 +53,7 @@ export class AssignedFunctionsComponent implements OnInit {
   }
   
   
-  unassignFunction(permData: any){
-    // console.log(permData);
+  unassignFunction(permData: any){ 
     if(permData){
       let dialogRef = this.dialog.open(FunctionAllocationComponent, {
         height: 'auto',

@@ -37,8 +37,7 @@ export class ItemSelected implements OnInit {
     ngOnInit(): void {
         
         this.userData = this.authService.userData();
-        this.IdentModal = this.data.IdentModal;
-        // console.log(this.ColLabel,'kkk')
+        this.IdentModal = this.data.IdentModal; 
         this.ColLabel = this.filterOption[this.data.ColLabel].value
 
         this.getItemSelectedData();
@@ -72,8 +71,7 @@ export class ItemSelected implements OnInit {
     }
 
     clickOnItemSelect() {
-        let setItem = this.itemSelectTable().forEach((row) => {
-            // console.log(row.id)
+        let setItem = this.itemSelectTable().forEach((row) => { 
             let id = row.id;
 
             let payload = {
@@ -92,8 +90,7 @@ export class ItemSelected implements OnInit {
                 }
 
                 else {
-                    this.tabledata1.forEach((row, i) => {
-                        // console.log(row.id, i)
+                    this.tabledata1.forEach((row, i) => { 
 
                         let tabID = row.id;
                         if (tabID == id) {
@@ -130,8 +127,7 @@ export class ItemSelected implements OnInit {
                     }
 
                     else {
-                        this.tabledata1.forEach((row :any, i) => {
-                            // console.log(row.id, i)
+                        this.tabledata1.forEach((row :any, i) => { 
 
                             let tabID = row.id;
                             if (tabID == id) {

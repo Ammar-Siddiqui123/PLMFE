@@ -131,7 +131,7 @@ export class VelocityCodeComponent implements OnInit {
   }
 
   deleteVC(event: any){
-    // console.log(event);
+    
     
     if(event != ''){
       let dialogRef = this.dialog.open(DeleteConfirmationComponent, {

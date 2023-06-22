@@ -70,8 +70,7 @@ export class CmToteIdUpdateModalComponent implements OnInit {
         },
         (error) => { }
       );
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 

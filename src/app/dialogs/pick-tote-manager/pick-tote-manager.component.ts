@@ -242,7 +242,7 @@ export class PickToteManagerComponent implements OnInit {
     }
     this.Api.PickBatchFilterTypeAhead(paylaod).subscribe((res) => {
       if (res.data) {
-        // console.log(res.data);
+        
         this.savedFilterList = res.data;
         this.filteredOptions = this.savedFilter.valueChanges.pipe(
           startWith(""),
@@ -260,8 +260,7 @@ export class PickToteManagerComponent implements OnInit {
     );
   }
 
-  onAddFilter(filterData?: any) {
-    // console.log(filterData);
+  onAddFilter(filterData?: any) { 
     if (filterData) {
       filterData.map(obj => {
         this.FILTER_DATA.push({ sequence: obj.sequence, field: obj.field, criteria: obj.criteria, value: obj.value, andOr: obj.andOr, isSaved: true,is_db: true });
@@ -387,7 +386,7 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.Api.PickBatchDefaultFilterSelect(paylaod).subscribe(res => {
         if (res.data) {
-          // console.log(res.data);
+          
           this.savedFilter.setValue(res.data);
           this.isFilterAdd = true;
           this.isOrderByAdd = true;
@@ -469,7 +468,7 @@ export class PickToteManagerComponent implements OnInit {
           });
           if (this.data.allOrders.length > 0) {
             const selectedArr = this.FILTER_BATCH_DATA.filter(element => this.data.allOrders.includes(element.orderNumber));
-            // console.log('Intersection', selectedArr);
+            
             selectedArr.map(ele => {
               ele.isSelected = true
               this.selectedOrders.push(ele.orderNumber);
@@ -494,13 +493,13 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.Api.OrdersFilterZoneSelect(payload).subscribe(res => {
         if (res.data) {
-          // console.log(res);
+          ;
           res.data.map(val => {
             this.FILTER_BATCH_DATA_ZONE.push({ 'orderNumber': val.orderNumber, 'reqDate': val.reqDate, 'priority': val.priority, isSelected: false });
           });
           if (this.data.allOrders.length > 0) {
             const selectedArr = this.FILTER_BATCH_DATA_ZONE.filter(element => this.data.allOrders.includes(element.orderNumber));
-            // console.log('Intersection', selectedArr);
+            
             selectedArr.map(ele => {
               ele.isSelected = true
               this.selectedOrders.push(ele.orderNumber);
@@ -559,8 +558,7 @@ export class PickToteManagerComponent implements OnInit {
           v.isSelected = false;
         }
       });
-      this.tempHoldEle = row;
-      // console.log(this.tempHoldEle);
+      this.tempHoldEle = row; 
 
       // this.selectedOrders.push(row.orderNumber);
       this.FILTER_BATCH_DATA.filter(val => {
@@ -582,7 +580,7 @@ export class PickToteManagerComponent implements OnInit {
       }
       this.Api.PickToteTransDT(paylaod).subscribe((res) => {
         // if (res.data.length > 0) {
-        // console.log(res);
+        ;
 
         this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
         this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
@@ -590,7 +588,7 @@ export class PickToteManagerComponent implements OnInit {
         // }
       });
     }
-    // console.log(this.selectedOrders);
+    
 
   }
 
@@ -721,7 +719,7 @@ export class PickToteManagerComponent implements OnInit {
           this.selectedOrders.push(this.tempHoldEle.orderNumber);
         }
       }
-      // console.log(this.selectedOrders);
+      
 
       this.onCloseAllPickToteManager();
     }
@@ -902,7 +900,7 @@ export class PickToteManagerComponent implements OnInit {
       this.FILTER_DATA.map(val => {
 
         // console.log(val);
-        // console.log(element);
+        
         
         if (val.is_db) {
           this.Api.PickBatchFilterUpdate(payload).subscribe(res => {

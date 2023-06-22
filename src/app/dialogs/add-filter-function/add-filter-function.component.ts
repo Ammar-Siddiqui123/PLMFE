@@ -28,7 +28,7 @@ export class AddFilterFunction implements OnInit {
 
   ngOnInit(): void {  
     this.userData = this.authService.userData();
-    // console.log(this.data)
+    
     if(this.data.savedFilter){
       this.filter_name = this.data.savedFilter;
     }

@@ -59,7 +59,6 @@ export class ItemCategoryComponent implements OnInit {
   }
 
   saveCategory(category : any, oldCat : any, subCategory : any, oldSubCat : any) {
-    //console.log(category, oldCat, subCategory, oldSubCat);
     
     let cond = true;
     if(category){
@@ -86,8 +85,7 @@ export class ItemCategoryComponent implements OnInit {
         "oldSubCategory": oldSubCat.toString(),
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
-      }
-      // console.log(paylaod);
+      } 
       
       this.api.saveCategory(paylaod).subscribe((res) => {
         if(res.isExecuted){
@@ -184,7 +182,7 @@ export class ItemCategoryComponent implements OnInit {
     //   }
     // })
     // dialogRef.afterClosed().subscribe(result => {
-    //   // console.log(result);
+    //   ;
       
     // })
   }

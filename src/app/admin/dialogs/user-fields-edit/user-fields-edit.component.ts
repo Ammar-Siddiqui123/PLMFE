@@ -101,7 +101,7 @@ export class UserFieldsEditComponent implements OnInit {
     return this.floatLabelControlShipName.value || 'shipName';
   }
   searchData(event) {
-    // console.log(event);
+    
   }
 
   async autocompleteSearchColumn() {

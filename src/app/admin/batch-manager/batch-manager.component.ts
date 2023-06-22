@@ -162,8 +162,7 @@ export class BatchManagerComponent implements OnInit {
         }
        
       });
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   
   }

@@ -129,8 +129,7 @@ export class SideNavComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.isConfigUser =  localStorage.getItem('isConfigUser') ?? false;
-    // console.log(this.isConfigUser);
+    this.isConfigUser =  localStorage.getItem('isConfigUser') ?? false; 
     
     this.sharedService.startMenu.subscribe(res => {
       if (res){
@@ -283,7 +282,7 @@ export class SideNavComponent implements OnInit {
     this.Api.AppLicense().subscribe(
       (res: any) => {
         if (res && res.data) {
-          // console.log(res.data);
+          
           
         }
       },
@@ -291,8 +290,7 @@ export class SideNavComponent implements OnInit {
     );
   }
 
-  loadMenus(menu: any) { 
-    // console.log(this.router.url);    
+  loadMenus(menu: any) {  
     this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route);
     if (!menu) {
       menu = {route : '/dashboard'};      

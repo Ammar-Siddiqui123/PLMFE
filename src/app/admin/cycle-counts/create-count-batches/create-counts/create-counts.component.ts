@@ -172,7 +172,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.searchField
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
         if (value === '') return;
         this.fillData();
 
@@ -188,7 +188,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.descriptionTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
         if (value === '') return;
 
         this.getTypeAheads('Description');
@@ -198,7 +198,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.fromLocationTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
         this.getTypeAheads('FromLocation');
         this.fillData();
       });
@@ -206,7 +206,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.toLocationTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
         this.getTypeAheads('ToLocation');
         this.fillData();
       });
@@ -214,7 +214,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.fromItemTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
         if (value === '') return;
 
         this.getTypeAheads('FromItem');
@@ -224,7 +224,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.toItemTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
         if (value === '') return;
 
         this.getTypeAheads('ToItem');
@@ -245,7 +245,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.beginCostTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
 
         if (value === '') return;
 
@@ -256,7 +256,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.endCostTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
 
         if (value === '') return;
 
@@ -642,7 +642,7 @@ export class CCBCreateCountsComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      // console.log(res);
+      ;
 
       if (res == 'Yes') {
         var payLoad = {
@@ -721,7 +721,7 @@ export class CCBCreateCountsComponent implements OnInit {
 
           if (finaliter == 0) {
             this.dataSource.data.forEach((element) => {
-              // console.log(element);
+              
 
               invMapIDs.push(element.invMapID);
             });
@@ -841,8 +841,7 @@ export class CCBCreateCountsComponent implements OnInit {
   }
 
   checkvalue(event){
-    if(event != 'LocationRange'){
-      console.log(event)
+    if(event != 'LocationRange'){ 
       this.location = true;
       
     }

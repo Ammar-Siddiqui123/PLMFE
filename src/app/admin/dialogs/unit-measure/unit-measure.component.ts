@@ -51,8 +51,7 @@ export class UnitMeasureComponent implements OnInit {
   // }
   addUMRow(row : any){
     this.unitOfMeasure_list.unshift("");
-    this.enableButton.push({index:-1,value:true})
-    // console.log(this.unitOfMeasure_list)
+    this.enableButton.push({index:-1,value:true}) 
   }
 
   saveUnitMeasure(um : any, oldUM : any) {
@@ -97,9 +96,7 @@ export class UnitMeasureComponent implements OnInit {
   }
 
   dltUnitMeasure(um : any,fromDB:any) {
-
-
-    // console.log(um, fromDB);
+ 
     
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',

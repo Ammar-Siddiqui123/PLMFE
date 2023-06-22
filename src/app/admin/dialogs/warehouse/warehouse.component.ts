@@ -37,8 +37,7 @@ export class WarehouseComponent implements OnInit {
 
   }
 
-  deleteWH(warehosue: any) {
-    // console.log(warehosue);
+  deleteWH(warehosue: any) { 
     if(warehosue != ''){
       let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
@@ -46,7 +45,8 @@ export class WarehouseComponent implements OnInit {
         autoFocus: '__non_existing_element__',
         data: {
           mode: 'delete-warehouse',
-          warehouse: warehosue
+          warehouse: warehosue,
+          action: 'delete',
           //  grp_data: grp_data
         }
       })

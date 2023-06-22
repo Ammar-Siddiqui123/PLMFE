@@ -117,13 +117,11 @@ export class MarkEmptyReelsComponent implements OnInit {
           // Remove item from last scanned list
           const indexToRemove = this.lastScannedList.findIndex(
             (item) => item === el.scannedserialnumbers
-          );
-          console.log(indexToRemove);
+          ); 
 
           if (indexToRemove !== -1) {
             this.lastScannedList.splice(indexToRemove, 1);
-          }
-          console.log(this.lastScannedList);
+          } 
 
           //  remove row from datasource
           this.scannedSerialList.data.splice(index, 1);

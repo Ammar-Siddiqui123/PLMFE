@@ -50,8 +50,7 @@ export class CellSizeComponent implements OnInit {
   enableDisableButton(i: any) {
     this.enableButton[i].value = false;
   }
-  handleChange($event) {
-    //console.log($event);
+  handleChange($event) { 
 
   }
   saveCellSize(cell: any, cellType: any, i,isInserted:any) {
@@ -106,8 +105,7 @@ export class CellSizeComponent implements OnInit {
       });
     }
   }
-  dltCellSize(cell: any, i) {
-    // console.log(cell.cells);
+  dltCellSize(cell: any, i) { 
     
     if (cell.cells != '') {
       const dialogRef = this.dialog.open(DeleteConfirmationComponent, {

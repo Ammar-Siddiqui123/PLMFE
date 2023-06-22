@@ -4,7 +4,7 @@
     <div class="d-flex justify-content-between align-items-center mb-2">
       <div>
         <h2 class="card-header-title mb-0 d-flex align-items-center">
-          <div class="mat-icon-wrap me-lg-3">
+          <div class="mat-icon-wrap me-1 me-lg-3">
             <span class="material-symbols-outlined">
               list_alt
             </span>
@@ -19,8 +19,8 @@
 
         <div class="row">
 
-          <div class="col-3">
-            <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
+          <div class="col-12 col-xl-3">
+            <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3 mb-xl-0" appearance="outline">
               <mat-label>Transaction Type</mat-label>
               <mat-select [(ngModel)]="transType" (selectionChange)="changeTranType($event.value)">
                 <mat-option *ngFor="let type of transList" value="{{type.id}}">{{type.name}}</mat-option>
@@ -31,15 +31,15 @@
             </mat-form-field>
           </div>
 
-          <div class="col-3">
-            <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
+          <div class="col-12 col-xl-3">
+            <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3 mb-xl-0" appearance="outline">
               <mat-label>Current Pick Mode</mat-label>
               <input matInput disabled class="" value="Pick and Pass" type="text">
             </mat-form-field>
           </div>
 
-          <div class=" col-3">
-            <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
+          <div class="col-12 col-xl-3">
+            <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3 mb-xl-0" appearance="outline">
               <mat-label>Delete Batch</mat-label>
               <mat-select [(ngModel)]="batchID">
                 <mat-option *ngFor="let batch of batchList"
@@ -53,8 +53,8 @@
             </mat-form-field>
           </div>
 
-          <div class="col-3 d-flex  justify-content-center " > 
-            <button [disabled]="!batchID && !authService.UserPermissonByFuncName('Batch Manager Delete All')" mat-stroked-button color="warn" class="button-remove-all-w-stroke bg-white button custom-button-width"
+          <div class="col-12 col-xl-3 d-flex d-xl-block justify-content-center mt-2" > 
+            <button style="flex: 1 auto;" [disabled]="!batchID && !authService.UserPermissonByFuncName('Batch Manager Delete All')" mat-stroked-button color="warn" class="float-end button-remove-all-w-stroke bg-white button custom-button-width"
               (click)="deleteBatch(transType, batchID)">
               <!-- <mat-icon>delete_outline</mat-icon> -->
               Delete

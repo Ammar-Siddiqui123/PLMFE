@@ -79,8 +79,7 @@ export class SteComponent implements OnInit {
       })
     }
     }catch(ex){
-      this.Status = 'Offline'
-      console.log(ex);
+      this.Status = 'Offline' 
     }
 }
 async STERestart(){  
@@ -91,8 +90,7 @@ async STERestart(){
     })
    
   }catch(ex){
-    this.Status = 'Offline'
-    console.log(ex);
+    this.Status = 'Offline' 
   }
 }
 async CheckStatus(){

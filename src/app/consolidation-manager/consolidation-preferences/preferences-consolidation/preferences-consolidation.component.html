@@ -1,7 +1,7 @@
 <mat-card class="mat-elevation-z g-card mt-2 mb-3">
     <div class="mb-0">
         <h2 class="card-header-title mb-0 d-flex align-items-center">
-            <div class="mat-icon-wrap me-lg-3">
+            <div class="mat-icon-wrap me-1 me-lg-3">
                 <span class="material-symbols-outlined">
                     tune
                 </span>
@@ -14,7 +14,7 @@
     <form [formGroup]="filtersForm">
         <div class="row">
             <div class="col-xl-6 pb-2">
-                <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
+                <mat-form-field class="action-dropdown col-xl-12 col-12" appearance="outline">
                     <mat-label>Packing List Default</mat-label>
                     <mat-select  formControlName="defPackList"  class="employees-action" (selectionChange)="changePreferences()">
                         <mat-option value="Packing List" >Packing List</mat-option>
@@ -26,7 +26,7 @@
                 </mat-form-field>
             </div>
             <div class="col-xl-6 pb-2">
-                <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
+                <mat-form-field class="action-dropdown col-xl-12 col-12" appearance="outline">
                     <mat-label>Packing List Sort</mat-label>
                     <mat-select formControlName="packingList" class="employees-action" (selectionChange)="changePreferences()">
                         <mat-option value="[Item Number], [Line Number]">[Item Number],[Line
@@ -44,7 +44,7 @@
                 </mat-form-field>
             </div>
             <div class="col-xl-6 pb-2">
-                <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
+                <mat-form-field class="action-dropdown col-xl-12 col-12" appearance="outline">
                     <mat-label>Blind Verify</mat-label>
                     <mat-select formControlName="blindVerify" (selectionChange)="changePreferences()"
                         class="employees-action">
@@ -61,7 +61,7 @@
                 </mat-form-field>
             </div>
             <div class="col-xl-6 pb-2">
-                <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
+                <mat-form-field class="action-dropdown col-xl-12 col-12" appearance="outline">
                     <mat-label>Verify Each Item</mat-label>
                     <mat-select formControlName="verifyEach" class="employees-action" (selectionChange)="changePreferences()">
                         <mat-option value="Yes">
@@ -77,7 +77,7 @@
                 </mat-form-field>
             </div>
             <div class="col-xl-6 pb-2">
-                <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
+                <mat-form-field class="action-dropdown col-xl-12 col-12" appearance="outline">
                     <mat-label>Allow Print/View a list of un-verified Line Items</mat-label>
                     <mat-select formControlName="printUnVerified" class="employees-action" (selectionChange)="changePreferences()">
                         <mat-option value="Yes">
@@ -93,7 +93,7 @@
                 </mat-form-field>
             </div>
             <div class="col-xl-6 pb-2">
-                <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
+                <mat-form-field class="action-dropdown col-xl-12 col-12" appearance="outline">
                     <mat-label>Allow Print/View the packing List when verified Line Items exist?</mat-label>
                     <mat-select formControlName="printVerified" class="employees-action" (selectionChange)="changePreferences()">
                         <mat-option value="Yes">
@@ -109,7 +109,7 @@
                 </mat-form-field>
             </div>
             <div class="col-xl-6 pb-2">
-                <mat-form-field class="action-dropdown col-xl-12" appearance="outline">
+                <mat-form-field class="action-dropdown col-xl-12 col-12" appearance="outline">
                     <mat-label>Default Lookup Type</mat-label>
                     <mat-select formControlName="defLookType" class="employees-action" (selectionChange)="changePreferences()">
                         <mat-option value="Supplier Item ID">Supplier Item ID</mat-option>
@@ -129,7 +129,7 @@
         </div>
         <div class="row pb-5 mb-5">
             <div class="col-xl-6">
-                <div class="d-flex gap-12 mb-2 pb-5">
+                <div class="d-xl-flex gap-12 mb-2 pb-5">
                     <div class="col-xl-12 text-left admin-prefrences py-2 ps-1">
                         <div class="d-flex justify-content-between mb-2 text-tertiary-900">
                             Email Packing Slip: <mat-slide-toggle  (change)="saveEmailSlip()" checked class="primary"

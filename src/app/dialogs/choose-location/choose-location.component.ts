@@ -74,8 +74,7 @@ export class ChooseLocationComponent implements OnInit {
         },
         (error) => {}
       );      
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }    
   }
 
@@ -101,8 +100,7 @@ export class ChooseLocationComponent implements OnInit {
         },
         (error) => {}
       );      
-    } catch (error) {
-      console.log(error)
+    } catch (error) { 
     }
   }
 

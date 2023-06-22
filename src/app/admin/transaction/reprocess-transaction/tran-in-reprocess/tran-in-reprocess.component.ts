@@ -113,13 +113,11 @@ export class TranInReprocessComponent implements OnInit {
     });
   }
 
-  orderSelected(){
-    // console.log(this.orderNumber);
+  orderSelected(){ 
     this.selectedOrderNumber.emit(this.orderNumber);
     this.getItemList();
   }
-  listSelected(event?){
-    // console.log(this.orderNumber);
+  listSelected(event?){ 
     this.selectedItemNum.emit(this.itemNumber);
     // this.getItemList();
   }

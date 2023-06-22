@@ -77,8 +77,7 @@ export class CmShipSplitLineComponent implements OnInit {
         },
         (error) => { }
       );
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 

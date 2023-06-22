@@ -238,9 +238,7 @@ private subscription: Subscription = new Subscription();
     }  else if(menu=='consolidation'){ 
       this.sharedService.BroadCastMenuUpdate(obj.route);
       // this.sharedService.updateInductionAdminMenu(menu)
-    }
-    
-    // console.log(this.sharedService.updateSidebar());
+    } 
     this.sharedService.updateSidebar();
   }
 

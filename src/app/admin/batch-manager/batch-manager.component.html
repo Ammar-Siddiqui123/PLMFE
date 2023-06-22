@@ -11,12 +11,12 @@
 
   
   <div class="row">
-    <div class="col-7 ">
+    <div class="col-12 col-xl-7 mb-3 mb-xl-0">
       <app-batch-order-list  [extraField]="extraField" [transTypeEvent]="transTypeEvent" [orderStatus]="seeOrderStatus"  [orderListData]="orderList" [displayedColumns]="displayOrderCols"
         (addOrderEmitter)="addRemoveOrder($event, 1)" (addRemoveAll)="addRemoveAllOrders('add')">
       </app-batch-order-list>
     </div>
-      <div class="col-5">
+      <div class="col-12 col-xl-5">
       <app-batch-selected-orders  (batchIdUpdateEmit)="onBatchUpdate($event)" [selectedOrderList]="selOrderList" [displayedColumns]="displaySelOrderCols"
         (removeOrderEmitter)="addRemoveOrder($event, 2)" 
         [batchManagerSettings]="batchManagerSettings" 

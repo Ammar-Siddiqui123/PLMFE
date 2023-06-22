@@ -87,10 +87,7 @@ export class ReprocessTransactionDetailComponent implements OnInit {
 
   }
 
-  editTransaction() {
-    // console.log('=====================POST==============================');
-    // console.log(this.editTransactionForm.get("label")?.value?.toString());
-    // console.log(this.editTransactionForm.get("emergency")?.value);
+  editTransaction() { 
     var payload = {
       "id": this.transactionID,
       "oldValues": [

@@ -208,8 +208,7 @@ export class ProcessPutAwaysComponent implements OnInit {
               try {
                 this.assignedZones = res.data[ix].zoneLabel;
                 var zones = res.data[ix].zoneLabel.split(' ');
-                for (var i = 1; i < zones.length; i++) {
-                  //console.log({zone:zones[i]});
+                for (var i = 1; i < zones.length; i++) { 
                   this.assignedZonesArray.push({ zone: zones[i] });
                 }
               } catch (e) { }
@@ -325,8 +324,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
         }, 200);
 
-      } catch (error) {
-        console.log(error);
+      } catch (error) { 
       }
     }
   }
@@ -898,8 +896,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         },
         (error) => { }
       );
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 
@@ -951,8 +948,7 @@ export class ProcessPutAwaysComponent implements OnInit {
           }
         });
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 

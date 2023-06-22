@@ -2,8 +2,8 @@
   <mat-card-content>
 
     <div class="row">
-      <div class="col-5">
-        <div class="d-flex gap-12 align-items-center ">
+      <div class="col-xl-5">
+        <div class="d-xl-flex gap-12 align-items-center ">
           <!-- <mat-form-field class="action-dropdown" appearance="outline">
                         <mat-label>Search</mat-label>
                         <mat-select class="employees-action">
@@ -32,7 +32,7 @@
               expand_more
             </span>
           </mat-form-field> -->
-          <mat-form-field class="action-dropdown" appearance="outline">
+          <mat-form-field class="action-dropdown w-100 mb-3" appearance="outline">
             <mat-label>Select</mat-label>
             <mat-select class="employees-action" [(ngModel)]="this.searchCol"
               (selectionChange)="actionDialog($event.value)">
@@ -44,8 +44,8 @@
               expand_more
             </span>
           </mat-form-field>
-          <span class="v-br">-</span>
-          <div class="d-flex g-mini-search-box w-100">
+          <span class="v-br d-xl-block d-none mb-3">-</span>
+          <div class="d-flex g-mini-search-box w-100 mb-3">
 
 
             <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
@@ -73,10 +73,17 @@
 
 
           </div>
+          <div class="d-block d-lg-flex">
+          <button  (click)="clearData($event)" mat-stroked-button appearance="outline" color="warn"
+            class="button-remove-all-w-stroke mb-3 w-100" style="flex:1">
+            Clear
+          </button>
+          </div>
         </div>
       </div>
-      <div class="col-7 d-flex flex-row-reverse">
-        <mat-form-field class="action-dropdown w-30" appearance="outline">
+      <div class="col-xl-2 offset-xl-5 d-flex justify-content-end">
+        <div class="d-block d-lg-flex w-100 justify-content-end">
+        <mat-form-field class="action-dropdown" appearance="outline" style="flex:1 auto">
           <mat-label>Action</mat-label>
           <mat-select class="employees-action">
             <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
@@ -86,20 +93,18 @@
             expand_more
           </span>
         </mat-form-field>
-      
-        <div style="flex:1">
-          <button  (click)="clearData($event)" mat-stroked-button appearance="outline" color="warn"
-            class="button-remove-all-w-stroke">
-            Clear
-          </button>
         </div>
+      
+        <!-- <div style="flex:1">
+          
+        </div> -->
 
       </div>
    
     </div>
 
 
-    <div class="row align-items-center mt-3 ">
+    <div class="row align-items-center ">
       <div class="col-12">
         <!-- <div class="card br-14 table-responsive px-0" style="overflow-x: auto;"> -->
         <!-- 1 -->

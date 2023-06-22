@@ -53,8 +53,7 @@ export class WorkstationZonesComponent implements OnInit {
         res.data.map(val => {
           this.velocity_code_list.push({ 'zone': val, isSaved: true })
         })
-      }
-      // console.log(this.velocity_code_list);
+      } 
     });
   }
   getAllZoneList() {

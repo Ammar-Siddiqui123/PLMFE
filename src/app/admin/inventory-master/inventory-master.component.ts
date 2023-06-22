@@ -73,7 +73,8 @@ export class InventoryMasterComponent implements OnInit {
   isDisabledSubmit: boolean = false;
   kitAttempts: number = 0;
   scanAttempts: number = 0;
-  IstabChange: boolean = false;
+  IstabChange: boolean = false; 
+  columns:any={};
   constructor(
     private api: ApiFuntions,
     private authService: AuthService,
@@ -214,10 +215,10 @@ export class InventoryMasterComponent implements OnInit {
     this.userData = this.authService.userData();
     this.initialzeIMFeilds();
     this.getInventory();
+    this.OSFieldFilterNames();
     this.route
       .paramMap
-      .subscribe(params => {
-        // console.log(params.get('itemNumber'));
+      .subscribe(params => { 
       });
   }
 
@@ -266,8 +267,7 @@ export class InventoryMasterComponent implements OnInit {
     );
     this.searchBoxField.nativeElement.focus();
 
-    this.itemNumberParam$.subscribe((param) => {
-      // console.log(param)
+    this.itemNumberParam$.subscribe((param) => { 
       if (param) {
         this.searchValue = param;
         this.currentPageItemNo = param;
@@ -387,8 +387,7 @@ export class InventoryMasterComponent implements OnInit {
     var CopyObject = JSON.stringify(this.invMaster.value);
     this.OldinvMaster = JSON.parse(CopyObject || '{}');
   }
-  onSubmit(form: FormGroup) {
-    // console.log(form.value);
+  onSubmit(form: FormGroup) { 
   }
   public getInventory() {
     let paylaod = {
@@ -436,9 +435,7 @@ export class InventoryMasterComponent implements OnInit {
         return { ...item, isDisabled: true };
       })
       this.getInvMasterData = res.data;
-
-      // console.log('====GET INVENTORY MASTER=====');
-      // console.log(res.data);
+ 
 
       this.initialzeIMFeilds();
     })
@@ -456,10 +453,13 @@ export class InventoryMasterComponent implements OnInit {
 
     return changedProperties;
   }
-
+  public OSFieldFilterNames() { 
+    this.api.ColumnAlias().subscribe((res: any) => {
+      this.columns = res.data;
+    })
+  }
   public getInvMasterLocations(itemNum: any, pageSize?, startIndex?, sortingColumnName?, sortingOrder?) {
-    // console.log(pageSize);
-
+    
     let paylaod = {
       "draw": 0,
       "itemNumber": itemNum,
@@ -473,8 +473,7 @@ export class InventoryMasterComponent implements OnInit {
     this.api.GetInventoryMasterLocation(paylaod).subscribe((res: any) => {
       // this.invMasterLocations ='asdsad';
       this.invMaster.get('inventoryTable')?.setValue(res.data.inventoryTable);
-      this.count = res.data.count
-      // console.log(this.getInvMasterData);
+      this.count = res.data.count 
       this.initialzeIMFeilds();
     })
   }
@@ -509,8 +508,7 @@ export class InventoryMasterComponent implements OnInit {
 
   }
   prevPage() {
-    //console.log(this.getChangedProperties());
-
+    
     // const dialogRef = this.dialog.open(this.propertiesChanged, {
     //   width: '450px',
     //   autoFocus: '__non_existing_element__',
@@ -785,8 +783,7 @@ export class InventoryMasterComponent implements OnInit {
   }
   getSearchList(e: any) {
 
-    this.searchValue = e.currentTarget.value;
-    // console.log(e.currentTarget.value)
+    this.searchValue = e.currentTarget.value; 
     let paylaod = {
       "stockCode": e.currentTarget.value,
       "username": this.userData.userName,
@@ -827,9 +824,7 @@ export class InventoryMasterComponent implements OnInit {
       this.getInventory();
     } else if (e?.refreshLocationGrid) {
       this.getInvMasterLocations(this.currentPageItemNo);
-    } else if (e?.locationPageSize) {  //&& e?.startIndex
-      // console.log('erow '+ e.locationPageSize);
-      // console.log('srow '+ e.startIndex);
+    } else if (e?.locationPageSize) {  //&& e?.startIndex 
 
       this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex);
     } else if (e?.sortingColumn) {

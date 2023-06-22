@@ -91,8 +91,7 @@ export class BatchDeleteComponent implements OnInit {
             });
           }
         });
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 

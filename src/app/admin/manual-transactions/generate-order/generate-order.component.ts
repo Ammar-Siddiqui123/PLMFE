@@ -48,8 +48,7 @@ export class GenerateOrderComponent implements OnInit {
   pageEvent: PageEvent;
 
   @Input() set tab(event : any) {
-    if (event) {
-      console.log(event)
+    if (event) { 
       setTimeout(()=>{
         this.searchBoxField.nativeElement.focus();
       }, 500);
@@ -228,7 +227,7 @@ export class GenerateOrderComponent implements OnInit {
     this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
   editTransaction(element){
-// console.log(element);
+
 
 // JSON.stringify(element.batchPickID)
 // JSON.stringify(element.hostTransactionID)

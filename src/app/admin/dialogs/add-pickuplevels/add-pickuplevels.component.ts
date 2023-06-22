@@ -29,8 +29,7 @@ export class AddPickuplevelsComponent implements OnInit {
     private authService: AuthService
   ) { }
 
-  ngOnInit(): void {
-    //console.log(this.data);
+  ngOnInit(): void { 
 
     this.userData = this.authService.userData();
     if (this.data.mode === 'edit') {

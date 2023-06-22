@@ -276,7 +276,7 @@ export class WorkstationComponent implements OnInit {
     this.api.WorkStationAppDelete(payload)
       .subscribe(
         (res: any) => {
-          // console.log(res);
+          ;
         },
         (error) => {}
       );

@@ -152,8 +152,7 @@ export class DetailComponent implements OnInit {
       this.sharedService.updateInvMasterState(result,true)
     })
   }
-  public openUmDialog() {
-    // console.log(this.details.controls['replenishmentLevel'].value)
+  public openUmDialog() { 
     let dialogRef = this.dialog.open(UnitMeasureComponent, {
       height: 'auto',
       width: '750px',
@@ -163,7 +162,7 @@ export class DetailComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
+      ;
       if(result!='' && result!=true)
       { 
         this.details.patchValue({

@@ -44,7 +44,7 @@ export class SuperBatchComponent implements OnInit {
     this.user_data = this.authService.userData(); 
     this.Api.SuperBatchIndex().subscribe(res => {
       const { preferences } = res.data;
-      // console.log(res.data);
+      
       this.itemNumbers = res.data.itemNums;
       this.defaultSuperBatchSize = preferences.defaultSuperBatchSize;
       this.superBatches = res.data.superBatches;
@@ -99,7 +99,7 @@ export class SuperBatchComponent implements OnInit {
 
   onCreateBtach(element: any) {
     this.batchRowData = element;
-      // console.log(element);
+      
       
     if (element.newToteID <= 1) {
       this.toastr.error('Must enter a tote id to batch orders', 'Error!', {

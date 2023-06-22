@@ -37,7 +37,7 @@ export class SendTranHistoryComponent implements OnInit {
             timeOut: 2000,
           });
           this.dialogRef.close({ isExecuted: true });
-        } else {
+        } else { 
           this.toastr.error(labels.alert.went_worng, 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000,

@@ -70,10 +70,10 @@ export class ToteTransactionManagerComponent implements OnInit {
   public displayedColumns: string[] = [
     'batchPickID',
     'filterCount',
-    'hostTransaction',
     'toteId',
     'transactionType',
     'zoneLabel',
+    'hostTransaction',
     'action'
   ];
 
@@ -121,17 +121,23 @@ export class ToteTransactionManagerComponent implements OnInit {
   }
 
    clearInfo(type,row?) {
+ let enablebatch = false
+  if(row?.batchPickID != ''){
+    enablebatch = true
+  }
         if (type != 'pickTote') {
           const dialogRef = this.dialog.open(BatchDeleteComponent, {
             height: 'auto',
-            width: '50vw',
+            width: '60vw',
             autoFocus: '__non_existing_element__',
             data: {
               deleteAllDisable:true,
-              batchId: row.batchPickID,
-              toteId: row.toteId,
+              enableClear:enablebatch,
+              batchId: row && row.batchPickID?row.batchPickID:'',
+              toteId: row && row.toteId?row.toteId:'',
               userName: this.userData.userName,
               wsid: this.userData.wsid,
+              delButtonHide:true
             },
           });
           dialogRef.afterClosed().subscribe((res) => {
@@ -181,9 +187,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   //     });
   // }
   
- getToteTrans() {
-  console.log(this.FilterString);
-  
+ getToteTrans() {  
     let payload = {
    
       BatchID: this.batchId?this.batchId:'',
@@ -312,7 +316,7 @@ export class ToteTransactionManagerComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe((result) => {
-      // console.log(result);
+      ;
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );

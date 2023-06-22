@@ -184,8 +184,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   @Input()
   set deleteEvnt(event: Event) {
     if (event) {
-      this.getContentData();
-      // console.log(this.detailDataInventoryMap);
+      this.getContentData(); 
     }
   }
 
@@ -283,8 +282,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getEleLength(ele) {
-    // console.log('=----',ele)
+  getEleLength(ele) { 
   }
   getContentData() {
     if (this.searchCol === 'Tote ID') {
@@ -348,6 +346,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
                 res.data.orderStatus.length > 0 &&
                 res.data.orderStatus[0].transactionType
             );
+            debugger
             this.currentStatusChange(res.data.completedStatus);
             this.totalLinesOrderChange(res.data?.totalRecords);
             this.sharedService.updateOrderStatusSelect({
@@ -391,8 +390,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.Api
       .DeleteOrder(this.payload)
       .subscribe(
-        (res: any) => {
-          // console.log(res);
+        (res: any) => { 
         },
         (error) => {}
       );

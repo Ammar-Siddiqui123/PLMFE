@@ -26,8 +26,7 @@ export class BlossomToteComponent implements OnInit {
     this.userData = this.authService.userData();
   }
 
-  updateNxtTote() {
-    // console.log(this.nxtToteID);
+  updateNxtTote() { 
     
     let updatePayload = {
       "tote": this.nxtToteID,
