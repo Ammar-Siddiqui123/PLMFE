@@ -67,12 +67,12 @@
                                             <div class="card br-14" >
                                                 <div class="card-header">Workstations</div>
                                                
-                                                <!-- <ng-scrollbar style="height: 500px;" track="all"> -->
-                                                    <div class="card-body table-responsive" style="height: 500px;">
+                                                 <ng-scrollbar class="mat-table-scrollbar"  style="height: 500px;" track="all">
+                                                    <div class="card-body table-responsive">
 
                                                 <mat-radio-group color="primary" [(ngModel)]="selectedItem">
                                                     <div *ngFor="let item of workstationData; let i = index"
-                                                        class="d-flex flex-column gap-12 mb-2">
+                                                        class="d-flex flex-column gap-12 mb-2"> 
                                                         <mat-radio-button [value]="item.pcName" [checked]="item.checked"
                                                             (change)="radioChange(item)">
                                                             {{item.pcName}}
@@ -81,7 +81,7 @@
                                                     </div>
                                                 </mat-radio-group>
                                             </div>
-                                                <!-- </ng-scrollbar> -->
+                                                 </ng-scrollbar> 
                                         
                                             </div>
                                         </div>
