@@ -113,8 +113,7 @@ export class AddNewEmployeeComponent implements OnInit {
 
     });
   }
-ChangePassword(data){
-  debugger
+ChangePassword(data){ 
   // if(this.OldPassword == this.password) this.OldPassword = -1;
   this.password = data;
 }
@@ -123,9 +122,10 @@ ChangePassword(data){
       // this.isSubmitting = true;
       this.cleanForm(form);
       form.value.active = Boolean(JSON.parse(form.value.active));
+      debugger
       if (this.data?.mode === 'edit') {
         form.value.wsid = "TESTWID"; 
-        // form.value.groupName = this.groupName,
+        form.value.Username = this.data?.emp_data?.username,
           this.employeeService.updateAdminEmployee(form.value).subscribe((res: any) => {
             if (res.isExecuted) {
               this.dialogRef.close({mode: 'edit-employee', data: form.value});
