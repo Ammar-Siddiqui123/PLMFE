@@ -112,7 +112,11 @@ const routes: Routes = [
         component: FlowrackReplenishmentComponent,
         // canActivate: [AuthGuardGuard],
       },
-
+      { 
+        path: 'ListAndLabel', 
+        loadChildren: () => import('./list-and-label/list-and-label.module').then(m => m.ListAndLabelModule),
+        // canActivate:[AuthGuardGuard]
+      },
     ]
 
   },  
