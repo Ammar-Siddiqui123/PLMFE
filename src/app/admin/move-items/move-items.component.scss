@@ -21,7 +21,7 @@ table{
 
 
       
-  .selected {
+.selected {
     // background-color: #5555EC !important;
 
     color: #fff;
@@ -62,9 +62,9 @@ table{
 }
 
 
-.action-clickable-table .mat-row{
-  position: relative;
-}
+// .action-clickable-table .mat-row{
+//   position: relative;
+// }
 .toolTipConf{
   padding: 10px 12px;
    border: 0; 
@@ -72,4 +72,25 @@ table{
     overflow: hidden; 
     max-width: 23ch;
      white-space: nowrap;
+}
+
+
+table.custom-action-clickable-table  tr{
+  line-height: 46px;
+  top: 0;
+  left: 8px;
+  right: 14px;
+  bottom: 0;
+  position: relative;
+
+ 
+  
+      &:hover {
+          border-radius: 8px !important;
+          transition: 0.3s ease all;
+          color: #fff;
+          background: var(--clr-primary-300);
+          position: relative;
+          
+      }
 }

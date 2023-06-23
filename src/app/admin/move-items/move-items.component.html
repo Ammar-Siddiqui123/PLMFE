@@ -242,11 +242,12 @@
                                     <table class=" g-card-table table1 employee-location-table action-clickable-table" mat-table [dataSource]="dataSource" matSort
                                         (matSortChange)="sortChange($event)">
                                         <ng-container matColumnDef="warehouse">
-                                            <th mat-header-cell mat-sort-header *matHeaderCellDef>Warehouseee </th>
+                                            <th mat-header-cell mat-sort-header *matHeaderCellDef>Warehouse </th>
                                             <td (contextmenu)="onContextMenu($event, element.warehouse, 'Warehouse')" mat-cell *matCellDef="let element" [class.selected]="element.isSelected"
                                                 [ngClass]="{ 'highlight': isQuantityGreater(element.quantityAllocatedPick) }">
                                                 {{element.warehouse}}</td>
                                         </ng-container>
+                                
                                         <ng-container matColumnDef="locationNumber">
                                             <th class="" mat-header-cell mat-sort-header *matHeaderCellDef>Location
                                                 Number</th>
