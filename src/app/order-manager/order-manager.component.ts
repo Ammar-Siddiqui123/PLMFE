@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { OmCreateOrdersComponent } from '../dialogs/om-create-orders/om-create-orders.component';
-import { MatDialog } from '@angular/material/dialog';
-import { OrderManagerService } from './order-manager.service';
+import { MatDialog } from '@angular/material/dialog'; 
 import { AuthService } from '../init/auth.service';
 import { NavigationEnd, Router, RoutesRecognized } from '@angular/router';
 import { filter, pairwise } from 'rxjs';
+import { ApiFuntions } from '../services/ApiFuntions';
 
 @Component({
   selector: 'app-order-manager',
@@ -23,7 +23,7 @@ export class OrderManagerComponent implements OnInit {
   compLocChange=0;
   reprocCount=0;
   constructor(
-    private omService: OrderManagerService,
+    private Api:ApiFuntions,
     private authService: AuthService,
     private router: Router,
   ) {
@@ -73,13 +73,9 @@ export class OrderManagerComponent implements OnInit {
   }
 
   getInvDetailsList() {
-    let payload = {
-      userName: this.userData.userName,
-      wsid: this.userData.wsid,
-      appName: '',
-    };
-    this.omService
-      .get(payload, '/OrderManager/OrderManagerMenuIndex')
+
+    this.Api
+      .OrderManagerMenuIndex()
       .subscribe(
         (res: any) => {
           if (res.isExecuted) {

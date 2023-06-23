@@ -1,14 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { AuthService } from '../init/auth.service';
-import { AdminService } from './admin.service';
+import { AuthService } from '../init/auth.service'; 
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatSort, Sort } from '@angular/material/sort';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FloatLabelType } from '@angular/material/form-field';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-import { TransactionService } from './transaction/transaction.service';
+import { debounceTime, distinctUntilChanged, from, Observable, Subject } from 'rxjs'; 
+import { ApiFuntions } from '../services/ApiFuntions';
 
 @Component({
   selector: 'app-admin',
@@ -88,9 +87,8 @@ export class AdminComponent implements OnInit {
 
   @ViewChild('autoFocusField') searchBoxField: ElementRef;
   constructor(
-    public authService: AuthService,
-    private adminService: AdminService,
-    private transactionService: TransactionService
+    public authService: AuthService, 
+    private api:ApiFuntions
   ) {}
   inventoryDetail = new FormGroup({
     item: new FormControl({ value: '', disabled: true }),
@@ -143,7 +141,7 @@ export class AdminComponent implements OnInit {
         this.searchValue = value;
         this.autocompleteSearchColumn();
       });
-    this.userData = this.authService.userData();
+    this.userData = this.authService.userData(); 
     this.getAdminMenu();
   }
   searchData() {
@@ -163,9 +161,7 @@ export class AdminComponent implements OnInit {
       wsid: this.userData.wsid,
     };
 
-    this.transactionService
-      .get(searchPayload, '/Admin/GetLocationTable', true)
-      .subscribe(
+    this.api.location(searchPayload).subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
         },
@@ -190,10 +186,7 @@ export class AdminComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(payload, '/Admin/GetInventoryMasterData', true)
-      .subscribe(
-        (res: any) => {
+ this.api.Inventorymasterdata(payload).subscribe((res: any) => {
           if (res.isExecuted) {
             this.inventoryDetail.get("item")?.setValue(res.data?.itemNumber);
             this.inventoryDetail.get("description")?.setValue(res.data?.description);
@@ -283,15 +276,8 @@ export class AdminComponent implements OnInit {
     }
     this.dataSource.sort = this.sort;
   }
-  getAdminMenu() {
-    let payload = {
-      userName: this.userData.userName,
-      wsid: this.userData.wsid,
-    };
-
-    this.adminService
-      .get(payload, '/Admin/GetAdminMenu')
-      .subscribe((res: any) => {
+  getAdminMenu() { 
+    this.api.GetAdminMenu().subscribe((res: any) => {
         if (res && res?.data?.totalOrders) {
           this.dataSource = new MatTableDataSource(
             res.data.totalOrders.orderTable

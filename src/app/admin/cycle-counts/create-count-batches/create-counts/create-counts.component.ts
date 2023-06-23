@@ -10,9 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Action } from 'rxjs/internal/scheduler/Action';
-import { AdminService } from 'src/app/admin/admin.service';
+import { MatTableDataSource } from '@angular/material/table'; 
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
@@ -28,6 +26,7 @@ import {
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-ccb-create-counts',
@@ -116,7 +115,7 @@ export class CCBCreateCountsComponent implements OnInit {
   ];
   dataSourceList: any;
   constructor(
-    public adminService: AdminService,
+    public Api: ApiFuntions,
     public toastService: ToastrService,
     private authService: AuthService,
     private fb: FormBuilder,
@@ -325,8 +324,8 @@ export class CCBCreateCountsComponent implements OnInit {
         userName: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.adminService
-        .get(paylaod, '/Admin/GetCCDescriptionTypeAhead', true)
+      this.Api
+        .GetCCDescriptionTypeAhead(paylaod)
         .subscribe((res: any) => {
           this.searchAutocompleteDescription = res.data;
         });
@@ -340,8 +339,8 @@ export class CCBCreateCountsComponent implements OnInit {
         userName: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.adminService
-        .get(paylaod, '/Admin/GetCCCategoryTypeAhead', true)
+      this.Api
+        .GetCCCategoryTypeAhead(paylaod)
         .subscribe((res: any) => {
           this.searchAutocompletCategory = res.data;
         });
@@ -367,8 +366,8 @@ export class CCBCreateCountsComponent implements OnInit {
         };
       }
    
-      this.adminService
-        .get(payload, '/Admin/GetCCCountToCostTypeAhead', true)
+      this.Api
+        .GetCCCountToCostTypeAhead(payload)
         .subscribe((res: any) => {
           if (type === 'BeginCost') {
             this.searchAutocompletBeginCost = res.data;
@@ -383,8 +382,8 @@ export class CCBCreateCountsComponent implements OnInit {
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.adminService
-        .get(payload, '/Common/LocationBegin', true)
+      this.Api
+        .LocationBegin(payload)
         .subscribe((res: any) => {
           this.searchAutocompleteFromLocation = res.data;
         });
@@ -396,8 +395,8 @@ export class CCBCreateCountsComponent implements OnInit {
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.adminService
-        .get(payload, '/Common/LocationEnd', true)
+      this.Api
+        .LocationEnd(payload)
         .subscribe((res: any) => {
           this.searchAutocompleteToLocation = res.data;
         });
@@ -412,8 +411,8 @@ export class CCBCreateCountsComponent implements OnInit {
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.adminService
-        .get(payload, '/Common/SearchItem', true)
+      this.Api
+        .SearchItem(payload)
         .subscribe((res: any) => {
           if (type === 'FromItem') {
             this.searchAutocompleteFromItem = res.data;
@@ -430,12 +429,9 @@ export class CCBCreateCountsComponent implements OnInit {
     // Try to run this code
     try {
       // Create a payload to send to the server
-      var payLoad = {
-        username: this.userData.username,
-        wsid: this.userData.wsid,
-      };
+       
       // Run the service to get the list of warehouses and the list of current count orders.
-      this.adminService.create(payLoad, '/Admin/GetCountBatches').subscribe(
+      this.Api.GetCountBatches().subscribe(
         // If the request is successful, get the data
         (res: any) => {
           // If the data is returned, set the list of warehouses and the list of current count orders
@@ -602,7 +598,7 @@ export class CCBCreateCountsComponent implements OnInit {
       userName: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.adminService.get(payload, '/Admin/BatchResultTable').subscribe(
+    this.Api.BatchResultTable(payload).subscribe(
       (res: any) => {
         if (res && res.data && res.isExecuted) {
           this.dataSource = new MatTableDataSource(res.data);
@@ -656,7 +652,7 @@ export class CCBCreateCountsComponent implements OnInit {
           wsid: this.userData.wsid,
         };
         // Call the API
-        this.adminService.delete(payLoad, '/Admin/CountOrdersDelete').subscribe(
+        this.Api.CountOrdersDelete(payLoad).subscribe(
           (res: any) => {
             // Check if the response is a success
             if (res.data && res.isExecuted) {
@@ -699,7 +695,7 @@ export class CCBCreateCountsComponent implements OnInit {
       username: this.userData.username,
       wsid: this.userData.wsid,
     };
-    this.adminService.create(payLoad, '/Admin/CycleCountQueueInsert').subscribe(
+    this.Api.CycleCountQueueInsert(payLoad).subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
           this.dataSource = [];
@@ -741,8 +737,8 @@ export class CCBCreateCountsComponent implements OnInit {
                   username: this.userData.username,
                   wsid: this.userData.wsid,
                 };
-                this.adminService
-                  .create(payLoad, '/Admin/CycleCountQueueInsert')
+                this.Api
+                  .CycleCountQueueInsert(payLoad)
                   .subscribe(
                     (res: any) => {
                       if (res.data && res.isExecuted) {
@@ -793,7 +789,7 @@ export class CCBCreateCountsComponent implements OnInit {
         //   wsid: this.userData.wsid,
         //   invMapID: rowId.toString(),
         // };
-        // this.adminService.get(payload, `/Admin/RemoveccQueueRow`).subscribe(
+        // this.Api.get(payload, `/Admin/RemoveccQueueRow`).subscribe(
         //   (res: any) => {
         //     if (res.isExecuted) {
         //       this.getCountQue();

@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { EmployeeService } from '../../../../app/employee.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { SpinnerService } from '../../../../app/init/spinner.service';
 import labels from '../../../labels/labels.json';
+import { Api } from 'datatables.net';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-add-location',
@@ -25,7 +26,7 @@ export class AddLocationComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, 
     private dialog: MatDialog, 
-    private employeeService: EmployeeService, 
+    private employeeService: ApiFuntions, 
     private toastr: ToastrService,
     private loader: SpinnerService,
     public dialogRef: MatDialogRef<any>
@@ -55,7 +56,7 @@ export class AddLocationComponent implements OnInit {
       "username": this.data.userName,
       "wsid": "TESTWSID"
     }
-    this.employeeService.getLocationList('/Common/LocationBegin',payload).subscribe((res:any) => {
+    this.employeeService.getLocationList('/Common/locationbegin',payload).subscribe((res:any) => {
       if(res.isExecuted){
         this.startLocationList = res.data;
         const foundStr = this.startLocationList.find(v => v.toLowerCase().includes(this.startLocation.toLowerCase()));
@@ -74,7 +75,7 @@ export class AddLocationComponent implements OnInit {
       "username": this.data.userName,
       "wsid": "TESTWSID"
     }
-    this.employeeService.getLocationList('/Common/LocationEnd',payload).subscribe((res:any) => {
+    this.employeeService.getLocationList('/Common/locationend',payload).subscribe((res:any) => {
       if(res.isExecuted){
         this.endLocationList = res.data;
         const foundStr = this.endLocationList.find(v => v.toLowerCase().includes(this.endLocation.toLowerCase()));

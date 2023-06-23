@@ -6,13 +6,13 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { CmShippingCarrierComponent } from 'src/app/dialogs/cm-shipping-carrier/cm-shipping-carrier.component';
-import { ConsolidationManagerService } from '../../consolidation-manager.service';
+import { CmShippingCarrierComponent } from 'src/app/dialogs/cm-shipping-carrier/cm-shipping-carrier.component'; 
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-preferences-shipping',
@@ -30,7 +30,7 @@ export class PreferencesShippingComponent implements OnInit {
   @Output() shippingEvnt = new EventEmitter<void>();
   userData: any;
   constructor(
-    private cmService: ConsolidationManagerService,
+    private Api: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService,
     public dialog: MatDialog
@@ -163,8 +163,8 @@ export class PreferencesShippingComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.cmService
-      .get(payload, `/Consolidation/ConsolidationPreferenceShipUpdate`, true)
+    this.Api
+      .ConsolidationPreferenceShipUpdate(payload)
       .subscribe((response: any) => {
         this.shippingEvnt.emit();
         if (response.isExecuted) {

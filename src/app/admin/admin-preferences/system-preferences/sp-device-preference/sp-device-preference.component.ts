@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table'; 
 import { ToastrService } from 'ngx-toastr';
-import { AdminService } from 'src/app/admin/admin.service';
 import { AddNewDeviceComponent } from 'src/app/admin/dialogs/add-new-device/add-new-device.component';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
@@ -45,7 +45,7 @@ export class SpDevicePreferenceComponent implements OnInit {
     'actions',
   ];
   constructor(
-    private adminService: AdminService,
+    private Api: ApiFuntions,
     public authService: AuthService,
     private dialog: MatDialog,
     private toastr: ToastrService,
@@ -78,13 +78,15 @@ export class SpDevicePreferenceComponent implements OnInit {
       wsid: this.userData.wsid,
     };
 
-    this.adminService
-      .get(payload, '/Admin/DevicePreferenceTable')
-      .subscribe((res: any) => { 
-
-        if (res && res?.data?.devicePreferences) {
-          this.dataSource = new MatTableDataSource(res.data.devicePreferences);
-          this.customPagination.total = res.data?.recordsFiltered;
+    this.Api
+      .GetAdminMenu()
+      .subscribe((res: any) => {
+        if (res && res?.data?.totalOrders) {
+          this.dataSource = new MatTableDataSource(
+            res.data.totalOrders.orderTable
+          );
+        }
+        if (res && res?.data?.totalOrders && res?.data?.totalOrders?.adminValues) {
         }
         // if (res && res?.data?.devicePreferences && res?.data?.devicePreferences) {
         // }
@@ -130,8 +132,8 @@ export class SpDevicePreferenceComponent implements OnInit {
           username: this.userData.userName,
           wsid: this.userData.wsid,
         };
-        this.adminService
-          .get(payload, '/Admin/DevicePreferencesDelete')
+        this.Api
+          .DevicePreferencesDelete(payload)
           .subscribe((res: any) => {
             if (res.isExecuted) {
               this.toastr.success(res.responseMessage, 'Success!', {

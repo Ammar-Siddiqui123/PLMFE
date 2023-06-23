@@ -1,8 +1,7 @@
 import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
+import { Injectable } from '@angular/core'; 
 import { environment } from '../../environments/environment';
-import { BYPASS_LOG } from '../init/http-interceptor';
+import { BehaviorSubject, Observable } from 'rxjs';  
 
 @Injectable({
     providedIn: 'root'
@@ -11,34 +10,24 @@ import { BYPASS_LOG } from '../init/http-interceptor';
 export class BaseService {
 
     constructor(private http: HttpClient) {
-    }
-
-    public get(reqPaylaod: any, endPoint: string, isLoader:boolean=false): Observable<any> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic '
-            }),
-            context: new HttpContext().set(BYPASS_LOG, isLoader)
-        };
-        return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod,httpOptions);
-    }
-
-    public getAll(endPoint:string ,payload?,isLoader:boolean=false):Observable<any>{
+    } 
+      Get(endPoint:string ,payload?,isLoader:boolean=false): Observable<any>{
+         
        const headers = new HttpHeaders({
         'Content-Type': 'application/json',
-         'Authorization': 'Basic ',
-       
+         'Authorization': 'Basic '
           })
-        //   'Payload':JSON.stringify(payload)
-        let queryParams = new HttpParams();
+          let queryParams = new HttpParams();
+       if(payload != null){
             for(let key in payload){
-            queryParams=queryParams.append(key,payload[key]);
+                if(payload[key] != undefined) queryParams=queryParams.append(key,payload[key]);
             }
-        return this.http.get<any>(`${environment.apiUrl}${endPoint}`,{headers:headers,params:queryParams});  
+       } 
+        return this.http.get<any>(`${environment.apiUrl}${endPoint}`,{headers:headers,params:queryParams}); 
+        
     }
-
-    public create(reqPaylaod: any, endPoint: string): Observable<any> {
+  
+    public Post(endPoint: string,reqPaylaod: any) {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -47,26 +36,7 @@ export class BaseService {
         };
         return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
     }
-    public update(reqPaylaod: any, endPoint: string): Observable<any> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic '
-            })
-        };
-        return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
-    }
-    public delete(reqPaylaod: any, endPoint: string): Observable<any> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic '
-            })
-        };
-        return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
-    }
-
-    public put(reqPaylaod: any, endPoint: string): Observable<any> {
+    public Update(endPoint: string,reqPaylaod: any) {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -75,4 +45,28 @@ export class BaseService {
         };
         return this.http.put<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
     }
+    public Delete(endPoint: string,reqPaylaod: any = null) {
+      let queryParams = new HttpParams();
+      for(let key in reqPaylaod){
+      queryParams=queryParams.append(key,reqPaylaod[key]);
+      }
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic '
+            }),
+            params:queryParams
+        };
+       
+        return this.http.delete<any>(`${environment.apiUrl}${endPoint}`, httpOptions);
+    } 
+    public update(reqPaylaod: any, endPoint: string) {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic '
+            })
+        };
+        return this.http.put<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
+    } 
 }

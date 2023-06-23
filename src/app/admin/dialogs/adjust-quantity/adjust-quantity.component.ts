@@ -6,10 +6,10 @@ import { WarehouseComponent } from '../warehouse/warehouse.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { startWith } from 'rxjs/internal/operators/startWith';
-import { map } from 'rxjs/internal/operators/map';
-import { AdjustQuantityService } from './adjust-quantity.service';
+import { map } from 'rxjs/internal/operators/map'; 
 import { ToastrService } from 'ngx-toastr';
 import { ConditionalExpr } from '@angular/compiler';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface  AdjustQuantityDataStructure   {
  // invMapID : string |  '',
@@ -60,7 +60,7 @@ export class AdjustQuantityComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     public fb: FormBuilder,
-    private adjustQuantityService: AdjustQuantityService,
+    private Api: ApiFuntions,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<any>
@@ -83,7 +83,7 @@ export class AdjustQuantityComponent implements OnInit {
   }
 
   getItemQuantity(id: any){
-    this.adjustQuantityService.getItemQuantityDetail(id).subscribe((res) => {
+    this.Api.getItemQuantityDetail(id).subscribe((res) => {
       if(res.data && res.isExecuted){
         this.getAdjustQuantityData = res.data;
       }
@@ -91,7 +91,7 @@ export class AdjustQuantityComponent implements OnInit {
   }
 
   getAdjustmentReasons(){
-    this.adjustQuantityService.getAdjustmentReasonsList().subscribe((res) => {
+    this.Api.getAdjustmentReasonsList().subscribe((res) => {
       if(res.data && res.isExecuted){
         this.getAdjustReasonsList = res.data;
       }
@@ -100,7 +100,7 @@ export class AdjustQuantityComponent implements OnInit {
   onSubmit(form: FormGroup) { 
 
     if(form.valid){
-      this.adjustQuantityService.updateItemQuantity(form.value).subscribe((res) => {
+      this.Api.updateItemQuantity(form.value).subscribe((res) => {
         if(res.isExecuted){
           this.toastr.success(res.responseMessage, 'Success!',{
             positionClass: 'toast-bottom-right',

@@ -1,9 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { OrderManagerService } from '../order-manager.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-om-preferences',
@@ -15,7 +15,7 @@ export class OmPreferencesComponent implements OnInit {
   filtersForm: FormGroup;
   @ViewChild('myInput') myInput: ElementRef<HTMLInputElement>;
   constructor(
-    private omService: OrderManagerService,
+    private Api: ApiFuntions,
     private authService: AuthService,
     private toastr: ToastrService
   ) {
@@ -77,13 +77,9 @@ export class OmPreferencesComponent implements OnInit {
     return Number(updatedNumberAsString);
   }
   getPreferences() {
-    let payload = {
-      appName: '',
-      userName: this.userData.userName,
-      wsid: this.userData.wsid,
-    };
-    this.omService
-      .get(payload, `/OrderManager/OrderManagerPreferenceIndex`)
+    
+    this.Api
+      .OrderManagerPreferenceIndex()
       .subscribe((response: any) => {
         if (response.isExecuted) {
           let pref = response.data.preferences[0];
@@ -140,8 +136,8 @@ export class OmPreferencesComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.omService
-      .get(payload, `/OrderManager/OrderManagerPreferenceUpdate`)
+    this.Api
+      .OrderManagerPreferenceUpdate(payload)
       .subscribe((response: any) => {
         if (response.isExecuted) {
         } else {

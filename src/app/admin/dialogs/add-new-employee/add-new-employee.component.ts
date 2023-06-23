@@ -2,11 +2,11 @@ import { Component, OnInit, Inject, ViewChild, TemplateRef, ElementRef } from '@
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import labels from '../../../labels/labels.json';
-import { EmployeeService } from 'src/app/employee.service';
+import labels from '../../../labels/labels.json'; 
 import { AdminEmployeeLookupResponse } from 'src/app/Iemployee';
 import { Router } from '@angular/router';
 import { CustomValidatorService } from '../../../../app/init/custom-validator.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion';
@@ -50,7 +50,7 @@ export class AddNewEmployeeComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private employeeService: EmployeeService,
+    private employeeService: ApiFuntions,
     private router: Router,
     private fb: FormBuilder,
     private cusValidator: CustomValidatorService,
@@ -113,8 +113,7 @@ export class AddNewEmployeeComponent implements OnInit {
 
     });
   }
-ChangePassword(data){
-  debugger
+ChangePassword(data){ 
   // if(this.OldPassword == this.password) this.OldPassword = -1;
   this.password = data;
 }
@@ -123,10 +122,10 @@ ChangePassword(data){
       // this.isSubmitting = true;
       this.cleanForm(form);
       form.value.active = Boolean(JSON.parse(form.value.active));
+      debugger
       if (this.data?.mode === 'edit') {
-        form.value.wsid = "TESTWID";
-        form.value.username = this.username;
-        // form.value.groupName = this.groupName,
+        form.value.wsid = "TESTWID"; 
+        form.value.Username = this.data?.emp_data?.username,
           this.employeeService.updateAdminEmployee(form.value).subscribe((res: any) => {
             if (res.isExecuted) {
               this.dialogRef.close({mode: 'edit-employee', data: form.value});
