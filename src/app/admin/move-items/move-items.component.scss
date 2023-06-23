@@ -21,38 +21,38 @@ table{
 
 
       
-  // .selected {
+  .selected {
+    // background-color: #5555EC !important;
 
-
-  //   color: #fff;
-  //   &:before{
-  //     content: '';
-  //     background-color: #5555EC;
-  //     height: 100%;
-  //     width: 100%;
-  //     position: absolute;
-  //     left: 0px;
-  //     top: 0px;
-  //     z-index: -1;
+    color: #fff;
+    &:before{
+      content: '';
+      background-color: #5555EC;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      z-index: -1;
       
-  //   }
-  //   &:first-child{
-  //     &:before{
-  //     border-top-left-radius: 8px;
-  //     border-bottom-left-radius: 8px;
-  //     margin-left: 8px;
-  //     }
-  //   }
-  //   &:last-child{
-  //     &:before{
-  //     border-top-right-radius: 8px;
-  //     border-bottom-right-radius: 8px;
-  //     right: 12px;
-  //     left: auto;
-  //     }
-  //   }
+    }
+    &:first-child{
+      &:before{
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+      margin-left: 8px;
+      }
+    }
+    &:last-child{
+      &:before{
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+      right: 12px;
+      left: auto;
+      }
+    }
     
-  // }
+  }
 }
 
 .stickyHeader{
@@ -73,20 +73,3 @@ table{
     max-width: 23ch;
      white-space: nowrap;
 }
-
-
-// .custom-action-clickable-table .mat-row:after {
-//   content: "";
-//   border-radius: 8px;
-//   border: 1px solid transparent;
-//   transition: 0.3s ease all;
-//   position: absolute;
-//   top: 0;
-//   left: 8px;
-//   right: 14px;
-//   bottom: 0;
-// }
-
-// .custom-action-clickable-table .mat-row:hover:after {
-//   background: var(--clr-primary-300);
-// }
