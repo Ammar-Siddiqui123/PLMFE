@@ -1,6 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { SpinnerService } from '../../../app/init/spinner.service';
-import { LoginService } from '../../../app/login.service';
+import { SpinnerService } from '../../../app/init/spinner.service'; 
 import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';

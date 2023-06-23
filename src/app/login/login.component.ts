@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ILogin, ILoginInfo } from './Ilogin';
-import { LoginService } from '../login.service';
+import { ILogin, ILoginInfo } from './Ilogin'; 
 import { FormControl, FormGroup, Validators, } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -16,7 +15,6 @@ import { ApiFuntions } from '../services/ApiFuntions';
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
-  providers: [LoginService],
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
