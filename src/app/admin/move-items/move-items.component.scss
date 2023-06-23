@@ -18,13 +18,11 @@ table{
     .highlight-row {
         background-color: #FCEAEE;
       }
-
-
       
 .selected {
     // background-color: #5555EC !important;
 
-    color: #fff;
+    color: #000;
     &:before{
       content: '';
       background-color: #5555EC;
@@ -62,7 +60,7 @@ table{
 }
 
 
-.action-clickable-table .mat-row{
+.custom-action-clickable-table .mat-row{
   position: relative;
 }
 .toolTipConf{
@@ -75,22 +73,32 @@ table{
 }
 
 
-table.custom-action-clickable-table  tr{
-  line-height: 46px;
+table.custom-action-clickable-table tr{
   top: 0;
   left: 8px;
   right: 14px;
   bottom: 0;
-  position: relative;
+  cursor: pointer;
+  color:#fff;
+  border-radius: 8px !important;
+  margin-left:15px;
 
- 
   
-      &:hover {
-          border-radius: 8px !important;
-          transition: 0.3s ease all;
-          color: #fff;
-          background: var(--clr-primary-300);
-          position: relative;
-          
-      }
+}
+
+table.custom-action-clickable-table tr:hover{
+        
+        transition: 0.3s ease all;
+        color: #fff !important;
+        background: var(--clr-primary-300);
+        position: relative;
+}
+
+table.custom-action-clickable-table tr:hover td{
+  color: #fff !important;
+}
+
+
+.cdk-overlay-backdrop{
+  position: absolute !important;
 }
