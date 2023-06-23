@@ -21,6 +21,7 @@ table{
       
 .selected {
     // background-color: #5555EC !important;
+    border-radius: 8px !important;
 
     color: #000;
     &:before{
@@ -73,7 +74,7 @@ table{
 }
 
 
-table.custom-action-clickable-table tr{
+table.custom-action-clickable-table tbody tr{
   top: 0;
   left: 8px;
   right: 14px;
@@ -82,16 +83,16 @@ table.custom-action-clickable-table tr{
   color:#fff;
   border-radius: 8px !important;
   margin-left:15px;
-
-  
 }
 
 table.custom-action-clickable-table tr:hover{
-        
         transition: 0.3s ease all;
         color: #fff !important;
         background: var(--clr-primary-300);
         position: relative;
+        border-radius: 8px !important;
+        z-index:0;
+        cursor: pointer;
 }
 
 table.custom-action-clickable-table tr:hover td{
