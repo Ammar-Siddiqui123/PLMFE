@@ -65,6 +65,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'edit_attributes', title: 'Mark Empty Reels', route: '/InductionManager/MarkEmptyReels' ,permission:'Induction Manager'},
     { icon: 'linear_scale', title: 'Pallet Receiving', route: '/InductionManager/PalletReceiving' ,permission:'Induction Manager'},
     { icon: 'line_style', title: 'Super Batch', route: '/InductionManager/SuperBatch' ,permission:'Induction Manager'},
+    { icon: 'library_add_check', title: 'Complete Pick Batch', route: '/InductionManager/CompletePickBatch' ,permission:'Induction Manager'},
   ];
 
   consolidationMenus: any = [

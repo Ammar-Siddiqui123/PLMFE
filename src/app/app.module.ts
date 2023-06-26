@@ -83,6 +83,8 @@ import { FlowrackReplenishmentComponent } from './flowrack-replenishment/flowrac
 import { FrNumpadComponent } from './dialogs/fr-numpad/fr-numpad.component';
 import { ApiFuntions } from './services/ApiFuntions';
 import { BaseService } from './services/base-service.service';
+import { ShortTransactionComponent } from './dialogs/short-transaction/short-transaction.component';
+import { CpbBlossomToteComponent } from './dialogs/cpb-blossom-tote/cpb-blossom-tote.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -150,6 +152,8 @@ import { BaseService } from './services/base-service.service';
     StagingLocationOrderComponent,
     FlowrackReplenishmentComponent,
     FrNumpadComponent,
+    ShortTransactionComponent,
+    CpbBlossomToteComponent,
     // ActionDisableDirective,
   ],
   imports: [

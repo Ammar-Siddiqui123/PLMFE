@@ -15,6 +15,7 @@ import { PalletReceivingComponent } from './pallet-receiving/pallet-receiving.co
 import { MarkEmptyReelsComponent } from './mark-empty-reels/mark-empty-reels.component';
 import { ToteTransactionManagerComponent } from './tote-transaction-manager/tote-transaction-manager.component';
 import { ImToteManagerComponent } from './im-tote-manager/im-tote-manager.component';
+import { CompletePickBatchComponent } from './complete-pick-batch/complete-pick-batch.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { ImToteManagerComponent } from './im-tote-manager/im-tote-manager.compon
     PalletReceivingComponent,
     MarkEmptyReelsComponent,
     ToteTransactionManagerComponent,
-    ImToteManagerComponent
+    ImToteManagerComponent,
+    CompletePickBatchComponent
   ],
   imports: [
     CommonModule,
