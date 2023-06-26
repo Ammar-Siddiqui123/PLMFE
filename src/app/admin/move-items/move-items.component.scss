@@ -21,35 +21,35 @@ table{
       
 .selected {
     // background-color: #5555EC !important;
-    border-radius: 8px !important;
+    // border-radius: 8px !important;
 
     color: #000;
-    &:before{
-      content: '';
-      background-color: #5555EC;
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      left: 0px;
-      top: 0px;
-      z-index: -1;
+    // &:before{
+    //   content: '';
+    //   background-color: #5555EC;
+    //   height: 100%;
+    //   width: 100%;
+    //   position: absolute;
+    //   left: 0px;
+    //   top: 0px;
+    //   z-index: -1;
       
-    }
-    &:first-child{
-      &:before{
-      border-top-left-radius: 0px;
-      border-bottom-left-radius: 0px;
-      margin-left: 8px;
-      }
-    }
-    &:last-child{
-      &:before{
-      border-top-right-radius: 0px;
-      border-bottom-right-radius: 0px;
-      right: 12px;
-      left: auto;
-      }
-    }
+    // }
+    // &:first-child{
+    //   &:before{
+    //   border-top-left-radius: 0px;
+    //   border-bottom-left-radius: 0px;
+    //   margin-left: 8px;
+    //   }
+    // }
+    // &:last-child{
+    //   &:before{
+    //   border-top-right-radius: 0px;
+    //   border-bottom-right-radius: 0px;
+    //   right: 12px;
+    //   left: auto;
+    //   }
+    // }
     
   }
 }
@@ -90,7 +90,7 @@ table.custom-action-clickable-table tr:hover{
         color: #fff !important;
         background: var(--clr-primary-300);
         position: relative;
-        // border-radius: 8px !important;
+        border-radius: 8px !important;
         z-index:0;
         cursor: pointer;
 }
