@@ -33,7 +33,7 @@ export class DeleteConfirmationComponent implements OnInit {
 
   ngOnInit(): void {
     this.Message = ''; 
-    if (this.data.ErrorMessage) {
+    if (this.data?.ErrorMessage) {
       this.Message = this.data.ErrorMessage;
     }
     this.userData = this.authService.userData();
@@ -46,6 +46,7 @@ export class DeleteConfirmationComponent implements OnInit {
   }
 
   onConfirmdelete() {
+    debugger
     if (this.data) {
       if (this.data.mode === 'delete-zone') {
         let zoneData = {
@@ -408,7 +409,42 @@ export class DeleteConfirmationComponent implements OnInit {
         //   //   });
         //   // }
         // });
-      } else {
+      }else if(this.data.mode == 'delete-category'){
+        let payload = {
+          WSID: this.userData.wsid,
+          Username:this.userData.userName,
+          Category:this.data.category,
+          SubCategory:this.data.subCategory,
+        };
+
+        this.Api
+          .CategoryDelete(payload)
+          .subscribe(
+            (res: any) => {
+              if (res.isExecuted) {
+                this.toastr.success(labels.alert.success, 'Success!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+                this.dialogRef.close('Yes');
+              } else {
+                this.toastr.error(labels.alert.went_worng, 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+                this.dialogRef.close({ isExecuted: false });
+              }
+        
+            },
+            (err) => {
+              this.toastr.error(labels.alert.went_worng, 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            }
+          );
+      } 
+      else {
         this.dialogRef.close('Yes');
         // this.dialog.closeAll();
       }

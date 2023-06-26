@@ -767,15 +767,10 @@ public getInsertAllAccess(Body: any ): Observable<any> {
 }
 public getUserRights(Body: any ): Observable<any> {
   return this.ApiBase.Get(`/Admin/employee/details`, Body);
-}
-
-
-public getAdminEmployeeLookup(Body: any ): Observable<any> {
-  return this.ApiBase.Get(`/Admin/employee/lookup`, Body);
-}
-
-
-
+} 
+public getAdminEmployeeLookup(Body: any ,isLoader): Observable<any> {
+  return this.ApiBase.Get(`/Admin/employee/lookup`, Body,isLoader);
+}  
 public employeeStatsInfo(Body: any ): Observable<any> {
   return this.ApiBase.Get(`/Admin/employee/Stats`, Body);
 }
@@ -811,7 +806,9 @@ public getControlName(Body: any ): Observable<any> {
 public updateControlName(Body: any ): Observable<any> {
   return this.ApiBase.Update(`/Admin/control`, Body);
 }
-
+public CategoryDelete(Body: any ): Observable<any> {
+  return this.ApiBase.Post(`/common/category`, Body);
+}
 
 public deleteControlName(Body: any ): Observable<any> {
   return this.ApiBase.Delete(`/Admin/control`, Body);
@@ -953,6 +950,46 @@ public LAConnectionStringSet(Body: any ): Observable<any> {
 } 
 public ChangeGlobalAccount(Body: any ): Observable<any> {
   return this.ApiBase.Update(`/GlobalConfig/globalaccount`, Body);
+} 
+public changePassword(Body: any ): Observable<any> {
+  return this.ApiBase.Update(`/users/changepassword`, Body);
+}
+public getItemNumDetail(Body: any ): Observable<any> {
+  return this.ApiBase.Get(`/Admin/itemdetail`, Body);
+} 
+public getLocZTypeInvMap(body?: any ): Observable<any> {
+  let userData = this.authService.userData();
+    let paylaod = {
+      "location": body?.location,
+      "zone": body?.zone,
+      "username": userData.userName,
+      "wsid": userData.wsid,
+    }
+  return this.ApiBase.Get(`/Admin/locationzonetypeaheadinventorymap`, paylaod);
+} 
+public getSearchedItem(Body: any ): Observable<any> {
+  return this.ApiBase.Get(`/Common/searchitem`, Body);
+} 
+public updateInventoryMap(body: any ,mapID?): Observable<any> {
+  body.inventoryMapID=mapID && mapID.invMapID?mapID.invMapID:0;
+  body.masterInventoryMapID=mapID && mapID.masterInvMapID?mapID.masterInvMapID:0; 
+   const asArray = Object.entries(body); 
+   const filtered = asArray.filter(([key, value]) =>  value != ''); 
+   let payload = Object.fromEntries(filtered); 
+   let userData = this.authService.userData(); 
+    payload['username'] = userData.userName;
+    payload["wsid"] =userData.wsid;
+  return this.ApiBase.Update(`/Admin/inventorymap`, payload);
+} 
+  
+public createInventoryMap(body?:any): Observable<any> {
+  const asArray = Object.entries(body); 
+  const filtered = asArray.filter(([key, value]) =>  value != '');  
+  let payload = Object.fromEntries(asArray); 
+  let userData = this.authService.userData();
+  payload['username'] = userData.userName;
+  payload["wsid"] =userData.wsid; 
+  return this.ApiBase.Post(`/Admin/inventorymap`,body);
 } 
 public ConnectedUser(): Observable<any> {
   return this.ApiBase.Get(`/GlobalConfig/users`);
@@ -1231,5 +1268,32 @@ public LocationZoneDelete(body){
 public LocationZoneNewSave(body){
   return this.ApiBase.Post(`/Admin/locationzonenew`,body);
 }
+public updateItemQuantity(body){
+  let payload = body; 
+  let userData = this.authService.userData(); 
+   payload['username'] = userData.userName;
+   payload["wsid"] =userData.wsid;
+  
+  return this.ApiBase.Update(`/Admin/itemquantity`,payload);
+}
+public getAdjustmentReasonsList(){
+  let userData = this.authService.userData(); 
+  let payload = {
+    'username': userData.userName,
+    'wsid': userData.wsid
+  }
+  return this.ApiBase.Post(`/Common/AdjustmentReason`,payload);
+} 
 
+public getItemQuantityDetail(id){
+  let userData = this.authService.userData();
+   
+  let payload = {
+    "mapID": id,
+    'username': userData.userName,
+    'wsid': userData.wsid
+  }
+
+  return this.ApiBase.Get(`/Common/AdjustQuantity`,payload);
+}
 }

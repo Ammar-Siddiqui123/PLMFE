@@ -3,8 +3,7 @@ import { BrowserModule,Title  } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { LoginService } from './login.service';
+import { AppComponent } from './app.component'; 
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -177,8 +176,7 @@ import { CpbBlossomToteComponent } from './dialogs/cpb-blossom-tote/cpb-blossom-
     
   ],
   providers: [
-    Title,
-    LoginService,
+    Title, 
     { 
       provide: LocationStrategy, 
       useClass: HashLocationStrategy 

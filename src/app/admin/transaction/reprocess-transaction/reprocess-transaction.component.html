@@ -166,7 +166,7 @@
                         <!-- <ng-scrollbar style="height: 200px;"></ng-scrollbar> -->
                         <ng-scrollbar style="height:600px" track="all" class="mat-table-scrollbar">
     
-                            <table mat-table class="custom-table table-fix  clickable-table-style-1" #table [dataSource]="dataSource" matSort
+                            <table mat-table class="custom-table table-fix custom-action-clickable-table" #table [dataSource]="dataSource" matSort
                                 (matSortChange)="sortChange($event)">
 
                                 <ng-container [matColumnDef]="col.colDef"

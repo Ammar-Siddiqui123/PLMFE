@@ -45,17 +45,16 @@ export class EmployeesLookupComponent implements OnInit {
     this.EmployeeLookUp();
 
   }
-EmployeeLookUp(){
+EmployeeLookUp(LastName:any = "",IsLoader=true){
+  
   this.emp = {
-    "lastName": "%",
+    "lastName": LastName,
     "userName": this.userData.userName,
     "wsid": this.userData.wsid
   };
-  this.employeeService.getAdminEmployeeLookup(this.emp)
-    .subscribe((response: AdminEmployeeLookupResponse) => {
-      this.employees_res = response
-      this.employees_details_data = this.employees_res.data.employees 
-      this.employee_data_source = new MatTableDataSource(this.employees_details_data);
+  this.employeeService.getAdminEmployeeLookup(this.emp,false)
+    .subscribe((response: any) => { 
+      this.employee_data_source = new MatTableDataSource(response.data.employees);
     });
 }
   ngAfterViewInit() {
@@ -73,7 +72,9 @@ EmployeeLookUp(){
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.employee_data_source.filter = filterValue.trim().toLowerCase();
+    if(filterValue?.trim()?.toLowerCase()) this.EmployeeLookUp(filterValue?.trim()?.toLowerCase(),false);
+    else this.EmployeeLookUp();
+    // this.employee_data_source.filter = ;
   }
 
   /** Announce the change in sort state for assistive technology. */

@@ -37,12 +37,12 @@
                                 <mat-card-content>
                                     <div class="d-xl-flex justify-content-between align-items-center mb-3">
                                         <h2 class="card-header-title mb-0 d-flex align-items-center">
-                                            <div class="mat-icon-wrap me-lg-3">
+                                            <div class="mat-icon-wrap me-1 me-lg-3">
                                                 <span class="material-symbols-outlined">
                                                     online_prediction
                                                 </span>
                                             </div>
-                                            <span>Workstation Appss</span>
+                                            <span>Workstation App</span>
                                         </h2>
 
                                         <mat-form-field class="action-dropdown d-block" appearance="outline">
@@ -64,14 +64,15 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-xl-5 mb-3 mb-xl-0">
-                                            <div class="card br-14 table-responsive ">
+                                            <div class="card br-14" >
                                                 <div class="card-header">Workstations</div>
                                                
-                                                <ng-scrollbar style="height: 500px;" track="all">
-                                                    <div class="card-body">
+                                                 <ng-scrollbar class="mat-table-scrollbar"  style="height: 500px;" track="all">
+                                                    <div class="card-body table-responsive">
+
                                                 <mat-radio-group color="primary" [(ngModel)]="selectedItem">
                                                     <div *ngFor="let item of workstationData; let i = index"
-                                                        class="d-flex flex-column gap-12 mb-2">
+                                                        class="d-flex flex-column gap-12 mb-2"> 
                                                         <mat-radio-button [value]="item.pcName" [checked]="item.checked"
                                                             (change)="radioChange(item)">
                                                             {{item.pcName}}
@@ -80,14 +81,14 @@
                                                     </div>
                                                 </mat-radio-group>
                                             </div>
-                                                </ng-scrollbar>
+                                                 </ng-scrollbar> 
                                         
                                             </div>
                                         </div>
                                         <div class="col-xl-7">
-                                            <div class="card br-14 borderless px-0"
+                                            <div class="card br-14 table-responsive borderless px-0"
                                                >
-                                                <!-- <ng-scrollbar style="height: 557px;"  class="mat-table-scrollbar" track="all"> -->
+                                                <ng-scrollbar style="height: 557px;"  class="mat-table-scrollbar" track="all">
                                                 <!-- <table>
                                                     <thead class="card-header">
                                                         <tr>
@@ -165,7 +166,7 @@
                                                         (click)="selection.toggle(row)">
                                                     </tr>
                                                 </table>
-                                                <!-- </ng-scrollbar> -->
+                                                </ng-scrollbar>
                                             </div>
                                         </div>
                                     </div>
