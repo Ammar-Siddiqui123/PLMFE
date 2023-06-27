@@ -2,15 +2,20 @@ table{
     tr{
         display: table-row!important;
         white-space: nowrap;
+        border-radius: 8px;
         th, td{
             vertical-align: middle;
             border-bottom: 1px solid #fff;
             padding-right: 10px;
             &:first-child{
                 padding-left: 20px !important;
+                border-top-left-radius: 8px;
+                border-bottom-left-radius: 8px;
             }
             &:last-child{
                 padding-right:20px !important;
+                border-top-right-radius: 8px;
+                border-bottom-right-radius: 8px;
             }
         }
     }
@@ -18,39 +23,38 @@ table{
     .highlight-row {
         background-color: #FCEAEE;
       }
-
-
       
 .selected {
     // background-color: #5555EC !important;
+    // border-radius: 8px !important;
 
-    color: #fff;
-    &:before{
-      content: '';
-      background-color: #5555EC;
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      left: 0px;
-      top: 0px;
-      z-index: -1;
+    color: #000;
+    // &:before{
+    //   content: '';
+    //   background-color: #5555EC;
+    //   height: 100%;
+    //   width: 100%;
+    //   position: absolute;
+    //   left: 0px;
+    //   top: 0px;
+    //   z-index: -1;
       
-    }
-    &:first-child{
-      &:before{
-      border-top-left-radius: 8px;
-      border-bottom-left-radius: 8px;
-      margin-left: 8px;
-      }
-    }
-    &:last-child{
-      &:before{
-      border-top-right-radius: 8px;
-      border-bottom-right-radius: 8px;
-      right: 12px;
-      left: auto;
-      }
-    }
+    // }
+    // &:first-child{
+    //   &:before{
+    //   border-top-left-radius: 0px;
+    //   border-bottom-left-radius: 0px;
+    //   margin-left: 8px;
+    //   }
+    // }
+    // &:last-child{
+    //   &:before{
+    //   border-top-right-radius: 0px;
+    //   border-bottom-right-radius: 0px;
+    //   right: 12px;
+    //   left: auto;
+    //   }
+    // }
     
   }
 }
@@ -62,7 +66,7 @@ table{
 }
 
 
-.action-clickable-table .mat-row{
+.custom-action-clickable-table .mat-row{
   position: relative;
 }
 .toolTipConf{
@@ -75,22 +79,28 @@ table{
 }
 
 
-table.custom-action-clickable-table  tr{
-  line-height: 46px;
+table.custom-action-clickable-table tr{
   top: 0;
   left: 8px;
   right: 14px;
   bottom: 0;
-  position: relative;
+  cursor: pointer;
+  color:#fff;
+  border-radius: 8px !important;
+  margin-left:15px;
+}
 
- 
-  
-      &:hover {
-          border-radius: 8px !important;
-          transition: 0.3s ease all;
-          color: #fff;
-          background: var(--clr-primary-300);
-          position: relative;
-          
-      }
+table.custom-action-clickable-table tr:hover{
+        transition: 0.3s ease all;
+        color: #fff !important;
+        background: var(--clr-primary-300);
+        position: relative;
+        border-radius: 8px !important;
+        z-index:0;
+        cursor: pointer;
+}
+
+table.custom-action-clickable-table tr:hover td{
+  color: #fff !important;
+  border: none;
 }

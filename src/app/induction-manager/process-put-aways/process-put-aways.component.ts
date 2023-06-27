@@ -1094,20 +1094,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         this.fillToteTable();
       });
     }
+  } 
+
   }
 
-  ifAllowed:boolean= false;
-  @HostListener('window:beforeunload', ['$event'])
-  onbeforeunload(event) {
-    if (this.ifAllowed) {
-      event.preventDefault();
-      event.returnValue = '';
-    }
-  }
-
-  @HostListener('click')
-  documentClick(event: MouseEvent) {
-    this.ifAllowed = true
-  }
-
-}

@@ -18,6 +18,7 @@ import { ToteTransactionManagerComponent } from './tote-transaction-manager/tote
 import { ImToteManagerComponent } from './im-tote-manager/im-tote-manager.component';
 import { TotesAddEditComponent } from '../dialogs/totes-add-edit/totes-add-edit.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { CompletePickBatchComponent } from './complete-pick-batch/complete-pick-batch.component';
 
 const routes: Routes = [
   { path: '', component: InductionManagerComponent },
@@ -53,6 +54,14 @@ const routes: Routes = [
     canDeactivate: [ConfirmationGuard],
     data: {title: 'Process Picks'}
   },
+
+  {
+    path: 'CompletePickBatch',
+    component: CompletePickBatchComponent,
+    // canActivate: [AuthGuardGuard],
+  },
+
+
   {
     path: 'Admin/AdminPrefrences',
     component: AdminPrefrencesComponent,
