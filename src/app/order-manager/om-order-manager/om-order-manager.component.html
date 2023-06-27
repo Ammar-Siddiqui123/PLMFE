@@ -58,7 +58,7 @@
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Case</mat-label>
-                    <mat-select [(ngModel)]="case" (selectionChange)="showHideValues(2)">
+                    <mat-select [(ngModel)]="case" (selectionChange)="showHideValues(2)" #focusFeild>
                         <mat-option value="Equals">Equals</mat-option>
                         <mat-option value="Between">Between</mat-option>
                         <mat-option value="Like">Like</mat-option>
@@ -70,25 +70,40 @@
                 </mat-form-field>
             </div>
 
-            <div class="col-xl-3">
+            
+            <div class="col-xl-3" *ngIf="!v1Show">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
-                    <mat-label *ngIf="v1Show || v1DShow">Value 1</mat-label>
-                    <input matInput [(ngModel)]="value1" *ngIf="v1Show" (keyup)="callDisplayRecords($event)" matTooltip="For dates use mm/dd/yy" matTooltipPosition="above">
-                    <input matInput [(ngModel)]="value1D" *ngIf="v1DShow" (dateChange)="displayRecords()" [matDatepicker]="v1D">
-                    <mat-datepicker-toggle matSuffix [for]="v1D" ngDefaultControl *ngIf="v1DShow"></mat-datepicker-toggle>
-                    <mat-datepicker #v1D></mat-datepicker>
+                    <mat-label >Value 1</mat-label>
+                    <input matInput [(ngModel)]="value1D"  (dateChange)="displayRecords()" [matDatepicker]="v1D">
+                    <mat-datepicker-toggle matSuffix [for]="v1D" ngDefaultControl ></mat-datepicker-toggle>
+                    <mat-datepicker #v1D [startAt]="value1D"></mat-datepicker>
                 </mat-form-field>
             </div>
 
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline" *ngIf="v2Show || v2DShow">
-                    <mat-label *ngIf="v2Show || v2DShow">Value 2</mat-label>
-                    <input matInput [(ngModel)]="value2" *ngIf="v2Show" (keyup)="callDisplayRecords($event)" matTooltip="For dates use mm/dd/yy" matTooltipPosition="above">
-                    <input matInput [(ngModel)]="value2D" *ngIf="v2DShow" (dateChange)="displayRecords()" [matDatepicker]="v2D">
-                    <mat-datepicker-toggle matSuffix [for]="v2D" ngDefaultControl *ngIf="v2DShow"></mat-datepicker-toggle>
-                    <mat-datepicker #v2D></mat-datepicker>
+            <div class="col-xl-3" *ngIf="v1Show">
+                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                    <mat-label >Value 1</mat-label>
+                    <input matInput [(ngModel)]="value1" (keyup)="callDisplayRecords($event)" matTooltip="For dates use mm/dd/yy" matTooltipPosition="above">
                 </mat-form-field>
             </div>
+
+
+            <div class="col-xl-3" *ngIf="!v2Show">
+                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline" >
+                    <mat-label>Value 2</mat-label>
+                    <input [disabled]="case != 'Between'" matInput [(ngModel)]="value2D"   (dateChange)="displayRecords()" [matDatepicker]="v2D">
+                    <mat-datepicker-toggle [disabled]="case != 'Between'" matSuffix [for]="v2D" ngDefaultControl ></mat-datepicker-toggle>
+                    <mat-datepicker [disabled]="case != 'Between'" #v2D [startAt]="value2D"></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-xl-3" *ngIf="v2Show">
+                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline" >
+                    <mat-label>Value 2</mat-label>
+                    <input [disabled]="case != 'Between'" matInput [(ngModel)]="value2" (keyup)="callDisplayRecords($event)" matTooltip="For dates use mm/dd/yy" matTooltipPosition="above">
+                </mat-form-field>
+            </div>
+
         </div>
         <div class="row">
             <div class="col-xl-3">

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OmAddRecordComponent } from 'src/app/dialogs/om-add-record/om-add-record.component';
 import { OmCreateOrdersComponent } from 'src/app/dialogs/om-create-orders/om-create-orders.component';
@@ -40,7 +40,7 @@ export class OmOrderManagerComponent implements OnInit {
   v1DShow    : boolean = false;
   
   value2    : string = "";
-  v2Show    : boolean = false;
+  v2Show    : boolean = true;
   value2D   : Date = new Date();
   v2DShow    : boolean = false;  
   
@@ -460,14 +460,30 @@ export class OmOrderManagerComponent implements OnInit {
     }
     else if (type == 2) {
       if (this.case == "Between") {
-        if (this.column.indexOf('Date') > -1) this.v2DShow = true;
-        else this.v2Show = true;
-      } else {
+        if (this.column.indexOf('Date') > -1){
+          this.v2DShow = true;
           this.v2Show = false;
+        } 
+        else{  
+          this.v2Show = true;
+          this.v2DShow = false;
+        } 
+      } 
+      else {
+        if (this.column.indexOf('Date') > -1){
+          this.v2Show = false;
+        }
+        else{
+          this.v2Show = true;
+        }
           this.v2DShow = false;
       }
-    }    
+    }
+    // let area = document.getElementById('focusFeild');
+    // area?.click();
+    // this.focusFeild.focus();
   }
+  // @ViewChild('focusFeild') focusFeild: MatSelect;
 
   openOmCreateOrders() { 
     let dialogRef = this.dialog.open(OmCreateOrdersComponent, { 

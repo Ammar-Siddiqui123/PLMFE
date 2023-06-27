@@ -108,11 +108,13 @@ export class SrCurrentOrderComponent implements OnInit {
     return this.filterService.getType(val);
   }
 
-  FilterString: string = "";
+  FilterString: string = "1 = 1";
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
-    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
-    this.tablePayloadObj.filter = this.FilterString != "" ? this.FilterString : "1=1";
+    if ((SelectedItem != undefined && FilterColumnName != "") || Condition == "clear") {
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+    }
+    this.tablePayloadObj.filter = this.FilterString != "" ? this.FilterString : "1 = 1";
     this.resetPagination();
     this.newReplenishmentOrders();
     // this.tablePayloadObj.filter = "1=1";
