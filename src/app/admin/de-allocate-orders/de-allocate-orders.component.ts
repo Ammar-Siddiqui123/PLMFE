@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/init/auth.service';
-import { AdminService } from '../admin.service';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,6 +13,7 @@ import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.ser
 import { SharedService } from 'src/app/services/shared.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { BaseService } from 'src/app/services/base-service.service';
 
 @Component({
   selector: 'app-de-allocate-orders',
@@ -83,7 +83,7 @@ export class DeAllocateOrdersComponent implements OnInit {
   public searchedItemOrder: any = [];
 
   constructor(public authService: AuthService,
-    public adminService: AdminService,
+    public adminService: BaseService,
     private _liveAnnouncer: LiveAnnouncer,
     private toastr: ToastrService,
     private dialog: MatDialog,
@@ -151,10 +151,16 @@ export class DeAllocateOrdersComponent implements OnInit {
   }
 
 
-  orderItemTable(e?){
+  orderItemTable(e?,isPagination=false){
 // debugger
+
     if(!this.isOrderSelected){
-      
+      if(isPagination){
+        this.resetpaginationTransaction()
+      }
+       
+  
+     
       let payload =  {
         "draw": 1,
         "start": this.startRowTransaction ,
@@ -179,11 +185,15 @@ export class DeAllocateOrdersComponent implements OnInit {
         })
         this.orderItemTransactions.data = res.data.openTransactions
         this.pageLength= res.data.recordsTotal
-        this.resetpaginationTransaction()
+        // this.resetpaginationTransaction()
       }))
     }
     else{
-     
+      if(isPagination){
+        this.resetpaginationOrder()
+      }
+      
+
      
       let payload =  {
         "draw": 1,
@@ -210,7 +220,7 @@ export class DeAllocateOrdersComponent implements OnInit {
         
         this.orderItemTransactions.data = res.data.openTransactions
         this.pageLength= res.data.recordsTotal
-        this.resetpaginationOrder()
+        // this.resetpaginationOrder()
         
       }))
     }
@@ -242,7 +252,7 @@ export class DeAllocateOrdersComponent implements OnInit {
     else{
       this.orderItemTransactions.data = []
       this.pageLength= 0
-      this.resetpaginationOrder()
+      // this.resetpaginationOrder()
     }
 
   }
@@ -270,7 +280,7 @@ export class DeAllocateOrdersComponent implements OnInit {
           }
           this.adminService.get(payload,'/Admin/DeAllocateOrder').subscribe((res=>{
             if(res.isExecuted){
-              this.toastr.success("DeAllocated successfully", 'Success!', {
+              this.toastr.success("De-Allocated successfully", 'Success!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
@@ -280,7 +290,7 @@ export class DeAllocateOrdersComponent implements OnInit {
                 this.orderItemTable()
             }
             else{
-              this.toastr.error('Order De-allocation Not Successfull', 'Error!', {
+              this.toastr.error('Order De-Allocation Not Successfull', 'Error!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000,
               });
@@ -309,7 +319,7 @@ export class DeAllocateOrdersComponent implements OnInit {
         }
         this.adminService.get(payload,'/Admin/DeAllocateOrder').subscribe((res=>{
           if(res.isExecuted){
-            this.toastr.success("DeAllocated successfully", 'Success!', {
+            this.toastr.success("De-Allocated successfully", 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
@@ -318,7 +328,7 @@ export class DeAllocateOrdersComponent implements OnInit {
               this.orderItemTable()
           }
           else{
-            this.toastr.error('Order De-allocation Not Successfull', 'Error!', {
+            this.toastr.error('Order De-Allocation Not Successfull', 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
             });
@@ -368,24 +378,16 @@ export class DeAllocateOrdersComponent implements OnInit {
   dataChange(event){
     if(event.value==='spec'){
       this.orderItemTransactions.data=[];
+      this.pageLength= 0
     this.onViewOrder = true;
       this.isOrderSelected=true;
     }else{
       this.onViewOrder = false;
       this.isOrderSelected=false;
-      this.orderItemTable();
+      this.orderItemTable(null,true);
     }
    }
  
-  //  announceSortChange(sortState: Sort) {
-  //   // debugger
-  //   if (sortState.direction) {
-  //     this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-  //   } else {
-  //     this._liveAnnouncer.announce('Sorting cleared');
-  //   }
-  //   this.orderItemTransactions.sort = this.sort1;    
-  // }
 
   sortChange(event) {
     //  for order
@@ -457,6 +459,7 @@ export class DeAllocateOrdersComponent implements OnInit {
     this.recordsPerPageOrder = 10;
     this.sortColOrder = 0
     this.sortOrder ='asc'
+    this.paginator.pageIndex=0;
     
     
   }
@@ -468,7 +471,7 @@ export class DeAllocateOrdersComponent implements OnInit {
     this.recordsPerPageTransaction = 10;
     this.sortColTransaction = 0
     this.sortTransaction ='asc'
-    // this.pageLength = 0
+    this.paginator.pageIndex=0;
   }
 
 
@@ -497,16 +500,7 @@ export class DeAllocateOrdersComponent implements OnInit {
     }
   }
 
-  // resetPagination(){
-  //   this.sortOrderTo = 'asc';
-  //   this.sortColTo = 0;
-  //   this.totalRecordsTo = 0;
-  //   this.startRowTo = 0;
-  //   this.endRowTo = 10;
-  //   this.recordsPerPageTo = 10;
-  //   this.recordsFilteredTo = 0;
-  //   this.paginatorTo.pageIndex = 0;
-  // }
+
 
   getType(val): string {
     return this.filterService.getType(val);

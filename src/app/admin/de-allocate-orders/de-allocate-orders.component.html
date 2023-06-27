@@ -24,10 +24,10 @@
                         </div>
 
                     </div>
-             <div class="mb-3">   <!-- (change)="[getAllOrder($event),orderItemTable($event)]" -->
+             <div class="mb-3">   
                     <div>
                         <!-- (change)="isOrderSelected?getAllOrder($event):orderItemTable($event)" -->
-                        <mat-radio-group class="d-flex align-items-center gap-12 flex-wrap" aria-label="Select an option" [(ngModel)]="transactionType"   (change)="!isOrderSelected?orderItemTable($event):''" (change)="getAllOrder($event)">
+                        <mat-radio-group class="d-flex align-items-center gap-12 flex-wrap" aria-label="Select an option" [(ngModel)]="transactionType"   (change)="!isOrderSelected?orderItemTable($event,true):''" (change)="getAllOrder($event)">
                             <mat-radio-button color="primary" value="All" [checked]="true"> 
                                 All Trans. Type
                             </mat-radio-button>
