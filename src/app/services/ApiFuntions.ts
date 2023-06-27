@@ -806,7 +806,9 @@ public getControlName(Body: any ): Observable<any> {
 public updateControlName(Body: any ): Observable<any> {
   return this.ApiBase.Update(`/Admin/control`, Body);
 }
-
+public CategoryDelete(Body: any ): Observable<any> {
+  return this.ApiBase.Post(`/common/category`, Body);
+}
 
 public deleteControlName(Body: any ): Observable<any> {
   return this.ApiBase.Delete(`/Admin/control`, Body);

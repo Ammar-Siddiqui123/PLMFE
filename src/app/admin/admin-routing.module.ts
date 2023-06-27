@@ -19,6 +19,7 @@ import { MoveItemsComponent } from './move-items/move-items.component';
 import { AdminPreferencesComponent } from './admin-preferences/admin-preferences.component';
 import { EventLogComponent } from '../order-manager/event-log/event-log.component';
 import { DeAllocateOrdersComponent } from './de-allocate-orders/de-allocate-orders.component';
+import { ReportsComponent } from './reports/reports.component';
 
 const routes: Routes = [
   { path: '', component: AdminComponent },
@@ -97,6 +98,11 @@ const routes: Routes = [
   {
     path: 'deAllocateOrders',
     component: DeAllocateOrdersComponent,
+    // canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'reports',
+    component: ReportsComponent,
     // canActivate: [AuthGuardGuard],
   },
   
