@@ -1,8 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/init/auth.service';
 import { AdminService } from '../admin.service';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { ToastrService } from 'ngx-toastr';
+import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/delete-confirmation.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
+import { SharedService } from 'src/app/services/shared.service';
+import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-de-allocate-orders',
@@ -10,55 +21,85 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
   styleUrls: ['./de-allocate-orders.component.scss']
 })
 export class DeAllocateOrdersComponent implements OnInit {
-
+  pageLength=0;
   ELEMENT_DATA_1: any[] =[
     {order_no: '1202122'},
     {order_no: '1202122'},
     {order_no: '1202122'},
   ]
-
+    isOrderSelected=true;
     displayedColumns_1: string[] = ['select','order_no'];
-    tableData_1 = this.ELEMENT_DATA_1
-    dataSourceList_1:any
-  
-
-  ELEMENT_DATA: any[] =[
-    {trans_type: 'Count', order_no: '1202122', priority: '36', required_date: '11/02/2022 11:58 AM', user_field_1: 'Treat with care'},
-    {trans_type: 'Count', order_no: '1202122', priority: '36', required_date: '11/02/2022 11:58 AM', user_field_1: 'Treat with care'},
-    {trans_type: 'Count', order_no: '1202122', priority: '36', required_date: '11/02/2022 11:58 AM', user_field_1: 'Treat with care'},
-  ];
-         
-  displayedColumns: string[] = ['order_no','item_no','description','priority', 'transactionQuantity','unitOfMeasure','batchPickID','trans_type','deallocate'];
-  tableData = this.ELEMENT_DATA
-  dataSourceList:any
+    tableData_1 =[]
+    isChecked: boolean = false;
+    orderNumbersList:any=[];
+    
+    ELEMENT_DATA: any[] =[
+      {trans_type: 'Count', order_no: '1202122', priority: '36', required_date: '11/02/2022 11:58 AM', user_field_1: 'Treat with care'},
+      {trans_type: 'Count', order_no: '1202122', priority: '36', required_date: '11/02/2022 11:58 AM', user_field_1: 'Treat with care'},
+      {trans_type: 'Count', order_no: '1202122', priority: '36', required_date: '11/02/2022 11:58 AM', user_field_1: 'Treat with care'},
+    ];
+    
+    displayedColumns: string[] = ['deallocate','order_no','item_no','description','priority', 'transactionQuantity','unitOfMeasure','batchPickID','trans_type'];
+    tableData = this.ELEMENT_DATA
+    orderItemTransactions:MatTableDataSource<any> = new MatTableDataSource<any>([]);  
+  orderNameList:MatTableDataSource<any> = new MatTableDataSource<any>([]);
+  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('matSort1') sort1: MatSort;
 
   public userData: any;
   public itemNumber:any = '';
   public orderNumber = '';
   public chooseSearchType:any;
   public TypeValue:any;
+  transactionType:any = 'All'
+  step
+  isOrder = true;
+  order;
+  deallocateSelectedBtn = true
+  onViewOrder=true;
+
+// pagination and sorting for orderView
+  pageEventOrder: PageEvent;
+  startRowOrder = 0;
+  endRowOrder = 10;
+  recordsPerPageOrder = 10;
+  sortColOrder = 0
+  sortOrder ='asc'
+
+
+// pagination and sorting for transaction View
+  pageEventTransaction: PageEvent;
+  startRowTransaction = 0;
+  endRowTransaction = 10;
+  recordsPerPageTransaction = 10;
+  sortColTransaction = 0
+  sortTransaction ='asc'
+
+
+
+
 
   searchByItem: any = new Subject<string>();
   public searchedItemOrder: any = [];
 
   constructor(public authService: AuthService,
-    public adminService: AdminService) { }
+    public adminService: AdminService,
+    private _liveAnnouncer: LiveAnnouncer,
+    private toastr: ToastrService,
+    private dialog: MatDialog,
+    private sharedService:SharedService,
+    private filterService: ContextMenuFiltersService) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData()
     this.searchByItem
     .pipe(debounceTime(400), distinctUntilChanged())
     .subscribe((value) => {
-      // this.TypeValue = value
       this.getAllOrder()
-      // value !== '' ? this.dataSourceList = [] : this.getAllOrder();
       this.autocompleteSearchColumnItem()
     });
     this.getAllOrder()
-    this.orderItemTable()
   } 
-
-
 
   async autocompleteSearchColumnItem() {
     if(this.chooseSearchType == 'Order Number'){
@@ -69,7 +110,6 @@ export class DeAllocateOrdersComponent implements OnInit {
       }
   
       this.adminService.get(payload, '/Admin/AllocatedOrders').subscribe((res: any) => {
-        // console.log(res)
         this.searchedItemOrder = res.data
       });
     }
@@ -79,84 +119,414 @@ export class DeAllocateOrdersComponent implements OnInit {
         "userName": this.userData.userName,
         "wsid": this.userData.wsid
       }
-  
       this.adminService.get(payload, '/Admin/AllocatedItems').subscribe((res: any) => {
-        // console.log(res)
         this.searchedItemOrder = res.data
       });
     }
 
+  } 
+
+  getAllOrder(e?){
+    this.orderItemTransactions.data = []
+      let payload = {
+        "orderNumber": this.chooseSearchType == 'Order Number'?this.TypeValue:'',
+        "itemNumber": this.chooseSearchType == 'Item Number'?this.TypeValue:'',
+        "transType": this.transactionType, 
+        "userName": this.userData.userName,
+        "wsid": this.userData.wsid
+      }
+      this.adminService.get(payload,'/Admin/AllAllocatedOrders').subscribe((res=>{
+
+        const orderNamesResponseObj = res.data.map((value, index) => {
+     if(this.orderNumbersList.includes(value)){
+      return {  name: value,isChecked:true ,isRowSelected:false};
+          }else{
+            return {  name: value,isChecked:false ,isRowSelected:false};
+          }
+         
+        });
+        this.orderNameList.data= orderNamesResponseObj
+      }))
+      
   }
 
-  optionSelect(event: MatAutocompleteSelectedEvent): void {
-    // console.log(event.option.value)
-    // debugger
-    // this.TypeValue =   event.option.value
-    this.getAllOrder()
-    // this.TypeValue = event.option
+
+  orderItemTable(e?){
+// debugger
+    if(!this.isOrderSelected){
+      
+      let payload =  {
+        "draw": 1,
+        "start": this.startRowTransaction ,
+        "length":this.endRowTransaction,
+        "sortColumn": this.sortColTransaction,
+        "sortOrder": this.sortTransaction,
+        "transType": this.transactionType, 
+        "displayFilter": "All",
+        "orderNum": "",
+        "warehouse": "",
+        "filter": this.FilterString,
+        "username": "1234",
+        "wsid": "TESTWSID"
+      }
+      this.adminService.get(payload,'/Admin/OrderItemsTable').subscribe((res=>{
+        res.data.openTransactions.forEach((item,i)=>{
+          if(this.orderNumbersList.includes(item.orderNumber)){
+            res.data.openTransactions[i].isDeallocate=true
+          }else{
+            res.data.openTransactions[i].isDeallocate=false
+          }
+        })
+        this.orderItemTransactions.data = res.data.openTransactions
+        this.pageLength= res.data.recordsTotal
+        this.resetpaginationTransaction()
+      }))
+    }
+    else{
+     
+     
+      let payload =  {
+        "draw": 1,
+        "start": this.startRowOrder ,
+        "length": this.endRowOrder,
+        "sortColumn": this.sortColOrder,
+        "sortOrder":  this.sortOrder,
+        "transType": this.transactionType, 
+        "displayFilter": "spec",
+        "orderNum":  this.order.name,
+        "warehouse": "",
+        "filter":  this.FilterString,
+        "username": "1234",
+        "wsid": "TESTWSID"
+      }
+      this.adminService.get(payload,'/Admin/OrderItemsTable').subscribe((res=>{
+        res.data.openTransactions.forEach((item,i)=>{
+          if(this.orderNumbersList.includes(item.orderNumber)){
+            res.data.openTransactions[i].isDeallocate=true
+          }else{
+            res.data.openTransactions[i].isDeallocate=false
+          }
+        })
+        
+        this.orderItemTransactions.data = res.data.openTransactions
+        this.pageLength= res.data.recordsTotal
+        this.resetpaginationOrder()
+        
+      }))
+    }
+
   }
-
-  // locationchangeSelect(event: MatAutocompleteSelectedEvent): void {
-  //   // debugger
-  //   this.itemLocation = '';
-  //   setTimeout(() => { 
-  //     this.itemLocation = event.option.value.location; 
-  //     // this.itemQty = Number(event.option.value.itemQuantity)
-  //     // console.log(event.option.value.itemQuantity)
-  //     this.onLocationSelected(this.itemLocation)
-  //   }, 1);
-  // }
-
-
-  // getRow(search){
-  //   debugger
-  //   console.log(search)
-  //   this.TypeValue = search
-  // }
-
 
   check(e){
-    this.dataSourceList = []
+    // this.orderNameList.data = []
     this.chooseSearchType = e
     this.searchedItemOrder.length = 0
   }
 
-  getAllOrder(e?){
-    // console.log(this.chooseSearchType)
-    let payload = {
-      "orderNumber": this.chooseSearchType == 'Order Number'?this.TypeValue:'',
-      "itemNumber": this.chooseSearchType == 'Item Number'?this.TypeValue:'',
-      "transType": e?.value ?? "All", 
-      "userName": this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    // console.log(payload)
-    this.adminService.get(payload,'/Admin/AllAllocatedOrders').subscribe((res=>{
-      console.log(res.data)
-      this.dataSourceList= res.data
-    }))
-    
+  optionSelect(event: MatAutocompleteSelectedEvent): void {
+    this.getAllOrder()
   }
 
 
-  orderItemTable(){
-  let payload =  {
-      "draw": 1,
-      "start": 0,
-      "length": 15,
-      "sortColumn": 0,
-      "sortOrder": "asc",
-      "transType": "All",
-      "displayFilter": "All",
-      "orderNum": "",
-      "warehouse": "",
-      "filter": "1 = 1",
-      "username": "1234",
-      "wsid": "TESTWSID"
+  ordertransaction(row,index){
+   
+    this.orderNameList.data[index].isRowSelected=!this.orderNameList.data[index].isRowSelected;
+    this.orderNameList.data.filter((item,i)=>{
+      if(index===i)return
+      item.isRowSelected=false;
+    })
+    if(this.orderNameList.data[index].isRowSelected){
+      this.order = row
+      this.orderItemTable();
     }
-    this.adminService.get(payload,'/Admin/OrderItemsTable').subscribe((res=>{
-      this.dataSourceList_1 = res.data.openTransactions
-    }))
+    else{
+      this.orderItemTransactions.data = []
+      this.pageLength= 0
+      this.resetpaginationOrder()
+    }
+
+  }
+
+
+  deAllocateOrder(){
+    if(this.orderNumbersList.length != 0){
+      const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+        height: 'auto',
+        width: '600px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          action: 'De-Allocate',
+        },
+      });
+  
+      dialogRef.afterClosed().subscribe((res) => {
+        if (res === 'Yes') {
+          let deallocate = this.orderNumbersList.toString()
+          console.log(deallocate)
+          let payload = {
+            "orderNumber": deallocate,
+            "userName": this.userData.userName,
+            "wsid": this.userData.wsid
+          }
+          this.adminService.get(payload,'/Admin/DeAllocateOrder').subscribe((res=>{
+            if(res.isExecuted){
+              this.toastr.success("DeAllocated successfully", 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+              this.deallocateSelectedBtn = true
+              this.orderNumbersList.length=0
+                this.getAllOrder()
+                this.orderItemTable()
+            }
+            else{
+              this.toastr.error('Order De-allocation Not Successfull', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            }
+          }))
+        }
+      });
+    }
+
+  }
+  deAllocateAll(){
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '600px',
+      autoFocus: '__non_existing_element__',
+      data: {
+        action: 'De-Allocate All',
+      },
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res === 'Yes') {
+        let payload = {
+          "orderNumber": '',
+          "userName": this.userData.userName,
+          "wsid": this.userData.wsid
+        }
+        this.adminService.get(payload,'/Admin/DeAllocateOrder').subscribe((res=>{
+          if(res.isExecuted){
+            this.toastr.success("DeAllocated successfully", 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+            this.deallocateSelectedBtn = true
+              this.getAllOrder()
+              this.orderItemTable()
+          }
+          else{
+            this.toastr.error('Order De-allocation Not Successfull', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+          }
+        }))
+      }
+    });
+    
+    
+    
+ 
+  }
+
+  checked(event,order){
+    if(event.checked){
+      this.orderNumbersList.push(order);
+    }else{
+      const index = this.orderNumbersList.indexOf(order)
+      this.orderNumbersList.splice(index, 1);
+    }
+    
+    this.orderItemTransactions.data.filter((item,i)=>{
+      if(item.orderNumber===order){
+        this.orderItemTransactions.data[i].isDeallocate=event.checked?true:false
+      }
+    })
+
+    this.orderNameList.data.filter((item,i)=>{
+      if(item.name===order){
+        this.orderNameList.data[i].isChecked=event.checked?true:false
+      }
+    })
+
+    this.orderItemTransactions= new MatTableDataSource<any>(this.orderItemTransactions.data);
+    this.orderNameList= new MatTableDataSource<any>(this.orderNameList.data);
+    // this.orderItemTransactions.paginator = this.paginator;
+    // this.orderItemTransactions.sort = this.sort1;
+
+// for disable seleted btn
+    if(this.orderNumbersList.length !=0){
+      this.deallocateSelectedBtn = false
+    }
+    else{
+      this.deallocateSelectedBtn = true
+    }
+  }
+  dataChange(event){
+    if(event.value==='spec'){
+      this.orderItemTransactions.data=[];
+    this.onViewOrder = true;
+      this.isOrderSelected=true;
+    }else{
+      this.onViewOrder = false;
+      this.isOrderSelected=false;
+      this.orderItemTable();
+    }
+   }
+ 
+  //  announceSortChange(sortState: Sort) {
+  //   // debugger
+  //   if (sortState.direction) {
+  //     this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+  //   } else {
+  //     this._liveAnnouncer.announce('Sorting cleared');
+  //   }
+  //   this.orderItemTransactions.sort = this.sort1;    
+  // }
+
+  sortChange(event) {
+    //  for order
+    if(this.onViewOrder){
+      
+      if (
+        
+        event.direction == '' ||
+        event.direction == this.sortOrder
+      )
+        return;
+  
+      let index;
+      this.displayedColumns.find((x, i) => {
+        if (x === event.active) {
+          index = i;
+        }
+      });
+  
+      this.sortColOrder = index;
+      this.sortOrder = event.direction;
+      this.orderItemTable()
+    }
+
+    // for transaction
+    else{
+      if (
+     
+        event.direction == '' ||
+        event.direction == this.sortColTransaction
+      )
+        return;
+  
+      let index;
+      this.displayedColumns.find((x, i) => {
+        if (x === event.active) {
+          index = i;
+        }
+      });
+  
+      this.sortColTransaction = index;
+      this.sortTransaction = event.direction;
+      this.orderItemTable()
+
+    }
+
+    // this.getMoveItemList('MoveFrom');
+  }
+
+  handlePageEventTo(e: PageEvent) {
+    this.pageEventOrder = e;
+    this.startRowOrder = e.pageSize * e.pageIndex;
+    this.endRowOrder = e.pageSize * e.pageIndex + e.pageSize;
+    this.recordsPerPageOrder = e.pageSize;
+    this.orderItemTable()
+  }
+  handlePageEventTansaction(e: PageEvent) {
+    this.pageEventTransaction = e;
+    this.startRowTransaction = e.pageSize * e.pageIndex;
+    this.endRowTransaction = e.pageSize * e.pageIndex + e.pageSize;
+    this.recordsPerPageTransaction = e.pageSize;
+    this.orderItemTable()
+  }
+
+
+  resetpaginationOrder(){
+    this.startRowOrder = 0;
+    this.endRowOrder = 10;
+    this.recordsPerPageOrder = 10;
+    this.sortColOrder = 0
+    this.sortOrder ='asc'
+    
+    
+  }
+  
+  resetpaginationTransaction(){
+    console.log(this.pageLength);
+    this.startRowTransaction = 0;
+    this.endRowTransaction = 10;
+    this.recordsPerPageTransaction = 10;
+    this.sortColTransaction = 0
+    this.sortTransaction ='asc'
+    // this.pageLength = 0
+  }
+
+
+  @ViewChild('trigger') trigger: MatMenuTrigger;
+  contextMenuPosition = { x: '0px', y: '0px' };
+  FilterString: string = "1 = 1";
+
+
+  onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.trigger.menuData = { item: { SelectedItem: SelectedItem, FilterColumnName: FilterColumnName, FilterConditon: FilterConditon, FilterItemType: FilterItemType } };
+    this.trigger.menu?.focusFirstItem('mouse');
+    this.trigger.openMenu();
+  }
+
+  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
+
+    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+    if(FilterColumnName != "" || Condition == "clear"){
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+      this.FilterString = this.FilterString != "" ? this.FilterString : "1=1";
+      // this.resetPagination();
+      this.orderItemTable();
+    }
+  }
+
+  // resetPagination(){
+  //   this.sortOrderTo = 'asc';
+  //   this.sortColTo = 0;
+  //   this.totalRecordsTo = 0;
+  //   this.startRowTo = 0;
+  //   this.endRowTo = 10;
+  //   this.recordsPerPageTo = 10;
+  //   this.recordsFilteredTo = 0;
+  //   this.paginatorTo.pageIndex = 0;
+  // }
+
+  getType(val): string {
+    return this.filterService.getType(val);
+  }
+
+  InputFilterSearch(FilterColumnName: any, Condition: any, TypeOfElement: any) {
+    const dialogRef = this.dialog.open(InputFilterComponent, {
+      height: 'auto',
+      width: '480px',
+      data: {
+        FilterColumnName: FilterColumnName,
+        Condition: Condition,
+        TypeOfElement: TypeOfElement
+      },
+      autoFocus: '__non_existing_element__',
+    })
+    dialogRef.afterClosed().subscribe((result) => {
+      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
+    }
+    );
   }
 
 }
