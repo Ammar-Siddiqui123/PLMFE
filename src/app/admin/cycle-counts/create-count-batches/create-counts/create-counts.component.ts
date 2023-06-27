@@ -542,9 +542,8 @@ export class CCBCreateCountsComponent implements OnInit {
   // function to fill data to the data table with mattabledata by calling API with payload using admin services with get method
   // and then assign the response to the dataSource variable with check type of response and if there is response.data and isExecuted is true else add error toast
   // handle with try catch
-  fillData() {
-    const payload = {
-      queryData: {
+  fillData() { 
+      const  queryData:any =  {
         fromLocation: this.filtersForm.value.fromLocation
           ? this.filtersForm.value.fromLocation
           : '',
@@ -594,11 +593,8 @@ export class CCBCreateCountsComponent implements OnInit {
         costEnd: this.filtersForm.value.costEnd,
         // warehouseFilter: this.filtersForm.value.warehouse,
         warehouseFilter: this.warehouse,
-      },
-      userName: this.userData.userName,
-      wsid: this.userData.wsid,
-    };
-    this.Api.BatchResultTable(payload).subscribe(
+      } ;  
+    this.Api.BatchResultTable(queryData).subscribe(
       (res: any) => {
         if (res && res.data && res.isExecuted) {
           this.dataSource = new MatTableDataSource(res.data);
