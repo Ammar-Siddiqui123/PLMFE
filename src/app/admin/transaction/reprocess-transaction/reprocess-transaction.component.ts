@@ -19,13 +19,12 @@ import { debounceTime, distinctUntilChanged, Subject, Subscription,takeUntil } f
 import { AuthService } from 'src/app/init/auth.service';
 import { ColumnSequenceDialogComponent } from '../../dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { ReprocessTransactionDetailComponent } from '../../dialogs/reprocess-transaction-detail/reprocess-transaction-detail.component';
-import { SetColumnSeqService } from '../../dialogs/set-column-seq/set-column-seq.service';
-import { InventoryMapService } from '../../inventory-map/inventory-map.service';
-import { TransactionService } from '../transaction.service';
+ 
 import { SharedService } from '../../../services/shared.service';
 import { DialogConfig } from '@angular/cdk/dialog';
 import { FunctionAllocationComponent } from '../../dialogs/function-allocation/function-allocation.component';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
   { colHeader: 'importDate', colDef: 'Import Date' },
@@ -199,12 +198,10 @@ export class ReprocessTransactionComponent implements OnInit {
 
   /*for data col. */
 
-  constructor(
-    private seqColumn: SetColumnSeqService,
-    private transactionService: TransactionService,
+  constructor( 
+    private Api: ApiFuntions,
     private authService: AuthService,
-    private toastr: ToastrService,
-    private invMapService: InventoryMapService,
+    private toastr: ToastrService, 
     private dialog: MatDialog,
     private sharedService: SharedService,
   ) { }
@@ -300,7 +297,7 @@ export class ReprocessTransactionComponent implements OnInit {
         username: this.userData.userName,
         wsid: this.userData.wsid,
       }
-      this.transactionService.get(payload, '/Admin/ReprocessTransactionData').subscribe(
+      this.Api.ReprocessTransactionData(payload).subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
             this.createdBy = res.data[0].nameStamp;
@@ -358,8 +355,8 @@ export class ReprocessTransactionComponent implements OnInit {
         wsid: this.userData.wsid,
       };
     }
-    this.transactionService
-      .get(searchPayload, '/Admin/NextSuggestedTransactions', true)
+    this.Api
+      .NextSuggestedTransactions(searchPayload)
       .subscribe(
         (res: any) => {
           if (isSearchByOrder) {
@@ -568,7 +565,7 @@ export class ReprocessTransactionComponent implements OnInit {
           dialogRef.afterClosed().subscribe(result => {
             if(result=='Yes')
             {
-              this.seqColumn.delete(deletePayload).subscribe((res: any) => {
+              this.Api.ReprocessTransactionDelete(deletePayload).subscribe((res: any) => {
     
                 this.selectedVariable = "";
                 this.toastr.success(labels.alert.update, 'Success!',{
@@ -710,7 +707,7 @@ export class ReprocessTransactionComponent implements OnInit {
             username: this.userData.userName,
             wsid: this.userData.wsid,
           }
-          this.transactionService.get(payload, '/Admin/SetAllReprocessColumn').subscribe(
+          this.Api.SetAllReprocessColumn(payload).subscribe(
             (res: any) => {
               if (res.data && res.isExecuted) { 
                 this.getContentData();
@@ -759,7 +756,7 @@ export class ReprocessTransactionComponent implements OnInit {
               username: this.userData.userName,
               wsid: this.userData.wsid,
             }
-            this.transactionService.get(payloadForReprocess, '/Admin/ReprocessIncludeSet').subscribe(
+            this.Api.ReprocessIncludeSet(payloadForReprocess).subscribe(
               (res: any) => {
                 if (res.data && res.isExecuted) {
                   this.getContentData();
@@ -796,7 +793,7 @@ export class ReprocessTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid
     };
-    this.transactionService.get(payload, '/Admin/OrderToPost').subscribe(
+    this.Api.OrderToPost(payload).subscribe(
       (res: any) => {
         if (res.data) {
           this.orders.reprocess = res.data.reprocessCount;
@@ -858,7 +855,7 @@ export class ReprocessTransactionComponent implements OnInit {
       wsid: this.userData.wsid,
       tableName: 'Open Transactions Temp',
     };
-    this.transactionService.get(payload, '/Admin/GetColumnSequence').subscribe(
+    this.Api.GetColumnSequence(payload).subscribe(
       (res: any) => {
         this.displayedColumns = TRNSC_DATA;
         if (res.data) {
@@ -893,8 +890,8 @@ export class ReprocessTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid
     };
-    this.transactionService
-      .get(payload, '/Admin/ReprocessTransactionTable', true)
+    this.Api
+      .ReprocessTransactionTable(payload)
       .subscribe(
         (res: any) => { 
           // this.getTransactionModelIndex();
@@ -934,8 +931,8 @@ export class ReprocessTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid
     };
-    this.transactionService
-      .get(payload, '/Admin/ReprocessedTransactionHistoryTable',true)
+    this.Api
+      .ReprocessedTransactionHistoryTable(payload)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();

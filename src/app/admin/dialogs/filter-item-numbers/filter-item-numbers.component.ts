@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { SystemReplenishmentService } from '../../system-replenishment/system-replenishment.service';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../../labels/labels.json';
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-filter-item-numbers',
@@ -18,7 +18,7 @@ export class FilterItemNumbersComponent implements OnInit {
     public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
-    private systemReplenishmentService: SystemReplenishmentService,
+    private Api: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService,
   ) { }
@@ -42,7 +42,7 @@ export class FilterItemNumbersComponent implements OnInit {
         "username": this.userData.userName,
         "wsid": this.userData.wsid
       }
-      this.systemReplenishmentService.get(payload, '/Admin/FiltersItemNumInsert').subscribe((res: any) => {
+      this.Api.FiltersItemNumInsert(payload).subscribe((res: any) => {
         if (res.isExecuted && res.data) {
           // this.toastr.success(labels.alert.success, 'Success!', {
           //   positionClass: 'toast-bottom-right',

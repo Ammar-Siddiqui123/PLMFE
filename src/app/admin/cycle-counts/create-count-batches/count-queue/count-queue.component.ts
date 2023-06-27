@@ -12,13 +12,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ToastrService } from 'ngx-toastr';
-import { AdminService } from 'src/app/admin/admin.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DeleteConfirmationTransactionComponent } from 'src/app/admin/dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-ccb-count-queue',
@@ -46,7 +46,7 @@ export class CCBCountQueueComponent implements OnInit {
   @Input() updateData: string;
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
-    public adminService: AdminService,
+    public Api: ApiFuntions,
     private authService: AuthService,
     public dialog: MatDialog,
     public toastr: ToastrService
@@ -111,7 +111,7 @@ export class CCBCountQueueComponent implements OnInit {
       sortColumnIndex: this.sortColumn.columnIndex,
       sortOrder: this.sortColumn.sortOrder,
     };
-    this.adminService.get(payload, `/Admin/GetCCQueue`).subscribe(
+    this.Api.GetCCQueue(payload).subscribe(
       (res: any) => {
         if (res.isExecuted && res.data.invCycleCount.length > 0) {
           this.dataSource = new MatTableDataSource(res.data.invCycleCount);
@@ -152,7 +152,7 @@ this.customPagination.total = 0;
           appName: 'Cycle Count',
         };
        
-        this.adminService.get(payload, `/Admin/CreateCountRecords`).subscribe(
+        this.Api.CreateCountRecords().subscribe(
           (response: any) => {
             if (response.isExecuted) {
               this.toastr.success(response.responseMessage, 'Success!', {
@@ -201,7 +201,7 @@ this.customPagination.total = 0;
           appName: 'Cycle Count',
         };
 
-        this.adminService.get(payload, `/Admin/RemoveccQueueAll`).subscribe(
+        this.Api.RemoveccQueueAll().subscribe(
           (response: any) => {
             if (response.isExecuted) {
               this.toastr.success(response.responseMessage, 'Success!', {
@@ -246,7 +246,7 @@ this.customPagination.total = 0;
           wsid: this.userData.wsid,
           invMapID: rowId.toString(),
         };
-        this.adminService.get(payload, `/Admin/RemoveccQueueRow`).subscribe(
+        this.Api.RemoveccQueueRow(payload).subscribe(
           (res: any) => {
             if (res.isExecuted) {
               this.getCountQue();

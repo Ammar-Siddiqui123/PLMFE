@@ -11,13 +11,13 @@
             </h2>
             <div class="d-flex gap-12 flex-wrap">
                 <div class="mb-3">
-                    <button type="submit" mat-flat-button class=" btn-regular" color="primary" (click)="openOrderStatus({}, false)">Order Status</button>
+                    <button type="submit" mat-stroked-button class="btn-regular" color="primary" (click)="openOrderStatus({}, false)">Order Status</button>
                 </div>
                 <div class="mb-3">
-                    <button  type="submit" mat-flat-button class=" btn-regular" color="primary" (click)="displayRecords()">Display Records</button>
+                    <button type="submit" mat-flat-button class="btn-regular" color="primary" (click)="displayRecords()" #btnRef="matButton">Display Records</button>
                 </div>
                 <div class="mb-3">
-                    <button  type="submit" mat-flat-button class="btn-regular" *ngIf="authService.UserPermissonByFuncName('Admin Create Orders')" color="primary" (click)="openOmCreateOrders()">Add/Edit Order</button>
+                    <button type="submit" mat-stroked-button class="btn-regular" *ngIf="authService.UserPermissonByFuncName('Admin Create Orders')" color="primary" (click)="openOmCreateOrders()">Add/Edit Order</button>
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Case</mat-label>
-                    <mat-select [(ngModel)]="case" (selectionChange)="showHideValues(2)">
+                    <mat-select [(ngModel)]="case" (selectionChange)="showHideValues(2)" #focusFeild>
                         <mat-option value="Equals">Equals</mat-option>
                         <mat-option value="Between">Between</mat-option>
                         <mat-option value="Like">Like</mat-option>
@@ -70,25 +70,40 @@
                 </mat-form-field>
             </div>
 
-            <div class="col-xl-3">
+            
+            <div class="col-xl-3" *ngIf="!v1Show">
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
-                    <mat-label *ngIf="v1Show || v1DShow">Value 1</mat-label>
-                    <input matInput [(ngModel)]="value1" *ngIf="v1Show" (keyup)="callDisplayRecords($event)" matTooltip="For dates use mm/dd/yy" matTooltipPosition="above">
-                    <input matInput [(ngModel)]="value1D" *ngIf="v1DShow" (dateChange)="displayRecords()" [matDatepicker]="v1D">
-                    <mat-datepicker-toggle matSuffix [for]="v1D" ngDefaultControl *ngIf="v1DShow"></mat-datepicker-toggle>
-                    <mat-datepicker #v1D></mat-datepicker>
+                    <mat-label >Value 1</mat-label>
+                    <input matInput [(ngModel)]="value1D"  (dateChange)="displayRecords()" [matDatepicker]="v1D">
+                    <mat-datepicker-toggle matSuffix [for]="v1D" ngDefaultControl ></mat-datepicker-toggle>
+                    <mat-datepicker #v1D [startAt]="value1D"></mat-datepicker>
                 </mat-form-field>
             </div>
 
-            <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline" *ngIf="v2Show || v2DShow">
-                    <mat-label *ngIf="v2Show || v2DShow">Value 2</mat-label>
-                    <input matInput [(ngModel)]="value2" *ngIf="v2Show" (keyup)="callDisplayRecords($event)" matTooltip="For dates use mm/dd/yy" matTooltipPosition="above">
-                    <input matInput [(ngModel)]="value2D" *ngIf="v2DShow" (dateChange)="displayRecords()" [matDatepicker]="v2D">
-                    <mat-datepicker-toggle matSuffix [for]="v2D" ngDefaultControl *ngIf="v2DShow"></mat-datepicker-toggle>
-                    <mat-datepicker #v2D></mat-datepicker>
+            <div class="col-xl-3" *ngIf="v1Show">
+                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                    <mat-label >Value 1</mat-label>
+                    <input matInput [(ngModel)]="value1" (keyup)="callDisplayRecords($event)" matTooltip="For dates use mm/dd/yy" matTooltipPosition="above">
                 </mat-form-field>
             </div>
+
+
+            <div class="col-xl-3" *ngIf="!v2Show">
+                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline" >
+                    <mat-label>Value 2</mat-label>
+                    <input [disabled]="case != 'Between'" matInput [(ngModel)]="value2D"   (dateChange)="displayRecords()" [matDatepicker]="v2D">
+                    <mat-datepicker-toggle [disabled]="case != 'Between'" matSuffix [for]="v2D" ngDefaultControl ></mat-datepicker-toggle>
+                    <mat-datepicker [disabled]="case != 'Between'" #v2D [startAt]="value2D"></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-xl-3" *ngIf="v2Show">
+                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline" >
+                    <mat-label>Value 2</mat-label>
+                    <input [disabled]="case != 'Between'" matInput [(ngModel)]="value2" (keyup)="callDisplayRecords($event)" matTooltip="For dates use mm/dd/yy" matTooltipPosition="above">
+                </mat-form-field>
+            </div>
+
         </div>
         <div class="row">
             <div class="col-xl-3">
@@ -148,10 +163,10 @@
         <div class="row">
             <div class="col-xl-5">
                 <div class="d-xl-flex d-block gap-12 align-items-center mb-3">
-                    <mat-form-field class="action-dropdown d-block mb-3 mb-xl-0" appearance="outline" style="flex:1">
-                        <!-- <mat-label>Select</mat-label> -->
+                    <mat-form-field class="action-dropdown d-xl-flex d-block mb-3 mb-xl-0" appearance="outline" >
+                        <!-- <mat-label>Selectt</mat-label> -->
                         <mat-select class="employees-action" placeholder="Select" [(ngModel)]="searchCol" (selectionChange)="fillTable()">
-                            <mat-option *ngFor="let col of colList" value="{{col}}">{{col}}</mat-option>                            
+                            <mat-option *ngFor="let col of colList" [value]="col">{{col}}</mat-option>                            
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
                             expand_more
@@ -172,7 +187,7 @@
                 <div class="d-xl-flex d-block justify-content-end mb-3">
                     <mat-form-field class="action-dropdown d-xl-flex d-block" appearance="outline">
                         <mat-label>Actions</mat-label>
-                        <mat-select #matRef class="employees-action" placeholder="Actions">
+                        <mat-select #matRef class="employees-action" placeholder="Actions" (selectionChange)="actionDialog($event)">
                             <mat-option value="0" (click)="releaseViewed()"> Release Viewed </mat-option>
                             <mat-option value="1" (click)="deleteViewed()"> Delete Viewed </mat-option>
                             <mat-option value="2"> Print Viewed </mat-option>

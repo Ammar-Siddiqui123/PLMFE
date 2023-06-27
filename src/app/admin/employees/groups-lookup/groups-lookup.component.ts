@@ -6,10 +6,9 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { EmployeeObject, IEmployee } from 'src/app/Iemployee';
-import { EmployeeService } from 'src/app/employee.service';
-import { AddNewGroupComponent } from '../../dialogs/add-new-group/add-new-group.component';
+import { EmployeeObject, IEmployee } from 'src/app/Iemployee';  
 import { AuthService } from '../../../../app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 
 export interface groups_details {
@@ -55,7 +54,7 @@ export class GroupsLookupComponent implements OnInit {
     }
   }
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog, private employeeService: EmployeeService, private authService: AuthService) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog, private employeeService: ApiFuntions, private authService: AuthService) { }
 
   @ViewChild(MatSort) sort: MatSort;
   groups_details_data: any = [];

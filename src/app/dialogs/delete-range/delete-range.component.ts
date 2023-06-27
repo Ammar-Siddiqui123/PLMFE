@@ -1,13 +1,13 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { SystemReplenishmentService } from 'src/app/admin/system-replenishment/system-replenishment.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
 import labels from '../../labels/labels.json';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-delete-range',
@@ -40,7 +40,7 @@ export class DeleteRangeComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private systemReplenishmentService: SystemReplenishmentService,
+    private Api: ApiFuntions,
     private toastr: ToastrService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<DeleteRangeComponent>,
@@ -74,7 +74,7 @@ export class DeleteRangeComponent implements OnInit {
       });
       dialogRef2.afterClosed().subscribe((result) => {
         if (result === 'Yes') {
-          this.systemReplenishmentService.get(this.repByDeletePayload, '/Admin/ReplenishmentsByDelete').subscribe((res: any) => {
+          this.Api.ReplenishmentsByDelete(this.repByDeletePayload).subscribe((res: any) => {
             if (res.isExecuted && res.data) {
               this.toastr.success(labels.alert.delete, 'Success!', {
                 positionClass: 'toast-bottom-right',
@@ -136,7 +136,7 @@ export class DeleteRangeComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.getSearchOptionsBeginSubscribe = this.systemReplenishmentService.get(payload, '/Admin/DeleteRangeBegin').subscribe((res: any) => {
+    this.getSearchOptionsBeginSubscribe = this.Api.DeleteRangeBegin(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.beginAutoCompleteList = res.data.sort();
       }
@@ -152,7 +152,7 @@ export class DeleteRangeComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.getSearchOptionsEndSubscribe = this.systemReplenishmentService.get(payload, '/Admin/DeleteRangeEnd').subscribe((res: any) => {
+    this.getSearchOptionsEndSubscribe = this.Api.DeleteRangeEnd(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.endAutoCompleteList = res.data.sort();
       }

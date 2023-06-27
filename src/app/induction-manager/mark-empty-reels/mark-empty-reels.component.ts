@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ProcessPutAwayService } from '../processPutAway.service';
+import { MatDialog } from '@angular/material/dialog'; 
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
@@ -8,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatSort } from '@angular/material/sort';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-mark-empty-reels',
@@ -30,7 +30,7 @@ export class MarkEmptyReelsComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    public imService: ProcessPutAwayService,
+    public Api:ApiFuntions,
     public toastService: ToastrService,
     private authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer,
@@ -57,8 +57,8 @@ export class MarkEmptyReelsComponent implements OnInit {
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.imService
-        .get(payload, '/Induction/ValidateSerialNumber') //validate tote
+      this.Api
+        .ValidateSerialNumber(payload) //validate tote
         .subscribe(
           (response: any) => {
             if (response.isExecuted) {
@@ -162,8 +162,8 @@ export class MarkEmptyReelsComponent implements OnInit {
             username: this.userData.userName,
             wsid: this.userData.wsid,
           };
-          this.imService
-            .get(payload, '/Induction/DeleteSerialNumber') //validate tote
+          this.Api
+            .DeleteSerialNumber(payload) //validate tote
             .subscribe((response: any) => {
               if (response.isExecuted) {
                 this.toastService.success(

@@ -4,14 +4,14 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { TransactionService } from '../../transaction/transaction.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { FormControl, FormGroup } from '@angular/forms';
 import labels from '../../../labels/labels.json';
 import { FloatLabelType } from '@angular/material/form-field';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { ItemExistGenerateOrderComponent } from '../item-exist-generate-order/item-exist-generate-order.component';
 import { EmptyFieldsComponent } from '../empty-fields/empty-fields.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-add-new-transaction-to-order',
@@ -33,7 +33,7 @@ export class AddNewTransactionToOrderComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private transactionService: TransactionService,
+    private Api: ApiFuntions,
     public dialogRef: MatDialogRef<any>
   ) {}
   transactionInfo = new FormGroup({
@@ -155,8 +155,8 @@ export class AddNewTransactionToOrderComponent implements OnInit {
       username: this.data.userName,
       wsid: this.data.wsid,
     };
-    this.transactionService
-      .get(searchPayload, '/Common/SearchItem', true)
+    this.Api
+      .SearchItem(searchPayload)
       .subscribe(
         (res: any) => {
           if(res.data){
@@ -183,10 +183,8 @@ export class AddNewTransactionToOrderComponent implements OnInit {
       wsid: this.data.wsid,
     }
 
-    this.transactionService
-      .get(
-        payload,
-        `/Common/ItemExists`,true
+    this.Api.ItemExists(
+        payload
       )
       .subscribe(
         (res: any) => {
@@ -213,6 +211,7 @@ export class AddNewTransactionToOrderComponent implements OnInit {
       );
   }
   saveTransaction() {
+    debugger
     if(this.itemNumber===''  || this.quantity===0 || this.quantity<0){
       const dialogRef = this.dialog.open(EmptyFieldsComponent, {
         height: 'auto',
@@ -267,16 +266,8 @@ export class AddNewTransactionToOrderComponent implements OnInit {
       payload['itemNum'] = this.data.item.itemNumber;
       payload['id'] = this.data.item.id;
     }
-    this.transactionService
-      .get(
-        payload,
-        `/Admin/${
-          this.data && this.data.mode === 'add-trans'
-            ? 'TransactionForOrderInsert'
-            : 'TransactionForOrderUpdate'
-        }`
-      )
-      .subscribe(
+    if(this.data && this.data.mode === 'add-trans'){
+      this.Api.TransactionForOrderInsert(payload).subscribe(
         (res: any) => {
           if (res.isExecuted) {
             this.toastr.success(labels.alert.success, 'Success!', {
@@ -300,6 +291,34 @@ export class AddNewTransactionToOrderComponent implements OnInit {
           this.dialogRef.close({ isExecuted: false });
         }
       );
+    } else{
+      this.Api.TransactionForOrderUpdate(payload).subscribe(
+        (res: any) => {
+          if (res.isExecuted) {
+            this.toastr.success(labels.alert.success, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+            this.dialogRef.close({ isExecuted: true,orderNumber:this.orderNumber });
+          } else {
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+            this.dialogRef.close({ isExecuted: false });
+          }
+        },
+        (error) => {
+          this.toastr.error('something went wrong!', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+          this.dialogRef.close({ isExecuted: false });
+        }
+      );
+    } 
+    
+      
   }
 
   ngOnDestroy() {

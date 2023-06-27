@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ConsolidationManagerService } from '../consolidation-manager.service';
+import { Component, OnInit } from '@angular/core'; 
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import {
@@ -10,6 +9,7 @@ import {
 } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { CmCarriersAddDeleteEditComponent } from 'src/app/dialogs/cm-carriers-add-delete-edit/cm-carriers-add-delete-edit.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-consolidation-preferences',
@@ -21,7 +21,7 @@ export class ConsolidationPreferencesComponent implements OnInit {
   preferencesData:any;
   private subscription: Subscription = new Subscription();
   constructor(
-    private cmService: ConsolidationManagerService,
+    private Api: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService,
     public dialog: MatDialog
@@ -73,8 +73,8 @@ export class ConsolidationPreferencesComponent implements OnInit {
       wsid: this.userData.wsid,
     };
 
-    this.cmService
-      .get(payload, `/Consolidation/ConsoleDataSB`)
+    this.Api
+      .ConsoleDataSB(payload)
       .subscribe((res) => {
         if (res.isExecuted) {
           this.preferencesData = res.data.cmPreferences;

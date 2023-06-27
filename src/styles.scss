@@ -1931,6 +1931,7 @@ button.default-btn {
   left: 0;
   right: 0;
   height: 100vh;
+  min-width:650px
 }
 
 .main-container {
@@ -1941,9 +1942,40 @@ button.default-btn {
   background: #D6D6FD;
   color: #000080 !important;
   font-weight: 700;
-
 }
 
+.mat-nav-list .mat-list-item:focus {
+  background: #D6D6FD !important;
+  color: #000080 !important;
+  border-radius: 20px !important;
+  transition: 0.1s ease all !important;
+}
+
+.mat-nav-list .mat-list-item:focus-within {
+  background: #D6D6FD !important;
+  color: #000080 !important;
+  border-radius: 20px !important;
+  transition: 0.1s ease all !important;
+}
+.mat-nav-list .mat-list-item:focus-visible {
+  background: #D6D6FD !important;
+  color: #000080 !important;
+  border-radius: 20px !important;
+  transition: 0.1s ease all !important;
+}
+
+.mat-nav-list .mat-list-item:visited {
+  background: #D6D6FD !important;
+  color: #000080 !important;
+  border-radius: 20px !important;
+  transition: 0.1s ease all !important;
+}
+.mat-nav-list .mat-list-item:hover {
+  background: #D6D6FD !important;
+  color: #000080 !important;
+  border-radius: 20px !important;
+  transition: 0.1s ease all !important;
+}
 .prompt-icon-add {
   font-size: 38px;
   width: 66px;

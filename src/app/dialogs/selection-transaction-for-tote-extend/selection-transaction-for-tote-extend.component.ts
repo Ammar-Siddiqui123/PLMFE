@@ -7,18 +7,16 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { ProcessPutAwayService } from 'src/app/induction-manager/processPutAway.service';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { CrossDockTransactionComponent } from '../cross-dock-transaction/cross-dock-transaction.component';
 import labels from '../../labels/labels.json';
 import { CellSizeComponent } from 'src/app/admin/dialogs/cell-size/cell-size.component';
-import { VelocityCodeComponent } from 'src/app/admin/dialogs/velocity-code/velocity-code.component';
-import { CellSizeService } from 'src/app/common/services/cell-size.service';
-import { VelocityCodeService } from 'src/app/common/services/velocity-code.service';
+import { VelocityCodeComponent } from 'src/app/admin/dialogs/velocity-code/velocity-code.component';  
 import { ChooseLocationComponent } from '../choose-location/choose-location.component';
 import { WarehouseComponent } from 'src/app/admin/dialogs/warehouse/warehouse.component';
 import { Router } from '@angular/router';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-selection-transaction-for-tote-extend',
@@ -41,10 +39,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               private dialog                    : MatDialog,
               public formBuilder                : FormBuilder,
               private authService               : AuthService,
-              private toast                     : ToastrService,
-              private service                   : ProcessPutAwayService,
-              private cellSizeService           : CellSizeService,
-              private velocityCodeService       : VelocityCodeService,
+              private toast                     : ToastrService, 
+              private Api : ApiFuntions, 
               private toastr: ToastrService,
               public router: Router,
               ) {
@@ -145,7 +141,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         "username": this.userData.userName,
         wsid: this.userData.wsid 
       }
-      this.service.get(payload, '/Induction/ItemDetails').subscribe(
+      this.Api.ItemDetails(payload).subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
             const values = res.data[0];  
@@ -255,13 +251,13 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   }
 
   getCellSizeList() {
-    this.cellSizeService.getCellSize().subscribe((res) => {
+    this.Api.getCellSize().subscribe((res) => {
       this.cellSizeList = res.data;
     });
   }
 
   getVelocityCodeList() {
-    this.velocityCodeService.getVelocityCode().subscribe((res) => {
+    this.Api.getVelocityCode().subscribe((res) => {
       this.velocityCodeList = res.data;
     });
   }
@@ -297,7 +293,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
             wsid: this.userData.wsid 
           }
           
-          this.service.update(payload, '/Induction/IMUpdate').subscribe(
+          this.Api.IMUpdate(payload).subscribe(
             (res: any) => {
               if (res.data && res.isExecuted) {
                 this.toast.success(labels.alert.update, 'Success!',{
@@ -461,7 +457,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         wsid: this.userData.wsid,
       };
 
-      this.service.get(payLoad, '/Induction/CheckForwardLocations').subscribe(
+      this.Api.CheckForwardLocations(payLoad).subscribe(
         (res: any) => {
           if (res.data > 0 && res.isExecuted && this.data.autoForwardReplenish) {
             
@@ -530,7 +526,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.service.create(payLoad, '/Induction/FindLocation').subscribe(
+      this.Api.FindLocation(payLoad).subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
 
@@ -694,8 +690,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         wsid: this.userData.wsid 
       };
 
-      this.service
-        .get(payLoad, '/Induction/CrossDock')
+      this.Api
+        .CrossDock(payLoad)
         .subscribe(
           (res: any) => {
             if (res.data && res.isExecuted) 
@@ -795,7 +791,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
             wsid: this.userData.wsid 
           }
           
-          this.service.create(payload2, '/Induction/TaskComplete').subscribe(
+          this.Api.TaskComplete(payload2).subscribe(
             (res: any) => {
               
               if (res.data && res.isExecuted) {

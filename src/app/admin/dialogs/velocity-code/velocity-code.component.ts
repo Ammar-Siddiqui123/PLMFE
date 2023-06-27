@@ -1,11 +1,11 @@
 import { Component, OnInit , Inject, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, takeUntil } from 'rxjs';
-import { VelocityCodeService } from '../../../../app/common/services/velocity-code.service';
+import { Subject, takeUntil } from 'rxjs'; 
 import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json'
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-velocity-code',
@@ -25,7 +25,7 @@ export class VelocityCodeComponent implements OnInit {
   constructor(
     
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private velcodeService: VelocityCodeService,
+    private Api: ApiFuntions,
     private authService: AuthService,
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<any>,
@@ -40,7 +40,7 @@ export class VelocityCodeComponent implements OnInit {
   }
 
   getVelocity(){
-    this.velcodeService.getVelocityCode().subscribe((res) => {
+    this.Api.getVelocityCode().subscribe((res) => {
       this.velocity_code_list_Res = [...res.data];
       this.velocity_code_list = res.data;
       this.disableEnable.shift();
@@ -83,7 +83,7 @@ export class VelocityCodeComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     } 
-    this.velcodeService.saveVelocityCode(paylaod).subscribe((res) => {
+    this.Api.saveVelocityCode(paylaod).subscribe((res) => {
       this.toastr.success(labels.alert.success, 'Success!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
@@ -113,7 +113,7 @@ export class VelocityCodeComponent implements OnInit {
               "username": this.userData.userName,
               "wsid": this.userData.wsid,
             }
-            this.velcodeService.dltVelocityCode(paylaod).subscribe((res) => {
+            this.Api.dltVelocityCode(paylaod).subscribe((res) => {
               this.toastr.success(labels.alert.delete, 'Success!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000

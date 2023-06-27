@@ -6,13 +6,13 @@ import { WarehouseComponent } from '../warehouse/warehouse.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { startWith } from 'rxjs/internal/operators/startWith';
-import { map } from 'rxjs/internal/operators/map';
-import { InvMapLocationService } from './inv-map-location.service';
+import { map } from 'rxjs/internal/operators/map'; 
 import { ToastrService } from 'ngx-toastr';
 import { ConditionalExpr } from '@angular/compiler';
 import { AuthService } from '../../../../app/init/auth.service';
 import { AdjustQuantityComponent } from '../adjust-quantity/adjust-quantity.component';
 import { Router } from '@angular/router';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface InventoryMapDataStructure {
   invMapID: string | '',
@@ -134,7 +134,7 @@ export class AddInvMapLocationComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private fb: FormBuilder,
-    private invMapService: InvMapLocationService,
+    private Api: ApiFuntions,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private authService: AuthService,
     private toastr: ToastrService,
@@ -174,7 +174,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
     //  this.itemNumberList = this.data.itemList;
 
-    this.invMapService.getLocZTypeInvMap().subscribe((res) => {
+    this.Api.getLocZTypeInvMap().subscribe((res) => {
       this.locZoneList = res.data; 
       this.filteredOptions = this.addInvMapLocation.controls['location'].valueChanges.pipe(
         startWith(''),
@@ -245,6 +245,14 @@ export class AddInvMapLocationComponent implements OnInit {
   }
 
   adjustQuantity() {
+    if(this.addInvMapLocation.value.item == '') return;
+    if(this.getDetailInventoryMapData.itemNumber == ''){
+      this.toastr.error('No item found at the location specified.  Ensure that the entry selected has been saved since an item was assigned to it.', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
     let dialogRef = this.dialog.open(AdjustQuantityComponent, {
       height: 'auto',
       width: '800px',
@@ -271,7 +279,7 @@ export class AddInvMapLocationComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.invMapService.getSearchedItem(payload).subscribe(res => {
+    this.Api.getSearchedItem(payload).subscribe(res => {
       if (res.data.length > 0) {
         this.itemNumberList = res.data;
       }
@@ -291,7 +299,7 @@ export class AddInvMapLocationComponent implements OnInit {
       shelf: [this.getDetailInventoryMapData.shelf || '', [Validators.maxLength(2)]],
       bin: [this.getDetailInventoryMapData.bin || '', [Validators.maxLength(3)]],
       item: [this.getDetailInventoryMapData.itemNumber || '', [Validators.maxLength(50)]],
-      itemQuantity: [this.getDetailInventoryMapData.itemQuantity || ''],
+      itemQuantity: new FormControl({value:this.getDetailInventoryMapData.itemQuantity || '',disabled:this.getDetailInventoryMapData.itemNumber == ''? true: false}),
       description: [this.getDetailInventoryMapData.description || ''],
       cell: [this.getDetailInventoryMapData.cellSize || ''],
       velocity: [this.getDetailInventoryMapData.goldenZone || ''],
@@ -352,7 +360,7 @@ export class AddInvMapLocationComponent implements OnInit {
         if (this.clickSubmit) {
           if (this.data.detailData) {
             this.clickSubmit = false;
-            this.invMapService.updateInventoryMap(form.value,invMapIDs).subscribe((res) => {
+            this.Api.updateInventoryMap(form.value,invMapIDs).subscribe((res) => {
               this.clickSubmit = true;
               
               if (res.isExecuted) {
@@ -366,7 +374,7 @@ export class AddInvMapLocationComponent implements OnInit {
             });
           } else {
             this.clickSubmit = false;
-            this.invMapService.createInventoryMap(form.value).subscribe((res) => {
+            this.Api.createInventoryMap(form.value).subscribe((res) => {
               this.clickSubmit = true;
               
               if (res.isExecuted) {
@@ -476,7 +484,7 @@ export class AddInvMapLocationComponent implements OnInit {
     const velCodeVal = this.velCodeVal.nativeElement.value
     
 
-    this.invMapService.getItemNumDetail(payload).subscribe((res) => {
+    this.Api.getItemNumDetail(payload).subscribe((res) => {
       if (res.isExecuted) {
 
         var match = '';

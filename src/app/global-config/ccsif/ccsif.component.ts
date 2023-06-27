@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-ccsif',
@@ -12,7 +13,7 @@ import { AuthService } from 'src/app/init/auth.service';
 export class CcsifComponent implements OnInit {
   sideBarOpen: boolean = true;
   Status:any = 'Offline';
-  constructor( public dialog: MatDialog,    public authService: AuthService,private toastr:ToastrService) { }
+  constructor( public dialog: MatDialog,    public api: ApiFuntions,private toastr:ToastrService) { }
 
   ngOnInit(): void {
     this.CheckStatus(); 
@@ -68,17 +69,17 @@ export class CcsifComponent implements OnInit {
   // }
   async CCSIFToggle(){     
     if(this.Status != 'Online'){
-    this.authService.startCCSIF().subscribe((res: any) => {
+    this.api.startCCSIF().subscribe((res: any) => {
       if(res.data) this.ServiceStatus('start',res.data);
     }) 
   }else  {
-    this.authService.stopCCSIF().subscribe((res: any) => {
+    this.api.stopCCSIF().subscribe((res: any) => {
       if(res.data) this.ServiceStatus('stop',res.data);
     })
   }
 }
 async CheckStatus(){
-  this.authService.ServiceStatusCCSIF().subscribe((res: any) => {
+  this.api.ServiceStatusCCSIF().subscribe((res: any) => {
     if(res.data)   this.Status = 'Online';
     else    this.Status = 'Offline';
   })

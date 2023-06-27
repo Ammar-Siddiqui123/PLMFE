@@ -3,8 +3,7 @@ import { BrowserModule,Title  } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { LoginService } from './login.service';
+import { AppComponent } from './app.component'; 
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -81,6 +80,10 @@ import { AuthGuard } from './init/AuthGuard.service';
 import { StagingLocationOrderComponent } from './dialogs/staging-location-order/staging-location-order.component';
 import { FlowrackReplenishmentComponent } from './flowrack-replenishment/flowrack-replenishment.component';
 import { FrNumpadComponent } from './dialogs/fr-numpad/fr-numpad.component';
+import { ApiFuntions } from './services/ApiFuntions';
+import { BaseService } from './services/base-service.service';
+import { ShortTransactionComponent } from './dialogs/short-transaction/short-transaction.component';
+import { CpbBlossomToteComponent } from './dialogs/cpb-blossom-tote/cpb-blossom-tote.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -148,6 +151,8 @@ import { FrNumpadComponent } from './dialogs/fr-numpad/fr-numpad.component';
     StagingLocationOrderComponent,
     FlowrackReplenishmentComponent,
     FrNumpadComponent,
+    ShortTransactionComponent,
+    CpbBlossomToteComponent,
     // ActionDisableDirective,
   ],
   imports: [
@@ -171,8 +176,7 @@ import { FrNumpadComponent } from './dialogs/fr-numpad/fr-numpad.component';
     
   ],
   providers: [
-    Title,
-    LoginService,
+    Title, 
     { 
       provide: LocationStrategy, 
       useClass: HashLocationStrategy 
@@ -187,6 +191,8 @@ import { FrNumpadComponent } from './dialogs/fr-numpad/fr-numpad.component';
       useClass: HeaderInterceptor,
       multi: true
     },AuthGuard,
+    ApiFuntions,
+    BaseService,
     DatePipe
   ],
   bootstrap: [AppComponent]

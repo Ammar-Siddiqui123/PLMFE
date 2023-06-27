@@ -3,9 +3,9 @@ import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-import { TransactionService } from '../../transaction/transaction.service';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs'; 
 import labels from '../../../labels/labels.json';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-temporary-manual-order-number-add',
@@ -31,7 +31,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private toastr: ToastrService,
-    private transactionService: TransactionService,
+    private Api: ApiFuntions,
     public dialogRef: MatDialogRef<any>
 
   ) {
@@ -52,7 +52,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
       username: this.data.userName,
       wsid: this.data.wsid,
     };
-    this.transactionService.get(payLoad, '/Admin/GetLocations', true).subscribe(
+    this.Api.GetLocations(payLoad).subscribe(
       (res: any) => {
         if (res && res.data) {
           this.setLocationByItemList = res.data.map((item) => {
@@ -82,8 +82,8 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
       wsid: this.data.wsid,
     };
 
-    this.transactionService
-      .get(payLoad, '/Admin/NewTransactionSave', true)
+    this.Api
+      .NewTransactionSave(payLoad)
       .subscribe(
         (res: any) => {
           if (res.isExecuted) {
@@ -117,8 +117,8 @@ this.orderRequired=true
       username: this.data.userName,
       wsid: this.data.wsid,
     };
-    this.transactionService
-      .get(payLoad, '/Common/ItemExists', true)
+    this.Api
+      .ItemExists(payLoad)
       .subscribe(
         (res: any) => {
           if(res && res.isExecuted){
@@ -164,8 +164,8 @@ this.orderRequired=true
       username: this.data.userName,
       wsid: this.data.wsid,
     };
-    this.transactionService
-      .get(searchPayload, '/Admin/ManualTransactionTypeAhead', true)
+    this.Api
+      .ManualTransactionTypeAhead(searchPayload)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteOrderNum = res.data;
@@ -184,8 +184,8 @@ this.orderRequired=true
       username: this.data.userName,
       wsid: this.data.wsid,
     };
-    this.transactionService
-      .get(searchPayload, '/Common/SearchItem', true)
+    this.Api
+      .SearchItem(searchPayload)
       .subscribe(
         (res: any) => {
           if (res.data) {

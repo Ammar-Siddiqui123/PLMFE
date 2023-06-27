@@ -2,10 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '../../../app/services/shared.service';
 import { AuthService } from '../../../app/init/auth.service';
-import { GlobalconfigService } from 'src/app/global-config/globalconfig.service';
 import { of, from } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http'; 
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-side-nav',
@@ -43,7 +43,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'arrow_back', title: 'Admin', route: '/dashboard', class: 'back-class' ,permission: 'Dashboard'},
     { icon: 'dashboard', title: 'Inventory', route: '/admin/inventoryMaster',permission: 'Inventory' },
     { icon: 'directions_alt', title: 'Inventory Map', route: '/admin/inventoryMap' ,permission: 'Inventory Map'},
-    { icon: 'analytics', title: 'Reports', route: '#' ,permission: 'Reports'},
+    { icon: 'analytics', title: 'Reports', route: '/admin/reports' ,permission: 'Reports'},
     { icon: 'dvr', title: 'Transactions', route: '/admin/transaction' ,permission: 'Transaction Journal'},
     { icon: 'list_alt', title: 'Batch Manager', route: '/admin/batchManager' ,permission: 'Batch Manager'},
     { icon: 'low_priority', title: 'Cycle Count', route: '/admin/cycleCounts' ,permission: 'Cycle Count Manager'},
@@ -65,6 +65,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'edit_attributes', title: 'Mark Empty Reels', route: '/InductionManager/MarkEmptyReels' ,permission:'Induction Manager'},
     { icon: 'linear_scale', title: 'Pallet Receiving', route: '/InductionManager/PalletReceiving' ,permission:'Induction Manager'},
     { icon: 'line_style', title: 'Super Batch', route: '/InductionManager/SuperBatch' ,permission:'Induction Manager'},
+    { icon: 'library_add_check', title: 'Complete Pick Batch', route: '/InductionManager/CompletePickBatch' ,permission:'Induction Manager'},
   ];
 
   consolidationMenus: any = [
@@ -113,7 +114,7 @@ export class SideNavComponent implements OnInit {
               private router: Router,
               private authService: AuthService,
               private sharedService:SharedService, 
-              private globalService: GlobalconfigService) { 
+              private Api:ApiFuntions) { 
                 
                 this.sharedService.SidebarMenupdate.subscribe((data: any) => {
                   var Menuobj = this.menus.find(x=>x.route == data);
@@ -279,7 +280,7 @@ export class SideNavComponent implements OnInit {
 
   async getAppLicense() {
 
-    this.globalService.get(null, '/GlobalConfig/AppLicense').subscribe(
+    this.Api.AppLicense().subscribe(
       (res: any) => {
         if (res && res.data) {
           

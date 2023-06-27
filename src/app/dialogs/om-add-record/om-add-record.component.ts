@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/init/auth.service';
-import { OrderManagerService } from 'src/app/order-manager/order-manager.service';
+import { AuthService } from 'src/app/init/auth.service'; 
 import labels from '../../labels/labels.json';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { GlobalService } from 'src/app/common/services/global.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-om-add-record',
@@ -73,7 +73,7 @@ export class OmAddRecordComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private authService: AuthService,
-    private orderManagerService: OrderManagerService,
+    private Api: ApiFuntions,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<OmAddRecordComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -188,7 +188,7 @@ export class OmAddRecordComponent implements OnInit {
       "wsid": this.userData.wsid,
       "appName": ""
     }
-    this.orderManagerService.get(payload, '/OrderManager/UserFieldData', loader).subscribe((res: any) => {
+    this.Api.UserFieldData().subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.userFieldData = res.data[0];
         this.mapDefaultValues();
@@ -231,7 +231,7 @@ export class OmAddRecordComponent implements OnInit {
       this.oTTempUpdatePayload.requiredDate = this.oTTempUpdatePayload.requiredDate ? new Date(this.oTTempUpdatePayload.requiredDate).getMonth()+1 + '/' +  new Date(this.oTTempUpdatePayload.requiredDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.requiredDate).getFullYear() : "";
       this.oTTempUpdatePayload.expirationDate = this.oTTempUpdatePayload.expirationDate ? new Date(this.oTTempUpdatePayload.expirationDate).getMonth()+1 + '/' +  new Date(this.oTTempUpdatePayload.expirationDate).getDate() + '/' + new Date(this.oTTempUpdatePayload.expirationDate).getFullYear() : "";
       if (!this.isEdit) {
-        this.orderManagerService.get(this.oTTempUpdatePayload, '/OrderManager/OTTempInsert', loader).subscribe((res: any) => {
+        this.Api.OTTempInsert(this.oTTempUpdatePayload).subscribe((res: any) => {
           if (res.isExecuted && res.data) {
             this.toastr.success(labels.alert.success, 'Success!', {
               positionClass: 'toast-bottom-right',
@@ -247,7 +247,7 @@ export class OmAddRecordComponent implements OnInit {
         })
       }
       else {
-        this.orderManagerService.get(this.oTTempUpdatePayload, '/OrderManager/OTTempUpdate', loader).subscribe((res: any) => {
+        this.Api.OTTempUpdate(this.oTTempUpdatePayload).subscribe((res: any) => {
           if (res.isExecuted && res.data) {
             this.toastr.success(labels.alert.update, 'Success!', {
               positionClass: 'toast-bottom-right',
@@ -275,7 +275,7 @@ export class OmAddRecordComponent implements OnInit {
         "userName": this.userData.userName,
         "wsid": this.userData.wsid
       }
-      this.orderManagerService.get(payload, '/Common/SearchItem', loader).subscribe((res: any) => {
+      this.Api.SearchItem(payload).subscribe((res: any) => {
         if (res.isExecuted && res.data) {
           this.itemNumberSearchList = res.data;
         } else {
@@ -306,7 +306,7 @@ export class OmAddRecordComponent implements OnInit {
       "userName": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.orderManagerService.get(payload, '/Common/GetWarehouses', false).subscribe((res: any) => {
+    this.Api.GetWarehouses().subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.wharehouses = res.data;
         this.wharehouses = res.data.sort();
@@ -344,7 +344,7 @@ export class OmAddRecordComponent implements OnInit {
         "userName": this.userData.userName,
         "wsid": this.userData.wsid
       }
-      this.orderManagerService.get(payload, '/Common/SearchItem', true).subscribe((res: any) => {
+      this.Api.SearchItem(payload).subscribe((res: any) => {
         if (res.isExecuted && res.data && res.data.length > 0) {
           if(res.data[0].itemNumber == this.oTTempUpdatePayload.itemNumber){
             this.oTTempUpdatePayload.description = res.data[0].description;
@@ -386,7 +386,7 @@ export class OmAddRecordComponent implements OnInit {
         "userName": this.userData.userName,
         "wsid": this.userData.wsid
       }
-      let res: any = await this.orderManagerService.get(payload, '/Common/SearchItem', true).toPromise();
+      let res: any = await this.Api.SearchItem(payload).toPromise();
       if (res.isExecuted && res.data && res.data.length > 0) {
         let filtered = res.data.filter((item: any) => (item.itemNumber == this.oTTempUpdatePayload.itemNumber));
         if (filtered.length > 0) {

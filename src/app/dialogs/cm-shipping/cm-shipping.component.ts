@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { CmAddNewItemToShipmentComponent } from '../cm-add-new-item-to-shipment/cm-add-new-item-to-shipment.component';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface PeriodicElement {
   name: string;
@@ -35,7 +35,7 @@ export class CmShippingComponent implements OnInit {
   carriers: any[] = [];
   shippingComp: any = false;
   shippingPreferences: any = {};
-  constructor(private http: ConsolidationManagerService, private authService: AuthService, private toast: ToastrService, private dialog: MatDialog,
+  constructor(private Api: ApiFuntions, private authService: AuthService, private toast: ToastrService, private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CmShippingComponent>,) {
     this.orderNumber = this.data.orderNumber;
@@ -59,7 +59,7 @@ export class CmShippingComponent implements OnInit {
         wsid: this.userData.wsid
       }
       this.IsLoading = true;
-      this.http.get(obj, '/Consolidation/ShippingIndex').subscribe((res: any) => {
+      this.Api.ShippingIndex(obj).subscribe((res: any) => {
         if (res && res.isExecuted) {
           this.shippingData = res.data.shippingData;
           this.carriers = res.data.carriers;
@@ -106,7 +106,7 @@ export class CmShippingComponent implements OnInit {
       user: this.userData.userName,
       wsid: this.userData.wsid
     }
-    this.http.get(obj, '/Consolidation/ShipmentItemDelete').subscribe((res: any) => {
+    this.Api.ShipmentItemDelete(obj).subscribe((res: any) => {
       if (res && res.isExecuted) {
         this.shippingData = this.shippingData.slice(0,i);
         //this.ShippingIndex();
@@ -127,7 +127,7 @@ export class CmShippingComponent implements OnInit {
       "height": element.height,
       "cube": element.cube
     }
-    this.http.get(obj, '/Consolidation/ShipmentItemUpdate').subscribe((res: any) => {
+    this.Api.ShipmentItemUpdate(obj).subscribe((res: any) => {
       if (res && res.isExecuted) {
        // this.ShippingIndex();
       }
@@ -148,7 +148,7 @@ export class CmShippingComponent implements OnInit {
       var obj: any = {
         orderNumber: this.orderNumber
       }
-      this.http.get(obj, '/Consolidation/SelCountOfOpenTransactionsTemp').subscribe((res: any) => {
+      this.Api.SelCountOfOpenTransactionsTemp(obj).subscribe((res: any) => {
         if (res) {
           if (res.data == -1) {
             this.toast.error("An error has occurred", "Error", { positionClass: 'toast-bottom-right', timeOut: 2000 });
@@ -185,7 +185,7 @@ export class CmShippingComponent implements OnInit {
       userName: this.userData.userName,
       wsid: this.userData.wsid
     }
-    this.http.get(obj, '/Consolidation/CompleteShipment').subscribe((res: any) => {
+    this.Api.CompleteShipment(obj).subscribe((res: any) => {
       if (res && res.isExecuted) {
         this.toast.success(`Order Number: ${this.orderNumber} is marked as Shipping Complete`, "Success", { positionClass: 'toast-bottom-right', timeOut: 2000 });
       } else {
