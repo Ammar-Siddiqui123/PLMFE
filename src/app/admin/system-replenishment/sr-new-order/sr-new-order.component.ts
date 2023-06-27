@@ -110,11 +110,14 @@ export class SrNewOrderComponent implements OnInit {
     return this.filterService.getType(val);
   }
 
-  FilterString: string = "";
+  FilterString: string = "1 = 1";
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
-    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
-    this.tablePayloadObj.filter = this.FilterString != "" ? this.FilterString : "1=1";
+    // debugger
+    if ((SelectedItem != undefined && FilterColumnName != "") || Condition == "clear") {
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+    }
+    this.tablePayloadObj.filter = this.FilterString != "" ? this.FilterString : "1 = 1";
     this.resetPagination();
     this.newReplenishmentOrders();
     // this.tablePayloadObj.filter = "1=1";
@@ -287,12 +290,12 @@ export class SrNewOrderComponent implements OnInit {
       if (event == '1') {
         this.filterItemNo();
       }
-      else if (event == '3') {
-        this.viewAllItems();
-      }
-      else if (event == '4') {
-        this.viewSelectedItems();
-      }
+      // else if (event == '3') {
+      //   this.viewAllItems();
+      // }
+      // else if (event == '4') {
+      //   this.viewSelectedItems();
+      // }
       else if (event == '5') {
         this.selectAll();
       }
@@ -398,20 +401,31 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   viewAllItems() {
-    debugger
-    this.tableData.forEach((element: any) => {
-      let index: any = this.filteredTableData.findIndex((item: any) => item.rP_ID == element.rP_ID);
-      if (index != -1) {
-        element.replenish = this.filteredTableData[index].replenish;
-        element.transactionQuantity = this.filteredTableData[index].transactionQuantity;
-      }
-    });
-    this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
+    if(this.newOrderListCreated){
+      this.tablePayloadObj.searchColumn = "";
+      this.tablePayloadObj.searchString = "";
+      this.resetPagination();
+      this.newReplenishmentOrders(true);
+    }
+    // this.tableData.forEach((element: any) => {
+    //   let index: any = this.filteredTableData.findIndex((item: any) => item.rP_ID == element.rP_ID);
+    //   if (index != -1) {
+    //     element.replenish = this.filteredTableData[index].replenish;
+    //     element.transactionQuantity = this.filteredTableData[index].transactionQuantity;
+    //   }
+    // });
+    // this.filteredTableData = JSON.parse(JSON.stringify(this.tableData));
   }
 
   viewSelectedItems() {
-    this.tableData = JSON.parse(JSON.stringify(this.filteredTableData));
-    this.filteredTableData = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0);
+    if(this.newOrderListCreated){
+      this.tablePayloadObj.searchColumn = "Replenish";
+      this.tablePayloadObj.searchString = "True";
+      this.resetPagination();
+      this.newReplenishmentOrders(true);
+    }
+    // this.tableData = JSON.parse(JSON.stringify(this.filteredTableData));
+    // this.filteredTableData = this.filteredTableData.filter((item: any) => item.replenish == true && item.transactionQuantity > 0);
   }
 
   filterItemNo() {

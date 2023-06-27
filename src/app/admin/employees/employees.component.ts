@@ -134,7 +134,12 @@ bpSettingLocInp='';
     this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
 getgroupAllowedList(){
-  this.employeeService.Groupnames().subscribe((res:any) => {
+  var payload:any = { 
+    "UserName": this.empData.username,
+    "WSID": "TESTWSID"
+
+  }
+  this.employeeService.Groupnames(payload).subscribe((res:any) => {
      
    // this.groupAllowedList = res.data;
     this.groupAllowedList = new MatTableDataSource(res.data);
