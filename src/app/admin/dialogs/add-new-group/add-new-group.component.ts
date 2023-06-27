@@ -2,9 +2,9 @@ import { Component, OnInit, Inject, ViewChild, TemplateRef } from '@angular/core
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import labels from '../../../labels/labels.json';
-import { EmployeeService } from 'src/app/employee.service';
+import labels from '../../../labels/labels.json'; 
 import { AccessGroupObject, AdminEmployeeLookupResponse, IEmployee } from 'src/app/Iemployee';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion';
@@ -27,7 +27,7 @@ export class AddNewGroupComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private employeeService: EmployeeService,
+    private employeeService: ApiFuntions,
     public dialogRef: MatDialogRef<any>
   ) { }
 

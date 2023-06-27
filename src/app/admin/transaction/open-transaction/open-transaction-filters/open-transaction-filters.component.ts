@@ -1,11 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-import { AuthService } from 'src/app/init/auth.service';
-import { TransactionService } from '../../transaction.service';
+import { AuthService } from 'src/app/init/auth.service'; 
 import labels from '../../../../labels/labels.json';
 import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-open-transaction-filters',
@@ -31,7 +31,7 @@ export class OpenTransactionFiltersComponent implements OnInit {
   }
   constructor(
     private authService: AuthService,
-    private transactionService: TransactionService,
+    private Api: ApiFuntions,
     private toastr: ToastrService
   ) {}
 
@@ -84,8 +84,8 @@ export class OpenTransactionFiltersComponent implements OnInit {
       wsid: this.userData.wsid,
     };
 
-    this.transactionService
-      .get(searchPayload, '/Admin/NextSuggestedTransactions', true)
+    this.Api
+      .NextSuggestedTransactions(searchPayload)
       .subscribe(
         (res: any) => {
           if (res && res.isExecuted) {

@@ -1,9 +1,9 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { CmConfirmAndPackingProcessTransactionComponent } from '../cm-confirm-and-packing-process-transaction/cm-confirm-and-packing-process-transaction.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-cm-confirm-and-packing-select-transaction',
@@ -22,7 +22,7 @@ export class CmConfirmAndPackingSelectTransactionComponent implements OnInit {
  confPackTransTable:any;
  contID:any;
  id:any;
- constructor(private http:ConsolidationManagerService,private authService: AuthService,
+ constructor(private Api:ApiFuntions,private authService: AuthService,
   private toast:ToastrService,private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any,
   public dialogRef: MatDialogRef<CmConfirmAndPackingSelectTransactionComponent>,) {
   this.userData = this.authService.userData();
@@ -42,7 +42,7 @@ export class CmConfirmAndPackingSelectTransactionComponent implements OnInit {
         "orderNumber": this.orderNumber,
         "itemNumber":this.itemNumber 
     };
-    this.http.get(Obj,'/Consolidation/ConfPackSelectDT').subscribe((response:any) => { 
+    this.Api.ConfPackSelectDT(Obj).subscribe((response:any) => { 
       this.confPackSelectTable = response.data;  
     });
   } 
@@ -71,7 +71,7 @@ openScanItem(ItemNumber:any,id: any) {
       userName: this.userData.userName,
       wsid: this.userData.wsid
     };
-    this.http.get(obj,'/Consolidation/ConfPackProcModalUpdate').subscribe((res:any) => {
+    this.Api.ConfPackProcModalUpdate(obj).subscribe((res:any) => {
   
       if (res.data == "Fail") {
         this.toast.error('An error has occurred', 'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});  

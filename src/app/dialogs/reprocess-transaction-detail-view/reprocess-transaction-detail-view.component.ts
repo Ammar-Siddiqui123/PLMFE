@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { ProcessPutAwayService } from 'src/app/induction-manager/processPutAway.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-reprocess-transaction-detail-view',
@@ -14,7 +14,7 @@ export class ReprocessTransactionDetailViewComponent implements OnInit {
   itemID:any;
   userData:any;
   constructor(
-    private service: ProcessPutAwayService,
+    private Api: ApiFuntions,
     private userService:AuthService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
@@ -64,8 +64,8 @@ export class ReprocessTransactionDetailViewComponent implements OnInit {
   getReprocessData() {
     let payLoad = { id: this.itemID, username: this.userData.userName, wsid: this.userData.wsid};
 
-    this.service
-      .get(payLoad, '/Induction/RPDetails')
+    this.Api
+      .RPDetails(payLoad)
       .subscribe((res: any) => {
         if (res && res.isExecuted) {
           let item=res.data;

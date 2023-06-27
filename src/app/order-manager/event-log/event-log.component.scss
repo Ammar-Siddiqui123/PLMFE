@@ -9,3 +9,7 @@ th,td{
     padding-left: 10px;
 }
 }
+
+input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+  }

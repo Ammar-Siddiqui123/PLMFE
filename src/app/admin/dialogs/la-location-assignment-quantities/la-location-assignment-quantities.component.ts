@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { LocationAssignmentService } from '../../location-assignment/location-assignment.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-la-location-assignment-quantities',
@@ -23,7 +23,7 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
              @Inject(MAT_DIALOG_DATA) public data: any,
-             private locationService: LocationAssignmentService,
+             private Api: ApiFuntions,
              private authservice : AuthService,
              public dialogRef: MatDialogRef<any>,
              private router: Router,
@@ -54,7 +54,7 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
 
   viewOrderSelection(event:any,index?){
     
-    this.locationService.getAll('/Admin/GetLocAssCountTable').subscribe((res:any)=>{
+    this.Api.GetLocAssCountTable().subscribe((res:any)=>{
       if(res.isExecuted){
         res.data.tabIndex = index
         this.dialogRef.close(res.data);  
@@ -70,12 +70,9 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
   }
 
   printShortage(){
-    let payload = {
-      "userName" : this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.locationService.get(payload,'/Admin/PreviewLocAssignmentPickShort').subscribe((res:any)=>{
-      this.listLabel = res.data; 
+    this.Api.PreviewLocAssignmentPickShort().subscribe((res:any)=>{
+      this.listLabel = res.data;
+      console.log(this.listLabel,'printshortage')
     })
   }
 
@@ -84,8 +81,9 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
       "userName" : this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.locationService.get(payload,'/Admin/PreviewLocAssignmentPickShortFPZ').subscribe((res:any)=>{
-      this.listLabelFPZ = res.data; 
+    this.Api.PreviewLocAssignmentPickShortFPZ().subscribe((res:any)=>{
+      this.listLabelFPZ = res.data;
+      console.log(this.listLabelFPZ,'print FPZ')
     })
   }
 

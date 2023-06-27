@@ -2,9 +2,9 @@ import { Component, OnInit , Inject} from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
 
 import { AuthService } from 'src/app/init/auth.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { TransactionService } from 'src/app/admin/transaction/transaction.service';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog'; 
 import { ToastrService } from "ngx-toastr";
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-om-change-priority',
@@ -22,7 +22,7 @@ export class OmChangePriorityComponent implements OnInit {
     public dialogRef: MatDialogRef<OmChangePriorityComponent>,
     private authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private transactionService: TransactionService,
+    private Api: ApiFuntions,
     private toastr: ToastrService
   ) { }
 
@@ -41,7 +41,7 @@ export class OmChangePriorityComponent implements OnInit {
       "priority": this.Newpriority
     }
 
-    this.transactionService.get(payload,'/Admin/UpdateOSPriority').subscribe((res: any) => {
+    this.Api.UpdateOSPriority(payload).subscribe((res: any) => {
       if(res.isExecuted){
         this.dialogRef.close(res);
       }
