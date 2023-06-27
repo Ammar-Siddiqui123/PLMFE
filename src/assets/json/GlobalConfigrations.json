@@ -113,7 +113,12 @@
     {
         "path": "/InductionManager/ProcessPicks",
         "Permission": "Induction Manager"
-    },    
+    },   
+    
+    {
+        "path": "/InductionManager/CompletePickBatch",
+        "Permission": "Induction Manager"
+    }, 
 
     {
         "path": "/InductionManager/ProcessPutAways",
