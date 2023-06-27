@@ -16,21 +16,22 @@
         <div class="row">
 
             <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
                     <mat-label>Start Date</mat-label>
-                    <input matInput [(ngModel)]="startDate" type="date" (change)="event($event)" [disabled]="ignoreDateRange">
+                    <input matInput [(ngModel)]="startDate" type="date" (change)="event($event)" [disabled]="ignoreDateRange" style="cursor: text;">
+                    
                 </mat-form-field>
             </div>
 
             <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
                     <mat-label>End Date</mat-label>
-                    <input matInput [(ngModel)]="endDate" type="date" (change)="event($event)" [disabled]="ignoreDateRange">
+                    <input matInput [(ngModel)]="endDate" type="date" (change)="event($event)" [disabled]="ignoreDateRange" style="cursor: text;">
                 </mat-form-field>
             </div>
 
             <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                     <mat-label>Message</mat-label>
                     <!-- <input matInput [(ngModel)]="message" maxlength="255" (keyup)="autocompleteSearchColumn()"> -->
 
@@ -51,7 +52,7 @@
             </div>
 
             <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                     <mat-label>Event Location</mat-label>
 
                     <!-- <input matInput [(ngModel)]="eventLocation" maxlength="255"> -->
@@ -77,7 +78,7 @@
         <div class="row">
 
             <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                     <mat-label>Event Code</mat-label>
 
                     <!-- <input matInput [(ngModel)]="eventCode" maxlength="255"> -->
@@ -99,7 +100,7 @@
                 </mat-form-field>
             </div>
             <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                     <mat-label>Event Type</mat-label>
 
                     <!-- <input matInput [(ngModel)]="eventType" maxlength="255"> -->
@@ -121,7 +122,7 @@
                 </mat-form-field>
             </div>
             <div class="col-xl-3">
-                <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
+                <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                     <mat-label>Username</mat-label>
 
                     <!-- <input matInput [(ngModel)]="userName" maxlength="50"> -->
