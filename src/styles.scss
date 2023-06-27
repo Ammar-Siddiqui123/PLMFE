@@ -1951,6 +1951,12 @@ button.default-btn {
   transition: 0.1s ease all !important;
 }
 
+.mat-nav-list .mat-list-item:focus-within {
+  background: #D6D6FD !important;
+  color: #000080 !important;
+  border-radius: 20px !important;
+  transition: 0.1s ease all !important;
+}
 .mat-nav-list .mat-list-item:focus-visible {
   background: #D6D6FD !important;
   color: #000080 !important;
@@ -1964,7 +1970,12 @@ button.default-btn {
   border-radius: 20px !important;
   transition: 0.1s ease all !important;
 }
-
+.mat-nav-list .mat-list-item:hover {
+  background: #D6D6FD !important;
+  color: #000080 !important;
+  border-radius: 20px !important;
+  transition: 0.1s ease all !important;
+}
 .prompt-icon-add {
   font-size: 38px;
   width: 66px;
