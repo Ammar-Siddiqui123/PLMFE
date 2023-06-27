@@ -1185,9 +1185,26 @@ public SelectToteTransManTable(body:any): Observable<any> {
   return this.ApiBase.Get(`/Induction/totetransmantable`,body);
 }
 
- 
- 
- 
+// -----------------------------De-Allocate Order API--------------------
+
+public AllocatedOrders(paylaod:any): Observable<any> {
+  return this.ApiBase.Get(`/Admin/allocatedorders`,paylaod);
+}
+public AllocatedItems(paylaod:any): Observable<any> {
+  return this.ApiBase.Get(`/Admin/allocateditems`,paylaod);
+}
+public AllAllocatedOrders(paylaod:any): Observable<any> {
+  return this.ApiBase.Get(`/Admin/allallocatedorders`,paylaod);
+}
+public OrderItemsTable(paylaod:any): Observable<any> {
+  return this.ApiBase.Get(`/Admin/orderitems`,paylaod);
+}
+public DeAllocateOrder(paylaod:any): Observable<any> {
+  return this.ApiBase.Post(`/Admin/deallocateorder`,paylaod);
+}
+
+// -----------------------------De-Allocate Order API--------------------
+
 
 public SaveTransaction(payload:any): Observable<any>{
   return this.ApiBase.Post(`/Admin/Transaction`, payload);

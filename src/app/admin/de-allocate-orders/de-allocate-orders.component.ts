@@ -14,6 +14,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { BaseService } from 'src/app/services/base-service.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-de-allocate-orders',
@@ -83,7 +84,7 @@ export class DeAllocateOrdersComponent implements OnInit {
   public searchedItemOrder: any = [];
 
   constructor(public authService: AuthService,
-    public adminService: BaseService,
+    private Api:ApiFuntions,
     private _liveAnnouncer: LiveAnnouncer,
     private toastr: ToastrService,
     private dialog: MatDialog,
@@ -109,7 +110,7 @@ export class DeAllocateOrdersComponent implements OnInit {
         "wsid": this.userData.wsid
       }
   
-      this.adminService.get(payload, '/Admin/AllocatedOrders').subscribe((res: any) => {
+      this.Api.AllocatedOrders(payload).subscribe((res: any) => {
         this.searchedItemOrder = res.data
       });
     }
@@ -119,7 +120,7 @@ export class DeAllocateOrdersComponent implements OnInit {
         "userName": this.userData.userName,
         "wsid": this.userData.wsid
       }
-      this.adminService.get(payload, '/Admin/AllocatedItems').subscribe((res: any) => {
+      this.Api.AllocatedItems(payload).subscribe((res: any) => {
         this.searchedItemOrder = res.data
       });
     }
@@ -135,7 +136,7 @@ export class DeAllocateOrdersComponent implements OnInit {
         "userName": this.userData.userName,
         "wsid": this.userData.wsid
       }
-      this.adminService.get(payload,'/Admin/AllAllocatedOrders').subscribe((res=>{
+      this.Api.AllAllocatedOrders(payload).subscribe((res=>{
 
         const orderNamesResponseObj = res.data.map((value, index) => {
      if(this.orderNumbersList.includes(value)){
@@ -175,7 +176,7 @@ export class DeAllocateOrdersComponent implements OnInit {
         "username": "1234",
         "wsid": "TESTWSID"
       }
-      this.adminService.get(payload,'/Admin/OrderItemsTable').subscribe((res=>{
+      this.Api.OrderItemsTable(payload).subscribe((res=>{
         res.data.openTransactions.forEach((item,i)=>{
           if(this.orderNumbersList.includes(item.orderNumber)){
             res.data.openTransactions[i].isDeallocate=true
@@ -209,7 +210,7 @@ export class DeAllocateOrdersComponent implements OnInit {
         "username": "1234",
         "wsid": "TESTWSID"
       }
-      this.adminService.get(payload,'/Admin/OrderItemsTable').subscribe((res=>{
+      this.Api.OrderItemsTable(payload).subscribe((res=>{
         res.data.openTransactions.forEach((item,i)=>{
           if(this.orderNumbersList.includes(item.orderNumber)){
             res.data.openTransactions[i].isDeallocate=true
@@ -278,7 +279,7 @@ export class DeAllocateOrdersComponent implements OnInit {
             "userName": this.userData.userName,
             "wsid": this.userData.wsid
           }
-          this.adminService.get(payload,'/Admin/DeAllocateOrder').subscribe((res=>{
+          this.Api.DeAllocateOrder(payload).subscribe((res=>{
             if(res.isExecuted){
               this.toastr.success("De-Allocated successfully", 'Success!', {
                 positionClass: 'toast-bottom-right',
@@ -317,7 +318,7 @@ export class DeAllocateOrdersComponent implements OnInit {
           "userName": this.userData.userName,
           "wsid": this.userData.wsid
         }
-        this.adminService.get(payload,'/Admin/DeAllocateOrder').subscribe((res=>{
+        this.Api.DeAllocateOrder(payload).subscribe((res=>{
           if(res.isExecuted){
             this.toastr.success("De-Allocated successfully", 'Success!', {
               positionClass: 'toast-bottom-right',
