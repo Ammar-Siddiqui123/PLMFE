@@ -22,6 +22,8 @@ import { MatOption } from '@angular/material/core';
 import { MarkToteFullComponent } from 'src/app/dialogs/mark-tote-full/mark-tote-full.component';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { ReelDetailComponent } from 'src/app/dialogs/reel-detail/reel-detail.component';
+import { ReelTransactionsComponent } from 'src/app/dialogs/reel-transactions/reel-transactions.component';
 
 
 export interface PeriodicElement {
@@ -1110,6 +1112,22 @@ export class ProcessPutAwaysComponent implements OnInit {
       });
     }
   } 
+
+  ReelDetailDialogue() {
+    const dialogRef = this.dialog.open(ReelDetailComponent, {
+      height: 'auto',
+      width: '932px',
+      autoFocus: '__non_existing_element__',
+    });
+  }
+
+  ReelTransactionsDialogue() {
+    const dialogRef = this.dialog.open(ReelTransactionsComponent, {
+      height: 'auto',
+      width: '932px',
+      autoFocus: '__non_existing_element__',
+    });
+  }
 
   }
 

@@ -227,7 +227,10 @@ export class ApiFuntions {
     return this.ApiBase.Post("/GlobalConfig/startccsif",{});
   }
   public GeneralPreferenceSave(body:any):  Observable<any> {
-    return this.ApiBase.Post("/GlobalConfig/generalpreference",body);
+    return this.ApiBase.Post("/Admin/generalpreference",body);
+  }
+  public ordersort(): Observable<any> { 
+    return this.ApiBase.Get("/Admin/ordersort");
   }
   public OSFieldFilterNames(): Observable<any> { 
     return this.ApiBase.Get("/Admin/OSFieldFilterNames");
