@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { CpbBlossomToteComponent } from 'src/app/dialogs/cpb-blossom-tote/cpb-blossom-tote.component';
@@ -26,7 +26,7 @@ export class CompletePickBatchComponent implements OnInit {
   @ViewChild('ToteId') ToteIdField: ElementRef;
   sortColumn: number = 1;
   SortOrder: string = "asc";
-  startRow:number = 0;
+  startRow:number = 1;
   endRow:number = 10;
   totalTransactions: number = 0;
 
@@ -224,9 +224,13 @@ export class CompletePickBatchComponent implements OnInit {
     console.log(e);
     this.sortColumn = this.sortColumns.filter((item: any) => item.tabelColName == e.active)[0].sortColumnNumber;
     this.SortOrder = e.direction;
+    this.startRow = 1;
+    this.endRow = 10;
+    this.paginator.pageIndex = 0;
     this.pickBatchTransactionTable();
   }
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   handlePageEvent(e: PageEvent) {
     this.startRow =  e.pageSize*e.pageIndex
     this.endRow =  (e.pageSize*e.pageIndex + e.pageSize)
