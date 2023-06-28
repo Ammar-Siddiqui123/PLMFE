@@ -17,7 +17,7 @@
                     <div class="card p-4 mb-3">
                         <mat-form-field class="custom-form-field clear-btn-init w-100 mb-3" appearance="outline">
                             <mat-label>Batch ID</mat-label>
-                            <input matInput type="text" [(ngModel)]="batchId" (keyup)="BatchPickIDKeyup($event)">
+                            <input matInput type="text" [(ngModel)]="batchId" (keyup)="BatchPickIDKeyup($event)" #BatchId>
                             <button matSuffix class="clear-btn">
                                 <mat-icon class="text-20 text-chrome-600" (click)="clearScreen()">cancel</mat-icon>
                             </button>
@@ -30,7 +30,7 @@
                     <div class="card p-4">
                         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                             <mat-label>Tote ID</mat-label>
-                            <input matInput type="text" [(ngModel)]="toteId" (keyup)="ToteIDKeyup($event)">
+                            <input matInput type="text" [(ngModel)]="toteId" (keyup)="ToteIDKeyup($event)" #ToteId>
                         </mat-form-field>
                         <button mat-flat-button class="form-button-submit w-100" color="primary"
                             (click)="CpbBlossomToteDialogue()" [disabled]="!blossomToteEnable">Blossom Tote</button>

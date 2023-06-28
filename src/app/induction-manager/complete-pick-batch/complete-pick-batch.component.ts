@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -16,12 +16,13 @@ export class CompletePickBatchComponent implements OnInit {
   displayedColumns: string[] = ['order_no', 'tote_id', 'item_number', 'description', 'transaction_qty', 'location', 'zone','carousel','row','shelf','bin', 'action'];
   tableData: any = [];
   dataSourceList: any;
-
   batchId: string = "";
   toteId: string = "";
   showToteCol: boolean = false;
   completeBatchEnable: boolean = false;
   blossomToteEnable: boolean = false;
+  @ViewChild('BatchId') BatchIdField: ElementRef;
+  @ViewChild('ToteId') ToteIdField: ElementRef;
 
   constructor(
     private dialog: MatDialog,
@@ -30,6 +31,12 @@ export class CompletePickBatchComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit() {
+    setTimeout(()=>{
+      this.BatchIdField.nativeElement.focus();  
+    }, 500);
   }
 
   BatchPickIDKeyup(event: any) {
@@ -68,9 +75,11 @@ export class CompletePickBatchComponent implements OnInit {
           if (this.toteId != "") {
             this.blossomToteEnable = true;
           }
-          // else{
-          //   $('#ToteID').focus();
-          // }
+          else{
+            setTimeout(()=>{
+              this.ToteIdField.nativeElement.focus();  
+            }, 500);
+          }
         }
         else {
           if (this.batchId != "" && this.toteId == "") {

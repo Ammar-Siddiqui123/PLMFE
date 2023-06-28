@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -16,6 +16,7 @@ export class CpbBlossomToteComponent implements OnInit {
   transactions: any = [];
   newToteID: any = "";
   submitBlossomEnable = false;
+  @ViewChild('NewToteID') NewToteIDField: ElementRef;
 
 
   constructor(
@@ -40,6 +41,12 @@ export class CpbBlossomToteComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    setTimeout(()=>{
+      this.NewToteIDField.nativeElement.focus();  
+    }, 500);
+  }
+
   newToteIdFocusOut() {
     if (this.newToteID != "") {
       this.Api.ValidateTote({ toteID: this.newToteID }).subscribe((res: any) => {
@@ -47,6 +54,7 @@ export class CpbBlossomToteComponent implements OnInit {
           this.submitBlossomEnable = true;
         }
         else {
+          this.newToteID = "";
           this.submitBlossomEnable = false;
           this.toastr.error("This tote is currently assigned to another open order", 'Invalid Tote', {
             positionClass: 'toast-bottom-right',
