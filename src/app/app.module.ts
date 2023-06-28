@@ -84,6 +84,8 @@ import { ApiFuntions } from './services/ApiFuntions';
 import { BaseService } from './services/base-service.service';
 import { ShortTransactionComponent } from './dialogs/short-transaction/short-transaction.component';
 import { CpbBlossomToteComponent } from './dialogs/cpb-blossom-tote/cpb-blossom-tote.component';
+import { ReelDetailComponent } from './dialogs/reel-detail/reel-detail.component';
+import { ReelTransactionsComponent } from './dialogs/reel-transactions/reel-transactions.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -153,6 +155,8 @@ import { CpbBlossomToteComponent } from './dialogs/cpb-blossom-tote/cpb-blossom-
     FrNumpadComponent,
     ShortTransactionComponent,
     CpbBlossomToteComponent,
+    ReelDetailComponent,
+    ReelTransactionsComponent,
     // ActionDisableDirective,
   ],
   imports: [
