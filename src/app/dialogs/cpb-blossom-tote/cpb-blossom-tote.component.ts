@@ -97,7 +97,7 @@ export class CpbBlossomToteComponent implements OnInit {
       if (result == 'Yes') {
         this.Api.blossomTote(payload).subscribe((res: any) => {
           if(res.isExecuted){
-            this.dialogRef.close(this.newToteID);
+            this.dialogRef.close({newToteID:this.newToteID});
           }
           else{
             this.toastr.error("An error occured when blossoming this tote", 'Error', {

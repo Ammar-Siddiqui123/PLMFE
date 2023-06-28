@@ -112,7 +112,7 @@ export class CompletePickBatchComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+      if (typeof result === 'object' && result !== null) {
         this.pickBatchTransactionTable();
       }
     });
@@ -129,8 +129,8 @@ export class CompletePickBatchComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.toteId = result;
+      if (typeof result === 'object' && result !== null) {
+        this.toteId = result.newToteID;
         this.pickBatchTransactionTable();
       }
     });

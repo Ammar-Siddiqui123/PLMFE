@@ -46,7 +46,7 @@ export class ShortTransactionComponent implements OnInit {
           }
           this.Api.shortTransaction(payload).subscribe((res: any) => {
             if (res.isExecuted) {
-              this.dialogRef.close(res.data);
+              this.dialogRef.close(res);
             }
             else {
               this.toastr.error("An error occured when shorting this transaction", 'Error', {
