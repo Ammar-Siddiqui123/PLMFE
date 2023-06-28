@@ -42,7 +42,7 @@ export class CpbBlossomToteComponent implements OnInit {
 
   newToteIdFocusOut() {
     if (this.newToteID != "") {
-      this.Api.validateTotesForPutAways({ ToteID: this.newToteID }).subscribe((res: any) => {
+      this.Api.ValidateTote({ toteID: this.newToteID }).subscribe((res: any) => {
         if (res.isExecuted && res.data != "") {
           this.submitBlossomEnable = true;
         }

@@ -1310,9 +1310,6 @@ public completePickBatch(body:any): Observable<any> {
 public shortTransaction(body:any): Observable<any> { 
   return this.ApiBase.Update("/induction/shorttransaction",body);
 }
-public validateTotesForPutAways(body:any): Observable<any> { 
-  return this.ApiBase.Get("/induction/validatetotesforputaways",body);
-}
 public blossomTote(body:any): Observable<any> { 
   return this.ApiBase.Update("/induction/blossomtote",body);
 }
