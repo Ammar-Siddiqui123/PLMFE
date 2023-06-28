@@ -150,7 +150,7 @@ export class DeAllocateOrdersComponent implements OnInit {
       }))
       
   }
-
+  dublicateTransaction 
 
   orderItemTable(e?,isPagination=false){
 // debugger
@@ -212,14 +212,17 @@ export class DeAllocateOrdersComponent implements OnInit {
       }
       this.Api.OrderItemsTable(payload).subscribe((res=>{
         res.data.openTransactions.forEach((item,i)=>{
+          // debugger
           if(this.orderNumbersList.includes(item.orderNumber)){
             res.data.openTransactions[i].isDeallocate=true
           }else{
             res.data.openTransactions[i].isDeallocate=false
           }
         })
+
         
         this.orderItemTransactions.data = res.data.openTransactions
+        this.dublicateTransaction =  res.data.openTransactions
         this.pageLength= res.data.recordsTotal
         // this.resetpaginationOrder()
         
@@ -253,6 +256,7 @@ export class DeAllocateOrdersComponent implements OnInit {
     else{
       this.orderItemTransactions.data = []
       this.pageLength= 0
+      this.dublicateTransaction = []
       // this.resetpaginationOrder()
     }
 
@@ -273,7 +277,6 @@ export class DeAllocateOrdersComponent implements OnInit {
       dialogRef.afterClosed().subscribe((res) => {
         if (res === 'Yes') {
           let deallocate = this.orderNumbersList.toString()
-          console.log(deallocate)
           let payload = {
             "orderNumber": deallocate,
             "userName": this.userData.userName,
@@ -378,8 +381,14 @@ export class DeAllocateOrdersComponent implements OnInit {
   }
   dataChange(event){
     if(event.value==='spec'){
-      this.orderItemTransactions.data=[];
-      this.pageLength= 0
+
+      if(this.dublicateTransaction.length!=0){
+        this.orderItemTransactions.data = this.dublicateTransaction
+      }
+      else{
+        this.orderItemTransactions.data = []
+        this.pageLength= 0
+      }
     this.onViewOrder = true;
       this.isOrderSelected=true;
     }else{
@@ -466,7 +475,6 @@ export class DeAllocateOrdersComponent implements OnInit {
   }
   
   resetpaginationTransaction(){
-    console.log(this.pageLength);
     this.startRowTransaction = 0;
     this.endRowTransaction = 10;
     this.recordsPerPageTransaction = 10;
