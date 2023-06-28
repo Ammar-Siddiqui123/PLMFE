@@ -1,0 +1,12 @@
+table{
+    tr{
+        &:first-child{
+            td{
+                padding-top: 10px;
+            }
+        }
+        td{
+            padding-bottom: 10px;
+        }
+    }
+}

@@ -136,18 +136,19 @@ export class DetailComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      // if(result.category!='' && result!=true)
-      // {
+        if(result.category!='' && result!=true)
+       {
+        debugger
         this.details.patchValue({        
           'category': result.category      
         });
-      // }
-      // if(result.subCategory!='' && result!=true)
-      // {
+      }
+        if(result.subCategory!='' && result!=true)
+        {
         this.details.patchValue({            
           'subCategory': result.subCategory,        
         });
-      // }
+      }
       
       this.sharedService.updateInvMasterState(result,true)
     })
