@@ -25,6 +25,8 @@ export class CompletePickBatchComponent implements OnInit {
   @ViewChild('ToteId') ToteIdField: ElementRef;
   sortColumn: number = 1;
   SortOrder: string = "asc";
+  startRow:number = 1;
+  endRow:number = 10;
 
   constructor(
     private dialog: MatDialog,
@@ -58,8 +60,8 @@ export class CompletePickBatchComponent implements OnInit {
   pickBatchTransactionTable() {
     let payload: any = {
       ToteID: this.toteId,
-      StartRow: 1,
-      EndRow: 10,
+      StartRow: this.startRow,
+      EndRow: this.endRow,
       SortColumn: this.sortColumn,
       SortOrder: this.SortOrder
     };
