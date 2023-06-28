@@ -68,6 +68,7 @@ EmployeeLookUp(LastName:any = "",IsLoader=true){
 
   public clear() {
     this.searchVal = '';
+    this.EmployeeLookUp();
   }
 
   applyFilter(event: Event) {

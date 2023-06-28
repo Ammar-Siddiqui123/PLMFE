@@ -133,6 +133,14 @@ bpSettingLocInp='';
   clearMatSelectList(){
     this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
+
+  clear(){
+    this.bpSettingLocInp='';
+this.reloadData();
+  }
+  clearZones(){
+    this.bpSettingInp='';
+  }
 getgroupAllowedList(){
   var payload:any = { 
     "UserName": this.empData.username,
