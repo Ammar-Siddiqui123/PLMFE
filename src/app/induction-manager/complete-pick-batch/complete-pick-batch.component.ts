@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { CpbBlossomToteComponent } from 'src/app/dialogs/cpb-blossom-tote/cpb-blossom-tote.component';
@@ -25,8 +26,9 @@ export class CompletePickBatchComponent implements OnInit {
   @ViewChild('ToteId') ToteIdField: ElementRef;
   sortColumn: number = 1;
   SortOrder: string = "asc";
-  startRow:number = 1;
+  startRow:number = 0;
   endRow:number = 10;
+  totalTransactions: number = 0;
 
   constructor(
     private dialog: MatDialog,
@@ -74,6 +76,7 @@ export class CompletePickBatchComponent implements OnInit {
         this.blossomToteEnable = false;
         this.showToteCol = false;
         if (res.data.length > 0) {
+          this.totalTransactions = res.data[0].totalCount;
           this.showToteCol = true;
           this.completeBatchEnable = true;
           if (this.toteId != "") {
@@ -221,6 +224,12 @@ export class CompletePickBatchComponent implements OnInit {
     console.log(e);
     this.sortColumn = this.sortColumns.filter((item: any) => item.tabelColName == e.active)[0].sortColumnNumber;
     this.SortOrder = e.direction;
+    this.pickBatchTransactionTable();
+  }
+
+  handlePageEvent(e: PageEvent) {
+    this.startRow =  e.pageSize*e.pageIndex
+    this.endRow =  (e.pageSize*e.pageIndex + e.pageSize)
     this.pickBatchTransactionTable();
   }
 }
