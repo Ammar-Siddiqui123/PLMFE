@@ -35,7 +35,7 @@
                                     </span>
                                     <input (input)="scanCodesList[i].isDisabled=false" readonly
                                         class="__grab_cursor readonly" matInput type="text" name="{{element.scanType}}"
-                                        value="{{element.scanType}}" maxlength="50" #scanType />
+                                        [(ngModel)]="element.scanType"  maxlength="50" #scanType />
                                 </mat-form-field>
                         </td>
                     </ng-container>
@@ -43,7 +43,7 @@
                         <th mat-header-cell *matHeaderCellDef> Scan Range </th>
                         <td mat-cell *matCellDef="let element; let i = index">
                             <mat-form-field class="custom-form-field w-100" style="padding-right: 15px;" appearance="outline">
-                                <mat-select value="{{element.scanRange}}" #scanRange [(ngModel)]="element.scanRange"
+                                <mat-select [(ngModel)]="element.scanRange"  #scanRange  
                                     (selectionChange)="changeScanRange(element)">
                                     <mat-option *ngFor="let val of scanRangeList" [value]="val">{{val}}</mat-option>
                                 </mat-select>
@@ -57,7 +57,7 @@
                                 <input (keypress)="numberOnly($event)"
                                     (input)="scanCodesList[i].isDisabled=false;handleInputChange($event)"
                                     (keydown.shift.enter)="$event.preventDefault()" matInput type="number"
-                                    name="{{element.startPosition}}" value="{{element.startPosition}}" #startPosition
+                                    name="{{element.startPosition}}" [(ngModel)]="element.startPosition" #startPosition
                                     pattern="^[0-9]*$" maxlength="9">
                             </mat-form-field>
                         </td>
@@ -69,7 +69,8 @@
                                 <input (keypress)="numberOnly($event)"
                                     (input)="scanCodesList[i].isDisabled=false;handleInputChange($event)"
                                     (keydown.shift.enter)="$event.preventDefault()" matInput type="number"
-                                    name="{{element.codeLength}}" value="{{element.codeLength}}" #codeLength
+                                    name="{{element.codeLength}}" 
+                                    [(ngModel)]="element.codeLength" #codeLength
                                     
                                     pattern="^[0-9]*$" maxlength="9">
                             </mat-form-field>
@@ -77,11 +78,11 @@
                     </ng-container>
                     <ng-container matColumnDef="Actions" stickyEnd>
                         <th mat-header-cell *matHeaderCellDef class="ps-2"> Actions </th>
-                        <td mat-cell *matCellDef="let element" class="ps-2">
+                        <td mat-cell *matCellDef="let element; let i = index" class="ps-2">
                             <div class="d-flex gap-12 align-items-center">
                                 <button mat-flat-button color="primary" class="xsm-icon-button"
                                     [disabled]="element.isDisabled"
-                                    (click)="saveCategory(element , element.scanCode, element.startPosition.toString(), element.codeLength.toString(), element.scanRange, element.scanType)">
+                                    (click)="saveCategory(element , element.scanCode, element.startPosition.toString(), element.codeLength.toString(), element.scanRange, element.scanType,i)">
                                     <mat-icon class="material-symbols-outlined">save</mat-icon>
                                 </button>
                                 <button mat-flat-button color="warn" class="xsm-icon-button"

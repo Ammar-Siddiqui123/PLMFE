@@ -211,7 +211,6 @@ export class FlowrackReplenishmentComponent implements OnInit {
   }
 
   onLocationSelected(location) {
-    debugger
     let payload = {
       "itemNumber": this.itemnumscan,
       "Input": this.itemLocation,
@@ -250,7 +249,7 @@ export class FlowrackReplenishmentComponent implements OnInit {
    
     });
     dialogRef.afterClosed().subscribe((result) => { 
-      this.itemQty = !result ? this.itemQty : result;
+      this.itemQty = !result ? '' : result;
       this.submitBtnDisplay = !this.itemQty ? true : false;
       this.autocompleteTrigger.closePanel()
       setTimeout(() => {

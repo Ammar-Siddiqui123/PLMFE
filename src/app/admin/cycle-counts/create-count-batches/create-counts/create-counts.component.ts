@@ -318,6 +318,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.fillData();
   }
   getTypeAheads(type) {
+    debugger
     if (type === 'Description') {
       let paylaod = {
         description: this.filtersForm.value.description,
@@ -377,10 +378,10 @@ export class CCBCreateCountsComponent implements OnInit {
         });
     } else if (type === 'FromLocation') {
       let payload = {
-        query: this.filtersForm.value.fromLocation,
-        unique: true,
-        username: this.userData.userName,
-        wsid: this.userData.wsid,
+        Query: this.filtersForm.value.fromLocation,
+        Unique: true,
+        Username: this.userData.userName,
+        WSID: this.userData.wsid,
       };
       this.Api
         .LocationBegin(payload)
@@ -389,11 +390,11 @@ export class CCBCreateCountsComponent implements OnInit {
         });
     } else if (type === 'ToLocation') {
       let payload = {
-        query: this.filtersForm.value.toLocation,
-        beginLocation: this.filtersForm.value.fromLocation,
-        unique: true,
-        username: this.userData.userName,
-        wsid: this.userData.wsid,
+        Query: this.filtersForm.value.toLocation,
+        BeginLocation: this.filtersForm.value.fromLocation,
+        Unique: true,
+        Username: this.userData.userName,
+        WSID: this.userData.wsid,
       };
       this.Api
         .LocationEnd(payload)
@@ -542,9 +543,8 @@ export class CCBCreateCountsComponent implements OnInit {
   // function to fill data to the data table with mattabledata by calling API with payload using admin services with get method
   // and then assign the response to the dataSource variable with check type of response and if there is response.data and isExecuted is true else add error toast
   // handle with try catch
-  fillData() {
-    const payload = {
-      queryData: {
+  fillData() { 
+      const  queryData:any =  {
         fromLocation: this.filtersForm.value.fromLocation
           ? this.filtersForm.value.fromLocation
           : '',
@@ -553,7 +553,7 @@ export class CCBCreateCountsComponent implements OnInit {
           : '',
         includeEmpty: this.filtersForm.value.includeEmpty,
         includeOther: this.filtersForm.value.includeOther,
-        countType: this.selection ? this.selection : 'Description',
+        CountType: this.selection ? this.selection : 'Description',
         fromItem: this.filtersForm.value.fromItem
           ? this.filtersForm.value.fromItem
           : '',
@@ -594,11 +594,8 @@ export class CCBCreateCountsComponent implements OnInit {
         costEnd: this.filtersForm.value.costEnd,
         // warehouseFilter: this.filtersForm.value.warehouse,
         warehouseFilter: this.warehouse,
-      },
-      userName: this.userData.userName,
-      wsid: this.userData.wsid,
-    };
-    this.Api.BatchResultTable(payload).subscribe(
+      } ;  
+    this.Api.BatchResultTable(queryData).subscribe(
       (res: any) => {
         if (res && res.data && res.isExecuted) {
           this.dataSource = new MatTableDataSource(res.data);

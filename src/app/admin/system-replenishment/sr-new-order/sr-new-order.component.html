@@ -60,7 +60,7 @@
                 <div class="d-xl-flex gap-12 align-items-center flex-wrap">
                     <mat-form-field class="action-dropdown d-xl-flex d-block mb-3 mb-xl-0" appearance="outline">
                         <mat-label>Search</mat-label>
-                        <mat-select class="employees-action" (selectionChange)="searchChange($event.value)" >
+                        <mat-select class="employees-action" (selectionChange)="searchChange($event.value)" [(ngModel)]="tablePayloadObj.searchColumn">
                             <mat-option value=""></mat-option>
                             <mat-option *ngFor="let option of searchColumnOptions" [value]="option.value">{{option.viewValue}}</mat-option>
                         </mat-select>
@@ -118,8 +118,8 @@
                     <mat-select class="employees-action">
                         <mat-option value="1" [disabled]="tableData.length == 0" (click)="actionChange('1')">Filter Item No.</mat-option>
                         <mat-option value="2" (click)="actionChange('2')">Print</mat-option>
-                        <mat-option value="3" [disabled]="tableData.length == 0" (click)="actionChange('3')">View All Items</mat-option>
-                        <mat-option value="4" [disabled]="tableData.length == 0" (click)="actionChange('4')">View Selected Items</mat-option>
+                        <mat-option value="3" [disabled]="!this.newOrderListCreated" (click)="viewAllItems()">View All Items</mat-option>
+                        <mat-option value="4" [disabled]="!this.newOrderListCreated" (click)="viewSelectedItems()">View Selected Items</mat-option>
                         <mat-option value="5" [disabled]="tableData.length == 0" (click)="actionChange('5')">Select All</mat-option>
                         <mat-option value="6" [disabled]="tableData.length == 0 || numberSelectedRep == 0" (click)="actionChange('6')">Unselect All</mat-option>
                     </mat-select>
@@ -261,7 +261,7 @@
 
                     </ng-container>
                     
-                    <tr class="mat-row" *matNoDataRow>
+                    <tr class="mat-row" *matNoDataRow (contextmenu)="onContextMenu($event, undefined, '')">
                         <td class="mat-cell " [attr.colspan]="displayedColumns.length">
                           No data available in table.
                         </td>
