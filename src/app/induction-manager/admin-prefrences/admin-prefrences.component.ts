@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -17,6 +17,10 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./admin-prefrences.component.scss'],
 })
 export class AdminPrefrencesComponent implements OnInit {
+
+  @ViewChild('myInput') myInput: ElementRef<HTMLInputElement>;
+  @ViewChild('maxNumber') maxNumber: ElementRef<HTMLInputElement>;
+  
   public userData: any;
   preferencesForm: FormGroup;
   trackIndIsDisable = false;
@@ -498,4 +502,34 @@ export class AdminPrefrencesComponent implements OnInit {
       });
     }
   }
+
+
+  restrictTo10Digits(): void {
+    const inputElement = this.myInput.nativeElement;
+    let value = inputElement.value.replace(/\D/g, ''); // Remove non-digit characters
+    if (parseInt(value) > 2147483647) {
+      value = value.substr(0, 10);
+    } else {
+      value = value.substr(0, 10);
+    }
+    // if (value === '') {
+    //   value = '0';
+    // }
+    inputElement.value = value;
+  }
+
+  restrictTo309Digits(event: KeyboardEvent): void {
+    const inputElement = this.maxNumber.nativeElement;
+    let value = inputElement.value.replace(/\D/g, ''); // Remove non-digit characters
+    if (parseInt(value) > 2147483647) {
+      value = value.substr(0, 309);
+    } else {
+      value = value.substr(0, 309);
+    }
+    // if (value === '') {
+    //   value = '0';
+    // }
+    inputElement.value = value;
+  }
+
 }

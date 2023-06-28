@@ -211,6 +211,7 @@ export class AddNewTransactionToOrderComponent implements OnInit {
       );
   }
   saveTransaction() {
+    debugger
     if(this.itemNumber===''  || this.quantity===0 || this.quantity<0){
       const dialogRef = this.dialog.open(EmptyFieldsComponent, {
         height: 'auto',
@@ -265,11 +266,8 @@ export class AddNewTransactionToOrderComponent implements OnInit {
       payload['itemNum'] = this.data.item.itemNumber;
       payload['id'] = this.data.item.id;
     }
-    this.data && this.data.mode === 'add-trans'
-            ? this.Api.TransactionForOrderInsert(payload) :
-            this.Api.TransactionForOrderUpdate(payload)
-    
-      .subscribe(
+    if(this.data && this.data.mode === 'add-trans'){
+      this.Api.TransactionForOrderInsert(payload).subscribe(
         (res: any) => {
           if (res.isExecuted) {
             this.toastr.success(labels.alert.success, 'Success!', {
@@ -293,6 +291,34 @@ export class AddNewTransactionToOrderComponent implements OnInit {
           this.dialogRef.close({ isExecuted: false });
         }
       );
+    } else{
+      this.Api.TransactionForOrderUpdate(payload).subscribe(
+        (res: any) => {
+          if (res.isExecuted) {
+            this.toastr.success(labels.alert.success, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+            this.dialogRef.close({ isExecuted: true,orderNumber:this.orderNumber });
+          } else {
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+            this.dialogRef.close({ isExecuted: false });
+          }
+        },
+        (error) => {
+          this.toastr.error('something went wrong!', 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+          this.dialogRef.close({ isExecuted: false });
+        }
+      );
+    } 
+    
+      
   }
 
   ngOnDestroy() {

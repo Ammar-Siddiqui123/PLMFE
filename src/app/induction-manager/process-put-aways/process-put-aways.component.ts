@@ -43,6 +43,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   licAppData;
   rowSelected = false;
   isViewTote = true;
+  public ifAllowed: boolean = false
   public userData: any;
   public cellSize = '0';
   public batchId = '';
@@ -130,6 +131,19 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.autocompleteSearchColumnItem();
         }
       });
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onbeforeunload(event) {
+    if (this.ifAllowed) {
+      event.preventDefault();
+      event.returnValue = false;
+    }
+  }
+
+  @HostListener('click')
+  documentClick(event: MouseEvent) {
+    this.ifAllowed = true
   }
 
   clearFormAndTable() {

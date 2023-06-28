@@ -161,6 +161,10 @@ import { WpPodSetupComponent } from './admin-preferences/workstation-preferences
 import { BasicReportsAndLabelsComponent } from './reports/basic-reports-and-labels/basic-reports-and-labels.component';
 import { CustomReportsAndLabelsComponent } from './reports/custom-reports-and-labels/custom-reports-and-labels.component';
 import { AddNotesComponent } from './dialogs/add-notes/add-notes.component';
+import { WpPickLevelsComponent } from './admin-preferences/workstation-preferences/wp-pick-levels/wp-pick-levels.component';
+import { WpCustomAppsComponent } from './admin-preferences/workstation-preferences/wp-custom-apps/wp-custom-apps.component';
+import { WpMiscellaneousSettingsComponent } from './admin-preferences/workstation-preferences/wp-miscellaneous-settings/wp-miscellaneous-settings.component';
+import { WpSortBarSetupComponent } from './admin-preferences/workstation-preferences/wp-sort-bar-setup/wp-sort-bar-setup.component';
 
 
 
@@ -312,6 +316,10 @@ import { AddNotesComponent } from './dialogs/add-notes/add-notes.component';
     BasicReportsAndLabelsComponent,
     CustomReportsAndLabelsComponent,
     AddNotesComponent,
+    WpPickLevelsComponent,
+    WpCustomAppsComponent,
+    WpMiscellaneousSettingsComponent,
+    WpSortBarSetupComponent,
 
   ],
   imports: [

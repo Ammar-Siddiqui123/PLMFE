@@ -18,4 +18,27 @@
 <body id="pickpro" class="pickpro">
   <app-root></app-root>
 </body>
+<script>
+
+
+//   On unload or Refresh, store unload time if unloads more than 3 seconds auto logout to maintain closing tab and open app again to relogin
+// REF PLM-1716 
+ window.onbeforeunload = function (e) {
+window.localStorage.unloadTime = JSON.stringify(new Date());
+};
+
+window.onload = function () {
+let loadTime = new Date();
+let unloadTime = new Date(JSON.parse(window.localStorage.unloadTime));
+let refreshTime = loadTime.getTime() - unloadTime.getTime();
+
+if(refreshTime>3000)//3000 milliseconds
+{
+window.localStorage.clear();
+location.reload();
+// localStorage.clear();
+}
+
+};
+</script>
 </html>

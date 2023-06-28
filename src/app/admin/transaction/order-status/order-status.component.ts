@@ -71,20 +71,5 @@ export class OrderStatusComponent implements OnInit {
   onClearList(event: Event) {
     this.clearFromList = event;
   }
-  // async autocompleteSearchColumn() {
-  //   let searchPayload = {
-  //     orderNumber: '',
-  //     username:this.userData.userName,
-  //     wsid: this.userData.wsid,
-  //   };
-  //   this.transactionService
-  //     .get(searchPayload, '/Admin/OrderNumberNext')
-  //     .subscribe(
-  //       (res: any) => {
-  //       this.orderStatusNext=res && res.data
-
-  //       },
-  //       (error) => {}
-  //     );
-  // }
+  
 }

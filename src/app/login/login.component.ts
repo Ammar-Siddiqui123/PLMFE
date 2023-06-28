@@ -59,6 +59,7 @@ enterUserName(){
   loginUser() {
     this.loader.show();
     this.addLoginForm.username = this.addLoginForm.username?.replace(/\s/g, "")||null;
+    this.addLoginForm.password = this.addLoginForm.password?.replace(/\s/g, "")||null;
     this.login = this.addLoginForm;
     const workStation:any = JSON.parse(localStorage.getItem('workStation') || '');
     this.login.wsid = workStation.workStationID;
@@ -120,7 +121,7 @@ enterUserName(){
 
 
   ngOnInit() {
-    
+
     this.version = packJSON.version;
     localStorage.clear();
     if(this.auth.IsloggedIn()){

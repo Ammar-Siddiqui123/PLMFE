@@ -23,13 +23,13 @@ export class ApiFuntions {
     return  this.ApiBase.Get("/Admin/employee/lookup",payload);
   } 
   public Controlname(payload:any) {
-    return  this.ApiBase.Get("/Admin/employee/controlname",payload);
+    return  this.ApiBase.Get("/Admin/controlname",payload);
   }
   public  Groupname(payload:any) {
-    return  this.ApiBase.Get("/Admin/employee/groupname",payload);
+    return  this.ApiBase.Get("/Admin/groupname",payload);
   } 
-  public  Groupnames() {
-    return  this.ApiBase.Get("/Admin/employee/groupnames");
+  public  Groupnames(body:any) {
+    return  this.ApiBase.Get("/Admin/groupnames",body);
   }
   public Employee(payload:any) {
     return  this.ApiBase.Post("/Admin/employee",payload);
@@ -266,16 +266,16 @@ export class ApiFuntions {
     return this.ApiBase.Post("/Admin/cyclecountqueue",Body);
   }
   public BatchResultTable(Body:any): Observable<any> { 
-    return this.ApiBase.Get("/Admin/batchresult",Body);
+    return this.ApiBase.Post("/Admin/batchresult",Body);
   }
   public GetCountBatches(): Observable<any> { 
     return this.ApiBase.Get("/Admin/countbatches");
   }
   public LocationEnd(body:any): Observable<any> { 
-    return this.ApiBase.Get("/Admin/locationend",body);
+    return this.ApiBase.Get("/Common/locationend",body);
   }
   public LocationBegin(body:any): Observable<any> { 
-    return this.ApiBase.Get("/Admin/locationbegin",body);
+    return this.ApiBase.Get("/Common/locationbegin",body);
   }
   public GetCCCountToCostTypeAhead(body:any): Observable<any> { 
     return this.ApiBase.Get("/Admin/cccounttocosttypeahead",body);
@@ -299,7 +299,7 @@ export class ApiFuntions {
     return this.ApiBase.Delete("/common/scancodetype",body);
   }
   public DeleteKit(body:any): Observable<any> { 
-    return this.ApiBase.Post("/common/kitdelete",body);
+    return this.ApiBase.Post("/Admin/kitdelete",body);
   }
   public InsertKit(body:any): Observable<any> { 
     return this.ApiBase.Post("/Admin/kit",body);
@@ -335,7 +335,7 @@ export class ApiFuntions {
     return this.ApiBase.Update("/OrderManager/preferences",Body);
   }
   public EventLogTable(Body:any): Observable<any> { 
-    return this.ApiBase.Get("/Admin/eventlog",Body);
+    return this.ApiBase.Post("/Admin/eventlog",Body);
   }
   public EventLogTypeAhead(Body:any): Observable<any> { 
     return this.ApiBase.Get("/Admin/eventlogtypeahead",Body);
@@ -423,7 +423,7 @@ export class ApiFuntions {
     return this.ApiBase.Get("/Induction/processputawayindex");
   }
   public ProcessBatch(body:any): Observable<any> { 
-    return this.ApiBase.Post("/Induction/reqdatedata",body);
+    return this.ApiBase.Post("/Induction/processbatch",body);
   }
   public ValidateTotesForPutAways(body:any): Observable<any> { 
     return this.ApiBase.Get("/Induction/validatetotesforputaways",body);
@@ -553,7 +553,7 @@ export class ApiFuntions {
     return this.ApiBase.Get("/Admin/systemreplenishmentcount",body);
   }   
   public FiltersItemNumInsert(body:any): Observable<any> { 
-    return this.ApiBase.Get("/Admin/filtersitemnum",body);
+    return this.ApiBase.Post("/Admin/filtersitemnum",body);
   }   
   public PickBatchFilterRename(body:any): Observable<any> { 
     return this.ApiBase.Update("/Induction/pickbatchfilterrename",body);
@@ -655,7 +655,7 @@ export class ApiFuntions {
     return this.ApiBase.Get("/Consolidation/consolidationdata",body); 
   }
   public StagingLocationsUpdate(body:any): Observable<any> { 
-    return this.ApiBase.Update("/Consolidation/staginglocation",body); 
+    return this.ApiBase.Post("/Consolidation/staginglocation",body); 
   }
   public ConsoleDataSB(body:any): Observable<any> { 
     return this.ApiBase.Get("/Consolidation/datasb",body); 
@@ -952,7 +952,7 @@ public ChangeGlobalAccount(Body: any ): Observable<any> {
   return this.ApiBase.Update(`/GlobalConfig/globalaccount`, Body);
 } 
 public changePassword(Body: any ): Observable<any> {
-  return this.ApiBase.Update(`/users/changepassword`, Body);
+  return this.ApiBase.Post(`/users/changepassword`, Body);
 }
 public getItemNumDetail(Body: any ): Observable<any> {
   return this.ApiBase.Get(`/Admin/itemdetail`, Body);
@@ -995,7 +995,7 @@ public ConnectedUser(): Observable<any> {
   return this.ApiBase.Get(`/GlobalConfig/users`);
 } 
 public itemquantity(body:any): Observable<any> {
-  return this.ApiBase.Update(`/FlowRackReplenish/wslocation`,body);
+  return this.ApiBase.Update(`/FlowRackReplenish/itemquantity`,body);
 } 
 public verifyitemquantity(body:any): Observable<any> {
   return this.ApiBase.Get(`/FlowRackReplenish/verifyitemquantity`,body);
@@ -1052,7 +1052,7 @@ public TransactionForOrderUpdate(Body: any ): Observable<any> {
   return this.ApiBase.Update(`/Admin/transactionfororder`, Body);
 } 
 public ItemExists(Body: any ): Observable<any> {
-  return this.ApiBase.Get(`/Admin/itemexists`, Body);
+  return this.ApiBase.Get(`/Common/itemexists`, Body);
 } 
 public ReprocessedTransactionHistoryTable(Body: any ): Observable<any> {
   return this.ApiBase.Get(`/Admin/reprocessedtransactionhistory`, Body);
@@ -1176,7 +1176,7 @@ public SaveColumns(body:any): Observable<any> {
 
 
 public ClearPickToteInfo(body:any): Observable<any> {
-  return this.ApiBase.Update(`/Induction/columnsequencedetail`,body);
+  return this.ApiBase.Update(`/Induction/picktoteinfo`,body);
 }
 public SelectBatchPickTA(body:any): Observable<any> {
   return this.ApiBase.Get(`/Induction/batchpickta`,body);
@@ -1185,9 +1185,26 @@ public SelectToteTransManTable(body:any): Observable<any> {
   return this.ApiBase.Get(`/Induction/totetransmantable`,body);
 }
 
- 
- 
- 
+// -----------------------------De-Allocate Order API--------------------
+
+public AllocatedOrders(paylaod:any): Observable<any> {
+  return this.ApiBase.Get(`/Admin/allocatedorders`,paylaod);
+}
+public AllocatedItems(paylaod:any): Observable<any> {
+  return this.ApiBase.Get(`/Admin/allocateditems`,paylaod);
+}
+public AllAllocatedOrders(paylaod:any): Observable<any> {
+  return this.ApiBase.Get(`/Admin/allallocatedorders`,paylaod);
+}
+public OrderItemsTable(paylaod:any): Observable<any> {
+  return this.ApiBase.Get(`/Admin/orderitems`,paylaod);
+}
+public DeAllocateOrder(paylaod:any): Observable<any> {
+  return this.ApiBase.Post(`/Admin/deallocateorder`,paylaod);
+}
+
+// -----------------------------De-Allocate Order API--------------------
+
 
 public SaveTransaction(payload:any): Observable<any>{
   return this.ApiBase.Post(`/Admin/Transaction`, payload);
@@ -1282,7 +1299,7 @@ public getAdjustmentReasonsList(){
     'username': userData.userName,
     'wsid': userData.wsid
   }
-  return this.ApiBase.Post(`/Common/AdjustmentReason`,payload);
+  return this.ApiBase.Get(`/Common/adjustquantityreason`,payload);
 } 
 
 public getItemQuantityDetail(id){
