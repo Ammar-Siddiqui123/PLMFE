@@ -75,7 +75,7 @@ export class DeAllocateOrdersComponent implements OnInit {
   recordsPerPageTransaction = 10;
   sortColTransaction = 0
   sortTransaction ='asc'
-
+  dublicateTransaction 
 
 
 
@@ -129,6 +129,7 @@ export class DeAllocateOrdersComponent implements OnInit {
 
   getAllOrder(e?){
     this.orderItemTransactions.data = []
+    this.dublicateTransaction = []
       let payload = {
         "orderNumber": this.chooseSearchType == 'Order Number'?this.TypeValue:'',
         "itemNumber": this.chooseSearchType == 'Item Number'?this.TypeValue:'',
@@ -150,7 +151,7 @@ export class DeAllocateOrdersComponent implements OnInit {
       }))
       
   }
-  dublicateTransaction 
+  
 
   orderItemTable(e?,isPagination=false){
 // debugger
@@ -165,7 +166,7 @@ export class DeAllocateOrdersComponent implements OnInit {
       let payload =  {
         "draw": 1,
         "start": this.startRowTransaction ,
-        "length":this.endRowTransaction,
+        "length":this.recordsPerPageTransaction,
         "sortColumn": this.sortColTransaction,
         "sortOrder": this.sortTransaction,
         "transType": this.transactionType, 
@@ -194,12 +195,11 @@ export class DeAllocateOrdersComponent implements OnInit {
         this.resetpaginationOrder()
       }
       
-
      
       let payload =  {
         "draw": 1,
         "start": this.startRowOrder ,
-        "length": this.endRowOrder,
+        "length": this.recordsPerPageOrder,
         "sortColumn": this.sortColOrder,
         "sortOrder":  this.sortOrder,
         "transType": this.transactionType, 
@@ -224,6 +224,7 @@ export class DeAllocateOrdersComponent implements OnInit {
         this.orderItemTransactions.data = res.data.openTransactions
         this.dublicateTransaction =  res.data.openTransactions
         this.pageLength= res.data.recordsTotal
+
         // this.resetpaginationOrder()
         
       }))
@@ -235,6 +236,8 @@ export class DeAllocateOrdersComponent implements OnInit {
     // this.orderNameList.data = []
     this.chooseSearchType = e
     this.searchedItemOrder.length = 0
+    this.resetpaginationOrder()
+    this.orderItemTransactions.data = []
   }
 
   optionSelect(event: MatAutocompleteSelectedEvent): void {
@@ -243,7 +246,7 @@ export class DeAllocateOrdersComponent implements OnInit {
 
 
   ordertransaction(row,index){
-   
+   this.resetpaginationOrder()
     this.orderNameList.data[index].isRowSelected=!this.orderNameList.data[index].isRowSelected;
     this.orderNameList.data.filter((item,i)=>{
       if(index===i)return
@@ -257,6 +260,7 @@ export class DeAllocateOrdersComponent implements OnInit {
       this.orderItemTransactions.data = []
       this.pageLength= 0
       this.dublicateTransaction = []
+      this.paginator.pageIndex=0;
       // this.resetpaginationOrder()
     }
 
@@ -384,10 +388,12 @@ export class DeAllocateOrdersComponent implements OnInit {
 
       if(this.dublicateTransaction.length!=0){
         this.orderItemTransactions.data = this.dublicateTransaction
+        this.pageLength = this.dublicateTransaction.length
       }
       else{
         this.orderItemTransactions.data = []
         this.pageLength= 0
+       
       }
     this.onViewOrder = true;
       this.isOrderSelected=true;
@@ -470,6 +476,7 @@ export class DeAllocateOrdersComponent implements OnInit {
     this.sortColOrder = 0
     this.sortOrder ='asc'
     this.paginator.pageIndex=0;
+    this.pageLength=0
     
     
   }
@@ -481,6 +488,7 @@ export class DeAllocateOrdersComponent implements OnInit {
     this.sortColTransaction = 0
     this.sortTransaction ='asc'
     this.paginator.pageIndex=0;
+    this.pageLength=0
   }
 
 
