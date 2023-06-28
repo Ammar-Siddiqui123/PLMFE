@@ -23,6 +23,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   @Input() scanCodes: FormGroup;
   public userData: any;
   scanCodesList: any;
+  OldscanCodesList: any;
   disableButton=false;
   scanTypeList: any = [];
   scanRangeList: any =['Yes', 'No'];
@@ -54,6 +55,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
   // }
   ngOnChanges(changes: SimpleChanges) {
       this.scanCodesList = [...this.scanCodes.controls['scanCode'].value];
+      this.OldscanCodesList = JSON.parse(JSON.stringify(this.scanCodesList));
   }
 
 
@@ -89,6 +91,8 @@ export class ScanCodesComponent implements OnInit , OnChanges {
     this.isAddRow=true
     this.scanCodesList.unshift({scanCode: '', scanType: '', scanRange: 'No', startPosition:0, codeLength:0,isDisabled:true});
     this.scanCodesList = [...this.scanCodesList];
+    this.OldscanCodesList = JSON.parse(JSON.stringify(this.scanCodesList));
+
 
   }
 
@@ -146,7 +150,7 @@ export class ScanCodesComponent implements OnInit , OnChanges {
    
   }
 
-  saveCategory(item, scanCode, startPosition, codeLength, scanRange, scanType){
+  saveCategory(item, scanCode, startPosition, codeLength, scanRange, scanType,index:any){ 
     let newRecord = true;
     if(scanCode=='') {
       this.toastr.error('Scan code not saved, scan code field must not be empty.', 'Alert!', {
@@ -215,14 +219,14 @@ export class ScanCodesComponent implements OnInit , OnChanges {
     
     let paylaod = {
       "itemNumber": this.scanCodes.controls['itemNumber'].value,
-      "oldScanCode": item.scanCode,
+      "oldScanCode": this.OldscanCodesList[index].scanCode,
       "scanCode": scanCode,
       "scanType": scanType,
-      "oldScanRange": item.scanRange,
+      "oldScanRange": this.OldscanCodesList[index].scanRange,
       "scanRange": scanRange,
-      "oldStartPosition": item.startPosition,
+      "oldStartPosition": this.OldscanCodesList[index].startPosition,
       "newStartPosition": startPosition,
-      "oldCodeLength": item.codeLength,
+      "oldCodeLength": this.OldscanCodesList[index].codeLength,
       "newCodeLength": codeLength,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
@@ -270,6 +274,9 @@ export class ScanCodesComponent implements OnInit , OnChanges {
           return { ...item, isDisabled: true };
         })
         this.scanCodesList = res.data;
+        this.OldscanCodesList = JSON.parse(JSON.stringify(this.scanCodesList));
+        
+
       }
     })
   }

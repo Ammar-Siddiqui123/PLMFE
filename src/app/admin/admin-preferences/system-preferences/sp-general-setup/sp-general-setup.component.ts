@@ -10,6 +10,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 export class SpGeneralSetupComponent implements OnInit {
   public userData: any;
   public CompanyObj: any={};
+  orderosrts:any = [];
   public FieldNames :any={};
   constructor(    public authService: AuthService,private Api:ApiFuntions) {
     this.userData = authService.userData();
@@ -18,6 +19,7 @@ export class SpGeneralSetupComponent implements OnInit {
   ngOnInit(): void {
     this.CompanyInfo();
     this.OSFieldFilterNames();
+    this.GetOrderSort();
   }
   public OSFieldFilterNames() { 
     this.Api.OSFieldFilterNames().subscribe((res: any) => {
@@ -47,19 +49,33 @@ export class SpGeneralSetupComponent implements OnInit {
       "wsid": this.userData.wsid
     }; 
     var paylaod3:any = {
-      "preference": [null,null,null,String(this.CompanyObj.replenishDedicatedOnly),null,null,null,null,null,null,null,
+      "preference": [null,String(this.CompanyObj.fifoPickAcrossWarehouse),null,String(this.CompanyObj.replenishDedicatedOnly),null,null,null,null,null,null,null,
        String(this.CompanyObj.reelTrackingPickLogic) ,null,null,String(this.CompanyObj.showTransQty),
-      String(this.CompanyObj.nextToteID),String(this.CompanyObj.nextSerialNumber),null,String(this.CompanyObj.pickType),null
-      ,String(this.CompanyObj.distinctKitOrders),null,String(this.CompanyObj.generateQuarantineTransactions)],
+      String(this.CompanyObj.nextToteID),String(this.CompanyObj.nextSerialNumber),null,String(this.CompanyObj.pickType),String(this.CompanyObj.otTemptoOTPending)
+      ,String(this.CompanyObj.distinctKitOrders),String(this.CompanyObj.printReplenPutLabels),String(this.CompanyObj.generateQuarantineTransactions)],
       "panel": 3,
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid
+    }; 
+    var paylaod4:any = {
+      "preference": [
+        this.CompanyObj.orderSort,this.CompanyObj.cartonFlowDisplay,this.CompanyObj.autoDisplayImage
+      ],
+      "panel": 4,
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }; 
     if(no==1) this.SaveForm(paylaod1);
     if(no==3)  this.SaveForm(paylaod3);
+    if(no==4)  this.SaveForm(paylaod4);
   }
     async SaveForm(paylaod){ 
       this.Api.GeneralPreferenceSave(paylaod).subscribe((res: any) => { 
+      })
+    }
+    async GetOrderSort(){
+      this.Api.ordersort().subscribe((res:any)=>{
+        this.orderosrts = res.data;
       })
     }
 }

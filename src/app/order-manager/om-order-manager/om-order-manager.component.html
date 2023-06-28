@@ -163,15 +163,25 @@
         <div class="row">
             <div class="col-xl-5">
                 <div class="d-xl-flex d-block gap-12 align-items-center mb-3">
-                    <mat-form-field class="action-dropdown d-xl-flex d-block mb-3 mb-xl-0" appearance="outline" >
-                        <!-- <mat-label>Selectt</mat-label> -->
+                    <!-- <mat-form-field class="action-dropdown d-xl-flex d-block mb-3 mb-xl-0" appearance="outline" >
                         <mat-select class="employees-action" placeholder="Select" [(ngModel)]="searchCol" (selectionChange)="fillTable()">
                             <mat-option *ngFor="let col of colList" [value]="col">{{col}}</mat-option>                            
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
                             expand_more
                         </span>
-                    </mat-form-field>                
+                    </mat-form-field> -->
+                    
+                    
+                    <mat-form-field class="action-dropdown d-xl-flex d-block mb-3 mb-xl-0" appearance="outline">
+                        <mat-select class="employees-action" placeholder="Select" [(ngModel)]="searchCol" (selectionChange)="fillTable()">
+                            <mat-option *ngFor="let col of colList" [value]="col">{{col}}</mat-option>                            
+                        </mat-select>
+                        <span class="material-symbols-outlined icon-expand-more ">
+                            expand_more
+                        </span>
+    
+                    </mat-form-field>
                     <span class="v-br bold d-none d-xl-block">-</span>
                     <div class="d-flex g-mini-search-box" style="flex:1">
                         <mat-form-field class="w-100 bg-white br-8" appearance="fill">

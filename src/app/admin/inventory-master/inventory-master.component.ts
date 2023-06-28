@@ -858,8 +858,7 @@ export class InventoryMasterComponent implements OnInit {
         for (var key in this.ScanCodesCom.scanCodesList[0]) {
           if (this.OldinvMaster.scanCode[i] && this.OldinvMaster.scanCode[i][key] == this.ScanCodesCom.scanCodesList[i][key]) {
 
-          } else {
-            debugger
+          } else { 
             IsReturn = true;
             break;
           }
@@ -897,8 +896,7 @@ export class InventoryMasterComponent implements OnInit {
       this.spinnerService.show();
       var IsCheck = this.getChangesCheck();
 
-      if (IsCheck) {
-        debugger
+      if (IsCheck) { 
         this.ConfirmationDialog(tab.index);
         this.tabIndex = this.PrevtabIndex;
 
@@ -934,8 +932,7 @@ export class InventoryMasterComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
-      if (result === 'Yes') {
-        debugger
+      if (result === 'Yes') { 
         await this.getInvMasterDetail(this.searchValue);
         console.log(this.tabIndex);
         this.tabIndex = tabIndex;
