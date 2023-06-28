@@ -204,7 +204,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       batchID: batchID,
       username: this.userData.username,
       wsid: this.userData.wsid,
-    };
+    };    
     this.Api.BatchTotes(payLoad).subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
@@ -214,6 +214,7 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.ELEMENT_DATA.length = 0;
           for (var ix = 0; ix < res.data.length; ix++) {
             this.ELEMENT_DATA.push({
+             
               position: parseInt(res.data[ix].totePosition),
               cells: res.data[ix].cells,
               toteid: res.data[ix].toteID.toString(),
@@ -272,7 +273,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     }
   }
 
-  openTotesDialogue(position: any) {
+  openTotesDialogue(position: any,index?) {
     const dialogRef = this.dialog.open(TotesAddEditComponent, {
       height: 'auto',
       width: '50vw',
@@ -290,7 +291,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         if (result.toteID != "") {
           if (result.toteID.toString() != '') {
 
-            this.ELEMENT_DATA[(result.position) - 1].toteid = result.toteID.toString();
+            this.ELEMENT_DATA[index].toteid = result.toteID.toString();
           }
           if (result.cellID.toString() != '') {
             for (var i = 0; i < this.ELEMENT_DATA.length; i++) {
@@ -696,13 +697,13 @@ export class ProcessPutAwaysComponent implements OnInit {
     }
   }
 
-  assignToteAtPosition(element: any, clear = 0) {
+  assignToteAtPosition(element: any, clear = 0,index?) {
     if (clear == 0) {
-      this.ELEMENT_DATA[element.position - 1].toteid =
+      this.ELEMENT_DATA[index].toteid =
         this.currentToteID.toString();
       this.currentToteID++;
     } else {
-      this.ELEMENT_DATA[element.position - 1].toteid = '';
+      this.ELEMENT_DATA[index].toteid = '';
     }
   }
 
