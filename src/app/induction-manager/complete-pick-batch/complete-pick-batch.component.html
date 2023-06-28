@@ -59,7 +59,7 @@
 
             <div class="card br-14  borderless" style="overflow-x: auto;">
                 <ng-scrollbar class="mat-table-scrollbar  scrollbar-hover-padding" style="height:250px" track="all">
-                    <table mat-table [dataSource]="tableData" class="w-100" matSort #matSort="matSort">
+                    <table mat-table [dataSource]="tableData" class="w-100" matSort #matSort="matSort" (matSortChange)="announceSortChange($event)">
 
                         <ng-container matColumnDef="order_no">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription> Order Number

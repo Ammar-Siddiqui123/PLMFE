@@ -23,6 +23,8 @@ export class CompletePickBatchComponent implements OnInit {
   blossomToteEnable: boolean = false;
   @ViewChild('BatchId') BatchIdField: ElementRef;
   @ViewChild('ToteId') ToteIdField: ElementRef;
+  sortColumn: number = 1;
+  SortOrder: string = "asc";
 
   constructor(
     private dialog: MatDialog,
@@ -58,8 +60,8 @@ export class CompletePickBatchComponent implements OnInit {
       ToteID: this.toteId,
       StartRow: 1,
       EndRow: 10,
-      SortColumn: 1,
-      SortOrder: "asc"
+      SortColumn: this.sortColumn,
+      SortOrder: this.SortOrder
     };
     if(this.batchId != ""){
       payload.BatchID = this.batchId;
@@ -199,4 +201,24 @@ export class CompletePickBatchComponent implements OnInit {
     });
   }
 
+  sortColumns:any = [
+    {dbColName:"Order Number",tabelColName:"order_no",sortColumnNumber:1},
+    {dbColName:"Tote ID",tabelColName:"tote_id",sortColumnNumber:2},
+    {dbColName:"Item Number",tabelColName:"item_number",sortColumnNumber:3},
+    {dbColName:"Description",tabelColName:"description",sortColumnNumber:4},
+    {dbColName:"Transaction Quantity",tabelColName:"transaction_qty",sortColumnNumber:5},
+    {dbColName:"Location",tabelColName:"location",sortColumnNumber:6},
+    {dbColName:"Zone",tabelColName:"zone",sortColumnNumber:7},
+    {dbColName:"Carousel",tabelColName:"carousel",sortColumnNumber:8},
+    {dbColName:"Row",tabelColName:"row",sortColumnNumber:9},
+    {dbColName:"Shelf",tabelColName:"shelf",sortColumnNumber:10},
+    {dbColName:"Bin",tabelColName:"bin",sortColumnNumber:11},
+  ];
+
+  announceSortChange(e: any) {
+    console.log(e);
+    this.sortColumn = this.sortColumns.filter((item: any) => item.tabelColName == e.active)[0].sortColumnNumber;
+    this.SortOrder = e.direction;
+    this.pickBatchTransactionTable();
+  }
 }
