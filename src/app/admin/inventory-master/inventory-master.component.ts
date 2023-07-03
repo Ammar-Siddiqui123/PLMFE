@@ -56,7 +56,7 @@ export class InventoryMasterComponent implements OnInit {
   isDataFoundCounter = 0;
   saveDisabled = true;
   count;
-
+isQuarantine=false;
 
   public locationTable: any;
   public getItemNum: any;
@@ -477,6 +477,7 @@ export class InventoryMasterComponent implements OnInit {
       // this.invMasterLocations ='asdsad';
       this.invMaster.get('inventoryTable')?.setValue(res.data.inventoryTable);
       this.count = res.data.count 
+      this.isQuarantine=res.data.inventoryTable.find(obj => obj.warehouse.toLowerCase() === 'quarantine');
       this.initialzeIMFeilds();
     })
   }
