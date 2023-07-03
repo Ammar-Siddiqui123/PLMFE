@@ -13,7 +13,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 })
 export class ItemSetupComponent implements OnInit {
 
-
+  disableSecondaryZone=false;
   @Input() itemSetup: FormGroup;
   
   public userData: any;
@@ -30,6 +30,9 @@ export class ItemSetupComponent implements OnInit {
   
     if(event.value===''){
       this.itemSetup.controls['secondaryPickZone'].setValue('')
+      this.disableSecondaryZone=true;
+    }else{
+      this.disableSecondaryZone=false;
     }
   }
   public openCellSizeDialog(param) {

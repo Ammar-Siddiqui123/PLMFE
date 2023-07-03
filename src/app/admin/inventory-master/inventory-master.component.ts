@@ -38,6 +38,7 @@ export class InventoryMasterComponent implements OnInit {
   tabIndex: any = 0;
   ifAllowed: boolean = false;
   PrevtabIndex: any = 0;
+  isKitItem=false;
   public userData: any;
   public invData: any;
   public getInvMasterData: any;
@@ -291,6 +292,8 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   async initialzeIMFeilds() {
+
+    
     this.invMaster = this.fb.group({
 
       itemNumber: [this.getInvMasterData?.itemNumber || '', [Validators.required, Validators.maxLength(50)]],
@@ -435,7 +438,7 @@ export class InventoryMasterComponent implements OnInit {
         return { ...item, isDisabled: true };
       })
       this.getInvMasterData = res.data;
- 
+      
 
       this.initialzeIMFeilds();
     })
