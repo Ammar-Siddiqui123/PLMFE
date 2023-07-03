@@ -34,6 +34,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./totes-add-edit.component.scss']
 })
 export class TotesAddEditComponent implements OnInit {
+  isRowAdded=false;
   ELEMENT_DATA_TOTE = [{toteID:"" , cells:"" , position: 1 ,oldToteID:"",isInserted:1,isDuplicate:false}];
   displayedColumns: string[] = [ 'zone', 'locationdesc','actions'];
   alreadySavedTotesList:any;
@@ -58,6 +59,7 @@ export class TotesAddEditComponent implements OnInit {
 
   addRow()
   {
+    this.isRowAdded=true;
     this.ELEMENT_DATA_TOTE.push({toteID:"" , cells:"" , position: this.ELEMENT_DATA_TOTE.length-1 ,oldToteID:"",isInserted:0,isDuplicate:false});
     this.dataSourceManagedTotes = new MatTableDataSource<any>(this.ELEMENT_DATA_TOTE);
   }
@@ -104,6 +106,7 @@ export class TotesAddEditComponent implements OnInit {
               timeOut: 2000
             });
             this.dataSourceManagedTotes.data[index]['isDuplicate']=false
+            this.isRowAdded=false;
           this.getTotes();
           } else {
             this.dataSourceManagedTotes.data[index]['isDuplicate']=true
@@ -155,6 +158,7 @@ export class TotesAddEditComponent implements OnInit {
                   positionClass: 'toast-bottom-right',
                   timeOut: 2000
                 });
+                this.isRowAdded=false;
         this.getTotes();
               } else {
                 this.toastr.error("Already exists", 'Error!', {
@@ -280,6 +284,7 @@ export class TotesAddEditComponent implements OnInit {
           return;
         }
         selectedTote = { toteID : toteIDs, cellID : cells, position : this.position }; 
+        this.isRowAdded=false;
         this.dialogRef.close(selectedTote);
       }
     }
