@@ -565,13 +565,16 @@ export class InventoryMapComponent implements OnInit {
 
     if( this.spliUrl[1] == 'OrderManager' ){
       this.router.navigate([]).then((result) => {
-        window.open(`/#/OrderManager/InventoryMaster?itemNumber=${row.itemNumber}`, '_blank');
+        window.open(`/#/OrderManager/InventoryMaster?itemNumber=${row.itemNumber}`, '_self');
       });
+   }else if(this.spliUrl[1] == 'InductionManager' ){
+    window.open(`/#/InductionManager/Admin/InventoryMaster?itemNumber=${row.itemNumber}`, '_self');
+
    }
    else {
     localStorage.setItem('routeFromInduction','false')
     this.router.navigate([]).then((result) => {
-      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_blank');
+      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_self');
     });
 
    }
@@ -583,13 +586,19 @@ export class InventoryMapComponent implements OnInit {
 
     if( this.spliUrl[1] == 'OrderManager' ){
       this.router.navigate([]).then((result) => {
-        window.open(`/#/OrderManager/OrderStatus?location=${row.locationNumber}`, '_blank');
+        window.open(`/#/OrderManager/OrderStatus?location=${row.locationNumber}`, '_self');
       });
    }
+   
+   else if( this.spliUrl[1] == 'InductionManager' ){
+    this.router.navigate([]).then((result) => {
+      window.open(`/#/InductionManager/Admin/TransactionJournal?location=${row.locationNumber}`, '_self');
+    });
+ }
    else {
     localStorage.setItem('routeFromInduction','false')
     this.router.navigate([]).then((result) => {
-      window.open(`/#/admin/transaction?location=${row.locationNumber}`, '_blank');
+      window.open(`/#/admin/transaction?location=${row.locationNumber}`, '_self');
     });
 
    }

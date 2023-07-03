@@ -188,7 +188,7 @@
                     save
                   </mat-icon>
                 </button>
-                <button [disabled]="!element.toteID || !element.cells" matTooltip="Delete" mat-flat-button color="warn" class="xsm-icon-button" (click)="deleteTote(element.toteID)">
+                <button [disabled]="!element.toteID || !element.cells" matTooltip="Delete" mat-flat-button color="warn" class="xsm-icon-button" (click)="deleteTote(element.toteID,i)">
                   <mat-icon class="material-symbols-outlined">
                     close
                   </mat-icon>
