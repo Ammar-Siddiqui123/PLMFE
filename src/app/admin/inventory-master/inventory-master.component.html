@@ -74,11 +74,11 @@
                   </div>
 
                   <div class="br-14 d-flex align-items-center label label-yellow px-3 f-16 justify-content-center mb-3 mb-xl-0"
-                    >
+                  *ngIf="this.getInvMasterData?.kitInventories.length>0" >
                     Kit
                   </div>
                   <div class="br-14 d-flex align-items-center label label-red px-3 f-16 justify-content-center mb-3 mb-xl-0"
-                    >
+                    *ngIf="this.getInvMasterData?.itemQuarantined>0">
                     Quarantine
                   </div>
                   <!-- <button mat-flat-button color="secondary" class="button-secondary" (click)="viewLocations()">

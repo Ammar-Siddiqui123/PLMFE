@@ -38,6 +38,7 @@ export class InventoryMasterComponent implements OnInit {
   tabIndex: any = 0;
   ifAllowed: boolean = false;
   PrevtabIndex: any = 0;
+  isKitItem=false;
   public userData: any;
   public invData: any;
   public getInvMasterData: any;
@@ -291,6 +292,8 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   async initialzeIMFeilds() {
+
+    
     this.invMaster = this.fb.group({
 
       itemNumber: [this.getInvMasterData?.itemNumber || '', [Validators.required, Validators.maxLength(50)]],
@@ -435,7 +438,7 @@ export class InventoryMasterComponent implements OnInit {
         return { ...item, isDisabled: true };
       })
       this.getInvMasterData = res.data;
- 
+      
 
       this.initialzeIMFeilds();
     })
@@ -858,8 +861,7 @@ export class InventoryMasterComponent implements OnInit {
         for (var key in this.ScanCodesCom.scanCodesList[0]) {
           if (this.OldinvMaster.scanCode[i] && this.OldinvMaster.scanCode[i][key] == this.ScanCodesCom.scanCodesList[i][key]) {
 
-          } else {
-            debugger
+          } else { 
             IsReturn = true;
             break;
           }
@@ -897,8 +899,7 @@ export class InventoryMasterComponent implements OnInit {
       this.spinnerService.show();
       var IsCheck = this.getChangesCheck();
 
-      if (IsCheck) {
-        debugger
+      if (IsCheck) { 
         this.ConfirmationDialog(tab.index);
         this.tabIndex = this.PrevtabIndex;
 
@@ -934,8 +935,7 @@ export class InventoryMasterComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
-      if (result === 'Yes') {
-        debugger
+      if (result === 'Yes') { 
         await this.getInvMasterDetail(this.searchValue);
         console.log(this.tabIndex);
         this.tabIndex = tabIndex;
