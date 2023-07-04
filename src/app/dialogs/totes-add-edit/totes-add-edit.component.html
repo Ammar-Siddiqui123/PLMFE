@@ -107,7 +107,7 @@
         <b>Managed Tote IDs</b>
       </div>
 
-      <button mat-flat-button color="primary" class="add-icon-button mb-2" (click)="addRow()">
+      <button [disabled]="isRowAdded" mat-flat-button color="primary" class="add-icon-button mb-2" (click)="addRow()">
         <span class="material-symbols-outlined">
           add
         </span>

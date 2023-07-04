@@ -56,7 +56,7 @@ export class InventoryMasterComponent implements OnInit {
   isDataFoundCounter = 0;
   saveDisabled = true;
   count;
-
+isQuarantine=false;
 
   public locationTable: any;
   public getItemNum: any;
@@ -319,7 +319,7 @@ export class InventoryMasterComponent implements OnInit {
 
 
       primaryPickZone: [this.getInvMasterData?.primaryPickZone.toLowerCase() || ''],
-      secondaryPickZone: [this.getInvMasterData?.secondaryPickZone.toLowerCase() || ''],
+      secondaryPickZone: [this.getInvMasterData?.secondaryPickZone.toLowerCase()||''],
       caseQuantity: [this.getInvMasterData?.caseQuantity || 0, [Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       pickFenceQuantity: [this.getInvMasterData?.pickFenceQuantity || 0, [, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       pickSequence: [this.getInvMasterData?.pickSequence || 0, [Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
@@ -429,7 +429,7 @@ export class InventoryMasterComponent implements OnInit {
     try {
       const res: any = await this.api.GetInventoryMasterData(paylaod).toPromise();
       this.getInvMasterData = res.data;
-
+ 
       await this.initialzeIMFeilds();
     } catch (error) {
     }
@@ -477,6 +477,7 @@ export class InventoryMasterComponent implements OnInit {
       // this.invMasterLocations ='asdsad';
       this.invMaster.get('inventoryTable')?.setValue(res.data.inventoryTable);
       this.count = res.data.count 
+      this.isQuarantine=res.data.inventoryTable.find(obj => obj.warehouse.toLowerCase() === 'quarantine');
       this.initialzeIMFeilds();
     })
   }
