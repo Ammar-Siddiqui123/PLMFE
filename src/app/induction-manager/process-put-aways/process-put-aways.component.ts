@@ -689,11 +689,13 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   updateToteID($event) {
     for (var i = 0; i < this.pickBatchQuantity; i++) {
+      if(this.ELEMENT_DATA && this.ELEMENT_DATA[i]){
       if (this.ELEMENT_DATA[i].toteid == '') {
         this.ELEMENT_DATA[i].toteid = $event.target.value;
         this.toteID = '';
         break;
       }
+    }
     }
   }
 

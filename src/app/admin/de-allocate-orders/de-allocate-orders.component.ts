@@ -77,6 +77,7 @@ export class DeAllocateOrdersComponent implements OnInit {
   sortTransaction ='asc'
   dublicateTransaction 
   dublicateRecords 
+  actions=''
 
 
   searchByItem: any = new Subject<string>();
@@ -296,6 +297,7 @@ export class DeAllocateOrdersComponent implements OnInit {
               this.orderNumbersList.length=0
                 this.getAllOrder()
                 this.orderItemTable()
+                this.actions = ''
             }
             else{
               this.toastr.error('Order De-Allocation Not Successfull', 'Error!', {
@@ -334,6 +336,7 @@ export class DeAllocateOrdersComponent implements OnInit {
             this.deallocateSelectedBtn = true
               this.getAllOrder()
               this.orderItemTable()
+              this.actions = ''
           }
           else{
             this.toastr.error('Order De-Allocation Not Successfull', 'Error!', {
