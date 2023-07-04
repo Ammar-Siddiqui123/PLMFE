@@ -26,7 +26,7 @@ export class CompletePickBatchComponent implements OnInit {
   @ViewChild('ToteId') ToteIdField: ElementRef;
   sortColumn: number = 1;
   SortOrder: string = "asc";
-  startRow:number = 1;
+  startRow:number = 0;
   endRow:number = 10;
   totalTransactions: number = 0;
 
@@ -49,12 +49,14 @@ export class CompletePickBatchComponent implements OnInit {
     this.showToteCol = false;
     this.toteId = "";
     if (event.keyCode === 13 && this.batchId != "") {
+      this.resetPagination();
       this.pickBatchTransactionTable();
     }
   }
 
   ToteIDKeyup(event: any) {
     if (event.keyCode === 13 && this.toteId != "") {
+      this.resetPagination();
       this.pickBatchTransactionTable();
     }
   }
@@ -62,7 +64,7 @@ export class CompletePickBatchComponent implements OnInit {
   pickBatchTransactionTable() {
     let payload: any = {
       ToteID: this.toteId,
-      StartRow: this.startRow,
+      StartRow: this.startRow == 0 ? this.startRow : this.startRow + 1,
       EndRow: this.endRow,
       SortColumn: this.sortColumn,
       SortOrder: this.SortOrder
@@ -224,7 +226,7 @@ export class CompletePickBatchComponent implements OnInit {
     console.log(e);
     this.sortColumn = this.sortColumns.filter((item: any) => item.tabelColName == e.active)[0].sortColumnNumber;
     this.SortOrder = e.direction;
-    this.startRow = 1;
+    this.startRow = 0;
     this.endRow = 10;
     this.paginator.pageIndex = 0;
     this.pickBatchTransactionTable();
@@ -232,8 +234,15 @@ export class CompletePickBatchComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   handlePageEvent(e: PageEvent) {
+    debugger
     this.startRow =  e.pageSize*e.pageIndex
     this.endRow =  (e.pageSize*e.pageIndex + e.pageSize)
     this.pickBatchTransactionTable();
+  }
+
+  resetPagination(){
+    this.startRow = 0;
+    this.endRow = 10;
+    this.paginator.pageIndex = 0;
   }
 }
