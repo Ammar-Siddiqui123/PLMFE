@@ -319,7 +319,7 @@ isQuarantine=false;
 
 
       primaryPickZone: [this.getInvMasterData?.primaryPickZone.toLowerCase() || ''],
-      secondaryPickZone: [this.getInvMasterData?.secondaryPickZone.toLowerCase() || ''],
+      secondaryPickZone: [this.getInvMasterData?.secondaryPickZone.toLowerCase()||''],
       caseQuantity: [this.getInvMasterData?.caseQuantity || 0, [Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       pickFenceQuantity: [this.getInvMasterData?.pickFenceQuantity || 0, [, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       pickSequence: [this.getInvMasterData?.pickSequence || 0, [Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
@@ -429,7 +429,7 @@ isQuarantine=false;
     try {
       const res: any = await this.api.GetInventoryMasterData(paylaod).toPromise();
       this.getInvMasterData = res.data;
-
+ 
       await this.initialzeIMFeilds();
     } catch (error) {
     }
