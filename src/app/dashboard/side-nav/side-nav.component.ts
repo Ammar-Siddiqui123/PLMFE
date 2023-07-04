@@ -47,7 +47,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'dvr', title: 'Transactions', route: '/admin/transaction' ,permission: 'Transaction Journal'},
     { icon: 'list_alt', title: 'Batch Manager', route: '/admin/batchManager' ,permission: 'Batch Manager'},
     { icon: 'low_priority', title: 'Cycle Count', route: '/admin/cycleCounts' ,permission: 'Cycle Count Manager'},
-    { icon: 'airline_stops', title: 'De-Allocate Orders', route: '/admin/deAllocateOrders' ,permission: 'De-Allocate Orders'},
+    { icon: 'airline_stops', title: 'De-Allocate Orders', route: '/admin/DeAllocateOrders' ,permission: 'De-Allocate Orders'},
     { icon: 'assignment_ind', title: 'Employees', route: '/admin/employees' ,permission: 'Employees'},
     { icon: 'event_note', title: 'Event Log', route: '/admin/EventLog' ,permission: 'Event Log Manager'},
     { icon: 'my_location', title: 'Location Assignment', route: '/admin/locationAssignment' ,permission: 'Location Assignment'},
@@ -124,6 +124,10 @@ export class SideNavComponent implements OnInit {
                   else if(Menuobj==null) Menuobj = this.inductionAdminMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.orderManagerMenus.find(x=>x.route == data);
                   this.loadMenus(Menuobj);
+                });
+
+                this.sharedService.updateInductionMenuObserver.subscribe((data:any) => {
+                  this.inductionMenus.filter(x=>x.title == 'Complete Pick Batch')[0].route = data ? '/InductionManager/CompletePickBatch' : '#';
                 });
 
               }

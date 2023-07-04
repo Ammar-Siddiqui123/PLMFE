@@ -22,6 +22,8 @@ import { MatOption } from '@angular/material/core';
 import { MarkToteFullComponent } from 'src/app/dialogs/mark-tote-full/mark-tote-full.component';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { ReelDetailComponent } from 'src/app/dialogs/reel-detail/reel-detail.component';
+import { ReelTransactionsComponent } from 'src/app/dialogs/reel-transactions/reel-transactions.component';
 
 
 export interface PeriodicElement {
@@ -41,6 +43,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   licAppData;
   rowSelected = false;
   isViewTote = true;
+  public ifAllowed: boolean = false
   public userData: any;
   public cellSize = '0';
   public batchId = '';
@@ -130,6 +133,19 @@ export class ProcessPutAwaysComponent implements OnInit {
       });
   }
 
+  @HostListener('window:beforeunload', ['$event'])
+  onbeforeunload(event) {
+    if (this.ifAllowed) {
+      event.preventDefault();
+      event.returnValue = false;
+    }
+  }
+
+  @HostListener('click')
+  documentClick(event: MouseEvent) {
+    this.ifAllowed = true
+  }
+
   clearFormAndTable() {
     this.batchId = '';
     this.status = 'Not Processed';
@@ -188,7 +204,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       batchID: batchID,
       username: this.userData.username,
       wsid: this.userData.wsid,
-    };
+    };    
     this.Api.BatchTotes(payLoad).subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
@@ -198,6 +214,7 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.ELEMENT_DATA.length = 0;
           for (var ix = 0; ix < res.data.length; ix++) {
             this.ELEMENT_DATA.push({
+             
               position: parseInt(res.data[ix].totePosition),
               cells: res.data[ix].cells,
               toteid: res.data[ix].toteID.toString(),
@@ -256,7 +273,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     }
   }
 
-  openTotesDialogue(position: any) {
+  openTotesDialogue(position: any,index?) {
     const dialogRef = this.dialog.open(TotesAddEditComponent, {
       height: 'auto',
       width: '50vw',
@@ -274,7 +291,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         if (result.toteID != "") {
           if (result.toteID.toString() != '') {
 
-            this.ELEMENT_DATA[(result.position) - 1].toteid = result.toteID.toString();
+            this.ELEMENT_DATA[index].toteid = result.toteID.toString();
           }
           if (result.cellID.toString() != '') {
             for (var i = 0; i < this.ELEMENT_DATA.length; i++) {
@@ -672,21 +689,23 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   updateToteID($event) {
     for (var i = 0; i < this.pickBatchQuantity; i++) {
+      if(this.ELEMENT_DATA && this.ELEMENT_DATA[i]){
       if (this.ELEMENT_DATA[i].toteid == '') {
         this.ELEMENT_DATA[i].toteid = $event.target.value;
         this.toteID = '';
         break;
       }
     }
+    }
   }
 
-  assignToteAtPosition(element: any, clear = 0) {
+  assignToteAtPosition(element: any, clear = 0,index?) {
     if (clear == 0) {
-      this.ELEMENT_DATA[element.position - 1].toteid =
+      this.ELEMENT_DATA[index].toteid =
         this.currentToteID.toString();
       this.currentToteID++;
     } else {
-      this.ELEMENT_DATA[element.position - 1].toteid = '';
+      this.ELEMENT_DATA[index].toteid = '';
     }
   }
 
@@ -1095,6 +1114,22 @@ export class ProcessPutAwaysComponent implements OnInit {
       });
     }
   } 
+
+  ReelDetailDialogue() {
+    const dialogRef = this.dialog.open(ReelDetailComponent, {
+      height: 'auto',
+      width: '932px',
+      autoFocus: '__non_existing_element__',
+    });
+  }
+
+  ReelTransactionsDialogue() {
+    const dialogRef = this.dialog.open(ReelTransactionsComponent, {
+      height: 'auto',
+      width: '932px',
+      autoFocus: '__non_existing_element__',
+    });
+  }
 
   }
 

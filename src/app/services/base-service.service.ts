@@ -2,6 +2,7 @@ import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/commo
 import { Injectable } from '@angular/core'; 
 import { environment } from '../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';  
+import { BYPASS_LOG } from '../init/http-interceptor';
 
 @Injectable({
     providedIn: 'root'
@@ -12,18 +13,22 @@ export class BaseService {
     constructor(private http: HttpClient) {
     } 
       Get(endPoint:string ,payload?,isLoader:boolean=false): Observable<any>{
-         
-       const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-         'Authorization': 'Basic '
-          })
-          let queryParams = new HttpParams();
-       if(payload != null){
-            for(let key in payload){
-                if(payload[key] != undefined) queryParams=queryParams.append(key,payload[key]);
-            }
-       } 
-        return this.http.get<any>(`${environment.apiUrl}${endPoint}`,{headers:headers,params:queryParams}); 
+        let queryParams = new HttpParams();
+        if(payload != null){
+             for(let key in payload){
+                 if(payload[key] != undefined) queryParams=queryParams.append(key,payload[key]);
+             }
+        } 
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic '
+            }),
+            context: new HttpContext().set(BYPASS_LOG, isLoader),
+            params:queryParams
+        };
+   
+        return this.http.get<any>(`${environment.apiUrl}${endPoint}`,httpOptions); 
         
     }
   

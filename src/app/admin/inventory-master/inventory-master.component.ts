@@ -38,6 +38,7 @@ export class InventoryMasterComponent implements OnInit {
   tabIndex: any = 0;
   ifAllowed: boolean = false;
   PrevtabIndex: any = 0;
+  isKitItem=false;
   public userData: any;
   public invData: any;
   public getInvMasterData: any;
@@ -55,7 +56,7 @@ export class InventoryMasterComponent implements OnInit {
   isDataFoundCounter = 0;
   saveDisabled = true;
   count;
-
+isQuarantine=false;
 
   public locationTable: any;
   public getItemNum: any;
@@ -291,6 +292,8 @@ export class InventoryMasterComponent implements OnInit {
   }
 
   async initialzeIMFeilds() {
+
+    
     this.invMaster = this.fb.group({
 
       itemNumber: [this.getInvMasterData?.itemNumber || '', [Validators.required, Validators.maxLength(50)]],
@@ -316,7 +319,7 @@ export class InventoryMasterComponent implements OnInit {
 
 
       primaryPickZone: [this.getInvMasterData?.primaryPickZone.toLowerCase() || ''],
-      secondaryPickZone: [this.getInvMasterData?.secondaryPickZone.toLowerCase() || ''],
+      secondaryPickZone: [this.getInvMasterData?.secondaryPickZone.toLowerCase()||''],
       caseQuantity: [this.getInvMasterData?.caseQuantity || 0, [Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       pickFenceQuantity: [this.getInvMasterData?.pickFenceQuantity || 0, [, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       pickSequence: [this.getInvMasterData?.pickSequence || 0, [Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
@@ -426,7 +429,7 @@ export class InventoryMasterComponent implements OnInit {
     try {
       const res: any = await this.api.GetInventoryMasterData(paylaod).toPromise();
       this.getInvMasterData = res.data;
-
+ 
       await this.initialzeIMFeilds();
     } catch (error) {
     }
@@ -435,7 +438,7 @@ export class InventoryMasterComponent implements OnInit {
         return { ...item, isDisabled: true };
       })
       this.getInvMasterData = res.data;
- 
+      
 
       this.initialzeIMFeilds();
     })
@@ -474,6 +477,7 @@ export class InventoryMasterComponent implements OnInit {
       // this.invMasterLocations ='asdsad';
       this.invMaster.get('inventoryTable')?.setValue(res.data.inventoryTable);
       this.count = res.data.count 
+      this.isQuarantine=res.data.inventoryTable.find(obj => obj.warehouse.toLowerCase() === 'quarantine');
       this.initialzeIMFeilds();
     })
   }
@@ -858,8 +862,7 @@ export class InventoryMasterComponent implements OnInit {
         for (var key in this.ScanCodesCom.scanCodesList[0]) {
           if (this.OldinvMaster.scanCode[i] && this.OldinvMaster.scanCode[i][key] == this.ScanCodesCom.scanCodesList[i][key]) {
 
-          } else {
-            debugger
+          } else { 
             IsReturn = true;
             break;
           }
@@ -897,8 +900,7 @@ export class InventoryMasterComponent implements OnInit {
       this.spinnerService.show();
       var IsCheck = this.getChangesCheck();
 
-      if (IsCheck) {
-        debugger
+      if (IsCheck) { 
         this.ConfirmationDialog(tab.index);
         this.tabIndex = this.PrevtabIndex;
 
@@ -934,8 +936,7 @@ export class InventoryMasterComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
-      if (result === 'Yes') {
-        debugger
+      if (result === 'Yes') { 
         await this.getInvMasterDetail(this.searchValue);
         console.log(this.tabIndex);
         this.tabIndex = tabIndex;

@@ -329,16 +329,22 @@ export class TranSelectOrderComponent implements OnInit {
         wsid: this.userData.wsid,
       };
     }
-
-    // NextSuggestedTransactions
-    // OrderNumberNext
-    this.columnSelect == 'Order Number' ? this.Api.OrderNumberNext(searchPayload):  this.Api.NextSuggestedTransactions(searchPayload)
-    .subscribe(
-        (res: any) => {
-          this.searchAutocompleteList = res.data;
-        },
-        (error) => {}
-      );
+ 
+   if( this.columnSelect == 'Order Number'){
+    this.Api.OrderNumberNext(searchPayload).subscribe(
+      (res: any) => {
+        this.searchAutocompleteList = res.data;
+      },
+      (error) => {}
+    );
+   }else{
+    this.Api.NextSuggestedTransactions(searchPayload).subscribe(
+      (res: any) => {
+        this.searchAutocompleteList = res.data;
+      },
+      (error) => {}
+    );
+   }
   }
   // async autocompleteSearchColumn() {
   //   let searchPayload = {

@@ -310,7 +310,7 @@
                 <div class="d-flex gap-12 mb-2">
                   <mat-form-field class="custom-form-field w-100" appearance="outline">
                     <mat-label>Default Put Away Prioirity</mat-label>
-                    <input (focusout)="updatePreferences(1)" formControlName="defaultPutAwayPriority"
+                    <input #myInput  (focusout)="updatePreferences(1)" formControlName="defaultPutAwayPriority" (input)="restrictTo10Digits()" 
                       (keydown.shift.enter)="$event.preventDefault()" matInput type="number"
                       onKeyPress="if(this.value.length==10 || event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45 || event.keyCode == 69) return false;" />
                   </mat-form-field>
@@ -321,7 +321,7 @@
                 <div class="d-flex gap-12 mb-2">
                   <mat-form-field class="custom-form-field w-100" appearance="outline">
                     <mat-label>Default Put Away Quantity</mat-label>
-                    <input (focusout)="updatePreferences(1)" formControlName="defaultPutAwayQuantity"
+                    <input  (input)="restrictTo10Digits()" (focusout)="updatePreferences(1)" formControlName="defaultPutAwayQuantity"
                       (keydown.shift.enter)="$event.preventDefault()" matInput type="number"
                       onKeyPress="if(this.value.length==10 || event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45 || event.keyCode == 69) return false;" />
                   </mat-form-field>
@@ -433,9 +433,9 @@
                         123456
                       </mat-option>
                     </mat-select> -->
-                    <input (focusout)="updatePreferences(0)" formControlName="maxNumberOfPutAwayLabels"
-                      (keydown.shift.enter)="$event.preventDefault()" matInput type="number"
-                      onKeypress="if(this.value.length == 309 || event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45 || event.keyCode == 69) return false;" />
+                    <input (focusout)="updatePreferences(0)" #maxNumber   (keyup)="restrictTo309Digits($event)"  formControlName="maxNumberOfPutAwayLabels" 
+                      (keydown.shift.enter)="$event.preventDefault()" matInput type="number" [NumbersOnly]="true"
+                      onKeypress="if(this.value.length == 309 ||  event.keyCode == 101 || event.keyCode == 43 || event.keyCode == 45 || event.keyCode == 69) return false;" />
                   </mat-form-field>
                 </div>
               </div>

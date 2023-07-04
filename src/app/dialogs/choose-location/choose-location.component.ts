@@ -31,6 +31,7 @@ export class ChooseLocationComponent implements OnInit {
 
   ngOnInit(): void {    
     this.userData = this.authService.userData();
+    this.autocompleteSearchColumnItem();
     this.searchByItem
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
@@ -46,7 +47,7 @@ export class ChooseLocationComponent implements OnInit {
   async autocompleteSearchColumnItem() {
     try {
       let searchPayload = {
-        "location": this.location,
+        "location": this.location?this.location:"",
         "warehouse": this.data.warehouse,
         "serial": this.data.serialNumber,
         "lot": this.data.lotNumber,

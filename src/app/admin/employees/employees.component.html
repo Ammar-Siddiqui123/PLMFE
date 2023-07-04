@@ -114,10 +114,11 @@
                                     <input type="text" [(ngModel)]="bpSettingInp" placeholder="Search Zones"
                                       aria-label="Search zone-search-box" matInput (keyup)="zoneFilter($event)"
                                       maxlength="2">
+                                      <button matSuffix *ngIf="bpSettingInp" class="clear-btn" (click)="clearZones()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
 
-                                      <button *ngIf="bpSettingInp" matSuffix mat-icon-button aria-label="Clear" (click)="bpSettingInp=''">
+                                      <!-- <button *ngIf="bpSettingInp" matSuffix mat-icon-button aria-label="Clear" (click)="bpSettingInp=''">
                                         <mat-icon>close</mat-icon>
-                                      </button>
+                                      </button> -->
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="addZoneDialog()" [disabled]="!isLookUp">
@@ -196,9 +197,11 @@
                                       [(ngModel)]="bpSettingLocInp" matInput (keyup)="applyFilter($event)"
                                       maxlength="50">
 
-                                      <button *ngIf="bpSettingLocInp" matSuffix mat-icon-button aria-label="Clear" (click)="bpSettingLocInp=''">
-                                        <mat-icon>close</mat-icon>
-                                      </button>
+                                      <!-- <button *ngIf="bpSettingLocInp" matSuffix mat-icon-button aria-label="Clear" (click)="bpSettingLocInp=''">
+                                        <mat-icon>close</mat-icon> -->
+                                        <button matSuffix *ngIf="bpSettingLocInp" class="clear-btn" (click)="clear()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
+
+                                      <!-- </button> -->
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     (click)="addLocationDialog()" [disabled]="!isLookUp" matTooltip="Add new location"
@@ -414,9 +417,11 @@
                                     <input type="text" placeholder="Search Groups Allowed" [(ngModel)]="grpAllFilter"
                                       aria-label="Search Groups Allowed" matInput (keyup)="groupAllowedFilter($event)"
                                       maxlength="50">
-                                      <button *ngIf="grpAllFilter" matSuffix mat-icon-button aria-label="Clear" (click)="grpAllFilter=''">
+                                      <!-- <button *ngIf="grpAllFilter" matSuffix mat-icon-button aria-label="Clear" (click)="grpAllFilter=''">
                                         <mat-icon>close</mat-icon>
-                                      </button>
+                                      </button> -->
+        <button matSuffix *ngIf="grpAllFilter" class="clear-btn" (click)="clearGrp()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
+
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon"
                                     [disabled]="!isLookUp" (click)="grpAllowedDialog()">

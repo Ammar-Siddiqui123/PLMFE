@@ -1,0 +1,73 @@
+<div class="d-flex justify-content-between alighn-item-center mb-4">
+    <div style="width:48px"></div>
+    <h1 class="m-0" mat-dialog-title>Reel Detail</h1>
+    <button mat-icon-button class="close-button dialog-close-button-fix" mat-dialog-close="true">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
+</div>
+
+<mat-dialog-content>
+    <div class="card p-3">
+    <div class="row mb-2">
+            <div class="col-xl-4 ">
+                <mat-form-field class="custom-form-field __grab_cursor w-100" appearance="outline">
+                    <mat-label>Order Number</mat-label>
+                    <input matInput >
+                </mat-form-field>
+            </div>
+            <div class="col-xl-4 ">
+                <mat-form-field class="custom-form-field __grab_cursor w-100" appearance="outline">
+                    <mat-label>Lot Number</mat-label>
+                    <input matInput >
+                </mat-form-field>
+            </div>
+            <div class="col-xl-4 ">
+                <mat-form-field class="custom-form-field __grab_cursor w-100" appearance="outline">
+                    <mat-label>Expiration Date</mat-label>
+                    <input matInput >
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-xl-6 ">
+                <mat-form-field class="custom-form-field __grab_cursor w-100" appearance="outline">
+                    <mat-label>User Field 1</mat-label>
+                    <input matInput >
+                </mat-form-field>
+            </div>
+                    <div class="col-xl-6 ">
+                        <mat-form-field class="custom-form-field __grab_cursor w-100" appearance="outline">
+                            <mat-label>User Field 2</mat-label>
+                            <input matInput >
+                        </mat-form-field>
+    </div>
+    </div>
+        <div class="row mb-2">
+            <div class="col-xl-6 ">
+                <mat-form-field class="custom-form-field __grab_cursor w-100" appearance="outline">
+                    <mat-label>Warehouse</mat-label>
+                    <span matSuffix>
+                        <mat-icon style="color:#090948; transform: rotate(45deg);">unfold_more</mat-icon>
+                      </span>
+                    <input matInput >
+                </mat-form-field>
+            </div>
+                    <div class="col-xl-6 ">
+                        <mat-form-field class="custom-form-field __grab_cursor w-100" appearance="outline">
+                            <mat-label>Parts To Be Included</mat-label>
+                            <input matInput >
+                        </mat-form-field>
+    </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-xl-12 ">
+            <mat-form-field class="custom-form-field __grab_cursor w-100" appearance="outline">
+                <mat-label>Notes</mat-label>
+                <textarea matInput required maxlength="255"></textarea>
+            </mat-form-field>
+        </div>
+</div>
+</div>
+<button mat-flat-button color="primary" class="btn-lg w-100 mt-2">Submit</button>
+</mat-dialog-content>
