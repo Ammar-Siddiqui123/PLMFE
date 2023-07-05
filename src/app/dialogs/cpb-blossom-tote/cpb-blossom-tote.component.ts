@@ -84,11 +84,12 @@ export class CpbBlossomToteComponent implements OnInit {
       newTote: this.newToteID
     }
 
+
     this.transactions.forEach((x:any) => {
       payload.blossomTotes.push({
         id:x.id,
         transactionQuantity: x.transactionQuantity,
-        oldToteQuantity: x.oldToteQuantity
+        oldToteQuantity: x.oldToteQuantity ? x.oldToteQuantity : 0
       });
     });
 
