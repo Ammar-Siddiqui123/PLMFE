@@ -54,7 +54,7 @@
           </div>
 
           <div class="col-12 col-xl-3 d-flex d-xl-block justify-content-center mt-2" > 
-            <button style="flex: 1 auto;" [disabled]="!batchID && !authService.UserPermissonByFuncName('Batch Manager Delete All')" mat-stroked-button color="warn" class="float-end button-remove-all-w-stroke bg-white button custom-button-width"
+            <button style="flex: 1 auto;" [disabled]="!batchID && !authService.UserPermissonByFuncName('Batch Manager Delete All')" mat-stroked-button color="warn" class="float-end button-remove-all bg-white button custom-button-width"
               (click)="deleteBatch(transType, batchID)">
               <!-- <mat-icon>delete_outline</mat-icon> -->
               Delete
