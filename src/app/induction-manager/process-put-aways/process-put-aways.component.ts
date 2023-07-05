@@ -24,6 +24,7 @@ import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/a
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ReelDetailComponent } from 'src/app/dialogs/reel-detail/reel-detail.component';
 import { ReelTransactionsComponent } from 'src/app/dialogs/reel-transactions/reel-transactions.component';
+import { event } from 'jquery';
 
 
 export interface PeriodicElement {
@@ -133,6 +134,10 @@ export class ProcessPutAwaysComponent implements OnInit {
       });
   }
 
+  batchIdKeyup(){
+    this.getRow(this.batchId);
+  }
+
   @HostListener('window:beforeunload', ['$event'])
   onbeforeunload(event) {
     if (this.ifAllowed) {
@@ -210,6 +215,9 @@ export class ProcessPutAwaysComponent implements OnInit {
         if (res.data && res.isExecuted) {
           if (res.data.length > 0) {
             this.status = "Processed";
+          }
+          else{
+            this.status = "Not Processed";
           }
           this.ELEMENT_DATA.length = 0;
           for (var ix = 0; ix < res.data.length; ix++) {

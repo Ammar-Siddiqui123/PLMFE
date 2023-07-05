@@ -101,6 +101,7 @@ export class BatchDeleteComponent implements OnInit {
   }
 
   deleteBatch(type: any, id: any) {
+    if(id == '') return;
     let payload = {
       batchID: id,
       identity: 2,
