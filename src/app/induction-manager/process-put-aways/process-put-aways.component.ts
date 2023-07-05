@@ -462,7 +462,8 @@ export class ProcessPutAwaysComponent implements OnInit {
                     this.selectedIndex = 1;
                     this.batchId2 = this.batchId;
                     setTimeout(() => {
-                      this.inputVal.nativeElement.focus();
+                      // this.inputVal.nativeElement.focus();
+                      this.batchVal.nativeElement.focus();
                     }, 500);
                     this.fillToteTable(this.batchId);
                   } else {
@@ -514,7 +515,9 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.batchId2 = res.data.batchIDs;
             this.fillToteTable(res.data.batchIDs);
             setTimeout(() => {
-              this.inputVal.nativeElement.focus();
+              // this.inputVal.nativeElement.focus();
+              this.autocompleteSearchColumnItem2();
+              this.batchVal.nativeElement.focus();
             }, 500);
           }
 
@@ -580,29 +583,89 @@ export class ProcessPutAwaysComponent implements OnInit {
           'error'
         );
       } else {
-        this.ELEMENT_DATA.length = 0;
-        for (let index = 0; index < this.pickBatchQuantity; index++) {
-          if (!this.autoPutToteIDS) {
-            this.ELEMENT_DATA.push({
-              position: index + 1,
-              cells: this.cellSize,
-              toteid: '',
-              locked: ""
-            });
-          } else {
-            this.ELEMENT_DATA.push({
-              position: index + 1,
-              cells: this.cellSize,
-              toteid: this.currentToteID.toString(),
-              locked: ""
-            });
-            this.currentToteID++;
+        const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+          height: 'auto',
+          width: '560px',
+          data: {
+            message: 'Click OK to start a new batch and discard any changes to the current batch.',
+            heading: '',
+            notificationPrimary: true,
+          },
+          autoFocus: '__non_existing_element__',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if(result){
+            this.ELEMENT_DATA.length = 0;
+            for (let index = 0; index < this.pickBatchQuantity; index++) {
+              if (!this.autoPutToteIDS) {
+                this.ELEMENT_DATA.push({
+                  position: index + 1,
+                  cells: this.cellSize,
+                  toteid: '',
+                  locked: ""
+                });
+              } else {
+                this.ELEMENT_DATA.push({
+                  position: index + 1,
+                  cells: this.cellSize,
+                  toteid: this.currentToteID.toString(),
+                  locked: ""
+                });
+                this.currentToteID++;
+              }
+            }
+            this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
           }
-        }
-        this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+        })
+      
       }
     } else {
-      //Getting and setting next batch ID
+
+
+      if(this.dataSource.data.length==0){
+        const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+          height: 'auto',
+          width: '560px',
+          data: {
+            message: 'Click OK to start a new batch and discard any changes to the current batch.',
+            heading: '',
+            notificationPrimary: true,
+          },
+          autoFocus: '__non_existing_element__',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if(result){
+   //Getting and setting next batch ID
+   this.getNextBatchID();
+   //setup totes
+   //this.pickBatchQuantity;
+   //ELEMENT_DATA.push({ position: 'uzair' });
+   this.ELEMENT_DATA.length = 0;
+   for (let index = 0; index < this.pickBatchQuantity; index++) {
+     if (!this.autoPutToteIDS) {
+       this.ELEMENT_DATA.push({
+         position: index + 1,
+         cells: this.cellSize,
+         toteid: '',
+         locked: ""
+       });
+     } else {
+       this.ELEMENT_DATA.push({
+         position: index + 1,
+         cells: this.cellSize,
+         toteid: this.currentToteID.toString(),
+         locked: ""
+       });
+       this.currentToteID++;
+     }
+   }
+   this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+   this.updateNxtTote()
+          }
+        });
+      }
+      else{
+          //Getting and setting next batch ID
       this.getNextBatchID();
       //setup totes
       //this.pickBatchQuantity;
@@ -628,6 +691,8 @@ export class ProcessPutAwaysComponent implements OnInit {
       }
       this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
       this.updateNxtTote()
+      }
+    
     }
   }
 
