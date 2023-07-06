@@ -15,6 +15,7 @@ import { CcsifComponent } from './global-config/ccsif/ccsif.component';
 import { SteComponent } from './global-config/ste/ste.component';
 import { SteServicesComponent } from './global-config/ste-services/ste-services.component';
 import { FlowrackReplenishmentComponent } from './flowrack-replenishment/flowrack-replenishment.component';
+import { WrdComponent } from './list-and-label/wrd/wrd.component';
 const routes: Routes = [
   {
     path: '',
@@ -70,6 +71,7 @@ const routes: Routes = [
     component: SteServicesComponent,
     canActivate:[AuthGuardGuard]
   },
+  { path: 'wrd', component: WrdComponent },
   {
     path: '',
     component: DashboardComponent,

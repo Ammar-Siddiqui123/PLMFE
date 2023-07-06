@@ -8,7 +8,7 @@ import { ListAndLabelComponent } from './list-and-label.component';
 
 const routes: Routes = [
   { path: '', component: ListAndLabelComponent },
-  { path: 'wrd', component: WrdComponent },
+
   { path: 'wrv', component: WrvComponent },
   { path: 'wrd-frontend', component: WrdFrontendComponent },
   { path: 'wrv-frontend', component: WrvFrontendComponent }
