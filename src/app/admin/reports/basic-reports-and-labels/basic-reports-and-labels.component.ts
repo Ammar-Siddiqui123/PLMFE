@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
 
 @Component({
   selector: 'app-basic-reports-and-labels',
@@ -18,9 +20,18 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     dataSourceList:any
 
       
-  constructor() { }
+  constructor(private dialog: MatDialog,) { }
 
   ngOnInit(): void {
+  }
+
+  BrChooseReportTypeDialogue() {
+    const dialogRef = this.dialog.open(BrChooseReportTypeComponent, {
+      height: 'auto',
+      width: '932px',
+      autoFocus: '__non_existing_element__',
+    });
+  
   }
 
 }
