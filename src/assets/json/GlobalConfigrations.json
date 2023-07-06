@@ -207,7 +207,7 @@
     },
 
     {
-        "path": "/FlowrackReplenishment/FrPreferences",
+        "path": "/FlowrackReplenishment/Preferences",
         "Permission": "Preferences"
     } 
  

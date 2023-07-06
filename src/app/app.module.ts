@@ -78,7 +78,6 @@ import { GcPrintServiceTestComponent } from './dialogs/gc-print-service-test/gc-
 import { OmChangePriorityComponent } from './dialogs/om-change-priority/om-change-priority.component';
 import { AuthGuard } from './init/AuthGuard.service';
 import { StagingLocationOrderComponent } from './dialogs/staging-location-order/staging-location-order.component';
-import { FlowrackReplenishmentComponent } from './flowrack-replenishment/flowrack-replenishment.component';
 import { FrNumpadComponent } from './dialogs/fr-numpad/fr-numpad.component';
 import { ApiFuntions } from './services/ApiFuntions';
 import { BaseService } from './services/base-service.service';
@@ -88,7 +87,6 @@ import { ReelDetailComponent } from './dialogs/reel-detail/reel-detail.component
 import { ReelTransactionsComponent } from './dialogs/reel-transactions/reel-transactions.component';
 import { CrEditDesignTestDataComponent } from './dialogs/cr-edit-design-test-data/cr-edit-design-test-data.component';
 import { CrDeleteConfirmationComponent } from './dialogs/cr-delete-confirmation/cr-delete-confirmation.component';
-import { FrPreferencesComponent } from './flowrack-replenishment/fr-preferences/fr-preferences.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -154,7 +152,6 @@ import { FrPreferencesComponent } from './flowrack-replenishment/fr-preferences/
     GcPrintServiceTestComponent,
     OmChangePriorityComponent,
     StagingLocationOrderComponent,
-    FlowrackReplenishmentComponent,
     FrNumpadComponent,
     ShortTransactionComponent,
     CpbBlossomToteComponent,
@@ -162,7 +159,6 @@ import { FrPreferencesComponent } from './flowrack-replenishment/fr-preferences/
     ReelTransactionsComponent,
     CrEditDesignTestDataComponent,
     CrDeleteConfirmationComponent,
-    FrPreferencesComponent,
     // ActionDisableDirective,
   ],
   imports: [
