@@ -18,9 +18,7 @@ import { AddInvMapLocationComponent } from '../dialogs/add-inv-map-location/add-
 import { AdjustQuantityComponent } from '../dialogs/adjust-quantity/adjust-quantity.component';
 import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/delete-confirmation.component';
 import { QuarantineConfirmationComponent } from '../dialogs/quarantine-confirmation/quarantine-confirmation.component';
-import { SetColumnSeqComponent } from '../dialogs/set-column-seq/set-column-seq.component';
-import { SetColumnSeqService } from '../dialogs/set-column-seq/set-column-seq.service';
-import { InventoryMapService } from './inventory-map.service';
+import { SetColumnSeqComponent } from '../dialogs/set-column-seq/set-column-seq.component';  
 import { filter, pairwise } from 'rxjs/operators';
 import { ColumnSequenceDialogComponent } from '../dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -30,6 +28,7 @@ import { ContextMenuFiltersService } from '../../../app/init/context-menu-filter
 import { MatMenuTrigger} from '@angular/material/menu';
 import { InputFilterComponent } from '../../dialogs/input-filter/input-filter.component';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 
 const INVMAP_DATA = [
@@ -163,9 +162,10 @@ export class InventoryMapComponent implements OnInit {
       },
       autoFocus: '__non_existing_element__',
     })
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
-      this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition,result.Type)
+    dialogRef.afterClosed().subscribe((result) => { 
+      if(result.SelectedColumn){
+        this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition,result.Type)
+      }
     }
     );
   }
@@ -175,21 +175,23 @@ export class InventoryMapComponent implements OnInit {
      return this.filterService.getType(val);
   }
  
-  FilterString : string = "";
+  FilterString : string = "1 = 1";
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
-   this.FilterString = this.filterService.onContextMenuCommand(SelectedItem,FilterColumnName,Condition,Type);
-   this.initializeApi();
-   this.getContentData();
+    if (SelectedItem != undefined) {
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+    }
+    this.FilterString = this.FilterString != "" ? this.FilterString : "1 = 1";
+    this.initializeApi();
+    this.getContentData();
   }
 
  //---------------------for mat menu End ----------------------------
 
   constructor(
     private dialog: MatDialog,
-    private seqColumn: SetColumnSeqService,
     private authService: AuthService,
-    private invMapService: InventoryMapService,
+    private Api: ApiFuntions,
     private toastr: ToastrService, 
     private router: Router,
     private loader: SpinnerService,
@@ -205,8 +207,7 @@ export class InventoryMapComponent implements OnInit {
         colHeader: this.router.getCurrentNavigation()?.extras?.state?.['colHeader']
       }
     }
-
-    // console.log(this.router.url)
+ 
     if(router.url == '/OrderManager/InventoryMap'){
       this.transHistory = true;
     }
@@ -222,14 +223,12 @@ export class InventoryMapComponent implements OnInit {
     //   )
     //   .subscribe((events: RoutesRecognized[]) => {
       
-    //     if (events[0].urlAfterRedirects == '/InductionManager/Admin') {
-    //       console.log('TRIGGERED');
+    //     if (events[0].urlAfterRedirects == '/InductionManager/Admin') { 
     //       localStorage.setItem('routeFromInduction','true')
     //         // this.showReprocess=false;
     //         // this.showReprocessed=false;
          
-    //     }else{
-    //       console.log('TRIGGERED 2');
+    //     }else{ 
     //       localStorage.setItem('routeFromInduction','false')
     //       // this.showReprocess=true;
     //       // this.showReprocessed=true;
@@ -259,11 +258,8 @@ export class InventoryMapComponent implements OnInit {
 
   ngAfterViewInit() {
     this.setStorage =localStorage.getItem('routeFromInduction')
-
-    // console.log(this.setStorage)
-    // console.log(this.router.url)
-    this.spliUrl=this.router.url.split('/');
-    // console.log(spliUrl)
+ 
+    this.spliUrl=this.router.url.split('/'); 
 
     if( this.spliUrl[1] == 'InductionManager' || this.spliUrl[1] == 'OrderManager' ){
        this.myroute =false
@@ -320,7 +316,12 @@ export class InventoryMapComponent implements OnInit {
    }
   }
   getColumnsData(){
-    this.invMapService.getSetColumnSeq( this.userData.userName,this.userData.wsid).pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
+    let payload = {
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+      "tableName": "Inventory Map"
+    }
+    this.Api.getSetColumnSeq(payload).pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
       this.displayedColumns = INVMAP_DATA;
 
       if(res.data){
@@ -337,7 +338,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   getContentData(){
-    this.invMapService.getInventoryMap(this.payload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
+    this.Api.getInventoryMap(this.payload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
       // console.log(res.data);
       this.itemList =  res.data?.inventoryMaps?.map((arr => {
         return {'itemNumber': arr.itemNumber, 'desc': arr.description}
@@ -362,7 +363,7 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-      // console.log(result)
+      
       if(result!='close'){
         this.getContentData();
       }
@@ -373,8 +374,8 @@ export class InventoryMapComponent implements OnInit {
     if (actionEvent.value === 'set_column_sq') {
 
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
-        height: '96%',
-        width: '70vw',
+        height: 'auto',
+        width: '960px',
         data: {
           mode: event,
           tableName: 'Inventory Map',
@@ -423,7 +424,7 @@ export class InventoryMapComponent implements OnInit {
        autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      // console.log('The dialog was closed');
+      
     });
   }
 
@@ -456,7 +457,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   delete(event: any){
-    // console.log(event);
+    
     if(event.itemQuantity > 0){
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
@@ -522,6 +523,9 @@ export class InventoryMapComponent implements OnInit {
   }
 
   adjustQuantity(event){
+    if(event.itemNumber == ""){
+      return;
+    }
     let dialogRef = this.dialog.open(AdjustQuantityComponent, {
       height: 'auto',
       width: '800px',
@@ -536,7 +540,10 @@ export class InventoryMapComponent implements OnInit {
   }
 
   duplicate(event){
-  this.invMapService.duplicate( this.userData.userName,this.userData.wsid,event.invMapID).pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
+    var obj:any = {
+      userName:this.userData.userName,wsid:this.userData.wsid,invMapID:event.invMapID
+    }
+  this.Api.duplicate(obj).pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
     this.displayedColumns = INVMAP_DATA;
 
     if(res.data){
@@ -558,13 +565,16 @@ export class InventoryMapComponent implements OnInit {
 
     if( this.spliUrl[1] == 'OrderManager' ){
       this.router.navigate([]).then((result) => {
-        window.open(`/#/OrderManager/InventoryMaster?itemNumber=${row.itemNumber}`, '_blank');
+        window.open(`/#/OrderManager/InventoryMaster?itemNumber=${row.itemNumber}`, '_self');
       });
+   }else if(this.spliUrl[1] == 'InductionManager' ){
+    window.open(`/#/InductionManager/Admin/InventoryMaster?itemNumber=${row.itemNumber}`, '_self');
+
    }
    else {
     localStorage.setItem('routeFromInduction','false')
     this.router.navigate([]).then((result) => {
-      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_blank');
+      window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_self');
     });
 
    }
@@ -576,13 +586,19 @@ export class InventoryMapComponent implements OnInit {
 
     if( this.spliUrl[1] == 'OrderManager' ){
       this.router.navigate([]).then((result) => {
-        window.open(`/#/OrderManager/OrderStatus?location=${row.locationNumber}`, '_blank');
+        window.open(`/#/OrderManager/OrderStatus?location=${row.locationNumber}`, '_self');
       });
    }
+   
+   else if( this.spliUrl[1] == 'InductionManager' ){
+    this.router.navigate([]).then((result) => {
+      window.open(`/#/InductionManager/Admin/TransactionJournal?location=${row.locationNumber}`, '_self');
+    });
+ }
    else {
     localStorage.setItem('routeFromInduction','false')
     this.router.navigate([]).then((result) => {
-      window.open(`/#/admin/transaction?location=${row.locationNumber}`, '_blank');
+      window.open(`/#/admin/transaction?location=${row.locationNumber}`, '_self');
     });
 
    }
@@ -598,7 +614,7 @@ export class InventoryMapComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.invMapService.getSearchData(searchPayload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
+    this.Api.getSearchData(searchPayload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
       if(res.data){
         this.searchAutocompleteList = res.data;
       }
@@ -606,8 +622,7 @@ export class InventoryMapComponent implements OnInit {
     });
   }
 
-  searchColumn(){
-    // console.log(this.columnSearch.searchColumn);
+  searchColumn(){ 
     
     if(this.columnSearch.searchColumn === ''){
       this.isSearchColumn = false;

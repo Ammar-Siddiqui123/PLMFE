@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-cm-ship-edit-con-id',
@@ -23,7 +23,7 @@ export class CmShipEditConIdComponent implements OnInit {
   constructor(private dialog: MatDialog,
               public dialogRef: MatDialogRef<CmShipEditConIdComponent>,
               private toast: ToastrService,
-              private service: ConsolidationManagerService,
+              private Api: ApiFuntions,
               private authService: AuthService,
               @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -61,7 +61,7 @@ export class CmShipEditConIdComponent implements OnInit {
         wsid: this.userData.wsid
       };
 
-      this.service.create(payLoad, '/Consolidation/ContainerIdSingleShipTransUpdate').subscribe(
+      this.Api.ContainerIdSingleShipTransUpdate(payLoad).subscribe(
         (res: any) => {
           if (res.isExecuted) {
             this.dialogRef.close({
@@ -74,8 +74,7 @@ export class CmShipEditConIdComponent implements OnInit {
         },
         (error) => { }
       );
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 

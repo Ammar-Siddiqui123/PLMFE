@@ -2,8 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { ConsolidationManagerService } from '../consolidation-manager.service';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router'; 
 import { AuthService } from '../../../app/init/auth.service';
 import { event } from 'jquery';
 import { CmConfirmAndPackingSelectTransactionComponent } from 'src/app/dialogs/cm-confirm-and-packing-select-transaction/cm-confirm-and-packing-select-transaction.component';
@@ -20,6 +19,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CmOrderToteConflictComponent } from 'src/app/dialogs/cm-order-tote-conflict/cm-order-tote-conflict.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-consolidation',
@@ -89,7 +89,7 @@ export class ConsolidationComponent implements OnInit {
   constructor(private dialog: MatDialog, 
               private toastr: ToastrService,
               private router: Router, 
-              private consolidationHub: ConsolidationManagerService, 
+              private Api: ApiFuntions, 
               public authService: AuthService,  
               private _liveAnnouncer: LiveAnnouncer,) { }
 
@@ -102,8 +102,7 @@ export class ConsolidationComponent implements OnInit {
       this.autocompleteSearchColumnItem()
     });
 
-    // this.getTableData('','')
-    // console.log(this.stageTable)
+    // this.getTableData('','') 
   }
 
   ngAfterViewInit() {
@@ -159,7 +158,7 @@ export class ConsolidationComponent implements OnInit {
       "orderNumber": this.TypeValue
     }
 
-    this.consolidationHub.get(payload, '/Consolidation/ConsolidationIndex').subscribe((res: any) => {
+    this.Api.ConsolidationIndex(payload).subscribe((res: any) => {
         if(res.isExecuted){
           this.consolidationIndex = res.data;
           this.startSelectFilterLabel = this.consolidationIndex.cmPreferences.defaultLookupType
@@ -203,7 +202,7 @@ export class ConsolidationComponent implements OnInit {
       "wsid": this.userData.wsid
     }
 
-    this.consolidationHub.get(payload, '/Consolidation/ConsolidationData').subscribe((res: any) => {
+    this.Api.ConsolidationData(payload).subscribe((res: any) => {
       if (res.isExecuted) {
         if ((typeof res.data == 'string')) {
           switch (res.data) {
@@ -243,8 +242,8 @@ export class ConsolidationComponent implements OnInit {
           this.stageTable =  new MatTableDataSource(res.data.stageTable);
           let z: any[] = [];
 
-          // console.log(this.tableData_1.data,'table1')
-          // console.log(this.tableData_2.data,'table2')
+          
+          
            z = this.tableData_1.data.filter((element) => element.lineStatus == 'Waiting Reprocess')
           let data = this.tableData_2.data;
           data.push(...z);
@@ -253,8 +252,8 @@ export class ConsolidationComponent implements OnInit {
           this.tableData_1.data = this.tableData_1.data.filter((el)=>{
             return !z.includes(el)
         })
-          // console.log(this.tableData_1.data,'table1')
-          // console.log(this.tableData_2.data,'table2')
+          
+          
           this.tableData_1.paginator = this.paginator;
           this.tableData_2.paginator = this.paginator2;
           this.stageTable.paginator = this.paginator3;
@@ -265,7 +264,7 @@ export class ConsolidationComponent implements OnInit {
             "wsid": this.userData.wsid
           }
 
-          this.consolidationHub.get(payload, '/Consolidation/ShippingButtSet').subscribe((res:any)=>{
+          this.Api.ShippingButtSet(payload).subscribe((res:any)=>{
             if(res.data == 1){
               this.enableConButts()
               this.shippingbtb = false;
@@ -309,7 +308,7 @@ export class ConsolidationComponent implements OnInit {
       "username": this.userData.userName, 
       "wsid": this.userData.wsid
     }
-    this.consolidationHub.get(payload, '/Consolidation/VerifyAllItemPost').subscribe((res: any) => {
+    this.Api.VerifyAllItemPost(payload).subscribe((res: any) => {
       if(!res.isExecuted){
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -358,7 +357,7 @@ export class ConsolidationComponent implements OnInit {
           "username": this.userData.userName, 
           "wsid": this.userData.wsid
         }
-        this.consolidationHub.get(payload, '/Consolidation/UnVerifyAll').subscribe((res: any) => {
+        this.Api.UnVerifyAll(payload).subscribe((res: any) => {
     
           if(!res.isExecuted){
             this.toastr.error(res.responseMessage, 'Error!', {
@@ -409,10 +408,9 @@ export class ConsolidationComponent implements OnInit {
       "wsid": this.userData.wsid
     }
 
-    this.consolidationHub.get(payload, '/Consolidation/VerifyItemPost').subscribe((res:any)=>{
+    this.Api.VerifyItemPost(payload).subscribe((res:any)=>{
       if(res.isExecuted){
-        let data = this.tableData_2.data;
-        console.log({...this.tableData_1.data[index]})
+        let data = this.tableData_2.data; 
         data.push({...this.tableData_1.data[index]});
         this.tableData_2 = new MatTableDataSource(data);
         let data2 = this.tableData_1.data;
@@ -438,8 +436,7 @@ export class ConsolidationComponent implements OnInit {
 
     let id = element.id;
     let status = element.lineStatus;
-    let index = this.tableData_2.data.indexOf(element)
-    console.log(status)
+    let index = this.tableData_2.data.indexOf(element) 
 
 
     if(status == 'Waiting Reprocess'){
@@ -451,7 +448,7 @@ export class ConsolidationComponent implements OnInit {
         "username": this.userData.userName ,
         "wsid": this.userData.wsid
       }
-      this.consolidationHub.get(payload,'/Consolidation/DeleteVerified').subscribe((res:any)=>{
+      this.Api.DeleteVerified(payload).subscribe((res:any)=>{
           if(res.isExecuted){
             let data2 = this.tableData_1.data;
             data2.push({...this.tableData_2.data[index]});
@@ -460,9 +457,7 @@ export class ConsolidationComponent implements OnInit {
             data.splice(index, 1);
             this.tableData_2 = new MatTableDataSource(data);
             this.tableData_1.paginator = this.paginator;
-            this.tableData_2.paginator = this.paginator2;
-            // console.log(this.tableData_1.data)
-            // console.log(this.tableData_2.data)
+            this.tableData_2.paginator = this.paginator2; 
           }
           else{
             this.toastr.error(res.responseMessage, 'Error!', {
@@ -633,7 +628,7 @@ export class ConsolidationComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
 
-    this.consolidationHub.get(payload, '/Consolidation/ConsoleItemsTypeAhead').subscribe((res: any) => {
+    this.Api.ConsoleItemsTypeAhead(payload).subscribe((res: any) => {
       this.searchAutocompleteItemNum = res.data;
     });
 

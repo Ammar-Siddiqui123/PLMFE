@@ -4,9 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
-import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
-import { ProcessPutAwayService } from '../processPutAway.service';
-import { ToteTransactionManagerService } from './tote-transaction-manager.service';
+import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';  
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/init/auth.service';
 import { BatchDeleteComponent } from 'src/app/dialogs/batch-delete/batch-delete.component';
@@ -15,6 +13,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-tote-transaction-manager',
   templateUrl: './tote-transaction-manager.component.html',
@@ -71,10 +70,10 @@ export class ToteTransactionManagerComponent implements OnInit {
   public displayedColumns: string[] = [
     'batchPickID',
     'filterCount',
-    'hostTransaction',
     'toteId',
     'transactionType',
     'zoneLabel',
+    'hostTransaction',
     'action'
   ];
 
@@ -91,7 +90,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private toteService: ToteTransactionManagerService,
+    private Api: ApiFuntions,
     private authService: AuthService,
     private filterService: ContextMenuFiltersService
   ) {
@@ -99,6 +98,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.autocompleteSearchColumn();
     this.batchPickId
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
@@ -120,19 +120,24 @@ export class ToteTransactionManagerComponent implements OnInit {
     this.getToteTrans();
   }
 
-  clearInfo(type,row?) {
-   
+   clearInfo(type,row?) {
+ let enablebatch = false
+  if(row?.batchPickID != ''){
+    enablebatch = true
+  }
         if (type != 'pickTote') {
           const dialogRef = this.dialog.open(BatchDeleteComponent, {
             height: 'auto',
-            width: '50vw',
+            width: '60vw',
             autoFocus: '__non_existing_element__',
             data: {
               deleteAllDisable:true,
-              batchId: row.batchPickID,
-              toteId: row.toteId,
+              enableClear:enablebatch,
+              batchId: row && row.batchPickID?row.batchPickID:'',
+              toteId: row && row.toteId?row.toteId:'',
               userName: this.userData.userName,
               wsid: this.userData.wsid,
+              delButtonHide:true
             },
           });
           dialogRef.afterClosed().subscribe((res) => {
@@ -142,8 +147,25 @@ export class ToteTransactionManagerComponent implements OnInit {
             }
           });
         } else {
+          const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+            height: 'auto',
+            width: '600px',
+            autoFocus: '__non_existing_element__',
+            data: {
+              mode: 'clear-pick-tote-info',
+              action: 'clear',
+              actionMessage:
+                type === 'pickTote'
+                  ? 'the info for all pick batches'
+                  : 'this batch or tote id',
+            },
+          });
+          dialogRef.afterClosed().subscribe((res) => {
+            if (res === 'Yes') {
+              this.clearToteInfo();
+            }
+          })
           // Clear tote info
-          this.clearToteInfo();
         }
   }
 
@@ -165,9 +187,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   //     });
   // }
   
- getToteTrans() {
-  console.log(this.FilterString);
-  
+ getToteTrans() {  
     let payload = {
    
       BatchID: this.batchId?this.batchId:'',
@@ -177,8 +197,8 @@ export class ToteTransactionManagerComponent implements OnInit {
       SortOrder:this.sortOrder,
       Filter: this.FilterString,
     };
-    this.toteService
-      .getAll('/Induction/SelectToteTransManTable',payload)
+    this.Api
+      .SelectToteTransManTable(payload)
       .subscribe((res: any) => {
         this.totalRecords=res.data && res.data[0] && res.data[0].totalCount? res.data[0].totalCount:0;
         this.dataSource = new MatTableDataSource(res?.data);
@@ -186,11 +206,12 @@ export class ToteTransactionManagerComponent implements OnInit {
   }
 
   async autocompleteSearchColumn() {
+    // debugger
     let searchPayload = {
       batchID:this.batchId
     };
-    this.toteService
-    .getAll('/Induction/SelectBatchPickTA',this.batchId?searchPayload:null,true)
+    this.Api
+    .SelectBatchPickTA(this.batchId?searchPayload:null)
       .subscribe(
         (res: any) => {
           this.searchAutocompletBatchPick = res.data;
@@ -205,8 +226,8 @@ export class ToteTransactionManagerComponent implements OnInit {
       wsid: this.userData.wsid,
       appName: '',
     };
-    this.toteService
-      .put(payload, '/Induction/ClearPickToteInfo')
+    this.Api
+      .ClearPickToteInfo(payload)
       .subscribe((res: any) => {
         if (res.isExecuted) {
           this.getToteTrans();
@@ -295,7 +316,7 @@ export class ToteTransactionManagerComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe((result) => {
-      // console.log(result);
+      ;
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
@@ -303,5 +324,10 @@ export class ToteTransactionManagerComponent implements OnInit {
 
   ngAfterViewInit() {
     this.searchBoxField.nativeElement.focus();
+  }
+
+  test(){
+    this.batchPickId.next('');
+    this.batchId='';
   }
 }

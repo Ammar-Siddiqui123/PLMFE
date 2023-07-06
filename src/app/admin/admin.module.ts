@@ -145,6 +145,26 @@ import { SystemPreferencesComponent } from './admin-preferences/system-preferenc
 import { SpGeneralSetupComponent } from './admin-preferences/system-preferences/sp-general-setup/sp-general-setup.component';
 import { SpLocationZonesComponent } from './admin-preferences/system-preferences/sp-location-zones/sp-location-zones.component';
 import { SpFieldNameMappingComponent } from './admin-preferences/system-preferences/sp-field-name-mapping/sp-field-name-mapping.component';
+import { SpDevicePreferenceComponent } from './admin-preferences/system-preferences/sp-device-preference/sp-device-preference.component';
+import { AddNewDeviceComponent } from './dialogs/add-new-device/add-new-device.component';
+import { SpBulkHandheldSettingComponent } from './admin-preferences/system-preferences/sp-bulk-handheld-setting/sp-bulk-handheld-setting.component';
+import { SpLightTreeSetupComponent } from './admin-preferences/system-preferences/sp-light-tree-setup/sp-light-tree-setup.component';
+import { SpScanVerificationSetupComponent } from './admin-preferences/system-preferences/sp-scan-verification-setup/sp-scan-verification-setup.component';
+import { ScanVerificationDefaultsComponent } from './dialogs/scan-verification-defaults/scan-verification-defaults.component';
+import { LocationNameComponent } from './dialogs/location-name/location-name.component';
+import { KanbanZoneAllocationConflictComponent } from './dialogs/kanban-zone-allocation-conflict/kanban-zone-allocation-conflict.component';
+import { WpWorkstationSetupComponent } from './admin-preferences/workstation-preferences/wp-workstation-setup/wp-workstation-setup.component';
+import { DeAllocateOrdersComponent } from './de-allocate-orders/de-allocate-orders.component';
+import { ReportsComponent } from './reports/reports.component';
+import { WpBulkZonesComponent } from './admin-preferences/workstation-preferences/wp-bulk-zones/wp-bulk-zones.component';
+import { WpPodSetupComponent } from './admin-preferences/workstation-preferences/wp-pod-setup/wp-pod-setup.component';
+import { BasicReportsAndLabelsComponent } from './reports/basic-reports-and-labels/basic-reports-and-labels.component';
+import { CustomReportsAndLabelsComponent } from './reports/custom-reports-and-labels/custom-reports-and-labels.component';
+import { AddNotesComponent } from './dialogs/add-notes/add-notes.component';
+import { WpPickLevelsComponent } from './admin-preferences/workstation-preferences/wp-pick-levels/wp-pick-levels.component';
+import { WpCustomAppsComponent } from './admin-preferences/workstation-preferences/wp-custom-apps/wp-custom-apps.component';
+import { WpMiscellaneousSettingsComponent } from './admin-preferences/workstation-preferences/wp-miscellaneous-settings/wp-miscellaneous-settings.component';
+import { WpSortBarSetupComponent } from './admin-preferences/workstation-preferences/wp-sort-bar-setup/wp-sort-bar-setup.component';
 
 
 
@@ -280,6 +300,26 @@ import { SpFieldNameMappingComponent } from './admin-preferences/system-preferen
     SpGeneralSetupComponent,
     SpLocationZonesComponent,
     SpFieldNameMappingComponent,
+    SpDevicePreferenceComponent,
+    AddNewDeviceComponent,
+    SpBulkHandheldSettingComponent,
+    SpLightTreeSetupComponent,
+    SpScanVerificationSetupComponent,
+    ScanVerificationDefaultsComponent,
+    LocationNameComponent,
+    KanbanZoneAllocationConflictComponent,
+    WpWorkstationSetupComponent,
+    DeAllocateOrdersComponent,
+    ReportsComponent,
+    WpBulkZonesComponent,
+    WpPodSetupComponent,
+    BasicReportsAndLabelsComponent,
+    CustomReportsAndLabelsComponent,
+    AddNotesComponent,
+    WpPickLevelsComponent,
+    WpCustomAppsComponent,
+    WpMiscellaneousSettingsComponent,
+    WpSortBarSetupComponent,
 
   ],
   imports: [

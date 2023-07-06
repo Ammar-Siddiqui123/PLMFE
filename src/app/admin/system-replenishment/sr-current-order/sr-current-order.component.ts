@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SystemReplenishmentService } from '../system-replenishment.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -18,6 +17,7 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { Subject } from 'rxjs';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-sr-current-order',
@@ -80,7 +80,7 @@ export class SrCurrentOrderComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private systemReplenishmentService: SystemReplenishmentService,
+    private Api: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService,
     private filterService: ContextMenuFiltersService
@@ -108,11 +108,13 @@ export class SrCurrentOrderComponent implements OnInit {
     return this.filterService.getType(val);
   }
 
-  FilterString: string = "";
+  FilterString: string = "1 = 1";
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
-    this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
-    this.tablePayloadObj.filter = this.FilterString != "" ? this.FilterString : "1=1";
+    if ((SelectedItem != undefined && FilterColumnName != "") || Condition == "clear") {
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
+      this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
+    }
+    this.tablePayloadObj.filter = this.FilterString != "" ? this.FilterString : "1 = 1";
     this.resetPagination();
     this.newReplenishmentOrders();
     // this.tablePayloadObj.filter = "1=1";
@@ -130,7 +132,7 @@ export class SrCurrentOrderComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     })
     dialogRef.afterClosed().subscribe((result) => {
-      // console.log(result);
+      ;
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
@@ -190,7 +192,7 @@ export class SrCurrentOrderComponent implements OnInit {
   newReplenishmentOrdersSubscribe: any;
 
   newReplenishmentOrders(loader: boolean = false) {
-    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentTable',loader).subscribe((res: any) => {
+    this.newReplenishmentOrdersSubscribe = this.Api.SystemReplenishmentTable(this.tablePayloadObj).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.tableData = res.data.sysTable;
         this.tableData.forEach(element => {
@@ -436,6 +438,9 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   searchChange(event: any) {
+    if(event == ""){
+      this.tablePayloadObj.searchString = "";
+    }
     this.tablePayloadObj.searchColumn = event;
     this.getSearchOptions();
     this.resetPagination();
@@ -457,7 +462,7 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   ReplenishmentsByDelete() {
-    this.systemReplenishmentService.get(this.repByDeletePayload, '/Admin/ReplenishmentsByDelete').subscribe((res: any) => {
+    this.Api.ReplenishmentsByDelete(this.repByDeletePayload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.toastr.success(labels.alert.delete, 'Success!', {
           positionClass: 'toast-bottom-right',
@@ -491,7 +496,7 @@ export class SrCurrentOrderComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.getSearchOptionsSubscribe = this.systemReplenishmentService.get(payload, '/Admin/ReplenishReportSearchTA',loader).subscribe((res: any) => {
+    this.getSearchOptionsSubscribe = this.Api.ReplenishReportSearchTA(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.searchAutocompleteList = res.data.sort();
       }
@@ -504,7 +509,7 @@ export class SrCurrentOrderComponent implements OnInit {
 
 
   systemReplenishmentCount(loader: boolean = false) {
-    this.newReplenishmentOrdersSubscribe = this.systemReplenishmentService.get(this.tablePayloadObj, '/Admin/SystemReplenishmentCount',loader).subscribe((res: any) => {
+    this.newReplenishmentOrdersSubscribe = this.Api.SystemReplenishmentCount(this.tablePayloadObj).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.noOfPicks = res.data.pickCount;
         this.noOfPutAways = res.data.putCount;

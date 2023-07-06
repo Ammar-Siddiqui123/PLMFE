@@ -1,4 +1,4 @@
-<ng-scrollbar class="mat-table-scrollbar" style="height: 90vh;">
+<!-- <ng-scrollbar class="mat-table-scrollbar" style="height: 90vh;"> -->
   <div class="d-flex justify-content-between mb-4 align-items-center">
     <div style="width:48px"></div>
     <h1 class="m-0" mat-dialog-title>Pick Tote Manager - Select Order Number</h1>
@@ -6,7 +6,7 @@
       <mat-icon class="close-icon">close</mat-icon>
     </button>
   </div>
-
+<div mat-dialog-content>
   <div>
     <div class="row mb-3 px-3">
       <mat-label class="mb-2"><b>Batch By:</b></mat-label>
@@ -21,10 +21,11 @@
     <div class="card p-3">
       <mat-tab-group>
         <mat-tab label="Batch By Filters">
-          <ng-scrollbar style="height: 550px ;">
+          <!-- <ng-scrollbar style="height: 550px ;"> -->
+            <div class="d-block" style="overflow: hidden;">
             <div class="my-3">
               <h2 class="card-header-title mb-0 d-flex align-items-center">
-                <div class="mat-icon-wrap me-lg-3">
+                <div class="mat-icon-wrap me-lg-3 me-2">
                   <span class="material-symbols-outlined">
                     filter_list
                   </span>
@@ -68,7 +69,7 @@
                 <div class="card p-3">
                   <div>
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
-                      <div class="mat-icon-wrap me-lg-3">
+                      <div class="mat-icon-wrap me-lg-3 me-2">
                         <span class="material-symbols-outlined">
                           filter_alt
                         </span>
@@ -217,7 +218,7 @@
                 <div class="card p-3">
                   <div>
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
-                      <div class="mat-icon-wrap me-lg-3">
+                      <div class="mat-icon-wrap me-lg-3 me-2">
                         <span class="material-symbols-outlined">
                           filter_frames
                         </span>
@@ -342,10 +343,12 @@
                 </div>
               </div>
             </div>
-          </ng-scrollbar>
+            </div>
+          <!-- </ng-scrollbar> -->
         </mat-tab>
         <mat-tab label="Batch Results">
-          <ng-scrollbar style="height: 550px ;">
+          <!-- <ng-scrollbar style="height: 550px ;"> -->
+            <div class="d-block" style="overflow: hidden;">
             <div class="p-3">
               <div class="mb-2">
                 <mat-label><b>View Order Lines</b></mat-label>
@@ -364,7 +367,7 @@
                 <div class="card p-3">
                   <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
-                      <div class="mat-icon-wrap me-lg-3">
+                      <div class="mat-icon-wrap me-lg-3 me-2">
                         <span class="material-symbols-outlined">
                           filter_frames
                         </span>
@@ -433,7 +436,7 @@
                 <div class="card p-3">
                   <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
-                      <div class="mat-icon-wrap me-lg-3">
+                      <div class="mat-icon-wrap me-lg-3 me-2">
                         <span class="material-symbols-outlined">
                           dvr
                         </span>
@@ -462,18 +465,19 @@
                 </div>
               </div>
             </div>
-          </ng-scrollbar>
+            </div>
+          <!-- </ng-scrollbar> -->
         </mat-tab>
       </mat-tab-group>
     </div>
   </ng-container>
-
+</div>
   <ng-template #zone>
     <div class="card p-3">
       <mat-tab-group [(selectedIndex)]="TabIndex">
         <mat-tab label="Batch By Zone">
           <div class="card br-14 table-responsive borderless px-0 mt-3">
-            <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 500px;">
+            <!-- <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 500px;"> -->
               <table mat-table [dataSource]="batchByZoneSource" class="w-100 table1">
 
                 <ng-container matColumnDef="default">
@@ -557,7 +561,7 @@
                 <tr mat-row *matRowDef="let row; columns: batchByOrderColumns;" (click)="selection.toggle(row)">
                 </tr>
               </table>
-            </ng-scrollbar>
+            <!-- </ng-scrollbar> -->
           </div>
           <div class="d-flex justify-content-start">
             <mat-paginator #batchByZonePaginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
@@ -584,7 +588,7 @@
                 <div class="card p-3">
                   <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
-                      <div class="mat-icon-wrap me-lg-3">
+                      <div class="mat-icon-wrap me-lg-3 me-2">
                         <span class="material-symbols-outlined">
                           filter_frames
                         </span>
@@ -654,7 +658,7 @@
                 <div class="card p-3">
                   <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
-                      <div class="mat-icon-wrap me-lg-3">
+                      <div class="mat-icon-wrap me-lg-3 me-2">
                         <span class="material-symbols-outlined">
                           dvr
                         </span>
@@ -687,4 +691,4 @@
       </mat-tab-group>
     </div>
   </ng-template>
-</ng-scrollbar>
+<!-- </ng-scrollbar> -->

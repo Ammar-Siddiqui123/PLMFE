@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
-import { startWith } from 'rxjs/internal/operators/startWith';
-import { EmployeeService } from 'src/app/employee.service';
+import { startWith } from 'rxjs/internal/operators/startWith'; 
 import labels from '../../../labels/labels.json';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-add-zone',
@@ -20,7 +20,7 @@ export class AddZoneComponent implements OnInit {
   zone = new FormControl('');
   fetchedZones:any;
   all_zones: any = this.data.allZones;
-  filteredOptions: Observable<string[]>;
+  filteredOptions: Observable<any>;
   addZoneForm: FormGroup;
   isValid = false;
   public editZoneName: any;
@@ -29,7 +29,7 @@ export class AddZoneComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private employeeService: EmployeeService,
+    private employeeService: ApiFuntions,
     private router: Router,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<any>
@@ -40,6 +40,8 @@ export class AddZoneComponent implements OnInit {
     this.data?.mode === 'edit-zone' ? this.form_heading = 'Edit Zone' : 'Update Zone';
     this.data?.mode === 'edit-zone' ? this.form_btn_label = 'Update' : 'Add';
     this.fetchedZones=this.data?.fetchedZones;
+    
+    this.editZoneName=this.data?.fetchedZones;
 
     this.initialzeEmpForm();
     this.filteredOptions = this.addZoneForm.controls['zoneList'].valueChanges.pipe(

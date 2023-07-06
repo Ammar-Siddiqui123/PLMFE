@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -7,9 +7,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/init/auth.service';
-import { AdminPrefrencesService } from './admin-prefrences.service';
+import { AuthService } from 'src/app/init/auth.service'; 
 import labels from '../../labels/labels.json';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-admin-prefrences',
@@ -17,6 +17,10 @@ import labels from '../../labels/labels.json';
   styleUrls: ['./admin-prefrences.component.scss'],
 })
 export class AdminPrefrencesComponent implements OnInit {
+
+  @ViewChild('myInput') myInput: ElementRef<HTMLInputElement>;
+  @ViewChild('maxNumber') maxNumber: ElementRef<HTMLInputElement>;
+  
   public userData: any;
   preferencesForm: FormGroup;
   trackIndIsDisable = false;
@@ -119,7 +123,7 @@ export class AdminPrefrencesComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private adminPrefrencesService: AdminPrefrencesService,
+    private Api: ApiFuntions,
     public formBuilder: FormBuilder,
     private toast: ToastrService
   ) {
@@ -219,8 +223,8 @@ export class AdminPrefrencesComponent implements OnInit {
   getPreferences() {
     try {
       var payload = { wsid: this.userData.wsid };
-      this.adminPrefrencesService
-        .get(payload, '/Induction/PreferenceIndex')
+      this.Api
+        .PreferenceIndex()
         .subscribe(
           (res: any) => {
             if (res.data && res.isExecuted) {
@@ -333,8 +337,7 @@ export class AdminPrefrencesComponent implements OnInit {
           },
           (error) => {}
         );
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 
@@ -381,7 +384,7 @@ export class AdminPrefrencesComponent implements OnInit {
           WSID: this.userData.wsid,
         };
 
-        endPoint = '/Induction/IMSytemSettingsUpdate';
+        endPoint = '/Induction/imsytemsettings';
       } else if (type == 2) {
         payLoad = {
           User1: values.userField1,
@@ -397,7 +400,7 @@ export class AdminPrefrencesComponent implements OnInit {
           OrderNumPre: values.orderNoPrefix,
           WSID: this.userData.wsid,
         };
-        endPoint = '/Induction/RTSUserDataUpdate';
+        endPoint = '/Induction/rtsuserdata';
       } else if (type == 3) {
         if (event && event.checked) {
           this.preferencesForm.get('inductionLocation')?.enable();
@@ -426,7 +429,7 @@ export class AdminPrefrencesComponent implements OnInit {
           superBatchFilt: values.superBatchFilter === '1' ? true : false,
           WSID: this.userData.wsid,
         };
-        endPoint = '/Induction/IMMiscSetupUpdate';
+        endPoint = '/Induction/immiscsetup';
       } else {
         payLoad = {
           AutoPrintCross: values.autoPrintCrossDockLabel,
@@ -444,10 +447,10 @@ export class AdminPrefrencesComponent implements OnInit {
           WSID: this.userData.wsid,
         };
 
-        endPoint = '/Induction/IMPrintSettingsUpdate';
+        endPoint = '/Induction/imprintsettings';
       }
 
-      this.adminPrefrencesService.update(payLoad, endPoint).subscribe(
+      this.Api.DynamicMethod(payLoad, endPoint).subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
             this.toast.success(labels.alert.update, 'Success!', {
@@ -463,15 +466,14 @@ export class AdminPrefrencesComponent implements OnInit {
         },
         (error) => {}
       );
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
   getCompName() {
     let payload = {
       WSID: this.userData.wsid,
     };
-    this.adminPrefrencesService.get(payload, '/Induction/CompName',true).subscribe(
+    this.Api.CompName().subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
 
@@ -500,4 +502,34 @@ export class AdminPrefrencesComponent implements OnInit {
       });
     }
   }
+
+
+  restrictTo10Digits(): void {
+    const inputElement = this.myInput.nativeElement;
+    let value = inputElement.value.replace(/\D/g, ''); // Remove non-digit characters
+    if (parseInt(value) > 2147483647) {
+      value = value.substr(0, 10);
+    } else {
+      value = value.substr(0, 10);
+    }
+    // if (value === '') {
+    //   value = '0';
+    // }
+    inputElement.value = value;
+  }
+
+  restrictTo309Digits(event: KeyboardEvent): void {
+    const inputElement = this.maxNumber.nativeElement;
+    let value = inputElement.value.replace(/\D/g, ''); // Remove non-digit characters
+    if (parseInt(value) > 2147483647) {
+      value = value.substr(0, 309);
+    } else {
+      value = value.substr(0, 309);
+    }
+    // if (value === '') {
+    //   value = '0';
+    // }
+    inputElement.value = value;
+  }
+
 }

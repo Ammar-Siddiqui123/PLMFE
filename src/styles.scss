@@ -1563,6 +1563,11 @@ button.default-btn {
   border-radius: 8px;
 }
 
+.mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-empty{
+  mat-label {
+    background: none !important;
+  }
+}
 .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-label {
   mat-label {
     background: #fff;
@@ -1926,6 +1931,7 @@ button.default-btn {
   left: 0;
   right: 0;
   height: 100vh;
+  min-width:650px
 }
 
 .main-container {
@@ -1936,9 +1942,40 @@ button.default-btn {
   background: #D6D6FD;
   color: #000080 !important;
   font-weight: 700;
-
 }
 
+.mat-nav-list .mat-list-item:focus {
+  background: #D6D6FD !important;
+  color: #000080 !important;
+  border-radius: 20px !important;
+  transition: 0.1s ease all !important;
+}
+
+.mat-nav-list .mat-list-item:focus-within {
+  background: #D6D6FD !important;
+  color: #000080 !important;
+  border-radius: 20px !important;
+  transition: 0.1s ease all !important;
+}
+.mat-nav-list .mat-list-item:focus-visible {
+  background: #D6D6FD !important;
+  color: #000080 !important;
+  border-radius: 20px !important;
+  transition: 0.1s ease all !important;
+}
+
+.mat-nav-list .mat-list-item:visited {
+  background: #D6D6FD !important;
+  color: #000080 !important;
+  border-radius: 20px !important;
+  transition: 0.1s ease all !important;
+}
+.mat-nav-list .mat-list-item:hover {
+  background: #D6D6FD !important;
+  color: #000080 !important;
+  border-radius: 20px !important;
+  transition: 0.1s ease all !important;
+}
 .prompt-icon-add {
   font-size: 38px;
   width: 66px;
@@ -2281,3 +2318,73 @@ button.default-btn {
   
   }
  
+//-------------- ACCORDIAN-CLASSES ----START-------------------
+
+  .mat-expansion-panel {
+    background: #fff;
+    color: rgba(0, 0, 0, .87)
+  }
+  
+  .mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: none;
+    border:1px solid var(--clr-tertiary-50)
+  }
+  
+  .mat-action-row {
+    border-top-color: rgba(0, 0, 0, .12)
+  }
+  
+  .mat-expansion-panel .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled=true]),
+  .mat-expansion-panel .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled=true]),
+  .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled=true]) {
+    background: rgba(0, 0, 0, .04)
+  }
+  
+  @media(hover: none) {
+    .mat-expansion-panel:not(.mat-expanded):not([aria-disabled=true]) .mat-expansion-panel-header:hover {
+      background: #fff
+    }
+  }
+  
+  .mat-expansion-panel-header-title {
+    color: var(--clr-tertiary-900);
+    font-size:16px;
+    font-weight: 600;
+  }
+  
+  .mat-expansion-panel-header-description,
+  .mat-expansion-indicator::after {
+    color: rgba(0, 0, 0, .54)
+  }
+  
+  .mat-expansion-panel-header[aria-disabled=true] {
+    color: rgba(0, 0, 0, .26)
+  }
+  
+  .mat-expansion-panel-header[aria-disabled=true] .mat-expansion-panel-header-title,
+  .mat-expansion-panel-header[aria-disabled=true] .mat-expansion-panel-header-description {
+    color: inherit
+  }
+  
+  .mat-expansion-panel-header {
+    height: 48px
+  }
+  
+  .mat-expansion-panel-header.mat-expanded {
+    height: 64px
+  }
+
+  .mat-accordion .mat-expansion-panel:not(.mat-expanded), 
+  .mat-accordion .mat-expansion-panel:not(.mat-expansion-panel-spacing) {
+    border-radius: 10px !important;
+}
+.mat-expansion-panel.mat-expansion-panel.mat-expanded.mat-expansion-panel-spacing {
+  border-radius: 10px !important;
+}
+
+  //-------------- ACCORDIAN-CLASSES ----END-------------------
+
+
+  // input{
+  //   -webkit-user-select:all !important;
+  // }

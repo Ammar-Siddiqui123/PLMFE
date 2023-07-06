@@ -23,7 +23,8 @@ export class AuthService {
     { icon: 'ads_click', title: 'Manual Transactions', route: '#' ,permission: 'Manual Transactions'},
     { icon: 'event_note', title: 'Event Log', route: '#' ,permission: 'Event Log Manager'},
     { icon: 'airline_stops', title: 'De-Allocate Orders', route: '#' ,permission: 'De-Allocate Orders'},
-    { icon: 'dashboard', title: 'Inventory', route: '/admin/inventoryMaster',permission: 'Inventory' }
+    { icon: 'dashboard', title: 'Inventory', route: '/admin/inventoryMaster',permission: 'Inventory' }, 
+    
   ];
   constructor(private http: HttpClient,private pLocation: PlatformLocation) { }
   
@@ -81,32 +82,8 @@ export class AuthService {
     
   }
 
-  public logout(userData:any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/Login/Logout`, userData);
-  }
+  
 
-  public configLogout(userData:any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/Logout`, userData);
-  }
-  public startCCSIF(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StartCCSIF`,{});
-  }
-  public stopCCSIF(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StopCCSIF`,{});
-  }
-  public ServiceStatusCCSIF(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/ServiceStatusCCSIF`,{});
-  }
-  public startSTEService(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StartSTE`,{});
-  }
-  public stopSTEService(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/StopSTE`,{});
-  }
-  public RestartService(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/RestartSTE`,{});
-  }
-  public ServiceStatusSTE(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/GlobalConfig/ServiceStatusSTE`,{});
-  }
+ 
+  
 }

@@ -3,8 +3,7 @@ import {
   MatDialog,
   MAT_DIALOG_DATA,
   MatDialogRef,
-} from '@angular/material/dialog';
-import { ProcessPutAwayService } from 'src/app/induction-manager/processPutAway.service';
+} from '@angular/material/dialog'; 
 import { BatchDeleteConfirmationComponent } from '../batch-delete-confirmation/batch-delete-confirmation.component';
 
 @Component({
@@ -18,11 +17,12 @@ export class BatchDeleteComponent implements OnInit {
   transType = 'Put Away';
   clearBatchTote: string = '';
   deleteAllDisable:any;
+  enableClear=false;
+  deleteBtnHide = false
   constructor(
     public dialogRef: MatDialogRef<BatchDeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialog: MatDialog,
-    private service: ProcessPutAwayService
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -30,7 +30,9 @@ export class BatchDeleteComponent implements OnInit {
     this.toteID = this.data.toteId;
     this.batchID = this.data.batchId;
     this.deleteAllDisable=this.data.deleteAllDisable;
-    this.clearBatchTote=this.data.deleteAllDisable?'clearTote':'clearBatch'
+    this.clearBatchTote=this.data.deleteAllDisable?'clearTote':'clearBatch';
+    this.enableClear=this.data && this.data.enableClear
+    this.deleteBtnHide = this.data && this.data.delButtonHide ? this.data.delButtonHide : false
   }
 
   batchTotesDelete(deAllocate?) {

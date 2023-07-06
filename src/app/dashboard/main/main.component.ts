@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { GlobalconfigService } from 'src/app/global-config/globalconfig.service';
+import { Component, OnInit } from '@angular/core'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { SharedService } from '../../../app/services/shared.service';
 import { mergeMap, map } from 'rxjs/operators';
 import { forkJoin, of, Subscription } from 'rxjs'; 
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -22,7 +22,7 @@ private subscription: Subscription = new Subscription();
 
   constructor(
     private sharedService: SharedService,
-    private globalService: GlobalconfigService,
+    private Api:ApiFuntions,
     private authService: AuthService
   ) {}
 
@@ -51,14 +51,13 @@ private subscription: Subscription = new Subscription();
     let payload = {
       WSID: this.userData.wsid,
     };
-    this.globalService
-      .get(payload, '/GlobalConfig/AppNameByWorkstation')
+    this.Api
+      .AppNameByWorkstation()
       .subscribe(
         (res: any) => {
           if (res && res.data) {
             this.convertToObj(res.data);
-            localStorage.setItem('availableApps',JSON.stringify(this.applicationData))
-            debugger
+            localStorage.setItem('availableApps',JSON.stringify(this.applicationData)) 
             this.sharedService.setMenuData(this.applicationData)
           }
         },
@@ -164,7 +163,7 @@ private subscription: Subscription = new Subscription();
       },
       {
         appName: 'FlowRackReplenish',
-        route: '/flowrack',
+        route: '/FlowrackReplenishment',
         iconName: 'schema',
         name: 'FlowRack Replenishment',
         updateMenu: '',
@@ -239,9 +238,7 @@ private subscription: Subscription = new Subscription();
     }  else if(menu=='consolidation'){ 
       this.sharedService.BroadCastMenuUpdate(obj.route);
       // this.sharedService.updateInductionAdminMenu(menu)
-    }
-    
-    // console.log(this.sharedService.updateSidebar());
+    } 
     this.sharedService.updateSidebar();
   }
 

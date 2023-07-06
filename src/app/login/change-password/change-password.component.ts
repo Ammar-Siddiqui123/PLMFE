@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { LoginService } from '../../../app/login.service';
+import { ToastrService } from 'ngx-toastr'; 
 import labels from '../../labels/labels.json'
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-change-password',
@@ -18,7 +18,7 @@ export class ChangePasswordComponent implements OnInit {
   isReadOnly: boolean = true;
   constructor(
     private fb: FormBuilder,
-    public loginService: LoginService,
+    public api: ApiFuntions,
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<any>
   ) { }
@@ -50,7 +50,7 @@ export class ChangePasswordComponent implements OnInit {
         "password": form.value.old_password,
         "newpassword": form.value.new_password
       }
-      this.loginService.changePassword(payload).subscribe((res) => {
+      this.api.changePassword(payload).subscribe((res) => {
         const { isExecuted, responseMessage } = res;
         if (isExecuted) {
           this.toastr.success(labels.alert.update, 'Success!', {
@@ -60,7 +60,7 @@ export class ChangePasswordComponent implements OnInit {
           this.dialogRef.close();
         }
         else {
-          this.toastr.error(responseMessage?.toString() + '. Please contact your Administrator.', 'Error!', {
+          this.toastr.error(responseMessage?.toString(), 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });

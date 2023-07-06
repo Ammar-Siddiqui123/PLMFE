@@ -6,8 +6,7 @@ import { OmEditTransactionComponent } from '../om-edit-transaction/om-edit-trans
 import { OmUserFieldDataComponent } from '../om-user-field-data/om-user-field-data.component';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
-import { Router } from '@angular/router';
-import { OrderManagerService } from 'src/app/order-manager/order-manager.service';
+import { Router } from '@angular/router'; 
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import labels from '../../labels/labels.json';
 import { MatAutocomplete } from '@angular/material/autocomplete';
@@ -20,6 +19,8 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatPaginator } from '@angular/material/paginator';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-om-create-orders',
@@ -141,7 +142,7 @@ export class OmCreateOrdersComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     public dialogRef: MatDialogRef<OmCreateOrdersComponent>,
-    private orderManagerService: OrderManagerService,
+    private Api: ApiFuntions,
     private filterService: ContextMenuFiltersService,
     private _liveAnnouncer: LiveAnnouncer
   ) { }
@@ -200,7 +201,7 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   openOmAddTransaction(element: any = {}) {
-    debugger;
+    // debugger;
     if(this.tableData.filteredData.length == 0){
       return;
     }
@@ -240,7 +241,7 @@ export class OmCreateOrdersComponent implements OnInit {
 
   createOrdersDT(loader: boolean = false) {
     if (this.createOrdersDTPayload.orderNumber.trim() != '') {
-      this.orderManagerService.get(this.createOrdersDTPayload, '/OrderManager/CreateOrdersDT', loader).subscribe((res: any) => {
+      this.Api.CreateOrdersDT(this.createOrdersDTPayload).subscribe((res: any) => {
         if (res.isExecuted && res.data) {
           // this.tableData = res.data;
           // if (res.data.length > 0) {
@@ -250,8 +251,7 @@ export class OmCreateOrdersComponent implements OnInit {
           // }
           this.tableData = new MatTableDataSource(res.data);  
           this.tableData.paginator = this.paginator1;
-        } else {
-          console.log('Error',res.responseMessage);
+        } else { 
           this.tableData = new MatTableDataSource(); 
           // this.toastr.error(res.responseMessage, 'Error!', {
           //   positionClass: 'toast-bottom-right',
@@ -297,7 +297,7 @@ export class OmCreateOrdersComponent implements OnInit {
           "page": "Create Orders",
           "wsid": this.userData.wsid
         };
-        this.orderManagerService.get(payload, '/OrderManager/ReleaseOrders').subscribe((res: any) => {
+        this.Api.ReleaseOrders(payload).subscribe((res: any) => {
           if (res.isExecuted && res.data) {
             this.toastr.success("Order Released Successfully!", 'Success!', {
               positionClass: 'toast-bottom-right',
@@ -348,7 +348,7 @@ export class OmCreateOrdersComponent implements OnInit {
             "user": this.userData.userName,
             "wsid": this.userData.wsid
           };
-          this.orderManagerService.get(payload, '/OrderManager/OTPendDelete').subscribe((res: any) => {
+          this.Api.OTPendDelete(payload).subscribe((res: any) => {
             if (res.isExecuted && res.data) {
               this.toastr.success(labels.alert.delete, 'Success!', {
                 positionClass: 'toast-bottom-right',
@@ -374,8 +374,8 @@ export class OmCreateOrdersComponent implements OnInit {
 
   selectColumnSequence() {
     let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
-      height: '96%',
-      width: '70vw',
+      height: 'auto',
+      width: '960px',
       data: {
         mode: event,
         tableName: 'Order Manager Create',
@@ -395,7 +395,7 @@ export class OmCreateOrdersComponent implements OnInit {
         "userName": this.userData.userName,
         "wsid": this.userData.wsid
       }
-      this.orderManagerService.get(payload, '/OrderManager/CreateOrderTypeahead', loader).subscribe((res: any) => {
+      this.Api.CreateOrderTypeahead(payload).subscribe((res: any) => {
         if (res.isExecuted && res.data) {
           this.orderNumberSearchList = res.data.sort();
         }
@@ -449,8 +449,7 @@ export class OmCreateOrdersComponent implements OnInit {
       },
       autoFocus: '__non_existing_element__',
     })
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+    dialogRef.afterClosed().subscribe((result) => { 
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
@@ -470,7 +469,7 @@ export class OmCreateOrdersComponent implements OnInit {
       wsid: this.userData.wsid,
       tableName: 'Order Manager Create'
     };
-    this.orderManagerService.get(payload, '/Admin/GetColumnSequence').subscribe((res: any) => {
+    this.Api.GetColumnSequence(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.filterColumnNames = JSON.parse(JSON.stringify(res.data));
         this.sortedFilterColumnNames = [...this.filterColumnNames.sort()];
@@ -503,5 +502,10 @@ export class OmCreateOrdersComponent implements OnInit {
   
   focusoutmethod(){
     document.getElementById("scrr")?.setAttribute("style", "overflow: auto;");
+  }
+
+  actionDialog(matEvent: MatSelectChange) {
+    const matSelect: MatSelect = matEvent.source;
+    matSelect.writeValue(null);
   }
 }

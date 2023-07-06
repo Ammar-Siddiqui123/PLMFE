@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ILogin, ILoginInfo } from './Ilogin';
-import { LoginService } from '../login.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ILogin, ILoginInfo } from './Ilogin'; 
 import { FormControl, FormGroup, Validators, } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -8,20 +7,19 @@ import labels from '../labels/labels.json'
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { SpinnerService } from '../init/spinner.service';
-import { AuthService } from '../init/auth.service';
-import { GlobalconfigService } from '../global-config/globalconfig.service';
+import { AuthService } from '../init/auth.service'; 
 import packJSON from '../../../package.json'
 import { SharedService } from '../services/shared.service';
+import { ApiFuntions } from '../services/ApiFuntions';
 
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
-  providers: [LoginService],
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   login: ILogin;
-
+  @ViewChild('passwordInput') passwordInput: ElementRef;
   returnUrl: string;
   public env;
   public toggle_password = true;
@@ -30,30 +28,29 @@ export class LoginComponent {
   version : string;
   applicationData: any = [];
   isAppAccess=false;
+  info:any=  {};
   constructor(
-    public loginService: LoginService,
+    public api: ApiFuntions,
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private dialog: MatDialog,
     public loader: SpinnerService,
-    private auth: AuthService,
-    private globalService: GlobalconfigService,
+    private auth: AuthService, 
     private sharedService: SharedService,
   ) { 
     this.url = this.router.url;
   }
 
-  removeReadOnly(){
+  removeReadOnly(){  
     this.isReadOnly = !this.isReadOnly;
   }
 
-  addLoginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
-    password: new FormControl('', [Validators.required]),
-  });
+  addLoginForm:any = {};
 
-
+enterUserName(){
+  this.passwordInput.nativeElement.focus();
+}
   public noWhitespaceValidator(control: FormControl) {
     const isSpace = (control.value || '').match(/\s/g);
     return isSpace ? { 'whitespace': true } : null;
@@ -61,11 +58,12 @@ export class LoginComponent {
 
   loginUser() {
     this.loader.show();
-    this.addLoginForm.get("username")?.setValue(this.addLoginForm.value.username?.replace(/\s/g, "")||null);
-    this.login = this.addLoginForm.value;
+    this.addLoginForm.username = this.addLoginForm.username?.replace(/\s/g, "")||null;
+    this.addLoginForm.password = this.addLoginForm.password?.replace(/\s/g, "")||null;
+    this.login = this.addLoginForm;
     const workStation:any = JSON.parse(localStorage.getItem('workStation') || '');
     this.login.wsid = workStation.workStationID;
-    this.loginService
+    this.api
       .login(this.login)
       .subscribe((response: any) => {
         const exe = response.isExecuted
@@ -104,22 +102,33 @@ export class LoginComponent {
 
       });
   }
+  CompanyInfo(){
+    var obj:any = { 
+    }
+    this.api
+    .CompanyInfo()
+    .subscribe((response: any) => {
+      this.info = response.data;
+    });
+  }
   ngAfterContentInit(): void {
     // setTimeout(() => {
     //   this.addLoginForm.get("username")?.setValue('');
     //   this.addLoginForm.get("password")?.setValue('');
     // }, 2000);
+    
   }
 
 
   ngOnInit() {
+
     this.version = packJSON.version;
     localStorage.clear();
     if(this.auth.IsloggedIn()){
       this.router.navigate(['/dashboard']);
     }
     else{
-      this.loginService.getSecurityEnvironment().subscribe((res:any) => {
+      this.api.getSecurityEnvironment().subscribe((res:any) => {
         this.env = res.data.securityEnvironment;
         if(this.env){
           const { workStation } = res.data;
@@ -134,7 +143,8 @@ export class LoginComponent {
         }
       });
     }
-   
+   this.CompanyInfo();
+    
 
   }
 
@@ -145,8 +155,7 @@ export class LoginComponent {
     let payload = {
       WSID:  this.login.wsid,
     };
-    this.globalService
-      .get(payload, '/GlobalConfig/AppNameByWorkstation')
+    this.api.AppNameByWorkstation()
       .subscribe(
         (res: any) => {
           if (res && res.data) {
@@ -200,6 +209,14 @@ export class LoginComponent {
         name: 'Admin',
         updateMenu: 'admin',
         permission: 'Admin Menu',
+      },
+      {
+        appName: 'FlowRackReplenish',
+        route: '/FlowrackReplenishment',
+        iconName: 'schema',
+        name: 'FlowRack Replenishment',
+        updateMenu: '',
+        permission: 'FlowRack Replenish',
       },
       {
         appName: 'Consolidation Manager',
@@ -259,9 +276,7 @@ export class LoginComponent {
     let paylaod={
       WSID: wsid
     }
-     this.globalService
-.get(paylaod, '/GlobalConfig/WorkStationDefaultAppSelect')
-.subscribe(
+     this.api.workstationdefaultapp().subscribe(
   (res: any) => {
   
     if (res && res.data) {
@@ -273,7 +288,7 @@ export class LoginComponent {
      }
     else{
       localStorage.setItem('isAppVerified',JSON.stringify({appName:'',isVerified:true}))
-      this.addLoginForm.reset();
+      // this.addLoginForm.reset();
       this.router.navigate(['/dashboard']);
     }
   },
@@ -296,7 +311,7 @@ export class LoginComponent {
     if(this.isAppAccess){
       localStorage.setItem('isAppVerified',JSON.stringify({appName:appName,isVerified:true}))
       this.redirection(appName)
-      this.addLoginForm.reset();
+      // this.addLoginForm.reset();
       
       
     }else{
@@ -312,7 +327,7 @@ export class LoginComponent {
         this.router.navigate(['/#']);
         break;
       case 'FlowRackReplenish':
-        this.router.navigate(['/flowrack']);
+        this.router.navigate(['/FlowrackReplenishment']);
         break;
         case 'ICSAdmin':
         this.router.navigate(['/admin']);
@@ -346,7 +361,7 @@ export class LoginComponent {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
+      ;
 
     });
   }

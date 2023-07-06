@@ -1,13 +1,13 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import { ProcessPutAwayService } from '../../induction-manager/processPutAway.service';
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { DeleteConfirmationComponent } from '../../admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface PeriodicElement {
   name: string;
@@ -34,7 +34,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./totes-add-edit.component.scss']
 })
 export class TotesAddEditComponent implements OnInit {
-  ELEMENT_DATA_TOTE = [{toteID:"" , cells:"" , position: 1 ,oldToteID:"",isInserted:1}];
+  isRowAdded=false;
+  ELEMENT_DATA_TOTE = [{toteID:"" , cells:"" , position: 1 ,oldToteID:"",isInserted:1,isDuplicate:false}];
   displayedColumns: string[] = [ 'zone', 'locationdesc','actions'];
   alreadySavedTotesList:any;
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
@@ -46,6 +47,8 @@ export class TotesAddEditComponent implements OnInit {
   cellID="";
   userData:any;
 
+  // emptyField:boolean = false
+
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -56,7 +59,8 @@ export class TotesAddEditComponent implements OnInit {
 
   addRow()
   {
-    this.ELEMENT_DATA_TOTE.push({toteID:"" , cells:"" , position: this.ELEMENT_DATA_TOTE.length-1 ,oldToteID:"",isInserted:0});
+    this.isRowAdded=true;
+    this.ELEMENT_DATA_TOTE.push({toteID:"" , cells:"" , position: this.ELEMENT_DATA_TOTE.length-1 ,oldToteID:"",isInserted:0,isDuplicate:false});
     this.dataSourceManagedTotes = new MatTableDataSource<any>(this.ELEMENT_DATA_TOTE);
   }
 
@@ -94,16 +98,20 @@ export class TotesAddEditComponent implements OnInit {
         toteID: toteID,
         cells: cells
       }
-      this.service.get(searchPayload, '/Admin/ToteSetupInsert', true).subscribe(
+      this.Api.ToteSetupInsert(searchPayload).subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
             this.toastr.success(isInserted=="1"?updateMessage:res.responseMessage, 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
+            this.dataSourceManagedTotes.data[index]['isDuplicate']=false
+            this.isRowAdded=false;
           this.getTotes();
           } else {
-            // console.log(searchPayload);
+            this.dataSourceManagedTotes.data[index]['isDuplicate']=true
+       
+        
             this.toastr.error("Cannot set the selected tote because it is already set in the batch.", 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
@@ -116,7 +124,7 @@ export class TotesAddEditComponent implements OnInit {
     
   }
 
-  deleteTote(toteID:any)
+  deleteTote(toteID:any,index)
   {  //jhgjhgfhgfh
     const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
@@ -124,33 +132,47 @@ export class TotesAddEditComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         mode: '',
+        action: 'delete',
       }
     })
     dialogRef.afterClosed().subscribe(result => {
       if(result=='Yes')
       {
-        let deleteTote = {
-          username: this.userData.userName,
-          wsid: this.userData.wsid,
-          toteID: toteID
+
+        const data = this.dataSourceManagedTotes.data;
+        if(data[index]['isDuplicate']){
+          data.splice(index,1)
+          this.dataSourceManagedTotes.data=data
+          console.log( this.dataSourceManagedTotes.data);
+          
+        }else{
+          let deleteTote = {
+            username: this.userData.userName,
+            wsid: this.userData.wsid,
+            toteID: toteID
+          }
+          this.Api.ToteSetupDelete(deleteTote).subscribe(
+            (res: any) => {
+              if (res.data && res.isExecuted) {
+                this.toastr.success("Deleted successfuly", 'Success!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000
+                });
+                this.isRowAdded=false;
+        this.getTotes();
+              } else {
+                this.toastr.error("Already exists", 'Error!', {
+                  positionClass: 'toast-bottom-right',
+                  timeOut: 2000,
+                });
+              }
+            },
+            (error) => { }
+          );
         }
-        this.service.create(deleteTote, '/Admin/ToteSetupDelete').subscribe(
-          (res: any) => {
-            if (res.data && res.isExecuted) {
-              this.toastr.success("Deleted successfuly", 'Success!', {
-                positionClass: 'toast-bottom-right',
-                timeOut: 2000
-              });
-      this.getTotes();
-            } else {
-              this.toastr.error("Already exists", 'Error!', {
-                positionClass: 'toast-bottom-right',
-                timeOut: 2000,
-              });
-            }
-          },
-          (error) => { }
-        );
+        
+      
+
 
       }
 
@@ -160,17 +182,14 @@ export class TotesAddEditComponent implements OnInit {
   getTotes()
   {
     this.ELEMENT_DATA_TOTE.length=0;
-    let searchPayload = {
-      username: this.userData.userName,
-      wsid: this.userData.wsid
-    }
-    this.service.get(searchPayload, '/Admin/ToteSetup').subscribe(
+    this.Api.ToteSetup().subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
           this.ELEMENT_DATA_TOTE = res.data;
           for(var i=0;i<this.ELEMENT_DATA_TOTE.length;i++)
           {
           this.ELEMENT_DATA_TOTE[i].isInserted = 1;
+          this.ELEMENT_DATA_TOTE[i].isDuplicate = false;
           this.ELEMENT_DATA_TOTE[i].oldToteID   = this.ELEMENT_DATA_TOTE[i].toteID
           }
           this.dataSourceManagedTotes = new MatTableDataSource<any>(this.ELEMENT_DATA_TOTE);
@@ -187,6 +206,7 @@ export class TotesAddEditComponent implements OnInit {
 
   onToteChange($event,position,cells="")
   {
+    
   if(cells=="")
   {
     if(this.ELEMENT_DATA_TOTE[(position)].toteID!=$event.target.value)
@@ -204,7 +224,6 @@ export class TotesAddEditComponent implements OnInit {
     }
 
   }
-  
   
   }
 
@@ -265,6 +284,7 @@ export class TotesAddEditComponent implements OnInit {
           return;
         }
         selectedTote = { toteID : toteIDs, cellID : cells, position : this.position }; 
+        this.isRowAdded=false;
         this.dialogRef.close(selectedTote);
       }
     }
@@ -277,7 +297,7 @@ export class TotesAddEditComponent implements OnInit {
   selection1 = new SelectionModel<PeriodicElement>(true, []);
 
   constructor(public dialogRef: MatDialogRef<TotesAddEditComponent>,private route: ActivatedRoute,private location: Location,
-    @Inject(MAT_DIALOG_DATA) public data : any,private authService: AuthService,private service: ProcessPutAwayService,private toastr: ToastrService,private dialog: MatDialog,) {
+    @Inject(MAT_DIALOG_DATA) public data : any,private authService: AuthService,private Api:ApiFuntions,private toastr: ToastrService,private dialog: MatDialog,) {
 
       let pathArr= this.location.path().split('/')
       this.isIMPath=pathArr[pathArr.length-1]==='ImToteManager'?true:false
@@ -286,6 +306,8 @@ export class TotesAddEditComponent implements OnInit {
       
       
      }
+
+   
 
   ngOnInit(): void {
     this.ELEMENT_DATA_TOTE.length=0;

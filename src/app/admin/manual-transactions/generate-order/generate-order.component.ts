@@ -13,7 +13,8 @@ import { AuthService } from 'src/app/init/auth.service';
 import { AddNewTransactionToOrderComponent } from '../../dialogs/add-new-transaction-to-order/add-new-transaction-to-order.component';
 import { DeleteConfirmationManualTransactionComponent } from '../../dialogs/delete-confirmation-manual-transaction/delete-confirmation-manual-transaction.component';
 import { ManualTransPostConfirmComponent } from '../../dialogs/manual-trans-post-confirm/manual-trans-post-confirm.component';
-import { TransactionService } from '../../transaction/transaction.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
+ 
 
 @Component({
   selector: 'app-generate-order',
@@ -47,8 +48,7 @@ export class GenerateOrderComponent implements OnInit {
   pageEvent: PageEvent;
 
   @Input() set tab(event : any) {
-    if (event) {
-      console.log(event)
+    if (event) { 
       setTimeout(()=>{
         this.searchBoxField.nativeElement.focus();
       }, 500);
@@ -57,7 +57,7 @@ export class GenerateOrderComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private transactionService: TransactionService,
+    private Api: ApiFuntions,
     private dialog: MatDialog
   ) {
     this.userData = this.authService.userData();
@@ -121,8 +121,8 @@ export class GenerateOrderComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(searchPayload, '/Admin/ManualOrderTypeAhead', true)
+    this.Api
+      .ManualOrderTypeAhead(searchPayload)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
@@ -227,7 +227,7 @@ export class GenerateOrderComponent implements OnInit {
     this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
   editTransaction(element){
-// console.log(element);
+
 
 // JSON.stringify(element.batchPickID)
 // JSON.stringify(element.hostTransactionID)
@@ -316,8 +316,8 @@ export class GenerateOrderComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(payload, '/Admin/GernerateOrderTable', true)
+    this.Api
+      .GernerateOrderTable(payload)
       .subscribe(
         (res: any) => {
           // let dummy_data = [

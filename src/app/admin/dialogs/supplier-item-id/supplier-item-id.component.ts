@@ -3,8 +3,8 @@ import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-import { TransactionService } from '../../transaction/transaction.service';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs'; 
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-supplier-item-id',
@@ -23,7 +23,7 @@ export class SupplierItemIdComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private toastr: ToastrService,
-    private transactionService: TransactionService,
+    private Api: ApiFuntions,
     public dialogRef: MatDialogRef<any>
   ) {
     this.supplierID = data.supplierID;
@@ -45,8 +45,8 @@ export class SupplierItemIdComponent implements OnInit {
       username: this.data.userName,
       wsid: this.data.wsid,
     };
-    this.transactionService
-      .get(searchPayload, '/Common/SupplierItemTypeAhead', true)
+    this.Api
+      .SupplierItemTypeAhead(searchPayload)
       .subscribe(
         (res: any) => {
           if (res.data) {
@@ -80,8 +80,7 @@ export class SupplierItemIdComponent implements OnInit {
     //       if(res && res.data){
     //         this.setLocationByItemList=res.data.map((item)=>{
     //           return {invMapID:item.invMapID,select:`${item.itemQty}@${item.locationNumber}`}
-    //         })
-    //         console.log(this.setLocationByItemList);
+    //         }) 
     //       }
     //       // this.searchAutocompleteItemNum = res.data;
     //     },

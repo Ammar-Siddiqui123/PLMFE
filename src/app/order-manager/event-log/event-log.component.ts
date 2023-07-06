@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
-import { OmEventLogEntryDetailComponent } from 'src/app/dialogs/om-event-log-entry-detail/om-event-log-entry-detail.component';
-import { OrderManagerService } from '../order-manager.service';
+import { OmEventLogEntryDetailComponent } from 'src/app/dialogs/om-event-log-entry-detail/om-event-log-entry-detail.component'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
@@ -13,6 +12,7 @@ import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.ser
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-event-log',
@@ -66,7 +66,7 @@ export class EventLogComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private orderManagerService: OrderManagerService,
+    private Api: ApiFuntions,
     private authService: AuthService,
     private toastr: ToastrService,
     private filterService: ContextMenuFiltersService,
@@ -141,7 +141,7 @@ export class EventLogComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     };
-    this.eventLogTableSubscribe = this.orderManagerService.get(payload, '/Admin/EventLogTable', loader).subscribe((res: any) => {
+    this.eventLogTableSubscribe = this.Api.EventLogTable(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.tableData = res.data.openEvents;
         this.recordsTotal = res.data.recordsTotal;
@@ -184,7 +184,7 @@ export class EventLogComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.eventLogTypeAheadSubscribe = this.orderManagerService.get(payload, '/Admin/EventLogTypeAhead', loader).subscribe((res: any) => {
+    this.eventLogTypeAheadSubscribe = this.Api.EventLogTypeAhead(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data && message != "") {
         this.searchAutocompleteList = res.data.sort();
       }
@@ -197,6 +197,7 @@ export class EventLogComponent implements OnInit {
   }
 
   deleteRange() {
+    debugger
     if(this.startDate > this.endDate){
       this.toastr.error('Start date must be before end date!', 'Error!', {
         positionClass: 'toast-bottom-right',
@@ -225,7 +226,7 @@ export class EventLogComponent implements OnInit {
           "username": this.userData.userName,
           "wsid": this.userData.wsid
         }
-        this.orderManagerService.get(payload, '/Admin/EventRangeDelete').subscribe((res: any) => {
+        this.Api.EventRangeDelete(payload).subscribe((res: any) => {
           if (res.isExecuted && res.data) {
             this.resetPagination();
             this.eventLogTable(true);
@@ -303,6 +304,37 @@ export class EventLogComponent implements OnInit {
     this.sortOrder = e.direction;
     this.resetPagination();
     this.eventLogTable(true);
+  }
+
+  exportRange(){
+
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    debugger
+    const target = event.target as HTMLElement;
+    if (!this.isInputField(target) && event.key === 'c') {
+      event.preventDefault();
+      this.clearFilters();
+    }
+    if (!this.isInputField(target) && event.key === 'd' && this.isAdmin) {
+      event.preventDefault();
+      if(this.dialog.openDialogs.length > 0) return;
+      this.deleteRange();
+    }
+    if (!this.isInputField(target) && event.key === 'e') {
+      event.preventDefault();
+      this.exportRange();
+    }
+    if (!this.isInputField(target) && event.key === 'r') {
+      event.preventDefault();
+      this.refresh();
+    }
+  }
+
+  isInputField(element: HTMLElement): boolean {
+    return element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.isContentEditable;
   }
 }
 

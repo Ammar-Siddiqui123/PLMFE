@@ -3,7 +3,7 @@
         <mat-card-content>
             <div class="row mb-3">
                 <h2 class="card-header-title mb-0 d-flex align-items-center">
-                    <div class="mat-icon-wrap me-lg-3">
+                    <div class="mat-icon-wrap me-1 me-lg-3">
                         <span class="material-symbols-outlined">
                             ballot
                         </span>
@@ -24,9 +24,10 @@
                         <mat-form-field class="custom-form-field w-100" appearance="outline"
                             [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
                             <mat-label>Batch ID</mat-label>
-                            <input type="text" placeholder="Search" aria-label="Number" matInput autoFocus
+                            <input type="text" placeholder="Search" aria-label="Number" matInput 
                                 [(ngModel)]='batchId' maxlength="255" [matAutocomplete]="auto"
                                 (ngModelChange)="this.batchPickId.next($event)">
+                                <button *ngIf="batchId != ''" matSuffix class="clear-btn" (click)="test()" ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
 
                             <mat-autocomplete class="card custom-scroll" #auto="matAutocomplete"
                                 (optionSelected)="searchData($event)">
@@ -45,13 +46,15 @@
 
                     </div>
                     <div class="col-xl-4 p-2">
-                        <button mat-stroked-button class="btn-regular button-remove-all-w-stroke"
-                            (click)="clearBatchButt()" color="warn">Clear</button>
+                        <!-- <button mat-stroked-button class="btn-regular button-remove-all-w-stroke"
+                            (click)="clearBatchButt()" color="warn">Clear</button> -->
                     </div>
                     <div class="col-xl-4 p-2">
-                        <button mat-flat-button class="form-button-submit w-100" color="primary"
+                        <div class="d-flex d-xl-block justify-content-end">
+                            <button style="flex: 1 auto;" mat-flat-button class="float-end form-button-submit" color="primary"
                             (click)="clearInfo('pickTote')">Clear Pick Tote
                             Info</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,7 +68,7 @@
         <mat-card-content>
             <div class="row mb-3">
                 <h2 class="card-header-title mb-0 d-flex align-items-center">
-                    <div class="mat-icon-wrap me-lg-3">
+                    <div class="mat-icon-wrap me-1 me-lg-3">
                         <span class="material-symbols-outlined">
                             list_alt
                         </span>
@@ -75,7 +78,7 @@
             </div>
 
             <div class="card br-14 table-responsive borderless">
-                <ng-scrollbar style="height:340px" track="all">
+                <ng-scrollbar class="mat-table-scrollbar" style="height:340px" track="all">
                     <table mat-table [dataSource]="dataSource" matSort class="w-100" (matSortChange)="sortChange($event)">
                         <ng-container matColumnDef="batchPickID">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch ID </th>
@@ -154,8 +157,8 @@
                           </tr>
                           
 
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky:true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns "></tr>
                     </table>
                     
                 </ng-scrollbar>

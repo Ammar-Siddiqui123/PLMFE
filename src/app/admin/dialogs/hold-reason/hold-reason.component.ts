@@ -6,9 +6,9 @@ import {
 } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
-import labels from '../../../labels/labels.json';
-import { TransactionService } from '../../transaction/transaction.service';
+import labels from '../../../labels/labels.json'; 
 import { FormControl, FormGroup,Validators } from '@angular/forms';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-hold-reason',
@@ -28,7 +28,7 @@ export class HoldReasonComponent implements OnInit {
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<HoldReasonComponent>,
     private authService: AuthService,
-    private transactionService: TransactionService,
+    private Api: ApiFuntions,
     private toastr: ToastrService
   ) {}
 
@@ -49,8 +49,8 @@ export class HoldReasonComponent implements OnInit {
       UserName: this.data.reel,
     };
     
-    this.transactionService
-      .get(this.payload, '/Admin/DeallocateTransactions')
+    this.Api
+      .DeallocateTransactions(this.payload)
       .subscribe((res: any) => {
         if (res.isExecuted) {
           this.toastr.success(res.responseMessage, 'Success!', {

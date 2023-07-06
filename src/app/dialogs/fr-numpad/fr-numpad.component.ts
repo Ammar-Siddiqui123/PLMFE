@@ -18,6 +18,8 @@ check1:boolean = false
   ) { }
 
   ngOnInit(): void {
+   this.itemQuantity = this.data.itemQuantity.toString() 
+  //  console.log(typeof this.itemQuantity)
   }
 
 
@@ -31,10 +33,8 @@ check1:boolean = false
      } 
      else{
       let test = this.itemQuantity.split('')
-      test.unshift('-')
-      // console.log(test)
-      this.itemQuantity =  test.join("")
-      // console.log(this.itemQuantity)
+      test.unshift('-') 
+      this.itemQuantity =  test.join("") 
      }   
     } 
     else if(number == ','){
@@ -66,13 +66,11 @@ check1:boolean = false
     
     let last = this.itemQuantity.split('')
     last.pop()
-    this.itemQuantity =  last.join("")
-    // console.log(last)
+    this.itemQuantity =  last.join("") 
 
   }
 
-  getItemQuantity(){
-    // console.log(this.itemQuantity)
+  getItemQuantity(){ 
     if(this.itemQuantity.includes(',')){
       this.dialogRef.close('0')
     }

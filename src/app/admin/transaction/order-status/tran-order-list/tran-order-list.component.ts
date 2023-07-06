@@ -12,9 +12,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { SelectionModel } from '@angular/cdk/collections';
-import { SetColumnSeqService } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.service';
-import { TransactionService } from '../../transaction.service';
+import { SelectionModel } from '@angular/cdk/collections'; 
 import { AuthService } from 'src/app/init/auth.service';
 import {
   debounceTime,
@@ -34,6 +32,7 @@ import { OmChangePriorityComponent } from 'src/app/dialogs/om-change-priority/om
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-tran-order-list',
@@ -185,8 +184,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   @Input()
   set deleteEvnt(event: Event) {
     if (event) {
-      this.getContentData();
-      // console.log(this.detailDataInventoryMap);
+      this.getContentData(); 
     }
   }
 
@@ -267,7 +265,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   public priority = false;
 
   constructor(
-    private transactionService: TransactionService,
+    private Api:ApiFuntions,
     private authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer,
     private sharedService: SharedService,
@@ -284,8 +282,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getEleLength(ele) {
-    // console.log('=----',ele)
+  getEleLength(ele) { 
   }
   getContentData() {
     if (this.searchCol === 'Tote ID') {
@@ -310,8 +307,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(this.payload, '/Admin/OrderStatusData', true)
+    this.Api
+      .OrderStatusData(this.payload)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();
@@ -349,6 +346,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
                 res.data.orderStatus.length > 0 &&
                 res.data.orderStatus[0].transactionType
             );
+            debugger
             this.currentStatusChange(res.data.completedStatus);
             this.totalLinesOrderChange(res.data?.totalRecords);
             this.sharedService.updateOrderStatusSelect({
@@ -389,11 +387,10 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       wsid: this.userData.wsid,
     };
 
-    this.transactionService
-      .get(this.payload, '/Admin/DeleteOrder', true)
+    this.Api
+      .DeleteOrder(this.payload)
       .subscribe(
-        (res: any) => {
-          // console.log(res);
+        (res: any) => { 
         },
         (error) => {}
       );
@@ -437,8 +434,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(paylaod, '/Admin/TransactionModelIndex')
+    this.Api
+      .TransactionModelIndex(paylaod)
       .subscribe(
         (res: any) => {
           // this.columnValues = res.data?.openTransactionColumns;
@@ -531,8 +528,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
 
     // NextSuggestedTransactions
     // OrderNumberNext
-    this.transactionService
-      .get(searchPayload, `/Admin/NextSuggestedTransactions`, true)
+    this.Api
+      .NextSuggestedTransactions(searchPayload)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
@@ -631,8 +628,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
             username: this.userData.userName,
             wsid: this.userData.wsid,
           };
-          this.transactionService
-            .get(payload, `/Admin/ScanValidateOrder`, true)
+          this.Api
+            .ScanValidateOrder(payload)
             .subscribe(
               (res: any) => {
                 if (

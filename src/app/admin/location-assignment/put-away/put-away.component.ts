@@ -3,12 +3,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
-import { OrderManagerService } from 'src/app/order-manager/order-manager.service';
 import { AuthService } from 'src/app/init/auth.service';
 import labels from '../../../labels/labels.json';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-put-away',
@@ -48,7 +48,7 @@ export class PutAwayComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
-    private orderManagerService: OrderManagerService,
+    private Api: ApiFuntions,
     private authService: AuthService,
     private dialog: MatDialog,
     private _liveAnnouncer1: LiveAnnouncer,
@@ -61,12 +61,11 @@ export class PutAwayComponent implements OnInit {
   }
 
   GetLocAssPutAwayTable(loader: boolean = false) {
-    this.orderManagerService.getAll('/Admin/GetLocAssPutAwayTable', loader).subscribe((res: any) => {
+    this.Api.GetLocAssPutAwayTable().subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.tableData1 = new MatTableDataSource(res.data);
         this.tableData1.paginator = this.paginator1;
-      } else {
-        console.log('Error', res.responseMessage);
+      } else { 
         this.tableData1 = new MatTableDataSource([]); 
       }
     });
@@ -149,7 +148,7 @@ export class PutAwayComponent implements OnInit {
             "username": this.userData.userName,
             "wsid": this.userData.wsid
           };
-          this.orderManagerService.get(payload, '/Admin/LocationAssignmentOrderInsert').subscribe((res: any) => {
+          this.Api.LocationAssignmentOrderInsert(payload).subscribe((res: any) => {
             if (res.isExecuted && res.data) {
               this.tableData2 = new MatTableDataSource([]);
               this.tableData2.paginator = this.paginator2;
@@ -200,5 +199,27 @@ export class PutAwayComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.tableData2.filter = filterValue.trim().toLowerCase();
   }
+  @ViewChild('table1') table1: MatTable<any>;
+
+  @ViewChild('table2') table2: MatTable<any>;
+
+
+
+
+ngAfterViewChecked(): void {
+
+    if (this.table1) {
+
+        this.table1.updateStickyColumnStyles();
+
+    }
+
+    if (this.table2) {
+
+      this.table2.updateStickyColumnStyles();
+
+  }
+
+}
 
 }

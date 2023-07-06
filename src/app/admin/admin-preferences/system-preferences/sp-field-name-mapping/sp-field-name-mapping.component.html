@@ -1,6 +1,15 @@
-<div class="row w-100 mt-2 mx-0">
+<div class="row w-100 mt-4 mx-0">
     <div class="col-xl-12">
-        <h2 class="text-18 bold my-3">LogixPro Field Name Mappings </h2>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="card-header-title mb-0 d-flex align-items-center">
+                <div class="mat-icon-wrap me-lg-3 me-2">
+                    <span class="mat-icon material-symbols-outlined">
+                        nfc
+                    </span>
+                </div>
+                <span>Field Name Mappings</span>
+            </h2>
+        </div>
     </div>
     </div>
     <div class="row align-items-center mx-0">
@@ -9,83 +18,17 @@
     </div>
     <div class="col-xl-4">
         <div class="d-flex justify-content-end">
-            <button mat-stroked-button color="primary" class="btn-md mb-3">Reset to default</button>
+            <button mat-flat-button color="primary" class="mat-primary btn-md mb-3" (click)="Reset()">Reset to default</button>
         </div>
     </div>
 </div>
 <div class="card p-3 mx-2">
     <div class="row">
-        <div class="col-xl-6">
+        <div class="col-xl-6" *ngFor="let key of Object.keys(columns)">
             <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
-                <mat-label>Item Number</mat-label>
-                <input type="text"   matInput maxlength="255">
+                <mat-label>{{labelSet(key)}}</mat-label>
+                <input type="text" [attr.name]="key" [(ngModel)]="columns[key]" (change)="FieldNameSave()"   matInput maxlength="255">
               </mat-form-field>
-        </div>
-        <div class="col-xl-6">
-            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
-                <mat-label>Unit of Measure</mat-label>
-                <input type="text"   matInput maxlength="255">
-              </mat-form-field>
-        </div>
-        <div class="col-xl-6">
-            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
-                <mat-label>User Field 1</mat-label>
-                <input type="text"   matInput maxlength="255">
-              </mat-form-field>
-        </div>
-        <div class="col-xl-6">
-            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
-                <mat-label>User Field 2</mat-label>
-                <input type="text"   matInput maxlength="255">
-              </mat-form-field>
-        </div>
-        <div class="col-xl-6">
-            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
-                <mat-label>User Field 3</mat-label>
-                <input type="text"   matInput maxlength="255">
-              </mat-form-field>
-        </div>
-        <div class="col-xl-6">
-            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
-                <mat-label>User Field 4</mat-label>
-                <input type="text"   matInput maxlength="255">
-              </mat-form-field>
-        </div>
-        <div class="col-xl-6">
-            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
-                <mat-label>User Field 5</mat-label>
-                <input type="text"   matInput maxlength="255">
-              </mat-form-field>
-        </div>
-        <div class="col-xl-6">
-            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
-                <mat-label>User Field 6</mat-label>
-                <input type="text"   matInput maxlength="255">
-              </mat-form-field>
-        </div>
-        <div class="col-xl-6">
-            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
-                <mat-label>User Field 7</mat-label>
-                <input type="text"   matInput maxlength="255">
-              </mat-form-field>
-        </div>
-        <div class="col-xl-6">
-            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
-                <mat-label>User Field 8</mat-label>
-                <input type="text"   matInput maxlength="255">
-              </mat-form-field>
-        </div>
-        <div class="col-xl-6">
-            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
-                <mat-label>User Field 9</mat-label>
-                <input type="text"   matInput maxlength="255">
-              </mat-form-field>
-        </div>
-        <div class="col-xl-6">
-            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
-                <mat-label>User Field 10</mat-label>
-                <input type="text"   matInput maxlength="255">
-              </mat-form-field>
-        </div>
+        </div> 
     </div>
 </div>
