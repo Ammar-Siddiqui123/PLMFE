@@ -204,6 +204,11 @@
     {
         "path": "/admin/manualTransactions",
         "Permission": "Manual Transactions"
+    },
+
+    {
+        "path": "/FlowrackReplenishment/FrPreferences",
+        "Permission": "Preferences"
     } 
  
     

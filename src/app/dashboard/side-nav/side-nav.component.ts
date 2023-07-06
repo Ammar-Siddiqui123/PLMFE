@@ -105,6 +105,11 @@ export class SideNavComponent implements OnInit {
     { icon: 'analytics', title: 'Reports ', route: '#' ,permission:'Admin Reports'},
     { icon: 'tune', title: 'Preferences ', route: '/OrderManager/Preferences' ,permission:'Admin Preferences'},
   ];
+
+  flowrackReplenishmentMenus: any = [
+    { icon: 'arrow_back', title: 'Flowrack Replenishment', route: '/dashboard', class: 'back-class' , permission: 'FlowRack Replenish'},
+    { icon: 'tune', title: 'Preferences ', route: '/FlowrackReplenishment/FrPreferences' ,permission:'FlowRack Replenish'},
+  ];
   
 
   isParentMenu: boolean = true;
@@ -123,6 +128,7 @@ export class SideNavComponent implements OnInit {
                   else if(Menuobj==null) Menuobj = this.inductionMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.inductionAdminMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.orderManagerMenus.find(x=>x.route == data);
+                  else if(Menuobj==null) Menuobj = this.flowrackReplenishmentMenus.find(x=>x.route == data);
                   this.loadMenus(Menuobj);
                 });
 
@@ -154,6 +160,14 @@ export class SideNavComponent implements OnInit {
       }
     });
 
+    this.sharedService.updateFlowrackMenuObserver.subscribe(flowrack => {
+       
+      if (flowrack){
+        this.childMenus = this.flowrackReplenishmentMenus;
+        this.isParentMenu = false;
+        this.isChildMenu = true;
+      }
+    });
     this.sharedService.updateInductionAdminObserver.subscribe(InvadminMenu => {
       
       if (InvadminMenu.menu === 'transaction-admin'){
@@ -296,6 +310,7 @@ export class SideNavComponent implements OnInit {
   }
 
   loadMenus(menu: any) {  
+    
     this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route);
     if (!menu) {
       menu = {route : '/dashboard'};      
@@ -396,7 +411,12 @@ export class SideNavComponent implements OnInit {
       this.childMenus = this.globalMenus;
       this.isParentMenu = false;
       this.isChildMenu = true;
-    }    
+    }  
+    if (menu.route.includes('/FlowrackReplenishment')) {
+      this.childMenus = this.flowrackReplenishmentMenus;
+      this.isParentMenu = false;
+      this.isChildMenu = true;
+    }     
   }
 
   isAuthorized(controlName:any) {

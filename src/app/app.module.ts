@@ -86,6 +86,9 @@ import { ShortTransactionComponent } from './dialogs/short-transaction/short-tra
 import { CpbBlossomToteComponent } from './dialogs/cpb-blossom-tote/cpb-blossom-tote.component';
 import { ReelDetailComponent } from './dialogs/reel-detail/reel-detail.component';
 import { ReelTransactionsComponent } from './dialogs/reel-transactions/reel-transactions.component';
+import { CrEditDesignTestDataComponent } from './dialogs/cr-edit-design-test-data/cr-edit-design-test-data.component';
+import { CrDeleteConfirmationComponent } from './dialogs/cr-delete-confirmation/cr-delete-confirmation.component';
+import { FrPreferencesComponent } from './flowrack-replenishment/fr-preferences/fr-preferences.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -157,6 +160,9 @@ import { ReelTransactionsComponent } from './dialogs/reel-transactions/reel-tran
     CpbBlossomToteComponent,
     ReelDetailComponent,
     ReelTransactionsComponent,
+    CrEditDesignTestDataComponent,
+    CrDeleteConfirmationComponent,
+    FrPreferencesComponent,
     // ActionDisableDirective,
   ],
   imports: [

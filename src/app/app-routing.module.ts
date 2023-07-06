@@ -15,6 +15,7 @@ import { CcsifComponent } from './global-config/ccsif/ccsif.component';
 import { SteComponent } from './global-config/ste/ste.component';
 import { SteServicesComponent } from './global-config/ste-services/ste-services.component';
 import { FlowrackReplenishmentComponent } from './flowrack-replenishment/flowrack-replenishment.component';
+import { FrPreferencesComponent } from './flowrack-replenishment/fr-preferences/fr-preferences.component';
 const routes: Routes = [
   {
     path: '',
@@ -82,6 +83,11 @@ const routes: Routes = [
       {
         path: 'FlowrackReplenishment',
         component: FlowrackReplenishmentComponent,
+        canActivate: [AuthGuardGuard] 
+      },
+      {
+        path: 'FlowrackReplenishment/FrPreferences',
+        component: FrPreferencesComponent,
         canActivate: [AuthGuardGuard] 
       },
       // {
