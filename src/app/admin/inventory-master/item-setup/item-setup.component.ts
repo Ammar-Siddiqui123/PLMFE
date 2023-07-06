@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild,} from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, TemplateRef, ViewChild,} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CellSizeComponent } from '../../dialogs/cell-size/cell-size.component';
@@ -13,7 +13,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 })
 export class ItemSetupComponent implements OnInit {
 
-
+  disableSecondaryZone=true;
   @Input() itemSetup: FormGroup;
   
   public userData: any;
@@ -26,10 +26,33 @@ export class ItemSetupComponent implements OnInit {
    
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.itemSetup.controls['secondaryPickZone'].disable();
+    if (changes['itemSetup']) {
+    
+      if(changes['itemSetup'].currentValue.value.primaryPickZone===''){
+        this.itemSetup.controls['secondaryPickZone'].disable();
+        // this.disableSecondaryZone=true;
+        
+      }else{
+        this.itemSetup.controls['secondaryPickZone'].enable();
+        // this.disableSecondaryZone=false;
+
+      }
+    }
+    
+  }
+
   getSelected(event){
   
     if(event.value===''){
+      this.itemSetup.controls['secondaryPickZone'].disable();
+      //  this.disableSecondaryZone=true;
       this.itemSetup.controls['secondaryPickZone'].setValue('')
+     
+    }else{
+      this.itemSetup.controls['secondaryPickZone'].enable();
+      // this.disableSecondaryZone=false;
     }
   }
   public openCellSizeDialog(param) {

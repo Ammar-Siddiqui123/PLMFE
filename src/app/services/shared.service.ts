@@ -34,7 +34,12 @@ export class SharedService {
   breadCrumObserver: Subject<any> = new Subject<any>();
   invMasterParentObserver: Subject<any> = new Subject<any>();
   devicePrefObserver: Subject<any> = new Subject<any>();
+  updateInductionMenuObserver: Subject<any> = new Subject<any>();
   
+
+  BroadCastInductionMenuUpdate(str: any) {
+    this.updateInductionMenuObserver.next(str);
+  }
 
   resetSidebar() {
     this.startMenu.next(true);
