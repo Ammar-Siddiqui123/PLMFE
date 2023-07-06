@@ -209,6 +209,10 @@
     {
         "path": "/FlowrackReplenishment/Preferences",
         "Permission": "Preferences"
+    },
+    {
+        "path": "/FlowrackReplenishment/Flowrack",
+        "Permission": "Preferences"
     } 
  
     

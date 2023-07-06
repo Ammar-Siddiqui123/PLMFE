@@ -6,12 +6,14 @@ import { FlowrackReplenishmentComponent } from './flowrack-replenishment.compone
 import { FrPreferencesComponent } from './fr-preferences/fr-preferences.component';
 import { MaterialModule } from '../material-module';
 import { GeneralModule } from '../gen-module';
+import { FrFlowrackReplenishmentComponent } from './fr-flowrack-replenishment/fr-flowrack-replenishment.component';
 
 
 @NgModule({
   declarations: [
     FlowrackReplenishmentComponent,
-    FrPreferencesComponent
+    FrPreferencesComponent,
+    FrFlowrackReplenishmentComponent
   ],
   imports: [
     CommonModule,
