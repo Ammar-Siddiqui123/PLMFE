@@ -470,6 +470,9 @@ export class ApiFuntions {
   public TransactionForTote(Body:any): Observable<any> { 
     return this.ApiBase.Get("/Induction/transactionfortote",Body);
   }  
+  public NextSerialNumber(Body:any): Observable<any> { 
+    return this.ApiBase.Update("/induction/nextserialnumber",Body);
+  }
   public BatchByZone(Body:any): Observable<any> { 
     return this.ApiBase.Get("/Induction/batchbyzone",Body);
   }   
