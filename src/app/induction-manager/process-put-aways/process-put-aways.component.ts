@@ -767,16 +767,25 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.inputType = value;
   }
 
-  openST(event: KeyboardEvent) {
+  openST(event: any) {
     if (event.key === 'Enter') {
       this.openSelectionTransactionDialogue();
     }
   }
 
-
+  applyStripIfApplicable(){
+    if(this.applyStrip){
+      if (this.stripSide.toLowerCase() == 'right') {
+        this.inputValue = this.inputValue.substring(0, this.inputValue.length - this.stripLength);
+      } 
+      else {
+        this.inputValue = this.inputValue.substring(this.stripLength, this.inputValue.length);
+      };
+    }
+  }
 
   openSelectionTransactionDialogue() {
-
+    this.applyStripIfApplicable();
     if (this.cell == this.toteQuantity) {
       const dialogRef = this.dialog.open(AlertConfirmationComponent, {
         height: 'auto',

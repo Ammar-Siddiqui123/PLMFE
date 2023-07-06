@@ -290,7 +290,7 @@
                     <mat-label>Input Value</mat-label>
                     <input (keydown.shift.enter)="$event.preventDefault()" #inputVal matInput type="text" [(ngModel)]="inputValue" (keypress)="openST($event)" >
                   </mat-form-field>
-                  <button [disabled]="inputValue ? false : true" mat-flat-button color="primary" class="btn-regular w-100" (click)="openSelectionTransactionDialogue()">
+                  <button [disabled]="inputValue != '' ? false : true" mat-flat-button color="primary" class="btn-regular w-100" (click)="openSelectionTransactionDialogue()">
                     Assign Transaction To Selected Tote
                   </button>
                 </div>
