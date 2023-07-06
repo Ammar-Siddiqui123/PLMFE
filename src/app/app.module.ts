@@ -87,6 +87,8 @@ import { ReelDetailComponent } from './dialogs/reel-detail/reel-detail.component
 import { ReelTransactionsComponent } from './dialogs/reel-transactions/reel-transactions.component';
 import { CrEditDesignTestDataComponent } from './dialogs/cr-edit-design-test-data/cr-edit-design-test-data.component';
 import { CrDeleteConfirmationComponent } from './dialogs/cr-delete-confirmation/cr-delete-confirmation.component';
+import { BrChooseReportTypeComponent } from './dialogs/br-choose-report-type/br-choose-report-type.component';
+import { CrAddNewCustomReportComponent } from './dialogs/cr-add-new-custom-report/cr-add-new-custom-report.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -159,6 +161,8 @@ import { CrDeleteConfirmationComponent } from './dialogs/cr-delete-confirmation/
     ReelTransactionsComponent,
     CrEditDesignTestDataComponent,
     CrDeleteConfirmationComponent,
+    BrChooseReportTypeComponent,
+    CrAddNewCustomReportComponent,
     // ActionDisableDirective,
   ],
   imports: [
