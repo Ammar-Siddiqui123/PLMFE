@@ -157,7 +157,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.assignedZones = '';
     this.ELEMENT_DATA.length = 0;
     this.dataSource = [];
-
+    this.assignedZonesArray.length=0;   // after deleting zones array reset to select zones 
     this.batchId2 = "";
     this.dataSource2 = [];
     this.inputValue = "";
@@ -264,6 +264,7 @@ export class ProcessPutAwaysComponent implements OnInit {
           userId: this.userData.username,
           wsid: this.userData.wsid,
           assignedZones: this.assignedZonesArray,
+          status:this.status
         },
       });
       dialogRef.afterClosed().subscribe((result) => {
@@ -629,8 +630,9 @@ export class ProcessPutAwaysComponent implements OnInit {
       }
     } else {
 
-
-      if(this.dataSource.data.length==0){
+ 
+      // if(this.dataSource && this.dataSource.data && this.dataSource.data.length==0){
+        if( this.ELEMENT_DATA.length == 0){
         const dialogRef = this.dialog.open(AlertConfirmationComponent, {
           height: 'auto',
           width: '560px',

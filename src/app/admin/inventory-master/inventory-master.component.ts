@@ -469,7 +469,7 @@ isQuarantine=false;
       "start": startIndex ? startIndex : 0,
       "length": pageSize ? pageSize : 5,
       "sortColumnNumber": sortingColumnName ? sortingColumnName : 0,
-      "sortOrder": sortingOrder ? sortingOrder : "asc",
+      "sortOrder": sortingOrder ? sortingOrder : "",
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
