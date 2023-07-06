@@ -86,6 +86,8 @@ import { ShortTransactionComponent } from './dialogs/short-transaction/short-tra
 import { CpbBlossomToteComponent } from './dialogs/cpb-blossom-tote/cpb-blossom-tote.component';
 import { ReelDetailComponent } from './dialogs/reel-detail/reel-detail.component';
 import { ReelTransactionsComponent } from './dialogs/reel-transactions/reel-transactions.component';
+import { BrChooseReportTypeComponent } from './dialogs/br-choose-report-type/br-choose-report-type.component';
+import { CrAddNewCustomReportComponent } from './dialogs/cr-add-new-custom-report/cr-add-new-custom-report.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -157,6 +159,8 @@ import { ReelTransactionsComponent } from './dialogs/reel-transactions/reel-tran
     CpbBlossomToteComponent,
     ReelDetailComponent,
     ReelTransactionsComponent,
+    BrChooseReportTypeComponent,
+    CrAddNewCustomReportComponent,
     // ActionDisableDirective,
   ],
   imports: [
