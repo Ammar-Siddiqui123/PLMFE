@@ -165,8 +165,6 @@ export class SelectionTransactionForToteComponent implements OnInit {
         this.inputType,
         "1=1"
       ],
-      username: this.userName,
-      wsid: this.wsid
     };
     //console.log(getTransaction);
     this.Api
@@ -174,6 +172,10 @@ export class SelectionTransactionForToteComponent implements OnInit {
       .subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
+            if(res.data.subCategory == 'Reel Tracking'){
+               this.dialogRef.close({category:'isReel',item:res.data});
+                return;
+                }
             this.transactionTable = res.data.transactionTable;
             
             // !res.data.transactionTable || res.data.transactionTable.length == 0
