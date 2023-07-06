@@ -126,6 +126,10 @@ export class SideNavComponent implements OnInit {
                   this.loadMenus(Menuobj);
                 });
 
+                this.sharedService.updateInductionMenuObserver.subscribe((data:any) => {
+                  this.inductionMenus.filter(x=>x.title == 'Complete Pick Batch')[0].route = data ? '/InductionManager/CompletePickBatch' : '#';
+                });
+
               }
 
   ngOnInit(): void {

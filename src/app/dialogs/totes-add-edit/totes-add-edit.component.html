@@ -107,7 +107,7 @@
         <b>Managed Tote IDs</b>
       </div>
 
-      <button mat-flat-button color="primary" class="add-icon-button mb-2" (click)="addRow()">
+      <button [disabled]="isRowAdded" mat-flat-button color="primary" class="add-icon-button mb-2" (click)="addRow()">
         <span class="material-symbols-outlined">
           add
         </span>
@@ -188,7 +188,7 @@
                     save
                   </mat-icon>
                 </button>
-                <button [disabled]="!element.toteID || !element.cells" matTooltip="Delete" mat-flat-button color="warn" class="xsm-icon-button" (click)="deleteTote(element.toteID)">
+                <button [disabled]="!element.toteID || !element.cells" matTooltip="Delete" mat-flat-button color="warn" class="xsm-icon-button" (click)="deleteTote(element.toteID,i)">
                   <mat-icon class="material-symbols-outlined">
                     close
                   </mat-icon>

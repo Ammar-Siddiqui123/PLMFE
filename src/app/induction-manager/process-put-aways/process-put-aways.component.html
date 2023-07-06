@@ -144,9 +144,9 @@
                         </ng-container>
                         <ng-container matColumnDef="toteid">
                           <th mat-header-cell *matHeaderCellDef  style="width:35%"> Tote ID</th>
-                          <td mat-cell *matCellDef="let element">
+                          <td mat-cell *matCellDef="let element;let i=index">
                             <div class="pe-2 d-flex gap-12 align-items-center">
-                              <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="element.locked ? false : openTotesDialogue(element.position)">
+                              <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="element.locked ? false : openTotesDialogue(element.position,i)">
                                 <span matSuffix>
                                     <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
                                   </span>
@@ -163,7 +163,7 @@
                         
                         <ng-container matColumnDef="save" stickyEnd>
                           <th mat-header-cell *matHeaderCellDef class="ps-2"></th>
-                          <td mat-cell *matCellDef="let element" class="ps-2">
+                          <td mat-cell *matCellDef="let element ; let i = index" class="ps-2">
                             <div class="d-flex justify-content-end">
                                 <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o" appearance="outline">
                                     <mat-icon>more_horiz</mat-icon>
@@ -171,8 +171,8 @@
                 
                                   <mat-menu #appMenu="matMenu">
                                     <button mat-menu-item>Print</button>
-                                    <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element,1)">Clear</button>
-                                    <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element)">Assign Next ID</button>
+                                    <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element,1,i)">Clear</button>
+                                    <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element,0,i)">Assign Next ID</button>
                                   </mat-menu>
                             </div>
                           </td>
@@ -274,7 +274,7 @@
                       <mat-option value="print">Item No.</mat-option>
                       <mat-option value="print">Serial No.</mat-option>
                       <mat-option value="print">Lot No.</mat-option> -->
-                      <mat-option value="Any">Any</mat-option>
+                      <mat-option value="any">Any</mat-option>
                       <mat-option value="Item Number">Item Number</mat-option>
                       <mat-option value="Serial Number">Serial Number</mat-option>
                       <mat-option value="Lot Number">Lot Number</mat-option>
@@ -288,7 +288,7 @@
                   </mat-form-field>
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Input Value</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" #inputVal matInput type="text" [(ngModel)]="inputValue" (keypress)="openST($event)" (click)="ReelDetailDialogue()">
+                    <input (keydown.shift.enter)="$event.preventDefault()" #inputVal matInput type="text" [(ngModel)]="inputValue" (keypress)="openST($event)" >
                   </mat-form-field>
                   <button [disabled]="inputValue ? false : true" mat-flat-button color="primary" class="btn-regular w-100" (click)="openSelectionTransactionDialogue()">
                     Assign Transaction To Selected Tote
@@ -360,7 +360,6 @@
                 <mat-option  value="ViewTote" [disabled]="(cell <= toteQuantity) ? false : true" >View Tote Contents</mat-option>
                 <mat-option value="markTote" [disabled]="!rowSelected">Mark Tote as Full</mat-option>
                 <mat-option value="print">Print</mat-option>
-                <mat-option (click)="ReelTransactionsDialogue()">Popup</mat-option>
                 <!-- <mat-option value="back">Back</mat-option> -->
               </mat-select>
               <span class="material-symbols-outlined icon-expand-more">

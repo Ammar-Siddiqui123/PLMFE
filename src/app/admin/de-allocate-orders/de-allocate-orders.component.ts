@@ -76,8 +76,8 @@ export class DeAllocateOrdersComponent implements OnInit {
   sortColTransaction = 0
   sortTransaction ='asc'
   dublicateTransaction 
-
-
+  dublicateRecords 
+  actions=''
 
 
   searchByItem: any = new Subject<string>();
@@ -222,8 +222,9 @@ export class DeAllocateOrdersComponent implements OnInit {
 
         
         this.orderItemTransactions.data = res.data.openTransactions
-        this.dublicateTransaction =  res.data.openTransactions
         this.pageLength= res.data.recordsTotal
+        this.dublicateTransaction =  res.data.openTransactions
+        this.dublicateRecords = res.data.recordsTotal
 
         // this.resetpaginationOrder()
         
@@ -288,6 +289,7 @@ export class DeAllocateOrdersComponent implements OnInit {
           }
           this.Api.DeAllocateOrder(payload).subscribe((res=>{
             if(res.isExecuted){
+              this.actions = ''
               this.toastr.success("De-Allocated successfully", 'Success!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
@@ -296,6 +298,7 @@ export class DeAllocateOrdersComponent implements OnInit {
               this.orderNumbersList.length=0
                 this.getAllOrder()
                 this.orderItemTable()
+                // this.actions = ''
             }
             else{
               this.toastr.error('Order De-Allocation Not Successfull', 'Error!', {
@@ -334,6 +337,7 @@ export class DeAllocateOrdersComponent implements OnInit {
             this.deallocateSelectedBtn = true
               this.getAllOrder()
               this.orderItemTable()
+              this.actions = ''
           }
           else{
             this.toastr.error('Order De-Allocation Not Successfull', 'Error!', {
@@ -388,7 +392,8 @@ export class DeAllocateOrdersComponent implements OnInit {
 
       if(this.dublicateTransaction.length!=0){
         this.orderItemTransactions.data = this.dublicateTransaction
-        this.pageLength = this.dublicateTransaction.length
+        this.pageLength = this.dublicateRecords
+        // console.log(this.dublicateTransaction.length,'page lenghth')
       }
       else{
         this.orderItemTransactions.data = []

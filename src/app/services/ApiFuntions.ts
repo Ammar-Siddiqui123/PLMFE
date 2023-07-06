@@ -227,13 +227,16 @@ export class ApiFuntions {
     return this.ApiBase.Post("/GlobalConfig/startccsif",{});
   }
   public GeneralPreferenceSave(body:any):  Observable<any> {
-    return this.ApiBase.Post("/GlobalConfig/generalpreference",body);
+    return this.ApiBase.Post("/Admin/generalpreference",body);
+  }
+  public ordersort(): Observable<any> { 
+    return this.ApiBase.Get("/Admin/ordersort");
   }
   public OSFieldFilterNames(): Observable<any> { 
     return this.ApiBase.Get("/Admin/OSFieldFilterNames");
   }
   public CompanyInfo(): Observable<any> { 
-    return this.ApiBase.Get("/Admin/companyinfo");
+    return this.ApiBase.Get("/companyinfo");
   }
   public ColumnAlias(): Observable<any> { 
     return this.ApiBase.Get("/Admin/ColumnAlias");
@@ -467,6 +470,9 @@ export class ApiFuntions {
   public TransactionForTote(Body:any): Observable<any> { 
     return this.ApiBase.Get("/Induction/transactionfortote",Body);
   }  
+  public NextSerialNumber(Body:any): Observable<any> { 
+    return this.ApiBase.Update("/induction/nextserialnumber",Body);
+  }
   public BatchByZone(Body:any): Observable<any> { 
     return this.ApiBase.Get("/Induction/batchbyzone",Body);
   }   
@@ -1312,5 +1318,22 @@ public getItemQuantityDetail(id){
   }
 
   return this.ApiBase.Get(`/Common/AdjustQuantity`,payload);
+}
+
+public getPickBatchTransactionTable(body:any): Observable<any> { 
+  return this.ApiBase.Get("/induction/pickbatchtransactiontable",body);
+}
+
+public completeTransaction(body:any): Observable<any> { 
+  return this.ApiBase.Update("/induction/completetransaction",body);
+}
+public completePickBatch(body:any): Observable<any> { 
+  return this.ApiBase.Update("/induction/completepickbatch",body);
+}
+public shortTransaction(body:any): Observable<any> { 
+  return this.ApiBase.Update("/induction/shorttransaction",body);
+}
+public blossomTote(body:any): Observable<any> { 
+  return this.ApiBase.Update("/induction/blossomtote",body);
 }
 }

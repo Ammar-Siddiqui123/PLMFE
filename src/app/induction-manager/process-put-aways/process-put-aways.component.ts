@@ -86,7 +86,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   searchAutocompleteItemNum2: any = [];
   dataSource2: any;
 
-  inputType = "Any";
+  inputType = "any";
   inputValue = "";
 
   nextPos: any;
@@ -108,6 +108,20 @@ export class ProcessPutAwaysComponent implements OnInit {
     return numSelected === numRows;
   }
 
+
+  // arbash variables
+  applyStrip:any;
+  stripLength:any;
+  stripSide:any;
+  toteOptions:any
+  posOptions:any
+  selectedToteID:any
+  openCell:any
+  upperBound = 5
+  lowerBound = 1
+  
+
+
   constructor(
     private dialog: MatDialog,
     private toastr: ToastrService, 
@@ -121,6 +135,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.userData = this.authService.userData();
     this.getCurrentToteID();
     this.getProcessPutAwayIndex();
+   
 
     this.searchByItem
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -204,7 +219,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       batchID: batchID,
       username: this.userData.username,
       wsid: this.userData.wsid,
-    };
+    };    
     this.Api.BatchTotes(payLoad).subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
@@ -214,6 +229,7 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.ELEMENT_DATA.length = 0;
           for (var ix = 0; ix < res.data.length; ix++) {
             this.ELEMENT_DATA.push({
+             
               position: parseInt(res.data[ix].totePosition),
               cells: res.data[ix].cells,
               toteid: res.data[ix].toteID.toString(),
@@ -272,7 +288,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     }
   }
 
-  openTotesDialogue(position: any) {
+  openTotesDialogue(position: any,index?) {
     const dialogRef = this.dialog.open(TotesAddEditComponent, {
       height: 'auto',
       width: '50vw',
@@ -290,7 +306,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         if (result.toteID != "") {
           if (result.toteID.toString() != '') {
 
-            this.ELEMENT_DATA[(result.position) - 1].toteid = result.toteID.toString();
+            this.ELEMENT_DATA[index].toteid = result.toteID.toString();
           }
           if (result.cellID.toString() != '') {
             for (var i = 0; i < this.ELEMENT_DATA.length; i++) {
@@ -504,9 +520,11 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.autoPutToteIDS = res.data.imPreference.autoPutAwayToteID;
           this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
           this.processPutAwayIndex = res.data;
-
+          
           this.inputType = res.data.imPreference.defaultPutAwayScanType;
-
+          this.applyStrip = res.data.imPreference.stripScan
+          this.stripLength = res.data.imPreference.stripNumber
+          this.stripSide = res.data.imPreference.stripSide
           if (res.data.batchIDs) {
             this.batchId = res.data.batchIDs;
             this.selectedIndex = 1;
@@ -688,21 +706,23 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   updateToteID($event) {
     for (var i = 0; i < this.pickBatchQuantity; i++) {
+      if(this.ELEMENT_DATA && this.ELEMENT_DATA[i]){
       if (this.ELEMENT_DATA[i].toteid == '') {
         this.ELEMENT_DATA[i].toteid = $event.target.value;
         this.toteID = '';
         break;
       }
     }
+    }
   }
 
-  assignToteAtPosition(element: any, clear = 0) {
+  assignToteAtPosition(element: any, clear = 0,index?) {
     if (clear == 0) {
-      this.ELEMENT_DATA[element.position - 1].toteid =
+      this.ELEMENT_DATA[index].toteid =
         this.currentToteID.toString();
       this.currentToteID++;
     } else {
-      this.ELEMENT_DATA[element.position - 1].toteid = '';
+      this.ELEMENT_DATA[index].toteid = '';
     }
   }
 
@@ -744,6 +764,8 @@ export class ProcessPutAwaysComponent implements OnInit {
       this.openSelectionTransactionDialogue();
     }
   }
+
+
 
   openSelectionTransactionDialogue() {
 
@@ -849,10 +871,35 @@ export class ProcessPutAwaysComponent implements OnInit {
         } else if (result == "Task Completed") {
           this.fillToteTable(this.batchId2);
         }
+          else if(result.category == "isReel"){
+            const d: Date = new Date();
+            const now: string = `${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}-IM`;
+                  let hvObj =  {
+                      order: now,
+                      uf1: '',
+                      uf2: '',
+                      lot: 0,
+                      warehouse: '',
+                      expdate: '',
+                      notes: ''
+                    }
+                  let itemObj =  {
+                      number: result.item.itemNumber,
+                      numReels: 1,
+                      totalParts: 0,
+                      description: result.item.description,
+                      whseRequired: result.item.warehouseSensitive
+                    }
+                    
+                    this.ReelTransactionsDialogue(hvObj,itemObj)
+                    
+            
+          }
       });
     }
 
   }
+
 
   selectTotes(i: any) {
     for (const iterator of this.dataSource2.data) {
@@ -900,6 +947,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.dataSource2.paginator = this.paginator;
             this.minPos = 1;
             this.maxPos = this.dataSource2.data.length;
+            // this.toteTable  = new MatTableDataSource<any>(res.data.totesTable);
             this.selectTotes(0)
             this.goToNext();
             this.getRow(batchID ? batchID : this.batchId2);
@@ -1112,21 +1160,134 @@ export class ProcessPutAwaysComponent implements OnInit {
     }
   } 
 
-  ReelDetailDialogue() {
+  reelQty
+  ReelDetailDialogue(hv,item) {
+    
     const dialogRef = this.dialog.open(ReelDetailComponent, {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      data: {
+        hvObj: hv,
+        itemObj:item
+      },
     });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result)
+      if(result !=true || result != 'undefined'){
+        this.reelQty =result.reelQty
+      }
+    })
   }
 
-  ReelTransactionsDialogue() {
+  ReelTransactionsDialogue(hv,item) {
     const dialogRef = this.dialog.open(ReelTransactionsComponent, {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      data: {
+        hvObj: hv,
+        itemObj:item,
+        reelQuantity:this.reelQty?this.reelQty:''
+      },
     });
   }
 
+
+
+  //////////////// my work ////////////////////
+
+
+
+
+
+// openSelectionTransactionDialogue1(){
+// this.selectedToteID = this.dataSource2.data.filter((tote:any)=>tote.isSelected==true)
+//       console.log(this.selectedToteID)
+//   // apply any necessary strip scan
+//   // this.checkStrip(this.inputValue,this.inputType)
+
+//   // if we have an item and a selected tote then we can continue.
+//     if(this.selectedToteID.length>0 ){
+//   // initialize our totes to assign a transaction to
+//   this.initializeToteToAssignTo();
+//   let getTransaction = {
+//     lowerBound: this.lowerBound,
+//     upperBound: this.upperBound,
+//     input: [
+//       this.inputValue,
+//       this.inputType,
+//       "1=1"
+//     ],
+//   };
+//   console.log(getTransaction)
+//   this.Api
+//   .TransactionForTote(getTransaction)
+//   .subscribe(
+//     (res: any) => {
+//       if (res.data && res.isExecuted && res.data.success) {
+//         console.log(res)
+
+//       } else {
+//         this.toastr.error('Something went wrong', 'Error!', {
+//           positionClass: 'toast-bottom-right',
+//           timeOut: 2000,
+//         });
+//       }
+//     },
+//     (error) => {}
+//   );
+  
+//     }
+
+// }
+
+// checkStrip(item,itype){
+//   //  if ($('#ApplyStrip').val().toLowerCase().trim() == 'true' && item$.attr('name') != 'applied') Old code condition but we dont know name
+//     if(this.applyStrip == true){
+//       if (this.stripLength == '')  this.stripLength = 0;
+//       let i = item
+//       if(this.stripSide == 'right'){
+//         i = i.substring(0, i.length - this.stripLength );
+//       }
+//       else{
+//         i = i.substring(this.stripLength, i.length);
+//       }
+//       this.inputValue = i
+//       // item$.attr('name', 'applied');  Old code condition
+//     }
+//   }
+
+//   initializeToteToAssignTo() {
+//     // debugger
+//     this.toteOptions = [];
+//     this.posOptions = [];
+  
+//     for (let x = 0; x < this.dataSource2.data.length; x++) {
+//       // let r = []
+//     let  r  = this.dataSource2.data[x];
+//      console.log(r)
+//      this.toteOptions.push({ name: (r.cells-r.toteQuantity), value: r.toteID,text:r.toteID,selected:r.isSelected });
+//      this.posOptions.push({ name: (r.cells-r.toteQuantity), value: r.toteID,text:r.totesPosition });
+//     }
+//     console.log(this.posOptions);
+//     console.log(this.toteOptions);
+    
+//     if (this.toteOptions.find(option => option.selected === true)?.name <= 0) {
+//       alert("The tote you've selected is already marked as full. Putting the item in this tote will go over the defined cells.");
+//     }
+
+
+//     this.posOptions.find((option)=>{
+//       if(option.isSelected = true){
+//         this.openCell = option.name
+//       }
+//     })
+//     console.log(this.openCell)
+    
+
+
+//   }
   }
 
