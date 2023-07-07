@@ -941,6 +941,32 @@ export class ProcessPutAwaysComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe((result) => {
         if (result == 'NO') {
+
+      
+          if(this.inputType !='Serial Number' && this.processPutAwayIndex.imPreference.createItemMaster ){
+            this.ifAllowed=false;
+
+            const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+              height: 'auto',
+              width: '50vw',
+              autoFocus: '__non_existing_element__',
+              data: {
+                message: "The input code provided was not recognized.  Click OK to add the item to inventory or cancel to return.",
+                heading: ''
+              },
+            });
+      
+            dialogRef.afterClosed().subscribe((result) => {
+              if(result){
+                this.ifAllowed=false;
+                window.open(`/#/InductionManager/Admin/InventoryMaster?addItemNumber=${this.inputValue}`, '_self');
+
+              }
+              
+            })
+
+            return
+          }
           if (this.inputType == 'Any') {
             this.toastr.error('The input code provided was not recognized as an Item Number, Lot Number, Serial Number, Host Transaction ID, Scan Code or Supplier Item ID.', 'Error!', {
               positionClass: 'toast-bottom-right',

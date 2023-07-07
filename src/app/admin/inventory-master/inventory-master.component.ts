@@ -69,6 +69,8 @@ isQuarantine=false;
   public wipCount: any;
   public append: any;
   itemNumberParam$: Observable<any>;
+  addItemNumberParam$: Observable<any>;
+  addItemNumber='';
   hasChanged: any;
   initialFormValue: any
   isDisabledSubmit: boolean = false;
@@ -275,8 +277,15 @@ isQuarantine=false;
         this.getInvMasterDetail(this.searchValue)
       }
     });
-
-
+    this.addItemNumberParam$ = this.route.queryParamMap.pipe(
+      map((params: ParamMap) => params.get('addItemNumber')),
+    );
+    this.addItemNumberParam$.subscribe((param) => { 
+      if (param) {
+          this.addItemNumber=param
+          this.openAddItemDialog();
+      }
+    });
 
     this.sharedService.invMasterParentObserver.subscribe(evt => {
 
@@ -599,11 +608,12 @@ isQuarantine=false;
       width: '560px',
       autoFocus: '__non_existing_element__',
       data: {
-        itemNumber: this.currentPageItemNo,
-        description: this.getInvMasterData.description,
+        itemNumber: this.addItemNumber!=''?this.addItemNumber:this.currentPageItemNo,
+        description: this.getInvMasterData && this.getInvMasterData.description?this.getInvMasterData.description:'',
         fromInventoryMaster: 1,
         newItemNumber: '',
-        addItem: true
+        addItem: true,
+        fromPutaways:this.addItemNumber!=''?1:0
       }
     });
 
