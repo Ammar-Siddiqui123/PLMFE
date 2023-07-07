@@ -38,7 +38,7 @@ export class ReelTransactionsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService,) { }
 
   ngOnInit(): void {
-    
+    // debugger
     this.itemNumber = this.data.itemObj.number
     this.description = this.data.itemObj.description
     this.partsInducted =this.data.itemObj.totalParts
@@ -79,7 +79,8 @@ oldIncluded
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if(result !=true || result != 'undefined'){
+      // debugger
+      if(result !="true" ){
         this.partsInducted  = result[0].reelQty
         this.partsNotAssigned =result[0].reelQty
         this.oldIncluded = result[0].reelQty
@@ -89,7 +90,11 @@ oldIncluded
 
       }
       else{
-        this.partsNotAssigned = this.oldIncluded?this.oldIncluded:''
+        // debugger
+        // this.partsInducted  =   this.partsInducted ?this.partsInducted:'' 
+        // this.partsNotAssigned = this.partsNotAssigned ?this.partsInducted:'' 
+        // this.partsNotAssigned = this.oldIncluded?this.oldIncluded:''
+        // this.partsNotAssigned =result[0].reelQty
         // this.partsIncluded = this.oldIncluded?this.oldIncluded:0
         // this.partsNotAssigned =this.oldIncluded?this.oldIncluded:0
       }
@@ -219,7 +224,7 @@ oldIncluded
                   reels.push(element.reel_serial_number,
                     element.reel_part_quantity.toString(),
                     this.HiddenInputValue.reelOrder,
-                    this.HiddenInputValue.reelLot,
+                    this.HiddenInputValue.reelLot.toString(),
                     this.HiddenInputValue.reelUF1,
                     this.HiddenInputValue.reelUF2,
                     this.HiddenInputValue.reelWarehouse,
