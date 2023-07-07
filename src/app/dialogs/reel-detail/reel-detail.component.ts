@@ -29,17 +29,29 @@ export class ReelDetailComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.ReelOrder = this.data.hvObj.order
-    this.ReelLot = this.data.hvObj.lot
-    this.ReelExpDate = this.data.hvObj.expdate
-    this.ReelUF1 = this.data.hvObj.uf1
-    this.ReelUF2 = this.data.hvObj.uf2
-    this.ReelWarehouse = this.data.hvObj.warehouse
-    this.ReelQty = ''
-    this.ReelNotes = this.data.hvObj.notes
-    this.wareHouseSensitivity = this.data.itemObj.whseRequired
-
-    
+    // debugger
+    if(!this.data.fromtrans){
+      this.ReelOrder = this.data.hvObj.order
+      this.ReelLot = this.data.hvObj.lot
+      this.ReelExpDate = this.data.hvObj.expdate
+      this.ReelUF1 = this.data.hvObj.uf1
+      this.ReelUF2 = this.data.hvObj.uf2
+      this.ReelWarehouse = this.data.hvObj.warehouse
+      this.ReelQty = this.data.gReelQty
+      this.ReelNotes = this.data.hvObj.notes
+      this.wareHouseSensitivity = this.data.itemObj.whseRequired
+    }
+    else{
+      this.ReelOrder = this.data.fromtrans.reelOrder
+      this.ReelLot = this.data.fromtrans.reelLot
+      this.ReelExpDate = this.data.fromtrans.reelExpDate
+      this.ReelUF1 = this.data.fromtrans.reelUF1
+      this.ReelUF2 = this.data.fromtrans.reelUF2
+      this.ReelWarehouse = this.data.fromtrans.reelWarehouse
+      this.ReelQty = this.data.gReelQty
+      this.ReelNotes = this.data.fromtrans.reelNotes
+      this.wareHouseSensitivity = this.data.itemObj.whseRequired
+    }
   }
 
 
@@ -51,20 +63,21 @@ export class ReelDetailComponent implements OnInit {
     this.reelQuantitytemp.nativeElement.focus()
     if(this.wareHouseSensitivity){
       this.wareHouseSensitivity = true
-      setTimeout(() => {
-        this.openWareHouse()
-      }, 300);
+   if(!this.ReelWarehouse){
+    setTimeout(() => {
+      this.openWareHouse()
+    }, 300);
+   }
       
     }
     else{
       this.ReelWarehouse = '';
-      this.ReelQty = '';
+      // this.ReelQty = '';
       this.wareHouseSensitivity = false
     }
   }
 
   reelDetailSubmit(){
-    // debugger
     if(this.ReelQty == ''){
       const dialogRef = this.dialog.open(AlertConfirmationComponent, {
         height: 'auto',
@@ -80,9 +93,9 @@ export class ReelDetailComponent implements OnInit {
         }
       })
     }
-    // if(this.ReelLot == ''){
-    //   this.ReelLot = 0
-    // }
+    if(this.ReelLot == ''){
+      this.ReelLot = 0
+    }
      if(this.wareHouseSensitivity &&(this.ReelWarehouse == '') && this.ReelQty != ''){
       const dialogRef = this.dialog.open(AlertConfirmationComponent, {
         height: 'auto',
@@ -100,30 +113,34 @@ export class ReelDetailComponent implements OnInit {
       })
    
     }else if(this.wareHouseSensitivity &&(this.ReelWarehouse != '') && this.ReelQty != ''){
-        let  reelDetail ={
+      let  reelDetail =[
+        {reelQty:this.ReelQty},
+        {
           reelOrder:this.ReelOrder,
-          reelLot:this.ReelLot,
-          reelExpDate:this.ReelLot,
+          reelLot:this.ReelLot.toString(),
           reelUF1:this.ReelUF1,
           reelUF2:this.ReelUF2,
           reelWarehouse:this.ReelWarehouse,
+          reelExpDate:this.ReelExpDate,
+          reelNotes:this.ReelNotes,
           reelQty:this.ReelQty,
-          reelNotes:this.ReelNotes
-        }
+        }]
         this.dialogRef.close(reelDetail);
     }
 
     if(!this.wareHouseSensitivity &&this.ReelQty != '' ){
-      let  reelDetail ={
+      let  reelDetail =[
+      {reelQty:this.ReelQty},
+      {
         reelOrder:this.ReelOrder,
-        reelLot:this.ReelLot,
-        reelExpDate:this.ReelLot,
+        reelLot:this.ReelLot.toString(),
         reelUF1:this.ReelUF1,
         reelUF2:this.ReelUF2,
         reelWarehouse:this.ReelWarehouse,
+        reelExpDate:this.ReelExpDate,
+        reelNotes:this.ReelNotes,
         reelQty:this.ReelQty,
-        reelNotes:this.ReelNotes
-      }
+      }]
       this.dialogRef.close(reelDetail);
     }
   }
@@ -153,7 +170,6 @@ export class ReelDetailComponent implements OnInit {
   }
 
   fetchReelQty(event){
-    console.log(event)
     if(event.keyCode=='13'){
       this.reelDetailSubmit()
     }

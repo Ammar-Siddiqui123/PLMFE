@@ -10,14 +10,16 @@ import { MatSort } from '@angular/material/sort';
 })
 export class LocationComponent implements OnInit {
 
-
+  currentDir='asc';
+  nextDir='desc';
+  counter=0;
   displayedColumns: string[] = ['location','warehouse','zone','carousal','row','shelf','bin','lotNo','expiration','serialNo','cellSize','shipVia','shipToName',
 'qtyAllPick', 'qtyAllPut', 'unitOfMeasure', 'itemQty',  'stockDate', 'velocity'];
 
   @Input() location: FormGroup;
   @Input() count: any;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  nextDir='desc';
+ 
   @Output() notifyParent: EventEmitter<any> = new EventEmitter();
   sendNotification(e?) {
     this.notifyParent.emit(e);
@@ -42,17 +44,25 @@ export class LocationComponent implements OnInit {
   }
     
   announceSortChange(sortState: any) {
-    if (sortState.direction != "") {
-      this.nextDir = sortState.direction === "asc" ? "desc" : "asc";
-      // this.nextDir = this.nextDir  === "asc" ? "desc" : "asc";
-    }
-    if(sortState.direction!=''){
+    this.counter++;
+   
+      if(this.counter%2===0){
+        sortState.direction=this.currentDir;
+      }else{
+        sortState.direction=this.nextDir;
+      }
+    // if (sortState.direction != "") {
+    //   this.nextDir = sortState.direction === "asc" ? "desc" : "asc";
+    //   // this.nextDir = this.nextDir  === "asc" ? "desc" : "asc";
+    // }
+    // if(sortState.direction!=''){
+
       this.sendNotification({sortingColumn: this.displayedColumns.indexOf(sortState.active) , sortingSeq:sortState.direction})
 
-    }else{
-      this.sendNotification({sortingColumn: this.displayedColumns.indexOf(sortState.active) , sortingSeq:this.nextDir})
+    // }else{
+    //   this.sendNotification({sortingColumn: this.displayedColumns.indexOf(sortState.active) , sortingSeq:this.nextDir})
 
-    }
+    // }
    
   }
 

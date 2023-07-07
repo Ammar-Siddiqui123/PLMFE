@@ -22,7 +22,7 @@
                                 <mat-label>Actions</mat-label>
                                 <mat-select class="employees-action" value="pick">
                                     <mat-option value="123456">Print</mat-option>
-                                    <mat-option value="987654">Export</mat-option>
+                                    <mat-option value="987654" (click)="BrChooseReportTypeDialogue()">Export</mat-option>
                                     <mat-option value="147852">Preview Top 50 Pages Only</mat-option>
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
@@ -101,8 +101,8 @@
                                             <mat-label>Trans. Type</mat-label>
                                             <mat-select class="employees-action" placeholder="Actions">
                                                 <mat-option value="Pick">Pick</mat-option>
-                                                <mat-option value="Put Away">Put Away</mat-option>
-                                                <mat-option value="Count">Count</mat-option>
+                                                <mat-option value="Put Away">Put Aways</mat-option>
+                                                <mat-option value="Count">Cycle Counts</mat-option>
                                             </mat-select>
                                             <span class="material-symbols-outlined icon-expand-more">
                                                 expand_more
@@ -121,8 +121,8 @@
                                             <mat-label>Trans. Type</mat-label>
                                             <mat-select class="employees-action" placeholder="Actions">
                                                 <mat-option value="Pick">Pick</mat-option>
-                                                <mat-option value="Put Away">Put Away</mat-option>
-                                                <mat-option value="Count">Count</mat-option>
+                                                <mat-option value="Put Away">Put Aways</mat-option>
+                                                <mat-option value="Count">Cycle Counts</mat-option>
                                             </mat-select>
                                             <span class="material-symbols-outlined icon-expand-more">
                                                 expand_more

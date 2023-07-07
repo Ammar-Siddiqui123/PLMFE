@@ -27,7 +27,10 @@
         "path": "/FlowrackReplenishment",
         "Permission": "FlowRack Replenish"
     },
-
+    {
+        "path": "/wrd",
+        "Permission": true
+    },
     {
         "path": "/admin/inventoryMaster",
         "Permission": "Inventory"
@@ -172,6 +175,7 @@
         "path": "/InductionManager/Admin",
         "Permission": "Tote Admin Menu"
     },
+    
     {
         "path": "/InductionManager/Admin/InventoryMap",
         "Permission": "Induction Manager"
@@ -204,6 +208,15 @@
     {
         "path": "/admin/manualTransactions",
         "Permission": "Manual Transactions"
+    },
+
+    {
+        "path": "/FlowrackReplenishment/Preferences",
+        "Permission": "Preferences"
+    },
+    {
+        "path": "/FlowrackReplenishment/Flowrack",
+        "Permission": "Preferences"
     } 
  
     

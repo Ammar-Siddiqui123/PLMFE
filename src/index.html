@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="../assets/font/mulish-font.css">
   <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" /> -->
+  <script src="http://localhost:63590/WebReportDesigner.js"></script>
+  <script src="http://localhost:63590/WebReportViewer.js"></script>
 </head>
 <body id="pickpro" class="pickpro">
   <app-root></app-root>
@@ -21,26 +23,26 @@
 <script>
 
 
-//   On unload or Refresh, store unload time if unloads more than 3 seconds auto logout to maintain closing tab and open app again to relogin
-// REF PLM-1716 
- window.onbeforeunload = function (e) {
-  localStorage.setItem('unloadTime',JSON.stringify(new Date()))
-// window.localStorage.unloadTime = JSON.stringify(new Date());
-};
+// //   On unload or Refresh, store unload time if unloads more than 3 seconds auto logout to maintain closing tab and open app again to relogin
+// // REF PLM-1716 
+//  window.onbeforeunload = function (e) {
+//   localStorage.setItem('unloadTime',JSON.stringify(new Date()))
+// // window.localStorage.unloadTime = JSON.stringify(new Date());
+// };
 
-window.onload = function () {
-  let loadTime = new Date();
-  let unloadTime = localStorage.getItem('unloadTime');
+// window.onload = function () {
+//   let loadTime = new Date();
+//   let unloadTime = localStorage.getItem('unloadTime');
 
-  if (unloadTime) {
-    unloadTime = new Date(JSON.parse(unloadTime));
-    let refreshTime = loadTime.getTime() - unloadTime.getTime();
+//   if (unloadTime) {
+//     unloadTime = new Date(JSON.parse(unloadTime));
+//     let refreshTime = loadTime.getTime() - unloadTime.getTime();
 
-    if (refreshTime > 3000) {
-      localStorage.clear();
-      location.reload();
-    }
-  }
-};
+//     if (refreshTime > 3000) {
+//       localStorage.clear();
+//       location.reload();
+//     }
+//   }
+// };
 </script>
 </html>
