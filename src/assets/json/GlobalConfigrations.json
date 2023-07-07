@@ -27,7 +27,10 @@
         "path": "/FlowrackReplenishment",
         "Permission": "FlowRack Replenish"
     },
-
+    {
+        "path": "/wrd",
+        "Permission": true
+    },
     {
         "path": "/admin/inventoryMaster",
         "Permission": "Inventory"

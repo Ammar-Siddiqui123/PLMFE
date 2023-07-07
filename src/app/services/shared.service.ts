@@ -15,7 +15,7 @@ export class SharedService {
   menuData$ = this.menuData.asObservable();
 
   private appData: any;
-  startMenu: Subject<any> = new Subject<any>();
+  startMenu: Subject<any> = new Subject<any>(); 
   updateAdminMenuObserver: Subject<boolean> = new Subject<boolean>(); // observing that bool
   updateInductionAdminObserver: Subject<any> = new Subject<any>();
   orderStatusObserver: Subject<any> = new Subject<any>();
@@ -40,7 +40,7 @@ export class SharedService {
   BroadCastInductionMenuUpdate(str: any) {
     this.updateInductionMenuObserver.next(str);
   }
-
+   
   resetSidebar() {
     this.startMenu.next(true);
   }

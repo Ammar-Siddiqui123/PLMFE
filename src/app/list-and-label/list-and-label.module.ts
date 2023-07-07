@@ -10,6 +10,7 @@ import { WrdFrontendComponent } from './wrd-frontend/wrd-frontend.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { GeneralModule } from '../gen-module';
 
 
 @NgModule({
@@ -22,9 +23,9 @@ import { BrowserModule } from '@angular/platform-browser';
   ],
   imports: [
     // BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    CommonModule,
-    HttpClientModule,
+    CommonModule, 
     FormsModule,
+    GeneralModule,
     ListAndLabelRoutingModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

@@ -7,9 +7,14 @@ import { Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild, Vie
 })
 export class WrdFrontendComponent implements OnInit {
   @ViewChild('ListAndLabel', { read: ViewContainerRef }) ListAndLabel: ViewContainerRef;
-  FileName:string = "BMCountList";
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  FileName:any = "BMCountList";
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) {
+    var file = localStorage.getItem("ListAndLandFile")?.replace(".","-");
+    this.FileName = file;
+    console.log(file);
+  }
   ngOnInit(): void {
+    
     setTimeout(() => {
       this.generateHTMLAndAppend();
     }, 600);

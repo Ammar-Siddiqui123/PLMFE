@@ -338,7 +338,7 @@ export class ApiFuntions {
     return this.ApiBase.Update("/OrderManager/preferences",Body);
   }
   public EventLogTable(Body:any): Observable<any> { 
-    return this.ApiBase.Post("/Admin/eventlog",Body);
+    return this.ApiBase.Get("/Admin/eventlog",Body);
   }
   public EventLogTypeAhead(Body:any): Observable<any> { 
     return this.ApiBase.Get("/Admin/eventlogtypeahead",Body);
@@ -1335,5 +1335,11 @@ public shortTransaction(body:any): Observable<any> {
 }
 public blossomTote(body:any): Observable<any> { 
   return this.ApiBase.Update("/induction/blossomtote",body);
+} 
+public Getcustomreports(): Observable<any> { 
+  return this.ApiBase.Get("/Admin/customreports/index?app=Admin");
 }
+public Getreportdetails(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/customreports/reportdetails",body);
+} 
 }
