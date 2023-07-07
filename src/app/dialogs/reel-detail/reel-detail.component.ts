@@ -117,7 +117,7 @@ export class ReelDetailComponent implements OnInit {
         {reelQty:this.ReelQty},
         {
           reelOrder:this.ReelOrder,
-          reelLot:this.ReelLot.toString(),
+          reelLot:this.ReelLot,
           reelUF1:this.ReelUF1,
           reelUF2:this.ReelUF2,
           reelWarehouse:this.ReelWarehouse,
@@ -133,7 +133,7 @@ export class ReelDetailComponent implements OnInit {
       {reelQty:this.ReelQty},
       {
         reelOrder:this.ReelOrder,
-        reelLot:this.ReelLot.toString(),
+        reelLot:this.ReelLot,
         reelUF1:this.ReelUF1,
         reelUF2:this.ReelUF2,
         reelWarehouse:this.ReelWarehouse,
