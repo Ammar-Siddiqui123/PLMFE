@@ -15,6 +15,8 @@ import { CcsifComponent } from './global-config/ccsif/ccsif.component';
 import { SteComponent } from './global-config/ste/ste.component';
 import { SteServicesComponent } from './global-config/ste-services/ste-services.component';
 import { FlowrackReplenishmentComponent } from './flowrack-replenishment/flowrack-replenishment.component';
+import { ImportExportComponent } from './import-export/import-export.component';
+
 import { WrdComponent } from './list-and-label/wrd/wrd.component';
 const routes: Routes = [
   {
@@ -80,6 +82,11 @@ const routes: Routes = [
         path: 'dashboard',
         component: MainComponent,
         canActivate: [AuthGuardGuard],
+      },
+      {
+        path: 'ImportExport',
+        component: ImportExportComponent,
+        canActivate: [AuthGuardGuard] 
       },
       // {
       //   path: 'FlowrackReplenishment',

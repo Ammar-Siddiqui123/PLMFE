@@ -85,6 +85,18 @@ import { ShortTransactionComponent } from './dialogs/short-transaction/short-tra
 import { CpbBlossomToteComponent } from './dialogs/cpb-blossom-tote/cpb-blossom-tote.component';
 import { ReelDetailComponent } from './dialogs/reel-detail/reel-detail.component';
 import { ReelTransactionsComponent } from './dialogs/reel-transactions/reel-transactions.component';
+import { ImportExportComponent } from './import-export/import-export.component';
+import { IeTransFieldMappingComponent } from './dialogs/ie-trans-field-mapping/ie-trans-field-mapping.component';
+import { OpenTransPickMappingComponent } from './dialogs/open-trans-pick-mapping/open-trans-pick-mapping.component';
+import { TransferFilePathComponent } from './dialogs/transfer-file-path/transfer-file-path.component';
+import { IeFtpSettingsComponent } from './dialogs/ie-ftp-settings/ie-ftp-settings.component';
+import { IeInventMapExportComponent } from './dialogs/ie-invent-map-export/ie-invent-map-export.component';
+import { IeStatusComponent } from './import-export/ie-status/ie-status.component';
+import { IeSystemSettingsComponent } from './import-export/ie-system-settings/ie-system-settings.component';
+import { IeTransferSettingsComponent } from './import-export/ie-transfer-settings/ie-transfer-settings.component';
+import { FiltersComponent } from './import-export/ie-transfer-settings/filters/filters.component';
+import { IeAssignLocationsComponent } from './import-export/ie-assign-locations/ie-assign-locations.component';
+import { IeManageDataComponent } from './import-export/ie-manage-data/ie-manage-data.component';
 import { CrEditDesignTestDataComponent } from './dialogs/cr-edit-design-test-data/cr-edit-design-test-data.component';
 import { CrDeleteConfirmationComponent } from './dialogs/cr-delete-confirmation/cr-delete-confirmation.component';
 import { BrChooseReportTypeComponent } from './dialogs/br-choose-report-type/br-choose-report-type.component';
@@ -159,6 +171,18 @@ import { CrAddNewCustomReportComponent } from './dialogs/cr-add-new-custom-repor
     CpbBlossomToteComponent,
     ReelDetailComponent,
     ReelTransactionsComponent,
+    ImportExportComponent,
+    IeTransFieldMappingComponent,
+    OpenTransPickMappingComponent,
+    TransferFilePathComponent,
+    IeFtpSettingsComponent,
+    IeInventMapExportComponent,
+    IeStatusComponent,
+    IeSystemSettingsComponent,
+    IeTransferSettingsComponent,
+    FiltersComponent,
+    IeAssignLocationsComponent,
+    IeManageDataComponent,
     CrEditDesignTestDataComponent,
     CrDeleteConfirmationComponent,
     BrChooseReportTypeComponent,
