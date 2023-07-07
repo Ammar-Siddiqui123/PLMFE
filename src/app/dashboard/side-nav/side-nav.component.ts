@@ -21,7 +21,7 @@ export class SideNavComponent implements OnInit {
   dynamicMenu: any=[]
   menus: any = [
     { icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'},
-    { icon: 'electric_bolt', title: 'Import Export', route: '#' ,permission: 'Import Export'},
+    { icon: 'electric_bolt', title: 'Import Export', route: '/ImportExport' ,permission: 'Import Export'},
     { icon: 'manage_accounts', title: 'Admin', route: '/admin', permission: 'Admin Menu'},
     { icon: 'checklist', title: 'Induction Manager', route: '/InductionManager' ,permission: 'Induction Manager'},
     { icon: 'fact_check', title: 'Work Manager', route: '#' ,permission: 'Work Manager'},

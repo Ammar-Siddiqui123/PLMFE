@@ -15,6 +15,8 @@ import { CcsifComponent } from './global-config/ccsif/ccsif.component';
 import { SteComponent } from './global-config/ste/ste.component';
 import { SteServicesComponent } from './global-config/ste-services/ste-services.component';
 import { FlowrackReplenishmentComponent } from './flowrack-replenishment/flowrack-replenishment.component';
+import { ImportExportComponent } from './import-export/import-export.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -84,6 +86,11 @@ const routes: Routes = [
         component: FlowrackReplenishmentComponent,
         canActivate: [AuthGuardGuard] 
       },
+      {
+        path: 'ImportExport',
+        component: ImportExportComponent,
+        canActivate: [AuthGuardGuard] 
+      },
       // {
       //   path: 'globalconfig/dashboard',
       //   component: MainComponent,
@@ -110,7 +117,9 @@ const routes: Routes = [
         path: 'OrderManager', 
         loadChildren: () => import('./order-manager/order-manager.module').then(m => m.OrderManagerModule),
         canActivate:[AuthGuardGuard]
-      } 
+      },
+      
+
 
     ]
 
