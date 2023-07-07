@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CrEditDesignTestDataComponent } from 'src/app/dialogs/cr-edit-design-test-data/cr-edit-design-test-data.component';
-import { CrDeleteConfirmationComponent } from 'src/app/dialogs/cr-delete-confirmation/cr-delete-confirmation.component';
+import { Router } from '@angular/router';
 import { CrAddNewCustomReportComponent } from 'src/app/dialogs/cr-add-new-custom-report/cr-add-new-custom-report.component';
+import { CrDeleteConfirmationComponent } from 'src/app/dialogs/cr-delete-confirmation/cr-delete-confirmation.component';
+import { CrEditDesignTestDataComponent } from 'src/app/dialogs/cr-edit-design-test-data/cr-edit-design-test-data.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-custom-reports-and-labels',
@@ -10,10 +13,30 @@ import { CrAddNewCustomReportComponent } from 'src/app/dialogs/cr-add-new-custom
   styleUrls: ['./custom-reports-and-labels.component.scss']
 })
 export class CustomReportsAndLabelsComponent implements OnInit {
-
-  constructor( private dialog: MatDialog,) { }
+  Detail:any = {};
+  ListReports:any = [];
+  constructor(private api:ApiFuntions,private route:Router,private dialog: MatDialog) { }
 
   ngOnInit(): void {
+  this.Getcustomreports();
+  }
+  
+  Getcustomreports(){
+    this.api.Getcustomreports().subscribe((res:any)=>{
+      this.ListReports = res?.data?.reportTitles?.sysTitles;
+    })
+  }
+  OpenListAndLabel(){
+    localStorage.setItem("ListAndLandFile",this.Detail.fileName);
+    this.route.navigateByUrl('/wrd');
+  }
+  Getreportdetails(file){ 
+    var obj : any = {
+      FileName:file
+    }
+    this.api.Getreportdetails(obj).subscribe((res:any)=>{
+      this.Detail = res.data[0];
+    })
   }
 
   openEditDesign() {

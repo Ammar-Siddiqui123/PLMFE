@@ -1,9 +1,22 @@
 .table1{
     th{
         white-space: nowrap ;
+        &:first-child{
+            padding-left: 10px;
+        }
+        &:last-child{
+            padding-right: 10px;
+        }
     }
     td{
         width: auto;
+        padding:4px 0px;
+        &:first-child{
+            padding-left: 10px;
+        }
+        &:last-child{
+            padding-right: 10px;
+        }
     }
 }
 
