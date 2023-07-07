@@ -532,6 +532,9 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.processPutAwayIndex = res.data;
           
           this.inputType = res.data.imPreference.defaultPutAwayScanType;
+          this.applyStrip = res.data.imPreference.stripScan
+          this.stripLength = res.data.imPreference.stripNumber
+          this.stripSide = res.data.imPreference.stripSide
           if (res.data.batchIDs) {
             this.batchId = res.data.batchIDs;
             this.selectedIndex = 1;
