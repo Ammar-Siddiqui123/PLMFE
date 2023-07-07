@@ -22,7 +22,7 @@
           <div class="col-12 col-xl-3">
             <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3 mb-xl-0" appearance="outline">
               <mat-label>Transaction Type</mat-label>
-              <mat-select [(ngModel)]="transType" (selectionChange)="changeTranType($event.value)">
+              <mat-select [(ngModel)]="transType" (selectionChange)="changeTranType($event.value)" disableOptionCentering>
                 <mat-option *ngFor="let type of transList" value="{{type.id}}">{{type.name}}</mat-option>
               </mat-select>
               <span class="material-symbols-outlined icon-expand-more">

@@ -17,3 +17,12 @@
  .td-right-align{
     text-align: right;
  }
+
+ ::ng-deep .mat-menu-panel{
+   display: flex;
+   width: 100vh;
+   max-width: 290px;
+   .mat-menu-content{
+      width: 100%;
+   }
+ }
