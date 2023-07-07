@@ -670,12 +670,14 @@ export class ProcessPicksComponent implements OnInit {
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
       }
+      
       this.Api.InZoneSetupProcess(paylaod).subscribe(res => {
         if (res.isExecuted) {
           this.dialog.closeAll();
           this.TOTE_SETUP.map(obj => {
             obj.toteID = '';
             obj.orderNumber = '';
+            obj.priority = '';
           });
           this.batchID = '';
           this.toastr.success(labels.alert.success, 'Success!', {
@@ -707,6 +709,7 @@ export class ProcessPicksComponent implements OnInit {
           this.TOTE_SETUP.map(obj => {
             obj.toteID = '';
             obj.orderNumber = '';
+            obj.priority = '';
           });
           this.batchID = '';
           this.toastr.success(labels.alert.success, 'Success!', {
