@@ -11,19 +11,19 @@
     <div class="col-xl-4">
         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
             <mat-label>Order Number</mat-label>
-            <input matInput disabled value="145263">
+            <input matInput disabled [(ngModel)]="selectedTransaction.orderNumber">
         </mat-form-field>
     </div>
     <div class="col-xl-4">
         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
             <mat-label>Tote ID</mat-label>
-            <input matInput disabled value="145263">
+            <input matInput disabled [(ngModel)]="selectedTransaction.toteId">
         </mat-form-field>
     </div>
     <div class="col-xl-4">
         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
             <mat-label>Item Number</mat-label>
-            <input matInput disabled value="145263">
+            <input matInput disabled [(ngModel)]="selectedTransaction.itemNumber">
         </mat-form-field>
     </div>
 
@@ -33,23 +33,23 @@
     <div class="col-xl-4">
         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
             <mat-label>Location</mat-label>
-            <input matInput disabled value="145263">
+            <input matInput disabled [(ngModel)]="selectedTransaction.location">
         </mat-form-field>
     </div>
     <div class="col-xl-4">
         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
             <mat-label>Transaction Qty</mat-label>
-            <input matInput disabled value="145263">
+            <input matInput disabled [(ngModel)]="selectedTransaction.transactionQuantity">
         </mat-form-field>
     </div>
     <div class="col-xl-4">
         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
             <mat-label>Tote Qty</mat-label>
-            <input matInput value="145263">
+            <input matInput type="number" [(ngModel)]="toteQuantity">
         </mat-form-field>
     </div>
 
 </div>
 
-<button mat-flat-button color="primary" class="btn-lg w-100">Short Transaction</button>
+<button mat-flat-button color="primary" class="btn-lg w-100" (click)="ShortTransaction()">Short Transaction</button>
 </mat-dialog-content>

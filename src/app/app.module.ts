@@ -78,7 +78,6 @@ import { GcPrintServiceTestComponent } from './dialogs/gc-print-service-test/gc-
 import { OmChangePriorityComponent } from './dialogs/om-change-priority/om-change-priority.component';
 import { AuthGuard } from './init/AuthGuard.service';
 import { StagingLocationOrderComponent } from './dialogs/staging-location-order/staging-location-order.component';
-import { FlowrackReplenishmentComponent } from './flowrack-replenishment/flowrack-replenishment.component';
 import { FrNumpadComponent } from './dialogs/fr-numpad/fr-numpad.component';
 import { ApiFuntions } from './services/ApiFuntions';
 import { BaseService } from './services/base-service.service';
@@ -98,6 +97,10 @@ import { IeTransferSettingsComponent } from './import-export/ie-transfer-setting
 import { FiltersComponent } from './import-export/ie-transfer-settings/filters/filters.component';
 import { IeAssignLocationsComponent } from './import-export/ie-assign-locations/ie-assign-locations.component';
 import { IeManageDataComponent } from './import-export/ie-manage-data/ie-manage-data.component';
+import { CrEditDesignTestDataComponent } from './dialogs/cr-edit-design-test-data/cr-edit-design-test-data.component';
+import { CrDeleteConfirmationComponent } from './dialogs/cr-delete-confirmation/cr-delete-confirmation.component';
+import { BrChooseReportTypeComponent } from './dialogs/br-choose-report-type/br-choose-report-type.component';
+import { CrAddNewCustomReportComponent } from './dialogs/cr-add-new-custom-report/cr-add-new-custom-report.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -163,7 +166,6 @@ import { IeManageDataComponent } from './import-export/ie-manage-data/ie-manage-
     GcPrintServiceTestComponent,
     OmChangePriorityComponent,
     StagingLocationOrderComponent,
-    FlowrackReplenishmentComponent,
     FrNumpadComponent,
     ShortTransactionComponent,
     CpbBlossomToteComponent,
@@ -181,6 +183,10 @@ import { IeManageDataComponent } from './import-export/ie-manage-data/ie-manage-
     FiltersComponent,
     IeAssignLocationsComponent,
     IeManageDataComponent,
+    CrEditDesignTestDataComponent,
+    CrDeleteConfirmationComponent,
+    BrChooseReportTypeComponent,
+    CrAddNewCustomReportComponent,
     // ActionDisableDirective,
   ],
   imports: [

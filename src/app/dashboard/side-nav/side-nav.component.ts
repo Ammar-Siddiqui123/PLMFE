@@ -27,7 +27,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'fact_check', title: 'Work Manager', route: '#' ,permission: 'Work Manager'},
     { icon: 'insert_chart', title: 'Consolidation Manager', route: '/ConsolidationManager' ,permission: 'Consolidation Manager'},
     { icon: 'pending_actions', title: 'Order Manager', route: '/OrderManager' ,permission: 'Order Manager'},
-    { icon: 'schema', title: 'FlowRack Replenish', route: '/flowrack',permission: 'FlowRack Replenish' }
+    { icon: 'schema', title: 'FlowRack Replenishment', route: '/flowrack',permission: 'FlowRack Replenish' }
   ];
   globalMenus: any = [
     { icon: 'door_front', title: 'Home', route: '/globalconfig/home' ,permission: true},
@@ -105,6 +105,12 @@ export class SideNavComponent implements OnInit {
     { icon: 'analytics', title: 'Reports ', route: '#' ,permission:'Admin Reports'},
     { icon: 'tune', title: 'Preferences ', route: '/OrderManager/Preferences' ,permission:'Admin Preferences'},
   ];
+
+  flowrackReplenishmentMenus: any = [
+    { icon: 'arrow_back', title: 'Flowrack Replenish', route: '/dashboard', class: 'back-class' , permission: 'FlowRack Replenish'},
+    { icon: 'schema', title: 'Flowrack Replenishment', route: '/FlowrackReplenishment/Flowrack' ,permission:'FlowRack Replenish'},
+    { icon: 'tune', title: 'Preferences ', route: '/FlowrackReplenishment/Preferences' ,permission:'FlowRack Replenish'},
+  ];
   
 
   isParentMenu: boolean = true;
@@ -123,7 +129,12 @@ export class SideNavComponent implements OnInit {
                   else if(Menuobj==null) Menuobj = this.inductionMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.inductionAdminMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.orderManagerMenus.find(x=>x.route == data);
+                  else if(Menuobj==null) Menuobj = this.flowrackReplenishmentMenus.find(x=>x.route == data);
                   this.loadMenus(Menuobj);
+                });
+
+                this.sharedService.updateInductionMenuObserver.subscribe((data:any) => {
+                  this.inductionMenus.filter(x=>x.title == 'Complete Pick Batch')[0].route = data ? '/InductionManager/CompletePickBatch' : '#';
                 });
 
               }
@@ -150,6 +161,14 @@ export class SideNavComponent implements OnInit {
       }
     });
 
+    this.sharedService.updateFlowrackMenuObserver.subscribe(flowrack => {
+       
+      if (flowrack){
+        this.childMenus = this.flowrackReplenishmentMenus;
+        this.isParentMenu = false;
+        this.isChildMenu = true;
+      }
+    });
     this.sharedService.updateInductionAdminObserver.subscribe(InvadminMenu => {
       
       if (InvadminMenu.menu === 'transaction-admin'){
@@ -191,6 +210,13 @@ export class SideNavComponent implements OnInit {
         this.childMenus = this.consolidationMenus;
         this.isParentMenu = false;
         this.isChildMenu = true;
+      }else if(InvadminMenu.menu === 'FlowrackReplenishment'){
+        let splittedRoute=InvadminMenu.route.split('/');
+        if(splittedRoute[2]===undefined){
+          this.flowrackReplenishmentMenus[0].route='/dashboard'
+        }else{
+          this.flowrackReplenishmentMenus[0].route='/FlowrackReplenishment'
+        }
       }
     });
 
@@ -292,6 +318,7 @@ export class SideNavComponent implements OnInit {
   }
 
   loadMenus(menu: any) {  
+    
     this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route);
     if (!menu) {
       menu = {route : '/dashboard'};      
@@ -383,16 +410,35 @@ export class SideNavComponent implements OnInit {
       return;
     }
 
-    if (['/dashboard','/FlowrackReplenishment'].indexOf(menu.route) > -1) {
-      this.isParentMenu = true;
-      this.isChildMenu = false;
-    }
+    // if (['/dashboard','/FlowrackReplenishment'].indexOf(menu.route) > -1) {
+    //   this.isParentMenu = true;
+    //   this.isChildMenu = false;
+    // }
 
     if (menu.route.includes('/globalconfig')) {
       this.childMenus = this.globalMenus;
       this.isParentMenu = false;
       this.isChildMenu = true;
-    }    
+    }  
+    // if (menu.route.includes('/FlowrackReplenishment')) {
+    //   this.childMenus = this.flowrackReplenishmentMenus;
+    //   this.isParentMenu = false;
+    //   this.isChildMenu = true;
+    // } 
+    
+    if (menu.route.includes('/FlowrackReplenishment')) {
+      let splittedRoute=menu.route.split('/');
+      if(splittedRoute[2]===undefined){
+        this.flowrackReplenishmentMenus[0].route='/dashboard'
+      }else{
+        this.flowrackReplenishmentMenus[0].route='/FlowrackReplenishment'
+        
+      }
+      this.childMenus = this.flowrackReplenishmentMenus;
+      this.isParentMenu = false;
+      this.isChildMenu = true;
+      return
+    } 
   }
 
   isAuthorized(controlName:any) {

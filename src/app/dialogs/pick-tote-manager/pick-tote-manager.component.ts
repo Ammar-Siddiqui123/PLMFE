@@ -109,7 +109,7 @@ export class PickToteManagerComponent implements OnInit {
   onDestroy$: Subject<boolean> = new Subject();
   selection = new SelectionModel<PeriodicElement>(true, []);
   disFilterColumns: string[] = ['sequence', 'field', 'criteria', 'value', 'andOr', 'actions'];
-  disOrderColumns: string[] = ['sequence', 'field', 'sortOrder', 'actions', 'id'];
+  disOrderColumns: string[] = ['sequence', 'field', 'sortOrder', 'id', 'actions'];
 
   displayedColumns1: string[] = ['position', 'toteid', 'orderno', 'other'];
   dataSource1 = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);

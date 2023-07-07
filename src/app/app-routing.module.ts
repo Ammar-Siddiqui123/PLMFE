@@ -17,6 +17,7 @@ import { SteServicesComponent } from './global-config/ste-services/ste-services.
 import { FlowrackReplenishmentComponent } from './flowrack-replenishment/flowrack-replenishment.component';
 import { ImportExportComponent } from './import-export/import-export.component';
 
+import { WrdComponent } from './list-and-label/wrd/wrd.component';
 const routes: Routes = [
   {
     path: '',
@@ -72,6 +73,7 @@ const routes: Routes = [
     component: SteServicesComponent,
     canActivate:[AuthGuardGuard]
   },
+  { path: 'wrd', component: WrdComponent },
   {
     path: '',
     component: DashboardComponent,
@@ -82,15 +84,15 @@ const routes: Routes = [
         canActivate: [AuthGuardGuard],
       },
       {
-        path: 'FlowrackReplenishment',
-        component: FlowrackReplenishmentComponent,
-        canActivate: [AuthGuardGuard] 
-      },
-      {
         path: 'ImportExport',
         component: ImportExportComponent,
         canActivate: [AuthGuardGuard] 
       },
+      // {
+      //   path: 'FlowrackReplenishment',
+      //   component: FlowrackReplenishmentComponent,
+      //   canActivate: [AuthGuardGuard] 
+      // },
       // {
       //   path: 'globalconfig/dashboard',
       //   component: MainComponent,
@@ -118,9 +120,16 @@ const routes: Routes = [
         loadChildren: () => import('./order-manager/order-manager.module').then(m => m.OrderManagerModule),
         canActivate:[AuthGuardGuard]
       },
-      
-
-
+      { 
+        path: 'FlowrackReplenishment', 
+        loadChildren: () => import('./flowrack-replenishment/flowrack-replenishment.module').then(m => m.FlowrackReplenishmentModule),
+        canActivate:[AuthGuardGuard]
+      },
+      { 
+        path: 'ListAndLabel', 
+        loadChildren: () => import('./list-and-label/list-and-label.module').then(m => m.ListAndLabelModule),
+        // canActivate:[AuthGuardGuard]
+      },
     ]
 
   },  
