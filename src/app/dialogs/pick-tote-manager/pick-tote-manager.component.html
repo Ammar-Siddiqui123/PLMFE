@@ -65,7 +65,7 @@
               </div>
             </div>
             <div class="row row-flex p-0">
-              <div class="col-xl-7">
+              <div class="col-xl-7 mb-xl-0 mb-3">
                 <div class="card p-3">
                   <div>
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
@@ -363,7 +363,7 @@
               </mat-radio-group>
             </div>
             <div class="row row-flex p-0">
-              <div class="col-xl-5">
+              <div class="col-xl-5 mb-xl-0 mb-3">
                 <div class="card p-3">
                   <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
@@ -568,8 +568,9 @@
             </mat-paginator>
           </div>
         </mat-tab>
-        <mat-tab label="Batch Results">
-          <ng-scrollbar style="height: 550px ;">
+        <mat-tab label="Batch Results" class="b-result">
+          <!-- <ng-scrollbar style="height: 550px ;"> -->
+            
             <div class="p-3">
               <div class="mb-2">
                 <mat-label><b>View Order Lines</b></mat-label>
@@ -583,8 +584,9 @@
                 </mat-radio-button>
               </mat-radio-group>
             </div>
+            <div class="container-fluid-0" style="overflow:hidden">
             <div class="row row-flex p-0">
-              <div class="col-xl-5">
+              <div class="col-xl-5 mb-xl-0 mb-3">
                 <div class="card p-3">
                   <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="card-header-title mb-0 d-flex align-items-center">
@@ -686,7 +688,8 @@
                 </div>
               </div>
             </div>
-          </ng-scrollbar>
+            </div>
+          <!-- </ng-scrollbar> -->
         </mat-tab>
       </mat-tab-group>
     </div>
