@@ -109,16 +109,16 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
 
-  // arbash variables
-  applyStrip:any;
-  stripLength:any;
-  stripSide:any;
-  toteOptions:any
-  posOptions:any
-  selectedToteID:any
-  openCell:any
-  upperBound = 5
-  lowerBound = 1
+  // // arbash variables
+  // applyStrip:any;
+  // stripLength:any;
+  // stripSide:any;
+  // toteOptions:any
+  // posOptions:any
+  // selectedToteID:any
+  // openCell:any
+  // upperBound = 
+  // lowerBound = 1
   
 
 
@@ -522,9 +522,6 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.processPutAwayIndex = res.data;
           
           this.inputType = res.data.imPreference.defaultPutAwayScanType;
-          this.applyStrip = res.data.imPreference.stripScan
-          this.stripLength = res.data.imPreference.stripNumber
-          this.stripSide = res.data.imPreference.stripSide
           if (res.data.batchIDs) {
             this.batchId = res.data.batchIDs;
             this.selectedIndex = 1;
@@ -768,7 +765,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
 
   openSelectionTransactionDialogue() {
-
+// debugger
     if (this.cell == this.toteQuantity) {
       const dialogRef = this.dialog.open(AlertConfirmationComponent, {
         height: 'auto',
@@ -789,6 +786,7 @@ export class ProcessPutAwaysComponent implements OnInit {
           });
         }
         else {
+          // debugger
           const dialogRef = this.dialog.open(SelectionTransactionForToteComponent, {
             height: 'auto',
             width: '1100px',
@@ -806,7 +804,7 @@ export class ProcessPutAwaysComponent implements OnInit {
               autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish
             }
           });
-
+          debugger
           dialogRef.afterClosed().subscribe((result) => {
             if (result == 'NO') {
               if (this.inputType == 'Any') {
@@ -837,6 +835,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       });
     }
     else {
+      // debugger
       const dialogRef = this.dialog.open(SelectionTransactionForToteComponent, {
         height: 'auto',
         width: '1100px',
@@ -853,8 +852,10 @@ export class ProcessPutAwaysComponent implements OnInit {
           defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity,
           autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish
         }
+        
       });
 
+      debugger
       dialogRef.afterClosed().subscribe((result) => {
         if (result == 'NO') {
           if (this.inputType == 'Any') {
@@ -1192,6 +1193,17 @@ export class ProcessPutAwaysComponent implements OnInit {
         reelQuantity:this.reelQty?this.reelQty:''
       },
     });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result)
+      if(result !=true ){
+        console.log(result)
+        this.inputValue = result
+        this.openSelectionTransactionDialogue();
+      }
+    
+     
+    })
+
   }
 
 
@@ -1202,92 +1214,6 @@ export class ProcessPutAwaysComponent implements OnInit {
 
 
 
-// openSelectionTransactionDialogue1(){
-// this.selectedToteID = this.dataSource2.data.filter((tote:any)=>tote.isSelected==true)
-//       console.log(this.selectedToteID)
-//   // apply any necessary strip scan
-//   // this.checkStrip(this.inputValue,this.inputType)
 
-//   // if we have an item and a selected tote then we can continue.
-//     if(this.selectedToteID.length>0 ){
-//   // initialize our totes to assign a transaction to
-//   this.initializeToteToAssignTo();
-//   let getTransaction = {
-//     lowerBound: this.lowerBound,
-//     upperBound: this.upperBound,
-//     input: [
-//       this.inputValue,
-//       this.inputType,
-//       "1=1"
-//     ],
-//   };
-//   console.log(getTransaction)
-//   this.Api
-//   .TransactionForTote(getTransaction)
-//   .subscribe(
-//     (res: any) => {
-//       if (res.data && res.isExecuted && res.data.success) {
-//         console.log(res)
-
-//       } else {
-//         this.toastr.error('Something went wrong', 'Error!', {
-//           positionClass: 'toast-bottom-right',
-//           timeOut: 2000,
-//         });
-//       }
-//     },
-//     (error) => {}
-//   );
-  
-//     }
-
-// }
-
-// checkStrip(item,itype){
-//   //  if ($('#ApplyStrip').val().toLowerCase().trim() == 'true' && item$.attr('name') != 'applied') Old code condition but we dont know name
-//     if(this.applyStrip == true){
-//       if (this.stripLength == '')  this.stripLength = 0;
-//       let i = item
-//       if(this.stripSide == 'right'){
-//         i = i.substring(0, i.length - this.stripLength );
-//       }
-//       else{
-//         i = i.substring(this.stripLength, i.length);
-//       }
-//       this.inputValue = i
-//       // item$.attr('name', 'applied');  Old code condition
-//     }
-//   }
-
-//   initializeToteToAssignTo() {
-//     // debugger
-//     this.toteOptions = [];
-//     this.posOptions = [];
-  
-//     for (let x = 0; x < this.dataSource2.data.length; x++) {
-//       // let r = []
-//     let  r  = this.dataSource2.data[x];
-//      console.log(r)
-//      this.toteOptions.push({ name: (r.cells-r.toteQuantity), value: r.toteID,text:r.toteID,selected:r.isSelected });
-//      this.posOptions.push({ name: (r.cells-r.toteQuantity), value: r.toteID,text:r.totesPosition });
-//     }
-//     console.log(this.posOptions);
-//     console.log(this.toteOptions);
-    
-//     if (this.toteOptions.find(option => option.selected === true)?.name <= 0) {
-//       alert("The tote you've selected is already marked as full. Putting the item in this tote will go over the defined cells.");
-//     }
-
-
-//     this.posOptions.find((option)=>{
-//       if(option.isSelected = true){
-//         this.openCell = option.name
-//       }
-//     })
-//     console.log(this.openCell)
-    
-
-
-//   }
   }
 

@@ -473,6 +473,12 @@ export class ApiFuntions {
   public NextSerialNumber(Body:any): Observable<any> { 
     return this.ApiBase.Update("/induction/nextserialnumber",Body);
   }
+  public ReelsCreate(body:any): Observable<any> { 
+    return this.ApiBase.Post("/Induction/reels",body);
+  }
+  public ValidateSn(Body:any): Observable<any> { 
+    return this.ApiBase.Get("/Induction/validatesn",Body);
+  }  
   public BatchByZone(Body:any): Observable<any> { 
     return this.ApiBase.Get("/Induction/batchbyzone",Body);
   }   
