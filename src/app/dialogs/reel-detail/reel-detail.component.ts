@@ -35,7 +35,7 @@ export class ReelDetailComponent implements OnInit {
     this.ReelUF1 = this.data.hvObj.uf1
     this.ReelUF2 = this.data.hvObj.uf2
     this.ReelWarehouse = this.data.hvObj.warehouse
-    this.ReelQty = ''
+    this.ReelQty = this.data.gReelQty
     this.ReelNotes = this.data.hvObj.notes
     this.wareHouseSensitivity = this.data.itemObj.whseRequired
 
@@ -58,13 +58,12 @@ export class ReelDetailComponent implements OnInit {
     }
     else{
       this.ReelWarehouse = '';
-      this.ReelQty = '';
+      // this.ReelQty = '';
       this.wareHouseSensitivity = false
     }
   }
 
   reelDetailSubmit(){
-    // debugger
     if(this.ReelQty == ''){
       const dialogRef = this.dialog.open(AlertConfirmationComponent, {
         height: 'auto',
@@ -80,9 +79,9 @@ export class ReelDetailComponent implements OnInit {
         }
       })
     }
-    // if(this.ReelLot == ''){
-    //   this.ReelLot = 0
-    // }
+    if(this.ReelLot == ''){
+      this.ReelLot = 0
+    }
      if(this.wareHouseSensitivity &&(this.ReelWarehouse == '') && this.ReelQty != ''){
       const dialogRef = this.dialog.open(AlertConfirmationComponent, {
         height: 'auto',
@@ -100,30 +99,34 @@ export class ReelDetailComponent implements OnInit {
       })
    
     }else if(this.wareHouseSensitivity &&(this.ReelWarehouse != '') && this.ReelQty != ''){
-        let  reelDetail ={
+      let  reelDetail =[
+        {reelQty:this.ReelQty},
+        {
           reelOrder:this.ReelOrder,
-          reelLot:this.ReelLot,
-          reelExpDate:this.ReelLot,
+          reelLot:this.ReelLot.toString(),
           reelUF1:this.ReelUF1,
           reelUF2:this.ReelUF2,
           reelWarehouse:this.ReelWarehouse,
+          reelExpDate:this.ReelExpDate,
+          reelNotes:this.ReelNotes,
           reelQty:this.ReelQty,
-          reelNotes:this.ReelNotes
-        }
+        }]
         this.dialogRef.close(reelDetail);
     }
 
     if(!this.wareHouseSensitivity &&this.ReelQty != '' ){
-      let  reelDetail ={
+      let  reelDetail =[
+      {reelQty:this.ReelQty},
+      {
         reelOrder:this.ReelOrder,
-        reelLot:this.ReelLot,
-        reelExpDate:this.ReelLot,
+        reelLot:this.ReelLot.toString(),
         reelUF1:this.ReelUF1,
         reelUF2:this.ReelUF2,
         reelWarehouse:this.ReelWarehouse,
+        reelExpDate:this.ReelExpDate,
+        reelNotes:this.ReelNotes,
         reelQty:this.ReelQty,
-        reelNotes:this.ReelNotes
-      }
+      }]
       this.dialogRef.close(reelDetail);
     }
   }
@@ -153,7 +156,6 @@ export class ReelDetailComponent implements OnInit {
   }
 
   fetchReelQty(event){
-    console.log(event)
     if(event.keyCode=='13'){
       this.reelDetailSubmit()
     }
