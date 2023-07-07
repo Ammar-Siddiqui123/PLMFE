@@ -72,7 +72,8 @@ oldIncluded
       data: {
         hvObj: this.data.hvObj,
         itemObj:this.data.itemObj,
-        gReelQty:this.generatedReelQty
+        gReelQty:this.generatedReelQty,
+        fromtrans: this.HiddenInputValue
         
       },
     });
@@ -84,6 +85,7 @@ oldIncluded
         this.oldIncluded = result[0].reelQty
         this.HiddenInputValue = result[1]
         this.noOfReeltemp.nativeElement.select()
+        console.log(this.HiddenInputValue,'hide')
 
       }
       else{
@@ -286,7 +288,7 @@ oldIncluded
                                   return
                                 }
                                 else{
-                                  // this.dialogRef.close(SNs[0]);
+                                  this.dialogRef.close(SNs[0]);
                                 }
                                 
                               })
