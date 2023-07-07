@@ -80,11 +80,11 @@
                             <mat-form-field class="action-dropdown mb-3" appearance="outline" style="flex:1">
                                 <mat-label>Actions</mat-label>
                                 <mat-select class="employees-action" value="pick">
-                                    <mat-option value="123456">Add New</mat-option>
+                                    <mat-option value="123456"(click)="CrAddNewCustomReportDialogue()">Add New</mat-option>
                                     <mat-option value="987654">Export</mat-option>
                                     <mat-option value="987654">Print</mat-option>
                                     <mat-option value="987654">Design</mat-option>
-                                    <mat-option value="147852">Delete</mat-option>
+                                    <mat-option value="147852" (click)="openDeleteDialogue()">Delete</mat-option>
                                     <mat-option value="147852">Import</mat-option>
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
@@ -94,14 +94,10 @@
                         </div>
                     </div>
 
-                    <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-2" appearance="outline">
+                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline" (click)="openEditDesign()">
                         <mat-label>Test and Design Data</mat-label>
-                        <mat-select class="employees-action" value="pick">
-                            <mat-option value="123456">123456</mat-option>
-                            <mat-option value="987654">987654</mat-option>
-                            <mat-option value="147852">147852</mat-option>
-                        </mat-select>
-                        <span class="material-symbols-outlined icon-expand-more">
+                        <input matInput type="text" maxlength="50">
+                        <span class="material-symbols-outlined icon-expand-more text-20">
                             expand_content
                         </span>
                     </mat-form-field>
