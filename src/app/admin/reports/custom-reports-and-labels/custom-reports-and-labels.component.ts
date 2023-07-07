@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { CrAddNewCustomReportComponent } from 'src/app/dialogs/cr-add-new-custom-report/cr-add-new-custom-report.component';
+import { CrDeleteConfirmationComponent } from 'src/app/dialogs/cr-delete-confirmation/cr-delete-confirmation.component';
+import { CrEditDesignTestDataComponent } from 'src/app/dialogs/cr-edit-design-test-data/cr-edit-design-test-data.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -11,7 +15,7 @@ import { SharedService } from 'src/app/services/shared.service';
 export class CustomReportsAndLabelsComponent implements OnInit {
   Detail:any = {};
   ListReports:any = [];
-  constructor(private api:ApiFuntions,private route:Router) { }
+  constructor(private api:ApiFuntions,private route:Router,private dialog: MatDialog) { }
 
   ngOnInit(): void {
   this.Getcustomreports();
@@ -34,4 +38,27 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       this.Detail = res.data[0];
     })
   }
+
+  openEditDesign() {
+    const dialogRef = this.dialog.open(CrEditDesignTestDataComponent, {
+      height: 'auto',
+      width: '932px',
+      autoFocus: '__non_existing_element__',
+    });
+  }
+  CrAddNewCustomReportDialogue() {
+    const dialogRef = this.dialog.open(CrAddNewCustomReportComponent, {
+      height: 'auto',
+      width: '932px',
+      autoFocus: '__non_existing_element__',
+    });
+  }
+  openDeleteDialogue() {
+    const dialogRef = this.dialog.open(CrDeleteConfirmationComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+    });
+  }
+
 }

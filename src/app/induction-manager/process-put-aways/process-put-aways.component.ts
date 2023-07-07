@@ -24,6 +24,7 @@ import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/a
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ReelDetailComponent } from 'src/app/dialogs/reel-detail/reel-detail.component';
 import { ReelTransactionsComponent } from 'src/app/dialogs/reel-transactions/reel-transactions.component';
+import { event } from 'jquery';
 
 
 export interface PeriodicElement {
@@ -109,7 +110,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
 
-  // arbash variables
+  // // arbash variables
   applyStrip:any;
   stripLength:any;
   stripSide:any;
@@ -148,6 +149,10 @@ export class ProcessPutAwaysComponent implements OnInit {
       });
   }
 
+  batchIdKeyup(){
+    this.getRow(this.batchId);
+  }
+
   @HostListener('window:beforeunload', ['$event'])
   onbeforeunload(event) {
     if (this.ifAllowed) {
@@ -167,7 +172,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.assignedZones = '';
     this.ELEMENT_DATA.length = 0;
     this.dataSource = [];
-
+    this.assignedZonesArray.length=0;   // after deleting zones array reset to select zones 
     this.batchId2 = "";
     this.dataSource2 = [];
     this.inputValue = "";
@@ -226,6 +231,9 @@ export class ProcessPutAwaysComponent implements OnInit {
           if (res.data.length > 0) {
             this.status = "Processed";
           }
+          else{
+            this.status = "Not Processed";
+          }
           this.ELEMENT_DATA.length = 0;
           for (var ix = 0; ix < res.data.length; ix++) {
             this.ELEMENT_DATA.push({
@@ -271,6 +279,7 @@ export class ProcessPutAwaysComponent implements OnInit {
           userId: this.userData.username,
           wsid: this.userData.wsid,
           assignedZones: this.assignedZonesArray,
+          status:this.status
         },
       });
       dialogRef.afterClosed().subscribe((result) => {
@@ -477,7 +486,8 @@ export class ProcessPutAwaysComponent implements OnInit {
                     this.selectedIndex = 1;
                     this.batchId2 = this.batchId;
                     setTimeout(() => {
-                      this.inputVal.nativeElement.focus();
+                      // this.inputVal.nativeElement.focus();
+                      this.batchVal.nativeElement.focus();
                     }, 500);
                     this.fillToteTable(this.batchId);
                   } else {
@@ -531,7 +541,9 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.batchId2 = res.data.batchIDs;
             this.fillToteTable(res.data.batchIDs);
             setTimeout(() => {
-              this.inputVal.nativeElement.focus();
+              // this.inputVal.nativeElement.focus();
+              this.autocompleteSearchColumnItem2();
+              this.batchVal.nativeElement.focus();
             }, 500);
           }
 
@@ -597,29 +609,90 @@ export class ProcessPutAwaysComponent implements OnInit {
           'error'
         );
       } else {
-        this.ELEMENT_DATA.length = 0;
-        for (let index = 0; index < this.pickBatchQuantity; index++) {
-          if (!this.autoPutToteIDS) {
-            this.ELEMENT_DATA.push({
-              position: index + 1,
-              cells: this.cellSize,
-              toteid: '',
-              locked: ""
-            });
-          } else {
-            this.ELEMENT_DATA.push({
-              position: index + 1,
-              cells: this.cellSize,
-              toteid: this.currentToteID.toString(),
-              locked: ""
-            });
-            this.currentToteID++;
+        const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+          height: 'auto',
+          width: '560px',
+          data: {
+            message: 'Click OK to start a new batch and discard any changes to the current batch.',
+            heading: '',
+            notificationPrimary: true,
+          },
+          autoFocus: '__non_existing_element__',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if(result){
+            this.ELEMENT_DATA.length = 0;
+            for (let index = 0; index < this.pickBatchQuantity; index++) {
+              if (!this.autoPutToteIDS) {
+                this.ELEMENT_DATA.push({
+                  position: index + 1,
+                  cells: this.cellSize,
+                  toteid: '',
+                  locked: ""
+                });
+              } else {
+                this.ELEMENT_DATA.push({
+                  position: index + 1,
+                  cells: this.cellSize,
+                  toteid: this.currentToteID.toString(),
+                  locked: ""
+                });
+                this.currentToteID++;
+              }
+            }
+            this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
           }
-        }
-        this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+        })
+      
       }
     } else {
-      //Getting and setting next batch ID
+
+ 
+      // if(this.dataSource && this.dataSource.data && this.dataSource.data.length==0){
+        if( this.ELEMENT_DATA.length == 0){
+        const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+          height: 'auto',
+          width: '560px',
+          data: {
+            message: 'Click OK to start a new batch and discard any changes to the current batch.',
+            heading: '',
+            notificationPrimary: true,
+          },
+          autoFocus: '__non_existing_element__',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if(result){
+   //Getting and setting next batch ID
+   this.getNextBatchID();
+   //setup totes
+   //this.pickBatchQuantity;
+   //ELEMENT_DATA.push({ position: 'uzair' });
+   this.ELEMENT_DATA.length = 0;
+   for (let index = 0; index < this.pickBatchQuantity; index++) {
+     if (!this.autoPutToteIDS) {
+       this.ELEMENT_DATA.push({
+         position: index + 1,
+         cells: this.cellSize,
+         toteid: '',
+         locked: ""
+       });
+     } else {
+       this.ELEMENT_DATA.push({
+         position: index + 1,
+         cells: this.cellSize,
+         toteid: this.currentToteID.toString(),
+         locked: ""
+       });
+       this.currentToteID++;
+     }
+   }
+   this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+   this.updateNxtTote()
+          }
+        });
+      }
+      else{
+          //Getting and setting next batch ID
       this.getNextBatchID();
       //setup totes
       //this.pickBatchQuantity;
@@ -645,6 +718,8 @@ export class ProcessPutAwaysComponent implements OnInit {
       }
       this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
       this.updateNxtTote()
+      }
+    
     }
   }
 
@@ -759,15 +834,26 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.inputType = value;
   }
 
-  openST(event: KeyboardEvent) {
+  openST(event: any) {
     if (event.key === 'Enter') {
       this.openSelectionTransactionDialogue();
     }
   }
 
-
+  applyStripIfApplicable(){
+    if(this.applyStrip){
+      if (this.stripSide.toLowerCase() == 'right') {
+        this.inputValue = this.inputValue.substring(0, this.inputValue.length - this.stripLength);
+      } 
+      else {
+        this.inputValue = this.inputValue.substring(this.stripLength, this.inputValue.length);
+      };
+    }
+  }
 
   openSelectionTransactionDialogue() {
+
+    this.applyStripIfApplicable();
 
     if (this.cell == this.toteQuantity) {
       const dialogRef = this.dialog.open(AlertConfirmationComponent, {
@@ -789,6 +875,7 @@ export class ProcessPutAwaysComponent implements OnInit {
           });
         }
         else {
+          // debugger
           const dialogRef = this.dialog.open(SelectionTransactionForToteComponent, {
             height: 'auto',
             width: '1100px',
@@ -806,7 +893,7 @@ export class ProcessPutAwaysComponent implements OnInit {
               autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish
             }
           });
-
+          debugger
           dialogRef.afterClosed().subscribe((result) => {
             if (result == 'NO') {
               if (this.inputType == 'Any') {
@@ -837,6 +924,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       });
     }
     else {
+      // debugger
       const dialogRef = this.dialog.open(SelectionTransactionForToteComponent, {
         height: 'auto',
         width: '1100px',
@@ -853,10 +941,38 @@ export class ProcessPutAwaysComponent implements OnInit {
           defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity,
           autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish
         }
+        
       });
 
+      debugger
       dialogRef.afterClosed().subscribe((result) => {
         if (result == 'NO') {
+
+      
+          if(this.inputType !='Serial Number' && this.processPutAwayIndex.imPreference.createItemMaster ){
+            this.ifAllowed=false;
+
+            const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+              height: 'auto',
+              width: '50vw',
+              autoFocus: '__non_existing_element__',
+              data: {
+                message: "The input code provided was not recognized.  Click OK to add the item to inventory or cancel to return.",
+                heading: ''
+              },
+            });
+      
+            dialogRef.afterClosed().subscribe((result) => {
+              if(result){
+                this.ifAllowed=false;
+                window.open(`/#/InductionManager/Admin/InventoryMaster?addItemNumber=${this.inputValue}`, '_self');
+
+              }
+              
+            })
+
+            return
+          }
           if (this.inputType == 'Any') {
             this.toastr.error('The input code provided was not recognized as an Item Number, Lot Number, Serial Number, Host Transaction ID, Scan Code or Supplier Item ID.', 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -1192,6 +1308,17 @@ export class ProcessPutAwaysComponent implements OnInit {
         reelQuantity:this.reelQty?this.reelQty:''
       },
     });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result)
+      if(result !=true ){
+        console.log(result)
+        this.inputValue = result
+        this.openSelectionTransactionDialogue();
+      }
+    
+     
+    })
+
   }
 
 
@@ -1202,92 +1329,6 @@ export class ProcessPutAwaysComponent implements OnInit {
 
 
 
-// openSelectionTransactionDialogue1(){
-// this.selectedToteID = this.dataSource2.data.filter((tote:any)=>tote.isSelected==true)
-//       console.log(this.selectedToteID)
-//   // apply any necessary strip scan
-//   // this.checkStrip(this.inputValue,this.inputType)
 
-//   // if we have an item and a selected tote then we can continue.
-//     if(this.selectedToteID.length>0 ){
-//   // initialize our totes to assign a transaction to
-//   this.initializeToteToAssignTo();
-//   let getTransaction = {
-//     lowerBound: this.lowerBound,
-//     upperBound: this.upperBound,
-//     input: [
-//       this.inputValue,
-//       this.inputType,
-//       "1=1"
-//     ],
-//   };
-//   console.log(getTransaction)
-//   this.Api
-//   .TransactionForTote(getTransaction)
-//   .subscribe(
-//     (res: any) => {
-//       if (res.data && res.isExecuted && res.data.success) {
-//         console.log(res)
-
-//       } else {
-//         this.toastr.error('Something went wrong', 'Error!', {
-//           positionClass: 'toast-bottom-right',
-//           timeOut: 2000,
-//         });
-//       }
-//     },
-//     (error) => {}
-//   );
-  
-//     }
-
-// }
-
-// checkStrip(item,itype){
-//   //  if ($('#ApplyStrip').val().toLowerCase().trim() == 'true' && item$.attr('name') != 'applied') Old code condition but we dont know name
-//     if(this.applyStrip == true){
-//       if (this.stripLength == '')  this.stripLength = 0;
-//       let i = item
-//       if(this.stripSide == 'right'){
-//         i = i.substring(0, i.length - this.stripLength );
-//       }
-//       else{
-//         i = i.substring(this.stripLength, i.length);
-//       }
-//       this.inputValue = i
-//       // item$.attr('name', 'applied');  Old code condition
-//     }
-//   }
-
-//   initializeToteToAssignTo() {
-//     // debugger
-//     this.toteOptions = [];
-//     this.posOptions = [];
-  
-//     for (let x = 0; x < this.dataSource2.data.length; x++) {
-//       // let r = []
-//     let  r  = this.dataSource2.data[x];
-//      console.log(r)
-//      this.toteOptions.push({ name: (r.cells-r.toteQuantity), value: r.toteID,text:r.toteID,selected:r.isSelected });
-//      this.posOptions.push({ name: (r.cells-r.toteQuantity), value: r.toteID,text:r.totesPosition });
-//     }
-//     console.log(this.posOptions);
-//     console.log(this.toteOptions);
-    
-//     if (this.toteOptions.find(option => option.selected === true)?.name <= 0) {
-//       alert("The tote you've selected is already marked as full. Putting the item in this tote will go over the defined cells.");
-//     }
-
-
-//     this.posOptions.find((option)=>{
-//       if(option.isSelected = true){
-//         this.openCell = option.name
-//       }
-//     })
-//     console.log(this.openCell)
-    
-
-
-//   }
   }
 
