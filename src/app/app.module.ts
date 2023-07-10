@@ -101,6 +101,10 @@ import { CrEditDesignTestDataComponent } from './dialogs/cr-edit-design-test-dat
 import { CrDeleteConfirmationComponent } from './dialogs/cr-delete-confirmation/cr-delete-confirmation.component';
 import { BrChooseReportTypeComponent } from './dialogs/br-choose-report-type/br-choose-report-type.component';
 import { CrAddNewCustomReportComponent } from './dialogs/cr-add-new-custom-report/cr-add-new-custom-report.component';
+import { IeManageDataTransFieldMapComponent } from './dialogs/ie-manage-data-trans-field-map/ie-manage-data-trans-field-map.component';
+import { IeManageDataInvenMapTablesComponent } from './dialogs/ie-manage-data-inven-map-tables/ie-manage-data-inven-map-tables.component';
+import { IeArchivePurgeComponent } from './import-export/ie-archive-purge/ie-archive-purge.component';
+import { IeInvFieldsComponent } from './import-export/ie-inv-fields/ie-inv-fields.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -187,6 +191,10 @@ import { CrAddNewCustomReportComponent } from './dialogs/cr-add-new-custom-repor
     CrDeleteConfirmationComponent,
     BrChooseReportTypeComponent,
     CrAddNewCustomReportComponent,
+    IeManageDataTransFieldMapComponent,
+    IeManageDataInvenMapTablesComponent,
+    IeArchivePurgeComponent,
+    IeInvFieldsComponent,
     // ActionDisableDirective,
   ],
   imports: [
