@@ -1348,4 +1348,8 @@ public Getcustomreports(): Observable<any> {
 public Getreportdetails(body): Observable<any> { 
   return this.ApiBase.Get("/Admin/customreports/reportdetails",body);
 } 
+
+public GetFromToteTypeAhead(): Observable<any> { 
+  return this.ApiBase.Get("/induction/selecttotes");
+} 
 }
