@@ -101,6 +101,8 @@ import { CrEditDesignTestDataComponent } from './dialogs/cr-edit-design-test-dat
 import { CrDeleteConfirmationComponent } from './dialogs/cr-delete-confirmation/cr-delete-confirmation.component';
 import { BrChooseReportTypeComponent } from './dialogs/br-choose-report-type/br-choose-report-type.component';
 import { CrAddNewCustomReportComponent } from './dialogs/cr-add-new-custom-report/cr-add-new-custom-report.component';
+import { IeFileBackupComponent } from './import-export/ie-file-backup/ie-file-backup.component';
+import { IeInventoryComponent } from './import-export/ie-inventory/ie-inventory.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -187,6 +189,8 @@ import { CrAddNewCustomReportComponent } from './dialogs/cr-add-new-custom-repor
     CrDeleteConfirmationComponent,
     BrChooseReportTypeComponent,
     CrAddNewCustomReportComponent,
+    IeFileBackupComponent,
+    IeInventoryComponent,
     // ActionDisableDirective,
   ],
   imports: [
