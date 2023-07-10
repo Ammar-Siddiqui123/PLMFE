@@ -243,7 +243,7 @@ enterUserName(){
       },
       {
         appName: 'ImportExport',
-        route: '#',
+        route: '/ImportExport',
         iconName: 'electric_bolt',
         name: 'Import Export',
         updateMenu: '',
