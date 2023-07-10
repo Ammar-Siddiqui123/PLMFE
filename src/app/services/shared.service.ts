@@ -15,6 +15,7 @@ export class SharedService {
   menuData$ = this.menuData.asObservable();
 
   private appData: any;
+  SideBarMenu: Subject<any> = new Subject<any>(); 
   startMenu: Subject<any> = new Subject<any>(); 
   updateAdminMenuObserver: Subject<boolean> = new Subject<boolean>(); // observing that bool
   updateFlowrackMenuObserver: Subject<any> = new Subject<any>(); // observing that bool

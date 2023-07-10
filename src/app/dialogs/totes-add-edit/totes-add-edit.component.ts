@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog'; 
 import { AuthService } from 'src/app/init/auth.service';
@@ -8,6 +8,10 @@ import { DeleteConfirmationComponent } from '../../admin/dialogs/delete-confirma
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { FormControl } from '@angular/forms';
+import { FloatLabelType } from '@angular/material/form-field';
+import { Subject, takeUntil } from 'rxjs';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 export interface PeriodicElement {
   name: string;
@@ -35,6 +39,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class TotesAddEditComponent implements OnInit {
   isRowAdded=false;
+  floatLabelControl = new FormControl('auto' as FloatLabelType);
   ELEMENT_DATA_TOTE = [{toteID:"" , cells:"" , position: 1 ,oldToteID:"",isInserted:1,isDuplicate:false}];
   displayedColumns: string[] = [ 'zone', 'locationdesc','actions'];
   alreadySavedTotesList:any;
@@ -45,11 +50,14 @@ export class TotesAddEditComponent implements OnInit {
   isIMPath=false;
   toteID="";
   cellID="";
+  fromTote;
+  toTote;
   userData:any;
-
+  searchAutocompleteList:any;
+  hideRequiredControl = new FormControl(false);
   // emptyField:boolean = false
-
-
+  onDestroy$: Subject<boolean> = new Subject();
+  @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -73,7 +81,9 @@ export class TotesAddEditComponent implements OnInit {
 
     this.selection.select(...this.dataSource.data);
   }
-
+  getFloatLabelValue(): FloatLabelType {
+    return this.floatLabelControl.value || 'auto';
+  }
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: PeriodicElement): string {
     if (!row) {
@@ -81,8 +91,20 @@ export class TotesAddEditComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
+  autocompleteSearchColumn(){
+ 
+    this.Api.GetFromToteTypeAhead().pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
+      console.log(res);
+      
+      if(res.data){
+        this.searchAutocompleteList = res.data;
+      }
 
+    });
+  }
+  searchData(){
 
+  }
   saveTote(toteID:any,cells:any,oldToteID:any,isInserted:any,index:any)
   { 
       var oldTote = "";
@@ -325,6 +347,7 @@ export class TotesAddEditComponent implements OnInit {
     this.alreadySavedTotesList = this.data.alreadySavedTotes;
     this.cellID = this.data.defaultCells ? this.data.defaultCells : 0;
     this.getTotes();
+    this.autocompleteSearchColumn();
   }
 
 }
