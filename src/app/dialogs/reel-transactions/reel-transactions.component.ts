@@ -51,11 +51,13 @@ export class ReelTransactionsComponent implements OnInit {
   }
 
   updateRemaining(){
+    // debugger
     let total = this.partsInducted;
     let counted = 0;
     this.generateReelAndSerial.data.forEach(element => {
-      if(typeof element.reel_part_quantity){
-        counted += element.reel_part_quantity;
+      if( element.reel_part_quantity != ''){
+        // element.reel_part_quantity = 0
+        counted += parseInt(element.reel_part_quantity);
       }
     });
     this.partsNotAssigned = total - counted
@@ -73,20 +75,33 @@ oldIncluded
         hvObj: this.data.hvObj,
         itemObj:this.data.itemObj,
         gReelQty:this.generatedReelQty,
-        fromtrans: this.HiddenInputValue
+        fromtrans: this.generatedReelQty?this.generateReelAndSerial.data[this.generatedReelQtyIndex].details:this.HiddenInputValue,
         
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      // console.log(this.generatedReelQty)
       // debugger
       if(result !="true" ){
-        this.partsInducted  = result[0].reelQty
+        // debugger
+        if(!this.generatedReelQty && this.generatedReelQty != ''){
+          this.partsInducted  = result[0].reelQty
         this.partsNotAssigned =result[0].reelQty
         this.oldIncluded = result[0].reelQty
         this.HiddenInputValue = result[1]
         this.noOfReeltemp.nativeElement.select()
-        console.log(this.HiddenInputValue,'hide')
+        // console.log(this.HiddenInputValue,'hide')
+        }
+        else{
+          // this.noOfReels = result[0].reelQty
+          this.HiddenInputValue = result[1]
+          this.noOfReeltemp.nativeElement.select()
+          // console.log(this.generateReelAndSerial.data,'hide')
+          this.generateReelAndSerial.data[this.generatedReelQtyIndex].reel_part_quantity = result[0].reelQty
+          this.generateReelAndSerial.data[this.generatedReelQtyIndex].details = result[1]
+          this.updateRemaining()
+        }
 
       }
       else{
@@ -112,7 +127,7 @@ oldIncluded
       if (res.data && res.isExecuted){
         const dataArray: any[] = [];
         for (var x = 0; x < this.noOfReels; x++){
-          dataArray.push({reel_serial_number: '', reel_part_quantity: partsPerReel});
+          dataArray.push({reel_serial_number: '', reel_part_quantity: partsPerReel,details:this.HiddenInputValue});
         }
         this.generateReelAndSerial.data = dataArray;
         this.updateRemaining()
@@ -137,10 +152,14 @@ oldIncluded
 
 
   onChange(event:any,index){
+    // debugger
     if(event.keyCode == 8){
+      this.generateReelAndSerial.data[index].reel_part_quantity=event.target.value
+      this.updateRemaining()
       return
     }
     else{
+      console.log(event.target.value)
       this.generateReelAndSerial.data[index].reel_part_quantity=event.target.value
       this.updateRemaining()
     }
@@ -221,19 +240,21 @@ oldIncluded
                     return
                   }
             
-                  reels.push(element.reel_serial_number,
-                    element.reel_part_quantity.toString(),
-                    this.HiddenInputValue.reelOrder,
-                    this.HiddenInputValue.reelLot.toString(),
-                    this.HiddenInputValue.reelUF1,
-                    this.HiddenInputValue.reelUF2,
-                    this.HiddenInputValue.reelWarehouse,
-                    "2023-07-30",
-                    this.HiddenInputValue.reelNotes
-                    )
-                    // this.HiddenInputValue.reelExpDate
-
+                  reels.push({
+                    "SerialNumber": element.reel_serial_number,
+                    "Quantity":  parseInt(element.reel_part_quantity),
+                    "OrderNumber": element.details.reelOrder,
+                    "Lot": element.details.reelLot.toString(),
+                    "UF1": element.details.reelUF1,
+                    "UF2": element.details.reelUF2,
+                    "Warehouse": element.details.reelWarehouse,
+                    "ExpiryDate": element.details. reelExpDate,
+                    "Notes":  element.details.reelNotes
                 })
+                })
+
+
+            
                    const hasDuplicatesFlag = this.findDuplicateValue( SNs);
                    if(hasDuplicatesFlag){
                     this.toastr.error('You must provide a unique serial number for each reel transaction.  Serial ' + hasDuplicatesFlag + ' is duplicated.', 'Error!', {
@@ -266,8 +287,9 @@ oldIncluded
                     else{
                      let payload = {
                       "item": this.itemNumber,
-                      "reels":[reels]
+                      "reels":reels
                     }
+                    console.log(payload)
                     
                       this.Api.ReelsCreate(payload).subscribe((res=>{
                         if(res.data && res.isExecuted){
@@ -343,9 +365,12 @@ oldIncluded
     )
   }
 
-
+  generatedReelQtyIndex
   OpenDetails(index,e){
+    // debugger
 this.generatedReelQty = e.reel_part_quantity
+// console.log(index)
+this.generatedReelQtyIndex = index
 
 // this.reel
 
@@ -358,5 +383,14 @@ this.ReelDetailDialogue()
     }
   }
 
+
+  limitValue() {
+    const firstValue = this.partsInducted
+    const secondValue = this.noOfReels;
+
+    if (secondValue > firstValue) {
+      this.noOfReels = ''
+    }
+  }
 
 }
