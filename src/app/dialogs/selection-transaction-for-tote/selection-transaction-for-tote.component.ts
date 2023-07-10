@@ -24,7 +24,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
   public description;
 
   public lowerBound=1;
-  public upperBound=5;
+  public upperBound=2;
 
 
 
@@ -171,11 +171,14 @@ export class SelectionTransactionForToteComponent implements OnInit {
       .TransactionForTote(getTransaction)
       .subscribe(
         (res: any) => {
+          console.log(res,'getTransaction')
           if (res.data && res.isExecuted) {
-            if(res.data.subCategory == 'Reel Tracking'){
+            if(res.data.subCategory == 'Reel Tracking'&&res.data.inputType != 'Serial Number' ){
                this.dialogRef.close({category:'isReel',item:res.data});
                 return;
                 }
+
+             
             this.transactionTable = res.data.transactionTable;
             
             // !res.data.transactionTable || res.data.transactionTable.length == 0

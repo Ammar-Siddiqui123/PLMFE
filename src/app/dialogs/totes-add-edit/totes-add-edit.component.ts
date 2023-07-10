@@ -144,7 +144,7 @@ export class TotesAddEditComponent implements OnInit {
           data.splice(index,1)
           this.dataSourceManagedTotes.data=data
           console.log( this.dataSourceManagedTotes.data);
-          
+          this.isRowAdded=false
         }else{
           let deleteTote = {
             username: this.userData.userName,
@@ -159,7 +159,8 @@ export class TotesAddEditComponent implements OnInit {
                   timeOut: 2000
                 });
                 this.isRowAdded=false;
-        this.getTotes();
+               this.getTotes(this.dataSourceManagedTotes.data);
+        
               } else {
                 this.toastr.error("Already exists", 'Error!', {
                   positionClass: 'toast-bottom-right',
@@ -179,8 +180,12 @@ export class TotesAddEditComponent implements OnInit {
     })
   }
 
-  getTotes()
+  getTotes(item?)
   {
+    let items:any;
+    if(item){
+      items=JSON.parse(JSON.stringify(item))
+    }
     this.ELEMENT_DATA_TOTE.length=0;
     this.Api.ToteSetup().subscribe(
       (res: any) => {
@@ -191,6 +196,10 @@ export class TotesAddEditComponent implements OnInit {
           this.ELEMENT_DATA_TOTE[i].isInserted = 1;
           this.ELEMENT_DATA_TOTE[i].isDuplicate = false;
           this.ELEMENT_DATA_TOTE[i].oldToteID   = this.ELEMENT_DATA_TOTE[i].toteID
+          }
+          if(items){
+            this.ELEMENT_DATA_TOTE.push(items[items.length-1])
+            this.isRowAdded=true;
           }
           this.dataSourceManagedTotes = new MatTableDataSource<any>(this.ELEMENT_DATA_TOTE);
         } else {
