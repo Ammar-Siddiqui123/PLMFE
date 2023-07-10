@@ -649,7 +649,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
  
       // if(this.dataSource && this.dataSource.data && this.dataSource.data.length==0){
-        if( this.ELEMENT_DATA.length == 0){
+        if( this.ELEMENT_DATA.length != 0){
         const dialogRef = this.dialog.open(AlertConfirmationComponent, {
           height: 'auto',
           width: '560px',
