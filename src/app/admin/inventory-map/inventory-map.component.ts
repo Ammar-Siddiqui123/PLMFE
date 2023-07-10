@@ -29,6 +29,7 @@ import { MatMenuTrigger} from '@angular/material/menu';
 import { InputFilterComponent } from '../../dialogs/input-filter/input-filter.component';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { RouteHistoryService } from 'src/app/services/route-history.service';
 
 
 const INVMAP_DATA = [
@@ -187,7 +188,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
  //---------------------for mat menu End ----------------------------
-
+ previousUrl: string;
   constructor(
     private dialog: MatDialog,
     private authService: AuthService,
@@ -196,10 +197,12 @@ export class InventoryMapComponent implements OnInit {
     private router: Router,
     private loader: SpinnerService,
     private _liveAnnouncer: LiveAnnouncer,
-    private filterService:ContextMenuFiltersService
+    private filterService:ContextMenuFiltersService,
+    private routeHistoryService: RouteHistoryService
   ) {
-
-
+    this.previousUrl = this.routeHistoryService.getPreviousUrl();
+ 
+    
     if(this.router.getCurrentNavigation()?.extras?.state?.['searchValue'] ){
       this.columnSearch.searchValue = this.router.getCurrentNavigation()?.extras?.state?.['searchValue'] ;
       this.columnSearch.searchColumn = {
