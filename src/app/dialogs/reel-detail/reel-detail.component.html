@@ -54,9 +54,9 @@
         <div class="row mb-2">
             <div class="col-xl-6 ">
                 <mat-form-field class="custom-form-field __grab_cursor w-100" appearance="outline" >
-                    <mat-label>Warehouse</mat-label>
+                    <mat-label >Warehouse</mat-label>
                     <span matSuffix>
-                        <mat-icon style="color:#090948; transform: rotate(45deg);">unfold_more</mat-icon>
+                        <mat-icon style="color:#090948; transform: rotate(45deg);" >unfold_more</mat-icon>
                       </span>
                     <input matInput  [(ngModel)]="ReelWarehouse" [disabled]="!wareHouseSensitivity" readonly="true" (click)="openWareHouse()">
                 </mat-form-field>
@@ -78,5 +78,5 @@
         </div>
 </div>
 </div>
-<button mat-flat-button color="primary" class="btn-lg w-100 mt-2" (click)="reelDetailSubmit()">Submit</button>
+<button mat-flat-button color="primary" type="button" class="btn-lg w-100 mt-2" (click)="reelDetailSubmit()">Submit</button>
 </mat-dialog-content>

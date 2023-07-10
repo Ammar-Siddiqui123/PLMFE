@@ -944,7 +944,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         
       });
 
-      debugger
+      // debugger
       dialogRef.afterClosed().subscribe((result) => {
         if (result == 'NO') {
 
@@ -1309,9 +1309,9 @@ export class ProcessPutAwaysComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result)
+      // console.log(result)
       if(result !=true ){
-        console.log(result)
+        // console.log(result)
         this.inputValue = result
         this.openSelectionTransactionDialogue();
       }

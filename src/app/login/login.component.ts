@@ -81,6 +81,9 @@ enterUserName(){
           localStorage.setItem('user', JSON.stringify(data));
           localStorage.setItem('userRights', JSON.stringify(userRights));
           this.getAppLicense(response.data.wsid);
+          if(localStorage.getItem('LastRoute')){
+            this.router.navigateByUrl(localStorage.getItem('LastRoute') || "");
+          }
           
           // ----default app redirection ----
           // this.getDefaultApp(response.data.wsid);
@@ -123,7 +126,11 @@ enterUserName(){
   ngOnInit() {
 
     this.version = packJSON.version;
+    let lastRoute: any = localStorage.getItem('LastRoute') ? localStorage.getItem('LastRoute') : "";
     localStorage.clear();
+    if(lastRoute != ""){
+      localStorage.setItem('LastRoute', lastRoute);
+    }
     if(this.auth.IsloggedIn()){
       this.router.navigate(['/dashboard']);
     }
@@ -289,7 +296,12 @@ enterUserName(){
     else{
       localStorage.setItem('isAppVerified',JSON.stringify({appName:'',isVerified:true}))
       // this.addLoginForm.reset();
-      this.router.navigate(['/dashboard']);
+      if(localStorage.getItem('LastRoute')){
+        localStorage.removeItem('LastRoute');
+      }
+      else{
+        this.router.navigate(['/dashboard']);
+      }	
     }
   },
   (error) => {}
