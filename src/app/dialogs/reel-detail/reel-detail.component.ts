@@ -80,7 +80,7 @@ export class ReelDetailComponent implements OnInit {
 
   reelDetailSubmit(){
     // debugger
-    if(this.ReelQty == undefined ){
+    if(this.ReelQty == undefined || this.ReelQty == ""){
       const dialogRef = this.dialog.open(AlertConfirmationComponent, {
         height: 'auto',
         width: '560px',
@@ -114,7 +114,7 @@ export class ReelDetailComponent implements OnInit {
         }
       })
    
-    }else if(this.wareHouseSensitivity &&(this.ReelWarehouse != '') && this.ReelQty != undefined){
+    }else if(this.wareHouseSensitivity &&(this.ReelWarehouse != '') && this.ReelQty != undefined &&this.ReelQty != "" ){
       let  reelDetail =[
         {reelQty:this.ReelQty},
         {
