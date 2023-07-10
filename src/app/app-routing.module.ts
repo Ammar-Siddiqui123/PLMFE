@@ -16,6 +16,7 @@ import { SteComponent } from './global-config/ste/ste.component';
 import { SteServicesComponent } from './global-config/ste-services/ste-services.component';
 import { FlowrackReplenishmentComponent } from './flowrack-replenishment/flowrack-replenishment.component';
 import { WrdComponent } from './list-and-label/wrd/wrd.component';
+import { WrvComponent } from './list-and-label/wrv/wrv.component';
 const routes: Routes = [
   {
     path: '',
@@ -71,7 +72,9 @@ const routes: Routes = [
     component: SteServicesComponent,
     canActivate:[AuthGuardGuard]
   },
-  { path: 'wrd', component: WrdComponent },
+  
+  { path: 'report-view', component: WrvComponent },
+  { path: 'report', component: WrdComponent },
   {
     path: '',
     component: DashboardComponent,

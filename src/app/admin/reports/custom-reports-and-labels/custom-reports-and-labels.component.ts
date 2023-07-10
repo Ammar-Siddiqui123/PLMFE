@@ -26,9 +26,9 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       this.ListReports = res?.data?.reportTitles?.sysTitles;
     })
   }
-  OpenListAndLabel(){
+  OpenListAndLabel(route){
     localStorage.setItem("ListAndLandFile",this.Detail.fileName);
-    this.route.navigateByUrl('/wrd');
+    this.route.navigateByUrl(`/${route}`);
   }
   Getreportdetails(file){ 
     var obj : any = {

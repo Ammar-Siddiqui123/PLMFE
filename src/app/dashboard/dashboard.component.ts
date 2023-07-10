@@ -4,6 +4,7 @@ import { disableDebugTools } from '@angular/platform-browser';
 import { IEmployee,EmployeeObject,AdminEmployeeLookupResponse,AccessGroupObject } from '../Iemployee'; 
 import { Router,NavigationEnd  } from '@angular/router';
 import { ApiFuntions } from '../services/ApiFuntions';
+import { SharedService } from '../services/shared.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -14,7 +15,10 @@ export class DashboardComponent implements OnInit {
   emp: IEmployee;
   empRes:EmployeeObject;
   breadcrumbList: any = [];
-  constructor(public employeeService: ApiFuntions,  public router: Router,) {
+  constructor(public employeeService: ApiFuntions,  public router: Router,private sharedService:SharedService) {
+    this.sharedService.SideBarMenu.subscribe(menu => {
+      this.sideBarOpen = menu;   
+    });
 
   //   router.events.subscribe((val: any) => {
   //     this.breadcrumbList = [];

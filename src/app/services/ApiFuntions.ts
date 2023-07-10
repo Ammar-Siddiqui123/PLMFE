@@ -236,7 +236,7 @@ export class ApiFuntions {
     return this.ApiBase.Get("/Admin/OSFieldFilterNames");
   }
   public CompanyInfo(): Observable<any> { 
-    return this.ApiBase.Get("/companyinfo");
+    return this.ApiBase.Get("/Admin/companyinfo");
   }
   public ColumnAlias(): Observable<any> { 
     return this.ApiBase.Get("/Admin/ColumnAlias");
@@ -338,7 +338,7 @@ export class ApiFuntions {
     return this.ApiBase.Update("/OrderManager/preferences",Body);
   }
   public EventLogTable(Body:any): Observable<any> { 
-    return this.ApiBase.Get("/Admin/eventlog",Body);
+    return this.ApiBase.Post("/Admin/eventlog",Body);
   }
   public EventLogTypeAhead(Body:any): Observable<any> { 
     return this.ApiBase.Get("/Admin/eventlogtypeahead",Body);

@@ -9,9 +9,8 @@ import { ListAndLabelComponent } from './list-and-label.component';
 const routes: Routes = [
   { path: '', component: ListAndLabelComponent },
 
-  { path: 'wrv', component: WrvComponent },
-  { path: 'wrd-frontend', component: WrdFrontendComponent },
-  { path: 'wrv-frontend', component: WrvFrontendComponent }
+  { path: 'report', component: WrdFrontendComponent },
+  { path: 'report-view', component: WrvFrontendComponent }
 ];
 
 @NgModule({
