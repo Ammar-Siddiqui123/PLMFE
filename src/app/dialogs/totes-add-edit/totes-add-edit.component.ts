@@ -140,7 +140,17 @@ export class TotesAddEditComponent implements OnInit {
             });
           }
         },
-        (error) => { }
+        (error) => { 
+          this.dataSourceManagedTotes.data[index]['isDuplicate']=true
+         
+            this.toastr.error("Cannot set the selected tote because it is already set in the batch.", 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+       
+          
+          
+        }
       );
     
     
