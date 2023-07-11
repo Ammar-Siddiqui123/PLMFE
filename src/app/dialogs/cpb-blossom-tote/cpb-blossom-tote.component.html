@@ -38,7 +38,14 @@
                 </th>
                 <td mat-cell *matCellDef="let element">
                     <mat-form-field class="custom-form-field w-100 pe-2" appearance="outline">
-                        <input matInput type="number" [(ngModel)]="element.oldToteQuantity" (focusout)="qtyInOldToteFoucusOut(element)" />
+                        <input 
+                        matInput 
+                        type="number"
+                        min="0"
+                        inputmode="numeric"
+                        pattern="[0-9]*" 
+                        [(ngModel)]="element.oldToteQuantity" 
+                        (focusout)="qtyInOldToteFoucusOut(element)" />
                     </mat-form-field>
                 </td>
             </ng-container>
