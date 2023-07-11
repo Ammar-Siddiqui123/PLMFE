@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import labels from '../../labels/labels.json';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-short-transaction',
@@ -22,6 +23,7 @@ export class ShortTransactionComponent implements OnInit {
     private dialog: MatDialog,
     private Api: ApiFuntions,
     public dialogRef: MatDialogRef<ShortTransactionComponent>,
+    private globalService: GlobalService
   ) { }
 
   ngOnInit(): void {
@@ -29,13 +31,20 @@ export class ShortTransactionComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(()=>{
-      this.toteQty.nativeElement.focus();  
+    setTimeout(() => {
+      this.toteQty.nativeElement.focus();
     }, 200);
   }
 
   ShortTransaction() {
     if (this.toteQuantity >= 0 && this.toteQuantity < this.selectedTransaction.transactionQuantity) {
+      if(!this.globalService.checkDecimal(this.toteQuantity)){
+        this.toastr.error("Tote Quantity can not be in decimal", 'Error', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        return;
+      }
       let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
         width: '560px',
