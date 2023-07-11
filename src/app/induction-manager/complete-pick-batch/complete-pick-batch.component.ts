@@ -6,6 +6,7 @@ import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-
 import { CpbBlossomToteComponent } from 'src/app/dialogs/cpb-blossom-tote/cpb-blossom-tote.component';
 import { ShortTransactionComponent } from 'src/app/dialogs/short-transaction/short-transaction.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import labels from '../../labels/labels.json';
 
 @Component({
   selector: 'app-complete-pick-batch',
@@ -112,6 +113,9 @@ export class CompletePickBatchComponent implements OnInit {
   }
 
   clearScreen() {
+    if(this.batchId == ""){
+      return;
+    }
     this.batchId = "";
     this.toteId = "";
     this.showToteCol = false;
@@ -138,7 +142,7 @@ export class CompletePickBatchComponent implements OnInit {
 
   CpbBlossomToteDialogue() {
     const dialogRef = this.dialog.open(CpbBlossomToteComponent, {
-      height: 'auto',
+      height: '640px',
       width: '932px',
       autoFocus: '__non_existing_element__',
       data: {
@@ -169,6 +173,10 @@ export class CompletePickBatchComponent implements OnInit {
         this.Api.completeTransaction({Id:element.id}).subscribe((res: any) => {
           if(res.isExecuted){
             this.pickBatchTransactionTable();
+            this.toastr.success(labels.alert.update, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
           }
           else{
             this.toastr.error("An error occured completing this transaction", 'Error', {
@@ -196,6 +204,10 @@ export class CompletePickBatchComponent implements OnInit {
         this.Api.completePickBatch({batchId:this.batchId}).subscribe((res: any) => {
           if(res.isExecuted){
             this.clearScreen();
+            this.toastr.success(labels.alert.update, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
           }
           else{
             this.toastr.error("An error occured completing this transaction", 'Error', {

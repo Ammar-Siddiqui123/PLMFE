@@ -31,7 +31,7 @@ export class SpGeneralSetupComponent implements OnInit {
       "userName": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.Api.CompanyInfo().subscribe((res: any) => {
+    this.Api.AdminCompanyInfo().subscribe((res: any) => {
       this.CompanyObj = res.data;
     })
   }
