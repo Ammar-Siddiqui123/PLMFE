@@ -25,10 +25,10 @@ table{
       }
       
 .selected {
-    // background-color: #5555EC !important;
-    // border-radius: 8px !important;
+    background-color: #5555EC !important;
+    border-radius: 0px !important;
 
-    color: #000;
+    color: #fff;
     // &:before{
     //   content: '';
     //   background-color: #5555EC;
@@ -66,9 +66,9 @@ table{
 }
 
 
-.custom-action-clickable-table .mat-row{
-  position: relative;
-}
+// .custom-action-clickable-table .mat-row{
+//   position: relative;
+// }
 .toolTipConf{
   padding: 10px 12px;
    border: 0; 
@@ -81,7 +81,7 @@ table{
 
 table.custom-action-clickable-table tr{
   top: 0;
-  left: 8px;
+  left: 0px;
   right: 14px;
   bottom: 0;
   cursor: pointer;

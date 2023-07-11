@@ -140,6 +140,11 @@ this.reloadData();
   }
   clearZones(){
     this.bpSettingInp='';
+    this.employee_fetched_zones.filter="";
+  }
+  clearGrp(){
+    this.grpAllFilter='';
+    this.groupAllowedList.filter="";
   }
 getgroupAllowedList(){
   var payload:any = { 
@@ -147,6 +152,7 @@ getgroupAllowedList(){
     "WSID": "TESTWSID"
 
   }
+
   this.employeeService.Groupnames(payload).subscribe((res:any) => {
      
    // this.groupAllowedList = res.data;
@@ -215,8 +221,10 @@ initialzeEmpForm() {
           return {zones:item}
         })
         this.employee_fetched_zones = new MatTableDataSource(res); 
-        this.employee_fetched_zones.filterPredicate = (data: String, filter: string) => {
-          return data.toLowerCase().includes(filter.trim().toLowerCase());
+        this.employee_fetched_zones.filterPredicate = (data: any, filter: string) => {
+     
+          
+          return data.zones.toLowerCase().includes(filter.trim().toLowerCase());
       };
         this.emp_all_zones = response.data?.allZones;
         if(this.env !== 'DB') this.getgroupAllowedList();

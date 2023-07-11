@@ -238,7 +238,10 @@ export class ApiFuntions {
   public CompanyInfo(): Observable<any> { 
     return this.ApiBase.Get("/companyinfo");
   }
-  public ColumnAlias(): Observable<any> { 
+
+  public AdminCompanyInfo(): Observable<any> { 
+    return this.ApiBase.Get("/Admin/companyinfo");
+  }  public ColumnAlias(): Observable<any> { 
     return this.ApiBase.Get("/Admin/ColumnAlias");
   }
   public FieldNameSave(body:any): Observable<any> { 
@@ -469,6 +472,15 @@ export class ApiFuntions {
   }  
   public TransactionForTote(Body:any): Observable<any> { 
     return this.ApiBase.Get("/Induction/transactionfortote",Body);
+  }  
+  public NextSerialNumber(Body:any): Observable<any> { 
+    return this.ApiBase.Update("/induction/nextserialnumber",Body);
+  }
+  public ReelsCreate(body:any): Observable<any> { 
+    return this.ApiBase.Post("/Induction/reels",body);
+  }
+  public ValidateSn(Body:any): Observable<any> { 
+    return this.ApiBase.Get("/Induction/validatesn",Body);
   }  
   public BatchByZone(Body:any): Observable<any> { 
     return this.ApiBase.Get("/Induction/batchbyzone",Body);
@@ -1332,5 +1344,15 @@ public shortTransaction(body:any): Observable<any> {
 }
 public blossomTote(body:any): Observable<any> { 
   return this.ApiBase.Update("/induction/blossomtote",body);
+} 
+public Getcustomreports(): Observable<any> { 
+  return this.ApiBase.Get("/Admin/customreports/index?app=Admin");
 }
+public Getreportdetails(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/customreports/reportdetails",body);
+} 
+
+public GetFromToteTypeAhead(): Observable<any> { 
+  return this.ApiBase.Get("/induction/selecttotes");
+} 
 }

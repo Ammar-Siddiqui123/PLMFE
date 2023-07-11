@@ -56,7 +56,7 @@ export class InventoryMasterComponent implements OnInit {
   isDataFoundCounter = 0;
   saveDisabled = true;
   count;
-
+isQuarantine=false;
 
   public locationTable: any;
   public getItemNum: any;
@@ -69,6 +69,8 @@ export class InventoryMasterComponent implements OnInit {
   public wipCount: any;
   public append: any;
   itemNumberParam$: Observable<any>;
+  addItemNumberParam$: Observable<any>;
+  addItemNumber='';
   hasChanged: any;
   initialFormValue: any
   isDisabledSubmit: boolean = false;
@@ -275,8 +277,15 @@ export class InventoryMasterComponent implements OnInit {
         this.getInvMasterDetail(this.searchValue)
       }
     });
-
-
+    this.addItemNumberParam$ = this.route.queryParamMap.pipe(
+      map((params: ParamMap) => params.get('addItemNumber')),
+    );
+    this.addItemNumberParam$.subscribe((param) => { 
+      if (param) {
+          this.addItemNumber=param
+          this.openAddItemDialog();
+      }
+    });
 
     this.sharedService.invMasterParentObserver.subscribe(evt => {
 
@@ -319,7 +328,7 @@ export class InventoryMasterComponent implements OnInit {
 
 
       primaryPickZone: [this.getInvMasterData?.primaryPickZone.toLowerCase() || ''],
-      secondaryPickZone: [this.getInvMasterData?.secondaryPickZone.toLowerCase() || ''],
+      secondaryPickZone: [this.getInvMasterData?.secondaryPickZone.toLowerCase()||''],
       caseQuantity: [this.getInvMasterData?.caseQuantity || 0, [Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       pickFenceQuantity: [this.getInvMasterData?.pickFenceQuantity || 0, [, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       pickSequence: [this.getInvMasterData?.pickSequence || 0, [Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
@@ -429,7 +438,7 @@ export class InventoryMasterComponent implements OnInit {
     try {
       const res: any = await this.api.GetInventoryMasterData(paylaod).toPromise();
       this.getInvMasterData = res.data;
-
+ 
       await this.initialzeIMFeilds();
     } catch (error) {
     }
@@ -469,7 +478,7 @@ export class InventoryMasterComponent implements OnInit {
       "start": startIndex ? startIndex : 0,
       "length": pageSize ? pageSize : 5,
       "sortColumnNumber": sortingColumnName ? sortingColumnName : 0,
-      "sortOrder": sortingOrder ? sortingOrder : "asc",
+      "sortOrder": sortingOrder ? sortingOrder : "",
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
@@ -477,6 +486,7 @@ export class InventoryMasterComponent implements OnInit {
       // this.invMasterLocations ='asdsad';
       this.invMaster.get('inventoryTable')?.setValue(res.data.inventoryTable);
       this.count = res.data.count 
+      this.isQuarantine=res.data.inventoryTable.find(obj => obj.warehouse.toLowerCase() === 'quarantine');
       this.initialzeIMFeilds();
     })
   }
@@ -598,11 +608,12 @@ export class InventoryMasterComponent implements OnInit {
       width: '560px',
       autoFocus: '__non_existing_element__',
       data: {
-        itemNumber: this.currentPageItemNo,
-        description: this.getInvMasterData.description,
+        itemNumber: this.addItemNumber!=''?this.addItemNumber:this.currentPageItemNo,
+        description: this.getInvMasterData && this.getInvMasterData.description?this.getInvMasterData.description:'',
         fromInventoryMaster: 1,
         newItemNumber: '',
-        addItem: true
+        addItem: true,
+        fromPutaways:this.addItemNumber!=''?1:0
       }
     });
 

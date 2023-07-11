@@ -422,7 +422,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((res) => {
-      if (res.responseMessage == "Reserved Successfully") {        
+      if (res && res.responseMessage  === "Reserved Successfully") {        
         this.toteForm.patchValue({
           zone                              : res.zone,
           carousel                          : res.carousel,

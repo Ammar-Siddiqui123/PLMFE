@@ -171,7 +171,7 @@ private subscription: Subscription = new Subscription();
       },
       {
         appName: 'ImportExport',
-        route: '#',
+        route: '/ImportExport',
         iconName: 'electric_bolt',
         name: 'Import Export',
         updateMenu: '',
@@ -219,7 +219,7 @@ private subscription: Subscription = new Subscription();
     });
   }
   updateMenu(menu = '',obj:any=null) {
-   
+   debugger
     if(menu!='')
     {
       this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu);
@@ -239,6 +239,9 @@ private subscription: Subscription = new Subscription();
       this.sharedService.BroadCastMenuUpdate(obj.route);
       // this.sharedService.updateInductionAdminMenu(menu)
     } 
+    else if(menu==='FlowReplenishment'){
+      this.sharedService.updateFlowrackMenu
+    }
     this.sharedService.updateSidebar();
   }
 

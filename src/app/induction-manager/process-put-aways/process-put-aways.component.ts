@@ -24,6 +24,7 @@ import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/a
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ReelDetailComponent } from 'src/app/dialogs/reel-detail/reel-detail.component';
 import { ReelTransactionsComponent } from 'src/app/dialogs/reel-transactions/reel-transactions.component';
+import { event } from 'jquery';
 
 
 export interface PeriodicElement {
@@ -86,7 +87,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   searchAutocompleteItemNum2: any = [];
   dataSource2: any;
 
-  inputType = "Any";
+  inputType = "any";
   inputValue = "";
 
   nextPos: any;
@@ -108,6 +109,20 @@ export class ProcessPutAwaysComponent implements OnInit {
     return numSelected === numRows;
   }
 
+
+  // // arbash variables
+  applyStrip:any;
+  stripLength:any;
+  stripSide:any;
+  toteOptions:any
+  posOptions:any
+  selectedToteID:any
+  openCell:any
+  upperBound = 5
+  lowerBound = 1
+  
+
+
   constructor(
     private dialog: MatDialog,
     private toastr: ToastrService, 
@@ -121,6 +136,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.userData = this.authService.userData();
     this.getCurrentToteID();
     this.getProcessPutAwayIndex();
+   
 
     this.searchByItem
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -131,6 +147,10 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.autocompleteSearchColumnItem();
         }
       });
+  }
+
+  batchIdKeyup(){
+    this.getRow(this.batchId);
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -152,7 +172,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.assignedZones = '';
     this.ELEMENT_DATA.length = 0;
     this.dataSource = [];
-
+    this.assignedZonesArray.length=0;   // after deleting zones array reset to select zones 
     this.batchId2 = "";
     this.dataSource2 = [];
     this.inputValue = "";
@@ -211,6 +231,9 @@ export class ProcessPutAwaysComponent implements OnInit {
           if (res.data.length > 0) {
             this.status = "Processed";
           }
+          else{
+            this.status = "Not Processed";
+          }
           this.ELEMENT_DATA.length = 0;
           for (var ix = 0; ix < res.data.length; ix++) {
             this.ELEMENT_DATA.push({
@@ -256,6 +279,7 @@ export class ProcessPutAwaysComponent implements OnInit {
           userId: this.userData.username,
           wsid: this.userData.wsid,
           assignedZones: this.assignedZonesArray,
+          status:this.status
         },
       });
       dialogRef.afterClosed().subscribe((result) => {
@@ -462,7 +486,8 @@ export class ProcessPutAwaysComponent implements OnInit {
                     this.selectedIndex = 1;
                     this.batchId2 = this.batchId;
                     setTimeout(() => {
-                      this.inputVal.nativeElement.focus();
+                      // this.inputVal.nativeElement.focus();
+                      this.batchVal.nativeElement.focus();
                     }, 500);
                     this.fillToteTable(this.batchId);
                   } else {
@@ -505,16 +530,20 @@ export class ProcessPutAwaysComponent implements OnInit {
           this.autoPutToteIDS = res.data.imPreference.autoPutAwayToteID;
           this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
           this.processPutAwayIndex = res.data;
-
+          
           this.inputType = res.data.imPreference.defaultPutAwayScanType;
-
+          this.applyStrip = res.data.imPreference.stripScan
+          this.stripLength = res.data.imPreference.stripNumber
+          this.stripSide = res.data.imPreference.stripSide
           if (res.data.batchIDs) {
             this.batchId = res.data.batchIDs;
             this.selectedIndex = 1;
             this.batchId2 = res.data.batchIDs;
             this.fillToteTable(res.data.batchIDs);
             setTimeout(() => {
-              this.inputVal.nativeElement.focus();
+              // this.inputVal.nativeElement.focus();
+              this.autocompleteSearchColumnItem2();
+              this.batchVal.nativeElement.focus();
             }, 500);
           }
 
@@ -580,29 +609,90 @@ export class ProcessPutAwaysComponent implements OnInit {
           'error'
         );
       } else {
-        this.ELEMENT_DATA.length = 0;
-        for (let index = 0; index < this.pickBatchQuantity; index++) {
-          if (!this.autoPutToteIDS) {
-            this.ELEMENT_DATA.push({
-              position: index + 1,
-              cells: this.cellSize,
-              toteid: '',
-              locked: ""
-            });
-          } else {
-            this.ELEMENT_DATA.push({
-              position: index + 1,
-              cells: this.cellSize,
-              toteid: this.currentToteID.toString(),
-              locked: ""
-            });
-            this.currentToteID++;
+        const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+          height: 'auto',
+          width: '560px',
+          data: {
+            message: 'Click OK to start a new batch and discard any changes to the current batch.',
+            heading: '',
+            notificationPrimary: true,
+          },
+          autoFocus: '__non_existing_element__',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if(result){
+            this.ELEMENT_DATA.length = 0;
+            for (let index = 0; index < this.pickBatchQuantity; index++) {
+              if (!this.autoPutToteIDS) {
+                this.ELEMENT_DATA.push({
+                  position: index + 1,
+                  cells: this.cellSize,
+                  toteid: '',
+                  locked: ""
+                });
+              } else {
+                this.ELEMENT_DATA.push({
+                  position: index + 1,
+                  cells: this.cellSize,
+                  toteid: this.currentToteID.toString(),
+                  locked: ""
+                });
+                this.currentToteID++;
+              }
+            }
+            this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
           }
-        }
-        this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+        })
+      
       }
     } else {
-      //Getting and setting next batch ID
+
+ 
+      // if(this.dataSource && this.dataSource.data && this.dataSource.data.length==0){
+        if( this.ELEMENT_DATA.length != 0){
+        const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+          height: 'auto',
+          width: '560px',
+          data: {
+            message: 'Click OK to start a new batch and discard any changes to the current batch.',
+            heading: '',
+            notificationPrimary: true,
+          },
+          autoFocus: '__non_existing_element__',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if(result){
+   //Getting and setting next batch ID
+   this.getNextBatchID();
+   //setup totes
+   //this.pickBatchQuantity;
+   //ELEMENT_DATA.push({ position: 'uzair' });
+   this.ELEMENT_DATA.length = 0;
+   for (let index = 0; index < this.pickBatchQuantity; index++) {
+     if (!this.autoPutToteIDS) {
+       this.ELEMENT_DATA.push({
+         position: index + 1,
+         cells: this.cellSize,
+         toteid: '',
+         locked: ""
+       });
+     } else {
+       this.ELEMENT_DATA.push({
+         position: index + 1,
+         cells: this.cellSize,
+         toteid: this.currentToteID.toString(),
+         locked: ""
+       });
+       this.currentToteID++;
+     }
+   }
+   this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+   this.updateNxtTote()
+          }
+        });
+      }
+      else{
+          //Getting and setting next batch ID
       this.getNextBatchID();
       //setup totes
       //this.pickBatchQuantity;
@@ -628,6 +718,8 @@ export class ProcessPutAwaysComponent implements OnInit {
       }
       this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
       this.updateNxtTote()
+      }
+    
     }
   }
 
@@ -689,11 +781,13 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   updateToteID($event) {
     for (var i = 0; i < this.pickBatchQuantity; i++) {
+      if(this.ELEMENT_DATA && this.ELEMENT_DATA[i]){
       if (this.ELEMENT_DATA[i].toteid == '') {
         this.ELEMENT_DATA[i].toteid = $event.target.value;
         this.toteID = '';
         break;
       }
+    }
     }
   }
 
@@ -740,13 +834,26 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.inputType = value;
   }
 
-  openST(event: KeyboardEvent) {
+  openST(event: any) {
     if (event.key === 'Enter') {
       this.openSelectionTransactionDialogue();
     }
   }
 
+  applyStripIfApplicable(){
+    if(this.applyStrip){
+      if (this.stripSide.toLowerCase() == 'right') {
+        this.inputValue = this.inputValue.substring(0, this.inputValue.length - this.stripLength);
+      } 
+      else {
+        this.inputValue = this.inputValue.substring(this.stripLength, this.inputValue.length);
+      };
+    }
+  }
+
   openSelectionTransactionDialogue() {
+
+    this.applyStripIfApplicable();
 
     if (this.cell == this.toteQuantity) {
       const dialogRef = this.dialog.open(AlertConfirmationComponent, {
@@ -768,6 +875,7 @@ export class ProcessPutAwaysComponent implements OnInit {
           });
         }
         else {
+          // debugger
           const dialogRef = this.dialog.open(SelectionTransactionForToteComponent, {
             height: 'auto',
             width: '1100px',
@@ -785,7 +893,7 @@ export class ProcessPutAwaysComponent implements OnInit {
               autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish
             }
           });
-
+          debugger
           dialogRef.afterClosed().subscribe((result) => {
             if (result == 'NO') {
               if (this.inputType == 'Any') {
@@ -816,6 +924,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       });
     }
     else {
+      // debugger
       const dialogRef = this.dialog.open(SelectionTransactionForToteComponent, {
         height: 'auto',
         width: '1100px',
@@ -832,10 +941,38 @@ export class ProcessPutAwaysComponent implements OnInit {
           defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity,
           autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish
         }
+        
       });
 
+      // debugger
       dialogRef.afterClosed().subscribe((result) => {
         if (result == 'NO') {
+
+      
+          if(this.inputType !='Serial Number' && this.processPutAwayIndex.imPreference.createItemMaster ){
+            this.ifAllowed=false;
+
+            const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+              height: 'auto',
+              width: '50vw',
+              autoFocus: '__non_existing_element__',
+              data: {
+                message: "The input code provided was not recognized.  Click OK to add the item to inventory or cancel to return.",
+                heading: ''
+              },
+            });
+      
+            dialogRef.afterClosed().subscribe((result) => {
+              if(result){
+                this.ifAllowed=false;
+                window.open(`/#/InductionManager/Admin/InventoryMaster?addItemNumber=${this.inputValue}`, '_self');
+
+              }
+              
+            })
+
+            return
+          }
           if (this.inputType == 'Any') {
             this.toastr.error('The input code provided was not recognized as an Item Number, Lot Number, Serial Number, Host Transaction ID, Scan Code or Supplier Item ID.', 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -850,10 +987,35 @@ export class ProcessPutAwaysComponent implements OnInit {
         } else if (result == "Task Completed") {
           this.fillToteTable(this.batchId2);
         }
+          else if(result.category == "isReel"){
+            const d: Date = new Date();
+            const now: string = `${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}-IM`;
+                  let hvObj =  {
+                      order: now,
+                      uf1: '',
+                      uf2: '',
+                      lot: 0,
+                      warehouse: '',
+                      expdate: '',
+                      notes: ''
+                    }
+                  let itemObj =  {
+                      number: result.item.itemNumber,
+                      numReels: 1,
+                      totalParts: 0,
+                      description: result.item.description,
+                      whseRequired: result.item.warehouseSensitive
+                    }
+                    
+                    this.ReelTransactionsDialogue(hvObj,itemObj)
+                    
+            
+          }
       });
     }
 
   }
+
 
   selectTotes(i: any) {
     for (const iterator of this.dataSource2.data) {
@@ -901,6 +1063,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.dataSource2.paginator = this.paginator;
             this.minPos = 1;
             this.maxPos = this.dataSource2.data.length;
+            // this.toteTable  = new MatTableDataSource<any>(res.data.totesTable);
             this.selectTotes(0)
             this.goToNext();
             this.getRow(batchID ? batchID : this.batchId2);
@@ -1113,21 +1276,59 @@ export class ProcessPutAwaysComponent implements OnInit {
     }
   } 
 
-  ReelDetailDialogue() {
+  reelQty
+  ReelDetailDialogue(hv,item) {
+    
     const dialogRef = this.dialog.open(ReelDetailComponent, {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      data: {
+        hvObj: hv,
+        itemObj:item
+      },
     });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result)
+      if(result !=true || result != 'undefined'){
+        this.reelQty =result.reelQty
+      }
+    })
   }
 
-  ReelTransactionsDialogue() {
+  ReelTransactionsDialogue(hv,item) {
     const dialogRef = this.dialog.open(ReelTransactionsComponent, {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      data: {
+        hvObj: hv,
+        itemObj:item,
+        reelQuantity:this.reelQty?this.reelQty:''
+      },
     });
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log(result)
+      if(result !=true ){
+        // console.log(result)
+        this.inputValue = result
+        this.openSelectionTransactionDialogue();
+      }
+    
+     
+    })
+
   }
+
+
+
+  //////////////// my work ////////////////////
+
+
+
+
+
 
   }
 

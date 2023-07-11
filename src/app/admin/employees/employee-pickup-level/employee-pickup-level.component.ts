@@ -83,7 +83,10 @@ export class EmployeePickupLevelComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.pickup_level_data_source.filter = filterValue.trim().toLowerCase();
   }
-
+  clear(){
+    this.searchPickLvl='';
+    this.pickup_level_data_source.filter="";
+  }
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
