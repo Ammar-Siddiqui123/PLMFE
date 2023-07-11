@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import labels from '../../labels/labels.json';
 
 @Component({
   selector: 'app-short-transaction',
@@ -13,6 +14,7 @@ export class ShortTransactionComponent implements OnInit {
 
   selectedTransaction: any;
   toteQuantity: any;
+  @ViewChild('toteQty') toteQty: ElementRef;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -24,6 +26,12 @@ export class ShortTransactionComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedTransaction = this.data.selectedTransaction;
+  }
+
+  ngAfterViewInit() {
+    setTimeout(()=>{
+      this.toteQty.nativeElement.focus();  
+    }, 200);
   }
 
   ShortTransaction() {
@@ -47,6 +55,10 @@ export class ShortTransactionComponent implements OnInit {
           this.Api.shortTransaction(payload).subscribe((res: any) => {
             if (res.isExecuted) {
               this.dialogRef.close(res);
+              this.toastr.success(labels.alert.update, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
             }
             else {
               this.toastr.error("An error occured when shorting this transaction", 'Error', {

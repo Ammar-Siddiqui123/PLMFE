@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import labels from '../../labels/labels.json';
 
 @Component({
   selector: 'app-cpb-blossom-tote',
@@ -83,8 +84,6 @@ export class CpbBlossomToteComponent implements OnInit {
       blossomTotes: [],
       newTote: this.newToteID
     }
-
-
     this.transactions.forEach((x:any) => {
       payload.blossomTotes.push({
         id:x.id,
@@ -92,7 +91,6 @@ export class CpbBlossomToteComponent implements OnInit {
         oldToteQuantity: x.oldToteQuantity ? x.oldToteQuantity : 0
       });
     });
-
     let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       height: 'auto',
       width: '560px',
@@ -107,6 +105,10 @@ export class CpbBlossomToteComponent implements OnInit {
         this.Api.blossomTote(payload).subscribe((res: any) => {
           if(res.isExecuted){
             this.dialogRef.close({newToteID:this.newToteID});
+            this.toastr.success(labels.alert.update, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
           }
           else{
             this.toastr.error("An error occured when blossoming this tote", 'Error', {
