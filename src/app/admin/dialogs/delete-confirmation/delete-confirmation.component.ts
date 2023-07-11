@@ -46,7 +46,7 @@ export class DeleteConfirmationComponent implements OnInit {
   }
 
   onConfirmdelete() {
-    debugger
+    
     if (this.data) {
       if (this.data.mode === 'delete-zone') {
         let zoneData = {

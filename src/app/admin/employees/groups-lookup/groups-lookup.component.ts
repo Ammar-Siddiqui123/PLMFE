@@ -24,6 +24,7 @@ export interface groups_details {
 })
 export class GroupsLookupComponent implements OnInit {
   emp: any;
+  searchGrp;
   employees_res: any;
   employees_details_data: any = [];
   @Input('childGroupLookUp') isGroupLookUp: boolean;
@@ -35,7 +36,10 @@ export class GroupsLookupComponent implements OnInit {
   highlight(row) {
     this.selectedRowIndex = row.id;
   }
-
+  clearFields(){
+    this.searchGrp='';
+    this.group_data_source.filter = '';
+  }
 
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
