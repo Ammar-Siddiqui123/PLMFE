@@ -3,6 +3,8 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import labels from '../../labels/labels.json';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-cpb-blossom-tote',
@@ -25,6 +27,7 @@ export class CpbBlossomToteComponent implements OnInit {
     private dialog: MatDialog,
     private Api: ApiFuntions,
     public dialogRef: MatDialogRef<CpbBlossomToteComponent>,
+    private globalService: GlobalService
   ) { }
 
   ngOnInit(): void {
@@ -83,16 +86,24 @@ export class CpbBlossomToteComponent implements OnInit {
       blossomTotes: [],
       newTote: this.newToteID
     }
-
-
+    let isDecimalExist:boolean = false;
     this.transactions.forEach((x:any) => {
       payload.blossomTotes.push({
         id:x.id,
         transactionQuantity: x.transactionQuantity,
         oldToteQuantity: x.oldToteQuantity ? x.oldToteQuantity : 0
       });
+      if(!this.globalService.checkDecimal(x.oldToteQuantity ? x.oldToteQuantity : 0)){
+        isDecimalExist = true
+      }
     });
-
+    if(isDecimalExist){
+      this.toastr.error("Tote Quantity can not be in decimal", 'Error', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return;
+    }
     let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       height: 'auto',
       width: '560px',
@@ -107,6 +118,10 @@ export class CpbBlossomToteComponent implements OnInit {
         this.Api.blossomTote(payload).subscribe((res: any) => {
           if(res.isExecuted){
             this.dialogRef.close({newToteID:this.newToteID});
+            this.toastr.success(labels.alert.update, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
           }
           else{
             this.toastr.error("An error occured when blossoming this tote", 'Error', {
