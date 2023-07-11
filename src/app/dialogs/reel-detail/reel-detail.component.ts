@@ -130,7 +130,7 @@ export class ReelDetailComponent implements OnInit {
         this.dialogRef.close(reelDetail);
     }
 
-    if(!this.wareHouseSensitivity &&this.ReelQty != undefined ){
+    if(!this.wareHouseSensitivity &&this.ReelQty != undefined && this.ReelQty != "" ){
       let  reelDetail =[
       {reelQty:this.ReelQty},
       {
