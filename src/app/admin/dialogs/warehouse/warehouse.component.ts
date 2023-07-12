@@ -7,6 +7,7 @@ import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json'
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component'
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-warehouse',
@@ -17,6 +18,8 @@ export class WarehouseComponent implements OnInit {
 
   public warehouse_list: any;
   public userData: any;
+  disableBtn
+  spliUrl
   onDestroy$: Subject<boolean> = new Subject();
   @ViewChild('inputEl') public inputEl: ElementRef;
   enableButton = [{ index: -1, value: true }];
@@ -28,13 +31,18 @@ export class WarehouseComponent implements OnInit {
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<any>,
     private dialog: MatDialog,
+    private router: Router,
   ) { }
 
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getWarehouse();
-
+    this.spliUrl=this.router.url.split('/'); 
+    console.log(this.spliUrl[1])
+    if( this.spliUrl[1] == 'InductionManager'  ){
+       this.disableBtn =true
+    }
   }
 
   deleteWH(warehosue: any) { 

@@ -27,12 +27,12 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:beforeunload', ['$event'])
 beforeunloadHandler(event): void {
-  this.userData = JSON.parse(localStorage.getItem('user') || '{}');
-  const url = 'https://staging-e64.com:9010/api/users/Logout';
-  const payload = {
-    "username": this.userData.userName,
-    "wsid": this.userData.wsid
-  };
+  // this.userData = JSON.parse(localStorage.getItem('user') || '{}');
+  // const url = 'https://staging-e64.com:9010/api/users/Logout';
+  // const payload = {
+  //   "username": this.userData.userName,
+  //   "wsid": this.userData.wsid
+  // };
   this.browserCloseService.handleBrowserClose();
   // this.browserCloseService.logout(url, payload);
 }
@@ -46,12 +46,12 @@ onPageLoad(event: Event) {
     let refreshTime = loadTime.getTime() - unloadTime.getTime();
 
     if (refreshTime > 3000) {
-//     const url = 'https://staging-e64.com:9010/api/users/Logout';
-// const payload = {
-//   username: 'fuzail',
-//   wsid: 'TESTWSID',
-// };
-// this.browserCloseService.logout(url, payload);
+      // const url = 'https://staging-e64.com:9010/api/users/Logout';
+      // const payload = {
+      //   username: 'fuzail',
+      //   wsid: 'TESTWSID',
+      // };
+      // this.browserCloseService.logout(url, payload);
 
 
       // let paylaod = {
@@ -62,10 +62,10 @@ onPageLoad(event: Event) {
       //   if (res.isExecuted) {}
       // })
 
-      // navigator.sendBeacon('https://staging-e64.com:9010/api/users/Logout', JSON.stringify({username:'fuzail',wsid:'TESTWSID'}));
-      // localStorage.clear();
+//       // navigator.sendBeacon('https://staging-e64.com:9010/api/users/Logout', JSON.stringify({username:'fuzail',wsid:'TESTWSID'}));
+//       // localStorage.clear();
       
-      // location.reload();
+//       // location.reload();
     }
   }
 }

@@ -24,7 +24,7 @@
             </div>
 
 
-            <div class="card table-responsive br-14 p-0 col-xl-6">
+            <div class="card table-responsive borderless  br-14 p-0 col-xl-6">
 
             <ng-scrollbar class="mat-table-scrollbar" style="height:420px" track="all" >
                 <table class="w-100" mat-table matSort [dataSource]="tableData">
@@ -35,9 +35,9 @@
                 >{{element.table_name}}</td>
                     </ng-container>
     
-    <ng-container class="" matColumnDef="modify" stickyEnd>
-                  <th class="test" mat-header-cell *matHeaderCellDef mat-sort-header>Modify</th>
-                  <td class="px-2 mt-3" mat-cell *matCellDef="let element">
+    <ng-container matColumnDef="modify" stickyEnd>
+                  <th width=10% class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Modify</th>
+                  <td width=10% class="px-2 me-3" mat-cell *matCellDef="let element">
                    
                     <mat-checkbox color="primary"     [checked]="element.adminLevel" [(ngModel)]="element.adminLevel">
                     </mat-checkbox>
