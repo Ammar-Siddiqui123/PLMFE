@@ -221,7 +221,7 @@ dialog1(numUnassigned){
     autoFocus: '__non_existing_element__',
   });
   dialogRef.afterClosed().pipe(take(1)).subscribe((result) => {
-    if(result){
+    if(!result){
       return
     }else{
     this.test();
@@ -240,13 +240,13 @@ test(){
                 this.generateReelAndSerial.data.forEach((element)=>{
                   sn =element.reel_serial_number
                   SNs.push(element.reel_serial_number)
-                  if(element.reel_serial_number==''){
-                    this.toastr.error("You must provide a serial number for each reel transaction.", 'Error!', {
-                      positionClass: 'toast-bottom-right',
-                      timeOut: 2000
-                    });
-                    return
-                  }
+                  // if(element.reel_serial_number==''){
+                  //   this.toastr.error("You must provide a serial number for each reel transaction.", 'Error!', {
+                  //     positionClass: 'toast-bottom-right',
+                  //     timeOut: 2000
+                  //   });
+                  //   return
+                  // }
             
                   reels.push({
                     "SerialNumber": element.reel_serial_number,
@@ -260,6 +260,14 @@ test(){
                     "Notes":  element.details.reelNotes
                 })
                 })
+
+                if(SNs.includes('')){
+                  this.toastr.error("You must provide a serial number for each reel transaction.", 'Error!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000
+                  });
+                  return
+                }
                 
 
 
