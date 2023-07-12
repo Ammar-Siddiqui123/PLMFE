@@ -180,7 +180,7 @@ export class TotesAddEditComponent implements OnInit {
       {
 
         const data = this.dataSourceManagedTotes.data;
-        if(data[index]['isDuplicate'] || data[index]['isInserted'] ){
+        if(data[index]['isDuplicate'] || data[index]['isInserted']==0 ){
           data.splice(index,1)
           this.dataSourceManagedTotes.data=data
           console.log( this.dataSourceManagedTotes.data);
@@ -199,7 +199,21 @@ export class TotesAddEditComponent implements OnInit {
                   timeOut: 2000
                 });
                 this.isRowAdded=false;
-               this.getTotes(this.dataSourceManagedTotes.data);
+                let isUnsavedItem=false
+                // this.dataSourceManagedTotes.data.splice(index,1)
+                this.dataSourceManagedTotes.data.filter(obj=>{
+                  if(obj.isInserted===0){
+                    isUnsavedItem=true
+                  }else {
+                    isUnsavedItem=false
+                  }
+                })
+                if(isUnsavedItem){
+                  this.getTotes(this.dataSourceManagedTotes.data);
+                }else{
+                  this.getTotes();
+                }
+               
         
               } else {
                 this.toastr.error("Already exists", 'Error!', {
