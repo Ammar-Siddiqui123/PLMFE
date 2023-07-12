@@ -10,7 +10,7 @@ import { Location } from '@angular/common';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { FormControl } from '@angular/forms';
 import { FloatLabelType } from '@angular/material/form-field';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, catchError, of, takeUntil } from 'rxjs';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 export interface PeriodicElement {
@@ -92,13 +92,21 @@ export class TotesAddEditComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
   autocompleteSearchColumn(){
- 
-    this.Api.GetFromToteTypeAhead().pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
-      console.log(res);
-      
-      if(res.data){
-        this.searchAutocompleteList = res.data;
+    
+    this.Api.GetFromToteTypeAhead().pipe(takeUntil(this.onDestroy$)).pipe(
+      catchError((error) => {
+        // Handle the error here
+        this.toastr.error("An Error occured while retrieving data.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+        // Return a fallback value or trigger further error handling if needed
+        return of({ isExecuted: false });
+      })
+    ).subscribe((res: any) => {
+      if(res.isExecuted){
+        if(res.data){
+          this.searchAutocompleteList = res.data;
+        }
       }
+    
 
     });
   }
@@ -172,7 +180,7 @@ export class TotesAddEditComponent implements OnInit {
       {
 
         const data = this.dataSourceManagedTotes.data;
-        if(data[index]['isDuplicate']){
+        if(data[index]['isDuplicate'] || data[index]['isInserted'] ){
           data.splice(index,1)
           this.dataSourceManagedTotes.data=data
           console.log( this.dataSourceManagedTotes.data);

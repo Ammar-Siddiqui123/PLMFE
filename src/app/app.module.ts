@@ -107,6 +107,7 @@ import { IeManageDataTransFieldMapComponent } from './dialogs/ie-manage-data-tra
 import { IeManageDataInvenMapTablesComponent } from './dialogs/ie-manage-data-inven-map-tables/ie-manage-data-inven-map-tables.component';
 import { IeArchivePurgeComponent } from './import-export/ie-archive-purge/ie-archive-purge.component';
 import { IeInvFieldsComponent } from './import-export/ie-inv-fields/ie-inv-fields.component';
+import { IeFtpComponent } from './import-export/ie-ftp/ie-ftp.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -199,6 +200,7 @@ import { IeInvFieldsComponent } from './import-export/ie-inv-fields/ie-inv-field
     IeManageDataInvenMapTablesComponent,
     IeArchivePurgeComponent,
     IeInvFieldsComponent,
+    IeFtpComponent,
     // ActionDisableDirective,
   ],
   imports: [
