@@ -30,7 +30,7 @@ export class ShortTransactionComponent implements OnInit {
     const isiPad = navigator.userAgent.match(/iPad/i) !== null;
     const isNumericInput = event.key.match(/^[0-9]+$/);
   
-    if (isiPad && !isNumericInput) {
+    if (isiPad && !isNumericInput && event.key !== "Backspace") {
       event.preventDefault();
     }
   }
