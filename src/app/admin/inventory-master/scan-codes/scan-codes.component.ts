@@ -10,6 +10,7 @@ import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/c
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { SharedService } from 'src/app/services/shared.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-scan-codes',
@@ -199,7 +200,14 @@ export class ScanCodesComponent implements OnInit , OnChanges {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.api.InsertScanCodes(paylaod).subscribe((res: any) => {
+    this.api.InsertScanCodes(paylaod).pipe(
+      catchError((error) => {
+        // Handle the error here
+        console.error('An error occurred while making the API call:', error);
+        // Return a fallback value or trigger further error handling if needed
+        return of({ isExecuted: false,isDuplicate:true });
+      })
+    ).subscribe((res: any) => {
       if (res.isExecuted) {
         this.isAddRow=false
         this.toastr.success(labels.alert.success, 'Success!', {
@@ -208,7 +216,15 @@ export class ScanCodesComponent implements OnInit , OnChanges {
         });
         this.refreshScanCodeList();
         this.sendNotification();
-      } else{
+      } 
+      else if(res.isDuplicate){
+        this.toastr.error('New Scan Code not saved!  Ensure that the scan code being added is not a duplicate and try again.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+        
+      }
+      else{
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000

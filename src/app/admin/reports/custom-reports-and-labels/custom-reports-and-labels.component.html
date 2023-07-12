@@ -63,10 +63,12 @@
                                 <mat-label>Actions</mat-label>
                                 <mat-select class="employees-action" value="pick">
                                     <mat-option value="123456"(click)="CrAddNewCustomReportDialogue()">Add New</mat-option>
-                                    <mat-option value="987654">Export</mat-option>
-                                    <mat-option value="987654">Print</mat-option>
                                     <mat-option [value]="Detail.testData" [disabled]="!Detail.testData" 
-                                       (click)="OpenListAndLabel()"
+                                    (click)="OpenListAndLabel('report-view')">Export</mat-option>
+                                    <mat-option [value]="Detail.testData" [disabled]="!Detail.testData" 
+                                    (click)="OpenListAndLabel('report-view')">Print</mat-option>
+                                    <mat-option [value]="Detail.testData" [disabled]="!Detail.testData" 
+                                       (click)="OpenListAndLabel('report')"
                                         >Design</mat-option>
                                     <mat-option value="147852">Delete</mat-option>
                                     <mat-option value="147852">Import</mat-option>

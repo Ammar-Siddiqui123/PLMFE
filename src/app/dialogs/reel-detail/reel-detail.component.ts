@@ -30,6 +30,7 @@ export class ReelDetailComponent implements OnInit {
 
   ngOnInit(): void {
     // debugger
+    // console.log(this.data.fromtrans)
     if(!this.data.fromtrans){
       this.ReelOrder = this.data.hvObj.order
       this.ReelLot = this.data.hvObj.lot
@@ -78,7 +79,8 @@ export class ReelDetailComponent implements OnInit {
   }
 
   reelDetailSubmit(){
-    if(this.ReelQty == ''){
+    // debugger
+    if(this.ReelQty == undefined || this.ReelQty == ""){
       const dialogRef = this.dialog.open(AlertConfirmationComponent, {
         height: 'auto',
         width: '560px',
@@ -96,7 +98,7 @@ export class ReelDetailComponent implements OnInit {
     if(this.ReelLot == ''){
       this.ReelLot = 0
     }
-     if(this.wareHouseSensitivity &&(this.ReelWarehouse == '') && this.ReelQty != ''){
+     if(this.wareHouseSensitivity &&(this.ReelWarehouse == '') && this.ReelQty != undefined){
       const dialogRef = this.dialog.open(AlertConfirmationComponent, {
         height: 'auto',
         width: '560px',
@@ -112,7 +114,7 @@ export class ReelDetailComponent implements OnInit {
         }
       })
    
-    }else if(this.wareHouseSensitivity &&(this.ReelWarehouse != '') && this.ReelQty != ''){
+    }else if(this.wareHouseSensitivity &&(this.ReelWarehouse != '') && this.ReelQty != undefined &&this.ReelQty != "" ){
       let  reelDetail =[
         {reelQty:this.ReelQty},
         {
@@ -128,7 +130,7 @@ export class ReelDetailComponent implements OnInit {
         this.dialogRef.close(reelDetail);
     }
 
-    if(!this.wareHouseSensitivity &&this.ReelQty != '' ){
+    if(!this.wareHouseSensitivity &&this.ReelQty != undefined && this.ReelQty != "" ){
       let  reelDetail =[
       {reelQty:this.ReelQty},
       {
@@ -146,6 +148,7 @@ export class ReelDetailComponent implements OnInit {
   }
 
   openWareHouse(){
+    // console.log(this.wareHouseSensitivity)
     let dialogRef = this.dialog.open(WarehouseComponent, {
       height: 'auto',
       width: '640px',

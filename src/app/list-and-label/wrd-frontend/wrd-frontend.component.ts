@@ -1,4 +1,5 @@
 import { Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-wrd-frontend',
@@ -8,10 +9,10 @@ import { Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild, Vie
 export class WrdFrontendComponent implements OnInit {
   @ViewChild('ListAndLabel', { read: ViewContainerRef }) ListAndLabel: ViewContainerRef;
   FileName:any = "BMCountList";
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {
+  constructor(private componentFactoryResolver: ComponentFactoryResolver,private sharedService:SharedService) {    
+    this.sharedService.SideBarMenu.next(false);
     var file = localStorage.getItem("ListAndLandFile")?.replace(".","-");
-    this.FileName = file;
-    console.log(file);
+    this.FileName = file; 
   }
   ngOnInit(): void {
     
@@ -22,7 +23,7 @@ export class WrdFrontendComponent implements OnInit {
 
   generateHTMLAndAppend() { 
     const dynamicHtml = `<ll-webreportdesigner backendUrl="http://localhost:63590/LLWebReportDesigner"
-    defaultProject="42B325E5-A894-4BDE-9D0A-5098B46A5085" customData="${this.FileName}" ></ll-webreportdesigner>`; 
+    defaultProject="42B325E5-A894-4BDE-9D0A-5098B46A5095" customData="${this.FileName}" ></ll-webreportdesigner>`; 
     const dynamicComponent = Component({
       template: dynamicHtml
     })(class {}); 
