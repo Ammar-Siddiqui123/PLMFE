@@ -27,10 +27,10 @@ export class ShortTransactionComponent implements OnInit {
   ) { }
 
   restrictKeyboard(event: KeyboardEvent) {
-    const isiPad = navigator.userAgent.match(/iPad/i) !== null;
+    // const isiPad = navigator.userAgent.match(/iPad/i) !== null;
     const isNumericInput = event.key.match(/^[0-9]+$/);
   
-    if (isiPad && !isNumericInput && event.key !== "Backspace") {
+    if (!isNumericInput && event.key !== "Backspace") {
       event.preventDefault();
     }
   }
