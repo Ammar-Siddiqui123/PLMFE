@@ -269,6 +269,12 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   openSelectZonesDialogue() {
+    // if(this.dataSource2.length==0){
+    //   this.assignedZonesArray.forEach(item=>{
+    //    console.log(item);
+       
+    //   })
+    // }
     if (this.batchId != '') {
       const dialogRef = this.dialog.open(SelectZonesComponent, {
         height: 'auto',
@@ -279,7 +285,8 @@ export class ProcessPutAwaysComponent implements OnInit {
           userId: this.userData.username,
           wsid: this.userData.wsid,
           assignedZones: this.assignedZonesArray,
-          status:this.status
+          status:this.status,
+          isNewBatch:this.dataSource2 && this.dataSource2.length>0?false:true
         },
       });
       dialogRef.afterClosed().subscribe((result) => {
@@ -601,6 +608,9 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   createNewBatch(withID = '') {
+
+
+
     if (withID == '') {
       if (this.batchId == '') {
         this.showMessage(

@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import labels from '../../../labels/labels.json';
 import { SharedService } from 'src/app/services/shared.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-add-new-device',
@@ -314,8 +315,19 @@ export class AddNewDeviceComponent implements OnInit {
     };
 
     this.Api
-      .DeviceInformation(payload)
+      .DeviceInformation(payload).pipe(
+        catchError((error) => {
+          // Handle the error here
+          console.error('An error occurred while making the API call:', error);
+          
+          // Return a fallback value or trigger further error handling if needed
+          return of({ isExecuted: false });
+        })
+      )
       .subscribe((res: any) => {
+        if(res.isExecuted){
+
+       
         this.zoneList = res && res.data ? res.data.zoneList : [];
         this.controllerTypeList =
           res && res.data ? res.data.controllerTypeList : [];
@@ -333,6 +345,12 @@ export class AddNewDeviceComponent implements OnInit {
         // this.Baud = res.data.baudRate;
         // this.StopBit = res.data.stopBit;
         // this.Parity = res.data.parity;
+      }else{
+        this.toastr.error('An Error occured while retrieving data.', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000,
+        });
+      }
       });
   }
 

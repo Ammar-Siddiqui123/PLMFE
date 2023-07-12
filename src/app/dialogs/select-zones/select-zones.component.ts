@@ -20,6 +20,7 @@ export interface PeriodicElement {
   styleUrls: ['./select-zones.component.scss']
 })
 export class SelectZonesComponent implements OnInit {
+  isNewBatch=false;
   ELEMENT_DATA = [{ zone: '',locationName:'',locationType:'',stagingZone:'',selected: false,available: false}];
   displayedColumns: string[] = ['select', 'zone', 'locationdesc', 'locationtype', 'stagingzone' , 'flag'];
   dataSource = new MatTableDataSource<PeriodicElement>(this.ELEMENT_DATA);
@@ -200,13 +201,19 @@ export class SelectZonesComponent implements OnInit {
         // console.log(this.alreadyAssignedZones);
         for(var i=0;i<this.zoneDetails.length;i++)
         {
+          
           var isSelected = false;
           
           if(this.alreadyAssignedZones!=null && this.alreadyAssignedZones.length>0)
           {
             let obj = this.alreadyAssignedZones.find((o) => {
               if (o.zone == this.zoneDetails[i].zone) {
-                isSelected = true;
+                if(this.isNewBatch){
+                  isSelected=false
+                }else{
+                  isSelected = true;
+                }
+             
                 return true; // stop searching
               }
               else 
@@ -240,6 +247,7 @@ export class SelectZonesComponent implements OnInit {
     this.ELEMENT_DATA.length=0;
     this.batchID = this.data.batchId;
     this.username= this.data.userId;
+    this.isNewBatch=this.data.isNewBatch;
     this.wsid=this.data.wsid;
     this.alreadyAssignedZones = this.data.assignedZones;
     this.getAvailableZones();

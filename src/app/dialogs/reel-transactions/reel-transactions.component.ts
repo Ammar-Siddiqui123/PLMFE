@@ -5,6 +5,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ReelDetailComponent } from '../reel-detail/reel-detail.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirmation.component';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-reel-transactions',
@@ -75,29 +76,23 @@ oldIncluded
         hvObj: this.data.hvObj,
         itemObj:this.data.itemObj,
         gReelQty:this.generatedReelQty,
-        fromtrans: this.generatedReelQty?this.generateReelAndSerial.data[this.generatedReelQtyIndex].details:this.HiddenInputValue,
+        fromtrans: this.fromReelCheck? this.generateReelAndSerial.data[this.generatedReelQtyIndex].details : this.HiddenInputValue,
         
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      // console.log(this.generatedReelQty)
-      // debugger
       if(result !="true" ){
-        // debugger
         if(!this.generatedReelQty && this.generatedReelQty != ''){
           this.partsInducted  = result[0].reelQty
         this.partsNotAssigned =result[0].reelQty
         this.oldIncluded = result[0].reelQty
         this.HiddenInputValue = result[1]
         this.noOfReeltemp.nativeElement.select()
-        // console.log(this.HiddenInputValue,'hide')
         }
         else{
-          // this.noOfReels = result[0].reelQty
           this.HiddenInputValue = result[1]
           this.noOfReeltemp.nativeElement.select()
-          // console.log(this.generateReelAndSerial.data,'hide')
           this.generateReelAndSerial.data[this.generatedReelQtyIndex].reel_part_quantity = result[0].reelQty
           this.generateReelAndSerial.data[this.generatedReelQtyIndex].details = result[1]
           this.updateRemaining()
@@ -207,23 +202,36 @@ oldIncluded
         else{
           let numUnassigned =this.partsNotAssigned;
           if (numUnassigned != 0){
-            const dialogRef = this.dialog.open(AlertConfirmationComponent, {
-              height: 'auto',
-              width: '560px',
-              data: {
-                message: `There are ' + ${(numUnassigned < 0 ? 'more' : 'fewer')} + ' parts assigned to these reels than total parts selected.  Click OK to continue or Cancel to edit the number of parts in each reel.`,
-              },
-              autoFocus: '__non_existing_element__',
-            });
-            dialogRef.afterClosed().subscribe((result) => {
-              if(result){
-                return
-              }
-          
-            
-            })
-          }  
-                let reels:any = [];
+              this.dialog1(numUnassigned)
+          }  else{
+            this.test();
+          }
+                
+        }
+      }
+    })
+  }
+dialog1(numUnassigned){
+  const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+    height: 'auto',
+    width: '560px',
+    data: {
+      message: `There are  ${(numUnassigned < 0 ? 'more' : 'fewer')}  parts assigned to these reels than total parts selected.  Click OK to continue or Cancel to edit the number of parts in each reel.`,
+    },
+    autoFocus: '__non_existing_element__',
+  });
+  dialogRef.afterClosed().pipe(take(1)).subscribe((result) => {
+    if(result){
+      return
+    }else{
+    this.test();
+    }
+
+  
+  })
+}
+test(){
+  let reels:any = [];
                 let rc$;
                 let SNs:any[] = [];
                 let sn = '';
@@ -252,6 +260,7 @@ oldIncluded
                     "Notes":  element.details.reelNotes
                 })
                 })
+                
 
 
             
@@ -340,12 +349,7 @@ oldIncluded
                 (error) => {}
 
                 
-        }
-      }
-    })
-  }
-
-
+}
   GenerateSerialNumber(index){
     let payload = {
       "numReels": 1
@@ -366,9 +370,11 @@ oldIncluded
   }
 
   generatedReelQtyIndex
+  fromReelCheck
   OpenDetails(index,e){
     // debugger
 this.generatedReelQty = e.reel_part_quantity
+this.fromReelCheck = true
 // console.log(index)
 this.generatedReelQtyIndex = index
 
@@ -384,13 +390,14 @@ this.ReelDetailDialogue()
   }
 
 
-  limitValue() {
-    const firstValue = this.partsInducted
-    const secondValue = this.noOfReels;
-
+  limitNoOfReels() {
+    const firstValue = parseInt(this.partsInducted);
+    const secondValue = parseInt(this.noOfReels);
+  
     if (secondValue > firstValue) {
-      this.noOfReels = ''
+      this.noOfReels = this.partsInducted; // Set noOfReels to partsInducted value
     }
   }
+
 
 }
