@@ -112,8 +112,8 @@
       </div>
     </mat-dialog-content>
     <mat-dialog-actions class="d-flex flex-column justify-content-center">
-      <button  class=" prompt-action-danger-button mb-3 w-100 btn-lg" (click)="onDltOptions('batch_tote')" [disabled]="isChecked" mat-stroked-button  mat-dialog-close>Delete Batch and Tote</button>
-      <button  class=" mb-3 w-100 btn-lg text-error" mat-stroked-button (click)="onDltOptions('batch')"  [disabled]="isChecked" mat-dialog-close>Delete Batch</button>
+      <button  class=" prompt-action-danger-button mb-3 w-100 btn-lg" (click)="onDltOptions('batch_tote')" [disabled]="!isChecked" mat-stroked-button  mat-dialog-close>Delete Batch and Tote</button>
+      <button  class=" mb-3 w-100 btn-lg text-error" mat-stroked-button (click)="onDltOptions('batch')"  [disabled]="!isChecked" mat-dialog-close>Delete Batch</button>
       <button  class=" mb-3 w-100 btn-lg" mat-stroked-button  mat-dialog-close>Cancel</button>
 
     </mat-dialog-actions>
@@ -148,7 +148,7 @@
       </div>
     </mat-dialog-content>
     <mat-dialog-actions class="d-flex flex-column justify-content-center">
-      <button  class=" prompt-action-danger-button mb-3 w-100 btn-lg" (click)="onDltOptions('batch_tote_trans')" [disabled]="isChecked" mat-stroked-button  mat-dialog-close>Delete Batch and Tote</button>
+      <button  class=" prompt-action-danger-button mb-3 w-100 btn-lg" (click)="onDltOptions('batch_tote_trans')" [disabled]="!isChecked" mat-stroked-button  mat-dialog-close>Delete Batch and Tote</button>
       <!-- <button  class=" mb-3 w-100 btn-lg text-error" mat-stroked-button (click)="onDltOptions('batch')"  [disabled]="isChecked" mat-dialog-close>Delete Batch</button> -->
       <button  class=" mb-3 w-100 btn-lg" mat-stroked-button  mat-dialog-close>Cancel</button>
 
