@@ -68,9 +68,9 @@ export class BatchDeleteComponent implements OnInit {
   }
   checkOptions(event: MatCheckboxChange): void {
     if (event.checked) {
-      this.isChecked = false;
-    } else {
       this.isChecked = true;
+    } else {
+      this.isChecked = false;
     }
   }
   getBatch(type: any) {
@@ -110,12 +110,12 @@ export class BatchDeleteComponent implements OnInit {
       wsid: this.userData.wsid,
     };
     if (this.batchID !== 'All Transaction') {
-      const dialogRef = this.dialog.open(this.dltActionTemplate, {
+      let dialogRef = this.dialog.open(this.dltActionTemplate, {
         width: '550px',
         autoFocus: '__non_existing_element__',
       });
 
-      dialogRef.afterClosed().subscribe(() => {
+      dialogRef.afterClosed().subscribe((res) => {
         if (this.dltType) {
           if (this.dltType == 'batch_tote') {
             payload.identity = 0;
@@ -132,6 +132,8 @@ export class BatchDeleteComponent implements OnInit {
                   timeOut: 2000,
                 });
                 this.deleteEmitter.emit(res);
+                this.batchID = "";
+                this.dltType = "";
               }
             });
         }
@@ -142,7 +144,7 @@ export class BatchDeleteComponent implements OnInit {
         width: '550px',
         autoFocus: '__non_existing_element__',
       });
-      dialogRef.afterClosed().subscribe(() => {
+      dialogRef.afterClosed().subscribe((res) => {
         if (this.dltType === 'batch_tote_trans') {
           this.api
             .BatchDeleteAll(payload)
@@ -154,12 +156,14 @@ export class BatchDeleteComponent implements OnInit {
                   timeOut: 2000,
                 });
                 this.deleteEmitter.emit(res.data);
-                this.batchID = undefined;
+                this.batchID = "";
+                this.dltType = "";
               }
             });
         }
       });
     }
+    this.isChecked = false;
   }
   onDltOptions(dltType: any) {
     this.dltType = dltType;

@@ -6,7 +6,7 @@
     </button>
 </div>
 <div class="d-flex gap-12 my-4 justify-content-end" mat-dialog-content>
-    <button mat-flat-button color="primary" class="add-icon-button" (click)="addwhRow($event)">
+    <button mat-flat-button color="primary" class="add-icon-button" (click)="addwhRow($event)" [disabled]="disableBtn">
         <span class="material-symbols-outlined">
             add
         </span>
@@ -41,13 +41,13 @@
 
                                         <ng-container stickyEnd>
                                         <div class="d-flex gap-12">
-                                            <button mat-flat-button color="primary" class="xsm-icon-button"
+                                            <button mat-flat-button color="primary" class="xsm-icon-button" [disabled]="disableBtn"
                                                 (click)="saveWareHouse(whname.value, warehouse)" 
                                                 [disabled]="(enableButton[i] && enableButton[i].value!=null) ? enableButton[i].value:false"
                                                 >
                                                 <mat-icon class="material-symbols-outlined">save</mat-icon>
                                             </button>
-                                            <button mat-flat-button color="warn" class="xsm-icon-button"
+                                            <button [disabled]="disableBtn" mat-flat-button color="warn" class="xsm-icon-button"
                                                 (click)="deleteWH(warehouse)" #inputEl>
                                                 <mat-icon class="material-symbols-outlined">close</mat-icon>
                                             </button>

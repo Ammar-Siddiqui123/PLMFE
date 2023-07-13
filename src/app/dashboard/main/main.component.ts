@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core'; 
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/init/auth.service';
 import { SharedService } from '../../../app/services/shared.service';
 import { mergeMap, map } from 'rxjs/operators';
-import { forkJoin, of, Subscription } from 'rxjs'; 
+import { forkJoin, of, Subscription } from 'rxjs';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-main',
@@ -17,15 +17,16 @@ export class MainComponent implements OnInit {
   appNames: any = [];
   applicationData: any = [];
   userData: any;
-  isDefaultAppVerify:any;
-private subscription: Subscription = new Subscription();
+  isDefaultAppVerify: any;
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private sharedService: SharedService,
-    private Api:ApiFuntions,
+    private Api: ApiFuntions,
     private authService: AuthService
   ) {}
 
+  
   ngOnInit(): void {
 
 
@@ -35,41 +36,39 @@ private subscription: Subscription = new Subscription();
 
   }
 
+
   ngAfterViewInit() {
     this.getAppLicense();
-    
-
   }
 
   getAppLicense() {
-    
-
-    // moved the logic to login component and added these 2 lines to fetch the apps from localstorage and commented the api below in getAppLicence  .. 
+    // moved the logic to login component and added these 2 lines to fetch the apps from localstorage and commented the api below in getAppLicence  ..
     // this.applicationData=JSON.parse(localStorage.getItem('availableApps') || '');
     // this.sharedService.setMenuData(this.applicationData)
 
     let payload = {
       WSID: this.userData.wsid,
     };
-    this.Api
-      .AppNameByWorkstation()
-      .subscribe(
-        (res: any) => {
-          if (res && res.data) {
-            this.convertToObj(res.data);
-            localStorage.setItem('availableApps',JSON.stringify(this.applicationData)) 
-            this.sharedService.setMenuData(this.applicationData)
-          }
-        },
-        (error) => {}
-      );
+    this.Api.AppNameByWorkstation().subscribe(
+      (res: any) => {
+        if (res && res.data) {
+          this.convertToObj(res.data);
+          localStorage.setItem(
+            'availableApps',
+            JSON.stringify(this.applicationData)
+          );
+          this.sharedService.setMenuData(this.applicationData);
+        }
+      },
+      (error) => {}
+    );
   }
 
   convertToObj(data) {
-    data.wsAllAppPermission.forEach((item,i) => {
+    data.wsAllAppPermission.forEach((item, i) => {
       for (const key of Object.keys(data.appLicenses)) {
         // arrayOfObjects.push({ key, value: this.licAppData[key] });
-        if (item.includes(key)  && data.appLicenses[key].isLicenseValid) {
+        if (item.includes(key) && data.appLicenses[key].isLicenseValid) {
           this.applicationData.push({
             appname: data.appLicenses[key].info.name,
             displayname: data.appLicenses[key].info.displayName,
@@ -84,7 +83,6 @@ private subscription: Subscription = new Subscription();
       }
     });
     this.sortAppsData();
-    
   }
   // OLD-----
   // async getAppLicense() {
@@ -218,29 +216,29 @@ private subscription: Subscription = new Subscription();
       return 0; //default return value (no sorting)
     });
   }
-  updateMenu(menu = '',obj:any=null) {
-   debugger
-    if(menu!='')
-    {
-      this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu);
+  updateMenu(menu = '', obj: any = null) {
+    debugger;
+    if (menu != '') {
+      this.sharedService.updateLoggedInUser(
+        this.userData.userName,
+        this.userData.wsid,
+        menu
+      );
     }
-    
+
     if (menu == 'admin') {
       this.sharedService.updateAdminMenu();
-    }
-    else if(menu=='induction'){ 
+    } else if (menu == 'induction') {
       this.sharedService.BroadCastMenuUpdate(obj.route);
       // this.sharedService.updateInductionAdminMenu(menu)
-    }
-    else if(menu=='orderManager'){ 
+    } else if (menu == 'orderManager') {
       this.sharedService.BroadCastMenuUpdate(obj.route);
       // this.sharedService.updateInductionAdminMenu(menu)
-    }  else if(menu=='consolidation'){ 
+    } else if (menu == 'consolidation') {
       this.sharedService.BroadCastMenuUpdate(obj.route);
       // this.sharedService.updateInductionAdminMenu(menu)
-    } 
-    else if(menu==='FlowReplenishment'){
-      this.sharedService.updateFlowrackMenu
+    } else if (menu === 'FlowReplenishment') {
+      this.sharedService.updateFlowrackMenu;
     }
     this.sharedService.updateSidebar();
   }
@@ -248,8 +246,7 @@ private subscription: Subscription = new Subscription();
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-  isAuthorized(controlName:any) {
+  isAuthorized(controlName: any) {
     return !this.authService.isAuthorized(controlName);
- }
-
+  }
 }
