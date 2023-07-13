@@ -463,6 +463,10 @@ this.router.navigate([]).then((result) => {
         window.open(`/#/OrderManager/InventoryMaster?itemNumber=${row.itemNumber}`, '_self');
       });
    }
+   else if(this.spliUrl[1] == 'InductionManager' ){
+    window.open(`/#/InductionManager/Admin/InventoryMaster?itemNumber=${row.itemNumber}`, '_self');
+
+   }
    else {
     localStorage.setItem('routeFromInduction','false')
     this.router.navigate([]).then((result) => {
