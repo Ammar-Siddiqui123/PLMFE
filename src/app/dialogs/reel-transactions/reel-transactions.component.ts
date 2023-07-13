@@ -220,8 +220,8 @@ dialog1(numUnassigned){
     },
     autoFocus: '__non_existing_element__',
   });
-  dialogRef.afterClosed().pipe(take(1)).subscribe((result) => {
-    if(result){
+  dialogRef.afterClosed().subscribe((result) => {
+    if(!result){
       return
     }else{
     this.test();
@@ -240,13 +240,13 @@ test(){
                 this.generateReelAndSerial.data.forEach((element)=>{
                   sn =element.reel_serial_number
                   SNs.push(element.reel_serial_number)
-                  if(element.reel_serial_number==''){
-                    this.toastr.error("You must provide a serial number for each reel transaction.", 'Error!', {
-                      positionClass: 'toast-bottom-right',
-                      timeOut: 2000
-                    });
-                    return
-                  }
+                  // if(element.reel_serial_number==''){
+                  //   this.toastr.error("You must provide a serial number for each reel transaction.", 'Error!', {
+                  //     positionClass: 'toast-bottom-right',
+                  //     timeOut: 2000
+                  //   });
+                  //   return
+                  // }
             
                   reels.push({
                     "SerialNumber": element.reel_serial_number,
@@ -260,6 +260,14 @@ test(){
                     "Notes":  element.details.reelNotes
                 })
                 })
+
+                if(SNs.includes('')){
+                  this.toastr.error("You must provide a serial number for each reel transaction.", 'Error!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000
+                  });
+                  return
+                }
                 
 
 
@@ -280,15 +288,26 @@ test(){
                     let errs = '';
                     for (var x = 0; x < res.data.length; x++) {
                         if (!res.data[x].valid) {
-                            errs += (SNs[x] + ' is invalid because it is already allocated ' + (res.data[x].reason == 'OT' ? 'to a Put Away in Open Transactions.' : 'in Inventory Map') + '<br>');
-                            this.toastr.error(errs, 'Error!', {
-                              positionClass: 'toast-bottom-right',
-                              timeOut: 2000
+                            errs += (SNs[x] + ' is invalid because it is already allocated ' + (res.data[x].reason == 'OT' ? 'to a Put Away in Open Transactions.' : 'in Inventory Map') );
+                           
+
+                            const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+                              height: 'auto',
+                              width: '560px',
+                              data: {
+                                message: errs,
+                              },
+                              autoFocus: '__non_existing_element__',
                             });
+                            dialogRef.afterClosed().subscribe((result) => {
+                              if(result){
+                                return
+                              }
+                            })
                           };
                     };
                     if(errs != ''){
-                      this.toastr.error('The following serial numbers have problems and could not be assigned.<br><br>' + errs, 'Error!', {
+                      this.toastr.error('The following serial numbers have problems and could not be assigned' , 'Error!', {
                         positionClass: 'toast-bottom-right',
                         timeOut: 2000,
                       });

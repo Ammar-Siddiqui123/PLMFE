@@ -30,6 +30,13 @@ export class CpbBlossomToteComponent implements OnInit {
     private globalService: GlobalService
   ) { }
 
+  restrictKeyboard(event: KeyboardEvent) {
+    const isNumericInput = event.key.match(/^[0-9]+$/);
+    if (!isNumericInput && event.key !== "Backspace") {
+      event.preventDefault();
+    }
+  }
+
   ngOnInit(): void {
     this.toteId = this.data.toteId;
     this.data.transactions.forEach((x: any) => {

@@ -12,7 +12,7 @@ import { CmOrderNumberComponent } from 'src/app/dialogs/cm-order-number/cm-order
 import { CmPrintOptionsComponent } from 'src/app/dialogs/cm-print-options/cm-print-options.component';
 import { CmShippingTransactionComponent } from 'src/app/dialogs/cm-shipping-transaction/cm-shipping-transaction.component';
 import { CmShippingComponent } from 'src/app/dialogs/cm-shipping/cm-shipping.component';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Subject, catchError, debounceTime, distinctUntilChanged, of } from 'rxjs';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -628,7 +628,25 @@ export class ConsolidationComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
 
-    this.Api.ConsoleItemsTypeAhead(payload).subscribe((res: any) => {
+    this.Api.ConsoleItemsTypeAhead(payload).pipe(
+    
+          catchError((error) => {
+    
+            // Handle the error here
+    
+            this.toastr.error("An error occured while retrieving data.", 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+           
+    
+            // Return a fallback value or trigger further error handling if needed
+    
+            return of({ isExecuted: false });
+    
+          })
+    
+        ).subscribe((res: any) => {
       this.searchAutocompleteItemNum = res.data;
     });
 
