@@ -20,7 +20,7 @@
             <ng-container matColumnDef="tote_id"> 
                 <th mat-header-cell *matHeaderCellDef> Tote ID </th>
                 <td mat-cell *matCellDef="let element; let i = index">
-                    <mat-form-field class="custom-form-field w-100" style="padding-right: 15px;" appearance="outline">
+                    <mat-form-field class="custom-form-field" style="padding-right: 15px;" appearance="outline">
                         <input matInput type="text">
                     </mat-form-field>
                 </td>
@@ -28,13 +28,13 @@
             <ng-container matColumnDef="cells"> 
                 <th mat-header-cell *matHeaderCellDef> Cells </th>
                 <td mat-cell *matCellDef="let element; let i = index">
-                    <mat-form-field class="custom-form-field w-100" style="padding-right: 15px;" appearance="outline">
+                    <mat-form-field class="custom-form-field" style="padding-right: 15px;" appearance="outline">
                         <input matInput type="text">
                     </mat-form-field>
                 </td>
             </ng-container>
             <ng-container matColumnDef="actions" stickyEnd>
-                <th width="10%" mat-header-cell *matHeaderCellDef class="px-2 text-center"> Actions </th>
+                <th width="10%" mat-header-cell *matHeaderCellDef class="px-2"> Actions </th>
                 <td width="10%" mat-cell *matCellDef="let element" class="px-2">
                     <div class="d-flex gap-12 align-items-center">
                         <button mat-flat-button color="primary" class="xsm-icon-button">
