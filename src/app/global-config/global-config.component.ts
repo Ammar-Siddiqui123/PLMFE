@@ -63,7 +63,7 @@ export class GlobalConfigComponent {
     this.Api.LoginUser(this.login).subscribe(
       (res: any) => {
 
-        if (res.isExecuted) {
+        if (res.isExecuted && res.data !=null) {
           let data = {
             _token: res.data.token,
             userName: res.data.userName,

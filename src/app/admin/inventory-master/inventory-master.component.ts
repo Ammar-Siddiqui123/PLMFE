@@ -105,7 +105,7 @@ isQuarantine=false;
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
   onScroll(event) {
-    alert();
+    // alert();
   }
   @HostListener('document:keydown', ['$event'])
 
