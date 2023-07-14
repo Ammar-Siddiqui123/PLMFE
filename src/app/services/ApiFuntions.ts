@@ -236,7 +236,7 @@ export class ApiFuntions {
     return this.ApiBase.Get("/Admin/OSFieldFilterNames");
   }
   public CompanyInfo(): Observable<any> { 
-    return this.ApiBase.Get("/Admin/companyinfo");
+    return this.ApiBase.Get("/companyinfo");
   }
   public ColumnAlias(): Observable<any> { 
     return this.ApiBase.Get("/Admin/ColumnAlias");
