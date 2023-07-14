@@ -1,0 +1,186 @@
+<div class="d-flex justify-content-between mb-2 align-items-center">
+    <div style="width:48px"></div>
+    <h1 class="m-0" mat-dialog-title>View Shipping Info</h1>
+  
+    <button mat-icon-button class="close-button dialog-close-button-fix"  [mat-dialog-close]="false">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
+  </div>
+
+  <div class="mb-3">
+  <mat-card class="g-card mb-5 mt-2">
+    <mat-card-content>
+        <div class="d-flex align-items-center flex-wrap mb-3">
+            <h2 class="card-header-title mb-3 me-4 d-flex align-items-center">
+                <div class="mat-icon-wrap me-lg-3 me-2">
+                    <span class="material-symbols-outlined">
+                        filter_frames
+                    </span>
+                </div>
+                <span>Order Info</span>
+            </h2>
+        </div>
+
+
+        <div class="d-block d-xl-flex justify-content-between align-items-center w-100">
+            <div class="d-flex">
+                <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
+                    <input disabled matInput type="text" value="0000">
+                  </mat-form-field>
+            </div>
+            
+            <div class="d-flex justify-content-end"> 
+                <button
+                    mat-flat-button
+                    class="btn-regular w-100 mb-3"
+                    color="primary"
+                  >
+                    <mat-label>Packing List</mat-label>
+                  </button>
+            </div>
+            </div>
+
+     
+
+        
+
+    </mat-card-content>
+</mat-card>
+</div>
+
+
+
+<div class="row mb-3">
+    <div class="col-xl-6">
+  <mat-card class="card mb-3">
+    <mat-card-content>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="card-header-title mb-0 d-flex align-items-center">
+          <div class="mat-icon-wrap me-lg-3">
+            <span class="material-symbols-outlined">
+              local_mall
+            </span>
+          </div>
+          <span>Packing Information</span>
+        </h2>
+      </div>
+   
+        
+      <div class="card br-14  borderless" style="overflow-x: auto;">
+        <ng-scrollbar class="mat-table-scrollbar  scrollbar-hover-padding" style="height:300px" track="all">
+        <table mat-table #table1 [dataSource]="displayedColumns" class="w-100" matSort #matSort="matSort" >
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="itemNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number"> Item No.
+            </th>
+            <td mat-cell *matCellDef="let element"> 102121 </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="lineNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> Line No. </th>
+            <td mat-cell *matCellDef="let element"> 343242 </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="toteId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight"> Tote ID
+            </th>
+            <td mat-cell *matCellDef="let element"> 1213 </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="orderQty">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef> Order Qty </th>
+            <td mat-cell *matCellDef="let element"> 12 </td>
+          </ng-container>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell " [attr.colspan]="displayedColumns.length">
+            No data available in table.
+          </td>
+        </tr>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </ng-scrollbar>
+    </div>
+        <mat-paginator class="d-flex justify-content-start" [pageSizeOptions]="[10, 20]" [pageSize]="10"
+          aria-label="Select page of periodic elements" #paginator>
+        </mat-paginator>
+      
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+<div class="col-xl-6">
+      
+  <mat-card class="card mb-3">
+    <mat-card-content>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="card-header-title mb-0 d-flex align-items-center">
+          <div class="mat-icon-wrap me-lg-3 me-2">
+            <span class="material-symbols-outlined">
+              directions_boat
+            </span>
+          </div>
+          <span>Shipping Information</span>
+        </h2>
+      </div>
+     
+
+      <div class="card br-14 borderless" style="overflow-x: auto;"> 
+        <ng-scrollbar class="mat-table-scrollbar  scrollbar-hover-padding" style="height:300px" track="all">
+        <table mat-table #table2 [dataSource]="displayedColumns1" class="w-100" matSort #matSort="matSort" #matSort1="matSort">
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="containerID">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number"> Container ID.
+            </th>
+            <td mat-cell *matCellDef="let element">101 </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="carrierName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> Carrier Name </th>
+            <td mat-cell *matCellDef="let element"> ABCD </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="trackingNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight"> Tracking Number
+            </th>
+            <td mat-cell *matCellDef="let element">1213 </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="freight">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight"> Freight</th>
+            <td mat-cell *matCellDef="let element"> 1121A </td>
+          </ng-container>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell " [attr.colspan]="displayedColumns1.length">
+            No data available in table.
+          </td>
+        </tr>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+        </table>
+        </ng-scrollbar>
+      </div>
+       
+      <mat-paginator class="d-flex justify-content-start" [pageSizeOptions]="[10, 20]" [pageSize]="10"
+      aria-label="Select page of periodic elements" #paginator1>
+    </mat-paginator>
+
+
+    </mat-card-content>
+  </mat-card>
+</div>
+
+</div>
