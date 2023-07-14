@@ -18,7 +18,7 @@ export class IeManageDataTransFieldMapComponent implements OnInit {
     
   ]
 
-    displayedColumns: string[] = ['container_id','field_type','pad_field_left','actions'];
+    displayedColumns: string[] = ['container_id','field_type','actions'];
     tableData = this.ELEMENT_DATA
     dataSourceList:any
 

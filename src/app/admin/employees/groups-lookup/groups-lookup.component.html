@@ -4,7 +4,8 @@
       <span class="material-symbols-outlined icon-search">
         search
       </span>
-      <input type="text" placeholder="Search Groups" maxlength="50" aria-label="Search Groups" matInput (keyup)="applyFilter($event)" [matAutocomplete]="auto"  #autoFocusField>
+      <input type="text" [(ngModel)]="searchGrp"  placeholder="Search Groups" maxlength="50" aria-label="Search Groups" matInput (keyup)="applyFilter($event)" [matAutocomplete]="auto"  #autoFocusField>
+      <button matSuffix *ngIf="searchGrp" class="clear-btn" (click)="clearFields()" ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
           {{option}}

@@ -13,6 +13,7 @@ import { AuthService } from '../../../../app/init/auth.service';
 import { AdjustQuantityComponent } from '../adjust-quantity/adjust-quantity.component';
 import { Router } from '@angular/router';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { event } from 'jquery';
 
 export interface InventoryMapDataStructure {
   invMapID: string | '',
@@ -331,15 +332,21 @@ export class AddInvMapLocationComponent implements OnInit {
     });
   }
 
-  onMinChange($event) {
-    var max = this.addInvMapLocation.get("maxQuantity")?.value;
-    var min = this.addInvMapLocation.get("minQuantity")?.value;
-    if (max == "" || max == "0") {
-      this.addInvMapLocation.get("minQuantity")?.setValue("0");
+  onMinChange(event: KeyboardEvent) {
+    let max = parseInt(this.addInvMapLocation.get("maxQuantity")?.value ? this.addInvMapLocation.get("maxQuantity")?.value : 0);
+    let min = parseInt(this.addInvMapLocation.get("minQuantity")?.value ? this.addInvMapLocation.get("minQuantity")?.value : 0);
+    if(min > max){
+      this.addInvMapLocation.get("minQuantity")?.setValue("");
     }
-    if (min > max) {
-      this.addInvMapLocation.get("minQuantity")?.setValue(this.addInvMapLocation.get("maxQuantity")?.value.toString().charAt(0));
-    }
+
+    // var max = this.addInvMapLocation.get("maxQuantity")?.value;
+    // var min = this.addInvMapLocation.get("minQuantity")?.value;
+    // if (max == "" || max == "0") {
+    //   this.addInvMapLocation.get("minQuantity")?.setValue("0");
+    // }
+    // if (min > max) {
+    //   this.addInvMapLocation.get("minQuantity")?.setValue(this.addInvMapLocation.get("maxQuantity")?.value.toString().charAt(0));
+    // }
   }
 
   onMaxChange($event) {

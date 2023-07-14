@@ -24,7 +24,6 @@ export class AdminComponent implements OnInit {
   pageEvent: PageEvent;
   searchValue: any = '';
   searchAutocompleteList: any;
-  private _liveAnnouncer: LiveAnnouncer;
   searchByInput: any = new Subject<string>();
   @ViewChild(MatSort) sort: MatSort;
   hideRequiredControl = new FormControl(false);
@@ -88,7 +87,8 @@ export class AdminComponent implements OnInit {
   @ViewChild('autoFocusField') searchBoxField: ElementRef;
   constructor(
     public authService: AuthService, 
-    private api:ApiFuntions
+    private api:ApiFuntions,
+    private _liveAnnouncer: LiveAnnouncer
   ) {}
   inventoryDetail = new FormGroup({
     item: new FormControl({ value: '', disabled: true }),

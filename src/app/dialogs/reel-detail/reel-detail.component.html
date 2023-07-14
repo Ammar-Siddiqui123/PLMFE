@@ -63,8 +63,8 @@
             </div>
                     <div class="col-xl-6 ">
                         <mat-form-field class="custom-form-field __grab_cursor w-100" appearance="outline">
-                            <mat-label>Parts To Be Included</mat-label>
-                            <input matInput type="number" [(ngModel)]="ReelQty" (keyup)="fetchReelQty($event)" #reelQuantitytemp>
+                            <mat-label>Parts to be Inducted</mat-label>
+                            <input matInput type="number" min=0 oninput="validity.valid||(value='');" [(ngModel)]="ReelQty" (keyup)="fetchReelQty($event)" #reelQuantitytemp>
                         </mat-form-field>
     </div>
     </div>
