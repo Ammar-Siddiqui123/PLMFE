@@ -1271,6 +1271,14 @@ public DevicePreferencesDelete(body){
   return this.ApiBase.Post(`/Admin/deviceperference/delete`, body);
 }
 
+public GetCartonFlow(body?: any): Observable<any> { 
+  return this.ApiBase.Get(`/Admin/loczonescartonflow`);
+}
+
+public UpdateCartonFlow(body){    // ------------ update cartonflow
+  return this.ApiBase.Put(`/Admin/workstationsettings`, body);
+}
+
 public DevicePreferencesTable(body){
   return this.ApiBase.Get(`/Admin/deviceperference`, body);
 }
