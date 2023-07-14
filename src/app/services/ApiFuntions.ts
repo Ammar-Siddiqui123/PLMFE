@@ -796,7 +796,7 @@ public saveAdminEmployee(Body: any ): Observable<any> {
 }
 
 public deleteAdminEmployee(Body: any ): Observable<any> {
-  return this.ApiBase.Delete(`/Admin/employee`, Body);
+  return this.ApiBase.Post(`/Admin/employee/delete`, Body);
 }
 public deleteUserGroup(Body: any ): Observable<any> {
   return this.ApiBase.Delete(`/Admin/usergroup`, Body);
