@@ -183,9 +183,8 @@ export class AddNewTransactionToOrderComponent implements OnInit {
       wsid: this.data.wsid,
     }
 
-    this.Api.ItemExists(
-        payload
-      )
+    setTimeout(() => {
+      this.Api.ItemExists(payload)
       .subscribe(
         (res: any) => {
           if(res.isExecuted){
@@ -209,6 +208,8 @@ export class AddNewTransactionToOrderComponent implements OnInit {
     
         }
       );
+    }, 500);
+   
   }
   saveTransaction() {
     debugger

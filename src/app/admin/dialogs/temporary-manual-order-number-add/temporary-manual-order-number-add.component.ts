@@ -117,7 +117,9 @@ this.orderRequired=true
       username: this.data.userName,
       wsid: this.data.wsid,
     };
-    this.Api
+
+    setTimeout(() => {
+      this.Api
       .ItemExists(payLoad)
       .subscribe(
         (res: any) => {
@@ -134,6 +136,8 @@ this.orderRequired=true
         },
         (error) => {}
       );
+    }, 500);
+
 }
   } 
   getRow(row) {
