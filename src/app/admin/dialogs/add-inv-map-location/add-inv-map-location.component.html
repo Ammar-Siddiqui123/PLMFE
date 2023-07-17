@@ -273,14 +273,30 @@
                     <div class="mb-2" [ngClass]="{'col-xl-4 col-md-12': data.mode != 'addInvMapLocation', 'col-6' : data.mode == 'addInvMapLocation' }">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Maximum (Location) Quantity</mat-label>
-                            <input [NumbersOnly]="true" maxlength="9" matInput formControlName="maxQuantity"   name="maxQuantity" (keydown)="onMaxChange($event)" (keyup)="onMaxChange($event)" (change)="onMaxChange($event)" (keypress)="onMaxChange($event)"  type="text" [NumbersOnly]="true" maxlength="9">
+                            <input 
+                            [NumbersOnly]="true" 
+                            maxlength="9" 
+                            matInput 
+                            formControlName="maxQuantity"   
+                            name="maxQuantity" 
+                            (keyup)="onMaxChange($event)"  
+                            type="text">
+                            <!-- <input [NumbersOnly]="true" maxlength="9" matInput formControlName="maxQuantity"   name="maxQuantity" (keydown)="onMaxChange($event)" (keyup)="onMaxChange($event)" (change)="onMaxChange($event)" (keypress)="onMaxChange($event)"  type="text" [NumbersOnly]="true" maxlength="9"> -->
                         </mat-form-field>
                         <div class="error" *ngIf="hasError('maxQuantity', 'maxlength')">Max number allowed is 9.</div>
                     </div>
                     <div class="mb-2" [ngClass]="{'col-xl-4 col-md-12': data.mode != 'addInvMapLocation', 'col-6' : data.mode == 'addInvMapLocation' }">
                         <mat-form-field class="d-block w-100" appearance="outline">
                             <mat-label>Min (Location) Quantity</mat-label>
-                            <input [NumbersOnly]="true" maxlength="9" matInput formControlName="minQuantity"   name="minQuantity" (keydown)="onMinChange($event)" (keyup)="onMinChange($event)" (change)="onMinChange($event)" (keypress)="onMinChange($event)"  type="text" [NumbersOnly]="true" maxlength="9">
+                            <input 
+                            [NumbersOnly]="true" 
+                            maxlength="9" 
+                            matInput 
+                            formControlName="minQuantity"   
+                            name="minQuantity" 
+                            (keyup)="onMinChange($event)" 
+                            type="text">
+                            <!-- <input [NumbersOnly]="true" maxlength="9" matInput formControlName="minQuantity"   name="minQuantity" (keydown)="onMinChange($event)" (keyup)="onMinChange($event)" (change)="onMinChange($event)" (keypress)="onMinChange($event)"  type="text" [NumbersOnly]="true" maxlength="9"> -->
                             <!-- <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint> -->
                         </mat-form-field>
                             <div class="error" *ngIf="hasError('minQuantity', 'maxlength')">Max number allowed is 9.</div>

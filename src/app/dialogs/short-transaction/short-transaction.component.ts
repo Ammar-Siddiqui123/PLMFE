@@ -26,6 +26,13 @@ export class ShortTransactionComponent implements OnInit {
     private globalService: GlobalService
   ) { }
 
+  restrictKeyboard(event: KeyboardEvent) {
+    const isNumericInput = event.key.match(/^[0-9]+$/);
+    if (!isNumericInput && event.key !== "Backspace") {
+      event.preventDefault();
+    }
+  }
+
   ngOnInit(): void {
     this.selectedTransaction = this.data.selectedTransaction;
   }

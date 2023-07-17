@@ -52,6 +52,7 @@
             min="0"
             inputmode="numeric"
             pattern="[0-9]*" 
+            (keydown)="restrictKeyboard($event)"
             #toteQty>
         </mat-form-field>
     </div>

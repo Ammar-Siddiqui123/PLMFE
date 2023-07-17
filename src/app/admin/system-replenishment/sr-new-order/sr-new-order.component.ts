@@ -497,7 +497,8 @@ export class SrNewOrderComponent implements OnInit {
             }
           });
         }
-        this.createNewReplenishments(this.kanban);
+        this.newReplenishmentOrders();
+        // this.createNewReplenishments(this.kanban);
         this.replenishmentsProcessed.emit();
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
