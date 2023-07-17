@@ -28,10 +28,17 @@ export class TransactionQtyEditComponent implements OnInit {
     this.userData = this.authService.userData();
   }
 
-  transactionQuantityChange(value: any) {
-    let high:any = this.data.availableQuantity > this.data.replenishmentQuantity ? this.data.replenishmentQuantity : this.data.availableQuantity;
-    return this.globalService.setNumericInRange(value, 0, high);
+  // transactionQuantityChange(value: any) {
+  //   let high:any = this.data.availableQuantity > this.data.replenishmentQuantity ? this.data.replenishmentQuantity : this.data.availableQuantity;
+  //   return this.globalService.setNumericInRange(value, 0, high);
+  // }
+
+  transactionQuantityChange(event: any) {
+    if(this.data.transactionQuantity > this.data.replenishmentQuantity){
+      this.data.transactionQuantity = parseInt(this.data.transactionQuantity.toString().substring(0,this.data.replenishmentQuantity.toString().length - 1));
+    }
   }
+  
 
   transactionQtyReplenishmentUpdate() {
     let payload: any = {

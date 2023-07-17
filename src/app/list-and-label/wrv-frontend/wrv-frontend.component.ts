@@ -1,5 +1,6 @@
 import { Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-wrv-frontend',
@@ -23,7 +24,7 @@ export class WrvFrontendComponent implements OnInit {
   }
 
   generateHTMLAndAppend() { 
-    const dynamicHtml = `<ll-webreportviewer backendUrl="http://localhost:63590/LLWebReportViewer"
+    const dynamicHtml = `<ll-webreportviewer backendUrl="${environment.apiUrl.split("/api")[0]}LLWebReportViewer"
     defaultProject="42B325E5-A894-4BDE-9D0A-5098B46A5085" customData="${this.FileName}" ></ll-webreportviewer>`; 
     const dynamicComponent = Component({
       template: dynamicHtml
