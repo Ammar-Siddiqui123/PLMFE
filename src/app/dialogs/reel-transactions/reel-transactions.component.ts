@@ -268,6 +268,7 @@ test(){
                 // console.log(this.generateReelAndSerial.data,'checj')
 
                 if(SNs.includes('')){
+                  
                   this.toastr.error("You must provide a serial number for each reel transaction.", 'Error!', {
                     positionClass: 'toast-bottom-right',
                     timeOut: 2000
