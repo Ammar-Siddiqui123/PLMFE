@@ -1268,7 +1268,19 @@ public dltVelocityCode(body: any): Observable<any> {
   return this.ApiBase.Delete(`/Common/velocitycode`, body);
 }
 public DevicePreferencesDelete(body){
-  return this.ApiBase.Delete(`/Admin/devicepreferences`, body);
+  return this.ApiBase.Post(`/Admin/deviceperference/delete`, body);
+}
+
+public GetCartonFlow(body?: any): Observable<any> { 
+  return this.ApiBase.Get(`/Admin/loczonescartonflow`);
+}
+
+public UpdateCartonFlow(body){    // ------------ update cartonflow
+  return this.ApiBase.Put(`/Admin/workstationsettings`, body);
+}
+
+public DevicePreferencesTable(body){
+  return this.ApiBase.Get(`/Admin/deviceperference`, body);
 }
 public LocationNamesSave(body){
   return this.ApiBase.Post(`/Admin/locationnames`, body);
@@ -1286,7 +1298,7 @@ public DeviceInformation(body){
   return this.ApiBase.Get(`/Admin/deviceinformation`,body);
 }
 public DevicePreference(body){
-  return this.ApiBase.Get(`/Admin/devicepreference`,body);
+  return this.ApiBase.Post(`/Admin/deviceperference`,body);
 }
 public LocationZoneSave(body){
   return this.ApiBase.Post(`/Admin/locationzone`,body);

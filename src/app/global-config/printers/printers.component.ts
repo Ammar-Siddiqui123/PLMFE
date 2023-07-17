@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, ViewChildren, QueryList, } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component'; 
 import { AuthService } from 'src/app/init/auth.service';
@@ -13,6 +13,11 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./printers.component.scss']
 })
 export class PrintersComponent implements OnInit {
+  // @ViewChildren('printerNameInput', { read: ElementRef }) printerNameInputs: QueryList<ElementRef>;
+  // @ViewChildren('printerNameInput', { read: ElementRef }) printerNameInputs: QueryList<ElementRef>;
+  @ViewChildren('printerNameInput', { read: ElementRef }) printerNameInputs: QueryList<ElementRef>;
+
+
   sideBarOpen: boolean = true;
   displayedColumns: string[] = ['printerName', 'printerAddress', 'labelPrinter', 'actions'];
   running: boolean = false;
@@ -25,6 +30,7 @@ export class PrintersComponent implements OnInit {
     private Api: ApiFuntions,
     private authService: AuthService,
     private toastr: ToastrService,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit(): void {
@@ -172,7 +178,7 @@ export class PrintersComponent implements OnInit {
 
   addNewPrinter() {
     this.addingNew = true;
-    this.allPinters.push(
+    this.allPinters.splice(0,0,
       { 
         printer: '', 
         currentPrinter: '',
@@ -185,6 +191,14 @@ export class PrintersComponent implements OnInit {
       }
     );
     this.allPinters = [...this.allPinters];
+    const lastIndex = this.allPinters.length - 1;
+    setTimeout(() => {
+      const inputElements = this.printerNameInputs.toArray();
+      if (inputElements.length > lastIndex) {
+        const inputElement = inputElements[lastIndex].nativeElement as HTMLInputElement;
+        this.renderer.selectRootElement(inputElement).focus();
+      }
+    });
   }
 
   SavePrinter(printer: any) {

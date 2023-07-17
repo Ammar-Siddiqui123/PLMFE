@@ -144,15 +144,16 @@ export class AddNewDeviceComponent implements OnInit {
         }
       }
       let paylaod = {
-        preference: preferences,
-        shown: shown,
-        deviceId:
-          this.data && this.data.item && this.data.item.deviceID
-            ? this.data.item.deviceID
-            : this.newDeviceID>0?this.newDeviceID:0,
-        username: this.userData.userName,
-        wsid: this.userData.wsid,
+        DeviceID:
+        this.data && this.data.item && this.data.item.deviceID
+          ? this.data.item.deviceID
+          : this.newDeviceID>0?this.newDeviceID:0,
+          shown: shown,
+          Preference: preferences,
+       
+      
       };
+      
       this.Api
         .DevicePreference(paylaod)
         .subscribe((res: any) => {

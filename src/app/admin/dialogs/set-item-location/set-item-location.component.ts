@@ -64,6 +64,9 @@ export class SetItemLocationComponent implements OnInit {
         username: this.data.userName,
         wsid: this.data.wsid,
       };
+      setTimeout(() => {
+        
+   
       this.Api
         .ItemExists(payLoad)
         .subscribe(
@@ -84,6 +87,7 @@ export class SetItemLocationComponent implements OnInit {
           },
           (error) => {}
         );
+      }, 500);
   }
   ngOnInit(): void {
     this.autocompleteGetLocation();
