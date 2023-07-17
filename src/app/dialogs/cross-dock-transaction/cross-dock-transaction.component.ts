@@ -280,9 +280,9 @@ export class CrossDockTransactionComponent implements OnInit {
   }
 
   viewOrderStatus() { 
-    this.clearMatSelectList()
+    this.clearMatSelectList();
     this.router.navigate([]).then((result) => {
-      window.open(`/#/InductionManager/TransactionJournal?orderStatus=${this.selectedRowObj.orderNumber}`, '_blank');
+      window.open(`/#/InductionManager/Admin/TransactionJournal?orderStatus=${this.selectedRowObj.orderNumber}`, '_blank');
     });
   }
 

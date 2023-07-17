@@ -16,7 +16,7 @@ export class WrvComponent implements OnInit {
    }
   ngOnInit(): void {
     setTimeout(() => {
-      // this.generateHTMLAndAppend() ;
+     this.generateHTMLAndAppend() ;
       
     }, 250);
   }
