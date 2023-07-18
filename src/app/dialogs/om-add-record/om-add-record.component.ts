@@ -344,14 +344,26 @@ export class OmAddRecordComponent implements OnInit {
         "userName": this.userData.userName,
         "wsid": this.userData.wsid
       }
-      this.Api.SearchItem(payload).subscribe((res: any) => {
-        if (res.isExecuted && res.data && res.data.length > 0) {
-          if(res.data[0].itemNumber == this.oTTempUpdatePayload.itemNumber){
-            this.oTTempUpdatePayload.description = res.data[0].description;
-            this.oTTempUpdatePayload.unitofMeasure = res.data[0].unitOfMeasure;
-            this.wharehouseRequired = res.data[0].warehouseSensitive;
+      setTimeout(() => {
+        this.Api.SearchItem(payload).subscribe((res: any) => {
+          if (res.isExecuted && res.data && res.data.length > 0) {
+            if(res.data[0].itemNumber == this.oTTempUpdatePayload.itemNumber){
+              this.oTTempUpdatePayload.description = res.data[0].description;
+              this.oTTempUpdatePayload.unitofMeasure = res.data[0].unitOfMeasure;
+              this.wharehouseRequired = res.data[0].warehouseSensitive;
+            }
+            else{
+              this.toastr.error(`Item ${this.oTTempUpdatePayload.itemNumber} Does not exist!`, 'Inventory', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+              this.oTTempUpdatePayload.itemNumber = "";
+              this.oTTempUpdatePayload.description = "";
+              this.oTTempUpdatePayload.unitofMeasure = ""; 
+              this.wharehouseRequired = false;
+            }
           }
-          else{
+          else {
             this.toastr.error(`Item ${this.oTTempUpdatePayload.itemNumber} Does not exist!`, 'Inventory', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
@@ -361,18 +373,9 @@ export class OmAddRecordComponent implements OnInit {
             this.oTTempUpdatePayload.unitofMeasure = ""; 
             this.wharehouseRequired = false;
           }
-        }
-        else {
-          this.toastr.error(`Item ${this.oTTempUpdatePayload.itemNumber} Does not exist!`, 'Inventory', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-          this.oTTempUpdatePayload.itemNumber = "";
-          this.oTTempUpdatePayload.description = "";
-          this.oTTempUpdatePayload.unitofMeasure = ""; 
-          this.wharehouseRequired = false;
-        }
-      });
+        });
+      }, 500);
+
     }
   }
 
