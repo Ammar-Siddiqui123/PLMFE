@@ -135,7 +135,7 @@ ChangePassword(data){
               });
             }
             else {
-              this.toastr.error(res.responseMessage?.toString() + '. Please contact your Administrator.', 'Error!', {
+              this.toastr.error(res.responseMessage?.toString() + '. User already exists.', 'Error!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
@@ -162,7 +162,7 @@ ChangePassword(data){
                 });
               }
               else{
-                this.toastr.error(response.responseMessage?.toString() + '. Please contact your Administrator.', 'Error!', {
+                this.toastr.error(response.responseMessage?.toString() + '. User already exists.', 'Error!', {
                   positionClass: 'toast-bottom-right',
                   timeOut: 2000
                 });
