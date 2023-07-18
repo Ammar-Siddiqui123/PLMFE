@@ -82,8 +82,8 @@ export class ApiFuntions {
   public WorkStationAppDelete(body:any) {
     return this.ApiBase.Delete("/GlobalConfig/workstationdefaultapp",body);
   }
-  public AppNameByWorkstation() {
-    return this.ApiBase.Get("/GlobalConfig/appnamebyworkstation");
+  public AppNameByWorkstation(body:any) {
+    return this.ApiBase.Get("/GlobalConfig/appnamebyworkstation",body);
   }
   public configLogout(body:any): Observable<any> {
     return this.ApiBase.Post("/GlobalConfig/user/logout", body);
