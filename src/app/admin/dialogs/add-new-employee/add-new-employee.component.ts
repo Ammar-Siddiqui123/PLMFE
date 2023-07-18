@@ -58,7 +58,9 @@ export class AddNewEmployeeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void { 
+    
     this.empData = this.data?.emp_data;
+    
     this.env =  JSON.parse(localStorage.getItem('env') || ''); 
     this.allGroups  = this.empData?.allGroups;
     this.data?.mode === 'edit' ? this.form_heading = 'Edit Employee' : 'Add New Employee';
@@ -122,10 +124,10 @@ ChangePassword(data){
       // this.isSubmitting = true;
       this.cleanForm(form);
       form.value.active = Boolean(JSON.parse(form.value.active));
-      debugger
+      
       if (this.data?.mode === 'edit') {
         form.value.wsid = "TESTWID"; 
-        form.value.Username = this.data?.emp_data?.username,
+        form.value.username = this.data && this.data.emp_data && this.data.emp_data.username?this.data.emp_data.username:this.data.emp_data.Username  ,
           this.employeeService.updateAdminEmployee(form.value).subscribe((res: any) => {
             if (res.isExecuted) {
               this.dialogRef.close({mode: 'edit-employee', data: form.value});
@@ -135,7 +137,7 @@ ChangePassword(data){
               });
             }
             else {
-              this.toastr.error(res.responseMessage?.toString() + '. Please contact your Administrator.', 'Error!', {
+              this.toastr.error(res.responseMessage?.toString() + '. User already exists.', 'Error!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
@@ -162,7 +164,7 @@ ChangePassword(data){
                 });
               }
               else{
-                this.toastr.error(response.responseMessage?.toString() + '. Please contact your Administrator.', 'Error!', {
+                this.toastr.error(response.responseMessage?.toString() + '. User already exists.', 'Error!', {
                   positionClass: 'toast-bottom-right',
                   timeOut: 2000
                 });

@@ -68,7 +68,7 @@
                     </mat-autocomplete> -->
 
 
-                    <mat-autocomplete class="card custom-scroll" #item="matAutocomplete" (optionSelected)="setItem($event)">
+                    <mat-autocomplete class="card custom-scroll" #item="matAutocomplete" (optionSelected)="searchData($event)">
                             
                         <h6 class ="card-header matAutoCompHeader "><span style="width:  140px;">Item Number</span> <span  style="width:  140px;">Description</span> </h6>
                       
@@ -126,8 +126,10 @@
 
             </div>
         </div>
+      
         <div class="d-flex justify-content-end pt-3">
-            <button [disabled]="itemInvalid===true || itemInvalid===undefined || orderNumber==='' || itemNumber===''" (click)="saveTransaction()" style="flex:1" mat-flat-button color="primary"
+       
+            <button [disabled]=" orderNumber==='' || itemNumber==='' || itemNumber===undefined" (click)="saveTransaction()" style="flex:1" mat-flat-button color="primary"
                 class=" btn-lg" cdkFocusInitial>Save
                 New Transaction</button>
         </div>

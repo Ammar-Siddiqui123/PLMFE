@@ -156,13 +156,14 @@ enterUserName(){
   }
 
 
-
+    
   // moved getAppLicense,convertToObj ,sortAppsData,appNameDictionary & setMenuData from Menu Component to handle access to the Apps on login
   getAppLicense(wsid) {
+    let userData=JSON.parse(localStorage.getItem('user') || '{}');
     let payload = {
-      WSID:  this.login.wsid,
+      workstationid: userData.wsid,
     };
-    this.api.AppNameByWorkstation()
+    this.api.AppNameByWorkstation(payload)
       .subscribe(
         (res: any) => {
           if (res && res.data) {

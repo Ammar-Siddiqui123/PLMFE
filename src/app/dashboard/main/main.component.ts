@@ -47,9 +47,9 @@ export class MainComponent implements OnInit {
     // this.sharedService.setMenuData(this.applicationData)
 
     let payload = {
-      WSID: this.userData.wsid,
+      workstationid: this.userData.wsid,
     };
-    this.Api.AppNameByWorkstation().subscribe(
+    this.Api.AppNameByWorkstation(payload).subscribe(
       (res: any) => {
         if (res && res.data) {
           this.convertToObj(res.data);
