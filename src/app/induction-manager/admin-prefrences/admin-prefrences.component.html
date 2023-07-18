@@ -20,21 +20,23 @@
           </div>
 
           <div class="row mb-3">
-            <div class="pb-1">
-              <mat-radio-group formControlName="useDefault" (change)="updatePreferences(1)"
-                class="d-flex flex-wrap align-items-center gap-12" aria-label="Select an option">
-
-                <mat-radio-button class="p-2" value="filter" color="primary"
-                  matTooltip="Sets if custom filter or zone is to be used in pick batch manager">
-                  Use Default Filter
-                </mat-radio-button>
-
-                <mat-radio-button class="p-2" color="primary" value="zone"
-                  matTooltip="Sets if custom filter or zone is to be used in pick batch manager">
-                  Use Default Zone
-                </mat-radio-button>
-
-              </mat-radio-group>
+            <div class="col-xl-6">
+              <div class="pb-1">
+                <mat-radio-group formControlName="useDefault" (change)="updatePreferences(1)"
+                  class="d-flex flex-wrap align-items-center gap-12" aria-label="Select an option">
+  
+                  <mat-radio-button class="p-2" value="filter" color="primary"
+                    matTooltip="Sets if custom filter or zone is to be used in pick batch manager">
+                    Use Default Filter
+                  </mat-radio-button>
+  
+                  <mat-radio-button class="p-2" color="primary" value="zone"
+                    matTooltip="Sets if custom filter or zone is to be used in pick batch manager">
+                    Use Default Zone
+                  </mat-radio-button>
+  
+                </mat-radio-group>
+              </div>
             </div>
           </div>
 
@@ -81,7 +83,7 @@
               </div>
             </div> -->
 
-            <div class="col-xl-4">
+            <div class="col-xl-6">
               <div class="gap-12 mb-2">
                   <div class="col-12 d-flex justify-content-between mb-2">
                     Select if One: <mat-slide-toggle (change)="updatePreferences(1)" formControlName="selectIfOne"
