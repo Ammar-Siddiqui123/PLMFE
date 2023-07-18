@@ -282,9 +282,9 @@ enterUserName(){
 
   getDefaultApp(wsid){
     let paylaod={
-      WSID: wsid
+      workstationid: wsid
     }
-     this.api.workstationdefaultapp().subscribe(
+     this.api.workstationdefaultapp(paylaod).subscribe(
   (res: any) => {
   
     if (res && res.data) {

@@ -34,7 +34,7 @@ export class MainComponent implements OnInit {
     if(localStorage.getItem('isAppVerified') ){
       this.isDefaultAppVerify =  JSON.parse(localStorage.getItem('isAppVerified') || '');
     }else{
-      this.isDefaultAppVerify=true;
+      this.isDefaultAppVerify={appName: "",isVerified:true}
     }
     
 

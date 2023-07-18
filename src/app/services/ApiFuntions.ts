@@ -84,7 +84,7 @@ export class ApiFuntions {
     return this.ApiBase.Get("/GlobalConfig/workstationapp",body);
   }
   public WorkStationDefaultAppAddDefault(body:any) {
-    return this.ApiBase.Post("/GlobalConfig/workstationapp",body);
+    return this.ApiBase.Post("/GlobalConfig/workstationdefaultapp",body);
   }
   public WorkStationAppDelete(body:any) {
     return this.ApiBase.Post("/GlobalConfig/workstationdefaultapp/delete",body);
