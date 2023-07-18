@@ -7,9 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "prod-build": "ng build --configuration=production",
-    "dev-build": "ng build --configuration=dev",
-    "qa-build": "ng build --configuration=qa"
+    "prod-build":"ng build --configuration=production",
+    "dev-build":"ng build --configuration=dev",
+    "qa-build":"ng build --configuration=qa",
+    "stage-build":"ng build --configuration=stage"
   },
   "private": true,
   "dependencies": {
