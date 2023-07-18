@@ -185,9 +185,9 @@ export class WorkstationComponent implements OnInit {
     // get can access
 
     let payload = {
-      WSID: wsid,
+      workstationid: wsid,
     };
-    this.api.workstationdefaultapp()
+    this.api.getWorkstationapp(payload)
       .subscribe(
         (res: any) => {
           if (res && res.data) {
@@ -206,9 +206,9 @@ export class WorkstationComponent implements OnInit {
   async getDefaultAppList(wsid, canAccessArr) {
     // get can access
     let payload = {
-      WSID: wsid,
+      workstationid: wsid,
     };
-    this.api.workstationdefaultapp()
+    this.api.workstationdefaultapp(payload)
       .subscribe(
         (res: any) => {
           this.defaultAccessApp = res && res.data ? res.data : '';
@@ -241,7 +241,7 @@ export class WorkstationComponent implements OnInit {
 
   onChangeCheckbox(event, item) {
     let payload = {
-      WSID: this.wsid,
+      wsid: this.wsid,
       AppName: item.appName,
     };
     if (event.checked) {
@@ -252,14 +252,14 @@ export class WorkstationComponent implements OnInit {
   }
   onChangeRadio(event, item) {
     let payload = {
-      WSID: this.wsid,
+      WSID:this.wsid,
       AppName: item.appName,
     };
     this.defaultAppAdd(payload);
   }
 
   defaultAppAdd(payload) {
-    this.api.WorkStationDefaultAppAdd(payload)
+    this.api.WorkStationDefaultAppAddDefault(payload)
       .subscribe(
         (res: any) => {
 

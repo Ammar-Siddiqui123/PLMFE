@@ -288,10 +288,7 @@ enterUserName(){
   (res: any) => {
   
     if (res && res.data) {
-      
      this.checkAppAcess(res.data)
-  
-
 
      }
     else{
