@@ -228,7 +228,7 @@ enterUserName(){
       },
       {
         appName: 'Consolidation Manager',
-        route: '#',
+        route: '/ConsolidationManager',
         iconName: 'insert_chart',
         name: 'Consolidation Manager',
         updateMenu: '',
@@ -260,7 +260,7 @@ enterUserName(){
       },
       {
         appName: 'OrderManager',
-        route: '#',
+        route: '/OrderManager',
         iconName: 'pending_actions',
         name: 'Order Manager',
         updateMenu: '',
