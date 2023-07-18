@@ -1,11 +1,13 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { SpinnerService } from '../../../app/init/spinner.service';
-import { LoginService } from '../../../app/login.service';
+import { SpinnerService } from '../../../app/init/spinner.service'; 
 import { Router,NavigationEnd  } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/services/shared.service'; 
 import { Title } from '@angular/platform-browser';
+import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +15,7 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
+  private breakpointSubscription: Subscription
   @Output() toggleSidebarForMe: EventEmitter<any> = new EventEmitter();
   loading:boolean = true;
   ConfigUserLogin:boolean = false;
@@ -27,10 +29,25 @@ statusTab;
     private router: Router,
     public spinnerService: SpinnerService, 
     private authService: AuthService,
+    private api:ApiFuntions,
     private toastr: ToastrService,
     private sharedService: SharedService,
-    private titleService: Title
+    private titleService: Title,
+    private breakpointObserver: BreakpointObserver
     ) {
+      let width=0;
+      let height =0;
+      this.breakpointSubscription = this.breakpointObserver.observe([Breakpoints.Small,Breakpoints.Large])
+      .subscribe((state: BreakpointState) => {
+        // if (state.matches) {
+          // Small viewport dimensions
+           width = window.innerWidth;
+           height = window.innerHeight;
+          
+        
+        // }
+      })
+      
    this.isConfigUser=  this.authService.isConfigUser()
     router.events.subscribe((val: any) => {
       this.breadcrumbList = [];
@@ -56,11 +73,24 @@ statusTab;
          if(element==='createCountBatches' || element==='cycleCounts'){
           element='CycleCount'
          }
+         if(element==='Flowrack'){
+          element='FlowrackReplenishment'
+         }
          if(element==='ImToteManager' ){
           element='ToteManager'
          }
+         if(element==='ccsif' ||element==='ste'  ){
+          element=element.toLocaleUpperCase();
+         }
 
-         
+         if(width<=768){
+          if(element==='InductionManager'){
+        
+            element='IM'
+           }
+           
+         }
+    
          
          this.titleService.setTitle(`LogixPro  ${element.toLowerCase() !='adminprefrences'? this.capitalizeFirstLetter(element).replace(/([a-z])([A-Z])/g, "$1 $2").replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2"):'Preferences'}`);
          
@@ -78,13 +108,10 @@ statusTab;
         }
       });
       
-      }
-      // console.log(this.breadcrumbList) 
-
+      }  
       // if(this.breadcrumbList[this.breadcrumbList.length-1].name == '/OrderStatus'){
       //   this.breadcrumbList[this.breadcrumbList.length-1].value = this.statusTab
-      // }
-      // console.log(this.breadcrumbList) 
+      // } 
      
   });
 
@@ -111,6 +138,7 @@ statusTab;
       this.statusTab = res.tab.textLabel;
       this.breadcrumbList[this.breadcrumbList.length-1].name = this.statusTab
     } )
+ 
   }
 
   toggleSidebar() {
@@ -162,7 +190,7 @@ statusTab;
     }
     if(this.authService.isConfigUser()){
       localStorage.clear();
-      this.authService.configLogout(paylaod).subscribe((res:any) => {
+      this.api.configLogout(paylaod).subscribe((res:any) => {
         if (res.isExecuted) 
         {
      
@@ -180,7 +208,7 @@ statusTab;
      
     }else{
       localStorage.clear();
-      this.authService.logout(paylaod).subscribe((res:any) => {
+      this.api.Logout(paylaod).subscribe((res:any) => {
         if (res.isExecuted) 
         {
           // this.toastr.success(res.responseMessage, 'Success!', {
@@ -208,5 +236,26 @@ statusTab;
   //   document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
   // }
   
+  getViewportDimensions(): void {
+    this.breakpointObserver.observe([Breakpoints.Small])
+      .subscribe((state: BreakpointState) => {
+        if (state.matches) {
+          // Small viewport dimensions
+          const width = window.innerWidth;
+          const height = window.innerHeight;
 
+         
+          console.log(`Viewport dimensions: ${width} x ${height}`);
+        } else {
+          // Large viewport dimensions
+          // ...
+        }
+      });
+  }
+  ngOnDestroy(): void {
+    if (this.breakpointSubscription) {
+      this.breakpointSubscription.unsubscribe();
+    }
+  }
+ 
 }

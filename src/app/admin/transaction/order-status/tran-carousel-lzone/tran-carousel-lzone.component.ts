@@ -10,8 +10,8 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { SetColumnSeqService } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.service';
+import { Router } from '@angular/router'; 
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 const ELEMENT_DATA: any[] = [];
 @Component({
@@ -74,7 +74,7 @@ export class TranCarouselLzoneComponent implements OnInit, AfterViewInit {
   }
 
 
-  constructor(private router: Router, private seqColumn: SetColumnSeqService) {
+  constructor(private router: Router, private Api: ApiFuntions) {
     if (this.router.getCurrentNavigation()?.extras?.state?.['searchValue']) {
       this.columnSearch.searchValue =
         this.router.getCurrentNavigation()?.extras?.state?.['searchValue'];

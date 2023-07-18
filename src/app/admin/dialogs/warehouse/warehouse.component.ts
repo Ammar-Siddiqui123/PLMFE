@@ -2,11 +2,12 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, takeUntil } from 'rxjs';
-import { WarehouseService } from 'src/app/common/services/warehouse.service';
+import { Subject, takeUntil } from 'rxjs'; 
 import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json'
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component'
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-warehouse',
@@ -17,28 +18,34 @@ export class WarehouseComponent implements OnInit {
 
   public warehouse_list: any;
   public userData: any;
+  disableBtn
+  spliUrl
   onDestroy$: Subject<boolean> = new Subject();
   @ViewChild('inputEl') public inputEl: ElementRef;
   enableButton = [{ index: -1, value: true }];
 
 
   constructor(
-    private whService: WarehouseService,
+    private Api: ApiFuntions,
     private authService: AuthService,
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<any>,
     private dialog: MatDialog,
+    private router: Router,
   ) { }
 
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getWarehouse();
-
+    this.spliUrl=this.router.url.split('/'); 
+    console.log(this.spliUrl[1])
+    if( this.spliUrl[1] == 'InductionManager'  ){
+       this.disableBtn =true
+    }
   }
 
-  deleteWH(warehosue: any) {
-    // console.log(warehosue);
+  deleteWH(warehosue: any) { 
     if(warehosue != ''){
       let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
@@ -46,7 +53,8 @@ export class WarehouseComponent implements OnInit {
         autoFocus: '__non_existing_element__',
         data: {
           mode: 'delete-warehouse',
-          warehouse: warehosue
+          warehouse: warehosue,
+          action: 'delete',
           //  grp_data: grp_data
         }
       })
@@ -68,7 +76,7 @@ export class WarehouseComponent implements OnInit {
 
   getWarehouse() {
     this.enableButton = [];
-    this.whService.getWareHouse().subscribe((res) => {
+    this.Api.GetWarehouses().subscribe((res) => {
       this.warehouse_list = res.data;
       for (var i = 0; i < this.warehouse_list.length; i++) {
         // this.unitOfMeasure_list.fromDB = true;
@@ -106,7 +114,7 @@ export class WarehouseComponent implements OnInit {
       }
       // console.log(paylaod);
 
-      this.whService.saveWareHouse(paylaod).subscribe((res) => {
+      this.Api.saveWareHouse(paylaod).subscribe((res) => {
         if(res.isExecuted){
           this.toastr.success(labels.alert.success, 'Success!', {
             positionClass: 'toast-bottom-right',
@@ -124,7 +132,7 @@ export class WarehouseComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     //  this.warehouse_list.pop(warehosue);
-    this.whService.dltWareHouse(paylaod).subscribe((res) => {
+    this.Api.dltWareHouse(paylaod).subscribe((res) => {
       this.toastr.success(labels.alert.delete, 'Success!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000

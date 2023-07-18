@@ -6,10 +6,9 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { EmployeeObject, IEmployee } from 'src/app/Iemployee';
-import { EmployeeService } from 'src/app/employee.service';
-import { AddNewGroupComponent } from '../../dialogs/add-new-group/add-new-group.component';
+import { EmployeeObject, IEmployee } from 'src/app/Iemployee';  
 import { AuthService } from '../../../../app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 
 export interface groups_details {
@@ -25,6 +24,7 @@ export interface groups_details {
 })
 export class GroupsLookupComponent implements OnInit {
   emp: any;
+  searchGrp;
   employees_res: any;
   employees_details_data: any = [];
   @Input('childGroupLookUp') isGroupLookUp: boolean;
@@ -36,7 +36,10 @@ export class GroupsLookupComponent implements OnInit {
   highlight(row) {
     this.selectedRowIndex = row.id;
   }
-
+  clearFields(){
+    this.searchGrp='';
+    this.group_data_source.filter = '';
+  }
 
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
@@ -55,7 +58,7 @@ export class GroupsLookupComponent implements OnInit {
     }
   }
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog, private employeeService: EmployeeService, private authService: AuthService) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog, private employeeService: ApiFuntions, private authService: AuthService) { }
 
   @ViewChild(MatSort) sort: MatSort;
   groups_details_data: any = [];
@@ -108,15 +111,13 @@ export class GroupsLookupComponent implements OnInit {
   //   })
 
   // }
-  getGrpDetails(grpData: any) {
-    // console.log(grpData)
+  getGrpDetails(grpData: any) { 
     this.isGroupLookUp = true;
-    this.updateGrpLookUp.emit({ groupData: grpData, isGroupLookUp: this.isGroupLookUp });
-    // console.log(this.isGroupLookUp)
+    this.updateGrpLookUp.emit({ groupData: grpData, isGroupLookUp: this.isGroupLookUp }); 
 
   }
 
-  private loadEmpData(){
+  public loadEmpData(){
     this.emp = {
       "userName": this.userData.userName,
       "wsid": this.userData.wsid
@@ -132,7 +133,6 @@ export class GroupsLookupComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
    this.group_data_source && this.group_data_source.filteredData && this.group_data_source.filteredData.push({groupName:this.updateGrpTable});
-   // console.log(this.group_data_source.filteredData);
     
   }
 

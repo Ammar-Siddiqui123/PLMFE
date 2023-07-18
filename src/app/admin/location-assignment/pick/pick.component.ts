@@ -1,15 +1,15 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import labels from '../../../labels/labels.json';
-import { OrderManagerService } from 'src/app/order-manager/order-manager.service';
+import labels from '../../../labels/labels.json'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { LaLocationAssignmentQuantitiesComponent } from '../../dialogs/la-location-assignment-quantities/la-location-assignment-quantities.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-pick',
@@ -51,7 +51,7 @@ export class PickComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
-    private orderManagerService: OrderManagerService,
+    private Api: ApiFuntions,
     private authService: AuthService,
     private dialog: MatDialog,
     private _liveAnnouncer1: LiveAnnouncer,
@@ -70,7 +70,7 @@ export class PickComponent implements OnInit {
     let payload:any = {
       orderNumber: this.orderNumberSearch,
     };
-    this.orderManagerService.get(payload, '/Admin/GetLocationAssignmentPickTable', loader).subscribe((res: any) => {
+    this.Api.GetLocationAssignmentPickTable(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.allShortList = res.data.allShortList;
         this.fpzList = res.data.fpzList;
@@ -81,8 +81,7 @@ export class PickComponent implements OnInit {
         }
         );
         this.tableData1.paginator = this.paginator1;
-      } else {
-        console.log('Error', res.responseMessage);
+      } else { 
         this.tableData1 = new MatTableDataSource([]); 
         // this.toastr.error(res.responseMessage, 'Error!', {
         //   positionClass: 'toast-bottom-right',
@@ -165,7 +164,7 @@ export class PickComponent implements OnInit {
             "username": this.userData.userName,
             "wsid": this.userData.wsid
           };
-          this.orderManagerService.get(payload, '/Admin/LocationAssignmentOrderInsert').subscribe((res: any) => {
+          this.Api.LocationAssignmentOrderInsert(payload).subscribe((res: any) => {
             if (res.isExecuted && res.data) {
               this.tableData2 = new MatTableDataSource([]);
               this.tableData2.paginator = this.paginator2;
@@ -242,7 +241,7 @@ export class PickComponent implements OnInit {
       "wsid": this.userData.wsid
     }
 
-    this.orderManagerService.get(payload,'/Admin/GetTransactionTypeCounts').subscribe((res =>{
+    this.Api.GetTransactionTypeCounts(payload).subscribe((res =>{
     let dialogRef = this.dialog.open(LaLocationAssignmentQuantitiesComponent, {
       height: 'auto',
       width: '560px',
@@ -259,4 +258,27 @@ export class PickComponent implements OnInit {
   }))
     
   }
+  
+  @ViewChild('table1') table1: MatTable<any>;
+
+  @ViewChild('table2') table2: MatTable<any>;
+
+
+
+
+ngAfterViewChecked(): void {
+
+    if (this.table1) {
+
+        this.table1.updateStickyColumnStyles();
+
+    }
+
+    if (this.table2) {
+
+      this.table2.updateStickyColumnStyles();
+
+  }
+
+}
 }

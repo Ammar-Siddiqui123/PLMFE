@@ -18,8 +18,14 @@ export class ItemNumberComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private confirmationdialog: MatDialog) { }
 
-  ngOnInit(): void {  
-    if(this.data.fromInventoryMaster)
+  ngOnInit(): void { 
+
+    if(this.data.fromPutaways){
+      this.addItem = true;
+      this.data.itemNumber=this.data.itemNumber;
+      this.data.description="";
+    }
+    else if(this.data.fromInventoryMaster)
     {
       this.data.itemNumber = "";
       this.data.description = "";
@@ -27,7 +33,7 @@ export class ItemNumberComponent implements OnInit {
     else 
     {
       
-    // console.log(this.data)
+    
     if (this.data.addItem) {
       this.addItem = true;
       this.data.itemNumber="";
@@ -40,7 +46,7 @@ export class ItemNumberComponent implements OnInit {
   }
 
   onNoClick(onsubmit: any, status : any): void {
-    // console.log();
+    
     
     if(status == 'createNew'){
     this.submit= true;

@@ -1,10 +1,10 @@
 import { Component , ElementRef, OnInit, ViewChild } from '@angular/core';
 import {  MatDialog } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { ConsolidationManagerService } from '../consolidation-manager.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { CmOrderToteConflictComponent } from 'src/app/dialogs/cm-order-tote-conflict/cm-order-tote-conflict.component';
 import { StagingLocationOrderComponent } from 'src/app/dialogs/staging-location-order/staging-location-order.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface PeriodicElement {
   name: string;
@@ -39,7 +39,7 @@ export class CmStagingLocationComponent implements OnInit {
   @ViewChild('autoFocusField') searchBoxField: ElementRef;
 
   constructor(private toast: ToastrService,
-    private http: ConsolidationManagerService,
+    private Api: ApiFuntions,
     private authService: AuthService,
     private dialog: MatDialog,
   ) {
@@ -78,7 +78,7 @@ export class CmStagingLocationComponent implements OnInit {
         wsid: this.userData.wsid,
       };
       var inputVal = this.OrderNumberTote;
-      this.http.get(obj, '/Consolidation/ConsolidationData').subscribe((res: any) => {
+      this.Api.ConsolidationData(obj).subscribe((res: any) => {
         if (typeof res?.data == 'string') { 
           switch (res?.data) {
             case "DNE":
@@ -133,7 +133,7 @@ export class CmStagingLocationComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
-    this.http.get(obj, '/Consolidation/StagingLocationsUpdate').subscribe((res: any) => {
+    this.Api.StagingLocationsUpdate(obj).subscribe((res: any) => {
       if (res.responseMessage == "Fail") {
         this.toast.error("Error Has Occured", "Consolidation", { positionClass: 'toast-bottom-right', timeOut: 2000 });
       } else if (res.responseMessage == 'INVALID') {

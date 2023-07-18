@@ -21,7 +21,7 @@
                                    
                                     <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" 
                                     [(ngModel)]="batchId"[matAutocomplete]="item"
-                                     (ngModelChange)="this.searchByItem.next($event)"> 
+                                     (ngModelChange)="this.searchByItem.next($event)" (keyup)="batchIdKeyup()"> 
                             
                                      <mat-autocomplete  class="card custom-scroll"  #item="matAutocomplete"  >                            
                                       <h6 class ="card-header matAutoCompHeader ">
@@ -144,9 +144,9 @@
                         </ng-container>
                         <ng-container matColumnDef="toteid">
                           <th mat-header-cell *matHeaderCellDef  style="width:35%"> Tote ID</th>
-                          <td mat-cell *matCellDef="let element">
+                          <td mat-cell *matCellDef="let element;let i=index">
                             <div class="pe-2 d-flex gap-12 align-items-center">
-                              <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="element.locked ? false : openTotesDialogue(element.position)">
+                              <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="element.locked ? false : openTotesDialogue(element.position,i)">
                                 <span matSuffix>
                                     <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
                                   </span>
@@ -163,7 +163,7 @@
                         
                         <ng-container matColumnDef="save" stickyEnd>
                           <th mat-header-cell *matHeaderCellDef class="ps-2"></th>
-                          <td mat-cell *matCellDef="let element" class="ps-2">
+                          <td mat-cell *matCellDef="let element ; let i = index" class="ps-2">
                             <div class="d-flex justify-content-end">
                                 <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o" appearance="outline">
                                     <mat-icon>more_horiz</mat-icon>
@@ -171,8 +171,8 @@
                 
                                   <mat-menu #appMenu="matMenu">
                                     <button mat-menu-item>Print</button>
-                                    <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element,1)">Clear</button>
-                                    <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element)">Assign Next ID</button>
+                                    <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element,1,i)">Clear</button>
+                                    <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element,0,i)">Assign Next ID</button>
                                   </mat-menu>
                             </div>
                           </td>
@@ -214,10 +214,10 @@
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Batch ID</mat-label>
                     
-                    <input (keydown.shift.enter)="$event.preventDefault()" matInput 
+                    <input  (keydown.shift.enter)="$event.preventDefault()" matInput 
                         [(ngModel)]="batchId2" [matAutocomplete]="item2"
                         (click)="searchByItem.next(1)"
-                        type="text" #batchVal
+                        type="text" #batchVal autoFocus
                         (ngModelChange)="this.searchByItem.next(1)" (focusout)="onFocusOutBatchID(batchVal.value)">
 
                     <mat-autocomplete class="card custom-scroll" #item2="matAutocomplete">
@@ -274,7 +274,7 @@
                       <mat-option value="print">Item No.</mat-option>
                       <mat-option value="print">Serial No.</mat-option>
                       <mat-option value="print">Lot No.</mat-option> -->
-                      <mat-option value="Any">Any</mat-option>
+                      <mat-option value="any">Any</mat-option>
                       <mat-option value="Item Number">Item Number</mat-option>
                       <mat-option value="Serial Number">Serial Number</mat-option>
                       <mat-option value="Lot Number">Lot Number</mat-option>
@@ -288,9 +288,9 @@
                   </mat-form-field>
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Input Value</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" #inputVal matInput type="text" [(ngModel)]="inputValue" (keypress)="openST($event)">
+                    <input (keydown.shift.enter)="$event.preventDefault()" #inputVal matInput type="text" [(ngModel)]="inputValue" (keypress)="openST($event)" >
                   </mat-form-field>
-                  <button [disabled]="inputValue ? false : true" mat-flat-button color="primary" class="btn-regular w-100" (click)="openSelectionTransactionDialogue()">
+                  <button [disabled]="inputValue != '' ? false : true" mat-flat-button color="primary" class="btn-regular w-100" (click)="openSelectionTransactionDialogue()">
                     Assign Transaction To Selected Tote
                   </button>
                 </div>
@@ -442,11 +442,7 @@
               </table>
             </ng-scrollbar>
           </div>
-          <div class="d-flex justify-content-between bg-white">
-            <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons
-                aria-label="Select page of periodic elements">
-            </mat-paginator>
-        </div>
+
         </mat-card-content>
       </mat-card>
 

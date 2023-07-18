@@ -10,11 +10,11 @@ import {
   Input,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-
-import { BatchManagerService } from '../batch-manager.service';
+ 
 import { AuthService } from '../../../../app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-batch-delete',
@@ -57,7 +57,7 @@ export class BatchDeleteComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private batchService: BatchManagerService,
+    private api: ApiFuntions,
     public authService: AuthService,
     private toastr: ToastrService
   ) {}
@@ -68,9 +68,9 @@ export class BatchDeleteComponent implements OnInit {
   }
   checkOptions(event: MatCheckboxChange): void {
     if (event.checked) {
-      this.isChecked = false;
-    } else {
       this.isChecked = true;
+    } else {
+      this.isChecked = false;
     }
   }
   getBatch(type: any) {
@@ -80,8 +80,8 @@ export class BatchDeleteComponent implements OnInit {
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.batchService
-        .get(paylaod, '/Admin/SelectBatchesDeleteDrop')
+      this.api
+        .SelectBatchesDeleteDrop(paylaod)
         .subscribe((res: any) => {
           this.batchList = [];
           if (res.isExecuted && res.data.length > 0) {
@@ -91,8 +91,7 @@ export class BatchDeleteComponent implements OnInit {
             });
           }
         });
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 
@@ -102,6 +101,7 @@ export class BatchDeleteComponent implements OnInit {
   }
 
   deleteBatch(type: any, id: any) {
+    if(id == '') return;
     let payload = {
       batchID: id,
       identity: 2,
@@ -110,20 +110,20 @@ export class BatchDeleteComponent implements OnInit {
       wsid: this.userData.wsid,
     };
     if (this.batchID !== 'All Transaction') {
-      const dialogRef = this.dialog.open(this.dltActionTemplate, {
+      let dialogRef = this.dialog.open(this.dltActionTemplate, {
         width: '550px',
         autoFocus: '__non_existing_element__',
       });
 
-      dialogRef.afterClosed().subscribe(() => {
+      dialogRef.afterClosed().subscribe((res) => {
         if (this.dltType) {
           if (this.dltType == 'batch_tote') {
             payload.identity = 0;
           } else {
             payload.identity = 1;
           }
-          this.batchService
-            .delete(payload, '/Admin/BatchDeleteAll')
+          this.api
+            .BatchDeleteAll(payload)
             .subscribe((res: any) => {
               if (res.isExecuted) {
                 this.ngOnInit();
@@ -132,6 +132,8 @@ export class BatchDeleteComponent implements OnInit {
                   timeOut: 2000,
                 });
                 this.deleteEmitter.emit(res);
+                this.batchID = "";
+                this.dltType = "";
               }
             });
         }
@@ -142,10 +144,10 @@ export class BatchDeleteComponent implements OnInit {
         width: '550px',
         autoFocus: '__non_existing_element__',
       });
-      dialogRef.afterClosed().subscribe(() => {
+      dialogRef.afterClosed().subscribe((res) => {
         if (this.dltType === 'batch_tote_trans') {
-          this.batchService
-            .delete(payload, '/Admin/BatchDeleteAll')
+          this.api
+            .BatchDeleteAll(payload)
             .subscribe((res: any) => {
               if (res.isExecuted) {
                 this.ngOnInit();
@@ -154,12 +156,14 @@ export class BatchDeleteComponent implements OnInit {
                   timeOut: 2000,
                 });
                 this.deleteEmitter.emit(res.data);
-                this.batchID = undefined;
+                this.batchID = "";
+                this.dltType = "";
               }
             });
         }
       });
     }
+    this.isChecked = false;
   }
   onDltOptions(dltType: any) {
     this.dltType = dltType;

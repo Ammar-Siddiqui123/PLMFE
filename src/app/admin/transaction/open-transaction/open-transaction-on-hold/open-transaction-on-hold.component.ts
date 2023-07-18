@@ -21,11 +21,8 @@ import { Subject, takeUntil, interval, Subscription, Observable } from 'rxjs';
 import { AddInvMapLocationComponent } from 'src/app/admin/dialogs/add-inv-map-location/add-inv-map-location.component';
 import { AdjustQuantityComponent } from 'src/app/admin/dialogs/adjust-quantity/adjust-quantity.component';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
-import { QuarantineConfirmationComponent } from 'src/app/admin/dialogs/quarantine-confirmation/quarantine-confirmation.component';
-import { SetColumnSeqService } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.service';
-import { InventoryMapService } from 'src/app/admin/inventory-map/inventory-map.service';
-import { AuthService } from 'src/app/init/auth.service';
-import { TransactionService } from '../../transaction.service';
+import { QuarantineConfirmationComponent } from 'src/app/admin/dialogs/quarantine-confirmation/quarantine-confirmation.component';  
+import { AuthService } from 'src/app/init/auth.service'; 
 import { DeleteConfirmationTransactionComponent } from 'src/app/admin/dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
 import { SetColumnSeqComponent } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.component';
 import { FloatLabelType } from '@angular/material/form-field';
@@ -36,6 +33,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
@@ -241,12 +239,10 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   ];
 
   constructor(
-    private router: Router,
-    private seqColumn: SetColumnSeqService,
-    private transactionService: TransactionService,
+    private router: Router, 
+    private Api: ApiFuntions,
     public authService: AuthService,
-    private toastr: ToastrService,
-    private invMapService: InventoryMapService,
+    private toastr: ToastrService, 
     private dialog: MatDialog,
     private sharedService:SharedService,
     private filterService: ContextMenuFiltersService
@@ -444,8 +440,8 @@ this.router.navigate([]).then((result) => {
       };
     }
 
-    this.transactionService
-      .get(searchPayload, '/Admin/NextSuggestedTransactions', true)
+    this.Api
+      .NextSuggestedTransactions(searchPayload)
       .subscribe(
         (res: any) => {
           if (isSearchByOrder) {
@@ -466,6 +462,10 @@ this.router.navigate([]).then((result) => {
       this.router.navigate([]).then((result) => {
         window.open(`/#/OrderManager/InventoryMaster?itemNumber=${row.itemNumber}`, '_self');
       });
+   }
+   else if(this.spliUrl[1] == 'InductionManager' ){
+    window.open(`/#/InductionManager/Admin/InventoryMaster?itemNumber=${row.itemNumber}`, '_self');
+
    }
    else {
     localStorage.setItem('routeFromInduction','false')
@@ -543,7 +543,7 @@ this.router.navigate([]).then((result) => {
       wsid: this.userData.wsid,
       tableName: 'Open Transactions',
     };
-    this.transactionService.get(payload, '/Admin/GetColumnSequence').subscribe(
+    this.Api.GetColumnSequence(payload).subscribe(
       (res: any) => {
         this.displayedColumns = TRNSC_DATA;
         if (res.data) {
@@ -608,8 +608,8 @@ this.router.navigate([]).then((result) => {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(this.payload, '/Admin/OpenTransactionTable', true)
+    this.Api
+      .OpenTransactionTable(this.payload)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();
@@ -665,8 +665,8 @@ this.router.navigate([]).then((result) => {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(paylaod, '/Admin/TransactionModelIndex')
+    this.Api
+      .TransactionModelIndex(paylaod)
       .subscribe(
         (res: any) => {
           this.columnValues = res.data?.openTransactionColumns;

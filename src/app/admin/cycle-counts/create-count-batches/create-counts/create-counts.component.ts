@@ -10,9 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Action } from 'rxjs/internal/scheduler/Action';
-import { AdminService } from 'src/app/admin/admin.service';
+import { MatTableDataSource } from '@angular/material/table'; 
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
@@ -28,6 +26,7 @@ import {
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-ccb-create-counts',
@@ -116,7 +115,7 @@ export class CCBCreateCountsComponent implements OnInit {
   ];
   dataSourceList: any;
   constructor(
-    public adminService: AdminService,
+    public Api: ApiFuntions,
     public toastService: ToastrService,
     private authService: AuthService,
     private fb: FormBuilder,
@@ -173,7 +172,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.searchField
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
         if (value === '') return;
         this.fillData();
 
@@ -189,7 +188,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.descriptionTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
         if (value === '') return;
 
         this.getTypeAheads('Description');
@@ -199,7 +198,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.fromLocationTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
         this.getTypeAheads('FromLocation');
         this.fillData();
       });
@@ -207,7 +206,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.toLocationTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
         this.getTypeAheads('ToLocation');
         this.fillData();
       });
@@ -215,7 +214,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.fromItemTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
         if (value === '') return;
 
         this.getTypeAheads('FromItem');
@@ -225,7 +224,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.toItemTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
         if (value === '') return;
 
         this.getTypeAheads('ToItem');
@@ -246,7 +245,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.beginCostTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
 
         if (value === '') return;
 
@@ -257,7 +256,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.endCostTA
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // console.log(value);
+        
 
         if (value === '') return;
 
@@ -319,14 +318,15 @@ export class CCBCreateCountsComponent implements OnInit {
     this.fillData();
   }
   getTypeAheads(type) {
+    debugger
     if (type === 'Description') {
       let paylaod = {
         description: this.filtersForm.value.description,
         userName: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.adminService
-        .get(paylaod, '/Admin/GetCCDescriptionTypeAhead', true)
+      this.Api
+        .GetCCDescriptionTypeAhead(paylaod)
         .subscribe((res: any) => {
           this.searchAutocompleteDescription = res.data;
         });
@@ -340,8 +340,8 @@ export class CCBCreateCountsComponent implements OnInit {
         userName: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.adminService
-        .get(paylaod, '/Admin/GetCCCategoryTypeAhead', true)
+      this.Api
+        .GetCCCategoryTypeAhead(paylaod)
         .subscribe((res: any) => {
           this.searchAutocompletCategory = res.data;
         });
@@ -367,8 +367,8 @@ export class CCBCreateCountsComponent implements OnInit {
         };
       }
    
-      this.adminService
-        .get(payload, '/Admin/GetCCCountToCostTypeAhead', true)
+      this.Api
+        .GetCCCountToCostTypeAhead(payload)
         .subscribe((res: any) => {
           if (type === 'BeginCost') {
             this.searchAutocompletBeginCost = res.data;
@@ -378,26 +378,26 @@ export class CCBCreateCountsComponent implements OnInit {
         });
     } else if (type === 'FromLocation') {
       let payload = {
-        query: this.filtersForm.value.fromLocation,
-        unique: true,
-        username: this.userData.userName,
-        wsid: this.userData.wsid,
+        Query: this.filtersForm.value.fromLocation,
+        Unique: true,
+        Username: this.userData.userName,
+        WSID: this.userData.wsid,
       };
-      this.adminService
-        .get(payload, '/Common/LocationBegin', true)
+      this.Api
+        .LocationBegin(payload)
         .subscribe((res: any) => {
           this.searchAutocompleteFromLocation = res.data;
         });
     } else if (type === 'ToLocation') {
       let payload = {
-        query: this.filtersForm.value.toLocation,
-        beginLocation: this.filtersForm.value.fromLocation,
-        unique: true,
-        username: this.userData.userName,
-        wsid: this.userData.wsid,
+        Query: this.filtersForm.value.toLocation,
+        BeginLocation: this.filtersForm.value.fromLocation,
+        Unique: true,
+        Username: this.userData.userName,
+        WSID: this.userData.wsid,
       };
-      this.adminService
-        .get(payload, '/Common/LocationEnd', true)
+      this.Api
+        .LocationEnd(payload)
         .subscribe((res: any) => {
           this.searchAutocompleteToLocation = res.data;
         });
@@ -412,8 +412,8 @@ export class CCBCreateCountsComponent implements OnInit {
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.adminService
-        .get(payload, '/Common/SearchItem', true)
+      this.Api
+        .SearchItem(payload)
         .subscribe((res: any) => {
           if (type === 'FromItem') {
             this.searchAutocompleteFromItem = res.data;
@@ -430,12 +430,9 @@ export class CCBCreateCountsComponent implements OnInit {
     // Try to run this code
     try {
       // Create a payload to send to the server
-      var payLoad = {
-        username: this.userData.username,
-        wsid: this.userData.wsid,
-      };
+       
       // Run the service to get the list of warehouses and the list of current count orders.
-      this.adminService.create(payLoad, '/Admin/GetCountBatches').subscribe(
+      this.Api.GetCountBatches().subscribe(
         // If the request is successful, get the data
         (res: any) => {
           // If the data is returned, set the list of warehouses and the list of current count orders
@@ -546,9 +543,8 @@ export class CCBCreateCountsComponent implements OnInit {
   // function to fill data to the data table with mattabledata by calling API with payload using admin services with get method
   // and then assign the response to the dataSource variable with check type of response and if there is response.data and isExecuted is true else add error toast
   // handle with try catch
-  fillData() {
-    const payload = {
-      queryData: {
+  fillData() { 
+      const  queryData:any =  {
         fromLocation: this.filtersForm.value.fromLocation
           ? this.filtersForm.value.fromLocation
           : '',
@@ -557,7 +553,7 @@ export class CCBCreateCountsComponent implements OnInit {
           : '',
         includeEmpty: this.filtersForm.value.includeEmpty,
         includeOther: this.filtersForm.value.includeOther,
-        countType: this.selection ? this.selection : 'Description',
+        CountType: this.selection ? this.selection : 'Description',
         fromItem: this.filtersForm.value.fromItem
           ? this.filtersForm.value.fromItem
           : '',
@@ -598,11 +594,8 @@ export class CCBCreateCountsComponent implements OnInit {
         costEnd: this.filtersForm.value.costEnd,
         // warehouseFilter: this.filtersForm.value.warehouse,
         warehouseFilter: this.warehouse,
-      },
-      userName: this.userData.userName,
-      wsid: this.userData.wsid,
-    };
-    this.adminService.get(payload, '/Admin/BatchResultTable').subscribe(
+      } ;  
+    this.Api.BatchResultTable(queryData).subscribe(
       (res: any) => {
         if (res && res.data && res.isExecuted) {
           this.dataSource = new MatTableDataSource(res.data);
@@ -646,7 +639,7 @@ export class CCBCreateCountsComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
-      // console.log(res);
+      ;
 
       if (res == 'Yes') {
         var payLoad = {
@@ -656,7 +649,7 @@ export class CCBCreateCountsComponent implements OnInit {
           wsid: this.userData.wsid,
         };
         // Call the API
-        this.adminService.delete(payLoad, '/Admin/CountOrdersDelete').subscribe(
+        this.Api.CountOrdersDelete(payLoad).subscribe(
           (res: any) => {
             // Check if the response is a success
             if (res.data && res.isExecuted) {
@@ -699,7 +692,7 @@ export class CCBCreateCountsComponent implements OnInit {
       username: this.userData.username,
       wsid: this.userData.wsid,
     };
-    this.adminService.create(payLoad, '/Admin/CycleCountQueueInsert').subscribe(
+    this.Api.CycleCountQueueInsert(payLoad).subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
           this.dataSource = [];
@@ -725,7 +718,7 @@ export class CCBCreateCountsComponent implements OnInit {
 
           if (finaliter == 0) {
             this.dataSource.data.forEach((element) => {
-              // console.log(element);
+              
 
               invMapIDs.push(element.invMapID);
             });
@@ -741,8 +734,8 @@ export class CCBCreateCountsComponent implements OnInit {
                   username: this.userData.username,
                   wsid: this.userData.wsid,
                 };
-                this.adminService
-                  .create(payLoad, '/Admin/CycleCountQueueInsert')
+                this.Api
+                  .CycleCountQueueInsert(payLoad)
                   .subscribe(
                     (res: any) => {
                       if (res.data && res.isExecuted) {
@@ -793,7 +786,7 @@ export class CCBCreateCountsComponent implements OnInit {
         //   wsid: this.userData.wsid,
         //   invMapID: rowId.toString(),
         // };
-        // this.adminService.get(payload, `/Admin/RemoveccQueueRow`).subscribe(
+        // this.Api.get(payload, `/Admin/RemoveccQueueRow`).subscribe(
         //   (res: any) => {
         //     if (res.isExecuted) {
         //       this.getCountQue();
@@ -845,8 +838,7 @@ export class CCBCreateCountsComponent implements OnInit {
   }
 
   checkvalue(event){
-    if(event != 'LocationRange'){
-      console.log(event)
+    if(event != 'LocationRange'){ 
       this.location = true;
       
     }

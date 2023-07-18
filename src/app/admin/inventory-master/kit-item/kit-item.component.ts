@@ -1,12 +1,12 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { InventoryMasterService } from '../inventory-master.service';
+import { ToastrService } from 'ngx-toastr'; 
 import labels from '../../../labels/labels.json'
 import { AuthService } from 'src/app/init/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { SharedService } from 'src/app/services/shared.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-kit-item',
@@ -42,7 +42,7 @@ export class KitItemComponent implements OnInit, OnChanges {
     this.notifyParent.emit(e);
   }
 
-  constructor(private invMasterService: InventoryMasterService,
+  constructor(private Api: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService,
     private dialog: MatDialog,
@@ -77,8 +77,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       isSaved: false,
       
     });
-    this.kitItemsList = [...this.kitItemsList];
-    // console.log(this.kitItemsList);
+    this.kitItemsList = [...this.kitItemsList]; 
     
   }
 
@@ -106,7 +105,7 @@ export class KitItemComponent implements OnInit, OnChanges {
           "username": this.userData.userName,
           "wsid": this.userData.wsid,
         }
-        this.invMasterService.get(paylaod, '/Admin/DeleteKit').subscribe((res: any) => {
+        this.Api.DeleteKit(paylaod).subscribe((res: any) => {
   
           if (res.isExecuted) {
             this.toastr.success(labels.alert.delete, 'Success!', {
@@ -164,7 +163,7 @@ export class KitItemComponent implements OnInit, OnChanges {
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
       }
-      this.invMasterService.get(paylaod, '/Admin/InsertKit').subscribe((res: any) => {
+      this.Api.InsertKit(paylaod).subscribe((res: any) => {
 
         if (res.isExecuted) {
           this.toastr.success(labels.alert.success, 'Success!', {
@@ -193,7 +192,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       }
       
       // console.log(paylaod);
-      this.invMasterService.get(paylaod, '/Admin/UpdateKit').subscribe((res: any) => {
+      this.Api.UpdateKit(paylaod).subscribe((res: any) => {
 
         if (res.isExecuted) {
           this.toastr.success(labels.alert.success, 'Success!', {
@@ -255,8 +254,7 @@ export class KitItemComponent implements OnInit, OnChanges {
 
   getSearchList(e: any) {
 
-    this.searchValue = e.currentTarget.value;
-    // console.log(e.currentTarget.value)
+    this.searchValue = e.currentTarget.value; 
     let paylaod = {
       "itemNumber": e.currentTarget.value,
       "beginItem": "---",
@@ -264,7 +262,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.invMasterService.get(paylaod, '/Common/SearchItem').subscribe((res: any) => {
+    this.Api.SearchItem(paylaod).subscribe((res: any) => {
       if (res.data) {
         this.searchList = res.data
         if (this.searchList.length > 0) {
@@ -325,16 +323,13 @@ export class KitItemComponent implements OnInit, OnChanges {
     this.dialogitemNumberDisplay = '';
   }
   checkIfFilled(val: any, input?: any, index?:any){
-    //Work need to be continue from here
-    // console.log('kit_'+index);
-    // console.log(this.namebutton.nativeElement.classList);
+    //Work need to be continue from here 
     
     if(this.namebutton.nativeElement.classList.contains('kit_'+index)){
       this.namebutton.nativeElement.disabled = false;
       this.namebutton.nativeElement.classList.remove('mat-button-disabled')
     }
-    if(this.namebutton.nativeElement.classList.contains('kit_push_'+index)){
-      // console.log('kit_push_'+index);
+    if(this.namebutton.nativeElement.classList.contains('kit_push_'+index)){ 
       // const myHtmlEl = document.getElementsByClassName('kit_push_'+index).item(0) as HTMLElement;
       // myHtmlEl.removeAttribute('disabled');
       
@@ -346,9 +341,7 @@ export class KitItemComponent implements OnInit, OnChanges {
     // myTag.classList.remove('mat-button-disabled');
 
     if(input === 'kitQuantity'){
-      if(val > 0){
-        // console.log(index);
-        // console.log(val.target.dataset.index);
+      if(val > 0){ 
         this.isFormFilled = true;
       }
     }

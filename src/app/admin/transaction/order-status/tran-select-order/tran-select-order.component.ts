@@ -19,11 +19,11 @@ import {
 } from 'rxjs';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { AuthService } from 'src/app/init/auth.service';
-import { BYPASS_LOG } from 'src/app/init/http-interceptor';
-import { TransactionService } from '../../transaction.service';
+import { BYPASS_LOG } from 'src/app/init/http-interceptor'; 
 import labels from '../../../../labels/labels.json';
 import { SharedService } from 'src/app/services/shared.service';
 import { FilterToteComponent } from 'src/app/admin/dialogs/filter-tote/filter-tote.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-tran-select-order',
@@ -110,7 +110,7 @@ export class TranSelectOrderComponent implements OnInit {
   }
   constructor(
     public authService: AuthService,
-    private transactionService: TransactionService,
+    private Api:ApiFuntions,
     private dialog: MatDialog,
     private toastr: ToastrService,
     private sharedService: SharedService
@@ -329,25 +329,22 @@ export class TranSelectOrderComponent implements OnInit {
         wsid: this.userData.wsid,
       };
     }
-
-    // NextSuggestedTransactions
-    // OrderNumberNext
-    this.transactionService
-      .get(
-        searchPayload,
-        `/Admin/${
-          this.columnSelect == 'Order Number'
-            ? 'OrderNumberNext'
-            : 'NextSuggestedTransactions'
-        }`,
-        true
-      )
-      .subscribe(
-        (res: any) => {
-          this.searchAutocompleteList = res.data;
-        },
-        (error) => {}
-      );
+ 
+   if( this.columnSelect == 'Order Number'){
+    this.Api.OrderNumberNext(searchPayload).subscribe(
+      (res: any) => {
+        this.searchAutocompleteList = res.data;
+      },
+      (error) => {}
+    );
+   }else{
+    this.Api.NextSuggestedTransactions(searchPayload).subscribe(
+      (res: any) => {
+        this.searchAutocompleteList = res.data;
+      },
+      (error) => {}
+    );
+   }
   }
   // async autocompleteSearchColumn() {
   //   let searchPayload = {

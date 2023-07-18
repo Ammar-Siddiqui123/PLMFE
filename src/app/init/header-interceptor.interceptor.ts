@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from './auth.service';
+import { ApiFuntions } from '../services/ApiFuntions';
 
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
@@ -21,6 +22,7 @@ export class HeaderInterceptor implements HttpInterceptor {
     private toastr: ToastrService,
     private dialog: MatDialog,
     private authService: AuthService,
+    private api:ApiFuntions
     ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -63,7 +65,7 @@ export class HeaderInterceptor implements HttpInterceptor {
       }      
       
       if(this.authService.isConfigUser()){
-        this.authService.configLogout(paylaod).subscribe((res:any) => {
+        this.api.configLogout(paylaod).subscribe((res:any) => {
           if (res.isExecuted) {       
             this.dialog.closeAll();
             this.toastr.error('Token Expire', 'Error!', {
@@ -79,9 +81,16 @@ export class HeaderInterceptor implements HttpInterceptor {
           }
         });       
       } else {
-        this.authService.logout(paylaod).subscribe((res:any) => {
+        this.api.Logout(paylaod).subscribe((res:any) => {
           if (res.isExecuted) {  
+            let lastRoute: any = localStorage.getItem('LastRoute') ? localStorage.getItem('LastRoute') : "";
             localStorage.clear();     
+            if(lastRoute != ""){
+              localStorage.setItem('LastRoute', lastRoute);
+            } 
+            if(!localStorage.getItem('LastRoute')){
+              localStorage.setItem('LastRoute', this.router.url);
+            }     
             this.dialog.closeAll();
             this.toastr.error('Token Expire', 'Error!', {
               positionClass: 'toast-bottom-right',

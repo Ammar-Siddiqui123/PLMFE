@@ -110,6 +110,27 @@
             <h4 class="main-section-title" style="font-size:22px;">Admin</h4>
           </div>
         </div>
+
+        <!-- Main Section Option (Import Export) -->
+        <div class="col-xl-3 col-lg-6" [ngClass]="isAuthorized('Induction Manager') || !useInZonePickScreen ? 'isDivDisabled' : ''">
+          <div 
+          matRipple 
+          [matRippleColor]="tab_hover_color" 
+          class="main-section-option" 
+          routerLink="/InductionManager/CompletePickBatch"
+          [ngClass]="isAuthorized('Induction Manager') || !useInZonePickScreen ? 'isDivDisabled' : ''"
+          (click)="updateMenu('induction', '/InductionManager/CompletePickBatch')"
+          >
+            <a class="main-section-option-link" href="#"></a>
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">
+                library_add_check 
+              </span>
+            </div>
+            <h4 class="main-section-title" style="font-size:22px;">Complete Pick Batch</h4>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

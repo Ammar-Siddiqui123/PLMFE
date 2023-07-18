@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ILogin, ILoginInfo } from './Ilogin';
-import { LoginService } from '../login.service';
+import { ILogin, ILoginInfo } from './Ilogin'; 
 import { FormControl, FormGroup, Validators, } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -8,15 +7,14 @@ import labels from '../labels/labels.json'
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { SpinnerService } from '../init/spinner.service';
-import { AuthService } from '../init/auth.service';
-import { GlobalconfigService } from '../global-config/globalconfig.service';
+import { AuthService } from '../init/auth.service'; 
 import packJSON from '../../../package.json'
 import { SharedService } from '../services/shared.service';
+import { ApiFuntions } from '../services/ApiFuntions';
 
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
-  providers: [LoginService],
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
@@ -32,14 +30,13 @@ export class LoginComponent {
   isAppAccess=false;
   info:any=  {};
   constructor(
-    public loginService: LoginService,
+    public api: ApiFuntions,
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private dialog: MatDialog,
     public loader: SpinnerService,
-    private auth: AuthService,
-    private globalService: GlobalconfigService,
+    private auth: AuthService, 
     private sharedService: SharedService,
   ) { 
     this.url = this.router.url;
@@ -62,10 +59,11 @@ enterUserName(){
   loginUser() {
     this.loader.show();
     this.addLoginForm.username = this.addLoginForm.username?.replace(/\s/g, "")||null;
+    this.addLoginForm.password = this.addLoginForm.password?.replace(/\s/g, "")||null;
     this.login = this.addLoginForm;
     const workStation:any = JSON.parse(localStorage.getItem('workStation') || '');
     this.login.wsid = workStation.workStationID;
-    this.loginService
+    this.api
       .login(this.login)
       .subscribe((response: any) => {
         const exe = response.isExecuted
@@ -83,6 +81,9 @@ enterUserName(){
           localStorage.setItem('user', JSON.stringify(data));
           localStorage.setItem('userRights', JSON.stringify(userRights));
           this.getAppLicense(response.data.wsid);
+          if(localStorage.getItem('LastRoute')){
+            this.router.navigateByUrl(localStorage.getItem('LastRoute') || "");
+          }
           
           // ----default app redirection ----
           // this.getDefaultApp(response.data.wsid);
@@ -107,8 +108,8 @@ enterUserName(){
   CompanyInfo(){
     var obj:any = { 
     }
-    this.loginService
-    .CompanyInfo(obj)
+    this.api
+    .CompanyInfo()
     .subscribe((response: any) => {
       this.info = response.data;
     });
@@ -118,18 +119,23 @@ enterUserName(){
     //   this.addLoginForm.get("username")?.setValue('');
     //   this.addLoginForm.get("password")?.setValue('');
     // }, 2000);
+    
   }
 
 
   ngOnInit() {
-    
+
     this.version = packJSON.version;
+    let lastRoute: any = localStorage.getItem('LastRoute') ? localStorage.getItem('LastRoute') : "";
     localStorage.clear();
+    if(lastRoute != ""){
+      localStorage.setItem('LastRoute', lastRoute);
+    }
     if(this.auth.IsloggedIn()){
       this.router.navigate(['/dashboard']);
     }
     else{
-      this.loginService.getSecurityEnvironment().subscribe((res:any) => {
+      this.api.getSecurityEnvironment().subscribe((res:any) => {
         this.env = res.data.securityEnvironment;
         if(this.env){
           const { workStation } = res.data;
@@ -150,14 +156,14 @@ enterUserName(){
   }
 
 
-
+    
   // moved getAppLicense,convertToObj ,sortAppsData,appNameDictionary & setMenuData from Menu Component to handle access to the Apps on login
   getAppLicense(wsid) {
+    let userData=JSON.parse(localStorage.getItem('user') || '{}');
     let payload = {
-      WSID:  this.login.wsid,
+      workstationid: userData.wsid,
     };
-    this.globalService
-      .get(payload, '/GlobalConfig/AppNameByWorkstation')
+    this.api.AppNameByWorkstation(payload)
       .subscribe(
         (res: any) => {
           if (res && res.data) {
@@ -222,7 +228,7 @@ enterUserName(){
       },
       {
         appName: 'Consolidation Manager',
-        route: '#',
+        route: '/ConsolidationManager',
         iconName: 'insert_chart',
         name: 'Consolidation Manager',
         updateMenu: '',
@@ -238,7 +244,7 @@ enterUserName(){
       },
       {
         appName: 'ImportExport',
-        route: '#',
+        route: '/ImportExport',
         iconName: 'electric_bolt',
         name: 'Import Export',
         updateMenu: '',
@@ -254,7 +260,7 @@ enterUserName(){
       },
       {
         appName: 'OrderManager',
-        route: '#',
+        route: '/OrderManager',
         iconName: 'pending_actions',
         name: 'Order Manager',
         updateMenu: '',
@@ -276,24 +282,24 @@ enterUserName(){
 
   getDefaultApp(wsid){
     let paylaod={
-      WSID: wsid
+      workstationid: wsid
     }
-     this.globalService
-.get(paylaod, '/GlobalConfig/WorkStationDefaultAppSelect')
-.subscribe(
+     this.api.workstationdefaultapp(paylaod).subscribe(
   (res: any) => {
   
     if (res && res.data) {
-      
      this.checkAppAcess(res.data)
-  
-
 
      }
     else{
       localStorage.setItem('isAppVerified',JSON.stringify({appName:'',isVerified:true}))
       // this.addLoginForm.reset();
-      this.router.navigate(['/dashboard']);
+      if(localStorage.getItem('LastRoute')){
+        localStorage.removeItem('LastRoute');
+      }
+      else{
+        this.router.navigate(['/dashboard']);
+      }	
     }
   },
   (error) => {}
@@ -315,7 +321,7 @@ enterUserName(){
     if(this.isAppAccess){
       localStorage.setItem('isAppVerified',JSON.stringify({appName:appName,isVerified:true}))
       this.redirection(appName)
-      this.addLoginForm.reset();
+      // this.addLoginForm.reset();
       
       
     }else{
@@ -365,7 +371,7 @@ enterUserName(){
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
+      ;
 
     });
   }

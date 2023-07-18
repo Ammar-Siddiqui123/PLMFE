@@ -1,12 +1,11 @@
-import { AfterViewInit, Component, OnInit, ViewChild, Inject, Input } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, Inject, Input, NgZone } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { EmployeeService } from 'src/app/employee.service';
+import { map, startWith } from 'rxjs/operators'; 
 import { AdminEmployeeLookupResponse, EmployeeObject, IEmployee } from 'src/app/Iemployee';
 import { MatDialog ,MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AddNewEmployeeComponent } from '../dialogs/add-new-employee/add-new-employee.component';
@@ -26,6 +25,9 @@ import { AuthService } from '../../../app/init/auth.service';
 import { SpinnerService } from '../../../app/init/spinner.service';
 import { MatOption } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GroupsLookupComponent } from './groups-lookup/groups-lookup.component';
+import { EmployeesLookupComponent } from './employees-lookup/employees-lookup.component';
 
 export interface location {
   start_location: string;
@@ -43,6 +45,8 @@ export interface location {
   styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent implements OnInit {
+  @ViewChild(GroupsLookupComponent) groupsLookup: GroupsLookupComponent;
+  @ViewChild(EmployeesLookupComponent) employeesLookup: EmployeesLookupComponent;
   emp: IEmployee;
   public isLookUp: boolean = false;
   public lookUpEvnt:any=false;
@@ -109,14 +113,14 @@ bpSettingLocInp='';
   constructor(
     private authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer, 
-    private employeeService: EmployeeService, 
+    private employeeService: ApiFuntions, 
     private dialog: MatDialog,
     private toastr: ToastrService, 
+    private zone: NgZone,
     public router: Router,
     public laoder: SpinnerService,
     private fb: FormBuilder
-    ) { 
-    // console.log(router.url); 
+    ) {  
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -129,12 +133,27 @@ bpSettingLocInp='';
   clearMatSelectList(){
     this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
+
+  clear(){
+    this.bpSettingLocInp='';
+this.reloadData();
+  }
+  clearZones(){
+    this.bpSettingInp='';
+    this.employee_fetched_zones.filter="";
+  }
+  clearGrp(){
+    this.grpAllFilter='';
+    this.groupAllowedList.filter="";
+  }
 getgroupAllowedList(){
-  const emp_grp = {
-    "userName": this.grp_data,
-    "wsid": "TESTWSID"
-  };
-  this.employeeService.getUserGroupNames(emp_grp).subscribe((res:any) => {
+  var payload:any = { 
+    "UserName": this.empData.username,
+    "WSID": "TESTWSID"
+
+  }
+
+  this.employeeService.Groupnames(payload).subscribe((res:any) => {
      
    // this.groupAllowedList = res.data;
     this.groupAllowedList = new MatTableDataSource(res.data);
@@ -180,19 +199,17 @@ initialzeEmpForm() {
     this.empData = {};
     this.empData = event.userData;
     this.isLookUp = event;
-    this.lookUpEvnt=true;
-    // console.log(event.userData?.username);
+    this.lookUpEvnt=true; 
     this.grp_data = event.userData?.username
 
     this.max_orders = event.userData.maximumOrders;
     const emp_data = {
-      "userName": event.userData?.username,
+      "user": event.userData?.username,
       "wsid": "TESTWSID"
     };
  
     this.employeeService.getAdminEmployeeDetails(emp_data)
-      .subscribe((response: any) => {
-        // console.log(response);
+      .subscribe((response: any) => { 
         this.isLookUp = event;
         this.lookUpEvnt=true;
         this.employee_group_allowed = response.data?.userRights
@@ -204,8 +221,10 @@ initialzeEmpForm() {
           return {zones:item}
         })
         this.employee_fetched_zones = new MatTableDataSource(res); 
-        this.employee_fetched_zones.filterPredicate = (data: String, filter: string) => {
-          return data.toLowerCase().includes(filter.trim().toLowerCase());
+        this.employee_fetched_zones.filterPredicate = (data: any, filter: string) => {
+     
+          
+          return data.zones.toLowerCase().includes(filter.trim().toLowerCase());
       };
         this.emp_all_zones = response.data?.allZones;
         if(this.env !== 'DB') this.getgroupAllowedList();
@@ -217,7 +236,7 @@ initialzeEmpForm() {
   }
   reloadData(){
     const emp_data = {
-      "userName":  this.grp_data,
+      "user":  this.grp_data,
       "wsid": "TESTWSID"
     };
     this.employeeService.getAdminEmployeeDetails(emp_data)
@@ -247,8 +266,7 @@ initialzeEmpForm() {
 
     }
   }
-  removePermission(event:any){
-    // console.log(this.unassignedFunctions);
+  removePermission(event:any){ 
     if(typeof(event.function) == 'string'){
       this.assignedFunctions = this.assignedFunctions.filter(name => name !== event.function);
       this.unassignedFunctions.unshift(event.function);
@@ -295,18 +313,16 @@ initialzeEmpForm() {
     this.grpData = event.groupData;
     this.isGroupLookUp = event;
     this.max_orders = 10;
-    // console.log("event", event);
+    
 
     const grp_data = {
       "userName":this.userName,
       "wsid": "TESTWSID",
       "groupName":this.grpData.groupName
 
-      };
-      // console.log("grp_data",grp_data)
+      }; 
     this.employeeService.getFunctionByGroup(grp_data)
-    .subscribe((response:any) => {
-      // console.log("function data",response);
+    .subscribe((response:any) => { 
       this.assignedFunctions = response.data?.groupFunc
       this.unassignedFunctions = response.data?.allFunc
     });
@@ -393,8 +409,9 @@ initialzeEmpForm() {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
-      this.updateGrpTable = result.groupName;
+      ;
+      this.updateGrpTable = result.groupName; 
+      this.groupsLookup.loadEmpData();
       // this.loadEmpData();
     })
 
@@ -413,8 +430,7 @@ initialzeEmpForm() {
       this.isTabChanged=true;
       this.demo1TabIndex = 0;
   }
-  actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) {
-    // console.log(event.value)
+  actionGroupDialog(event: any, grp_data: any, matEvent: MatSelectChange) { 
     if (event === 'edit') {
       let dialogRef = this.dialog.open(AddNewGroupComponent, {
         height: 'auto',
@@ -450,8 +466,7 @@ initialzeEmpForm() {
         matSelect.writeValue(null);
       })
     }
-    if (event === 'clone') {
-      // console.log(grp_data);
+    if (event === 'clone') { 
       let dialogRef = this.dialog.open(CloneGroupComponent, {
         height: 'auto',
         width: '480px',
@@ -531,18 +546,19 @@ initialzeEmpForm() {
     })
     dialogRef.afterClosed().subscribe(result => {
       // this.reloadData();
-      // console.log(result);
+      ;
       
-      if(result.mode === 'editZone'){
-        
-        this.employee_fetched_zones.filteredData.push({zones:result.data.zone})
-        // const index = this.employee_fetched_zones.filteredData.indexOf({zones:result.oldZone});
-        const index =this.employee_fetched_zones.filteredData.findIndex(item => item.zones === result.oldZone);
+      if (result.mode === 'editZone') {
+        const newData = { zones: result.data.zone }; 
+        const index = this.employee_fetched_zones.filteredData.findIndex(item => item.zones === result.oldZone);
+      
         if (index > -1) { 
-          this.employee_fetched_zones.filteredData.splice(index, 1);
+          this.employee_fetched_zones.filteredData.splice(index, 1, newData);
+        } else { 
+          this.employee_fetched_zones.filteredData.push(newData);
         }
-        // console.log(this.employee_fetched_zones.filteredData);
-        this.zoneDataRefresh.renderRows();
+      
+        this.employee_fetched_zones = new MatTableDataSource(this.employee_fetched_zones.filteredData);
       }
 
     })
@@ -586,13 +602,12 @@ initialzeEmpForm() {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
+      
         if (result !== undefined) {
-            if (result !== 'no') {
-              const enabled = "Y"
-                // console.log(result);
-            } else if (result === 'no') {
-               // console.log('User clicked no.');
-            }
+          if(result == true){
+            this.employeesLookup.EmployeeLookUp();
+          }
+            
         }
     })
 }
@@ -698,7 +713,7 @@ initialzeEmpForm() {
   }
   getEmployeeDetails(){
     const emp_data = {
-      "userName":this.userData.userName,
+      "user":this.userData.userName,
       "wsid": this.userData.wsid
     };
  

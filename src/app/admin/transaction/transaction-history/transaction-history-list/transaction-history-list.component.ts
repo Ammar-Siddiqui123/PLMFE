@@ -17,16 +17,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, takeUntil, interval, Subscription, Observable } from 'rxjs';
-
-import { AddInvMapLocationComponent } from 'src/app/admin/dialogs/add-inv-map-location/add-inv-map-location.component';
-import { AdjustQuantityComponent } from 'src/app/admin/dialogs/adjust-quantity/adjust-quantity.component';
-import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
-import { QuarantineConfirmationComponent } from 'src/app/admin/dialogs/quarantine-confirmation/quarantine-confirmation.component';
-import { SetColumnSeqService } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.service';
-import { InventoryMapService } from 'src/app/admin/inventory-map/inventory-map.service';
-import { AuthService } from 'src/app/init/auth.service';
-import { TransactionService } from '../../transaction.service';
+import { Subject, takeUntil, interval, Subscription, Observable } from 'rxjs'; 
+import { AuthService } from 'src/app/init/auth.service'; 
 import { DeleteConfirmationTransactionComponent } from 'src/app/admin/dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
 import { SetColumnSeqComponent } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.component';
 import { FloatLabelType } from '@angular/material/form-field';
@@ -37,6 +29,7 @@ import { MatSelect } from '@angular/material/select';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 const TRNSC_DATA = [
   { colHeader: 'tH_ID', colDef: 'TH_ID' },
@@ -193,9 +186,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     sortOrder: 'asc',
   };
   constructor(
-    private router: Router,
-    private seqColumn: SetColumnSeqService,
-    private transactionService: TransactionService,
+    private router: Router, 
+    private Api:ApiFuntions,
     private authService: AuthService,
     private toastr: ToastrService,
     private dialog: MatDialog,
@@ -206,7 +198,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    
+    debugger
 
     this.customPagination = {
       total: '',
@@ -235,6 +227,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.subscription.add(
     this.sharedService.historyItemObserver.subscribe(itemNo => {
+      debugger
       if(itemNo){
         this.selectedDropdown='Item Number';
         this.columnSearch.searchValue=itemNo;
@@ -243,6 +236,20 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       }
        })
     )
+
+    this.subscription.add(
+    this.sharedService.reprocessItemObserver.subscribe(itemNo => {
+      debugger
+      if(itemNo){
+        this.selectedDropdown='Item Number';
+        this.columnSearch.searchValue=itemNo;
+       
+      //  this.onOrderNoChange();
+      }
+       })
+    )
+
+    
 
     this.subscription.add(
       this.sharedService.historyLocObserver.subscribe(loc => {
@@ -288,8 +295,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(searchPayload, '/Admin/NextSuggestedTransactions', true)
+    this.Api
+      .NextSuggestedTransactions(searchPayload)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
@@ -303,8 +310,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       wsid: this.userData.wsid,
       tableName: 'Transaction History',
     };
-    this.transactionService
-      .get(payload, '/Admin/GetColumnSequence', true)
+    this.Api
+      .GetColumnSequence(payload)
       .subscribe(
         (res: any) => {
           this.displayedColumns = TRNSC_DATA;
@@ -335,8 +342,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       username: this.userData?.userName,
       wsid:this.userData?.wsid,
     };
-    this.transactionService
-      .get(paylaod, '/Admin/TransactionModelIndex')
+    this.Api
+      .TransactionModelIndex(paylaod)
       .subscribe(
         (res: any) => {
           this.columnValues = res.data?.transactionHistoryColumns;
@@ -362,11 +369,10 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       filter: this.FilterString ,
       username: this.userData?.userName,
       wsid: this.userData?.wsid,
-    };
-    // console.log('.:...................>',payload);
+    }; 
     
-    this.transactionService
-      .get(payload, '/Admin/TransactionHistoryTable', true)
+    this.Api
+      .TransactionHistoryTable(payload)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();

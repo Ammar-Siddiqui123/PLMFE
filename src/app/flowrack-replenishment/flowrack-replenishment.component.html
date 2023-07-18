@@ -1,74 +1,38 @@
-<div class="inner-layout-1">
-    <div class="main-content mb-4">
-<mat-card class="mat-elevation-z g-card mb-3 mt-2" style="height: 100%;">
-    <mat-card-content>
-        <div class="d-flex justify-content-between align-items-center flex-wrap">
-            <h2 class="card-header-title mb-3 d-flex align-items-center">
-                <div class="mat-icon-wrap me-lg-3 me-2">
-                    <span class="material-symbols-outlined">
-                        schema
-                    </span>
-                </div>
-                <span>FlowRack Replenishment</span>
-            </h2>
-
-            
-        </div>
-        <div class="mb-4">
-            <mat-label>Current Zone: <span class="bold">{{zone}}</span></mat-label>
-        </div>
-        <div class="row" >
-            <div class="col-xl-4">
-                <mat-form-field class="custom-form-field  clear-btn-init w-100  mb-3" appearance="outline">
-                    <mat-label>Scan Item</mat-label>
-                    <input matInput type="text" [(ngModel)]="itemnumscan" (keyup)="findItemLocation($event)" #autoFocusField (ngModelChange)="scanItemChange()">
-                    <button matSuffix *ngIf="itemnumscan != ''" class="clear-btn" (click)="clearItemNum()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
-                </mat-form-field>
+<div class="main-section-options">
+    <div class="container-fluid">
+      <div class="row g-4">
+        <!-- Main Section Option (Import Export) -->
+    
+        <div class="col-xl-3 col-lg-6">
+          <!-- [ngClass]="isAuthorized('Tote Transactions') ? 'isDivDisabled' : ''" -->
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option" 
+          routerLink="/FlowrackReplenishment/Flowrack"
+          (click)="updateMenu('FlowrackReplenishment', '/FlowrackReplenishment/Flowrack')">
+            <a class="main-section-option-link" href="#"></a>
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">schema</span>
             </div>
-            <!-- {{itemLocation|json}} -->
-            <div class="col-xl-4" >
-                <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline"  >
-                   
-                    <mat-label>Select Location</mat-label>
-                  
-                  <input matInput type="text" [disabled]="LocationRow" [(ngModel)]="itemLocation" [matAutocomplete]="auto" (keypress)="locationchange($event)" (ngModelChange)="locationchange($event)" #itemLocationFocus>
-                  <mat-autocomplete class="card custom-scroll"  #auto="matAutocomplete" (optionActivated)="values($event)" (optionSelected)="locationchangeSelect($event)" >                            
-                    <h6 class ="card-header matAutoCompHeader ">
-                      <span style="width:  140px;">Location</span> 
-                      <span style="width:  140px;">Item Quantity</span> 
-                    </h6> 
-                    <ng-scrollbar style="height:350px" >
-                      <mat-option  [value]="option"  *ngFor="let option of locationSuggestions"  class="matAutoCompTableContent" style="line-height: 24px; height:auto; min-height: auto!important; padding: 12px 16px; overflow: unset;" >
-                        <div class="loc_option">
-                          <span  class="searchColumn" style="width:  140px; white-space: normal;">{{option.location}}</span> 
-                          <span  class="searchColumn" style="width:  140px; white-space: normal;">{{option.itemQuantity}}</span> 
-                        </div>
-                      </mat-option>
-                    </ng-scrollbar>
-                  </mat-autocomplete> 
-                </mat-form-field>
+            <h4 class="main-section-title" style="font-size:22px;">Flowrack Replenishment</h4>
+          </div>
+        </div>
+  
+        <div class="col-xl-3 col-lg-6"  >
+          <!-- [ngClass]="isAuthorized('Tote Transactions') ? 'isDivDisabled' : ''" -->
+          <div matRipple [matRippleColor]="tab_hover_color" class="main-section-option" 
+          routerLink="/FlowrackReplenishment/Preferences"
+          (click)="updateMenu('FlowrackReplenishment', '/FlowrackReplenishment/Preferences')">
+            <a class="main-section-option-link" href="#"></a>
+            <div class="main-section-icon">
+              <span class="material-symbols-outlined">
+                tune
+              </span>
             </div>
-            <!-- *ngIf="itemQtyRow" -->
-            <div class="col-xl-4"   >
-                <div class="d-flex gap-12 align-items-center">
-                <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline" style="min-width: 100px;">
-                    <mat-label>Enter Quantity</mat-label>
-                    <input matInput type="number" [(ngModel)] = 'itemQty' [disabled]="itemQtyRow" (ngModelChange)="updateQty(itemQty)" #itemQtyFocus>
-                </mat-form-field>
-                <button [disabled]="calculator" mat-mini-fab color="Default" class="button-default-i icon-button-8br  mb-3" (click)="openCal()">
-              <mat-icon class="material-symbols-outlined">calculate</mat-icon>
-            </button>
+            <h4 class="main-section-title" style="font-size:22px;">Preferences</h4>
+          </div>
         </div>
-        <div class="row">
-            
-        </div>
-            </div>
-        </div>
-    </mat-card-content>
-</mat-card>
-</div>
-
-<div  >
-    <button type="submit" [disabled]="submitBtnDisplay" mat-flat-button class="btn-lg w-100" color="primary" (click)="updateItemQuantity()">Submit</button>
-</div>
-</div>
+  
+  
+  
+      </div>
+    </div>
+  </div>

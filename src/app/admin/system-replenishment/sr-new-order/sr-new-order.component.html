@@ -60,7 +60,8 @@
                 <div class="d-xl-flex gap-12 align-items-center flex-wrap">
                     <mat-form-field class="action-dropdown d-xl-flex d-block mb-3 mb-xl-0" appearance="outline">
                         <mat-label>Search</mat-label>
-                        <mat-select class="employees-action" (selectionChange)="searchChange($event.value)" >
+                        <mat-select class="employees-action" (selectionChange)="searchChange($event.value)" [(ngModel)]="tablePayloadObj.searchColumn">
+                            <mat-option value=""></mat-option>
                             <mat-option *ngFor="let option of searchColumnOptions" [value]="option.value">{{option.viewValue}}</mat-option>
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
@@ -117,8 +118,8 @@
                     <mat-select class="employees-action">
                         <mat-option value="1" [disabled]="tableData.length == 0" (click)="actionChange('1')">Filter Item No.</mat-option>
                         <mat-option value="2" (click)="actionChange('2')">Print</mat-option>
-                        <mat-option value="3" [disabled]="tableData.length == 0" (click)="actionChange('3')">View All Items</mat-option>
-                        <mat-option value="4" [disabled]="tableData.length == 0" (click)="actionChange('4')">View Selected Items</mat-option>
+                        <mat-option value="3" [disabled]="!this.newOrderListCreated" (click)="viewAllItems()">View All Items</mat-option>
+                        <mat-option value="4" [disabled]="!this.newOrderListCreated" (click)="viewSelectedItems()">View Selected Items</mat-option>
                         <mat-option value="5" [disabled]="tableData.length == 0" (click)="actionChange('5')">Select All</mat-option>
                         <mat-option value="6" [disabled]="tableData.length == 0 || numberSelectedRep == 0" (click)="actionChange('6')">Unselect All</mat-option>
                     </mat-select>
@@ -149,13 +150,13 @@
                     </ng-container> -->
 
                     <ng-container matColumnDef="Item Number">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Number </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Item No. </th>
                         <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"> {{element.itemNumber}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Description">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-                        <td #tooltip="matTooltip" [matTooltip]="element.description"   matTooltipPosition="above"
+                        <td #tooltip="matTooltip" [matTooltip]="element.description"   matTooltipPosition="right"
                         (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.description, 'Description')"> {{element.description}} </td>
                     </ng-container>
 
@@ -170,22 +171,22 @@
                     </ng-container>
 
                     <ng-container matColumnDef="Replenishment Point">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenishment Point </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Replen Point </th>
                         <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentPoint, 'Replenishment Point')"> {{element.replenishmentPoint}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Replenishment Level">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenishment Level </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Replen Level </th>
                         <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentLevel, 'Replenishment Level')"> {{element.replenishmentLevel}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Available Qty">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Available Qty </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Avail Qty </th>
                         <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.availableQuantity, 'Available Qty')"> {{element.availableQuantity}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Replenishment Qty">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenishment Qty </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Replen Qty </th>
                         <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentQuantity, 'Replenishment Qty')"> {{element.replenishmentQuantity}} </td>
                     </ng-container>
 
@@ -195,10 +196,10 @@
                     </ng-container>
 
                     <ng-container matColumnDef="Transaction Qty">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Qty </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Trans Qty </th>
                         <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.transactionQuantity, 'Transaction Qty')">
                             <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline"
-                                (click)="editTransDialog(element)">
+                                (click)="editTransDialog(element)" >
                                 <input matInput type="text" maxlength="50" readonly="true" value="000000" [ngModel]="element.transactionQuantity">
                                 <span matSuffix>
                                     <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
@@ -208,7 +209,7 @@
                     </ng-container>
 
                     <ng-container matColumnDef="Replenish">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Replenish </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Replen </th>
                         <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element">
                             <div class="text-center">
                                 <mat-checkbox color="primary" matTooltip="Check" matTooltipPosition="above" [disabled]="element.availableQuantity == 0 ||  element.transactionQuantity == 0 || element.replenishExists"
@@ -260,7 +261,7 @@
 
                     </ng-container>
                     
-                    <tr class="mat-row" *matNoDataRow>
+                    <tr class="mat-row" *matNoDataRow (contextmenu)="onContextMenu($event, undefined, '')">
                         <td class="mat-cell " [attr.colspan]="displayedColumns.length">
                           No data available in table.
                         </td>

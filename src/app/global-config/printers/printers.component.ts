@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, ViewChildren, QueryList, } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
-import { GlobalconfigService } from '../globalconfig.service';
+import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../labels/labels.json'
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-printers',
@@ -13,6 +13,11 @@ import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-
   styleUrls: ['./printers.component.scss']
 })
 export class PrintersComponent implements OnInit {
+  // @ViewChildren('printerNameInput', { read: ElementRef }) printerNameInputs: QueryList<ElementRef>;
+  // @ViewChildren('printerNameInput', { read: ElementRef }) printerNameInputs: QueryList<ElementRef>;
+  @ViewChildren('printerNameInput', { read: ElementRef }) printerNameInputs: QueryList<ElementRef>;
+
+
   sideBarOpen: boolean = true;
   displayedColumns: string[] = ['printerName', 'printerAddress', 'labelPrinter', 'actions'];
   running: boolean = false;
@@ -22,9 +27,10 @@ export class PrintersComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private globalconfigService: GlobalconfigService,
+    private Api: ApiFuntions,
     private authService: AuthService,
     private toastr: ToastrService,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit(): void {
@@ -39,7 +45,7 @@ export class PrintersComponent implements OnInit {
       "wsid": this.userData.wsid,
       "appName": ""
     };
-    this.globalconfigService.get(payload, '/GlobalConfig/GetAllPrinters').subscribe((res: any) => {
+    this.Api.GetAllPrinters(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.allPinters = res.data;
         this.allPinters.forEach((element: any) => {
@@ -62,7 +68,7 @@ export class PrintersComponent implements OnInit {
 
   getServiceStatus(loader: boolean = false) {
     let payload: any = {};
-    this.globalconfigService.get(payload, '/GlobalConfig/StatusPrintService', loader).subscribe((res: any) => {
+    this.Api.StatusPrintService(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.running = res.data;
       }
@@ -71,7 +77,7 @@ export class PrintersComponent implements OnInit {
 
   startService(loader: boolean = false) {
     let payload: any = {};
-    this.globalconfigService.get(payload, '/GlobalConfig/StartPrintService', loader).subscribe((res: any) => {
+    this.Api.StartPrintService(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.running = true;
         this.toastr.success("Service start was successful.", 'Success!', {
@@ -90,7 +96,7 @@ export class PrintersComponent implements OnInit {
 
   stopService(loader: boolean = false) {
     let payload: any = {};
-    this.globalconfigService.get(payload, '/GlobalConfig/StopPrintService', loader).subscribe((res: any) => {
+    this.Api.StopPrintService(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.running = false;
         this.toastr.success("Service stop was successful.", 'Success!', {
@@ -109,7 +115,7 @@ export class PrintersComponent implements OnInit {
 
   restartService(loader: boolean = false) {
     let payload: any = {};
-    this.globalconfigService.get(payload, '/GlobalConfig/RestartPrintService', loader).subscribe((res: any) => {
+    this.Api.RestartPrintService(payload).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.running = true;
         this.toastr.success("Service restart was successful.", 'Success!', {
@@ -151,7 +157,7 @@ export class PrintersComponent implements OnInit {
           let payload = {
             "printerName": printer.printer
           };
-          this.globalconfigService.get(payload, '/globalconfig/deletePrinter').subscribe((res: any) => {
+          this.Api.deletePrinter(payload).subscribe((res: any) => {
             if (res.isExecuted && res.data) {
               this.toastr.success(labels.alert.delete, 'Success!', {
                 positionClass: 'toast-bottom-right',
@@ -172,7 +178,7 @@ export class PrintersComponent implements OnInit {
 
   addNewPrinter() {
     this.addingNew = true;
-    this.allPinters.push(
+    this.allPinters.splice(0,0,
       { 
         printer: '', 
         currentPrinter: '',
@@ -185,6 +191,14 @@ export class PrintersComponent implements OnInit {
       }
     );
     this.allPinters = [...this.allPinters];
+    const lastIndex = this.allPinters.length - 1;
+    setTimeout(() => {
+      const inputElements = this.printerNameInputs.toArray();
+      if (inputElements.length > lastIndex) {
+        const inputElement = inputElements[lastIndex].nativeElement as HTMLInputElement;
+        this.renderer.selectRootElement(inputElement).focus();
+      }
+    });
   }
 
   SavePrinter(printer: any) {
@@ -194,7 +208,7 @@ export class PrintersComponent implements OnInit {
         "printerString": printer.printerAdd,
         "label": printer.labelPrinter == 'Yes' ? true : false
       };
-      this.globalconfigService.get(payload, '/globalconfig/InsertNewPrinter').subscribe((res: any) => {
+      this.Api.InsertNewPrinter(payload).subscribe((res: any) => {
         if (res.isExecuted) {
           this.toastr.success(labels.alert.success, 'Success!', {
             positionClass: 'toast-bottom-right',
@@ -220,7 +234,7 @@ export class PrintersComponent implements OnInit {
         "printerString": printer.printerAdd,
         "label": printer.labelPrinter == 'Yes' ? true : false
       };
-      this.globalconfigService.get(payload, '/globalconfig/UpdateCurrentPrinter').subscribe((res: any) => {
+      this.Api.UpdateCurrentPrinter(payload).subscribe((res: any) => {
         if (res.isExecuted) {
           this.toastr.success(labels.alert.update, 'Success!', {
             positionClass: 'toast-bottom-right',

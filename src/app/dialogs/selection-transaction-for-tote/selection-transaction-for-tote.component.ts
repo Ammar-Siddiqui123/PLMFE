@@ -1,9 +1,9 @@
 import { Component, OnInit , Inject } from '@angular/core';
 import { MatDialog , MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SelectionTransactionForToteExtendComponent } from '../selection-transaction-for-tote-extend/selection-transaction-for-tote-extend.component';
-import { ToastrService } from 'ngx-toastr';
-import { ProcessPutAwayService } from '../../../app/induction-manager/processPutAway.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-selection-transaction-for-tote',
@@ -24,12 +24,12 @@ export class SelectionTransactionForToteComponent implements OnInit {
   public description;
 
   public lowerBound=1;
-  public upperBound=5;
+  public upperBound=2;
 
 
 
   constructor(private dialog: MatDialog,public dialogRef: MatDialogRef<SelectionTransactionForToteComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,private service: ProcessPutAwayService,private toastr: ToastrService) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.inputType  =  this.data.inputType;
@@ -57,8 +57,8 @@ export class SelectionTransactionForToteComponent implements OnInit {
         wsid: this.wsid
       };
       
-      this.service
-        .get(payload, '/Induction/BatchByZone')
+      this.Api
+        .BatchByZone(payload)
         .subscribe(
           (res: any) => {
             if (res.isExecuted) {
@@ -165,15 +165,20 @@ export class SelectionTransactionForToteComponent implements OnInit {
         this.inputType,
         "1=1"
       ],
-      username: this.userName,
-      wsid: this.wsid
     };
     //console.log(getTransaction);
-    this.service
-      .get(getTransaction, '/Induction/TransactionForTote')
+    this.Api
+      .TransactionForTote(getTransaction)
       .subscribe(
         (res: any) => {
+          // console.log(res,'getTransaction')
           if (res.data && res.isExecuted) {
+            if(res.data.subCategory == 'Reel Tracking'&&res.data.inputType != 'Serial Number' ){
+               this.dialogRef.close({category:'isReel',item:res.data});
+                return;
+                }
+
+             
             this.transactionTable = res.data.transactionTable;
             
             // !res.data.transactionTable || res.data.transactionTable.length == 0

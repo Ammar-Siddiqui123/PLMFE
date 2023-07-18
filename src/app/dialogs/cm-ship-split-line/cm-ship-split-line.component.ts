@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { GlobalService } from 'src/app/common/services/global.service';
-import { ConsolidationManagerService } from 'src/app/consolidation-manager/consolidation-manager.service';
+import { GlobalService } from 'src/app/common/services/global.service'; 
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-cm-ship-split-line',
@@ -22,7 +22,7 @@ export class CmShipSplitLineComponent implements OnInit {
   constructor(private dialog: MatDialog,
               public dialogRef: MatDialogRef<CmShipSplitLineComponent>,
               private toast: ToastrService,
-              private service: ConsolidationManagerService,
+              private Api: ApiFuntions,
               private authService: AuthService,
               public globalService: GlobalService,
               @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -58,7 +58,7 @@ export class CmShipSplitLineComponent implements OnInit {
         wsid: this.userData.wsid
       };
 
-      this.service.create(payLoad, '/Consolidation/SplitLineTrans').subscribe(
+      this.Api.SplitLineTrans(payLoad).subscribe(
         (res: any) => {
           if (res.isExecuted) {            
             let orderQty = parseInt(this.data.order.transactionQuantity) - parseInt(this.splitScreenQty);
@@ -77,8 +77,7 @@ export class CmShipSplitLineComponent implements OnInit {
         },
         (error) => { }
       );
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
     }
   }
 

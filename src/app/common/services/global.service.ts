@@ -162,4 +162,12 @@ export class GlobalService {
         if (value == null) return ''
         else return String(value);
     };
+
+    checkDecimal(n) {
+        var result = (n - Math.floor(n)) !== 0;
+        if (result)
+          return false;
+        else
+          return true;
+    }
 }

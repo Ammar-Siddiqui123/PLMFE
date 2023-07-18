@@ -2,11 +2,11 @@ import { Component, OnInit, Inject, ViewChild, TemplateRef, ElementRef } from '@
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import labels from '../../../labels/labels.json';
-import { EmployeeService } from 'src/app/employee.service';
+import labels from '../../../labels/labels.json'; 
 import { AdminEmployeeLookupResponse } from 'src/app/Iemployee';
 import { Router } from '@angular/router';
 import { CustomValidatorService } from '../../../../app/init/custom-validator.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion';
@@ -50,7 +50,7 @@ export class AddNewEmployeeComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private employeeService: EmployeeService,
+    private employeeService: ApiFuntions,
     private router: Router,
     private fb: FormBuilder,
     private cusValidator: CustomValidatorService,
@@ -58,7 +58,9 @@ export class AddNewEmployeeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void { 
+    
     this.empData = this.data?.emp_data;
+    
     this.env =  JSON.parse(localStorage.getItem('env') || ''); 
     this.allGroups  = this.empData?.allGroups;
     this.data?.mode === 'edit' ? this.form_heading = 'Edit Employee' : 'Add New Employee';
@@ -89,8 +91,7 @@ export class AddNewEmployeeComponent implements OnInit {
       this.focusFeild.nativeElement.focus();
     }
   }
-  isEmptyPass() {
-    // console.log(this.empForm.controls['password']?.value);
+  isEmptyPass() { 
     if (this.data?.mode === 'edit') {
       if (this.empForm.controls['password']?.value === '') {
         this.isDisabledPassword = true;
@@ -114,8 +115,7 @@ export class AddNewEmployeeComponent implements OnInit {
 
     });
   }
-ChangePassword(data){
-  debugger
+ChangePassword(data){ 
   // if(this.OldPassword == this.password) this.OldPassword = -1;
   this.password = data;
 }
@@ -124,10 +124,10 @@ ChangePassword(data){
       // this.isSubmitting = true;
       this.cleanForm(form);
       form.value.active = Boolean(JSON.parse(form.value.active));
+      
       if (this.data?.mode === 'edit') {
-        form.value.wsid = "TESTWID";
-        form.value.username = this.username;
-        // form.value.groupName = this.groupName,
+        form.value.wsid = "TESTWID"; 
+        form.value.username = this.data && this.data.emp_data && this.data.emp_data.username?this.data.emp_data.username:this.data.emp_data.Username  ,
           this.employeeService.updateAdminEmployee(form.value).subscribe((res: any) => {
             if (res.isExecuted) {
               this.dialogRef.close({mode: 'edit-employee', data: form.value});
@@ -137,7 +137,7 @@ ChangePassword(data){
               });
             }
             else {
-              this.toastr.error(res.responseMessage?.toString() + '. Please contact your Administrator.', 'Error!', {
+              this.toastr.error(res.responseMessage?.toString() + '. User already exists.', 'Error!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
@@ -148,12 +148,13 @@ ChangePassword(data){
         this.employeeService.saveAdminEmployee(form.value)
           .subscribe((response: AdminEmployeeLookupResponse) => {
             if (response.isExecuted) {
-              this.dialog.closeAll();
+              this.dialogRef.close(true);
               this.toastr.success(labels.alert.success, 'Success!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
-              this.reloadCurrentRoute();
+              
+               // this.reloadCurrentRoute();
             }
             else {
               if(response.responseMessage?.toString() === 'User already exists'){
@@ -163,7 +164,7 @@ ChangePassword(data){
                 });
               }
               else{
-                this.toastr.error(response.responseMessage?.toString() + '. Please contact your Administrator.', 'Error!', {
+                this.toastr.error(response.responseMessage?.toString() + '. User already exists.', 'Error!', {
                   positionClass: 'toast-bottom-right',
                   timeOut: 2000
                 });

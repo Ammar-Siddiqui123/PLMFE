@@ -6,7 +6,6 @@ import { BlossomToteComponent } from 'src/app/dialogs/blossom-tote/blossom-tote.
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../../../app/init/auth.service';
-import { ProcessPicksService } from './process-picks.service';
 import { FormControl } from '@angular/forms';
 import { startWith } from 'rxjs/internal/operators/startWith';
 import { PickToteManagerComponent } from 'src/app/dialogs/pick-tote-manager/pick-tote-manager.component';
@@ -18,6 +17,7 @@ import { MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-process-picks',
@@ -63,7 +63,7 @@ export class ProcessPicksComponent implements OnInit {
   orderInput: any;
   constructor(
     private dialog: MatDialog,
-    private pPickService: ProcessPicksService,
+    private Api: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService,
     private router: Router,
@@ -82,7 +82,7 @@ export class ProcessPicksComponent implements OnInit {
       "OrderView": 'All',
       "wsid": this.userData.wsid,
     }
-    this.pPickService.get(paylaod, '/Induction/OrdersInZone').subscribe((res) => {
+    this.Api.OrdersInZone(paylaod).subscribe((res) => {
       if (res.data) {
         this.orderNumberList = res.data
       }
@@ -172,7 +172,7 @@ export class ProcessPicksComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.pPickService.get(paylaod, '/Induction/WSPickZoneSelect').subscribe((res) => {
+    this.Api.WSPickZoneSelect(paylaod).subscribe((res) => {
       if (res.data) {
         this.allZones = res.data;
       }
@@ -185,7 +185,7 @@ export class ProcessPicksComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.pPickService.get(paylaod, '/Induction/PickToteSetupIndex').subscribe(res => {
+    this.Api.PickToteSetupIndex(paylaod).subscribe(res => {
       // console.log(res.data.imPreference);
       this.countInfo = res.data.countInfo;
       this.pickBatchesList = res.data.pickBatches;
@@ -270,7 +270,7 @@ export class ProcessPicksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(() => {
       if (this.dialogClose) {
         if (val === 'batchWithID') {
-          this.pPickService.get('', '/Induction/NextBatchID').subscribe(res => {
+          this.Api.NextBatchID().subscribe(res => {
             this.batchID = res.data;
             let payload = {
               "wsid": this.userData.wsid,
@@ -279,7 +279,7 @@ export class ProcessPicksComponent implements OnInit {
             if (!this.useInZonePickScreen) {
               if (!this.usePickBatchManager) {
                 if (this.autoPickOrderSelection) {
-                  this.pPickService.get(payload, '/Induction/FillOrderNumber').subscribe(res => {
+                  this.Api.FillOrderNumber(payload).subscribe(res => {
                     this.TOTE_SETUP.forEach((element, key) => {
                       element.orderNumber = res.data[key];
                     });
@@ -327,7 +327,7 @@ export class ProcessPicksComponent implements OnInit {
             if (!this.useInZonePickScreen) {
               if (!this.usePickBatchManager) {
                 if (this.autoPickOrderSelection) {
-                  this.pPickService.get(payload, '/Induction/FillOrderNumber').subscribe(res => {
+                  this.Api.FillOrderNumber(payload).subscribe(res => {
                     this.TOTE_SETUP.forEach((element, key) => {
                       element.orderNumber = res.data[key];
                     });
@@ -489,7 +489,7 @@ export class ProcessPicksComponent implements OnInit {
     let payload ={
       "OrderNumber": element.orderNumber
     }
-    this.pPickService.get(payload, '/Induction/ValidateOrderNumber').subscribe(res => {
+    this.Api.ValidateOrderNumber(payload).subscribe(res => {
     if(res.data === 'Invalid'){
       this.toastr.error('This is not a vaild order number for this pick batch.', 'Error!', {
         positionClass: 'toast-bottom-right',
@@ -523,7 +523,7 @@ export class ProcessPicksComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.pPickService.get(paylaod, '/Induction/NextTote').subscribe(res => {
+    this.Api.NextTote().subscribe(res => {
       this.nxtToteID = res.data;
       this.TOTE_SETUP.forEach((element, key) => {
         if (!element.toteID) {
@@ -546,7 +546,7 @@ export class ProcessPicksComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.pPickService.update(updatePayload, '/Induction/NextToteUpdate').subscribe(res => {
+    this.Api.NextToteUpdate(updatePayload).subscribe(res => {
       if (!res.isExecuted) {
         this.toastr.error('Something is wrong.', 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -557,11 +557,7 @@ export class ProcessPicksComponent implements OnInit {
     });
   }
   getNextToteId() {
-    let paylaod = {
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-    }
-    this.pPickService.get(paylaod, '/Induction/NextTote').subscribe(res => {
+    this.Api.NextTote().subscribe(res => {
       this.nxtToteID = res.data;
       for (let element of this.TOTE_SETUP) {
         if (element.toteID === '') {
@@ -610,7 +606,7 @@ export class ProcessPicksComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.pPickService.get(paylaod, '/Induction/NextTote').subscribe(res => {
+    this.Api.NextTote().subscribe(res => {
       this.nxtToteID = res.data;
       this.TOTE_SETUP[i].toteID = this.nxtToteID;
       this.nxtToteID = this.nxtToteID + 1;
@@ -674,12 +670,14 @@ export class ProcessPicksComponent implements OnInit {
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
       }
-      this.pPickService.create(paylaod, '/Induction/InZoneSetupProcess').subscribe(res => {
+      
+      this.Api.InZoneSetupProcess(paylaod).subscribe(res => {
         if (res.isExecuted) {
           this.dialog.closeAll();
           this.TOTE_SETUP.map(obj => {
             obj.toteID = '';
             obj.orderNumber = '';
+            obj.priority = '';
           });
           this.batchID = '';
           this.toastr.success(labels.alert.success, 'Success!', {
@@ -705,12 +703,13 @@ export class ProcessPicksComponent implements OnInit {
         "wsid": this.userData.wsid,
         'Count': 0
       }
-      this.pPickService.create(paylaod, '/Induction/PickToteSetupProcess').subscribe(res => {
+      this.Api.PickToteSetupProcess(paylaod).subscribe(res => {
         if (res.isExecuted) {
           this.dialog.closeAll();
           this.TOTE_SETUP.map(obj => {
             obj.toteID = '';
             obj.orderNumber = '';
+            obj.priority = '';
           });
           this.batchID = '';
           this.toastr.success(labels.alert.success, 'Success!', {
