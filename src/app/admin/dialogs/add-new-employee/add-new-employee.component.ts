@@ -58,7 +58,9 @@ export class AddNewEmployeeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void { 
+    
     this.empData = this.data?.emp_data;
+    
     this.env =  JSON.parse(localStorage.getItem('env') || ''); 
     this.allGroups  = this.empData?.allGroups;
     this.data?.mode === 'edit' ? this.form_heading = 'Edit Employee' : 'Add New Employee';
@@ -125,7 +127,7 @@ ChangePassword(data){
       debugger
       if (this.data?.mode === 'edit') {
         form.value.wsid = "TESTWID"; 
-        form.value.Username = this.data?.emp_data?.username,
+        form.value.Username = this.data && this.data.emp_data && this.data.emp_data.username?this.data.emp_data.username:this.data.emp_data.Username  ,
           this.employeeService.updateAdminEmployee(form.value).subscribe((res: any) => {
             if (res.isExecuted) {
               this.dialogRef.close({mode: 'edit-employee', data: form.value});
