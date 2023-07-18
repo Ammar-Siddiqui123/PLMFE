@@ -318,7 +318,7 @@ export class CCBCreateCountsComponent implements OnInit {
     this.fillData();
   }
   getTypeAheads(type) {
-    debugger
+    // debugger
     if (type === 'Description') {
       let paylaod = {
         description: this.filtersForm.value.description,

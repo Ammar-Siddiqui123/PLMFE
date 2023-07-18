@@ -67,6 +67,7 @@
                             (keyup)="autocompleteSearchColumn()"
                             (focus)="getSearchOptions(true)"
                             >
+                            <button matSuffix *ngIf="tablePayloadObj.searchString" class="clear-btn"  (click)=" tablePayloadObj.searchString = ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="search()" #autocompleteInventory>
                                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
                                   {{option}}

@@ -501,4 +501,9 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     }
     );
   }
+
+  clear(){
+    this.columnSearch.searchValue = ''
+    this.getContentData()
+  }
 }

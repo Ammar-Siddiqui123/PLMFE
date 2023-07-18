@@ -30,6 +30,7 @@
                                 <mat-label>Batch ID</mat-label>
                                 <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
                                     [(ngModel)]="batchID" #batch_id required="required">
+                                    <button matSuffix *ngIf="batchID" class="clear-btn"  (click)="batchID= ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                             </mat-form-field>
                         </div>
                     </div>
@@ -130,7 +131,8 @@
                             <mat-form-field class="custom-form-field w-100 position-relative" appearance="outline">
                                 <mat-label>Batch ID</mat-label>
                                 <input type="text" [formControl]="pickBatches" aria-label="Number" matInput
-                                    [matAutocomplete]="auto">
+                                    [matAutocomplete]="auto" [(ngModel)]="pickBatchesCrossbtn">
+                                    <button matSuffix *ngIf="pickBatchesCrossbtn" class="clear-btn" (click)="pickBatchesCrossbtn= ''" ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>                              
                                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                                     <h6 class="ctl_name ac-dropdown-label"><span>Batch ID</span></h6>
                                     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
@@ -169,6 +171,7 @@
                             <mat-label>Order No.</mat-label>
                             <input type="text" [formControl]="orderNumber" aria-label="Number" matInput
                                 [matAutocomplete]="auto" [(ngModel)]="orderInput" (keyup.enter)="ifOrderExits(orderInput)">
+                                <button matSuffix *ngIf="orderInput" class="clear-btn" (click)="orderInput = ''" ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>  
                             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="ifOrderExits(orderInput)">
                                 <h6 class="ctl_name ac-dropdown-label"><span>Batch ID</span></h6>
                                 <mat-option *ngFor="let option of filteredOrderNum | async" [value]="option">

@@ -66,6 +66,7 @@
                         <input [matAutocomplete]="fromLocation" (ngModelChange)="this.fromLocationTA.next($event)"
                             formControlName="fromLocation" matInput  type="text"
                             maxlength="50">
+                            
                         <mat-autocomplete #fromLocation="matAutocomplete" (optionSelected)="searchData()">
                             <mat-option *ngFor="let option of searchAutocompleteFromLocation" [value]="option">
                                 {{option}}
@@ -89,6 +90,7 @@
                         <input [matAutocomplete]="toLocation" (ngModelChange)="this.toLocationTA.next($event)"
                             formControlName="toLocation" matInput type="text"
                             maxlength="50">
+                            
                         <mat-autocomplete #toLocation="matAutocomplete" (optionSelected)="searchData()">
                             <mat-option *ngFor="let option of searchAutocompleteToLocation" [value]="option">
                                 {{option}}

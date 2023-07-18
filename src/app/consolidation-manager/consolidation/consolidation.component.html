@@ -41,6 +41,7 @@
                         <mat-label class="pe-2">Order Number/Tote ID</mat-label>
                         <input matInput  class="        " type="text"                          
                             maxlength="50"  [(ngModel)]="TypeValue"  (keypress)="enterOrderID($event)" #autoFocusField>
+                            <button matSuffix *ngIf="TypeValue" class="clear-btn"  (click)="openCmOrderNo()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                     </mat-form-field>
                 </div>
                 <div class="d-flex flex-wrap">
@@ -172,7 +173,8 @@
                                     Search
                                 </span>
                                 <input type="text" placeholder="Search" aria-label="Search" matInput (keydown)="filtervalue($event)" [(ngModel)]="filterValue"[matAutocomplete]="item" (ngModelChange)="this.searchByItem.next($event)">
-                                <mat-autocomplete  class="card custom-scroll"  #item="matAutocomplete"  >                            
+                                <button matSuffix *ngIf="filterValue" class="clear-btn"  (click)="filterValue = '';this.autocompleteSearchColumnItem()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
+                                <mat-autocomplete  class="card custom-scroll"  #item="matAutocomplete"  > 
                                     <h6 class ="card-header matAutoCompHeader ">
                                       <span style="width:  140px;">Value</span> 
                                       <span style="width:  140px;">Line Number</span> 
