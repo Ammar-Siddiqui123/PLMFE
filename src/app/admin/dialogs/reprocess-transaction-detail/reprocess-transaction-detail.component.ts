@@ -274,7 +274,7 @@ export class ReprocessTransactionDetailComponent implements OnInit {
   dayIncrement(date: any) {
 
     // (this.expDate!=null&&this.expDate!="1900-01-01T19:31:48.000Z")?this.expDate:" ",
-    if (date != null && date != "1900-01-01T19:31:48.000Z") {
+    if (date != null && date != "1900-01-01T19:31:48.000Z" && date!='') {
       var newDate = new Date(date);
       newDate.setDate(newDate.getDate() + 1);
       return newDate;
