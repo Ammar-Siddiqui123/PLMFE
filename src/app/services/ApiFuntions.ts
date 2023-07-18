@@ -61,14 +61,18 @@ export class ApiFuntions {
   public login(userData:any) {
     return this.ApiBase.Post("/users/login", userData);
   }
-  public workstationdefaultapp() {
-    return this.ApiBase.Get("/GlobalConfig/workstationdefaultapp");
+  public workstationdefaultapp(body?) {
+    return this.ApiBase.Get("/GlobalConfig/workstationdefaultapp",body);
   }
   public GlobalMenu(menu:any) {
     return this.ApiBase.Get("/GlobalConfig/menu",menu);
   }
   public AppLicense() {
     return this.ApiBase.Get("/GlobalConfig/AppLicense");
+  }
+
+  public getWorkstationapp(body:any) {
+    return this.ApiBase.Get("/GlobalConfig/workstationapp",body);
   }
   public workstationapp(body:any) {
     return this.ApiBase.Post("/GlobalConfig/workstationapp",body);
@@ -77,10 +81,13 @@ export class ApiFuntions {
     return this.ApiBase.Delete("/GlobalConfig/workstationapp",body);
   }
   public WorkStationDefaultAppAdd(body:any) {
+    return this.ApiBase.Get("/GlobalConfig/workstationapp",body);
+  }
+  public WorkStationDefaultAppAddDefault(body:any) {
     return this.ApiBase.Post("/GlobalConfig/workstationdefaultapp",body);
   }
   public WorkStationAppDelete(body:any) {
-    return this.ApiBase.Delete("/GlobalConfig/workstationdefaultapp",body);
+    return this.ApiBase.Post("/GlobalConfig/workstationdefaultapp/delete",body);
   }
   public AppNameByWorkstation(body:any) {
     return this.ApiBase.Get("/GlobalConfig/appnamebyworkstation",body);
@@ -826,7 +833,7 @@ public CategoryDelete(Body: any ): Observable<any> {
 }
 
 public deleteControlName(Body: any ): Observable<any> {
-  return this.ApiBase.Delete(`/Admin/control`, Body);
+  return this.ApiBase.Post(`/Admin/control`, Body);
 }
 
 public submitControlResponse(Body: any ): Observable<any> {
