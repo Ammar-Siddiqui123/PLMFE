@@ -126,8 +126,10 @@
 
             </div>
         </div>
+      
         <div class="d-flex justify-content-end pt-3">
-            <button [disabled]="itemInvalid===true || itemInvalid===undefined || orderNumber==='' || itemNumber===''" (click)="saveTransaction()" style="flex:1" mat-flat-button color="primary"
+       
+            <button [disabled]="itemInvalid===true || itemInvalid===undefined || orderNumber==='' || itemNumber==='' || itemNumber===undefined" (click)="saveTransaction()" style="flex:1" mat-flat-button color="primary"
                 class=" btn-lg" cdkFocusInitial>Save
                 New Transaction</button>
         </div>
