@@ -65,7 +65,10 @@
                         <mat-label>From Location</mat-label>
                         <input [matAutocomplete]="fromLocation" (ngModelChange)="this.fromLocationTA.next($event)"
                             formControlName="fromLocation" matInput  type="text"
-                            maxlength="50">
+                            maxlength="50" [(ngModel)]="fromLocationCrossbtn">
+
+                            <button matSuffix *ngIf="fromLocationCrossbtn" class="clear-btn" (click)=" fromLocationCrossbtn='' " ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button> 
+
                             
                         <mat-autocomplete #fromLocation="matAutocomplete" (optionSelected)="searchData()">
                             <mat-option *ngFor="let option of searchAutocompleteFromLocation" [value]="option">
@@ -89,8 +92,8 @@
                         <mat-label>To Location</mat-label>
                         <input [matAutocomplete]="toLocation" (ngModelChange)="this.toLocationTA.next($event)"
                             formControlName="toLocation" matInput type="text"
-                            maxlength="50">
-                            
+                            maxlength="50" [(ngModel)]="toLocationCrossbtn">
+                            <button matSuffix *ngIf="toLocationCrossbtn" class="clear-btn" (click)=" toLocationCrossbtn='' " ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button> 
                         <mat-autocomplete #toLocation="matAutocomplete" (optionSelected)="searchData()">
                             <mat-option *ngFor="let option of searchAutocompleteToLocation" [value]="option">
                                 {{option}}

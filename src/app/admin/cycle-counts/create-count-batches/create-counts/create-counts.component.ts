@@ -114,6 +114,8 @@ export class CCBCreateCountsComponent implements OnInit {
     'actions',
   ];
   dataSourceList: any;
+  fromLocationCrossbtn
+  toLocationCrossbtn
   constructor(
     public Api: ApiFuntions,
     public toastService: ToastrService,
