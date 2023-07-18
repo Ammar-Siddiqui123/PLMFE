@@ -198,7 +198,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    
+    debugger
 
     this.customPagination = {
       total: '',
@@ -227,6 +227,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.subscription.add(
     this.sharedService.historyItemObserver.subscribe(itemNo => {
+      debugger
       if(itemNo){
         this.selectedDropdown='Item Number';
         this.columnSearch.searchValue=itemNo;
@@ -235,6 +236,20 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       }
        })
     )
+
+    this.subscription.add(
+    this.sharedService.reprocessItemObserver.subscribe(itemNo => {
+      debugger
+      if(itemNo){
+        this.selectedDropdown='Item Number';
+        this.columnSearch.searchValue=itemNo;
+       
+      //  this.onOrderNoChange();
+      }
+       })
+    )
+
+    
 
     this.subscription.add(
       this.sharedService.historyLocObserver.subscribe(loc => {

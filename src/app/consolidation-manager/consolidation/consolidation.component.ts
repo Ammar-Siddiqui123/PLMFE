@@ -382,12 +382,13 @@ export class ConsolidationComponent implements OnInit {
   }
 
  verifyLine(element:any,Index?:any){
+  // debugger
    let index:any;
    let status:any;
    let id:any;
    if(Index != undefined){
-     id = this.tableData_1.data[index].id;
-     status = this.tableData_1.data[index].lineStatus;
+     id = this.tableData_1.data[Index].id;
+     status = this.tableData_1.data[Index].lineStatus;
    }
    else{
      index = this.tableData_1.data.indexOf(element);
@@ -402,6 +403,7 @@ export class ConsolidationComponent implements OnInit {
     });
    }
    else{
+    // debugger
     let payload = {
       "id": id,
       "username": this.userData.userName ,
@@ -410,14 +412,26 @@ export class ConsolidationComponent implements OnInit {
 
     this.Api.VerifyItemPost(payload).subscribe((res:any)=>{
       if(res.isExecuted){
-        let data = this.tableData_2.data; 
-        data.push({...this.tableData_1.data[index]});
-        this.tableData_2 = new MatTableDataSource(data);
-        let data2 = this.tableData_1.data;
-        data2.splice(index, 1);
-        this.tableData_1 = new MatTableDataSource(data2);
-        this.tableData_1.paginator = this.paginator;
-        this.tableData_2.paginator = this.paginator2;
+    if(Index != undefined){
+      let data = this.tableData_2.data; 
+      data.push({...this.tableData_1.data[Index]});
+      this.tableData_2 = new MatTableDataSource(data);
+      let data2 = this.tableData_1.data;
+      data2.splice(Index, 1);
+      this.tableData_1 = new MatTableDataSource(data2);
+      this.tableData_1.paginator = this.paginator;
+      this.tableData_2.paginator = this.paginator2;
+    }
+    else{
+      let data = this.tableData_2.data; 
+      data.push({...this.tableData_1.data[index]});
+      this.tableData_2 = new MatTableDataSource(data);
+      let data2 = this.tableData_1.data;
+      data2.splice(index, 1);
+      this.tableData_1 = new MatTableDataSource(data2);
+      this.tableData_1.paginator = this.paginator;
+      this.tableData_2.paginator = this.paginator2;
+    }
         
       }
       else{
@@ -478,7 +492,8 @@ export class ConsolidationComponent implements OnInit {
   }
 
   checkVerifyType(columnIndex, val){
-   let filterVal = this.filterValue.toLowerCase();
+    // debugger
+   let filterVal = this.filterValue
     this.filterValue = '';
     if (val != undefined) {
       filterVal = val
@@ -499,6 +514,7 @@ export class ConsolidationComponent implements OnInit {
   }
 
   CheckDuplicatesForVerify(val){
+    // debugger
     let columnIndex = this.startSelectFilter;
     let result:any;
     if(columnIndex == 0){
@@ -539,7 +555,7 @@ export class ConsolidationComponent implements OnInit {
     }
     else if(result.valueCount>=1){
       
-      this.verifyLine(result.index)
+      this.verifyLine(val,result.index)
     }
     else{
       this.toastr.error('Item not in order or has already been consolidated', 'error!', {
@@ -622,7 +638,7 @@ export class ConsolidationComponent implements OnInit {
 
     let payload = {
       "column": this.startSelectFilter,
-      "value": this.filterValue,
+      "value": this.filterValue?this.filterValue:'',
       "orderNumber": this.TypeValue,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
@@ -653,6 +669,7 @@ export class ConsolidationComponent implements OnInit {
   }
 
   getRow(filtervalue) {
+    
     this.CheckDuplicatesForVerify(filtervalue);
   }
 
