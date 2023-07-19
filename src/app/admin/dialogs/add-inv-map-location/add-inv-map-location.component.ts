@@ -78,6 +78,7 @@ export class AddInvMapLocationComponent implements OnInit {
   quantity: any;
   routeFromIM: boolean = false;
   routeFromOM: boolean = false;
+  searchItemNumbers
 
   @ViewChild('cellSizeVal') cellSizeVal: ElementRef;
   @ViewChild('velCodeVal') velCodeVal: ElementRef;

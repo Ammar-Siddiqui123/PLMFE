@@ -95,6 +95,8 @@
                         <mat-label>Tote ID</mat-label>
                         <input [(ngModel)]="toteId" matInput class="" value="" type="text" name="searchByToteId"
                             id="searchByToteId" (ngModelChange)="this.searchByToteId.next($event)">
+
+                            <button matSuffix *ngIf="toteId" class="clear-btn"  (click)="toteId = ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                     </mat-form-field>
                 </div>
 
