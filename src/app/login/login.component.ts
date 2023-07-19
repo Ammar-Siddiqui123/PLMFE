@@ -228,7 +228,7 @@ enterUserName(){
       },
       {
         appName: 'Consolidation Manager',
-        route: '#',
+        route: '/ConsolidationManager',
         iconName: 'insert_chart',
         name: 'Consolidation Manager',
         updateMenu: '',
@@ -260,7 +260,7 @@ enterUserName(){
       },
       {
         appName: 'OrderManager',
-        route: '#',
+        route: '/OrderManager',
         iconName: 'pending_actions',
         name: 'Order Manager',
         updateMenu: '',
@@ -282,16 +282,13 @@ enterUserName(){
 
   getDefaultApp(wsid){
     let paylaod={
-      WSID: wsid
+      workstationid: wsid
     }
-     this.api.workstationdefaultapp().subscribe(
+     this.api.workstationdefaultapp(paylaod).subscribe(
   (res: any) => {
   
     if (res && res.data) {
-      
      this.checkAppAcess(res.data)
-  
-
 
      }
     else{

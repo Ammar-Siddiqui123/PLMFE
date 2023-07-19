@@ -156,7 +156,12 @@ export class SharedService {
         userName:userName,
         wsid:wsid, appName:appName
       }
-      this.api.UserAppNameAdd(object).subscribe((res: any) => { }); 
+  
+        this.api.UserAppNameAdd(object).subscribe((res: any) => { },(error: any) => {
+          console.error('An error occurred:', error);
+        }); 
+
+      
     } 
   }
 
