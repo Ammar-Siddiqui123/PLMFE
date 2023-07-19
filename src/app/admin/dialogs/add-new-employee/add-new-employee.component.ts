@@ -124,10 +124,10 @@ ChangePassword(data){
       // this.isSubmitting = true;
       this.cleanForm(form);
       form.value.active = Boolean(JSON.parse(form.value.active));
-      debugger
+      
       if (this.data?.mode === 'edit') {
         form.value.wsid = "TESTWID"; 
-        form.value.Username = this.data && this.data.emp_data && this.data.emp_data.username?this.data.emp_data.username:this.data.emp_data.Username  ,
+        form.value.username = this.data && this.data.emp_data && this.data.emp_data.username?this.data.emp_data.username:this.data.emp_data.Username  ,
           this.employeeService.updateAdminEmployee(form.value).subscribe((res: any) => {
             if (res.isExecuted) {
               this.dialogRef.close({mode: 'edit-employee', data: form.value});

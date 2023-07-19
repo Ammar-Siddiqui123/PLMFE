@@ -44,6 +44,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
     return this.floatLabelControlItem.value || 'item';
   }
   searchData(event) {
+    // if(!this.itemNumber) return
     let payLoad = {
       itemNumber: this.itemNumber,
         username: this.data.userName,
@@ -73,6 +74,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
   }
 
   setItem(event?) {
+  
     let payLoad = {
       itemNumber: this.itemNumber,
       username: this.data.userName,
@@ -254,12 +256,14 @@ this.orderRequired=true
           
           if (res.data.length>0) {
             this.searchAutocompleteItemNum=res.data
-            // this.setItem()
+            this.setItem()
             // if (this.searchAutocompleteItemNum.includes(res.data)) return;
             // this.searchAutocompleteItemNum.push(res.data);
           }else{
+            
             this.searchAutocompleteItemNum.length=0;
           }
+        
         },
         (error) => {}
       );
