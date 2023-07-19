@@ -204,7 +204,7 @@ initialzeEmpForm() {
 
     this.max_orders = event.userData.maximumOrders;
     const emp_data = {
-      "userName": event.userData?.username,
+      "user": event.userData?.username,
       "wsid": "TESTWSID"
     };
  
@@ -236,7 +236,7 @@ initialzeEmpForm() {
   }
   reloadData(){
     const emp_data = {
-      "userName":  this.grp_data,
+      "user":  this.grp_data,
       "wsid": "TESTWSID"
     };
     this.employeeService.getAdminEmployeeDetails(emp_data)
@@ -602,7 +602,7 @@ initialzeEmpForm() {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      debugger
+      
         if (result !== undefined) {
           if(result == true){
             this.employeesLookup.EmployeeLookUp();
@@ -713,7 +713,7 @@ initialzeEmpForm() {
   }
   getEmployeeDetails(){
     const emp_data = {
-      "userName":this.userData.userName,
+      "user":this.userData.userName,
       "wsid": this.userData.wsid
     };
  

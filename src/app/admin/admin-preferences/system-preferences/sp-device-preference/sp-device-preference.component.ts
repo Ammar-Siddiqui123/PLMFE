@@ -78,19 +78,32 @@ export class SpDevicePreferenceComponent implements OnInit {
       wsid: this.userData.wsid,
     };
 
-    this.Api
-      .GetAdminMenu()
-      .subscribe((res: any) => {
-        if (res && res?.data?.totalOrders) {
-          this.dataSource = new MatTableDataSource(
-            res.data.totalOrders.orderTable
-          );
-        }
-        if (res && res?.data?.totalOrders && res?.data?.totalOrders?.adminValues) {
-        }
-        // if (res && res?.data?.devicePreferences && res?.data?.devicePreferences) {
-        // }
-      });
+
+    this.Api.DevicePreferencesTable(payload)
+    .subscribe((res: any) => {
+      console.log(res);
+
+      if (res && res?.data?.devicePreferences) {
+        this.dataSource = new MatTableDataSource(res.data.devicePreferences);
+        this.customPagination.total = res.data?.recordsFiltered;
+      }
+      // if (res && res?.data?.devicePreferences && res?.data?.devicePreferences) {
+      // }
+    });
+
+    // this.Api
+    //   .GetAdminMenu()
+    //   .subscribe((res: any) => {
+    //     if (res && res?.data?.totalOrders) {
+    //       this.dataSource = new MatTableDataSource(
+    //         res.data.totalOrders.orderTable
+    //       );
+    //     }
+    //     if (res && res?.data?.totalOrders && res?.data?.totalOrders?.adminValues) {
+    //     }
+    //     // if (res && res?.data?.devicePreferences && res?.data?.devicePreferences) {
+    //     // }
+    //   });
   }
 
   addEditNewDevice(item?, isEdit = false) {

@@ -1,5 +1,6 @@
 import { Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-wrd-frontend',
@@ -12,7 +13,8 @@ export class WrdFrontendComponent implements OnInit {
   constructor(private componentFactoryResolver: ComponentFactoryResolver,private sharedService:SharedService) {    
     this.sharedService.SideBarMenu.next(false);
     var file = localStorage.getItem("ListAndLandFile")?.replace(".","-");
-    this.FileName = file; 
+    this.FileName = file;
+     
   }
   ngOnInit(): void {
     
@@ -22,8 +24,8 @@ export class WrdFrontendComponent implements OnInit {
   }
 
   generateHTMLAndAppend() { 
-    const dynamicHtml = `<ll-webreportdesigner backendUrl="http://localhost:63590/LLWebReportDesigner"
-    defaultProject="42B325E5-A894-4BDE-9D0A-5098B46A5095" customData="${this.FileName}" ></ll-webreportdesigner>`; 
+    const dynamicHtml = `<ll-webreportdesigner backendUrl="${environment.apiUrl.split("/api")[0]}/LLWebReportDesigner"
+    defaultProject="${this.FileName.split('-')[1] == 'lbl'? '7FAC97B2-3F8A-437A-A3B6-2E0E2FCB750B':'57D637EE-9735-42B4-88D7-4B43FE17DDA8'}" customData="${this.FileName}" ></ll-webreportdesigner>`; 
     const dynamicComponent = Component({
       template: dynamicHtml
     })(class {}); 

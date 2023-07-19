@@ -161,6 +161,7 @@ oldIncluded
   }
 
   changeVal(event:any,index){
+    
     if(event.keyCode == 8){
       return
     }
@@ -238,6 +239,10 @@ test(){
                 
                 
                 this.generateReelAndSerial.data.forEach((element)=>{
+                 
+                  // if(element.reel_serial_number !=''){
+                  //   element.isEmpty = false
+                  // }
                   sn =element.reel_serial_number
                   SNs.push(element.reel_serial_number)
                   // if(element.reel_serial_number==''){
@@ -260,8 +265,10 @@ test(){
                     "Notes":  element.details.reelNotes
                 })
                 })
+                // console.log(this.generateReelAndSerial.data,'checj')
 
                 if(SNs.includes('')){
+                  
                   this.toastr.error("You must provide a serial number for each reel transaction.", 'Error!', {
                     positionClass: 'toast-bottom-right',
                     timeOut: 2000

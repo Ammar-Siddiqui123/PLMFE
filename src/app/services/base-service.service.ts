@@ -41,6 +41,16 @@ export class BaseService {
         };
         return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
     }
+
+    public Put(endPoint: string,reqPaylaod: any) {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic '
+            })
+        };
+        return this.http.put<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
+    }
     public Update(endPoint: string,reqPaylaod: any) {
         const httpOptions = {
             headers: new HttpHeaders({
