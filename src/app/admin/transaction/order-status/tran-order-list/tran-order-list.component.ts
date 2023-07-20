@@ -767,6 +767,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       height: 'auto',
       width: '100vw',
       autoFocus: '__non_existing_element__',
+      data: {
+        orderNumber: this.orderNo,
+      },
     });
 
   }

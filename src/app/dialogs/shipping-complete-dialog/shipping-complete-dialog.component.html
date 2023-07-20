@@ -25,7 +25,7 @@
         <div class="d-block d-xl-flex justify-content-between align-items-center w-100">
           <div class="col-xl-3 d-flex">
             <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-              <input disabled matInput type="text" value="0000">
+              <input disabled matInput type="text" [(ngModel)]="this.data.orderNumber">
             </mat-form-field>
           </div>
 
@@ -56,7 +56,7 @@
 
             <div class="card br-14  borderless" style="overflow-x: auto;">
               <ng-scrollbar class="mat-table-scrollbar  scrollbar-hover-padding" style="height:280px" track="all">
-                <table mat-table #table1 [dataSource]="displayedColumns" class="w-100" matSort #matSort="matSort">
+                <table mat-table #table1 [dataSource]="tableData1" class="w-100" matSort #matSort="matSort">
 
                   <!-- Position Column -->
                   <ng-container matColumnDef="itemNo">
@@ -88,13 +88,13 @@
                   </ng-container>
 
                   <tr class="mat-row" *matNoDataRow>
-                    <td class="mat-cell " [attr.colspan]="displayedColumns.length">
+                    <td class="mat-cell " [attr.colspan]="displayedColumns1.length">
                       No data available in table.
                     </td>
                   </tr>
 
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
                 </table>
               </ng-scrollbar>
             </div>
@@ -124,7 +124,7 @@
 
             <div class="card br-14 borderless" style="overflow-x: auto;">
               <ng-scrollbar class="mat-table-scrollbar  scrollbar-hover-padding" style="height:280px" track="all">
-                <table mat-table #table2 [dataSource]="displayedColumns1" class="w-100" matSort #matSort="matSort"
+                <table mat-table #table2 [dataSource]="tableData2" class="w-100" matSort #matSort="matSort"
                   #matSort1="matSort">
 
                   <!-- Position Column -->
@@ -158,13 +158,13 @@
                   </ng-container>
 
                   <tr class="mat-row" *matNoDataRow>
-                    <td class="mat-cell " [attr.colspan]="displayedColumns1.length">
+                    <td class="mat-cell " [attr.colspan]="displayedColumns2.length">
                       No data available in table.
                     </td>
                   </tr>
 
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
                 </table>
               </ng-scrollbar>
             </div>
