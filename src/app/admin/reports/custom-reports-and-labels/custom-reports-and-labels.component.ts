@@ -15,15 +15,25 @@ import { SharedService } from 'src/app/services/shared.service';
 export class CustomReportsAndLabelsComponent implements OnInit {
   Detail:any = {};
   ListReports:any = [];
+  reportTitles:any = [];
+  IsSystemReport:boolean = true;
+  sysTitles:any = [];
   constructor(private api:ApiFuntions,private route:Router,private dialog: MatDialog) { }
 
   ngOnInit(): void {
   this.Getcustomreports();
+
   }
-  
+  ChangeReport(IsSysBolean:boolean){
+    this.IsSystemReport = IsSysBolean;
+    if(this.IsSystemReport == true) this.ListReports = this.sysTitles;
+    else this.ListReports = this.reportTitles;
+  }
   Getcustomreports(){
     this.api.Getcustomreports().subscribe((res:any)=>{
-      this.ListReports = res?.data?.reportTitles?.sysTitles;
+      this.sysTitles = res?.data?.reportTitles?.sysTitles;
+      this.reportTitles = res?.data?.reportTitles?.reportTitles;
+      this.ListReports = this.sysTitles;
     })
   }
   OpenListAndLabel(route){
