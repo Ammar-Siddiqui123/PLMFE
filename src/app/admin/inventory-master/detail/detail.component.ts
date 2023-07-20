@@ -195,13 +195,18 @@ export class DetailComponent implements OnInit {
 //  }
 
   if(this.setVal == true){
-
-this.router.navigate([]).then((result) => {
+    this.router.navigate([]).then((result) => {
       let url = '/#/OrderManager/OrderStatus?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
       window.open(url, '_blank');
     });
-  }else{
-
+  }
+  else if(this.spliUrl[1] == 'InductionManager'){
+    this.router.navigate([]).then((result) => {
+      let url = '/#/InductionManager/Admin/TransactionJournal?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
+      window.open(url, '_blank');
+    });
+  }
+  else{
     this.router.navigate([]).then((result) => {
       let url = '/#/admin/transaction?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
       window.open(url, '_blank');

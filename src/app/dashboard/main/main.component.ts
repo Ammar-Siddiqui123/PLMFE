@@ -31,8 +31,12 @@ export class MainComponent implements OnInit {
 
 
     this.userData = this.authService.userData();
-
-    this.isDefaultAppVerify =  JSON.parse(localStorage.getItem('isAppVerified') || '');
+    if(localStorage.getItem('isAppVerified') ){
+      this.isDefaultAppVerify =  JSON.parse(localStorage.getItem('isAppVerified') || '');
+    }else{
+      this.isDefaultAppVerify={appName: "",isVerified:true}
+    }
+    
 
   }
 
@@ -47,9 +51,9 @@ export class MainComponent implements OnInit {
     // this.sharedService.setMenuData(this.applicationData)
 
     let payload = {
-      WSID: this.userData.wsid,
+      workstationid: this.userData.wsid,
     };
-    this.Api.AppNameByWorkstation().subscribe(
+    this.Api.AppNameByWorkstation(payload).subscribe(
       (res: any) => {
         if (res && res.data) {
           this.convertToObj(res.data);
@@ -217,7 +221,7 @@ export class MainComponent implements OnInit {
     });
   }
   updateMenu(menu = '', obj: any = null) {
-    debugger;
+   
     if (menu != '') {
       this.sharedService.updateLoggedInUser(
         this.userData.userName,

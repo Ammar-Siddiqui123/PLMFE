@@ -56,6 +56,7 @@ export class InventoryMasterComponent implements OnInit {
   isDataFoundCounter = 0;
   saveDisabled = true;
   count;
+  spliUrl;
 isQuarantine=false;
 
   public locationTable: any;
@@ -105,7 +106,7 @@ isQuarantine=false;
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
   onScroll(event) {
-    alert();
+    // alert();
   }
   @HostListener('document:keydown', ['$event'])
 
@@ -223,6 +224,7 @@ isQuarantine=false;
       .paramMap
       .subscribe(params => { 
       });
+    this.spliUrl=this.router.url.split('/');
   }
 
   // onOutsideSearchBox(e?:any) {
@@ -568,6 +570,10 @@ isQuarantine=false;
         'splitCase': this.invMaster.value.splitCase ? true : false,
         'active': this.invMaster.value.active ? true : false
       });
+      debugger
+      if(!this.invMaster.value.secondaryPickZone){
+        this.invMaster.value['secondaryPickZone'] = '';
+      }
       this.api.UpdateInventoryMaster(this.invMaster.value).subscribe((res: any) => {
         if (res.isExecuted) {
           this.saveDisabled = true;
@@ -778,10 +784,15 @@ isQuarantine=false;
 
   viewLocations() {
     if (this.setVal == true) {
-      this.router.navigate(['/OrderManager/InventoryMap'], { state: { colHeader: 'itemNumber', colDef: 'Item Number', searchValue: this.currentPageItemNo } })
+      this.router.navigate(['/OrderManager/InventoryMap'], { state: { colHeader: 'itemNumber', colDef: 'Item Number', searchValue: this.currentPageItemNo } });
     }
     else {
-      this.router.navigate(['/admin/inventoryMap'], { state: { colHeader: 'itemNumber', colDef: 'Item Number', searchValue: this.currentPageItemNo } })
+      if(this.spliUrl[1] == 'InductionManager'){
+        this.router.navigate(['/InductionManager/Admin/InventoryMap'], { state: { colHeader: 'itemNumber', colDef: 'Item Number', searchValue: this.currentPageItemNo } });
+      }
+      else{
+        this.router.navigate(['/admin/inventoryMap'], { state: { colHeader: 'itemNumber', colDef: 'Item Number', searchValue: this.currentPageItemNo } });
+      }
     }
   }
 

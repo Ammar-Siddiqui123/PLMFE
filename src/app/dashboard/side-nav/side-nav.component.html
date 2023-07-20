@@ -2,6 +2,7 @@
 
   <mat-nav-list *ngIf="isParentMenu">
     <ng-container *ngFor="let menu of dynamicMenu;let i = index">
+    
       <mat-list-item routerLinkActive="active" routerLink="{{menu.route}}" (click)="loadMenus(menu)"
         [disabled]="isAuthorized(menu.permission) || menu.route==='#'">
         <span mat-list-icon class="material-symbols-outlined">

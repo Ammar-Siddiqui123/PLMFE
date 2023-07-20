@@ -156,13 +156,14 @@ enterUserName(){
   }
 
 
-
+    
   // moved getAppLicense,convertToObj ,sortAppsData,appNameDictionary & setMenuData from Menu Component to handle access to the Apps on login
   getAppLicense(wsid) {
+    let userData=JSON.parse(localStorage.getItem('user') || '{}');
     let payload = {
-      WSID:  this.login.wsid,
+      workstationid: userData.wsid,
     };
-    this.api.AppNameByWorkstation()
+    this.api.AppNameByWorkstation(payload)
       .subscribe(
         (res: any) => {
           if (res && res.data) {
@@ -227,7 +228,7 @@ enterUserName(){
       },
       {
         appName: 'Consolidation Manager',
-        route: '#',
+        route: '/ConsolidationManager',
         iconName: 'insert_chart',
         name: 'Consolidation Manager',
         updateMenu: '',
@@ -259,7 +260,7 @@ enterUserName(){
       },
       {
         appName: 'OrderManager',
-        route: '#',
+        route: '/OrderManager',
         iconName: 'pending_actions',
         name: 'Order Manager',
         updateMenu: '',
@@ -281,16 +282,13 @@ enterUserName(){
 
   getDefaultApp(wsid){
     let paylaod={
-      WSID: wsid
+      workstationid: wsid
     }
-     this.api.workstationdefaultapp().subscribe(
+     this.api.workstationdefaultapp(paylaod).subscribe(
   (res: any) => {
   
     if (res && res.data) {
-      
      this.checkAppAcess(res.data)
-  
-
 
      }
     else{

@@ -61,14 +61,18 @@ export class ApiFuntions {
   public login(userData:any) {
     return this.ApiBase.Post("/users/login", userData);
   }
-  public workstationdefaultapp() {
-    return this.ApiBase.Get("/GlobalConfig/workstationdefaultapp");
+  public workstationdefaultapp(body?) {
+    return this.ApiBase.Get("/GlobalConfig/workstationdefaultapp",body);
   }
   public GlobalMenu(menu:any) {
     return this.ApiBase.Get("/GlobalConfig/menu",menu);
   }
   public AppLicense() {
     return this.ApiBase.Get("/GlobalConfig/AppLicense");
+  }
+
+  public getWorkstationapp(body:any) {
+    return this.ApiBase.Get("/GlobalConfig/workstationapp",body);
   }
   public workstationapp(body:any) {
     return this.ApiBase.Post("/GlobalConfig/workstationapp",body);
@@ -77,13 +81,16 @@ export class ApiFuntions {
     return this.ApiBase.Delete("/GlobalConfig/workstationapp",body);
   }
   public WorkStationDefaultAppAdd(body:any) {
+    return this.ApiBase.Get("/GlobalConfig/workstationapp",body);
+  }
+  public WorkStationDefaultAppAddDefault(body:any) {
     return this.ApiBase.Post("/GlobalConfig/workstationdefaultapp",body);
   }
   public WorkStationAppDelete(body:any) {
-    return this.ApiBase.Delete("/GlobalConfig/workstationdefaultapp",body);
+    return this.ApiBase.Post("/GlobalConfig/workstationdefaultapp/delete",body);
   }
-  public AppNameByWorkstation() {
-    return this.ApiBase.Get("/GlobalConfig/appnamebyworkstation");
+  public AppNameByWorkstation(body:any) {
+    return this.ApiBase.Get("/GlobalConfig/appnamebyworkstation",body);
   }
   public configLogout(body:any): Observable<any> {
     return this.ApiBase.Post("/GlobalConfig/user/logout", body);
@@ -796,7 +803,7 @@ public saveAdminEmployee(Body: any ): Observable<any> {
 }
 
 public deleteAdminEmployee(Body: any ): Observable<any> {
-  return this.ApiBase.Delete(`/Admin/employee`, Body);
+  return this.ApiBase.Post(`/Admin/employee/delete`, Body);
 }
 public deleteUserGroup(Body: any ): Observable<any> {
   return this.ApiBase.Delete(`/Admin/usergroup`, Body);
@@ -826,7 +833,7 @@ public CategoryDelete(Body: any ): Observable<any> {
 }
 
 public deleteControlName(Body: any ): Observable<any> {
-  return this.ApiBase.Delete(`/Admin/control`, Body);
+  return this.ApiBase.Post(`/Admin/control`, Body);
 }
 
 public submitControlResponse(Body: any ): Observable<any> {
@@ -1268,7 +1275,19 @@ public dltVelocityCode(body: any): Observable<any> {
   return this.ApiBase.Delete(`/Common/velocitycode`, body);
 }
 public DevicePreferencesDelete(body){
-  return this.ApiBase.Delete(`/Admin/devicepreferences`, body);
+  return this.ApiBase.Post(`/Admin/deviceperference/delete`, body);
+}
+
+public GetCartonFlow(body?: any): Observable<any> { 
+  return this.ApiBase.Get(`/Admin/loczonescartonflow`);
+}
+
+public UpdateCartonFlow(body){    // ------------ update cartonflow
+  return this.ApiBase.Put(`/Admin/workstationsettings`, body);
+}
+
+public DevicePreferencesTable(body){
+  return this.ApiBase.Get(`/Admin/deviceperference`, body);
 }
 public LocationNamesSave(body){
   return this.ApiBase.Post(`/Admin/locationnames`, body);
@@ -1286,7 +1305,7 @@ public DeviceInformation(body){
   return this.ApiBase.Get(`/Admin/deviceinformation`,body);
 }
 public DevicePreference(body){
-  return this.ApiBase.Get(`/Admin/devicepreference`,body);
+  return this.ApiBase.Post(`/Admin/deviceperference`,body);
 }
 public LocationZoneSave(body){
   return this.ApiBase.Post(`/Admin/locationzone`,body);

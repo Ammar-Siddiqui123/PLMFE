@@ -224,7 +224,14 @@ export class SelectZonesComponent implements OnInit {
   
           }
           this.ELEMENT_DATA.push(
-            { zone: this.zoneDetails[i].zone,locationName:this.zoneDetails[i].locationName,locationType:this.zoneDetails[i].locationType,stagingZone:this.zoneDetails[i].stagingZone,selected:isSelected,available: this.zoneDetails[i].available}
+            { 
+              zone: this.zoneDetails[i].zone,
+              locationName:this.zoneDetails[i].locationName,
+              locationType:this.zoneDetails[i].locationType,
+              stagingZone:this.zoneDetails[i].stagingZone,
+              selected:this.zoneDetails[i].selected,
+              available: this.zoneDetails[i].available
+            }
             );
         }
         this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
