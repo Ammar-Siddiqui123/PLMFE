@@ -31,8 +31,12 @@ export class MainComponent implements OnInit {
 
 
     this.userData = this.authService.userData();
-
-    this.isDefaultAppVerify =  JSON.parse(localStorage.getItem('isAppVerified') || '');
+    if(localStorage.getItem('isAppVerified') ){
+      this.isDefaultAppVerify =  JSON.parse(localStorage.getItem('isAppVerified') || '');
+    }else{
+      this.isDefaultAppVerify={appName: "",isVerified:true}
+    }
+    
 
   }
 
@@ -217,7 +221,7 @@ export class MainComponent implements OnInit {
     });
   }
   updateMenu(menu = '', obj: any = null) {
-    debugger;
+   
     if (menu != '') {
       this.sharedService.updateLoggedInUser(
         this.userData.userName,

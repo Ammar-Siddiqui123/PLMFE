@@ -68,11 +68,11 @@
                     </mat-autocomplete> -->
 
 
-                    <mat-autocomplete class="card custom-scroll" #item="matAutocomplete" (optionSelected)="setItem($event)">
+                    <mat-autocomplete class="card custom-scroll" #item="matAutocomplete" (optionSelected)="searchData($event)">
                             
                         <h6 class ="card-header matAutoCompHeader "><span style="width:  140px;">Item Number</span> <span  style="width:  140px;">Description</span> </h6>
                       
-                        <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.itemNumber" class="matAutoCompTableContent">
+                        <mat-option *ngFor="let option of searchAutocompleteItemNum" [value]="option.itemNumber" class="matAutoCompTableContent" (click)="$event.stopPropagation()">
                           <div class="loc_option"  (click)="getRow(option)" >
                             <span   class="searchColumn" style="width:  140px;">{{option.itemNumber}}</span> <span  class="searchColumn" style="width:  140px; text-overflow: ellipsis; overflow: hidden; max-width: 20ch; white-space: nowrap;" #tooltip="matTooltip" matTooltipPosition="above" [matTooltip]="option.description" [matTooltipDisabled]="option.description && option.description.length>=20?false:true">{{option.description}}</span> 
                         </div>
@@ -126,8 +126,10 @@
 
             </div>
         </div>
+      
         <div class="d-flex justify-content-end pt-3">
-            <button [disabled]="itemInvalid===true || itemInvalid===undefined || orderNumber==='' || itemNumber===''" (click)="saveTransaction()" style="flex:1" mat-flat-button color="primary"
+       
+            <button [disabled]=" orderNumber==='' || itemNumber==='' || itemNumber===undefined" (click)="saveTransaction()" style="flex:1" mat-flat-button color="primary"
                 class=" btn-lg" cdkFocusInitial>Save
                 New Transaction</button>
         </div>

@@ -33,6 +33,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { ShippingCompleteDialogComponent } from 'src/app/dialogs/shipping-complete-dialog/shipping-complete-dialog.component';
 
 @Component({
   selector: 'app-tran-order-list',
@@ -758,6 +759,16 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
+  }
+
+
+  ShippingCompleteDialog() {
+    const dialogRef = this.dialog.open(ShippingCompleteDialogComponent,{
+      height: 'auto',
+      width: '100vw',
+      autoFocus: '__non_existing_element__',
+    });
+
   }
 
 }

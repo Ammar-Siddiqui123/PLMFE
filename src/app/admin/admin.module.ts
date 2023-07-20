@@ -165,6 +165,11 @@ import { WpPickLevelsComponent } from './admin-preferences/workstation-preferenc
 import { WpCustomAppsComponent } from './admin-preferences/workstation-preferences/wp-custom-apps/wp-custom-apps.component';
 import { WpMiscellaneousSettingsComponent } from './admin-preferences/workstation-preferences/wp-miscellaneous-settings/wp-miscellaneous-settings.component';
 import { WpSortBarSetupComponent } from './admin-preferences/workstation-preferences/wp-sort-bar-setup/wp-sort-bar-setup.component';
+import { SpLookupListsComponent } from './admin-preferences/system-preferences/sp-lookup-lists/sp-lookup-lists.component';
+import { LookupUserTwoSetupComponent } from './admin-preferences/system-preferences/sp-lookup-lists/lookup-user-two-setup/lookup-user-two-setup.component';
+import { LookupUserOneSetupComponent } from './admin-preferences/system-preferences/sp-lookup-lists/lookup-user-one-setup/lookup-user-one-setup.component';
+import { LookupAdjustmentLookupSetupComponent } from './admin-preferences/system-preferences/sp-lookup-lists/lookup-adjustment-lookup-setup/lookup-adjustment-lookup-setup.component';
+import { LookupToteSetupComponent } from './admin-preferences/system-preferences/sp-lookup-lists/lookup-tote-setup/lookup-tote-setup.component';
 
 
 
@@ -320,6 +325,11 @@ import { WpSortBarSetupComponent } from './admin-preferences/workstation-prefere
     WpCustomAppsComponent,
     WpMiscellaneousSettingsComponent,
     WpSortBarSetupComponent,
+    SpLookupListsComponent,
+    LookupUserTwoSetupComponent,
+    LookupUserOneSetupComponent,
+    LookupAdjustmentLookupSetupComponent,
+    LookupToteSetupComponent,
 
   ],
   imports: [

@@ -602,7 +602,7 @@ initialzeEmpForm() {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      debugger
+      
         if (result !== undefined) {
           if(result == true){
             this.employeesLookup.EmployeeLookUp();

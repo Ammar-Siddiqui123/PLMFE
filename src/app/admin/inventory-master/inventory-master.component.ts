@@ -106,7 +106,7 @@ isQuarantine=false;
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
   onScroll(event) {
-    alert();
+    // alert();
   }
   @HostListener('document:keydown', ['$event'])
 
@@ -570,6 +570,10 @@ isQuarantine=false;
         'splitCase': this.invMaster.value.splitCase ? true : false,
         'active': this.invMaster.value.active ? true : false
       });
+      debugger
+      if(!this.invMaster.value.secondaryPickZone){
+        this.invMaster.value['secondaryPickZone'] = '';
+      }
       this.api.UpdateInventoryMaster(this.invMaster.value).subscribe((res: any) => {
         if (res.isExecuted) {
           this.saveDisabled = true;
