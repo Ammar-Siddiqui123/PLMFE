@@ -429,7 +429,7 @@
           </div>
           <div class="col-xl-4 offset-xl-3">
             <div class="d-flex justify-content-end">
-              <button mat-flat-button color="primary" class="btn-regular mx-2 w-100" (click)="ShippingCompleteDialog()">
+              <button [disabled]="!shippingComplete" mat-flat-button color="primary" class="btn-regular mx-2 w-100" (click)="ShippingCompleteDialog()">
                 Shipping Complete
               </button>
               <button *ngIf="priority" mat-flat-button color="primary" class="btn-regular w-100" (click)="openGcBeginTest()">
