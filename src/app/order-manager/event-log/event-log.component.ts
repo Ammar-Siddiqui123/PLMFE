@@ -336,5 +336,10 @@ export class EventLogComponent implements OnInit {
   isInputField(element: HTMLElement): boolean {
     return element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.isContentEditable;
   }
+
+  clear(){
+    // this.message = ''
+    this.eventLogTable(true);
+  }
 }
 

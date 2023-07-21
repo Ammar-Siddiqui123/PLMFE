@@ -1373,5 +1373,13 @@ public Getreportdetails(body): Observable<any> {
 
 public GetFromToteTypeAhead(): Observable<any> { 
   return this.ApiBase.Get("/induction/selecttotes");
+}
+
+public viewShipping(body): Observable<any> { 
+  return this.ApiBase.Get("/consolidation/viewshipping",body);
+} 
+
+public selShipComp(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/selshipcomp",body);
 } 
 }

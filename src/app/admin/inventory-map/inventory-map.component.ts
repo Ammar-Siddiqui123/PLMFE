@@ -704,14 +704,17 @@ export class InventoryMapComponent implements OnInit {
  }
 
 
- tranhistory(){
-  this.router.navigate([]).then((result) => {
-    window.open(`/#/OrderManager/OrderStatus?type=TransactionHistory`, '_blank');
-   
+ tranhistory(seletedRecord:any){
+  // this.router.navigate([]).then((result) => {
+  //   window.open(`/#/OrderManager/OrderStatus?type=TransactionHistory`, '_blank');
+  // });
 
-  }
-  );
+  this.router.navigate([]).then((result) => {
+      let url = `/#/OrderManager/OrderStatus?itemNumber=${seletedRecord.itemNumber}&type=TransactionHistory`;
+      window.open(url, '_blank');
+  });
  }
+
 
 
 }

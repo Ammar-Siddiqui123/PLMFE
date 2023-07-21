@@ -49,7 +49,7 @@
                     </mat-form-field>
 
                     <span class="v-br d-none d-xl-block">-</span>
-                    <div class="d-xl-flex g-mini-search-box mb-3 mb-xl-0" style="flex:1">
+                    <div class="d-xl-flex g-mini-search-box mb-3 mb-xl-0 col-xl-3" style="flex:1">
                         <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
                         [hideRequiredMarker]="hideRequiredControl.value" (keyup.enter)="closeautoMenu()">
                             <span class="material-symbols-outlined icon-search">
@@ -67,6 +67,7 @@
                             (keyup)="autocompleteSearchColumn()"
                             (focus)="getSearchOptions(true)"
                             >
+                            <button matSuffix *ngIf="tablePayloadObj.searchString" class="clear-btn"  (click)=" tablePayloadObj.searchString = '';newReplenishmentOrders();"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="search()" #autocompleteInventory>
                                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
                                   {{option}}

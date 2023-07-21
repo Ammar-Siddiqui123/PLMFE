@@ -42,6 +42,7 @@
                     <input type="text" placeholder="Search" aria-label="Number" matInput maxlength="255"
                       [(ngModel)]='this.columnSearch.searchValue' [matAutocomplete]="auto"
                       (keyup)="autocompleteSearchColumn()"  (keyup.enter)="searchData()"  [disabled]="!isSearchColumn">
+                      <button matSuffix *ngIf="this.columnSearch.searchValue" class="clear-btn"  (click)="this.columnSearch.searchValue='';reset()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()" #autocompleteInventory>
                       <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
                         {{option}}
@@ -128,7 +129,7 @@
                     <button *ngIf="seletedRecord.warehouse.includes('Quarantine')" mat-menu-item
                       (click)="unQuarantine(seletedRecord)">Unquarantine</button>
                     <button mat-menu-item (click)="adjustQuantity(seletedRecord)" [disabled]="seletedRecord.itemNumber == ''">Adjust Quantity</button>
-                    <button mat-menu-item *ngIf="transHistory" (click)="tranhistory()" >Transaction History</button>
+                    <button mat-menu-item *ngIf="transHistory" (click)="tranhistory(seletedRecord)" >Transaction History</button>
                     <button mat-menu-item (click)="duplicate(seletedRecord)" *ngIf="myroute">Duplicate</button>
                     <button mat-menu-item (click)="viewInInventoryMaster(seletedRecord)">View item in Inventory Master</button>
                     <button mat-menu-item (click)="viewLocationHistory(seletedRecord)">View Location History</button>
