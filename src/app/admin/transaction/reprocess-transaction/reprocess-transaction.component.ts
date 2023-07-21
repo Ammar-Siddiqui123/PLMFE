@@ -1027,4 +1027,8 @@ export class ReprocessTransactionComponent implements OnInit {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+  clear(){
+    this.columnSearch.searchValue = ''
+    this.getContentData()
+  }
 }

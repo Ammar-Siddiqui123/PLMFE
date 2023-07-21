@@ -58,6 +58,7 @@ export class ProcessPicksComponent implements OnInit {
   @ViewChild('processSetup') processSetup: TemplateRef<any>;
   @ViewChild('batch_id') batch_id: ElementRef;
   isBatchIdFocus: boolean = false;
+  pickBatchesCrossbtn
 
   public ifAllowed: boolean = false
   orderInput: any;

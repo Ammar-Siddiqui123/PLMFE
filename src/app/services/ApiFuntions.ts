@@ -1378,4 +1378,8 @@ public GetFromToteTypeAhead(): Observable<any> {
 public viewShipping(body): Observable<any> { 
   return this.ApiBase.Get("/consolidation/viewshipping",body);
 } 
+
+public selShipComp(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/selshipcomp",body);
+} 
 }

@@ -55,6 +55,7 @@
               </span>
               <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='searchString' [disabled]="!searchCol"
                 [matAutocomplete]="auto" (ngModelChange)="this.searchByInput.next($event)">
+                <button matSuffix *ngIf="searchString" class="clear-btn"  (click)="searchString = ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
                   {{option}}
@@ -429,7 +430,7 @@
           </div>
           <div class="col-xl-4 offset-xl-3">
             <div class="d-flex justify-content-end">
-              <button mat-flat-button color="primary" class="btn-regular mx-2 w-100" (click)="ShippingCompleteDialog()">
+              <button [disabled]="!shippingComplete" mat-flat-button color="primary" class="btn-regular mx-2 w-100" (click)="ShippingCompleteDialog()">
                 Shipping Complete
               </button>
               <button *ngIf="priority" mat-flat-button color="primary" class="btn-regular w-100" (click)="openGcBeginTest()">
