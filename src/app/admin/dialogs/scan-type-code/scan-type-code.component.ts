@@ -6,6 +6,7 @@ import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json'; 
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-scan-type-code',
@@ -105,16 +106,17 @@ export class ScanTypeCodeComponent implements OnInit {
 
   dltScanTypeCode(newScanTypeCode : any) {
 
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
-      width: '560px',
+      width: '480px',
       autoFocus: '__non_existing_element__',
       data: {
-        message: 'Click OK to delete Scan Type ' + newScanTypeCode,
+        mode: 'dltScanTypeCode',
+        ErrorMessage: `Are you sure you want to delete Scan Type ${newScanTypeCode}?`,
+        action: 'delete'
       },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
+    })
+    dialogRef.afterClosed().subscribe(result => {
       if (result == 'Yes') {
         if(newScanTypeCode){
           let paylaod = {
@@ -136,7 +138,7 @@ export class ScanTypeCodeComponent implements OnInit {
           this.scanTypeCode_list.shift();
         }
       }
-    });
+    })
     
   }
 

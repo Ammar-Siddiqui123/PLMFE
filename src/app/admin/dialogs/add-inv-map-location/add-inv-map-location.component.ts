@@ -421,7 +421,7 @@ export class AddInvMapLocationComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       ;
 
-      if (result != true && result != false) {
+      if (result !== true && result !== false) {
         this.addInvMapLocation.controls['warehouse'].setValue(result);
       }
       if (result == 'clear') {
@@ -440,7 +440,7 @@ export class AddInvMapLocationComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      if (result != true && result != false) {
+      if (result !== true && result !== false) {
         this.addInvMapLocation.controls['cell'].setValue(result);
       }
     })
@@ -455,7 +455,7 @@ export class AddInvMapLocationComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      if (result != true && result != false) {
+      if (result !== true && result !== false) {
         this.addInvMapLocation.controls['velocity'].setValue(result);
       }
 

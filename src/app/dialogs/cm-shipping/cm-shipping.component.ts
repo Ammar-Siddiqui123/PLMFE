@@ -126,9 +126,9 @@ export class CmShippingComponent implements OnInit {
       "freight1": element.freight1,
       "freight2": element.freight2,
       "weight": element.weight,
-      "length": element.length,
-      "width": element.width,
-      "height": element.height,
+      "length": element.length ? element.length : 0,
+      "width": element.width ? element.width : 0,
+      "height": element.height ? element.height : 0,
       "cube": element.cube
     }
     this.Api.ShipmentItemUpdate(obj).subscribe((res: any) => {
@@ -207,5 +207,9 @@ export class CmShippingComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) this.ShippingIndex();
     })
+  }
+
+  calculateCube(element){
+    this.shippingData.filter((x:any) => x.id == element.id)[0].cube = ((element.length * element.width * element.height) / 1728);
   }
 }
