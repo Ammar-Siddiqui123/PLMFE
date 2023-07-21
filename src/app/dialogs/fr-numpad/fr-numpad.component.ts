@@ -1,5 +1,5 @@
 import { DialogRef } from '@angular/cdk/dialog';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -8,7 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./fr-numpad.component.scss']
 })
 export class FrNumpadComponent implements OnInit {
-
+  @ViewChild('calc_focus') calc_focus: ElementRef;
 public itemQuantity :string = ''
 check:boolean = false
 check1:boolean = false
@@ -22,7 +22,9 @@ check1:boolean = false
   //  console.log(typeof this.itemQuantity)
   }
 
-
+  ngAfterViewInit(): void {
+    this.calc_focus.nativeElement.focus();
+  }
 
   pressNum(number){
     if(number == '-'){

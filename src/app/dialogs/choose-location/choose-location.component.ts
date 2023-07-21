@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -15,7 +15,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./choose-location.component.scss']
 })
 export class ChooseLocationComponent implements OnInit {
-
+  @ViewChild('loc_focus') loc_focus: ElementRef;
   public userData: any;
   searchByItem: any = new Subject<string>();
   searchAutocompleteItemNum: any = [];
@@ -38,7 +38,10 @@ export class ChooseLocationComponent implements OnInit {
         this.autocompleteSearchColumnItem();
       });
   }
-
+ 
+  ngAfterViewInit(): void {
+    this.loc_focus.nativeElement.focus();
+  }
   selectLoc(val : any) {
     this.location = val.locNum;
     this.selectedLocation = val;

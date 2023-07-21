@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
@@ -26,6 +26,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./cm-shipping.component.scss']
 })
 export class CmShippingComponent implements OnInit {
+  @ViewChild('freight_focus') freight_focus: ElementRef;
   IsLoading: any = false;
   displayedColumns: string[] = ['containerID',  'carrier', 'trackingNum', 'action'];
   tableData = ELEMENT_DATA;
@@ -50,6 +51,9 @@ export class CmShippingComponent implements OnInit {
      
     this.shippingComp = false;
     this.ShippingIndex();
+  }
+  ngAfterViewInit(): void {
+    this.freight_focus.nativeElement.focus();
   }
   async ShippingIndex() {  
     if (this.orderNumber != "") {

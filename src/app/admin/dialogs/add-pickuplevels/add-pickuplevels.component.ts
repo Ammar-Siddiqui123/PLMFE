@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import labels from '../../../labels/labels.json';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -12,7 +12,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./add-pickuplevels.component.scss']
 })
 export class AddPickuplevelsComponent implements OnInit {
-
+  @ViewChild('start_shelf') start_shelf: ElementRef;
   form_heading: string = 'Add Pick Level';
   form_btn_label: string = 'Add';
   levelId: any;
@@ -92,6 +92,9 @@ export class AddPickuplevelsComponent implements OnInit {
       });
     }
 
+  }
+  ngAfterViewInit() {
+    this.start_shelf.nativeElement.focus();
   }
 
 }

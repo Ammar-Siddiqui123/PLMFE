@@ -14,7 +14,7 @@
                     <div class="col-xl-7">
                         <mat-form-field class="w-100 custom-form-field custom-form-field-bg-white" appearance="outline">
                             <mat-label>{{isStandAlone ? 'Order Number or Tote ID' : 'Order Number'}}</mat-label>
-                            <input type="text" aria-label="Search" matInput [value]="data.orderNumber" [disabled]="!isStandAlone" #order (keypress)="getStagLoc($event, order.value)">
+                            <input #order_focus type="text" aria-label="Search" matInput [value]="data.orderNumber" [disabled]="!isStandAlone" #order (keypress)="getStagLoc($event, order.value)">
                         </mat-form-field>
                     </div>
                 </div>

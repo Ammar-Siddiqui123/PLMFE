@@ -36,7 +36,7 @@
                 <mat-form-field class="custom-form-field  w-100 mb-3" appearance="outline"
                     [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
                     <mat-label>Order Number</mat-label>
-                    <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='orderNumber' (focusout)="onFocusOutEvent($event,'order')" 
+                    <input #ord_nmb type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='orderNumber' (focusout)="onFocusOutEvent($event,'order')" 
                         maxlength="50" [matAutocomplete]="auto" (ngModelChange)="this.searchByOrder.next($event)">
                         <button matSuffix *ngIf="orderNumber" class="clear-btn"  (click)="orderNumber=''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
 

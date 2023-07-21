@@ -198,7 +198,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    debugger
+    
 
     this.customPagination = {
       total: '',

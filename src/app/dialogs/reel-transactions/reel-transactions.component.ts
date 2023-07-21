@@ -13,6 +13,7 @@ import { take } from 'rxjs';
   styleUrls: ['./reel-transactions.component.scss']
 })
 export class ReelTransactionsComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
 
   ELEMENT_DATA: any[] =[
     {reel_serial_number: '1202122', reel_part_quantity: '36'},
@@ -51,7 +52,9 @@ export class ReelTransactionsComponent implements OnInit {
     }, 300);
     
   }
-
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
+  }
   updateRemaining(){
     // debugger
     let total = this.partsInducted;

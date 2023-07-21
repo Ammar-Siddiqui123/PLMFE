@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SharedService } from 'src/app/services/shared.service';
 import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-transaction',
@@ -18,6 +19,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
   public showReprocess;
   public showReprocessed;
   public setval;
+  fieldNames:any;
   orderStatus$: Observable<any>;
   itemNumber$: Observable<any>;
   type$: Observable<any>;
@@ -31,7 +33,8 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     router: Router,
     private route: ActivatedRoute,
     private sharedService: SharedService,
-    public authService: AuthService
+    public authService: AuthService,
+    private Api: ApiFuntions,
   ) { 
     // router.events
     //   .pipe(
@@ -143,13 +146,20 @@ export class TransactionComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.OSFieldFilterNames();
+  }
 
   public demo1BtnClick() {
     const tabCount = 3;
     this.TabIndex = (this.TabIndex + 1) % tabCount;
   }
-
+  public OSFieldFilterNames() { 
+    this.Api.ColumnAlias().subscribe((res: any) => {
+      this.fieldNames = res.data;
+      this.sharedService.updateFieldNames(this.fieldNames)
+    })
+  }
   switchToOrder(event) {
     this.TabIndex = 0;
   }

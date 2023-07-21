@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, QueryList, Renderer2, ViewChildren } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -16,6 +16,8 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./cm-shipping-carrier.component.scss'],
 })
 export class CmShippingCarrierComponent implements OnInit {
+  @ViewChildren('carrier_focus', { read: ElementRef }) carrier_focus: QueryList<ElementRef>;
+
   userData: any;
   carrierList: any;
   carrierListLength: any;
@@ -28,7 +30,8 @@ export class CmShippingCarrierComponent implements OnInit {
     private Api: ApiFuntions,
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<any>,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +55,12 @@ export class CmShippingCarrierComponent implements OnInit {
             this.disableEnable.push({ index: i, value: true });
           }
           // this.carrierList=res.data;
+
+          setTimeout(() => {
+            const inputElements = this.carrier_focus.toArray();
+            const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+              this.renderer.selectRootElement(inputElement).focus();
+          }, 100);
         }
       });
   }
@@ -62,7 +71,14 @@ export class CmShippingCarrierComponent implements OnInit {
       this.disableAddField = false;
       this.carrierList.unshift({ carrier: '', oldCarrier: false });
     }
-
+    const lastIndex = this.carrierList.length - 1;
+    setTimeout(() => {
+      const inputElements = this.carrier_focus.toArray();
+      if (inputElements.length > lastIndex) {
+        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+        this.renderer.selectRootElement(inputElement).focus();
+      }
+    });
     //this.disableEnable.unshift({index:0,value:false});
   }
 
