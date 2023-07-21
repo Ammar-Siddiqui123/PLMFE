@@ -14,8 +14,8 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 })
 export class ShippingCompleteDialogComponent implements OnInit {
 
-  displayedColumns1: string[] = ['sT_ID', 'itemNumber', 'lineNumber', 'toteID', 'transactionQuantity', 'completedQuantity', 'containerID', 'shipQuantity', 'completedTime'];
-  displayedColumns2: string[] = ['id', 'containerID', 'carrierName', 'trackingNumber', 'freight', 'freight1', 'freight2', 'weight', 'length', 'width', 'height', 'cube', 'completedTime'];
+  displayedColumns1: string[] = ['itemNumber', 'lineNumber', 'toteID', 'transactionQuantity', 'completedQuantity', 'containerID', 'shipQuantity', 'completedTime'];
+  displayedColumns2: string[] = ['containerID', 'carrierName', 'trackingNumber', 'freight', 'freight1', 'freight2', 'weight', 'length', 'width', 'height', 'cube', 'completedTime'];
   dataSourceList: any;
   tableData1: any = new MatTableDataSource([]);
   tableData2: any = new MatTableDataSource([]);
