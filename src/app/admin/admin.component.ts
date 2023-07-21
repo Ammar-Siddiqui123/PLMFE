@@ -18,6 +18,7 @@ export class AdminComponent implements OnInit {
   public columnValues: any = [];
   public dataSource: any = new MatTableDataSource();
   public userData: any;
+  fieldNames:any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   public sortCol: any = 3;
   public sortOrder: any = 'asc';
@@ -88,7 +89,8 @@ export class AdminComponent implements OnInit {
   constructor(
     public authService: AuthService, 
     private api:ApiFuntions,
-    private _liveAnnouncer: LiveAnnouncer
+    private _liveAnnouncer: LiveAnnouncer,
+   
   ) {}
   inventoryDetail = new FormGroup({
     item: new FormControl({ value: '', disabled: true }),
@@ -135,6 +137,7 @@ export class AdminComponent implements OnInit {
     specialFeatures: new FormControl({ value: '', disabled: true }),
   });
   ngOnInit(): void {
+    this.OSFieldFilterNames();
     this.searchByInput
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
@@ -152,7 +155,11 @@ export class AdminComponent implements OnInit {
       this.getInvDetailsList();
     }
   }
-
+  public OSFieldFilterNames() { 
+    this.api.ColumnAlias().subscribe((res: any) => {
+      this.fieldNames = res.data;
+    })
+  }
   async autocompleteSearchColumn() {
     let searchPayload = {
      
