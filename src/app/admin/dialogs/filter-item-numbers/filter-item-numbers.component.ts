@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../../labels/labels.json';
@@ -11,7 +11,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./filter-item-numbers.component.scss']
 })
 export class FilterItemNumbersComponent implements OnInit {
-
+  @ViewChild('filter_text') filter_text: ElementRef;
   public userData: any;
 
   constructor(
@@ -30,7 +30,9 @@ export class FilterItemNumbersComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
-
+  ngAfterViewInit() {
+    this.filter_text.nativeElement.focus();
+  }
   filterItemNumbers() {
     // if (this.data.trim() != "") {
       let itemsStr = this.data.trim().replace(/[\n\r]/g, ',');

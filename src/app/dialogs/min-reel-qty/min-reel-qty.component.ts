@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { ItemNumUpdateConfirmationComponent } from 'src/app/admin/dialogs/item-num-update-confirmation/item-num-update-confirmation.component';
 
@@ -8,6 +8,7 @@ import { ItemNumUpdateConfirmationComponent } from 'src/app/admin/dialogs/item-n
   styleUrls: ['./min-reel-qty.component.scss']
 })
 export class MinReelQtyComponent implements OnInit {
+  @ViewChild('min_amount') min_amount: ElementRef;
 
     submit: boolean = false;
     btnDisabled: boolean = true;
@@ -20,7 +21,9 @@ export class MinReelQtyComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  ngAfterViewInit(): void {
+    this.min_amount.nativeElement.focus();
+  }
   checkRTS() {
     if(this.data.minDollarRTS === '' || this.data.minDollarRTS === null){
       this.data.minDollarRTS = 0;

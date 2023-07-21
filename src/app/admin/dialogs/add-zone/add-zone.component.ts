@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -15,6 +15,8 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./add-zone.component.scss']
 })
 export class AddZoneComponent implements OnInit {
+  @ViewChild('select_zone') select_zone: ElementRef;
+
   form_heading: string = 'Add New Zone';
   form_btn_label: string = 'Add';
   zone = new FormControl('');
@@ -55,6 +57,10 @@ export class AddZoneComponent implements OnInit {
     if (this.data.mode === 'edit-zone') {
       this.addZoneForm.controls['zoneList'].setValue(this.data.zone);
     }
+    setTimeout(() => {
+      this.select_zone.nativeElement.focus();
+    }, 200);
+   
   }
 
   private noWhitespaceValidator(control: FormControl) {

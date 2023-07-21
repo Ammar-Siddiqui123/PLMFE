@@ -11,7 +11,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./cm-order-number.component.scss']
 })
 export class CmOrderNumberComponent implements OnInit {
-
+  @ViewChild('order_focus') order_focus: ElementRef;
   userData: any;
   isStandAlone: boolean = false;
   type: any = "";
@@ -37,7 +37,9 @@ export class CmOrderNumberComponent implements OnInit {
 
     if(this.data && this.data.stagingTable) this.tableData = this.data.stagingTable;
   }
-
+  ngAfterViewInit(): void {
+    this.order_focus.nativeElement.focus();
+  }
   findTote(event : KeyboardEvent, value : any) {
     if (event.key === 'Enter') {
       this.tableData.forEach((row : any, i : any) => {        

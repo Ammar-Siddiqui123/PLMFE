@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OmAddRecordComponent } from '../om-add-record/om-add-record.component';
 import { OmAddTransactionComponent } from '../om-add-transaction/om-add-transaction.component';
@@ -28,7 +28,7 @@ import { MatSelect, MatSelectChange } from '@angular/material/select';
   styleUrls: ['./om-create-orders.component.scss']
 })
 export class OmCreateOrdersComponent implements OnInit {
-
+  @ViewChild('ord_focus') ord_focus: ElementRef;
   displayedColumns: any[] = [
     // 'transactionType',
     // 'orderNumber',
@@ -507,5 +507,8 @@ export class OmCreateOrdersComponent implements OnInit {
   actionDialog(matEvent: MatSelectChange) {
     const matSelect: MatSelect = matEvent.source;
     matSelect.writeValue(null);
+  }
+  ngAfterViewInit(): void {
+    this.ord_focus.nativeElement.focus();
   }
 }

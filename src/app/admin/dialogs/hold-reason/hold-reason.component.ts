@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
@@ -16,6 +16,8 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./hold-reason.component.scss'],
 })
 export class HoldReasonComponent implements OnInit {
+  @ViewChild('order_text') order_text: ElementRef;
+
   payload;
   userData;
   reason;
@@ -34,6 +36,11 @@ export class HoldReasonComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+  }
+
+  ngAfterViewInit() {
+    
+    this.order_text.nativeElement.focus();
   }
   close(){
     this.dialogRef.close({ isExecuted: false });

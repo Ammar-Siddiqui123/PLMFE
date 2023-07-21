@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -47,6 +47,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./pick-tote-manager.component.scss']
 })
 export class PickToteManagerComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
+
   isFilter: string = 'filter'
   savedFilterList: any[] = [];
   filteredOptions: Observable<any[]>;
@@ -218,6 +220,7 @@ export class PickToteManagerComponent implements OnInit {
     this.allSelectOrders = this.data.allOrders;
   }
 
+
   pickBatchZonesSelect() {
     let paylaod = {
       "wsid": this.userData.wsid,
@@ -233,6 +236,7 @@ export class PickToteManagerComponent implements OnInit {
 
   ngAfterViewInit() {
     // this.batchByZoneSource.paginator = this.batchByZonePaginator;
+    this.field_focus.nativeElement.focus();
   }
 
   getSavedFilters() {

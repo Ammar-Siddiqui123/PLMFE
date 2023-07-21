@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, ElementRef } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
@@ -15,6 +15,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./workstation-zones.component.scss']
 })
 export class WorkstationZonesComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
 
   public velocity_code_list: any[] = [];
   public velocity_code_list_Res: any;
@@ -41,7 +42,9 @@ export class WorkstationZonesComponent implements OnInit {
     this.getAllZoneList();
 
   }
-
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
+  }
   getVelocity() {
     let paylaod = {
       "username": this.userData.userName,

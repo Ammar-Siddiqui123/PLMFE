@@ -1,4 +1,4 @@
-import { Component, OnInit , Inject} from '@angular/core';
+import { Component, OnInit , Inject, ViewChild, ElementRef} from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
 
 import { AuthService } from 'src/app/init/auth.service';
@@ -12,6 +12,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./om-change-priority.component.scss']
 })
 export class OmChangePriorityComponent implements OnInit {
+  @ViewChild('new_pri') new_pri: ElementRef;
   public orderNumber: any;
   public Oldpriority:number;
   public Newpriority:number;
@@ -54,5 +55,8 @@ export class OmChangePriorityComponent implements OnInit {
     })
    
   }
-
+ 
+  ngAfterViewInit(): void {
+    this.new_pri.nativeElement.focus();
+  }
 }

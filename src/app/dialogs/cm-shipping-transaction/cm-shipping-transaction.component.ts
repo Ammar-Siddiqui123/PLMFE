@@ -19,7 +19,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./cm-shipping-transaction.component.scss']
 })
 export class CmShippingTransactionComponent implements OnInit {
-
+  @ViewChild('toteId_update') toteId_update: ElementRef;
   public userData: any;
 
   toteID: string = '';
@@ -43,7 +43,9 @@ export class CmShippingTransactionComponent implements OnInit {
     this.userData = this.authService.userData();
     this.getShippingTransactionIndex();
   }
-
+  ngAfterViewInit(): void {
+    this.toteId_update.nativeElement.focus();
+  }
   // Call the GET API for the Shipping Transaction Index
   getShippingTransactionIndex() {
     try {

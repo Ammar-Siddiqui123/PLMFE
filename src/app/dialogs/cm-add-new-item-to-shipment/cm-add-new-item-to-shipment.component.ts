@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
@@ -10,6 +10,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./cm-add-new-item-to-shipment.component.scss']
 })
 export class CmAddNewItemToShipmentComponent implements OnInit {
+  @ViewChild('cont_id') cont_id: ElementRef;
   OrderNumber:any;
   containerID:any;
   userData:any = {};
@@ -22,6 +23,9 @@ export class CmAddNewItemToShipmentComponent implements OnInit {
     }
 
   ngOnInit(): void {
+  }
+  ngAfterViewInit(): void {
+    this.cont_id.nativeElement.focus();
   }
   async ShippingItemAdd(){
     var obj:any = {
