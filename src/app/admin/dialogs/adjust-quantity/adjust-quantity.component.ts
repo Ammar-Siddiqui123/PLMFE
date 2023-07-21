@@ -35,7 +35,7 @@ export interface  AdjustQuantityDataStructure   {
 })
 export class AdjustQuantityComponent implements OnInit {
   @ViewChild('newQty') newQty: ElementRef;
-
+  fieldName="";
  adjustInventoryMapForm: FormGroup;
 
  getAdjustQuantityData  :    AdjustQuantityDataStructure = {
@@ -66,7 +66,7 @@ export class AdjustQuantityComponent implements OnInit {
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<any>
   ) {
-
+   this.fieldName=data.fieldNames;
   }
 
   ngOnInit(): void { 

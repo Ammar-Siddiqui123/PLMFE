@@ -28,6 +28,7 @@ export class SharedService {
   orderStatusSendOrderObserver: Subject<any> = new Subject<any>();
   historyLocObserver: Subject<any> = new Subject<any>();
   appRestrictionObserver: Subject<any> = new Subject<any>();
+  fieldNameObserver: Subject<any> = new Subject<any>();
   updateReprocessObserver: Subject<any> = new Subject<any>();
   updateToteFilterCheckObserver: Subject<any> = new Subject<any>();
   updateCompDateObserver: Subject<any> = new Subject<any>();
@@ -92,6 +93,9 @@ export class SharedService {
   }
   updateAppVerification(isVerified?) {
     this.appRestrictionObserver.next(isVerified);
+  }
+  updateFieldNames(fieldName?) {
+    this.fieldNameObserver.next(fieldName);
   }
 
   updateReprocess(obj?) {

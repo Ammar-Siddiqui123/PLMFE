@@ -70,12 +70,12 @@
       </ng-container>
 
       <ng-container matColumnDef="shipVia">
-        <th mat-header-cell mat-sort-header  *matHeaderCellDef>Ship Via</th>
+        <th mat-header-cell mat-sort-header  *matHeaderCellDef>{{this.fieldNameDetails?.currentValue?.userField1}}</th>
         <td mat-cell *matCellDef="let element" [ngClass]="{'quarantineColor': element.warehouse.includes('Quarantine')}"> {{element.userField1}} </td>
       </ng-container>
 
       <ng-container matColumnDef="shipToName">
-        <th mat-header-cell mat-sort-header  *matHeaderCellDef>Ship To Name</th>
+        <th mat-header-cell mat-sort-header  *matHeaderCellDef>{{this.fieldNameDetails?.currentValue?.userField2}}</th>
         <td mat-cell *matCellDef="let element" [ngClass]="{'quarantineColor': element.warehouse.includes('Quarantine')}"> {{element.userField2}} </td>
       </ng-container>
 
