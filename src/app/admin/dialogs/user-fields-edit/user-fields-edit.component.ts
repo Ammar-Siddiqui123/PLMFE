@@ -26,7 +26,7 @@ export class UserFieldsEditComponent implements OnInit {
   searchByShipName: any = new Subject<string>();
   searchAutocompleteShipVia: any = [];
   searchAutocompleteShipName: any = [];
-
+  fieldNames:any;
   userField10 = '';
   userField9 = '';
   shipToLine1 = '';
@@ -41,7 +41,9 @@ export class UserFieldsEditComponent implements OnInit {
     private toastr: ToastrService,
     private Api: ApiFuntions,
     public dialogRef: MatDialogRef<any>
-  ) {}
+  ) {
+    this.fieldNames=data.fieldNames
+  }
 
   ngOnInit(): void {
     this.getUserFields();

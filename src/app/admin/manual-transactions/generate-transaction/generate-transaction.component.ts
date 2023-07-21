@@ -673,6 +673,7 @@ export class GenerateTransactionComponent implements OnInit {
         transID: this.transactionID,
         userName: this.userData.userName,
         wsid: this.userData.wsid,
+        fieldNames:this.columns
       },
     });
     dialogRef.afterClosed().subscribe((res) => {
