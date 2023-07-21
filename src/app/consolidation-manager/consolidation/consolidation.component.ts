@@ -207,7 +207,7 @@ export class ConsolidationComponent implements OnInit {
         if ((typeof res.data == 'string')) {
           switch (res.data) {
             case "DNE":
-              this.toastr.error("Consolidatio The Order/Tote that you entered is invalid or no longer exists in the system.", 'Error!', {
+              this.toastr.error("Consolidation The Order/Tote that you entered is invalid or no longer exists in the system.", 'Error!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
