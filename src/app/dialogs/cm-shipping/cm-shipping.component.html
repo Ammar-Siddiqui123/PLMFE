@@ -75,7 +75,7 @@
                     <th mat-header-cell *matHeaderCellDef> Freight </th>
                     <td mat-cell *matCellDef="let element"> 
                         <mat-form-field class="custom-form-field w-60" appearance="outline">
-                            <input matInput type="text" readonly="false" [(ngModel)]="element.freight" [disabled]="shippingComp" >
+                            <input #freight_focus matInput type="text" readonly="false" [(ngModel)]="element.freight" [disabled]="shippingComp" >
                         </mat-form-field>
                     </td>
                 </ng-container>

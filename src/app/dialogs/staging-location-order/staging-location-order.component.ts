@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -7,10 +7,16 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./staging-location-order.component.scss']
 })
 export class StagingLocationOrderComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
+
   Order :any;  
   constructor(public dialogRef: MatDialogRef<any>) { }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
   }
 async SubmitOrder(){ 
   if(this.Order) this.dialogRef.close(this.Order);  

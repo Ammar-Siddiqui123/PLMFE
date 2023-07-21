@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, Renderer2, ViewChildren } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PrintRangeComponent } from '../print-range/print-range.component';
 import { ToastrService } from 'ngx-toastr'; 
@@ -15,7 +15,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./item-category.component.scss']
 })
 export class ItemCategoryComponent implements OnInit {
-
+  @ViewChildren('category_category', { read: ElementRef }) category_category: QueryList<ElementRef>;
   public category_list: any;
   public userData: any;
   enableButton=[{index:-1,value:true}];
@@ -24,6 +24,7 @@ export class ItemCategoryComponent implements OnInit {
               private api: ApiFuntions,
               private authService: AuthService,
               private toastr: ToastrService,
+              private renderer: Renderer2,
               public dialogRef: MatDialogRef<any>) {}
 
   ngOnInit(): void {
@@ -46,6 +47,12 @@ export class ItemCategoryComponent implements OnInit {
         this.category_list.fromDB = true;
         this.enableButton.push({index:i,value:true});
       }
+
+      setTimeout(() => {
+        const inputElements = this.category_category.toArray();
+        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+          this.renderer.selectRootElement(inputElement).focus();
+      }, 100);
      });
   }
 
@@ -56,6 +63,15 @@ export class ItemCategoryComponent implements OnInit {
       fromDB:false
   });
   this.enableButton.push({index:-1,value:true})
+  const lastIndex = this.category_list.length - 1;
+    setTimeout(() => {
+      const inputElements = this.category_category.toArray();
+      if (inputElements.length > lastIndex) {
+        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+        this.renderer.selectRootElement(inputElement).focus();
+      }
+    });
+
   }
 
   saveCategory(category : any, oldCat : any, subCategory : any, oldSubCat : any) {

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatOption } from '@angular/material/core';
 import {
   MatDialog,
@@ -22,6 +22,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./tote-transaction-view.component.scss'],
 })
 export class ToteTransactionViewComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
 
   
   batchID: any;
@@ -56,7 +57,9 @@ export class ToteTransactionViewComponent implements OnInit {
     this.cell=this.data.cell;
     this.getTransactionTable();
   }
-
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
+  }
   
   displayedColumns: string[] = [
     'cell',

@@ -13,6 +13,7 @@ import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirma
 export class ReelDetailComponent implements OnInit {
 
 
+  @ViewChild('field_focus') field_focus: ElementRef;
   ReelOrder:any
   ReelLot:any
   ReelExpDate:any
@@ -58,6 +59,7 @@ export class ReelDetailComponent implements OnInit {
 
   ngAfterViewInit() {
     this.checkWareHouse()
+    this.field_focus.nativeElement.focus();
   }
 
   checkWareHouse(){

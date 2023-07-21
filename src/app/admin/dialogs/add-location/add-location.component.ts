@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr'; 
@@ -13,6 +13,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./add-location.component.scss']
 })
 export class AddLocationComponent implements OnInit {
+  @ViewChild('start_location') start_location: ElementRef;
 
   form_heading: string = '';
   form_btn_label: string = '';
@@ -49,6 +50,9 @@ export class AddLocationComponent implements OnInit {
     
   }
 
+  ngAfterViewInit() {
+    this.start_location.nativeElement.focus();
+  }
   getstartLocationList(){
     let payload = {
       "query":  this.startLocation,

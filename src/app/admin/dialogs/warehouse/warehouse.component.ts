@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./warehouse.component.scss']
 })
 export class WarehouseComponent implements OnInit {
-
+  @ViewChildren('whname', { read: ElementRef }) whname: QueryList<ElementRef>;
   public warehouse_list: any;
   public userData: any;
   disableBtn
@@ -32,6 +32,7 @@ export class WarehouseComponent implements OnInit {
     public dialogRef: MatDialogRef<any>,
     private dialog: MatDialog,
     private router: Router,
+    private renderer: Renderer2,
   ) { }
 
 
@@ -82,12 +83,26 @@ export class WarehouseComponent implements OnInit {
         // this.unitOfMeasure_list.fromDB = true;
         this.enableButton.push({ index: i, value: true });
       }
+
+      setTimeout(() => {
+        const inputElements = this.whname.toArray();
+        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+          this.renderer.selectRootElement(inputElement).focus();
+      }, 100)
     });
   }
   addwhRow(row: any) {
     // this.inputEl.nativeElement.disabled = true;
     this.warehouse_list.unshift([]);
     this.enableButton.push({ index: -1, value: true })
+    const lastIndex = this.warehouse_list.length - 1;
+    setTimeout(() => {
+      const inputElements = this.whname.toArray();
+      if (inputElements.length > lastIndex) {
+        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+        this.renderer.selectRootElement(inputElement).focus();
+      }
+    });
   }
   enableDisableButton(i: any) {
     this.enableButton[i].value = false;

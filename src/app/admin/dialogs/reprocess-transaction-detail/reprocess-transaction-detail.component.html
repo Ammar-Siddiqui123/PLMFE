@@ -41,7 +41,7 @@
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
                     <mat-label>Trans. Qty</mat-label>
-                    <input maxlength="9" [NumbersOnly]="true"  matInput maxlength="11" type="text" value="" formControlName="transactionQuantity">
+                    <input #trans_qty maxlength="9" [NumbersOnly]="true"  matInput maxlength="11" type="text" value="" formControlName="transactionQuantity">
                 </mat-form-field>
             </div>
             <div class="col-xl-3">

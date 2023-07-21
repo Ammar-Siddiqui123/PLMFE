@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
@@ -20,6 +20,7 @@ import { catchError, of } from 'rxjs';
   styleUrls: ['./add-new-device.component.scss'],
 })
 export class AddNewDeviceComponent implements OnInit {
+  @ViewChild('first_address') first_address: ElementRef;
   headerLable = 'Devices-Add Edit, Delete';
   newDeviceForm: FormGroup;
   newDeviceID=0;
@@ -487,5 +488,9 @@ export class AddNewDeviceComponent implements OnInit {
           });
       }
     });
+  }
+
+  ngAfterViewInit() {
+    this.first_address.nativeElement.focus();
   }
 }

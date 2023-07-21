@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service'; 
@@ -13,7 +13,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./om-add-record.component.scss']
 })
 export class OmAddRecordComponent implements OnInit {
-
+  @ViewChild('ord_focus') ord_focus: ElementRef;
   userData: any;
   userFieldData: any = {};
   oTTempUpdatePayload: any = {
@@ -85,7 +85,9 @@ export class OmAddRecordComponent implements OnInit {
     this.getWarehouses();
     this.initializaAutoComplete();
   }
-
+  ngAfterViewInit(): void {
+    this.ord_focus.nativeElement.focus();
+  }
   initializaAutoComplete() {
     this.heading = this.data.heading;
     if (this.data.from == 'edit-transaction') {

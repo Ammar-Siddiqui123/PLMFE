@@ -82,8 +82,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
   @ViewChild('cellSizeVal') cellSizeVal: ElementRef;
   @ViewChild('velCodeVal') velCodeVal: ElementRef;
-
-
+  @ViewChild('location_name') location_name: ElementRef;
   getDetailInventoryMapData: InventoryMapDataStructure = {
     invMapID: '',
     locationID: '',
@@ -198,6 +197,7 @@ export class AddInvMapLocationComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    this.location_name.nativeElement.focus();
     if(this.router.url == '/OrderManager/InventoryMap'){
       this.addInvMapLocation.get('location')?.disable();
       this.addInvMapLocation.get('zone')?.disable();

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -12,6 +12,7 @@ import { BatchDeleteConfirmationComponent } from '../batch-delete-confirmation/b
   styleUrls: ['./batch-delete.component.scss'],
 })
 export class BatchDeleteComponent implements OnInit {
+  @ViewChild('batchId_focus') batchId_focus: ElementRef;
   toteID = '';
   batchID = '';
   transType = 'Put Away';
@@ -34,7 +35,9 @@ export class BatchDeleteComponent implements OnInit {
     this.enableClear=this.data && this.data.enableClear
     this.deleteBtnHide = this.data && this.data.delButtonHide ? this.data.delButtonHide : false
   }
-
+  ngAfterViewChecked(): void {
+    this.batchId_focus.nativeElement.focus();
+  }
   batchTotesDelete(deAllocate?) {
     var payLoad = {
       batch: this.clearBatchTote === 'clearBatch' ? true : false,

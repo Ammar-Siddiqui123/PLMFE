@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'; 
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service'; 
@@ -15,7 +15,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./reprocess-transaction-detail.component.scss']
 })
 export class ReprocessTransactionDetailComponent implements OnInit {
-
+  @ViewChild('trans_qty') trans_qty: ElementRef;
   isHistory: any;
 
   transactionID: any;
@@ -73,7 +73,9 @@ export class ReprocessTransactionDetailComponent implements OnInit {
   closeWindow() {
     this.dialogRef.close('close');
   }
-
+  ngAfterViewInit() {
+    this.trans_qty.nativeElement.focus();
+  }
   onNumberValueChange() {
 
     var currentLotNumber = this.editTransactionForm.get("lotNumber")?.value?.toString() == "" ? "0" : this.editTransactionForm.get("lotNumber")?.value?.toString();

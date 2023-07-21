@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -12,6 +12,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./clone-group.component.scss']
 })
 export class CloneGroupComponent implements OnInit {
+  @ViewChild('grp_name') grp_name: ElementRef;
   cloneForm: FormGroup;
   isValidForm: boolean = true;
   constructor(
@@ -29,7 +30,9 @@ export class CloneGroupComponent implements OnInit {
       group_name: ['', [Validators.required,this.noWhitespaceValidator, this.cusValidator.specialCharValidator]]
     })
   }
-
+  ngAfterViewInit() {
+    this.grp_name.nativeElement.focus();
+  }
   hasError(fieldName: string, errorName: string) {
     return this.cloneForm.get(fieldName)?.touched && this.cloneForm.get(fieldName)?.hasError(errorName);
   }
