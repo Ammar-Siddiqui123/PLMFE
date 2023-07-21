@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog'; 
 import { AuthService } from 'src/app/init/auth.service';
@@ -38,6 +38,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./totes-add-edit.component.scss']
 })
 export class TotesAddEditComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
   isRowAdded=false;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   ELEMENT_DATA_TOTE = [{toteID:"" , cells:"" , position: 1 ,oldToteID:"",isInserted:1,isDuplicate:false}];
@@ -381,5 +382,7 @@ export class TotesAddEditComponent implements OnInit {
     this.getTotes();
     this.autocompleteSearchColumn();
   }
-
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
+  }
 }

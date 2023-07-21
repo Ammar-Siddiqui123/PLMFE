@@ -29,7 +29,7 @@
             <mat-form-field class="custom-form-field  w-100 mb-2" appearance="outline"
             [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
             <mat-label>Ship VIA</mat-label>
-            <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='shipVia' (focusout)="onFocusOutEvent($event,'shipVia')" 
+            <input  #ship_via type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='shipVia' (focusout)="onFocusOutEvent($event,'shipVia')" 
                 maxlength="255" [matAutocomplete]="auto" (ngModelChange)="this.searchByShipVia.next($event)">
                 <button matSuffix *ngIf="shipVia" class="clear-btn"  (click)="shipVia=''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
 

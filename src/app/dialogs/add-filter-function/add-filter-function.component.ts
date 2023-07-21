@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog'; 
 import { ItemNumUpdateConfirmationComponent } from '../../../app/admin/dialogs/item-num-update-confirmation/item-num-update-confirmation.component';
 import { AuthService } from '../../../app/init/auth.service';
@@ -11,7 +11,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./add-filter-function.component.scss']
 })
 export class AddFilterFunction implements OnInit {
-
+  @ViewChild('filter_focus') filter_focus: ElementRef;
   // updateItemNumber : boolean = true;
   addItem : boolean = true;
   submit: boolean = false;
@@ -33,7 +33,9 @@ export class AddFilterFunction implements OnInit {
       this.filter_name = this.data.savedFilter;
     }
   }
-
+  ngAfterViewChecked(): void {
+    this.filter_focus.nativeElement.focus();
+  }
   onNoClick(onsubmit: any, status : any): void {
     if(this.data){
       let paylaod ={

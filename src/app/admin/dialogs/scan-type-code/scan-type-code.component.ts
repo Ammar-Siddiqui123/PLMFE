@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, Renderer2, ViewChildren } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PrintRangeComponent } from '../print-range/print-range.component';
 import { ToastrService } from 'ngx-toastr'; 
@@ -13,6 +13,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./scan-type-code.component.scss']
 })
 export class ScanTypeCodeComponent implements OnInit {
+  @ViewChildren('scan_code_type', { read: ElementRef }) scan_code_type: QueryList<ElementRef>;
 
   public scanTypeCode_list: any;
   public scanTypeCode_list_Response: any;
@@ -23,6 +24,7 @@ export class ScanTypeCodeComponent implements OnInit {
     private Api: ApiFuntions, 
               private authService: AuthService,
               private toastr: ToastrService,
+              private renderer: Renderer2,
               public dialogRef: MatDialogRef<any>) { }
 
   ngOnInit(): void {
@@ -38,12 +40,27 @@ export class ScanTypeCodeComponent implements OnInit {
       if (res.isExecuted) {
         this.scanTypeCode_list_Response = [...res.data];
         this.scanTypeCode_list = res.data;
+        setTimeout(() => {
+          const inputElements = this.scan_code_type.toArray();
+          const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+            this.renderer.selectRootElement(inputElement).focus();
+        }, 100);
+  
       }
+
     });
   }
 
   addUMRow(row : any){
     this.scanTypeCode_list.unshift("");
+    const lastIndex = this.scanTypeCode_list.length - 1;
+    setTimeout(() => {
+      const inputElements = this.scan_code_type.toArray();
+      if (inputElements.length > lastIndex) {
+        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+        this.renderer.selectRootElement(inputElement).focus();
+      }
+    });
   }
 
   saveScanCodeType(newScanCode : any, oldScanCode  : any) {

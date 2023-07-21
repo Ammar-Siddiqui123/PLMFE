@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr'; 
@@ -11,6 +11,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./reprocess-transaction-detail-view.component.scss'],
 })
 export class ReprocessTransactionDetailViewComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
   itemID:any;
   userData:any;
   constructor(
@@ -60,7 +61,9 @@ export class ReprocessTransactionDetailViewComponent implements OnInit {
     this.getReprocessData();
     // this.reprocessInfo.controls.orderNumber.setValue('123213');
   }
-
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
+  }
   getReprocessData() {
     let payLoad = { id: this.itemID, username: this.userData.userName, wsid: this.userData.wsid};
 

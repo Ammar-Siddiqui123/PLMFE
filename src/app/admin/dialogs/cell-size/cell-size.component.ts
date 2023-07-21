@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChildren, ElementRef, QueryList, Renderer2 } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from '../../../../app/init/auth.service';
@@ -12,6 +12,8 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./cell-size.component.scss']
 })
 export class CellSizeComponent implements OnInit {
+  @ViewChildren('cell_size', { read: ElementRef }) cell_size: QueryList<ElementRef>;
+  
   public cellsize_list: any;
   public userData: any;
   public currentCellValue = "";
@@ -23,6 +25,7 @@ export class CellSizeComponent implements OnInit {
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<any>,
     private dialog: MatDialog,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit(): void {
@@ -32,6 +35,7 @@ export class CellSizeComponent implements OnInit {
 
   }
 
+
   getCellSizeList() {
     this.enableButton = [];
     this.api.getCellSize().subscribe((res) => {
@@ -40,12 +44,26 @@ export class CellSizeComponent implements OnInit {
         this.enableButton.push({ index: i, value: true });
       }
       this.cellsize_list = res.data;
+      setTimeout(() => {
+        const inputElements = this.cell_size.toArray();
+        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+          this.renderer.selectRootElement(inputElement).focus();
+      }, 100);
+   
     });
   }
 
   addczRow(row: any) {
     this.cellsize_list.unshift({ cells: '', cellTypes: '' });
     this.enableButton.push({ index: -1, value: true })
+    const lastIndex = this.cellsize_list.length - 1;
+    setTimeout(() => {
+      const inputElements = this.cell_size.toArray();
+      if (inputElements.length > lastIndex) {
+        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+        this.renderer.selectRootElement(inputElement).focus();
+      }
+    });
   }
   enableDisableButton(i: any) {
     this.enableButton[i].value = false;

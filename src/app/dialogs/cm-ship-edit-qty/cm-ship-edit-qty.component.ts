@@ -11,7 +11,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./cm-ship-edit-qty.component.scss']
 })
 export class CmShipEditQtyComponent implements OnInit {
-
+  @ViewChild('matInput') matInput: ElementRef;
   public userData: any;
 
   adjustShipQty : string = '';
@@ -33,7 +33,9 @@ export class CmShipEditQtyComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
   }
-
+  ngAfterViewInit(): void {
+    this.matInput.nativeElement.focus();
+  }
   validate() {
     if (this.adjustShipQty == '') {
       this.saveAdjustShipQtyBtn = false;

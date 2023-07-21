@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import {
   MatDialog,
@@ -16,6 +16,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./user-fields.component.scss']
 })
 export class UserFieldsComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
 
   public userData: any;
   userForm: FormGroup;
@@ -49,7 +50,9 @@ export class UserFieldsComponent implements OnInit {
     this.userData = this.authService.userData();
     this.setValues();
   }
-
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
+  }
   setValues() {
 
     this.userForm.patchValue({

@@ -350,7 +350,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
                 res.data.orderStatus.length > 0 &&
                 res.data.orderStatus[0].transactionType
             );
-            debugger
+            
             this.currentStatusChange(res.data.completedStatus);
             this.totalLinesOrderChange(res.data?.totalRecords);
             this.sharedService.updateOrderStatusSelect({
@@ -744,7 +744,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   }
 
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    debugger;
+
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     if(FilterColumnName != "" || Condition == "clear"){
       this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
