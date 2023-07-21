@@ -63,6 +63,7 @@
                     <mat-label>{{selectedOption}}</mat-label>
                     <input [matAutocomplete]="auto" [(ngModel)]="searchValue"
                         (ngModelChange)="this.searchDeb.next($event)" matInput type="text">
+                        <button matSuffix *ngIf="searchValue" class="clear-btn"  (click)="searchValue = ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
                         <mat-option *ngFor="let option of autoCompleteSearchResult" [value]="option">
                             {{option}}

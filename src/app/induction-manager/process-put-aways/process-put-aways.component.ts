@@ -220,6 +220,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   getRow(batchID) {
+    // debugger
     var payLoad = {
       batchID: batchID,
       username: this.userData.username,
@@ -1331,9 +1332,13 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   }
 
+  clear(){
+    this.batchId = ''
+    this.dataSource = []
+    this.autocompleteSearchColumnItem()
+  }
 
-
-  //////////////// my work ////////////////////
+  ///////
 
 
 
