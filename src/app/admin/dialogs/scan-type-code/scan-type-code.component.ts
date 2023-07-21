@@ -89,39 +89,6 @@ export class ScanTypeCodeComponent implements OnInit {
 
   dltScanTypeCode(newScanTypeCode : any) {
 
-    // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-    //   height: 'auto',
-    //   width: '560px',
-    //   autoFocus: '__non_existing_element__',
-    //   data: {
-    //     message: 'Click OK to delete Scan Type ' + newScanTypeCode,
-    //   },
-    // });
-
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   if (result == 'Yes') {
-    //     if(newScanTypeCode){
-    //       let paylaod = {
-    //         "scanCodeType": newScanTypeCode,
-    //         "username": this.userData.userName,
-    //         "wsid": this.userData.wsid,
-    //       }
-          
-    //       this.Api.ScanCodeTypeDelete(paylaod).subscribe((res) => {
-    //         if(res.isExecuted){
-    //           this.getScanCodeType();
-    //         this.toastr.success(labels.alert.delete, 'Success!', {
-    //           positionClass: 'toast-bottom-right',
-    //           timeOut: 2000
-    //         });
-    //       }
-    //       });
-    //     } else {
-    //       this.scanTypeCode_list.shift();
-    //     }
-    //   }
-    // });
-
     let dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
