@@ -118,7 +118,7 @@
             <div class="card bg-white bg-50 px-4 py-4 br-20 mb-3" style="min-height: 450px;">
               <mat-tab-group   dynamicHeight (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="tabIndex" >
                 <mat-tab label="Details">
-                  <app-detail [events]="eventsSubject.asObservable()" [details]="invMaster"  (notifyParent)="getNotification($event)"></app-detail>
+                  <app-detail [events]="eventsSubject.asObservable()" [fieldNameDetails]="fieldNames" [details]="invMaster"  (notifyParent)="getNotification($event)"></app-detail>
                 </mat-tab>
                 <mat-tab label="Item Setup" >
                   <div class="remaining"></div> 
@@ -131,7 +131,7 @@
                 <mat-tab label="Location"  >
                   <div class="remaining"></div>
 
-                  <app-location [count]="count" [location]="invMaster" 
+                  <app-location [fieldNameDetails]="fieldNames" [count]="count" [location]="invMaster" 
                     (notifyParent)="getNotification($event)"></app-location>
                 </mat-tab>
                 <mat-tab label="Reel Tracking">

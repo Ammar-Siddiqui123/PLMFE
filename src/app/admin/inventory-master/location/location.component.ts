@@ -9,7 +9,7 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./location.component.scss']
 })
 export class LocationComponent implements OnInit {
-
+  @Input() fieldNameDetails: any;
   currentDir='asc';
   nextDir='desc';
   counter=0;
@@ -40,6 +40,10 @@ export class LocationComponent implements OnInit {
       }else{
         this.location.controls['inventoryTable'].setValue([])
       }
+    }
+    if(changes['fieldNameDetails']){
+      this.fieldNameDetails=changes['fieldNameDetails']
+      
     }
   }
     
