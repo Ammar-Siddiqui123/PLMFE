@@ -172,7 +172,7 @@ export class DetailComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       ;
-      if(result!='' && result!=true)
+      if(result !== '' && result !== true)
       { 
         this.details.patchValue({
           'unitOfMeasure' : result
