@@ -129,7 +129,7 @@
                     <th mat-header-cell *matHeaderCellDef> Length </th>
                     <td mat-cell *matCellDef="let element"> 
                         <mat-form-field class="custom-form-field w-60" appearance="outline">
-                            <input matInput type="text" readonly="false" [(ngModel)]="element.length" [disabled]="shippingComp" >
+                            <input matInput type="number" readonly="false" [(ngModel)]="element.length" [disabled]="shippingComp" (keyup)="calculateCube(element)">
                         </mat-form-field>
                     </td>
                 </ng-container>  
@@ -139,7 +139,7 @@
                     <th mat-header-cell *matHeaderCellDef> Width </th>
                     <td mat-cell *matCellDef="let element"> 
                         <mat-form-field class="custom-form-field w-60" appearance="outline">
-                            <input matInput type="text" readonly="false" [(ngModel)]="element.width" [disabled]="shippingComp" >
+                            <input matInput type="number" readonly="false" [(ngModel)]="element.width" [disabled]="shippingComp" (keyup)="calculateCube(element)">
                         </mat-form-field>
                     </td>
                 </ng-container>   
@@ -157,7 +157,7 @@
                     <th mat-header-cell *matHeaderCellDef> Height </th>
                     <td mat-cell *matCellDef="let element"> 
                         <mat-form-field class="custom-form-field w-60" appearance="outline">
-                            <input matInput type="text" readonly="false" [(ngModel)]="element.height" [disabled]="shippingComp" >
+                            <input matInput type="number" readonly="false" [(ngModel)]="element.height" [disabled]="shippingComp" (keyup)="calculateCube(element)" >
                         </mat-form-field>
                     </td>
                 </ng-container>   
