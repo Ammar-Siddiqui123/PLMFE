@@ -33,7 +33,7 @@
                 </mat-form-field> -->
 
 
-                <mat-form-field class="custom-form-field custom-form-field-bg-white w-100" appearance="outline"
+                <mat-form-field class="custom-form-field  w-100 mb-3" appearance="outline"
                     [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
                     <mat-label>Order Number</mat-label>
                     <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='orderNumber' (focusout)="onFocusOutEvent($event,'order')" 
@@ -55,7 +55,7 @@
 
 
 
-                <mat-form-field class="custom-form-field w-100" appearance="outline"
+                <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline"
                     [floatLabel]="getFloatLabelValueItem()" [hideRequiredMarker]="hideRequiredControlItem.value">
                     <mat-label>Item No.</mat-label>
                     <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='itemNumber'
@@ -86,9 +86,8 @@
             <div class="col-6">
 
 
-                <mat-form-field class="action-dropdown custom-form-field custom-form-field-bg-white w-100 mb-3"
-                    appearance="outline">
-                    <mat-label>Transaction Type</mat-label>
+                <mat-form-field class="custom-form-field  w-100 mb-3"
+                    appearance="outline"><mat-label>Transaction Type</mat-label>
                     <mat-select #matRef class="employees-action" placeholder="Actions" [(ngModel)]="transType">
                         <mat-option value="Pick">Pick</mat-option>
                         <mat-option value="Put Away">Put Away</mat-option>
@@ -102,7 +101,7 @@
             </div>
             <div class="col-6">
 
-                <mat-form-field class="action-dropdown custom-form-field custom-form-field-bg-white w-100 mb-3"
+                <mat-form-field class="custom-form-field  w-100 mb-3"
                     appearance="outline">
                     <mat-label>Set Location by Item Quantity</mat-label>
                     <!-- <mat-select #matRef class="employees-action" placeholder="Actions">
