@@ -35,6 +35,7 @@ export class CmStagingLocationComponent implements OnInit {
   IsLoading: any = false;
   type: any = "";
   OrderNumberTote: any = null;
+  stagingLocation
 
   @ViewChild('autoFocusField') searchBoxField: ElementRef;
 
@@ -51,12 +52,12 @@ export class CmStagingLocationComponent implements OnInit {
   ngAfterViewInit() {
     this.searchBoxField.nativeElement.focus(); 
   }
-  async SearchToteAndLocation($event:any){ 
-    if($event.target.value != ""){
+  async SearchToteAndLocation(){ 
+    if(this.stagingLocation != ""){
       if(!this.Oldstagetables.length) this.Oldstagetables = this.stagetables;
       this.stagetables = [];
-      this.stagetables= this.Oldstagetables.filter(x=>x.toteID.indexOf($event.target.value) >-1);
-      var locArray = this.Oldstagetables.filter(x=>x.stagingLocation.indexOf($event.target.value) >-1);
+      this.stagetables= this.Oldstagetables.filter(x=>x.toteID.indexOf(this.stagingLocation) >-1);
+      var locArray = this.Oldstagetables.filter(x=>x.stagingLocation.indexOf(this.stagingLocation) >-1);
       if(locArray && locArray.length > 0){
         locArray.forEach(item => {
           if(!this.stagetables.includes(item))

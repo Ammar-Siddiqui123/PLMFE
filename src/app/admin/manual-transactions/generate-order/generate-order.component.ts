@@ -379,4 +379,9 @@ onSelectionChange(event){
   ngOnDestroy() {
     this.searchByInput.unsubscribe();
   }
+  clear(){
+    this.orderNumber = ''
+    this.autocompleteSearchColumn();
+    this.getOrderTableData();
+  }
 }

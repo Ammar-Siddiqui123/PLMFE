@@ -31,6 +31,7 @@
             <mat-label>Ship VIA</mat-label>
             <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='shipVia' (focusout)="onFocusOutEvent($event,'shipVia')" 
                 maxlength="255" [matAutocomplete]="auto" (ngModelChange)="this.searchByShipVia.next($event)">
+                <button matSuffix *ngIf="shipVia" class="clear-btn"  (click)="shipVia=''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
 
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData($event)">
                 <mat-option *ngFor="let option of searchAutocompleteShipVia" [value]="option">
@@ -52,6 +53,7 @@
             <mat-label>Ship to Name</mat-label>
             <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='shipToName' (focusout)="onFocusOutEvent($event,'shipToName')" 
                 maxlength="255" [matAutocomplete]="shipName" (ngModelChange)="this.searchByShipName.next($event)">
+                <button matSuffix *ngIf="shipToName" class="clear-btn"  (click)="shipToName=''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
 
             <mat-autocomplete #shipName="matAutocomplete" (optionSelected)="searchData($event)">
                 <mat-option *ngFor="let option of searchAutocompleteShipName" [value]="option">

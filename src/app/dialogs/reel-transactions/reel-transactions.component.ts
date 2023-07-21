@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
@@ -34,6 +34,7 @@ export class ReelTransactionsComponent implements OnInit {
 
   @ViewChild('noOfReeltemp') noOfReeltemp: ElementRef
   @ViewChild('serialTemp') serialTemp: ElementRef
+  @ViewChildren('serialTemp') serialInputs: QueryList<any>;
   
   constructor(private dialog: MatDialog,public dialogRef: MatDialogRef<ReelTransactionsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService,) { }
@@ -231,6 +232,12 @@ dialog1(numUnassigned){
   
   })
 }
+
+validateInputs() {
+  this.serialInputs.forEach(input => {
+    input.nativeElement.focus(); // This will force Angular to validate each input
+  });
+}
 test(){
   let reels:any = [];
                 let rc$;
@@ -266,9 +273,10 @@ test(){
                 })
                 })
                 // console.log(this.generateReelAndSerial.data,'checj')
-
+                this.validateInputs();
                 if(SNs.includes('')){
-                  
+                  this.validateInputs();
+                  this.serialTemp.nativeElement.blur()
                   this.toastr.error("You must provide a serial number for each reel transaction.", 'Error!', {
                     positionClass: 'toast-bottom-right',
                     timeOut: 2000

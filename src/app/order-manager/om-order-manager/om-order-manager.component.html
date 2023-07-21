@@ -189,6 +189,7 @@
                                 search
                             </span>
                             <input type="text" placeholder="Search" [(ngModel)]="searchTxt" (input)="fillTable(true)" aria-label="Number" matInput>
+                            <button matSuffix *ngIf="searchTxt" class="clear-btn" (click)=" searchTxt='' " ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button> 
                         </mat-form-field>
                     </div>
                 </div>

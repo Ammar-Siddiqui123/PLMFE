@@ -818,4 +818,9 @@ this.router.navigate([]).then((result) => {
     }
     );
   }
+
+  clear(){
+    this.columnSearch.searchValue = ''
+    this.getContentData()
+  }
 }
