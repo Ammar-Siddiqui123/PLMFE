@@ -307,7 +307,7 @@ export class GenerateTransactionComponent implements OnInit {
                     }
                 
                     this.invMapID = '';
-                    this.getRow(this.transactionID,type);
+                    this.getRow({id:this.transactionID},type);
 
                   } else {
                     this.toastr.error(res.responseMessage, 'Error!', {
@@ -318,7 +318,7 @@ export class GenerateTransactionComponent implements OnInit {
                       this.clearFields();
                     }
                     this.invMapID = '';
-                    this.getRow(this.transactionID,type);
+                    this.getRow({id:this.transactionID},type);
                   }
                 },
                 (error) => {}
