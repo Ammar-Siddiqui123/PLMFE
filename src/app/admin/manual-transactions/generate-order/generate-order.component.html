@@ -35,6 +35,7 @@
               <mat-label>Order Number</mat-label>
               <input type="text" placeholder="Search"  #autoFocusField aria-label="Number" matInput [(ngModel)]='orderNumber'
                 maxlength="255" [matAutocomplete]="auto" (ngModelChange)="this.searchByInput.next($event)">
+                <button matSuffix *ngIf="orderNumber" class="clear-btn"  (click)=" clear()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
                   {{option}}
@@ -98,6 +99,7 @@
           <mat-form-field class="custom-form-field w-100 mb-3"  appearance="outline">
             <mat-label>Tote ID For Order</mat-label>
             <input type="text" placeholder="Search" [(ngModel)]="toteID" matInput maxlength="255">
+            <button matSuffix *ngIf="toteID" class="clear-btn"  (click)=" toteID = ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
           </mat-form-field>
           
         </div>

@@ -56,6 +56,7 @@
                             <input type="text" placeholder="Search" aria-label="Number" matInput
                                 [(ngModel)]='this.columnSearch.searchValue' [matAutocomplete]="auto"
                                 (ngModelChange)="this.searchBar.next($event)">
+                                <button matSuffix *ngIf="this.columnSearch.searchValue" class="clear-btn"  (click)="clear()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                             <mat-autocomplete #auto="matAutocomplete"
                                 (optionSelected)="searchData($event.option.value)">
                                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">

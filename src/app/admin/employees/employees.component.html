@@ -329,6 +329,7 @@
                                     </span>
                                     <input type="text" placeholder="Search Functions allowed"
                                       aria-label="Search Group Allowed" matInput [(ngModel)]="searchfuncAllowed"  (keyup)="applyFunctionAllowedFilter($event)">
+                                      <button matSuffix *ngIf="searchfuncAllowed" class="clear-btn" (click)="searchfuncAllowed='';getFuncationAllowedList()" ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button> 
                                   </mat-form-field>
                                   <button mat-flat-button color="primary" class=" mat-button-icon" [disabled]="!isLookUp"
                                     (click)="AddFunctionAllowedDialog()">

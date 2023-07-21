@@ -267,4 +267,10 @@ export class ReprocessedTransactionComponent implements OnInit {
   ngOnDestroy() {
     this.searchBar.unsubscribe();
   }
+
+  clear(){
+    this.columnSearch.searchValue = ''
+    this.getContentData()
+
+  }
 }
