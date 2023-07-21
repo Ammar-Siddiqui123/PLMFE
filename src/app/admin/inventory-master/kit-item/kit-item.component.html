@@ -216,6 +216,7 @@
 
                     <input [matAutocomplete]="searchauto" type="text" placeholder="Search" aria-label="Search" matInput
                         (keyup)="getSearchList($event)" [(ngModel)]="dialogitemNumberDisplay">
+                        <button matSuffix *ngIf="dialogitemNumberDisplay" class="clear-btn"  (click)="dialogitemNumberDisplay=''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                     <mat-autocomplete class="card custom-scroll" #searchauto="matAutocomplete"
                         (optionSelected)="onSearchSelect($event)" [displayWith]="displayFn">
                         <h6 class="card-header matAutoCompHeader "><span style="width:  140px;">Item No.</span> <span

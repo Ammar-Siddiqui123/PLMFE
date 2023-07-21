@@ -716,4 +716,5 @@ export class InventoryMapComponent implements OnInit {
  }
 
 
+
 }

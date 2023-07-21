@@ -14,6 +14,8 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 export class PalletReceivingComponent implements OnInit {
   processForm: FormGroup;
   userData;
+  toteIDCrossBtn;
+  itemNoCrossBtn;
   @ViewChild('autoFocusField') searchBoxField: ElementRef;
   constructor(
     public Api: ApiFuntions,

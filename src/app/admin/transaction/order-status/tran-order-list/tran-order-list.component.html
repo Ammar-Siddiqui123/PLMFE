@@ -55,6 +55,7 @@
               </span>
               <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='searchString' [disabled]="!searchCol"
                 [matAutocomplete]="auto" (ngModelChange)="this.searchByInput.next($event)">
+                <button matSuffix *ngIf="searchString" class="clear-btn"  (click)="searchString = ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
                   {{option}}
@@ -132,7 +133,7 @@
                     </mat-table> -->
 
         <!-- OlD -->
-        <div class="card br-14 table-responsive my-3">
+        <div class="card br-14 borderless px-0 mb-3" style="overflow-x: auto;">
           <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 300px">
             <table  style="width: 100%;" mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
               style=" min-height: 150px;">
@@ -429,7 +430,7 @@
           </div>
           <div class="col-xl-4 offset-xl-3">
             <div class="d-flex justify-content-end">
-              <button disabled mat-flat-button color="primary" class="btn-regular mx-2 w-100">
+              <button [disabled]="!shippingComplete" mat-flat-button color="primary" class="btn-regular mx-2 w-100" (click)="ShippingCompleteDialog()">
                 Shipping Complete
               </button>
               <button *ngIf="priority" mat-flat-button color="primary" class="btn-regular w-100" (click)="openGcBeginTest()">
