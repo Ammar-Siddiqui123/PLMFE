@@ -160,7 +160,7 @@ export class ReelDetailComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       
 
-      if (result != true && result != false) {
+      if (result !== true && result !== false) {
         this.ReelWarehouse = result
       this.reelQuantitytemp.nativeElement.focus()
 
