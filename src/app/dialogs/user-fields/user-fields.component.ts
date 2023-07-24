@@ -20,7 +20,7 @@ export class UserFieldsComponent implements OnInit {
 
   public userData: any;
   userForm: FormGroup;
-
+  fieldNames:any;
   constructor(public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
@@ -49,9 +49,17 @@ export class UserFieldsComponent implements OnInit {
 
     this.userData = this.authService.userData();
     this.setValues();
+    this.OSFieldFilterNames();
   }
   ngAfterViewInit(): void {
     this.field_focus.nativeElement.focus();
+  }
+
+  public OSFieldFilterNames() { 
+    this.Api.ColumnAlias().subscribe((res: any) => {
+      this.fieldNames = res.data;
+      // this.sharedService.updateFieldNames(this.fieldNames)
+    })
   }
   setValues() {
 

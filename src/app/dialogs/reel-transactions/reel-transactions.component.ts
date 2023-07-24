@@ -23,7 +23,7 @@ export class ReelTransactionsComponent implements OnInit {
     
   displayedColumns: string[] = ['reel_serial_number','button','reel_part_quantity','action'];
   generateReelAndSerial:MatTableDataSource<any> = new MatTableDataSource<any>([]);
-
+fieldNames:any;
   itemNumber:any;
   description:any;
   partsInducted:any;
@@ -47,6 +47,7 @@ export class ReelTransactionsComponent implements OnInit {
     this.partsInducted =this.data.itemObj.totalParts
     this.partsNotAssigned =this.oldIncluded?this.oldIncluded:''
     this.noOfReels = this.data.itemObj.numReels
+    this.fieldNames=this.data?.fieldName
     setTimeout(() => {
       this.ReelDetailDialogue()
     }, 300);
@@ -81,7 +82,7 @@ oldIncluded
         itemObj:this.data.itemObj,
         gReelQty:this.generatedReelQty,
         fromtrans: this.fromReelCheck? this.generateReelAndSerial.data[this.generatedReelQtyIndex].details : this.HiddenInputValue,
-        
+        propFields:this.fieldNames
       },
     });
 

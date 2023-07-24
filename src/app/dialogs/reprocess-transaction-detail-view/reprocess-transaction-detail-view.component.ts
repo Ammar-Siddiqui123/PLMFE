@@ -14,6 +14,7 @@ export class ReprocessTransactionDetailViewComponent implements OnInit {
   @ViewChild('field_focus') field_focus: ElementRef;
   itemID:any;
   userData:any;
+  fieldNames:any;
   constructor(
     private Api: ApiFuntions,
     private userService:AuthService,
@@ -59,10 +60,17 @@ export class ReprocessTransactionDetailViewComponent implements OnInit {
     this.itemID=this.data.itemID
     this.userData=this.userService.userData();
     this.getReprocessData();
+    this.OSFieldFilterNames();
     // this.reprocessInfo.controls.orderNumber.setValue('123213');
   }
   ngAfterViewInit(): void {
     this.field_focus.nativeElement.focus();
+  }
+  public OSFieldFilterNames() { 
+    this.Api.ColumnAlias().subscribe((res: any) => {
+      this.fieldNames = res.data;
+      // this.sharedService.updateFieldNames(this.fieldNames)
+    })
   }
   getReprocessData() {
     let payLoad = { id: this.itemID, username: this.userData.userName, wsid: this.userData.wsid};

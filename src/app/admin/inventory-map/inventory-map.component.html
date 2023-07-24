@@ -100,7 +100,7 @@
                 <th class="header" mat-header-cell  *matHeaderCellDef mat-sort-header
                   
                   style="width:auto; padding: 5px 12px;">
-                  {{ col.colDef }}
+                  {{ col.colDef==='User Field1'?fieldNames.userField1:col.colDef==='User Field2'?fieldNames.userField2:col.colDef }}
 
                 </th>
 

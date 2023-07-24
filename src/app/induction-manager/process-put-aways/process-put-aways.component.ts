@@ -907,7 +907,8 @@ export class ProcessPutAwaysComponent implements OnInit {
               totes: this.dataSource2.data,
               selectIfOne: this.processPutAwayIndex.imPreference.selectIfOne,
               defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity,
-              autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish
+              autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish,
+              propFields:this.fieldNames
             }
           });
           debugger
@@ -956,7 +957,8 @@ export class ProcessPutAwaysComponent implements OnInit {
           totes: this.dataSource2.data,
           selectIfOne: this.processPutAwayIndex.imPreference.selectIfOne,
           defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity,
-          autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish
+          autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish,
+          propFields:this.fieldNames
         }
         
       });
@@ -1022,9 +1024,10 @@ export class ProcessPutAwaysComponent implements OnInit {
                       totalParts: 0,
                       description: result.item.description,
                       whseRequired: result.item.warehouseSensitive
+                      
                     }
                     
-                    this.ReelTransactionsDialogue(hvObj,itemObj)
+                    this.ReelTransactionsDialogue(hvObj,itemObj,this.fieldNames)
                     
             
           }
@@ -1314,7 +1317,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     })
   }
 
-  ReelTransactionsDialogue(hv,item) {
+  ReelTransactionsDialogue(hv,item,fieldNames?) {
     const dialogRef = this.dialog.open(ReelTransactionsComponent, {
       height: 'auto',
       width: '932px',
@@ -1322,7 +1325,8 @@ export class ProcessPutAwaysComponent implements OnInit {
       data: {
         hvObj: hv,
         itemObj:item,
-        reelQuantity:this.reelQty?this.reelQty:''
+        reelQuantity:this.reelQty?this.reelQty:'',
+        fieldName:fieldNames
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
