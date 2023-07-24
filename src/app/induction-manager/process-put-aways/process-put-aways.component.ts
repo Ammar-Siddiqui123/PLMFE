@@ -58,6 +58,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   public toteNumber = '';
   public toteQuantity: any
   public actionDropDown: any;
+  fieldNames:any;
   public assignedZonesArray = [{ zone: '' }];
   searchAutocompleteItemNum: any = [];
   searchByItem: any = new Subject<string>();
@@ -136,7 +137,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.userData = this.authService.userData();
     this.getCurrentToteID();
     this.getProcessPutAwayIndex();
-   
+    this.OSFieldFilterNames();
 
     this.searchByItem
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -165,7 +166,12 @@ export class ProcessPutAwaysComponent implements OnInit {
   documentClick(event: MouseEvent) {
     this.ifAllowed = true
   }
-
+  public OSFieldFilterNames() { 
+    this.Api.ColumnAlias().subscribe((res: any) => {
+      this.fieldNames = res.data;
+      // this.sharedService.updateFieldNames(this.fieldNames)
+    })
+  }
   clearFormAndTable() {
     this.batchId = '';
     this.status = 'Not Processed';
