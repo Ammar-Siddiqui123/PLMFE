@@ -374,7 +374,10 @@ initialzeEmpForm() {
       })
       dialogRef.afterClosed().subscribe(result => {
         if(result.data){
-          this.empData = result.data;
+          this.empData = result.data.empData;
+          if(result.data.groupChanged){
+            this.FuncationAllowedList = new MatTableDataSource(result.data.functionsAllowedList);
+          }
         }
         const matSelect: MatSelect = matEvent.source;
         matSelect.writeValue(null);

@@ -7,6 +7,7 @@ import { AdminEmployeeLookupResponse } from 'src/app/Iemployee';
 import { Router } from '@angular/router';
 import { CustomValidatorService } from '../../../../app/init/custom-validator.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion';
@@ -119,7 +120,7 @@ ChangePassword(data){
   // if(this.OldPassword == this.password) this.OldPassword = -1;
   this.password = data;
 }
-  onSubmit(form: FormGroup) {
+  async onSubmit(form: FormGroup) {
     if (form.valid) {
       // this.isSubmitting = true;
       this.cleanForm(form);
@@ -127,10 +128,29 @@ ChangePassword(data){
       
       if (this.data?.mode === 'edit') {
         form.value.wsid = "TESTWID"; 
-        form.value.username = this.data && this.data.emp_data && this.data.emp_data.username?this.data.emp_data.username:this.data.emp_data.Username  ,
+        form.value.username = this.data && this.data.emp_data && this.data.emp_data.username?this.data.emp_data.username:this.data.emp_data.Username;
+        if(this.groupChanged){
+          let requpdateAccessGroup = await this.employeeService.updateAccessGroup({"group": this.empForm.value.groupName,"Username" : this.username}).toPromise();
+          if(requpdateAccessGroup.isExecuted){
+            let reqgetAdminEmployeeDetails = await this.employeeService.getAdminEmployeeDetails({"user": this.username,"wsid": "TESTWSID"}).toPromise();
+            if(reqgetAdminEmployeeDetails.isExecuted){
+              this.functionsAllowedList = reqgetAdminEmployeeDetails.data.userRights;
+            }
+          }
+
+          // this.employeeService.updateAccessGroup({"group": this.empForm.value.groupName,"Username" : this.username}).subscribe((res:any) => {
+          //   if(res.isExecuted){
+          //     this.employeeService.getAdminEmployeeDetails({"user": this.username,"wsid": "TESTWSID"}).subscribe((response: any) => { 
+          //       if(response.isExecuted){
+          //         this.functionsAllowedList = response.data.userRights;
+          //       }
+          //     });
+          //   }
+          // });
+        }
           this.employeeService.updateAdminEmployee(form.value).subscribe((res: any) => {
             if (res.isExecuted) {
-              this.dialogRef.close({mode: 'edit-employee', data: form.value});
+              this.dialogRef.close({mode: 'edit-employee', data:{empData: form.value,functionsAllowedList:this.functionsAllowedList,groupChanged:this.groupChanged}});
               this.toastr.success(labels.alert.update, 'Success!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
@@ -193,5 +213,43 @@ ChangePassword(data){
   
   ngAfterViewInit() {
     this.last_name.nativeElement.focus();
+  }
+
+  prevGroupName = "";
+  public onMatSelectOpen(form: AbstractControl): void {
+    this.prevGroupName = form.value.type;
+  }
+
+  functionsAllowedList: any = [];
+  groupChanged: boolean = false;
+  groupChange($event:any){
+    if (this.data?.mode === 'edit') {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '786px',
+        data: {
+          message: `Would you like to change this employee's functions allowed to the defaults for ${this.username}?`,
+          heading: 'Add Employee Group',
+        },
+        autoFocus: '__non_existing_element__',
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result==='Yes') {
+          this.groupChanged = true;
+          // this.employeeService.updateAccessGroup({"group": this.empForm.value.groupName,"Username" : this.username}).subscribe((res:any) => {
+          //   if(res.isExecuted){
+          //     this.employeeService.getAdminEmployeeDetails({"user": this.username,"wsid": "TESTWSID"}).subscribe((response: any) => { 
+          //       if(response.isExecuted){
+          //         this.functionsAllowedList = response.data.userRights;
+          //       }
+          //     });
+          //   }
+          // });
+        }
+        else{
+          this.empForm.get('groupName')?.setValue(this.groupName);
+        }
+      });
+    }
   }
 }

@@ -62,7 +62,7 @@
 
     <mat-form-field class="mb-3 w-100" appearance="outline"  *ngIf="(env === 'DB'||env !== 'AD') && this.IsEdit == true">
       <mat-label>Group</mat-label>
-      <mat-select formControlName="groupName">
+      <mat-select formControlName="groupName" (selectionChange)="groupChange($event)">
         <mat-option *ngFor="let item of allGroups" [value]="item.groupName">{{item.groupName}}</mat-option>
       </mat-select>
       <span class="material-symbols-outlined icon-expand-more">
