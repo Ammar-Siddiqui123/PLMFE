@@ -41,12 +41,28 @@
 
                                         <ng-container stickyEnd>
                                         <div class="d-flex gap-12">
-                                            <button mat-flat-button color="primary" class="xsm-icon-button" [disabled]="disableBtn"
+
+                                            <div *ngIf="disableBtn;then content else other_content">here is ignored</div>
+                                            <ng-template #content>
+                                                <button mat-flat-button color="primary" class="xsm-icon-button" 
                                                 (click)="saveWareHouse(whname.value, warehouse)" 
-                                                [disabled]="(enableButton[i] && enableButton[i].value!=null) ? enableButton[i].value:false"
+                                                disabled
                                                 >
                                                 <mat-icon class="material-symbols-outlined">save</mat-icon>
                                             </button>
+                                            </ng-template>
+                                            <ng-template #other_content>    
+                                                  <button mat-flat-button color="primary" class="xsm-icon-button" 
+                                                (click)="saveWareHouse(whname.value, warehouse)" 
+                                                [disabled]="(enableButton[i] && enableButton[i].value!=null ) ? enableButton[i].value:false"
+                                                >
+                                                <mat-icon class="material-symbols-outlined">save</mat-icon>
+                                            </button></ng-template>
+
+
+
+
+                                      
                                             <button [disabled]="disableBtn" mat-flat-button color="warn" class="xsm-icon-button"
                                                 (click)="deleteWH(warehouse)" #inputEl>
                                                 <mat-icon class="material-symbols-outlined">close</mat-icon>
