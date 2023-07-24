@@ -57,7 +57,7 @@ export class LookupUserTwoSetupComponent implements OnInit {
     let payload = {
       "oldValue": ele.oldVal,
       "newValue": ele.currentVal,
-      "userField": 1
+      "userField": 2
     }
     this.Api.updateuserfieldlookup(payload).pipe(
     
