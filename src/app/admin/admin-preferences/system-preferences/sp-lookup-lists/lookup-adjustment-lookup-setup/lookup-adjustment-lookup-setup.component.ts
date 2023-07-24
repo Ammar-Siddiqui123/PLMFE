@@ -63,6 +63,10 @@ AddBtn = false
       if(res.isExecuted){
         this.AddBtn = false
         ele.oldVal = ele.currentVal
+        this.toastr.success(`Saved Successfully`, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000,
+        });
       }
       else{
         this.toastr.error(`Adjustment Reason is a duplicate. Save other edited fields and ensure it is not a duplicate before saving.`, 'Error!', {
