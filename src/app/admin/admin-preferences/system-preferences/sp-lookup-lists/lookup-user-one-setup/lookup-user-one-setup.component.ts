@@ -6,6 +6,7 @@ import { catchError, of } from 'rxjs';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-lookup-user-one-setup',
@@ -15,14 +16,18 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 export class LookupUserOneSetupComponent implements OnInit {
   userF1List :any = new MatTableDataSource([]);
   AddBtn
-
+  fieldNames:any;
   constructor(private Api:ApiFuntions,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    public authService: AuthService,) { }
+    public authService: AuthService,private sharedService:SharedService) { }
     
   ngOnInit(): void {
     this.getUserFeild1()
+    this.sharedService.fieldNameObserver.subscribe(item => {
+      this.fieldNames=item;
+     });
+    
   }
   
 
