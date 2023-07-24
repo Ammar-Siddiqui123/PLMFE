@@ -104,6 +104,10 @@ export class LookupToteSetupComponent implements OnInit {
         console.log(res)
         this.AddBtn = false
         ele.IsDisabled = true
+        this.toastr.success(`Saved Successfully`, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000,
+        });
         // ele.oldVal = ele.currentVal
       }
       else{
