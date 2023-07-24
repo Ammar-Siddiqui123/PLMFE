@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
@@ -19,6 +19,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./add-new-transaction-to-order.component.scss'],
 })
 export class AddNewTransactionToOrderComponent implements OnInit {
+  @ViewChild('item_num') item_num: ElementRef;
   orderNumber;
   quantity=0;
   itemNumber:any='';
@@ -60,7 +61,7 @@ export class AddNewTransactionToOrderComponent implements OnInit {
     userField10: new FormControl(''),
   });
   ngOnInit(): void { 
-
+    this.autocompleteSearchColumn();
     // if(this.itemNumber==='')return
     // this.searchByInput
     // .pipe(debounceTime(400), distinctUntilChanged())
@@ -381,5 +382,9 @@ return
 
   ngOnDestroy() {
     this.searchByInput.unsubscribe();
+  }
+  
+  ngAfterViewInit() {
+    this.item_num.nativeElement.focus();
   }
 }

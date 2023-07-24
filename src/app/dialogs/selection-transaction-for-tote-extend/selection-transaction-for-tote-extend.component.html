@@ -71,7 +71,7 @@
         <div class="col-xl-3">
           <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
             <mat-label>Ship Via</mat-label>
-            <input formControlName="userField1" (keydown.shift.enter)="$event.preventDefault()" matInput type="text">
+            <input #field_focus formControlName="userField1" (keydown.shift.enter)="$event.preventDefault()" matInput type="text">
           </mat-form-field>
         </div>
         <div class="col-xl-3">

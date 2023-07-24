@@ -6,6 +6,7 @@ import labels from '../../../../labels/labels.json';
 import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-open-transaction-filters',
@@ -22,6 +23,7 @@ export class OpenTransactionFiltersComponent implements OnInit {
   selectedOption = 'Order Number';
   searchValue = '';
   selectedCheck = 'non';
+  fieldNames:any;
   autoCompleteSearchResult: any;
   filterObjectForEvnt={
     selectedOption:'',
@@ -32,7 +34,8 @@ export class OpenTransactionFiltersComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private Api: ApiFuntions,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private sharedService:SharedService
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +52,9 @@ export class OpenTransactionFiltersComponent implements OnInit {
         this.eventChangeEmitter(value)
         // this.getContentData();
       });
+      this.sharedService.fieldNameObserver.subscribe(item => {
+        this.fieldNames=item;
+       });
   }
   goToOnHold() {
     this.nextScreen.emit('complete');

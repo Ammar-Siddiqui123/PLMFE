@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
@@ -13,6 +13,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./temporary-manual-order-number-add.component.scss'],
 })
 export class TemporaryManualOrderNumberAddComponent implements OnInit {
+  @ViewChild('ord_nmb') ord_nmb: ElementRef;
   floatLabelControl: any = new FormControl('auto' as FloatLabelType);
   floatLabelControlItem: any = new FormControl('item' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
@@ -42,6 +43,9 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
   }
   getFloatLabelValueItem(): FloatLabelType {
     return this.floatLabelControlItem.value || 'item';
+  }
+  ngAfterViewInit() {
+    this.ord_nmb.nativeElement.focus();
   }
   searchData(event) {
     // if(!this.itemNumber) return

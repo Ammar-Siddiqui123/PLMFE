@@ -1,4 +1,4 @@
-import { Component, OnInit , Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit , Inject, ViewChild, ElementRef, ViewChildren, QueryList, Renderer2 } from '@angular/core';
 import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs'; 
@@ -14,7 +14,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 })
 
 export class VelocityCodeComponent implements OnInit {
-  
+  @ViewChildren('vl_name', { read: ElementRef }) vl_name: QueryList<ElementRef>;
   public velocity_code_list: any;
   public velocity_code_list_Res: any;
   public currentVelocity="";
@@ -30,6 +30,7 @@ export class VelocityCodeComponent implements OnInit {
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<any>,
     private dialog: MatDialog,
+    private renderer: Renderer2,
     ) { }
 
   ngOnInit(): void {
@@ -48,6 +49,11 @@ export class VelocityCodeComponent implements OnInit {
       {
       this.disableEnable.push({index:i,value:true});
       }
+      setTimeout(() => {
+        const inputElements = this.vl_name.toArray();
+        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+          this.renderer.selectRootElement(inputElement).focus();
+      }, 100)
      });
 
   }
@@ -60,6 +66,15 @@ export class VelocityCodeComponent implements OnInit {
   addVLRow(row:any){
     this.velocity_code_list.unshift([]);
     //this.disableEnable.unshift({index:0,value:false});
+    
+    const lastIndex = this.velocity_code_list.length - 1;
+    setTimeout(() => {
+      const inputElements = this.vl_name.toArray();
+      if (inputElements.length > lastIndex) {
+        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+        this.renderer.selectRootElement(inputElement).focus();
+      }
+    });
   }
   saveVlCode(vlcode:any, oldVC:any){ 
     if(vlcode){

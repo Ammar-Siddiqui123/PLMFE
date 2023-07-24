@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
@@ -11,7 +11,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./blossom-tote.component.scss']
 })
 export class BlossomToteComponent implements OnInit {
-
+  @ViewChild('tote_focus') tote_focus: ElementRef;
   public userData: any;
   TOTE_SETUP: any = [];
   nxtToteID: any;
@@ -25,7 +25,9 @@ export class BlossomToteComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
   }
-
+  ngAfterViewChecked(): void {
+    this.tote_focus.nativeElement.focus();
+  }
   updateNxtTote() { 
     
     let updatePayload = {

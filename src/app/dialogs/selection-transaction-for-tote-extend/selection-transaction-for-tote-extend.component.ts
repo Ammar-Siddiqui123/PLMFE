@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common' 
 import {
@@ -24,6 +24,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./selection-transaction-for-tote-extend.component.scss']
 })
 export class SelectionTransactionForToteExtendComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
 
   public userData   : any;
   toteForm          : FormGroup;
@@ -114,7 +115,10 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     this.getVelocityCodeList();
     this.getDetails();    
   }
-
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
+  }
+  
   onToteChange(event,type){
   // event.value
     this.totes.filter(item=>{

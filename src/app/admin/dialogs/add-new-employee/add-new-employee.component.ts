@@ -20,7 +20,7 @@ export interface DialogData {
 })
 export class AddNewEmployeeComponent implements OnInit {
 
-
+  @ViewChild('last_name') last_name: ElementRef;
   @ViewChild('addNewEmployee') AddNewEmployeeComponent: TemplateRef<any>;
   form_heading: string = 'Add New Employee';
   form_btn_label: string = 'Add';
@@ -191,5 +191,7 @@ ChangePassword(data){
     return this.empForm.get(fieldName)?.touched && this.empForm.get(fieldName)?.hasError(errorName);
   }
   
-
+  ngAfterViewInit() {
+    this.last_name.nativeElement.focus();
+  }
 }

@@ -44,6 +44,7 @@ export class InventoryMasterComponent implements OnInit {
   public getInvMasterData: any;
   public invMasterLocations: any;
   public isDialogOpen = false;
+  public fieldNames:any;
   public paginationData: {
     total: 0,
     position: 0,
@@ -470,6 +471,7 @@ isQuarantine=false;
   public OSFieldFilterNames() { 
     this.api.ColumnAlias().subscribe((res: any) => {
       this.columns = res.data;
+      this.fieldNames=this.columns
     })
   }
   public getInvMasterLocations(itemNum: any, pageSize?, startIndex?, sortingColumnName?, sortingOrder?) {

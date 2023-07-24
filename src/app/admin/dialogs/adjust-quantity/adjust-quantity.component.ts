@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CellSizeComponent } from '../cell-size/cell-size.component';
 import { VelocityCodeComponent } from '../velocity-code/velocity-code.component';
@@ -34,7 +34,8 @@ export interface  AdjustQuantityDataStructure   {
   styleUrls: ['./adjust-quantity.component.scss']
 })
 export class AdjustQuantityComponent implements OnInit {
-
+  @ViewChild('newQty') newQty: ElementRef;
+  fieldName="";
  adjustInventoryMapForm: FormGroup;
 
  getAdjustQuantityData  :    AdjustQuantityDataStructure = {
@@ -65,7 +66,7 @@ export class AdjustQuantityComponent implements OnInit {
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<any>
   ) {
-
+   this.fieldName=data.fieldNames;
   }
 
   ngOnInit(): void { 
@@ -73,11 +74,20 @@ export class AdjustQuantityComponent implements OnInit {
     this.getAdjustmentReasons();
     this.initializeDataSet();
   }
+  
+  ngAfterViewInit() {
+ 
+
+      this.newQty.nativeElement.focus();
+
+   
+  }
+
 
   initializeDataSet(){
     this.adjustInventoryMapForm = this.fb.group({
       mapID: [ this.data.id, [Validators.required]],
-      quantity: [  '', [Validators.required]],
+      quantity: [  0, [Validators.required]],
       description: [  '', [Validators.required]],
     });
   }
@@ -86,6 +96,7 @@ export class AdjustQuantityComponent implements OnInit {
     this.Api.getItemQuantityDetail(id).subscribe((res) => {
       if(res.data && res.isExecuted){
         this.getAdjustQuantityData = res.data;
+        this.newQty.nativeElement.focus();
       }
     });
   }
