@@ -142,9 +142,10 @@ export class OmOrderManagerComponent implements OnInit {
       endIndex: 20
     }    
     this.userData = this.authService.userData();
+    this.getColumnSequence();
     await this.deleteTemp();
     this.getOMIndex();
-    this.getColumnSequence();
+ 
     this.fillTable();
   }  
 
@@ -179,7 +180,7 @@ export class OmOrderManagerComponent implements OnInit {
         
         this.colList = structuredClone(res.data.filter(x => x != 'actions'));
         this.colList = this.colList.sort();
-        this.searchCol = this.colList[0];
+        // this.searchCol = this.colList[0];
       }
     });
   }
