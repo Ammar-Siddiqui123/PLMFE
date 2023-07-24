@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, ElementRef, Inject, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs'; 
@@ -33,16 +33,21 @@ export class WarehouseComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     private renderer: Renderer2,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
 
   ngOnInit(): void {
+    console.log(this.data)
     this.userData = this.authService.userData();
     this.getWarehouse();
-    this.spliUrl=this.router.url.split('/'); 
-    console.log(this.spliUrl[1])
-    if( this.spliUrl[1] == 'InductionManager'  ){
+    // this.spliUrl=this.router.url.split('/'); 
+    // console.log(this.spliUrl[1])
+    if( this.data.check == 'fromReelDetail'  ){
        this.disableBtn =true
+    }
+    else{
+      this.disableBtn =false
     }
   }
 
