@@ -46,7 +46,7 @@
             </div>
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
-                    <mat-label>Unit Of Measure</mat-label>
+                    <mat-label>{{fieldNames?.unitOfMeasure}}</mat-label>
                     <mat-select formControlName="unitOfMeasure">
                         <mat-option *ngFor="let type of unitOfMeasure_list" value="{{type}}">{{type}}</mat-option>                        
                       </mat-select>
@@ -179,13 +179,13 @@
             </div>
             <div class="col-xl-4">
                 <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
-                    <mat-label>Ship VIA</mat-label>
+                    <mat-label>{{fieldNames?.userField1}}</mat-label>
                     <textarea maxlength="255" matInput formControlName="userField1" ></textarea>
                 </mat-form-field>
             </div>
             <div class="col-xl-4">
                 <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
-                    <mat-label>Ship To Name</mat-label>
+                    <mat-label>{{fieldNames?.userField2}}</mat-label>
                     <textarea maxlength="255" matInput formControlName="userField2" ></textarea>
                 </mat-form-field>
             </div>
@@ -216,7 +216,7 @@
             </div>
             <div class="col-xl-3">
                 <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
-                    <mat-label>Item Number</mat-label>
+                    <mat-label>{{fieldNames?.itemNumber}}</mat-label>
                     <input formControlName="itemNumber" matInput type="text" value="Label">
                 </mat-form-field>
             </div>
