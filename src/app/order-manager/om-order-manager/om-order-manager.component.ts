@@ -142,9 +142,10 @@ export class OmOrderManagerComponent implements OnInit {
       endIndex: 20
     }    
     this.userData = this.authService.userData();
+    this.getColumnSequence();
     await this.deleteTemp();
     this.getOMIndex();
-    this.getColumnSequence();
+ 
     this.fillTable();
   }  
 
