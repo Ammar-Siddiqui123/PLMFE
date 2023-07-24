@@ -462,7 +462,8 @@ export class InventoryMapComponent implements OnInit {
       data: {
         mode: 'editInvMapLocation',
         itemList : this.itemList,
-        detailData : event
+        detailData : event,
+        fieldName:this.fieldNames
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
