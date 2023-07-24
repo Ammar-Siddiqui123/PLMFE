@@ -1382,4 +1382,49 @@ public viewShipping(body): Observable<any> {
 public selShipComp(body): Observable<any> { 
   return this.ApiBase.Get("/Admin/selshipcomp",body);
 } 
+
+public adjustmentlookup( ): Observable<any> {
+  return this.ApiBase.Get(`/Admin/adjustmentlookup`, );
+}
+
+public updateAdjustlookup(body){
+  return this.ApiBase.Post(`/Admin/adjustmentlookup`,body);
+}
+
+public deleteAdjustmentLookup(payload:any) {
+  return  this.ApiBase.Delete("/Admin/adjustmentlookup",payload);
+} 
+
+public userfieldlookup(body ): Observable<any> {
+  return this.ApiBase.Get(`/Admin/userfieldlookup`,body);
+}
+public updateuserfieldlookup(body){
+  return this.ApiBase.Post(`/Admin/userfieldlookup`,body);
+}
+
+public deleteUserfieldLookUp(payload:any) {
+  return  this.ApiBase.Post("/Admin/userfieldlookupdelete",payload);
+} 
+
+
+public getToteCell( ): Observable<any> {
+  return this.ApiBase.Get(`/Admin/totesetup`);
+}
+
+public totesetup(body){
+  return this.ApiBase.Post(`/Admin/totesetup`,body);
+}
+
+public deleteTote(payload:any) {
+  return  this.ApiBase.Delete("/Admin/totesetup",payload);
+} 
+
+
+
+public cleartote(body): Observable<any> {
+  return this.ApiBase.Put(`/Admin/cleartotes`,body);
+}
+// public cleartote( ): Observable<any> {
+//   return this.ApiBase.Post(`/Admin/cleartotes`, Body);
+//   }
 }
