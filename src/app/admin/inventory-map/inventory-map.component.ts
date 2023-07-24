@@ -423,7 +423,7 @@ export class InventoryMapComponent implements OnInit {
 
   viewAllLocDialog(): void {
     const dialogRef = this.dialog.open(this.customTemplate, {
-       width: '400px',
+       width: '560px',
        autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
