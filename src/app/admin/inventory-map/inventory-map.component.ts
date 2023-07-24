@@ -378,7 +378,8 @@ export class InventoryMapComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'addInvMapLocation',
-        itemList : this.itemList
+        itemList : this.itemList,
+        fieldName:this.fieldNames
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {

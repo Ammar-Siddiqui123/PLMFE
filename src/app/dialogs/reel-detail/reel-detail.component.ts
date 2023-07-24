@@ -23,7 +23,7 @@ export class ReelDetailComponent implements OnInit {
   ReelQty:any
   ReelNotes:any
   wareHouseSensitivity:any
-
+  fieldNames:any
   @ViewChild('reelQuantitytemp') reelQuantitytemp: ElementRef
 
   constructor(private dialog: MatDialog,public dialogRef: MatDialogRef<ReelDetailComponent>,
@@ -32,6 +32,7 @@ export class ReelDetailComponent implements OnInit {
   ngOnInit(): void {
     // debugger
     // console.log(this.data.fromtrans)
+    this.fieldNames=this.data.propFields
     if(!this.data.fromtrans){
       this.ReelOrder = this.data.hvObj.order
       this.ReelLot = this.data.hvObj.lot
@@ -42,6 +43,7 @@ export class ReelDetailComponent implements OnInit {
       this.ReelQty = this.data.gReelQty
       this.ReelNotes = this.data.hvObj.notes
       this.wareHouseSensitivity = this.data.itemObj.whseRequired
+      
     }
     else{
       this.ReelOrder = this.data.fromtrans.reelOrder
