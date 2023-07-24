@@ -16,6 +16,7 @@
                     <input matInput value="value" type="text" [(ngModel)]="createOrdersDTPayload.orderNumber" 
                     (keyup)="searchItem(true)" (keyup.enter)="searchItem(true,true)" [matAutocomplete]="searchauto" maxlength="50" 
                     (focus)="focusinmethod()" (focusout)="focusoutmethod()">
+                    <button matSuffix *ngIf="createOrdersDTPayload.orderNumber" class="clear-btn"  (click)="createOrdersDTPayload.orderNumber = ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                     <mat-autocomplete class="card custom-scroll" #searchauto="matAutocomplete"
                         (optionSelected)="onSearchSelect($event)">
                         <h6 class="card-header matAutoCompHeader ">
@@ -86,6 +87,7 @@
                     [disabled]="selectedFilterColumn == ''" [(ngModel)]="selectedFilterString"
                     (keyup)="autocompleteSearchColumn()"
                     >
+                    <button matSuffix *ngIf="selectedFilterString" class="clear-btn"  (click)="selectedFilterString = ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                 </mat-form-field>
             </div>
         </div>

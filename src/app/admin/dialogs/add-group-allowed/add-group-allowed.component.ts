@@ -26,6 +26,7 @@ export class AddGroupAllowedComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   userData: any;
   controlNameForm: FormGroup;
+  constrolName
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
