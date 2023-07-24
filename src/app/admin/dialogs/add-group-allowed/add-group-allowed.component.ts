@@ -61,9 +61,12 @@ export class AddGroupAllowedComponent implements OnInit {
 
   }
 
-  ngAfterViewChecked(): void {
-    this.control_name.nativeElement.focus();
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.control_name.nativeElement.focus();
+    }, 200);
   }
+
   filterx(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.controlNameList.filter(option => option.controlName.toLowerCase().includes(filterValue));
