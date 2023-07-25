@@ -1427,4 +1427,20 @@ public cleartote(body): Observable<any> {
 // public cleartote( ): Observable<any> {
 //   return this.ApiBase.Post(`/Admin/cleartotes`, Body);
 //   }
+public basicreportdetails(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/customreports/basicreportdetails",body);
+} 
+public ReportFieldsExps(body): Observable<any> { 
+  return this.ApiBase.Update("/Admin/customreports/ReportFieldsExps",body);
+} 
+public reportfieldvalues(body): Observable<any> { 
+  return this.ApiBase.Update("/Admin/customreports/reportfieldvalues",body);
+} 
+public ReportTitles(body): Observable<any> { 
+  return this.ApiBase.Update("/Admin/customreports/ReportTitles",body);
+} 
+
+public importFile(body){
+  return this.ApiBase.PostFormData(`/Admin/customreports/importFile`,body);
+}
 }

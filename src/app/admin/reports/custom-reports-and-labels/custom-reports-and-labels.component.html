@@ -71,9 +71,10 @@
                                        (click)="OpenListAndLabel('report')"
                                         >Design</mat-option>
                                     <mat-option value="147852">Delete</mat-option>
-                                    <mat-option value="147852">Import</mat-option>
+                                    <mat-option value="147852" (click)="fileInput.click()">Import</mat-option>
                                 </mat-select>
-                                <span class="material-symbols-outlined icon-expand-more">
+                                <input type="file" style="display: none" id="ImportFileVal" (change)="onFileSelected($event)" accept="" #fileInput>
+                                <span class="material-symbols-outlined icon-expand-more" >
                                     expand_more
                                 </span>
                             </mat-form-field>

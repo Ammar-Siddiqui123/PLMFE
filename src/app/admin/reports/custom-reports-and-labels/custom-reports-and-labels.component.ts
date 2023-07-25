@@ -6,6 +6,7 @@ import { CrDeleteConfirmationComponent } from 'src/app/dialogs/cr-delete-confirm
 import { CrEditDesignTestDataComponent } from 'src/app/dialogs/cr-edit-design-test-data/cr-edit-design-test-data.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { SharedService } from 'src/app/services/shared.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-custom-reports-and-labels',
@@ -15,7 +16,10 @@ import { SharedService } from 'src/app/services/shared.service';
 export class CustomReportsAndLabelsComponent implements OnInit {
   Detail:any = {};
   ListReports:any = [];
-  constructor(private api:ApiFuntions,private route:Router,private dialog: MatDialog) { }
+  reportTitles:any = [];
+  IsSystemReport:boolean = true;
+  sysTitles:any = [];
+  constructor(private api:ApiFuntions,private route:Router,private dialog: MatDialog, private toastr :ToastrService) { }
 
   ngOnInit(): void {
   this.Getcustomreports();
@@ -61,4 +65,46 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     });
   }
 
+  onFileSelected(event: any) {
+    const fileInput = event.target;
+    const file = fileInput.files[0];
+
+    if (!file) {
+      // No file selected, handle the case if needed
+      return;
+    }
+    if(file.name == this.Detail.fileName){
+      const formData = new FormData();
+      formData.append('file', file);
+  
+  
+      // Replace 'your_upload_endpoint' with the server's API endpoint to handle file upload
+      this.api.importFile(formData).subscribe(
+        (response) => {
+          this.toastr.success(`File successfully uploaded`, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+          // Handle the response from the server after file upload, if needed
+          console.log(response);
+        },
+        (error) => {
+          this.toastr.error(error, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+          // Handle error if the file upload fails
+          console.error(error);
+        }
+      );
+    }
+    else{
+      this.toastr.error(`Uploaded filename ${file.name} must match report filename ${this.Detail.fileName}`, 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+    }
+
+
+  }
 }
