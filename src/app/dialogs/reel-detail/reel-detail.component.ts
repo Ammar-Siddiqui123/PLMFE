@@ -30,6 +30,7 @@ export class ReelDetailComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService) { }
 
   ngOnInit(): void {
+
     // debugger
     // console.log(this.data.fromtrans)
     this.fieldNames=this.data.propFields
@@ -159,6 +160,7 @@ export class ReelDetailComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'addlocation',
+        check:'fromReelDetail'
       }
     })
     dialogRef.afterClosed().subscribe(result => {
