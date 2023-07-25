@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body py-0 example-container">
                         <!-- <ng-scrollbar style="height: 63vh" cdkScrollable> -->
-                            <div cdkScrollable class="custom-scrollbar" style="height: 63vh">
+                            <div cdkScrollable class="custom-scrollbar" style="height: 63vh" mat-dialog-content>
                                 <mat-list cdkDropList [cdkDropListData]="unorderedCol" class="example-list"
                                     (cdkDropListDropped)="drop($event)" class="zones-list g-card-list list-style-1"
                                     role="list">
@@ -50,7 +50,7 @@
                     </div>
                     <div class="card-body py-0 example-container">
                         <!-- <ng-scrollbar style="height: 63vh" cdkScrollable> -->
-                            <div cdkScrollable class="custom-scrollbar" style="height: 63vh">
+                            <div cdkScrollable class="custom-scrollbar" style="height: 63vh" mat-dialog-content>
                                 <mat-list cdkDropList [cdkDropListData]="defaultCol" class="example-list"
                                     (cdkDropListDropped)="drop($event)" class="zones-list g-card-list list-style-1"
                                     role="list">
