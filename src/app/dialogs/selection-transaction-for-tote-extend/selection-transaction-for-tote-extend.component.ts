@@ -34,7 +34,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   totes             : any = [];
   selectedTotePosition:any='';
   selectedToteID:any='';
-
+  fieldNames:any;
   constructor(public dialogRef                  : MatDialogRef<SelectionTransactionForToteExtendComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private dialog                    : MatDialog,
@@ -111,6 +111,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+    this.OSFieldFilterNames();
     this.getCellSizeList();
     this.getVelocityCodeList();
     this.getDetails();    
@@ -118,7 +119,12 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   ngAfterViewInit(): void {
     this.field_focus.nativeElement.focus();
   }
-  
+  public OSFieldFilterNames() { 
+    this.Api.ColumnAlias().subscribe((res: any) => {
+      this.fieldNames = res.data;
+
+    })
+  }
   onToteChange(event,type){
   // event.value
     this.totes.filter(item=>{
