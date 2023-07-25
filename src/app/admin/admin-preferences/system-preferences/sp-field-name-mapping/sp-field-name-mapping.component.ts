@@ -32,11 +32,11 @@ export class SpFieldNameMappingComponent implements OnInit {
   }
   public FieldNameSave() { 
     var payload :any = {
-      "itemAlias": this.columns.itemNumber,
-      "uomAlias": this.columns.unitOfMeasure,
+      "itemAlias": this.columns?.itemNumber?this.columns?.itemNumber:'',
+      "uomAlias": this.columns?.unitOfMeasure? this.columns?.unitOfMeasure:'',
       "ufs": [
-       this.columns.userField1,this.columns.userField2, this.columns.userField3,this.columns.userField4,this.columns.userField5,this.columns.userField6,this.columns.userField7,
-       this.columns.userField8,this.columns.userField9,this.columns.userField10
+       this.columns?.userField1? this.columns.userField1:'',this.columns?.userField2?this.columns?.userField2:'', this.columns?.userField3?this.columns?.userField3:'',this.columns?.userField4?this.columns?.userField4:'',this.columns?.userField5?this.columns?.userField5:'',this.columns?.userField6?this.columns?.userField6:'',this.columns?.userField7?this.columns?.userField7:'',
+       this.columns?.userField8?this.columns?.userField8:'',this.columns?.userField9?this.columns?.userField9:'',this.columns?.userField10?this.columns?.userField10:''
       ],
       "username":  this.userData.userName,
       "wsid":this.userData.wsid
