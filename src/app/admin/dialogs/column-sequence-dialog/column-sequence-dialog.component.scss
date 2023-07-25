@@ -1,24 +1,6 @@
 .custom-scrollbar {
 height: 63vh;
 overflow-y: scroll;
---scrollbar-border-radius: 7px;
---scrollbar-padding: 4px;
---scrollbar-track-color: transparent;
---scrollbar-thumb-color: rgba(0, 0, 0, .2);
---scrollbar-thumb-hover-color: var(--scrollbar-thumb-color);
---scrollbar-size: 5px;
---scrollbar-hover-size: var(--scrollbar-size);
---scrollbar-overscroll-behavior: initial;
---scrollbar-transition-duration: .4s;
---scrollbar-transition-delay: .8s;
---scrollbar-thumb-transition: height ease-out .15s, width ease-out .15s;
---scrollbar-track-transition: height ease-out .15s, width ease-out .15s;
-display: block;
-position: relative;
-height: 100%;
-max-height: 100%;
-max-width: 100%;
-box-sizing: content-box!important;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
