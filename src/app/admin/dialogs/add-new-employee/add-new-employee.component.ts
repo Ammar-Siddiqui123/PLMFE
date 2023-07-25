@@ -228,7 +228,7 @@ ChangePassword(data){
         height: 'auto',
         width: '786px',
         data: {
-          message: `Would you like to change this employee's functions allowed to the defaults for ${this.username}?`,
+          message: `Would you like to change this employee's functions allowed to the defaults for ${$event.value}?`,
           heading: 'Add Employee Group',
         },
         autoFocus: '__non_existing_element__',
