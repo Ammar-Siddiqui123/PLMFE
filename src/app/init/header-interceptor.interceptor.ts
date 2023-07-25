@@ -83,7 +83,14 @@ export class HeaderInterceptor implements HttpInterceptor {
       } else {
         this.api.Logout(paylaod).subscribe((res:any) => {
           if (res.isExecuted) {  
+            let lastRoute: any = localStorage.getItem('LastRoute') ? localStorage.getItem('LastRoute') : "";
             localStorage.clear();     
+            if(lastRoute != ""){
+              localStorage.setItem('LastRoute', lastRoute);
+            } 
+            if(!localStorage.getItem('LastRoute')){
+              localStorage.setItem('LastRoute', this.router.url);
+            }     
             this.dialog.closeAll();
             this.toastr.error('Token Expire', 'Error!', {
               positionClass: 'toast-bottom-right',

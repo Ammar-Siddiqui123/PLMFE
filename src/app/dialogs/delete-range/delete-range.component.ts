@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
@@ -15,7 +15,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./delete-range.component.scss']
 })
 export class DeleteRangeComponent implements OnInit {
-
+  @ViewChild('del_focus') del_focus: ElementRef;
   public userData: any;
   repByDeletePayload: any = {
     identity: "Batch Pick ID",
@@ -55,7 +55,9 @@ export class DeleteRangeComponent implements OnInit {
     this.getSearchOptionsBegin();
     this.getSearchOptionsEnd();
   }
-
+  ngAfterViewInit(): void {
+    this.del_focus.nativeElement.focus();
+  }
   ngOnDestroy() {
     this.getSearchOptionsBeginSubscribe.unsubscribe();
     this.getSearchOptionsEndSubscribe.unsubscribe();

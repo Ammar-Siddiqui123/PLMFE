@@ -20,6 +20,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { MatButton } from '@angular/material/button';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-om-order-manager',
@@ -141,9 +142,10 @@ export class OmOrderManagerComponent implements OnInit {
       endIndex: 20
     }    
     this.userData = this.authService.userData();
+    this.getColumnSequence();
     await this.deleteTemp();
     this.getOMIndex();
-    this.getColumnSequence();
+ 
     this.fillTable();
   }  
 
@@ -226,7 +228,15 @@ export class OmOrderManagerComponent implements OnInit {
     };
     
 
-    this.Api.FillOrderManTempData(payload).subscribe((res: any) => {
+    this.Api.FillOrderManTempData(payload).pipe(
+      catchError((error) => {
+        // Handle the error here
+        console.error('An error occurred while making the API call:', error);
+        
+        // Return a fallback value or trigger further error handling if needed
+        return of({ isExecuted: false });
+      })
+    ).subscribe((res: any) => {
       if (res.isExecuted) this.fillTable();
       else this.toastr.error("An Error occured while retrieving data.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
     });

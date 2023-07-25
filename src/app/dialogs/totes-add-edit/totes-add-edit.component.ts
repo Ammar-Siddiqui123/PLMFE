@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog'; 
 import { AuthService } from 'src/app/init/auth.service';
@@ -8,6 +8,10 @@ import { DeleteConfirmationComponent } from '../../admin/dialogs/delete-confirma
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { FormControl } from '@angular/forms';
+import { FloatLabelType } from '@angular/material/form-field';
+import { Subject, catchError, of, takeUntil } from 'rxjs';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 export interface PeriodicElement {
   name: string;
@@ -34,7 +38,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./totes-add-edit.component.scss']
 })
 export class TotesAddEditComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
   isRowAdded=false;
+  floatLabelControl = new FormControl('auto' as FloatLabelType);
   ELEMENT_DATA_TOTE = [{toteID:"" , cells:"" , position: 1 ,oldToteID:"",isInserted:1,isDuplicate:false}];
   displayedColumns: string[] = [ 'zone', 'locationdesc','actions'];
   alreadySavedTotesList:any;
@@ -45,11 +51,14 @@ export class TotesAddEditComponent implements OnInit {
   isIMPath=false;
   toteID="";
   cellID="";
+  fromTote;
+  toTote;
   userData:any;
-
+  searchAutocompleteList:any;
+  hideRequiredControl = new FormControl(false);
   // emptyField:boolean = false
-
-
+  onDestroy$: Subject<boolean> = new Subject();
+  @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -73,7 +82,9 @@ export class TotesAddEditComponent implements OnInit {
 
     this.selection.select(...this.dataSource.data);
   }
-
+  getFloatLabelValue(): FloatLabelType {
+    return this.floatLabelControl.value || 'auto';
+  }
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: PeriodicElement): string {
     if (!row) {
@@ -81,8 +92,28 @@ export class TotesAddEditComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
+  autocompleteSearchColumn(){
+    
+    this.Api.GetFromToteTypeAhead().pipe(takeUntil(this.onDestroy$)).pipe(
+      catchError((error) => {
+        // Handle the error here
+        this.toastr.error("An Error occured while retrieving data.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+        // Return a fallback value or trigger further error handling if needed
+        return of({ isExecuted: false });
+      })
+    ).subscribe((res: any) => {
+      if(res.isExecuted){
+        if(res.data){
+          this.searchAutocompleteList = res.data;
+        }
+      }
+    
 
+    });
+  }
+  searchData(){
 
+  }
   saveTote(toteID:any,cells:any,oldToteID:any,isInserted:any,index:any)
   { 
       var oldTote = "";
@@ -118,7 +149,17 @@ export class TotesAddEditComponent implements OnInit {
             });
           }
         },
-        (error) => { }
+        (error) => { 
+          this.dataSourceManagedTotes.data[index]['isDuplicate']=true
+         
+            this.toastr.error("Cannot set the selected tote because it is already set in the batch.", 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+       
+          
+          
+        }
       );
     
     
@@ -140,7 +181,7 @@ export class TotesAddEditComponent implements OnInit {
       {
 
         const data = this.dataSourceManagedTotes.data;
-        if(data[index]['isDuplicate']){
+        if(data[index]['isDuplicate'] || data[index]['isInserted']==0 ){
           data.splice(index,1)
           this.dataSourceManagedTotes.data=data
           console.log( this.dataSourceManagedTotes.data);
@@ -159,7 +200,21 @@ export class TotesAddEditComponent implements OnInit {
                   timeOut: 2000
                 });
                 this.isRowAdded=false;
-               this.getTotes(this.dataSourceManagedTotes.data);
+                let isUnsavedItem=false
+                // this.dataSourceManagedTotes.data.splice(index,1)
+                this.dataSourceManagedTotes.data.filter(obj=>{
+                  if(obj.isInserted===0){
+                    isUnsavedItem=true
+                  }else {
+                    isUnsavedItem=false
+                  }
+                })
+                if(isUnsavedItem){
+                  this.getTotes(this.dataSourceManagedTotes.data);
+                }else{
+                  this.getTotes();
+                }
+               
         
               } else {
                 this.toastr.error("Already exists", 'Error!', {
@@ -325,6 +380,9 @@ export class TotesAddEditComponent implements OnInit {
     this.alreadySavedTotesList = this.data.alreadySavedTotes;
     this.cellID = this.data.defaultCells ? this.data.defaultCells : 0;
     this.getTotes();
+    this.autocompleteSearchColumn();
   }
-
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
+  }
 }

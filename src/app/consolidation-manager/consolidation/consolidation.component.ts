@@ -12,7 +12,7 @@ import { CmOrderNumberComponent } from 'src/app/dialogs/cm-order-number/cm-order
 import { CmPrintOptionsComponent } from 'src/app/dialogs/cm-print-options/cm-print-options.component';
 import { CmShippingTransactionComponent } from 'src/app/dialogs/cm-shipping-transaction/cm-shipping-transaction.component';
 import { CmShippingComponent } from 'src/app/dialogs/cm-shipping/cm-shipping.component';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Subject, catchError, debounceTime, distinctUntilChanged, of } from 'rxjs';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -207,7 +207,7 @@ export class ConsolidationComponent implements OnInit {
         if ((typeof res.data == 'string')) {
           switch (res.data) {
             case "DNE":
-              this.toastr.error("Consolidatio The Order/Tote that you entered is invalid or no longer exists in the system.", 'Error!', {
+              this.toastr.error("Consolidation The Order/Tote that you entered is invalid or no longer exists in the system.", 'Error!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
@@ -382,12 +382,13 @@ export class ConsolidationComponent implements OnInit {
   }
 
  verifyLine(element:any,Index?:any){
+  // debugger
    let index:any;
    let status:any;
    let id:any;
    if(Index != undefined){
-     id = this.tableData_1.data[index].id;
-     status = this.tableData_1.data[index].lineStatus;
+     id = this.tableData_1.data[Index].id;
+     status = this.tableData_1.data[Index].lineStatus;
    }
    else{
      index = this.tableData_1.data.indexOf(element);
@@ -402,6 +403,7 @@ export class ConsolidationComponent implements OnInit {
     });
    }
    else{
+    // debugger
     let payload = {
       "id": id,
       "username": this.userData.userName ,
@@ -410,14 +412,26 @@ export class ConsolidationComponent implements OnInit {
 
     this.Api.VerifyItemPost(payload).subscribe((res:any)=>{
       if(res.isExecuted){
-        let data = this.tableData_2.data; 
-        data.push({...this.tableData_1.data[index]});
-        this.tableData_2 = new MatTableDataSource(data);
-        let data2 = this.tableData_1.data;
-        data2.splice(index, 1);
-        this.tableData_1 = new MatTableDataSource(data2);
-        this.tableData_1.paginator = this.paginator;
-        this.tableData_2.paginator = this.paginator2;
+    if(Index != undefined){
+      let data = this.tableData_2.data; 
+      data.push({...this.tableData_1.data[Index]});
+      this.tableData_2 = new MatTableDataSource(data);
+      let data2 = this.tableData_1.data;
+      data2.splice(Index, 1);
+      this.tableData_1 = new MatTableDataSource(data2);
+      this.tableData_1.paginator = this.paginator;
+      this.tableData_2.paginator = this.paginator2;
+    }
+    else{
+      let data = this.tableData_2.data; 
+      data.push({...this.tableData_1.data[index]});
+      this.tableData_2 = new MatTableDataSource(data);
+      let data2 = this.tableData_1.data;
+      data2.splice(index, 1);
+      this.tableData_1 = new MatTableDataSource(data2);
+      this.tableData_1.paginator = this.paginator;
+      this.tableData_2.paginator = this.paginator2;
+    }
         
       }
       else{
@@ -478,7 +492,8 @@ export class ConsolidationComponent implements OnInit {
   }
 
   checkVerifyType(columnIndex, val){
-   let filterVal = this.filterValue.toLowerCase();
+    // debugger
+   let filterVal = this.filterValue
     this.filterValue = '';
     if (val != undefined) {
       filterVal = val
@@ -499,6 +514,7 @@ export class ConsolidationComponent implements OnInit {
   }
 
   CheckDuplicatesForVerify(val){
+    // debugger
     let columnIndex = this.startSelectFilter;
     let result:any;
     if(columnIndex == 0){
@@ -539,7 +555,7 @@ export class ConsolidationComponent implements OnInit {
     }
     else if(result.valueCount>=1){
       
-      this.verifyLine(result.index)
+      this.verifyLine(val,result.index)
     }
     else{
       this.toastr.error('Item not in order or has already been consolidated', 'error!', {
@@ -622,19 +638,38 @@ export class ConsolidationComponent implements OnInit {
 
     let payload = {
       "column": this.startSelectFilter,
-      "value": this.filterValue,
+      "value": this.filterValue?this.filterValue:'',
       "orderNumber": this.TypeValue,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
 
-    this.Api.ConsoleItemsTypeAhead(payload).subscribe((res: any) => {
+    this.Api.ConsoleItemsTypeAhead(payload).pipe(
+    
+          catchError((error) => {
+    
+            // Handle the error here
+    
+            this.toastr.error("An error occured while retrieving data.", 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+           
+    
+            // Return a fallback value or trigger further error handling if needed
+    
+            return of({ isExecuted: false });
+    
+          })
+    
+        ).subscribe((res: any) => {
       this.searchAutocompleteItemNum = res.data;
     });
 
   }
 
   getRow(filtervalue) {
+    
     this.CheckDuplicatesForVerify(filtervalue);
   }
 

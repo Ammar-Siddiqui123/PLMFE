@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'; 
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service'; 
@@ -15,7 +15,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./reprocess-transaction-detail.component.scss']
 })
 export class ReprocessTransactionDetailComponent implements OnInit {
-
+  @ViewChild('trans_qty') trans_qty: ElementRef;
   isHistory: any;
 
   transactionID: any;
@@ -28,7 +28,7 @@ export class ReprocessTransactionDetailComponent implements OnInit {
   emergency: boolean;
   expDate: any;
   reqDate: any;
-
+  fieldNames:any;
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<any>, 
@@ -73,7 +73,15 @@ export class ReprocessTransactionDetailComponent implements OnInit {
   closeWindow() {
     this.dialogRef.close('close');
   }
+  ngAfterViewInit() {
+    this.trans_qty.nativeElement.focus();
+  }
+  public OSFieldFilterNames() { 
+    this.Api.ColumnAlias().subscribe((res: any) => {
+      this.fieldNames = res.data;
 
+    })
+  }
   onNumberValueChange() {
 
     var currentLotNumber = this.editTransactionForm.get("lotNumber")?.value?.toString() == "" ? "0" : this.editTransactionForm.get("lotNumber")?.value?.toString();
@@ -141,6 +149,7 @@ export class ReprocessTransactionDetailComponent implements OnInit {
     this.isHistory = this.data.history;
     this.transactionID = this.data.transactionID;
     this.userData = this.authService.userData();
+    this.OSFieldFilterNames();
     this.getTransactionDetail();
     this.getWarehouse();
     this.getUOM();
@@ -274,7 +283,7 @@ export class ReprocessTransactionDetailComponent implements OnInit {
   dayIncrement(date: any) {
 
     // (this.expDate!=null&&this.expDate!="1900-01-01T19:31:48.000Z")?this.expDate:" ",
-    if (date != null && date != "1900-01-01T19:31:48.000Z") {
+    if (date != null && date != "1900-01-01T19:31:48.000Z" && date!='') {
       var newDate = new Date(date);
       newDate.setDate(newDate.getDate() + 1);
       return newDate;

@@ -545,4 +545,9 @@ export class DeAllocateOrdersComponent implements OnInit {
     );
   }
 
+  clear(){
+    this.TypeValue = ''
+    this.getAllOrder()
+  }
+
 }

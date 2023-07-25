@@ -13,6 +13,7 @@ import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirma
 export class ReelDetailComponent implements OnInit {
 
 
+  @ViewChild('field_focus') field_focus: ElementRef;
   ReelOrder:any
   ReelLot:any
   ReelExpDate:any
@@ -22,14 +23,17 @@ export class ReelDetailComponent implements OnInit {
   ReelQty:any
   ReelNotes:any
   wareHouseSensitivity:any
-
+  fieldNames:any
   @ViewChild('reelQuantitytemp') reelQuantitytemp: ElementRef
 
   constructor(private dialog: MatDialog,public dialogRef: MatDialogRef<ReelDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService) { }
 
   ngOnInit(): void {
+
     // debugger
+    // console.log(this.data.fromtrans)
+    this.fieldNames=this.data.propFields
     if(!this.data.fromtrans){
       this.ReelOrder = this.data.hvObj.order
       this.ReelLot = this.data.hvObj.lot
@@ -40,6 +44,7 @@ export class ReelDetailComponent implements OnInit {
       this.ReelQty = this.data.gReelQty
       this.ReelNotes = this.data.hvObj.notes
       this.wareHouseSensitivity = this.data.itemObj.whseRequired
+      
     }
     else{
       this.ReelOrder = this.data.fromtrans.reelOrder
@@ -57,6 +62,7 @@ export class ReelDetailComponent implements OnInit {
 
   ngAfterViewInit() {
     this.checkWareHouse()
+    this.field_focus.nativeElement.focus();
   }
 
   checkWareHouse(){
@@ -78,7 +84,8 @@ export class ReelDetailComponent implements OnInit {
   }
 
   reelDetailSubmit(){
-    if(this.ReelQty == ''){
+    // debugger
+    if(this.ReelQty == undefined || this.ReelQty == ""){
       const dialogRef = this.dialog.open(AlertConfirmationComponent, {
         height: 'auto',
         width: '560px',
@@ -96,7 +103,7 @@ export class ReelDetailComponent implements OnInit {
     if(this.ReelLot == ''){
       this.ReelLot = 0
     }
-     if(this.wareHouseSensitivity &&(this.ReelWarehouse == '') && this.ReelQty != ''){
+     if(this.wareHouseSensitivity &&(this.ReelWarehouse == '') && this.ReelQty != undefined){
       const dialogRef = this.dialog.open(AlertConfirmationComponent, {
         height: 'auto',
         width: '560px',
@@ -112,12 +119,12 @@ export class ReelDetailComponent implements OnInit {
         }
       })
    
-    }else if(this.wareHouseSensitivity &&(this.ReelWarehouse != '') && this.ReelQty != ''){
+    }else if(this.wareHouseSensitivity &&(this.ReelWarehouse != '') && this.ReelQty != undefined &&this.ReelQty != "" ){
       let  reelDetail =[
         {reelQty:this.ReelQty},
         {
           reelOrder:this.ReelOrder,
-          reelLot:this.ReelLot.toString(),
+          reelLot:this.ReelLot,
           reelUF1:this.ReelUF1,
           reelUF2:this.ReelUF2,
           reelWarehouse:this.ReelWarehouse,
@@ -128,12 +135,12 @@ export class ReelDetailComponent implements OnInit {
         this.dialogRef.close(reelDetail);
     }
 
-    if(!this.wareHouseSensitivity &&this.ReelQty != '' ){
+    if(!this.wareHouseSensitivity &&this.ReelQty != undefined && this.ReelQty != "" ){
       let  reelDetail =[
       {reelQty:this.ReelQty},
       {
         reelOrder:this.ReelOrder,
-        reelLot:this.ReelLot.toString(),
+        reelLot:this.ReelLot,
         reelUF1:this.ReelUF1,
         reelUF2:this.ReelUF2,
         reelWarehouse:this.ReelWarehouse,
@@ -146,18 +153,20 @@ export class ReelDetailComponent implements OnInit {
   }
 
   openWareHouse(){
+    // console.log(this.wareHouseSensitivity)
     let dialogRef = this.dialog.open(WarehouseComponent, {
       height: 'auto',
       width: '640px',
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'addlocation',
+        check:'fromReelDetail'
       }
     })
     dialogRef.afterClosed().subscribe(result => {
       
 
-      if (result != true && result != false) {
+      if (result !== true && result !== false) {
         this.ReelWarehouse = result
       this.reelQuantitytemp.nativeElement.focus()
 

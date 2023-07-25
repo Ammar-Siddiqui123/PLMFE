@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common' 
 import {
@@ -24,6 +24,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./selection-transaction-for-tote-extend.component.scss']
 })
 export class SelectionTransactionForToteExtendComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
 
   public userData   : any;
   toteForm          : FormGroup;
@@ -33,7 +34,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   totes             : any = [];
   selectedTotePosition:any='';
   selectedToteID:any='';
-
+  fieldNames:any;
   constructor(public dialogRef                  : MatDialogRef<SelectionTransactionForToteExtendComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private dialog                    : MatDialog,
@@ -110,11 +111,20 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+    this.OSFieldFilterNames();
     this.getCellSizeList();
     this.getVelocityCodeList();
     this.getDetails();    
   }
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
+  }
+  public OSFieldFilterNames() { 
+    this.Api.ColumnAlias().subscribe((res: any) => {
+      this.fieldNames = res.data;
 
+    })
+  }
   onToteChange(event,type){
   // event.value
     this.totes.filter(item=>{

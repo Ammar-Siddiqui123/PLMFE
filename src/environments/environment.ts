@@ -1,13 +1,13 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
+// The list of file replacements can be found in `angular.json` .
 
 export const environment = {
   production: false,
   apiUrl: "https://staging-e64.com:9010/api",
   // apiUrl: "http://localhost:63590/api",  
   userName: "pickpro",
-  ////////////////////////////////////////////
+  ///////////////////////////////////////////
   password: "Admin$11"
 };
 

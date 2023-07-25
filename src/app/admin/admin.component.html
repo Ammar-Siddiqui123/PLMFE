@@ -148,7 +148,7 @@
             </div>
 
             <div class="counter">
-              <p class="counter-text"><strong>Puts</strong></p>
+              <p class="counter-text"><strong>Put Aways</strong></p>
               <div class="d-flex  align-items-right justify-content-center">
               
                   <div class="employees">
@@ -171,7 +171,7 @@
           </div>
 
           <div class="counter">
-            <p class="counter-text"><strong>Counts</strong></p>
+            <p class="counter-text"><strong>Cycle Counts</strong></p>
             <div class="d-flex align-items-center justify-content-center">
            
                 <div class="employees">
@@ -286,7 +286,7 @@
                   <span class="material-symbols-outlined icon-search">
                     search
                   </span>
-                  <input type="text" placeholder="Item No." aria-label="Item Number" matInput
+                  <input type="text" [placeholder]="fieldNames?.itemNumber" aria-label="Item Number" matInput
                     [(ngModel)]='searchValue' [matAutocomplete]="auto"
                     (ngModelChange)="this.searchByInput.next($event)"  #autoFocusField>
                   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
@@ -314,7 +314,7 @@
             <div class="row">
               <div class="col-xl-3">
                 <mat-form-field  class="custom-form-field w-100 mb-3" appearance="outline">
-                  <mat-label>Item No.</mat-label>
+                  <mat-label>{{fieldNames?.itemNumber}}</mat-label>
                   <input matInput   type="text" value=" " formControlName="item" >
                 </mat-form-field>
               </div>

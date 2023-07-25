@@ -12,6 +12,7 @@ import { ApiFuntions } from '../services/ApiFuntions';
 })
 export class InductionManagerComponent implements OnInit {
   tab_hover_color:string = '#cf9bff3d';
+  fieldNames:any;
   constructor(
     private router: Router, 
     private sharedService: SharedService,
@@ -45,6 +46,7 @@ export class InductionManagerComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.pickToteSetupIndex();
+   
   }
 
   public userData: any;

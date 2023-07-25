@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
@@ -12,6 +12,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./set-item-location.component.scss'],
 })
 export class SetItemLocationComponent implements OnInit {
+  @ViewChild('itm_nmb') itm_nmb: ElementRef;
   itemNumber;
   floatLabelControl: any = new FormControl('item' as FloatLabelType);
   floatLabelControlLocation: any = new FormControl(
@@ -64,6 +65,9 @@ export class SetItemLocationComponent implements OnInit {
         username: this.data.userName,
         wsid: this.data.wsid,
       };
+      setTimeout(() => {
+        
+   
       this.Api
         .ItemExists(payLoad)
         .subscribe(
@@ -84,6 +88,7 @@ export class SetItemLocationComponent implements OnInit {
           },
           (error) => {}
         );
+      }, 500);
   }
   ngOnInit(): void {
     this.autocompleteGetLocation();
@@ -98,6 +103,9 @@ export class SetItemLocationComponent implements OnInit {
       .subscribe((value) => {
         this.autocompleteGetItem();
       });
+  }
+  ngAfterViewInit() {
+    this.itm_nmb.nativeElement.focus();
   }
 
   // getItemLocation(){

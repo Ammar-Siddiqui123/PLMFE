@@ -360,9 +360,11 @@ export class FrFlowrackReplenishmentComponent implements OnInit {
     // moved the logic to login component and added these 2 lines to fetch the apps from localstorage and commented the api below in getAppLicence  .. 
     // this.applicationData=JSON.parse(localStorage.getItem('availableApps') || '');
     // this.sharedService.setMenuData(this.applicationData)
-
+    let payload = {
+      workstationid: this.userData.wsid,
+    };
     this.Api
-      .AppNameByWorkstation()
+      .AppNameByWorkstation(payload)
       .subscribe(
         (res: any) => {
           if (res && res.data) {

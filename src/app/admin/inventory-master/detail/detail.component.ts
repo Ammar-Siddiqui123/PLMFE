@@ -21,7 +21,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 export class DetailComponent implements OnInit {
   private eventsSubscription: Subscription;
   @Input() events: Observable<String>;
-
+  @Input() fieldNameDetails: any;
   @Input() details: FormGroup;  
   public userData: any;
   @Output() notifyParent: EventEmitter<any> = new EventEmitter();
@@ -41,6 +41,14 @@ export class DetailComponent implements OnInit {
     private dialog: MatDialog,
     private toastr: ToastrService,) { }
   
+    ngOnChanges(changes: SimpleChanges) {
+      if(changes['fieldNameDetails']){
+        this.fieldNameDetails=changes['fieldNameDetails']
+        
+      }
+
+      
+      }
   ngOnInit(): void {
      
     this.userData = this.authService.userData();
@@ -164,7 +172,7 @@ export class DetailComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       ;
-      if(result!='' && result!=true)
+      if(result !== '' && result !== true)
       { 
         this.details.patchValue({
           'unitOfMeasure' : result
@@ -195,13 +203,18 @@ export class DetailComponent implements OnInit {
 //  }
 
   if(this.setVal == true){
-
-this.router.navigate([]).then((result) => {
+    this.router.navigate([]).then((result) => {
       let url = '/#/OrderManager/OrderStatus?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
       window.open(url, '_blank');
     });
-  }else{
-
+  }
+  else if(this.spliUrl[1] == 'InductionManager'){
+    this.router.navigate([]).then((result) => {
+      let url = '/#/InductionManager/Admin/TransactionJournal?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
+      window.open(url, '_blank');
+    });
+  }
+  else{
     this.router.navigate([]).then((result) => {
       let url = '/#/admin/transaction?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
       window.open(url, '_blank');

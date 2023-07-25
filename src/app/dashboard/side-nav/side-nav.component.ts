@@ -43,7 +43,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'arrow_back', title: 'Admin', route: '/dashboard', class: 'back-class' ,permission: 'Dashboard'},
     { icon: 'dashboard', title: 'Inventory', route: '/admin/inventoryMaster',permission: 'Inventory' },
     { icon: 'directions_alt', title: 'Inventory Map', route: '/admin/inventoryMap' ,permission: 'Inventory Map'},
-    { icon: 'analytics', title: 'Reports', route: '/admin/reports' ,permission: 'Reports'},
+    { icon: 'analytics', title: 'Reports', route: '/admin/Reports' ,permission: 'Reports'},
     { icon: 'dvr', title: 'Transactions', route: '/admin/transaction' ,permission: 'Transaction Journal'},
     { icon: 'list_alt', title: 'Batch Manager', route: '/admin/batchManager' ,permission: 'Batch Manager'},
     { icon: 'low_priority', title: 'Cycle Count', route: '/admin/cycleCounts' ,permission: 'Cycle Count Manager'},
@@ -90,7 +90,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'ads_click   ', title: 'Manual Transactions ', route: '/InductionManager/Admin/ManualTransactions' ,permission:'Induction Manager'},
     { icon: 'elevator   ', title: 'Tote Manager ', route: '/InductionManager/Admin/ImToteManager' ,permission:'Induction Manager'},
     { icon: 'post_add ', title: 'Transaction Journal ', route: '/InductionManager/Admin/TransactionJournal' ,permission:'Induction Manager'},
-    { icon: '     analytics     ', title: 'Reports ', route: '#' ,permission:'Induction Manager'},
+    { icon: '     analytics     ', title: 'Reports ', route: '#' ,permission:''},
     { icon: '      tune       ', title: 'Preferences ', route: '/InductionManager/Admin/AdminPrefrences' ,permission:'Induction Manager'},
   ];
 

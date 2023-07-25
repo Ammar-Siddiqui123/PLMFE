@@ -70,13 +70,13 @@
         </div>
         <div class="col-xl-3">
           <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-            <mat-label>Ship Via</mat-label>
-            <input formControlName="userField1" (keydown.shift.enter)="$event.preventDefault()" matInput type="text">
+            <mat-label>{{fieldNames?.userField1}}</mat-label>
+            <input #field_focus formControlName="userField1" (keydown.shift.enter)="$event.preventDefault()" matInput type="text">
           </mat-form-field>
         </div>
         <div class="col-xl-3">
           <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
-            <mat-label>Ship To Name</mat-label>
+            <mat-label>{{fieldNames?.userField2}}</mat-label>
             <input formControlName="userField2" (keydown.shift.enter)="$event.preventDefault()" matInput type="text">
           </mat-form-field>
         </div>
@@ -156,7 +156,7 @@
       <div class="row">
         <div class="col-xl-3">
           <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline">
-            <mat-label>Item Number</mat-label>
+            <mat-label>{{fieldNames?.itemNumber}}</mat-label>
             <input formControlName="itemNumber" #itemNum (keydown.shift.enter)="$event.preventDefault()" matInput
               type="text" readonly>
           </mat-form-field>

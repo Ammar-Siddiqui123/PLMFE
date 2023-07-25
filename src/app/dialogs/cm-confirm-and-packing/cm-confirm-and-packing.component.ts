@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./cm-confirm-and-packing.component.scss']
 })
 export class CmConfirmAndPackingComponent implements OnInit {
+  @ViewChild('order_focus') order_focus: ElementRef;
   orderNumber:any ;
   toteTable:any;
   ItemNumber:any;
@@ -59,6 +60,9 @@ displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transacti
     this.PrintPrefs = {};  
       this.ConfirmAndPackingIndex(); 
    
+  }
+  ngAfterViewInit(): void {
+    this.order_focus.nativeElement.focus();
   }
   async NextContID(){ 
     var obj : any = {

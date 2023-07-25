@@ -2224,9 +2224,9 @@ td.mat-footer-cell {
 
 .mat-input-element:disabled,
 .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
-  /* color: rgba(0, 0, 0, .38) */
-  color: #090948;
-  opacity: 0.6;
+  color: rgba(0, 0, 0, .38); 
+  /* color: #090948; */
+  opacity: 0.7;
 }
 
 .mat-input-element {

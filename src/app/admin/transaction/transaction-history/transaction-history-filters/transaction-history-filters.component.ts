@@ -42,6 +42,7 @@ export class TransactionHistoryFiltersComponent implements OnInit {
     this.searchByOrderNumber
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
+        debugger
         if(value===""){
           this.onOrderNoChange('')
           return
@@ -125,4 +126,9 @@ export class TransactionHistoryFiltersComponent implements OnInit {
   // sendToParent(event:any){
   //   this.childToParent.emit(event);
   //   }
+
+  clear(){
+    this.orderNumber = ''
+    this.onOrderNoChange('')
+  }
 }

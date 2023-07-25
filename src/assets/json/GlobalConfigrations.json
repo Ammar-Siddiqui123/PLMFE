@@ -36,10 +36,6 @@
         "Permission": "Inventory"
     },
     {
-        "path": "/admin/locationAssignment",
-        "Permission": "Location Assignment"
-    },
-    {
         "path": "/admin/inventoryMap",
         "Permission": "Inventory Map"
     },
@@ -133,7 +129,7 @@
     },
     {
         "path": "/OrderManager",
-        "Permission": "Order Manager"
+        "Permission": "Admin Release Orders"
     },
     {
         "path": "/OrderManager/OrderStatus",

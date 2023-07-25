@@ -46,7 +46,7 @@ export class DeleteConfirmationComponent implements OnInit {
   }
 
   onConfirmdelete() {
-    debugger
+    
     if (this.data) {
       if (this.data.mode === 'delete-zone') {
         let zoneData = {
@@ -188,7 +188,7 @@ export class DeleteConfirmationComponent implements OnInit {
         });
       } else if (this.data.mode === 'delete-allowed-funcation') {
         let groupData = {
-          wsid: 'TESTWID',
+      
           controlName: this.data.controlName,
           userName: this.data.userName,
         };

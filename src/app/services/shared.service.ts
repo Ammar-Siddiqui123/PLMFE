@@ -15,6 +15,7 @@ export class SharedService {
   menuData$ = this.menuData.asObservable();
 
   private appData: any;
+  SideBarMenu: Subject<any> = new Subject<any>(); 
   startMenu: Subject<any> = new Subject<any>(); 
   updateAdminMenuObserver: Subject<boolean> = new Subject<boolean>(); // observing that bool
   updateFlowrackMenuObserver: Subject<any> = new Subject<any>(); // observing that bool
@@ -27,6 +28,7 @@ export class SharedService {
   orderStatusSendOrderObserver: Subject<any> = new Subject<any>();
   historyLocObserver: Subject<any> = new Subject<any>();
   appRestrictionObserver: Subject<any> = new Subject<any>();
+  fieldNameObserver: Subject<any> = new Subject<any>();
   updateReprocessObserver: Subject<any> = new Subject<any>();
   updateToteFilterCheckObserver: Subject<any> = new Subject<any>();
   updateCompDateObserver: Subject<any> = new Subject<any>();
@@ -92,6 +94,9 @@ export class SharedService {
   updateAppVerification(isVerified?) {
     this.appRestrictionObserver.next(isVerified);
   }
+  updateFieldNames(fieldName?) {
+    this.fieldNameObserver.next(fieldName);
+  }
 
   updateReprocess(obj?) {
     // passing item number and order number in reprocess transaction
@@ -155,7 +160,12 @@ export class SharedService {
         userName:userName,
         wsid:wsid, appName:appName
       }
-      this.api.UserAppNameAdd(object).subscribe((res: any) => { }); 
+  
+        this.api.UserAppNameAdd(object).subscribe((res: any) => { },(error: any) => {
+          console.error('An error occurred:', error);
+        }); 
+
+      
     } 
   }
 

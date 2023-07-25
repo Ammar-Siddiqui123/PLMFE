@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service'; 
@@ -13,7 +13,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./om-add-record.component.scss']
 })
 export class OmAddRecordComponent implements OnInit {
-
+  @ViewChild('ord_focus') ord_focus: ElementRef;
   userData: any;
   userFieldData: any = {};
   oTTempUpdatePayload: any = {
@@ -85,7 +85,9 @@ export class OmAddRecordComponent implements OnInit {
     this.getWarehouses();
     this.initializaAutoComplete();
   }
-
+  ngAfterViewInit(): void {
+    this.ord_focus.nativeElement.focus();
+  }
   initializaAutoComplete() {
     this.heading = this.data.heading;
     if (this.data.from == 'edit-transaction') {
@@ -344,14 +346,26 @@ export class OmAddRecordComponent implements OnInit {
         "userName": this.userData.userName,
         "wsid": this.userData.wsid
       }
-      this.Api.SearchItem(payload).subscribe((res: any) => {
-        if (res.isExecuted && res.data && res.data.length > 0) {
-          if(res.data[0].itemNumber == this.oTTempUpdatePayload.itemNumber){
-            this.oTTempUpdatePayload.description = res.data[0].description;
-            this.oTTempUpdatePayload.unitofMeasure = res.data[0].unitOfMeasure;
-            this.wharehouseRequired = res.data[0].warehouseSensitive;
+      setTimeout(() => {
+        this.Api.SearchItem(payload).subscribe((res: any) => {
+          if (res.isExecuted && res.data && res.data.length > 0) {
+            if(res.data[0].itemNumber == this.oTTempUpdatePayload.itemNumber){
+              this.oTTempUpdatePayload.description = res.data[0].description;
+              this.oTTempUpdatePayload.unitofMeasure = res.data[0].unitOfMeasure;
+              this.wharehouseRequired = res.data[0].warehouseSensitive;
+            }
+            else{
+              this.toastr.error(`Item ${this.oTTempUpdatePayload.itemNumber} Does not exist!`, 'Inventory', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+              this.oTTempUpdatePayload.itemNumber = "";
+              this.oTTempUpdatePayload.description = "";
+              this.oTTempUpdatePayload.unitofMeasure = ""; 
+              this.wharehouseRequired = false;
+            }
           }
-          else{
+          else {
             this.toastr.error(`Item ${this.oTTempUpdatePayload.itemNumber} Does not exist!`, 'Inventory', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
@@ -361,18 +375,9 @@ export class OmAddRecordComponent implements OnInit {
             this.oTTempUpdatePayload.unitofMeasure = ""; 
             this.wharehouseRequired = false;
           }
-        }
-        else {
-          this.toastr.error(`Item ${this.oTTempUpdatePayload.itemNumber} Does not exist!`, 'Inventory', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-          this.oTTempUpdatePayload.itemNumber = "";
-          this.oTTempUpdatePayload.description = "";
-          this.oTTempUpdatePayload.unitofMeasure = ""; 
-          this.wharehouseRequired = false;
-        }
-      });
+        });
+      }, 500);
+
     }
   }
 

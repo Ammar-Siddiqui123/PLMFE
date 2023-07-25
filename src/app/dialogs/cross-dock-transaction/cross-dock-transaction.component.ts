@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ReprocessTransactionDetailViewComponent } from '../reprocess-transaction-detail-view/reprocess-transaction-detail-view.component';
 import { ToastrService } from 'ngx-toastr';
@@ -17,7 +17,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./cross-dock-transaction.component.scss']
 })
 export class CrossDockTransactionComponent implements OnInit {
-
+  @ViewChild('complete_focus') complete_focus: ElementRef;
   public itemWhse;
   public userId;
   public wsid;
@@ -67,6 +67,9 @@ export class CrossDockTransactionComponent implements OnInit {
     this.getCrossDock();
   }
 
+  ngAfterViewInit(): void {
+    this.complete_focus.nativeElement.focus();
+  }
   selectTote(i: any) {
     this.openTotesDialogue(i);
   }
@@ -280,9 +283,9 @@ export class CrossDockTransactionComponent implements OnInit {
   }
 
   viewOrderStatus() { 
-    this.clearMatSelectList()
+    this.clearMatSelectList();
     this.router.navigate([]).then((result) => {
-      window.open(`/#/InductionManager/TransactionJournal?orderStatus=${this.selectedRowObj.orderNumber}`, '_blank');
+      window.open(`/#/InductionManager/Admin/TransactionJournal?orderStatus=${this.selectedRowObj.orderNumber}`, '_blank');
     });
   }
 

@@ -26,14 +26,16 @@
 
                     </div>
                 </div>
-                <div class="col-xl-6" *ngIf="showToteCol">
+                <div class="col-xl-6" >
                     <div class="card p-4">
                         <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                             <mat-label>Tote ID</mat-label>
-                            <input matInput type="text" [(ngModel)]="toteId" (keyup)="ToteIDKeyup($event)" #ToteId>
+                            <input matInput type="text" [(ngModel)]="toteId" (keyup)="ToteIDKeyup($event)" #ToteId [disabled]="!showToteCol">
+                            <button matSuffix *ngIf="toteId" class="clear-btn" (click)=" toteId='' " ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button> 
+
                         </mat-form-field>
                         <button mat-flat-button class="form-button-submit w-100" color="primary"
-                            (click)="CpbBlossomToteDialogue()" [disabled]="!blossomToteEnable">Blossom Tote</button>
+                            (click)="CpbBlossomToteDialogue()" [disabled]="!blossomToteEnable || !showToteCol">Blossom Tote</button>
 
                     </div>
                 </div>

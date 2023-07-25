@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr'; 
 import labels from '../../labels/labels.json'
@@ -11,6 +11,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./transaction-qty-edit.component.scss']
 })
 export class TransactionQtyEditComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
 
   public userData: any;
 
@@ -27,11 +28,21 @@ export class TransactionQtyEditComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
   }
-
-  transactionQuantityChange(value: any) {
-    let high:any = this.data.availableQuantity > this.data.replenishmentQuantity ? this.data.replenishmentQuantity : this.data.availableQuantity;
-    return this.globalService.setNumericInRange(value, 0, high);
+ 
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
   }
+  // transactionQuantityChange(value: any) {
+  //   let high:any = this.data.availableQuantity > this.data.replenishmentQuantity ? this.data.replenishmentQuantity : this.data.availableQuantity;
+  //   return this.globalService.setNumericInRange(value, 0, high);
+  // }
+
+  transactionQuantityChange(event: any) {
+    if(this.data.transactionQuantity > this.data.replenishmentQuantity){
+      this.data.transactionQuantity = parseInt(this.data.transactionQuantity.toString().substring(0,this.data.replenishmentQuantity.toString().length - 1));
+    }
+  }
+  
 
   transactionQtyReplenishmentUpdate() {
     let payload: any = {

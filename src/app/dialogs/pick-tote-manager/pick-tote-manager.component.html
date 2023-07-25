@@ -37,7 +37,7 @@
               <div class="d-flex justify-content-between">
                 <mat-form-field class="custom-form-field custom-form-field-bg-white position-relative" appearance="outline">
                   <mat-label>Select Saved filter</mat-label>
-                  <input type="text" [formControl]="savedFilter" aria-label="Number" matInput [matAutocomplete]="auto">
+                  <input #field_focus type="text" [formControl]="savedFilter" aria-label="Number" matInput [matAutocomplete]="auto">
                   <mat-autocomplete  autoActiveFirstOption
                     #auto="matAutocomplete" (optionSelected)="onSavedFilterChange($event)" (closed)="savedFilClosed()">
                     <h6 class="ctl_name ac-dropdown-label"><span>Batch ID</span></h6>

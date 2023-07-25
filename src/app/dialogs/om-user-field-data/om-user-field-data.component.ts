@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service'; 
@@ -11,7 +11,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./om-user-field-data.component.scss']
 })
 export class OmUserFieldDataComponent implements OnInit {
-
+  @ViewChild('user_focus') user_focus: ElementRef;
   userData: any;
   userFieldData: any;
 
@@ -74,5 +74,10 @@ export class OmUserFieldDataComponent implements OnInit {
         });
       }
     });
+  }
+
+   
+  ngAfterViewInit(): void {
+    this.user_focus.nativeElement.focus();
   }
 }

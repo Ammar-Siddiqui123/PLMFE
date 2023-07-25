@@ -29,6 +29,7 @@ import { MatMenuTrigger} from '@angular/material/menu';
 import { InputFilterComponent } from '../../dialogs/input-filter/input-filter.component';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { RouteHistoryService } from 'src/app/services/route-history.service';
 
 
 const INVMAP_DATA = [
@@ -82,6 +83,7 @@ export class InventoryMapComponent implements OnInit {
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   setStorage;
+  fieldNames:any;
   routeFromIM:boolean=false;
   routeFromOM:boolean=false;
   public displayedColumns: any ;
@@ -144,6 +146,19 @@ export class InventoryMapComponent implements OnInit {
   onClick() {
     this.trigger.closeMenu();
   }
+
+  public OSFieldFilterNames() { 
+    this.Api.ColumnAlias().subscribe((res: any) => {
+      this.fieldNames = res.data;
+      // this.displayedColumns.filter((item,i)=>{
+      //   if(item.colHeader==='userField1'){
+      //     this.displayedColumns[i].colDef= this.fieldNames.userField1
+      //   }else if(item.colHeader==='userField2'){
+      //     this.displayedColumns[i].colDef= this.fieldNames.userField2
+      //   }
+      // })
+    })
+  }
   ClearFilters()
   {
     this.FilterString = "";
@@ -187,7 +202,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
  //---------------------for mat menu End ----------------------------
-
+ previousUrl: string;
   constructor(
     private dialog: MatDialog,
     private authService: AuthService,
@@ -196,10 +211,12 @@ export class InventoryMapComponent implements OnInit {
     private router: Router,
     private loader: SpinnerService,
     private _liveAnnouncer: LiveAnnouncer,
-    private filterService:ContextMenuFiltersService
+    private filterService:ContextMenuFiltersService,
+    private routeHistoryService: RouteHistoryService
   ) {
-
-
+    this.previousUrl = this.routeHistoryService.getPreviousUrl();
+ 
+    
     if(this.router.getCurrentNavigation()?.extras?.state?.['searchValue'] ){
       this.columnSearch.searchValue = this.router.getCurrentNavigation()?.extras?.state?.['searchValue'] ;
       this.columnSearch.searchColumn = {
@@ -246,9 +263,10 @@ export class InventoryMapComponent implements OnInit {
       endIndex: 20
     }
 
-
+    this.OSFieldFilterNames();
     this.initializeApi();
     this.getColumnsData();
+
    //  this.getContentData();
 
 
@@ -326,6 +344,7 @@ export class InventoryMapComponent implements OnInit {
 
       if(res.data){
         this.columnValues =  res.data;
+
         this.columnValues.push('actions');
         this.getContentData();
       } else {
@@ -359,7 +378,8 @@ export class InventoryMapComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'addInvMapLocation',
-        itemList : this.itemList
+        itemList : this.itemList,
+        fieldName:this.fieldNames
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
@@ -420,7 +440,7 @@ export class InventoryMapComponent implements OnInit {
 
   viewAllLocDialog(): void {
     const dialogRef = this.dialog.open(this.customTemplate, {
-       width: '400px',
+       width: '560px',
        autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
@@ -442,7 +462,8 @@ export class InventoryMapComponent implements OnInit {
       data: {
         mode: 'editInvMapLocation',
         itemList : this.itemList,
-        detailData : event
+        detailData : event,
+        fieldName:this.fieldNames
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
@@ -530,8 +551,10 @@ export class InventoryMapComponent implements OnInit {
       height: 'auto',
       width: '800px',
       autoFocus: '__non_existing_element__',
+    
       data: {
-        id: event.invMapID
+        id: event.invMapID,
+        fieldNames:this.fieldNames.itemNumber
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
@@ -701,14 +724,17 @@ export class InventoryMapComponent implements OnInit {
  }
 
 
- tranhistory(){
-  this.router.navigate([]).then((result) => {
-    window.open(`/#/OrderManager/OrderStatus?type=TransactionHistory`, '_blank');
-   
+ tranhistory(seletedRecord:any){
+  // this.router.navigate([]).then((result) => {
+  //   window.open(`/#/OrderManager/OrderStatus?type=TransactionHistory`, '_blank');
+  // });
 
-  }
-  );
+  this.router.navigate([]).then((result) => {
+      let url = `/#/OrderManager/OrderStatus?itemNumber=${seletedRecord.itemNumber}&type=TransactionHistory`;
+      window.open(url, '_blank');
+  });
  }
+
 
 
 }

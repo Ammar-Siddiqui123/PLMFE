@@ -33,6 +33,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { ShippingCompleteDialogComponent } from 'src/app/dialogs/shipping-complete-dialog/shipping-complete-dialog.component';
 
 @Component({
   selector: 'app-tran-order-list',
@@ -201,7 +202,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       //     ? (this.orderNo = event.searchField)
       //     : (this.toteId = event.searchField);
 
+      console.log('orderNoEvent',this.orderNo,event);
       this.getContentData();
+      this.selShipComp(event);
       // }
     }
     // this.getContentData();
@@ -263,6 +266,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   }
 
   public priority = false;
+  shippingComplete = false;
 
   constructor(
     private Api:ApiFuntions,
@@ -346,7 +350,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
                 res.data.orderStatus.length > 0 &&
                 res.data.orderStatus[0].transactionType
             );
-            debugger
+            
             this.currentStatusChange(res.data.completedStatus);
             this.totalLinesOrderChange(res.data?.totalRecords);
             this.sharedService.updateOrderStatusSelect({
@@ -371,6 +375,23 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
         },
         (error) => {}
       );
+  }
+
+  selShipComp(event:any){
+    if(event.searchField != "" && event.columnFIeld == "Order Number"){
+      this.Api.selShipComp({ orderNumber: event.searchField }).subscribe((res: any) => {
+        if (res.isExecuted) {
+          if (res.data == "") {
+            this.shippingComplete = false;
+          } else {
+            this.shippingComplete = true;
+          }
+        }
+      });
+    }
+    else{
+      this.shippingComplete = false;
+    }
   }
 
   getFloatLabelValue(): FloatLabelType {
@@ -723,7 +744,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   }
 
   onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    debugger;
+
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     if(FilterColumnName != "" || Condition == "clear"){
       this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
@@ -758,6 +779,19 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
+  }
+
+
+  ShippingCompleteDialog() {
+    const dialogRef = this.dialog.open(ShippingCompleteDialogComponent,{
+      height: 'auto',
+      width: '100vw',
+      autoFocus: '__non_existing_element__',
+      data: {
+        orderNumber: this.orderNo,
+      },
+    });
+
   }
 
 }

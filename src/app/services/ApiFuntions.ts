@@ -61,14 +61,18 @@ export class ApiFuntions {
   public login(userData:any) {
     return this.ApiBase.Post("/users/login", userData);
   }
-  public workstationdefaultapp() {
-    return this.ApiBase.Get("/GlobalConfig/workstationdefaultapp");
+  public workstationdefaultapp(body?) {
+    return this.ApiBase.Get("/GlobalConfig/workstationdefaultapp",body);
   }
   public GlobalMenu(menu:any) {
     return this.ApiBase.Get("/GlobalConfig/menu",menu);
   }
   public AppLicense() {
     return this.ApiBase.Get("/GlobalConfig/AppLicense");
+  }
+
+  public getWorkstationapp(body:any) {
+    return this.ApiBase.Get("/GlobalConfig/workstationapp",body);
   }
   public workstationapp(body:any) {
     return this.ApiBase.Post("/GlobalConfig/workstationapp",body);
@@ -77,13 +81,16 @@ export class ApiFuntions {
     return this.ApiBase.Delete("/GlobalConfig/workstationapp",body);
   }
   public WorkStationDefaultAppAdd(body:any) {
+    return this.ApiBase.Get("/GlobalConfig/workstationapp",body);
+  }
+  public WorkStationDefaultAppAddDefault(body:any) {
     return this.ApiBase.Post("/GlobalConfig/workstationdefaultapp",body);
   }
   public WorkStationAppDelete(body:any) {
-    return this.ApiBase.Delete("/GlobalConfig/workstationdefaultapp",body);
+    return this.ApiBase.Post("/GlobalConfig/workstationdefaultapp/delete",body);
   }
-  public AppNameByWorkstation() {
-    return this.ApiBase.Get("/GlobalConfig/appnamebyworkstation");
+  public AppNameByWorkstation(body:any) {
+    return this.ApiBase.Get("/GlobalConfig/appnamebyworkstation",body);
   }
   public configLogout(body:any): Observable<any> {
     return this.ApiBase.Post("/GlobalConfig/user/logout", body);
@@ -238,7 +245,10 @@ export class ApiFuntions {
   public CompanyInfo(): Observable<any> { 
     return this.ApiBase.Get("/companyinfo");
   }
-  public ColumnAlias(): Observable<any> { 
+
+  public AdminCompanyInfo(): Observable<any> { 
+    return this.ApiBase.Get("/Admin/companyinfo");
+  }  public ColumnAlias(): Observable<any> { 
     return this.ApiBase.Get("/Admin/ColumnAlias");
   }
   public FieldNameSave(body:any): Observable<any> { 
@@ -338,7 +348,7 @@ export class ApiFuntions {
     return this.ApiBase.Update("/OrderManager/preferences",Body);
   }
   public EventLogTable(Body:any): Observable<any> { 
-    return this.ApiBase.Get("/Admin/eventlog",Body);
+    return this.ApiBase.Post("/Admin/eventlog",Body);
   }
   public EventLogTypeAhead(Body:any): Observable<any> { 
     return this.ApiBase.Get("/Admin/eventlogtypeahead",Body);
@@ -793,7 +803,7 @@ public saveAdminEmployee(Body: any ): Observable<any> {
 }
 
 public deleteAdminEmployee(Body: any ): Observable<any> {
-  return this.ApiBase.Delete(`/Admin/employee`, Body);
+  return this.ApiBase.Post(`/Admin/employee/delete`, Body);
 }
 public deleteUserGroup(Body: any ): Observable<any> {
   return this.ApiBase.Delete(`/Admin/usergroup`, Body);
@@ -823,7 +833,7 @@ public CategoryDelete(Body: any ): Observable<any> {
 }
 
 public deleteControlName(Body: any ): Observable<any> {
-  return this.ApiBase.Delete(`/Admin/control`, Body);
+  return this.ApiBase.Post(`/Admin/control`, Body);
 }
 
 public submitControlResponse(Body: any ): Observable<any> {
@@ -1265,7 +1275,19 @@ public dltVelocityCode(body: any): Observable<any> {
   return this.ApiBase.Delete(`/Common/velocitycode`, body);
 }
 public DevicePreferencesDelete(body){
-  return this.ApiBase.Delete(`/Admin/devicepreferences`, body);
+  return this.ApiBase.Post(`/Admin/deviceperference/delete`, body);
+}
+
+public GetCartonFlow(body?: any): Observable<any> { 
+  return this.ApiBase.Get(`/Admin/loczonescartonflow`);
+}
+
+public UpdateCartonFlow(body){    // ------------ update cartonflow
+  return this.ApiBase.Put(`/Admin/workstationsettings`, body);
+}
+
+public DevicePreferencesTable(body){
+  return this.ApiBase.Get(`/Admin/deviceperference`, body);
 }
 public LocationNamesSave(body){
   return this.ApiBase.Post(`/Admin/locationnames`, body);
@@ -1283,7 +1305,7 @@ public DeviceInformation(body){
   return this.ApiBase.Get(`/Admin/deviceinformation`,body);
 }
 public DevicePreference(body){
-  return this.ApiBase.Get(`/Admin/devicepreference`,body);
+  return this.ApiBase.Post(`/Admin/deviceperference`,body);
 }
 public LocationZoneSave(body){
   return this.ApiBase.Post(`/Admin/locationzone`,body);
@@ -1347,5 +1369,74 @@ public Getcustomreports(): Observable<any> {
 }
 public Getreportdetails(body): Observable<any> { 
   return this.ApiBase.Get("/Admin/customreports/reportdetails",body);
+} 
+
+public GetFromToteTypeAhead(): Observable<any> { 
+  return this.ApiBase.Get("/induction/selecttotes");
+}
+
+public viewShipping(body): Observable<any> { 
+  return this.ApiBase.Get("/consolidation/viewshipping",body);
+} 
+
+public selShipComp(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/selshipcomp",body);
+} 
+
+public adjustmentlookup( ): Observable<any> {
+  return this.ApiBase.Get(`/Admin/adjustmentlookup`, );
+}
+
+public updateAdjustlookup(body){
+  return this.ApiBase.Post(`/Admin/adjustmentlookup`,body);
+}
+
+public deleteAdjustmentLookup(payload:any) {
+  return  this.ApiBase.Delete("/Admin/adjustmentlookup",payload);
+} 
+
+public userfieldlookup(body ): Observable<any> {
+  return this.ApiBase.Get(`/Admin/userfieldlookup`,body);
+}
+public updateuserfieldlookup(body){
+  return this.ApiBase.Post(`/Admin/userfieldlookup`,body);
+}
+
+public deleteUserfieldLookUp(payload:any) {
+  return  this.ApiBase.Post("/Admin/userfieldlookupdelete",payload);
+} 
+
+
+public getToteCell( ): Observable<any> {
+  return this.ApiBase.Get(`/Admin/totesetup`);
+}
+
+public totesetup(body){
+  return this.ApiBase.Post(`/Admin/totesetup`,body);
+}
+
+public deleteTote(payload:any) {
+  return  this.ApiBase.Delete("/Admin/totesetup",payload);
+} 
+
+
+
+public cleartote(body): Observable<any> {
+  return this.ApiBase.Put(`/Admin/cleartotes`,body);
+}
+// public cleartote( ): Observable<any> {
+//   return this.ApiBase.Post(`/Admin/cleartotes`, Body);
+//   }
+public basicreportdetails(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/customreports/basicreportdetails",body);
+} 
+public ReportFieldsExps(body): Observable<any> { 
+  return this.ApiBase.Update("/Admin/customreports/ReportFieldsExps",body);
+} 
+public reportfieldvalues(body): Observable<any> { 
+  return this.ApiBase.Update("/Admin/customreports/reportfieldvalues",body);
+} 
+public ReportTitles(body): Observable<any> { 
+  return this.ApiBase.Update("/Admin/customreports/ReportTitles",body);
 } 
 }

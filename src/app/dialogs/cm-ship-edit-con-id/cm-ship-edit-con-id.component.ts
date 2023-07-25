@@ -10,7 +10,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./cm-ship-edit-con-id.component.scss']
 })
 export class CmShipEditConIdComponent implements OnInit {
-
+  @ViewChild('cont_id') cont_id: ElementRef;
   public userData: any;
 
   containerID : string = '';
@@ -31,7 +31,9 @@ export class CmShipEditConIdComponent implements OnInit {
     this.userData = this.authService.userData();
     this.focusConID();
   }
-
+  ngAfterViewInit(): void {
+    this.cont_id.nativeElement.focus();
+  }
   validateContainerID() {
     if (this.containerID != '') {      
       this.setContainerIDBtn = true;

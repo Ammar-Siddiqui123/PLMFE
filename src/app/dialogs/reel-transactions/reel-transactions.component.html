@@ -10,7 +10,7 @@
         <div class="row mb-2">
             <div class="col-xl-4 ">
                 <mat-form-field class="custom-form-field __grab_cursor w-100" appearance="outline">
-                    <mat-label>Item Number</mat-label>
+                    <mat-label>{{fieldNames.itemNumber}}</mat-label>
                     <input matInput disabled [(ngModel)]="itemNumber">
                 </mat-form-field>
             </div>
@@ -25,7 +25,7 @@
             <div class="col-xl-6 ">
                 <mat-form-field class="custom-form-field __grab_cursor w-100" appearance="outline">
                     <mat-label>Total Parts To Be Inducted</mat-label>
-                    <input matInput [(ngModel)]="partsInducted" (change)="updateRemaining()">
+                    <input #field_focus  matInput type="number" [(ngModel)]="partsInducted"  min=0 oninput="validity.valid||(value='');" (change)="updateRemaining()" >
                 </mat-form-field>
             </div>
             <div class="col-xl-6 ">
@@ -39,7 +39,7 @@
             <div class="col-xl-6 ">
                 <mat-form-field class="custom-form-field __grab_cursor w-100" appearance="outline">
                     <mat-label>Number Of Reels To Be Inducted</mat-label>
-                    <input matInput [(ngModel)]="noOfReels"  #noOfReeltemp  (keyup)="initiateReelGenrator($event)">
+                    <input matInput [(ngModel)]="noOfReels" min=0 oninput="validity.valid||(value='');"  type="number" #noOfReeltemp  (keyup)="initiateReelGenrator($event)"  (keyup)="limitNoOfReels()">
                 </mat-form-field>
             </div>
             <div class="col-xl-6 mt-1">
@@ -61,8 +61,11 @@
                     <th mat-header-cell *matHeaderCellDef> Reel Serial No.
                     </th>
                     <td mat-cell *matCellDef="let element;let i=index"  >
-                        <mat-form-field class="custom-form-field w-100 pe-2" appearance="outline">
-                            <input  (input)="changeVal($event,i)" matInput type='text' value="{{element.reel_serial_number}}" #serialTemp>
+                        <mat-form-field class="custom-form-field w-100 pe-2 "   appearance="outline">
+                            <input   (input)="changeVal($event,i)" matInput type='text' value="{{element.reel_serial_number}}"  [(ngModel)]="element.reel_serial_number"
+                            #serialTemp
+                            name="reel_serial_number"
+                            required>
                     </mat-form-field>
                     </td>
 
@@ -83,7 +86,7 @@
                     </th>
                     <td mat-cell *matCellDef="let element;let i =index">
                         <mat-form-field class="custom-form-field w-100 pe-2" appearance="outline">
-                            <input matInput type="text" value="{{element.reel_part_quantity}}" (keyup)="onChange($event,i)">
+                            <input matInput type="number" value="{{element.reel_part_quantity}}" min=0 oninput="validity.valid||(value='');" (keyup)="onChange($event,i)" >
     </mat-form-field>
                     </td>
                 </ng-container>

@@ -18,13 +18,13 @@ export class AdminComponent implements OnInit {
   public columnValues: any = [];
   public dataSource: any = new MatTableDataSource();
   public userData: any;
+  fieldNames:any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   public sortCol: any = 3;
   public sortOrder: any = 'asc';
   pageEvent: PageEvent;
   searchValue: any = '';
   searchAutocompleteList: any;
-  private _liveAnnouncer: LiveAnnouncer;
   searchByInput: any = new Subject<string>();
   @ViewChild(MatSort) sort: MatSort;
   hideRequiredControl = new FormControl(false);
@@ -88,7 +88,9 @@ export class AdminComponent implements OnInit {
   @ViewChild('autoFocusField') searchBoxField: ElementRef;
   constructor(
     public authService: AuthService, 
-    private api:ApiFuntions
+    private api:ApiFuntions,
+    private _liveAnnouncer: LiveAnnouncer,
+   
   ) {}
   inventoryDetail = new FormGroup({
     item: new FormControl({ value: '', disabled: true }),
@@ -135,6 +137,7 @@ export class AdminComponent implements OnInit {
     specialFeatures: new FormControl({ value: '', disabled: true }),
   });
   ngOnInit(): void {
+    this.OSFieldFilterNames();
     this.searchByInput
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
@@ -152,7 +155,11 @@ export class AdminComponent implements OnInit {
       this.getInvDetailsList();
     }
   }
-
+  public OSFieldFilterNames() { 
+    this.api.ColumnAlias().subscribe((res: any) => {
+      this.fieldNames = res.data;
+    })
+  }
   async autocompleteSearchColumn() {
     let searchPayload = {
      

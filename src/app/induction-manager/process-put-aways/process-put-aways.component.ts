@@ -58,6 +58,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   public toteNumber = '';
   public toteQuantity: any
   public actionDropDown: any;
+  fieldNames:any;
   public assignedZonesArray = [{ zone: '' }];
   searchAutocompleteItemNum: any = [];
   searchByItem: any = new Subject<string>();
@@ -136,7 +137,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.userData = this.authService.userData();
     this.getCurrentToteID();
     this.getProcessPutAwayIndex();
-   
+    this.OSFieldFilterNames();
 
     this.searchByItem
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -165,7 +166,12 @@ export class ProcessPutAwaysComponent implements OnInit {
   documentClick(event: MouseEvent) {
     this.ifAllowed = true
   }
-
+  public OSFieldFilterNames() { 
+    this.Api.ColumnAlias().subscribe((res: any) => {
+      this.fieldNames = res.data;
+      // this.sharedService.updateFieldNames(this.fieldNames)
+    })
+  }
   clearFormAndTable() {
     this.batchId = '';
     this.status = 'Not Processed';
@@ -220,6 +226,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   getRow(batchID) {
+    // debugger
     var payLoad = {
       batchID: batchID,
       username: this.userData.username,
@@ -269,6 +276,12 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   openSelectZonesDialogue() {
+    // if(this.dataSource2.length==0){
+    //   this.assignedZonesArray.forEach(item=>{
+    //    console.log(item);
+       
+    //   })
+    // }
     if (this.batchId != '') {
       const dialogRef = this.dialog.open(SelectZonesComponent, {
         height: 'auto',
@@ -279,7 +292,8 @@ export class ProcessPutAwaysComponent implements OnInit {
           userId: this.userData.username,
           wsid: this.userData.wsid,
           assignedZones: this.assignedZonesArray,
-          status:this.status
+          status:this.status,
+          isNewBatch:this.dataSource2 && this.dataSource2.length>0?false:true
         },
       });
       dialogRef.afterClosed().subscribe((result) => {
@@ -601,6 +615,9 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   createNewBatch(withID = '') {
+
+
+
     if (withID == '') {
       if (this.batchId == '') {
         this.showMessage(
@@ -649,7 +666,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
  
       // if(this.dataSource && this.dataSource.data && this.dataSource.data.length==0){
-        if( this.ELEMENT_DATA.length == 0){
+        if( this.ELEMENT_DATA.length != 0){
         const dialogRef = this.dialog.open(AlertConfirmationComponent, {
           height: 'auto',
           width: '560px',
@@ -890,7 +907,8 @@ export class ProcessPutAwaysComponent implements OnInit {
               totes: this.dataSource2.data,
               selectIfOne: this.processPutAwayIndex.imPreference.selectIfOne,
               defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity,
-              autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish
+              autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish,
+              propFields:this.fieldNames
             }
           });
           debugger
@@ -939,12 +957,13 @@ export class ProcessPutAwaysComponent implements OnInit {
           totes: this.dataSource2.data,
           selectIfOne: this.processPutAwayIndex.imPreference.selectIfOne,
           defaultPutAwayQuantity: this.processPutAwayIndex.imPreference.defaultPutAwayQuantity,
-          autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish
+          autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish,
+          propFields:this.fieldNames
         }
         
       });
 
-      debugger
+      // debugger
       dialogRef.afterClosed().subscribe((result) => {
         if (result == 'NO') {
 
@@ -1005,9 +1024,10 @@ export class ProcessPutAwaysComponent implements OnInit {
                       totalParts: 0,
                       description: result.item.description,
                       whseRequired: result.item.warehouseSensitive
+                      
                     }
                     
-                    this.ReelTransactionsDialogue(hvObj,itemObj)
+                    this.ReelTransactionsDialogue(hvObj,itemObj,this.fieldNames)
                     
             
           }
@@ -1297,7 +1317,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     })
   }
 
-  ReelTransactionsDialogue(hv,item) {
+  ReelTransactionsDialogue(hv,item,fieldNames?) {
     const dialogRef = this.dialog.open(ReelTransactionsComponent, {
       height: 'auto',
       width: '932px',
@@ -1305,13 +1325,14 @@ export class ProcessPutAwaysComponent implements OnInit {
       data: {
         hvObj: hv,
         itemObj:item,
-        reelQuantity:this.reelQty?this.reelQty:''
+        reelQuantity:this.reelQty?this.reelQty:'',
+        fieldName:fieldNames
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result)
+      // console.log(result)
       if(result !=true ){
-        console.log(result)
+        // console.log(result)
         this.inputValue = result
         this.openSelectionTransactionDialogue();
       }
@@ -1321,9 +1342,13 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   }
 
+  clear(){
+    this.batchId = ''
+    this.dataSource = []
+    this.autocompleteSearchColumnItem()
+  }
 
-
-  //////////////// my work ////////////////////
+  ///////
 
 
 
