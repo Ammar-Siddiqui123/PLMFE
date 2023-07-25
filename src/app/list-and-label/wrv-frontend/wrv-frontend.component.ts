@@ -1,4 +1,6 @@
 import { Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { map } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
 import { environment } from 'src/environments/environment';
 
@@ -10,16 +12,21 @@ import { environment } from 'src/environments/environment';
 export class WrvFrontendComponent implements OnInit {
   @ViewChild('ListAndLabel', { read: ViewContainerRef }) ListAndLabel: ViewContainerRef;
   FileName:any = "";
-  constructor(private componentFactoryResolver: ComponentFactoryResolver,private sharedService:SharedService) {
+  constructor(private componentFactoryResolver: ComponentFactoryResolver,private sharedService:SharedService,private route:ActivatedRoute) {
     this.sharedService.SideBarMenu.next(false);
-    var file = localStorage.getItem("ListAndLandFile")?.replace(".","-");
-    this.FileName = file;
-    console.log(file);
+    
   }
   ngOnInit(): void {
-    
+    var filename = this.route.queryParamMap.pipe(
+      map((params: ParamMap) => params.get('file')),
+    );
+    filename.subscribe((param) => { 
+      if (param!=null &&param != undefined) {
+        this.FileName = param;
+      } 
+    });
     setTimeout(() => {
-      this.generateHTMLAndAppend();
+      if(this.FileName != null) this.generateHTMLAndAppend();
     }, 600);
   }
 

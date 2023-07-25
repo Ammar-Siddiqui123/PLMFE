@@ -1,6 +1,7 @@
 import { Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Route, Router } from 'angular-routing';
+import { map } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
 import { environment } from 'src/environments/environment';
 
@@ -11,13 +12,22 @@ import { environment } from 'src/environments/environment';
 })
 export class WrdComponent implements OnInit {
   env:string;
+  file:string;
   @ViewChild('ListAndLabel', { read: ViewContainerRef }) ListAndLabel: ViewContainerRef;
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {
+  constructor(private componentFactoryResolver: ComponentFactoryResolver,    private route: ActivatedRoute) {
      
     this.env = location.protocol + '//' + location.host; 
  
    }
   ngOnInit(): void {
+    var filename = this.route.queryParamMap.pipe(
+      map((params: ParamMap) => params.get('file')),
+    );
+    filename.subscribe((param) => { 
+      if (param!=null &&param != undefined) {
+        this.file = param;
+      } 
+    });
     setTimeout(() => {
       this.generateHTMLAndAppend() ;
       
@@ -25,7 +35,7 @@ export class WrdComponent implements OnInit {
   }
   generateHTMLAndAppend() { 
     const dynamicHtml = `
-    <iframe style="width: 100%; height: 1000px;" id="wrdFrame" src="${this.env}/#/ListAndLabel/report">
+    <iframe style="width: 100%; height: 1000px;" id="wrdFrame" src="${this.env}/#/ListAndLabel/report?file=${this.file}">
     </iframe>
     `; 
     const dynamicComponent = Component({
