@@ -1378,4 +1378,17 @@ public GetFromToteTypeAhead(): Observable<any> {
 public viewShipping(body): Observable<any> { 
   return this.ApiBase.Get("/consolidation/viewshipping",body);
 } 
+public basicreportdetails(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/customreports/basicreportdetails",body);
+} 
+public ReportFieldsExps(body): Observable<any> { 
+  return this.ApiBase.Update("/Admin/customreports/ReportFieldsExps",body);
+} 
+public reportfieldvalues(body): Observable<any> { 
+  return this.ApiBase.Update("/Admin/customreports/reportfieldvalues",body);
+} 
+public ReportTitles(body): Observable<any> { 
+  return this.ApiBase.Update("/Admin/customreports/ReportTitles",body);
+} 
+
 }

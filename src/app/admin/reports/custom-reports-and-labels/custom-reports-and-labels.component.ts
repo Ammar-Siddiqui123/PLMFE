@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { QueryParams } from 'angular-routing';
 import { CrAddNewCustomReportComponent } from 'src/app/dialogs/cr-add-new-custom-report/cr-add-new-custom-report.component';
 import { CrDeleteConfirmationComponent } from 'src/app/dialogs/cr-delete-confirmation/cr-delete-confirmation.component';
 import { CrEditDesignTestDataComponent } from 'src/app/dialogs/cr-edit-design-test-data/cr-edit-design-test-data.component';
@@ -37,8 +38,8 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     })
   }
   OpenListAndLabel(route){
-    localStorage.setItem("ListAndLandFile",this.Detail.fileName);
-    this.route.navigateByUrl(`/${route}`);
+    // localStorage.setItem("ListAndLandFile",this.Detail.fileName);
+    this.route.navigateByUrl(`/${route}?file=${this.Detail.fileName.replace(".","-")}`);
   }
   Getreportdetails(file){ 
     var obj : any = {
