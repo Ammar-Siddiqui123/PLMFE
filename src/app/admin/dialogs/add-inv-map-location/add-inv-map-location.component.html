@@ -148,7 +148,7 @@
                     <div class="row">
                         <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100 "   appearance="outline">
-                                <mat-label>Unit of Measure</mat-label>
+                                <mat-label>{{fieldNames?.unitOfMeasure}}</mat-label>
                                 <input matInput formControlName="unitOfMeasure"   name="unitOfMeasure" >
                             </mat-form-field>
                         </div>
@@ -183,14 +183,14 @@
                     </div>
 
                     <mat-form-field class="d-block w-100 mb-3" appearance="outline">
-                        <mat-label>Ship Via</mat-label>
+                        <mat-label>{{fieldNames?.userField1}}</mat-label>
                         <input  maxlength="255"  matInput type="text" formControlName="userField1"   name="userField1">
                         <!-- <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint> -->
 
                     </mat-form-field>
 
                     <mat-form-field class="d-block w-100 mb-2" appearance="outline">
-                        <mat-label>Ship To Name</mat-label>
+                        <mat-label>{{fieldNames?.userField2}}</mat-label>
                         <input  maxlength="255" type="text" matInput formControlName="userField2"   name="userField2">
                     </mat-form-field>
                     <div class="row mt-2" *ngIf="data.mode == 'editInvMapLocation'">
@@ -240,8 +240,8 @@
                 <div class="row">
                     <div class="col-xl-6 col-md-12 mb-2">
                         <mat-form-field class="d-block w-100" appearance="outline" >
-                            <mat-label>Item Number</mat-label>
-                            <input  maxlength="50" placeholder="Item Number" aria-label="Item Number" matInput 
+                            <mat-label>{{fieldNames?.itemNumber}}</mat-label>
+                            <input  maxlength="50"  aria-label="Item Number" matInput 
                                 formControlName="item" [matAutocomplete]="itemNumAuto" [(ngModel)]="searchItemNumbers" #searchItam (keyup)="searchItemNumber(searchItam)">
                                 <button matSuffix *ngIf="searchItemNumbers" class="clear-btn"  (click)="searchItemNumbers=''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                             <mat-autocomplete  #itemNumAuto="matAutocomplete" [panelWidth]="400" (optionSelected)="loadItemDetails($event.option.value)">

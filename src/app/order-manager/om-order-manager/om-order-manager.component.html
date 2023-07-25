@@ -75,6 +75,7 @@
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label >Value 1</mat-label>
                     <input matInput [(ngModel)]="value1D"  (dateChange)="displayRecords()" [matDatepicker]="v1D">
+                    
                     <mat-datepicker-toggle matSuffix [for]="v1D" ngDefaultControl ></mat-datepicker-toggle>
                     <mat-datepicker #v1D [startAt]="value1D"></mat-datepicker>
                 </mat-form-field>
@@ -84,6 +85,7 @@
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label >Value 1</mat-label>
                     <input matInput [(ngModel)]="value1" (keyup)="callDisplayRecords($event)" matTooltip="For dates use mm/dd/yy" matTooltipPosition="above">
+                    <button matSuffix *ngIf="value1" class="clear-btn"  (click)="value1 = ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                 </mat-form-field>
             </div>
 
@@ -110,6 +112,7 @@
                 <mat-form-field class="custom-form-field w-100 __grab_cursor mb-3" appearance="outline">
                     <mat-label>Max Orders</mat-label>
                     <input matInput [(ngModel)]="maxOrders" #maxOrd (input)="maxOrd.value = globalService.setNumericInRange(maxOrd.value, globalService.sqlLimits.numerics.int, '');">
+               
                 </mat-form-field>
             </div>
 
@@ -175,7 +178,7 @@
                     
                     <mat-form-field class="action-dropdown d-xl-flex d-block mb-3 mb-xl-0" appearance="outline">
                         <mat-select class="employees-action" placeholder="Select" [(ngModel)]="searchCol" (selectionChange)="fillTable()">
-                            <mat-option *ngFor="let col of colList" [value]="col">{{col}}</mat-option>                            
+                            <mat-option *ngFor="let col of colList" [value]="col?col:''">{{col?col:''}}</mat-option>                            
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more ">
                             expand_more

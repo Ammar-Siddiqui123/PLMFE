@@ -6,6 +6,7 @@ import { catchError, of } from 'rxjs';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-lookup-user-two-setup',
@@ -16,14 +17,17 @@ export class LookupUserTwoSetupComponent implements OnInit {
 
   userF2List :any = new MatTableDataSource([]);
   AddBtn
-
+  fieldNames:any;
   constructor(private Api:ApiFuntions,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    public authService: AuthService,) { }
+    public authService: AuthService,private sharedService:SharedService) { }
     
   ngOnInit(): void {
     this.getUserFeild2()
+    this.sharedService.fieldNameObserver.subscribe(item => {
+      this.fieldNames=item;
+     });
   }
   
 
@@ -57,7 +61,7 @@ export class LookupUserTwoSetupComponent implements OnInit {
     let payload = {
       "oldValue": ele.oldVal,
       "newValue": ele.currentVal,
-      "userField": 1
+      "userField": 2
     }
     this.Api.updateuserfieldlookup(payload).pipe(
     
@@ -70,6 +74,10 @@ export class LookupUserTwoSetupComponent implements OnInit {
       if(res.isExecuted){
         this.AddBtn = false
         ele.oldVal = ele.currentVal
+        this.toastr.success(`Saved Successfully`, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000,
+        });
       }
       else{
         this.toastr.error(`Field is a duplicate. Save other edited fields and ensure it is not a duplicate before saving.`, 'Error!', {

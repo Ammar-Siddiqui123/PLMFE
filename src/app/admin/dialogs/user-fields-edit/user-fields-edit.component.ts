@@ -112,7 +112,7 @@ export class UserFieldsEditComponent implements OnInit {
   async autocompleteSearchColumn() {
     let searchPayload = {
       value: this.shipVia,
-      uFs: 0,
+      uFs: 1,
 
       username: this.data.userName,
       wsid: this.data.wsid,
@@ -155,7 +155,7 @@ export class UserFieldsEditComponent implements OnInit {
   async autocompleteSearchColumnShipName() {
     let searchPayload = {
       value: this.shipToName,
-      uFs: 1,
+      uFs: 2,
       username: this.data.userName,
       wsid: this.data.wsid,
     };

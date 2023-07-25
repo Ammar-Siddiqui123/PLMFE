@@ -22,6 +22,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
   public batchID;
   public itemNumber;
   public description;
+  public fieldNames;
 
   public lowerBound=1;
   public upperBound=2;
@@ -37,7 +38,8 @@ export class SelectionTransactionForToteComponent implements OnInit {
     this.userName   =  this.data.userName;
     this.wsid       =  this.data.wsid;
     this.zone       =  this.data.zones;
-    this.batchID    =  this.data.batchID
+    this.batchID    =  this.data.batchID,
+    this.fieldNames    =  this.data.propFields
     this.getTransactions();
   }
 

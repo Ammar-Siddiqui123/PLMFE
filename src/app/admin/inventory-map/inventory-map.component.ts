@@ -378,7 +378,8 @@ export class InventoryMapComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'addInvMapLocation',
-        itemList : this.itemList
+        itemList : this.itemList,
+        fieldName:this.fieldNames
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
@@ -439,7 +440,7 @@ export class InventoryMapComponent implements OnInit {
 
   viewAllLocDialog(): void {
     const dialogRef = this.dialog.open(this.customTemplate, {
-       width: '400px',
+       width: '560px',
        autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
@@ -461,7 +462,8 @@ export class InventoryMapComponent implements OnInit {
       data: {
         mode: 'editInvMapLocation',
         itemList : this.itemList,
-        detailData : event
+        detailData : event,
+        fieldName:this.fieldNames
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {

@@ -23,15 +23,17 @@ export class ReelDetailComponent implements OnInit {
   ReelQty:any
   ReelNotes:any
   wareHouseSensitivity:any
-
+  fieldNames:any
   @ViewChild('reelQuantitytemp') reelQuantitytemp: ElementRef
 
   constructor(private dialog: MatDialog,public dialogRef: MatDialogRef<ReelDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService) { }
 
   ngOnInit(): void {
+
     // debugger
     // console.log(this.data.fromtrans)
+    this.fieldNames=this.data.propFields
     if(!this.data.fromtrans){
       this.ReelOrder = this.data.hvObj.order
       this.ReelLot = this.data.hvObj.lot
@@ -42,6 +44,7 @@ export class ReelDetailComponent implements OnInit {
       this.ReelQty = this.data.gReelQty
       this.ReelNotes = this.data.hvObj.notes
       this.wareHouseSensitivity = this.data.itemObj.whseRequired
+      
     }
     else{
       this.ReelOrder = this.data.fromtrans.reelOrder
@@ -157,6 +160,7 @@ export class ReelDetailComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data: {
         mode: 'addlocation',
+        check:'fromReelDetail'
       }
     })
     dialogRef.afterClosed().subscribe(result => {

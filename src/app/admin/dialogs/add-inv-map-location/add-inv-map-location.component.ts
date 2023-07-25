@@ -67,6 +67,7 @@ export class AddInvMapLocationComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   filteredItemNum: Observable<any[]>;
   itemDescription: any;
+  fieldNames:any;
   autoFillLocNumber: any = '';
   zone = '';
   carousel = '';
@@ -157,6 +158,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+    this.fieldNames=this.data?.fieldName
     if (this.data.detailData) {
       this.getDetailInventoryMapData = this.data.detailData;
       this.zone = this.getDetailInventoryMapData.zone

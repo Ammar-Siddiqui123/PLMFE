@@ -21,10 +21,10 @@
                     <div class="px-2 my-3">
                         <mat-radio-group class="d-flex align-items-center gap-12 flex-wrap"
                             aria-label="Select an option">
-                            <mat-radio-button color="primary" value="none">
+                            <mat-radio-button color="primary" (click)="ChangeReport(true)" value="none" [checked]="IsSystemReport == true">
                                 System
                             </mat-radio-button>
-                            <mat-radio-button color="primary" value="hold">
+                            <mat-radio-button color="primary" (click)="ChangeReport(false)" value="hold" [checked]="IsSystemReport == false">
                                 User Created
                             </mat-radio-button>
                         </mat-radio-group>

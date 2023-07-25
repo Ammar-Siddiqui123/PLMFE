@@ -28,7 +28,7 @@ export class ReprocessTransactionDetailComponent implements OnInit {
   emergency: boolean;
   expDate: any;
   reqDate: any;
-
+  fieldNames:any;
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<any>, 
@@ -75,6 +75,12 @@ export class ReprocessTransactionDetailComponent implements OnInit {
   }
   ngAfterViewInit() {
     this.trans_qty.nativeElement.focus();
+  }
+  public OSFieldFilterNames() { 
+    this.Api.ColumnAlias().subscribe((res: any) => {
+      this.fieldNames = res.data;
+
+    })
   }
   onNumberValueChange() {
 
@@ -143,6 +149,7 @@ export class ReprocessTransactionDetailComponent implements OnInit {
     this.isHistory = this.data.history;
     this.transactionID = this.data.transactionID;
     this.userData = this.authService.userData();
+    this.OSFieldFilterNames();
     this.getTransactionDetail();
     this.getWarehouse();
     this.getUOM();
