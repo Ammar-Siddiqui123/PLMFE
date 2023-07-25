@@ -155,26 +155,54 @@
 </div>
 
 <ng-template #batchOrderConfirmation>
+        <div class="d-flex justify-content-center prompt-icon-wrap">
+            <span #cancel class="material-symbols-outlined prompt-icon-add text-20">
+                info
+            </span>
 
-    <div class="d-flex flex-column align-items-center justify-content-center text-center py-4">
-        <div color="warn" class="circle-icon circle-66 circle-primary mb-4 text-primary-900">
-            <mat-icon color="primary">add</mat-icon>
         </div>
+
         <div>
-            <p class="bold text-primary-900 mb-4">Are you sure you want to batch {{batchRowData.orderToBatch}} orders from Zone
+            <p class="prompt-message py-4 mb-0 bold">Are you sure you want to batch {{batchRowData.orderToBatch}} orders from Zone
                 {{batchRowData.zone}} in Tote {{batchRowData.newToteID}}</p>
-            <div class="mb-3">
-                <button mat-flat-button color="primary" class="custom-btn button-primary-flat" (click)="isConfirm(true)"
+            <div class="d-flex flex-column justify-content-center w-100">
+                <button mat-stroked-button color="primary" class="mat-button-base prompt-action-accent-button mb-3 btn-lg w-100" (click)="isConfirm(true)"
                     [mat-dialog-close]="true">
                     Yes
                 </button>
-            </div>
-            <div>
-                <button mat-stroked-button color="basic" class="custom-btn bg-white" [mat-dialog-close]="true"
+            
+                <button mat-stroked-button color="secondary" class="mat-button-base prompt-action-basic-button btn-lg w-100 mb-3 mx-0" [mat-dialog-close]="true"
                     (click)="isConfirm(false)">
                     Cancel
                 </button>
             </div>
         </div>
-    </div>
 </ng-template>
+
+
+
+<!-- <div class="mat-modal-wrap text-center">
+    <mat-dialog-content>
+      <div class="prompt-wrap">
+        <div class="d-flex justify-content-center prompt-icon-wrap">
+            <span #cancel class="material-symbols-outlined prompt-icon-add text-20">
+                info
+            </span>
+
+        </div>
+        <p class="prompt-message py-4 mb-0 bold">
+            Send all completed transactions in Open Transactions to history?
+        </p>
+  
+      </div>
+    </mat-dialog-content>t
+    <mat-dialog-actions >
+      <div class="d-flex flex-column justify-content-center w-100">
+        <button type="button" (click)="sendTranHistory()" class="mat-button-base prompt-action-accent-button mb-3 btn-lg w-100" mat-stroked-button color="primary">Ok</button>
+      <button class="mat-button-base prompt-action-basic-button btn-lg w-100 mb-3 mx-0" mat-stroked-button mat-dialog-close color="secondary">
+        Cancel
+      </button>
+      
+    </div>
+    </mat-dialog-actions>
+  </div> -->

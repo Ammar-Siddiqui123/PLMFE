@@ -15,6 +15,7 @@ export class TranInReprocessComponent implements OnInit {
   @Input() selectedOrder: any;
 
   public userData : any;
+  public fieldNames : any;
   public orderList : any;
   public itemNumberList : any;
   public itemNumber : string = '';
@@ -35,7 +36,9 @@ export class TranInReprocessComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.userData = this.authService.userData();
+    // this.OSFieldFilterNames();
     this.getFilteredList();
     this.sharedService.updateReprocessObserver.subscribe(selectedOrder => {
       this.orderNumber='';
@@ -44,11 +47,18 @@ export class TranInReprocessComponent implements OnInit {
       this.itemNumber=selectedOrder.itemNumber;
       this.orderSelected();
       this.listSelected();
-      
+     
        })
+       this.sharedService.fieldNameObserver.subscribe(item => {
+        this.fieldNames=item;
+       });
   }
 
-
+  // public OSFieldFilterNames() { 
+  //   this.Api.ColumnAlias().subscribe((res: any) => {
+  //     this.fieldNames = res.data;
+  //   })
+  // }
   radioButtonChange(event) {
 
     this.orderNumber='';

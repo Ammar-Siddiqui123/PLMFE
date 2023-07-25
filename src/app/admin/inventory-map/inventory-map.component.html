@@ -33,7 +33,7 @@
                 </mat-form-field>
 
                 <span class="v-br d-none d-xl-block">-</span>
-                <div class="d-xl-flex d-lg-block g-mini-search-box">
+                <div class="d-xl-flex d-lg-block g-mini-search-box col-xl-6">
                   <mat-form-field class="w-100 bg-white br-8" appearance="fill" [floatLabel]="getFloatLabelValue()"
                     [hideRequiredMarker]="hideRequiredControl.value" (keyup.enter)="closeautoMenu()" (change)="reset()" >
                     <span class="material-symbols-outlined icon-search">
@@ -42,6 +42,7 @@
                     <input type="text" placeholder="Search" aria-label="Number" matInput maxlength="255"
                       [(ngModel)]='this.columnSearch.searchValue' [matAutocomplete]="auto"
                       (keyup)="autocompleteSearchColumn()"  (keyup.enter)="searchData()"  [disabled]="!isSearchColumn">
+                      <button matSuffix *ngIf="this.columnSearch.searchValue" class="clear-btn"  (click)="this.columnSearch.searchValue='';reset()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()" #autocompleteInventory>
                       <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
                         {{option}}
@@ -99,7 +100,7 @@
                 <th class="header" mat-header-cell  *matHeaderCellDef mat-sort-header
                   
                   style="width:auto; padding: 5px 12px;">
-                  {{ col.colDef }}
+                  {{ col.colDef==='User Field1'?fieldNames && fieldNames.userField1:col.colDef==='User Field2'?fieldNames && fieldNames.userField2:col.colDef }}
 
                 </th>
 
@@ -217,31 +218,26 @@ class="example-radio-group"
 {{season}}
 </mat-radio-button>
 </mat-radio-group> -->
-  <h1 mat-dialog-title>View All Locations</h1>
-  <!-- <h6>Drag to reorder</h6> -->
-  <button mat-icon-button class="close-button dialog-close-button" [mat-dialog-close]="true">
-    <mat-icon class="close-icon">close</mat-icon>
-  </button>
 
-  <div>
-    <div>
-      <div class="outside">
-        <div class="example-list d-flex flex-column">
-          <h6>Location</h6>
-          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group d-flex flex-column"
+  <div class="d-flex justify-content-between mb-4 align-items-center">
+    <div style="width:48px"></div>
+    <h1 class="m-0" mat-dialog-title>View All Locations</h1>
+    <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
+</div>
+
+      <div class="outside mb-3">
+          <mat-radio-group color="primary" aria-labelledby="example-radio-group-label" class="example-radio-group d-flex flex-column"
             [(ngModel)]="filterLoc">
-            <mat-radio-button class="example-radio-button" value="Nothing" color="primary">All
-              Location</mat-radio-button>
-            <mat-radio-button class="example-radio-button" value="Open" color="primary">Open Location</mat-radio-button>
-            <mat-radio-button class="example-radio-button" value="Quarantine" color="primary">Quarantined
-              location</mat-radio-button>
+            <mat-radio-button class="mb-2" value="Nothing">All Location</mat-radio-button>
+            <mat-radio-button class="mb-2" value="Open">Open Location</mat-radio-button>
+            <mat-radio-button class="mb-2" value="Quarantine">Quarantined location</mat-radio-button>
           </mat-radio-group>
-        </div>
       </div>
-    </div>
-  </div>
-  <mat-dialog-actions align="end">
-    <button type="submit" mat-flat-button class="form-button-submit" color="primary"
-      (click)="viewLocFilter()">Apply</button>
+
+  <mat-dialog-actions>
+    <button style="flex: 1;"  type="submit" mat-flat-button class="button-primary btn-lg" color="primary"
+      (click)="viewLocFilter()">Submit</button>
   </mat-dialog-actions>
 </ng-template>

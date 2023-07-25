@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import labels from '../../../labels/labels.json';
@@ -16,7 +16,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./add-group-allowed.component.scss']
 })
 export class AddGroupAllowedComponent implements OnInit {
-
+  @ViewChild('control_name') control_name: ElementRef;
   form_heading: string = 'Add Group Allowed';
   form_btn_label: string = 'Add';
   GroupName: any;
@@ -26,6 +26,7 @@ export class AddGroupAllowedComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   userData: any;
   controlNameForm: FormGroup;
+  constrolName
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
@@ -59,6 +60,13 @@ export class AddGroupAllowedComponent implements OnInit {
 
 
   }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.control_name.nativeElement.focus();
+    }, 200);
+  }
+
   filterx(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.controlNameList.filter(option => option.controlName.toLowerCase().includes(filterValue));

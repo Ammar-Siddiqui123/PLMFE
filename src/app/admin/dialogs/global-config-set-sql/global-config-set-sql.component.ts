@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
@@ -15,6 +15,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./global-config-set-sql.component.scss'],
 })
 export class GlobalConfigSetSqlComponent implements OnInit {
+  @ViewChild('user_name') user_name: ElementRef;
   form_heading = 'SQL Auth Username and Password';
   userName: any ;
   password: any;
@@ -38,7 +39,9 @@ export class GlobalConfigSetSqlComponent implements OnInit {
    
     // this.getConnectionUser();
   }
-
+  ngAfterViewInit() {
+    this.user_name.nativeElement.focus();
+  }
   getConnectionUser() {
     // let payload = {
     //   ConnectionName: this.data.connectionName,

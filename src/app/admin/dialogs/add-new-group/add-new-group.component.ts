@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, TemplateRef, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ export interface DialogData {
 
 export class AddNewGroupComponent implements OnInit {
 
+  @ViewChild('new_group') new_group: ElementRef;
   @ViewChild('addNewGroup') AddNewEmployeeComponent: TemplateRef<any>;
   form_heading: string = 'Add New Group';
   form_btn_label: string = 'Add';
@@ -103,6 +104,10 @@ export class AddNewGroupComponent implements OnInit {
       }
 
     }
+  }
+
+  ngAfterViewInit() {
+    this.new_group.nativeElement.focus();
   }
 
 }

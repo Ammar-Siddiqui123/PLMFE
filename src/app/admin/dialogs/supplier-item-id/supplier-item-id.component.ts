@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
@@ -12,6 +12,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./supplier-item-id.component.scss'],
 })
 export class SupplierItemIdComponent implements OnInit {
+  @ViewChild('supplier_id') supplier_id: ElementRef;
   supplierID;
   description;
   itemNumber;
@@ -37,6 +38,9 @@ export class SupplierItemIdComponent implements OnInit {
       .subscribe((value) => {
         this.autocompleteSearchColumnItem();
       });
+  }
+  ngAfterViewInit() {
+    this.supplier_id.nativeElement.focus();
   }
 
   async autocompleteSearchColumnItem() {

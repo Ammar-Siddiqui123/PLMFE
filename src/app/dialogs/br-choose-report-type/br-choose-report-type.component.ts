@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -7,12 +7,14 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./br-choose-report-type.component.scss']
 })
 export class BrChooseReportTypeComponent implements OnInit {
-
+  @ViewChild('exp_file') exp_file: ElementRef;
   constructor() { }
 
   ngOnInit(): void {
   }
-
+  ngAfterViewInit(): void {
+    this.exp_file.nativeElement.focus();
+  }
 }
 
 

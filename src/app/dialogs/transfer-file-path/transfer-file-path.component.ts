@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-transfer-file-path',
@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./transfer-file-path.component.scss']
 })
 export class TransferFilePathComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
+  }
 }

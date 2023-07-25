@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./input-filter.component.scss']
 })
 export class InputFilterComponent implements OnInit {
+  @ViewChild('aut_focus') aut_focus: ElementRef;
   InputFiltersForm: FormGroup;
   text1:any
   text2:any
@@ -49,5 +50,8 @@ export class InputFilterComponent implements OnInit {
       'Type' : this.data.TypeOfElement
     };
     this.dialogRef.close(dictionary);
+  }
+  ngAfterViewInit(): void {
+    this.aut_focus.nativeElement.focus();
   }
 }

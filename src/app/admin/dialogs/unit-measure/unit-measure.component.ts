@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, Renderer2, ViewChildren } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PrintRangeComponent } from '../print-range/print-range.component';
 import { ToastrService } from 'ngx-toastr'; 
@@ -13,7 +13,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./unit-measure.component.scss']
 })
 export class UnitMeasureComponent implements OnInit {
-
+  @ViewChildren('unit_name', { read: ElementRef }) unit_name: QueryList<ElementRef>;
   public unitOfMeasure_list: any;
   public userData: any;
   enableButton=[{index:-1,value:true}];
@@ -23,6 +23,7 @@ export class UnitMeasureComponent implements OnInit {
               private api: ApiFuntions,
               private authService: AuthService,
               private toastr: ToastrService,
+              private renderer: Renderer2,
               public dialogRef: MatDialogRef<any>) { }
 
   ngOnInit(): void {
@@ -41,6 +42,11 @@ export class UnitMeasureComponent implements OnInit {
         this.unitOfMeasure_list.fromDB = true;
         this.enableButton.push({index:i,value:true});
       }
+      setTimeout(() => {
+        const inputElements = this.unit_name.toArray();
+        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+          this.renderer.selectRootElement(inputElement).focus();
+      }, 100)
       }
     });
   }
@@ -52,6 +58,15 @@ export class UnitMeasureComponent implements OnInit {
   addUMRow(row : any){
     this.unitOfMeasure_list.unshift("");
     this.enableButton.push({index:-1,value:true}) 
+
+    const lastIndex = this.unitOfMeasure_list.length - 1;
+    setTimeout(() => {
+      const inputElements = this.unit_name.toArray();
+      if (inputElements.length > lastIndex) {
+        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+        this.renderer.selectRootElement(inputElement).focus();
+      }
+    });
   }
 
   saveUnitMeasure(um : any, oldUM : any) {

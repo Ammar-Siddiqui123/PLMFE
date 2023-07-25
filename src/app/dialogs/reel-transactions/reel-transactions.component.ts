@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
@@ -13,6 +13,7 @@ import { take } from 'rxjs';
   styleUrls: ['./reel-transactions.component.scss']
 })
 export class ReelTransactionsComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
 
   ELEMENT_DATA: any[] =[
     {reel_serial_number: '1202122', reel_part_quantity: '36'},
@@ -22,7 +23,7 @@ export class ReelTransactionsComponent implements OnInit {
     
   displayedColumns: string[] = ['reel_serial_number','button','reel_part_quantity','action'];
   generateReelAndSerial:MatTableDataSource<any> = new MatTableDataSource<any>([]);
-
+fieldNames:any;
   itemNumber:any;
   description:any;
   partsInducted:any;
@@ -34,6 +35,7 @@ export class ReelTransactionsComponent implements OnInit {
 
   @ViewChild('noOfReeltemp') noOfReeltemp: ElementRef
   @ViewChild('serialTemp') serialTemp: ElementRef
+  @ViewChildren('serialTemp') serialInputs: QueryList<any>;
   
   constructor(private dialog: MatDialog,public dialogRef: MatDialogRef<ReelTransactionsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService,) { }
@@ -45,12 +47,15 @@ export class ReelTransactionsComponent implements OnInit {
     this.partsInducted =this.data.itemObj.totalParts
     this.partsNotAssigned =this.oldIncluded?this.oldIncluded:''
     this.noOfReels = this.data.itemObj.numReels
+    this.fieldNames=this.data?.fieldName
     setTimeout(() => {
       this.ReelDetailDialogue()
     }, 300);
     
   }
-
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
+  }
   updateRemaining(){
     // debugger
     let total = this.partsInducted;
@@ -77,7 +82,7 @@ oldIncluded
         itemObj:this.data.itemObj,
         gReelQty:this.generatedReelQty,
         fromtrans: this.fromReelCheck? this.generateReelAndSerial.data[this.generatedReelQtyIndex].details : this.HiddenInputValue,
-        
+        propFields:this.fieldNames
       },
     });
 
@@ -231,6 +236,12 @@ dialog1(numUnassigned){
   
   })
 }
+
+validateInputs() {
+  this.serialInputs.forEach(input => {
+    input.nativeElement.focus(); // This will force Angular to validate each input
+  });
+}
 test(){
   let reels:any = [];
                 let rc$;
@@ -266,9 +277,10 @@ test(){
                 })
                 })
                 // console.log(this.generateReelAndSerial.data,'checj')
-
+                this.validateInputs();
                 if(SNs.includes('')){
-                  
+                  this.validateInputs();
+                  this.serialTemp.nativeElement.blur()
                   this.toastr.error("You must provide a serial number for each reel transaction.", 'Error!', {
                     positionClass: 'toast-bottom-right',
                     timeOut: 2000

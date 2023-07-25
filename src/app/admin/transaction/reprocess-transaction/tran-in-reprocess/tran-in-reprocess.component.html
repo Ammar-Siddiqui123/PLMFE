@@ -96,6 +96,8 @@
                         <mat-label>Order Number</mat-label>
                         <input type="text" maxlength="50" aria-label="Number" matInput
                             [matAutocomplete]="autoOrder" [(ngModel)]="orderNumber" (keypress)="getFilteredList()" (keyup)="orderSelected()">
+                            <button matSuffix *ngIf="orderNumber" class="clear-btn"  (click)="orderNumber=''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
+
                         <mat-autocomplete class="card custom-scroll" panelWidth="auto" autoActiveFirstOption
                             #autoOrder="matAutocomplete" (optionSelected)="orderSelected()">
                             <h6 class="card-header matAutoCompHeader ">
@@ -117,8 +119,9 @@
                 <span class="bg-tertiary-900 d-none d-lg-flex mb-3" style="width: 14px; height:2px;"></span>
                 <div class="d-flex w-100 mb-3" style="flex:1">
                     <mat-form-field class="w-100 bg-white" appearance="outline">
-                        <mat-label>Item Number</mat-label>
+                        <mat-label>{{fieldNames?.itemNumber}}</mat-label>
                         <input type="text" maxlength="50" matInput [matAutocomplete]="auto" [(ngModel)]="itemNumber" style="padding-left: 0px !important;">
+                        <button matSuffix *ngIf="itemNumber" class="clear-btn"  (click)="itemNumber=''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                         <mat-autocomplete class="card custom-scroll" panelWidth="auto" autoActiveFirstOption
                             #auto="matAutocomplete" (optionSelected)="listSelected($event)">
                             <h6 class="card-header matAutoCompHeader ">

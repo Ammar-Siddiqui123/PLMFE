@@ -13,6 +13,7 @@
         <mat-form-field class="custom-form-field w-100 pt-2" appearance="outline">
           <mat-label>Next Batch Order Number</mat-label>
           <input matInput appInputSpacesPrevent type="text" [(ngModel)]="nextOrderNumber" value="{{nextOrderNumber}}">
+          <button matSuffix *ngIf="nextOrderNumber" class="clear-btn"  (click)="nextOrderNumber=''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
         </mat-form-field>
       </div>
       <!-- <div>

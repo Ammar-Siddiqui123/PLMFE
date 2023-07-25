@@ -36,6 +36,8 @@
                                 [(ngModel)]='orderNumber' maxlength="255" [matAutocomplete]="auto"
                                 (ngModelChange)="this.searchByInput.next($event)">
 
+                                <button matSuffix *ngIf="orderNumber" class="clear-btn"  (click)=" orderNumber = '';autocompleteSearchColumn()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
+
                             <!-- <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData($event)">
                                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option.orderNumber">
                                     <div (click)="getRow(option)">{{option.orderNumber}}</div>
@@ -194,7 +196,7 @@
                 <div class="col-xl-3">
                     <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline"
                         (click)="openUnitOfMeasureDialogue()">
-                        <mat-label>Unit Of Measure</mat-label>
+                        <mat-label>{{columns.unitOfMeasure}}</mat-label>
                         <input readonly [disabled]="!item" [(ngModel)]="uom" matInput type="text" maxlength="255" value="Value">
                         <span matSuffix>
                             <mat-icon

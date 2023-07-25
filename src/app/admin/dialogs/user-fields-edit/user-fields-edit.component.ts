@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr'; 
 import labels from '../../../labels/labels.json';
@@ -13,6 +13,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./user-fields-edit.component.scss'],
 })
 export class UserFieldsEditComponent implements OnInit {
+  @ViewChild('ship_via') ship_via: ElementRef;
   floatLabelControl: any = new FormControl('auto' as FloatLabelType);
   floatLabelControlShipName: any = new FormControl(
     'shipName' as FloatLabelType
@@ -25,7 +26,7 @@ export class UserFieldsEditComponent implements OnInit {
   searchByShipName: any = new Subject<string>();
   searchAutocompleteShipVia: any = [];
   searchAutocompleteShipName: any = [];
-
+  fieldNames:any;
   userField10 = '';
   userField9 = '';
   shipToLine1 = '';
@@ -40,7 +41,9 @@ export class UserFieldsEditComponent implements OnInit {
     private toastr: ToastrService,
     private Api: ApiFuntions,
     public dialogRef: MatDialogRef<any>
-  ) {}
+  ) {
+    this.fieldNames=data.fieldNames
+  }
 
   ngOnInit(): void {
     this.getUserFields();
@@ -56,7 +59,9 @@ export class UserFieldsEditComponent implements OnInit {
         this.autocompleteSearchColumnShipName();
       });
   }
-
+  ngAfterViewInit() {
+    this.ship_via.nativeElement.focus();
+  }
   saveUserFields() {
 
     let userFields:any=[];
@@ -107,7 +112,7 @@ export class UserFieldsEditComponent implements OnInit {
   async autocompleteSearchColumn() {
     let searchPayload = {
       value: this.shipVia,
-      uFs: 0,
+      uFs: 1,
 
       username: this.data.userName,
       wsid: this.data.wsid,
@@ -150,7 +155,7 @@ export class UserFieldsEditComponent implements OnInit {
   async autocompleteSearchColumnShipName() {
     let searchPayload = {
       value: this.shipToName,
-      uFs: 1,
+      uFs: 2,
       username: this.data.userName,
       wsid: this.data.wsid,
     };

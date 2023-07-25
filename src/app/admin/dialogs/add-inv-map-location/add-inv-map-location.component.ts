@@ -67,6 +67,7 @@ export class AddInvMapLocationComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   filteredItemNum: Observable<any[]>;
   itemDescription: any;
+  fieldNames:any;
   autoFillLocNumber: any = '';
   zone = '';
   carousel = '';
@@ -78,11 +79,11 @@ export class AddInvMapLocationComponent implements OnInit {
   quantity: any;
   routeFromIM: boolean = false;
   routeFromOM: boolean = false;
+  searchItemNumbers
 
   @ViewChild('cellSizeVal') cellSizeVal: ElementRef;
   @ViewChild('velCodeVal') velCodeVal: ElementRef;
-
-
+  @ViewChild('location_name') location_name: ElementRef;
   getDetailInventoryMapData: InventoryMapDataStructure = {
     invMapID: '',
     locationID: '',
@@ -157,6 +158,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+    this.fieldNames=this.data?.fieldName
     if (this.data.detailData) {
       this.getDetailInventoryMapData = this.data.detailData;
       this.zone = this.getDetailInventoryMapData.zone
@@ -197,6 +199,7 @@ export class AddInvMapLocationComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    this.location_name.nativeElement.focus();
     if(this.router.url == '/OrderManager/InventoryMap'){
       this.addInvMapLocation.get('location')?.disable();
       this.addInvMapLocation.get('zone')?.disable();
@@ -420,7 +423,7 @@ export class AddInvMapLocationComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       ;
 
-      if (result != true && result != false) {
+      if (result !== true && result !== false) {
         this.addInvMapLocation.controls['warehouse'].setValue(result);
       }
       if (result == 'clear') {
@@ -439,7 +442,7 @@ export class AddInvMapLocationComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      if (result != true && result != false) {
+      if (result !== true && result !== false) {
         this.addInvMapLocation.controls['cell'].setValue(result);
       }
     })
@@ -454,7 +457,7 @@ export class AddInvMapLocationComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      if (result != true && result != false) {
+      if (result !== true && result !== false) {
         this.addInvMapLocation.controls['velocity'].setValue(result);
       }
 

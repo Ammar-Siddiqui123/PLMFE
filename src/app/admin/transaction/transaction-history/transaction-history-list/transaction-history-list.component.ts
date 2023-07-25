@@ -198,7 +198,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    debugger
+    
 
     this.customPagination = {
       total: '',
@@ -500,5 +500,10 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
+  }
+
+  clear(){
+    this.columnSearch.searchValue = ''
+    this.getContentData()
   }
 }
