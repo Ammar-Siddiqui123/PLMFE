@@ -248,8 +248,8 @@ export class DeleteConfirmationComponent implements OnInit {
           });
       } else if (this.data.mode === 'delete-grpallowed') {
         let emp_data = {
-          groupname: this.data.allowedGroup.groupName,
-          username: this.data.allowedGroup.userName,
+          Username: this.data.allowedGroup.groupName,
+          GroupName: this.data.allowedGroup.userName,
         };
         this.Api.deleteUserGroup(emp_data).subscribe((res: any) => {
           if (res.isExecuted) {
