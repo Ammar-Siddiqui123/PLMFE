@@ -735,6 +735,13 @@ export class InventoryMapComponent implements OnInit {
   });
  }
 
+ printRange(){
+  // this.router.navigateByUrl(`/report-view?file=EventLogExport-lst`);
+ }
+
+ printSelected(event: any){
+  this.router.navigateByUrl(`/report-view?file=LocLabel-lbl`);
+ }
 
 
 }
