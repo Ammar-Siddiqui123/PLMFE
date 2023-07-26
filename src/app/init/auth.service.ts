@@ -15,7 +15,7 @@ export class AuthService {
     { icon: 'published_with_changes', title: 'System Replenishment', route: '#' ,permission: 'Replenishment'},
     { icon: 'directions_alt', title: 'Inventory Map', route: '/admin/inventoryMap' ,permission: 'Inventory Map'},
     { icon: 'list_alt', title: 'Batch Manager', route: '/admin/batchManager' ,permission: 'Batch Manager'},
-    { icon: 'analytics', title: 'Reports', route: '#' ,permission: 'Reports'},
+    { icon: 'analytics', title: 'Reports', route: '/admin/reports' ,permission: 'Reports'},
     { icon: 'my_location', title: 'Location Assignment', route: '/admin/locationAssignment' ,permission: 'Location Assignment'},
     { icon: 'low_priority', title: 'Cycle Count', route: '/admin/cycleCounts' ,permission: 'Cycle Count Manager'},
     { icon: 'trolley', title: 'Move Items', route: '#' ,permission: 'Move Items'},

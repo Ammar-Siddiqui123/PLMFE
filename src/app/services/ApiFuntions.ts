@@ -1438,5 +1438,9 @@ public reportfieldvalues(body): Observable<any> {
 } 
 public ReportTitles(body): Observable<any> { 
   return this.ApiBase.Update("/Admin/customreports/ReportTitles",body);
-} 
+}
+public changefilter(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/customreports/changefilter",body);
+}
+ 
 }
