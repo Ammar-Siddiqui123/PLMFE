@@ -63,7 +63,15 @@ export class GlobalService {
         var date = new Date();
         return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
     }
-
+    capitalizeAndRemoveSpaces(inputString: string): string { 
+        const words: string[] = inputString.split(' '); 
+        const capitalizedWords: string[] = words.map(word => {
+          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        }); 
+        const resultString: string = capitalizedWords.join('');
+      
+        return resultString;
+      }
     setToToday() {
         var date = new Date();
 
