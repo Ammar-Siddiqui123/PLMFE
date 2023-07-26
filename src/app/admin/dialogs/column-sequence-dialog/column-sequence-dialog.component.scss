@@ -1,10 +1,12 @@
 .custom-scrollbar {
 height: 63vh;
 overflow-y: scroll;
+-webkit-overflow-scrolling: touch;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
     width: 11px;
+    -webkit-overflow-scrolling: touch;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
