@@ -73,7 +73,7 @@
                   <mat-select  #matRef class="employees-action" (selectionChange)="inventoryMapAction($event)" 
                     placeholder="Actions">
                     <mat-option (click)="addLocDialog()" [hidden]="isAuthorized('Inv Map Add Location')" *ngIf="myroute">Add Location</mat-option>
-                    <mat-option value="print">Print</mat-option>
+                    <mat-option (click)="printRange()">Print Range</mat-option>
                     <mat-option value="set_column_sq">Set Column Sequence</mat-option>
                   </mat-select>
                   <span class="material-symbols-outlined icon-expand-more">
@@ -122,6 +122,7 @@
                   </button>
 
                   <mat-menu #appMenu="matMenu">
+                    <button mat-menu-item (click)="printSelected(seletedRecord)">Print</button>
                     <button mat-menu-item (click)="edit(seletedRecord)">Edit</button>
                     <button mat-menu-item (click)="delete(seletedRecord)"  [hidden]="isAuthorized('Inv Map Delete')" *ngIf="myroute">Delete</button>
                     <button *ngIf="!seletedRecord.warehouse.includes('Quarantine')" mat-menu-item

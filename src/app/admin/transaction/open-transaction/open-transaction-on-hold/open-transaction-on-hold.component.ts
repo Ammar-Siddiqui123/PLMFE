@@ -823,4 +823,12 @@ this.router.navigate([]).then((result) => {
     this.columnSearch.searchValue = ''
     this.getContentData()
   }
+
+  printCycleCountReport(){
+    this.router.navigateByUrl(`/report-view?file=CycleCount-lst`);
+  }
+
+  previewFiftyPagesOnly(){
+    this.router.navigateByUrl(`/report-view?file=CycleCount-lst`);
+  }
 }

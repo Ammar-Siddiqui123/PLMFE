@@ -246,11 +246,11 @@ export class EventLogComponent implements OnInit {
   }
 
   printRange(){
-    alert('The print service is currently offline');
+    this.router.navigateByUrl(`/report-view?file=EventLog-lst`);
   }
 
   printSelected(){
-    alert('The print service is currently offline');
+    this.router.navigateByUrl(`/report-view?file=EventLog-lst`);
   }
 
   paginatorChange(event: PageEvent) {
@@ -307,7 +307,7 @@ export class EventLogComponent implements OnInit {
   }
 
   exportRange(){
-
+    this.router.navigateByUrl(`/report-view?file=EventLogExport-lst`);
   }
 
   @HostListener('document:keyup', ['$event'])
