@@ -27,6 +27,7 @@ import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confir
 import { FloatLabelType } from '@angular/material/form-field';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-ccb-create-counts',
@@ -122,7 +123,9 @@ export class CCBCreateCountsComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     public dialog: MatDialog,
-    private liveAnnouncer: LiveAnnouncer
+    private liveAnnouncer: LiveAnnouncer,
+    private router: Router,
+    
   ) {
     this.filtersForm = new FormGroup({
       countType: new FormControl(''),
@@ -278,6 +281,9 @@ export class CCBCreateCountsComponent implements OnInit {
     // this.filtersForm.controls['category'].setValue(item.category);
     this.fillData();
     }
+  }
+  printCountOrders(){
+    window.open(`/#/report-view?file=CycleCountDetail-lst`, '_blank', "location=yes");
   }
   resetVal() {
     this.filtersForm.controls['fromLocation'].setValue('');
