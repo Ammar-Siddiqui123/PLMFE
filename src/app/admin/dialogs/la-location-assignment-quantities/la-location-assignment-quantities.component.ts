@@ -27,7 +27,8 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
              private authservice : AuthService,
              public dialogRef: MatDialogRef<any>,
              private router: Router,
-             private toastr: ToastrService, ) { }
+             private toastr: ToastrService, 
+             ) { }
 
   ngOnInit(): void {
     this.userData = this.authservice.userData()
@@ -70,21 +71,25 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
   }
 
   printShortage(){
-    this.Api.PreviewLocAssignmentPickShort().subscribe((res:any)=>{
-      this.listLabel = res.data;
-      console.log(this.listLabel,'printshortage')
-    })
+    // this.Api.PreviewLocAssignmentPickShort().subscribe((res:any)=>{
+    //   this.listLabel = res.data;
+    //   console.log(this.listLabel,'printshortage')
+    // })
+
+    window.open(`/#/report-view?file=LocAssPickShortage-lst`, '_blank', "location=yes");
   }
 
   printShortageZone(){
-    let payload = {
-      "userName" : this.userData.userName,
-      "wsid": this.userData.wsid
-    }
-    this.Api.PreviewLocAssignmentPickShortFPZ().subscribe((res:any)=>{
-      this.listLabelFPZ = res.data;
-      console.log(this.listLabelFPZ,'print FPZ')
-    })
+    // let payload = {
+    //   "userName" : this.userData.userName,
+    //   "wsid": this.userData.wsid
+    // }
+    // this.Api.PreviewLocAssignmentPickShortFPZ().subscribe((res:any)=>{
+    //   this.listLabelFPZ = res.data;
+    //   console.log(this.listLabelFPZ,'print FPZ')
+    // })
+
+    window.open(`/#/report-view?file=LocAssPickShortageFPZ-lst`, '_blank', "location=yes");
   }
 
   exitBack(){
