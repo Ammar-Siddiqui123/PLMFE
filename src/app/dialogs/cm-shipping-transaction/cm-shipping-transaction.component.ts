@@ -257,14 +257,9 @@ export class CmShippingTransactionComponent implements OnInit {
     });
   }
 
-  openShipPrintItemLabel() {
-    // let dialogRef = this.dialog.open(AlertConfirmationComponent, {
-    //   height: 'auto',
-    //   width: '96vw',
-    //   autoFocus: '__non_existing_element__'     
-    // });
-
-    // dialogRef.afterClosed().subscribe(result => {});
+  openShipPrintItemLabel(order : any, i : any) {
+    this.dialogRef.close();
+    this.route.navigateByUrl(`/report-view?file=CMItem-lst`);
   }
 
   // Open the dialog component, pass in the data to be modified
