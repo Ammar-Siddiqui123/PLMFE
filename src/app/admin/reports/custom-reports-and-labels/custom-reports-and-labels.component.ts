@@ -8,6 +8,7 @@ import { CrEditDesignTestDataComponent } from 'src/app/dialogs/cr-edit-design-te
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { SharedService } from 'src/app/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
+import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 
 @Component({
   selector: 'app-custom-reports-and-labels',
@@ -57,13 +58,27 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       width: '932px',
       autoFocus: '__non_existing_element__',
     });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result)      
+      this.Detail.testData = result?result:this.Detail.testData
+    }
+    );
   }
   CrAddNewCustomReportDialogue() {
     const dialogRef = this.dialog.open(CrAddNewCustomReportComponent, {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      data : {
+        ListReports:this.ListReports
+      }
     });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result,'obj')      
+      this.Detail.testData = result?result:this.Detail.testData
+    }
+    );
   }
   openDeleteDialogue() {
     const dialogRef = this.dialog.open(CrDeleteConfirmationComponent, {
@@ -114,5 +129,26 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     }
 
 
+  }
+
+  pushReports(){
+    const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+      height: 'auto',
+      width: '500px',
+      data: {
+        message: 'Do you wish to give all workstations your version of this report?',
+        heading: '',
+      },
+      autoFocus: '__non_existing_element__',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result){
+        
+      }
+      else{
+        return
+      }
+    });
   }
 }
