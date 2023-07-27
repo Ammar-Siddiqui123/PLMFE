@@ -30,6 +30,7 @@ import { InputFilterComponent } from '../../dialogs/input-filter/input-filter.co
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { RouteHistoryService } from 'src/app/services/route-history.service';
+import { PrintRangeComponent } from '../dialogs/print-range/print-range.component';
 
 
 const INVMAP_DATA = [
@@ -736,7 +737,11 @@ export class InventoryMapComponent implements OnInit {
  }
 
  printRange(){
-  // this.router.navigateByUrl(`/report-view?file=EventLogExport-lst`);
+  const dialogRef = this.dialog.open(PrintRangeComponent, {
+    height: 'auto',
+    width: '932px',
+    autoFocus: '__non_existing_element__'
+  });
  }
 
  printSelected(event: any){

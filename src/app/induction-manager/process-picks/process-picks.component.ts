@@ -46,6 +46,8 @@ export class ProcessPicksComponent implements OnInit {
   pickBatches = new FormControl('');
   orderNumber = new FormControl('');
   batchWithID = false;
+  toteEmpty=false;
+  orderEmpty=false;
   // pickBatches:any = '';
   filteredOptions: Observable<any[]>;
   filteredOrderNum: Observable<any[]>;
@@ -77,6 +79,118 @@ export class ProcessPicksComponent implements OnInit {
     this.getAllZones();
     this.getAllOrders();
     this.isBatchIdFocus = true;
+  }
+  printExisting(type){
+    if(!this.pickBatchesCrossbtn){
+      this.toastr.error('Please select a Batch ID to print', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      })
+    }else{
+      if(type==='PrintTote'){
+        window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
+
+      }
+      if(type==='PrintPickLabel'){
+        window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
+
+      }
+      if(type==='PrintPickList'){
+        window.open(`/#/report-view?file=IMOCPick-lst`, '_blank', "location=yes");
+
+      }
+      if(type==='PrintCase'){
+        window.open(`/#/report-view?file=CaseLabel-lbl`, '_blank', "location=yes");
+
+      }
+      if(type==='PrintBatch'){
+        window.open(`/#/report-view?file=IMPickBatch-lst`, '_blank', "location=yes");
+
+      }
+    }
+  }
+  printToteLabels(row){
+    console.log(row);
+    if(row.toteID==="" ||row.orderNumber==="" ){
+      this.toastr.error('Missing data from the desired print row', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      })
+    }else{
+      window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
+    }
+  }
+  printPickLabels(row){
+    if(row.toteID==="" ||row.orderNumber==="" ){
+      this.toastr.error('Missing data from the desired print row', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      })
+    }else{
+      
+      window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
+
+    }
+  }
+  printPick(type){
+ 
+
+    this.toteEmpty = this.dataSource?._data?._value.some(element => element.toteID != ""); 
+    this.orderEmpty = this.dataSource?._data?._value.some(element => element.orderNumber!= ""); 
+    if(type==='PrintTote'){
+      if(!this.toteEmpty){
+        this.toastr.error('Please enter in at least 1 tote id', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        })
+      }
+      else if(!this.orderEmpty){
+        this.toastr.error('Please enter in at least 1 order number', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        })
+      }
+      else{
+        window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
+      }
+    }
+    if(type==='PrintPickLabel'){
+      if(this.batchID===''){
+        this.toastr.error('Please enter in a batch id', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        })
+      }else if(!this.toteEmpty){
+        this.toastr.error('Please enter in at least 1 tote id', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        })
+      }else if(!this.orderEmpty){
+        this.toastr.error('Please enter in at least 1 order number', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        })
+      }else{
+        window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
+
+      }
+    }
+    if(type==='PrintPickList'){
+      if(!this.toteEmpty){
+        this.toastr.error('Please enter in at least 1 tote id', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        })
+      }
+      else if(!this.orderEmpty){
+        this.toastr.error('Please enter in at least 1 order number', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        })
+      }else{
+          window.open(`/#/report-view?file=IMOCPick-lst`, '_blank', "location=yes");
+      }
+    }
   }
   getAllOrders() {
     let paylaod = {
