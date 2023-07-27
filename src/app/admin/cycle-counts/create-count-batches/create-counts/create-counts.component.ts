@@ -42,6 +42,7 @@ export class CCBCreateCountsComponent implements OnInit {
   warehouse: string = '';
   subCategory: any;
   math = Math;
+  printCC:boolean=false;
   @Input() updateTable: boolean;
   warehouses: any = [];
   customPagination: any = {
@@ -283,7 +284,12 @@ export class CCBCreateCountsComponent implements OnInit {
     }
   }
   printCountOrders(){
-    window.open(`/#/report-view?file=CycleCountDetail-lst`, '_blank', "location=yes");
+    if(this.printCC){
+      window.open(`/#/report-view?file=CycleCountDetail-lst`, '_self', "location=yes");
+    }else{
+      window.open(`/#/report-view?file=CycleCountDetail-lst`, '_blank', "location=yes");
+    }
+
   }
   resetVal() {
     this.filtersForm.controls['fromLocation'].setValue('');
