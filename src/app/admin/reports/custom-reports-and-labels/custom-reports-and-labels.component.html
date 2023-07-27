@@ -1,0 +1,141 @@
+<div class="container-fluid-0 mt-4 p-0">
+    <div class="row mb-3">
+        <div class="col-xl-4">
+
+            <mat-card class="mat-elevation-z g-card mb-4">
+                <mat-card-content>
+
+                    <div class="d-xl-flex justify-content-between">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h2 class="card-header-title d-flex align-items-center mb-0">
+                                <div class="mat-icon-wrap me-lg-3 me-2">
+                                    <span class="mat-icon material-symbols-outlined">
+                                        short_text
+                                    </span>
+                                </div>
+                                <span>Report Label Or Export Description</span>
+                            </h2>
+                        </div>
+                    </div>
+
+                    <div class="px-2 my-3">
+                        <mat-radio-group class="d-flex align-items-center gap-12 flex-wrap"
+                            aria-label="Select an option">
+                            <mat-radio-button color="primary" (click)="ChangeReport(true)" value="none" [checked]="IsSystemReport == true">
+                                System
+                            </mat-radio-button>
+                            <mat-radio-button color="primary" (click)="ChangeReport(false)" value="hold" [checked]="IsSystemReport == false">
+                                User Created
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div class="card row m-2 ms-auto report-label-list">
+                        <ul class="">
+                          <li class="my-2 px-2" *ngFor="let item of ListReports;" (click)="Getreportdetails(item.filename)">
+                           {{item.title}}
+                          </li> 
+                        </ul>
+                      </div>
+                    
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div class="col-xl-8">
+            <mat-card class="mat-elevation-z g-card mb-4">
+                <mat-card-content>
+                    <div class="d-xl-flex justify-content-between">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h2 class="card-header-title d-flex align-items-center mb-0">
+                                <div class="mat-icon-wrap me-lg-3 me-2">
+                                    <span class="mat-icon material-symbols-outlined">
+                                        comment_bank
+                                    </span>
+                                </div>
+                                <span>Report Or Label Details</span>
+                            </h2>
+                        </div>
+
+                        <div class="d-flex d-lg-block">
+                            <mat-form-field class="action-dropdown mb-3" appearance="outline" style="flex:1">
+                                <mat-label>Actions</mat-label>
+                                <mat-select class="employees-action" value="pick">
+                                    <mat-option value="123456"(click)="CrAddNewCustomReportDialogue()">Add New</mat-option>
+                                    <mat-option [value]="Detail.testData" [disabled]="!Detail.testData" 
+                                    (click)="OpenListAndLabel('report-view')">Export</mat-option>
+                                    <mat-option [value]="Detail.testData" [disabled]="!Detail.testData" 
+                                    (click)="OpenListAndLabel('report-view')">Print</mat-option>
+                                    <mat-option [value]="Detail.testData" [disabled]="!Detail.testData" 
+                                       (click)="OpenListAndLabel('report')"
+                                        >Design</mat-option>
+                                    <mat-option value="147852">Delete</mat-option>
+                                    <mat-option value="147852">Import</mat-option>
+                                </mat-select>
+                                <span class="material-symbols-outlined icon-expand-more">
+                                    expand_more
+                                </span>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline" (click)="openEditDesign()">
+                        <mat-label>Test and Design Data</mat-label>
+                        <mat-select class="employees-action" [(ngModel)]="Detail.testData"> 
+                            <mat-option [value]="Detail.testData" >{{Detail.testData}}</mat-option>
+                        </mat-select>
+                        <span class="material-symbols-outlined icon-expand-more">
+                            expand_content
+                        </span>
+                    </mat-form-field>
+                    <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-2" appearance="outline">
+                        <mat-label>Test/Design Data Type</mat-label>
+                        <mat-select class="employees-action"  [(ngModel)]="Detail.testDataType" >
+                            <mat-option value=""></mat-option>
+                            <mat-option value="SP">Stored Procedure</mat-option>
+                            <mat-option value="SQL">Raw SQL</mat-option>
+                        </mat-select>
+                        <span class="material-symbols-outlined icon-expand-more">
+                            expand_more
+                        </span>
+                    </mat-form-field>
+
+                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+                        <mat-label>System or Custom Report/Label</mat-label>
+                        <input matInput type="text" maxlength="50" value="{{Detail.systemOutput == true ? 'System':'Custom'}}" disabled>
+                    </mat-form-field>
+
+                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+                        <mat-label>File Name</mat-label>
+                        <input matInput type="text" [(ngModel)]="Detail.fileName" maxlength="50" disabled>
+                    </mat-form-field>
+
+                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+                        <mat-label>Description</mat-label>
+                        <input matInput type="text" maxlength="550" [(ngModel)]="Detail.description" disabled>
+                    </mat-form-field>
+
+                    <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-2" appearance="outline">
+                        <mat-label>Output Type</mat-label>
+                        <mat-select class="employees-action" [(ngModel)]="Detail.outputType" disabled>
+                            <mat-option [value]="Detail.outputType" >{{Detail.outputType}}</mat-option>
+
+                        </mat-select>
+                        <span class="material-symbols-outlined icon-expand-more" style="color:#8b8ba3;">
+                            expand_more
+                        </span>
+                    </mat-form-field>
+
+                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+                        <mat-label>Export Filename</mat-label>
+                        <input matInput type="text"  [(ngModel)]="Detail.exportFileName" maxlength="50">
+                    </mat-form-field>
+
+
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

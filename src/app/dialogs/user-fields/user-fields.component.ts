@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import {
   MatDialog,
@@ -6,9 +6,9 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { ProcessPutAwayService } from 'src/app/induction-manager/processPutAway.service';
 import { AuthService } from 'src/app/init/auth.service';
 import labels from '../../labels/labels.json';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-user-fields',
@@ -16,17 +16,18 @@ import labels from '../../labels/labels.json';
   styleUrls: ['./user-fields.component.scss']
 })
 export class UserFieldsComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
 
   public userData: any;
   userForm: FormGroup;
-
+  fieldNames:any;
   constructor(public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
     public formBuilder: FormBuilder,
     private authService: AuthService,
     private toast: ToastrService,
-    private service: ProcessPutAwayService) {
+    private Api: ApiFuntions) {
 
     this.userForm = this.formBuilder.group({
       userField1: new FormControl('', Validators.compose([])),
@@ -44,12 +45,22 @@ export class UserFieldsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // console.log(this.data);
+    ;
 
     this.userData = this.authService.userData();
     this.setValues();
+    this.OSFieldFilterNames();
+  }
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
   }
 
+  public OSFieldFilterNames() { 
+    this.Api.ColumnAlias().subscribe((res: any) => {
+      this.fieldNames = res.data;
+      // this.sharedService.updateFieldNames(this.fieldNames)
+    })
+  }
   setValues() {
 
     this.userForm.patchValue({
@@ -123,7 +134,7 @@ export class UserFieldsComponent implements OnInit {
     //       (error) => { }
     //     );
     //   } catch (error) {
-    //     console.log(error);
+    //     
     //   }
     // }
 

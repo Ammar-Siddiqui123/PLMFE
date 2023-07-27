@@ -1,0 +1,39 @@
+<div class="inner-layout-1">
+    <div class="main-content mb-4">
+<mat-card class="mat-elevation-z g-card mb-3 mt-2" style="height: 100%;">
+    <mat-card-content>
+        <div class="d-xl-flex d-block justify-content-between">
+            <h2 class="card-header-title mb-3 d-flex align-items-center">
+                <div class="mat-icon-wrap me-lg-3 me-2">
+                    <span class="material-symbols-outlined">
+                        tune
+                    </span>
+                </div>
+                <span>Preferences</span>
+            </h2>
+        </div>
+
+        
+            <div class="row">
+                <div class="col-xl-3">
+                    <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3" appearance="outline">
+                        <mat-label>Carton Flow Zone Connected To</mat-label>
+
+                        <mat-select #matRef class="employees-action" [(ngModel)]="selectedCarton" (selectionChange)="updatePref($event)" style="" >
+                            <h6 class="ctl_name ac-dropdown-label"><span>Zone</span> <span>Location Name</span></h6>
+                          <mat-option  *ngFor="let item of cartonFlowList"  [value]="item.zone">
+                            <div class="ctl_option ac-dropdown-option">
+                                <span>{{item.zone}}</span>&nbsp; <span style="min-width: 200px;">{{item.locationName}}</span>
+                            </div>
+                          </mat-option> 
+                        </mat-select>
+                        <span class="material-symbols-outlined icon-expand-more">
+                          expand_more
+                        </span>
+                      </mat-form-field>
+                </div>
+            </div>
+    </mat-card-content>
+</mat-card>
+</div>
+</div>

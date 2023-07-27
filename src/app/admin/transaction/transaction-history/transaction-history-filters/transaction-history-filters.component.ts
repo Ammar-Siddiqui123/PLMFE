@@ -3,8 +3,8 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Subject, takeUntil, interval, Subscription, Observable } from 'rxjs';
 import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
-import { AuthService } from 'src/app/init/auth.service';
-import { TransactionService } from '../../transaction.service';
+import { AuthService } from 'src/app/init/auth.service'; 
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 let today = new Date();
 let year = today.getFullYear();
@@ -21,6 +21,9 @@ export class TransactionHistoryFiltersComponent implements OnInit {
   @Output() endDate = new EventEmitter<any>();
   @Output() orderNo = new EventEmitter<any>();
   @Output() resetDates = new EventEmitter<any>();
+
+  @Output() clearData = new EventEmitter<Event>();
+
   searchByOrderNumber = new Subject<string>();
   orderNumber: any;
   searchAutocompleteList: any;
@@ -31,7 +34,7 @@ export class TransactionHistoryFiltersComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private transactionService: TransactionService
+    private Api:ApiFuntions
   ) {}
 
   ngOnInit(): void {
@@ -39,6 +42,7 @@ export class TransactionHistoryFiltersComponent implements OnInit {
     this.searchByOrderNumber
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
+        debugger
         if(value===""){
           this.onOrderNoChange('')
           return
@@ -58,7 +62,11 @@ export class TransactionHistoryFiltersComponent implements OnInit {
   resetToTodaysDate() {
     this.edate=new Date().toISOString()
     this.sdate=new Date().toISOString()
+    this.orderNumber='';
+    // this.searchAutocompleteList.length=0;
+    this.searchAutocompleteList && this.searchAutocompleteList.length?this.searchAutocompleteList.length=0:'';
     this.resetDates.emit({endDate : new Date().toISOString(),startDate : new Date().toISOString()})
+    this.clearData.emit(event);
    
   }
 
@@ -81,8 +89,8 @@ export class TransactionHistoryFiltersComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(searchPayload, '/Admin/NextSuggestedTransactions',true)
+    this.Api
+      .NextSuggestedTransactions(searchPayload)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
@@ -106,5 +114,21 @@ export class TransactionHistoryFiltersComponent implements OnInit {
   }
   ngOnDestroy() {
     this.searchByOrderNumber.unsubscribe();
+  }
+   onInputChange(event: Event): void {// to avoid negative values
+    const value = (event.target as HTMLInputElement).value;
+    if (Number(value) < 0) {
+      this.orderNumber = 0;
+    }
+  }
+
+
+  // sendToParent(event:any){
+  //   this.childToParent.emit(event);
+  //   }
+
+  clear(){
+    this.orderNumber = ''
+    this.onOrderNoChange('')
   }
 }

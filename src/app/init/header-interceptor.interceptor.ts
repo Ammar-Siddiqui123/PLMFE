@@ -11,6 +11,8 @@ import { catchError, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from './auth.service';
+import { ApiFuntions } from '../services/ApiFuntions';
 
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
@@ -19,19 +21,24 @@ export class HeaderInterceptor implements HttpInterceptor {
     private router: Router,
     private toastr: ToastrService,
     private dialog: MatDialog,
+    private authService: AuthService,
+    private api:ApiFuntions
     ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let authReq: any;
+ 
+      // const headerValue = request.headers.get('Payload') ?? '';
+    
+
     if(localStorage.getItem('user')){
       const { _token }  = JSON.parse(localStorage.getItem('user') || "{}");
       authReq = request.clone({
         headers: new HttpHeaders({
           'Content-Type':  'application/json',
-          '_token': _token
+          '_token': _token,
         })
-      });
-    
+      });    
     }
     else{
       authReq = request.clone({
@@ -50,13 +57,55 @@ export class HeaderInterceptor implements HttpInterceptor {
 
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
     if (err.status === 401) {
-      this.dialog.closeAll();
-      this.toastr.error('Token Expire', 'Error!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
-      localStorage.clear();
-      this.router.navigate([`/login`]);
+      
+      let userData = this.authService.userData();
+      let paylaod = {
+        "username": userData.userName,
+        "wsid": userData.wsid,
+      }      
+      
+      if(this.authService.isConfigUser()){
+        this.api.configLogout(paylaod).subscribe((res:any) => {
+          if (res.isExecuted) {       
+            this.dialog.closeAll();
+            this.toastr.error('Token Expire', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+            this.router.navigate(['/globalconfig']);
+          } else {
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        });       
+      } else {
+        this.api.Logout(paylaod).subscribe((res:any) => {
+          if (res.isExecuted) {  
+            let lastRoute: any = localStorage.getItem('LastRoute') ? localStorage.getItem('LastRoute') : "";
+            localStorage.clear();     
+            if(lastRoute != ""){
+              localStorage.setItem('LastRoute', lastRoute);
+            } 
+            if(!localStorage.getItem('LastRoute')){
+              localStorage.setItem('LastRoute', this.router.url);
+            }     
+            this.dialog.closeAll();
+            this.toastr.error('Token Expire', 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+            this.router.navigate(['/login']);            
+          } else {
+            this.toastr.error(res.responseMessage, 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        })
+      }
+
       return of(err.message);
     }
     throw err;

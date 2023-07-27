@@ -1,11 +1,12 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { InventoryMasterService } from '../inventory-master.service';
+import { ToastrService } from 'ngx-toastr'; 
 import labels from '../../../labels/labels.json'
 import { AuthService } from 'src/app/init/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
+import { SharedService } from 'src/app/services/shared.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-kit-item',
@@ -13,6 +14,8 @@ import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/d
   styleUrls: ['./kit-item.component.scss']
 })
 export class KitItemComponent implements OnInit, OnChanges {
+
+  displayedColumns: string[] = ['ItemNumber', 'Description', 'SpecialFeatures', 'KitQuantity','Actions'];
 
   @Input() kitItem: FormGroup;
   public userData: any;
@@ -39,11 +42,12 @@ export class KitItemComponent implements OnInit, OnChanges {
     this.notifyParent.emit(e);
   }
 
-  constructor(private invMasterService: InventoryMasterService,
+  constructor(private Api: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService,
     private dialog: MatDialog,
-    private el: ElementRef
+    private el: ElementRef,
+    private sharedService:SharedService
     ) { }
 
   ngOnInit(): void {
@@ -53,6 +57,10 @@ export class KitItemComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (this.kitItem.controls['kitInventories'].value) {
       this.kitItemsList = [...this.kitItem.controls['kitInventories'].value];
+      this.kitItemsList.map(item => {
+        item.isSaved = true;
+      });
+      
     }
   }
 
@@ -60,20 +68,27 @@ export class KitItemComponent implements OnInit, OnChanges {
 
   }
   addCatRow(e: any) {
-    this.Ikey =  this.kitItemsList.length;
-    this.kitItemsList.push({
+    // this.Ikey =  this.kitItemsList.length;
+    this.kitItemsList.unshift({
       itemNumber: '',
       description: '',
       specialFeatures: '',
-      kitQuantity: 0
+      kitQuantity: 0,
+      isSaved: false,
       
-    })
-    // console.log(this.kitItemsList);
+    });
+    this.kitItemsList = [...this.kitItemsList]; 
     
   }
 
-  dltCategory(e: any) {
+  onRowUpdate(oldVal :any , event: Event, i){
+    this.sharedService.updateInvMasterState(event,true)
+    if(oldVal !== event){
+      this.kitItemsList[i].isSaved = false;
+    }
+  }
 
+  dltCategory(e: any) {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
@@ -90,7 +105,7 @@ export class KitItemComponent implements OnInit, OnChanges {
           "username": this.userData.userName,
           "wsid": this.userData.wsid,
         }
-        this.invMasterService.get(paylaod, '/Admin/DeleteKit').subscribe((res: any) => {
+        this.Api.DeleteKit(paylaod).subscribe((res: any) => {
   
           if (res.isExecuted) {
             this.toastr.success(labels.alert.delete, 'Success!', {
@@ -124,7 +139,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       return;
     }
 
-    if (parseInt(e.kitQuantity) < 0) {
+    if (parseInt(e.kitQuantity) <= 0) {
       this.toastr.error("Qty must be greater than 0", 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
@@ -148,7 +163,7 @@ export class KitItemComponent implements OnInit, OnChanges {
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
       }
-      this.invMasterService.get(paylaod, '/Admin/InsertKit').subscribe((res: any) => {
+      this.Api.InsertKit(paylaod).subscribe((res: any) => {
 
         if (res.isExecuted) {
           this.toastr.success(labels.alert.success, 'Success!', {
@@ -177,7 +192,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       }
       
       // console.log(paylaod);
-      this.invMasterService.get(paylaod, '/Admin/UpdateKit').subscribe((res: any) => {
+      this.Api.UpdateKit(paylaod).subscribe((res: any) => {
 
         if (res.isExecuted) {
           this.toastr.success(labels.alert.success, 'Success!', {
@@ -210,12 +225,13 @@ export class KitItemComponent implements OnInit, OnChanges {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((x) => {
-
+      e.isSaved = false;
       if (x) {
         this.oldNumber = e.itemNumber;
         e.itemNumber =  this.dialogitemNumber!=""?this.dialogitemNumber:e.itemNumber;
         e.description = this.dialogDescription!=""?this.dialogDescription:e.description;
         this.isFormFilled = true;
+        this.sharedService.updateInvMasterState(x,true)
       }
     })
   }
@@ -229,6 +245,8 @@ export class KitItemComponent implements OnInit, OnChanges {
 
       if (x) {
         e.description =  this.dialogDescription!=""?this.dialogDescription:e.description 
+        this.sharedService.updateInvMasterState(x,true)
+
       }
     })
   }
@@ -236,8 +254,7 @@ export class KitItemComponent implements OnInit, OnChanges {
 
   getSearchList(e: any) {
 
-    this.searchValue = e.currentTarget.value;
-    // console.log(e.currentTarget.value)
+    this.searchValue = e.currentTarget.value; 
     let paylaod = {
       "itemNumber": e.currentTarget.value,
       "beginItem": "---",
@@ -245,7 +262,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    this.invMasterService.get(paylaod, '/Common/SearchItem').subscribe((res: any) => {
+    this.Api.SearchItem(paylaod).subscribe((res: any) => {
       if (res.data) {
         this.searchList = res.data
         if (this.searchList.length > 0) {
@@ -306,16 +323,13 @@ export class KitItemComponent implements OnInit, OnChanges {
     this.dialogitemNumberDisplay = '';
   }
   checkIfFilled(val: any, input?: any, index?:any){
-    //Work need to be continue from here
-    // console.log('kit_'+index);
-    // console.log(this.namebutton.nativeElement.classList);
+    //Work need to be continue from here 
     
     if(this.namebutton.nativeElement.classList.contains('kit_'+index)){
       this.namebutton.nativeElement.disabled = false;
       this.namebutton.nativeElement.classList.remove('mat-button-disabled')
     }
-    if(this.namebutton.nativeElement.classList.contains('kit_push_'+index)){
-      // console.log('kit_push_'+index);
+    if(this.namebutton.nativeElement.classList.contains('kit_push_'+index)){ 
       // const myHtmlEl = document.getElementsByClassName('kit_push_'+index).item(0) as HTMLElement;
       // myHtmlEl.removeAttribute('disabled');
       
@@ -327,9 +341,7 @@ export class KitItemComponent implements OnInit, OnChanges {
     // myTag.classList.remove('mat-button-disabled');
 
     if(input === 'kitQuantity'){
-      if(val > 0){
-        // console.log(index);
-        // console.log(val.target.dataset.index);
+      if(val > 0){ 
         this.isFormFilled = true;
       }
     }
@@ -344,5 +356,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       this.isFormFilled = false;
     }  
   }
-
+  handleInputChange(event: any) {
+    this.sharedService.updateInvMasterState(event,true)
+  }
 }

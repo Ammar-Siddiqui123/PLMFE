@@ -12,9 +12,8 @@ import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/init/auth.service';
 import { ColumnSequenceDialogComponent } from '../../dialogs/column-sequence-dialog/column-sequence-dialog.component';
-import { SetColumnSeqComponent } from '../../dialogs/set-column-seq/set-column-seq.component';
-import { SetColumnSeqService } from '../../dialogs/set-column-seq/set-column-seq.service';
-import { TransactionService } from '../transaction.service';
+import { SetColumnSeqComponent } from '../../dialogs/set-column-seq/set-column-seq.component'; 
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 const TRNSC_DATA = [
   { colHeader: 'importDate', colDef: 'Import Date' },
@@ -79,8 +78,7 @@ export class ReprocessedTransactionComponent implements OnInit {
     sortOrder: 'asc',
   };
   constructor(
-    private seqColumn: SetColumnSeqService,
-    private transactionService: TransactionService,
+    private Api: ApiFuntions,
     private authService: AuthService,
     private toastr: ToastrService,
     private dialog: MatDialog
@@ -117,7 +115,7 @@ export class ReprocessedTransactionComponent implements OnInit {
       wsid: this.userData.wsid,
       tableName: 'ReProcessed',
     };
-    this.transactionService.get(payload, '/Admin/GetColumnSequence',true).subscribe(
+    this.Api.GetColumnSequence(payload).subscribe(
       (res: any) => {
         this.displayedColumns = TRNSC_DATA;
         if (res.data) {
@@ -147,8 +145,8 @@ export class ReprocessedTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(paylaod, '/Admin/TransactionModelIndex')
+    this.Api
+      .TransactionModelIndex(paylaod)
       .subscribe(
         (res: any) => {
           this.columnValues = res.data?.reprocessedColumns;
@@ -171,8 +169,8 @@ export class ReprocessedTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(this.payload, '/Admin/ReprocessedTransactionTable',true)
+    this.Api
+      .ReprocessedTransactionTable(this.payload)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();
@@ -206,8 +204,8 @@ export class ReprocessedTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(searchPayload, '/Admin/NextSuggestedTransactions',true)
+    this.Api
+      .NextSuggestedTransactions(searchPayload)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
@@ -235,8 +233,8 @@ export class ReprocessedTransactionComponent implements OnInit {
     if (!opened && this.selectedVariable) {
       this.sortCol=0;
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
-        height: '96%',
-        width: '70vw',
+        height: 'auto',
+        width: '960px',
         data: {
           mode: event,
           tableName: 'ReProcessed',
@@ -268,5 +266,11 @@ export class ReprocessedTransactionComponent implements OnInit {
   }
   ngOnDestroy() {
     this.searchBar.unsubscribe();
+  }
+
+  clear(){
+    this.columnSearch.searchValue = ''
+    this.getContentData()
+
   }
 }

@@ -1,0 +1,123 @@
+<div class="container-fluid p-0">
+    <mat-card class="mat-elevation-z g-card">
+        <mat-card-content>
+          <div class="d-xl-flex justify-content-between align-items-center mb-3">
+            <h2 class="card-header-title mb-0 d-flex align-items-center mb-3 mb-xl-0">
+              <div class="mat-icon-wrap me-lg-3 me-2">
+                <span class="mat-icon material-symbols-outlined">
+                    dvr
+                </span>
+              </div>
+              <span>Transaction Count Information</span>
+            </h2>
+            <div class="d-xl-flex d-block">
+            <button style="flex: 1 auto;" mat-flat-button class="col-12 col-xl-3 float-end btn-regular" (click)="getInvDetailsList()" color="primary">Refresh Status Info</button>
+          </div>
+          </div>
+    <div class="row d-xl-flex">
+        <div class="col-xl-4 main-widget">
+            <div class="custom bg-white bg-50 br-14 mb-3">
+              <div class="counter bg-tertiary-10">
+                <div>
+                  <h6 class="text-tertiary-900"><b>Picks</b></h6>
+                  <div class="d-flex gap-20 justify-content-center">
+                    <div class="employees text-center">
+                      <p class="counter-count mb-1 bg-primary-900">{{openPicks}}</p>
+                      <p class="employee-p text-tertiary-900 mb-1  ">Open</p>
+                    </div>
+                    <div class="customer text-center">
+                      <p class="counter-count mb-1 bg-primary-900">{{compPicks}}</p>
+                      <p class="customer-p text-tertiary-900 mb-1  ">Completed</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="col-xl-4 main-widget">
+            <div class="custom bg-white bg-50 br-14 mb-3">
+              <div class="counter bg-tertiary-10">
+                <div>
+                  <h6 class="text-tertiary-900"><b>Put Aways</b></h6>
+                  <div class="d-flex gap-20 justify-content-center">
+                    <div class="employees text-center">
+                      <p class="counter-count mb-1 bg-primary-900">{{openPuts}}</p>
+                      <p class="employee-p text-tertiary-900 mb-1  ">Open</p>
+                    </div>
+                    <div class="customer text-center">
+                      <p class="counter-count mb-1 bg-primary-900">{{compPuts}}</p>
+                      <p class="customer-p text-tertiary-900 mb-1  ">Closed</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="col-xl-4 main-widget">
+            <div class="custom bg-white bg-50 br-14 mb-3">
+              <div class="counter bg-tertiary-10">
+                <div>
+                  <h6 class="text-tertiary-900"><b>Counts</b></h6>
+                  <div class="d-flex gap-20 justify-content-center">
+                    <div class="employees text-center">
+                      <p class="counter-count mb-1 bg-primary-900">{{openCounts}}</p>
+                      <p class="employee-p text-tertiary-900 mb-1  ">Open</p>
+                    </div>
+                    <div class="customer text-center">
+                      <p class="counter-count mb-1 bg-primary-900">{{compCounts}}</p>
+                      <p class="customer-p text-tertiary-900 mb-1  ">Closed</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="col-xl-4 main-widget">
+            <div class="custom bg-white bg-50 br-14 mb-3">
+              <div class="counter bg-tertiary-10">
+                <div>
+                  <h6 class="text-tertiary-900"><b>Adjustments</b></h6>
+                  <div class="d-flex gap-20 justify-content-center">
+                    <div class="employees text-center">
+                      <p class="counter-count mb-1 bg-primary-900">{{compAdjust}}</p>
+                      <p class="employee-p text-tertiary-900 mb-1  ">Adjusted</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="col-xl-4 main-widget">
+            <div class="custom bg-white bg-50 br-14 mb-3">
+              <div class="counter bg-tertiary-10">
+                <div>
+                  <h6 class="text-tertiary-900"><b>Changes</b></h6>
+                  <div class="d-flex gap-20 justify-content-center">
+                    <div class="employees text-center">
+                      <p class="counter-count mb-1 bg-primary-900">{{compLocChange}}</p>
+                      <p class="employee-p text-tertiary-900 mb-1  ">Location</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="col-xl-4 main-widget">
+            <div class="custom bg-white bg-50 br-14 mb-3">
+              <div class="counter bg-tertiary-10">
+                <div>
+                  <h6 class="text-tertiary-900"><b>Transactions</b></h6>
+                  <div class="d-flex gap-20 justify-content-center">
+                    <div class="employees text-center">
+                      <p class="counter-count mb-1 bg-primary-900">{{reprocCount}}</p>
+                      <p class="employee-p text-tertiary-900 mb-1  ">Re-Processed</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    </mat-card-content>
+    </mat-card>
+</div>

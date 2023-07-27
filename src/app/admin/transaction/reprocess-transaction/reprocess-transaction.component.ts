@@ -19,13 +19,12 @@ import { debounceTime, distinctUntilChanged, Subject, Subscription,takeUntil } f
 import { AuthService } from 'src/app/init/auth.service';
 import { ColumnSequenceDialogComponent } from '../../dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { ReprocessTransactionDetailComponent } from '../../dialogs/reprocess-transaction-detail/reprocess-transaction-detail.component';
-import { SetColumnSeqService } from '../../dialogs/set-column-seq/set-column-seq.service';
-import { InventoryMapService } from '../../inventory-map/inventory-map.service';
-import { TransactionService } from '../transaction.service';
+ 
 import { SharedService } from '../../../services/shared.service';
 import { DialogConfig } from '@angular/cdk/dialog';
 import { FunctionAllocationComponent } from '../../dialogs/function-allocation/function-allocation.component';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
   { colHeader: 'importDate', colDef: 'Import Date' },
@@ -199,12 +198,10 @@ export class ReprocessTransactionComponent implements OnInit {
 
   /*for data col. */
 
-  constructor(
-    private seqColumn: SetColumnSeqService,
-    private transactionService: TransactionService,
+  constructor( 
+    private Api: ApiFuntions,
     private authService: AuthService,
-    private toastr: ToastrService,
-    private invMapService: InventoryMapService,
+    private toastr: ToastrService, 
     private dialog: MatDialog,
     private sharedService: SharedService,
   ) { }
@@ -300,7 +297,7 @@ export class ReprocessTransactionComponent implements OnInit {
         username: this.userData.userName,
         wsid: this.userData.wsid,
       }
-      this.transactionService.get(payload, '/Admin/ReprocessTransactionData').subscribe(
+      this.Api.ReprocessTransactionData(payload).subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
             this.createdBy = res.data[0].nameStamp;
@@ -358,8 +355,8 @@ export class ReprocessTransactionComponent implements OnInit {
         wsid: this.userData.wsid,
       };
     }
-    this.transactionService
-      .get(searchPayload, '/Admin/NextSuggestedTransactions', true)
+    this.Api
+      .NextSuggestedTransactions(searchPayload)
       .subscribe(
         (res: any) => {
           if (isSearchByOrder) {
@@ -385,9 +382,36 @@ export class ReprocessTransactionComponent implements OnInit {
 
   filterCleared(evt:any)
   {
-    this.getContentData("1");
-    
+    if(evt==='cleared'){
+      this.setResetValues();
+    this.isHistory ? this.getHistoryData() : this.getContentData("1");
 
+    }
+    else{
+      this.itemNumber='';
+      this.orderNumber='';
+    // this.isHistory ? this.getHistoryData() : this.getContentData("1");
+
+    }
+  
+    // this.getContentData("1");
+  
+  }
+
+
+  setResetValues(){
+    this.itemNumber='';
+    this.orderNumber='';
+    this.isHistory=false;
+    this.isHold = false;
+    this.customPagination = {
+      total: '',
+      recordsPerPage: 20,
+      startIndex: 0,
+      endIndex: 10,
+    };
+     this.sortCol= 5;
+     this.sortOrder= 'asc';
   }
 
   actionDialog(opened: boolean) {
@@ -395,8 +419,8 @@ export class ReprocessTransactionComponent implements OnInit {
     {
       if (!opened && this.selectedVariable && this.selectedVariable === 'set_column_sq') {
         let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
-          height: '96%',
-          width: '70vw',
+          height: 'auto',
+          width: '960px',
           data: {
             mode: event,
             tableName: 'Open Transactions Temp',
@@ -541,7 +565,7 @@ export class ReprocessTransactionComponent implements OnInit {
           dialogRef.afterClosed().subscribe(result => {
             if(result=='Yes')
             {
-              this.seqColumn.delete(deletePayload).subscribe((res: any) => {
+              this.Api.ReprocessTransactionDelete(deletePayload).subscribe((res: any) => {
     
                 this.selectedVariable = "";
                 this.toastr.success(labels.alert.update, 'Success!',{
@@ -683,10 +707,9 @@ export class ReprocessTransactionComponent implements OnInit {
             username: this.userData.userName,
             wsid: this.userData.wsid,
           }
-          this.transactionService.get(payload, '/Admin/SetAllReprocessColumn').subscribe(
+          this.Api.SetAllReprocessColumn(payload).subscribe(
             (res: any) => {
-              if (res.data && res.isExecuted) {
-                // console.log(res);
+              if (res.data && res.isExecuted) { 
                 this.getContentData();
                 this.getOrdersWithStatus();
                 this.toastr.success(labels.alert.update, 'Success!', {
@@ -733,7 +756,7 @@ export class ReprocessTransactionComponent implements OnInit {
               username: this.userData.userName,
               wsid: this.userData.wsid,
             }
-            this.transactionService.get(payloadForReprocess, '/Admin/ReprocessIncludeSet').subscribe(
+            this.Api.ReprocessIncludeSet(payloadForReprocess).subscribe(
               (res: any) => {
                 if (res.data && res.isExecuted) {
                   this.getContentData();
@@ -770,7 +793,7 @@ export class ReprocessTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid
     };
-    this.transactionService.get(payload, '/Admin/OrderToPost').subscribe(
+    this.Api.OrderToPost(payload).subscribe(
       (res: any) => {
         if (res.data) {
           this.orders.reprocess = res.data.reprocessCount;
@@ -832,7 +855,7 @@ export class ReprocessTransactionComponent implements OnInit {
       wsid: this.userData.wsid,
       tableName: 'Open Transactions Temp',
     };
-    this.transactionService.get(payload, '/Admin/GetColumnSequence').subscribe(
+    this.Api.GetColumnSequence(payload).subscribe(
       (res: any) => {
         this.displayedColumns = TRNSC_DATA;
         if (res.data) {
@@ -867,11 +890,10 @@ export class ReprocessTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid
     };
-    this.transactionService
-      .get(payload, '/Admin/ReprocessTransactionTable', true)
+    this.Api
+      .ReprocessTransactionTable(payload)
       .subscribe(
-        (res: any) => {
-          //console.log(res)
+        (res: any) => { 
           // this.getTransactionModelIndex();
           this.detailDataInventoryMap = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
@@ -909,8 +931,8 @@ export class ReprocessTransactionComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid
     };
-    this.transactionService
-      .get(payload, '/Admin/ReprocessedTransactionHistoryTable',true)
+    this.Api
+      .ReprocessedTransactionHistoryTable(payload)
       .subscribe(
         (res: any) => {
           // this.getTransactionModelIndex();
@@ -937,7 +959,12 @@ export class ReprocessTransactionComponent implements OnInit {
     // this.pageIndex = e.pageIndex;
 
     // this.initializeApi();
-    this.getContentData();
+    if(this.isHistory){
+      this.getHistoryData()
+    }else{
+      this.getContentData();
+    }
+ 
   }
 
 
@@ -970,10 +997,38 @@ export class ReprocessTransactionComponent implements OnInit {
         transactionID: id,
         history: this.isHistory
       }
+    });
+    dialogRef.afterClosed().subscribe((x) => {
+      
+      if(x==='add'){
+        this.itemNumber='';
+        this.orderNumber='';
+        if(this.isHistory){
+          this.getHistoryData()
+        }else{
+          this.getContentData()
+        }
+      }
+      
     })
   }
+  getObjChange(event){
+    if(event.radioChange){
+      this.orderNumber='';
+      this.itemNumber='';
+      this.customPagination.startIndex=0;
+      this.customPagination.total='';
+      this.customPagination.recordsPerPage=20;
+      this.customPagination.endIndex='';
+      this.paginator.pageIndex = 0;
+    }
 
+  }
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+  clear(){
+    this.columnSearch.searchValue = ''
+    this.getContentData()
   }
 }

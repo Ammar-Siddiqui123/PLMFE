@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <div style="width:48px"></div>
+    <h1 class="m-0" mat-dialog-title>Add New Custom Report/Label Design</h1>
+    <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content>
+<div class="row align-items-center">
+    <div class="col-xl-6 mb-2">
+    <mat-form-field class="custom-form-field w-100" appearance="outline">
+        <mat-label>Description</mat-label>
+        <input #desc_focus matInput type="text">
+    </mat-form-field>
+</div>
+    <div class="col-xl-6 mb-2">
+    <mat-form-field class="custom-form-field w-100" appearance="outline">
+        <mat-label>Filename</mat-label>
+        <input matInput type="text">
+    </mat-form-field>
+</div>
+    <div class="col-xl-6 mb-2">
+    <mat-form-field class="custom-form-field w-100" appearance="outline" (click)="openEditDesign()">
+        <mat-label>Test/Design Data</mat-label>
+        <input matInput type="text">
+        <span class="material-symbols-outlined icon-expand-more">
+            expand_content
+         </span>
+    </mat-form-field>
+</div>
+    <div class="col-xl-6 mb-2">
+    <mat-form-field class="custom-form-field w-100" appearance="outline">
+        <mat-label>Test/Design Data Type</mat-label>
+        <mat-select>
+            <mat-option value="0">Raw SQL</mat-option>
+            <mat-option value="0">Stored Procedure</mat-option>
+            </mat-select>
+        <span class="material-symbols-outlined icon-expand-more">
+            expand_more
+         </span>
+    </mat-form-field>
+</div>
+    <div class="col-xl-6 mb-2">
+    <mat-form-field class="custom-form-field w-100" appearance="outline">
+        <mat-label>Output Type</mat-label>
+        <mat-select>
+            <mat-option value="0">Report</mat-option>
+            <mat-option value="0">Label</mat-option>
+            </mat-select>
+        <span class="material-symbols-outlined icon-expand-more">
+            expand_more
+         </span>
+    </mat-form-field>
+</div>
+    <div class="col-xl-6 mb-2">
+    <mat-form-field class="custom-form-field w-100" appearance="outline">
+        <mat-label>Export Filename</mat-label>
+        <input matInput type="text">
+    </mat-form-field>
+</div>
+</div>
+
+<div class="row mt-2">
+    <button type="button" mat-flat-button color="primary" class="button-primary-i mb-2 btn-lg w-100">Validate, Save, and Design</button>
+</div>
+</mat-dialog-content>

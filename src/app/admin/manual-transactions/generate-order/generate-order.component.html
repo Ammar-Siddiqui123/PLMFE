@@ -14,7 +14,7 @@
       <div class="header-filter-bar">
         <div class="row">
           <div class="col-xl-3">
-            <mat-form-field class="action-dropdown custom-form-field-bg-white w-100" appearance="outline">
+            <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-3 mb-xl-0" appearance="outline">
               <mat-label>Transaction Type</mat-label>
               <mat-select [(ngModel)]="transType" class="employees-action" value="pick"
                 (selectionChange)="onSelectionChange($event)">
@@ -30,11 +30,12 @@
           <div class="col-xl-3">
 
 
-            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100" appearance="outline"
+            <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3 mb-xl-0" appearance="outline"
               [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value">
               <mat-label>Order Number</mat-label>
-              <input type="text" placeholder="Search"  #inputVal aria-label="Number" matInput [(ngModel)]='orderNumber'
+              <input type="text" placeholder="Search"  #autoFocusField aria-label="Number" matInput [(ngModel)]='orderNumber'
                 maxlength="255" [matAutocomplete]="auto" (ngModelChange)="this.searchByInput.next($event)">
+                <button matSuffix *ngIf="orderNumber" class="clear-btn"  (click)=" clear()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
                   {{option}}
@@ -45,7 +46,7 @@
 
           <div class="col-xl-3 offset-xl-3">
             <div class="d-flex justify-content-end">
-              <mat-form-field class="action-dropdown custom-form-field-bg-white" appearance="outline">
+              <mat-form-field class="action-dropdown custom-form-field w-100 mb-3" appearance="outline">
                 <mat-select #matRef class="employees-action" placeholder="Actions" [(ngModel)]="selectedOption"
                   (openedChange)="actionDialog($event)">
                   <mat-option [disabled]="!isPost " value="post_order">Post Order</mat-option>
@@ -80,24 +81,25 @@
         <span class="label label-gray px-2 f-14">Tote ID for Number:&nbsp;<b>000000</b></span> -->
       </div>
       <div class="row">
-        <div class="col-2">
-          <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
             <mat-label>Transaction Type</mat-label>
             <input type="text" placeholder="Search" disabled [value]="transType" matInput maxlength="255">
           </mat-form-field>
           
         </div>
-        <div class="col-2">
-          <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline">
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
             <mat-label>Displayed Order</mat-label>
-            <input type="text" placeholder="Search" disabled [value]="selectedOrder"  matInput maxlength="255">
+            <input type="text" placeholder="Search" disabled  [value]="selectedOrder"  matInput maxlength="255">
           </mat-form-field>
           
         </div>
-        <div class="col-2">
-          <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3"  appearance="outline">
+        <div class="col-xl-3">
+          <mat-form-field class="custom-form-field w-100 mb-3"  appearance="outline">
             <mat-label>Tote ID For Order</mat-label>
             <input type="text" placeholder="Search" [(ngModel)]="toteID" matInput maxlength="255">
+            <button matSuffix *ngIf="toteID" class="clear-btn"  (click)=" toteID = ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
           </mat-form-field>
           
         </div>

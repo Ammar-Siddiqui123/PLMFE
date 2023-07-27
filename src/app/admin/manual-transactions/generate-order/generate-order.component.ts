@@ -13,7 +13,8 @@ import { AuthService } from 'src/app/init/auth.service';
 import { AddNewTransactionToOrderComponent } from '../../dialogs/add-new-transaction-to-order/add-new-transaction-to-order.component';
 import { DeleteConfirmationManualTransactionComponent } from '../../dialogs/delete-confirmation-manual-transaction/delete-confirmation-manual-transaction.component';
 import { ManualTransPostConfirmComponent } from '../../dialogs/manual-trans-post-confirm/manual-trans-post-confirm.component';
-import { TransactionService } from '../../transaction/transaction.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
+ 
 
 @Component({
   selector: 'app-generate-order',
@@ -22,13 +23,14 @@ import { TransactionService } from '../../transaction/transaction.service';
 })
 export class GenerateOrderComponent implements OnInit {
   @ViewChild('matRef') matRef: MatSelect;
-  @ViewChild('inputVal') inputVal: ElementRef;
+  @ViewChild('autoFocusField') searchBoxField: ElementRef;
 
   transType: any = 'Pick';
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
   userData: any;
   orderNumber = '';
+  orderToPost:any;
   itemNumberForInsertion:'';
   searchByInput: any = new Subject<string>();
   searchAutocompleteList: any;
@@ -46,16 +48,16 @@ export class GenerateOrderComponent implements OnInit {
   pageEvent: PageEvent;
 
   @Input() set tab(event : any) {
-    if (event) {
+    if (event) { 
       setTimeout(()=>{
-        this.inputVal.nativeElement.focus();
+        this.searchBoxField.nativeElement.focus();
       }, 500);
     }
   }
 
   constructor(
     private authService: AuthService,
-    private transactionService: TransactionService,
+    private Api: ApiFuntions,
     private dialog: MatDialog
   ) {
     this.userData = this.authService.userData();
@@ -119,8 +121,8 @@ export class GenerateOrderComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(searchPayload, '/Admin/ManualOrderTypeAhead', true)
+    this.Api
+      .ManualOrderTypeAhead(searchPayload)
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
@@ -151,7 +153,7 @@ export class GenerateOrderComponent implements OnInit {
       dialogRef.afterClosed().subscribe((res) => {
       this.clearMatSelectList()
         if (res.isExecuted) {
-
+          this.selectedOrder=this.orderNumber
           this.getOrderTableData();
           // this.clearFields()
         }
@@ -199,12 +201,12 @@ export class GenerateOrderComponent implements OnInit {
         data: {
           userName:this.userData.userName,
           wsid:this.userData.wsid,
-          orderNumber:this.selectedOrder,
+          orderNumber:this.orderNumber,
           toteId:this.toteID?this.toteID:''
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
-        this.clearFields()
+        // this.clearFields()
         this.clearMatSelectList()
         if (res.isExecuted) {
           this.clearFields();
@@ -225,7 +227,7 @@ export class GenerateOrderComponent implements OnInit {
     this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
   editTransaction(element){
-// console.log(element);
+
 
 // JSON.stringify(element.batchPickID)
 // JSON.stringify(element.hostTransactionID)
@@ -314,8 +316,8 @@ export class GenerateOrderComponent implements OnInit {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
-    this.transactionService
-      .get(payload, '/Admin/GernerateOrderTable', true)
+    this.Api
+      .GernerateOrderTable(payload)
       .subscribe(
         (res: any) => {
           // let dummy_data = [
@@ -376,5 +378,10 @@ onSelectionChange(event){
 }
   ngOnDestroy() {
     this.searchByInput.unsubscribe();
+  }
+  clear(){
+    this.orderNumber = ''
+    this.autocompleteSearchColumn();
+    this.getOrderTableData();
   }
 }

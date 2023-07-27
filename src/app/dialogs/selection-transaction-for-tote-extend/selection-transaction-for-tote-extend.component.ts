@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common' 
 import {
@@ -7,18 +7,16 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { ProcessPutAwayService } from 'src/app/induction-manager/processPutAway.service';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { CrossDockTransactionComponent } from '../cross-dock-transaction/cross-dock-transaction.component';
 import labels from '../../labels/labels.json';
 import { CellSizeComponent } from 'src/app/admin/dialogs/cell-size/cell-size.component';
-import { VelocityCodeComponent } from 'src/app/admin/dialogs/velocity-code/velocity-code.component';
-import { CellSizeService } from 'src/app/common/services/cell-size.service';
-import { VelocityCodeService } from 'src/app/common/services/velocity-code.service';
+import { VelocityCodeComponent } from 'src/app/admin/dialogs/velocity-code/velocity-code.component';  
 import { ChooseLocationComponent } from '../choose-location/choose-location.component';
 import { WarehouseComponent } from 'src/app/admin/dialogs/warehouse/warehouse.component';
 import { Router } from '@angular/router';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-selection-transaction-for-tote-extend',
@@ -26,6 +24,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./selection-transaction-for-tote-extend.component.scss']
 })
 export class SelectionTransactionForToteExtendComponent implements OnInit {
+  @ViewChild('field_focus') field_focus: ElementRef;
 
   public userData   : any;
   toteForm          : FormGroup;
@@ -35,16 +34,14 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   totes             : any = [];
   selectedTotePosition:any='';
   selectedToteID:any='';
-
+  fieldNames:any;
   constructor(public dialogRef                  : MatDialogRef<SelectionTransactionForToteExtendComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private dialog                    : MatDialog,
               public formBuilder                : FormBuilder,
               private authService               : AuthService,
-              private toast                     : ToastrService,
-              private service                   : ProcessPutAwayService,
-              private cellSizeService           : CellSizeService,
-              private velocityCodeService       : VelocityCodeService,
+              private toast                     : ToastrService, 
+              private Api : ApiFuntions, 
               private toastr: ToastrService,
               public router: Router,
               ) {
@@ -114,11 +111,20 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+    this.OSFieldFilterNames();
     this.getCellSizeList();
     this.getVelocityCodeList();
     this.getDetails();    
   }
+  ngAfterViewInit(): void {
+    this.field_focus.nativeElement.focus();
+  }
+  public OSFieldFilterNames() { 
+    this.Api.ColumnAlias().subscribe((res: any) => {
+      this.fieldNames = res.data;
 
+    })
+  }
   onToteChange(event,type){
   // event.value
     this.totes.filter(item=>{
@@ -145,7 +151,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         "username": this.userData.userName,
         wsid: this.userData.wsid 
       }
-      this.service.get(payload, '/Induction/ItemDetails').subscribe(
+      this.Api.ItemDetails(payload).subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
             const values = res.data[0];  
@@ -225,7 +231,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         (error) => { }
       );
     } catch (error) {
-      console.log(error);
+      
     }
   }
 
@@ -255,13 +261,13 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   }
 
   getCellSizeList() {
-    this.cellSizeService.getCellSize().subscribe((res) => {
+    this.Api.getCellSize().subscribe((res) => {
       this.cellSizeList = res.data;
     });
   }
 
   getVelocityCodeList() {
-    this.velocityCodeService.getVelocityCode().subscribe((res) => {
+    this.Api.getVelocityCode().subscribe((res) => {
       this.velocityCodeList = res.data;
     });
   }
@@ -297,7 +303,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
             wsid: this.userData.wsid 
           }
           
-          this.service.update(payload, '/Induction/IMUpdate').subscribe(
+          this.Api.IMUpdate(payload).subscribe(
             (res: any) => {
               if (res.data && res.isExecuted) {
                 this.toast.success(labels.alert.update, 'Success!',{
@@ -318,7 +324,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       }); 
       
     } catch (error) {
-      console.log(error);
+      
     }
   }
 
@@ -426,7 +432,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((res) => {
-      if (res.responseMessage == "Reserved Successfully") {        
+      if (res && res.responseMessage  === "Reserved Successfully") {        
         this.toteForm.patchValue({
           zone                              : res.zone,
           carousel                          : res.carousel,
@@ -461,7 +467,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         wsid: this.userData.wsid,
       };
 
-      this.service.get(payLoad, '/Induction/CheckForwardLocations').subscribe(
+      this.Api.CheckForwardLocations(payLoad).subscribe(
         (res: any) => {
           if (res.data > 0 && res.isExecuted && this.data.autoForwardReplenish) {
             
@@ -492,7 +498,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       );      
 
     } catch (error) {
-      console.log(error);
+      
     }    
   }
 
@@ -530,24 +536,31 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         username: this.userData.userName,
         wsid: this.userData.wsid,
       };
-      this.service.create(payLoad, '/Induction/FindLocation').subscribe(
+      this.Api.FindLocation(payLoad).subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
 
-            this.toteForm.patchValue({
-              // Location Info
-              zone                              : res.data.zone,
-              carousel                          : res.data.carousel,
-              row                               : res.data.row,
-              shelf                             : res.data.shelf,
-              bin                               : res.data.bin,
-              cellSize                          : res.data.cellSz,
-              velocityCode                      : res.data.velCode,
-              itemQuantity                      : res.data.locQty,
-              maximumQuantity                   : res.data.locMaxQty,
-              quantityAllocatedPutAway          : res.data.qtyAlloc,
-              invMapID                          : res.data.invMapID
-            });
+            if (res.data.success) {
+              this.toteForm.patchValue({
+                // Location Info
+                zone                              : res.data.zone,
+                carousel                          : res.data.carousel,
+                row                               : res.data.row,
+                shelf                             : res.data.shelf,
+                bin                               : res.data.bin,
+                cellSize                          : res.data.cellSz,
+                velocityCode                      : res.data.velCode,
+                itemQuantity                      : res.data.locQty,
+                maximumQuantity                   : res.data.locMaxQty,
+                quantityAllocatedPutAway          : res.data.qtyAlloc,
+                invMapID                          : res.data.invMapID
+              }); 
+            } else {
+              this.toastr.error('No available locations were found for this item.', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+            }
 
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
@@ -613,6 +626,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         this.toteForm.patchValue({
           'warehouse' : res
         });
+        this.findLocation(false, 0);
       } else if (res == 'clear') {
         this.toteForm.patchValue({
           'warehouse' : ''
@@ -686,8 +700,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         wsid: this.userData.wsid 
       };
 
-      this.service
-        .get(payLoad, '/Induction/CrossDock')
+      this.Api
+        .CrossDock(payLoad)
         .subscribe(
           (res: any) => {
             if (res.data && res.isExecuted) 
@@ -728,7 +742,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               
       
     } catch (error) {
-      console.log(error);
+      
     }
   }
 
@@ -787,9 +801,9 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
             wsid: this.userData.wsid 
           }
           
-          this.service.create(payload2, '/Induction/TaskComplete').subscribe(
+          this.Api.TaskComplete(payload2).subscribe(
             (res: any) => {
-              // console.log(res)
+              
               if (res.data && res.isExecuted) {
                 this.dialogRef.close("Task Completed");
                 this.toast.success(labels.alert.update, 'Success!',{

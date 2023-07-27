@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, Renderer2, ViewChildren } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PrintRangeComponent } from '../print-range/print-range.component';
-import { ToastrService } from 'ngx-toastr';
-import { CategoryService } from 'src/app/common/services/category.service';
+import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json'
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
+import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-item-category',
@@ -14,15 +15,16 @@ import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confi
   styleUrls: ['./item-category.component.scss']
 })
 export class ItemCategoryComponent implements OnInit {
-
+  @ViewChildren('category_category', { read: ElementRef }) category_category: QueryList<ElementRef>;
   public category_list: any;
   public userData: any;
   enableButton=[{index:-1,value:true}];
 
   constructor(private dialog: MatDialog,
-              private catService: CategoryService,
+              private api: ApiFuntions,
               private authService: AuthService,
               private toastr: ToastrService,
+              private renderer: Renderer2,
               public dialogRef: MatDialogRef<any>) {}
 
   ngOnInit(): void {
@@ -37,7 +39,7 @@ export class ItemCategoryComponent implements OnInit {
 
  getCategoryList(){ 
     // this.enableButton.shift();
-    this.catService.getCategory().subscribe((res) => {
+    this.api.getCategory().subscribe((res) => {
       this.category_list = res.data;
       this.enableButton=[];
       for(var i=0;i<this.category_list.length;i++)
@@ -45,6 +47,12 @@ export class ItemCategoryComponent implements OnInit {
         this.category_list.fromDB = true;
         this.enableButton.push({index:i,value:true});
       }
+
+      setTimeout(() => {
+        const inputElements = this.category_category.toArray();
+        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+          this.renderer.selectRootElement(inputElement).focus();
+      }, 100);
      });
   }
 
@@ -55,24 +63,38 @@ export class ItemCategoryComponent implements OnInit {
       fromDB:false
   });
   this.enableButton.push({index:-1,value:true})
+  const lastIndex = this.category_list.length - 1;
+    setTimeout(() => {
+      const inputElements = this.category_category.toArray();
+      if (inputElements.length > lastIndex) {
+        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+        this.renderer.selectRootElement(inputElement).focus();
+      }
+    });
+
   }
 
   saveCategory(category : any, oldCat : any, subCategory : any, oldSubCat : any) {
-  
+    
     let cond = true;
-    if(category){
-    this.category_list.forEach(element => {
-      if(element.category?.toLowerCase() == category?.toLowerCase() && element.subCategory?.toLowerCase() == subCategory?.toLowerCase() ) {
-        cond = false;
-       this.toastr.error('Category cannot be saved. Category matches another entry. Save any pending changes before attempting to save this entry.', 'Error!', {
-         positionClass: 'toast-bottom-right',
-         timeOut: 2000
-       });
-       return;
-      }   
-    });
-  } 
-    if(category && subCategory && cond){
+  //   if(category){
+  //     debugger
+  //   this.category_list.forEach(element => {
+  //     if(element.category?.toLowerCase() == category?.toLowerCase() && element.subCategory?.toLowerCase() == subCategory?.toLowerCase() ) {
+  //       cond = false;
+  //      this.toastr.error('Category cannot be saved. Category matches another entry. Save any pending changes before attempting to save this entry.', 'Error!', {
+  //        positionClass: 'toast-bottom-right',
+  //        timeOut: 2000
+  //      });
+   
+  //     }  
+  //     return; 
+  //   });
+
+  // } 
+  if(cond){
+  
+    if(category || subCategory){
       let paylaod = {      
         "category": category,
         "oldCategory": oldCat.toString(),
@@ -80,10 +102,9 @@ export class ItemCategoryComponent implements OnInit {
         "oldSubCategory": oldSubCat.toString(),
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
-      }
-      // console.log(paylaod);
+      } 
       
-      this.catService.saveCategory(paylaod).subscribe((res) => {
+      this.api.saveCategory(paylaod).subscribe((res) => {
         if(res.isExecuted){
           this.getCategoryList();
         this.toastr.success(oldCat.toString()==''?labels.alert.success:labels.alert.update, 'Success!', {
@@ -93,36 +114,22 @@ export class ItemCategoryComponent implements OnInit {
       }
       });
     }
-
+  }
   }
 
-  dltCategory(category : any, subCategory : any , fromDb:any){
+  dltCategory(category : any, subCategory : any){
 
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      data:{mode:"delete-category",category,subCategory}
     })
     dialogRef.afterClosed().subscribe(result => {
+      debugger
      if(result === 'Yes'){
-      if(category && subCategory && fromDb){
-        let paylaod = {
-          "category": category,
-          "subCategory": subCategory,
-          "username": this.userData.userName,
-          "wsid": this.userData.wsid,
-        }
-       // this.category_list.pop(category);
-        
-        this.catService.dltCategory(paylaod).subscribe((res) => {
-          if(res.isExecuted){
-            this.getCategoryList();
-            this.toastr.success(labels.alert.delete, 'Success!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-          }
-        });
+      if(category && subCategory){
+        this.getCategoryList();
       } else {
         this.enableButton.shift();
         this.category_list.shift();
@@ -144,7 +151,7 @@ export class ItemCategoryComponent implements OnInit {
   }
 
   selectCategory(selectedCat: any){
-    if(selectedCat.category!='' && selectedCat.subCategory!='')
+    if(selectedCat.category!='' || selectedCat.subCategory!='')
     {
 
       this.dialogRef.close(selectedCat);
@@ -156,17 +163,30 @@ export class ItemCategoryComponent implements OnInit {
   }
 
   public openPrintRangeDialog(){
-    let dialogRef = this.dialog.open(PrintRangeComponent, {
+    const dialogRef = this.dialog.open(AlertConfirmationComponent, {
       height: 'auto',
-      width: '560px',
-      autoFocus: '__non_existing_element__',
+      width: '786px',
       data: {
-        mode: '',
-      }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+        message: 'The print service is currently offline',
+        heading: 'Print Service Unavailable',
+        disableCancel: true,
+      },
+      autoFocus: '__non_existing_element__',
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
+ 
+
+    // let dialogRef = this.dialog.open(PrintRangeComponent, {
+    //   height: 'auto',
+    //   width: '560px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     mode: '',
+    //   }
+    // })
+    // dialogRef.afterClosed().subscribe(result => {
+    //   ;
       
-    })
+    // })
   }
 }
