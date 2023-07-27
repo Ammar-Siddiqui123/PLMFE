@@ -806,7 +806,7 @@ public deleteAdminEmployee(Body: any ): Observable<any> {
   return this.ApiBase.Post(`/Admin/employee/delete`, Body);
 }
 public deleteUserGroup(Body: any ): Observable<any> {
-  return this.ApiBase.Delete(`/Admin/usergroup`, Body);
+  return this.ApiBase.Post(`/Admin/usergroup/delete`, Body);
 }
 
 

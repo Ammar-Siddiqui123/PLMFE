@@ -23,14 +23,15 @@
                                 <mat-label>Location Name</mat-label>
                                 <input  #location_name  placeholder="Location Name" aria-label="Location Name" matInput maxlength="50"
                                     formControlName="location" [matAutocomplete]="auto">
-                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                                <mat-autocomplete class="br-14" style="padding-bottom: 16px; padding-top: 16px;" autoActiveFirstOption #auto="matAutocomplete"
                                     (optionSelected)="loadZones($event)">
 
-                                    <h6 class="loc_name"><span>Location</span> <span>Zone</span></h6>
-                                    <mat-option *ngFor="let option of filteredOptions | async"
-                                        [value]="option.locationName" >
+
+                                    <h6 class="card-header matAutoCompHeader stickyHeader"> <span style="padding: 0px 25px; border: 0; text-overflow: ellipsis; overflow: hidden; width:70%; white-space: nowrap;"> Location</span> <span style="padding: 0px 0px; border: 0; text-overflow: ellipsis; overflow: hidden; width:30%; white-space: nowrap;">Zone</span></h6>
+                                    <mat-option class="" *ngFor="let option of filteredOptions | async"
+                                        [value]="option.locationName">
                                         <div class="loc_option">
-                                            <span>{{option.locationName}}</span> <span>{{option.zone}}</span>
+                                            <span style="padding: 10px 12px; border: 0; text-overflow: ellipsis; overflow: hidden; width:70%; white-space: nowrap;" >{{option.locationName}}</span> <span style="padding: 10px 12px; border: 0; text-overflow: ellipsis; overflow: hidden; width:30%; white-space: nowrap;">{{option.zone}}</span>
                                         </div>
                                     </mat-option>
                                 </mat-autocomplete>
