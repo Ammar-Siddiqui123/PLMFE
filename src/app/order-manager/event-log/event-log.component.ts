@@ -244,13 +244,15 @@ export class EventLogComponent implements OnInit {
       }
     });
   }
-
-  printRange(){
-    this.router.navigateByUrl(`/report-view?file=EventLog-lst`);
+  
+  printSelected(param:any){
+    if(param.transactionID == 0) param.transactionID  = -1; 
+    var curdatetime = this.datepipe.transform(param.dateStamp, 'yyyy-MM-dd HH:mm:ss'); 
+    this.router.navigateByUrl(`/report-view?file=FileName:EventLog-lst,sDate:${curdatetime},eDate:${curdatetime},eID:${param.transactionID ? param.transactionID : ''},message:${param.message ?param.message: '' },eLocation:${param.eLocation ?param.eLocation: '' },nStamp:${param.nStamp ?param.nStamp: '' }`);
   }
 
-  printSelected(){
-    this.router.navigateByUrl(`/report-view?file=EventLog-lst`);
+  printRange(){
+    this.router.navigateByUrl(`/report-view?file=FileName:EventLog-lst,sDate:${this.startDate},eDate:${this.endDate},eID:-1,message:,eLocation:,nStamp:`);
   }
 
   paginatorChange(event: PageEvent) {
