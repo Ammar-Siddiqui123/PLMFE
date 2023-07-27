@@ -41,7 +41,7 @@
         <mat-label>Actions</mat-label>
         <mat-select #matRef class="employees-action" placeholder="Actions">
             <mat-option value="0" (click)="openCmAddNewItem()" [disabled]="shippingComp"> Add New </mat-option>
-            <mat-option value="1"> Print All </mat-option>
+            <mat-option value="1" (click)="printAll()"> Print All </mat-option>
         </mat-select>
         <span class="material-symbols-outlined icon-expand-more">
             expand_more
@@ -188,7 +188,7 @@
                             </button>
                             <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete" matTooltip="Print"
                                 matTooltipPosition="above" color="primary">
-                                <mat-icon class="material-symbols-outlined">print</mat-icon>
+                                <mat-icon class="material-symbols-outlined" (click)="PrintItem(element,i)">print</mat-icon>
                             </button>
                             <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete" matTooltip="Save"
                                 matTooltipPosition="above" color="primary" [disabled]="shippingComp">

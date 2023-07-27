@@ -24,6 +24,7 @@ import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/a
 import { CreateBatchConfirmationComponent } from '../../dialogs/create-batch-confirmation/create-batch-confirmation.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { Router } from '@angular/router';
+import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-batch-selected-orders',
@@ -127,12 +128,36 @@ export class BatchSelectedOrdersComponent implements OnInit {
     }
   }
   printReport(type){
-  
     if(type==='Batch'){
-      window.open(`/#/report-view?file=${this.transType==='Pick'?'BMPickList':this.transType==='Put Away'?'BMPutList':'BMCountList'}-lst`, '_blank','location=yes');
-      
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '786px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message:'Click Ok to print a Batch Report for the selected orders?',
+          heading: 'Batch Manager',
+        },
+      });
+      dialogRef.afterClosed().subscribe((res) => {
+        if (res==='Yes') {
+          window.open(`/#/report-view?file=${this.transType==='Pick'?'BMPickList':this.transType==='Put Away'?'BMPutList':'BMCountList'}-lst`, '_blank','location=yes');
+        }
+      });
     }else{
-      window.open(`/#/report-view?file=${this.transType==='Pick'?'BMPickLabel':'BMPutLabel'}-lbl`, '_blank','location=yes');
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '786px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message:'Click Ok to print item labels for the selected batch orders?',
+          heading: 'Batch Manager',
+        },
+      });
+      dialogRef.afterClosed().subscribe((res) => {
+        if (res==='Yes') {
+          window.open(`/#/report-view?file=${this.transType==='Pick'?'BMPickLabel':'BMPutLabel'}-lbl`, '_blank','location=yes');
+        }
+      });
     }
   }
   removeOrders(order: any) {
