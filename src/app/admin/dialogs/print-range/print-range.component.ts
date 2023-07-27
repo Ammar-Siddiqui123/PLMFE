@@ -1,4 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-print-range',
@@ -7,12 +9,20 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 })
 export class PrintRangeComponent implements OnInit {
   @ViewChild('begin_loc') begin_loc: ElementRef;
-  constructor() { }
+  constructor(
+    private route: Router,
+    public dialogRef: MatDialogRef<any>,
+  ) { }
 
   ngOnInit(): void {
   }
+  
   ngAfterViewInit() {
     this.begin_loc.nativeElement.focus();
   }
 
+  printRange(){
+    this.dialogRef.close();
+    this.route.navigateByUrl(`/report-view?file=LocLabel-lbl`);
+  }
 }
