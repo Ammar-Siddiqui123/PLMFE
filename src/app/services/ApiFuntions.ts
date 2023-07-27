@@ -1439,4 +1439,22 @@ public reportfieldvalues(body): Observable<any> {
 public ReportTitles(body): Observable<any> { 
   return this.ApiBase.Update("/Admin/customreports/ReportTitles",body);
 } 
+
+public importFile(body){
+  return this.ApiBase.PostFormData(`/Admin/customreports/importFile`,body);
+}
+
+public validateNewDesign(body){
+  return this.ApiBase.Post(`/Admin/customreports/ValidateNewDesign`,body);
+}
+public getLLDesignerNewDesign(body){
+  return this.ApiBase.Post(`/Admin/customreports/GetLLDesignerNewDesign`,body);
+}
+public restoreDesign(body){
+  return this.ApiBase.Post(`Admin/customreports/RestoreDesign`,body);
+}
+
+public deleteReport(payload:any) {
+  return  this.ApiBase.Delete("Admin/customreports/Report",payload);
+} 
 }
