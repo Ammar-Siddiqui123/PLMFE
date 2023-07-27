@@ -7,6 +7,8 @@ import { CrDeleteConfirmationComponent } from 'src/app/dialogs/cr-delete-confirm
 import { CrEditDesignTestDataComponent } from 'src/app/dialogs/cr-edit-design-test-data/cr-edit-design-test-data.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { SharedService } from 'src/app/services/shared.service';
+import { ToastrService } from 'ngx-toastr';
+import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 
 @Component({
   selector: 'app-custom-reports-and-labels',
@@ -19,7 +21,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   reportTitles:any = [];
   IsSystemReport:boolean = true;
   sysTitles:any = [];
-  constructor(private api:ApiFuntions,private route:Router,private dialog: MatDialog) { }
+  constructor(private api:ApiFuntions,private route:Router,private dialog: MatDialog, private toastr :ToastrService) { }
 
   ngOnInit(): void {
   this.Getcustomreports();
@@ -56,13 +58,27 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       width: '932px',
       autoFocus: '__non_existing_element__',
     });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result)      
+      this.Detail.testData = result?result:this.Detail.testData
+    }
+    );
   }
   CrAddNewCustomReportDialogue() {
     const dialogRef = this.dialog.open(CrAddNewCustomReportComponent, {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      data : {
+        ListReports:this.ListReports
+      }
     });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result,'obj')      
+      this.Detail.testData = result?result:this.Detail.testData
+    }
+    );
   }
   openDeleteDialogue() {
     const dialogRef = this.dialog.open(CrDeleteConfirmationComponent, {
@@ -72,4 +88,67 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     });
   }
 
+  onFileSelected(event: any) {
+    const fileInput = event.target;
+    const file = fileInput.files[0];
+
+    if (!file) {
+      // No file selected, handle the case if needed
+      return;
+    }
+    if(file.name == this.Detail.fileName){
+      const formData = new FormData();
+      formData.append('file', file);
+  
+  
+      // Replace 'your_upload_endpoint' with the server's API endpoint to handle file upload
+      this.api.importFile(formData).subscribe(
+        (response) => {
+          this.toastr.success(`File successfully uploaded`, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+          // Handle the response from the server after file upload, if needed
+          console.log(response);
+        },
+        (error) => {
+          this.toastr.error(error, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+          // Handle error if the file upload fails
+          console.error(error);
+        }
+      );
+    }
+    else{
+      this.toastr.error(`Uploaded filename ${file.name} must match report filename ${this.Detail.fileName}`, 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+    }
+
+
+  }
+
+  pushReports(){
+    const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+      height: 'auto',
+      width: '500px',
+      data: {
+        message: 'Do you wish to give all workstations your version of this report?',
+        heading: '',
+      },
+      autoFocus: '__non_existing_element__',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result){
+        
+      }
+      else{
+        return
+      }
+    });
+  }
 }
