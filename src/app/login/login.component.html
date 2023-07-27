@@ -88,7 +88,7 @@
                       Please enter valid password
                     </mat-hint> -->
                   </div>
-                  <ng-container *ngIf="(env === 'DB' || env === 'ADLDS' && env !== 'AzureAD '&& env !== 'AD ')">
+                  <ng-container *ngIf="(env === 'DB' || env === 'ADLDS' && env !== 'AZUREAD' || env !== 'AD')">
                     <div class="form-outline text-end mb-3">
                       <button color="primary" type="button" class="small anchor-feel anchor-focus forgotPassword-link"
                         (click)="changePass()">Reset password?</button>
