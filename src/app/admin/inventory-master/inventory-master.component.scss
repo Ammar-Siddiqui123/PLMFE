@@ -52,3 +52,8 @@
     overflow: hidden !important;
     text-overflow: ellipsis;
   }
+
+  .scroll-container {
+    max-height: 200px; /* Set a desired maximum height for the container */
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }

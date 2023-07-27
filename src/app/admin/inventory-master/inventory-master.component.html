@@ -48,22 +48,24 @@
                         maxlength="50" #autoFocusField>
 
                          <button matSuffix *ngIf="searchValue" class="clear-btn"  (click)="searchValue = ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
-                      <mat-autocomplete class="card custom-scroll" #searchauto="matAutocomplete"
-                        (optionSelected)="onSearchSelect($event)">
-                        <h6 class="card-header matAutoCompHeader "><span style="width:  140px;">Item No./Supp No./Supp
-                            Code</span> <span style="width:  140px;">Description</span> <span
-                            style="width:  140px;">Category</span> <span style="width:  140px;">Sub Category</span></h6>
-                        <mat-option *ngFor="let option of searchList" [value]="option.itemNumber"
-                          class="matAutoCompTableContent" >
-                          <div class="loc_option">
-                            <span class="searchColumn" style="width:  140px;">{{option.itemNumber}}</span> <span
-                              class="searchColumn" style="width:  140px;" matTooltip="{{option.description}}"
-                              matTooltipPosition="above">{{option.description}}</span> <span class="searchColumn"
-                              style="width:  140px;">{{option.category}}</span> <span class="searchColumn"
-                              style="width:  140px;">{{option.subCategory}}</span>
-                          </div>
-                        </mat-option>
-                      </mat-autocomplete>
+                         <mat-autocomplete class="card custom-scroll panel-custom-scroll" #searchauto="matAutocomplete"
+                         (optionSelected)="onSearchSelect($event)">
+                         <h6 class="card-header matAutoCompHeader stickyHeader ps-4"> <span style="width:  40%;">Item No./Supp No./Supp
+                                 Code</span> <span style="width:  40%;">Description</span> <span style="width:  40%;">Category</span> <span
+                                 style="width:  40%;">Sub Category</span></h6>
+                         <mat-option *ngFor="let option of searchList" [value]="option.itemNumber" class="matAutoCompTableContent">
+                             <div class="loc_option">
+                                 <span
+                                     style="padding: 10px 12px; text-overflow: ellipsis; overflow: hidden; width:40%; white-space: nowrap;">{{option.itemNumber}}</span>
+                                 <span
+                                     style="padding: 10px 12px; text-overflow: ellipsis; overflow: hidden; width:40%; white-space: nowrap;" matTooltip="{{option.description}}" matTooltipPosition="above">{{option.description}}</span>
+                                 <span
+                                     style="padding: 10px 12px; text-overflow: ellipsis; overflow: hidden; width:40%; white-space: nowrap;">{{option.category}}</span>
+                                 <span
+                                     style="padding: 10px 12px; text-overflow: ellipsis; overflow: hidden; width:40%; white-space: nowrap;">{{option.subCategory}}</span>
+                             </div>
+                         </mat-option>
+                     </mat-autocomplete>
 
                     </mat-form-field>
                   </div>
