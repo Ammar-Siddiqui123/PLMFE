@@ -70,7 +70,7 @@
       </span>
     </mat-form-field>
 
-    <mat-form-field class="mb-1 w-100" appearance="outline" (click)="toggleDisabled()" *ngIf="env !=='AD' || env !=='AZUREAD'">
+    <mat-form-field class="mb-1 w-100" appearance="outline" (click)="toggleDisabled()" *ngIf="(env === 'DB')">
       <mat-label>Password</mat-label>
       <input matInput [type]="toggle_password ? 'password' : 'text'" #focusFeild formControlName="password" 
       (ngModelChange)="ChangePassword($event)"
