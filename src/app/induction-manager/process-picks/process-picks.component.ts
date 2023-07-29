@@ -81,6 +81,8 @@ export class ProcessPicksComponent implements OnInit {
     this.isBatchIdFocus = true;
   }
   printExisting(type){
+
+    
     var positionList:any[]=[]; 
     var toteIds :any[]=[] ; 
     var OrderNumList:any[]=[] ; 
@@ -92,7 +94,8 @@ export class ProcessPicksComponent implements OnInit {
     var strposition = JSON.stringify(positionList);
     var strtoteIds = JSON.stringify(toteIds);
     var strOrderNumList = JSON.stringify(OrderNumList); 
-     
+    window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${strposition}|ToteIDs:${strtoteIds}|OrderNums:${strOrderNumList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+ return 1;
     
 
     if(!this.pickBatchesCrossbtn){
