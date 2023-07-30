@@ -57,6 +57,7 @@ export class CrAddNewCustomReportComponent implements OnInit {
 
 
   saveNew(){
+    debugger
     let  newParams = [
       this.NewDescription,
       this.NewFilename,
@@ -172,6 +173,7 @@ export class CrAddNewCustomReportComponent implements OnInit {
               return of({ isExecuted: false });
             })
           ).subscribe((res=>{
+            this.dialogRef.close();
             this.toastr.success(res.responseMessage, 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000

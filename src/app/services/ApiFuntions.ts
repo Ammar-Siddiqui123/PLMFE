@@ -1451,10 +1451,14 @@ public getLLDesignerNewDesign(body){
   return this.ApiBase.Post(`/Admin/customreports/GetLLDesignerNewDesign`,body);
 }
 public restoreDesign(body){
-  return this.ApiBase.Post(`Admin/customreports/RestoreDesign`,body);
+  return this.ApiBase.Post(`/Admin/customreports/GetLLDesignerNewDesign`,body);
 }
 
 public deleteReport(payload:any) {
-  return  this.ApiBase.Delete("Admin/customreports/Report",payload);
+  return  this.ApiBase.Post("/Admin/customreports/CustomReportDelete",payload);
+} 
+
+public pushReportChanges(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/customreports/PushReportChanges",body);
 } 
 }
