@@ -41,6 +41,16 @@ export class BaseService {
         };
         return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
     }
+    public PostFormData(endPoint: string,reqPaylaod: any) {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'content-type': 'multipart/form-data',
+                'Accept': 'application/json',
+                'Authorization': 'Basic '
+            }) 
+        };
+        return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
+    }
 
     public Put(endPoint: string,reqPaylaod: any) {
         const httpOptions = {

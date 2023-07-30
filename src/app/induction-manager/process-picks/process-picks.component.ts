@@ -81,15 +81,33 @@ export class ProcessPicksComponent implements OnInit {
     this.isBatchIdFocus = true;
   }
   printExisting(type){
+
+    
+    var positionList:any[]=[]; 
+    var toteIds :any[]=[] ; 
+    var OrderNumList:any[]=[] ; 
+    this.dataSource?._data?._value.forEach(element => {
+      if(element.position) positionList.push(element.position);
+      if(element.toteID) toteIds.push(element.toteID);
+      if(element.orderNumber) OrderNumList.push(element.orderNumber);
+    });
+    var strposition = JSON.stringify(positionList);
+    var strtoteIds = JSON.stringify(toteIds);
+    var strOrderNumList = JSON.stringify(OrderNumList); 
+    window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${strposition}|ToteIDs:${strtoteIds}|OrderNums:${strOrderNumList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+ return 1;
+    
+
     if(!this.pickBatchesCrossbtn){
       this.toastr.error('Please select a Batch ID to print', 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       })
     }else{
+       
       if(type==='PrintTote'){
-        window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
-
+        window.open(`/#/report-view?file=FileName:IMPickTote-lbl|Positions:${strposition}|ToteIDs:${strtoteIds}|OrderNums:${strOrderNumList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+ 
       }
       if(type==='PrintPickLabel'){
         window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");

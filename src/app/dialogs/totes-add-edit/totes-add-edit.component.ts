@@ -41,8 +41,8 @@ export class TotesAddEditComponent implements OnInit {
   @ViewChild('field_focus') field_focus: ElementRef;
   isRowAdded=false;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
-  ELEMENT_DATA_TOTE = [{toteID:"" , cells:"" , position: 1 ,oldToteID:"",isInserted:1,isDuplicate:false}];
-  displayedColumns: string[] = [ 'zone', 'locationdesc','actions'];
+  ELEMENT_DATA_TOTE = [{toteID:"" , cells:"" , position: 1 ,oldToteID:"",isInserted:1,isDuplicate:false,isEdit:false}];
+  displayedColumns: string[] = [ 'actions','zone', 'locationdesc'];
   alreadySavedTotesList:any;
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   dataSourceManagedTotes = new MatTableDataSource<ToteElement>(this.ELEMENT_DATA_TOTE);
@@ -69,7 +69,7 @@ export class TotesAddEditComponent implements OnInit {
   addRow()
   {
     this.isRowAdded=true;
-    this.ELEMENT_DATA_TOTE.push({toteID:"" , cells:"" , position: this.ELEMENT_DATA_TOTE.length-1 ,oldToteID:"",isInserted:0,isDuplicate:false});
+    this.ELEMENT_DATA_TOTE.push({toteID:"" , cells:"" , position: this.ELEMENT_DATA_TOTE.length-1 ,oldToteID:"",isInserted:0,isDuplicate:false,isEdit:false});
     this.dataSourceManagedTotes = new MatTableDataSource<any>(this.ELEMENT_DATA_TOTE);
   }
   printTote(){
@@ -258,6 +258,7 @@ export class TotesAddEditComponent implements OnInit {
           this.ELEMENT_DATA_TOTE[i].isInserted = 1;
           this.ELEMENT_DATA_TOTE[i].isDuplicate = false;
           this.ELEMENT_DATA_TOTE[i].oldToteID   = this.ELEMENT_DATA_TOTE[i].toteID
+          this.ELEMENT_DATA_TOTE[i].isEdit   = false
           }
           if(items){
             this.ELEMENT_DATA_TOTE.push(items[items.length-1])
@@ -277,7 +278,7 @@ export class TotesAddEditComponent implements OnInit {
 
   onToteChange($event,position,cells="")
   {
-    
+    this.ELEMENT_DATA_TOTE[(position)].isEdit =true;
   if(cells=="")
   {
     if(this.ELEMENT_DATA_TOTE[(position)].toteID!=$event.target.value)
@@ -288,7 +289,7 @@ export class TotesAddEditComponent implements OnInit {
   }
   else 
   {
-
+    
     if(this.ELEMENT_DATA_TOTE[(position)].cells!=$event.target.value)
     {
     this.ELEMENT_DATA_TOTE[(position)].cells = $event.target.value;
@@ -298,9 +299,12 @@ export class TotesAddEditComponent implements OnInit {
   
   }
 
-  selectTote(toteIDs=null,cells=null)
+  selectTote(toteIDs=null,cells=null,isManagedTote=false)
   {    
-
+    if(!isManagedTote){
+      if(this.toteID==='')return
+    }
+  
     var exists=false;
     for(var i=0; i < this.alreadySavedTotesList?.length; i++)
     {

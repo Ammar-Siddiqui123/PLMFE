@@ -148,7 +148,7 @@ this.reloadData();
   }
 getgroupAllowedList(){
   var payload:any = { 
-    "UserName": this.empData.username,
+    "user": this.empData.username,
     "WSID": "TESTWSID"
 
   }
