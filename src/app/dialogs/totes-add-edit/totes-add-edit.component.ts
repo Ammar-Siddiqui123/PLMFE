@@ -72,7 +72,14 @@ export class TotesAddEditComponent implements OnInit {
     this.ELEMENT_DATA_TOTE.push({toteID:"" , cells:"" , position: this.ELEMENT_DATA_TOTE.length-1 ,oldToteID:"",isInserted:0,isDuplicate:false});
     this.dataSourceManagedTotes = new MatTableDataSource<any>(this.ELEMENT_DATA_TOTE);
   }
+  printTote(){
+    window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
 
+  }
+  printRange(){
+    window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
+
+  }
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   toggleAllRows() {
     if (this.isAllSelected()) {

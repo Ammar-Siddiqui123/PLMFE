@@ -188,7 +188,19 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.postion = "";
     this.tote = "";
   }
+  print(){
+    window.open(`/#/report-view?file=IMPutTote-lbl`, '_blank', "location=yes");
 
+  }
+  printToteLoc(){
+    window.open(`/#/report-view?file=IMPutTote-lbl`, '_blank', "location=yes");
+    
+  }
+  printTotePut(){
+    
+    window.open(`/#/report-view?file=IMOCPut-lst`, '_blank', "location=yes");
+
+  }
   getCurrentToteID() {
     this.Api.NextTote().subscribe(
       (res: any) => {
