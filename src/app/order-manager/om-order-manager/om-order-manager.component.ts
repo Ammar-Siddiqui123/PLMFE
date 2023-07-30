@@ -132,6 +132,7 @@ export class OmOrderManagerComponent implements OnInit {
 
   ngAfterViewInit() {
   //  this.buttonRef.focus();
+  this.getColumnSequence();
   }
 
   async ngOnInit(): Promise<void> {
@@ -142,7 +143,7 @@ export class OmOrderManagerComponent implements OnInit {
       endIndex: 20
     }    
     this.userData = this.authService.userData();
-    this.getColumnSequence();
+  
     await this.deleteTemp();
     this.getOMIndex();
  
