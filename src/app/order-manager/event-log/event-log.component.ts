@@ -309,7 +309,7 @@ export class EventLogComponent implements OnInit {
   }
 
   exportRange(){
-    this.router.navigateByUrl(`/report-view?file=FileName:EventLogExport-lst|sDate:${this.startDate}|eDate:${this.endDate}|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`);
+    this.router.navigateByUrl(`/report-view?file=FileName:singleExport|sDate:${this.startDate}|eDate:${this.endDate}|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`);
   }
 
   @HostListener('document:keyup', ['$event'])
