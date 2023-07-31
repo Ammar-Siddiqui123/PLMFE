@@ -67,7 +67,7 @@ export class KitItemComponent implements OnInit, OnChanges {
   }
 
   openPrintRangeDialog() {
-    this.route.navigateByUrl(`/report-view?file=KitDetail-lst`);
+    this.route.navigateByUrl(`/report-view?file=FileName:printKitReport|ItemNumber:${this.kitItem.value.itemNumber}`);
   }
 
   addCatRow(e: any) {

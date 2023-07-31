@@ -216,10 +216,12 @@ export class CmShippingComponent implements OnInit {
   }
 
   printAll(){
-    this.route.navigateByUrl(`/report-view?file=CMOrderPL-lst`);
+    this.dialogRef.close();
+    this.route.navigateByUrl(`/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`);
   }
 
   PrintItem(element: any,i:any=null){
-    this.route.navigateByUrl(`/report-view?file=CMOrderPL-lst`);
+    this.dialogRef.close();
+    this.route.navigateByUrl(`/report-view?file=FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`);
   }
 }

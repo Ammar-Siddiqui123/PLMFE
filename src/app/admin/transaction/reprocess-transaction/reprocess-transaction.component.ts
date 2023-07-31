@@ -25,6 +25,7 @@ import { DialogConfig } from '@angular/cdk/dialog';
 import { FunctionAllocationComponent } from '../../dialogs/function-allocation/function-allocation.component';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Router } from '@angular/router';
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
   { colHeader: 'importDate', colDef: 'Import Date' },
@@ -204,6 +205,7 @@ export class ReprocessTransactionComponent implements OnInit {
     private toastr: ToastrService, 
     private dialog: MatDialog,
     private sharedService: SharedService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -275,7 +277,11 @@ export class ReprocessTransactionComponent implements OnInit {
   
   }
 
+  selectedTransaction:any;
   getTransaction(row: any) {
+    this.selectedTransaction = row;
+    console.log(this.selectedTransaction);
+
     this.isEnabled = false;
     this.transactionID = row.id;
 
@@ -1030,5 +1036,41 @@ export class ReprocessTransactionComponent implements OnInit {
   clear(){
     this.columnSearch.searchValue = ''
     this.getContentData()
+  }
+
+  recordsToView: string = "";
+  selectedOptionChange($event){
+    this.recordsToView = $event;
+  }
+
+  printPreview(type:string){
+    let id: number = this.selectedTransaction?.id;
+    let history = this.recordsToView == 'history' ? 1 : 0;
+    let reason = this.selectedTransaction?.reason;
+    let message = this.selectedTransaction?.reasonMessage;
+    let date = this.selectedTransaction?.dateStamp;
+    let orderNumber = this.orderNumber;
+    let itemNumber = this.itemNumber;
+    if(type == 'all'){
+      this.router.navigateByUrl(`/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:|Date:`);
+    }
+    else if(type == 'selected'){
+      this.router.navigateByUrl(`/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:${id}|OrderNumber:|ItemNumber:|Reason:|Message:|Date:`);
+    }
+    else if(type == 'reason'){
+      this.router.navigateByUrl(`/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:${reason}|Message:|Date:`);
+    }
+    else if(type == 'message'){
+      this.router.navigateByUrl(`/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:${message}|Date:`);
+    }
+    else if(type == 'date'){
+      this.router.navigateByUrl(`/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:|Date:${date}`);
+    }
+    else if(type == 'item'){
+      this.router.navigateByUrl(`/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:${itemNumber}|Reason:|Message:|Date:`);
+    }
+    else if(type == 'order'){
+      this.router.navigateByUrl(`/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:${orderNumber}|ItemNumber:|Reason:|Message:|Date:`);
+    }
   }
 }

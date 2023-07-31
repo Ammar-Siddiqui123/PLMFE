@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { catchError, of } from 'rxjs';
 import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirmation.component';
+import { CrDesignFilenameConfirmationComponent } from '../cr-design-filename-confirmation/cr-design-filename-confirmation.component';
 
 @Component({
   selector: 'app-cr-add-new-custom-report',
@@ -142,10 +143,12 @@ export class CrAddNewCustomReportComponent implements OnInit {
           if (res.data.fileObj.canAddFileToDefaultTable) {
             this.AddNewFilePresent = true
             this.RestoreAll = true
+            this.openCrDesignFilenameConfirmation()
             this.CurrentFilename = newParams[1]
         } else if (res.data.fileObj.canAddFileToWSTable) {
           this.AddNewFilePresent = true
           this.RestoreAll = false
+          this.openCrDesignFilenameConfirmation()
           this.CurrentFilename = newParams[1]
         }
         //  else we don't have a file already and we need to check that there are no errors that need to be dealt with
@@ -309,5 +312,31 @@ validateInputs() {
   // "SQL",
   // "Report",
   // "TestingExportFileName"]
+
+
+  openCrDesignFilenameConfirmation() {
+    const dialogRef = this.dialog.open(CrDesignFilenameConfirmationComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data:{
+        restore:this.RestoreAll
+      }
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result) 
+      if(result != true && result == 'this') {
+        this.restoreDesign(this.CurrentFilename )
+      }   
+      else if(result != true && result == 'all') {
+        this.restoreDesign(this.CurrentFilename,true )
+      }
+      else if(result != true && result == 'delete') {
+        this.DeleteExistingdesign()
+      }
+      // this.NewDesignTestData = result?result:this.NewDesignTestData
+    }
+    );
+  }
 
 }

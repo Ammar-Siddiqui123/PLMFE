@@ -319,7 +319,8 @@ export class OmCreateOrdersComponent implements OnInit {
 
   printViewed() {
     this.dialogRef.close();
-    this.router.navigateByUrl(`/report-view?file=ReleaseOrder-lst`);
+    let tabIDs = this.tableData.filteredData.map((x:any) => x.id).toString();
+    this.router.navigateByUrl(`/report-view?file=FileName:PrintReleaseOrders|tabIDs:${tabIDs}|View:|Table:|Page:${'Create Orders'}|WSID:${this.userData.wsid}`);
   }
 
   deleteViewed() {
