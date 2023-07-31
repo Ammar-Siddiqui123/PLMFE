@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { catchError, of } from 'rxjs';
 import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirmation.component';
+import { CrDesignFilenameConfirmationComponent } from '../cr-design-filename-confirmation/cr-design-filename-confirmation.component';
 
 @Component({
   selector: 'app-cr-add-new-custom-report',
@@ -23,6 +24,8 @@ export class CrAddNewCustomReportComponent implements OnInit {
   listOfFileName
   appendstring
   AddNewColumns
+  AddNewColumnscheck = false
+  
   AddNewFilePresent = false
   RestoreAll = false
   CurrentFilename
@@ -36,7 +39,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
 
   ngOnInit(): void {
      this.listOfFileName = this.data.ListReports
-     console.log(this.listOfFileName)
   }
   ngAfterViewInit(): void {
     this.desc_focus.nativeElement.focus();
@@ -48,16 +50,14 @@ export class CrAddNewCustomReportComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result)      
       this.NewDesignTestData = result?result:this.NewDesignTestData
     }
     );
   }
 
 
-
+  
   saveNew(){
-    debugger
     let  newParams = [
       this.NewDescription,
       this.NewFilename,
@@ -66,7 +66,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
       this.NewOutputType,
       this.NewExportFilename,
   ];
-  console.log(newParams)
 
   let fields = [
     'Description', 'Filename', 'Test and Design Data', 'Test/Design Data Type', 'Output Type'
@@ -88,7 +87,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
         break;
       }
     }
-      console.log(this.listOfFileName)
 
       const exists = this.isFileNameAlreadyExists(newParams[1]);
      
@@ -107,7 +105,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
     if(valid){
       
       this.api.validateNewDesign(newParams).subscribe((res=>{
-        console.log(res)
         if(!res.data){
           this.toastr.error(`Validation for adding a new report failed with an unknown error.  Please contact Scott Tech for support if this persists.`, 'Error!', {
             positionClass: 'toast-bottom-right',
@@ -130,8 +127,13 @@ export class CrAddNewCustomReportComponent implements OnInit {
             resultSetString = `  Number of result sets found:${resultSets}.  ONE result set must be used.`
           }
           
-          if(res.data.sqlObj?.columns){
+          if(res.data.sqlObj?.columns.length != 0){
+            console.log(res.data.sqlObj?.columns.length)
             this.AddNewColumns = res.data.sqlObj.columns 
+            this.AddNewColumnscheck = true
+          }else{
+            this.AddNewColumnscheck = false
+
           }
 
           // this.AddNewColumns = this.buildAppendString('Columns in the first resultset:', res.data.sqlObj.columns) + resultSetString
@@ -141,10 +143,12 @@ export class CrAddNewCustomReportComponent implements OnInit {
           if (res.data.fileObj.canAddFileToDefaultTable) {
             this.AddNewFilePresent = true
             this.RestoreAll = true
+            this.openCrDesignFilenameConfirmation()
             this.CurrentFilename = newParams[1]
         } else if (res.data.fileObj.canAddFileToWSTable) {
           this.AddNewFilePresent = true
           this.RestoreAll = false
+          this.openCrDesignFilenameConfirmation()
           this.CurrentFilename = newParams[1]
         }
         //  else we don't have a file already and we need to check that there are no errors that need to be dealt with
@@ -193,8 +197,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
 
 
   restoreDesign(filename, all?){
-    // debugger
-    console.log(filename)
     // if (filename == '' ||filename == undefined  ) { return; };
     let  obj = {
       description: this.NewDescription,
@@ -207,7 +209,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
       // appName: $('#AppName').val()
   };
   this.api.restoreDesign(obj).subscribe(res=>{
-    console.log(res)
     if(!res.data){
       this.toastr.error("Unknown error occurred during design restoration.  Please contact Scott Tech for support if this persists.", 'Error!', {
         positionClass: 'toast-bottom-right',
@@ -311,5 +312,31 @@ validateInputs() {
   // "SQL",
   // "Report",
   // "TestingExportFileName"]
+
+
+  openCrDesignFilenameConfirmation() {
+    const dialogRef = this.dialog.open(CrDesignFilenameConfirmationComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      data:{
+        restore:this.RestoreAll
+      }
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result) 
+      if(result != true && result == 'this') {
+        this.restoreDesign(this.CurrentFilename )
+      }   
+      else if(result != true && result == 'all') {
+        this.restoreDesign(this.CurrentFilename,true )
+      }
+      else if(result != true && result == 'delete') {
+        this.DeleteExistingdesign()
+      }
+      // this.NewDesignTestData = result?result:this.NewDesignTestData
+    }
+    );
+  }
 
 }
