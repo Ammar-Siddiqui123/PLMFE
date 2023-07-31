@@ -32,7 +32,7 @@
 
                     <div class="card row m-2 ms-auto report-label-list" >
                         <ul class="">
-                          <li class="my-2 px-2" *ngFor="let item of ListReports ; index as i" (click)="Getreportdetails(item.filename,i)" [class.selected]="item.isSelected">
+                          <li class="my-2 px-2" *ngFor="let item of ListReports ; index as i" (click)="Getreportdetails(item.filename)" [class.selected]="item.isSelected">
                            {{item.title}}
                           </li> 
                         </ul>
@@ -82,15 +82,24 @@
                         </div>
                     </div>
 
-                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline" (click)="openEditDesign()">
+                    <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline" (click)="openEditDesign()">
                         <mat-label>Test and Design Data</mat-label>
-                        <mat-select class="employees-action" [(ngModel)]="Detail.testData" (ngModelChange)="saveInput()"> 
+                        <!-- <mat-select class="employees-action" [(ngModel)]="Detail.testData" (ngModelChange)="saveInput()"> 
                             <mat-option [value]="Detail.testData" >{{Detail.testData}}</mat-option>
-                        </mat-select>
+                        </mat-select> -->
+                        <input type="text" [(ngModel)]="Detail.testData"  matInput maxlength="255">
                         <span class="material-symbols-outlined icon-expand-more">
                             expand_content
                         </span>
                     </mat-form-field>
+
+                    <!-- <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline" (click)="LocationName(i)">
+                        <mat-label>Location Name</mat-label>
+                        <input type="text" [(ngModel)]="i.locationName"  matInput maxlength="255" readonly="true">
+                        <span matSuffix>
+                          <mat-icon style="color:#8B8BA3; transform: rotate(45deg);" >unfold_more</mat-icon>
+                      </span>
+                      </mat-form-field> -->
                     <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-2" appearance="outline">
                         <mat-label>Test/Design Data Type</mat-label>
                         <mat-select class="employees-action"  [(ngModel)]="Detail.testDataType" (ngModelChange)="saveInput()">
