@@ -30,9 +30,9 @@
                         </mat-radio-group>
                     </div>
 
-                    <div class="card row m-2 ms-auto report-label-list">
+                    <div class="card row m-2 ms-auto report-label-list" >
                         <ul class="">
-                          <li class="my-2 px-2" *ngFor="let item of ListReports;" (click)="Getreportdetails(item.filename)">
+                          <li class="my-2 px-2" *ngFor="let item of ListReports ; index as i" (click)="Getreportdetails(item.filename,i)" [class.selected]="item.isSelected">
                            {{item.title}}
                           </li> 
                         </ul>
@@ -84,7 +84,7 @@
 
                     <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline" (click)="openEditDesign()">
                         <mat-label>Test and Design Data</mat-label>
-                        <mat-select class="employees-action" [(ngModel)]="Detail.testData"> 
+                        <mat-select class="employees-action" [(ngModel)]="Detail.testData" (ngModelChange)="saveInput()"> 
                             <mat-option [value]="Detail.testData" >{{Detail.testData}}</mat-option>
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
@@ -93,7 +93,7 @@
                     </mat-form-field>
                     <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-2" appearance="outline">
                         <mat-label>Test/Design Data Type</mat-label>
-                        <mat-select class="employees-action"  [(ngModel)]="Detail.testDataType" >
+                        <mat-select class="employees-action"  [(ngModel)]="Detail.testDataType" (ngModelChange)="saveInput()">
                             <mat-option value=""></mat-option>
                             <mat-option value="SP">Stored Procedure</mat-option>
                             <mat-option value="SQL">Raw SQL</mat-option>
@@ -105,22 +105,22 @@
 
                     <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                         <mat-label>System or Custom Report/Label</mat-label>
-                        <input matInput type="text" maxlength="50" value="{{Detail.systemOutput == true ? 'System':'Custom'}}" disabled>
+                        <input matInput type="text" maxlength="50" value="{{Detail.systemOutput == true ? 'System':'Custom'}}" disabled (ngModelChange)="saveInput()">
                     </mat-form-field>
 
                     <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                         <mat-label>File Name</mat-label>
-                        <input matInput type="text" [(ngModel)]="Detail.fileName" maxlength="50" disabled>
+                        <input matInput type="text" [(ngModel)]="Detail.fileName" maxlength="50" disabled (ngModelChange)="saveInput()">
                     </mat-form-field>
 
                     <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                         <mat-label>Description</mat-label>
-                        <input matInput type="text" maxlength="550" [(ngModel)]="Detail.description" disabled>
+                        <input matInput type="text" maxlength="550" [(ngModel)]="Detail.description" disabled (ngModelChange)="saveInput()">
                     </mat-form-field>
 
                     <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-2" appearance="outline">
                         <mat-label>Output Type</mat-label>
-                        <mat-select class="employees-action" [(ngModel)]="Detail.outputType" disabled>
+                        <mat-select class="employees-action" [(ngModel)]="Detail.outputType" disabled (valueChange)="saveInput()">
                             <mat-option [value]="Detail.outputType" >{{Detail.outputType}}</mat-option>
 
                         </mat-select>
@@ -131,7 +131,7 @@
 
                     <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                         <mat-label>Export Filename</mat-label>
-                        <input matInput type="text"  [(ngModel)]="Detail.exportFileName" maxlength="50">
+                        <input matInput type="text"  [(ngModel)]="Detail.exportFileName" maxlength="50" (ngModelChange)="saveInput()">
                     </mat-form-field>
 
 

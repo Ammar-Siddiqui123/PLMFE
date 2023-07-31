@@ -1464,4 +1464,8 @@ public deleteReport(payload:any) {
 public pushReportChanges(body): Observable<any> { 
   return this.ApiBase.Get("/Admin/customreports/PushReportChanges",body);
 } 
+
+public updatereportDetails(body): Observable<any> {
+  return this.ApiBase.Put(`/Admin/customreports/reportdetails`,body);
+}
 }
