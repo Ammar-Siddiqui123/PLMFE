@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Route, Router } from 'angular-routing';
 import { map } from 'rxjs';
@@ -13,8 +13,8 @@ import { environment } from 'src/environments/environment';
 export class WrdComponent implements OnInit {
   env:string;
   file:string;
-  @ViewChild('ListAndLabel', { read: ViewContainerRef }) ListAndLabel: ViewContainerRef;
-  constructor(private componentFactoryResolver: ComponentFactoryResolver,    private route: ActivatedRoute) {
+  @ViewChild('ListAndLabel', { static: true }) ListAndLabel: ElementRef;
+  constructor(private route: ActivatedRoute) {
      
     this.env = location.protocol + '//' + location.host; 
  
@@ -38,11 +38,6 @@ export class WrdComponent implements OnInit {
     <iframe style="width: 100%; height: 1000px;" id="wrdFrame" src="${this.env}/#/ListAndLabel/report?file=${this.file}">
     </iframe>
     `; 
-    const dynamicComponent = Component({
-      template: dynamicHtml
-    })(class {}); 
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(dynamicComponent); 
-    this.ListAndLabel.clear(); 
-    const componentRef = this.ListAndLabel.createComponent(componentFactory);
+    this.ListAndLabel.nativeElement.insertAdjacentHTML('beforeend', dynamicHtml);
   }
 }
