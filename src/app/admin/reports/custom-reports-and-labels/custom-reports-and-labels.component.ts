@@ -92,6 +92,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       console.log(result)  
       if(result && result != false)    
       this.Detail.testData = result
+      this.saveInput()
     }
     );
   }
