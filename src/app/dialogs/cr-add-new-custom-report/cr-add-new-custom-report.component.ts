@@ -36,7 +36,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
 
   ngOnInit(): void {
      this.listOfFileName = this.data.ListReports
-     console.log(this.listOfFileName)
   }
   ngAfterViewInit(): void {
     this.desc_focus.nativeElement.focus();
@@ -48,7 +47,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
       autoFocus: '__non_existing_element__',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result)      
       this.NewDesignTestData = result?result:this.NewDesignTestData
     }
     );
@@ -65,7 +63,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
       this.NewOutputType,
       this.NewExportFilename,
   ];
-  console.log(newParams)
 
   let fields = [
     'Description', 'Filename', 'Test and Design Data', 'Test/Design Data Type', 'Output Type'
@@ -87,7 +84,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
         break;
       }
     }
-      console.log(this.listOfFileName)
 
       const exists = this.isFileNameAlreadyExists(newParams[1]);
      
@@ -106,7 +102,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
     if(valid){
       
       this.api.validateNewDesign(newParams).subscribe((res=>{
-        console.log(res)
         if(!res.data){
           this.toastr.error(`Validation for adding a new report failed with an unknown error.  Please contact Scott Tech for support if this persists.`, 'Error!', {
             positionClass: 'toast-bottom-right',
@@ -136,6 +131,7 @@ export class CrAddNewCustomReportComponent implements OnInit {
           // this.AddNewColumns = this.buildAppendString('Columns in the first resultset:', res.data.sqlObj.columns) + resultSetString
          
           // if the file is present already we need to deal with it before we can continue
+          
           if (res.data.fileObj.canAddFileToDefaultTable) {
             this.AddNewFilePresent = true
             this.RestoreAll = true
@@ -172,6 +168,7 @@ export class CrAddNewCustomReportComponent implements OnInit {
               return of({ isExecuted: false });
             })
           ).subscribe((res=>{
+            this.dialogRef.close(obj);
             this.toastr.success(res.responseMessage, 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
@@ -190,8 +187,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
 
 
   restoreDesign(filename, all?){
-    // debugger
-    console.log(filename)
     // if (filename == '' ||filename == undefined  ) { return; };
     let  obj = {
       description: this.NewDescription,
@@ -200,11 +195,10 @@ export class CrAddNewCustomReportComponent implements OnInit {
       dataType:  this.NewDesignDataType,
       outputType:  this.NewOutputType == 'Report' ? 2 : 1,
       exportFilename: this.NewExportFilename,
-      all:all?all:''
+      all:all?all:false
       // appName: $('#AppName').val()
   };
   this.api.restoreDesign(obj).subscribe(res=>{
-    console.log(res)
     if(!res.data){
       this.toastr.error("Unknown error occurred during design restoration.  Please contact Scott Tech for support if this persists.", 'Error!', {
         positionClass: 'toast-bottom-right',
@@ -233,7 +227,9 @@ export class CrAddNewCustomReportComponent implements OnInit {
         return
       }else{
         let payload = {
-          filename:this.CurrentFilename
+          filename:this.CurrentFilename,
+          "keepFile": false,
+          "contentRootPath": ""
         }
         this.api.deleteReport(payload).subscribe(res=>{
           if (!res.data) {
@@ -295,6 +291,9 @@ validateInputs() {
       this.NewFilename = `${this.NewFilename}.lbl`
   };
 };
+
+
+
 
 
   // ["Testing Description",

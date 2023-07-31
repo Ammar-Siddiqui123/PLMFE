@@ -834,4 +834,17 @@ initialzeEmpForm() {
       });
     });
   }
+
+
+  printEmpList(){
+    this.router.navigateByUrl(`/report-view?file=Employees-lst`);
+  }
+
+  printSelected(){
+    this.router.navigateByUrl(`/report-view?file=PrintFunctionsByGroup-lst`);
+  }
+
+  printAll(){
+    this.router.navigateByUrl(`/report-view?file=PrintFunctionsAllGroups-lst`);
+  }
 }

@@ -30,6 +30,7 @@ import { InputFilterComponent } from '../../dialogs/input-filter/input-filter.co
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { RouteHistoryService } from 'src/app/services/route-history.service';
+import { PrintRangeComponent } from '../dialogs/print-range/print-range.component';
 
 
 const INVMAP_DATA = [
@@ -254,7 +255,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.userData = this.authService.userData();
  
     this.customPagination = {
       total : '',
@@ -735,6 +736,17 @@ export class InventoryMapComponent implements OnInit {
   });
  }
 
+ printRange(){
+  const dialogRef = this.dialog.open(PrintRangeComponent, {
+    height: 'auto',
+    width: '932px',
+    autoFocus: '__non_existing_element__'
+  });
+ }
+
+ printSelected(event: any){
+  this.router.navigateByUrl(`/report-view?file=FileName:printIMReport|invMapID:${event.invMapID}|groupLikeLoc:false|beginLoc:|endLoc:|User:${this.userData.userName}`);
+ }
 
 
 }

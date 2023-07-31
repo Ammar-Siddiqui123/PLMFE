@@ -351,6 +351,8 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   print() {
+
+  
     let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       height: 'auto',
       width: '560px',
@@ -361,7 +363,9 @@ export class SrNewOrderComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result == 'Yes') {
-        alert('The print service is currently offline');
+        // alert('The print service is currently offline');
+    window.open(`/#/report-view?file=ReplenList-lst`, '_blank', "location=yes");
+
       }
     });
   }

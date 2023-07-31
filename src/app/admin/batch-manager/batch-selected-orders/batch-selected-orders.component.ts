@@ -23,6 +23,8 @@ import { SharedService } from 'src/app/services/shared.service';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 import { CreateBatchConfirmationComponent } from '../../dialogs/create-batch-confirmation/create-batch-confirmation.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Router } from '@angular/router';
+import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-batch-selected-orders',
@@ -67,7 +69,9 @@ export class BatchSelectedOrdersComponent implements OnInit {
     private authService: AuthService,
     private Api: ApiFuntions,
     private toastr: ToastrService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private router:Router
+    
   ) {}
 
   ngOnInit(): void {
@@ -123,7 +127,39 @@ export class BatchSelectedOrdersComponent implements OnInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
-
+  printReport(type){
+    if(type==='Batch'){
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '786px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message:'Click Ok to print a Batch Report for the selected orders?',
+          heading: 'Batch Manager',
+        },
+      });
+      dialogRef.afterClosed().subscribe((res) => {
+        if (res==='Yes') {
+          window.open(`/#/report-view?file=${this.transType==='Pick'?'BMPickList':this.transType==='Put Away'?'BMPutList':'BMCountList'}-lst`, '_blank','location=yes');
+        }
+      });
+    }else{
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '786px',
+        autoFocus: '__non_existing_element__',
+        data: {
+          message:'Click Ok to print item labels for the selected batch orders?',
+          heading: 'Batch Manager',
+        },
+      });
+      dialogRef.afterClosed().subscribe((res) => {
+        if (res==='Yes') {
+          window.open(`/#/report-view?file=${this.transType==='Pick'?'BMPickLabel':'BMPutLabel'}-lbl`, '_blank','location=yes');
+        }
+      });
+    }
+  }
   removeOrders(order: any) {
   this.removeOrderEmitter.emit(order);
   }
