@@ -92,7 +92,7 @@
                                             class="action-dropdown custom-form-field custom-form-field-bg-white w-100 pe-2"
                                             appearance="outline">
                                             <mat-label>Field(s) to filter on</mat-label>
-                                            <mat-select class="employees-action" [(ngModel)]="reportData[4+i]" (ngModelChange)="ReportFieldsExps()" placeholder="Actions">
+                                            <mat-select class="employees-action" [(ngModel)]="reportData[4+i]" (ngModelChange)="ReportFieldsExps();changefilter(reportData[4+i],i)" placeholder="Actions">
                                                 <mat-option *ngFor="let item of fields" [value]="item">{{item}}</mat-option> 
                                             </mat-select>
                                             <span class="material-symbols-outlined icon-expand-more">

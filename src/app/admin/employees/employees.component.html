@@ -32,7 +32,7 @@
                       <mat-option (click)="openDialog()" [hidden]="isLookUp" *ngIf="env !== 'AD'">Add Employee</mat-option>
                       <mat-option value="edit" [hidden]="!isLookUp">Edit</mat-option>
                       <mat-option value="delete" [hidden]="!isLookUp" >Delete</mat-option>
-                      <mat-option value="print" [hidden]="!isLookUp">Print</mat-option>
+                      <mat-option value="print" (click)="printEmpList()">Print Employee List</mat-option>
                       <!-- <mat-option value="back">Back</mat-option> -->
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
@@ -541,6 +541,8 @@
                       <mat-option [hidden]="isGroupLookUp" (click)="openGroupDialog()">Add new group</mat-option>
                       <mat-option [hidden]="!isGroupLookUp" value="delete">Delete</mat-option>
                       <mat-option [hidden]="!isGroupLookUp" value="clone" *ngIf="env === 'ADLDS'">Clone</mat-option>
+                      <mat-option value="print selected" (click)="printSelected()">Print Selected Group</mat-option>
+                      <mat-option value="print all" (click)="printAll()">Print All Groups</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
                       expand_more

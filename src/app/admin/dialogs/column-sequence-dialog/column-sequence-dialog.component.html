@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between mb-4 align-items-center" mat-dialog-title>
     <div style="width:48px"></div>
-    <h1 class="m-0" mat-dialog-title>Set Column Sequencee</h1>
+    <h1 class="m-0" mat-dialog-title>Set Column Sequence</h1>
     <button mat-icon-button class="close-button dialog-close-button-fix" [mat-dialog-close]="false">
         <mat-icon class="close-icon">close</mat-icon>
     </button>
@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body py-0 example-container">
                         <!-- <ng-scrollbar style="height: 53vh" cdkScrollable mat-dialog-content> -->
-                            <div cdkScrollable scrollViewport  class="custom-scrollbar" style="height: 53vh; -webkit-overflow-scrolling: touch; overflow-y: auto;">
+                            <div cdkScrollable scrollViewport  class="custom-scrollbar" style="height: 53vh; -webkit-overflow-scrolling: touch;">
                                 <mat-list cdkDropList [cdkDropListData]="unorderedCol" class="example-list"
                                     (cdkDropListDropped)="drop($event)" class="zones-list g-card-list list-style-1"
                                     role="list">

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { GlobalService } from 'src/app/common/services/global.service';
 import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
@@ -12,6 +13,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 })
 export class BasicReportsAndLabelsComponent implements OnInit {
   reports:any = [];
+  ListFilterValue:any = [];
   fields:any = [];
   public userData: any;
   BasicReportModel:any = {};
@@ -30,7 +32,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     dataSourceList:any
 
       
-  constructor(private dialog: MatDialog,private api:ApiFuntions,private authService:AuthService,private route:Router) { 
+  constructor(private dialog: MatDialog,private api:ApiFuntions,private authService:AuthService,private route:Router,private global:GlobalService) { 
     this.userData = this.authService.userData(); 
   }
 
@@ -53,6 +55,15 @@ export class BasicReportsAndLabelsComponent implements OnInit {
         this.fields = res?.data?.fields; 
       
     })
+  }
+  changefilter(column,index){
+    var payload:any ={
+      reportName:this.BasicReportModel.ChooseReport,
+      column:column
+    };
+    this.api.changefilter(payload).subscribe((res:any)=>{  
+        this.ListFilterValue[index] = res.data;
+    })  
   }
   ReportFieldsExps(){
     var payload:any = {
@@ -113,7 +124,7 @@ ReportTitles(){
   
   }
   OpenListAndLabel(){ 
-    this.route.navigateByUrl(`/report-view?file=${this.BasicReportModel.ChooseReport.replace(/\s/g, "")+'-lst'}`);
+    this.route.navigateByUrl(`/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`);
   }
 Remove(index){ 
   this.reportData[16+index] = "";
@@ -123,4 +134,5 @@ Remove(index){
   this.reportfieldvalues();
   this.ReportTitles();
 }
+  
 }

@@ -18,7 +18,7 @@ import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/c
 import { Subject } from 'rxjs';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-sr-current-order',
   templateUrl: './sr-current-order.component.html',
@@ -83,7 +83,8 @@ export class SrCurrentOrderComponent implements OnInit {
     private Api: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService,
-    private filterService: ContextMenuFiltersService
+    private filterService: ContextMenuFiltersService,
+    private router:Router
   ) { }
 
 
@@ -264,10 +265,13 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   printOrders() {
-    alert("The print service is currently offline");
+    window.open(`/#/report-view?file=ReplenList-lst`, '_blank', "location=yes");
+
+    // alert("The print service is currently offline");
   }
 
   printLabels() {
+ 
     const dialogRef = this.dialog.open(PrintReplenLabelsComponent, {
       width: '1100px',
       autoFocus: '__non_existing_element__',
@@ -276,6 +280,8 @@ export class SrCurrentOrderComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+       
+        window.open(`/#/report-view?file=Replen-lbl`, '_blank', "location=yes");
       }
     });
   }

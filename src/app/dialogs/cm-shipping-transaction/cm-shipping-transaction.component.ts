@@ -12,6 +12,7 @@ import { CmShipEditConIdComponent } from '../cm-ship-edit-con-id/cm-ship-edit-co
 import { CmShipEditQtyComponent } from '../cm-ship-edit-qty/cm-ship-edit-qty.component';
 import { CmToteIdUpdateModalComponent } from '../cm-tote-id-update-modal/cm-tote-id-update-modal.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cm-shipping-transaction',
@@ -37,7 +38,9 @@ export class CmShippingTransactionComponent implements OnInit {
               private Api: ApiFuntions,
               private authService     : AuthService,
               private _liveAnnouncer  : LiveAnnouncer,
-              @Inject(MAT_DIALOG_DATA) public data: any) { }
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              private route: Router
+              ) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
@@ -254,14 +257,9 @@ export class CmShippingTransactionComponent implements OnInit {
     });
   }
 
-  openShipPrintItemLabel() {
-    // let dialogRef = this.dialog.open(AlertConfirmationComponent, {
-    //   height: 'auto',
-    //   width: '96vw',
-    //   autoFocus: '__non_existing_element__'     
-    // });
-
-    // dialogRef.afterClosed().subscribe(result => {});
+  openShipPrintItemLabel(order : any, i : any) {
+    this.dialogRef.close();
+    this.route.navigateByUrl(`/report-view?file=CMItem-lst`);
   }
 
   // Open the dialog component, pass in the data to be modified
@@ -325,6 +323,12 @@ export class CmShippingTransactionComponent implements OnInit {
       this.tableData = new MatTableDataSource(this.tableData.data.filter((x : any) =>  x.itemNumber.includes(value)));
       this.tableData.paginator = this.paginator;
     }
+  }
+
+
+  printList(){
+    this.dialogRef.close();
+    this.route.navigateByUrl(`/report-view?file=CMOrderPL-lst`);
   }
 
 }

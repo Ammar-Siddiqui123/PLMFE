@@ -318,7 +318,8 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   printViewed() {
-    alert('The print service is currently offline');
+    this.dialogRef.close();
+    this.router.navigateByUrl(`/report-view?file=ReleaseOrder-lst`);
   }
 
   deleteViewed() {
