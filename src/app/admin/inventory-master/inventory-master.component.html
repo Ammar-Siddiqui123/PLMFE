@@ -50,19 +50,19 @@
                          <button matSuffix *ngIf="searchValue" class="clear-btn"  (click)="searchValue = ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                          <mat-autocomplete class="card custom-scroll panel-custom-scroll" #searchauto="matAutocomplete"
                          (optionSelected)="onSearchSelect($event)">
-                         <h6 class="card-header matAutoCompHeader stickyHeader ps-4"> <span style="width:  40%;">Item No./Supp No./Supp
-                                 Code</span> <span style="width:  40%;">Description</span> <span style="width:  40%;">Category</span> <span
-                                 style="width:  40%;">Sub Category</span></h6>
+                         <h6 class="card-header matAutoCompHeader stickyHeader ps-4"> <span style="width:  30%;">Item No./Supp No./Supp
+                                 Code</span> <span style="width:  30%;">Description</span> <span style="width:  20%;">Category</span> <span
+                                 style="width:  20%;">Sub Category</span></h6>
                          <mat-option *ngFor="let option of searchList" [value]="option.itemNumber" class="matAutoCompTableContent">
                              <div class="loc_option">
                                  <span
-                                     style="padding: 10px 12px; text-overflow: ellipsis; overflow: hidden; width:40%; white-space: nowrap;">{{option.itemNumber}}</span>
+                                     style="padding: 10px 12px; text-overflow: ellipsis; overflow: hidden; width:30%; white-space: nowrap;">{{option.itemNumber}}</span>
                                  <span
-                                     style="padding: 10px 12px; text-overflow: ellipsis; overflow: hidden; width:40%; white-space: nowrap;" matTooltip="{{option.description}}" matTooltipPosition="above">{{option.description}}</span>
+                                     style="padding: 10px 12px; text-overflow: ellipsis; overflow: hidden; width:30%; white-space: nowrap;" matTooltip="{{option.description}}" matTooltipPosition="above">{{option.description}}</span>
                                  <span
-                                     style="padding: 10px 12px; text-overflow: ellipsis; overflow: hidden; width:40%; white-space: nowrap;">{{option.category}}</span>
+                                     style="padding: 10px 12px; text-overflow: ellipsis; overflow: hidden; width:20%; white-space: nowrap;">{{option.category}}</span>
                                  <span
-                                     style="padding: 10px 12px; text-overflow: ellipsis; overflow: hidden; width:40%; white-space: nowrap;">{{option.subCategory}}</span>
+                                     style="padding: 10px 12px; text-overflow: ellipsis; overflow: hidden; width:20%; white-space: nowrap;">{{option.subCategory}}</span>
                              </div>
                          </mat-option>
                      </mat-autocomplete>

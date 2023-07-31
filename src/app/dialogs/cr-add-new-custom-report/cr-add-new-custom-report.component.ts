@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { catchError, of } from 'rxjs';
 import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirmation.component';
+import { CrDesignFilenameConfirmationComponent } from '../cr-design-filename-confirmation/cr-design-filename-confirmation.component';
 
 @Component({
   selector: 'app-cr-add-new-custom-report',
@@ -303,5 +304,19 @@ validateInputs() {
   // "SQL",
   // "Report",
   // "TestingExportFileName"]
+
+
+  openCrDesignFilenameConfirmation() {
+    const dialogRef = this.dialog.open(CrDesignFilenameConfirmationComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result)      
+      this.NewDesignTestData = result?result:this.NewDesignTestData
+    }
+    );
+  }
 
 }
