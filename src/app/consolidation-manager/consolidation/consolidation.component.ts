@@ -20,6 +20,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CmOrderToteConflictComponent } from 'src/app/dialogs/cm-order-tote-conflict/cm-order-tote-conflict.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-consolidation',
@@ -57,6 +58,7 @@ export class ConsolidationComponent implements OnInit {
   public stagingbtn:boolean = true;
   public shippingbtb:boolean = true;
   public orderstatusbtn:boolean = false;
+  public printButtons:boolean = true;
   public type :any ='';
 
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
@@ -610,6 +612,7 @@ export class ConsolidationComponent implements OnInit {
     this.packingbtn = false;
     this.verifybtn = false;
     this.unverifybtn = false;
+    this.printButtons = false;
   }
 
   disableConButts(){
@@ -618,6 +621,7 @@ export class ConsolidationComponent implements OnInit {
     this.packingbtn = true;
     this.verifybtn = true;
     this.unverifybtn = true;
+    this.printButtons = true;
   }
 
   clearpagedata(){
@@ -810,6 +814,41 @@ export class ConsolidationComponent implements OnInit {
   navigateToOrder() {
     window.location.href = `/#/admin/transaction?orderStatus=${this.TypeValue ? this.TypeValue : ''}&IsOrderStatus=true`;
    
+   }
+
+   printPreviewNonVerified(){
+    if(this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0){
+      this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`);
+    }
+    else{
+      this.toastr.error("There are no unverfied items", 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+   }
+
+   printPreviewPackList(){
+    if(this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0){
+
+      // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      //   height: 'auto',
+      //   width: '786px',
+      //   data: {
+      //     message: 'There are still unverfied items. Coninue the preview?'
+      //   },
+      //   autoFocus: '__non_existing_element__',
+      // });
+      // dialogRef.afterClosed().subscribe((result) => {
+      //   if (result==='Yes') {
+
+      //   }
+      // });
+      
+    }
+    else{
+
+    }
    }
 }
 

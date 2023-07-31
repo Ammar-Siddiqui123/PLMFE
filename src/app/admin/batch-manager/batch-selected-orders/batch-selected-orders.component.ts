@@ -140,7 +140,13 @@ export class BatchSelectedOrdersComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe((res) => {
         if (res==='Yes') {
-          window.open(`/#/report-view?file=${this.transType==='Pick'?'BMPickList':this.transType==='Put Away'?'BMPutList':'BMCountList'}-lst`, '_blank','location=yes');
+          let ordersArr:any=[];
+          this.tableData._data._value.orderNumber
+          this.tableData._data._value.forEach(element => {
+              ordersArr.push(element.orderNumber)
+          });
+          window.open(`/#/report-view?file=FileName:PrintBatchReport|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}|BatchID:${this.nextOrderNumber}`, '_blank', "location=yes");
+          // window.open(`/#/report-view?file=${this.transType==='Pick'?'BMPickList':this.transType==='Put Away'?'BMPutList':'BMCountList'}-lst`, '_blank','location=yes');
         }
       });
     }else{
@@ -155,7 +161,14 @@ export class BatchSelectedOrdersComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe((res) => {
         if (res==='Yes') {
-          window.open(`/#/report-view?file=${this.transType==='Pick'?'BMPickLabel':'BMPutLabel'}-lbl`, '_blank','location=yes');
+
+          let ordersArr:any=[];
+          this.tableData._data._value.orderNumber
+          this.tableData._data._value.forEach(element => {
+              ordersArr.push(element.orderNumber)
+          });
+          window.open(`/#/report-view?file=FileName:PrintBatchLabel|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}`, '_blank', "location=yes");
+          // window.open(`/#/report-view?file=${this.transType==='Pick'?'BMPickLabel':'BMPutLabel'}-lbl`, '_blank','location=yes');
         }
       });
     }

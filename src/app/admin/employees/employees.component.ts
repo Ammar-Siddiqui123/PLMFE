@@ -837,14 +837,14 @@ initialzeEmpForm() {
 
 
   printEmpList(){
-    this.router.navigateByUrl(`/report-view?file=Employees-lst`);
+    this.router.navigateByUrl(`/report-view?file=FileName:printEmployees`);
   }
 
   printSelected(){
-    this.router.navigateByUrl(`/report-view?file=PrintFunctionsByGroup-lst`);
+    this.router.navigateByUrl(`/report-view?file=FileName:printEmployeeGroup|Group:${this.grpData.groupName}`);
   }
 
   printAll(){
-    this.router.navigateByUrl(`/report-view?file=PrintFunctionsAllGroups-lst`);
+    this.router.navigateByUrl(`/report-view?file=FileName:printEmployeeGroup`);
   }
 }

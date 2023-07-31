@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="card br-14 table-responsive my-3">
                                   <ng-scrollbar class="mat-table-scrollbar" style="height: 200px">
-                                    <table mat-table [dataSource]="employee_fetched_zones" matSort #zoneDataRefresh
+                                    <table  mat-table [dataSource]="employee_fetched_zones" matSort #zoneDataRefresh
                                       (matSortChange)="announceSortChange($event)"
                                       class="g-card-table table-minimal-action-buttons">
 
@@ -541,7 +541,7 @@
                       <mat-option [hidden]="isGroupLookUp" (click)="openGroupDialog()">Add new group</mat-option>
                       <mat-option [hidden]="!isGroupLookUp" value="delete">Delete</mat-option>
                       <mat-option [hidden]="!isGroupLookUp" value="clone" *ngIf="env === 'ADLDS'">Clone</mat-option>
-                      <mat-option value="print selected" (click)="printSelected()">Print Selected Group</mat-option>
+                      <mat-option value="print selected" [disabled]="!this.grpData.groupName" (click)="printSelected()">Print Selected Group</mat-option>
                       <mat-option value="print all" (click)="printAll()">Print All Groups</mat-option>
                     </mat-select>
                     <span class="material-symbols-outlined icon-expand-more">
@@ -559,7 +559,7 @@
                 </div>
                 <div class="group-details details-wrap g-details-wrap" *ngIf="isGroupLookUp">
                   <div class="g-detail">
-                    <label class="g-field-label">Group Name</label>
+                    <label class="g-field-label">Group Name 33</label>
                     <div class="g-field-content">{{grpData.groupName }}</div>
                   </div>
                 </div>

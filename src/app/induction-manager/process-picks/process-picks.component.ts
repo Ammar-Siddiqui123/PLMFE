@@ -94,8 +94,8 @@ export class ProcessPicksComponent implements OnInit {
     var strposition = JSON.stringify(positionList);
     var strtoteIds = JSON.stringify(toteIds);
     var strOrderNumList = JSON.stringify(OrderNumList); 
-    window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${strposition}|ToteIDs:${strtoteIds}|OrderNums:${strOrderNumList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
- return 1;
+    // window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${strposition}|ToteIDs:${strtoteIds}|OrderNums:${strOrderNumList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+ 
     
 
     if(!this.pickBatchesCrossbtn){
@@ -106,19 +106,27 @@ export class ProcessPicksComponent implements OnInit {
     }else{
        
       if(type==='PrintTote'){
-        window.open(`/#/report-view?file=FileName:IMPickTote-lbl|Positions:${strposition}|ToteIDs:${strtoteIds}|OrderNums:${strOrderNumList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+     window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`, '_blank', "location=yes");
+
+        // window.open(`/#/report-view?file=FileName:IMPickTote-lbl|Positions:${strposition}|ToteIDs:${strtoteIds}|OrderNums:${strOrderNumList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
  
       }
       if(type==='PrintPickLabel'){
-        window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
+     window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+
+        // window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
 
       }
       if(type==='PrintPickList'){
-        window.open(`/#/report-view?file=IMOCPick-lst`, '_blank', "location=yes");
+     window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchList|BatchID:${this.pickBatches.value}`, '_blank', "location=yes");
+
+        // window.open(`/#/report-view?file=IMOCPick-lst`, '_blank', "location=yes");
 
       }
       if(type==='PrintCase'){
-        window.open(`/#/report-view?file=CaseLabel-lbl`, '_blank', "location=yes");
+     window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`, '_blank', "location=yes");
+
+        // window.open(`/#/report-view?file=CaseLabel-lbl`, '_blank', "location=yes");
 
       }
       if(type==='PrintBatch'){
@@ -129,29 +137,56 @@ export class ProcessPicksComponent implements OnInit {
   }
   printToteLabels(row){
     console.log(row);
+    let positionList:any=[];
+    let toteList:any=[];
+    let orderNumberList:any=[];
+
     if(row.toteID==="" ||row.orderNumber==="" ){
       this.toastr.error('Missing data from the desired print row', 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       })
     }else{
-      window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
+
+      positionList.push(row.position)
+      toteList.push(row.toteID)
+      orderNumberList.push(row.orderNumber)
+      window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`, '_blank', "location=yes");
+      // window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
     }
   }
   printPickLabels(row){
+    let positionList:any=[];
+    let toteList:any=[];
+    let orderNumberList:any=[];
     if(row.toteID==="" ||row.orderNumber==="" ){
       this.toastr.error('Missing data from the desired print row', 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       })
     }else{
-      
-      window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
+      positionList.push(row.position)
+      toteList.push(row.toteID)
+      orderNumberList.push(row.orderNumber)
+      window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+
+      // window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
 
     }
   }
   printPick(type){
- 
+    const counter =this.dataSource._data?._value?.length
+    let PositionList:any = [];
+    let ToteList:any = [];
+    let OrderList :any= [];
+    for (var i = 0; i <= counter - 1; i++) {
+
+      if (this.dataSource._data?._value[i].orderNumber != "" && this.dataSource._data?._value[i].toteID != "") {
+          PositionList.push(this.dataSource._data?._value[i].position);
+          ToteList.push(this.dataSource._data?._value[i].toteID)
+          OrderList.push(this.dataSource._data?._value[i].orderNumber)
+      };
+  };
 
     this.toteEmpty = this.dataSource?._data?._value.some(element => element.toteID != ""); 
     this.orderEmpty = this.dataSource?._data?._value.some(element => element.orderNumber!= ""); 
@@ -169,7 +204,12 @@ export class ProcessPicksComponent implements OnInit {
         })
       }
       else{
-        window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
+        
+ 
+      window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}`, '_blank', "location=yes");
+  
+
+        // window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
       }
     }
     if(type==='PrintPickLabel'){
@@ -189,7 +229,11 @@ export class ProcessPicksComponent implements OnInit {
           timeOut: 2000
         })
       }else{
-        window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
+        
+ 
+        window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+
+        // window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
 
       }
     }
@@ -206,7 +250,10 @@ export class ProcessPicksComponent implements OnInit {
           timeOut: 2000
         })
       }else{
-          window.open(`/#/report-view?file=IMOCPick-lst`, '_blank', "location=yes");
+    
+        window.open(`/#/report-view?file=FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`, '_blank', "location=yes");
+
+          // window.open(`/#/report-view?file=IMOCPick-lst`, '_blank', "location=yes");
       }
     }
   }
