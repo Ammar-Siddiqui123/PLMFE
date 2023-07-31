@@ -63,20 +63,25 @@ export class SuperBatchComponent implements OnInit {
     })
   }
   printBatchLabel(type){
-    if(this.printBatchLabels){
+    if(!this.printBatchLabels){
       this.toastr.error('Please Select a Batch ID to Print', 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
     }else{
       if(type=='printBatchLabels'){
-        window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
+        window.open(`/#/report-view?file=FileName:PrintSuperBatchLabel|ToteID:${this.printBatchLabels}`, '_blank', "location=yes");
+        // window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
       }
       if(type=='printOrderLabels'){
-        window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
+        window.open(`/#/report-view?file=FileName:PrintSuperBatchOrderLabel|ToteID:${this.printBatchLabels}`, '_blank', "location=yes");
+
+        // window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
       }
       if(type=='printCaseLabels'){
-        window.open(`/#/report-view?file=CaseLabel-lbl`, '_blank', "location=yes");
+        window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabelToteID|ToteID:${this.printBatchLabels}`, '_blank', "location=yes");
+
+        // window.open(`/#/report-view?file=CaseLabel-lbl`, '_blank', "location=yes");
       }
    
 

@@ -72,12 +72,50 @@ export class TotesAddEditComponent implements OnInit {
     this.ELEMENT_DATA_TOTE.push({toteID:"" , cells:"" , position: this.ELEMENT_DATA_TOTE.length-1 ,oldToteID:"",isInserted:0,isDuplicate:false,isEdit:false});
     this.dataSourceManagedTotes = new MatTableDataSource<any>(this.ELEMENT_DATA_TOTE);
   }
-  printTote(){
-    window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
+  printTote(type,element){
+    console.log(element)
+    let ident = 0;
+    let sTote = '';
+    let eTote = '';
+    let batch = '';
+    let ToteID = element?.toteID;
+    if (type.toLowerCase() == "tote") {
+      //print single tote id
+      sTote = '';
+      eTote = '';
+      batch = '';
+  } else if (type.toLowerCase() == 'batch') {
+      // print batch
+      ToteID = '';
+      sTote = '';
+      eTote = '';
+  } else {
+      //print range tote id
+      ident = 1;
+      ToteID = '';
+      batch = '';
+  };
 
+  // ToteID:ToteID,
+  // Ident:ident,
+  // FromTote:sTote,
+  // ToTote:eTote,
+  // PrintDirect: pd,
+  // BatchID: batch
+
+    // window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
+    window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', "location=yes");
   }
   printRange(){
-    window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
+    let ident = 1;
+   let ToteID = '';
+    let batch = '';
+    let sTote = this.fromTote;
+    let eTote = this.toTote;
+
+    window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', "location=yes");
+
+    // window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
 
   }
   /** Selects all rows if they are not all selected; otherwise clear selection. */

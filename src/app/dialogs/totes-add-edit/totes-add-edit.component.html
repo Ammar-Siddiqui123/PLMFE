@@ -225,7 +225,7 @@
                     check
                   </mat-icon>
                 </button> -->
-                <button  (click)="printTote()"  [disabled]="!element.toteID || !element.cells || element.isInserted==0 || element.isEdit" matTooltip="Print" mat-flat-button color="primary" class="xsm-icon-button">
+                <button  (click)="printTote('tote',element)"  [disabled]="!element.toteID || !element.cells || element.isInserted==0 || element.isEdit" matTooltip="Print" mat-flat-button color="primary" class="xsm-icon-button">
                   <mat-icon class="material-symbols-outlined">
                     print
                   </mat-icon>
