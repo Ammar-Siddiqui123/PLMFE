@@ -46,7 +46,7 @@
         <mat-select [(ngModel)]="NewOutputType" required #serialTemp (ngModelChange)="setExtension()">
             <mat-option value="Report">Report</mat-option>
             <mat-option value="Label">Label</mat-option>
-            <mat-option value="Label" (click)="openCrDesignFilenameConfirmation()" >3 Button Popup</mat-option>
+            <!-- <mat-option value="Label" (click)="openCrDesignFilenameConfirmation()" >3 Button Popup</mat-option> -->
             </mat-select>
         <span class="material-symbols-outlined icon-expand-more">
             expand_more
@@ -60,67 +60,43 @@
     </mat-form-field>
 </div>
 
-<ul *ngIf="AddNewColumnscheck">
-    <h1>Columns in the first resultset:</h1>
-    <ng-container *ngFor="let item of AddNewColumns">
-      <li >
-        {{ item}}
-      </li>
-    </ng-container>
-  </ul>
-
-    <div *ngIf="appendstring">
-       {{appendstring}}.
-      </div>
-      
-
-<!-- Fuzail bhai please add your code here -->
-
-<div class="card br-14 p-4">
+<div class="card br-14 p-4 mb-3" *ngIf="AddNewColumnscheck">
     <div class="row align-items-center">
                 <p class="text-tertiary-900 mb-3"> Columns in the first result test:</p>
 
-                <div class="col-xl-4">
-                     <ul class="text-tertiary-900 bold p-0">
-                        <li>Required Date</li>
-                        <li>Notes</li>
-                        <li>Priority</li>
-                        <li>Emergency</li>
-                        <li>Item No.</li>
-                        <li>Description</li>
-                     </ul>
+                <div class="col-xl-4" *ngFor="let item of AddNewColumns">
+                    
+
+                     <ul *ngIf="AddNewColumnscheck" class="text-tertiary-900 bold p-0">
+                        <ng-container >
+                          <li >
+                            {{ item}}
+                          </li>
+                        </ng-container>
+                      </ul>
                 </div>
 
-                <div class="col-xl-4">
-                    <ul class="text-tertiary-900 bold p-0">
-                       <li>Required Date</li>
-                       <li>Notes</li>
-                       <li>Priority</li>
-                       <li>Emergency</li>
-                       <li>Item No.</li>
-                       <li>Description</li>
-                    </ul>
-               </div>
+                
+                </div>
+                </div>
 
-               <div class="col-xl-4">
-                <ul class="text-tertiary-900 bold p-0">
-                   <li>Required Date</li>
-                   <li>Notes</li>
-                   <li>Priority</li>
-                   <li>Emergency</li>
-                   <li>Item No.</li>
-                   <li>Description</li>
-                </ul>
-           </div>
-                </div>
-                </div>
+    <div *ngIf="appendstring" >
+       {{appendstring}}.
+      </div>
+      
+      <mat-form-field class="custom-form-field w-100" style="display: none;" appearance="outline">
+        <input matInput type="text" [(ngModel)]="CurrentFilename"  [hidden]="true">
+    </mat-form-field>
+<!-- Fuzail bhai please add your code here -->
+
+
 
 
 
 
 <!-- Fuzail bhai please add your code here -->
 <!-- {{CurrentFilename}} -->
-<div *ngIf="AddNewFilePresent">
+<!-- <div *ngIf="AddNewFilePresent">
     <div >
         <mat-form-field class="custom-form-field w-100" style="display: none;" appearance="outline">
             <input matInput type="text" [(ngModel)]="CurrentFilename"  [hidden]="true">
@@ -139,7 +115,7 @@
         <button type="button" class="btn btn-danger btn-block" id="DeleteExistingDesign" (click)="DeleteExistingdesign()">Delete Design (PERMANENT!)</button>
     
     </div>
-</div>
+</div> -->
 
 
 </div>

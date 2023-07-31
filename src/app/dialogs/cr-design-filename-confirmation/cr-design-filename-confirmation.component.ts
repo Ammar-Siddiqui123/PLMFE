@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-cr-design-filename-confirmation',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cr-design-filename-confirmation.component.scss']
 })
 export class CrDesignFilenameConfirmationComponent implements OnInit {
-
-  constructor() { }
+  restoreAll
+  constructor( public dialogRef: MatDialogRef<any>,
+    @Inject(MAT_DIALOG_DATA) public data: any,) { }
 
   ngOnInit(): void {
+    this.restoreAll = this.data.restore
+  }
+
+  goBack(check){
+    this.dialogRef.close(check);
   }
 
 }
