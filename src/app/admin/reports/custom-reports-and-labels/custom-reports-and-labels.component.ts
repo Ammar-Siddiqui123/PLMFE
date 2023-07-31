@@ -134,12 +134,12 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   onFileSelected(event: any) {
     const fileInput = event.target;
     const file = fileInput.files[0];
-
+debugger
     if (!file) {
       // No file selected, handle the case if needed
       return;
     }
-    if(file.name == this.Detail.fileName){
+    if(file.name){
       const formData = new FormData();
       formData.append('file', file);
   

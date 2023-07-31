@@ -1443,7 +1443,7 @@ public changefilter(body): Observable<any> {
   return this.ApiBase.Get("/Admin/customreports/changefilter",body);
 }
  
-public importFile(body){
+public importFile(body){ 
   return this.ApiBase.PostFormData(`/Admin/customreports/importFile`,body);
 }
 
