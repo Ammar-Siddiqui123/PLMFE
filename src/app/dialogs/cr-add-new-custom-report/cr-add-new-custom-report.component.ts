@@ -137,6 +137,7 @@ export class CrAddNewCustomReportComponent implements OnInit {
           // this.AddNewColumns = this.buildAppendString('Columns in the first resultset:', res.data.sqlObj.columns) + resultSetString
          
           // if the file is present already we need to deal with it before we can continue
+          
           if (res.data.fileObj.canAddFileToDefaultTable) {
             this.AddNewFilePresent = true
             this.RestoreAll = true
@@ -173,7 +174,7 @@ export class CrAddNewCustomReportComponent implements OnInit {
               return of({ isExecuted: false });
             })
           ).subscribe((res=>{
-            this.dialogRef.close();
+            this.dialogRef.close(obj);
             this.toastr.success(res.responseMessage, 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
@@ -202,7 +203,7 @@ export class CrAddNewCustomReportComponent implements OnInit {
       dataType:  this.NewDesignDataType,
       outputType:  this.NewOutputType == 'Report' ? 2 : 1,
       exportFilename: this.NewExportFilename,
-      all:all?all:''
+      all:all?all:false
       // appName: $('#AppName').val()
   };
   this.api.restoreDesign(obj).subscribe(res=>{
@@ -235,7 +236,9 @@ export class CrAddNewCustomReportComponent implements OnInit {
         return
       }else{
         let payload = {
-          filename:this.CurrentFilename
+          filename:this.CurrentFilename,
+          "keepFile": false,
+          "contentRootPath": ""
         }
         this.api.deleteReport(payload).subscribe(res=>{
           if (!res.data) {
@@ -297,6 +300,9 @@ validateInputs() {
       this.NewFilename = `${this.NewFilename}.lbl`
   };
 };
+
+
+
 
 
   // ["Testing Description",
