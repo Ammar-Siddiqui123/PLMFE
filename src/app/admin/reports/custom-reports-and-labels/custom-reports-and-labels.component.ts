@@ -29,7 +29,6 @@ export class CustomReportsAndLabelsComponent implements OnInit {
 
   }
   ChangeReport(IsSysBolean:boolean){
-    // debugger
     this.IsSystemReport = IsSysBolean;
     if(this.IsSystemReport == true) this.ListReports = this.sysTitles;
     else this.ListReports = this.reportTitles;
@@ -61,12 +60,9 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   }
   SelectedFile:any;
 
-  Getreportdetails(file,index?){
-    debugger
+  Getreportdetails(file){
     console.log(file)
 
-      
-    // debugger
       this.olddetail = file; 
     if(this.SelectedFile == file){
       this.Detail = {};
@@ -124,7 +120,6 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     );
   }
   openDeleteDialogue() {
-    // debugger
     const dialogRef = this.dialog.open(CrDeleteConfirmationComponent, {
       height: 'auto',
       width: '560px',
@@ -165,7 +160,6 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   onFileSelected(event: any) {
     const fileInput = event.target;
     const file = fileInput.files[0];
-debugger
     if (!file) {
       // No file selected, handle the case if needed
       return;
@@ -256,7 +250,13 @@ debugger
     }
 
     this.api.updatereportDetails(payload).subscribe(res=>{
-      console.log(res)
+      // console.log(res)
+      if(!res.isExecuted){
+        this.toastr.error("Unexpected error occurred. Changes Not Saved", 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
     })
   }
 }

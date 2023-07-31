@@ -32,7 +32,7 @@
 
                     <div class="card row m-2 ms-auto report-label-list" >
                         <ul class="">
-                          <li class="my-2 px-2" *ngFor="let item of ListReports ; index as i" (click)="Getreportdetails(item.filename,i)" [class.selected]="item.isSelected">
+                          <li class="my-2 px-2" *ngFor="let item of ListReports ; index as i" (click)="Getreportdetails(item.filename)" [class.selected]="item.isSelected">
                            {{item.title}}
                           </li> 
                         </ul>
