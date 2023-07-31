@@ -109,6 +109,7 @@ import { IeArchivePurgeComponent } from './import-export/ie-archive-purge/ie-arc
 import { IeInvFieldsComponent } from './import-export/ie-inv-fields/ie-inv-fields.component';
 import { IeFtpComponent } from './import-export/ie-ftp/ie-ftp.component';
 import { ShippingCompleteDialogComponent } from './dialogs/shipping-complete-dialog/shipping-complete-dialog.component';
+import { CrDesignFilenameConfirmationComponent } from './dialogs/cr-design-filename-confirmation/cr-design-filename-confirmation.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -203,6 +204,7 @@ import { ShippingCompleteDialogComponent } from './dialogs/shipping-complete-dia
     IeInvFieldsComponent,
     IeFtpComponent,
     ShippingCompleteDialogComponent,
+    CrDesignFilenameConfirmationComponent,
     // ActionDisableDirective,
   ],
   imports: [
