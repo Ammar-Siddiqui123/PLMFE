@@ -32,7 +32,7 @@ export class WrvFrontendComponent implements OnInit {
 
   generateHTMLAndAppend() { 
     const dynamicHtml = `<ll-webreportviewer backendUrl="${environment.apiUrl.split("/api")[0]}/LLWebReportViewer"
-    defaultProject="42B325E5-A894-4BDE-9D0A-5098B46A5085" customData="${this.FileName}" ></ll-webreportviewer>`; 
+    defaultProject="${this.FileName.split('-')[1] == 'lbl'? '7FAC97B2-3F8A-437A-A3B6-2E0E2FCB750B':'57D637EE-9735-42B4-88D7-4B43FE17DDA8'}" customData="${this.FileName}" ></ll-webreportviewer>`; 
     const dynamicComponent = Component({
       template: dynamicHtml
     })(class {}); 
