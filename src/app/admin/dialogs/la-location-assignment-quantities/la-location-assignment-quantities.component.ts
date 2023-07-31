@@ -71,25 +71,11 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
   }
 
   printShortage(){
-    // this.Api.PreviewLocAssignmentPickShort().subscribe((res:any)=>{
-    //   this.listLabel = res.data;
-    //   console.log(this.listLabel,'printshortage')
-    // })
-
-    window.open(`/#/report-view?file=LocAssPickShortage-lst`, '_blank', "location=yes");
+    window.open(`/#/report-view?file=FileName:PreviewLocAssPickShort`, '_blank', "location=yes");
   }
 
   printShortageZone(){
-    // let payload = {
-    //   "userName" : this.userData.userName,
-    //   "wsid": this.userData.wsid
-    // }
-    // this.Api.PreviewLocAssignmentPickShortFPZ().subscribe((res:any)=>{
-    //   this.listLabelFPZ = res.data;
-    //   console.log(this.listLabelFPZ,'print FPZ')
-    // })
-
-    window.open(`/#/report-view?file=LocAssPickShortageFPZ-lst`, '_blank', "location=yes");
+    window.open(`/#/report-view?file=FileName:PreviewLocAssPickShortFPZ`, '_blank', "location=yes");
   }
 
   exitBack(){

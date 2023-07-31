@@ -1443,7 +1443,7 @@ public changefilter(body): Observable<any> {
   return this.ApiBase.Get("/Admin/customreports/changefilter",body);
 }
  
-public importFile(body){
+public importFile(body){ 
   return this.ApiBase.PostFormData(`/Admin/customreports/importFile`,body);
 }
 
@@ -1464,4 +1464,8 @@ public deleteReport(payload:any) {
 public pushReportChanges(body): Observable<any> { 
   return this.ApiBase.Get("/Admin/customreports/PushReportChanges",body);
 } 
+
+public updatereportDetails(body): Observable<any> {
+  return this.ApiBase.Put(`/Admin/customreports/reportdetails`,body);
+}
 }

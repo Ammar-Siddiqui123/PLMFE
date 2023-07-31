@@ -21,6 +21,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   reportTitles:any = [];
   IsSystemReport:boolean = true;
   sysTitles:any = [];
+  olddetail
   constructor(private api:ApiFuntions,private route:Router,private dialog: MatDialog, private toastr :ToastrService) { }
 
   ngOnInit(): void {
@@ -28,15 +29,30 @@ export class CustomReportsAndLabelsComponent implements OnInit {
 
   }
   ChangeReport(IsSysBolean:boolean){
+    // debugger
     this.IsSystemReport = IsSysBolean;
     if(this.IsSystemReport == true) this.ListReports = this.sysTitles;
     else this.ListReports = this.reportTitles;
+    console.log(this.ListReports)
   }
   Getcustomreports(){
     this.api.Getcustomreports().subscribe((res:any)=>{
       this.sysTitles = res?.data?.reportTitles?.sysTitles;
       this.reportTitles = res?.data?.reportTitles?.reportTitles;
-      this.ListReports = this.sysTitles;
+      this.sysTitles.forEach((object) => {
+        object.isSelected = false;
+      });
+      this.reportTitles.forEach((object) => {
+        object.isSelected = false;
+      });
+
+      console.log(this.sysTitles)
+      console.log(this.reportTitles)
+
+      // this.ListReports = this.sysTitles;
+      if(this.IsSystemReport == true || this.IsSystemReport == undefined) this.ListReports = this.sysTitles;
+      else this.ListReports = this.reportTitles;
+      
     })
   }
   OpenListAndLabel(route){
@@ -44,21 +60,28 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     this.route.navigateByUrl(`/${route}?file=${this.Detail.fileName.replace(".","-")}`);
   }
   SelectedFile:any;
-  Getreportdetails(file){
+
+  Getreportdetails(file,index?){
+    debugger
+    console.log(file)
+
+      
     // debugger
-     var olddetail = this.Detail; 
+      this.olddetail = file; 
     if(this.SelectedFile == file){
       this.Detail = {};
       this.SelectedFile = null;
       return 1;
     }
     this.SelectedFile = file;
+
      var obj : any = {
       FileName:file
     }
     this.api.Getreportdetails(obj).subscribe((res:any)=>{
       this.Detail = res.data[0];
     })
+    // this.ListReports[index].isSelected=!this.ListReports[index].isSelected;
     return 1;
     // this.Detail = ! this.Detail 
   }
@@ -92,7 +115,10 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       console.log(this.IsSystemReport)      
       // this.ListReports.push({title:result.description, filename:result.filename})    
       console.log(this.ListReports)  
-      // this.Getcustomreports()
+      
+      this.Getcustomreports()
+      // this.ChangeReport(this.IsSystemReport)
+      this.Getreportdetails(result.filename)
     }
     }
     );
@@ -110,7 +136,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       
         let payload = {
           "filename": this.Detail.fileName,
-          "keepFile": true,
+          "keepFile": result === 'keep' ? true : result === 'permanent' ? false : result,
           "wsid": "",
           "username": "",
           "contentRootPath": ""
@@ -123,6 +149,11 @@ export class CustomReportsAndLabelsComponent implements OnInit {
             });
         } else {
           this.Getcustomreports()
+          this.Detail= {}
+          this.toastr.success(`File Deleted Successfully`, 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
 
         };
         })
@@ -134,12 +165,12 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   onFileSelected(event: any) {
     const fileInput = event.target;
     const file = fileInput.files[0];
-
+debugger
     if (!file) {
       // No file selected, handle the case if needed
       return;
     }
-    if(file.name == this.Detail.fileName){
+    if(file.name){
       const formData = new FormData();
       formData.append('file', file);
   
@@ -210,5 +241,22 @@ export class CustomReportsAndLabelsComponent implements OnInit {
         return
       }
     });
+  }
+
+
+  saveInput(){
+   let payload =  {
+      "oldfilename": this.olddetail,
+      "newfilename": this.Detail.fileName,
+      "description":this.Detail.description ,
+      "datasource": this.Detail.testData,
+      "output": this.Detail.outputType,
+      "testDataType": this.Detail.testDataType,
+      "eFilename":this.Detail.exportFileName ,
+    }
+
+    this.api.updatereportDetails(payload).subscribe(res=>{
+      console.log(res)
+    })
   }
 }

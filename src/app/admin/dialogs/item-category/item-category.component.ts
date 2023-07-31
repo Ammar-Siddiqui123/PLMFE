@@ -167,6 +167,6 @@ export class ItemCategoryComponent implements OnInit {
 
   openPrintRangeDialog(){
     this.dialogRef.close();
-    this.route.navigateByUrl(`/report-view?file=Categories-lst`);
+    this.route.navigateByUrl(`/report-view?file=FileName:printCategoriesReport`);
   }
 }
