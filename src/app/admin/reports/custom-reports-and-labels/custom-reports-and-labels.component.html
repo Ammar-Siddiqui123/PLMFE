@@ -87,7 +87,7 @@
                         <!-- <mat-select class="employees-action" [(ngModel)]="Detail.testData" (ngModelChange)="saveInput()"> 
                             <mat-option [value]="Detail.testData" >{{Detail.testData}}</mat-option>
                         </mat-select> -->
-                        <input type="text" [(ngModel)]="Detail.testData"  matInput maxlength="255">
+                        <input type="text" [(ngModel)]="Detail.testData"  matInput maxlength="255" >
                         <span class="material-symbols-outlined icon-expand-more">
                             expand_content
                         </span>
@@ -114,22 +114,22 @@
 
                     <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                         <mat-label>System or Custom Report/Label</mat-label>
-                        <input matInput type="text" maxlength="50" value="{{Detail.systemOutput == true ? 'System':'Custom'}}" disabled (ngModelChange)="saveInput()">
+                        <input matInput type="text" maxlength="50" value="{{Detail.systemOutput == true ? 'System':'Custom'}}" disabled (ngModelChange)="saveInput()" >
                     </mat-form-field>
 
                     <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                         <mat-label>File Name</mat-label>
-                        <input matInput type="text" [(ngModel)]="Detail.fileName" maxlength="50" disabled (ngModelChange)="saveInput()">
+                        <input matInput type="text" [(ngModel)]="Detail.fileName" maxlength="50" disabled  (ngModelChange)="saveInput()">
                     </mat-form-field>
 
                     <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                         <mat-label>Description</mat-label>
-                        <input matInput type="text" maxlength="550" [(ngModel)]="Detail.description" disabled (ngModelChange)="saveInput()">
+                        <input matInput type="text" maxlength="550" [(ngModel)]="Detail.description" disabled  (ngModelChange)="saveInput()">
                     </mat-form-field>
 
                     <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-2" appearance="outline">
                         <mat-label>Output Type</mat-label>
-                        <mat-select class="employees-action" [(ngModel)]="Detail.outputType" disabled (valueChange)="saveInput()">
+                        <mat-select class="employees-action" [(ngModel)]="Detail.outputType" disabled (ngModelChange)="saveInput()">
                             <mat-option [value]="Detail.outputType" >{{Detail.outputType}}</mat-option>
 
                         </mat-select>
