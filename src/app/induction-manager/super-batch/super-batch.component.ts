@@ -70,13 +70,18 @@ export class SuperBatchComponent implements OnInit {
       });
     }else{
       if(type=='printBatchLabels'){
-        window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
+        window.open(`/#/report-view?file=FileName:PrintSuperBatchLabel|ToteID:${this.printBatchLabels}`, '_blank', "location=yes");
+        // window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
       }
       if(type=='printOrderLabels'){
-        window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
+        window.open(`/#/report-view?file=FileName:PrintSuperBatchOrderLabel|ToteID:${this.printBatchLabels}`, '_blank', "location=yes");
+
+        // window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
       }
       if(type=='printCaseLabels'){
-        window.open(`/#/report-view?file=CaseLabel-lbl`, '_blank', "location=yes");
+        window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabelToteID|ToteID:${this.printBatchLabels}`, '_blank', "location=yes");
+
+        // window.open(`/#/report-view?file=CaseLabel-lbl`, '_blank', "location=yes");
       }
    
 

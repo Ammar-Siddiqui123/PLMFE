@@ -347,6 +347,7 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   viewItemInInventoryMaster(element: any) {
+    
     window.open(`/#/admin/inventoryMaster?itemNumber=${element.itemNumber}`, '_blank', "location=yes");
   }
 
@@ -364,7 +365,8 @@ export class SrNewOrderComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result == 'Yes') {
         // alert('The print service is currently offline');
-    window.open(`/#/report-view?file=ReplenList-lst`, '_blank', "location=yes");
+
+        window.open(`/#/report-view?file=FileName:printNewReplenishmentReport|reorder:${this.tablePayloadObj.reOrder}`, '_blank', "location=yes");
 
       }
     });
