@@ -188,17 +188,21 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.postion = "";
     this.tote = "";
   }
-  print(){
-    window.open(`/#/report-view?file=IMPutTote-lbl`, '_blank', "location=yes");
+  print(tote){
+    window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${tote}|BatchID:${this.batchId}`, '_blank', "location=yes");
 
   }
   printToteLoc(){
-    window.open(`/#/report-view?file=IMPutTote-lbl`, '_blank', "location=yes");
+    // window.open(`/#/report-view?file=IMPutTote-lbl`, '_blank', "location=yes");
+
+    window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${this.toteID}|BatchID:${this.batchId}`, '_blank', "location=yes");
     
   }
   printTotePut(){
     
-    window.open(`/#/report-view?file=IMOCPut-lst`, '_blank', "location=yes");
+    // window.open(`/#/report-view?file=IMOCPut-lst`, '_blank', "location=yes");
+
+    window.open(`/#/report-view?file=FileName:PrintOffCarList|BatchID:${this.batchId}`, '_blank', "location=yes");
 
   }
   getCurrentToteID() {
