@@ -29,6 +29,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
 
   }
   ChangeReport(IsSysBolean:boolean){
+    this.Detail = {}
     this.IsSystemReport = IsSysBolean;
     if(this.IsSystemReport == true) this.ListReports = this.sysTitles;
     else this.ListReports = this.reportTitles;
@@ -240,6 +241,8 @@ export class CustomReportsAndLabelsComponent implements OnInit {
 
 
   saveInput(){
+    // if(this.Detail = {})return
+    if(this.Detail.outputType == undefined) return
    let payload =  {
       "oldfilename": this.olddetail,
       "newfilename": this.Detail.fileName,

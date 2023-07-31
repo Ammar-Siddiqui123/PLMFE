@@ -23,6 +23,8 @@ export class CrAddNewCustomReportComponent implements OnInit {
   listOfFileName
   appendstring
   AddNewColumns
+  AddNewColumnscheck = false
+  
   AddNewFilePresent = false
   RestoreAll = false
   CurrentFilename
@@ -53,7 +55,7 @@ export class CrAddNewCustomReportComponent implements OnInit {
   }
 
 
-
+  
   saveNew(){
     let  newParams = [
       this.NewDescription,
@@ -124,8 +126,13 @@ export class CrAddNewCustomReportComponent implements OnInit {
             resultSetString = `  Number of result sets found:${resultSets}.  ONE result set must be used.`
           }
           
-          if(res.data.sqlObj?.columns){
+          if(res.data.sqlObj?.columns.length != 0){
+            console.log(res.data.sqlObj?.columns.length)
             this.AddNewColumns = res.data.sqlObj.columns 
+            this.AddNewColumnscheck = true
+          }else{
+            this.AddNewColumnscheck = false
+
           }
 
           // this.AddNewColumns = this.buildAppendString('Columns in the first resultset:', res.data.sqlObj.columns) + resultSetString
