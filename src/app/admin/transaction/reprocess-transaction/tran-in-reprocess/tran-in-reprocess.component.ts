@@ -27,6 +27,7 @@ export class TranInReprocessComponent implements OnInit {
   @Output() selectedOrderNumber = new EventEmitter<string>();
   @Output() selectedItemNum = new EventEmitter<string>();
   @Output() filterCleared = new EventEmitter<string>();
+  @Output() selectedOptionChange = new EventEmitter<string>();
 
   constructor(
     private Api: ApiFuntions,
@@ -36,7 +37,7 @@ export class TranInReprocessComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    this.selectedOptionChange.emit(this.selectedOption);
     this.userData = this.authService.userData();
     // this.OSFieldFilterNames();
     this.getFilteredList();
@@ -71,6 +72,7 @@ export class TranInReprocessComponent implements OnInit {
     }
     this.radioChangeEvent.emit({radioChange:true})
     this.reprocessSelectionEvent.emit(event.value);
+    this.selectedOptionChange.emit(this.selectedOption);
     this.clear();
   }
   reasonFilterChange(event) {
