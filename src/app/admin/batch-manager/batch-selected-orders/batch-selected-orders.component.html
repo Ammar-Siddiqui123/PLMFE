@@ -38,8 +38,8 @@
                 keyboard_arrow_down
               </span>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>Batch Report</button>
-              <button mat-menu-item>Item Labels</button>
+              <button (click)="printReport('Batch')" mat-menu-item>Batch Report</button>
+              <button (click)="printReport('Label')"  mat-menu-item>Item Labels</button>
             </mat-menu>
           </button>
           </div>

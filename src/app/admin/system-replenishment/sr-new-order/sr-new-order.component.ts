@@ -347,10 +347,13 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   viewItemInInventoryMaster(element: any) {
+    
     window.open(`/#/admin/inventoryMaster?itemNumber=${element.itemNumber}`, '_blank', "location=yes");
   }
 
   print() {
+
+  
     let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       height: 'auto',
       width: '560px',
@@ -361,7 +364,10 @@ export class SrNewOrderComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result == 'Yes') {
-        alert('The print service is currently offline');
+        // alert('The print service is currently offline');
+
+        window.open(`/#/report-view?file=FileName:printNewReplenishmentReport|reorder:${this.tablePayloadObj.reOrder}`, '_blank', "location=yes");
+
       }
     });
   }

@@ -30,7 +30,7 @@
                             </mat-form-field>
                         </div>
                         <div class="d-flex gap-12">
-                            <button mat-flat-button color="primary" class="primary-button btn-regular w-100">
+                            <button mat-flat-button color="primary" class="primary-button btn-regular w-100" (click)="printList()">
                                 Print List
                             </button>
                         </div>
@@ -121,7 +121,7 @@
                                 
                                 <mat-menu #appMenu="matMenu">
                                     <button mat-menu-item (click)="openShipSplitLine(element, i)">Split Line</button>
-                                    <button mat-menu-item (click)="openShipPrintItemLabel()">Print Item Label</button>
+                                    <button mat-menu-item (click)="openShipPrintItemLabel(element,i)">Print Item Label</button>
                                     <button mat-menu-item (click)="openShipEditContainerID(element, i)">Edit Container ID</button>
                                     <button mat-menu-item (click)="openShipEditQuantity(element, i)">Edit Ship Quantity</button>
                                 </mat-menu>

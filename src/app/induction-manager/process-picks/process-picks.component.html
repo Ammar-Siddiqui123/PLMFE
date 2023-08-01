@@ -15,10 +15,10 @@
                     expand_more
                 </span>
             </button>
-            <mat-menu #appMenu="matMenu">
-                <button mat-menu-item><b>Print Tote/Location Labels</b></button>
-                <button mat-menu-item>Print Pick Labels</button>
-                <button mat-menu-item>Print Pick List</button>
+            <mat-menu #appMenu="matMenu" >
+                <button (click)="printPick('PrintTote')" mat-menu-item><b>Print Tote/Location Labels</b></button>
+                <button (click)="printPick('PrintPickLabel')"mat-menu-item>Print Pick Labels</button>
+                <button (click)="printPick('PrintPickList')" mat-menu-item>Print Pick List</button>
             </mat-menu>
         </div>
         <div class="row">
@@ -118,11 +118,11 @@
                         </span>
                     </button>
                     <mat-menu #appMenu1="matMenu">
-                        <button mat-menu-item><b>Print Tote/Location Labels</b></button>
-                        <button mat-menu-item>Print Pick Labels</button>
-                        <button mat-menu-item>Print Pick List</button>
-                        <button mat-menu-item>Print Case Labels</button>
-                        <button mat-menu-item>Print Pick Batch List</button>
+                        <button (click)="printExisting('PrintTote')" mat-menu-item><b>Print Tote/Location Labels</b></button>
+                        <button  (click)="printExisting('PrintPickLabel')" mat-menu-item>Print Pick Labels</button>
+                        <button  (click)="printExisting('PrintPickList')" mat-menu-item>Print Pick List</button>
+                        <button  (click)="printExisting('PrintCase')" mat-menu-item>Print Case Labels</button>
+                        <!-- <button  (click)="printExisting('PrintBatch')" mat-menu-item>Print Pick Batch List</button> -->
                     </mat-menu>
                 </div>
                 <div class="card p-3 mb-2">
@@ -306,8 +306,8 @@
                                 <mat-menu #appMenu="matMenu">
                                     <button type="button" mat-menu-item (click)="onViewOrder(element)"><b class="text-tertiary-900">View Order</b></button>
                                     <button type="button" mat-menu-item (click)="clearOrderNumber(i)">Clear</button>
-                                    <button type="button" mat-menu-item>Print Tote Labels</button>
-                                    <button type="button" mat-menu-item>Print Pick Labels</button>
+                                    <button type="button" (click)="printToteLabels(element)" mat-menu-item>Print Tote Labels</button>
+                                    <button type="button" (click)="printPickLabels(element)" mat-menu-item>Print Pick Labels</button>
                                     <button type="button" mat-menu-item (click)="fillNextToteID(i)">Next Tote ID</button>
                                 </mat-menu>
                             </div>

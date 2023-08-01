@@ -18,7 +18,7 @@ import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/c
 import { Subject } from 'rxjs';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-sr-current-order',
   templateUrl: './sr-current-order.component.html',
@@ -83,7 +83,8 @@ export class SrCurrentOrderComponent implements OnInit {
     private Api: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService,
-    private filterService: ContextMenuFiltersService
+    private filterService: ContextMenuFiltersService,
+    private router:Router
   ) { }
 
 
@@ -264,10 +265,35 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   printOrders() {
-    alert("The print service is currently offline");
+
+    switch ( this.tablePayloadObj.searchColumn) {
+      case 'Trans Type':
+        this.tablePayloadObj.searchColumn='Transaction Type'
+        break;
+        case 'Carsl':
+          this.tablePayloadObj.searchColumn='Carousel'
+          break;
+          case 'Trans Qty':
+            this.tablePayloadObj.searchColumn='Transaction Quantity'
+            break;
+            case 'UofM':
+              this.tablePayloadObj.searchColumn='Unit of Measure'
+              break;
+              case 'Comp Date':
+                this.tablePayloadObj.searchColumn='Completed Date'
+                break;
+      default:
+        break;
+    }
+   
+    
+    window.open(`/#/report-view?file=FileName:printReplenishmentReportLabels|searchString:${this.repByDeletePayload.searchString?this.repByDeletePayload.searchString:''}|searchColumn:${this.tablePayloadObj.searchColumn}|Status:${this.tablePayloadObj.status}|filter:${this.tablePayloadObj.filter}`, '_blank', "location=yes");
+
+    // alert("The print service is currently offline");
   }
 
   printLabels() {
+ 
     const dialogRef = this.dialog.open(PrintReplenLabelsComponent, {
       width: '1100px',
       autoFocus: '__non_existing_element__',
@@ -276,6 +302,28 @@ export class SrCurrentOrderComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        switch ( this.tablePayloadObj.searchColumn) {
+          case 'Trans Type':
+            this.tablePayloadObj.searchColumn='Transaction Type'
+            break;
+            case 'Carsl':
+              this.tablePayloadObj.searchColumn='Carousel'
+              break;
+              case 'Trans Qty':
+                this.tablePayloadObj.searchColumn='Transaction Quantity'
+                break;
+                case 'UofM':
+                  this.tablePayloadObj.searchColumn='Unit of Measure'
+                  break;
+                  case 'Comp Date':
+                    this.tablePayloadObj.searchColumn='Completed Date'
+                    break;
+          default:
+            break;
+        }
+        
+        window.open(`/#/report-view?file=FileName:printReplenishmentReportLabels|searchString:${this.repByDeletePayload.searchString?this.repByDeletePayload.searchString:''}|searchColumn:${this.tablePayloadObj.searchColumn}|Status:${this.tablePayloadObj.status}|PrintAll:${1}|filter:${this.tablePayloadObj.filter}|Sort:${this.tableData.sort}`, '_blank', "location=yes");
+    
       }
     });
   }

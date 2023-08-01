@@ -318,7 +318,9 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   printViewed() {
-    alert('The print service is currently offline');
+    this.dialogRef.close();
+    let tabIDs = this.tableData.filteredData.map((x:any) => x.id).toString();
+    this.router.navigateByUrl(`/report-view?file=FileName:PrintReleaseOrders|tabIDs:${tabIDs}|View:|Table:|Page:${'Create Orders'}|WSID:${this.userData.wsid}`);
   }
 
   deleteViewed() {

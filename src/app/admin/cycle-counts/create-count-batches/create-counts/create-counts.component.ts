@@ -27,6 +27,7 @@ import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confir
 import { FloatLabelType } from '@angular/material/form-field';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-ccb-create-counts',
@@ -41,6 +42,7 @@ export class CCBCreateCountsComponent implements OnInit {
   warehouse: string = '';
   subCategory: any;
   math = Math;
+  printCC:boolean=false;
   @Input() updateTable: boolean;
   warehouses: any = [];
   customPagination: any = {
@@ -122,7 +124,9 @@ export class CCBCreateCountsComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     public dialog: MatDialog,
-    private liveAnnouncer: LiveAnnouncer
+    private liveAnnouncer: LiveAnnouncer,
+    private router: Router,
+    
   ) {
     this.filtersForm = new FormGroup({
       countType: new FormControl(''),
@@ -278,6 +282,14 @@ export class CCBCreateCountsComponent implements OnInit {
     // this.filtersForm.controls['category'].setValue(item.category);
     this.fillData();
     }
+  }
+  printCountOrders(){
+    if(this.printCC){
+      window.open(`/#/report-view?file=FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_self', "location=yes");
+    }else{
+      window.open(`/#/report-view?file=FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_blank', "location=yes");
+    }
+
   }
   resetVal() {
     this.filtersForm.controls['fromLocation'].setValue('');
@@ -443,6 +455,10 @@ export class CCBCreateCountsComponent implements OnInit {
             this.curCountOrders = res.data.countOrders
               ? res.data.countOrders
               : [];
+
+              if (this.curCountOrders.length > 0) {
+                this.orderNumber = this.curCountOrders[0].orderNumber;
+              }
           }
           // If the data is not returned, show an error message
           else {

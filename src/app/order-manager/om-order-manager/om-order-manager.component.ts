@@ -576,4 +576,8 @@ export class OmOrderManagerComponent implements OnInit {
     matSelect.writeValue(null);
   }
 
+  printViewed(){
+    this.router.navigateByUrl(`/report-view?file=FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`);
+  }
+
 }

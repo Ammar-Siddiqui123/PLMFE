@@ -1439,8 +1439,11 @@ public reportfieldvalues(body): Observable<any> {
 public ReportTitles(body): Observable<any> { 
   return this.ApiBase.Update("/Admin/customreports/ReportTitles",body);
 } 
-
-public importFile(body){
+public changefilter(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/customreports/changefilter",body);
+}
+ 
+public importFile(body){ 
   return this.ApiBase.PostFormData(`/Admin/customreports/importFile`,body);
 }
 
@@ -1451,10 +1454,18 @@ public getLLDesignerNewDesign(body){
   return this.ApiBase.Post(`/Admin/customreports/GetLLDesignerNewDesign`,body);
 }
 public restoreDesign(body){
-  return this.ApiBase.Post(`Admin/customreports/RestoreDesign`,body);
+  return this.ApiBase.Post(`/Admin/customreports/GetLLDesignerNewDesign`,body);
 }
 
 public deleteReport(payload:any) {
-  return  this.ApiBase.Delete("Admin/customreports/Report",payload);
+  return  this.ApiBase.Post("/Admin/customreports/CustomReportDelete",payload);
 } 
+
+public pushReportChanges(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/customreports/PushReportChanges",body);
+} 
+
+public updatereportDetails(body): Observable<any> {
+  return this.ApiBase.Put(`/Admin/customreports/reportdetails`,body);
+}
 }

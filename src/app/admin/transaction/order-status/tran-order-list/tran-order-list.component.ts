@@ -274,7 +274,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     private _liveAnnouncer: LiveAnnouncer,
     private sharedService: SharedService,
     private dialog: MatDialog,
-    router: Router,
+    private router: Router,
     private filterService: ContextMenuFiltersService
   ) {
     this.setVal = localStorage.getItem('routeFromOrderStatus')
@@ -794,4 +794,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
 
   }
 
+  printReport(){
+    this.router.navigateByUrl(`/report-view?file=FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`);
+  }
 }
