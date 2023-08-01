@@ -319,7 +319,7 @@ export class OmCreateOrdersComponent implements OnInit {
 
   printViewed() {
     this.dialogRef.close();
-    let tabIDs = this.tableData.filteredData.map((x:any) => x.id).toString();
+    let tabIDs = this.tableData.filteredData?.length > 0 ? this.tableData.filteredData.map((x:any) => x.id).toString() : '';
     this.router.navigateByUrl(`/report-view?file=FileName:PrintReleaseOrders|tabIDs:${tabIDs}|View:|Table:|Page:${'Create Orders'}|WSID:${this.userData.wsid}`);
   }
 
