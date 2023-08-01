@@ -294,15 +294,15 @@ printPackList(){
 print(type:any){
   if(type == 'list'){
     this.dialogRef.close();
-    this.route.navigateByUrl(`/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}`);
+    this.route.navigateByUrl(`/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`);
   }
   else if (type == 'label'){
     this.dialogRef.close();
-    this.route.navigateByUrl(`/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}`);
+    this.route.navigateByUrl(`/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`);
   }
   else{
-    window.open(`/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}`, "_blank");
-    window.open(`/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}`, "_blank");
+    window.open(`/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`, "_blank");
+    window.open(`/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`, "_blank");
   }
 }
 
