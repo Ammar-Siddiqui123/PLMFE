@@ -1,0 +1,12 @@
+table{
+    th{
+        white-space: nowrap;
+    }
+    td{
+        padding-right: 20px;
+        white-space: nowrap;
+        max-width: 25ch;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}
