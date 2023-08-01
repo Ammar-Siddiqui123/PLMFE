@@ -9,15 +9,15 @@ import { MatDialog } from '@angular/material/dialog';
 export class IeManageDataInvenMapTablesComponent implements OnInit {
   ELEMENT_DATA: any[] =[
     {inv_map_id: '1202122'},
-    {inv_map_id: '1202123'},
-    {inv_map_id: '1202124'},
-    {inv_map_id: '1202125'},
-    {inv_map_id: '1202126'},
-    {inv_map_id: '1202127'},
+    // {inv_map_id: '1202123'},
+    // {inv_map_id: '1202124'},
+    // {inv_map_id: '1202125'},
+    // {inv_map_id: '1202126'},
+    // {inv_map_id: '1202127'},
     
   ]
 
-    displayedColumns: string[] = ['inv_map_id','transaction_type','location_id','warehouse','cell_size','golden_zone','zone','carousel'];
+    displayedColumns: string[] = ['inv_map_id','transaction_type','location_id','warehouse','cell_size','golden_zone','zone','carousel','putaway','maxqty','revision','s_no','lot_no','e_date','uf1','uf2'];
     tableData = this.ELEMENT_DATA
     dataSourceList:any
 
