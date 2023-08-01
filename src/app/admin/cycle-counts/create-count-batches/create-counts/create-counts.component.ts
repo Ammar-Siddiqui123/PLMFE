@@ -285,9 +285,9 @@ export class CCBCreateCountsComponent implements OnInit {
   }
   printCountOrders(){
     if(this.printCC){
-      window.open(`/#/report-view?file=CycleCountDetail-lst`, '_self', "location=yes");
+      window.open(`/#/report-view?file=FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_self', "location=yes");
     }else{
-      window.open(`/#/report-view?file=CycleCountDetail-lst`, '_blank', "location=yes");
+      window.open(`/#/report-view?file=FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_blank', "location=yes");
     }
 
   }
@@ -455,6 +455,10 @@ export class CCBCreateCountsComponent implements OnInit {
             this.curCountOrders = res.data.countOrders
               ? res.data.countOrders
               : [];
+
+              if (this.curCountOrders.length > 0) {
+                this.orderNumber = this.curCountOrders[0].orderNumber;
+              }
           }
           // If the data is not returned, show an error message
           else {

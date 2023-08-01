@@ -63,7 +63,7 @@ export class SuperBatchComponent implements OnInit {
     })
   }
   printBatchLabel(type){
-    if(!this.printBatchLabels){
+    if(this.printBatchLabels){
       this.toastr.error('Please Select a Batch ID to Print', 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
