@@ -173,7 +173,7 @@
                                   </button>
                 
                                   <mat-menu #appMenu="matMenu">
-                                    <button mat-menu-item (click)="print()">Print</button>
+                                    <button mat-menu-item (click)="print(element.toteid)">Print</button>
                                     <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element,1,i)">Clear</button>
                                     <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element,0,i)">Assign Next ID</button>
                                   </mat-menu>
