@@ -102,7 +102,8 @@ export class GenerateTransactionComponent implements OnInit {
     // this.selectedOrder = event.target.value;
   }
   printLabelMT(){
-    window.open(`/#/report-view?file=ManTran-lbl`, '_blank', "location=yes");
+    window.open(`/#/report-view?file=FileName:printMTLabel|ID:${this.transactionID}|User:${this.userData.userName}`, '_blank', "location=yes");
+    // window.open(`/#/report-view?file=ManTran-lbl`, '_blank', "location=yes");
   }
   clearMatSelectList(){
     this.openAction.options.forEach((data: MatOption) => data.deselect());

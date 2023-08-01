@@ -265,7 +265,29 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   printOrders() {
-    window.open(`/#/report-view?file=ReplenList-lst`, '_blank', "location=yes");
+
+    switch ( this.tablePayloadObj.searchColumn) {
+      case 'Trans Type':
+        this.tablePayloadObj.searchColumn='Transaction Type'
+        break;
+        case 'Carsl':
+          this.tablePayloadObj.searchColumn='Carousel'
+          break;
+          case 'Trans Qty':
+            this.tablePayloadObj.searchColumn='Transaction Quantity'
+            break;
+            case 'UofM':
+              this.tablePayloadObj.searchColumn='Unit of Measure'
+              break;
+              case 'Comp Date':
+                this.tablePayloadObj.searchColumn='Completed Date'
+                break;
+      default:
+        break;
+    }
+   
+    
+    window.open(`/#/report-view?file=FileName:printReplenishmentReportLabels|searchString:${this.repByDeletePayload.searchString?this.repByDeletePayload.searchString:''}|searchColumn:${this.tablePayloadObj.searchColumn}|Status:${this.tablePayloadObj.status}|filter:${this.tablePayloadObj.filter}`, '_blank', "location=yes");
 
     // alert("The print service is currently offline");
   }
@@ -280,8 +302,28 @@ export class SrCurrentOrderComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-       
-        window.open(`/#/report-view?file=Replen-lbl`, '_blank', "location=yes");
+        switch ( this.tablePayloadObj.searchColumn) {
+          case 'Trans Type':
+            this.tablePayloadObj.searchColumn='Transaction Type'
+            break;
+            case 'Carsl':
+              this.tablePayloadObj.searchColumn='Carousel'
+              break;
+              case 'Trans Qty':
+                this.tablePayloadObj.searchColumn='Transaction Quantity'
+                break;
+                case 'UofM':
+                  this.tablePayloadObj.searchColumn='Unit of Measure'
+                  break;
+                  case 'Comp Date':
+                    this.tablePayloadObj.searchColumn='Completed Date'
+                    break;
+          default:
+            break;
+        }
+        
+        window.open(`/#/report-view?file=FileName:printReplenishmentReportLabels|searchString:${this.repByDeletePayload.searchString?this.repByDeletePayload.searchString:''}|searchColumn:${this.tablePayloadObj.searchColumn}|Status:${this.tablePayloadObj.status}|PrintAll:${1}|filter:${this.tablePayloadObj.filter}|Sort:${this.tableData.sort}`, '_blank', "location=yes");
+    
       }
     });
   }

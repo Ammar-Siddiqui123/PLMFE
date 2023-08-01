@@ -9,20 +9,26 @@
     </div>
     <div class="w-100">
         <button mat-stroked-button color="primary"
-          class="w-100 btn-lg mb-3 prompt-action-accent-button">
+          class="w-100 btn-lg mb-3 prompt-action-accent-button" (click)="goBack('this')">
           Restore Design For This Workstation
         </button>
       </div>
-      <div class="w-100">
-        <button  mat-stroked-button color="primary"
-          class="w-100 mat-focus-indicator custom-btn bg-white w-100 btn-lg mat-stroked-button mat-button-base mat-basic">
+      <div class="w-100" *ngIf="restoreAll">
+        <button  mat-stroked-button color="basic" mat-stroked-button color="basic" class="custom-btn bg-white w-100 btn-lg mb-3"
+        (click)="goBack('all')">
           Restore Design For All Workstation
         </button>
       </div>
       <div class="w-100">
-        <button  mat-stroked-button color="primary"
-          class="w-100 mat-focus-indicator custom-btn bg-white w-100 btn-lg mat-stroked-button mat-button-base mat-basic">
+        <button  mat-stroked-button color="basic"
+          class="custom-btn bg-white w-100 btn-lg mb-3" (click)="goBack('delete')">
           Delete Design ( PERMENENT )
+        </button>
+      </div>
+      <div class="w-100"  >
+        <button  mat-stroked-button color="basic" [mat-dialog-close]="true"
+          class="custom-btn bg-white w-100 btn-lg mb-3">
+          Cancel
         </button>
       </div>
   </div>

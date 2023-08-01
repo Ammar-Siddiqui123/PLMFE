@@ -288,27 +288,26 @@ async ConfirmedPacked() {
 
 printPackList(){
   this.dialogRef.close();
-  this.route.navigateByUrl(`/report-view?file=CMOrderPL-lst`);
+  this.route.navigateByUrl(`/report-view?file=FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
 }
 
 print(type:any){
   if(type == 'list'){
     this.dialogRef.close();
-    this.route.navigateByUrl(`/report-view?file=CMOrderPL-lst`);
+    this.route.navigateByUrl(`/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}`);
   }
   else if (type == 'label'){
     this.dialogRef.close();
-    this.route.navigateByUrl(`/report-view?file=CMContID-lbl`);
+    this.route.navigateByUrl(`/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}`);
   }
   else{
-    // this.route.navigateByUrl(`/report-view?file=CMOrderPL-lst`);
-    window.open(`/#/report-view?file=CMOrderPL-lst`, "_blank");
-    window.open(`/#/report-view?file=CMContID-lbl`, "_blank");
+    window.open(`/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}`, "_blank");
+    window.open(`/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}`, "_blank");
   }
 }
 
 itemLabel(element:any){
-  this.route.navigateByUrl(`/report-view?file=CMItem-lbl`);
+  this.route.navigateByUrl(`/report-view?file=FileName:PrintConfPackItemLabel|OrderNum:${this.orderNumber}|ST_ID:${element.sT_ID}`);
 }
 
 }

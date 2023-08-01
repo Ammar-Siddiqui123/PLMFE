@@ -20,10 +20,10 @@
                         <div class="d-flex d-lg-block">
                             <mat-form-field class="action-dropdown mb-3" appearance="outline" style="flex:1">
                                 <mat-label>Actions</mat-label>
-                                <mat-select class="employees-action" value="pick">
-                                    <mat-option value="123456" (click)="OpenListAndLabel()">Print</mat-option>
-                                    <mat-option value="987654" (click)="OpenListAndLabel()">Export</mat-option>
-                                    <mat-option value="147852">Preview Top 50 Pages Only</mat-option>
+                                <mat-select class="employees-action" [disabled]="!this.BasicReportModel.ChooseReport" value="pick">
+                                    <mat-option   (click)="OpenListAndLabel()">Print</mat-option>
+                                    <mat-option    (click)="OpenListAndLabel()">Export</mat-option>
+                                    <mat-option    (click)="OpenListAndLabel()">Preview Top 50 Pages Only</mat-option>
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
                                     expand_more
