@@ -75,8 +75,8 @@ const routes: Routes = [
     canActivate:[AuthGuardGuard]
   },
   
-  { path: 'report-view', component: WrvComponent },
-  { path: 'report', component: WrdComponent },
+  { path: 'report-view-iframe', component: WrvComponent },
+  { path: 'report-iframe', component: WrdComponent },
   {
     path: '',
     component: DashboardComponent,
@@ -129,7 +129,7 @@ const routes: Routes = [
         canActivate:[AuthGuardGuard]
       },
       { 
-        path: 'ListAndLabel', 
+        path: '', 
         loadChildren: () => import('./list-and-label/list-and-label.module').then(m => m.ListAndLabelModule),
         // canActivate:[AuthGuardGuard]
       },

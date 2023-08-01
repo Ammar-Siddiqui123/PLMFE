@@ -18,6 +18,10 @@ export class WrdFrontendComponent implements OnInit {
     // this.FileName = file;
      
   }
+  ngOnDestroy(){
+    this.sharedService.SideBarMenu.next(true);
+  }
+
   ngOnInit(): void {
     var filename = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('file')),
