@@ -307,6 +307,7 @@ print(type:any){
 }
 
 itemLabel(element:any){
+  this.dialogRef.close();
   this.route.navigateByUrl(`/report-view?file=FileName:PrintConfPackItemLabel|OrderNum:${this.orderNumber}|ST_ID:${element.sT_ID}`);
 }
 
