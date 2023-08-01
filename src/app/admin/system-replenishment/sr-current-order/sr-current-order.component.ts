@@ -287,7 +287,7 @@ export class SrCurrentOrderComponent implements OnInit {
     }
    
     
-    window.open(`/#/report-view?file=FileName:printReplenishmentReportLabels|searchString:${this.repByDeletePayload.searchString?this.repByDeletePayload.searchString:''}|searchColumn:${this.tablePayloadObj.searchColumn}|Status:${this.tablePayloadObj.status}|filter:${this.tablePayloadObj.filter}`, '_blank', "location=yes");
+    window.open(`/#/report-view?file=FileName:printReplenishmentReportLabels|searchString:${this.repByDeletePayload.searchString?this.repByDeletePayload.searchString:''}|searchColumn:${this.tablePayloadObj.searchColumn}|Status:${this.tablePayloadObj.status}|filter:${this.tablePayloadObj.filter}|ident:Orders`, '_blank', "location=yes");
 
     // alert("The print service is currently offline");
   }
@@ -322,7 +322,7 @@ export class SrCurrentOrderComponent implements OnInit {
             break;
         }
         
-        window.open(`/#/report-view?file=FileName:printReplenishmentReportLabels|searchString:${this.repByDeletePayload.searchString?this.repByDeletePayload.searchString:''}|searchColumn:${this.tablePayloadObj.searchColumn}|Status:${this.tablePayloadObj.status}|PrintAll:${1}|filter:${this.tablePayloadObj.filter}|Sort:${this.tableData.sort}`, '_blank', "location=yes");
+        window.open(`/#/report-view?file=FileName:printReplenishmentReportLabels|searchString:${this.repByDeletePayload.searchString?this.repByDeletePayload.searchString:''}|searchColumn:${this.tablePayloadObj.searchColumn}|Status:${this.tablePayloadObj.status}|PrintAll:${1}|filter:${this.tablePayloadObj.filter}|Sort:${this.tableData.sort}|ident:Label`, '_blank', "location=yes");
     
       }
     });
