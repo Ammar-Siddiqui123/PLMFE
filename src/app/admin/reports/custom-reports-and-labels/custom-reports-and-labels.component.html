@@ -1,8 +1,8 @@
 <div class="container-fluid-0 mt-4 p-0">
-    <div class="row mb-3">
+    <div class="row">
         <div class="col-xl-4">
 
-            <mat-card class="mat-elevation-z g-card mb-4">
+            <mat-card class="mat-elevation-z g-card mb-4 mb-xl-0">
                 <mat-card-content>
 
                     <div class="d-xl-flex justify-content-between">
@@ -32,9 +32,11 @@
 
                     <div class="card row m-2 ms-auto report-label-list" >
                         <ul class="">
+                            <ng-scrollbar track="all" style="height: 58vh;">
                           <li class="my-2 px-2" *ngFor="let item of ListReports ; index as i" (click)="Getreportdetails(item.filename)" [class.selected]="item.isSelected">
                            {{item.title}}
                           </li> 
+                        </ng-scrollbar>
                         </ul>
                       </div>
                     
@@ -44,8 +46,8 @@
         </div>
 
         <div class="col-xl-8">
-            <mat-card class="mat-elevation-z g-card mb-4">
-                <mat-card-content>
+            <mat-card class="mat-elevation-z g-card">
+                <mat-card-content class="test">
                     <div class="d-xl-flex justify-content-between">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <h2 class="card-header-title d-flex align-items-center mb-0">
@@ -71,7 +73,7 @@
                                        (click)="OpenListAndLabel('report')"
                                         >Design</mat-option>
                                     <mat-option   (click)="openDeleteDialogue()" >Delete</mat-option>
-                                    <mat-option value=""  (click)="pushReports()">Push Changes</mat-option>
+                                    <!-- <mat-option value=""  (click)="pushReports()">Push Changes</mat-option> -->
                                     <mat-option  (click)="fileInput.click()" >Import</mat-option>
                                 </mat-select>
                                 <input type="file" style="display: none" accept=".lst,.lbl" id="ImportFileVal" (change)="onFileSelected($event)"  #fileInput>
@@ -81,8 +83,9 @@
                             </mat-form-field>
                         </div>
                     </div>
-
-                    <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-3" appearance="outline" (click)="openEditDesign()">
+                    <div class="d-flex flex-column" style="flex:1">
+                        <div style="flex:1">
+                    <mat-form-field class="custom-form-field custom-form-field-bg-white w-100 mb-2" appearance="outline" (click)="openEditDesign()">
                         <mat-label>Test and Design Data</mat-label>
                         <!-- <mat-select class="employees-action" [(ngModel)]="Detail.testData" (ngModelChange)="saveInput()"> 
                             <mat-option [value]="Detail.testData" >{{Detail.testData}}</mat-option>
@@ -127,7 +130,7 @@
                         <input matInput type="text" maxlength="550" [(ngModel)]="Detail.description" disabled  (ngModelChange)="saveInput()">
                     </mat-form-field>
 
-                    <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-2" appearance="outline">
+                    <mat-form-field class="action-dropdown custom-form-field w-100 mb-2" appearance="outline">
                         <mat-label>Output Type</mat-label>
                         <mat-select class="employees-action" [(ngModel)]="Detail.outputType" disabled (ngModelChange)="saveInput()">
                             <mat-option [value]="Detail.outputType" >{{Detail.outputType}}</mat-option>
@@ -138,13 +141,16 @@
                         </span>
                     </mat-form-field>
 
-                    <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+                    <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
                         <mat-label>Export Filename</mat-label>
                         <input matInput type="text"  [(ngModel)]="Detail.exportFileName" maxlength="50" (ngModelChange)="saveInput()">
                     </mat-form-field>
-
-
-
+                </div>
+                <div class="text-center">
+                    <button mat-flat-button color="primary" class="w-100 btn-lg" (click)="pushReports()">Push Changes</button>
+                    </div>
+                </div>
+                    
                 </mat-card-content>
             </mat-card>
         </div>
