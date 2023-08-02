@@ -219,32 +219,7 @@ export class SideNavComponent implements OnInit {
         }
       }
     });
-
-    // this.sharedService.menuData$.subscribe(data => {
-    //   this.menuData = data;
-    //   let mednuAlter=[{title:'',icon:'',route:'',permission:''}]
-    // this.dynamicMenu= this.menuData.map((item,index)=>{
-      
-    //   mednuAlter[index].title=item.displayname
-    //   mednuAlter[index].icon=item.info.iconName
-    //   mednuAlter[index].route=item.info.route
-    //   mednuAlter[index].permission=item.info.permission
-    //   return mednuAlter
-    //   })
-    //  console.log( this.dynamicMenu);
-     
-    // });
-  }
-  
-  ngAfterViewInit(){
-     // let menuFromStorage=JSON.parse(localStorage.getItem('availableApps')|| '');
-    //   console.log(menuFromStorage);
-    //   menuFromStorage.filter((item,i)=>{
-    //     this.dynamicMenu[0]={icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'}
-    //     this.dynamicMenu.push({icon:item.info.iconName,title:item.displayname,route:item.info.route,permission:item.info.permission})
-    //   })
-
-     
+    
     this.sharedService.menuData$.subscribe(data => { 
       //  debugger
        if(this.menuData.length===0){
@@ -276,6 +251,32 @@ export class SideNavComponent implements OnInit {
       }
 
     });
+    // this.sharedService.menuData$.subscribe(data => {
+    //   this.menuData = data;
+    //   let mednuAlter=[{title:'',icon:'',route:'',permission:''}]
+    // this.dynamicMenu= this.menuData.map((item,index)=>{
+      
+    //   mednuAlter[index].title=item.displayname
+    //   mednuAlter[index].icon=item.info.iconName
+    //   mednuAlter[index].route=item.info.route
+    //   mednuAlter[index].permission=item.info.permission
+    //   return mednuAlter
+    //   })
+    //  console.log( this.dynamicMenu);
+     
+    // });
+  }
+  
+  ngAfterViewInit(){
+     // let menuFromStorage=JSON.parse(localStorage.getItem('availableApps')|| '');
+    //   console.log(menuFromStorage);
+    //   menuFromStorage.filter((item,i)=>{
+    //     this.dynamicMenu[0]={icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'}
+    //     this.dynamicMenu.push({icon:item.info.iconName,title:item.displayname,route:item.info.route,permission:item.info.permission})
+    //   })
+
+     
+
   }
 
   // let menuFromStorage=JSON.parse(localStorage.getItem('availableApps')|| '');
