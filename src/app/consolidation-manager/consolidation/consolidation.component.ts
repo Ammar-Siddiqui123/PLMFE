@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router'; 
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
 import { event } from 'jquery';
 import { CmConfirmAndPackingSelectTransactionComponent } from 'src/app/dialogs/cm-confirm-and-packing-select-transaction/cm-confirm-and-packing-select-transaction.component';
@@ -40,31 +40,32 @@ export class ConsolidationComponent implements OnInit {
 
   @ViewChild('autoFocusField') searchBoxField: ElementRef;
 
-  public startSelectFilter: any ;
+  public startSelectFilter: any;
   public startSelectFilterLabel: any;
+  packListSort:any;
   public sortBy: number
   public open: number = 0;
   public completed: number = 0;
   public backOrder: number = 0;
   public TypeValue: any
   public userData: any;
-  public filterValue:any;
-  public consolidationIndex:any;
-  public IdentModal:any;
-  public nextOrderbtn:boolean = false;
-  public unverifybtn:boolean = true;
-  public verifybtn:boolean = true;
-  public packingbtn:boolean = true;
-  public stagingbtn:boolean = true;
-  public shippingbtb:boolean = true;
-  public orderstatusbtn:boolean = false;
-  public printButtons:boolean = true;
-  public type :any ='';
+  public filterValue: any;
+  public consolidationIndex: any;
+  public IdentModal: any;
+  public nextOrderbtn: boolean = false;
+  public unverifybtn: boolean = true;
+  public verifybtn: boolean = true;
+  public packingbtn: boolean = true;
+  public stagingbtn: boolean = true;
+  public shippingbtb: boolean = true;
+  public orderstatusbtn: boolean = false;
+  public printButtons: boolean = true;
+  public type: any = '';
 
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
 
-  public isitemVisible:boolean = true;
-  public issupplyVisible:boolean = false;
+  public isitemVisible: boolean = true;
+  public issupplyVisible: boolean = false;
 
   searchByItem: any = new Subject<string>();
   searchAutocompleteItemNum: any = [];
@@ -75,34 +76,34 @@ export class ConsolidationComponent implements OnInit {
   displayedColumns_1: string[] = ['itemNumber', 'lineStatus', 'lineNumber', 'completedQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
   tableData_1 = new MatTableDataSource<any>([]);
 
-  displayedColumns_2: string[] = ['itemNumber', 'lineStatus','supplierItemID', 'lineNumber', 'completedQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
+  displayedColumns_2: string[] = ['itemNumber', 'lineStatus', 'supplierItemID', 'lineNumber', 'completedQuantity', 'toteID', 'serialNumber', 'userField1', 'actions'];
   tableData_2 = new MatTableDataSource<any>([]);
 
-  filterOption :any= [
-    {key: '1', value: 'Item Number'},
-    {key: '2', value: 'Supplier Item ID'},
-    {key: '10', value: 'Lot Number'},
-    {key: '8', value: 'Serial Number'},
-    {key: '9', value: 'User Field 1'},
-    {key: '0', value: 'Any Code'},
-    {key: '6', value: 'Tote ID'},
+  filterOption: any = [
+    { key: '1', value: 'Item Number' },
+    { key: '2', value: 'Supplier Item ID' },
+    { key: '10', value: 'Lot Number' },
+    { key: '8', value: 'Serial Number' },
+    { key: '9', value: 'User Field 1' },
+    { key: '0', value: 'Any Code' },
+    { key: '6', value: 'Tote ID' },
   ];
 
-  constructor(private dialog: MatDialog, 
-              private toastr: ToastrService,
-              private router: Router, 
-              private Api: ApiFuntions, 
-              public authService: AuthService,  
-              private _liveAnnouncer: LiveAnnouncer,) { }
+  constructor(private dialog: MatDialog,
+    private toastr: ToastrService,
+    private router: Router,
+    private Api: ApiFuntions,
+    public authService: AuthService,
+    private _liveAnnouncer: LiveAnnouncer,) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.ConsolidationIndex()
     this.searchByItem
-    .pipe(debounceTime(400), distinctUntilChanged())
-    .subscribe((value) => {
-      this.autocompleteSearchColumnItem()
-    });
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((value) => {
+        this.autocompleteSearchColumnItem()
+      });
 
     // this.getTableData('','') 
   }
@@ -112,7 +113,7 @@ export class ConsolidationComponent implements OnInit {
   }
 
   hideRow = true;
-  firstTable= true;
+  firstTable = true;
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -120,7 +121,7 @@ export class ConsolidationComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
-    this.tableData_1.sort = this.sort1;    
+    this.tableData_1.sort = this.sort1;
   }
 
   announceSortChange2(sortState: Sort) {
@@ -153,7 +154,7 @@ export class ConsolidationComponent implements OnInit {
     }
   }
 
-  ConsolidationIndex(){
+  ConsolidationIndex() {
     let payload = {
       "username": this.userData.username,
       "wsid": this.userData.wsid,
@@ -161,36 +162,37 @@ export class ConsolidationComponent implements OnInit {
     }
 
     this.Api.ConsolidationIndex(payload).subscribe((res: any) => {
-        if(res.isExecuted){
-          this.consolidationIndex = res.data;
-          this.startSelectFilterLabel = this.consolidationIndex.cmPreferences.defaultLookupType
+      if (res.isExecuted) {
+        this.consolidationIndex = res.data;
+        this.startSelectFilterLabel = this.consolidationIndex.cmPreferences.defaultLookupType;
+        this.packListSort = this.consolidationIndex.cmPreferences.packingListSort;
 
-          this.filterOption.forEach((e:any) => {
-            if (e.value == this.startSelectFilterLabel) {
-              this.startSelectFilter = e.key;
-            }
-          });
-          
-          if(this.startSelectFilterLabel == 'Item Number'){
-            this.isitemVisible = true;
-            this.issupplyVisible = false;
-            this.displayedColumns_1.shift()
-            this.displayedColumns_1.unshift('itemNumber')   
+        this.filterOption.forEach((e: any) => {
+          if (e.value == this.startSelectFilterLabel) {
+            this.startSelectFilter = e.key;
           }
-          else if(this.startSelectFilterLabel == 'Supplier Item ID'){
-            this.isitemVisible = false;
-            this.displayedColumns_1.shift()
-            this.displayedColumns_1.unshift('supplierItemID')
-            this.issupplyVisible = true;
-          }
-          else {
-            this.isitemVisible = true;
-            this.issupplyVisible = false;
-            this.displayedColumns_1.shift()
-            this.displayedColumns_1.unshift('itemNumber')
-          }
+        });
+
+        if (this.startSelectFilterLabel == 'Item Number') {
+          this.isitemVisible = true;
+          this.issupplyVisible = false;
+          this.displayedColumns_1.shift()
+          this.displayedColumns_1.unshift('itemNumber')
+        }
+        else if (this.startSelectFilterLabel == 'Supplier Item ID') {
+          this.isitemVisible = false;
+          this.displayedColumns_1.shift()
+          this.displayedColumns_1.unshift('supplierItemID')
+          this.issupplyVisible = true;
+        }
+        else {
+          this.isitemVisible = true;
+          this.issupplyVisible = false;
+          this.displayedColumns_1.shift()
+          this.displayedColumns_1.unshift('itemNumber')
         }
       }
+    }
     )
   }
 
@@ -238,50 +240,50 @@ export class ConsolidationComponent implements OnInit {
           this.open = res.data.openLinesCount;
           this.completed = res.data.completedLinesCount;
           this.backOrder = res.data.reprocessLinesCount;
-          
+
           this.tableData_1 = new MatTableDataSource(res.data.consolidationTable);
           this.tableData_2 = new MatTableDataSource(res.data.consolidationTable2);
-          this.stageTable =  new MatTableDataSource(res.data.stageTable);
+          this.stageTable = new MatTableDataSource(res.data.stageTable);
           let z: any[] = [];
 
-          
-          
-           z = this.tableData_1.data.filter((element) => element.lineStatus == 'Waiting Reprocess')
+
+
+          z = this.tableData_1.data.filter((element) => element.lineStatus == 'Waiting Reprocess')
           let data = this.tableData_2.data;
           data.push(...z);
           this.tableData_2 = new MatTableDataSource(data);
 
-          this.tableData_1.data = this.tableData_1.data.filter((el)=>{
+          this.tableData_1.data = this.tableData_1.data.filter((el) => {
             return !z.includes(el)
-        })
-          
-          
+          })
+
+
           this.tableData_1.paginator = this.paginator;
           this.tableData_2.paginator = this.paginator2;
           this.stageTable.paginator = this.paginator3;
-          
+
           let payload = {
             "orderNumber": curValue,
             "username": this.userData.username,
             "wsid": this.userData.wsid
           }
 
-          this.Api.ShippingButtSet(payload).subscribe((res:any)=>{
-            if(res.data == 1){
+          this.Api.ShippingButtSet(payload).subscribe((res: any) => {
+            if (res.data == 1) {
               this.enableConButts()
               this.shippingbtb = false;
             }
-            else if(res.data == 0){
+            else if (res.data == 0) {
               this.enableConButts()
               this.shippingbtb = true;
             }
-            else{
+            else {
               this.toastr.error('Error has occured', 'Error!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
             }
-            
+
           })
         }
       }
@@ -304,14 +306,14 @@ export class ConsolidationComponent implements OnInit {
       }
     });
     let payload = {
-      "iDs": 
+      "iDs":
         IDS
       ,
-      "username": this.userData.userName, 
+      "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
     this.Api.VerifyAllItemPost(payload).subscribe((res: any) => {
-      if(!res.isExecuted){
+      if (!res.isExecuted) {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
@@ -319,10 +321,10 @@ export class ConsolidationComponent implements OnInit {
       }
       else {
         let z: any[] = [];
-        this.tableData_1.data.forEach((row:any) => {
+        this.tableData_1.data.forEach((row: any) => {
           // check if the value at row.itemNumber exists in the IDS array using the indexOf method. 
-          if(IDS.indexOf(row.id.toString()) != -1) {
-              z.push(row)
+          if (IDS.indexOf(row.id.toString()) != -1) {
+            z.push(row)
           }
         });
         let data = this.tableData_2.data;
@@ -331,182 +333,182 @@ export class ConsolidationComponent implements OnInit {
         this.tableData_1.paginator = this.paginator
         this.tableData_2.paginator = this.paginator2;
         // this.tableData_2.data.push(...z)
-        this.tableData_1.data = this.tableData_1.data.filter((el)=>{
-            return !z.includes(el)
+        this.tableData_1.data = this.tableData_1.data.filter((el) => {
+          return !z.includes(el)
         })
 
-        if(this.tableData_1.data.length == 0){
+        if (this.tableData_1.data.length == 0) {
           this.toastr.info('You have consolidated all items in this order', 'Alert!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
-         }
+        }
       }
     })
   }
 
-  unVerifyAll(){
-   
-        let z:any = [];
-        z = this.tableData_2.data.filter((element) => element.lineStatus != 'Waiting Reprocess')
-        let IDS :any = [];
-           z.forEach((row:any)=>{
-          IDS.push(row.id.toString())
-        }
-        )
-        let payload = {
-          "iDs": IDS,
-          "username": this.userData.userName, 
-          "wsid": this.userData.wsid
-        }
-        this.Api.UnVerifyAll(payload).subscribe((res: any) => {
-    
-          if(!res.isExecuted){
-            this.toastr.error(res.responseMessage, 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-    
-          }
-          else{
-            this.tableData_1.data = this.tableData_1.data.concat(z);
-            
-            this.tableData_2.data = this.tableData_2.data.filter((el)=>{
-              return !z.includes(el)
-          })
-            // this.tableData_2.data = [];
-            this.tableData_1.paginator = this.paginator
-            this.tableData_2.paginator = this.paginator2;
-          }
-         
-        })
+  unVerifyAll() {
 
-  }
-
- verifyLine(element:any,Index?:any){
-  // debugger
-   let index:any;
-   let status:any;
-   let id:any;
-   if(Index != undefined){
-     id = this.tableData_1.data[Index].id;
-     status = this.tableData_1.data[Index].lineStatus;
-   }
-   else{
-     index = this.tableData_1.data.indexOf(element);
-     status = element.lineStatus;
-     id = element.id;
-   }
-
-   if(status == "Not Completed" || status == "Not Assigned"){
-    this.toastr.error("The selected item has not yet been completed and can't be verified at this time", 'Error!', {
-      positionClass: 'toast-bottom-right',
-      timeOut: 2000
-    });
-   }
-   else{
-    // debugger
+    let z: any = [];
+    z = this.tableData_2.data.filter((element) => element.lineStatus != 'Waiting Reprocess')
+    let IDS: any = [];
+    z.forEach((row: any) => {
+      IDS.push(row.id.toString())
+    }
+    )
     let payload = {
-      "id": id,
-      "username": this.userData.userName ,
+      "iDs": IDS,
+      "username": this.userData.userName,
       "wsid": this.userData.wsid
     }
+    this.Api.UnVerifyAll(payload).subscribe((res: any) => {
 
-    this.Api.VerifyItemPost(payload).subscribe((res:any)=>{
-      if(res.isExecuted){
-    if(Index != undefined){
-      let data = this.tableData_2.data; 
-      data.push({...this.tableData_1.data[Index]});
-      this.tableData_2 = new MatTableDataSource(data);
-      let data2 = this.tableData_1.data;
-      data2.splice(Index, 1);
-      this.tableData_1 = new MatTableDataSource(data2);
-      this.tableData_1.paginator = this.paginator;
-      this.tableData_2.paginator = this.paginator2;
-    }
-    else{
-      let data = this.tableData_2.data; 
-      data.push({...this.tableData_1.data[index]});
-      this.tableData_2 = new MatTableDataSource(data);
-      let data2 = this.tableData_1.data;
-      data2.splice(index, 1);
-      this.tableData_1 = new MatTableDataSource(data2);
-      this.tableData_1.paginator = this.paginator;
-      this.tableData_2.paginator = this.paginator2;
-    }
-        
-      }
-      else{
+      if (!res.isExecuted) {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
+        });
+
+      }
+      else {
+        this.tableData_1.data = this.tableData_1.data.concat(z);
+
+        this.tableData_2.data = this.tableData_2.data.filter((el) => {
+          return !z.includes(el)
         })
+        // this.tableData_2.data = [];
+        this.tableData_1.paginator = this.paginator
+        this.tableData_2.paginator = this.paginator2;
       }
 
     })
-   }
+
   }
 
-  unverifyLine(element){
+  verifyLine(element: any, Index?: any) {
+    // debugger
+    let index: any;
+    let status: any;
+    let id: any;
+    if (Index != undefined) {
+      id = this.tableData_1.data[Index].id;
+      status = this.tableData_1.data[Index].lineStatus;
+    }
+    else {
+      index = this.tableData_1.data.indexOf(element);
+      status = element.lineStatus;
+      id = element.id;
+    }
+
+    if (status == "Not Completed" || status == "Not Assigned") {
+      this.toastr.error("The selected item has not yet been completed and can't be verified at this time", 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+    }
+    else {
+      // debugger
+      let payload = {
+        "id": id,
+        "username": this.userData.userName,
+        "wsid": this.userData.wsid
+      }
+
+      this.Api.VerifyItemPost(payload).subscribe((res: any) => {
+        if (res.isExecuted) {
+          if (Index != undefined) {
+            let data = this.tableData_2.data;
+            data.push({ ...this.tableData_1.data[Index] });
+            this.tableData_2 = new MatTableDataSource(data);
+            let data2 = this.tableData_1.data;
+            data2.splice(Index, 1);
+            this.tableData_1 = new MatTableDataSource(data2);
+            this.tableData_1.paginator = this.paginator;
+            this.tableData_2.paginator = this.paginator2;
+          }
+          else {
+            let data = this.tableData_2.data;
+            data.push({ ...this.tableData_1.data[index] });
+            this.tableData_2 = new MatTableDataSource(data);
+            let data2 = this.tableData_1.data;
+            data2.splice(index, 1);
+            this.tableData_1 = new MatTableDataSource(data2);
+            this.tableData_1.paginator = this.paginator;
+            this.tableData_2.paginator = this.paginator2;
+          }
+
+        }
+        else {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          })
+        }
+
+      })
+    }
+  }
+
+  unverifyLine(element) {
 
 
     let id = element.id;
     let status = element.lineStatus;
-    let index = this.tableData_2.data.indexOf(element) 
+    let index = this.tableData_2.data.indexOf(element)
 
 
-    if(status == 'Waiting Reprocess'){
+    if (status == 'Waiting Reprocess') {
       return;
     }
-    else{
+    else {
       let payload = {
-        "id":id,
-        "username": this.userData.userName ,
+        "id": id,
+        "username": this.userData.userName,
         "wsid": this.userData.wsid
       }
-      this.Api.DeleteVerified(payload).subscribe((res:any)=>{
-          if(res.isExecuted){
-            let data2 = this.tableData_1.data;
-            data2.push({...this.tableData_2.data[index]});
-            this.tableData_1 = new MatTableDataSource(data2);
-            let data = this.tableData_2.data;
-            data.splice(index, 1);
-            this.tableData_2 = new MatTableDataSource(data);
-            this.tableData_1.paginator = this.paginator;
-            this.tableData_2.paginator = this.paginator2; 
-          }
-          else{
-            this.toastr.error(res.responseMessage, 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-          }
+      this.Api.DeleteVerified(payload).subscribe((res: any) => {
+        if (res.isExecuted) {
+          let data2 = this.tableData_1.data;
+          data2.push({ ...this.tableData_2.data[index] });
+          this.tableData_1 = new MatTableDataSource(data2);
+          let data = this.tableData_2.data;
+          data.splice(index, 1);
+          this.tableData_2 = new MatTableDataSource(data);
+          this.tableData_1.paginator = this.paginator;
+          this.tableData_2.paginator = this.paginator2;
+        }
+        else {
+          this.toastr.error(res.responseMessage, 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
       })
     }
 
-   
+
   }
 
-  filtervalue(event){
+  filtervalue(event) {
     if (event.keyCode == 13) {
       this.CheckDuplicatesForVerify(this.filterValue);
     }
   }
 
-  checkVerifyType(columnIndex, val){
+  checkVerifyType(columnIndex, val) {
     // debugger
-   let filterVal = this.filterValue
+    let filterVal = this.filterValue
     this.filterValue = '';
     if (val != undefined) {
       filterVal = val
-  }
+    }
     let valueCount = 0;
     let index;
-    const currentColVal = this.tableData_1.data.some((obj,i) => {
+    const currentColVal = this.tableData_1.data.some((obj, i) => {
       for (let key in obj) {
         if (obj[key] === filterVal) {
-            index = i;
-            valueCount++;
+          index = i;
+          valueCount++;
         }
       }
     });
@@ -515,51 +517,51 @@ export class ConsolidationComponent implements OnInit {
 
   }
 
-  CheckDuplicatesForVerify(val){
+  CheckDuplicatesForVerify(val) {
     // debugger
     let columnIndex = this.startSelectFilter;
-    let result:any;
-    if(columnIndex == 0){
+    let result: any;
+    if (columnIndex == 0) {
 
-      this.filterOption.forEach((e:any) => {
+      this.filterOption.forEach((e: any) => {
         result = this.checkVerifyType(e.key, val);
-        if (result.valueCount >=  1 || e.key == 0) {
-           false;             
-        }      
+        if (result.valueCount >= 1 || e.key == 0) {
+          false;
+        }
       });
-                  
+
     }
-    else 
-        result = this.checkVerifyType(columnIndex, val);
+    else
+      result = this.checkVerifyType(columnIndex, val);
 
     // desturcturing
     const { verifyItems, blindVerifyItems } = this.consolidationIndex.cmPreferences;
     // result.valueCount >=1 && verifyItems == 'No' && blindVerifyItems == 'No'
-    if(result.valueCount >=1 && verifyItems == 'No' && blindVerifyItems == 'No'){
+    if (result.valueCount >= 1 && verifyItems == 'No' && blindVerifyItems == 'No') {
       const dialogRef = this.dialog.open(CmItemSelectedComponent, {
         height: 'auto',
         width: '899px',
         autoFocus: '__non_existing_element__',
         data: {
-          IdentModal:this.TypeValue,
-          ColLabel:this.startSelectFilterLabel,
-          ColumnModal:val,
-          tableData_1:this.tableData_1.data,
-          tableData_2:this.tableData_2.data,
+          IdentModal: this.TypeValue,
+          ColLabel: this.startSelectFilterLabel,
+          ColumnModal: val,
+          tableData_1: this.tableData_1.data,
+          tableData_2: this.tableData_2.data,
         }
       });
 
-      dialogRef.afterClosed().subscribe(result =>{
-        if(result && result.isExecuted){
-          this.getTableData('',this.TypeValue);
+      dialogRef.afterClosed().subscribe(result => {
+        if (result && result.isExecuted) {
+          this.getTableData('', this.TypeValue);
         }
       })
     }
-    else if(result.valueCount>=1){
-      
-      this.verifyLine(val,result.index)
+    else if (result.valueCount >= 1) {
+
+      this.verifyLine(val, result.index)
     }
-    else{
+    else {
       this.toastr.error('Item not in order or has already been consolidated', 'error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
@@ -569,26 +571,26 @@ export class ConsolidationComponent implements OnInit {
 
   getSelected(event: MatSelectChange): void {
     this.startSelectFilter = event.value;
-    this.filterOption.forEach((e:any) => {
+    this.filterOption.forEach((e: any) => {
       if (e.key == event.value) {
         this.startSelectFilter = e.key;
         this.startSelectFilterLabel = e.value;
       }
     });
 
-    if(event.value == 1 ){
+    if (event.value == 1) {
       this.isitemVisible = true;
       this.issupplyVisible = false;
       this.displayedColumns_1.shift()
-      this.displayedColumns_1.unshift('itemNumber')   
+      this.displayedColumns_1.unshift('itemNumber')
     }
-    else if(event.value == 2 ){
+    else if (event.value == 2) {
       this.isitemVisible = false;
       this.displayedColumns_1.shift()
       this.displayedColumns_1.unshift('supplierItemID')
-       this.issupplyVisible = true;
+      this.issupplyVisible = true;
     }
-    else{
+    else {
       this.isitemVisible = true;
       this.issupplyVisible = false;
       this.displayedColumns_1.shift()
@@ -596,17 +598,17 @@ export class ConsolidationComponent implements OnInit {
     }
   }
 
-  btnEnable(){
+  btnEnable() {
     this.verifybtn = false;
     this.unverifybtn = false;
   }
 
-  btnDisable(){
+  btnDisable() {
     this.verifybtn = true;
     this.unverifybtn = true;
   }
 
-  enableConButts(){
+  enableConButts() {
     this.nextOrderbtn = false;
     this.stagingbtn = false;
     this.packingbtn = false;
@@ -615,7 +617,7 @@ export class ConsolidationComponent implements OnInit {
     this.printButtons = false;
   }
 
-  disableConButts(){
+  disableConButts() {
     this.nextOrderbtn = true;
     this.stagingbtn = true;
     this.packingbtn = true;
@@ -624,7 +626,7 @@ export class ConsolidationComponent implements OnInit {
     this.printButtons = true;
   }
 
-  clearpagedata(){
+  clearpagedata() {
     this.tableData_1.data = [];
     this.tableData_2.data = [];
     this.stageTable.data = [];
@@ -642,38 +644,38 @@ export class ConsolidationComponent implements OnInit {
 
     let payload = {
       "column": this.startSelectFilter,
-      "value": this.filterValue?this.filterValue:'',
+      "value": this.filterValue ? this.filterValue : '',
       "orderNumber": this.TypeValue,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
 
     this.Api.ConsoleItemsTypeAhead(payload).pipe(
-    
-          catchError((error) => {
-    
-            // Handle the error here
-    
-            this.toastr.error("An error occured while retrieving data.", 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-           
-    
-            // Return a fallback value or trigger further error handling if needed
-    
-            return of({ isExecuted: false });
-    
-          })
-    
-        ).subscribe((res: any) => {
+
+      catchError((error) => {
+
+        // Handle the error here
+
+        this.toastr.error("An error occured while retrieving data.", 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+
+
+        // Return a fallback value or trigger further error handling if needed
+
+        return of({ isExecuted: false });
+
+      })
+
+    ).subscribe((res: any) => {
       this.searchAutocompleteItemNum = res.data;
     });
 
   }
 
   getRow(filtervalue) {
-    
+
     this.CheckDuplicatesForVerify(filtervalue);
   }
 
@@ -682,12 +684,12 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '96vw',
       autoFocus: '__non_existing_element__',
-      data: {orderNumber:this.TypeValue }
+      data: { orderNumber: this.TypeValue }
     })
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        this.getTableData(null,this.TypeValue);
-    }
+      if (result) {
+        this.getTableData(null, this.TypeValue);
+      }
     })
   }
 
@@ -713,21 +715,21 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '96vw',
       autoFocus: '__non_existing_element__',
-      data:{orderNumber:this.TypeValue}
-    
+      data: { orderNumber: this.TypeValue }
+
     })
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-          this.getTableData(null,this.TypeValue);
+      if (result) {
+        this.getTableData(null, this.TypeValue);
       }
-      
+
     })
   }
 
   openCmOrderNo() {
     this.clearpagedata();
     this.searchBoxField.nativeElement.focus();
-    this.disableConButts();  
+    this.disableConButts();
   }
 
   openCmOrderNumber() {
@@ -736,8 +738,8 @@ export class ConsolidationComponent implements OnInit {
       width: '50vw',
       autoFocus: '__non_existing_element__',
       data: {
-        orderNumber : this.TypeValue,
-        stagingTable : this.stageTable && this.stageTable.data ? this.stageTable.data : []
+        orderNumber: this.TypeValue,
+        stagingTable: this.stageTable && this.stageTable.data ? this.stageTable.data : []
       }
     });
 
@@ -751,11 +753,11 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
-    
+
     })
     dialogRef.afterClosed().subscribe(result => {
-      
-      
+
+
     })
   }
 
@@ -764,11 +766,11 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
-    
+
     })
     dialogRef.afterClosed().subscribe(result => {
-      
-      
+
+
     })
   }
 
@@ -777,14 +779,14 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
-    
+
     })
     dialogRef.afterClosed().subscribe(result => {
-      
-      
+
+
     })
   }
-  
+
   openPacking() {
     if (this.consolidationIndex.cmPreferences.confirmAndPacking) {
       this.openCmConfirmPacking();
@@ -793,63 +795,90 @@ export class ConsolidationComponent implements OnInit {
     }
   }
 
-  openCmOrderToteConflict() { 
-    let dialogRef = this.dialog.open(CmOrderToteConflictComponent, { 
+  openCmOrderToteConflict() {
+    let dialogRef = this.dialog.open(CmOrderToteConflictComponent, {
       height: 'auto',
       width: '620px',
-      autoFocus: '__non_existing_element__', 
+      autoFocus: '__non_existing_element__',
     })
-    dialogRef.afterClosed().subscribe(result => { 
-        this.type = result;  
-        if(this.type) this.getTableData(null,this.TypeValue);
+    dialogRef.afterClosed().subscribe(result => {
+      this.type = result;
+      if (this.type) this.getTableData(null, this.TypeValue);
     })
   }
 
- 
+
   focusOnOrderNum() {
     setTimeout(() => {
       this.searchBoxField.nativeElement.focus();
-    }, 100);  
+    }, 100);
   }
   navigateToOrder() {
     window.location.href = `/#/admin/transaction?orderStatus=${this.TypeValue ? this.TypeValue : ''}&IsOrderStatus=true`;
-   
-   }
 
-   printPreviewNonVerified(){
-    if(this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0){
+  }
+
+  printPreviewNonVerified() {
+    if (this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0) {
       this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`);
     }
-    else{
+    else {
       this.toastr.error("There are no unverfied items", 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
     }
-   }
+  }
 
-   printPreviewPackList(){
-    if(this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0){
-
-      // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      //   height: 'auto',
-      //   width: '786px',
-      //   data: {
-      //     message: 'There are still unverfied items. Coninue the preview?'
-      //   },
-      //   autoFocus: '__non_existing_element__',
-      // });
-      // dialogRef.afterClosed().subscribe((result) => {
-      //   if (result==='Yes') {
-
-      //   }
-      // });
-      
+  printPreviewPackList() {
+    if (this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0) {
+      let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        height: 'auto',
+        width: '786px',
+        data: {
+          message: 'There are still unverfied items. Coninue the preview?'
+        },
+        autoFocus: '__non_existing_element__',
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === 'Yes') {
+          this.Api.ShowCMPackPrintModal({ orderNumber: this.TypeValue }).subscribe((res: any) => {
+            if (res.isExecuted && res.data == "all") {
+              this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
+            } else if (res.isExecuted && res.data == "modal") {
+              this.showCmPackPrintModal(true, this.TypeValue);
+            } else {
+              this.toastr.error("Error has occured","Error");
+            };
+          });
+        }
+      });
     }
-    else{
-
+    else {
+      this.Api.ShowCMPackPrintModal({ orderNumber: this.TypeValue }).subscribe((res: any) => {
+        if (res.isExecuted && res.data == "all") {
+          this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
+        } else if (res.isExecuted && res.data == "modal") {
+          this.showCmPackPrintModal(true, this.TypeValue);
+        } else {
+          this.toastr.error("Error has occured","Error");
+        };
+      });
     }
-   }
+  }
+
+  showCmPackPrintModal(preview:boolean,orderNumber:any){
+    let dialogRef = this.dialog.open(CmPrintOptionsComponent, {
+      height: 'auto',
+      width: '786px',
+      data: {
+        preview : preview,
+        orderNumber: orderNumber,
+        packListSort : this.packListSort
+      },
+      autoFocus: '__non_existing_element__',
+    });
+  }
 }
 
 
