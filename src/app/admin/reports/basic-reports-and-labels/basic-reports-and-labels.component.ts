@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { GlobalService } from 'src/app/common/services/global.service';
 import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
 import { AuthService } from 'src/app/init/auth.service';
@@ -30,17 +30,40 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     displayedColumns: string[] = ['fields','expression_type','value_to_test','actions'];
     tableData = this.ELEMENT_DATA
     dataSourceList:any
+    currentApp
 
       
   constructor(private dialog: MatDialog,private api:ApiFuntions,private authService:AuthService,private route:Router,private global:GlobalService) { 
     this.userData = this.authService.userData(); 
+    this.route.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        let spliUrl=event.url.split('/');
+        // console.log(spliUrl)
+
+        if(spliUrl[1]=='admin'){
+          this.currentApp = 'Admin'
+        }
+        else if(spliUrl[1]=='OrderManager'){
+          this.currentApp = 'OM'
+        }
+        else if(spliUrl[1]=='InductionManager'){
+          this.currentApp = 'IM'
+        }
+        else if(spliUrl[1]=='ConsolidationManager'){
+          this.currentApp = 'CM'
+        }
+     }
+      });
   }
 
   ngOnInit(): void {
     this.Getcustomreports();
   }
   Getcustomreports(){
-    this.api.Getcustomreports().subscribe((res:any)=>{
+    let payload = {
+      'app':this.currentApp
+    }
+    this.api.Getcustomreports(payload).subscribe((res:any)=>{
       this.reports = res?.data?.reports; 
      
     })
@@ -124,7 +147,8 @@ ReportTitles(){
   
   }
   OpenListAndLabel(){ 
-    this.route.navigateByUrl(`/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`);
+    window.location.href = `/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`
+    // this.route.navigateByUrl(`/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`);
   }
 Remove(index){ 
   this.reportData[16+index] = "";

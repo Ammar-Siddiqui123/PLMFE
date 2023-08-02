@@ -1367,8 +1367,8 @@ public shortTransaction(body:any): Observable<any> {
 public blossomTote(body:any): Observable<any> { 
   return this.ApiBase.Update("/induction/blossomtote",body);
 } 
-public Getcustomreports(): Observable<any> { 
-  return this.ApiBase.Get("/Admin/customreports/index?app=Admin");
+public Getcustomreports(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/customreports/index",body);
 }
 public Getreportdetails(body): Observable<any> { 
   return this.ApiBase.Get("/Admin/customreports/reportdetails",body);
@@ -1470,5 +1470,9 @@ public pushReportChanges(body): Observable<any> {
 
 public updatereportDetails(body): Observable<any> {
   return this.ApiBase.Put(`/Admin/customreports/reportdetails`,body);
+}
+
+public ShowCMPackPrintModal(body:any): Observable<any> { 
+  return this.ApiBase.Get("/consolidation/cmPackPrintmodalshow",body);
 }
 }

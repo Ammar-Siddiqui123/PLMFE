@@ -106,6 +106,7 @@ export class PrintRangeComponent implements OnInit {
 
   printRange() {
     this.dialogRef.close();
-    this.route.navigateByUrl(`/report-view?file=FileName:printIMReport|invMapID:0|groupLikeLoc:${this.groupLikeLoc}|beginLoc:${this.beginLoc}|endLoc:${this.endLoc}|User:${this.userData.userName}`);
+    window.location.href = `/report-view?file=FileName:printIMReport|invMapID:0|groupLikeLoc:${this.groupLikeLoc}|beginLoc:${this.beginLoc}|endLoc:${this.endLoc}|User:${this.userData.userName}`
+    // this.route.navigateByUrl(`/report-view?file=FileName:printIMReport|invMapID:0|groupLikeLoc:${this.groupLikeLoc}|beginLoc:${this.beginLoc}|endLoc:${this.endLoc}|User:${this.userData.userName}`);
   }
 }

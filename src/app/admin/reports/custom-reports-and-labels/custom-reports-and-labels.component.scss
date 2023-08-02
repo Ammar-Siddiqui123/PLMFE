@@ -30,3 +30,12 @@
 
 
 }
+
+mat-card{
+    min-height: 78vh;
+    .test{
+        display: flex;
+        flex-direction: column;
+        min-height: 75vh;
+    }
+}
