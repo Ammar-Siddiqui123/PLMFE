@@ -290,6 +290,9 @@ export class ApiFuntions {
   public LocationBegin(body:any): Observable<any> { 
     return this.ApiBase.Get("/Common/locationbegin",body);
   }
+  public QuantitySelected(body:any): Observable<any> { 
+    return this.ApiBase.Get("/Admin/quantityselected",body);
+  }
   public GetCCCountToCostTypeAhead(body:any): Observable<any> { 
     return this.ApiBase.Get("/Admin/cccounttocosttypeahead",body);
   }
