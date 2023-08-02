@@ -830,7 +830,7 @@ this.router.navigate([]).then((result) => {
   }
 
   previewFiftyPagesOnly(){
-    // window.location.href = `/report-view?file=CycleCount-lst`
+    window.location.href = `/report-view?file=CycleCount-lst`
     // this.router.navigateByUrl(`/report-view?file=CycleCount-lst`);
   }
 }

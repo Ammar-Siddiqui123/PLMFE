@@ -798,4 +798,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     window.location.href = `/report-view?file=FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`
     // this.router.navigateByUrl(`/report-view?file=FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`);
   }
+
+  previewReport(){
+    this.router.navigateByUrl(`/report-view?file=OrderStatus-lst-prv|field:Order Number|exptype:=|expone:${this.orderNo}|exptwo:`);
+  }
 }
