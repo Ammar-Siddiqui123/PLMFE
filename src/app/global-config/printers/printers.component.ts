@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import labels from '../../labels/labels.json'
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-printers',
@@ -30,7 +31,8 @@ export class PrintersComponent implements OnInit {
     private Api: ApiFuntions,
     private authService: AuthService,
     private toastr: ToastrService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -271,7 +273,8 @@ export class PrintersComponent implements OnInit {
       });
       dialogRef2.afterClosed().subscribe((result) => {
         if (result == 'Yes') {
-          // testPrint API Call Here
+          // this.router.navigateByUrl(`/report-view?file=FileName:TestPrint|islabel:${printer.labelPrinter == 'Yes' ? true : false}|PrinterName:${printer.printer}|PrinterAddress:${printer.printerAdd}`);
+          window.location.href = `/#/report-view?file=FileName:TestPrint|islabel:${printer.labelPrinter == 'Yes' ? true : false}|PrinterName:${printer.printer}|PrinterAddress:${printer.printerAdd}`
         }
       });
     }

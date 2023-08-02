@@ -43,22 +43,23 @@ export class HeaderInterceptor implements HttpInterceptor {
         "wsid": userData.wsid,
       }      
       
+      if(this.router.url.split('?')[0] != '/report-view'){
       if(this.authService.isConfigUser()){
-        this.api.configLogout(paylaod).subscribe((res:any) => {
-          if (res.isExecuted) {       
-            this.dialog.closeAll();
-            this.toastr.error('Token Expire', 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-            this.router.navigate(['/globalconfig']);
-          } else {
-            this.toastr.error(res.responseMessage, 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-          }
-        });       
+          this.api.configLogout(paylaod).subscribe((res:any) => {
+            if (res.isExecuted) {       
+              this.dialog.closeAll();
+              this.toastr.error('Token Expire', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+              this.router.navigate(['/globalconfig']);
+            } else {
+              this.toastr.error(res.responseMessage, 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+            }
+          });    
       } else {
         this.api.Logout(paylaod).subscribe((res:any) => {
           if (res.isExecuted) {  
@@ -89,4 +90,6 @@ export class HeaderInterceptor implements HttpInterceptor {
     }
     throw err;
   }
+  return of(err.message);
+} 
 }
