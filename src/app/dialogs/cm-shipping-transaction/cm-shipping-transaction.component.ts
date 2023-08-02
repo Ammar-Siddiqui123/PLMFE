@@ -259,7 +259,7 @@ export class CmShippingTransactionComponent implements OnInit {
 
   openShipPrintItemLabel(order : any, i : any) {
     this.dialogRef.close();
-    window.location.href = `/report-view?file=FileName:PrintShipTransLabel|ST_ID:${order.sT_ID}`
+    window.location.href = `/#/report-view?file=FileName:PrintShipTransLabel|ST_ID:${order.sT_ID}`
     // this.route.navigateByUrl(`/report-view?file=FileName:PrintShipTransLabel|ST_ID:${order.sT_ID}`);
   }
 
@@ -329,7 +329,7 @@ export class CmShippingTransactionComponent implements OnInit {
 
   printList(){
     this.dialogRef.close();
-    window.location.href = `/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.data.orderNum}`
+    window.location.href = `/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.data.orderNum}`
     // this.route.navigateByUrl(`/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.data.orderNum}`);
   }
 
