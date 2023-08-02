@@ -1367,8 +1367,8 @@ public shortTransaction(body:any): Observable<any> {
 public blossomTote(body:any): Observable<any> { 
   return this.ApiBase.Update("/induction/blossomtote",body);
 } 
-public Getcustomreports(): Observable<any> { 
-  return this.ApiBase.Get("/Admin/customreports/index?app=Admin");
+public Getcustomreports(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/customreports/index",body);
 }
 public Getreportdetails(body): Observable<any> { 
   return this.ApiBase.Get("/Admin/customreports/reportdetails",body);

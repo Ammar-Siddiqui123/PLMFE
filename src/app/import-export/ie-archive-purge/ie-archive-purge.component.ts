@@ -15,6 +15,13 @@ export class IeArchivePurgeComponent implements OnInit {
     {table_name: 'Archive Import Transactions History'},
     {table_name: 'Archive Induction Transactions'},
     {table_name: 'Archive Ship Trans History'},
+    {table_name: 'Archive Shipping History'},
+    {table_name: 'Archive Transactions History'},
+    {table_name: 'Event Log'},
+    {table_name: 'Export Transactions History'},
+    {table_name: 'Import Transactions History'},
+    {table_name: 'Induction Transactions History'},
+    {table_name: 'Transactions History'}
   ]
 
     displayedColumns: string[] = ['table_name','purge_days','archive'];

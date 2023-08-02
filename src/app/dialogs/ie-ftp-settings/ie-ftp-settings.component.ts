@@ -17,7 +17,7 @@ export class IeFtpSettingsComponent implements OnInit {
     
   ]
 
-    displayedColumns: string[] = ['import_export','type','ftp_location','ftp_username','ftp_password','ftp_file','ftp_extension','ftp_readyfile','actions'];
+    displayedColumns: string[] = ['import_export','type','ftp_checkbox','ftp_location','ftp_username','ftp_password','ftp_file','ftp_extension','ftp_readyfile','actions'];
     tableData = this.ELEMENT_DATA
     dataSourceList:any
 
