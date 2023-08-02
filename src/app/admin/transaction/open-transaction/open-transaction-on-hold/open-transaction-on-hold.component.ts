@@ -825,10 +825,12 @@ this.router.navigate([]).then((result) => {
   }
 
   printCycleCountReport(){
-    this.router.navigateByUrl(`/report-view?file=FileName:printCycleCountReport`);
+    window.location.href = `/report-view?file=FileName:printCycleCountReport`
+    // this.router.navigateByUrl(`/report-view?file=FileName:printCycleCountReport`);
   }
 
   previewFiftyPagesOnly(){
+    window.location.href = `/report-view?file=CycleCount-lst`
     // this.router.navigateByUrl(`/report-view?file=CycleCount-lst`);
   }
 }
