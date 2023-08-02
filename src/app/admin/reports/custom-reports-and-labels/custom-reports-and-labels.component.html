@@ -130,7 +130,7 @@
                         <input matInput type="text" maxlength="550" [(ngModel)]="Detail.description" disabled  (ngModelChange)="saveInput()">
                     </mat-form-field>
 
-                    <mat-form-field class="action-dropdown custom-form-field-bg-white w-100 mb-2" appearance="outline">
+                    <mat-form-field class="action-dropdown custom-form-field w-100 mb-2" appearance="outline">
                         <mat-label>Output Type</mat-label>
                         <mat-select class="employees-action" [(ngModel)]="Detail.outputType" disabled (ngModelChange)="saveInput()">
                             <mat-option [value]="Detail.outputType" >{{Detail.outputType}}</mat-option>
