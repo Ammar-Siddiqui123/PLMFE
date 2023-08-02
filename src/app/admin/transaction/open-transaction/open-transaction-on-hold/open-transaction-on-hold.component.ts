@@ -829,6 +829,6 @@ this.router.navigate([]).then((result) => {
   }
 
   previewFiftyPagesOnly(){
-    // this.router.navigateByUrl(`/report-view?file=CycleCount-lst`);
+    this.router.navigateByUrl(`/report-view?file=CycleCount-lst-prv`);
   }
 }
