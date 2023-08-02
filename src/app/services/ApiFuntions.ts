@@ -1471,4 +1471,8 @@ public pushReportChanges(body): Observable<any> {
 public updatereportDetails(body): Observable<any> {
   return this.ApiBase.Put(`/Admin/customreports/reportdetails`,body);
 }
+
+public ShowCMPackPrintModal(body:any): Observable<any> { 
+  return this.ApiBase.Get("/consolidation/cmPackPrintmodalshow",body);
+}
 }
