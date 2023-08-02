@@ -97,6 +97,10 @@
         "Permission": "Consolidation Mgr Admin"
     },
     {
+        "path": "/ConsolidationManager/Reports",
+        "Permission": "Consolidation Mgr Admin"
+    },
+    {
         "path": "/admin/cycleCounts",
         "Permission": "Cycle Count Manager"
     },
@@ -152,6 +156,10 @@
         "Permission": "Admin Preferences"
     },
     {
+        "path": "/OrderManager/Reports",
+        "Permission": "Admin Reports"
+    },
+    {
         "path": "/ConsolidationManager/Consolidation",
         "Permission": "Consolidation Manager"
     },
@@ -198,6 +206,10 @@
     }  ,
     {
         "path": "/InductionManager/Admin/AdminPrefrences",
+        "Permission": "Induction Manager"
+    },
+    {
+        "path": "/InductionManager/Admin/Reports",
         "Permission": "Induction Manager"
     },
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { QueryParams } from 'angular-routing';
 import { CrAddNewCustomReportComponent } from 'src/app/dialogs/cr-add-new-custom-report/cr-add-new-custom-report.component';
 import { CrDeleteConfirmationComponent } from 'src/app/dialogs/cr-delete-confirmation/cr-delete-confirmation.component';
@@ -22,7 +22,28 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   IsSystemReport:boolean = true;
   sysTitles:any = [];
   olddetail
-  constructor(private api:ApiFuntions,private route:Router,private dialog: MatDialog, private toastr :ToastrService) { }
+  currentApp
+  constructor(private api:ApiFuntions,private route:Router,private dialog: MatDialog, private toastr :ToastrService,private router: Router,) { 
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        let spliUrl=event.url.split('/');
+        // console.log(spliUrl)
+
+        if(spliUrl[1]=='admin'){
+          this.currentApp = 'Admin'
+        }
+        else if(spliUrl[1]=='OrderManager'){
+          this.currentApp = 'OM'
+        }
+        else if(spliUrl[1]=='InductionManager'){
+          this.currentApp = 'IM'
+        }
+        else if(spliUrl[1]=='ConsolidationManager'){
+          this.currentApp = 'CM'
+        }
+     }
+      });
+  }
 
   ngOnInit(): void {
   this.Getcustomreports();
@@ -36,7 +57,11 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     console.log(this.ListReports)
   }
   Getcustomreports(){
-    this.api.Getcustomreports().subscribe((res:any)=>{
+
+    let payload = {
+      'app':this.currentApp
+    }
+    this.api.Getcustomreports(payload).subscribe((res:any)=>{
       this.sysTitles = res?.data?.reportTitles?.sysTitles;
       this.reportTitles = res?.data?.reportTitles?.reportTitles;
       this.sysTitles.forEach((object) => {
