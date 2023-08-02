@@ -10,14 +10,14 @@
         
             <div class="flex-column mb-3">
                 <p class="bold">New lines exists for this order number. To print only new lines press the Print New Lines button. To Print all lines press the Print All Lines button.</p> 
-                <mat-radio-group aria-labelledby=""
+                <mat-radio-group aria-labelledby="" [(ngModel)]="printType"
                     class=" d-flex flex-column"> 
-                    <mat-radio-button class=" mb-2" value="Nothing" color="primary">Print New Lines</mat-radio-button>
-                    <mat-radio-button class=" mb-2" value="Open" color="primary">Print All Lines</mat-radio-button> 
+                    <mat-radio-button class=" mb-2" value="new" color="primary" >Print New Lines</mat-radio-button>
+                    <mat-radio-button class=" mb-2" value="all" color="primary" >Print All Lines</mat-radio-button> 
                      </mat-radio-group>
             </div>
         
     </div>
 </div> 
 
-<button style="flex:1" mat-flat-button color="primary" class="btn-lg w-100">Submit</button>
+<button style="flex:1" mat-flat-button color="primary" class="btn-lg w-100" [disabled]="!printType" (click)="submit()">Submit</button>
