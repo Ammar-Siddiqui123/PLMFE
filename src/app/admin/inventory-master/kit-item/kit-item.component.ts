@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { SharedService } from 'src/app/services/shared.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-kit-item',
@@ -47,7 +48,8 @@ export class KitItemComponent implements OnInit, OnChanges {
     private authService: AuthService,
     private dialog: MatDialog,
     private el: ElementRef,
-    private sharedService:SharedService
+    private sharedService:SharedService,
+    private route:Router
     ) { }
 
   ngOnInit(): void {
@@ -65,8 +67,9 @@ export class KitItemComponent implements OnInit, OnChanges {
   }
 
   openPrintRangeDialog() {
-
+    this.route.navigateByUrl(`/report-view?file=FileName:printKitReport|ItemNumber:${this.kitItem.value.itemNumber}`);
   }
+
   addCatRow(e: any) {
     // this.Ikey =  this.kitItemsList.length;
     this.kitItemsList.unshift({

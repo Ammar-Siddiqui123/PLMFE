@@ -290,6 +290,9 @@ export class ApiFuntions {
   public LocationBegin(body:any): Observable<any> { 
     return this.ApiBase.Get("/Common/locationbegin",body);
   }
+  public QuantitySelected(body:any): Observable<any> { 
+    return this.ApiBase.Get("/Admin/quantityselected",body);
+  }
   public GetCCCountToCostTypeAhead(body:any): Observable<any> { 
     return this.ApiBase.Get("/Admin/cccounttocosttypeahead",body);
   }
@@ -1438,9 +1441,34 @@ public reportfieldvalues(body): Observable<any> {
 } 
 public ReportTitles(body): Observable<any> { 
   return this.ApiBase.Update("/Admin/customreports/ReportTitles",body);
-}
+} 
 public changefilter(body): Observable<any> { 
   return this.ApiBase.Get("/Admin/customreports/changefilter",body);
 }
  
+public importFile(body){ 
+  return this.ApiBase.PostFormData(`/Admin/customreports/importFile`,body);
+}
+
+public validateNewDesign(body){
+  return this.ApiBase.Post(`/Admin/customreports/ValidateNewDesign`,body);
+}
+public getLLDesignerNewDesign(body){
+  return this.ApiBase.Post(`/Admin/customreports/GetLLDesignerNewDesign`,body);
+}
+public restoreDesign(body){
+  return this.ApiBase.Post(`/Admin/customreports/GetLLDesignerNewDesign`,body);
+}
+
+public deleteReport(payload:any) {
+  return  this.ApiBase.Post("/Admin/customreports/CustomReportDelete",payload);
+} 
+
+public pushReportChanges(body): Observable<any> { 
+  return this.ApiBase.Get("/Admin/customreports/PushReportChanges",body);
+} 
+
+public updatereportDetails(body): Observable<any> {
+  return this.ApiBase.Put(`/Admin/customreports/reportdetails`,body);
+}
 }

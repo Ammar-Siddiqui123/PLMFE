@@ -184,6 +184,7 @@ statusTab;
   // }
 
   logout(){   
+    debugger
     let paylaod = {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
@@ -193,8 +194,7 @@ statusTab;
       this.api.configLogout(paylaod).subscribe((res:any) => {
         if (res.isExecuted) 
         {
-     
-          this.router.navigate(['/globalconfig']);
+          window.location.href = "/globalconfig"; 
         }
         else 
         {
@@ -215,8 +215,7 @@ statusTab;
           //   positionClass: 'toast-bottom-right',
           //   timeOut: 2000
           // });
-     
-          this.router.navigate(['/login']);
+          window.location.href = "/#/login";
         }
         else 
         {

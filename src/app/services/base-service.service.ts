@@ -18,70 +18,75 @@ export class BaseService {
              for(let key in payload){
                  if(payload[key] != undefined) queryParams=queryParams.append(key,payload[key]);
              }
-        } 
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic '
-            }),
-            context: new HttpContext().set(BYPASS_LOG, isLoader),
-            params:queryParams
-        };
+        }  
    
-        return this.http.get<any>(`${environment.apiUrl}${endPoint}`,httpOptions); 
+        return this.http.get<any>(`${environment.apiUrl}${endPoint}`,{
+            headers: this.GetHeaders(),
+            params:queryParams
+          }); 
         
     }
   
-    public Post(endPoint: string,reqPaylaod: any) {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic '
-            })
-        };
-        return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
+    public Post(endPoint: string,reqPaylaod: any) { 
+        return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, {
+            headers: this.GetHeaders(),
+          });
+    }
+    public PostFormData(endPoint: string,reqPaylaod: any) { 
+        return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, {
+            headers: this.GetHeadersFormData(),
+          });
     }
 
-    public Put(endPoint: string,reqPaylaod: any) {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic '
-            })
-        };
-        return this.http.put<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
+    public Put(endPoint: string,reqPaylaod: any) { 
+        return this.http.put<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, {
+            headers: this.GetHeaders(),
+          });
     }
-    public Update(endPoint: string,reqPaylaod: any) {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic '
-            })
-        };
-        return this.http.put<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
+    public Update(endPoint: string,reqPaylaod: any) { 
+        return this.http.put<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, {
+            headers: this.GetHeaders(),
+          });
     }
     public Delete(endPoint: string,reqPaylaod: any = null) {
       let queryParams = new HttpParams();
       for(let key in reqPaylaod){
       queryParams=queryParams.append(key,reqPaylaod[key]);
-      }
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic '
-            }),
-            params:queryParams
-        };
+      } 
        
-        return this.http.delete<any>(`${environment.apiUrl}${endPoint}`, httpOptions);
+        return this.http.delete<any>(`${environment.apiUrl}${endPoint}`, {
+            headers: this.GetHeaders(),
+            params:queryParams
+          });
     } 
-    public update(reqPaylaod: any, endPoint: string) {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic '
-            })
-        };
-        return this.http.put<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, httpOptions);
+    public update(reqPaylaod: any, endPoint: string) { 
+        return this.http.put<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, {
+            headers: this.GetHeaders(),
+          });
     } 
+    token:string;
+  private GetHeaders(): HttpHeaders {
+    let httpHeaders = new HttpHeaders();
+    httpHeaders = httpHeaders.set(
+      'content-type',
+      'application/json; charset=utf-8',
+    );
+    const { _token } = JSON.parse(localStorage.getItem('user') || "{}");
+    if (_token != null) {
+      httpHeaders = httpHeaders.set('_token', _token);
+    }
+    return httpHeaders;
+  }
+  private GetHeadersFormData(): HttpHeaders {
+    let httpHeaders = new HttpHeaders();
+    httpHeaders.append('content-type', 'multipart/form-data');
+    httpHeaders.append('Accept', 'application/json');
+   
+    const { _token } = JSON.parse(localStorage.getItem('user') || "{}");
+    if (_token != null) {
+      httpHeaders = httpHeaders.set('_token', _token);
+    }
+    return httpHeaders;
+  }
+
 }

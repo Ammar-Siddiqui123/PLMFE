@@ -49,7 +49,7 @@
                                 </mat-form-field>
                             </div>
                             <div class="col-xl-5">
-                                <button mat-flat-button color="primary" class="primary-button btn-regular w-100">
+                                <button mat-flat-button color="primary" class="primary-button btn-regular w-100" (click)="printPackList()">
                                     Print Packing List
                                 </button>
                             </div>
@@ -95,9 +95,9 @@
                                         </span></button>
                                         
                                     <mat-menu #appMenu1="matMenu"> 
-                                        <button mat-menu-item disabled="true">Print List</button>
-                                        <button mat-menu-item disabled="true">Print Label</button>
-                                        <button mat-menu-item disabled="true">Print Both</button> 
+                                        <button mat-menu-item (click)="print('list')">Print List</button>
+                                        <button mat-menu-item (click)="print('label')">Print Label</button>
+                                        <button mat-menu-item (click)="print('both')">Print Both</button> 
                                     </mat-menu> 
                          
  
@@ -235,7 +235,7 @@
                                 </button>
 
                                 <mat-menu  #appMenu="matMenu"> 
-                                    <button class="text-tertiary-800" mat-menu-item [disabled]="!element.complete ||  true" ><b>Item Label</b></button>
+                                    <button class="text-tertiary-800" mat-menu-item (click)="itemLabel(element)"><b>Item Label</b></button>
 
                                     <button mat-menu-item  [disabled]="(confPackEnable != '' && confPackEnable != null)"  (click)="UnPack(element.sT_ID)">Unpack</button>
 

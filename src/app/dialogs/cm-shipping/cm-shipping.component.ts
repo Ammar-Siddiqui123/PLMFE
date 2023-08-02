@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/init/auth.service';
 import { CmAddNewItemToShipmentComponent } from '../cm-add-new-item-to-shipment/cm-add-new-item-to-shipment.component';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Router } from '@angular/router';
 
 export interface PeriodicElement {
   name: string;
@@ -37,6 +38,7 @@ export class CmShippingComponent implements OnInit {
   shippingComp: any = false;
   shippingPreferences: any = {};
   constructor(private Api: ApiFuntions, private authService: AuthService, private toast: ToastrService, private dialog: MatDialog,
+    private route: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CmShippingComponent>,) {
     this.orderNumber = this.data.orderNumber;
@@ -211,5 +213,15 @@ export class CmShippingComponent implements OnInit {
 
   calculateCube(element){
     this.shippingData.filter((x:any) => x.id == element.id)[0].cube = ((element.length * element.width * element.height) / 1728);
+  }
+
+  printAll(){
+    this.dialogRef.close();
+    this.route.navigateByUrl(`/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`);
+  }
+
+  PrintItem(element: any,i:any=null){
+    this.dialogRef.close();
+    this.route.navigateByUrl(`/report-view?file=FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`);
   }
 }

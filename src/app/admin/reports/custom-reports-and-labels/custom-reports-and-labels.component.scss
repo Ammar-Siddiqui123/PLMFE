@@ -19,3 +19,14 @@
         }
     }
 }
+
+
+.selected {
+    border-radius: 8px;
+    transition: 0.3s ease all;
+    color: #fff;
+    background: var(--clr-primary-300);
+
+
+
+}

@@ -97,7 +97,7 @@
                         <mat-label>Actions</mat-label>
                         <mat-select class="employees-action" [(ngModel)]="actionDropDown" #actionRef1 (selectionChange)="gridAction($event.value)">
                           <mat-option value="assignAll">Assign all IDs</mat-option>
-                          <mat-option value="delete">Print Tote/Location Labels</mat-option>
+                          <mat-option (click)="printToteLoc()" value="delete">Print Tote/Location Labels</mat-option>
                           <!-- <mat-option value="back">Back</mat-option> -->
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
@@ -173,7 +173,7 @@
                                   </button>
                 
                                   <mat-menu #appMenu="matMenu">
-                                    <button mat-menu-item>Print</button>
+                                    <button mat-menu-item (click)="print(element.toteid)">Print</button>
                                     <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element,1,i)">Clear</button>
                                     <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element,0,i)">Assign Next ID</button>
                                   </mat-menu>
@@ -365,7 +365,7 @@
                 <!-- (click)="openToteTransactionViewDialogue()"> -->
                 <mat-option  value="ViewTote" [disabled]="(cell <= toteQuantity) ? false : true" >View Tote Contents</mat-option>
                 <mat-option value="markTote" [disabled]="!rowSelected">Mark Tote as Full</mat-option>
-                <mat-option value="print">Print</mat-option>
+                <mat-option (click)="printTotePut()" value="print">Print</mat-option>
                 <!-- <mat-option value="back">Back</mat-option> -->
               </mat-select>
               <span class="material-symbols-outlined icon-expand-more">

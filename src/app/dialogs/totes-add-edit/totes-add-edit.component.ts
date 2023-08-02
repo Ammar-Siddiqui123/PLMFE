@@ -41,8 +41,8 @@ export class TotesAddEditComponent implements OnInit {
   @ViewChild('field_focus') field_focus: ElementRef;
   isRowAdded=false;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
-  ELEMENT_DATA_TOTE = [{toteID:"" , cells:"" , position: 1 ,oldToteID:"",isInserted:1,isDuplicate:false}];
-  displayedColumns: string[] = [ 'zone', 'locationdesc','actions'];
+  ELEMENT_DATA_TOTE = [{toteID:"" , cells:"" , position: 1 ,oldToteID:"",isInserted:1,isDuplicate:false,isEdit:false}];
+  displayedColumns: string[] = [ 'actions','zone', 'locationdesc'];
   alreadySavedTotesList:any;
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   dataSourceManagedTotes = new MatTableDataSource<ToteElement>(this.ELEMENT_DATA_TOTE);
@@ -69,10 +69,55 @@ export class TotesAddEditComponent implements OnInit {
   addRow()
   {
     this.isRowAdded=true;
-    this.ELEMENT_DATA_TOTE.push({toteID:"" , cells:"" , position: this.ELEMENT_DATA_TOTE.length-1 ,oldToteID:"",isInserted:0,isDuplicate:false});
+    this.ELEMENT_DATA_TOTE.push({toteID:"" , cells:"" , position: this.ELEMENT_DATA_TOTE.length-1 ,oldToteID:"",isInserted:0,isDuplicate:false,isEdit:false});
     this.dataSourceManagedTotes = new MatTableDataSource<any>(this.ELEMENT_DATA_TOTE);
   }
+  printTote(type,element){
+    console.log(element)
+    let ident = 0;
+    let sTote = '';
+    let eTote = '';
+    let batch = '';
+    let ToteID = element?.toteID;
+    if (type.toLowerCase() == "tote") {
+      //print single tote id
+      sTote = '';
+      eTote = '';
+      batch = '';
+  } else if (type.toLowerCase() == 'batch') {
+      // print batch
+      ToteID = '';
+      sTote = '';
+      eTote = '';
+  } else {
+      //print range tote id
+      ident = 1;
+      ToteID = '';
+      batch = '';
+  };
 
+  // ToteID:ToteID,
+  // Ident:ident,
+  // FromTote:sTote,
+  // ToTote:eTote,
+  // PrintDirect: pd,
+  // BatchID: batch
+
+    // window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
+    window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', "location=yes");
+  }
+  printRange(){
+    let ident = 1;
+   let ToteID = '';
+    let batch = '';
+    let sTote = this.fromTote;
+    let eTote = this.toTote;
+
+    window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', "location=yes");
+
+    // window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
+
+  }
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   toggleAllRows() {
     if (this.isAllSelected()) {
@@ -251,6 +296,7 @@ export class TotesAddEditComponent implements OnInit {
           this.ELEMENT_DATA_TOTE[i].isInserted = 1;
           this.ELEMENT_DATA_TOTE[i].isDuplicate = false;
           this.ELEMENT_DATA_TOTE[i].oldToteID   = this.ELEMENT_DATA_TOTE[i].toteID
+          this.ELEMENT_DATA_TOTE[i].isEdit   = false
           }
           if(items){
             this.ELEMENT_DATA_TOTE.push(items[items.length-1])
@@ -270,7 +316,7 @@ export class TotesAddEditComponent implements OnInit {
 
   onToteChange($event,position,cells="")
   {
-    
+    this.ELEMENT_DATA_TOTE[(position)].isEdit =true;
   if(cells=="")
   {
     if(this.ELEMENT_DATA_TOTE[(position)].toteID!=$event.target.value)
@@ -281,7 +327,7 @@ export class TotesAddEditComponent implements OnInit {
   }
   else 
   {
-
+    
     if(this.ELEMENT_DATA_TOTE[(position)].cells!=$event.target.value)
     {
     this.ELEMENT_DATA_TOTE[(position)].cells = $event.target.value;
@@ -291,9 +337,12 @@ export class TotesAddEditComponent implements OnInit {
   
   }
 
-  selectTote(toteIDs=null,cells=null)
+  selectTote(toteIDs=null,cells=null,isManagedTote=false)
   {    
-
+    if(!isManagedTote){
+      if(this.toteID==='')return
+    }
+  
     var exists=false;
     for(var i=0; i < this.alreadySavedTotesList?.length; i++)
     {

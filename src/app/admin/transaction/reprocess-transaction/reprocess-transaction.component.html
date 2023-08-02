@@ -9,6 +9,7 @@
             (selectedItemNum)="selectedItemNum($event)" 
             (filterCleared)="filterCleared($event)"
             (radioChangeEvent)="getObjChange($event)"
+            (selectedOptionChange)="selectedOptionChange($event)"
 
           
             ></app-tran-in-reprocess>
@@ -132,12 +133,13 @@
                                     <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
                                     <mat-option value="set_column_sq">Set Column Sequence</mat-option>
 
-                                    <mat-option *ngIf="print" value="printPreview">Print Preview Selected</mat-option>
-                                    <mat-option *ngIf="print" value="printPreviewAllRecords">Print Preview All Records</mat-option>
-                                    <mat-option *ngIf="print" value="printPreviewSelectedReason">Print Preview By Selected Reason</mat-option>
-                                    <mat-option *ngIf="print" value="printPreviewSelectedMessage">Print Preview By Selected Message</mat-option>
-                                    <mat-option *ngIf="print" value="printPreviewDateTime">Print Preview By Date/Time</mat-option>
-                                    <mat-option *ngIf="print" value="printPreviewItemNumber">Print Preview By Item Number</mat-option>
+                                    <mat-option *ngIf="print" (click)="printPreview('selected')" value="printPreview">Print Preview Selected</mat-option>
+                                    <mat-option (click)="printPreview('all')" value="printPreviewAllRecords">Print Preview All Records</mat-option>
+                                    <mat-option *ngIf="print" (click)="printPreview('reason')"  value="printPreviewSelectedReason">Print Preview By Selected Reason</mat-option>
+                                    <mat-option *ngIf="print" (click)="printPreview('message')"  value="printPreviewSelectedMessage">Print Preview By Selected Message</mat-option>
+                                    <mat-option *ngIf="print" (click)="printPreview('date')"  value="printPreviewDateTime">Print Preview By Date/Time</mat-option>
+                                    <mat-option *ngIf="this.itemNumber != ''" (click)="printPreview('item')"  value="printPreviewItemNumber">Print Preview By Item Number</mat-option>
+                                    <mat-option *ngIf="this.orderNumber != ''" (click)="printPreview('order')"  value="printPreviewItemNumber">Print Preview By Order Number</mat-option>
 
                                     <mat-option *ngIf="deleteReplenishment" value="deleteReplenishment">Delete Replenishment</mat-option>
                                     <mat-option *ngIf="deleteSelected" value="deleteSelected">Delete Selected</mat-option>

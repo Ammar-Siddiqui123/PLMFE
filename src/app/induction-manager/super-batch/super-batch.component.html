@@ -62,7 +62,7 @@
                     <div class="col-xl-3">
                     <mat-form-field class="action-dropdown w-100 mb-3"  appearance="outline">
                                 <mat-label>Print Labels for Batch</mat-label>
-                                <mat-select class="employees-action" placeholder="Select">
+                                <mat-select [(ngModel)]="printBatchLabels" class="employees-action" placeholder="Select">
                                     <mat-option *ngFor="let batch of superBatches" value="{{batch}}">{{batch}}</mat-option>
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
@@ -79,9 +79,9 @@
                                 keyboard_arrow_down
                             </span>
                             <mat-menu #menu="matMenu">
-                                <button mat-menu-item>Print Batch Labels</button>
-                                <button mat-menu-item>Print Order Labels</button>
-                                <button mat-menu-item>Print Case Labels</button>
+                                <button (click)="printBatchLabel('printBatchLabels')" mat-menu-item>Print Batch Labels</button>
+                                <button (click)="printBatchLabel('printOrderLabels')" mat-menu-item>Print Order Labels</button>
+                                <button (click)="printBatchLabel('printCaseLabels')" mat-menu-item>Print Case Labels</button>
                             </mat-menu>
                         </button>
                     </div>

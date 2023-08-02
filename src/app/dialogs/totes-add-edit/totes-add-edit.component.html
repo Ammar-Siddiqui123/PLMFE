@@ -74,7 +74,7 @@
       </mat-form-field>
 
 
-        <div class="d-flex d-xl-block"><button style="flex: 1 auto;" [disabled]="!fromTote && !toTote" type="submit" mat-flat-button class="float-end form-button-submit btn-regular" color="primary">Print
+        <div (click)="printRange()" class="d-flex d-xl-block"><button style="flex: 1 auto;" [disabled]="!fromTote && !toTote" type="submit" mat-flat-button class="float-end form-button-submit btn-regular" color="primary">Print
             Range</button></div>
       </div>
     </div>
@@ -89,17 +89,17 @@
       <ng-scrollbar class="mat-table-scrollbar" track="all" style="height:160px;">
         <table mat-table [dataSource]="dataSource" class="">
 
-          <!-- <ng-container matColumnDef="select">
+          <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let row">
               <div class="pe-2">
-                // (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" 
+              <!-- (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"  -->
                
-                <mat-radio-button (click)="selectTote()" [disabled]="toteID ? false : true"
+                <mat-radio-button (click)="selectTote()" [disabled]="toteID ? false : true" 
                   color="primary"></mat-radio-button>
               </div>
             </td>
-          </ng-container> -->
+          </ng-container>
 
           <!-- Position Column -->
           <ng-container matColumnDef="zone">
@@ -126,7 +126,8 @@
               </div>
             </td>
           </ng-container>
-
+        
+<!-- 
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Actions </th>
             <td mat-cell *matCellDef="let element">
@@ -139,7 +140,7 @@
               </div>
 
             </td>
-          </ng-container>
+          </ng-container> -->
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
@@ -174,8 +175,8 @@
                           (change)="$event ? selection.toggle(row) : null"
                          
                           [aria-label]="checkboxLabel(row)" -->
-                <!-- <mat-radio-button color="primary" (click)="selectTote(row.toteID,row.cells)">
-                </mat-radio-button> -->
+                <mat-radio-button  [disabled]="!row.toteID || !row.cells || row.isInserted==0 || row.isEdit" color="primary" (click)="selectTote(row.toteID,row.cells,!row.toteID?false:!row.cells?false:row.isInserted==0?false:row.isEdit?false:true)">
+                </mat-radio-button>
               </div>
             </td>
           </ng-container>
@@ -184,8 +185,9 @@
             <th mat-header-cell *matHeaderCellDef>Tote IDs </th>
             <td mat-cell *matCellDef="let element; let i = index">
               <div class="pe-2">
+            
                 <mat-form-field class="custom-form-field w-100" appearance="outline">
-
+                
                   <input matInput type="text" #specialFeature maxlength="255" [value]="element.toteID"
                     (keydown)="onToteChange($event,i,'')" (keyup)="onToteChange($event,i,'')"
                     (change)="onToteChange($event,i,'')" (keypress)="onToteChange($event,i,'')"
@@ -209,6 +211,7 @@
                     (keypress)="onToteChange($event,i,'1')">
                 </mat-form-field>
               </div>
+             
             </td>
           </ng-container>
 
@@ -217,17 +220,17 @@
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let element; let i = index">
               <div class="d-flex gap-12">
-                <button [disabled]="!element.toteID || !element.cells" matTooltip="Check" [hidden]="isIMPath" mat-flat-button color="primary" class="xsm-icon-button" (click)="selectTote(element.toteID,element.cells)">
+                <!-- <button [disabled]="!element.toteID || !element.cells" matTooltip="Check" [hidden]="isIMPath" mat-flat-button color="primary" class="xsm-icon-button" (click)="selectTote(element.toteID,element.cells)">
                   <mat-icon class="material-symbols-outlined">
                     check
                   </mat-icon>
-                </button>
-                <button [disabled]="!element.toteID || !element.cells" matTooltip="Print" mat-flat-button color="primary" class="xsm-icon-button">
+                </button> -->
+                <button  (click)="printTote('tote',element)"  [disabled]="!element.toteID || !element.cells || element.isInserted==0 || element.isEdit" matTooltip="Print" mat-flat-button color="primary" class="xsm-icon-button">
                   <mat-icon class="material-symbols-outlined">
                     print
                   </mat-icon>
                 </button>
-                <button [disabled]="!element.toteID || !element.cells" matTooltip="Save" mat-flat-button color="primary" class="xsm-icon-button"
+                <button [disabled]="!element.toteID || !element.cells || !element.isEdit" matTooltip="Save" mat-flat-button color="primary" class="xsm-icon-button"
                   (click)="saveTote(element.toteID,element.cells,element.oldToteID,element.isInserted,i)">
                   <mat-icon class="material-symbols-outlined">
                     save
