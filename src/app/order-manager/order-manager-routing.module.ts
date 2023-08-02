@@ -9,6 +9,7 @@ import { OmCreateOrdersComponent } from '../dialogs/om-create-orders/om-create-o
 import { TransactionComponent } from '../admin/transaction/transaction.component';
 import { InventoryMasterComponent } from '../admin/inventory-master/inventory-master.component';
 import { InventoryMapComponent } from '../admin/inventory-map/inventory-map.component';
+import { ReportsComponent } from '../admin/reports/reports.component';
 
 const routes: Routes = [{ path: '', component: OrderManagerComponent },
 { path: 'EventLog', 
@@ -40,6 +41,10 @@ canActivate: [AuthGuardGuard],  },
 
 { path: 'InventoryMap', 
 component: InventoryMapComponent,
+canActivate: [AuthGuardGuard],  },
+
+{ path: 'Reports', 
+component: ReportsComponent,
 canActivate: [AuthGuardGuard],  },
 ];
 
