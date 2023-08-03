@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { GlobalService } from 'src/app/common/services/global.service';
 import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
 import { AuthService } from 'src/app/init/auth.service';
@@ -13,6 +14,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 })
 export class BasicReportsAndLabelsComponent implements OnInit {
   reports:any = [];
+  searchByInput: any = new Subject<string>();
   ListFilterValue:any = [];
   fields:any = [];
   public userData: any;
@@ -57,6 +59,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.BasicReportModel.ChooseReport = "";
     this.Getcustomreports();
   }
   Getcustomreports(){
@@ -64,8 +67,8 @@ export class BasicReportsAndLabelsComponent implements OnInit {
       'app':this.currentApp
     }
     this.api.Getcustomreports(payload).subscribe((res:any)=>{
-      this.reports = res?.data?.reports; 
-     
+      this.reports = res?.data?.reports;
+      this.reports.unshift('');
     })
   }
   basicreportdetails(Report){
@@ -74,12 +77,12 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     WSID:this.userData.wsid
     }
     this.api.basicreportdetails(payload).subscribe((res:any)=>{
-        this.reportData = res?.data?.reportData; 
-        this.fields = res?.data?.fields; 
-      
+      this.reportData = res?.data?.reportData; 
+      this.fields = res?.data?.fields; 
+      this.fields.unshift('');
     })
   }
-  changefilter(column,index){
+  async changefilter(column,index){
     var payload:any ={
       reportName:this.BasicReportModel.ChooseReport,
       column:column
@@ -102,11 +105,11 @@ export class BasicReportsAndLabelsComponent implements OnInit {
      for(let i = 0;i<6;i++){
       payload.exps.push(this.reportData[10+i]);
      }  
-     debugger;
      this.api.ReportFieldsExps(payload).subscribe((res:any)=>{  
        
      })
    }
+   searchAutocompleteList
 reportfieldvalues(){
   var payload:any = {
     report:this.BasicReportModel.ChooseReport,
@@ -120,7 +123,8 @@ reportfieldvalues(){
     }   for(let i = 0;i<6;i++){
       payload.V2.push("");
      } 
-     this.api.reportfieldvalues(payload).subscribe((res:any)=>{  
+     this.api.reportfieldvalues(payload).subscribe((res:any)=>{ 
+       console.log(res)
        
      })
    } 
@@ -147,8 +151,8 @@ ReportTitles(){
   
   }
   OpenListAndLabel(){ 
-    window.location.href = `/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`
-    // this.route.navigateByUrl(`/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`);
+    window.location.href = `/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`
+    window.location.reload();  
   }
 Remove(index){ 
   this.reportData[16+index] = "";
@@ -158,5 +162,7 @@ Remove(index){
   this.reportfieldvalues();
   this.ReportTitles();
 }
+
+
   
 }

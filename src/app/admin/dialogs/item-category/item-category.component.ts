@@ -7,8 +7,8 @@ import labels from '../../../labels/labels.json'
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
-import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { Router } from '@angular/router';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-item-category',
@@ -167,7 +167,7 @@ export class ItemCategoryComponent implements OnInit {
 
   openPrintRangeDialog(){
     this.dialogRef.close();
-    window.location.href = `/report-view?file=FileName:printCategoriesReport`
-    // this.route.navigateByUrl(`/report-view?file=FileName:printCategoriesReport`);
+    window.location.href = `/#/report-view?file=FileName:printCategoriesReport`
+    window.location.reload(); 
   }
 }

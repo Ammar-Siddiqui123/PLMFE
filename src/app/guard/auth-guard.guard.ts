@@ -28,10 +28,17 @@ export class AuthGuardGuard implements CanActivate {
       else return true;
     }
   if(pathSet == '/globalconfig'){ 
-   if(this.authService.IsConfigLogin()) {
-    window.location.href = '/#/globalconfig/home'; 
-  return false;
-  }  else return true;
+    if(this.authService.IsConfigLogin()) {
+       if(this.router.url.split('?')[0].indexOf('report-view') > -1){
+        return false;
+    }else{
+        window.location.href = '/#/globalconfig/home'; 
+        return false;
+      }
+    }  
+    else{
+      return true;
+    } 
   }
     if(pathSet.indexOf('/globalconfig') > -1){
       if(!(pathSet.indexOf('/globalconfig/') > -1))    { this.router.navigate(['/globalconfig']);}  

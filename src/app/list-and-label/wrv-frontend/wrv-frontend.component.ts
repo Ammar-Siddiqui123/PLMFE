@@ -35,4 +35,9 @@ export class WrvFrontendComponent implements OnInit {
     defaultProject="${this.FileName.split('-')[1] == 'lbl'|| this.FileName?.toLowerCase()?.indexOf('label')>-1 ? '7FAC97B2-3F8A-437A-A3B6-2E0E2FCB750B':'57D637EE-9735-42B4-88D7-4B43FE17DDA8'}" customData="${this.FileName}" ></ll-webreportviewer>`; 
     this.ListAndLabel.nativeElement.insertAdjacentHTML('beforeend', dynamicHtml);
   }
+  ngOnDestroy(){ 
+    this.sharedService.SideBarMenu.next(true);
+    window.location.reload();
+  }
+
 } 

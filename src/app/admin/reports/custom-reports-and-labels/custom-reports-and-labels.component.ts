@@ -82,6 +82,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   }
   OpenListAndLabel(route){
     // localStorage.setItem("ListAndLandFile",this.Detail.fileName);
+    
     this.route.navigateByUrl(`/${route}?file=${this.Detail.fileName.replace(".","-")}`);
   }
   SelectedFile:any;
@@ -113,6 +114,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      data:this.Detail.testData
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result)  

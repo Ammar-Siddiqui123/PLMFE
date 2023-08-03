@@ -49,7 +49,7 @@ export class SpGeneralSetupComponent implements OnInit {
       "wsid": this.userData.wsid
     }; 
     var paylaod3:any = {
-      "preference": ["true",String(this.CompanyObj.fifoPickAcrossWarehouse),"true",String(this.CompanyObj.replenishDedicatedOnly),"true","true","true","true","true","true","true",
+      "preference": ["true",String(this.CompanyObj.fifoPickAcrossWarehouse),"true",String(this.CompanyObj.replenishDedicatedOnly),"true","true",String(this.CompanyObj.zeroLocationQuantityCheck),"true","true","true","true",
        String(this.CompanyObj.reelTrackingPickLogic) ,"true","true",String(this.CompanyObj.showTransQty),
       String(this.CompanyObj.nextToteID),String(this.CompanyObj.nextSerialNumber),"",String(this.CompanyObj.pickType),String(this.CompanyObj.otTemptoOTPending)
       ,String(this.CompanyObj.distinctKitOrders),String(this.CompanyObj.printReplenPutLabels),String(this.CompanyObj.generateQuarantineTransactions)],

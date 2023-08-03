@@ -288,25 +288,26 @@ async ConfirmedPacked() {
 
 printPackList(){
   this.dialogRef.close();
-  window.location.href = `/report-view?file=FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`
-  // this.route.navigateByUrl(`/report-view?file=FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
+  window.location.href = `/#/report-view?file=FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`;
+  window.location.reload();
 }
 
 print(type:any){
   if(type == 'list'){
     this.dialogRef.close();
-    window.location.href = `/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`
-    // this.route.navigateByUrl(`/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`);
+    window.location.href = `/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
+    window.location.reload();
   }
   else if (type == 'label'){
     this.dialogRef.close();
-    window.location.href = `/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`
-    // this.route.navigateByUrl(`/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`);
+    window.location.href = `/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
+    window.location.reload();
   }
   else{
 
-    window.location.href = `/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`
-    window.location.href = `/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`
+    window.location.href = `/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
+    window.location.href = `/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
+    window.location.reload();
     // window.open(`/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`, "_blank");
     // window.open(`/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`, "_blank");
   }
@@ -314,7 +315,8 @@ print(type:any){
 
 itemLabel(element:any){
   this.dialogRef.close();
-  window.location.href = `/report-view?file=FileName:PrintConfPackItemLabel|OrderNum:${this.orderNumber}|ST_ID:${element.sT_ID}`
+  window.location.href = `/#/report-view?file=FileName:PrintConfPackItemLabel|OrderNum:${this.orderNumber}|ST_ID:${element.sT_ID}`;
+  window.location.reload();
   // this.route.navigateByUrl(`/report-view?file=FileName:PrintConfPackItemLabel|OrderNum:${this.orderNumber}|ST_ID:${element.sT_ID}`);
 }
 

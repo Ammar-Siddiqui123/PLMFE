@@ -217,13 +217,13 @@ export class CmShippingComponent implements OnInit {
 
   printAll(){
     this.dialogRef.close();
-    window.location.href = `/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`
-    // this.route.navigateByUrl(`/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`);
+    window.location.href = `/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`;
+    window.location.reload();
   }
 
   PrintItem(element: any,i:any=null){
     this.dialogRef.close();
-    window.location.href = `/report-view?file=FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`
-    // this.route.navigateByUrl(`/report-view?file=FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`);
+    window.location.href = `/#/report-view?file=FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`;
+    window.location.reload();
   }
 }

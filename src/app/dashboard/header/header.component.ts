@@ -210,11 +210,7 @@ statusTab;
       localStorage.clear();
       this.api.Logout(paylaod).subscribe((res:any) => {
         if (res.isExecuted) 
-        {
-          // this.toastr.success(res.responseMessage, 'Success!', {
-          //   positionClass: 'toast-bottom-right',
-          //   timeOut: 2000
-          // });
+        { 
           window.location.href = "/#/login";
         }
         else 
