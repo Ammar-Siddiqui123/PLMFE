@@ -82,15 +82,32 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   }
   OpenListAndLabel(route){
     // localStorage.setItem("ListAndLandFile",this.Detail.fileName);
+    
     this.route.navigateByUrl(`/${route}?file=${this.Detail.fileName.replace(".","-")}`);
   }
   SelectedFile:any;
 
-  Getreportdetails(file){
+  Getreportdetails(file,index?){
     console.log(file)
+    this.ListReports.forEach((item,i)=>{
+      if(i===index){
+        if(item.isSelected){
+          item.isSelected=false;
+        }
+        else{
+          item.isSelected=true
+        }
+
+      }else{
+        item.isSelected=false;
+      }
+      
+    })
+    // this.ListReports[index].isSelected=!this.ListReports[index].isSelected;
 
       this.olddetail = file; 
     if(this.SelectedFile == file){
+      
       this.Detail = {};
       this.SelectedFile = null;
       return 1;
@@ -103,7 +120,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     this.api.Getreportdetails(obj).subscribe((res:any)=>{
       this.Detail = res.data[0];
     })
-    // this.ListReports[index].isSelected=!this.ListReports[index].isSelected;
+   
     return 1;
     // this.Detail = ! this.Detail 
   }
@@ -113,6 +130,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      data:this.Detail.testData
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result)  

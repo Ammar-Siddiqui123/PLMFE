@@ -9,11 +9,11 @@ import { MatDialog } from '@angular/material/dialog';
 export class IeFtpSettingsComponent implements OnInit {
   ELEMENT_DATA: any[] =[
     {import_export: 'Export'},
+    {import_export: 'Import'},
     {import_export: 'Export'},
+    {import_export: 'Import'},
     {import_export: 'Export'},
-    {import_export: 'Export'},
-    {import_export: 'Export'},
-    {import_export: 'Export'},
+    {import_export: 'Import'},
     
   ]
 

@@ -1,6 +1,7 @@
 import { Component, ComponentFactoryResolver, ElementRef, HostListener, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { map } from 'rxjs';
+import { SharedService } from 'src/app/services/shared.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -14,12 +15,11 @@ export class WrvComponent implements OnInit {
   @ViewChild('ListAndLabel', { static: true }) ListAndLabel: ElementRef;
   @ViewChild('myIframe', { static: true }) myIframeRef: ElementRef;
   iframeSrc:string;
-  constructor(private route:ActivatedRoute) {
+  constructor(private route:ActivatedRoute,private sharedService:SharedService) {
  this.iframeSrc = `${this.env}/#/ListAndLabel/report-view?file=${this.file}`;  
     this.env = location.protocol + '//' + location.host; 
  
-   }
-   
+   } 
   ngOnInit(): void {
     var filename = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('file')),
@@ -52,4 +52,6 @@ export class WrvComponent implements OnInit {
       }
   }
 }
+ 
+
 }
