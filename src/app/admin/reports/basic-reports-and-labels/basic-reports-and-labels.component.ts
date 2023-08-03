@@ -148,7 +148,7 @@ ReportTitles(){
   }
   OpenListAndLabel(){ 
     window.location.href = `/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`
-    // this.route.navigateByUrl(`/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`);
+    window.location.reload();  
   }
 Remove(index){ 
   this.reportData[16+index] = "";

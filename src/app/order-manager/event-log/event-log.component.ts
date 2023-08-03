@@ -248,13 +248,13 @@ export class EventLogComponent implements OnInit {
   printSelected(param:any){
     if(param.eventID == 0) param.eventID  = -1; 
     var curdatetime = this.datepipe.transform(param.dateStamp, 'yyyy-MM-dd HH:mm:ss');
-    window.location.href = `/#/report-view?file=FileName:printELReport|sDate:${curdatetime}|eDate:${curdatetime}|eID:${param.eventID ? param.eventID : ''}|message:${param.message ?param.message: '' }|eLocation:${param.eLocation ?param.eLocation: '' }|nStamp:${param.nStamp ?param.nStamp: '' }` 
-    // this.router.navigateByUrl(`/report-view?file=FileName:printELReport|sDate:${curdatetime}|eDate:${curdatetime}|eID:${param.eventID ? param.eventID : ''}|message:${param.message ?param.message: '' }|eLocation:${param.eLocation ?param.eLocation: '' }|nStamp:${param.nStamp ?param.nStamp: '' }`);
+    window.location.href = `/#/report-view?file=FileName:printELReport|sDate:${curdatetime}|eDate:${curdatetime}|eID:${param.eventID ? param.eventID : ''}|message:${param.message ?param.message: '' }|eLocation:${param.eLocation ?param.eLocation: '' }|nStamp:${param.nStamp ?param.nStamp: '' }`;
+    window.location.reload();
   }
 
   printRange(){
-    window.location.href = `/#/report-view?file=FileName:printELReport|sDate:${this.startDate}|eDate:${this.endDate}|eID:-1|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`
-    // this.router.navigateByUrl(`/report-view?file=FileName:printELReport|sDate:${this.startDate}|eDate:${this.endDate}|eID:-1|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`);
+    window.location.href = `/#/report-view?file=FileName:printELReport|sDate:${this.startDate}|eDate:${this.endDate}|eID:-1|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`;
+    window.location.reload();
   }
 
   paginatorChange(event: PageEvent) {
@@ -311,8 +311,8 @@ export class EventLogComponent implements OnInit {
   }
 
   exportRange(){
-    window.location.href = `/#/report-view?file=FileName:singleExport|sDate:${this.startDate}|eDate:${this.endDate}|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`
-    // this.router.navigateByUrl(`/report-view?file=FileName:singleExport|sDate:${this.startDate}|eDate:${this.endDate}|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`);
+    window.location.href = `/#/report-view?file=FileName:singleExport|sDate:${this.startDate}|eDate:${this.endDate}|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`;
+    window.location.reload();
   }
 
   @HostListener('document:keyup', ['$event'])
