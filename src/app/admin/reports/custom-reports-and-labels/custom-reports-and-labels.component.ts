@@ -82,6 +82,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   }
   OpenListAndLabel(route){
     // localStorage.setItem("ListAndLandFile",this.Detail.fileName);
+    
     this.route.navigateByUrl(`/${route}?file=${this.Detail.fileName.replace(".","-")}`);
   }
   SelectedFile:any;
