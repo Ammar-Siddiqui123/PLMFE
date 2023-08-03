@@ -92,7 +92,7 @@
                                             class="action-dropdown custom-form-field custom-form-field-bg-white w-100 pe-2"
                                             appearance="outline">
                                             <mat-label>Field(s) to filter on</mat-label>
-                                            <mat-select class="employees-action" [(ngModel)]="reportData[4+i]" (ngModelChange)="ReportFieldsExps();changefilter(reportData[4+i],i)" placeholder="Actions">
+                                            <mat-select class="employees-action" [(ngModel)]="reportData[4+i]" (ngModelChange)="ReportFieldsExps();changefilter(reportData[4+i],i)" placeholder="Actions" [disabled]="BasicReportModel.ChooseReport == ''">
                                                 <mat-option *ngFor="let item of fields" [value]="item">{{item}}</mat-option> 
                                             </mat-select>
                                             <span class="material-symbols-outlined icon-expand-more">
@@ -110,7 +110,7 @@
                                             class="action-dropdown custom-form-field custom-form-field-bg-white w-100 pe-2"
                                             appearance="outline">
                                             <mat-label>Expression Type</mat-label>
-                                            <mat-select class="employees-action"  [(ngModel)]="reportData[10+i]" (ngModelChange)="ReportFieldsExps()" placeholder="Actions">
+                                            <mat-select class="employees-action"  [(ngModel)]="reportData[10+i]" (ngModelChange)="ReportFieldsExps()" placeholder="Actions" [disabled]="BasicReportModel.ChooseReport == ''">
                                                 <mat-option value=""> </mat-option>
                                                 <mat-option value="=">= (Equals)</mat-option>
                                                 <mat-option value=">">> (Greater Than)</mat-option>
@@ -138,7 +138,7 @@
                                     <th mat-header-cell *matHeaderCellDef>Value To Test</th>
                                     <td mat-cell *matCellDef="let element;let i =index">
                                         <mat-form-field class="custom-form-field w-100 pe-2" appearance="outline">
-                                            <input matInput type="text"  [matAutocomplete]="auto" (ngModelChange)="this.searchByInput.next($event)"  [(ngModel)]="reportData[16+i]" [disabled]="reportData[10+i] == '' || reportData[10+i] == null" (change)="reportfieldvalues()" />
+                                            <input matInput type="text"  [matAutocomplete]="auto" (ngModelChange)="this.searchByInput.next($event)"  [(ngModel)]="reportData[16+i]" [disabled]="(reportData[4+i] == '' || reportData[4+i] == null) || BasicReportModel.ChooseReport == ''" (change)="reportfieldvalues()" />
                                             <mat-autocomplete #auto="matAutocomplete" >
                                                 <mat-option *ngFor="let option of ListFilterValue[i]" [value]="option">
                                                   {{option}}
@@ -154,7 +154,7 @@
                                     <th width="10%" class="text-center px-2" mat-header-cell *matHeaderCellDef>Action
                                     </th>
                                     <td class="pe-0" mat-cell *matCellDef="let element; let i = index" width="10%">
-                                        <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete"
+                                        <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete" [disabled]="BasicReportModel.ChooseReport == ''"
                                         (click)="Remove(i)"
                                             matTooltip="Delete" matTooltipPosition="above" color="warn">
                                             <mat-icon>close</mat-icon>
