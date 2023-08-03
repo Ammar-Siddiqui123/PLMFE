@@ -18,8 +18,9 @@ export class WrdFrontendComponent implements OnInit {
     // this.FileName = file;
      
   }
-  ngOnDestroy(){
+  ngOnDestroy(){ 
     this.sharedService.SideBarMenu.next(true);
+    window.location.reload();
   }
 
   ngOnInit(): void {

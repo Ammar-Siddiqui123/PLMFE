@@ -273,8 +273,8 @@ export class PrintersComponent implements OnInit {
       });
       dialogRef2.afterClosed().subscribe((result) => {
         if (result == 'Yes') {
-          // this.router.navigateByUrl(`/report-view?file=FileName:TestPrint|islabel:${printer.labelPrinter == 'Yes' ? true : false}|PrinterName:${printer.printer}|PrinterAddress:${printer.printerAdd}`);
           window.location.href = `/#/report-view?file=FileName:TestPrint|islabel:${printer.labelPrinter == 'Yes' ? true : false}|PrinterName:${printer.printer}|PrinterAddress:${printer.printerAdd}`
+          window.location.reload();
         }
       });
     }

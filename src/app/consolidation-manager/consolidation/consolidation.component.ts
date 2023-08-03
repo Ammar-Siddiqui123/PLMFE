@@ -821,7 +821,7 @@ export class ConsolidationComponent implements OnInit {
   printPreviewNonVerified() {
     if (this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0) {
       window.location.href = `/#/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`;
-      // this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`);
+      window.location.reload();
     }
     else {
       this.toastr.error("There are no unverfied items", 'Error!', {

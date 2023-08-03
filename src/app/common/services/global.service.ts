@@ -85,7 +85,7 @@ export class GlobalService {
         var today = month + "/" + day + "/" + year;
         return today;
     }
-
+ 
     //Allows only numeric strings in an input box
     setNumeric(value : any) {
         // var value = element.val();
