@@ -57,6 +57,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.BasicReportModel.ChooseReport = "";
     this.Getcustomreports();
   }
   Getcustomreports(){
@@ -64,8 +65,8 @@ export class BasicReportsAndLabelsComponent implements OnInit {
       'app':this.currentApp
     }
     this.api.Getcustomreports(payload).subscribe((res:any)=>{
-      this.reports = res?.data?.reports; 
-     
+      this.reports = res?.data?.reports;
+      this.reports.unshift('');
     })
   }
   basicreportdetails(Report){
@@ -74,9 +75,9 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     WSID:this.userData.wsid
     }
     this.api.basicreportdetails(payload).subscribe((res:any)=>{
-        this.reportData = res?.data?.reportData; 
-        this.fields = res?.data?.fields; 
-      
+      this.reportData = res?.data?.reportData; 
+      this.fields = res?.data?.fields; 
+      this.fields.unshift('');
     })
   }
   changefilter(column,index){
