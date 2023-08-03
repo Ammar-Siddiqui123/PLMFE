@@ -259,7 +259,8 @@ export class CmShippingTransactionComponent implements OnInit {
 
   openShipPrintItemLabel(order : any, i : any) {
     this.dialogRef.close();
-    this.route.navigateByUrl(`/report-view?file=FileName:PrintShipTransLabel|ST_ID:${order.sT_ID}`);
+    window.location.href = `/#/report-view?file=FileName:PrintShipTransLabel|ST_ID:${order.sT_ID}`
+    // this.route.navigateByUrl(`/report-view?file=FileName:PrintShipTransLabel|ST_ID:${order.sT_ID}`);
   }
 
   // Open the dialog component, pass in the data to be modified
@@ -328,7 +329,8 @@ export class CmShippingTransactionComponent implements OnInit {
 
   printList(){
     this.dialogRef.close();
-    this.route.navigateByUrl(`/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.data.orderNum}`);
+    window.location.href = `/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.data.orderNum}`
+    // this.route.navigateByUrl(`/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.data.orderNum}`);
   }
 
 }

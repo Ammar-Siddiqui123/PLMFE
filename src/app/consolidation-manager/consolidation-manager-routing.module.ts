@@ -6,6 +6,7 @@ import { ConsolidationComponent } from './consolidation/consolidation.component'
 import { ConsolidationPreferencesComponent } from './consolidation-preferences/consolidation-preferences.component';
 import { CmStagingLocationComponent } from './cm-staging-location/cm-staging-location.component';
 import { TransactionComponent } from '../admin/transaction/transaction.component';
+import { ReportsComponent } from '../admin/reports/reports.component';
 
 const routes: Routes = [{ path: '', component: ConsolidationManagerComponent },
 {
@@ -23,6 +24,10 @@ canActivate: [AuthGuardGuard],
 },
 { path: 'OrderStatus', 
 component: TransactionComponent, 
+canActivate: [AuthGuardGuard], 
+},
+{ path: 'Reports', 
+component: ReportsComponent, 
 canActivate: [AuthGuardGuard], 
 }
 ];

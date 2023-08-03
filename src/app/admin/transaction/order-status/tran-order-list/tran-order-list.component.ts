@@ -795,6 +795,12 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   }
 
   printReport(){
-    this.router.navigateByUrl(`/report-view?file=FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`);
+    window.location.href = `/#/report-view?file=FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`;
+    // this.router.navigateByUrl(`/report-view?file=FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`);
+  }
+
+  previewReport(){
+    window.location.href = `/#/report-view?file=OrderStatus-lst-prv|field:Order Number|exptype:=|expone:${this.orderNo}|exptwo:`;
+    // this.router.navigateByUrl(`/report-view?file=OrderStatus-lst-prv|field:Order Number|exptype:=|expone:${this.orderNo}|exptwo:`);
   }
 }

@@ -577,7 +577,8 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   printViewed(){
-    this.router.navigateByUrl(`/report-view?file=FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`);
+    window.location.href = `/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`
+    // this.router.navigateByUrl(`/report-view?file=FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`);
   }
 
 }

@@ -235,7 +235,7 @@
                                 </button>
 
                                 <mat-menu  #appMenu="matMenu"> 
-                                    <button class="text-tertiary-800" mat-menu-item [disabled]="!element.complete" (click)="itemLabel(element)"><b (click)="itemLabel(element)">Item Label</b></button>
+                                    <button class="text-tertiary-800" mat-menu-item (click)="itemLabel(element)"><b>Item Label</b></button>
 
                                     <button mat-menu-item  [disabled]="(confPackEnable != '' && confPackEnable != null)"  (click)="UnPack(element.sT_ID)">Unpack</button>
 

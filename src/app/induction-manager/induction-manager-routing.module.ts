@@ -19,6 +19,7 @@ import { ImToteManagerComponent } from './im-tote-manager/im-tote-manager.compon
 import { TotesAddEditComponent } from '../dialogs/totes-add-edit/totes-add-edit.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CompletePickBatchComponent } from './complete-pick-batch/complete-pick-batch.component';
+import { ReportsComponent } from '../admin/reports/reports.component';
 
 const routes: Routes = [
   { path: '', component: InductionManagerComponent },
@@ -118,6 +119,11 @@ const routes: Routes = [
   {
     path: 'Admin/ImToteManager',
     component: TotesAddEditComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'Admin/Reports',
+    component: ReportsComponent,
     canActivate: [AuthGuardGuard],
   },
 ];

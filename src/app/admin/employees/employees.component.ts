@@ -837,14 +837,19 @@ initialzeEmpForm() {
 
 
   printEmpList(){
-    this.router.navigateByUrl(`/report-view?file=FileName:printEmployees`);
+    window.location.href = `/#/report-view?file=FileName:printEmployees`
+    // this.router.navigateByUrl(`/report-view?file=FileName:printEmployees`);
   }
 
   printSelected(){
-    this.router.navigateByUrl(`/report-view?file=FileName:printEmployeeGroup|Group:${this.grpData.groupName}`);
+    window.location.href = `/#/report-view?file=
+    FileName:printEmployeeGroup|Group:${this.grpData.groupName}`
+    // this.router.navigateByUrl(`/report-view?file=
+    // FileName:printEmployeeGroup|Group:${this.grpData.groupName}`);
   }
 
   printAll(){
-    this.router.navigateByUrl(`/report-view?file=FileName:printEmployeeGroup`);
+    window.location.href = `/#/report-view?file=FileName:printEmployeeGroup`
+    // this.router.navigateByUrl(`/report-view?file=FileName:printEmployeeGroup`);
   }
 }

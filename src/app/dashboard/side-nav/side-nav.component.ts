@@ -76,7 +76,7 @@ export class SideNavComponent implements OnInit {
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
     { icon: 'tune', title: ' Preferences ', route: '/ConsolidationManager/Preferences' ,permission:'Consolidation Mgr Admin'},
     // Vector (Stroke)
-    { icon: 'analytics', title: 'Reporting ', route: '#' ,permission:'Consolidation Mgr Admin'},
+    { icon: 'analytics', title: 'Reporting ', route: '/ConsolidationManager/Reports' ,permission:'Consolidation Mgr Admin'},
      { icon: 'view_module', title: 'Order Status', route: '/ConsolidationManager/OrderStatus',paramsObj:{IsOrderStatus:true} ,permission:'Order Status'}
     //  flex_wrap
   ];
@@ -90,7 +90,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'ads_click   ', title: 'Manual Transactions ', route: '/InductionManager/Admin/ManualTransactions' ,permission:'Induction Manager'},
     { icon: 'elevator   ', title: 'Tote Manager ', route: '/InductionManager/Admin/ImToteManager' ,permission:'Induction Manager'},
     { icon: 'post_add ', title: 'Transaction Journal ', route: '/InductionManager/Admin/TransactionJournal' ,permission:'Induction Manager'},
-    { icon: '     analytics     ', title: 'Reports ', route: '#' ,permission:''},
+    { icon: '     analytics     ', title: 'Reports ', route: '/InductionManager/Admin/Reports' ,permission:'Induction Manager'},
     { icon: '      tune       ', title: 'Preferences ', route: '/InductionManager/Admin/AdminPrefrences' ,permission:'Induction Manager'},
   ];
 
@@ -102,7 +102,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'event_note', title: 'Event Log ', route: '/OrderManager/EventLog' ,permission:'Admin Release Orders'},
     { icon: 'dataset', title: 'Inventory Master Info', route: '/OrderManager/InventoryMaster' ,permission:'Admin Inventory Master'},  
     { icon: 'warehouse', title: 'Stock Location & Quantity ', route: '/OrderManager/InventoryMap' ,permission:'Admin Stock Locations'},
-    { icon: 'analytics', title: 'Reports ', route: '#' ,permission:'Admin Reports'},
+    { icon: 'analytics', title: 'Reports ', route: '/OrderManager/Reports' ,permission:'Admin Reports'},
     { icon: 'tune', title: 'Preferences ', route: '/OrderManager/Preferences' ,permission:'Admin Preferences'},
   ];
 
@@ -219,32 +219,7 @@ export class SideNavComponent implements OnInit {
         }
       }
     });
-
-    // this.sharedService.menuData$.subscribe(data => {
-    //   this.menuData = data;
-    //   let mednuAlter=[{title:'',icon:'',route:'',permission:''}]
-    // this.dynamicMenu= this.menuData.map((item,index)=>{
-      
-    //   mednuAlter[index].title=item.displayname
-    //   mednuAlter[index].icon=item.info.iconName
-    //   mednuAlter[index].route=item.info.route
-    //   mednuAlter[index].permission=item.info.permission
-    //   return mednuAlter
-    //   })
-    //  console.log( this.dynamicMenu);
-     
-    // });
-  }
-  
-  ngAfterViewInit(){
-     // let menuFromStorage=JSON.parse(localStorage.getItem('availableApps')|| '');
-    //   console.log(menuFromStorage);
-    //   menuFromStorage.filter((item,i)=>{
-    //     this.dynamicMenu[0]={icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'}
-    //     this.dynamicMenu.push({icon:item.info.iconName,title:item.displayname,route:item.info.route,permission:item.info.permission})
-    //   })
-
-     
+    
     this.sharedService.menuData$.subscribe(data => { 
       //  debugger
        if(this.menuData.length===0){
@@ -276,6 +251,32 @@ export class SideNavComponent implements OnInit {
       }
 
     });
+    // this.sharedService.menuData$.subscribe(data => {
+    //   this.menuData = data;
+    //   let mednuAlter=[{title:'',icon:'',route:'',permission:''}]
+    // this.dynamicMenu= this.menuData.map((item,index)=>{
+      
+    //   mednuAlter[index].title=item.displayname
+    //   mednuAlter[index].icon=item.info.iconName
+    //   mednuAlter[index].route=item.info.route
+    //   mednuAlter[index].permission=item.info.permission
+    //   return mednuAlter
+    //   })
+    //  console.log( this.dynamicMenu);
+     
+    // });
+  }
+  
+  ngAfterViewInit(){
+     // let menuFromStorage=JSON.parse(localStorage.getItem('availableApps')|| '');
+    //   console.log(menuFromStorage);
+    //   menuFromStorage.filter((item,i)=>{
+    //     this.dynamicMenu[0]={icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'}
+    //     this.dynamicMenu.push({icon:item.info.iconName,title:item.displayname,route:item.info.route,permission:item.info.permission})
+    //   })
+
+     
+
   }
 
   // let menuFromStorage=JSON.parse(localStorage.getItem('availableApps')|| '');
