@@ -307,6 +307,30 @@ enterUserName(){
 
   }
 
+  // checkAppAcess(appName){
+  //   this.applicationData.find(el=>{
+  //     if(el.appname===appName || this.isAppAccess){
+  //       this.isAppAccess=true
+  //     }else{
+  //       this.isAppAccess=false;
+  //     }
+
+   
+  //   })
+       
+  //   if(this.isAppAccess){
+  //     localStorage.setItem('isAppVerified',JSON.stringify({appName:appName,isVerified:true}))
+  //     this.redirection(appName)
+  //     // this.addLoginForm.reset();
+      
+      
+  //   }else{
+  //   //  this.sharedService.updateAppVerification({appName:appName,isVerified:false})
+  //   localStorage.setItem('isAppVerified',JSON.stringify({appName:appName,isVerified:false}))
+  //     this.router.navigate(['/dashboard']);
+  //   }
+  // }
+
   checkAppAcess(appName){
     this.applicationData.find(el=>{
       if(el.appname===appName || this.isAppAccess){
@@ -320,7 +344,10 @@ enterUserName(){
        
     if(this.isAppAccess){
       localStorage.setItem('isAppVerified',JSON.stringify({appName:appName,isVerified:true}))
-      this.redirection(appName)
+      let lastRoute = localStorage.getItem('LastRoute')
+      console.log(lastRoute)
+      lastRoute?this.router.navigate([lastRoute]):this.redirection(appName)
+        
       // this.addLoginForm.reset();
       
       
