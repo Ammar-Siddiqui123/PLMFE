@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
@@ -138,10 +139,9 @@ export class BasicReportsAndLabelsComponent implements OnInit {
        
      })
    }
-   searchAutocompleteList
 
-   ValueSelect(val,index){ 
-    this.reportData[16+index]  = val;
+   ValueSelect(event: MatAutocompleteSelectedEvent,index){ 
+    this.reportData[16+index]  = event.option.value;
     this.reportfieldvalues();
    }
 reportfieldvalues(){
