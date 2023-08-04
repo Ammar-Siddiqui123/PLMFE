@@ -158,7 +158,7 @@ reportfieldvalues(){
     V2:[]
    };
     for(let i = 0;i<6;i++){
-     payload.V1.push(this.reportData[16+i]);
+     payload.V1.push(this.reportData[16+i].toString());
     }   for(let i = 0;i<6;i++){
       payload.V2.push("");
      } 
