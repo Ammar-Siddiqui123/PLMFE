@@ -21,6 +21,8 @@ export class WrvComponent implements OnInit {
  
    } 
   ngOnInit(): void {
+    let appd=JSON.parse(localStorage.getItem('availableApps') || '');
+    this.sharedService.setMenuData(appd);
     var filename = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('file')),
     );

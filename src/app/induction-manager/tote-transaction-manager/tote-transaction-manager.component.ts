@@ -274,7 +274,32 @@ export class ToteTransactionManagerComponent implements OnInit {
     this.sortOrder = event.direction;
     this.getToteTrans();
   }
+  printToteList(type,row){
+    switch (type) {
+      case 'printCarouselList':
+        
+     window.open(`/#/report-view?file=FileName:PrintPrevOffCarList|ToteID:${row.toteId}|TransType:${row.transactionType}|PrintDirect:true`)
+        
+        break;
+        case 'printTotelContents':
+        
+        window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${row.toteId}|ZoneLabel:${JSON.stringify(row.zoneLabel)}|TransType:${row.transactionType}|PrintDirect:true`)
+           
+           break;
 
+           case 'printToteLabels':
+        
+           window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${row.toteId}|ZoneLabel:${JSON.stringify(row.zoneLabel)}|TransType:${row.transactionType}|printDirect:true|ID:-2|ID:-2|BatchID:''`)
+              
+              break;
+      default:
+        break;
+    }
+
+    // window.location.href = `/#/report-view?file=FileName:printIMReport|invMapID:0|groupLikeLoc:${this.groupLikeLoc}|beginLoc:${this.beginLoc}|endLoc:${this.endLoc}|User:${this.userData.userName}`
+    // window.location.reload();
+    
+  }
   onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + 'px';

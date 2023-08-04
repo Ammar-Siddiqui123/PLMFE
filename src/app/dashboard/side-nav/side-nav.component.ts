@@ -251,6 +251,10 @@ export class SideNavComponent implements OnInit {
       }
 
     });
+
+    this.sharedService.updateMenuFromInside.subscribe((menuOpen)=>{
+          this.loadMenus(menuOpen)
+    })
     // this.sharedService.menuData$.subscribe(data => {
     //   this.menuData = data;
     //   let mednuAlter=[{title:'',icon:'',route:'',permission:''}]
@@ -332,6 +336,7 @@ export class SideNavComponent implements OnInit {
         //   this.dynamicMenu = this.menus;
         // }
       if (menu.route.includes('/admin')) {
+        
         if (menu.route.includes('/admin/')) {
           this.adminMenus[0].route = '/admin';
         } else {
