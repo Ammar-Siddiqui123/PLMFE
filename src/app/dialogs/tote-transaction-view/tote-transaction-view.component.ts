@@ -41,6 +41,8 @@ export class ToteTransactionViewComponent implements OnInit {
     startIndex: 1,
     endIndex: 10,
   };
+  IMPreferences:any;
+  zoneLabels:any;
  
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -55,6 +57,8 @@ export class ToteTransactionViewComponent implements OnInit {
     this.tote = this.data.tote;
     this.toteID = this.data.toteID;
     this.cell=this.data.cell;
+    this.IMPreferences=this.data.IMPreferences;
+    this.zoneLabels = this.data.zoneLabels;
     this.getTransactionTable();
   }
   ngAfterViewInit(): void {
@@ -258,6 +262,30 @@ export class ToteTransactionViewComponent implements OnInit {
         })
       }
     });
+  }
+
+  print(type:any){
+    if(type == 'tote-label'){
+      window.location.href = `/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:|ZoneLab:${this.zoneLabels}|ID:${this.dataSource?.filteredData[0]?.id}|BatchID:${this.batchID}|TransType:Put Away`;
+    }
+    else if(type == 'item-label'){
+      window.location.href = `/#/report-view?file=FileName:PrintPrevToteItemLabel|ID:-1|BatchID:${this.batchID}|ToteNum:${this.tote}`;
+    }
+    else if(type == 'tote-contents'){
+      window.location.href = `/#/report-view?file=FileName:PrintPrevToteTransViewCont|BatchID:${this.batchID}|ToteNum:${this.tote}`;
+    }
+  }
+
+  printToteLabel(){
+    // console.log(this.IMPreferences);
+    let ID = this.dataSource?.filteredData[0]?.id;
+    window.location.href = `/#/report-view?file=FileName:PrintPrevToteItemLabel|ID:${ID}|BatchID:${this.batchID}|ToteNum:${this.tote}`;
+    // if(this.IMPreferences.printDirectly){
+
+    // }
+    // else{
+    //   window.location.href = `/#/report-view?file=FileName:PrintPrevToteItemLabel|ID:${ID}|BatchID:${this.batchID}|ToteNum:${this.tote}`;
+    // }
   }
 
 

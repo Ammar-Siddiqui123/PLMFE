@@ -25,9 +25,9 @@
                     (openedChange)="actionDialog($event)">
                     <mat-option value="clearTote">Clear Tote</mat-option>
                     <mat-option value="fullTote">Full Tote</mat-option>
-                    <mat-option value="printToteLabel">Print Tote Label</mat-option>
-                    <mat-option value="printItemLabel">Print Item Label</mat-option>
-                    <mat-option value="printToteContent">Print Tote Contents</mat-option>
+                    <mat-option value="printToteLabel" (click)="print('tote-label')">Print Tote Label</mat-option>
+                    <mat-option value="printItemLabel" (click)="print('item-label')">Print Item Label</mat-option>
+                    <mat-option value="printToteContent" (click)="print('tote-contents')">Print Tote Contents</mat-option>
                     <!-- <mat-option value="back">Back</mat-option> -->
                 </mat-select>
                 <span class="material-symbols-outlined icon-expand-more">
@@ -160,7 +160,7 @@
                                             class="text-tertiary-900">Clear</b></button>
                                     <button mat-menu-item (click)="clear('clearAndDeallocate',element)">Clear &
                                         Deallocate</button>
-                                    <button mat-menu-item>Print Tote Label</button>
+                                    <button mat-menu-item (click)="printToteLabel()">Print Tote Label</button>
                                 </mat-menu>
                             </div>
                         </td>
