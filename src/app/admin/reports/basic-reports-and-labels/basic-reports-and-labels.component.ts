@@ -66,6 +66,13 @@ export class BasicReportsAndLabelsComponent implements OnInit {
 
   }
 
+  onFocusEmptyInput(i: number) {
+    const inputValue = this.reportData[16 + i];
+    if (!inputValue || inputValue === '') {
+      this.changefilter(this.reportData[4 + i], i);
+    }
+  }
+
   filterByItem(value : any,index) {
     if(this.oldFilterValue && this.oldFilterValue.length > 0) {
       this.ListFilterValue[index] = this.oldFilterValue.filter((x : any) =>  x.toLowerCase().includes(value.toLowerCase()));
