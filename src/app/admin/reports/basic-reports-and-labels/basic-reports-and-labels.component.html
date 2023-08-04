@@ -142,9 +142,9 @@
                                             (change)="reportfieldvalues()"
                                              (ngModelChange)="filterByItem($event,i)"  (focus)="onFocusEmptyInput(i)"
                                              [(ngModel)]="reportData[16+i]" [disabled]="(reportData[4+i] == '' || reportData[4+i] == null) || BasicReportModel.ChooseReport == ''"  />
-                                            <mat-autocomplete #auto="matAutocomplete"  >
+                                            <mat-autocomplete #auto="matAutocomplete"  (optionSelected)="ValueSelect($event,i)">
                                                 <mat-option *ngFor="let option of ListFilterValue[i]" [value]="option"
-                                                (click)="ValueSelect(option,i)"
+                                                
                                                 >
                                                   {{option}}
                                                 </mat-option>
