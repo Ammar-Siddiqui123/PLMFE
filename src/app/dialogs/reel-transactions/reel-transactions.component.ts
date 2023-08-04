@@ -437,5 +437,8 @@ this.ReelDetailDialogue()
     }
   }
 
+  print(index,e){
+    window.location.href = `/#/report-view?file=FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`;
+  }
 
 }

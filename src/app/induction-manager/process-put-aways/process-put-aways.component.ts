@@ -551,11 +551,12 @@ export class ProcessPutAwaysComponent implements OnInit {
     }
   }
 
+   IMPreferences:any;
   getProcessPutAwayIndex() {
     this.Api.ProcessPutAwayIndex().subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {
-
+          this.IMPreferences =  res.data.imPreference;
           this.cellSize = res.data.imPreference.defaultCells;
           this.autoPutToteIDS = res.data.imPreference.autoPutAwayToteID;
           this.pickBatchQuantity = res.data.imPreference.pickBatchQuantity;
@@ -1053,6 +1054,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
 
+  zoneLabels:any;
   selectTotes(i: any) {
     for (const iterator of this.dataSource2.data) {
       iterator.isSelected = false;
@@ -1064,6 +1066,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.toteNumber = this.dataSource2.data[i].toteID;
     this.rowSelected = true;
     this.toteQuantity = this.dataSource2.data[i].toteQuantity;
+    this.zoneLabels = this.dataSource2.data[i].zoneLabel;
 
     if (this.toteQuantity == this.cell) {
       this.isViewTote = false;
@@ -1302,7 +1305,9 @@ export class ProcessPutAwaysComponent implements OnInit {
           toteID: this.toteNumber,
           cell: this.toteQuantity,
           userName: this.userData.userName,
-          wsid: this.userData.wsid
+          wsid: this.userData.wsid,
+          IMPreferences :this.IMPreferences,
+          zoneLabels: this.zoneLabels
         }
       })
 
