@@ -86,6 +86,10 @@ export class BasicReportsAndLabelsComponent implements OnInit {
 
   filterByItem(value : any,index){ 
     this.ListFilterValue[index] = this.oldFilterValue[index].filter(x=> x.toString().toLowerCase().indexOf(value.toString().toLowerCase()) > -1);
+if(this.ListFilterValue[index].length == 0){
+  this.reportfieldvalues()
+
+}
   }
 
   
@@ -159,7 +163,7 @@ reportfieldvalues(){
       payload.V2.push("");
      } 
      this.api.reportfieldvalues(payload).subscribe((res:any)=>{ 
-      //  console.log(res)
+       console.log('resss')
        
      })
    } 
