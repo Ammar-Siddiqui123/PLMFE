@@ -13,7 +13,7 @@
                                         assignment
                                     </span>
                                 </div>
-                                <span>Report Details</span>
+                                <span>Report Details x</span>
                             </h2>
                         </div>
 
@@ -138,7 +138,7 @@
                                     <th mat-header-cell *matHeaderCellDef>Value To Test</th>
                                     <td mat-cell *matCellDef="let element;let i =index">
                                         <mat-form-field class="custom-form-field w-100 pe-2" appearance="outline">
-                                            <input matInput type="text"  [matAutocomplete]="auto" (ngModelChange)="this.searchByInput.next($event)"  [(ngModel)]="reportData[16+i]" [disabled]="(reportData[4+i] == '' || reportData[4+i] == null) || BasicReportModel.ChooseReport == ''" (change)="reportfieldvalues()" />
+                                            <input matInput type="text"  [matAutocomplete]="auto" (ngModelChange)="filterByItem($event,i)"  (focus)="onFocusEmptyInput(i)" [(ngModel)]="reportData[16+i]" [disabled]="(reportData[4+i] == '' || reportData[4+i] == null) || BasicReportModel.ChooseReport == ''" (change)="reportfieldvalues()" />
                                             <mat-autocomplete #auto="matAutocomplete" >
                                                 <mat-option *ngFor="let option of ListFilterValue[i]" [value]="option">
                                                   {{option}}

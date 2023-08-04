@@ -29,7 +29,7 @@
                     <mat-label>Actions</mat-label>
                     <mat-select #matRef class="employees-action"
                       (selectionChange)="actionDialog($event.value, empData, $event)">
-                      <mat-option (click)="openDialog()" [hidden]="isLookUp" *ngIf="env !== 'AD'">Add Employee</mat-option>
+                      <mat-option (click)="openDialog()" [hidden]="isLookUp" *ngIf="(env !== 'AD' && env !== 'AZUREAD')">Add Employee</mat-option>
                       <mat-option value="edit" [hidden]="!isLookUp">Edit</mat-option>
                       <mat-option value="delete" [hidden]="!isLookUp" >Delete</mat-option>
                       <mat-option value="print" (click)="printEmpList()">Print Employee List</mat-option>
