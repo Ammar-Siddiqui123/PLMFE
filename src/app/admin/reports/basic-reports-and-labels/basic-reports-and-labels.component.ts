@@ -16,6 +16,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
   reports:any = [];
   searchByInput: any = new Subject<string>();
   ListFilterValue:any = [];
+  oldFilterValue:any = [];
   fields:any = [];
   public userData: any;
   BasicReportModel:any = {};
@@ -28,6 +29,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     {order_no: '1202122'},
     {order_no: '1202122'}
   ]
+  
 
     displayedColumns: string[] = ['fields','expression_type','value_to_test','actions'];
     tableData = this.ELEMENT_DATA
@@ -61,7 +63,32 @@ export class BasicReportsAndLabelsComponent implements OnInit {
   ngOnInit(): void {
     this.BasicReportModel.ChooseReport = "";
     this.Getcustomreports();
+
   }
+
+  onFocusEmptyInput(i: number) {
+    const inputValue = this.reportData[16 + i];
+    if (!inputValue || inputValue === '') {
+      this.changefilter(this.reportData[4 + i], i);
+    }
+  }
+
+  // filterByItem(value : any,index) {
+  //   debugger
+  //   if(this.oldFilterValue && this.oldFilterValue.length > 0) {
+  //     this.ListFilterValue[index] = this.oldFilterValue.filter((x : any) =>  x.toLowerCase().includes(value.toLowerCase()));
+  //   } else {
+  //     this.ListFilterValue[index] =   this.ListFilterValue.filter((x : any) =>  x.toLowerCase().includes(value.toLowerCase()));
+      
+  //   }
+  // }
+
+  filterByItem(value : any,index){ 
+    this.ListFilterValue[index] = this.oldFilterValue[index].filter(x=> x.toString().toLowerCase().indexOf(value.toString().toLowerCase()) > -1);
+  }
+
+  
+  
   Getcustomreports(){
     let payload = {
       'app':this.currentApp
@@ -87,8 +114,10 @@ export class BasicReportsAndLabelsComponent implements OnInit {
       reportName:this.BasicReportModel.ChooseReport,
       column:column
     };
-    this.api.changefilter(payload).subscribe((res:any)=>{  
+    this.api.changefilter(payload).subscribe((res:any)=>{
+      console.log(res)  
         this.ListFilterValue[index] = res.data;
+        this.oldFilterValue[index] = res.data;
     })  
   }
   ReportFieldsExps(){
@@ -110,7 +139,13 @@ export class BasicReportsAndLabelsComponent implements OnInit {
      })
    }
    searchAutocompleteList
+
+   ValueSelect(val,index){ 
+    this.reportData[16+index]  = val;
+    this.reportfieldvalues();
+   }
 reportfieldvalues(){
+  // debugger
   var payload:any = {
     report:this.BasicReportModel.ChooseReport,
     wsid:this.userData.wsid,
@@ -124,7 +159,7 @@ reportfieldvalues(){
       payload.V2.push("");
      } 
      this.api.reportfieldvalues(payload).subscribe((res:any)=>{ 
-       console.log(res)
+      //  console.log(res)
        
      })
    } 
