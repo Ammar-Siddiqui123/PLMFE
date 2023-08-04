@@ -72,9 +72,9 @@
                                     <mat-option [value]="Detail.testData" [disabled]="!Detail.testData" 
                                        (click)="OpenListAndLabel('report')"
                                         >Design</mat-option>
-                                    <mat-option   (click)="openDeleteDialogue()" >Delete</mat-option>
+                                    <mat-option   (click)="openDeleteDialogue()" [disabled]="!Detail.testData" >Delete</mat-option>
                                     <!-- <mat-option value=""  (click)="pushReports()">Push Changes</mat-option> -->
-                                    <mat-option  (click)="fileInput.click()" >Import</mat-option>
+                                    <mat-option  (click)="fileInput.click()"[disabled]="!Detail.testData"  >Import</mat-option>
                                 </mat-select>
                                 <input type="file" style="display: none" accept=".lst,.lbl" id="ImportFileVal" (change)="onFileSelected($event)"  #fileInput>
                                 <span class="material-symbols-outlined icon-expand-more" >

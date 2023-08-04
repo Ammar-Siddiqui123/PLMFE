@@ -209,7 +209,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       // No file selected, handle the case if needed
       return;
     }
-    if(file.name){
+    if(file.name == this.Detail.fileName){
       const formData = new FormData();
       formData.append('file', file);
   
