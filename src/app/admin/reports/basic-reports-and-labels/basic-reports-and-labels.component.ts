@@ -16,6 +16,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
   reports:any = [];
   searchByInput: any = new Subject<string>();
   ListFilterValue:any = [];
+  oldFilterValue:any = [];
   fields:any = [];
   public userData: any;
   BasicReportModel:any = {};
@@ -28,6 +29,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     {order_no: '1202122'},
     {order_no: '1202122'}
   ]
+  
 
     displayedColumns: string[] = ['fields','expression_type','value_to_test','actions'];
     tableData = this.ELEMENT_DATA
@@ -61,7 +63,27 @@ export class BasicReportsAndLabelsComponent implements OnInit {
   ngOnInit(): void {
     this.BasicReportModel.ChooseReport = "";
     this.Getcustomreports();
+
   }
+
+  onFocusEmptyInput(i: number) {
+    const inputValue = this.reportData[16 + i];
+    if (!inputValue || inputValue === '') {
+      this.changefilter(this.reportData[4 + i], i);
+    }
+  }
+
+  filterByItem(value : any,index) {
+    if(this.oldFilterValue && this.oldFilterValue.length > 0) {
+      this.ListFilterValue[index] = this.oldFilterValue.filter((x : any) =>  x.toLowerCase().includes(value.toLowerCase()));
+    } else {
+      this.ListFilterValue[index]=   this.ListFilterValue.filter((x : any) =>  x.toLowerCase().includes(value.toLowerCase()));
+      
+    }
+  }
+
+  
+  
   Getcustomreports(){
     let payload = {
       'app':this.currentApp
@@ -87,8 +109,11 @@ export class BasicReportsAndLabelsComponent implements OnInit {
       reportName:this.BasicReportModel.ChooseReport,
       column:column
     };
-    this.api.changefilter(payload).subscribe((res:any)=>{  
+    this.api.changefilter(payload).subscribe((res:any)=>{
+      console.log(res)  
         this.ListFilterValue[index] = res.data;
+        this.oldFilterValue = res.data;
+        console.log(this.oldFilterValue)
     })  
   }
   ReportFieldsExps(){
@@ -124,7 +149,7 @@ reportfieldvalues(){
       payload.V2.push("");
      } 
      this.api.reportfieldvalues(payload).subscribe((res:any)=>{ 
-       console.log(res)
+      //  console.log(res)
        
      })
    } 
