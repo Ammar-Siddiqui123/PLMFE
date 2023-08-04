@@ -139,7 +139,13 @@ export class BasicReportsAndLabelsComponent implements OnInit {
      })
    }
    searchAutocompleteList
+
+   ValueSelect(val,index){ 
+    this.reportData[16+index]  = val;
+    this.reportfieldvalues();
+   }
 reportfieldvalues(){
+  // debugger
   var payload:any = {
     report:this.BasicReportModel.ChooseReport,
     wsid:this.userData.wsid,
