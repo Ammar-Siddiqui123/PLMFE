@@ -338,15 +338,8 @@ export class SideNavComponent implements OnInit {
       if (menu.route.includes('/admin')) {
         
         if (menu.route.includes('/admin/')) {
-          if(menu.route.includes('/admin/reports')){
-            this.adminMenus[0].route = '/admin/reports';
-          }else{
-            this.adminMenus[0].route = '/admin';
-
-          }
-        } 
-       
-        else {
+          this.adminMenus[0].route = '/admin';
+        } else {
           this.adminMenus[0].route = '/dashboard';
         }
         this.childMenus = this.adminMenus;
