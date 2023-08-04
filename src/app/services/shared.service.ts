@@ -38,6 +38,7 @@ export class SharedService {
   invMasterParentObserver: Subject<any> = new Subject<any>();
   devicePrefObserver: Subject<any> = new Subject<any>();
   updateInductionMenuObserver: Subject<any> = new Subject<any>();
+  updateMenuFromInside: Subject<any> = new Subject<any>();
   
 
   BroadCastInductionMenuUpdate(str: any) {
@@ -96,6 +97,9 @@ export class SharedService {
   }
   updateFieldNames(fieldName?) {
     this.fieldNameObserver.next(fieldName);
+  }
+  updateLoadMenuFunction(url?) {
+    this.updateMenuFromInside.next(url);
   }
 
   updateReprocess(obj?) {
@@ -170,6 +174,7 @@ export class SharedService {
   }
 
   setMenuData(value: any) {
+    
     this.menuData.next(value);
   }
   BroadCastMenuUpdate(str: any) {
