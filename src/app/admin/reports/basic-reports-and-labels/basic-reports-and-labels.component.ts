@@ -73,13 +73,18 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     }
   }
 
-  filterByItem(value : any,index) {
-    if(this.oldFilterValue && this.oldFilterValue.length > 0) {
-      this.ListFilterValue[index] = this.oldFilterValue.filter((x : any) =>  x.toLowerCase().includes(value.toLowerCase()));
-    } else {
-      this.ListFilterValue[index]=   this.ListFilterValue.filter((x : any) =>  x.toLowerCase().includes(value.toLowerCase()));
+  // filterByItem(value : any,index) {
+  //   debugger
+  //   if(this.oldFilterValue && this.oldFilterValue.length > 0) {
+  //     this.ListFilterValue[index] = this.oldFilterValue.filter((x : any) =>  x.toLowerCase().includes(value.toLowerCase()));
+  //   } else {
+  //     this.ListFilterValue[index] =   this.ListFilterValue.filter((x : any) =>  x.toLowerCase().includes(value.toLowerCase()));
       
-    }
+  //   }
+  // }
+
+  filterByItem(value : any,index){ 
+    this.ListFilterValue[index] = this.oldFilterValue[index].filter(x=> x.toString().toLowerCase().indexOf(value.toString().toLowerCase()) > -1);
   }
 
   
@@ -112,8 +117,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     this.api.changefilter(payload).subscribe((res:any)=>{
       console.log(res)  
         this.ListFilterValue[index] = res.data;
-        this.oldFilterValue = res.data;
-        console.log(this.oldFilterValue)
+        this.oldFilterValue[index] = res.data;
     })  
   }
   ReportFieldsExps(){
