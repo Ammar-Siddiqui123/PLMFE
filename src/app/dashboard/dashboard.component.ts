@@ -15,9 +15,13 @@ export class DashboardComponent implements OnInit {
   emp: IEmployee;
   empRes:EmployeeObject;
   breadcrumbList: any = [];
+  isMenuHide:any=false;
   constructor(public employeeService: ApiFuntions,  public router: Router,private sharedService:SharedService) {
     this.sharedService.SideBarMenu.subscribe(menu => {
       this.sideBarOpen = menu;   
+    });
+    this.sharedService.sideMenuHideObserver.subscribe(menu => {
+      this.isMenuHide = menu;   
     });
 
   //   router.events.subscribe((val: any) => {
@@ -80,6 +84,11 @@ export class DashboardComponent implements OnInit {
     // this.updatePickLevels()
     // this.deletePickLevels()
     // this.updateAccessGroup()
+  }
+
+  ngOnDestroy(){
+    console.log('sideMenuHideObserver');
+    this.sharedService.sideMenuHideObserver.unsubscribe();
   }
 
 

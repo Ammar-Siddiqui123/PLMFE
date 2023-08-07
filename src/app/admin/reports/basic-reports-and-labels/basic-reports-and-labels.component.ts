@@ -186,8 +186,9 @@ ReportTitles(){
   
   }
   OpenListAndLabel(){ 
-    window.location.href = `/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`
-    window.location.reload();  
+    window.open(`/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`, '_blank', "location=yes");
+    // window.location.href = `/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`;
+    // window.location.reload();  
   }
 Remove(index){ 
   this.reportData[16+index] = "";
