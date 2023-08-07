@@ -36,6 +36,7 @@
             <mat-label>Select</mat-label>
             <mat-select class="employees-action" [(ngModel)]="this.searchCol"
               (selectionChange)="actionDialog($event.value)">
+              <mat-option value=""></mat-option>
               <mat-option *ngFor="let item of Order_Table_Config | sort:'colDef':false" [value]="item.colDef">
                 {{item.colDef}}
               </mat-option>
@@ -55,7 +56,7 @@
               </span>
               <input type="text" placeholder="Search" aria-label="Number" matInput [(ngModel)]='searchString' [disabled]="!searchCol"
                 [matAutocomplete]="auto" (ngModelChange)="this.searchByInput.next($event)">
-                <button matSuffix *ngIf="searchString" class="clear-btn"  (click)="searchString = ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
+                <button matSuffix *ngIf="searchString" class="clear-btn"  (click)="searchString = '';this.searchByInput.next('')"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">
                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option">
                   {{option}}

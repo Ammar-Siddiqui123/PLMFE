@@ -590,6 +590,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.searchCol = event;
     this.searchString = '';
     this.searchAutocompleteList = [];
+    this.searchByInput.next(event)
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
@@ -627,7 +628,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.searchByInput
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
-        this.searchString = value;
+        // this.searchString = value;
         this.autocompleteSearchColumn();
         this.getContentData();
       });

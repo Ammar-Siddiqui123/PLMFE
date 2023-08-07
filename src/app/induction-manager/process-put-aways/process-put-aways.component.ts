@@ -25,6 +25,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ReelDetailComponent } from 'src/app/dialogs/reel-detail/reel-detail.component';
 import { ReelTransactionsComponent } from 'src/app/dialogs/reel-transactions/reel-transactions.component';
 import { event } from 'jquery';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 
 export interface PeriodicElement {
@@ -72,6 +73,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   @ViewChild('actionRef') actionRef: MatSelect;
   @ViewChild('inputVal') inputVal: ElementRef;
   @ViewChild('batchVal') batchVal: ElementRef;
+  @ViewChild('batchFocus') batchFocus: ElementRef;
   selectedOption: any;
   displayedColumns1: string[] = [
     'status',
@@ -134,6 +136,20 @@ export class ProcessPutAwaysComponent implements OnInit {
   ) { }
   ngAfterViewInit() {
     this.start_location.nativeElement.focus();
+  }
+
+  
+  onTabChange(event: MatTabChangeEvent) {
+    // This method will be called whenever the user changes the selected tab
+    const newIndex = event.index;
+    console.log('Tab changed to index:', newIndex);
+    if(newIndex===1){
+      this.inputVal.nativeElement.focus();
+      this.autocompleteSearchColumnItem2();
+    }else if(newIndex===0){
+      this.batchFocus.nativeElement.focus();
+    }
+
   }
   ngOnInit(): void {
     this.ELEMENT_DATA.length = 0;
@@ -394,7 +410,8 @@ export class ProcessPutAwaysComponent implements OnInit {
             }
           });
 
-          this.batchVal.nativeElement.blur();
+          // this.batchVal.nativeElement.blur();
+          this.inputVal.nativeElement.blur();
 
         }, 200);
 
@@ -520,8 +537,8 @@ export class ProcessPutAwaysComponent implements OnInit {
                     this.selectedIndex = 1;
                     this.batchId2 = this.batchId;
                     setTimeout(() => {
-                      // this.inputVal.nativeElement.focus();
-                      this.batchVal.nativeElement.focus();
+                      this.inputVal.nativeElement.focus();
+                      // this.batchVal.nativeElement.focus();
                     }, 500);
                     this.fillToteTable(this.batchId);
                   } else {
@@ -576,9 +593,9 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.batchId2 = res.data.batchIDs;
             this.fillToteTable(res.data.batchIDs);
             setTimeout(() => {
-              // this.inputVal.nativeElement.focus();
+              this.inputVal.nativeElement.focus();
               this.autocompleteSearchColumnItem2();
-              this.batchVal.nativeElement.focus();
+              // this.batchVal.nativeElement.focus();
             }, 500);
           }
 
@@ -1025,6 +1042,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             });
           }
         } else if (result == "Task Completed") {
+          this.inputValue='';
           this.fillToteTable(this.batchId2);
         }
           else if(result.category == "isReel"){
@@ -1110,6 +1128,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.selectTotes(0)
             this.goToNext();
             this.getRow(batchID ? batchID : this.batchId2);
+            this.inputValue == ""
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -1158,6 +1177,10 @@ export class ProcessPutAwaysComponent implements OnInit {
                   );
                   this.clearFormAndTable();
                   this.selectedIndex = 0;
+                  setTimeout(() => {
+                  this.batchFocus.nativeElement.focus();
+                    
+                  }, 100);
                   // this.getRow(this.batchId);
                 } else {
                   this.toastr.error('Something went wrong', 'Error!', {

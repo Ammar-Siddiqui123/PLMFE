@@ -168,7 +168,7 @@
           <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
             </th>
-            <td mat-cell *matCellDef="let row">
+            <td mat-cell *matCellDef="let row; let i = index;">
               <div class="pe-2">
                 <!-- [checked]="selection.isSelected(row)"
               (click)="$event.stopPropagation()"
@@ -188,8 +188,9 @@
             
                 <mat-form-field class="custom-form-field w-100" appearance="outline">
                 
-                  <input matInput type="text" #specialFeature maxlength="255" [value]="element.toteID"
-                    (keydown)="onToteChange($event,i,'')" (keyup)="onToteChange($event,i,'')"
+                  <input matInput type="text" #specialFeature maxlength="255" [value]="element.toteID"  #category_category [autofocus]="i === 0" 
+                  (keydown.shift.enter)="$event.preventDefault()"  
+                  (keydown)="onToteChange($event,i,'')" (keyup)="onToteChange($event,i,'')"
                     (change)="onToteChange($event,i,'')" (keypress)="onToteChange($event,i,'')"
                     (keypress)="onToteChange($event,i,'')">
                 </mat-form-field>
