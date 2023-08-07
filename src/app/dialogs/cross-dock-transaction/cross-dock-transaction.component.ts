@@ -373,4 +373,15 @@ export class CrossDockTransactionComponent implements OnInit {
     } catch (error) { 
     }
   }
+
+  print(type:any){
+    console.log(this.zone);
+    console.log(this.selectedRowObj);
+    if(type == 'printtotelabel'){
+      window.location.href = `/#/report-view?file=FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:${this.selectedRowObj.toteID}`;
+    }
+    else{
+      window.location.href = `/#/report-view?file=FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:`;
+    }
+  }
 }
