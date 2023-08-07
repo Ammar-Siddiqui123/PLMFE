@@ -66,6 +66,10 @@ statusTab;
   
       if(val instanceof NavigationEnd){
         let res = val.url.substring(1);
+        if(!res.includes('report-view')||!res.includes('report')){
+          localStorage.setItem('reportNav',val.url)
+        }
+       
         let withoutParam = res.split('?')[0]
         let splittedArray = withoutParam.split('/'); 
 

@@ -14,12 +14,13 @@ export class WrvFrontendComponent implements OnInit {
   FileName:any = "";
   constructor(private sharedService:SharedService,private route:ActivatedRoute) {
     this.sharedService.SideBarMenu.next(false);
-    
+    this.sharedService.updateMenuState(true)
   }
   ngOnInit(): void {
     let appd=JSON.parse(localStorage.getItem('availableApps') || '');
     this.sharedService.setMenuData(appd);
-    this.sharedService.updateLoadMenuFunction({route:'/admin/reports'})
+   
+    this.sharedService.updateLoadMenuFunction({route:localStorage?.getItem('reportNav'),isBackFromReport:false})
     var filename = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('file')),
     );
@@ -40,6 +41,7 @@ export class WrvFrontendComponent implements OnInit {
   }
   ngOnDestroy(){ 
     this.sharedService.SideBarMenu.next(true);
+    this.sharedService.updateLoadMenuFunction({route:localStorage?.getItem('reportNav'),isBackFromReport:true})
     window.location.reload();
   }
 

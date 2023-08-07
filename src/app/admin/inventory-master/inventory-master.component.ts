@@ -58,8 +58,6 @@ export class InventoryMasterComponent implements OnInit {
   saveDisabled = true;
   count;
   spliUrl;
-isQuarantine=false;
-
   public locationTable: any;
   public getItemNum: any;
   public openCount: any;
@@ -490,7 +488,6 @@ isQuarantine=false;
       // this.invMasterLocations ='asdsad';
       this.invMaster.get('inventoryTable')?.setValue(res.data.inventoryTable);
       this.count = res.data.count 
-      this.isQuarantine=res.data.inventoryTable.find(obj => obj.warehouse.toLowerCase() === 'quarantine');
       this.initialzeIMFeilds();
     })
   }
