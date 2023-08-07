@@ -447,15 +447,15 @@
                   <div class="card br-14 table-responsive borderless px-0 mb-3">
                     <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 280px;">
 
-                      <mat-table #table [dataSource]="filterOrderTransactionSource" matSort>
+                      <table mat-table #table [dataSource]="filterOrderTransactionSource" matSort>
 
                         <ng-container *ngFor="let column of filterBatchTransColumns" [cdkColumnDef]="column.columnDef">
-                          <mat-header-cell *cdkHeaderCellDef mat-sort-header>{{ column.header }}</mat-header-cell>
-                          <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
+                          <th mat-header-cell *cdkHeaderCellDef mat-sort-header>{{ column.header }}</th>
+                          <td mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</td>
                         </ng-container>
-                        <mat-header-row *matHeaderRowDef="displayedTransColumns"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedTransColumns;"></mat-row>
-                      </mat-table>
+                        <tr mat-header-row *matHeaderRowDef="displayedTransColumns;sticky:true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedTransColumns;"></tr>
+                      </table>
                     </ng-scrollbar>
                   </div>
                   <div class="d-flex justify-content-start">
@@ -670,15 +670,15 @@
                   </div>
                   <div class="card br-14 table-responsive borderless px-0 mb-3">
                     <ng-scrollbar track="all" class="mat-table-scrollbar" style="height: 280px;">
-                      <mat-table #table [dataSource]="zoneOrderTransactionSource" matSort>
+                      <table mat-table #table [dataSource]="zoneOrderTransactionSource" matSort>
 
                         <ng-container *ngFor="let column of filterBatchTransColumns" [cdkColumnDef]="column.columnDef">
-                          <mat-header-cell *cdkHeaderCellDef mat-sort-header>{{ column.header }}</mat-header-cell>
-                          <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
+                          <th mat-header-cell *cdkHeaderCellDef mat-sort-header>{{ column.header }}</th>
+                          <td mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</td>
                         </ng-container>
-                        <mat-header-row *matHeaderRowDef="displayedTransColumns"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedTransColumns;"></mat-row>
-                      </mat-table>
+                        <tr mat-header-row *matHeaderRowDef="displayedTransColumns; sticky:true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedTransColumns;"></tr>
+                      </table>
                     </ng-scrollbar>
                   </div>
                   <div class="d-flex justify-content-start">

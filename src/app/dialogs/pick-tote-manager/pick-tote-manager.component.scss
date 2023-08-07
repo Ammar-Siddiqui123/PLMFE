@@ -25,10 +25,9 @@
     color: #fff;
   }
 
-  mat-table{
-    mat-header-cell{
+table{
+    th{
         white-space: nowrap ;
-        overflow: visible;
         padding-left: 12px;
         &:first-child{
             padding-left: 20px;
@@ -37,9 +36,10 @@
             padding-right: 20px;
         }
     }
-    mat-cell{
-        width: auto;
-        padding:4px 0px;
+    td{
+        width: 100%;
+        white-space: nowrap ;
+        padding-left: 12px;
         &:first-child{
             padding-left: 20px;
         }
@@ -47,4 +47,34 @@
             padding-right: 20px;
         }
     }
-  }
+}
+//   mat-table{
+//     display: table !important;
+//     mat-row{
+//         display: table-row;
+//         border:0;
+//     }
+//     mat-header-cell{
+//         display: table-cell;
+//         white-space: nowrap ;
+//         overflow: visible;
+//         padding-left: 12px;
+//         &:first-child{
+//             padding-left: 20px;
+//         }
+//         &:last-child{
+//             padding-right: 20px;
+//         }
+//     }
+//     mat-cell{
+//         display: table-cell;
+//         width: auto;
+//         padding:4px 0px;
+//         &:first-child{
+//             padding-left: 20px;
+//         }
+//         &:last-child{
+//             padding-right: 20px;
+//         }
+//     }
+//   }
