@@ -39,6 +39,7 @@ export class SharedService {
   devicePrefObserver: Subject<any> = new Subject<any>();
   updateInductionMenuObserver: Subject<any> = new Subject<any>();
   updateMenuFromInside: Subject<any> = new Subject<any>();
+  sideMenuHideObserver: Subject<any> = new Subject<any>();
   
 
   BroadCastInductionMenuUpdate(str: any) {
@@ -129,7 +130,9 @@ export class SharedService {
   updateInvMasterState(obj, type) {
     this.invMasterParentObserver.next({ event: obj, isEnable: type });
   }
-
+  updateMenuState(obj) {
+    this.sideMenuHideObserver.next(obj);
+  }
   updateDevicePref(obj){
     this.devicePrefObserver.next({event:obj});
   }

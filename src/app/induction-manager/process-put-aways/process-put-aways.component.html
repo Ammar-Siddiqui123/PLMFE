@@ -20,7 +20,7 @@
                                     <mat-label>Batch ID</mat-label>
                                    
                                     <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" 
-                                    [(ngModel)]="batchId"[matAutocomplete]="item"
+                                    [(ngModel)]="batchId" [matAutocomplete]="item"
                                      (ngModelChange)="this.searchByItem.next($event)" (keyup)="batchIdKeyup()"> 
                                      <button matSuffix *ngIf="batchId" class="clear-btn" (click)="clear()" ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>  
 
@@ -292,7 +292,7 @@
                   </mat-form-field>
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Input Value</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" #inputVal matInput type="text" [(ngModel)]="inputValue" (keypress)="openST($event)" >
+                    <input  #start_location  (keydown.shift.enter)="$event.preventDefault()" #inputVal matInput type="text" [(ngModel)]="inputValue" (keypress)="openST($event)" >
                     <button matSuffix *ngIf="inputValue" class="clear-btn" (click)=" inputValue='' " ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>  
 
                   </mat-form-field>
