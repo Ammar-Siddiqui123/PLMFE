@@ -37,6 +37,7 @@ export interface PeriodicElement {
   styleUrls: ['./process-put-aways.component.scss'],
 })
 export class ProcessPutAwaysComponent implements OnInit {
+  @ViewChild('start_location') start_location: ElementRef;
   ELEMENT_DATA = [{ position: 0, cells: '', toteid: '', locked: '' }];
   displayedColumns: string[] = ['positions', 'cells', 'toteid', 'save'];
   dataSource: any;
@@ -131,7 +132,9 @@ export class ProcessPutAwaysComponent implements OnInit {
     private authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer
   ) { }
-
+  ngAfterViewInit() {
+    this.start_location.nativeElement.focus();
+  }
   ngOnInit(): void {
     this.ELEMENT_DATA.length = 0;
     this.userData = this.authService.userData();
@@ -416,6 +419,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     dialogRef.afterClosed().subscribe((res) => {
       if (res.isDeleted) {
         this.clearFormAndTable();
+        this.autocompleteSearchColumnItem2();
       } else if (res.isExecuted) {
         this.fillToteTable();
       }
