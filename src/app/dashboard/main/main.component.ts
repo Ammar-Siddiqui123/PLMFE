@@ -168,7 +168,7 @@ export class MainComponent implements OnInit {
         route: '/FlowrackReplenishment',
         iconName: 'schema',
         name: 'FlowRack Replenishment',
-        updateMenu: '',
+        updateMenu: 'FlowReplenishment',
         permission: 'FlowRack Replenish',
       },
       {
@@ -242,7 +242,7 @@ export class MainComponent implements OnInit {
       this.sharedService.BroadCastMenuUpdate(obj.route);
       // this.sharedService.updateInductionAdminMenu(menu)
     } else if (menu === 'FlowReplenishment') {
-      this.sharedService.updateFlowrackMenu;
+      this.sharedService.updateFlowrackMenu(menu);
     }
     this.sharedService.updateSidebar();
   }

@@ -87,11 +87,27 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   }
   SelectedFile:any;
 
-  Getreportdetails(file){
+  Getreportdetails(file,index?){
     console.log(file)
+    this.ListReports.forEach((item,i)=>{
+      if(i===index){
+        if(item.isSelected){
+          item.isSelected=false;
+        }
+        else{
+          item.isSelected=true
+        }
+
+      }else{
+        item.isSelected=false;
+      }
+      
+    })
+    // this.ListReports[index].isSelected=!this.ListReports[index].isSelected;
 
       this.olddetail = file; 
     if(this.SelectedFile == file){
+      
       this.Detail = {};
       this.SelectedFile = null;
       return 1;
@@ -104,7 +120,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     this.api.Getreportdetails(obj).subscribe((res:any)=>{
       this.Detail = res.data[0];
     })
-    // this.ListReports[index].isSelected=!this.ListReports[index].isSelected;
+   
     return 1;
     // this.Detail = ! this.Detail 
   }
@@ -193,7 +209,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       // No file selected, handle the case if needed
       return;
     }
-    if(file.name){
+    if(file.name == this.Detail.fileName){
       const formData = new FormData();
       formData.append('file', file);
   

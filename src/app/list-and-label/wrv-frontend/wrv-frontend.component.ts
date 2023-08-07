@@ -14,9 +14,13 @@ export class WrvFrontendComponent implements OnInit {
   FileName:any = "";
   constructor(private sharedService:SharedService,private route:ActivatedRoute) {
     this.sharedService.SideBarMenu.next(false);
-    
+    this.sharedService.updateMenuState(true)
   }
   ngOnInit(): void {
+    let appd=JSON.parse(localStorage.getItem('availableApps') || '');
+    this.sharedService.setMenuData(appd);
+   
+    this.sharedService.updateLoadMenuFunction({route:localStorage?.getItem('reportNav'),isBackFromReport:false})
     var filename = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('file')),
     );
@@ -32,11 +36,12 @@ export class WrvFrontendComponent implements OnInit {
 
   generateHTMLAndAppend() { 
     const dynamicHtml = `<ll-webreportviewer backendUrl="${environment.apiUrl.split("/api")[0]}/LLWebReportViewer"
-    defaultProject="${this.FileName.split('-')[1] == 'lbl'|| this.FileName?.toLowerCase()?.indexOf('label')>-1 ? '7FAC97B2-3F8A-437A-A3B6-2E0E2FCB750B':'57D637EE-9735-42B4-88D7-4B43FE17DDA8'}" customData="${this.FileName}" ></ll-webreportviewer>`; 
+    defaultProject="${this.FileName.split('-')[1] == 'lbl'|| this.FileName?.toLowerCase()?.indexOf('label')>-1 ? 'BCAEC8B2-9D16-4ACD-94EC-74932157BF82':'072A40E4-6D25-47E5-A71F-C491BC758BC9'}" customData="${this.FileName}" ></ll-webreportviewer>`; 
     this.ListAndLabel.nativeElement.insertAdjacentHTML('beforeend', dynamicHtml);
   }
   ngOnDestroy(){ 
     this.sharedService.SideBarMenu.next(true);
+    this.sharedService.updateLoadMenuFunction({route:localStorage?.getItem('reportNav'),isBackFromReport:true})
     window.location.reload();
   }
 

@@ -24,6 +24,10 @@ export class WrdFrontendComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let appd=JSON.parse(localStorage.getItem('availableApps') || '');
+    this.sharedService.setMenuData(appd);
+    this.sharedService.updateLoadMenuFunction({route:'/admin/reports'})
+    
     var filename = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('file')),
     );
@@ -39,7 +43,7 @@ export class WrdFrontendComponent implements OnInit {
 
   generateHTMLAndAppend() { 
     const dynamicHtml = `<ll-webreportdesigner backendUrl="${environment.apiUrl.split("/api")[0]}/LLWebReportDesigner"
-    defaultProject="${this.FileName.split('-')[1] == 'lbl'? '7FAC97B2-3F8A-437A-A3B6-2E0E2FCB750B':'57D637EE-9735-42B4-88D7-4B43FE17DDA8'}" customData="${this.FileName}" ></ll-webreportdesigner>`; 
+    defaultProject="${this.FileName.split('-')[1] == 'lbl'? 'BCAEC8B2-9D16-4ACD-94EC-74932157BF82':'072A40E4-6D25-47E5-A71F-C491BC758BC9'}" customData="${this.FileName}" ></ll-webreportdesigner>`; 
     this.ListAndLabel.nativeElement.insertAdjacentHTML('beforeend', dynamicHtml);
   }
 } 
