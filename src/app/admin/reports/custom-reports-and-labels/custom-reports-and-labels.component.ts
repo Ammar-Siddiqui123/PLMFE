@@ -81,7 +81,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     })
   }
   OpenListAndLabel(route){
-    window.open(`/#/${route}?file=${this.Detail.fileName.replace(".","-")}`, '_blank', "location=yes,fullscreen=yes");
+    window.open(`/#/${route}?file=${this.Detail.fileName.replace(".","-")}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
     // this.route.navigateByUrl(`/${route}?file=${this.Detail.fileName.replace(".","-")}`);
   }
   SelectedFile:any;
