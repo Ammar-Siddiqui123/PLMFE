@@ -703,6 +703,7 @@ this.router.navigate([]).then((result) => {
     // this.orderNo = '';
     this.columnSearch.searchValue = '';
     this.searchAutocompleteListByCol = [];
+    this.searchByColumn.next(event);
   }
   resetColumn() {
     this.columnSearch.searchColumn.colDef = '';

@@ -226,9 +226,9 @@ export class ReprocessTransactionComponent implements OnInit {
         this.customPagination.length=20;
         this.paginator.pageIndex = 0;
         if(this.searchFieldsTrueFalse.indexOf(this.columnSearch.searchColumn.colDef) > -1){
-          if(this.trueString.match(value.toLowerCase())){
+          if(this.trueString.match(this.columnSearch.searchValue.toLowerCase())){
               this.switchTrueString=true;
-          }else if(this.falseString.match(value.toLowerCase())){
+          }else if(this.falseString.match(this.columnSearch.searchValue.toLowerCase())){
             this.switchTrueString=false;
           }
         }   
@@ -978,6 +978,7 @@ export class ReprocessTransactionComponent implements OnInit {
     // this.orderNo = '';
     this.columnSearch.searchValue = '';
     this.searchAutocompleteListByCol = [];
+    this.searchByColumn.next('');
   }
 
   openReasonDialog(reasonMessage:any)
