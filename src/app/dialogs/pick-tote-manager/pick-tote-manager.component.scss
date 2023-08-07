@@ -24,3 +24,27 @@
     background-color: #5555EC !important;
     color: #fff;
   }
+
+  mat-table{
+    mat-header-cell{
+        white-space: nowrap ;
+        overflow: visible;
+        padding-left: 12px;
+        &:first-child{
+            padding-left: 20px;
+        }
+        &:last-child{
+            padding-right: 20px;
+        }
+    }
+    mat-cell{
+        width: auto;
+        padding:4px 0px;
+        &:first-child{
+            padding-left: 20px;
+        }
+        &:last-child{
+            padding-right: 20px;
+        }
+    }
+  }
