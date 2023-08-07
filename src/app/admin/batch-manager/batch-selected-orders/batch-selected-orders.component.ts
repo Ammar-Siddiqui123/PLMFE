@@ -220,19 +220,19 @@ export class BatchSelectedOrdersComponent implements OnInit {
 
   addRemoveAllOrder() {
     if (this.tableData['_data']['_value'].length == 0) return;
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '600px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'remove-batch-list',
-      },
-    });
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res === 'Yes') {
-        this.addRemoveAll.emit();
-      }
-    });
+    // const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+    //   height: 'auto',
+    //   width: '600px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     mode: 'remove-batch-list',
+    //   },
+    // });
+    // dialogRef.afterClosed().subscribe((res) => {
+    //   if (res === 'Yes') {
+    //   }
+    // });
+    this.addRemoveAll.emit();
   }
 
   /*
