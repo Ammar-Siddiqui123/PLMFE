@@ -16,8 +16,9 @@ export class SideNavComponent implements OnInit {
   menuData: any=[];
   @Input() sideBarOpen: Boolean;
   isConfigUser:any = false;
+  menuRoute;
   public userData: any;
-
+  isMenuHide:any=false;
   dynamicMenu: any=[]
   menus: any = [
     { icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'},
@@ -121,7 +122,9 @@ export class SideNavComponent implements OnInit {
               private authService: AuthService,
               private sharedService:SharedService, 
               private Api:ApiFuntions) { 
-                
+                this.sharedService.sideMenuHideObserver.subscribe(menu => {
+                  this.isMenuHide = menu;   
+                });
                 this.sharedService.SidebarMenupdate.subscribe((data: any) => {
                   var Menuobj = this.menus.find(x=>x.route == data);
                   if(Menuobj==null&&this.authService.UserPermissonByFuncName('Admin Menu'))Menuobj = this.adminMenus.find(x=>x.route == data);
@@ -253,7 +256,13 @@ export class SideNavComponent implements OnInit {
     });
 
     this.sharedService.updateMenuFromInside.subscribe((menuOpen)=>{
-          this.loadMenus(menuOpen)
+          // if(menuOpen.isBackFromReport){
+          //   this.router.navigate([`${menuOpen.route}`]);
+          // }else{
+          //   this.loadMenus(menuOpen)
+          // }
+         
+         this.loadMenus(menuOpen)
     })
     // this.sharedService.menuData$.subscribe(data => {
     //   this.menuData = data;
@@ -307,7 +316,9 @@ export class SideNavComponent implements OnInit {
 //   this.dataSource = new MatTableDataSource(arrayOfObjects);
 // }
 
-
+redirect(){
+  this.router.navigate([`${localStorage.getItem('reportNav')}`]);
+}
 
   async getAppLicense() {
 
@@ -322,9 +333,8 @@ export class SideNavComponent implements OnInit {
     );
   }
 
-  loadMenus(menu: any) {  
-    
-    this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route);
+  loadMenus(menu: any) {
+        this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route);
     if (!menu) {
       menu = {route : '/dashboard'};      
     }
