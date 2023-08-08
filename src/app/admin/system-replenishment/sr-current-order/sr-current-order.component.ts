@@ -19,12 +19,15 @@ import { Subject } from 'rxjs';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { Router } from '@angular/router';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 @Component({
   selector: 'app-sr-current-order',
   templateUrl: './sr-current-order.component.html',
   styleUrls: ['./sr-current-order.component.scss']
 })
 export class SrCurrentOrderComponent implements OnInit {
+  @ViewChild('openActionDropDown') openActionDropDown: MatSelect;
 
   displayedColumns2: string[] = ['Item Number', 'Trans Type', 'warehouse', 'zone', 'carousel', 'row', 'shelf', 'bin', 'cell', 'lotNumber', 'Trans Qty', 'description', 'Order Number', 'UofM', 'Batch Pick ID', 'Serial Number', 'Completed Date', 'Print Date','action'];
   noOfPicks: number = 0;
@@ -292,6 +295,12 @@ export class SrCurrentOrderComponent implements OnInit {
     // alert("The print service is currently offline");
   }
 
+  clearMatSelectList(){
+    this.openActionDropDown.options.forEach((data: MatOption) => data.deselect());
+  }
+  openAction(event:any){
+    this.clearMatSelectList();
+  }
   printLabels() {
  
     const dialogRef = this.dialog.open(PrintReplenLabelsComponent, {

@@ -13,7 +13,7 @@
             <div>
                 <mat-form-field class="action-dropdown w-100 mb-3" appearance="outline">
                     <mat-label>Actions</mat-label>
-                    <mat-select #matRef class="employees-action" placeholder="Actions">
+                    <mat-select #matRef class="employees-action" placeholder="Actions" (selectionChange)="openAction($event)">
                         <mat-option value="0" [disabled]="stagingbtn" (click)="!stagingbtn && this.stageTable.data.length > 0 ? openCmOrderNumber() : ''"> Staging Location</mat-option>
                         <mat-option value="1" [disabled]="packingbtn" (click)="!packingbtn ? openPacking() : ''">Packing</mat-option>
                         <mat-option value="2" [disabled]="shippingbtb" (click)="!shippingbtb ? openCmShipping() : ''">Shipping</mat-option>

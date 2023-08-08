@@ -15,6 +15,8 @@ import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.
 import { MatMenuTrigger } from '@angular/material/menu';
 import { BaseService } from 'src/app/services/base-service.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-de-allocate-orders',
@@ -46,6 +48,7 @@ export class DeAllocateOrdersComponent implements OnInit {
   orderNameList:MatTableDataSource<any> = new MatTableDataSource<any>([]);
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild('matSort1') sort1: MatSort;
+  @ViewChild('matRefAction') matRefAction: MatSelect;
 
   public userData: any;
   public itemNumber:any = '';
@@ -101,7 +104,9 @@ export class DeAllocateOrdersComponent implements OnInit {
     });
     this.getAllOrder()
   } 
-
+  clearMatSelectList(){
+    this.matRefAction.options.forEach((data: MatOption) => data.deselect());
+  }
   async autocompleteSearchColumnItem() {
     if(this.chooseSearchType == 'Order Number'){
       let payload = {
@@ -126,7 +131,10 @@ export class DeAllocateOrdersComponent implements OnInit {
     }
 
   } 
+  deAllocAction(event:any){
+    this.clearMatSelectList();
 
+  }
   getAllOrder(e?){
     this.orderItemTransactions.data = []
     this.dublicateTransaction = []

@@ -221,7 +221,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     
   }
   printTotePut(){
-    
+    this.clearMatSelectList();
     // window.open(`/#/report-view?file=IMOCPut-lst`, '_blank', "location=yes");
     window.open(`/#/report-view?file=FileName:PrintOffCarList|BatchID:${this.batchId}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
 
@@ -1305,6 +1305,8 @@ export class ProcessPutAwaysComponent implements OnInit {
                   }
                 );
                 this.fillToteTable();
+          this.clearMatSelectList();
+
               } else {
                 this.toastr.error('Something went wrong', 'Error!', {
                   positionClass: 'toast-bottom-right',
@@ -1342,6 +1344,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       })
 
       dialogRef.afterClosed().subscribe(result => {
+        this.clearMatSelectList();
         this.fillToteTable();
       });
     }
