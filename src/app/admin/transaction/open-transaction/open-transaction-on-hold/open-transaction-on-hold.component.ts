@@ -826,12 +826,14 @@ this.router.navigate([]).then((result) => {
   }
 
   printCycleCountReport(){
-    window.location.href = `/#/report-view?file=FileName:printCycleCountReport`;
-    window.location.reload();
+    window.open(`/#/report-view?file=FileName:printCycleCountReport`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:printCycleCountReport`;
+    // window.location.reload();
   }
 
   previewFiftyPagesOnly(){
-    window.location.href = `/#/report-view?file=CycleCount-lst-prv`;
-    window.location.reload();
+    window.open(`/#/report-view?file=CycleCount-lst-prv`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=CycleCount-lst-prv`;
+    // window.location.reload();
   }
 }
