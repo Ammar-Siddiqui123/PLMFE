@@ -25,6 +25,8 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { Subject } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 
 
@@ -34,6 +36,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./inventory-master.component.scss']
 })
 export class InventoryMasterComponent implements OnInit {
+  @ViewChild('matRef') matRef: MatSelect;
   public textLabel: any = 'Details';
   tabIndex: any = 0;
   ifAllowed: boolean = false;
@@ -226,6 +229,10 @@ export class InventoryMasterComponent implements OnInit {
     this.spliUrl=this.router.url.split('/');
   }
 
+
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
   // onOutsideSearchBox(e?:any) {
   //   console.log('working');
   //    window.addEventListener('scroll', this.scrollEvent, true);
@@ -656,7 +663,10 @@ export class InventoryMasterComponent implements OnInit {
 
     });
   }
+  inventoryMapAction(event:any){
+    this.clearMatSelectList();
 
+  }
   deleteItem($event) {
     this.isDialogOpen = true
     let itemToDelete = this.currentPageItemNo

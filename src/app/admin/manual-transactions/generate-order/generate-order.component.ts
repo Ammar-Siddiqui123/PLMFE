@@ -254,6 +254,7 @@ export class GenerateOrderComponent implements OnInit {
         }
       });
   }
+
   sortChange(event) {
     if (!this.dataSource || event.direction == '') return;
 

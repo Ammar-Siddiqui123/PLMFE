@@ -63,7 +63,7 @@
                         <div class="d-flex d-lg-block">
                             <mat-form-field class="action-dropdown mb-3" appearance="outline" style="flex:1">
                                 <mat-label>Actions</mat-label>
-                                <mat-select class="employees-action" value="pick">
+                                <mat-select  #matRef  class="employees-action" value="pick"  (selectionChange)="openAction($event)">
                                     <mat-option value="123456"(click)="CrAddNewCustomReportDialogue()">Add New</mat-option>
                                     <mat-option [value]="Detail.testData" [disabled]="!Detail.testData" 
                                     (click)="OpenListAndLabel('report-view')">Export</mat-option>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { QueryParams } from 'angular-routing';
@@ -9,6 +9,8 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { SharedService } from 'src/app/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-custom-reports-and-labels',
@@ -16,6 +18,8 @@ import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/a
   styleUrls: ['./custom-reports-and-labels.component.scss']
 })
 export class CustomReportsAndLabelsComponent implements OnInit {
+  @ViewChild('matRef') matRef: MatSelect;
+
   Detail:any = {};
   ListReports:any = [];
   reportTitles:any = [];
@@ -83,6 +87,13 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   OpenListAndLabel(route){
     window.open(`/#/${route}?file=${this.Detail.fileName.replace(".","-")}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
     // this.route.navigateByUrl(`/${route}?file=${this.Detail.fileName.replace(".","-")}`);
+  }
+
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
+  openAction(event:any){
+    this.clearMatSelectList();
   }
   SelectedFile:any;
 

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSelectChange } from '@angular/material/select';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
@@ -21,6 +21,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CmOrderToteConflictComponent } from 'src/app/dialogs/cm-order-tote-conflict/cm-order-tote-conflict.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-consolidation',
@@ -61,6 +62,7 @@ export class ConsolidationComponent implements OnInit {
   public orderstatusbtn: boolean = false;
   public printButtons: boolean = true;
   public type: any = '';
+  @ViewChild('matRef') matRef: MatSelect;
 
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
 
@@ -123,7 +125,12 @@ export class ConsolidationComponent implements OnInit {
     }
     this.tableData_1.sort = this.sort1;
   }
-
+  openAction(event:any){
+    this.clearMatSelectList();
+  }
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
   announceSortChange2(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
