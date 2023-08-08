@@ -42,7 +42,7 @@ const INVMAP_DATA = [
   { colHeader: "dedicated", colDef: "Dedicated" },
   { colHeader: "description", colDef: "Description" },
   { colHeader: "expirationDate", colDef: "Expiration Date" },
-  { colHeader: "goldenZone", colDef: "Velocity Code" },
+ 
   { colHeader: "invMapID", colDef: "Inv Map ID" },
   { colHeader: "itemNumber", colDef: "Item Number" },
   { colHeader: "itemQuantity", colDef: "Item Quantity" },
@@ -65,6 +65,7 @@ const INVMAP_DATA = [
   { colHeader: "unitOfMeasure", colDef: "Unit of Measure" },
   { colHeader: "userField1", colDef: "User Field1" },
   { colHeader: "userField2", colDef: "User Field2" },
+  { colHeader: "goldenZone", colDef: "Velocity Code" },
   { colHeader: "warehouse", colDef: "Warehouse" },
   { colHeader: "zone", colDef: "Zone" },
 ];
