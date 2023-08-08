@@ -80,10 +80,15 @@ enterUserName(){
           // this.addLoginForm.reset(); // replaced to api response 
           localStorage.setItem('user', JSON.stringify(data));
           localStorage.setItem('userRights', JSON.stringify(userRights));
-          this.getAppLicense(response.data.wsid);
-          if(localStorage.getItem('LastRoute')){
-            this.router.navigateByUrl(localStorage.getItem('LastRoute') || "");
-          }
+       
+          if(localStorage.getItem('LastRoute')){  
+            debugger
+            //  this.router.navigateByUrl("/#/"+localStorage.getItem('LastRoute') || "");
+            var url =   '/#'+localStorage.getItem('LastRoute');
+            this.getAppLicense(response.data.wsid);
+            window.location.href = url;
+            window.location.reload();
+          }else this.getAppLicense(response.data.wsid);
           
           // ----default app redirection ----
           // this.getDefaultApp(response.data.wsid);
