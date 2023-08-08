@@ -106,31 +106,43 @@ export class ProcessPicksComponent implements OnInit {
     }else{
        
       if(type==='PrintTote'){
-     window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`, '_blank', "location=yes");
+        window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+    //  window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`, '_blank', "location=yes");
 
         // window.open(`/#/report-view?file=FileName:IMPickTote-lbl|Positions:${strposition}|ToteIDs:${strtoteIds}|OrderNums:${strOrderNumList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
  
       }
       if(type==='PrintPickLabel'){
-     window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+        window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+    //  window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
 
         // window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
 
       }
       if(type==='PrintPickList'){
-     window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchList|BatchID:${this.pickBatches.value}`, '_blank', "location=yes");
+        window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchList|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+    //  window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchList|BatchID:${this.pickBatches.value}`, '_blank', "location=yes");
 
         // window.open(`/#/report-view?file=IMOCPick-lst`, '_blank', "location=yes");
 
       }
       if(type==='PrintCase'){
-     window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`, '_blank', "location=yes");
+
+        window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+    //  window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`, '_blank', "location=yes");
 
         // window.open(`/#/report-view?file=CaseLabel-lbl`, '_blank', "location=yes");
 
       }
       if(type==='PrintBatch'){
-        window.open(`/#/report-view?file=IMPickBatch-lst`, '_blank', "location=yes");
+
+        window.open(`/#/report-view?file=IMPickBatch-lst`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+        // window.open(`/#/report-view?file=IMPickBatch-lst`, '_blank', "location=yes");
 
       }
     }
@@ -151,7 +163,9 @@ export class ProcessPicksComponent implements OnInit {
       positionList.push(row.position)
       toteList.push(row.toteID)
       orderNumberList.push(row.orderNumber)
-      window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`, '_blank', "location=yes");
+      window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+      // window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`, '_blank', "location=yes");
       // window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
     }
   }
@@ -168,7 +182,9 @@ export class ProcessPicksComponent implements OnInit {
       positionList.push(row.position)
       toteList.push(row.toteID)
       orderNumberList.push(row.orderNumber)
-      window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+      window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+      // window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
 
       // window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
 
@@ -205,8 +221,9 @@ export class ProcessPicksComponent implements OnInit {
       }
       else{
         
+    window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
  
-      window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}`, '_blank', "location=yes");
+      // window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}`, '_blank', "location=yes");
   
 
         // window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
@@ -230,8 +247,9 @@ export class ProcessPicksComponent implements OnInit {
         })
       }else{
         
+        window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
  
-        window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+        // window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
 
         // window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
 
@@ -250,8 +268,9 @@ export class ProcessPicksComponent implements OnInit {
           timeOut: 2000
         })
       }else{
+        window.open(`/#/report-view?file=FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
     
-        window.open(`/#/report-view?file=FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`, '_blank', "location=yes");
+        // window.open(`/#/report-view?file=FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`, '_blank', "location=yes");
 
           // window.open(`/#/report-view?file=IMOCPick-lst`, '_blank', "location=yes");
       }
