@@ -282,7 +282,8 @@ export class ToteTransactionViewComponent implements OnInit {
   printToteLabel(){
     // console.log(this.IMPreferences);
     let ID = this.dataSource?.filteredData[0]?.id;
-    window.location.href = `/#/report-view?file=FileName:PrintPrevToteItemLabel|ID:${ID}|BatchID:${this.batchID}|ToteNum:${this.tote}`;
+    window.open(`/#/report-view?file=FileName:PrintPrevToteItemLabel|ID:${ID}|BatchID:${this.batchID}|ToteNum:${this.tote}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:PrintPrevToteItemLabel|ID:${ID}|BatchID:${this.batchID}|ToteNum:${this.tote}`;
     // if(this.IMPreferences.printDirectly){
 
     // }
