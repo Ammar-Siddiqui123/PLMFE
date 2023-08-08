@@ -81,8 +81,11 @@ enterUserName(){
           localStorage.setItem('user', JSON.stringify(data));
           localStorage.setItem('userRights', JSON.stringify(userRights));
           this.getAppLicense(response.data.wsid);
-          if(localStorage.getItem('LastRoute')){
-            this.router.navigateByUrl(localStorage.getItem('LastRoute') || "");
+          if(localStorage.getItem('LastRoute')){  
+            //  this.router.navigateByUrl("/#/"+localStorage.getItem('LastRoute') || "");
+            var url =   '/#'+localStorage.getItem('LastRoute');
+            window.location.href = url;
+            window.location.reload();
           }
           
           // ----default app redirection ----

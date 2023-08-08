@@ -25,8 +25,8 @@ export class WrdFrontendComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let appd=JSON.parse(localStorage.getItem('availableApps') || '');
-    this.sharedService.setMenuData(appd);
+    // let appd=JSON.parse(localStorage.getItem('availableApps') || '');
+    // this.sharedService.setMenuData(appd);
     this.sharedService.updateLoadMenuFunction({route:'/admin/reports'})
     
     var filename = this.route.queryParamMap.pipe(

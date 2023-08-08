@@ -76,7 +76,8 @@ export class HeaderInterceptor implements HttpInterceptor {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
-            this.router.navigate(['/login']);            
+            this.router.navigate(['/login']);    
+            localStorage.setItem('LastRoute', this.router.url);        
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
