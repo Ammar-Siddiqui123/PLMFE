@@ -198,7 +198,7 @@ statusTab;
       this.api.configLogout(paylaod).subscribe((res:any) => {
         if (res.isExecuted) 
         {
-          window.location.href = "/globalconfig"; 
+          window.location.href = "/#/globalconfig"; 
         }
         else 
         {
