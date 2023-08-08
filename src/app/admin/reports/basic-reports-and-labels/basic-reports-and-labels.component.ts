@@ -151,7 +151,6 @@ setTimeout(() => {
     this.reportfieldvalues();
    }
 reportfieldvalues(){
-  // debugger
   var payload:any = {
     report:this.BasicReportModel.ChooseReport,
     wsid:this.userData.wsid,
