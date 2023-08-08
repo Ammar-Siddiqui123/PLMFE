@@ -1,6 +1,6 @@
 <div class="container-fluid-0 mt-4 p-0">
     <div class="row mb-3">
-        <div class="col-xl-5">
+        <div class="col-xl-4">
 
             <mat-card class="mat-elevation-z g-card mb-4 mb-xl-0">
                 <mat-card-content>
@@ -13,7 +13,7 @@
                                         assignment
                                     </span>
                                 </div>
-                                <span>Report Details x</span>
+                                <span>Report Details</span>
                             </h2>
                         </div>
 
@@ -61,7 +61,7 @@
             </mat-card>
         </div>
 
-        <div class="col-xl-7">
+        <div class="col-xl-8">
             <mat-card class="mat-elevation-z g-card mb-4 mb-xl-0">
                 <mat-card-content>
 
@@ -140,7 +140,7 @@
                                         <mat-form-field class="custom-form-field w-100 pe-2" appearance="outline">
                                             <input matInput type="text"  [matAutocomplete]="auto"
                                             
-                                             (ngModelChange)="filterByItem($event,i)"  (focus)="onFocusEmptyInput(i)"
+                                             (ngModelChange)="filterByItem($event,i)"  (focus)="onFocusEmptyInput(i)" (focusout)="reportfieldvalues()"
                                              [(ngModel)]="reportData[16+i]" [disabled]="(reportData[4+i] == '' || reportData[4+i] == null) || BasicReportModel.ChooseReport == ''"  />
                                             <mat-autocomplete #auto="matAutocomplete"  (optionSelected)="ValueSelect($event,i)">
                                                 <mat-option *ngFor="let option of ListFilterValue[i]" [value]="option"

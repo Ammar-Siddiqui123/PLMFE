@@ -258,9 +258,10 @@ export class CmShippingTransactionComponent implements OnInit {
   }
 
   openShipPrintItemLabel(order : any, i : any) {
-    this.dialogRef.close();
-    window.location.href = `/#/report-view?file=FileName:PrintShipTransLabel|ST_ID:${order.sT_ID}`;
-    window.location.reload();
+    window.open(`/#/report-view?file=FileName:PrintShipTransLabel|ST_ID:${order.sT_ID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    // this.dialogRef.close();
+    // window.location.href = `/#/report-view?file=FileName:PrintShipTransLabel|ST_ID:${order.sT_ID}`;
+    // window.location.reload();
   }
 
   // Open the dialog component, pass in the data to be modified
@@ -328,9 +329,10 @@ export class CmShippingTransactionComponent implements OnInit {
 
 
   printList(){
-    this.dialogRef.close();
-    window.location.href = `/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.data.orderNum}`;
-    window.location.reload();
+    window.open(`/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.data.orderNum}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    // this.dialogRef.close();
+    // window.location.href = `/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.data.orderNum}`;
+    // window.location.reload();
   }
 
 }

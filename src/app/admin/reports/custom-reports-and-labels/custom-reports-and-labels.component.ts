@@ -81,9 +81,8 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     })
   }
   OpenListAndLabel(route){
-    // localStorage.setItem("ListAndLandFile",this.Detail.fileName);
-    
-    this.route.navigateByUrl(`/${route}?file=${this.Detail.fileName.replace(".","-")}`);
+    window.open(`/#/${route}?file=${this.Detail.fileName.replace(".","-")}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // this.route.navigateByUrl(`/${route}?file=${this.Detail.fileName.replace(".","-")}`);
   }
   SelectedFile:any;
 
@@ -130,7 +129,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
-      data:this.Detail.testData
+      data:this.Detail.testData ? this.Detail.testData : "" 
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result)  

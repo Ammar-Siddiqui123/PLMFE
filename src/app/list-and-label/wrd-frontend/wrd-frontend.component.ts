@@ -14,6 +14,7 @@ export class WrdFrontendComponent implements OnInit {
   FileName:any = "BMCountList";
   constructor(private sharedService:SharedService,private route:ActivatedRoute) {    
     this.sharedService.SideBarMenu.next(false);
+    this.sharedService.updateMenuState(true);
     // var file = localStorage.getItem("ListAndLandFile")?.replace(".","-");
     // this.FileName = file;
      
@@ -24,8 +25,8 @@ export class WrdFrontendComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let appd=JSON.parse(localStorage.getItem('availableApps') || '');
-    this.sharedService.setMenuData(appd);
+    // let appd=JSON.parse(localStorage.getItem('availableApps') || '');
+    // this.sharedService.setMenuData(appd);
     this.sharedService.updateLoadMenuFunction({route:'/admin/reports'})
     
     var filename = this.route.queryParamMap.pipe(

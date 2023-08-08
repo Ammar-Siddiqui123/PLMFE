@@ -87,7 +87,9 @@ export class BasicReportsAndLabelsComponent implements OnInit {
   filterByItem(value : any,index){ 
     this.ListFilterValue[index] = this.oldFilterValue[index].filter(x=> x.toString().toLowerCase().indexOf(value.toString().toLowerCase()) > -1);
 if(this.ListFilterValue[index].length == 0){
+setTimeout(() => {
   this.reportfieldvalues()
+}, 1000);
 
 }
   }
@@ -149,7 +151,6 @@ if(this.ListFilterValue[index].length == 0){
     this.reportfieldvalues();
    }
 reportfieldvalues(){
-  // debugger
   var payload:any = {
     report:this.BasicReportModel.ChooseReport,
     wsid:this.userData.wsid,
@@ -190,8 +191,9 @@ ReportTitles(){
   
   }
   OpenListAndLabel(){ 
-    window.location.href = `/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`
-    window.location.reload();  
+    window.open(`/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`;
+    // window.location.reload();  
   }
 Remove(index){ 
   this.reportData[16+index] = "";

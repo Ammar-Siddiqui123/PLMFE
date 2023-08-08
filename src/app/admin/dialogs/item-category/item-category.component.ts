@@ -166,8 +166,9 @@ export class ItemCategoryComponent implements OnInit {
   }
 
   openPrintRangeDialog(){
-    this.dialogRef.close();
-    window.location.href = `/#/report-view?file=FileName:printCategoriesReport`
-    window.location.reload(); 
+    window.open(`/#/report-view?file=FileName:printCategoriesReport`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // this.dialogRef.close();
+    // window.location.href = `/#/report-view?file=FileName:printCategoriesReport`
+    // window.location.reload(); 
   }
 }

@@ -75,8 +75,9 @@ export class HeaderInterceptor implements HttpInterceptor {
             this.toastr.error('Token Expire', 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
-            });
-            this.router.navigate(['/login']);            
+            });  
+            if(!(this.router.url.indexOf('login') > -1)) localStorage.setItem('LastRoute', this.router.url);        
+            this.router.navigate(['/login']);    
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
