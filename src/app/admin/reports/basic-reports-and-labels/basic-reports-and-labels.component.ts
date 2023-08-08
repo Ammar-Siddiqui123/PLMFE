@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
@@ -85,6 +86,10 @@ export class BasicReportsAndLabelsComponent implements OnInit {
 
   filterByItem(value : any,index){ 
     this.ListFilterValue[index] = this.oldFilterValue[index].filter(x=> x.toString().toLowerCase().indexOf(value.toString().toLowerCase()) > -1);
+if(this.ListFilterValue[index].length == 0){
+  this.reportfieldvalues()
+
+}
   }
 
   
@@ -138,10 +143,9 @@ export class BasicReportsAndLabelsComponent implements OnInit {
        
      })
    }
-   searchAutocompleteList
 
-   ValueSelect(val,index){ 
-    this.reportData[16+index]  = val;
+   ValueSelect(event: MatAutocompleteSelectedEvent,index){ 
+    this.reportData[16+index]  = event.option.value;
     this.reportfieldvalues();
    }
 reportfieldvalues(){
@@ -154,12 +158,12 @@ reportfieldvalues(){
     V2:[]
    };
     for(let i = 0;i<6;i++){
-     payload.V1.push(this.reportData[16+i]);
+     payload.V1.push(this.reportData[16+i].toString());
     }   for(let i = 0;i<6;i++){
       payload.V2.push("");
      } 
      this.api.reportfieldvalues(payload).subscribe((res:any)=>{ 
-      //  console.log(res)
+       console.log('resss')
        
      })
    } 
