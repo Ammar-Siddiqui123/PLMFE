@@ -390,15 +390,20 @@ initialzeEmpForm() {
         autoFocus: '__non_existing_element__',
         data: {
           mode: 'delete-emp',
-          emp_data: emp_data
+          emp_data: emp_data,
+          action: 'delete'
         }
       })
       dialogRef.afterClosed().subscribe(result => {
-        this.isLookUp = false;
-        this.lookUpEvnt=false;
-        const matSelect: MatSelect = matEvent.source;
-        matSelect.writeValue(null);
-        this.backEmpAction();
+        debugger
+        if(!result){
+          return
+        }
+          this.isLookUp = false;
+          this.lookUpEvnt=false;
+          const matSelect: MatSelect = matEvent.source;
+          matSelect.writeValue(null);
+          this.backEmpAction();
       })
     }
 
