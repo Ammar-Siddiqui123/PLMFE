@@ -80,8 +80,7 @@ export class ItemCategoryComponent implements OnInit {
   saveCategory(category : any, oldCat : any, subCategory : any, oldSubCat : any) {
     
     let cond = true;
-  //   if(category){
-  //     debugger
+  //   if(category){ 
   //   this.category_list.forEach(element => {
   //     if(element.category?.toLowerCase() == category?.toLowerCase() && element.subCategory?.toLowerCase() == subCategory?.toLowerCase() ) {
   //       cond = false;
@@ -128,8 +127,7 @@ export class ItemCategoryComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       data:{mode:"delete-category",category,subCategory}
     })
-    dialogRef.afterClosed().subscribe(result => {
-      debugger
+    dialogRef.afterClosed().subscribe(result => { 
      if(result === 'Yes'){
       if(category && subCategory){
         this.getCategoryList();

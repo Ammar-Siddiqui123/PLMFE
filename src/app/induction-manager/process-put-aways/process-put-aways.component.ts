@@ -952,8 +952,7 @@ export class ProcessPutAwaysComponent implements OnInit {
               autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish,
               propFields:this.fieldNames
             }
-          });
-          debugger
+          }); 
           dialogRef.afterClosed().subscribe((result) => {
             if (result == 'NO') {
               if (this.inputType == 'Any') {

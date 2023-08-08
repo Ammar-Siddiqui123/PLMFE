@@ -226,8 +226,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.subscription.add(
-    this.sharedService.historyItemObserver.subscribe(itemNo => {
-      debugger
+    this.sharedService.historyItemObserver.subscribe(itemNo => { 
       if(itemNo){
         this.selectedDropdown='Item Number';
         this.columnSearch.searchValue=itemNo;
@@ -238,8 +237,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     )
 
     this.subscription.add(
-    this.sharedService.reprocessItemObserver.subscribe(itemNo => {
-      debugger
+    this.sharedService.reprocessItemObserver.subscribe(itemNo => { 
       if(itemNo){
         this.selectedDropdown='Item Number';
         this.columnSearch.searchValue=itemNo;
@@ -464,8 +462,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     this.trigger.openMenu();
   }
 
-  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    debugger;
+  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) { 
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     if(FilterColumnName != "" || Condition == "clear"){
       this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);

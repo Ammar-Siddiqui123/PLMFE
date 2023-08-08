@@ -267,8 +267,7 @@ export class OmOrderManagerComponent implements OnInit {
     });   
   }
 
-  handlePageEvent(e: PageEvent) {
-    debugger;
+  handlePageEvent(e: PageEvent) { 
     this.customPagination.startIndex =  e.pageSize*e.pageIndex
     this.customPagination.endIndex =  (e.pageSize*e.pageIndex + e.pageSize)
     this.customPagination.recordsPerPage = e.pageSize;

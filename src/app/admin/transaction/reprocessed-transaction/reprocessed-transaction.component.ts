@@ -160,8 +160,7 @@ export class ReprocessedTransactionComponent implements OnInit {
         (error) => {}
       );
   }
-  getContentData() {  
-    debugger
+  getContentData() {   
     this.payload = {
       draw: 0,
       searchString: this.columnSearch.searchValue,

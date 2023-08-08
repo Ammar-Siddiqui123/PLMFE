@@ -568,8 +568,7 @@ export class InventoryMasterComponent implements OnInit {
         'CfGoldZone': this.invMaster.value?.cfVelocity,
         'splitCase': this.invMaster.value.splitCase ? true : false,
         'active': this.invMaster.value.active ? true : false
-      });
-      debugger
+      }); 
       if(!this.invMaster.value.secondaryPickZone){
         this.invMaster.value['secondaryPickZone'] = '';
       }

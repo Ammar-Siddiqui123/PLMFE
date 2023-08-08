@@ -76,7 +76,8 @@ export class GlobalConfigComponent {
                   this.addLoginForm.reset();
                   localStorage.setItem('userConfig', JSON.stringify(data));
                   // localStorage.setItem('global-config-userRights', JSON.stringify(userRights));
-          this.router.navigate(['/globalconfig/home']);
+          window.location.href =  '/globalconfig/home';
+          window.location.reload();
         } else {
           const errorMessage = res.responseMessage;
           this.toastr.error(errorMessage?.toString(), 'Error!', {

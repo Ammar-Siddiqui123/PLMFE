@@ -245,8 +245,7 @@ export class CompletePickBatchComponent implements OnInit {
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  handlePageEvent(e: PageEvent) {
-    debugger
+  handlePageEvent(e: PageEvent) { 
     this.startRow =  e.pageSize*e.pageIndex
     this.endRow =  (e.pageSize*e.pageIndex + e.pageSize)
     this.pickBatchTransactionTable();

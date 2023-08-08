@@ -145,8 +145,7 @@ export class DetailComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
         if(result.category!='' && result!=true)
-       {
-        debugger
+       { 
         this.details.patchValue({        
           'category': result.category      
         });

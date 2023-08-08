@@ -100,8 +100,7 @@ export class SrCurrentOrderComponent implements OnInit {
     this.trigger.openMenu();
   }
 
-  onClick() {
-    debugger
+  onClick() { 
     this.trigger.closeMenu();
   }
 
