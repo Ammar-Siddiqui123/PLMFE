@@ -318,10 +318,11 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   printViewed() {
-    this.dialogRef.close();
+    // this.dialogRef.close();
     let tabIDs = this.tableData.filteredData?.length > 0 ? this.tableData.filteredData.map((x:any) => x.id).toString() : '';
-    window.location.href = `/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:${tabIDs}|View:|Table:|Page:${'Create Orders'}|WSID:${this.userData.wsid}`;
-    window.location.reload();
+    // window.location.href = `/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:${tabIDs}|View:|Table:|Page:${'Create Orders'}|WSID:${this.userData.wsid}`;
+    // window.location.reload();
+    window.open(`/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:${tabIDs}|View:|Table:|Page:${'Create Orders'}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
   }
 
   deleteViewed() {

@@ -852,18 +852,20 @@ initialzeEmpForm() {
 
 
   printEmpList(){
-    window.location.href = `/#/report-view?file=FileName:printEmployees`;
-    window.location.reload();
+    window.open(`/#/report-view?file=FileName:printEmployees`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:printEmployees`;
+    // window.location.reload();
   }
 
   printSelected(){
-    window.location.href = `/#/report-view?file=
-    FileName:printEmployeeGroup|Group:${this.grpData.groupName}`;
-    window.location.reload();
+    window.open(`/#/report-view?file=FileName:printEmployeeGroup|Group:${this.grpData.groupName}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:printEmployeeGroup|Group:${this.grpData.groupName}`;
+    // window.location.reload();
   }
 
   printAll(){
-    window.location.href = `/#/report-view?file=FileName:printEmployeeGroup`;
-    window.location.reload();
+    window.open(`/#/report-view?file=FileName:printEmployeeGroup`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:printEmployeeGroup`;
+    // window.location.reload();
   }
 }
