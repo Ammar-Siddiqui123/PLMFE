@@ -745,8 +745,9 @@ export class InventoryMapComponent implements OnInit {
  }
 
  printSelected(event: any){
-  window.location.href = `/#/report-view?file=FileName:printIMReport|invMapID:${event.invMapID}|groupLikeLoc:false|beginLoc:|endLoc:|User:${this.userData.userName}`
-  window.location.reload(); 
+  window.open(`/#/report-view?file=FileName:printIMReport|invMapID:${event.invMapID}|groupLikeLoc:false|beginLoc:|endLoc:|User:${this.userData.userName}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+  // window.location.href = `/#/report-view?file=FileName:printIMReport|invMapID:${event.invMapID}|groupLikeLoc:false|beginLoc:|endLoc:|User:${this.userData.userName}`
+  // window.location.reload(); 
 }
 
 

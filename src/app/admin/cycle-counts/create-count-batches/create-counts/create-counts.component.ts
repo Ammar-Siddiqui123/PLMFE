@@ -786,16 +786,7 @@ export class CCBCreateCountsComponent implements OnInit {
 
   }
   deleteRow(rowId) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '600px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'delete-cycle-count',
-      },
-    });
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res === 'Yes') {
+
         this.dataSource.data = this.dataSource.data.filter((value, key) => {
           return value.invMapID != rowId;
         });
@@ -822,8 +813,6 @@ export class CCBCreateCountsComponent implements OnInit {
         //   (error) => {}
         // );
       }
-    });
-  }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
