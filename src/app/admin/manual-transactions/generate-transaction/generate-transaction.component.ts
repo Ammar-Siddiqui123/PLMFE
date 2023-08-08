@@ -228,6 +228,7 @@ export class GenerateTransactionComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         userName: this.userData.userName,
         wsid: this.userData.wsid,
@@ -285,6 +286,7 @@ export class GenerateTransactionComponent implements OnInit {
           height: 'auto',
           width: '560px',
           autoFocus: '__non_existing_element__',
+      disableClose:true,
           data: {
             message:
               type === 'save'
@@ -401,6 +403,7 @@ export class GenerateTransactionComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'delete-manual-transaction',
           heading: 'Delete Transaction',
@@ -449,6 +452,7 @@ export class GenerateTransactionComponent implements OnInit {
       height: 'auto',
       width: '640px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         userName: this.userData.userName,
         wsid: this.userData.wsid,
@@ -471,6 +475,7 @@ export class GenerateTransactionComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:{
         notes:this.notes
       }
@@ -489,6 +494,7 @@ export class GenerateTransactionComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       
       });
       dialogRef.afterClosed().subscribe((res) => {
@@ -567,6 +573,7 @@ export class GenerateTransactionComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         userName: this.userData.userName,
         wsid: this.userData.wsid,
@@ -622,6 +629,7 @@ export class GenerateTransactionComponent implements OnInit {
       height: 'auto',
       width: '800px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((res) => {
       this.uom = res;
@@ -633,6 +641,7 @@ export class GenerateTransactionComponent implements OnInit {
       height: 'auto',
       width: '1000px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         userName: this.userData.userName,
         wsid: this.userData.wsid,
@@ -679,6 +688,7 @@ export class GenerateTransactionComponent implements OnInit {
       height: 'auto',
       width: '800px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         transID: this.transactionID,
         userName: this.userData.userName,

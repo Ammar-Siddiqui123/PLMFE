@@ -56,6 +56,7 @@ export class ShortTransactionComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           heading: 'Process Short',
           message: 'Short this transaction?',

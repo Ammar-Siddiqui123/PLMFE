@@ -133,6 +133,7 @@ export class SrCurrentOrderComponent implements OnInit {
         TypeOfElement: TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => {
       ;
@@ -306,6 +307,7 @@ export class SrCurrentOrderComponent implements OnInit {
     const dialogRef = this.dialog.open(PrintReplenLabelsComponent, {
       width: '1100px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
       },
     });
@@ -343,6 +345,7 @@ export class SrCurrentOrderComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-all-current-orders',
         ErrorMessage: 'Are you sure you want to delete all records',
@@ -367,6 +370,7 @@ export class SrCurrentOrderComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-shown-current-orders',
         ErrorMessage: 'Are you sure you want to delete all records that are currently dipslayed',
@@ -390,6 +394,7 @@ export class SrCurrentOrderComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteRangeComponent, {
       width: '900px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {},
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -405,6 +410,7 @@ export class SrCurrentOrderComponent implements OnInit {
         height: 'auto',
         width: '600px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           orderNumber: null,
         },
@@ -418,6 +424,7 @@ export class SrCurrentOrderComponent implements OnInit {
       const dialogRef = this.dialog.open(this.deleteSelectedConfirm, {
         width: '550px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
 
       dialogRef.afterClosed().subscribe(() => {
@@ -427,6 +434,7 @@ export class SrCurrentOrderComponent implements OnInit {
       //   height: 'auto',
       //   width: '560px',
       //   autoFocus: '__non_existing_element__',
+     
       //   data: {
       //     mode: 'delete-selected-current-orders',
       //     ErrorMessage: `Delete All transactions for Order: ${this.selectedOrder.orderNumber}. This will delete all transactions, not just selected one.`,

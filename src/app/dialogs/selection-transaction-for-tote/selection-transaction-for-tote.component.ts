@@ -69,6 +69,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
                   height: 'auto',
                   width: '560px',
                   autoFocus: '__non_existing_element__',
+      disableClose:true,
                   data: {
                     message: 'There are no batches with this zone (' + val.zone + ') assigned.  Click OK to start a new batch or cancel to choose a different location/transaction.',
                   },
@@ -86,6 +87,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
                   height: 'auto',
                   width: '100vw',
                   autoFocus: '__non_existing_element__',
+      disableClose:true,
                   data: {
                     otid        : id,
                     itemNumber  : itemNumber,
@@ -119,6 +121,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
         height: 'auto',
         width: '100vw',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           otid        : id,
           itemNumber  : itemNumber,
@@ -212,6 +215,7 @@ export class SelectionTransactionForToteComponent implements OnInit {
       height: 'auto',
       width: '100vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         otid        : 0,
         itemNumber  : this.itemNumber,

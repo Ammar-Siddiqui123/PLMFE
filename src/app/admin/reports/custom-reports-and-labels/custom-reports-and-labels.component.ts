@@ -140,6 +140,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:this.Detail.testData ? this.Detail.testData : "" 
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -155,6 +156,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data : {
         ListReports:this.ListReports
       }
@@ -179,6 +181,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result,'delete')   
@@ -263,6 +266,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
         heading: '',
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
 
     dialogRef.afterClosed().subscribe((result) => {

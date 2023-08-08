@@ -113,6 +113,7 @@ export class BatchDeleteComponent implements OnInit {
       let dialogRef = this.dialog.open(this.dltActionTemplate, {
         width: '550px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
 
       dialogRef.afterClosed().subscribe((res) => {
@@ -143,6 +144,7 @@ export class BatchDeleteComponent implements OnInit {
       const dialogRef = this.dialog.open(this.dltByTransactionTemplate, {
         width: '550px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
       dialogRef.afterClosed().subscribe((res) => {
         if (this.dltType === 'batch_tote_trans') {

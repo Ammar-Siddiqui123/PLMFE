@@ -176,6 +176,7 @@ export class InventoryMapComponent implements OnInit {
         TypeOfElement:TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => { 
       if(result.SelectedColumn){
@@ -376,6 +377,7 @@ export class InventoryMapComponent implements OnInit {
       height: 'auto',
       width: '100%',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'addInvMapLocation',
         itemList : this.itemList,
@@ -415,6 +417,7 @@ export class InventoryMapComponent implements OnInit {
       //   height: '700px',
       //   width: '600px',
       //   autoFocus: '__non_existing_element__',
+    
       //   data: {
       //     mode: actionEvent.value,
       //     tableName:'Inventory Map'
@@ -442,6 +445,7 @@ export class InventoryMapComponent implements OnInit {
     const dialogRef = this.dialog.open(this.customTemplate, {
        width: '560px',
        autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       
@@ -459,6 +463,7 @@ export class InventoryMapComponent implements OnInit {
       height: 'auto',
       width: '100%',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'editInvMapLocation',
         itemList : this.itemList,
@@ -494,6 +499,7 @@ export class InventoryMapComponent implements OnInit {
         height: 'auto',
         width: '480px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'delete-inventory-map',
           id: event.invMapID
@@ -515,6 +521,7 @@ export class InventoryMapComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'inventory-map-quarantine',
         id: event.invMapID
@@ -532,6 +539,7 @@ export class InventoryMapComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'inventory-map-unquarantine',
         id: event.invMapID
@@ -551,6 +559,7 @@ export class InventoryMapComponent implements OnInit {
       height: 'auto',
       width: '800px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     
       data: {
         id: event.invMapID,

@@ -206,6 +206,7 @@ export class ConnectionStringsComponent implements OnInit {
               height: 'auto',
               width: '600px',
               autoFocus: '__non_existing_element__',
+      disableClose:true,
               data: {
                 mode: 'sql-auth-string',
                 userName: res.data?.user,

@@ -53,6 +53,7 @@ export class BmToteidEntryComponent implements OnInit {
         heading: 'Batch Manager',
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result==='Yes') {
@@ -74,6 +75,7 @@ export class BmToteidEntryComponent implements OnInit {
           heading: 'Batch Manager',
         },
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
       dialogRef.afterClosed().subscribe((result) => {});
     } else {

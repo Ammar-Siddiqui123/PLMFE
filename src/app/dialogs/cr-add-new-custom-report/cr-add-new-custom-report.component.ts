@@ -48,6 +48,7 @@ export class CrAddNewCustomReportComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((result) => {
       this.NewDesignTestData = result?result:this.NewDesignTestData
@@ -231,6 +232,7 @@ export class CrAddNewCustomReportComponent implements OnInit {
         message: `Click OK to permanently delete the design file.`,
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(!result){
@@ -319,6 +321,7 @@ validateInputs() {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:{
         restore:this.RestoreAll
       }

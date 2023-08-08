@@ -196,6 +196,7 @@ ReportTitles(){
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
   
   }

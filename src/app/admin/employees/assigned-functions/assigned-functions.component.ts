@@ -62,6 +62,7 @@ export class AssignedFunctionsComponent implements OnInit {
     //     height: 'auto',
     //     width: '560px',
     //     autoFocus: '__non_existing_element__',
+    
     //     data: {
     //       target: 'unassigned',
     //       function: permData

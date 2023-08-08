@@ -46,6 +46,7 @@ this.dialogRef.close();
         height: 'auto',
         width: '990px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data:{
           selectedOrderList:this.selectedList,
           nextToteID:this.nextToteID
@@ -61,6 +62,7 @@ this.dialogRef.close();
         height: 'auto',
         width: '550px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {

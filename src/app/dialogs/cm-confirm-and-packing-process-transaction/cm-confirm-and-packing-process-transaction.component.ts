@@ -49,6 +49,7 @@ async ItemLabelModal(){
     height: 'auto',
     width: '30vw',
     autoFocus: '__non_existing_element__',
+      disableClose:true,
     data: {
       order:this.confPackTransTable[index],
       page: 'ConfPack'
@@ -68,6 +69,7 @@ openShipEditQuantity() {
     height: 'auto',
     width: '50vw',
     autoFocus: '__non_existing_element__',
+      disableClose:true,
     data: {
       reasons: this.data.reasons,
       order:this.confPackTransTable[index],

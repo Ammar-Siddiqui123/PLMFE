@@ -98,6 +98,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe(result => {
      if(result === 'Yes'){
@@ -228,6 +229,7 @@ export class KitItemComponent implements OnInit, OnChanges {
     const dialogRef = this.dialog.open(this.additemNumber, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((x) => {
       e.isSaved = false;
@@ -245,6 +247,7 @@ export class KitItemComponent implements OnInit, OnChanges {
     const dialogRef = this.dialog.open(this.description, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((x) => {
 
