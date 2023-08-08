@@ -155,12 +155,12 @@
                                     <ng-container matColumnDef="between" >
                                         <th mat-header-cell *matHeaderCellDef></th>
                                         <td mat-cell *matCellDef="let element;let i =index" style="width: 220px;">
-                                            <mat-form-field class="custom-form-field w-100 pe-2" appearance="outline" [hidden]="reportData[10 + i] !== 'BETWEEN' && reportData[10 + i] !== 'NOT BETWEEN'" >
+                                            <mat-form-field class="custom-form-field w-100 pe-2" appearance="outline" >
                                             
                                             <input matInput type="text"  
                                             [(ngModel)]="reportData[22+i]"
                                             (change)="reportfieldvalues(i,reportData[22+i])" 
-                                            
+                                            [disabled]="(reportData[10 + i] !== 'BETWEEN' && reportData[10 + i] !== 'NOT BETWEEN')" 
                                                 />
                                             <!-- <mat-autocomplete #auto="matAutocomplete"  (optionSelected)="ValueSelect($event,i)">
                                                 <mat-option *ngFor="let option of ListFilterValue[i]" [value]="option"
