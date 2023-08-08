@@ -283,13 +283,13 @@ export class ToteTransactionManagerComponent implements OnInit {
         break;
         case 'printTotelContents':
         
-        window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${row.toteId}|ZoneLabel:${JSON.stringify(row.zoneLabel)}|TransType:${row.transactionType}|PrintDirect:true`)
+        window.open(`/#/report-view?file=FileName:PrintPrevToteContents|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}|PrintDirect:true`)
            
            break;
 
            case 'printToteLabels':
         
-           window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${row.toteId}|ZoneLabel:${JSON.stringify(row.zoneLabel)}|TransType:${row.transactionType}|printDirect:true|ID:-2|ID:-2|BatchID:''`)
+           window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}|printDirect:true|ID:-2|BatchID:''`)
               
               break;
       default:
