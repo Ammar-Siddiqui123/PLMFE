@@ -28,6 +28,8 @@ import { FloatLabelType } from '@angular/material/form-field';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { Route, Router } from '@angular/router';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-ccb-create-counts',
@@ -36,6 +38,8 @@ import { Route, Router } from '@angular/router';
 })
 export class CCBCreateCountsComponent implements OnInit {
   public userData: any;
+  @ViewChild('matRefAction') matRefAction: MatSelect;
+
   selectedTabIndex: number = 0;
   orderNumber;
   countType: string = '';
@@ -159,7 +163,13 @@ export class CCBCreateCountsComponent implements OnInit {
   nextStep() {
     this.countsUpdated.emit('next');
   }
+  clearMatSelectList(){
+    this.matRefAction.options.forEach((data: MatOption) => data.deselect());
+  }
+ countAction(event:any){
+    this.clearMatSelectList();
 
+  }
   updateQueCountEvent(obj) {
     this.eventChange.emit(obj);
   }

@@ -110,6 +110,10 @@ export class GenerateTransactionComponent implements OnInit {
   clearMatSelectList(){
     this.openAction.options.forEach((data: MatOption) => data.deselect());
   }
+
+  generateTranscAction(event:any){
+    this.clearMatSelectList();
+  }
   public OSFieldFilterNames() { 
     this.Api.ColumnAlias().subscribe((res: any) => {
       this.columns = res.data;

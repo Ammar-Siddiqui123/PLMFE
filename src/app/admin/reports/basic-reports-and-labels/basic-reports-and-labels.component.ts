@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSelect } from '@angular/material/select';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { GlobalService } from 'src/app/common/services/global.service';
@@ -15,6 +17,8 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 })
 export class BasicReportsAndLabelsComponent implements OnInit {
   reports:any = [];
+  @ViewChild('matRef') matRef: MatSelect;
+
   searchByInput: any = new Subject<string>();
   ListFilterValue:any = [];
   oldFilterValue:any = [];
@@ -66,7 +70,12 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     this.Getcustomreports();
 
   }
-
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
+  openAction(event:any){
+    this.clearMatSelectList();
+  }
   onFocusEmptyInput(i: number) {
     const inputValue = this.reportData[16 + i];
     if (!inputValue || inputValue === '') {

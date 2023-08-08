@@ -507,7 +507,7 @@
                 <div class="col-xl-3 float-end">
                     <mat-form-field class="action-dropdown w-100" appearance="outline">
                         <mat-label>Actions</mat-label>
-                        <mat-select #matRef class="employees-action" placeholder="Actions">
+                        <mat-select #matRefAction class="employees-action" placeholder="Actions" (selectionChange)="countAction($event)">
                             <mat-option (click)="printCountOrders()"  value="print">Print Count Orders</mat-option>
                             <mat-option (click)="deleteCycleCount(1)"  [disabled]="orderNumber===''||orderNumber===undefined" value="1">Delete Incomplete Orders</mat-option>
                             <mat-option (click)="deleteCycleCount(0)" [disabled]="orderNumber===''||orderNumber===undefined" value="0">Delete All Orders</mat-option>

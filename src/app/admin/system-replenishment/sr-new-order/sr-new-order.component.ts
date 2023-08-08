@@ -17,6 +17,8 @@ import { FloatLabelType } from '@angular/material/form-field';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { Subject } from 'rxjs';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 
 @Component({
@@ -25,6 +27,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./sr-new-order.component.scss']
 })
 export class SrNewOrderComponent implements OnInit {
+  @ViewChild('openActionDropDown') openActionDropDown: MatSelect;
 
   displayedColumns: string[] = ['Item Number', 'Description', 'Warehouse', 'Stock Qty', 'Replenishment Point', 'Replenishment Level', 'Available Qty', 'Replenishment Qty', 'Case Qty', 'Transaction Qty', 'Replenish', 'Replenish Exists', 'Alloc Pick', 'Alloc Put', 'action'];
   tableData: any = [];
@@ -373,6 +376,12 @@ export class SrNewOrderComponent implements OnInit {
     });
   }
 
+  clearMatSelectList(){
+    this.openActionDropDown.options.forEach((data: MatOption) => data.deselect());
+  }
+  openAction(event:any){
+    this.clearMatSelectList();
+  }
   selectAll() {
     this.ReplenishmentsIncludeAllUpdate(true);
     // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
