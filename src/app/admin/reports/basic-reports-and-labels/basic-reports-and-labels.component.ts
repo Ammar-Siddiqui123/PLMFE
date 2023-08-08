@@ -87,7 +87,9 @@ export class BasicReportsAndLabelsComponent implements OnInit {
   filterByItem(value : any,index){ 
     this.ListFilterValue[index] = this.oldFilterValue[index].filter(x=> x.toString().toLowerCase().indexOf(value.toString().toLowerCase()) > -1);
 if(this.ListFilterValue[index].length == 0){
+setTimeout(() => {
   this.reportfieldvalues()
+}, 1000);
 
 }
   }
