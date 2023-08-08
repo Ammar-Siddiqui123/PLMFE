@@ -14,6 +14,7 @@ export class WrdFrontendComponent implements OnInit {
   FileName:any = "BMCountList";
   constructor(private sharedService:SharedService,private route:ActivatedRoute) {    
     this.sharedService.SideBarMenu.next(false);
+    this.sharedService.updateMenuState(true);
     // var file = localStorage.getItem("ListAndLandFile")?.replace(".","-");
     // this.FileName = file;
      
