@@ -129,7 +129,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
-      data:this.Detail.testData
+      data:this.Detail.testData ? this.Detail.testData : "" 
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result)  
