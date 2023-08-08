@@ -438,7 +438,9 @@ this.ReelDetailDialogue()
   }
 
   print(index,e){
-    window.location.href = `/#/report-view?file=FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`;
+
+    window.open(`/#/report-view?file=FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`;
   }
 
 }
