@@ -120,6 +120,7 @@ export class VelocityCodeComponent implements OnInit {
         height: 'auto',
         width: '480px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       })
       dialogRef.afterClosed().subscribe(result => {
           if(result === 'Yes'){
@@ -153,6 +154,7 @@ export class VelocityCodeComponent implements OnInit {
         height: 'auto',
         width: '480px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'delete-velocity',
           velocity: event

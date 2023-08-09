@@ -284,6 +284,7 @@ export class OmOrderManagerComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           ErrorMessage: 'Are you sure you want to delete all viewed orders?',
           action: 'delete'
@@ -325,6 +326,7 @@ export class OmOrderManagerComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: { 
         ...ele,
         viewType: this.viewType,
@@ -382,6 +384,7 @@ export class OmOrderManagerComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: 'Cannot Release Partial Orders. If you would like to release the entire order, click Ok. Otherwise click cancel',
         },
@@ -417,6 +420,7 @@ export class OmOrderManagerComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: 'Press ok to release currently Viewed Orders.',
         },
@@ -500,7 +504,8 @@ export class OmOrderManagerComponent implements OnInit {
     let dialogRef = this.dialog.open(OmCreateOrdersComponent, { 
       height: 'auto',
       width: '1424px',
-      autoFocus: '__non_existing_element__', 
+      autoFocus: '__non_existing_element__',
+      disableClose:true, 
     });
 
     dialogRef.afterClosed().subscribe(result => {});
@@ -538,6 +543,7 @@ export class OmOrderManagerComponent implements OnInit {
         TypeOfElement:TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => { 
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition,result.Type)

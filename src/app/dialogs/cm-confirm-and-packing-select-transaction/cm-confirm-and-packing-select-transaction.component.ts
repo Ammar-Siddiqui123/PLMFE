@@ -54,6 +54,7 @@ openScanItem(ItemNumber:any,id: any) {
     height: 'auto',
     width: '96vw',
     autoFocus: '__non_existing_element__',
+      disableClose:true,
     data: {ItemNumber:ItemNumber,orderNumber:this.orderNumber,contID:this.contID,confPackTransTable:this.confPackTransTable,id:id}
   })
   dialogRef.afterClosed().subscribe(result => {

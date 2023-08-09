@@ -367,6 +367,7 @@ initialzeEmpForm() {
         height: 'auto',
         width: '520px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'edit',
           emp_data: emp_data,
@@ -388,6 +389,7 @@ initialzeEmpForm() {
         height: 'auto',
         width: '480px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'delete-emp',
           emp_data: emp_data,
@@ -415,6 +417,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe(result => {
       ;
@@ -444,6 +447,7 @@ initialzeEmpForm() {
         height: 'auto',
         width: '480px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'edit',
           grp_data: grp_data
@@ -462,6 +466,7 @@ initialzeEmpForm() {
         height: 'auto',
         width: '480px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'delete-group',
           grp_data: grp_data,
@@ -479,6 +484,7 @@ initialzeEmpForm() {
         height: 'auto',
         width: '480px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'clone',
           grp_data: grp_data
@@ -507,6 +513,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         allZones: this.emp_all_zones,
         userName: this.grp_data
@@ -527,6 +534,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-zone',
         zone: zone.zones,
@@ -544,6 +552,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'edit-zone',
         zone: zone.zones,
@@ -605,6 +614,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         emp_data: null,
       }
@@ -626,6 +636,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         userName:this.grp_data
       }
@@ -643,6 +654,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         userName:this.grp_data,
         locationData: element
@@ -661,6 +673,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-location',
         location: location,
@@ -678,6 +691,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:{
         userName:this.grp_data,
         wsid:"TESTWSID"
@@ -692,6 +706,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:{
         grp_data:this.grp_data
       }
@@ -743,6 +758,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-allowed-group',
         allowedGroup: allowedGroup,

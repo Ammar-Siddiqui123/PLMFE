@@ -135,6 +135,7 @@ export class PutAwayComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           heading: 'Mark Selected Orders for PUT AWAY Location Assignment?',
           message: 'Do you want to mark these orders for location assignment?',

@@ -533,6 +533,7 @@ export class InventoryMasterComponent implements OnInit {
     // const dialogRef = this.dialog.open(this.propertiesChanged, {
     //   width: '450px',
     //   autoFocus: '__non_existing_element__',
+      
     // });
     this.searchValue = this.currentPageItemNo;
     if (this.paginationData.position >= 1 && this.paginationData.position <= this.paginationData.total) {
@@ -618,6 +619,7 @@ export class InventoryMasterComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         itemNumber: this.addItemNumber!=''?this.addItemNumber:this.currentPageItemNo,
         description: this.getInvMasterData && this.getInvMasterData.description?this.getInvMasterData.description:'',
@@ -673,6 +675,7 @@ export class InventoryMasterComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         actionMessage: `item :${this.searchValue}`,
         action: 'delete',
@@ -724,6 +727,7 @@ export class InventoryMasterComponent implements OnInit {
     const dialogRef = this.dialog.open(this.quarantineTemp, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((x) => {
       this.isDialogOpen = false
@@ -761,6 +765,7 @@ export class InventoryMasterComponent implements OnInit {
     const dialogRef = this.dialog.open(this.unquarantineTemp, {
       width: '450px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((x) => {
       this.isDialogOpen = true
@@ -962,6 +967,7 @@ export class InventoryMasterComponent implements OnInit {
         heading: 'Inventory Master'
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {

@@ -19,6 +19,7 @@ export class IeFtpComponent implements OnInit {
       height: 'auto',
       width: '1424px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result)      

@@ -263,6 +263,7 @@ export class TranSelectOrderComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-order-status',
         paylaod: paylaod,

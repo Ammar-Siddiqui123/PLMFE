@@ -136,6 +136,7 @@ export class SrNewOrderComponent implements OnInit {
         TypeOfElement: TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
@@ -173,6 +174,7 @@ export class SrNewOrderComponent implements OnInit {
     const dialogRef = this.dialog.open(TransactionQtyEditComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         rP_ID: element.rP_ID,
         transactionQuantity: element.transactionQuantity,
@@ -230,6 +232,7 @@ export class SrNewOrderComponent implements OnInit {
     //   height: 'auto',
     //   width: '560px',
     //   autoFocus: '__non_existing_element__',
+
     //   data: {
     //     message: 'Click OK to create a new replenishment list.',
     //   },
@@ -361,6 +364,7 @@ export class SrNewOrderComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         message: 'Click OK to print a replenishment report.',
       },
@@ -448,6 +452,7 @@ export class SrNewOrderComponent implements OnInit {
     const dialogRef = this.dialog.open(FilterItemNumbersComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: this.filterItemNumbersText,
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -475,6 +480,7 @@ export class SrNewOrderComponent implements OnInit {
     //   height: 'auto',
     //   width: '560px',
     //   autoFocus: '__non_existing_element__',
+   
     //   data: {
     //     message: `Click OK to create replenishment orders for all selected items.`,
     //   },
@@ -503,6 +509,7 @@ export class SrNewOrderComponent implements OnInit {
             height: 'auto',
             width: '560px',
             autoFocus: '__non_existing_element__',
+      disableClose:true,
             data: {
               message: `Replenishments finished. There are reprocess transactions due to the replenishment process. Click Ok to print a process report now.`,
             },

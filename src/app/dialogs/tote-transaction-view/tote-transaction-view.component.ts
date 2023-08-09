@@ -139,6 +139,7 @@ export class ToteTransactionViewComponent implements OnInit {
         height: 'auto',
         width: '50vw',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           deleteAllDisable:true,
           batchId: this.batchID,
@@ -163,6 +164,7 @@ export class ToteTransactionViewComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'add-trans',
           message: 'Click OK to mark this Tote as being Full',
@@ -227,6 +229,7 @@ export class ToteTransactionViewComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         message:
           type === 'clear'

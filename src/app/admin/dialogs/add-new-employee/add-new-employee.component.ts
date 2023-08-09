@@ -238,6 +238,7 @@ ChangePassword(data){
           heading: 'Add Employee Group',
         },
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result==='Yes') {

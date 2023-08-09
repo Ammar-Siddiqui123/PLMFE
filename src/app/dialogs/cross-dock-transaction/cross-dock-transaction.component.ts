@@ -83,6 +83,7 @@ export class CrossDockTransactionComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:
       {
         position: position
@@ -171,6 +172,7 @@ export class CrossDockTransactionComponent implements OnInit {
         height: 'auto',
         width: '70vw',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: this.selectedRowObj
       })
       dialogRef.afterClosed().subscribe((res) => {
@@ -251,6 +253,7 @@ export class CrossDockTransactionComponent implements OnInit {
       height: 'auto',
       width: '70vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:{
         itemID:this.selectedRowObj.id
       }
@@ -296,6 +299,7 @@ export class CrossDockTransactionComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: 'Click OK to complete this Cross Dock transaction.  The pick transaction will be posted as completed for the displayed quantity.  A matching put away record will be created for the Cross Dock quantity.',
         },
@@ -356,6 +360,7 @@ export class CrossDockTransactionComponent implements OnInit {
           height: 'auto',
           width: '560px',
           autoFocus: '__non_existing_element__',
+      disableClose:true,
           data: {
             message: 'Click OK to proceed without a tote ID. Click Cancel to provide a tote ID.',
           },

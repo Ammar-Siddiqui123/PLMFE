@@ -157,6 +157,7 @@ export class OmCreateOrdersComponent implements OnInit {
       height: 'auto',
       width: '75vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         from: "add-new-order",
         heading: "Adding a New Order Number",
@@ -175,6 +176,7 @@ export class OmCreateOrdersComponent implements OnInit {
       height: 'auto',
       width: '75vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         from: "edit-transaction",
         heading: `Updating a transaction for ${this.createOrdersDTPayload.orderNumber}`,
@@ -212,6 +214,7 @@ export class OmCreateOrdersComponent implements OnInit {
       height: 'auto',
       width: '75vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         from: "add-transaction",
         heading: `Adding a new transaction for ${this.createOrdersDTPayload.orderNumber}`,
@@ -232,6 +235,7 @@ export class OmCreateOrdersComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe(result => {
 
@@ -285,6 +289,7 @@ export class OmCreateOrdersComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         heading: 'Release Transaction',
         message: 'Release all orders for this order number?',
@@ -339,6 +344,7 @@ export class OmCreateOrdersComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'release-all-orders',
           ErrorMessage: 'Are you sure you want to delete these records?',
@@ -452,6 +458,7 @@ export class OmCreateOrdersComponent implements OnInit {
         TypeOfElement: TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => { 
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
