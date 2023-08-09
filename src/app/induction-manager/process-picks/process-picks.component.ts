@@ -588,7 +588,8 @@ export class ProcessPicksComponent implements OnInit {
     else {
       const dialogRef = this.dialog.open(PickToteManagerComponent, {
         height: 'auto',
-        width: '100vw',
+        maxWidth: '95vw',
+        width:'95vw',
         data: {
           pickBatchQuantity: this.pickBatchQuantity,
           useDefaultFilter: this.useDefaultFilter,
