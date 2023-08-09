@@ -184,7 +184,7 @@ export class PutAwayComponent implements OnInit {
     sortState.active = this.sequenceKeyMapping2.filter((x: any) => x.sequence == sortState.active)[0]?.key;
     if (sortState.direction) {
       this._liveAnnouncer2.announce(`Sorted ${sortState.direction}ending`);
-    } else {
+    } else { 
       this._liveAnnouncer2.announce('Sorting cleared');
     }
     this.tableData2.sort = this.sort2;
