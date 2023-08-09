@@ -144,10 +144,18 @@ export class ProcessPutAwaysComponent implements OnInit {
     const newIndex = event.index;
     console.log('Tab changed to index:', newIndex);
     if(newIndex===1){
+      
+      setTimeout(() => {
       this.inputVal.nativeElement.focus();
+        
+      }, 100);
+   
       this.autocompleteSearchColumnItem2();
     }else if(newIndex===0){
+      setTimeout(() => {
       this.batchFocus.nativeElement.focus();
+          
+        }, 100);
     }
 
   }
