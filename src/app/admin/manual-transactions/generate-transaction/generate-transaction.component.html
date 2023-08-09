@@ -36,7 +36,7 @@
                                 [(ngModel)]='orderNumber' maxlength="255" [matAutocomplete]="auto"
                                 (ngModelChange)="this.searchByInput.next($event)">
 
-                                <button matSuffix *ngIf="orderNumber" class="clear-btn"  (click)=" orderNumber = '';autocompleteSearchColumn()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
+                                <button matSuffix *ngIf="orderNumber" class="clear-btn"  (click)=" orderNumber = '';autocompleteSearchColumn();clearFields();"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
 
                             <!-- <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData($event)">
                                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option.orderNumber">
@@ -163,7 +163,7 @@
                         <mat-label>Expiration Date</mat-label>
                         <input [disabled]="!item" maxlength="11" matInput [matDatepicker]="expirationDate" [(ngModel)]="expDate">
                         <mat-datepicker-toggle matSuffix [for]="expirationDate" ngDefaultControl></mat-datepicker-toggle>
-                        <mat-datepicker #expirationDate></mat-datepicker>
+                        <mat-datepicker   #expirationDate></mat-datepicker>
                     </mat-form-field>
                 </div>
                 <div class="col-xl-3">
