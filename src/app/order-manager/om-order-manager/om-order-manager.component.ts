@@ -582,4 +582,17 @@ export class OmOrderManagerComponent implements OnInit {
     window.location.reload();
   }
 
+
+  selectRow(row: any) {
+    this.orderTable.filteredData.forEach(element => {
+      if(row != element){
+        element.selected = false;
+      }
+    });
+    const selectedRow = this.orderTable.filteredData.find((x: any) => x === row);
+    if (selectedRow) {
+      selectedRow.selected = !selectedRow.selected;
+    }
+  }
+
 }

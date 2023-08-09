@@ -320,5 +320,17 @@ itemLabel(element:any){
   // this.route.navigateByUrl(`/report-view?file=FileName:PrintConfPackItemLabel|OrderNum:${this.orderNumber}|ST_ID:${element.sT_ID}`);
 }
 
+selectRow(row: any) {
+  this.transTable.filteredData.forEach(element => {
+    if(row != element){
+      element.selected = false;
+    }
+  });
+  const selectedRow = this.transTable.filteredData.find((x: any) => x === row);
+  if (selectedRow) {
+    selectedRow.selected = !selectedRow.selected;
+  }
+}
+
 }
 

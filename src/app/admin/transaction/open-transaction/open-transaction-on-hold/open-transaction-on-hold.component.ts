@@ -833,4 +833,17 @@ this.router.navigate([]).then((result) => {
     window.location.href = `/#/report-view?file=CycleCount-lst-prv`;
     window.location.reload();
   }
+
+  selectRow(row: any) {
+    this.dataSource.filteredData.forEach(element => {
+      if(row != element){
+        element.selected = false;
+      }
+    });
+    const selectedRow = this.dataSource.filteredData.find((x: any) => x === row);
+    if (selectedRow) {
+      selectedRow.selected = !selectedRow.selected;
+    }
+  }
+
 }

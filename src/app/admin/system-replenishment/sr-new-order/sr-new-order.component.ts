@@ -599,5 +599,17 @@ export class SrNewOrderComponent implements OnInit {
       }
     });
   }
+
+  selectRow(row: any) {
+    this.filteredTableData.forEach(element => {
+      if(row != element){
+        element.selected = false;
+      }
+    });
+    const selectedRow = this.filteredTableData.find((x: any) => x === row);
+    if (selectedRow) {
+      selectedRow.selected = !selectedRow.selected;
+    }
+  }
   
 }
