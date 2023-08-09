@@ -187,8 +187,7 @@ statusTab;
   //       return Url;
   // }
 
-  logout(){   
-    debugger
+  logout(){    
     let paylaod = {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,

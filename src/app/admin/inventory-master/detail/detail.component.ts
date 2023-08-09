@@ -81,6 +81,7 @@ export class DetailComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         itemNumber: this.details.controls['itemNumber'].value,
         newItemNumber : '',
@@ -119,6 +120,7 @@ export class DetailComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         description: this.details.controls['description'].value,
       }
@@ -139,14 +141,14 @@ export class DetailComponent implements OnInit {
       height: 'auto',
       width: '860px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: '',
       }
     })
     dialogRef.afterClosed().subscribe(result => {
         if(result.category!='' && result!=true)
-       {
-        debugger
+       { 
         this.details.patchValue({        
           'category': result.category      
         });
@@ -166,6 +168,7 @@ export class DetailComponent implements OnInit {
       height: 'auto',
       width: '750px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: '',
       }

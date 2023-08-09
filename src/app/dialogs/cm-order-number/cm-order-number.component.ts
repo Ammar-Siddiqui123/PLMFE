@@ -90,7 +90,8 @@ export class CmOrderNumberComponent implements OnInit {
     let dialogRef = this.dialog.open(CmOrderToteConflictComponent, { 
       height: 'auto',
       width: '620px',
-      autoFocus: '__non_existing_element__', 
+      autoFocus: '__non_existing_element__',
+      disableClose:true, 
     });
 
     dialogRef.afterClosed().subscribe(result => { 

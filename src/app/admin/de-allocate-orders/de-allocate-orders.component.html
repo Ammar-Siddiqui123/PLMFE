@@ -132,7 +132,7 @@
                     <div class="d-block d-lg-flex d-flex w-100 justify-content-end">
                     <mat-form-field class="action-dropdown mb-3" appearance="outline" style="flex:1 auto">
                         <mat-label>Action</mat-label>
-                        <mat-select class="employees-action" [(ngModel)]="actions">
+                        <mat-select class="employees-action" #matRefAction  [(ngModel)]="actions" (selectionChange)="deAllocAction($event)">
                             <mat-option value="pagesNumber" (click)="deAllocateAll()">De-allocate All</mat-option>
                             <mat-option value="set_column_sq" [disabled]="deallocateSelectedBtn" (click)="deAllocateOrder()">De-Allocate Selected</mat-option>
                         </mat-select>

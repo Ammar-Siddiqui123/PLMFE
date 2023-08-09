@@ -61,7 +61,7 @@
                             <div class="d-xl-block d-flex justify-content-end">
 
                             <mat-form-field class="action-dropdown custom-form-field-bg-white float-end " appearance="outline" style="flex:1">
-                                <mat-select #openAction [(ngModel)]="selectedAction" class="employees-action" placeholder="Actions" >
+                                <mat-select #openAction [(ngModel)]="selectedAction" class="employees-action" placeholder="Actions" (selectionChange)="generateTranscAction($event)" >
                                     
                                     <mat-option value="0" (click)="openTemporaryManualOrderDialogue()">Add New Transaction</mat-option>
                                     <mat-option (click)="clearFields()" value="clear">Clear</mat-option>

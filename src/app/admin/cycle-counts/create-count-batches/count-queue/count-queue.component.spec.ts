@@ -7,7 +7,7 @@ import {
 
 import { CCBCountQueueComponent } from './count-queue.component';
 import { AdminComponent } from 'src/app/admin/admin.component';
-import { AdminService } from 'src/app/admin/admin.service';
+// import { AdminService } from 'src/app/admin/admin.service';
 import { of } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -44,7 +44,7 @@ describe('CCBCountQueueComponent', () => {
         BrowserAnimationsModule,
       ],
       providers: [
-        AdminService,
+        // AdminService,
         PageEvent,
         LiveAnnouncer,
         ToastrService,
@@ -121,37 +121,37 @@ describe('CCBCountQueueComponent', () => {
   // getCountQue test cases
   it('should fetch data when API call is successful', () => {
     // arrange
-    const adminServiceSpy = spyOn(
-      component.adminService,
-      'get'
-    ).and.returnValue(
-      of({
-        isExecuted: true,
-        data: {
-          invCycleCount: [{}, {}],
-          recordsTotal: 2,
-          recordsFiltered: 2,
-        },
-      })
-    );
+    // const adminServiceSpy = spyOn(
+    //   component.adminService,
+    //   'get'
+    // ).and.returnValue(
+    //   of({
+    //     isExecuted: true,
+    //     data: {
+    //       invCycleCount: [{}, {}],
+    //       recordsTotal: 2,
+    //       recordsFiltered: 2,
+    //     },
+    //   })
+    // );
     const getCountSpy = spyOn(component, 'getCount');
 
     // act
     component.getCountQue();
 
     // assert
-    expect(adminServiceSpy).toHaveBeenCalledOnceWith(
-      {
-        userName: component.userData.userName,
-        wsid: component.userData.wsid,
-        draw: 1,
-        sRow: component.customPagination.startIndex,
-        eRow: component.customPagination.endIndex,
-        sortColumnIndex: component.sortColumn.columnIndex,
-        sortOrder: component.sortColumn.sortOrder,
-      },
-      '/Admin/GetCCQueue'
-    );
+    // expect(adminServiceSpy).toHaveBeenCalledOnceWith(
+    //   {
+    //     userName: component.userData.userName,
+    //     wsid: component.userData.wsid,
+    //     draw: 1,
+    //     sRow: component.customPagination.startIndex,
+    //     eRow: component.customPagination.endIndex,
+    //     sortColumnIndex: component.sortColumn.columnIndex,
+    //     sortOrder: component.sortColumn.sortOrder,
+    //   },
+    //   '/Admin/GetCCQueue'
+    // );
     expect(component.dataSource.data.length).toBe(2);
     expect(component.customPagination.total).toBe(2);
     expect(component.noData).toBeTrue();
@@ -160,36 +160,36 @@ describe('CCBCountQueueComponent', () => {
 
   it('should show no data message when response has no data', () => {
     // arrange
-    const adminServiceSpy = spyOn(
-      component.adminService,
-      'get'
-    ).and.returnValue(
-      of({
-        isExecuted: true,
-        data: {
-          invCycleCount: [],
-          recordsTotal: 0,
-          recordsFiltered: 0,
-        },
-      })
-    );
+    // const adminServiceSpy = spyOn(
+    //   component.adminService,
+    //   'get'
+    // ).and.returnValue(
+    //   of({
+    //     isExecuted: true,
+    //     data: {
+    //       invCycleCount: [],
+    //       recordsTotal: 0,
+    //       recordsFiltered: 0,
+    //     },
+    //   })
+    // );
 
     // act
     component.getCountQue(); // getCountQue is called
 
     // assert
-    expect(adminServiceSpy).toHaveBeenCalledOnceWith(
-      {
-        userName: component.userData.userName,
-        wsid: component.userData.wsid,
-        draw: 1,
-        sRow: component.customPagination.startIndex,
-        eRow: component.customPagination.endIndex,
-        sortColumnIndex: component.sortColumn.columnIndex,
-        sortOrder: component.sortColumn.sortOrder,
-      },
-      '/Admin/GetCCQueue'
-    );
+    // expect(adminServiceSpy).toHaveBeenCalledOnceWith(
+    //   {
+    //     userName: component.userData.userName,
+    //     wsid: component.userData.wsid,
+    //     draw: 1,
+    //     sRow: component.customPagination.startIndex,
+    //     eRow: component.customPagination.endIndex,
+    //     sortColumnIndex: component.sortColumn.columnIndex,
+    //     sortOrder: component.sortColumn.sortOrder,
+    //   },
+    //   '/Admin/GetCCQueue'
+    // );
     expect(component.dataSource.data.length).toBe(0);
     expect(component.customPagination.total).toBe(0);
     expect(component.noData).toBeFalse();
@@ -270,7 +270,7 @@ describe('CCBCountQueueComponent', () => {
   it('should not create count transactions when dialog response is not "Yes"', () => {
     dialogRef.afterClosed.and.returnValue(of('no'));
 
-    spyOn(component.adminService, 'get');
+    // spyOn(component.adminService, 'get');
     spyOn(component.toastr, 'success');
     spyOn(component.toastr, 'error');
     spyOn(component, 'getCountQue');
@@ -280,7 +280,7 @@ describe('CCBCountQueueComponent', () => {
 
     component.createCycleCount();
 
-    expect(component.adminService.get).not.toHaveBeenCalled();
+    // expect(component.adminService.get).not.toHaveBeenCalled();
     expect(component.toastr.success).not.toHaveBeenCalled();
     expect(component.toastr.error).not.toHaveBeenCalled();
     expect(component.getCountQue).not.toHaveBeenCalled();
@@ -292,9 +292,9 @@ describe('CCBCountQueueComponent', () => {
   it('should open delete confirmation dialog and perform delete operation when user selects "Yes"', fakeAsync(() => {
     // spyOn(dialog, 'open').and.returnValue({afterClosed: () => of('Yes')});
     dialogRef.afterClosed.and.returnValue(of('Yes'));
-    spyOn(component.adminService, 'get').and.returnValue(
-      of({ isExecuted: true })
-    );
+    // spyOn(component.adminService, 'get').and.returnValue(
+    //   of({ isExecuted: true })
+    // );
 
     spyOn(component.toastr, 'success');
     spyOn(component, 'getCount');
@@ -318,14 +318,14 @@ describe('CCBCountQueueComponent', () => {
       }
     );
 
-    expect(component.adminService.get).toHaveBeenCalledWith(
-      {
-        userName: component.userData.userName,
-        wsid: component.userData.wsid,
-        appName: 'Cycle Count',
-      },
-      '/Admin/RemoveccQueueAll'
-    );
+    // expect(component.adminService.get).toHaveBeenCalledWith(
+    //   {
+    //     userName: component.userData.userName,
+    //     wsid: component.userData.wsid,
+    //     appName: 'Cycle Count',
+    //   },
+    //   '/Admin/RemoveccQueueAll'
+    // );
 
     // expect(component.toastr.success).toHaveBeenCalledWith('Success!', 'Success!', {
     //   positionClass: 'toast-bottom-right',

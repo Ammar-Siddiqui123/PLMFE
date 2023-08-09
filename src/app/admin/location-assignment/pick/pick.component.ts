@@ -151,6 +151,7 @@ export class PickComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           heading: 'Mark Selected Orders for PICK Location Assignment?',
           message: 'Do you want to mark these orders for location assignment?',
@@ -202,8 +203,7 @@ export class PickComponent implements OnInit {
     this.tableData1.sort = this.sort1;
   }
 
-  announceSortChange2(sortState: Sort) {
-    debugger;
+  announceSortChange2(sortState: Sort) { 
     sortState.active = this.sequenceKeyMapping2.filter((x: any) => x.sequence == sortState.active)[0]?.key;
     if (sortState.direction) {
       this._liveAnnouncer2.announce(`Sorted ${sortState.direction}ending`);
@@ -246,11 +246,11 @@ export class PickComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {  
         'totalCount': res.data
       }
-      ,
-      disableClose: true
+   
     
     })
     dialogRef.afterClosed().subscribe(result => {

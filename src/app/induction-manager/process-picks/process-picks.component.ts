@@ -438,6 +438,7 @@ export class ProcessPicksComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: 'Press OK to create a new Tote Setup. Press Cancel to keep the current Tote Setup.'
         }
@@ -465,6 +466,7 @@ export class ProcessPicksComponent implements OnInit {
     const dialogRef = this.dialog.open(this.batchPickID, {
       width: 'auto',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe(() => {
       if (this.dialogClose) {
@@ -675,6 +677,7 @@ export class ProcessPicksComponent implements OnInit {
       height: 'auto',
       width: '750px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
 
     })
     dialogRef.afterClosed().subscribe(result => {
@@ -824,6 +827,7 @@ export class ProcessPicksComponent implements OnInit {
     const dialogRef = this.dialog.open(this.processSetup, {
       width: '450px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
   }
 

@@ -105,6 +105,7 @@ export class GroupsLookupComponent implements OnInit {
   //     height: 'auto',
   //     width: '560px',
   //     autoFocus: '__non_existing_element__',
+   
   //   });
   //   dialogRef.afterClosed().subscribe(result => {
   //     this.loadEmpData();

@@ -68,6 +68,7 @@ export class ItemSetupComponent implements OnInit {
       height: 'auto',
       width: '750px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: '',
         cs:currentValue
@@ -109,6 +110,7 @@ export class ItemSetupComponent implements OnInit {
       height: 'auto',
       width: '750px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: '',
         vc: currentValue

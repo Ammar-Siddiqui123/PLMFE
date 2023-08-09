@@ -144,6 +144,7 @@ export class CmShippingComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         message: "Are you sure you wish to complete this shipment?",
       },
@@ -167,6 +168,7 @@ export class CmShippingComponent implements OnInit {
               height: 'auto',
               width: '560px',
               autoFocus: '__non_existing_element__',
+      disableClose:true,
               data: {
                 message: "Back Orders exist for this order number. Still complete shipment?",
               },
@@ -204,6 +206,7 @@ export class CmShippingComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: { orderNumber: this.orderNumber }
     })
     dialogRef.afterClosed().subscribe(result => {

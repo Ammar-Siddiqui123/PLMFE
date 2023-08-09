@@ -158,6 +158,7 @@ export class AddNewTransactionToOrderComponent implements OnInit {
                   height: 'auto',
                   width: '560px',
                   autoFocus: '__non_existing_element__',
+      disableClose:true,
                   data: {
                     itemNumber:this.itemNumber,
                   },
@@ -225,6 +226,7 @@ return
                   height: 'auto',
                   width: '560px',
                   autoFocus: '__non_existing_element__',
+      disableClose:true,
                   data: {
                     itemNumber:this.itemNumber,
                   },
@@ -258,6 +260,7 @@ return
                 height: 'auto',
                 width: '560px',
                 autoFocus: '__non_existing_element__',
+      disableClose:true,
                 data: {
                   itemNumber:this.itemNumber,
                 },
@@ -271,6 +274,7 @@ return
                   height: 'auto',
                   width: '560px',
                   autoFocus: '__non_existing_element__',
+      disableClose:true,
                   data: {
                     itemNumber:this.itemNumber,
                   },

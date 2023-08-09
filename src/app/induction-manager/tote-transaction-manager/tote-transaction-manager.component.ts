@@ -130,6 +130,7 @@ export class ToteTransactionManagerComponent implements OnInit {
             height: 'auto',
             width: '60vw',
             autoFocus: '__non_existing_element__',
+      disableClose:true,
             data: {
               deleteAllDisable:true,
               enableClear:enablebatch,
@@ -151,6 +152,7 @@ export class ToteTransactionManagerComponent implements OnInit {
             height: 'auto',
             width: '600px',
             autoFocus: '__non_existing_element__',
+      disableClose:true,
             data: {
               mode: 'clear-pick-tote-info',
               action: 'clear',
@@ -342,6 +344,7 @@ export class ToteTransactionManagerComponent implements OnInit {
         TypeOfElement: TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => {
       ;

@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSelect } from '@angular/material/select';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { GlobalService } from 'src/app/common/services/global.service';
@@ -15,6 +17,8 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 })
 export class BasicReportsAndLabelsComponent implements OnInit {
   reports:any = [];
+  @ViewChild('matRef') matRef: MatSelect;
+
   searchByInput: any = new Subject<string>();
   ListFilterValue:any = [];
   oldFilterValue:any = [];
@@ -32,7 +36,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
   ]
   
 
-    displayedColumns: string[] = ['fields','expression_type','value_to_test','actions'];
+    displayedColumns: string[] = ['fields','expression_type','value_to_test','between','actions'];
     tableData = this.ELEMENT_DATA
     dataSourceList:any
     currentApp
@@ -66,7 +70,12 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     this.Getcustomreports();
 
   }
-
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
+  openAction(event:any){
+    this.clearMatSelectList();
+  }
   onFocusEmptyInput(i: number) {
     const inputValue = this.reportData[16 + i];
     if (!inputValue || inputValue === '') {
@@ -86,12 +95,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
 
   filterByItem(value : any,index){ 
     this.ListFilterValue[index] = this.oldFilterValue[index].filter(x=> x.toString().toLowerCase().indexOf(value.toString().toLowerCase()) > -1);
-if(this.ListFilterValue[index].length == 0){
-setTimeout(() => {
-  this.reportfieldvalues()
-}, 1000);
-
-}
+ 
   }
 
   
@@ -148,9 +152,19 @@ setTimeout(() => {
 
    ValueSelect(event: MatAutocompleteSelectedEvent,index){ 
     this.reportData[16+index]  = event.option.value;
-    this.reportfieldvalues();
+    this.reportfieldvalues(index,this.reportData[16+index]);
    }
-reportfieldvalues(){
+   selectedIndex:number;
+   selectedValue:string;
+   reportfieldvaluesChange(index,value){
+      setTimeout(() => {
+        this.reportfieldvalues(index,value)        
+      }, 1000);
+   }
+reportfieldvalues(selectedIndex,selectedValue,IsRemove=false){
+  if(IsRemove == true || !(selectedIndex == this.selectedIndex && selectedValue == this.selectedIndex)){
+    this.selectedIndex = selectedIndex;
+    this.selectedValue =selectedValue;
   var payload:any = {
     report:this.BasicReportModel.ChooseReport,
     wsid:this.userData.wsid,
@@ -161,13 +175,16 @@ reportfieldvalues(){
     for(let i = 0;i<6;i++){
      payload.V1.push(this.reportData[16+i].toString());
     }   for(let i = 0;i<6;i++){
-      payload.V2.push("");
+      payload.V2.push(["NOT BETWEEN","BETWEEN"].indexOf(this.reportData[10 + i]) > -1 && this.reportData[22+i].toString() ? this.reportData[22+i].toString():"");
+      
      } 
      this.api.reportfieldvalues(payload).subscribe((res:any)=>{ 
        console.log('resss')
        
      })
    } 
+    
+  }
 ReportTitles(){
   var payload:any = {
     report:this.BasicReportModel.ChooseReport,
@@ -187,6 +204,7 @@ ReportTitles(){
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
   
   }
@@ -200,7 +218,7 @@ Remove(index){
   this.reportData[4+index] = "";
   this.reportData[10+index] = ""; 
   this.ReportFieldsExps();
-  this.reportfieldvalues();
+  this.reportfieldvalues(index,"",true);
   this.ReportTitles();
 }
 

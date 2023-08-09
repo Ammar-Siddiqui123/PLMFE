@@ -129,6 +129,7 @@ export class CompletePickBatchComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         selectedTransaction: element,
       }
@@ -145,6 +146,7 @@ export class CompletePickBatchComponent implements OnInit {
       height: '640px',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         transactions: this.tableData,
         toteId : this.toteId
@@ -163,6 +165,7 @@ export class CompletePickBatchComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         heading: 'Complete Transaction',
         message: 'Complete this transaction?',
@@ -194,6 +197,7 @@ export class CompletePickBatchComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         heading: 'Complete Batch',
         message: 'Complete all remaining in this batch?',
@@ -245,8 +249,7 @@ export class CompletePickBatchComponent implements OnInit {
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  handlePageEvent(e: PageEvent) {
-    debugger
+  handlePageEvent(e: PageEvent) { 
     this.startRow =  e.pageSize*e.pageIndex
     this.endRow =  (e.pageSize*e.pageIndex + e.pageSize)
     this.pickBatchTransactionTable();

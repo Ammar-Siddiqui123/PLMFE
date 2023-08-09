@@ -111,6 +111,7 @@ export class CmShippingTransactionComponent implements OnInit {
       height: 'auto',
       width: '40vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         toteID : this.toteID,
         orderNumber : this.data && this.data.orderNum ? this.data.orderNum : '2909782A'
@@ -156,6 +157,7 @@ export class CmShippingTransactionComponent implements OnInit {
                 height: 'auto',
                 width: '560px',
                 autoFocus: '__non_existing_element__',
+      disableClose:true,
                 data: {
                   message: 'Are you sure you want to update this order number as complete for packing?',
                 },
@@ -185,6 +187,7 @@ export class CmShippingTransactionComponent implements OnInit {
                 height: 'auto',
                 width: '560px',
                 autoFocus: '__non_existing_element__',
+      disableClose:true,
                 data: {
                   message: 'Are you sure you want to update this order number as complete for packing?',
                 },
@@ -196,6 +199,7 @@ export class CmShippingTransactionComponent implements OnInit {
                     height: 'auto',
                     width: '560px',
                     autoFocus: '__non_existing_element__',
+      disableClose:true,
                     data: {
                       message: 'Back orders exist for this order number. Still continue pack complete?',
                     },
@@ -237,6 +241,7 @@ export class CmShippingTransactionComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         order,
         page: 'ShipTrans'
@@ -270,6 +275,7 @@ export class CmShippingTransactionComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         reasons: this.STIndex.reasons,
         order
@@ -290,6 +296,7 @@ export class CmShippingTransactionComponent implements OnInit {
       height: 'auto',
       width: '40vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         order
       }
