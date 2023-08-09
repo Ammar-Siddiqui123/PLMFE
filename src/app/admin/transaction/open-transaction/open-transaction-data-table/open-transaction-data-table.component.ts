@@ -193,7 +193,7 @@ export class OpenTransactionDataTableComponent
         element.selected = false;
       }
     });
-    const selectedRow = this.datasource.filteredData.find((x: any) => x === row);
+    const selectedRow = this.datasource.find((x: any) => x === row);
     if (selectedRow) {
       selectedRow.selected = !selectedRow.selected;
     }
