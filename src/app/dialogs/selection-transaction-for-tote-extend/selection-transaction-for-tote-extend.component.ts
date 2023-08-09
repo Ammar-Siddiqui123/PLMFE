@@ -241,6 +241,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         message: 'Click OK to clear serial number, lot number, expiration date, warehouse, Ship VIA, and Ship To Name',
       },
@@ -279,6 +280,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: 'Click OK to save current cell sizes and velocity codes for this item to the inventory master.',
         },
@@ -344,6 +346,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       height: 'auto',
       width: '750px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: '',
         cs:currentValue
@@ -391,6 +394,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       height: 'auto',
       width: '750px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: '',
         vc: currentValue
@@ -428,6 +432,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       height: 'auto',
       width: '70vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: values
     });
 
@@ -475,6 +480,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               height: 'auto',
               width: '560px',
               autoFocus: '__non_existing_element__',
+      disableClose:true,
               data: {
                 message: 'There is a need for ' + res.data + ' of item: ' + values.itemNumber + '. Press OK to find a location needing replenishment. Otherwise press CANCEL to do a normal location search',
               }
@@ -584,6 +590,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       height: 'auto',
       width: '70vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         itemWhse: values.itemNumber,
         userId: this.userData.userName,
@@ -615,6 +622,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       height: 'auto',
       width: '640px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         userName: this.userData.userName,
         wsid: this.userData.wsid,
@@ -712,6 +720,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
                   height: 'auto',
                   width: '560px',
                   autoFocus: '__non_existing_element__',
+      disableClose:true,
                   data: {
                     message: 'Cross Dock opportunity!  Click OK to view backorder transactions for the item you are putting away.',
                   },
@@ -756,6 +765,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         message: 'Click OK to complete this transaction and assign it to the selected batch and tote.',
       },

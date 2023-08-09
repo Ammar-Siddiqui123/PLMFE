@@ -44,6 +44,7 @@ export class IeTransferSettingsComponent implements OnInit {
       height: 'auto',
       width: '550px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
 
   }

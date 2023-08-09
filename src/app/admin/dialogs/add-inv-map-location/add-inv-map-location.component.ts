@@ -262,6 +262,7 @@ export class AddInvMapLocationComponent implements OnInit {
       height: 'auto',
       width: '800px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         id: this.getDetailInventoryMapData.invMapID
       }
@@ -417,6 +418,7 @@ export class AddInvMapLocationComponent implements OnInit {
       height: 'auto',
       width: '640px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'addlocation',
       }
@@ -438,6 +440,7 @@ export class AddInvMapLocationComponent implements OnInit {
       height: 'auto',
       width: '660px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'cell-size',
       }
@@ -453,6 +456,7 @@ export class AddInvMapLocationComponent implements OnInit {
       height: 'auto',
       width: '660px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'cell-size',
       }

@@ -39,6 +39,7 @@ export class CCCountQueueComponent implements OnInit {
       height: '650px',
       width: '800px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'addInvMapLocation',
         //itemList : this.itemList,

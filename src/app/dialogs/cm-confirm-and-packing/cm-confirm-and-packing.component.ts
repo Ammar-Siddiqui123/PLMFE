@@ -127,6 +127,7 @@ async ClickConfirmAll(){
     height: 'auto',
     width: '560px',
     autoFocus: '__non_existing_element__',
+      disableClose:true,
     data: {
       message: "Confirm All transactions? This will mark this entire order as confirmed and packed.",
     },
@@ -158,6 +159,7 @@ openScanItem(ItemNumber:any,id: any) {
     height: 'auto',
     width: '96vw',
     autoFocus: '__non_existing_element__',
+      disableClose:true,
     data: {ItemNumber:ItemNumber,orderNumber:this.orderNumber,contID:this.contID,confPackTransTable:this.transTable,id:id,reasons:this.reasons}
   })
   dialogRef.afterClosed().subscribe(result => {
@@ -214,6 +216,7 @@ announceSortChange2(sortState: Sort) {
     height: 'auto',
     width: '96vw',
     autoFocus: '__non_existing_element__',
+      disableClose:true,
     data: {ItemNumber:ItemNumber,orderNumber:this.orderNumber,contID:this.contID,confPackTransTable:this.transTable,id:id}
   })
   dialogRef.afterClosed().subscribe(result => {

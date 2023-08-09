@@ -21,6 +21,7 @@ export class SpScanVerificationSetupComponent implements OnInit {
       height: 'auto',
       width: '96vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe(result => {
       if(result){

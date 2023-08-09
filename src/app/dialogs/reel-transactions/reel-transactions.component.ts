@@ -77,6 +77,7 @@ oldIncluded
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         hvObj: this.data.hvObj,
         itemObj:this.data.itemObj,
@@ -196,6 +197,7 @@ oldIncluded
         message: 'Click OK to create these reels.',
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result){
@@ -225,6 +227,7 @@ dialog1(numUnassigned){
       message: `There are  ${(numUnassigned < 0 ? 'more' : 'fewer')}  parts assigned to these reels than total parts selected.  Click OK to continue or Cancel to edit the number of parts in each reel.`,
     },
     autoFocus: '__non_existing_element__',
+      disableClose:true,
   });
   dialogRef.afterClosed().subscribe((result) => {
     if(!result){
@@ -317,6 +320,7 @@ test(){
                                 message: errs,
                               },
                               autoFocus: '__non_existing_element__',
+      disableClose:true,
                             });
                             dialogRef.afterClosed().subscribe((result) => {
                               if(result){
@@ -355,6 +359,7 @@ test(){
                                   message: "Click OK to print labels now.",
                                 },
                                 autoFocus: '__non_existing_element__',
+      disableClose:true,
                               });
                               dialogRef.afterClosed().subscribe((result) => {
                                 if(result){

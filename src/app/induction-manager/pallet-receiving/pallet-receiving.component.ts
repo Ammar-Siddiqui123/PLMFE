@@ -158,6 +158,7 @@ export class PalletReceivingComponent implements OnInit {
         disableCancel: true,
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((result) => {});
   }

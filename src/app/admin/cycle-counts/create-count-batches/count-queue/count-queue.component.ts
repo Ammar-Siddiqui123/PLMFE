@@ -137,6 +137,7 @@ this.customPagination.total = 0;
       height: 'auto',
       width: '786px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         message:
           'Would you like to create count transactions for these locations?',
@@ -232,6 +233,7 @@ this.customPagination.total = 0;
       height: 'auto',
       width: '600px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-cycle-count',
       },

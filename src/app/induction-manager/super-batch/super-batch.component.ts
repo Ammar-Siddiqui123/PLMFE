@@ -158,6 +158,7 @@ export class SuperBatchComponent implements OnInit {
     const dialogRef = this.dialog.open(this.batchOrderConfirmation, {
       width: 'auto',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
 
     dialogRef.afterClosed().subscribe(() => {

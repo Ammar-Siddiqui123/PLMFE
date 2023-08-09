@@ -26,6 +26,7 @@ export class IeSystemSettingsComponent implements OnInit {
       height: 'auto',
       width: '100vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
 
   }
@@ -34,6 +35,7 @@ export class IeSystemSettingsComponent implements OnInit {
       height: 'auto',
       width: '100vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
 
   }
@@ -43,6 +45,7 @@ export class IeSystemSettingsComponent implements OnInit {
       height: 'auto',
       width: '100vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
 
   }
@@ -52,6 +55,7 @@ export class IeSystemSettingsComponent implements OnInit {
       height: 'auto',
       width: '100vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
 
   }
@@ -61,6 +65,7 @@ export class IeSystemSettingsComponent implements OnInit {
       height: 'auto',
       width: '100vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
 
   }
