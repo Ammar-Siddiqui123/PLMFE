@@ -41,8 +41,7 @@ export class TransactionHistoryFiltersComponent implements OnInit {
     this.userData = this.authService.userData();
     this.searchByOrderNumber
       .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((value) => {
-        debugger
+      .subscribe((value) => { 
         if(value===""){
           this.onOrderNoChange('')
           return

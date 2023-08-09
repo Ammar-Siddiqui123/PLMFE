@@ -273,6 +273,7 @@ export class AddNewDeviceComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         action: 'delete',
       },
@@ -366,6 +367,7 @@ export class AddNewDeviceComponent implements OnInit {
         disableCancel: true,
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((result) => {});
   }
@@ -466,6 +468,7 @@ export class AddNewDeviceComponent implements OnInit {
         disableCancel: true,
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {

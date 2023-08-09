@@ -367,6 +367,7 @@ initialzeEmpForm() {
         height: 'auto',
         width: '520px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'edit',
           emp_data: emp_data,
@@ -388,17 +389,23 @@ initialzeEmpForm() {
         height: 'auto',
         width: '480px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'delete-emp',
-          emp_data: emp_data
+          emp_data: emp_data,
+          action: 'delete'
         }
       })
       dialogRef.afterClosed().subscribe(result => {
-        this.isLookUp = false;
-        this.lookUpEvnt=false;
-        const matSelect: MatSelect = matEvent.source;
-        matSelect.writeValue(null);
-        this.backEmpAction();
+        debugger
+        if(!result){
+          return
+        }
+          this.isLookUp = false;
+          this.lookUpEvnt=false;
+          const matSelect: MatSelect = matEvent.source;
+          matSelect.writeValue(null);
+          this.backEmpAction();
       })
     }
 
@@ -410,6 +417,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe(result => {
       ;
@@ -439,6 +447,7 @@ initialzeEmpForm() {
         height: 'auto',
         width: '480px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'edit',
           grp_data: grp_data
@@ -457,6 +466,7 @@ initialzeEmpForm() {
         height: 'auto',
         width: '480px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'delete-group',
           grp_data: grp_data,
@@ -474,6 +484,7 @@ initialzeEmpForm() {
         height: 'auto',
         width: '480px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'clone',
           grp_data: grp_data
@@ -502,6 +513,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         allZones: this.emp_all_zones,
         userName: this.grp_data
@@ -522,6 +534,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-zone',
         zone: zone.zones,
@@ -539,6 +552,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'edit-zone',
         zone: zone.zones,
@@ -600,6 +614,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         emp_data: null,
       }
@@ -621,6 +636,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         userName:this.grp_data
       }
@@ -638,6 +654,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         userName:this.grp_data,
         locationData: element
@@ -656,6 +673,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-location',
         location: location,
@@ -673,6 +691,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:{
         userName:this.grp_data,
         wsid:"TESTWSID"
@@ -687,6 +706,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:{
         grp_data:this.grp_data
       }
@@ -738,6 +758,7 @@ initialzeEmpForm() {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-allowed-group',
         allowedGroup: allowedGroup,
@@ -750,40 +771,55 @@ initialzeEmpForm() {
 
   }
   deleteFuncationAllowed(controlName: any) {
-    const dialogRef =  this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '480px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'delete-allowed-funcation',
-        controlName: controlName,
-        userName :this.grp_data,
-        action: "delete"
+
+    let groupData = {
+      
+      controlName: controlName,
+      userName: this.grp_data,
+    };
+    this.employeeService.deleteControlName(groupData).subscribe((res: any) => {
+      if (res.isExecuted) {
+        // this.dialog.closeAll();
+        this.toastr.success('Your details have been deleted', 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000,
+        });
+        this.reloadData();
+      } else {
+        // this.dialog.closeAll();
+        this.toastr.error('Something went wrong!', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000,
+        });
       }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      this.reloadData();
-    })
+    });
+  
 
   }
   deleteGrpAllowed(allowedGroup: any) {
     allowedGroup.userName = this.grp_data;
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '480px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'delete-grpallowed',
-        allowedGroup: allowedGroup,
-        action: "remove"
+
+
+
+    let emp_data = {
+      groupname: allowedGroup.groupName,
+      username: allowedGroup.userName,
+    };
+    this.employeeService.deleteUserGroup(emp_data).subscribe((res: any) => {
+      if (res.isExecuted) {
+        this.toastr.success(labels.alert.delete, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000,
+        });
+         this.getgroupAllowedList();
+        //   this.reloadCurrentRoute();
+      } else {
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000,
+        });
       }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-     
-      this.getgroupAllowedList();
-
-
-    })
+    });
 
 
   }
@@ -837,18 +873,20 @@ initialzeEmpForm() {
 
 
   printEmpList(){
-    window.location.href = `/#/report-view?file=FileName:printEmployees`;
-    window.location.reload();
+    window.open(`/#/report-view?file=FileName:printEmployees`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:printEmployees`;
+    // window.location.reload();
   }
 
   printSelected(){
-    window.location.href = `/#/report-view?file=
-    FileName:printEmployeeGroup|Group:${this.grpData.groupName}`;
-    window.location.reload();
+    window.open(`/#/report-view?file=FileName:printEmployeeGroup|Group:${this.grpData.groupName}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:printEmployeeGroup|Group:${this.grpData.groupName}`;
+    // window.location.reload();
   }
 
   printAll(){
-    window.location.href = `/#/report-view?file=FileName:printEmployeeGroup`;
-    window.location.reload();
+    window.open(`/#/report-view?file=FileName:printEmployeeGroup`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:printEmployeeGroup`;
+    // window.location.reload();
   }
 }

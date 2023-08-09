@@ -111,6 +111,7 @@ export class SpDevicePreferenceComponent implements OnInit {
       height: 'auto',
       width: '960px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         isEdit: isEdit,
         item: item,
@@ -134,6 +135,7 @@ export class SpDevicePreferenceComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         action: 'delete',
       },

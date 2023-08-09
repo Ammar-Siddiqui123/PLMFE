@@ -137,6 +137,7 @@ this.customPagination.total = 0;
       height: 'auto',
       width: '786px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         message:
           'Would you like to create count transactions for these locations?',
@@ -182,19 +183,17 @@ this.customPagination.total = 0;
   }
 
   deleteCycleCount(event) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '600px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'delete-cycle-count',
-        actionMessage: 'all records from the Queue',
-        action:'delete'
-      },
-    });
-    dialogRef.afterClosed().subscribe((res) => {
+    // const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+    //   height: 'auto',
+    //   width: '600px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     mode: 'delete-cycle-count',
+    //     actionMessage: 'all records from the Queue',
+    //     action:'delete'
+    //   },
+    // });
 
-      if (res == 'Yes') {
         let payload = {
           userName: this.userData.userName,
           wsid: this.userData.wsid,
@@ -225,8 +224,6 @@ this.customPagination.total = 0;
           },
           (error) => {}
         );
-      } 
-    });
   }
 
   deleteRow(rowId) {
@@ -236,6 +233,7 @@ this.customPagination.total = 0;
       height: 'auto',
       width: '600px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-cycle-count',
       },

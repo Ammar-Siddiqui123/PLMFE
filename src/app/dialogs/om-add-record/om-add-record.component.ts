@@ -111,8 +111,7 @@ export class OmAddRecordComponent implements OnInit {
     this.oTTempUpdatePayload.wsid = this.userData.wsid;
   }
 
-  autofillModal() {
-    debugger;
+  autofillModal() { 
     this.oTTempUpdatePayload.id = this.data.transaction.id ? this.data.transaction.id : 0;
     this.oTTempUpdatePayload.orderNumber = this.data.transaction.orderNumber ? this.data.transaction.orderNumber : "";
     this.oTTempUpdatePayload.transType = this.data.transaction.transactionType ? this.data.transaction.transactionType : "";
@@ -204,8 +203,7 @@ export class OmAddRecordComponent implements OnInit {
     });
   }
 
-  async save(loader: boolean = false) {
-    debugger;
+  async save(loader: boolean = false) { 
     if (this.oTTempUpdatePayload.orderNumber.trim() == '' || this.oTTempUpdatePayload.itemNumber.trim() == '' || this.oTTempUpdatePayload.transType.trim() == '') {
       this.toastr.error("Order Number, Item Number and Transaction Type must be completed in order to continue.", 'Warning!', {
         positionClass: 'toast-bottom-right',

@@ -31,7 +31,8 @@ export class GcPrintServiceTestComponent implements OnInit {
     let dialogRef = this.dialog.open(GcPrintServiceTestBeginComponent, { 
       height: 'auto',
       width: '1424px',
-      autoFocus: '__non_existing_element__', 
+      autoFocus: '__non_existing_element__',
+      disableClose:true, 
     })
     }
 

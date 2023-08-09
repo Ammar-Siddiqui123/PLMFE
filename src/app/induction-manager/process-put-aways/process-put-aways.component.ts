@@ -25,6 +25,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ReelDetailComponent } from 'src/app/dialogs/reel-detail/reel-detail.component';
 import { ReelTransactionsComponent } from 'src/app/dialogs/reel-transactions/reel-transactions.component';
 import { event } from 'jquery';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 
 export interface PeriodicElement {
@@ -72,6 +73,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   @ViewChild('actionRef') actionRef: MatSelect;
   @ViewChild('inputVal') inputVal: ElementRef;
   @ViewChild('batchVal') batchVal: ElementRef;
+  @ViewChild('batchFocus') batchFocus: ElementRef;
   selectedOption: any;
   displayedColumns1: string[] = [
     'status',
@@ -135,6 +137,28 @@ export class ProcessPutAwaysComponent implements OnInit {
   ngAfterViewInit() {
     this.start_location.nativeElement.focus();
   }
+
+  
+  onTabChange(event: MatTabChangeEvent) {
+    // This method will be called whenever the user changes the selected tab
+    const newIndex = event.index;
+    console.log('Tab changed to index:', newIndex);
+    if(newIndex===1){
+      
+      setTimeout(() => {
+      this.inputVal.nativeElement.focus();
+        
+      }, 100);
+   
+      this.autocompleteSearchColumnItem2();
+    }else if(newIndex===0){
+      setTimeout(() => {
+      this.batchFocus.nativeElement.focus();
+          
+        }, 100);
+    }
+
+  }
   ngOnInit(): void {
     this.ELEMENT_DATA.length = 0;
     this.userData = this.authService.userData();
@@ -192,20 +216,24 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.tote = "";
   }
   print(tote){
-    window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${tote}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`, '_blank', "location=yes");
+    window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${tote}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+    // window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${tote}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`, '_blank', "location=yes");
 
   }
   printToteLoc(){
     // window.open(`/#/report-view?file=IMPutTote-lbl`, '_blank', "location=yes");
+    window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${this.toteID}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
 
-    window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${this.toteID}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`, '_blank', "location=yes");
+    // window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${this.toteID}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`, '_blank', "location=yes");
     
   }
   printTotePut(){
-    
+    this.clearMatSelectList();
     // window.open(`/#/report-view?file=IMOCPut-lst`, '_blank', "location=yes");
+    window.open(`/#/report-view?file=FileName:PrintOffCarList|BatchID:${this.batchId}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
 
-    window.open(`/#/report-view?file=FileName:PrintOffCarList|BatchID:${this.batchId}`, '_blank', "location=yes");
+    // window.open(`/#/report-view?file=FileName:PrintOffCarList|BatchID:${this.batchId}`, '_blank', "location=yes");
 
   }
   getCurrentToteID() {
@@ -306,6 +334,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '60%',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           batchId: this.batchId,
           userId: this.userData.username,
@@ -335,6 +364,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:
       {
         position: position,
@@ -381,6 +411,7 @@ export class ProcessPutAwaysComponent implements OnInit {
                 height: 'auto',
                 width: '50vw',
                 autoFocus: '__non_existing_element__',
+      disableClose:true,
                 data: {
                   message: "This Batch ID either does not exists or is assigned to a different workstation.Use the Tote Setup tab to create a new batch or choose an existing batch for this workstation.",
                   heading: 'Invalid Batch ID'
@@ -394,7 +425,8 @@ export class ProcessPutAwaysComponent implements OnInit {
             }
           });
 
-          this.batchVal.nativeElement.blur();
+          // this.batchVal.nativeElement.blur();
+          this.inputVal.nativeElement.blur();
 
         }, 200);
 
@@ -408,6 +440,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         deleteAllDisable: false,
         batchId: this.batchId2,
@@ -442,6 +475,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '50vw',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: "You must select one or more zones. If there are no zones available for selection check your Location Zones settings and/or delete or deallocate a batch to free up a zone.",
           heading: 'Error'
@@ -462,6 +496,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message:
             'Batch processed!  Click OK to move onto the next step or cancel to remain on this screen to create/edit more batches.',
@@ -520,8 +555,8 @@ export class ProcessPutAwaysComponent implements OnInit {
                     this.selectedIndex = 1;
                     this.batchId2 = this.batchId;
                     setTimeout(() => {
-                      // this.inputVal.nativeElement.focus();
-                      this.batchVal.nativeElement.focus();
+                      this.inputVal.nativeElement.focus();
+                      // this.batchVal.nativeElement.focus();
                     }, 500);
                     this.fillToteTable(this.batchId);
                   } else {
@@ -576,9 +611,9 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.batchId2 = res.data.batchIDs;
             this.fillToteTable(res.data.batchIDs);
             setTimeout(() => {
-              // this.inputVal.nativeElement.focus();
+              this.inputVal.nativeElement.focus();
               this.autocompleteSearchColumnItem2();
-              this.batchVal.nativeElement.focus();
+              // this.batchVal.nativeElement.focus();
             }, 500);
           }
 
@@ -656,6 +691,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             notificationPrimary: true,
           },
           autoFocus: '__non_existing_element__',
+      disableClose:true,
         });
         dialogRef.afterClosed().subscribe((result) => {
           if(result){
@@ -697,6 +733,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             notificationPrimary: true,
           },
           autoFocus: '__non_existing_element__',
+      disableClose:true,
         });
         dialogRef.afterClosed().subscribe((result) => {
           if(result){
@@ -848,6 +885,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: 'Click OK to update all totes (except allocated ones) to have their default cell count.',
         },
@@ -898,6 +936,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '50vw',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: "The Tote you've selected is already marked as full. Putting the item in this tote will go over define cells",
           heading: 'Assign Transaction To Selected Tote'
@@ -918,6 +957,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             height: 'auto',
             width: '1100px',
             autoFocus: '__non_existing_element__',
+      disableClose:true,
             data: {
               inputType: this.inputType,
               inputValue: this.inputValue,
@@ -931,8 +971,7 @@ export class ProcessPutAwaysComponent implements OnInit {
               autoForwardReplenish: this.processPutAwayIndex.imPreference.autoForwardReplenish,
               propFields:this.fieldNames
             }
-          });
-          debugger
+          }); 
           dialogRef.afterClosed().subscribe((result) => {
             if (result == 'NO') {
               if (this.inputType == 'Any') {
@@ -968,6 +1007,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '1100px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           inputType: this.inputType,
           inputValue: this.inputValue,
@@ -996,6 +1036,7 @@ export class ProcessPutAwaysComponent implements OnInit {
               height: 'auto',
               width: '50vw',
               autoFocus: '__non_existing_element__',
+      disableClose:true,
               data: {
                 message: "The input code provided was not recognized.  Click OK to add the item to inventory or cancel to return.",
                 heading: ''
@@ -1025,6 +1066,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             });
           }
         } else if (result == "Task Completed") {
+          this.inputValue='';
           this.fillToteTable(this.batchId2);
         }
           else if(result.category == "isReel"){
@@ -1110,6 +1152,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.selectTotes(0)
             this.goToNext();
             this.getRow(batchID ? batchID : this.batchId2);
+            this.inputValue == ""
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -1132,6 +1175,7 @@ export class ProcessPutAwaysComponent implements OnInit {
           height: 'auto',
           width: '560px',
           autoFocus: '__non_existing_element__',
+      disableClose:true,
           data: {
             message: 'Click OK to complete this batch.',
           },
@@ -1158,6 +1202,10 @@ export class ProcessPutAwaysComponent implements OnInit {
                   );
                   this.clearFormAndTable();
                   this.selectedIndex = 0;
+                  setTimeout(() => {
+                  this.batchFocus.nativeElement.focus();
+                    
+                  }, 100);
                   // this.getRow(this.batchId);
                 } else {
                   this.toastr.error('Something went wrong', 'Error!', {
@@ -1248,6 +1296,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'add-trans',
           message: 'Click OK to mark this Tote as being Full',
@@ -1279,6 +1328,8 @@ export class ProcessPutAwaysComponent implements OnInit {
                   }
                 );
                 this.fillToteTable();
+          this.clearMatSelectList();
+
               } else {
                 this.toastr.error('Something went wrong', 'Error!', {
                   positionClass: 'toast-bottom-right',
@@ -1301,6 +1352,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '80vw',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
 
 
@@ -1316,6 +1368,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       })
 
       dialogRef.afterClosed().subscribe(result => {
+        this.clearMatSelectList();
         this.fillToteTable();
       });
     }
@@ -1328,6 +1381,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         hvObj: hv,
         itemObj:item
@@ -1347,6 +1401,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         hvObj: hv,
         itemObj:item,

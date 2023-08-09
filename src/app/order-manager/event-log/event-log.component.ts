@@ -114,6 +114,7 @@ export class EventLogComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: { data: element }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -196,8 +197,7 @@ export class EventLogComponent implements OnInit {
     this.eventLogTable(true);
   }
 
-  deleteRange() {
-    debugger
+  deleteRange() { 
     if(this.startDate > this.endDate){
       this.toastr.error('Start date must be before end date!', 'Error!', {
         positionClass: 'toast-bottom-right',
@@ -209,6 +209,7 @@ export class EventLogComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-event-log',
         ErrorMessage: 'Are you sure you want to delete all Event Log entries with specified date, message, event location and name stamp filters?',
@@ -248,13 +249,15 @@ export class EventLogComponent implements OnInit {
   printSelected(param:any){
     if(param.eventID == 0) param.eventID  = -1; 
     var curdatetime = this.datepipe.transform(param.dateStamp, 'yyyy-MM-dd HH:mm:ss');
-    window.location.href = `/#/report-view?file=FileName:printELReport|sDate:${curdatetime}|eDate:${curdatetime}|eID:${param.eventID ? param.eventID : ''}|message:${param.message ?param.message: '' }|eLocation:${param.eLocation ?param.eLocation: '' }|nStamp:${param.nStamp ?param.nStamp: '' }`;
-    window.location.reload();
+    window.open(`/#/report-view?file=FileName:printELReport|sDate:${curdatetime}|eDate:${curdatetime}|eID:${param.eventID ? param.eventID : ''}|message:${param.message ?param.message: '' }|eLocation:${param.eLocation ?param.eLocation: '' }|nStamp:${param.nStamp ?param.nStamp: '' }`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:printELReport|sDate:${curdatetime}|eDate:${curdatetime}|eID:${param.eventID ? param.eventID : ''}|message:${param.message ?param.message: '' }|eLocation:${param.eLocation ?param.eLocation: '' }|nStamp:${param.nStamp ?param.nStamp: '' }`;
+    // window.location.reload();
   }
 
   printRange(){
-    window.location.href = `/#/report-view?file=FileName:printELReport|sDate:${this.startDate}|eDate:${this.endDate}|eID:-1|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`;
-    window.location.reload();
+    window.open(`/#/report-view?file=FileName:printELReport|sDate:${this.startDate}|eDate:${this.endDate}|eID:-1|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:printELReport|sDate:${this.startDate}|eDate:${this.endDate}|eID:-1|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`;
+    // window.location.reload();
   }
 
   paginatorChange(event: PageEvent) {
@@ -296,6 +299,7 @@ export class EventLogComponent implements OnInit {
         TypeOfElement: TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
@@ -311,13 +315,13 @@ export class EventLogComponent implements OnInit {
   }
 
   exportRange(){
-    window.location.href = `/#/report-view?file=FileName:singleExport|sDate:${this.startDate}|eDate:${this.endDate}|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`;
-    window.location.reload();
+    window.open(`/#/report-view?file=FileName:singleExport|sDate:${this.startDate}|eDate:${this.endDate}|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:singleExport|sDate:${this.startDate}|eDate:${this.endDate}|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`;
+    // window.location.reload();
   }
 
   @HostListener('document:keyup', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    debugger
+  handleKeyboardEvent(event: KeyboardEvent) { 
     const target = event.target as HTMLElement;
     if (!this.isInputField(target) && event.key === 'c') {
       event.preventDefault();

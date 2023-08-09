@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSelectChange } from '@angular/material/select';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
@@ -21,6 +21,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CmOrderToteConflictComponent } from 'src/app/dialogs/cm-order-tote-conflict/cm-order-tote-conflict.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-consolidation',
@@ -61,6 +62,7 @@ export class ConsolidationComponent implements OnInit {
   public orderstatusbtn: boolean = false;
   public printButtons: boolean = true;
   public type: any = '';
+  @ViewChild('matRef') matRef: MatSelect;
 
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
 
@@ -123,7 +125,12 @@ export class ConsolidationComponent implements OnInit {
     }
     this.tableData_1.sort = this.sort1;
   }
-
+  openAction(event:any){
+    this.clearMatSelectList();
+  }
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
   announceSortChange2(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -542,6 +549,7 @@ export class ConsolidationComponent implements OnInit {
         height: 'auto',
         width: '899px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           IdentModal: this.TypeValue,
           ColLabel: this.startSelectFilterLabel,
@@ -684,6 +692,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '96vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: { orderNumber: this.TypeValue }
     })
     dialogRef.afterClosed().subscribe(result => {
@@ -698,6 +707,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '96vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         orderNum: this.TypeValue ? this.TypeValue : '2909782A',
       }
@@ -715,6 +725,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '96vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: { orderNumber: this.TypeValue }
 
     })
@@ -737,6 +748,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         orderNumber: this.TypeValue,
         stagingTable: this.stageTable && this.stageTable.data ? this.stageTable.data : []
@@ -753,6 +765,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
 
     })
     dialogRef.afterClosed().subscribe(result => {
@@ -766,6 +779,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
 
     })
     dialogRef.afterClosed().subscribe(result => {
@@ -779,6 +793,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
 
     })
     dialogRef.afterClosed().subscribe(result => {
@@ -800,6 +815,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '620px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe(result => {
       this.type = result;
@@ -820,8 +836,9 @@ export class ConsolidationComponent implements OnInit {
 
   printPreviewNonVerified() {
     if (this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0) {
-      window.location.href = `/#/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`;
-      window.location.reload();
+      window.open(`/#/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      // window.location.href = `/#/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`;
+      // window.location.reload();
     }
     else {
       this.toastr.error("There are no unverfied items", 'Error!', {
@@ -840,12 +857,14 @@ export class ConsolidationComponent implements OnInit {
           message: 'There are still unverfied items. Coninue the preview?'
         },
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result === 'Yes') {
           this.Api.ShowCMPackPrintModal({ orderNumber: this.TypeValue }).subscribe((res: any) => {
             if (res.isExecuted && res.data == "all") {
-              this.router.navigateByUrl(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
+              window.open(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+              // this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
             } else if (res.isExecuted && res.data == "modal") {
               this.showCmPackPrintModal(true, this.TypeValue);
             } else {
@@ -858,7 +877,8 @@ export class ConsolidationComponent implements OnInit {
     else {
       this.Api.ShowCMPackPrintModal({ orderNumber: this.TypeValue }).subscribe((res: any) => {
         if (res.isExecuted && res.data == "all") {
-          this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
+          window.open(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+          // this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
         } else if (res.isExecuted && res.data == "modal") {
           this.showCmPackPrintModal(true, this.TypeValue);
         } else {
@@ -878,6 +898,7 @@ export class ConsolidationComponent implements OnInit {
         packListSort : this.packListSort
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
   }
 }

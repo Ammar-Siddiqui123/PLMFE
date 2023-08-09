@@ -141,6 +141,7 @@ export class GenerateOrderComponent implements OnInit {
         height: 'auto',
         width: '100vw',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'add-trans',
           itemNumber:this.itemNumberForInsertion,
@@ -169,6 +170,7 @@ export class GenerateOrderComponent implements OnInit {
           height: 'auto',
           width: '560px',
           autoFocus: '__non_existing_element__',
+      disableClose:true,
           data: {
             mode: 'delete-order',
             heading: 'Delete Order',
@@ -198,6 +200,7 @@ export class GenerateOrderComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           userName:this.userData.userName,
           wsid:this.userData.wsid,
@@ -239,6 +242,7 @@ export class GenerateOrderComponent implements OnInit {
         height: 'auto',
         width: '100vw',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode:'edit-transaction',
           item:element,
@@ -254,6 +258,7 @@ export class GenerateOrderComponent implements OnInit {
         }
       });
   }
+
   sortChange(event) {
     if (!this.dataSource || event.direction == '') return;
 
@@ -287,6 +292,7 @@ export class GenerateOrderComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'delete-trans',
           heading: 'Delete Selected Transaction',

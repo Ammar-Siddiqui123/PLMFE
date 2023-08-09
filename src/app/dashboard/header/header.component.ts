@@ -187,8 +187,7 @@ statusTab;
   //       return Url;
   // }
 
-  logout(){   
-    debugger
+  logout(){    
     let paylaod = {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
@@ -198,7 +197,7 @@ statusTab;
       this.api.configLogout(paylaod).subscribe((res:any) => {
         if (res.isExecuted) 
         {
-          window.location.href = "/globalconfig"; 
+          window.location.href = "/#/globalconfig"; 
         }
         else 
         {

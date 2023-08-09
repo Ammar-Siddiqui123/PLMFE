@@ -88,10 +88,14 @@ export class ReprocessedTransactionComponent implements OnInit {
     this.searchBar
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        this.columnSearch.searchValue = value;
-        if (!this.columnSearch.searchColumn.colDef) return;
+        // this.columnSearch.searchValue = value;
+        if (!this.columnSearch.searchColumn.colDef){
+          this.getContentData();
+        }
+        else{
+          this.autocompleteSearchColumn();
+        }
 
-        this.autocompleteSearchColumn();
         // if (!this.searchAutocompleteList.length) {
         //   // this.getContentData();
         // }
@@ -156,12 +160,11 @@ export class ReprocessedTransactionComponent implements OnInit {
         (error) => {}
       );
   }
-  getContentData() {  
-    
+  getContentData() {   
     this.payload = {
       draw: 0,
       searchString: this.columnSearch.searchValue,
-      searchColumn: this.columnSearch.searchColumn.colDef,
+      searchColumn: this.columnSearch.searchColumn?.colDef ? this.columnSearch.searchColumn?.colDef : "",
       start: this.customPagination.startIndex,
       length: this.customPagination.endIndex,
       sortColumnNumber: this.sortCol,
@@ -272,5 +275,12 @@ export class ReprocessedTransactionComponent implements OnInit {
     this.columnSearch.searchValue = ''
     this.getContentData()
 
+  }
+
+  resetFields(event?) {
+    // this.orderNo = '';
+    this.columnSearch.searchValue = '';
+    this.searchAutocompleteList = [];
+    this.searchBar.next('');
   }
 }

@@ -143,6 +143,7 @@ export class PrintersComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'remove-printer',
         ErrorMessage: `Are you sure you wish to delete this printer: ${printer.isNew ? 'New' : printer.currentPrinter}?`,
@@ -267,14 +268,16 @@ export class PrintersComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: `Click OK to test print.`
         },
       });
       dialogRef2.afterClosed().subscribe((result) => {
         if (result == 'Yes') {
-          window.location.href = `/#/report-view?file=FileName:TestPrint|islabel:${printer.labelPrinter == 'Yes' ? true : false}|PrinterName:${printer.printer}|PrinterAddress:${printer.printerAdd}`
-          window.location.reload();
+          // window.location.reload();
+          window.open(`/#/report-view?file=FileName:TestPrint|islabel:${printer.labelPrinter == 'Yes' ? true : false}|PrinterName:${printer.printer}|PrinterAddress:${printer.printerAdd}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+ 
         }
       });
     }

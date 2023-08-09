@@ -134,38 +134,17 @@ export class PickToteManagerComponent implements OnInit {
     { columnDef: 'location', header: 'Location', cell: (element: any) => `${element.location}` },
     { columnDef: 'completedQuantity', header: 'Completed Quantity', cell: (element: any) => `${element.completedQuantity}` },
     { columnDef: 'description', header: 'Description', cell: (element: any) => `${element.description}` },
-    { columnDef: 'batchPickID', header: 'Batch Pick ID', cell: (element: any) => `${element.batchPickID}` },
-    { columnDef: 'bin', header: 'Bin', cell: (element: any) => `${element.bin}` },
-    { columnDef: 'carousel', header: 'Carousel', cell: (element: any) => `${element.carousel}` },
-    { columnDef: 'cell', header: 'Cell', cell: (element: any) => `${element.cell}` },
-    { columnDef: 'completedBy', header: 'Completed By', cell: (element: any) => `${element.completedBy}` },
-    { columnDef: 'completedDate', header: 'Completed Date', cell: (element: any) => `${element.completedDate}` },
-    { columnDef: 'emergency', header: 'Emergency', cell: (element: any) => `${element.emergency}` },
-    { columnDef: 'expirationDate', header: 'Expiration Date', cell: (element: any) => `${element.expirationDate}` },
-    { columnDef: 'exportBatchID', header: 'Export Batch ID', cell: (element: any) => `${element.exportBatchID}` },
-    { columnDef: 'exportDate', header: 'Export Date', cell: (element: any) => `${element.exportDate}` },
-    { columnDef: 'exportedBy', header: 'Exported By', cell: (element: any) => `${element.exportedBy}` },
-    { columnDef: 'hostTransactionID', header: 'Host Transaction ID', cell: (element: any) => `${element.hostTransactionID}` },
-    { columnDef: 'id', header: 'ID', cell: (element: any) => `${element.id}` },
-    { columnDef: 'importBy', header: 'Import By', cell: (element: any) => `${element.importBy}` },
     { columnDef: 'importDate', header: 'Import Date', cell: (element: any) => `${element.importDate}` },
-    { columnDef: 'importFilename', header: 'Import Filename', cell: (element: any) => `${element.importFilename}` },
-    { columnDef: 'invMapID', header: 'Inventory Map ID', cell: (element: any) => `${element.invMapID}` },
-    { columnDef: 'lineNumber', header: 'Line Number', cell: (element: any) => `${element.lineNumber}` },
-    { columnDef: 'lineSequence', header: 'Line Sequence', cell: (element: any) => `${element.lineSequence}` },
-    { columnDef: 'lotNumber', header: 'Lot Number', cell: (element: any) => `${element.lotNumber}` },
-    { columnDef: 'masterRecord', header: 'Master Record', cell: (element: any) => `${element.masterRecord}` },
-    { columnDef: 'masterRecordID', header: 'Master Record ID', cell: (element: any) => `${element.masterRecordID}` },
-    { columnDef: 'notes', header: 'Notes', cell: (element: any) => `${element.notes}` },
     { columnDef: 'priority', header: 'Priority', cell: (element: any) => `${element.priority}` },
     { columnDef: 'requiredDate', header: 'Required Date', cell: (element: any) => `${element.requiredDate}` },
-    { columnDef: 'revision', header: 'Revision', cell: (element: any) => `${element.revision}` },
-    { columnDef: 'row', header: 'Row', cell: (element: any) => `${element.row}` },
+    { columnDef: 'lineNumber', header: 'Line Number', cell: (element: any) => `${element.lineNumber}` },
+    { columnDef: 'lineSequence', header: 'Line Sequence', cell: (element: any) => `${element.lineSequence}` },
     { columnDef: 'serialNumber', header: 'Serial Number', cell: (element: any) => `${element.serialNumber}` },
-    { columnDef: 'shelf', header: 'Shelf', cell: (element: any) => `${element.shelf}` },
-    { columnDef: 'statusCode', header: 'Status Code', cell: (element: any) => `${element.statusCode}` },
-    { columnDef: 'toteID', header: 'Tote ID', cell: (element: any) => `${element.toteID}` },
-    { columnDef: 'toteNumber', header: 'Tote Number', cell: (element: any) => `${element.toteNumber}` },
+    { columnDef: 'lotNumber', header: 'Lot Number', cell: (element: any) => `${element.lotNumber}` },
+    { columnDef: 'expirationDate', header: 'Expiration Date', cell: (element: any) => `${element.expirationDate}` },
+    { columnDef: 'completedDate', header: 'Completed Date', cell: (element: any) => `${element.completedDate}` },
+    { columnDef: 'completedBy', header: 'Completed By', cell: (element: any) => `${element.completedBy}` },
+    { columnDef: 'batchPickID', header: 'Batch Pick ID', cell: (element: any) => `${element.batchPickID}` },
     { columnDef: 'unitOfMeasure', header: 'Unit Of Measure', cell: (element: any) => `${element.unitOfMeasure}` },
     { columnDef: 'userField1', header: 'User Field1', cell: (element: any) => `${element.userField1}` },
     { columnDef: 'userField2', header: 'User Field2', cell: (element: any) => `${element.userField2}` },
@@ -177,8 +156,29 @@ export class PickToteManagerComponent implements OnInit {
     { columnDef: 'userField8', header: 'User Field8', cell: (element: any) => `${element.userField8}` },
     { columnDef: 'userField9', header: 'User Field9', cell: (element: any) => `${element.userField9}` },
     { columnDef: 'userField10', header: 'User Field10', cell: (element: any) => `${element.userField10}` },
-    { columnDef: 'warehouse', header: 'Warehouse', cell: (element: any) => `${element.warehouse}` },
+    { columnDef: 'revision', header: 'Revision', cell: (element: any) => `${element.revision}` },
+    { columnDef: 'toteID', header: 'Tote ID', cell: (element: any) => `${element.toteID}` },
+    { columnDef: 'toteNumber', header: 'Tote Number', cell: (element: any) => `${element.toteNumber}` },
+    { columnDef: 'cell', header: 'Cell', cell: (element: any) => `${element.cell}` },
+    { columnDef: 'hostTransactionID', header: 'Host Transaction ID', cell: (element: any) => `${element.hostTransactionID}` },
+    { columnDef: 'id', header: 'ID', cell: (element: any) => `${element.id}` },
     { columnDef: 'zone', header: 'Zone', cell: (element: any) => `${element.zone}` },
+    { columnDef: 'carousel', header: 'Carousel', cell: (element: any) => `${element.carousel}` },
+    { columnDef: 'row', header: 'Row', cell: (element: any) => `${element.row}` },
+    { columnDef: 'shelf', header: 'Shelf', cell: (element: any) => `${element.shelf}` },
+    { columnDef: 'bin', header: 'Bin', cell: (element: any) => `${element.bin}` },
+    { columnDef: 'warehouse', header: 'Warehouse', cell: (element: any) => `${element.warehouse}` },
+    { columnDef: 'invMapID', header: 'Inventory Map ID', cell: (element: any) => `${element.invMapID}` },
+    { columnDef: 'importBy', header: 'Import By', cell: (element: any) => `${element.importBy}` },
+    { columnDef: 'importFilename', header: 'Import Filename', cell: (element: any) => `${element.importFilename}` },
+    { columnDef: 'notes', header: 'Notes', cell: (element: any) => `${element.notes}` },
+    { columnDef: 'emergency', header: 'Emergency', cell: (element: any) => `${element.emergency}` },
+    { columnDef: 'masterRecord', header: 'Master Record', cell: (element: any) => `${element.masterRecord}` },
+    { columnDef: 'masterRecordID', header: 'Master Record ID', cell: (element: any) => `${element.masterRecordID}` },
+    { columnDef: 'exportBatchID', header: 'Export Batch ID', cell: (element: any) => `${element.exportBatchID}` },
+    { columnDef: 'exportDate', header: 'Export Date', cell: (element: any) => `${element.exportDate}` },
+    { columnDef: 'exportedBy', header: 'Exported By', cell: (element: any) => `${element.exportedBy}` },
+    { columnDef: 'statusCode', header: 'Status Code', cell: (element: any) => `${element.statusCode}` },
   ];
 
   displayedTransColumns = this.filterBatchTransColumns.map(c => c.columnDef);
@@ -348,6 +348,7 @@ export class PickToteManagerComponent implements OnInit {
           message: 'Mark this filter as the default one ?',
         },
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       })
       dialogRef.afterClosed().subscribe(result => {
         if (result === 'Yes') {
@@ -414,6 +415,7 @@ export class PickToteManagerComponent implements OnInit {
         height: 'auto',
         width: '480px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       })
       dialogRef.afterClosed().subscribe(result => {
         if (result === 'Yes') {
@@ -1004,6 +1006,7 @@ export class PickToteManagerComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'Yes') {
@@ -1030,6 +1033,7 @@ export class PickToteManagerComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         ErrorMessage: "Are you sure you want to delete this order by row?"
       },
@@ -1095,6 +1099,7 @@ export class PickToteManagerComponent implements OnInit {
         message: 'Mark this filter as a default one ?'
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'Yes') {

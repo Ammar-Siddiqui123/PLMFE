@@ -94,7 +94,7 @@
             <div class="col-xl-5 d-xl-flex flex-row-reverse">
                 <mat-form-field class="action-dropdown d-xl-flex d-block w-30" appearance="outline">
                     <mat-label>Actions</mat-label>
-                    <mat-select class="employees-action">
+                    <mat-select  #openActionDropDown  class="employees-action" (selectionChange)="openAction($event)">
                         <mat-option value="Print Orders" (click)="actionChange('Print Orders')">Print Orders</mat-option>
                         <mat-option value="Print Labels" (click)="actionChange('Print Labels')">Print Labels</mat-option>
                         <mat-option value="Delete All Orders" [disabled]="tableData.length == 0" (click)="actionChange('Delete All Orders')">Delete All Orders</mat-option>

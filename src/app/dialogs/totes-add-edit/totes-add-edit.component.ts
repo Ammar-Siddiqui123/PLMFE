@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild, Renderer2, ViewChildren, QueryList } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog'; 
 import { AuthService } from 'src/app/init/auth.service';
@@ -39,6 +39,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class TotesAddEditComponent implements OnInit {
   @ViewChild('field_focus') field_focus: ElementRef;
+  @ViewChildren('category_category', { read: ElementRef }) category_category: QueryList<ElementRef>;
   isRowAdded=false;
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   ELEMENT_DATA_TOTE = [{toteID:"" , cells:"" , position: 1 ,oldToteID:"",isInserted:1,isDuplicate:false,isEdit:false}];
@@ -69,11 +70,19 @@ export class TotesAddEditComponent implements OnInit {
   addRow()
   {
     this.isRowAdded=true;
-    this.ELEMENT_DATA_TOTE.push({toteID:"" , cells:"" , position: this.ELEMENT_DATA_TOTE.length-1 ,oldToteID:"",isInserted:0,isDuplicate:false,isEdit:false});
+    this.ELEMENT_DATA_TOTE.unshift({toteID:"" , cells:"" , position: this.ELEMENT_DATA_TOTE.length-1 ,oldToteID:"",isInserted:0,isDuplicate:false,isEdit:false});
     this.dataSourceManagedTotes = new MatTableDataSource<any>(this.ELEMENT_DATA_TOTE);
+    const lastIndex = this.ELEMENT_DATA_TOTE.length - 1;
+
+    setTimeout(() => {
+      const inputElements = this.category_category.toArray();
+      if (inputElements.length > lastIndex) {
+        const inputElement = inputElements[lastIndex].nativeElement as HTMLInputElement;
+        this.renderer.selectRootElement(inputElement).focus();
+      }
+    });
   }
   printTote(type,element){
-    console.log(element)
     let ident = 0;
     let sTote = '';
     let eTote = '';
@@ -104,7 +113,9 @@ export class TotesAddEditComponent implements OnInit {
   // BatchID: batch
 
     // window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
-    window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', "location=yes");
+    window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+    // window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', "location=yes");
   }
   printRange(){
     let ident = 1;
@@ -113,7 +124,9 @@ export class TotesAddEditComponent implements OnInit {
     let sTote = this.fromTote;
     let eTote = this.toTote;
 
-    window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', "location=yes");
+    window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+    // window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', "location=yes");
 
     // window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
 
@@ -216,6 +229,7 @@ export class TotesAddEditComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: '',
         action: 'delete',
@@ -409,7 +423,7 @@ export class TotesAddEditComponent implements OnInit {
   dataSource1 = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection1 = new SelectionModel<PeriodicElement>(true, []);
 
-  constructor(public dialogRef: MatDialogRef<TotesAddEditComponent>,private route: ActivatedRoute,private location: Location,
+  constructor(public dialogRef: MatDialogRef<TotesAddEditComponent>,private route: ActivatedRoute,private location: Location,private renderer: Renderer2,
     @Inject(MAT_DIALOG_DATA) public data : any,private authService: AuthService,private Api:ApiFuntions,private toastr: ToastrService,private dialog: MatDialog,) {
 
       let pathArr= this.location.path().split('/')

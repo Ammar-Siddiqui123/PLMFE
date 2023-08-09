@@ -57,19 +57,29 @@ export class AssignedFunctionsComponent implements OnInit {
   
   
   unassignFunction(permData: any){ 
+    // if(permData){
+    //   let dialogRef = this.dialog.open(FunctionAllocationComponent, {
+    //     height: 'auto',
+    //     width: '560px',
+    //     autoFocus: '__non_existing_element__',
+    
+    //     data: {
+    //       target: 'unassigned',
+    //       function: permData
+    //     }
+    //   })
+    //   dialogRef.afterClosed().subscribe(result => {
+    //     this.removeFunction.emit(result);
+    //   })
+    // }
+
     if(permData){
-      let dialogRef = this.dialog.open(FunctionAllocationComponent, {
-        height: 'auto',
-        width: '560px',
-        autoFocus: '__non_existing_element__',
-        data: {
+  
+      let data = {
           target: 'unassigned',
           function: permData
         }
-      })
-      dialogRef.afterClosed().subscribe(result => {
-        this.removeFunction.emit(result);
-      })
+        this.removeFunction.emit(data);
     }
     }
-}
+    }

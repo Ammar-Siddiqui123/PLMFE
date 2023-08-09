@@ -80,8 +80,7 @@ export class ItemCategoryComponent implements OnInit {
   saveCategory(category : any, oldCat : any, subCategory : any, oldSubCat : any) {
     
     let cond = true;
-  //   if(category){
-  //     debugger
+  //   if(category){ 
   //   this.category_list.forEach(element => {
   //     if(element.category?.toLowerCase() == category?.toLowerCase() && element.subCategory?.toLowerCase() == subCategory?.toLowerCase() ) {
   //       cond = false;
@@ -126,10 +125,10 @@ export class ItemCategoryComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:{mode:"delete-category",category,subCategory}
     })
-    dialogRef.afterClosed().subscribe(result => {
-      debugger
+    dialogRef.afterClosed().subscribe(result => { 
      if(result === 'Yes'){
       if(category && subCategory){
         this.getCategoryList();
@@ -166,8 +165,9 @@ export class ItemCategoryComponent implements OnInit {
   }
 
   openPrintRangeDialog(){
-    this.dialogRef.close();
-    window.location.href = `/#/report-view?file=FileName:printCategoriesReport`
-    window.location.reload(); 
+    window.open(`/#/report-view?file=FileName:printCategoriesReport`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // this.dialogRef.close();
+    // window.location.href = `/#/report-view?file=FileName:printCategoriesReport`
+    // window.location.reload(); 
   }
 }

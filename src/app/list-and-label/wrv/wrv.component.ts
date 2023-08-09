@@ -44,8 +44,7 @@ export class WrvComponent implements OnInit {
     this.ListAndLabel.nativeElement.insertAdjacentHTML('beforeend', dynamicHtml);
     const iframe: HTMLIFrameElement = this.myIframeRef.nativeElement;
      
-    iframe.onload = () => { 
-      debugger
+    iframe.onload = () => {  
       if (`${this.env}/#/ListAndLabel/report-view?file=${this.file}` ==  window.location.href) {
         // If they match, do nothing (keep the iframe open)
         console.log('Iframe URL matches parent window URL.');

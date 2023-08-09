@@ -87,6 +87,7 @@ export class ReelTrackingComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         minDollarRTS:0,
         thresholdQty:0

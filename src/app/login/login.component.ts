@@ -80,11 +80,19 @@ enterUserName(){
           // this.addLoginForm.reset(); // replaced to api response 
           localStorage.setItem('user', JSON.stringify(data));
           localStorage.setItem('userRights', JSON.stringify(userRights));
-          this.getAppLicense(response.data.wsid);
-          if(localStorage.getItem('LastRoute')){
-            this.router.navigateByUrl(localStorage.getItem('LastRoute') || "");
+       
+          this.getAppLicense(response.data.wsid); 
+          if(localStorage.getItem('LastRoute')){  
+              var url =   '/#'+localStorage.getItem('LastRoute');
+              window.location.href = url;
+              window.location.reload();
+             
+            //  this.router.navigateByUrl("/#/"+localStorage.getItem('LastRoute') || "");
+            
+          } else {
+            window.location.href = "/#/dashboard"
+            window.location.reload();
           }
-          
           // ----default app redirection ----
           // this.getDefaultApp(response.data.wsid);
           // ----end default app redirection ----
@@ -128,7 +136,7 @@ enterUserName(){
     this.version = packJSON.version;
     let lastRoute: any = localStorage.getItem('LastRoute') ? localStorage.getItem('LastRoute') : "";
     localStorage.clear();
-    if(lastRoute != ""){
+    if(lastRoute != "" && lastRoute != "login"){
       localStorage.setItem('LastRoute', lastRoute);
     }
     if(this.auth.IsloggedIn()){
@@ -396,6 +404,7 @@ enterUserName(){
       height: 'auto',
       width: '500px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe(result => {
       ;

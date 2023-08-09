@@ -144,6 +144,7 @@ export class CmShippingComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         message: "Are you sure you wish to complete this shipment?",
       },
@@ -167,6 +168,7 @@ export class CmShippingComponent implements OnInit {
               height: 'auto',
               width: '560px',
               autoFocus: '__non_existing_element__',
+      disableClose:true,
               data: {
                 message: "Back Orders exist for this order number. Still complete shipment?",
               },
@@ -204,6 +206,7 @@ export class CmShippingComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: { orderNumber: this.orderNumber }
     })
     dialogRef.afterClosed().subscribe(result => {
@@ -216,14 +219,16 @@ export class CmShippingComponent implements OnInit {
   }
 
   printAll(){
-    this.dialogRef.close();
-    window.location.href = `/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`;
-    window.location.reload();
+    window.open(`/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // this.dialogRef.close();
+    // window.location.href = `/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`;
+    // window.location.reload();
   }
 
   PrintItem(element: any,i:any=null){
-    this.dialogRef.close();
-    window.location.href = `/#/report-view?file=FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`;
-    window.location.reload();
+    window.open(`/#/report-view?file=FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // this.dialogRef.close();
+    // window.location.href = `/#/report-view?file=FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`;
+    // window.location.reload();
   }
 }

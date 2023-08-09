@@ -133,6 +133,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
         height: 'auto',
         width: '786px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message:'Click Ok to print a Batch Report for the selected orders?',
           heading: 'Batch Manager',
@@ -145,7 +146,10 @@ export class BatchSelectedOrdersComponent implements OnInit {
           this.tableData._data._value.forEach(element => {
               ordersArr.push(element.orderNumber)
           });
-          window.open(`/#/report-view?file=FileName:PrintBatchReport|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}|BatchID:${this.nextOrderNumber}`, '_blank', "location=yes");
+
+    window.open(`/#/report-view?file=FileName:PrintBatchReport|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}|BatchID:${this.nextOrderNumber}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+          // window.open(`/#/report-view?file=FileName:PrintBatchReport|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}|BatchID:${this.nextOrderNumber}`, '_blank', "location=yes");
           // window.open(`/#/report-view?file=${this.transType==='Pick'?'BMPickList':this.transType==='Put Away'?'BMPutList':'BMCountList'}-lst`, '_blank','location=yes');
         }
       });
@@ -154,6 +158,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
         height: 'auto',
         width: '786px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message:'Click Ok to print item labels for the selected batch orders?',
           heading: 'Batch Manager',
@@ -167,7 +172,9 @@ export class BatchSelectedOrdersComponent implements OnInit {
           this.tableData._data._value.forEach(element => {
               ordersArr.push(element.orderNumber)
           });
-          window.open(`/#/report-view?file=FileName:PrintBatchLabel|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}`, '_blank', "location=yes");
+    window.open(`/#/report-view?file=FileName:PrintBatchLabel|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+          // window.open(`/#/report-view?file=FileName:PrintBatchLabel|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}`, '_blank', "location=yes");
           // window.open(`/#/report-view?file=${this.transType==='Pick'?'BMPickLabel':'BMPutLabel'}-lbl`, '_blank','location=yes');
         }
       });
@@ -220,19 +227,19 @@ export class BatchSelectedOrdersComponent implements OnInit {
 
   addRemoveAllOrder() {
     if (this.tableData['_data']['_value'].length == 0) return;
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '600px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'remove-batch-list',
-      },
-    });
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res === 'Yes') {
-        this.addRemoveAll.emit();
-      }
-    });
+    // const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+    //   height: 'auto',
+    //   width: '600px',
+    //   autoFocus: '__non_existing_element__',
+    //   data: {
+    //     mode: 'remove-batch-list',
+    //   },
+    // });
+    // dialogRef.afterClosed().subscribe((res) => {
+    //   if (res === 'Yes') {
+    //   }
+    // });
+    this.addRemoveAll.emit();
   }
 
   /*
@@ -249,6 +256,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
           heading: 'Batch Manager',
         },
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
       dialogRef.afterClosed().subscribe((result) => {});
     } else if (this.tableData.data.length == 0) {
@@ -260,6 +268,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
           heading: 'Batch Manager',
         },
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
       dialogRef.afterClosed().subscribe((result) => {});
     } else {
@@ -268,6 +277,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
         height: 'auto',
         width: '550px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           pickToTotes: this.pickToTotes,
           transType: this.transType,
