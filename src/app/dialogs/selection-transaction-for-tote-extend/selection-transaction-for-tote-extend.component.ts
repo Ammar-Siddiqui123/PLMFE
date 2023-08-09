@@ -27,6 +27,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   @ViewChild('field_focus') field_focus: ElementRef;
 
   public userData   : any;
+  isWarehouseSensitive:boolean=false;
   toteForm          : FormGroup;
   cellSizeList      : any = [];
   velocityCodeList  : any = [];
@@ -155,7 +156,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         (res: any) => {
           if (res.data && res.isExecuted) {
             const values = res.data[0];  
-
+            this.isWarehouseSensitive=values.warehouseSensitive
             this.orderNum = values.orderNumber;
             this.totes = this.data.totes;
 
@@ -617,6 +618,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   }
   
   openWareHouse() {
+    if(!this.isWarehouseSensitive)return
     const values = this.toteForm.value;
     const dialogRef = this.dialog.open(WarehouseComponent, {
       height: 'auto',

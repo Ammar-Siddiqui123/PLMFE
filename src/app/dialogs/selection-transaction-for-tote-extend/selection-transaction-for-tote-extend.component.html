@@ -108,7 +108,7 @@
           </mat-form-field>
         </div>
         <div class="col-xl-3">
-          <mat-form-field class="custom-form-field w-100 mb-2 mat-form-field-disabled" appearance="outline" (click)="toteForm.getRawValue().warehouseSensitive ? openWareHouse() : false">
+          <mat-form-field class="custom-form-field w-100 mb-2"  [class.mat-form-field-disabled]="!isWarehouseSensitive"  appearance="outline" (click)="toteForm.getRawValue().warehouseSensitive ? openWareHouse() : false">
             <mat-label>Warehouse</mat-label>
             <input formControlName="warehouse" (keydown.shift.enter)="$event.preventDefault()" matInput type="text"
               readonly>
