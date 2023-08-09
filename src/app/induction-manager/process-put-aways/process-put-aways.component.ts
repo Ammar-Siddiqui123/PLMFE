@@ -144,10 +144,18 @@ export class ProcessPutAwaysComponent implements OnInit {
     const newIndex = event.index;
     console.log('Tab changed to index:', newIndex);
     if(newIndex===1){
+      
+      setTimeout(() => {
       this.inputVal.nativeElement.focus();
+        
+      }, 100);
+   
       this.autocompleteSearchColumnItem2();
     }else if(newIndex===0){
+      setTimeout(() => {
       this.batchFocus.nativeElement.focus();
+          
+        }, 100);
     }
 
   }
@@ -326,6 +334,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '60%',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           batchId: this.batchId,
           userId: this.userData.username,
@@ -355,6 +364,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:
       {
         position: position,
@@ -401,6 +411,7 @@ export class ProcessPutAwaysComponent implements OnInit {
                 height: 'auto',
                 width: '50vw',
                 autoFocus: '__non_existing_element__',
+      disableClose:true,
                 data: {
                   message: "This Batch ID either does not exists or is assigned to a different workstation.Use the Tote Setup tab to create a new batch or choose an existing batch for this workstation.",
                   heading: 'Invalid Batch ID'
@@ -429,6 +440,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         deleteAllDisable: false,
         batchId: this.batchId2,
@@ -463,6 +475,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '50vw',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: "You must select one or more zones. If there are no zones available for selection check your Location Zones settings and/or delete or deallocate a batch to free up a zone.",
           heading: 'Error'
@@ -483,6 +496,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message:
             'Batch processed!  Click OK to move onto the next step or cancel to remain on this screen to create/edit more batches.',
@@ -677,6 +691,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             notificationPrimary: true,
           },
           autoFocus: '__non_existing_element__',
+      disableClose:true,
         });
         dialogRef.afterClosed().subscribe((result) => {
           if(result){
@@ -718,6 +733,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             notificationPrimary: true,
           },
           autoFocus: '__non_existing_element__',
+      disableClose:true,
         });
         dialogRef.afterClosed().subscribe((result) => {
           if(result){
@@ -869,6 +885,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: 'Click OK to update all totes (except allocated ones) to have their default cell count.',
         },
@@ -919,6 +936,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '50vw',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: "The Tote you've selected is already marked as full. Putting the item in this tote will go over define cells",
           heading: 'Assign Transaction To Selected Tote'
@@ -939,6 +957,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             height: 'auto',
             width: '1100px',
             autoFocus: '__non_existing_element__',
+      disableClose:true,
             data: {
               inputType: this.inputType,
               inputValue: this.inputValue,
@@ -988,6 +1007,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '1100px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           inputType: this.inputType,
           inputValue: this.inputValue,
@@ -1016,6 +1036,7 @@ export class ProcessPutAwaysComponent implements OnInit {
               height: 'auto',
               width: '50vw',
               autoFocus: '__non_existing_element__',
+      disableClose:true,
               data: {
                 message: "The input code provided was not recognized.  Click OK to add the item to inventory or cancel to return.",
                 heading: ''
@@ -1154,6 +1175,7 @@ export class ProcessPutAwaysComponent implements OnInit {
           height: 'auto',
           width: '560px',
           autoFocus: '__non_existing_element__',
+      disableClose:true,
           data: {
             message: 'Click OK to complete this batch.',
           },
@@ -1274,6 +1296,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'add-trans',
           message: 'Click OK to mark this Tote as being Full',
@@ -1329,6 +1352,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         height: 'auto',
         width: '80vw',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
 
 
@@ -1357,6 +1381,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         hvObj: hv,
         itemObj:item
@@ -1376,6 +1401,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         hvObj: hv,
         itemObj:item,

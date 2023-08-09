@@ -73,6 +73,7 @@ export class OmUpdateRecordComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         order      : { id : this.data.id, ...this.orderForm.value },
         viewType   : this.data.viewType,

@@ -69,6 +69,7 @@ export class DeleteRangeComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'delete-selected-current-orders',
           action: 'delete'

@@ -29,6 +29,7 @@ export class ConfirmationGuard implements CanDeactivate<any> {
           heading: title
         },
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
   
       dialogRef.afterClosed().subscribe((result) => {

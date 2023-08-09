@@ -54,6 +54,7 @@ export class BatchDeleteComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'deallocate_clear_batch',
         
@@ -86,6 +87,7 @@ export class BatchDeleteComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete_all_batch',
         heading:'Delete All Batches',

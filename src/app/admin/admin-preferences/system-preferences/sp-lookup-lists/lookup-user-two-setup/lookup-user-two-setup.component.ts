@@ -97,6 +97,7 @@ export class LookupUserTwoSetupComponent implements OnInit {
       height: 'auto',
       width: '600px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         action: 'delete',
         actionMessage:` ${ele.currentVal} from the Adjustment Reason lookup list. `

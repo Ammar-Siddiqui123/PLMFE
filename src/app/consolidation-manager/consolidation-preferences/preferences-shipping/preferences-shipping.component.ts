@@ -133,6 +133,7 @@ export class PreferencesShippingComponent implements OnInit {
       height: 'auto',
       width: '600px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-create-count',
         actionMessage: ``,

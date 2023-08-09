@@ -103,6 +103,7 @@ export class EmployeePickupLevelComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:{
         nextPickLvl:this.nextPickLvl,
         userName:this.grp_data
@@ -118,6 +119,7 @@ export class EmployeePickupLevelComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:{
         mode: 'edit',
         pickLevelData:pickLevelData,
@@ -135,6 +137,7 @@ export class EmployeePickupLevelComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-picklevel',
         picklevel: picklevel,

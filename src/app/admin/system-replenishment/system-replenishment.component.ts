@@ -25,6 +25,7 @@ export class SystemReplenishmentComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteRangeComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe(() => {
       
@@ -34,6 +35,7 @@ export class SystemReplenishmentComponent implements OnInit {
     const dialogRef = this.dialog.open(PrintReplenLabelsComponent, {
       width: '1132px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe(() => {
       
@@ -44,6 +46,7 @@ export class SystemReplenishmentComponent implements OnInit {
     const dialogRef = this.dialog.open(SrDeleteOrderComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe(() => {
       

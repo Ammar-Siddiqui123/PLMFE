@@ -133,6 +133,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
         height: 'auto',
         width: '786px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message:'Click Ok to print a Batch Report for the selected orders?',
           heading: 'Batch Manager',
@@ -157,6 +158,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
         height: 'auto',
         width: '786px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message:'Click Ok to print item labels for the selected batch orders?',
           heading: 'Batch Manager',
@@ -254,6 +256,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
           heading: 'Batch Manager',
         },
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
       dialogRef.afterClosed().subscribe((result) => {});
     } else if (this.tableData.data.length == 0) {
@@ -265,6 +268,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
           heading: 'Batch Manager',
         },
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
       dialogRef.afterClosed().subscribe((result) => {});
     } else {
@@ -273,6 +277,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
         height: 'auto',
         width: '550px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           pickToTotes: this.pickToTotes,
           transType: this.transType,

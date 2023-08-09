@@ -34,6 +34,7 @@ export class OmEventLogEntryDetailComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-event-log',
         ErrorMessage: 'Are you sure you want to delete the selected event?',

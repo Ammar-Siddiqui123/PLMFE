@@ -485,6 +485,7 @@ this.router.navigate([]).then((result) => {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         target: 'assigned',
         function: '',
@@ -744,6 +745,7 @@ this.router.navigate([]).then((result) => {
       height: 'auto',
       width: '580px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         user: this.userData.userName,
         wsid: this.userData.wsid,
@@ -812,6 +814,7 @@ this.router.navigate([]).then((result) => {
         TypeOfElement: TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)

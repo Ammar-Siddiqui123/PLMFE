@@ -577,6 +577,7 @@ export class MoveItemsComponent implements OnInit {
         notificationPrimary: true,
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (this.isDedicated && this.MoveFromDedicated === 'Dedicated') {
@@ -838,6 +839,7 @@ export class MoveItemsComponent implements OnInit {
         TypeOfElement: TypeOfElement,
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((result) => {
       this.onContextMenuCommand(

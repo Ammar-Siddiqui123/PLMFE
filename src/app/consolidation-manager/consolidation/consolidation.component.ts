@@ -549,6 +549,7 @@ export class ConsolidationComponent implements OnInit {
         height: 'auto',
         width: '899px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           IdentModal: this.TypeValue,
           ColLabel: this.startSelectFilterLabel,
@@ -691,6 +692,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '96vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: { orderNumber: this.TypeValue }
     })
     dialogRef.afterClosed().subscribe(result => {
@@ -705,6 +707,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '96vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         orderNum: this.TypeValue ? this.TypeValue : '2909782A',
       }
@@ -722,6 +725,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '96vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: { orderNumber: this.TypeValue }
 
     })
@@ -744,6 +748,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         orderNumber: this.TypeValue,
         stagingTable: this.stageTable && this.stageTable.data ? this.stageTable.data : []
@@ -760,6 +765,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
 
     })
     dialogRef.afterClosed().subscribe(result => {
@@ -773,6 +779,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
 
     })
     dialogRef.afterClosed().subscribe(result => {
@@ -786,6 +793,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
 
     })
     dialogRef.afterClosed().subscribe(result => {
@@ -807,6 +815,7 @@ export class ConsolidationComponent implements OnInit {
       height: 'auto',
       width: '620px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe(result => {
       this.type = result;
@@ -848,6 +857,7 @@ export class ConsolidationComponent implements OnInit {
           message: 'There are still unverfied items. Coninue the preview?'
         },
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result === 'Yes') {
@@ -888,6 +898,7 @@ export class ConsolidationComponent implements OnInit {
         packListSort : this.packListSort
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
   }
 }

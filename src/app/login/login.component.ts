@@ -404,6 +404,7 @@ enterUserName(){
       height: 'auto',
       width: '500px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe(result => {
       ;
