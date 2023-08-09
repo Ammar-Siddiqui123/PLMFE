@@ -228,41 +228,41 @@ this.customPagination.total = 0;
 
   deleteRow(rowId) {
 
-    
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '600px',
-      autoFocus: '__non_existing_element__',
-      disableClose:true,
-      data: {
-        mode: 'delete-cycle-count',
-      },
-    });
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res === 'Yes') {
-        let payload = {
-          wsid: this.userData.wsid,
-          invMapID: rowId.toString(),
-        };
-        this.Api.RemoveccQueueRow(payload).subscribe(
-          (res: any) => {
-            if (res.isExecuted) {
-              this.getCountQue();
-            } else {
-              this.toastr.error(
-                'Error',
-                'An Error Occured while trying to remove this row, check the event log for more information',
-                {
-                  positionClass: 'toast-bottom-right',
-                  timeOut: 2000,
-                }
-              );
+    let payload = {
+      wsid: this.userData.wsid,
+      invMapID: rowId.toString(),
+    };
+    this.Api.RemoveccQueueRow(payload).subscribe(
+      (res: any) => {
+        if (res.isExecuted) {
+          this.getCountQue();
+        } else {
+          this.toastr.error(
+            'Error',
+            'An Error Occured while trying to remove this row, check the event log for more information',
+            {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
             }
-          },
-          (error) => {}
-        );
-      }
-    });
+          );
+        }
+      },
+      (error) => {}
+    );
+    // const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+    //   height: 'auto',
+    //   width: '600px',
+    //   autoFocus: '__non_existing_element__',
+    //   disableClose:true,
+    //   data: {
+    //     mode: 'delete-cycle-count',
+    //   },
+    // });
+    // dialogRef.afterClosed().subscribe((res) => {
+    //   if (res === 'Yes') {
+      
+    //   }
+    // });
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
