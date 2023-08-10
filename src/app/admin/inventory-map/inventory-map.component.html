@@ -22,7 +22,7 @@
                   <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn"
                     (keyup.enter)="searchColumn()" (selectionChange)="searchColumn()" [compareWith]="compareObjects"
                     placeholder="Select">
-                    <mat-option></mat-option>
+                    <mat-option ></mat-option>
                     <mat-option *ngFor="let item of displayedColumns" [value]="item">
                       {{item.colDef}}
                     </mat-option>

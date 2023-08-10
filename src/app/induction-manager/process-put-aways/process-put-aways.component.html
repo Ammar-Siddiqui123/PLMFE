@@ -367,7 +367,7 @@
               <mat-label>Actions</mat-label>
               <mat-select class="employees-action" [disabled]="!dataSource2?.filteredData || !dataSource2?.filteredData.length"  [(ngModel)]="selectedOption"   #actionRef (openedChange)="actionDialog($event)">
                 <!-- (click)="openToteTransactionViewDialogue()"> -->
-                <mat-option  value="ViewTote" [disabled]="(cell <= toteQuantity) ? false : true" >View Tote Contents</mat-option>
+                <mat-option  value="ViewTote" [disabled]="(toteQuantity > 0) ? false : true" >View Tote Contents</mat-option>
                 <mat-option value="markTote" [disabled]="!rowSelected">Mark Tote as Full</mat-option>
                 <mat-option (click)="printTotePut()" value="print">Print</mat-option>
                 <!-- <mat-option value="back">Back</mat-option> -->
