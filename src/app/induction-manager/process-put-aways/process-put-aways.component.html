@@ -220,7 +220,7 @@
                     <input  (keydown.shift.enter)="$event.preventDefault()" matInput 
                         [(ngModel)]="batchId2" [matAutocomplete]="item2"
                         (click)="searchByItem.next(1)"
-                        type="text" #batchVal autoFocus
+                        type="text" #batchVal
                         (ngModelChange)="this.searchByItem.next(1)" (focusout)="onFocusOutBatchID(batchVal.value)">
                         <button matSuffix *ngIf="batchId2" class="clear-btn" (click)=" batchId2 = ''" ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>  
 
