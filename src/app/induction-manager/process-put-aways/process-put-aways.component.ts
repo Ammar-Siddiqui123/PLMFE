@@ -89,7 +89,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   batchId2: string = '';
 
   searchAutocompleteItemNum2: any = [];
-  dataSource2: any;
+  dataSource2: any= new MatTableDataSource<any>([]);
 
   inputType = "any";
   inputValue = "";
@@ -207,7 +207,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.dataSource = [];
     this.assignedZonesArray.length=0;   // after deleting zones array reset to select zones 
     this.batchId2 = "";
-    this.dataSource2 = [];
+    this.dataSource2 = new MatTableDataSource<any>([]);;
     this.inputValue = "";
     this.nextPos = "";
     this.nextPutLoc = "";
@@ -1192,20 +1192,39 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.Api.CompleteBatch(payLoad).subscribe(
               (res: any) => {
                 if (res.isExecuted) {
-                  this.toastr.success(
-                    'Batch Completed Successfully',
-                    'Success!',
-                    {
-                      positionClass: 'toast-bottom-right',
-                      timeOut: 2000,
+                  let dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
+                    height: 'auto',
+                    width: '560px',
+                    autoFocus: '__non_existing_element__',
+                disableClose:true,
+                    data: {
+                      message: 'Click OK to print an Off-Carousel Put Away List.',
+                    },
+                  });
+          
+                  dialogRef2.afterClosed().subscribe((result) => {
+                    if (result == 'Yes') {
+                      window.open(`/#/report-view?file=FileName:PrintOffCarList|batchID:${this.batchId2}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+                    }else{
+                      this.toastr.success(
+                        'Batch Completed Successfully',
+                        'Success!',
+                        {
+                          positionClass: 'toast-bottom-right',
+                          timeOut: 2000,
+                        }
+                      );
+                      this.clearFormAndTable();
+                      this.selectedIndex = 0;
+                      setTimeout(() => {
+                      this.batchFocus.nativeElement.focus();
+                        
+                      }, 100);
                     }
-                  );
-                  this.clearFormAndTable();
-                  this.selectedIndex = 0;
-                  setTimeout(() => {
-                  this.batchFocus.nativeElement.focus();
-                    
-                  }, 100);
+                  });          
+                 
+                
                   // this.getRow(this.batchId);
                 } else {
                   this.toastr.error('Something went wrong', 'Error!', {

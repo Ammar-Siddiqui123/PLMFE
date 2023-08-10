@@ -291,8 +291,12 @@
                     </span>
                   </mat-form-field>
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
+                    
                     <mat-label>Input Value</mat-label>
-                    <input  #start_location  (keydown.shift.enter)="$event.preventDefault()" #inputVal matInput type="text" [(ngModel)]="inputValue" (keypress)="openST($event)" >
+                    <input  #start_location  (keydown.shift.enter)="$event.preventDefault()" 
+                    #inputVal matInput type="text" [(ngModel)]="inputValue"
+                    [disabled]="!dataSource2?.filteredData || !dataSource2?.filteredData.length"
+                    (keypress)="openST($event)" >
                     <button matSuffix *ngIf="inputValue" class="clear-btn" (click)=" inputValue='' " ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>  
 
                   </mat-form-field>
@@ -359,9 +363,9 @@
               <span>Totes</span>
             </h2>
             <div>
-            <mat-form-field class="action-dropdown mb-3 w-100" appearance="outline">
+            <mat-form-field class="action-dropdown mb-3 w-100"  appearance="outline">
               <mat-label>Actions</mat-label>
-              <mat-select class="employees-action"  [(ngModel)]="selectedOption"  #actionRef (openedChange)="actionDialog($event)">
+              <mat-select class="employees-action" [disabled]="!dataSource2?.filteredData || !dataSource2?.filteredData.length"  [(ngModel)]="selectedOption"   #actionRef (openedChange)="actionDialog($event)">
                 <!-- (click)="openToteTransactionViewDialogue()"> -->
                 <mat-option  value="ViewTote" [disabled]="(cell <= toteQuantity) ? false : true" >View Tote Contents</mat-option>
                 <mat-option value="markTote" [disabled]="!rowSelected">Mark Tote as Full</mat-option>
@@ -442,6 +446,12 @@
                 </ng-container>
           
           
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell text-center" [attr.colspan]="displayedColumns1.length">
+                    No data available in table.
+                  </td>
+                </tr>
+  
                 <tr mat-header-row *matHeaderRowDef="displayedColumns1; sticky:true"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns1; let i = index" (click)="selectTotes(i)">
                 </tr>
