@@ -1206,7 +1206,7 @@ export class ProcessPutAwaysComponent implements OnInit {
                     if (result == 'Yes') {
                       window.open(`/#/report-view?file=FileName:PrintOffCarList|batchID:${this.batchId2}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
 
-                    }else{
+                    } 
                       this.toastr.success(
                         'Batch Completed Successfully',
                         'Success!',
@@ -1220,8 +1220,7 @@ export class ProcessPutAwaysComponent implements OnInit {
                       setTimeout(() => {
                       this.batchFocus.nativeElement.focus();
                         
-                      }, 100);
-                    }
+                      }, 100); 
                   });          
                  
                 
