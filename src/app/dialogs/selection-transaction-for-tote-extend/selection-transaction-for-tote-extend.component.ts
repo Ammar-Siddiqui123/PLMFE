@@ -644,9 +644,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   }
 
   validationPopups(val : any) {
-
     if (val.type == 1) {
-      if (val.invMapID <= 0 || !val.invMapID) {
+      if (val.invMapID <= 0 || !val.invMapID || val.zone == "") {
         this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
@@ -661,6 +660,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         });
         return false;
       }
+
     }    
 
     if (this.toteForm.getRawValue().fifo && val.fifoDate.toLowerCase() == 'expiration date' && !val.expirationDate) {
@@ -694,60 +694,95 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     try {
 
       const values = this.toteForm.value;
-   
-      let payLoad = {
-        sRow: 1,
-        eRow: 5,
-        itemWhse: [
-          values.itemNumber,
-          // "238562",
-          values.warehouse,
-          "1=1"
-        ],
-        username: this.userData.userName,
-        wsid: this.userData.wsid 
-      };
+      if (!this.validationPopups({...values, type : 1})) {
+        return;
+      }
 
+        let payload = {
+        zone: this.toteForm.value.zone,      
+        username: this.userData.userName,
+        wsid: this.userData.wsid
+      };
+      
       this.Api
-        .CrossDock(payLoad)
+        .BatchByZone(payload)
         .subscribe(
           (res: any) => {
-            if (res.data && res.isExecuted) 
-            {
-              if(res.data.transaction.length > 0)
-              {
+            if (res.isExecuted) {
+              if (!res.data) {
                 let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
                   height: 'auto',
                   width: '560px',
                   autoFocus: '__non_existing_element__',
-      disableClose:true,
                   data: {
-                    message: 'Cross Dock opportunity!  Click OK to view backorder transactions for the item you are putting away.',
+                    message: 'There are no batches with this zone (' + this.toteForm.value.zone + ') assigned.  Click OK to start a new batch or cancel to choose a different location/transaction.',
                   },
                 });
-
-                dialogRef.afterClosed().subscribe((result) => {
-                  if (result == 'Yes') {
-                    this.openCrossDockTransactionDialogue();
-                  }
-                  else {
-                    this.complete(values);
-                  }
-                });                
+  
+                dialogRef.afterClosed().subscribe((res) => {
+                  if (res == 'Yes') {
+                    this.dialogRef.close("New Batch"); 
+                  }      
+                });
               }
-              else 
-              {
-                this.complete(values);              
+              else{
+                let payLoad = {
+                  sRow: 1,
+                  eRow: 5,
+                  itemWhse: [
+                    values.itemNumber,
+                    // "238562",
+                    values.warehouse,
+                    "1=1"
+                  ],
+                  username: this.userData.userName,
+                  wsid: this.userData.wsid 
+                };
+          
+                this.Api
+                  .CrossDock(payLoad)
+                  .subscribe(
+                    (res: any) => {
+                      if (res.data && res.isExecuted) 
+                      {
+                        if(res.data.transaction.length > 0)
+                        {
+                          let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+                            height: 'auto',
+                            width: '560px',
+                            autoFocus: '__non_existing_element__',
+                disableClose:true,
+                            data: {
+                              message: 'Cross Dock opportunity!  Click OK to view backorder transactions for the item you are putting away.',
+                            },
+                          });
+          
+                          dialogRef.afterClosed().subscribe((result) => {
+                            if (result == 'Yes') {
+                              this.openCrossDockTransactionDialogue();
+                            }
+                            else {
+                              this.complete(values);
+                            }
+                          });                
+                        }
+                        else 
+                        {
+                          this.complete(values);              
+                        }
+                      } else {
+                        this.toastr.error('Something went wrong', 'Error!', {
+                          positionClass: 'toast-bottom-right',
+                          timeOut: 2000,
+                        });
+                      }
+                    },
+                    (error) => {}
+                  );   
               }
-            } else {
-              this.toastr.error('Something went wrong', 'Error!', {
-                positionClass: 'toast-bottom-right',
-                timeOut: 2000,
-              });
             }
-          },
-          (error) => {}
-        );   
+          });
+   
               
       
     } catch (error) {
