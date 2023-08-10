@@ -168,7 +168,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
 
   onFocusOutEvent(event,type){ 
     if(this.searchAutocompleteItemNum.length>0)return
-
+   
 if(type==='order'){
 if(event.target.value===''){
 this.orderRequired=true
@@ -177,6 +177,7 @@ this.orderRequired=true
 }
 }else if(type==='item'){
   // if(this.itemNumber==='')return;
+  if(!this.itemNumber) return ;
    let payLoad = {
     itemNumber: this.itemNumber,
       username: this.data.userName,
