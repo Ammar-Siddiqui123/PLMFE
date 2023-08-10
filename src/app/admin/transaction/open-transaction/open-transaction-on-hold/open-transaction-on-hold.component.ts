@@ -148,6 +148,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   throughOrderManager
   setVal
   spliUrl;
+  orderSelectionSearch  : boolean = true
 
   public detailDataInventoryMap: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -704,6 +705,7 @@ this.router.navigate([]).then((result) => {
     // this.orderNo = '';
     this.columnSearch.searchValue = '';
     this.searchAutocompleteListByCol = [];
+    this.orderSelectionSearch = false
     this.searchByColumn.next(event);
   }
   resetColumn() {
