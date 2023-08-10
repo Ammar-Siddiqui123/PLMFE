@@ -1068,6 +1068,9 @@ export class ProcessPutAwaysComponent implements OnInit {
         } else if (result == "Task Completed") {
           this.inputValue='';
           this.fillToteTable(this.batchId2);
+        } else if (result == "New Batch") {
+          this.selectedIndex = 0;
+          // this.clearFormAndTable();
         }
           else if(result.category == "isReel"){
             const d: Date = new Date();
