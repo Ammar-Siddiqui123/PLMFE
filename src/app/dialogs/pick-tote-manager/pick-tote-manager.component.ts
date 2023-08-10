@@ -236,11 +236,9 @@ export class PickToteManagerComponent implements OnInit {
 
   ngAfterViewInit() {
     // this.batchByZoneSource.paginator = this.batchByZonePaginator;
-    // this.field_focus.nativeElement.focus();
+    
     setTimeout(()=>{
-
       this.field_focus.nativeElement.focus();  
-
     }, 500);
   }
 
@@ -318,7 +316,8 @@ export class PickToteManagerComponent implements OnInit {
         autoFocus: '__non_existing_element__'
       })
       dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-        this.savedFilterList.push(result);
+        if(result){
+          this.savedFilterList.push(result);
         this.savedFilter.setValue(result);
         this.isFilterAdd = true;
         this.isOrderByAdd = true;
@@ -326,6 +325,7 @@ export class PickToteManagerComponent implements OnInit {
         this.orderBySeq = '0';
         this.clearMatSelectList();
         this.pickBatchFilterOrderData(result);
+        }
       });
     }
     if (option.value === 'rename') {
@@ -839,7 +839,7 @@ export class PickToteManagerComponent implements OnInit {
     if (event.value === 'vAllOrderFilter') {
       let paylaod = {
         "Draw": 0,
-        "OrderNumber": orderNum,
+        "OrderNumber": orderNum ? orderNum : 'EAGLES',
         "sRow": 1,
         "eRow": 10,
         "SortColumnNumber": 0,
@@ -1131,6 +1131,12 @@ export class PickToteManagerComponent implements OnInit {
 
   }
 
+  tabChange(event:any){
+    console.log(event);
+    if(event.index == 1){
+      // this.onViewOrderLineFilter({value:'vSelectedOrderFilter'});
+    }
+  }
 }
 
 
