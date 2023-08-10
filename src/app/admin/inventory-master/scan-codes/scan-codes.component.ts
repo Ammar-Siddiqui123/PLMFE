@@ -176,13 +176,13 @@ export class ScanCodesComponent implements OnInit , OnChanges {
       return;
     }
     this.scanCodes.controls['scanCode'].value.forEach(element => {
-      if(element.scanCode== scanCode  ){
+      if(element.scanCode== scanCode || (element.startPosition== startPosition && element.scanType== scanType  && element.scanRange== scanRange && element.codeLength== codeLength)){
         newRecord = false;
         return;
       }
     });
 
-    if(!newRecord && item.scanCode=='' ){
+    if(!newRecord || item.scanCode=='' ){
       this.toastr.error('Already Exists', 'Error!', {
         positionClass: 'toast-bottom-right',
         timeOut: 2000

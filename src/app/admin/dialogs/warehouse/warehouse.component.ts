@@ -90,11 +90,11 @@ export class WarehouseComponent implements OnInit {
         this.enableButton.push({ index: i, value: true });
       }
 
-      setTimeout(() => {
-        const inputElements = this.whname.toArray();
-        const inputElement = inputElements[0].nativeElement as HTMLInputElement;
-          this.renderer.selectRootElement(inputElement).focus();
-      }, 100)
+      // setTimeout(() => {
+      //   const inputElements = this.whname.toArray();
+      //   const inputElement = inputElements[0].nativeElement as HTMLInputElement;
+      //     this.renderer.selectRootElement(inputElement).focus();
+      // }, 100)
     });
   }
   addwhRow(row: any) {
