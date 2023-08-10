@@ -317,6 +317,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   initializeApi(){
+    // debugger
     this.userData = this.authService.userData();
     if(this.FilterString == "")
     {
@@ -359,6 +360,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   getContentData(){
+    // debugger
     this.Api.getInventoryMap(this.payload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
       // console.log(res.data);
       this.itemList =  res.data?.inventoryMaps?.map((arr => {
@@ -517,7 +519,6 @@ export class InventoryMapComponent implements OnInit {
 
 
   quarantine(event){
-
     let dialogRef = this.dialog.open(QuarantineConfirmationComponent, {
       height: 'auto',
       width: '480px',
@@ -530,12 +531,13 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-      this.getContentData();
+      setTimeout(() => {
+        this.getContentData();
+      },1000);
     })
   }
 
   unQuarantine(event){
-
     let dialogRef = this.dialog.open(QuarantineConfirmationComponent, {
       height: 'auto',
       width: '480px',
@@ -548,7 +550,10 @@ export class InventoryMapComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-      this.getContentData();
+      
+      setTimeout(() => {
+        this.getContentData();
+      },1000);
     })
   }
 
@@ -574,13 +579,19 @@ export class InventoryMapComponent implements OnInit {
 
   duplicate(event){
     var obj:any = {
-      userName:this.userData.userName,wsid:this.userData.wsid,invMapID:event.invMapID
+      userName:this.userData.userName,
+      wsid:this.userData.wsid,
+      inventoryMapID:event.invMapID
     }
   this.Api.duplicate(obj).pipe(takeUntil(this.onDestroy$)).subscribe((res) => {
     this.displayedColumns = INVMAP_DATA;
 
     if(res.data){
       this.getContentData();
+      this.toastr.success(res.responseMessage, 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
     } else {
       this.toastr.error('Something went wrong', 'Error!', {
         positionClass: 'toast-bottom-right',
@@ -656,9 +667,11 @@ export class InventoryMapComponent implements OnInit {
   }
 
   searchColumn(){ 
-    
-    if(this.columnSearch.searchColumn === ''){
+    if(this.columnSearch.searchColumn === ''|| this.columnSearch.searchColumn === undefined){
       this.isSearchColumn = false;
+      this.payload.searchString = ''
+      this.payload.searchColumn = ''
+      this.getContentData();
     }else{
       this.isSearchColumn = true;
     }
