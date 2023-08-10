@@ -593,7 +593,7 @@ export class ApiFuntions {
     return this.ApiBase.Get("/Induction/pickbatchfiltertypeahead",body);
   }
   public PickBatchDefaultFilterMark(body:any): Observable<any> { 
-    return this.ApiBase.Get("/Induction/pickbatchdefaultfiltermark",body);
+    return this.ApiBase.Update("/Induction/pickbatchdefaultfiltermark",body);
   }
   public PickBatchDefaultFilterClear(body:any): Observable<any> { 
     return this.ApiBase.Update("/Induction/pickbatchdefaultfilterclear",body);
