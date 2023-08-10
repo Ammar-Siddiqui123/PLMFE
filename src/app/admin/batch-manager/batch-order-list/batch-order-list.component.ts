@@ -160,6 +160,7 @@ export class BatchOrderListComponent implements OnInit {
     const dialogRef = this.dialog.open(BatchManagerDetailViewComponent, {
       width: '1100px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: detailData,
     });
     dialogRef.afterClosed().subscribe(() => {

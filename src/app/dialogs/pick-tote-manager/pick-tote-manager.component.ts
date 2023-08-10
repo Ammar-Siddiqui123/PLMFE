@@ -353,6 +353,7 @@ export class PickToteManagerComponent implements OnInit {
           message: 'Mark this filter as the default one ?',
         },
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       })
       dialogRef.afterClosed().subscribe(result => {
         if (result === 'Yes') {
@@ -419,6 +420,7 @@ export class PickToteManagerComponent implements OnInit {
         height: 'auto',
         width: '480px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       })
       dialogRef.afterClosed().subscribe(result => {
         if (result === 'Yes') {
@@ -1009,6 +1011,7 @@ export class PickToteManagerComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'Yes') {
@@ -1035,6 +1038,7 @@ export class PickToteManagerComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         ErrorMessage: "Are you sure you want to delete this order by row?"
       },
@@ -1100,6 +1104,7 @@ export class PickToteManagerComponent implements OnInit {
         message: 'Mark this filter as a default one ?'
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'Yes') {

@@ -27,6 +27,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   @ViewChild('field_focus') field_focus: ElementRef;
 
   public userData   : any;
+  isWarehouseSensitive:boolean=false;
   toteForm          : FormGroup;
   cellSizeList      : any = [];
   velocityCodeList  : any = [];
@@ -155,7 +156,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         (res: any) => {
           if (res.data && res.isExecuted) {
             const values = res.data[0];  
-
+            this.isWarehouseSensitive=values.warehouseSensitive
             this.orderNum = values.orderNumber;
             this.totes = this.data.totes;
 
@@ -241,6 +242,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         message: 'Click OK to clear serial number, lot number, expiration date, warehouse, Ship VIA, and Ship To Name',
       },
@@ -279,6 +281,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: 'Click OK to save current cell sizes and velocity codes for this item to the inventory master.',
         },
@@ -344,6 +347,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       height: 'auto',
       width: '750px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: '',
         cs:currentValue
@@ -391,6 +395,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       height: 'auto',
       width: '750px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: '',
         vc: currentValue
@@ -428,6 +433,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       height: 'auto',
       width: '70vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: values
     });
 
@@ -475,6 +481,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               height: 'auto',
               width: '560px',
               autoFocus: '__non_existing_element__',
+      disableClose:true,
               data: {
                 message: 'There is a need for ' + res.data + ' of item: ' + values.itemNumber + '. Press OK to find a location needing replenishment. Otherwise press CANCEL to do a normal location search',
               }
@@ -584,6 +591,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       height: 'auto',
       width: '70vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         itemWhse: values.itemNumber,
         userId: this.userData.userName,
@@ -610,11 +618,13 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   }
   
   openWareHouse() {
+    if(!this.isWarehouseSensitive)return
     const values = this.toteForm.value;
     const dialogRef = this.dialog.open(WarehouseComponent, {
       height: 'auto',
       width: '640px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         userName: this.userData.userName,
         wsid: this.userData.wsid,
@@ -636,9 +646,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   }
 
   validationPopups(val : any) {
-
     if (val.type == 1) {
-      if (val.invMapID <= 0 || !val.invMapID) {
+      if (val.invMapID <= 0 || !val.invMapID || val.zone == "") {
         this.toast.error('You must select a location for this transaction before it can be processed.', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
@@ -653,6 +662,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
         });
         return false;
       }
+
     }    
 
     if (this.toteForm.getRawValue().fifo && val.fifoDate.toLowerCase() == 'expiration date' && !val.expirationDate) {
@@ -686,59 +696,95 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     try {
 
       const values = this.toteForm.value;
-   
-      let payLoad = {
-        sRow: 1,
-        eRow: 5,
-        itemWhse: [
-          values.itemNumber,
-          // "238562",
-          values.warehouse,
-          "1=1"
-        ],
-        username: this.userData.userName,
-        wsid: this.userData.wsid 
-      };
+      if (!this.validationPopups({...values, type : 1})) {
+        return;
+      }
 
+        let payload = {
+        zone: this.toteForm.value.zone,      
+        username: this.userData.userName,
+        wsid: this.userData.wsid
+      };
+      
       this.Api
-        .CrossDock(payLoad)
+        .BatchByZone(payload)
         .subscribe(
           (res: any) => {
-            if (res.data && res.isExecuted) 
-            {
-              if(res.data.transaction.length > 0)
-              {
+            if (res.isExecuted) {
+              if (!res.data) {
                 let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
                   height: 'auto',
                   width: '560px',
                   autoFocus: '__non_existing_element__',
                   data: {
-                    message: 'Cross Dock opportunity!  Click OK to view backorder transactions for the item you are putting away.',
+                    message: 'There are no batches with this zone (' + this.toteForm.value.zone + ') assigned.  Click OK to start a new batch or cancel to choose a different location/transaction.',
                   },
                 });
-
-                dialogRef.afterClosed().subscribe((result) => {
-                  if (result == 'Yes') {
-                    this.openCrossDockTransactionDialogue();
-                  }
-                  else {
-                    this.complete(values);
-                  }
-                });                
+  
+                dialogRef.afterClosed().subscribe((res) => {
+                  if (res == 'Yes') {
+                    this.dialogRef.close("New Batch"); 
+                  }      
+                });
               }
-              else 
-              {
-                this.complete(values);              
+              else{
+                let payLoad = {
+                  sRow: 1,
+                  eRow: 5,
+                  itemWhse: [
+                    values.itemNumber,
+                    // "238562",
+                    values.warehouse,
+                    "1=1"
+                  ],
+                  username: this.userData.userName,
+                  wsid: this.userData.wsid 
+                };
+          
+                this.Api
+                  .CrossDock(payLoad)
+                  .subscribe(
+                    (res: any) => {
+                      if (res.data && res.isExecuted) 
+                      {
+                        if(res.data.transaction.length > 0)
+                        {
+                          let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+                            height: 'auto',
+                            width: '560px',
+                            autoFocus: '__non_existing_element__',
+                disableClose:true,
+                            data: {
+                              message: 'Cross Dock opportunity!  Click OK to view backorder transactions for the item you are putting away.',
+                            },
+                          });
+          
+                          dialogRef.afterClosed().subscribe((result) => {
+                            if (result == 'Yes') {
+                              this.openCrossDockTransactionDialogue();
+                            }
+                            else {
+                              this.complete(values);
+                            }
+                          });                
+                        }
+                        else 
+                        {
+                          this.complete(values);              
+                        }
+                      } else {
+                        this.toastr.error('Something went wrong', 'Error!', {
+                          positionClass: 'toast-bottom-right',
+                          timeOut: 2000,
+                        });
+                      }
+                    },
+                    (error) => {}
+                  );   
               }
-            } else {
-              this.toastr.error('Something went wrong', 'Error!', {
-                positionClass: 'toast-bottom-right',
-                timeOut: 2000,
-              });
             }
-          },
-          (error) => {}
-        );   
+          });
+   
               
       
     } catch (error) {
@@ -756,6 +802,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         message: 'Click OK to complete this transaction and assign it to the selected batch and tote.',
       },

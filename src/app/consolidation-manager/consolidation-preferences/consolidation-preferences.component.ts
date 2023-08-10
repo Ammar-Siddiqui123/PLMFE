@@ -35,6 +35,7 @@ export class ConsolidationPreferencesComponent implements OnInit {
       height: 'auto',
       width: '720px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
      
     })
     dialogRef.afterClosed().subscribe(result => {

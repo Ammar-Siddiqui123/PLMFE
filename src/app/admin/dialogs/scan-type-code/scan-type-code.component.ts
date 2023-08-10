@@ -110,6 +110,7 @@ export class ScanTypeCodeComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'dltScanTypeCode',
         ErrorMessage: `Are you sure you want to delete Scan Type ${newScanTypeCode}?`,

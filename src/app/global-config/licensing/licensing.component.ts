@@ -154,6 +154,7 @@ export class LicensingComponent implements OnInit {
             let dialogRef = this.dialog.open(LicensingInvalidComponent, {
               width: '550px',
               autoFocus: '__non_existing_element__',
+      disableClose:true,
 
 
               data: {

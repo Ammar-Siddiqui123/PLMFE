@@ -122,6 +122,7 @@ export class LookupToteSetupComponent implements OnInit {
       height: 'auto',
       width: '600px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         action: 'delete',
         actionMessage:` ${ele.toteID} from the Tote list.. `
@@ -152,6 +153,7 @@ export class LookupToteSetupComponent implements OnInit {
         heading: 'Clear Tote',
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result)

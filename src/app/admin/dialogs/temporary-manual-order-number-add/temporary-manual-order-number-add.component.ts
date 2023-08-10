@@ -276,6 +276,9 @@ this.orderRequired=true
     this.searchByOrder
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
+        if(this.orderNumber != ""){
+          this.orderRequired = false;
+        }
         this.autocompleteSearchColumn();
       });
 

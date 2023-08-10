@@ -103,6 +103,7 @@ export class CountComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           heading: 'Mark Selected Orders for COUNT Location Assignment?',
           message: 'Do you want to mark these orders for location assignment?',
@@ -176,11 +177,11 @@ export class CountComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {  
         'totalCount': res.data
       }
-      ,
-      disableClose: true
+   
     
     })
     dialogRef.afterClosed().subscribe(result => {

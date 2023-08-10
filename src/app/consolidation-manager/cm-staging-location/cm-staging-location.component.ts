@@ -91,7 +91,8 @@ export class CmStagingLocationComponent implements OnInit {
               let dialogRef = this.dialog.open(StagingLocationOrderComponent, { 
                 height: 'auto',
                 width: '620px',
-                autoFocus: '__non_existing_element__', 
+                autoFocus: '__non_existing_element__',
+      disableClose:true, 
               })
               dialogRef.afterClosed().subscribe(result => { 
                 this.stagetables = [];
@@ -177,7 +178,8 @@ export class CmStagingLocationComponent implements OnInit {
     let dialogRef = this.dialog.open(CmOrderToteConflictComponent, { 
       height: 'auto',
       width: '620px',
-      autoFocus: '__non_existing_element__', 
+      autoFocus: '__non_existing_element__',
+      disableClose:true, 
     })
     dialogRef.afterClosed().subscribe(result => { 
         this.type = result;  

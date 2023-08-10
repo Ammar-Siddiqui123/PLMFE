@@ -300,6 +300,7 @@ export class WorkstationComponent implements OnInit {
           height: 'auto',
           width: '480px',
           autoFocus: '__non_existing_element__',
+      disableClose:true,
           data: {
             mode: 'delete_workstation',
             wsid: this.wsid,

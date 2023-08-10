@@ -114,6 +114,7 @@ export class EventLogComponent implements OnInit {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: { data: element }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -196,8 +197,7 @@ export class EventLogComponent implements OnInit {
     this.eventLogTable(true);
   }
 
-  deleteRange() {
-    debugger
+  deleteRange() { 
     if(this.startDate > this.endDate){
       this.toastr.error('Start date must be before end date!', 'Error!', {
         positionClass: 'toast-bottom-right',
@@ -209,6 +209,7 @@ export class EventLogComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-event-log',
         ErrorMessage: 'Are you sure you want to delete all Event Log entries with specified date, message, event location and name stamp filters?',
@@ -298,6 +299,7 @@ export class EventLogComponent implements OnInit {
         TypeOfElement: TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
@@ -319,8 +321,7 @@ export class EventLogComponent implements OnInit {
   }
 
   @HostListener('document:keyup', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    debugger
+  handleKeyboardEvent(event: KeyboardEvent) { 
     const target = event.target as HTMLElement;
     if (!this.isInputField(target) && event.key === 'c') {
       event.preventDefault();

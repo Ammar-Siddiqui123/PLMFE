@@ -77,7 +77,7 @@
                     <div class="g-field-content">
                       {{empData.accessLevel==='administrator'?'Administrator':empData.accessLevel==='staff_member'?'Staff  Member':'' }}</div>
                   </div>
-                  <div class="g-detail" *ngIf="env  == 'AD'">
+                  <div class="g-detail" *ngIf="(env  != 'AD' && env  != 'AZUREAD') ">
                     <label class="g-field-label">Group</label>
                     <div class="g-field-content">
                       {{empData.groupName}}</div>

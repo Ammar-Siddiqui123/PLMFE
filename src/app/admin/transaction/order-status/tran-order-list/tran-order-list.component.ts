@@ -665,6 +665,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
                   const dialogRef = this.dialog.open(FilterToteComponent, {
                     width: '650px',
                     autoFocus: '__non_existing_element__',
+      disableClose:true,
                     data: {
                       dates: res.data,
                       orderName: this.getOrderForTote,
@@ -712,7 +713,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     let dialogRef = this.dialog.open(OmChangePriorityComponent, { 
       height: 'auto',
       width: '560px',
-      autoFocus: '__non_existing_element__', 
+      autoFocus: '__non_existing_element__',
+      disableClose:true, 
       data: {
         orderNo: this.orderNo,
         priorityTable: this.dataSource.filteredData[0].priority,
@@ -775,6 +777,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
         TypeOfElement: TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
@@ -788,6 +791,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       height: 'auto',
       width: '100vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         orderNumber: this.orderNo,
       },

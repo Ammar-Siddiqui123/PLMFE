@@ -56,7 +56,10 @@ export class DeleteRangeComponent implements OnInit {
     this.getSearchOptionsEnd();
   }
   ngAfterViewInit(): void {
-    this.del_focus.nativeElement.focus();
+    // this.del_focus.nativeElement.focus();
+    setTimeout(()=>{
+      this.del_focus.nativeElement.focus();  
+    }, 200);
   }
   ngOnDestroy() {
     this.getSearchOptionsBeginSubscribe.unsubscribe();
@@ -69,6 +72,7 @@ export class DeleteRangeComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'delete-selected-current-orders',
           action: 'delete'

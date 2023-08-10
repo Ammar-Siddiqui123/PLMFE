@@ -207,8 +207,7 @@ export class ColumnSequenceDialogComponent implements OnInit {
   }
 
   @HostListener('document:keyup', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    debugger
+  handleKeyboardEvent(event: KeyboardEvent) { 
     const target = event.target as HTMLElement;
     if (!this.isInputField(target) && event.key === 'a') {
       event.preventDefault();

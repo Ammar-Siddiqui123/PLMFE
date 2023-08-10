@@ -564,6 +564,7 @@ export class ReprocessTransactionComponent implements OnInit {
             height: 'auto',
             width: '480px',
             autoFocus: '__non_existing_element__',
+      disableClose:true,
             data: {
               mode: '',
             }
@@ -688,6 +689,7 @@ export class ReprocessTransactionComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: message
         }
@@ -747,6 +749,7 @@ export class ReprocessTransactionComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           target: 'unassigned',
           function: null
@@ -986,6 +989,7 @@ export class ReprocessTransactionComponent implements OnInit {
     const dialogRef = this.dialog.open(this.description, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((x) => {
 
@@ -1000,6 +1004,7 @@ export class ReprocessTransactionComponent implements OnInit {
       height: 'auto',
       width: '100%',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         transactionID: id,
         history: this.isHistory
