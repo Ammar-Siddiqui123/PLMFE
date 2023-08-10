@@ -94,10 +94,12 @@ export class HeaderInterceptor implements HttpInterceptor {
     }
     throw err;
   }else if(err.status === 500){
-    this.toastr.error(err.error.ResponseMessage, 'Error!', {
-      positionClass: 'toast-bottom-right',
-      timeOut: 2000,
-    }); 
+    if(`${err.url}`.indexOf("insertnewprinter") > -1){
+      this.toastr.error(err.error.ResponseMessage, 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000,
+      }); 
+    }
     this.spinnerService.hide();
   } 
   return of(err.message);

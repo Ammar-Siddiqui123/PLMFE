@@ -202,46 +202,53 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   getOrders() {
-    let val1 : any, val2 : any;
-
-    if (this.column.indexOf('Date') > -1) {
-      val1 = this.value1D.toLocaleDateString();
-      val2 = this.value2D.toLocaleDateString();
-    } else {
-      val1 = this.value1;
-      val2 = this.value2;      
-    }
-
-
-    if(this.FilterString == "") this.FilterString = "1 = 1";
-
-    let payload = {
-      username: this.userData.userName,
-      wsid: this.userData.wsid,
-      col: this.column,
-      whereClause: this.case,
-      colVal1: val1 ,
-      colVal2: val2,
-      maxOrders: this.maxOrders.toString(),
-      transType: this.transType,
-      viewType: this.viewType,
-      orderType: this.orderType,
-      filter: this.FilterString
-    };
     
+    try{
+      let val1 : any, val2 : any;
 
-    this.Api.FillOrderManTempData(payload).pipe(
-      catchError((error) => {
-        // Handle the error here
-        console.error('An error occurred while making the API call:', error);
-        
-        // Return a fallback value or trigger further error handling if needed
-        return of({ isExecuted: false });
-      })
-    ).subscribe((res: any) => {
-      if (res.isExecuted) this.fillTable();
-      else this.toastr.error("An Error occured while retrieving data.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
-    });
+      if (this.column.indexOf('Date') > -1) {
+        val1 = this.value1D.toLocaleDateString();
+        val2 = this.value2D.toLocaleDateString();
+      } else {
+        val1 = this.value1;
+        val2 = this.value2;      
+      }
+  
+  
+      if(this.FilterString == "") this.FilterString = "1 = 1";
+  
+      let payload = {
+        username: this.userData.userName,
+        wsid: this.userData.wsid,
+        col: this.column,
+        whereClause: this.case,
+        colVal1: val1 ,
+        colVal2: val2,
+        maxOrders: this.maxOrders.toString(),
+        transType: this.transType,
+        viewType: this.viewType,
+        orderType: this.orderType,
+        filter: this.FilterString
+      };
+      
+  
+      this.Api.FillOrderManTempData(payload).pipe(
+        catchError((error) => {
+          // Handle the error here
+          
+  this.toastr.error("Something went wrong" ,'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+          // Return a fallback value or trigger further error handling if needed
+          return of({ isExecuted: false });
+        })
+      ).subscribe((res: any) => {
+        if (res.isExecuted) this.fillTable();
+        else this.toastr.error("An Error occured while retrieving data.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+      });
+    }catch(ex){
+
+      this.toastr.error("Something went wrong" ,'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
+    }
+    
   }
 
   fillTable(loader : boolean = false) {
