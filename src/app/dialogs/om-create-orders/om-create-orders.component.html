@@ -101,7 +101,7 @@
                                 <mat-option value="post_order" (click)="releaseOrders()">Release Orders</mat-option>
                                 <mat-option value="delete_order" (click)="deleteViewed()">Delete Viewed</mat-option>
                                 <mat-option value="add_new_transaction" [disabled]="!tableData.filteredData || tableData.filteredData.length == 0" (click)="printViewed()">Print Viewed</mat-option>
-                                <mat-option value="add_new_transaction" (click)="selectColumnSequence()">Select Column Sequence</mat-option>
+                                <mat-option value="add_new_transaction" (click)="selectColumnSequence()">Set Column Sequence</mat-option>
                             </mat-select>
                             <span class="material-symbols-outlined icon-expand-more">
                                 expand_more
