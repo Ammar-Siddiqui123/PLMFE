@@ -151,7 +151,7 @@
                         <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100 "   appearance="outline">
                                 <mat-label>{{fieldNames?.unitOfMeasure}}</mat-label>
-                                <input matInput formControlName="unitOfMeasure"   name="unitOfMeasure" >
+                                <input matInput formControlName="unitOfMeasure"  [ngModel]="unitOFMeasure" name="unitOfMeasure" >
                             </mat-form-field>
                         </div>
                         <div class="col-xl-6 col-md-12 mb-2">
@@ -244,8 +244,8 @@
                         <mat-form-field class="d-block w-100" appearance="outline" >
                             <mat-label>{{fieldNames?.itemNumber}}</mat-label>
                             <input  maxlength="50"  aria-label="Item Number" matInput 
-                                formControlName="item" [matAutocomplete]="itemNumAuto" [(ngModel)]="searchItemNumbers" #searchItam (keyup)="searchItemNumber(searchItam)">
-                                <button matSuffix *ngIf="searchItemNumbers" class="clear-btn"  (click)="searchItemNumbers=''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
+                                formControlName="item" [matAutocomplete]="itemNumAuto" [(ngModel)]="searchItemNumbers" #searchItam (keyup)="searchItemNumber($event,searchItam)">
+                                <button matSuffix *ngIf="searchItemNumbers" class="clear-btn" type="button" (click)="searchItemNumbers=''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                             <mat-autocomplete  #itemNumAuto="matAutocomplete" [panelWidth]="400" (optionSelected)="loadItemDetails($event.option.value)">
                                 <h6 class="loc_name"><span>Item Number</span> <span>Description</span></h6>
                                 <mat-option *ngFor="let option of itemNumberList"
@@ -261,7 +261,7 @@
 
                 <mat-form-field class="d-block w-100 mb-3" appearance="outline">
                     <mat-label>Description</mat-label>
-                    <input matInput disabled name="description" value="{{itemDescription}}">
+                    <input matInput  name="description"     [value]="addInvMapLocation.controls['description'].value"   disabled >
                 </mat-form-field>
                 <div class="row">
                     <div class="col-4  mb-2" *ngIf="data.mode != 'addInvMapLocation'">
