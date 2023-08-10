@@ -16,8 +16,9 @@ export class SideNavComponent implements OnInit {
   menuData: any=[];
   @Input() sideBarOpen: Boolean;
   isConfigUser:any = false;
+  menuRoute;
   public userData: any;
-
+  isMenuHide:any=false;
   dynamicMenu: any=[]
   menus: any = [
     { icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'},
@@ -43,7 +44,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'arrow_back', title: 'Admin', route: '/dashboard', class: 'back-class' ,permission: 'Dashboard'},
     { icon: 'dashboard', title: 'Inventory', route: '/admin/inventoryMaster',permission: 'Inventory' },
     { icon: 'directions_alt', title: 'Inventory Map', route: '/admin/inventoryMap' ,permission: 'Inventory Map'},
-    { icon: 'analytics', title: 'Reports', route: '/admin/Reports' ,permission: 'Reports'},
+    { icon: 'analytics', title: 'Reports', route: '/admin/reports' ,permission: 'Reports'},
     { icon: 'dvr', title: 'Transactions', route: '/admin/transaction' ,permission: 'Transaction Journal'},
     { icon: 'list_alt', title: 'Batch Manager', route: '/admin/batchManager' ,permission: 'Batch Manager'},
     { icon: 'low_priority', title: 'Cycle Count', route: '/admin/cycleCounts' ,permission: 'Cycle Count Manager'},
@@ -76,7 +77,7 @@ export class SideNavComponent implements OnInit {
     // { icon: 'grid_view', title: 'Dashboard', route: '/dashboard' ,permission:'Induction Manager'},
     { icon: 'tune', title: ' Preferences ', route: '/ConsolidationManager/Preferences' ,permission:'Consolidation Mgr Admin'},
     // Vector (Stroke)
-    { icon: 'analytics', title: 'Reporting ', route: '#' ,permission:'Consolidation Mgr Admin'},
+    { icon: 'analytics', title: 'Reporting ', route: '/ConsolidationManager/Reports' ,permission:'Consolidation Mgr Admin'},
      { icon: 'view_module', title: 'Order Status', route: '/ConsolidationManager/OrderStatus',paramsObj:{IsOrderStatus:true} ,permission:'Order Status'}
     //  flex_wrap
   ];
@@ -90,7 +91,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'ads_click   ', title: 'Manual Transactions ', route: '/InductionManager/Admin/ManualTransactions' ,permission:'Induction Manager'},
     { icon: 'elevator   ', title: 'Tote Manager ', route: '/InductionManager/Admin/ImToteManager' ,permission:'Induction Manager'},
     { icon: 'post_add ', title: 'Transaction Journal ', route: '/InductionManager/Admin/TransactionJournal' ,permission:'Induction Manager'},
-    { icon: '     analytics     ', title: 'Reports ', route: '#' ,permission:''},
+    { icon: '     analytics     ', title: 'Reports ', route: '/InductionManager/Admin/Reports' ,permission:'Induction Manager'},
     { icon: '      tune       ', title: 'Preferences ', route: '/InductionManager/Admin/AdminPrefrences' ,permission:'Induction Manager'},
   ];
 
@@ -102,7 +103,7 @@ export class SideNavComponent implements OnInit {
     { icon: 'event_note', title: 'Event Log ', route: '/OrderManager/EventLog' ,permission:'Admin Release Orders'},
     { icon: 'dataset', title: 'Inventory Master Info', route: '/OrderManager/InventoryMaster' ,permission:'Admin Inventory Master'},  
     { icon: 'warehouse', title: 'Stock Location & Quantity ', route: '/OrderManager/InventoryMap' ,permission:'Admin Stock Locations'},
-    { icon: 'analytics', title: 'Reports ', route: '#' ,permission:'Admin Reports'},
+    { icon: 'analytics', title: 'Reports ', route: '/OrderManager/Reports' ,permission:'Admin Reports'},
     { icon: 'tune', title: 'Preferences ', route: '/OrderManager/Preferences' ,permission:'Admin Preferences'},
   ];
 
@@ -121,7 +122,9 @@ export class SideNavComponent implements OnInit {
               private authService: AuthService,
               private sharedService:SharedService, 
               private Api:ApiFuntions) { 
-                
+                this.sharedService.sideMenuHideObserver.subscribe(menu => {
+                  this.isMenuHide = menu;   
+                });
                 this.sharedService.SidebarMenupdate.subscribe((data: any) => {
                   var Menuobj = this.menus.find(x=>x.route == data);
                   if(Menuobj==null&&this.authService.UserPermissonByFuncName('Admin Menu'))Menuobj = this.adminMenus.find(x=>x.route == data);
@@ -219,32 +222,7 @@ export class SideNavComponent implements OnInit {
         }
       }
     });
-
-    // this.sharedService.menuData$.subscribe(data => {
-    //   this.menuData = data;
-    //   let mednuAlter=[{title:'',icon:'',route:'',permission:''}]
-    // this.dynamicMenu= this.menuData.map((item,index)=>{
-      
-    //   mednuAlter[index].title=item.displayname
-    //   mednuAlter[index].icon=item.info.iconName
-    //   mednuAlter[index].route=item.info.route
-    //   mednuAlter[index].permission=item.info.permission
-    //   return mednuAlter
-    //   })
-    //  console.log( this.dynamicMenu);
-     
-    // });
-  }
-  
-  ngAfterViewInit(){
-     // let menuFromStorage=JSON.parse(localStorage.getItem('availableApps')|| '');
-    //   console.log(menuFromStorage);
-    //   menuFromStorage.filter((item,i)=>{
-    //     this.dynamicMenu[0]={icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'}
-    //     this.dynamicMenu.push({icon:item.info.iconName,title:item.displayname,route:item.info.route,permission:item.info.permission})
-    //   })
-
-     
+    
     this.sharedService.menuData$.subscribe(data => { 
       //  debugger
        if(this.menuData.length===0){
@@ -276,6 +254,42 @@ export class SideNavComponent implements OnInit {
       }
 
     });
+
+    this.sharedService.updateMenuFromInside.subscribe((menuOpen)=>{
+          // if(menuOpen.isBackFromReport){
+          //   this.router.navigate([`${menuOpen.route}`]);
+          // }else{
+          //   this.loadMenus(menuOpen)
+          // }
+         
+         this.loadMenus(menuOpen)
+    })
+    // this.sharedService.menuData$.subscribe(data => {
+    //   this.menuData = data;
+    //   let mednuAlter=[{title:'',icon:'',route:'',permission:''}]
+    // this.dynamicMenu= this.menuData.map((item,index)=>{
+      
+    //   mednuAlter[index].title=item.displayname
+    //   mednuAlter[index].icon=item.info.iconName
+    //   mednuAlter[index].route=item.info.route
+    //   mednuAlter[index].permission=item.info.permission
+    //   return mednuAlter
+    //   })
+    //  console.log( this.dynamicMenu);
+     
+    // });
+  }
+  
+  ngAfterViewInit(){
+     // let menuFromStorage=JSON.parse(localStorage.getItem('availableApps')|| '');
+    //   console.log(menuFromStorage);
+    //   menuFromStorage.filter((item,i)=>{
+    //     this.dynamicMenu[0]={icon: 'home', title: 'Home', route: '/dashboard' ,permission: 'Home'}
+    //     this.dynamicMenu.push({icon:item.info.iconName,title:item.displayname,route:item.info.route,permission:item.info.permission})
+    //   })
+
+     
+
   }
 
   // let menuFromStorage=JSON.parse(localStorage.getItem('availableApps')|| '');
@@ -302,7 +316,9 @@ export class SideNavComponent implements OnInit {
 //   this.dataSource = new MatTableDataSource(arrayOfObjects);
 // }
 
-
+redirect(){
+  this.router.navigate([`${localStorage.getItem('reportNav')}`]);
+}
 
   async getAppLicense() {
 
@@ -317,9 +333,8 @@ export class SideNavComponent implements OnInit {
     );
   }
 
-  loadMenus(menu: any) {  
-    
-    this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route);
+  loadMenus(menu: any) {
+        this.sharedService.updateLoggedInUser(this.userData.userName,this.userData.wsid,menu.route);
     if (!menu) {
       menu = {route : '/dashboard'};      
     }
@@ -331,6 +346,7 @@ export class SideNavComponent implements OnInit {
         //   this.dynamicMenu = this.menus;
         // }
       if (menu.route.includes('/admin')) {
+        
         if (menu.route.includes('/admin/')) {
           this.adminMenus[0].route = '/admin';
         } else {

@@ -30,43 +30,44 @@ import { InputFilterComponent } from '../../dialogs/input-filter/input-filter.co
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { RouteHistoryService } from 'src/app/services/route-history.service';
+import { PrintRangeComponent } from '../dialogs/print-range/print-range.component';
 
 
 const INVMAP_DATA = [
-  { colHeader: "location", colDef: "Location" },
-  { colHeader: "zone", colDef: "Zone" },
-  { colHeader: "carousel", colDef: "Carousel" },
-  { colHeader: "row", colDef: "Row" },
-  { colHeader: "shelf", colDef: "Shelf" },
+  { colHeader: "locationID", colDef: "Alternate Light" },
   { colHeader: "bin", colDef: "Bin" },
+  { colHeader: "carousel", colDef: "Carousel" },
+  { colHeader: "cellSize", colDef: "Cell Size" },
+  { colHeader: "dateSensitive", colDef: "Date Sensitive" },
+  { colHeader: "dedicated", colDef: "Dedicated" },
+  { colHeader: "description", colDef: "Description" },
+  { colHeader: "expirationDate", colDef: "Expiration Date" },
+ 
+  { colHeader: "invMapID", colDef: "Inv Map ID" },
   { colHeader: "itemNumber", colDef: "Item Number" },
   { colHeader: "itemQuantity", colDef: "Item Quantity" },
-  { colHeader: "description", colDef: "Description" },
-  { colHeader: "cellSize", colDef: "Cell Size" },
-  { colHeader: "goldenZone", colDef: "Velocity Code" },
-  { colHeader: "maxQuantity", colDef: "Maximum Quantity" },
-  { colHeader: "dedicated", colDef: "Dedicated" },
-  { colHeader: "serialNumber", colDef: "Serial Number" },
-  { colHeader: "lotNumber", colDef: "Lot Number" },
-  { colHeader: "expirationDate", colDef: "Expiration Date" },
-  { colHeader: "unitOfMeasure", colDef: "Unit of Measure" },
-  { colHeader: "quantityAllocatedPick", colDef: "Quantity Allocated Pick" },
-  { colHeader: "quantityAllocatedPutAway", colDef: "Quantity Allocated Put Away" },
-  { colHeader: "putAwayDate", colDef: "Put Away Date" },
-  { colHeader: "warehouse", colDef: "Warehouse" },
-  { colHeader: "revision", colDef: "Revision" },
-  { colHeader: "invMapID", colDef: "Inv Map ID" },
-  { colHeader: "userField1", colDef: "User Field1" },
-  { colHeader: "userField2", colDef: "User Field2" },
-  { colHeader: "masterLocation", colDef: "Master Location" },
-  { colHeader: "dateSensitive", colDef: "Date Sensitive" },
-  { colHeader: "masterInvMapID", colDef: "Master Inv Map ID" },
-  { colHeader: "minQuantity", colDef: "Min Quantity" },
   { colHeader: "laserX", colDef: "Laser X" },
   { colHeader: "laserY", colDef: "Laser Y" },
+  { colHeader: "location", colDef: "Location" },
   { colHeader: "locationNumber", colDef: "Location Number" },
-  { colHeader: "locationID", colDef: "Alternate Light" },
-  // { colHeader: "qtyAlcPutAway", colDef: "Quantity Allocated Put Away" },
+  { colHeader: "lotNumber", colDef: "Lot Number" },
+  { colHeader: "masterInvMapID", colDef: "Master Inv Map ID" },
+  { colHeader: "masterLocation", colDef: "Master Location" },
+  { colHeader: "maxQuantity", colDef: "Maximum Quantity" },
+  { colHeader: "minQuantity", colDef: "Min Quantity" },
+  { colHeader: "putAwayDate", colDef: "Put Away Date" },
+  { colHeader: "quantityAllocatedPick", colDef: "Quantity Allocated Pick" },
+  { colHeader: "quantityAllocatedPutAway", colDef: "Quantity Allocated Put Away" },
+  { colHeader: "revision", colDef: "Revision" },
+  { colHeader: "row", colDef: "Row" },
+  { colHeader: "serialNumber", colDef: "Serial Number" },
+  { colHeader: "shelf", colDef: "Shelf" },
+  { colHeader: "unitOfMeasure", colDef: "Unit of Measure" },
+  { colHeader: "userField1", colDef: "User Field1" },
+  { colHeader: "userField2", colDef: "User Field2" },
+  { colHeader: "goldenZone", colDef: "Velocity Code" },
+  { colHeader: "warehouse", colDef: "Warehouse" },
+  { colHeader: "zone", colDef: "Zone" },
 ];
 
 @Component({
@@ -176,6 +177,7 @@ export class InventoryMapComponent implements OnInit {
         TypeOfElement:TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => { 
       if(result.SelectedColumn){
@@ -254,7 +256,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.userData = this.authService.userData();
  
     this.customPagination = {
       total : '',
@@ -376,6 +378,7 @@ export class InventoryMapComponent implements OnInit {
       height: 'auto',
       width: '100%',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'addInvMapLocation',
         itemList : this.itemList,
@@ -415,6 +418,7 @@ export class InventoryMapComponent implements OnInit {
       //   height: '700px',
       //   width: '600px',
       //   autoFocus: '__non_existing_element__',
+    
       //   data: {
       //     mode: actionEvent.value,
       //     tableName:'Inventory Map'
@@ -442,6 +446,7 @@ export class InventoryMapComponent implements OnInit {
     const dialogRef = this.dialog.open(this.customTemplate, {
        width: '560px',
        autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       
@@ -459,6 +464,7 @@ export class InventoryMapComponent implements OnInit {
       height: 'auto',
       width: '100%',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'editInvMapLocation',
         itemList : this.itemList,
@@ -494,6 +500,7 @@ export class InventoryMapComponent implements OnInit {
         height: 'auto',
         width: '480px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'delete-inventory-map',
           id: event.invMapID
@@ -515,6 +522,7 @@ export class InventoryMapComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'inventory-map-quarantine',
         id: event.invMapID
@@ -532,6 +540,7 @@ export class InventoryMapComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'inventory-map-unquarantine',
         id: event.invMapID
@@ -551,6 +560,7 @@ export class InventoryMapComponent implements OnInit {
       height: 'auto',
       width: '800px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     
       data: {
         id: event.invMapID,
@@ -735,6 +745,19 @@ export class InventoryMapComponent implements OnInit {
   });
  }
 
+ printRange(){
+  const dialogRef = this.dialog.open(PrintRangeComponent, {
+    height: 'auto',
+    width: '932px',
+    autoFocus: '__non_existing_element__'
+  });
+ }
+
+ printSelected(event: any){
+  window.open(`/#/report-view?file=FileName:printIMReport|invMapID:${event.invMapID}|groupLikeLoc:false|beginLoc:|endLoc:|User:${this.userData.userName}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+  // window.location.href = `/#/report-view?file=FileName:printIMReport|invMapID:${event.invMapID}|groupLikeLoc:false|beginLoc:|endLoc:|User:${this.userData.userName}`
+  // window.location.reload(); 
+}
 
 
 }

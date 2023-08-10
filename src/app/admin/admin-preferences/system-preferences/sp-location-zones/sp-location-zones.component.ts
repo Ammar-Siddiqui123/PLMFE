@@ -43,6 +43,7 @@ export class SpLocationZonesComponent implements OnInit {
         height: 'auto',
         width: '56vw',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       })
       dialogRef.afterClosed().subscribe(result => { 
         if (result) {
@@ -214,6 +215,7 @@ export class SpLocationZonesComponent implements OnInit {
       height: 'auto',
       width: '786px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe(result => {
       
@@ -234,6 +236,7 @@ export class SpLocationZonesComponent implements OnInit {
       height: 'auto',
       width: '600px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         action: 'delete',
       },
@@ -300,6 +303,7 @@ export class SpLocationZonesComponent implements OnInit {
   //         height: 'auto',
   //         width: '600px',
   //         autoFocus: '__non_existing_element__',
+   
   //         data: {
   //           action: 'delete',
   //         },

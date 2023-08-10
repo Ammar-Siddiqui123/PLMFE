@@ -46,6 +46,8 @@ export class ProcessPicksComponent implements OnInit {
   pickBatches = new FormControl('');
   orderNumber = new FormControl('');
   batchWithID = false;
+  toteEmpty=false;
+  orderEmpty=false;
   // pickBatches:any = '';
   filteredOptions: Observable<any[]>;
   filteredOrderNum: Observable<any[]>;
@@ -77,6 +79,202 @@ export class ProcessPicksComponent implements OnInit {
     this.getAllZones();
     this.getAllOrders();
     this.isBatchIdFocus = true;
+  }
+  printExisting(type){
+
+    
+    var positionList:any[]=[]; 
+    var toteIds :any[]=[] ; 
+    var OrderNumList:any[]=[] ; 
+    this.dataSource?._data?._value.forEach(element => {
+      if(element.position) positionList.push(element.position);
+      if(element.toteID) toteIds.push(element.toteID);
+      if(element.orderNumber) OrderNumList.push(element.orderNumber);
+    });
+    var strposition = JSON.stringify(positionList);
+    var strtoteIds = JSON.stringify(toteIds);
+    var strOrderNumList = JSON.stringify(OrderNumList); 
+    // window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${strposition}|ToteIDs:${strtoteIds}|OrderNums:${strOrderNumList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+ 
+    
+
+    if(!this.pickBatchesCrossbtn){
+      this.toastr.error('Please select a Batch ID to print', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      })
+    }else{
+       
+      if(type==='PrintTote'){
+        window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+    //  window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`, '_blank', "location=yes");
+
+        // window.open(`/#/report-view?file=FileName:IMPickTote-lbl|Positions:${strposition}|ToteIDs:${strtoteIds}|OrderNums:${strOrderNumList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+ 
+      }
+      if(type==='PrintPickLabel'){
+        window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+    //  window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+
+        // window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
+
+      }
+      if(type==='PrintPickList'){
+        window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchList|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+    //  window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchList|BatchID:${this.pickBatches.value}`, '_blank', "location=yes");
+
+        // window.open(`/#/report-view?file=IMOCPick-lst`, '_blank', "location=yes");
+
+      }
+      if(type==='PrintCase'){
+
+        window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+    //  window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`, '_blank', "location=yes");
+
+        // window.open(`/#/report-view?file=CaseLabel-lbl`, '_blank', "location=yes");
+
+      }
+      if(type==='PrintBatch'){
+
+        window.open(`/#/report-view?file=IMPickBatch-lst`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+        // window.open(`/#/report-view?file=IMPickBatch-lst`, '_blank', "location=yes");
+
+      }
+    }
+  }
+  printToteLabels(row){
+    console.log(row);
+    let positionList:any=[];
+    let toteList:any=[];
+    let orderNumberList:any=[];
+
+    if(row.toteID==="" ||row.orderNumber==="" ){
+      this.toastr.error('Missing data from the desired print row', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      })
+    }else{
+
+      positionList.push(row.position)
+      toteList.push(row.toteID)
+      orderNumberList.push(row.orderNumber)
+      window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+      // window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`, '_blank', "location=yes");
+      // window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
+    }
+  }
+  printPickLabels(row){
+    let positionList:any=[];
+    let toteList:any=[];
+    let orderNumberList:any=[];
+    if(row.toteID==="" ||row.orderNumber==="" ){
+      this.toastr.error('Missing data from the desired print row', 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      })
+    }else{
+      positionList.push(row.position)
+      toteList.push(row.toteID)
+      orderNumberList.push(row.orderNumber)
+      window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+      // window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+
+      // window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
+
+    }
+  }
+  printPick(type){
+    const counter =this.dataSource._data?._value?.length
+    let PositionList:any = [];
+    let ToteList:any = [];
+    let OrderList :any= [];
+    for (var i = 0; i <= counter - 1; i++) {
+
+      if (this.dataSource._data?._value[i].orderNumber != "" && this.dataSource._data?._value[i].toteID != "") {
+          PositionList.push(this.dataSource._data?._value[i].position);
+          ToteList.push(this.dataSource._data?._value[i].toteID)
+          OrderList.push(this.dataSource._data?._value[i].orderNumber)
+      };
+  };
+
+    this.toteEmpty = this.dataSource?._data?._value.some(element => element.toteID != ""); 
+    this.orderEmpty = this.dataSource?._data?._value.some(element => element.orderNumber!= ""); 
+    if(type==='PrintTote'){
+      if(!this.toteEmpty){
+        this.toastr.error('Please enter in at least 1 tote id', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        })
+      }
+      else if(!this.orderEmpty){
+        this.toastr.error('Please enter in at least 1 order number', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        })
+      }
+      else{
+        
+    window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+ 
+      // window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}`, '_blank', "location=yes");
+  
+
+        // window.open(`/#/report-view?file=IMPickTote-lbl`, '_blank', "location=yes");
+      }
+    }
+    if(type==='PrintPickLabel'){
+      if(this.batchID===''){
+        this.toastr.error('Please enter in a batch id', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        })
+      }else if(!this.toteEmpty){
+        this.toastr.error('Please enter in at least 1 tote id', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        })
+      }else if(!this.orderEmpty){
+        this.toastr.error('Please enter in at least 1 order number', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        })
+      }else{
+        
+        window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+ 
+        // window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', "location=yes");
+
+        // window.open(`/#/report-view?file=IMPickItem-lbl`, '_blank', "location=yes");
+
+      }
+    }
+    if(type==='PrintPickList'){
+      if(!this.toteEmpty){
+        this.toastr.error('Please enter in at least 1 tote id', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        })
+      }
+      else if(!this.orderEmpty){
+        this.toastr.error('Please enter in at least 1 order number', 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        })
+      }else{
+        window.open(`/#/report-view?file=FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    
+        // window.open(`/#/report-view?file=FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`, '_blank', "location=yes");
+
+          // window.open(`/#/report-view?file=IMOCPick-lst`, '_blank', "location=yes");
+      }
+    }
   }
   getAllOrders() {
     let paylaod = {
@@ -240,6 +438,7 @@ export class ProcessPicksComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: 'Press OK to create a new Tote Setup. Press Cancel to keep the current Tote Setup.'
         }
@@ -267,6 +466,7 @@ export class ProcessPicksComponent implements OnInit {
     const dialogRef = this.dialog.open(this.batchPickID, {
       width: 'auto',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe(() => {
       if (this.dialogClose) {
@@ -390,7 +590,8 @@ export class ProcessPicksComponent implements OnInit {
     else {
       const dialogRef = this.dialog.open(PickToteManagerComponent, {
         height: 'auto',
-        width: '100vw',
+        maxWidth: '95vw',
+        width:'95vw',
         data: {
           pickBatchQuantity: this.pickBatchQuantity,
           useDefaultFilter: this.useDefaultFilter,
@@ -476,6 +677,7 @@ export class ProcessPicksComponent implements OnInit {
       height: 'auto',
       width: '750px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
 
     })
     dialogRef.afterClosed().subscribe(result => {
@@ -625,6 +827,7 @@ export class ProcessPicksComponent implements OnInit {
     const dialogRef = this.dialog.open(this.processSetup, {
       width: '450px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
   }
 

@@ -25,6 +25,7 @@ import { DialogConfig } from '@angular/cdk/dialog';
 import { FunctionAllocationComponent } from '../../dialogs/function-allocation/function-allocation.component';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Router } from '@angular/router';
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
   { colHeader: 'importDate', colDef: 'Import Date' },
@@ -204,6 +205,7 @@ export class ReprocessTransactionComponent implements OnInit {
     private toastr: ToastrService, 
     private dialog: MatDialog,
     private sharedService: SharedService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -224,9 +226,9 @@ export class ReprocessTransactionComponent implements OnInit {
         this.customPagination.length=20;
         this.paginator.pageIndex = 0;
         if(this.searchFieldsTrueFalse.indexOf(this.columnSearch.searchColumn.colDef) > -1){
-          if(this.trueString.match(value.toLowerCase())){
+          if(this.trueString.match(this.columnSearch.searchValue.toLowerCase())){
               this.switchTrueString=true;
-          }else if(this.falseString.match(value.toLowerCase())){
+          }else if(this.falseString.match(this.columnSearch.searchValue.toLowerCase())){
             this.switchTrueString=false;
           }
         }   
@@ -275,7 +277,11 @@ export class ReprocessTransactionComponent implements OnInit {
   
   }
 
+  selectedTransaction:any;
   getTransaction(row: any) {
+    this.selectedTransaction = row;
+    console.log(this.selectedTransaction);
+
     this.isEnabled = false;
     this.transactionID = row.id;
 
@@ -558,6 +564,7 @@ export class ReprocessTransactionComponent implements OnInit {
             height: 'auto',
             width: '480px',
             autoFocus: '__non_existing_element__',
+      disableClose:true,
             data: {
               mode: '',
             }
@@ -682,6 +689,7 @@ export class ReprocessTransactionComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: message
         }
@@ -741,6 +749,7 @@ export class ReprocessTransactionComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           target: 'unassigned',
           function: null
@@ -972,6 +981,7 @@ export class ReprocessTransactionComponent implements OnInit {
     // this.orderNo = '';
     this.columnSearch.searchValue = '';
     this.searchAutocompleteListByCol = [];
+    this.searchByColumn.next('');
   }
 
   openReasonDialog(reasonMessage:any)
@@ -979,6 +989,7 @@ export class ReprocessTransactionComponent implements OnInit {
     const dialogRef = this.dialog.open(this.description, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((x) => {
 
@@ -993,6 +1004,7 @@ export class ReprocessTransactionComponent implements OnInit {
       height: 'auto',
       width: '100%',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         transactionID: id,
         history: this.isHistory
@@ -1030,5 +1042,55 @@ export class ReprocessTransactionComponent implements OnInit {
   clear(){
     this.columnSearch.searchValue = ''
     this.getContentData()
+  }
+
+  recordsToView: string = "";
+  selectedOptionChange($event){
+    this.recordsToView = $event;
+  }
+
+  printPreview(type:string){
+    let id: number = this.selectedTransaction?.id;
+    let history = this.recordsToView == 'history' ? 1 : 0;
+    let reason = this.selectedTransaction?.reason;
+    let message = this.selectedTransaction?.reasonMessage;
+    let date = this.selectedTransaction?.dateStamp;
+    let orderNumber = this.orderNumber;
+    let itemNumber = this.itemNumber;
+    if(type == 'all'){
+      window.open(`/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:|Date:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      // window.location.href = `/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:|Date:`;
+      // window.location.reload();
+    }
+    else if(type == 'selected'){
+      window.open(`/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:${id}|OrderNumber:|ItemNumber:|Reason:|Message:|Date:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      // window.location.href = `/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:${id}|OrderNumber:|ItemNumber:|Reason:|Message:|Date:`;
+      // window.location.reload();
+    }
+    else if(type == 'reason'){
+      window.open(`/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:${reason}|Message:|Date:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      // window.location.href = `/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:${reason}|Message:|Date:`;
+      // window.location.reload();
+    }
+    else if(type == 'message'){
+      window.open(`/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:${message}|Date:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      // window.location.href = `/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:${message}|Date:`;
+      // window.location.reload();
+    }
+    else if(type == 'date'){
+      window.open(`/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:|Date:${date}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      // window.location.href = `/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:|Date:${date}`;
+      // window.location.reload();
+    }
+    else if(type == 'item'){
+      window.open(`/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:${itemNumber}|Reason:|Message:|Date:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      // window.location.href = `/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:${itemNumber}|Reason:|Message:|Date:`;
+      // window.location.reload();
+    }
+    else if(type == 'order'){
+      window.open(`/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:${orderNumber}|ItemNumber:|Reason:|Message:|Date:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      // window.location.href = `/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:${orderNumber}|ItemNumber:|Reason:|Message:|Date:`;
+      // window.location.reload();
+    }
   }
 }

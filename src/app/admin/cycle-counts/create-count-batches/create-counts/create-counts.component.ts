@@ -27,6 +27,9 @@ import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confir
 import { FloatLabelType } from '@angular/material/form-field';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Route, Router } from '@angular/router';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-ccb-create-counts',
@@ -35,12 +38,15 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 })
 export class CCBCreateCountsComponent implements OnInit {
   public userData: any;
+  @ViewChild('matRefAction') matRefAction: MatSelect;
+
   selectedTabIndex: number = 0;
   orderNumber;
   countType: string = '';
   warehouse: string = '';
   subCategory: any;
   math = Math;
+  printCC:boolean=false;
   @Input() updateTable: boolean;
   warehouses: any = [];
   customPagination: any = {
@@ -122,7 +128,9 @@ export class CCBCreateCountsComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     public dialog: MatDialog,
-    private liveAnnouncer: LiveAnnouncer
+    private liveAnnouncer: LiveAnnouncer,
+    private router: Router,
+    
   ) {
     this.filtersForm = new FormGroup({
       countType: new FormControl(''),
@@ -155,7 +163,13 @@ export class CCBCreateCountsComponent implements OnInit {
   nextStep() {
     this.countsUpdated.emit('next');
   }
+  clearMatSelectList(){
+    this.matRefAction.options.forEach((data: MatOption) => data.deselect());
+  }
+ countAction(event:any){
+    this.clearMatSelectList();
 
+  }
   updateQueCountEvent(obj) {
     this.eventChange.emit(obj);
   }
@@ -278,6 +292,18 @@ export class CCBCreateCountsComponent implements OnInit {
     // this.filtersForm.controls['category'].setValue(item.category);
     this.fillData();
     }
+  }
+  printCountOrders(){
+    if(this.printCC){
+    window.open(`/#/report-view?file=FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+      // window.open(`/#/report-view?file=FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_self', "location=yes");
+    }else{
+    window.open(`/#/report-view?file=FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+      // window.open(`/#/report-view?file=FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_blank', "location=yes");
+    }
+
   }
   resetVal() {
     this.filtersForm.controls['fromLocation'].setValue('');
@@ -443,6 +469,10 @@ export class CCBCreateCountsComponent implements OnInit {
             this.curCountOrders = res.data.countOrders
               ? res.data.countOrders
               : [];
+
+              if (this.curCountOrders.length > 0) {
+                this.orderNumber = this.curCountOrders[0].orderNumber;
+              }
           }
           // If the data is not returned, show an error message
           else {
@@ -632,6 +662,7 @@ export class CCBCreateCountsComponent implements OnInit {
       height: 'auto',
       width: '600px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-create-count',
         actionMessage: ` all ${
@@ -770,16 +801,7 @@ export class CCBCreateCountsComponent implements OnInit {
 
   }
   deleteRow(rowId) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '600px',
-      autoFocus: '__non_existing_element__',
-      data: {
-        mode: 'delete-cycle-count',
-      },
-    });
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res === 'Yes') {
+
         this.dataSource.data = this.dataSource.data.filter((value, key) => {
           return value.invMapID != rowId;
         });
@@ -806,8 +828,6 @@ export class CCBCreateCountsComponent implements OnInit {
         //   (error) => {}
         // );
       }
-    });
-  }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
     this.customPagination.startIndex = e.pageSize * e.pageIndex;

@@ -178,7 +178,7 @@
                     
                     <mat-form-field class="action-dropdown d-xl-flex d-block mb-3 mb-xl-0" appearance="outline">
                         <mat-select class="employees-action" placeholder="Select" [(ngModel)]="searchCol" (selectionChange)="fillTable()">
-                            <mat-option *ngFor="let col of colList" [value]="col?col:''">{{col?col:''}}</mat-option>                            
+                            <mat-option *ngFor="let col of colList" [value]="col">{{col}}</mat-option>                            
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more ">
                             expand_more
@@ -204,8 +204,8 @@
                         <mat-select #matRef class="employees-action" placeholder="Actions" (selectionChange)="actionDialog($event)">
                             <mat-option value="0" (click)="releaseViewed()"> Release Viewed </mat-option>
                             <mat-option value="1" (click)="deleteViewed()"> Delete Viewed </mat-option>
-                            <mat-option value="2"> Print Viewed </mat-option>
-                            <mat-option value="3" (click)="selectColumnSequence()"> Select Column Sequence </mat-option>
+                            <mat-option value="2" (click)="printViewed()"> Print Viewed </mat-option>
+                            <mat-option value="3" (click)="selectColumnSequence()"> Set Column Sequence </mat-option>
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
                             expand_more

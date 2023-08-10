@@ -66,6 +66,10 @@ statusTab;
   
       if(val instanceof NavigationEnd){
         let res = val.url.substring(1);
+        if(!res.includes('report-view')||!res.includes('report')){
+          localStorage.setItem('reportNav',val.url)
+        }
+       
         let withoutParam = res.split('?')[0]
         let splittedArray = withoutParam.split('/'); 
 
@@ -183,7 +187,7 @@ statusTab;
   //       return Url;
   // }
 
-  logout(){   
+  logout(){    
     let paylaod = {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
@@ -193,8 +197,7 @@ statusTab;
       this.api.configLogout(paylaod).subscribe((res:any) => {
         if (res.isExecuted) 
         {
-     
-          this.router.navigate(['/globalconfig']);
+          window.location.href = "/#/globalconfig"; 
         }
         else 
         {
@@ -210,13 +213,8 @@ statusTab;
       localStorage.clear();
       this.api.Logout(paylaod).subscribe((res:any) => {
         if (res.isExecuted) 
-        {
-          // this.toastr.success(res.responseMessage, 'Success!', {
-          //   positionClass: 'toast-bottom-right',
-          //   timeOut: 2000
-          // });
-     
-          this.router.navigate(['/login']);
+        { 
+          window.location.href = "/#/login";
         }
         else 
         {

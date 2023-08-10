@@ -36,7 +36,7 @@
                                 [(ngModel)]='orderNumber' maxlength="255" [matAutocomplete]="auto"
                                 (ngModelChange)="this.searchByInput.next($event)">
 
-                                <button matSuffix *ngIf="orderNumber" class="clear-btn"  (click)=" orderNumber = '';autocompleteSearchColumn()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
+                                <button matSuffix *ngIf="orderNumber" class="clear-btn"  (click)=" orderNumber = '';autocompleteSearchColumn();clearFields();"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
 
                             <!-- <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData($event)">
                                 <mat-option *ngFor="let option of searchAutocompleteList" [value]="option.orderNumber">
@@ -61,13 +61,13 @@
                             <div class="d-xl-block d-flex justify-content-end">
 
                             <mat-form-field class="action-dropdown custom-form-field-bg-white float-end " appearance="outline" style="flex:1">
-                                <mat-select #openAction [(ngModel)]="selectedAction" class="employees-action" placeholder="Actions" >
+                                <mat-select #openAction [(ngModel)]="selectedAction" class="employees-action" placeholder="Actions" (selectionChange)="generateTranscAction($event)" >
                                     
                                     <mat-option value="0" (click)="openTemporaryManualOrderDialogue()">Add New Transaction</mat-option>
                                     <mat-option (click)="clearFields()" value="clear">Clear</mat-option>
                                     <mat-option [disabled]="!item || this.orderNumber==''" (click)="updateTransaction()"   value="2">Save Transaction</mat-option>
                                     <mat-option [disabled]="!item || this.orderNumber==''"  (click)="deleteTransaction()" value="3">Delete Transaction</mat-option>
-                                    <mat-option disabled value="4">Print Label</mat-option>
+                                    <mat-option [disabled]="!item || this.orderNumber==''" (click)="printLabelMT()"  value="4">Print Label</mat-option>
                                     <mat-option [disabled]="!item || this.orderNumber=='' || this.item===''"  (click)="postTransaction('save')" value="5">Post and Save Transaction</mat-option>
                                     <mat-option [disabled]="!item || this.orderNumber=='' || this.item===''"  (click)="postTransaction('delete')" value="6">Post and Delete Transaction</mat-option>
                                 </mat-select>
@@ -163,7 +163,7 @@
                         <mat-label>Expiration Date</mat-label>
                         <input [disabled]="!item" maxlength="11" matInput [matDatepicker]="expirationDate" [(ngModel)]="expDate">
                         <mat-datepicker-toggle matSuffix [for]="expirationDate" ngDefaultControl></mat-datepicker-toggle>
-                        <mat-datepicker #expirationDate></mat-datepicker>
+                        <mat-datepicker   #expirationDate></mat-datepicker>
                     </mat-form-field>
                 </div>
                 <div class="col-xl-3">

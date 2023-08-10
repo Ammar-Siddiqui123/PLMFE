@@ -274,7 +274,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     private _liveAnnouncer: LiveAnnouncer,
     private sharedService: SharedService,
     private dialog: MatDialog,
-    router: Router,
+    private router: Router,
     private filterService: ContextMenuFiltersService
   ) {
     this.setVal = localStorage.getItem('routeFromOrderStatus')
@@ -590,6 +590,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.searchCol = event;
     this.searchString = '';
     this.searchAutocompleteList = [];
+    this.searchByInput.next(event)
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
@@ -627,7 +628,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.searchByInput
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
-        this.searchString = value;
+        // this.searchString = value;
         this.autocompleteSearchColumn();
         this.getContentData();
       });
@@ -664,6 +665,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
                   const dialogRef = this.dialog.open(FilterToteComponent, {
                     width: '650px',
                     autoFocus: '__non_existing_element__',
+      disableClose:true,
                     data: {
                       dates: res.data,
                       orderName: this.getOrderForTote,
@@ -711,7 +713,8 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     let dialogRef = this.dialog.open(OmChangePriorityComponent, { 
       height: 'auto',
       width: '560px',
-      autoFocus: '__non_existing_element__', 
+      autoFocus: '__non_existing_element__',
+      disableClose:true, 
       data: {
         orderNo: this.orderNo,
         priorityTable: this.dataSource.filteredData[0].priority,
@@ -774,6 +777,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
         TypeOfElement: TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
@@ -787,6 +791,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       height: 'auto',
       width: '100vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         orderNumber: this.orderNo,
       },
@@ -794,4 +799,15 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
 
   }
 
+  printReport(){
+    window.open(`/#/report-view?file=FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`;
+    // window.location.reload();
+  }
+
+  previewReport(){
+    window.open(`/#/report-view?file=OrderStatus-lst-prv|field:Order Number|exptype:=|expone:${this.orderNo}|exptwo:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=OrderStatus-lst-prv|field:Order Number|exptype:=|expone:${this.orderNo}|exptwo:`;
+    // window.location.reload();
+  }
 }

@@ -194,6 +194,7 @@
                                 <mat-label>Search</mat-label>
                                 <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn.colDef"
                                     (selectionChange)="resetFields($event.value)">
+                                    <mat-option value=""></mat-option>
                                     <mat-option *ngFor="let item of displayedColumns | sort:'colDef':false" [value]="item.colDef">
                                         {{item.colDef}}
                                     </mat-option>
@@ -232,8 +233,9 @@
                             <mat-label>Action</mat-label>
                             <mat-select [(value)]="selectedVariable" class="employees-action"
                                 (openedChange)="actionDialog($event)">
-                                <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
                                 <mat-option value="set_column_sq">Set Column Sequence</mat-option>
+                                <mat-option (click)="printCycleCountReport()">Print Cycle Count Report</mat-option>
+                                <mat-option (click)="previewFiftyPagesOnly()">Preview 50 Pages Only</mat-option>
                                 <mat-option (click)="sendCompletedToHistory()" *ngIf="authService.UserPermissonByFuncName('Transaction Journal Send To History')&& !throughOrderManager" value="send_completed_history">Send Completed to History</mat-option>
                             </mat-select>
                             <span class="material-symbols-outlined icon-expand-more">

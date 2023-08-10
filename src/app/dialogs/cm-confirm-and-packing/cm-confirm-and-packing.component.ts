@@ -11,6 +11,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cm-confirm-and-packing',
@@ -41,6 +42,7 @@ userData:any={};
 displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transactionQuantity', 'completedQuantity', 'containerID',
  'shipQuantity', 'complete']; 
   constructor(private Api:ApiFuntions,public authService: AuthService,private toast:ToastrService,private dialog: MatDialog,
+    public route: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,private _liveAnnouncer: LiveAnnouncer,
     public dialogRef: MatDialogRef<any>) { 
     this.userData = this.authService.userData();
@@ -125,6 +127,7 @@ async ClickConfirmAll(){
     height: 'auto',
     width: '560px',
     autoFocus: '__non_existing_element__',
+      disableClose:true,
     data: {
       message: "Confirm All transactions? This will mark this entire order as confirmed and packed.",
     },
@@ -156,6 +159,7 @@ openScanItem(ItemNumber:any,id: any) {
     height: 'auto',
     width: '96vw',
     autoFocus: '__non_existing_element__',
+      disableClose:true,
     data: {ItemNumber:ItemNumber,orderNumber:this.orderNumber,contID:this.contID,confPackTransTable:this.transTable,id:id,reasons:this.reasons}
   })
   dialogRef.afterClosed().subscribe(result => {
@@ -212,6 +216,7 @@ announceSortChange2(sortState: Sort) {
     height: 'auto',
     width: '96vw',
     autoFocus: '__non_existing_element__',
+      disableClose:true,
     data: {ItemNumber:ItemNumber,orderNumber:this.orderNumber,contID:this.contID,confPackTransTable:this.transTable,id:id}
   })
   dialogRef.afterClosed().subscribe(result => {
@@ -283,5 +288,42 @@ async ConfirmedPacked() {
   this.IsDisabled = true; 
   this.contID = null;
 };
+
+printPackList(){
+  window.open(`/#/report-view?file=FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+  // this.dialogRef.close();
+  // window.location.href = `/#/report-view?file=FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`;
+  // window.location.reload();
+}
+
+print(type:any){
+  if(type == 'list'){
+    window.open(`/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    // this.dialogRef.close();
+    // window.location.href = `/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
+    // window.location.reload();
+  }
+  else if (type == 'label'){
+    window.open(`/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    // this.dialogRef.close();
+    // window.location.href = `/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
+    // window.location.reload();
+  }
+  else{
+    window.open(`/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    window.open(`/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    // window.location.href = `/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
+    // window.location.href = `/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
+    // window.location.reload();
+  }
+}
+
+itemLabel(element:any){
+  window.open(`/#/report-view?file=FileName:PrintConfPackItemLabel|OrderNum:${this.orderNumber}|ST_ID:${element.sT_ID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+  // this.dialogRef.close();
+  // window.location.href = `/#/report-view?file=FileName:PrintConfPackItemLabel|OrderNum:${this.orderNumber}|ST_ID:${element.sT_ID}`;
+  // window.location.reload();
+}
+
 }
 

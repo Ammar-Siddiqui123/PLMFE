@@ -47,6 +47,7 @@ export class AddNewEmployeeComponent implements OnInit {
   IsEdit:any=false;
   @ViewChild('focusFeild') focusFeild: ElementRef;
 
+   validatorsArray:any = []
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
@@ -103,12 +104,17 @@ export class AddNewEmployeeComponent implements OnInit {
   }
 
   initialzeEmpForm() {
+    if (this.env === 'DB') {
+      // this.validatorsArray.push(this.cusValidator.customTrim);
+      this.validatorsArray.push(Validators.required, this.cusValidator.customTrim)
+    }
+
     this.empForm = this.fb.group({
       mi: [this.mi || '', []],
       firstName: [this.firstName || '',[Validators.required, this.cusValidator.customTrim]],
       lastName: [this.lastName || '', [Validators.required, this.cusValidator.customTrim]],
       username: [{ value: this.username, disabled: this.isDisabledPassword } || '', [Validators.required]], 
-      password: [this.password || '',[Validators.required, this.cusValidator.customTrim]],
+      password: [this.password || '',this.validatorsArray],
       emailAddress: [this.emailAddress || '', [Validators.email]],
       accessLevel: [this.accessLevel || '', [Validators.required]],
       groupName: [this.groupName || '', []],
@@ -232,6 +238,7 @@ ChangePassword(data){
           heading: 'Add Employee Group',
         },
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result==='Yes') {

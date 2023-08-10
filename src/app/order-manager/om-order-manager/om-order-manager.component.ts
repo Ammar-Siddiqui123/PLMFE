@@ -132,6 +132,7 @@ export class OmOrderManagerComponent implements OnInit {
 
   ngAfterViewInit() {
   //  this.buttonRef.focus();
+  this.getColumnSequence();
   }
 
   async ngOnInit(): Promise<void> {
@@ -142,7 +143,7 @@ export class OmOrderManagerComponent implements OnInit {
       endIndex: 20
     }    
     this.userData = this.authService.userData();
-    this.getColumnSequence();
+  
     await this.deleteTemp();
     this.getOMIndex();
  
@@ -178,7 +179,8 @@ export class OmOrderManagerComponent implements OnInit {
         this.displayedColumns = res.data;        
         this.displayedColumns.push( 'actions');
         
-        this.colList = structuredClone(res.data.filter(x => x != 'actions'));
+        // this.colList = structuredClone(res.data.filter(x => x != 'actions'));// structuredClone causing iPad issue in dropdown 
+        this.colList = res.data.filter(x => x != 'actions');
         this.colList = this.colList.sort();
         this.searchCol = this.colList[0];
       }
@@ -265,8 +267,7 @@ export class OmOrderManagerComponent implements OnInit {
     });   
   }
 
-  handlePageEvent(e: PageEvent) {
-    debugger;
+  handlePageEvent(e: PageEvent) { 
     this.customPagination.startIndex =  e.pageSize*e.pageIndex
     this.customPagination.endIndex =  (e.pageSize*e.pageIndex + e.pageSize)
     this.customPagination.recordsPerPage = e.pageSize;
@@ -283,6 +284,7 @@ export class OmOrderManagerComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           ErrorMessage: 'Are you sure you want to delete all viewed orders?',
           action: 'delete'
@@ -324,6 +326,7 @@ export class OmOrderManagerComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: { 
         ...ele,
         viewType: this.viewType,
@@ -381,6 +384,7 @@ export class OmOrderManagerComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: 'Cannot Release Partial Orders. If you would like to release the entire order, click Ok. Otherwise click cancel',
         },
@@ -416,6 +420,7 @@ export class OmOrderManagerComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           message: 'Press ok to release currently Viewed Orders.',
         },
@@ -499,7 +504,8 @@ export class OmOrderManagerComponent implements OnInit {
     let dialogRef = this.dialog.open(OmCreateOrdersComponent, { 
       height: 'auto',
       width: '1424px',
-      autoFocus: '__non_existing_element__', 
+      autoFocus: '__non_existing_element__',
+      disableClose:true, 
     });
 
     dialogRef.afterClosed().subscribe(result => {});
@@ -537,6 +543,7 @@ export class OmOrderManagerComponent implements OnInit {
         TypeOfElement:TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => { 
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition,result.Type)
@@ -573,6 +580,12 @@ export class OmOrderManagerComponent implements OnInit {
   actionDialog(matEvent: MatSelectChange) {
     const matSelect: MatSelect = matEvent.source;
     matSelect.writeValue(null);
+  }
+
+  printViewed(){
+    window.open(`/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`;
+    // window.location.reload();
   }
 
 }

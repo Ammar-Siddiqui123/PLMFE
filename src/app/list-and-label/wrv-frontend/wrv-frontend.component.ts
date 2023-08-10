@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { map } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
@@ -10,13 +10,17 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./wrv-frontend.component.scss']
 })
 export class WrvFrontendComponent implements OnInit {
-  @ViewChild('ListAndLabel', { read: ViewContainerRef }) ListAndLabel: ViewContainerRef;
+  @ViewChild('ListAndLabel', { static: true }) ListAndLabel: ElementRef;
   FileName:any = "";
-  constructor(private componentFactoryResolver: ComponentFactoryResolver,private sharedService:SharedService,private route:ActivatedRoute) {
+  constructor(private sharedService:SharedService,private route:ActivatedRoute) {
     this.sharedService.SideBarMenu.next(false);
-    
+    this.sharedService.updateMenuState(true)
   }
   ngOnInit(): void {
+    // let appd=JSON.parse(localStorage.getItem('availableApps') || '');
+    // this.sharedService.setMenuData(appd);
+   
+    this.sharedService.updateLoadMenuFunction({route:localStorage?.getItem('reportNav'),isBackFromReport:false})
     var filename = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('file')),
     );
@@ -32,12 +36,13 @@ export class WrvFrontendComponent implements OnInit {
 
   generateHTMLAndAppend() { 
     const dynamicHtml = `<ll-webreportviewer backendUrl="${environment.apiUrl.split("/api")[0]}/LLWebReportViewer"
-    defaultProject="42B325E5-A894-4BDE-9D0A-5098B46A5085" customData="${this.FileName}" ></ll-webreportviewer>`; 
-    const dynamicComponent = Component({
-      template: dynamicHtml
-    })(class {}); 
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(dynamicComponent); 
-    this.ListAndLabel.clear(); 
-    const componentRef = this.ListAndLabel.createComponent(componentFactory);
+    defaultProject="${this.FileName.split('-')[1] == 'lbl'|| this.FileName?.toLowerCase()?.indexOf('label')>-1 ? 'BCAEC8B2-9D16-4ACD-94EC-74932157BF82':'072A40E4-6D25-47E5-A71F-C491BC758BC9'}" customData="${this.FileName}" ></ll-webreportviewer>`; 
+    this.ListAndLabel.nativeElement.insertAdjacentHTML('beforeend', dynamicHtml);
   }
+  ngOnDestroy(){ 
+    this.sharedService.SideBarMenu.next(true);
+    this.sharedService.updateLoadMenuFunction({route:localStorage?.getItem('reportNav'),isBackFromReport:true})
+    window.location.reload();
+  }
+
 } 

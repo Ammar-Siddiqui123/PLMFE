@@ -244,6 +244,7 @@ export class FrFlowrackReplenishmentComponent implements OnInit {
       width: '480px',
       minWidth: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:{
         itemQuantity: this.itemQty
       }

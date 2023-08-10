@@ -38,8 +38,7 @@ export class OrderManagerComponent implements OnInit {
   //     const nextRoute = events[1].urlAfterRedirects.split('/');
 
   // console.log(prevRoute[1],nextRoute[1]);
-  
-  //     // debugger;
+   
   //     // if (events[0].urlAfterRedirects == '/InductionManager' || events[1].urlAfterRedirects == '/InductionManager') {
   
   //     if(prevRoute[1]== 'OrderManager' || nextRoute[1] == 'OrderManager'){

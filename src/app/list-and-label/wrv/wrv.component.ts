@@ -1,6 +1,7 @@
-import { Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ElementRef, HostListener, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { map } from 'rxjs';
+import { SharedService } from 'src/app/services/shared.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -11,13 +12,17 @@ import { environment } from 'src/environments/environment';
 export class WrvComponent implements OnInit {
   env:string;
   file:string;
-  @ViewChild('ListAndLabel', { read: ViewContainerRef }) ListAndLabel: ViewContainerRef;
-  constructor(private componentFactoryResolver: ComponentFactoryResolver,private route:ActivatedRoute) {
- 
+  @ViewChild('ListAndLabel', { static: true }) ListAndLabel: ElementRef;
+  @ViewChild('myIframe', { static: true }) myIframeRef: ElementRef;
+  iframeSrc:string;
+  constructor(private route:ActivatedRoute,private sharedService:SharedService) {
+ this.iframeSrc = `${this.env}/#/ListAndLabel/report-view?file=${this.file}`;  
     this.env = location.protocol + '//' + location.host; 
  
-   }
+   } 
   ngOnInit(): void {
+    let appd=JSON.parse(localStorage.getItem('availableApps') || '');
+    this.sharedService.setMenuData(appd);
     var filename = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('file')),
     );
@@ -33,14 +38,21 @@ export class WrvComponent implements OnInit {
   }
   generateHTMLAndAppend() { 
     const dynamicHtml = `
-    <iframe style="width: 100%; height: 1000px;" id="wrdFrame" src="${this.env}/#/ListAndLabel/report-view?file=${this.file}">
+    <iframe style="width: 100%; height: 1000px;"  #myIframe src="${this.env}/#/report-view-iframe?file=${this.file}">
     </iframe>
     `; 
-    const dynamicComponent = Component({
-      template: dynamicHtml
-    })(class {}); 
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(dynamicComponent); 
-    this.ListAndLabel.clear(); 
-    const componentRef = this.ListAndLabel.createComponent(componentFactory);
+    this.ListAndLabel.nativeElement.insertAdjacentHTML('beforeend', dynamicHtml);
+    const iframe: HTMLIFrameElement = this.myIframeRef.nativeElement;
+     
+    iframe.onload = () => {  
+      if (`${this.env}/#/ListAndLabel/report-view?file=${this.file}` ==  window.location.href) {
+        // If they match, do nothing (keep the iframe open)
+        console.log('Iframe URL matches parent window URL.');
+      } else { 
+        console.log('Iframe URL does not match parent window URL. Closing the iframe...'); 
+      }
   }
+}
+ 
+
 }

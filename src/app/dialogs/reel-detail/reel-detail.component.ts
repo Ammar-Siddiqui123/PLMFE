@@ -93,6 +93,7 @@ export class ReelDetailComponent implements OnInit {
           message: 'You must provide a quantity for this reel.',
         },
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
       dialogRef.afterClosed().subscribe((result) => {
         if(result){
@@ -111,6 +112,7 @@ export class ReelDetailComponent implements OnInit {
           message: 'This item is warehouse sensitive.  Assign a warehouse to the reel in order to create the transaction.',
         },
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
       dialogRef.afterClosed().subscribe((result) => {
         if(result){
@@ -158,6 +160,7 @@ export class ReelDetailComponent implements OnInit {
       height: 'auto',
       width: '640px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'addlocation',
         check:'fromReelDetail'

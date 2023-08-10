@@ -158,22 +158,23 @@ export class AddInvMapLocationComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.fieldNames=this.data?.fieldName
+    this.fieldNames=this.data?.fieldName;
     if (this.data.detailData) {
       this.getDetailInventoryMapData = this.data.detailData;
-      this.zone = this.getDetailInventoryMapData.zone
-      this.carousel = this.getDetailInventoryMapData.carousel
-      this.row = this.getDetailInventoryMapData.row
-      this.shelf = this.getDetailInventoryMapData.shelf
-      this.bin = this.getDetailInventoryMapData.bin
+      this.zone = this.getDetailInventoryMapData.zone;
+      this.carousel = this.getDetailInventoryMapData.carousel;
+      this.row = this.getDetailInventoryMapData.row;
+      this.shelf = this.getDetailInventoryMapData.shelf;
+      this.bin = this.getDetailInventoryMapData.bin;
       this.itemDescription = this.getDetailInventoryMapData.description;
       this.quantity = this.getDetailInventoryMapData.itemQuantity; 
-
+      
       this.updateItemNumber();
       this.initializeDataSet();
     } else {
       this.initializeDataSet();
     } 
+    this.searchItemNumbers = this.getDetailInventoryMapData.itemNumber;
 
     //  this.itemNumberList = this.data.itemList;
 
@@ -261,6 +262,7 @@ export class AddInvMapLocationComponent implements OnInit {
       height: 'auto',
       width: '800px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         id: this.getDetailInventoryMapData.invMapID
       }
@@ -416,6 +418,7 @@ export class AddInvMapLocationComponent implements OnInit {
       height: 'auto',
       width: '640px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'addlocation',
       }
@@ -437,6 +440,7 @@ export class AddInvMapLocationComponent implements OnInit {
       height: 'auto',
       width: '660px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'cell-size',
       }
@@ -452,6 +456,7 @@ export class AddInvMapLocationComponent implements OnInit {
       height: 'auto',
       width: '660px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'cell-size',
       }

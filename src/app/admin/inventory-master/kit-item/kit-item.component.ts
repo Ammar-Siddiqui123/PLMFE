@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { SharedService } from 'src/app/services/shared.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-kit-item',
@@ -47,7 +48,8 @@ export class KitItemComponent implements OnInit, OnChanges {
     private authService: AuthService,
     private dialog: MatDialog,
     private el: ElementRef,
-    private sharedService:SharedService
+    private sharedService:SharedService,
+    private route:Router
     ) { }
 
   ngOnInit(): void {
@@ -65,8 +67,11 @@ export class KitItemComponent implements OnInit, OnChanges {
   }
 
   openPrintRangeDialog() {
-
+    window.open(`/#/report-view?file=FileName:printKitReport|ItemNumber:${this.kitItem.value.itemNumber}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:printKitReport|ItemNumber:${this.kitItem.value.itemNumber}`
+    // window.location.reload();
   }
+
   addCatRow(e: any) {
     // this.Ikey =  this.kitItemsList.length;
     this.kitItemsList.unshift({
@@ -93,6 +98,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe(result => {
      if(result === 'Yes'){
@@ -223,6 +229,7 @@ export class KitItemComponent implements OnInit, OnChanges {
     const dialogRef = this.dialog.open(this.additemNumber, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((x) => {
       e.isSaved = false;
@@ -240,6 +247,7 @@ export class KitItemComponent implements OnInit, OnChanges {
     const dialogRef = this.dialog.open(this.description, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((x) => {
 

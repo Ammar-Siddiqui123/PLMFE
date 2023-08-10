@@ -1,4 +1,4 @@
-<mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex">
+<mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
     <mat-tab label="Tote Setup">
         <mat-card class="mat-elevation-z g-card mt-3 mb-4">
             <mat-card-content>
@@ -19,8 +19,8 @@
                                 <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline" [floatLabel]="getFloatLabelValueItem()" [hideRequiredMarker]="hideRequiredControlItem.value">
                                     <mat-label>Batch ID</mat-label>
                                    
-                                    <input (keydown.shift.enter)="$event.preventDefault()" matInput type="text" 
-                                    [(ngModel)]="batchId"[matAutocomplete]="item"
+                                    <input #batchFocus (keydown.shift.enter)="$event.preventDefault()" matInput type="text" 
+                                    [(ngModel)]="batchId" [matAutocomplete]="item"
                                      (ngModelChange)="this.searchByItem.next($event)" (keyup)="batchIdKeyup()"> 
                                      <button matSuffix *ngIf="batchId" class="clear-btn" (click)="clear()" ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>  
 
@@ -97,7 +97,7 @@
                         <mat-label>Actions</mat-label>
                         <mat-select class="employees-action" [(ngModel)]="actionDropDown" #actionRef1 (selectionChange)="gridAction($event.value)">
                           <mat-option value="assignAll">Assign all IDs</mat-option>
-                          <mat-option value="delete">Print Tote/Location Labels</mat-option>
+                          <mat-option (click)="printToteLoc()" value="delete">Print Tote/Location Labels</mat-option>
                           <!-- <mat-option value="back">Back</mat-option> -->
                         </mat-select>
                         <span class="material-symbols-outlined icon-expand-more">
@@ -173,7 +173,7 @@
                                   </button>
                 
                                   <mat-menu #appMenu="matMenu">
-                                    <button mat-menu-item>Print</button>
+                                    <button mat-menu-item (click)="print(element.toteid)">Print</button>
                                     <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element,1,i)">Clear</button>
                                     <button [disabled]="element.locked ? true : false" mat-menu-item (click)="assignToteAtPosition(element,0,i)">Assign Next ID</button>
                                   </mat-menu>
@@ -292,7 +292,7 @@
                   </mat-form-field>
                   <mat-form-field class="custom-form-field w-100 mb-2" appearance="outline">
                     <mat-label>Input Value</mat-label>
-                    <input (keydown.shift.enter)="$event.preventDefault()" #inputVal matInput type="text" [(ngModel)]="inputValue" (keypress)="openST($event)" >
+                    <input  #start_location  (keydown.shift.enter)="$event.preventDefault()" #inputVal matInput type="text" [(ngModel)]="inputValue" (keypress)="openST($event)" >
                     <button matSuffix *ngIf="inputValue" class="clear-btn" (click)=" inputValue='' " ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>  
 
                   </mat-form-field>
@@ -365,7 +365,7 @@
                 <!-- (click)="openToteTransactionViewDialogue()"> -->
                 <mat-option  value="ViewTote" [disabled]="(cell <= toteQuantity) ? false : true" >View Tote Contents</mat-option>
                 <mat-option value="markTote" [disabled]="!rowSelected">Mark Tote as Full</mat-option>
-                <mat-option value="print">Print</mat-option>
+                <mat-option (click)="printTotePut()" value="print">Print</mat-option>
                 <!-- <mat-option value="back">Back</mat-option> -->
               </mat-select>
               <span class="material-symbols-outlined icon-expand-more">

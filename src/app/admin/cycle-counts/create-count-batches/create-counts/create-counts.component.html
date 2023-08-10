@@ -499,7 +499,7 @@
                     </div>
 
                     <div class="d-xl-flex flex-wrap gap-12 px-3">
-                        <mat-checkbox class="example-margin custom-checkbox mb-2" color="primary">Print CC Details Directly</mat-checkbox>
+                        <mat-checkbox class="example-margin custom-checkbox mb-2" [(ngModel)]="printCC" color="primary">Print CC Details Directly</mat-checkbox>
                     </div>
                 </div>
 
@@ -507,8 +507,8 @@
                 <div class="col-xl-3 float-end">
                     <mat-form-field class="action-dropdown w-100" appearance="outline">
                         <mat-label>Actions</mat-label>
-                        <mat-select #matRef class="employees-action" placeholder="Actions">
-                            <mat-option value="print">Print Count Orders</mat-option>
+                        <mat-select #matRefAction class="employees-action" placeholder="Actions" (selectionChange)="countAction($event)">
+                            <mat-option (click)="printCountOrders()"  value="print">Print Count Orders</mat-option>
                             <mat-option (click)="deleteCycleCount(1)"  [disabled]="orderNumber===''||orderNumber===undefined" value="1">Delete Incomplete Orders</mat-option>
                             <mat-option (click)="deleteCycleCount(0)" [disabled]="orderNumber===''||orderNumber===undefined" value="0">Delete All Orders</mat-option>
                         </mat-select>

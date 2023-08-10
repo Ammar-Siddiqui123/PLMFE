@@ -10,7 +10,7 @@
     }
     td{
         width: auto;
-        padding:4px 0px;
+        padding-left: 12px;
         &:first-child{
             padding-left: 20px;
         }
@@ -24,3 +24,84 @@
     background-color: #5555EC !important;
     color: #fff;
   }
+
+.table2{
+    th{
+        white-space: nowrap ;
+        padding-left: 12px;
+        &:first-child{
+            padding-left: 20px;
+        }
+        &:last-child{
+            padding-right: 20px;
+        }
+    }
+    td{
+        white-space: nowrap ;
+        padding-left: 12px;
+        max-width: 15ch;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        &:first-child{
+            padding-left: 20px;
+        }
+        &:last-child{
+            padding-right: 20px;
+        }
+    }
+}
+//   mat-table{
+//     display: table !important;
+//     mat-row{
+//         display: table-row;
+//         border:0;
+//     }
+//     mat-header-cell{
+//         display: table-cell;
+//         white-space: nowrap ;
+//         overflow: visible;
+//         padding-left: 12px;
+//         &:first-child{
+//             padding-left: 20px;
+//         }
+//         &:last-child{
+//             padding-right: 20px;
+//         }
+//     }
+//     mat-cell{
+//         display: table-cell;
+//         width: auto;
+//         padding:4px 0px;
+//         &:first-child{
+//             padding-left: 20px;
+//         }
+//         &:last-child{
+//             padding-right: 20px;
+//         }
+//     }
+//   }
+
+table{
+    th{
+        white-space: nowrap ;
+        padding-left: 12px;
+        &:first-child{
+            padding-left: 20px;
+        }
+        &:last-child{
+            padding-right: 20px;
+        }
+    }
+    td{
+        padding-left: 12px;
+        &:first-child{
+            padding-left: 20px;
+        }
+        &:last-child{
+            padding-right: 20px;
+        }
+    }
+}
+::ng-deep .mat-dialog-content{
+    min-height: 75vh;
+}

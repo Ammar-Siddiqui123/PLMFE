@@ -19,3 +19,23 @@
         }
     }
 }
+
+
+.selected {
+    border-radius: 8px;
+    transition: 0.3s ease all;
+    color: #fff;
+    background: var(--clr-primary-300);
+
+
+
+}
+
+mat-card{
+    min-height: 78vh;
+    .test{
+        display: flex;
+        flex-direction: column;
+        min-height: 75vh;
+    }
+}

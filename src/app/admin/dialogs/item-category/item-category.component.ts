@@ -7,6 +7,7 @@ import labels from '../../../labels/labels.json'
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
+import { Router } from '@angular/router';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
@@ -25,7 +26,9 @@ export class ItemCategoryComponent implements OnInit {
               private authService: AuthService,
               private toastr: ToastrService,
               private renderer: Renderer2,
-              public dialogRef: MatDialogRef<any>) {}
+              public dialogRef: MatDialogRef<any>,
+              public route: Router
+              ) {}
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
@@ -77,8 +80,7 @@ export class ItemCategoryComponent implements OnInit {
   saveCategory(category : any, oldCat : any, subCategory : any, oldSubCat : any) {
     
     let cond = true;
-  //   if(category){
-  //     debugger
+  //   if(category){ 
   //   this.category_list.forEach(element => {
   //     if(element.category?.toLowerCase() == category?.toLowerCase() && element.subCategory?.toLowerCase() == subCategory?.toLowerCase() ) {
   //       cond = false;
@@ -123,10 +125,10 @@ export class ItemCategoryComponent implements OnInit {
       height: 'auto',
       width: '480px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data:{mode:"delete-category",category,subCategory}
     })
-    dialogRef.afterClosed().subscribe(result => {
-      debugger
+    dialogRef.afterClosed().subscribe(result => { 
      if(result === 'Yes'){
       if(category && subCategory){
         this.getCategoryList();
@@ -162,31 +164,10 @@ export class ItemCategoryComponent implements OnInit {
     this.dialogRef.close('');
   }
 
-  public openPrintRangeDialog(){
-    const dialogRef = this.dialog.open(AlertConfirmationComponent, {
-      height: 'auto',
-      width: '786px',
-      data: {
-        message: 'The print service is currently offline',
-        heading: 'Print Service Unavailable',
-        disableCancel: true,
-      },
-      autoFocus: '__non_existing_element__',
-    });
-    dialogRef.afterClosed().subscribe((result) => {});
- 
-
-    // let dialogRef = this.dialog.open(PrintRangeComponent, {
-    //   height: 'auto',
-    //   width: '560px',
-    //   autoFocus: '__non_existing_element__',
-    //   data: {
-    //     mode: '',
-    //   }
-    // })
-    // dialogRef.afterClosed().subscribe(result => {
-    //   ;
-      
-    // })
+  openPrintRangeDialog(){
+    window.open(`/#/report-view?file=FileName:printCategoriesReport`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // this.dialogRef.close();
+    // window.location.href = `/#/report-view?file=FileName:printCategoriesReport`
+    // window.location.reload(); 
   }
 }

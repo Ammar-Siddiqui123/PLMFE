@@ -17,6 +17,8 @@ import { FloatLabelType } from '@angular/material/form-field';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { Subject } from 'rxjs';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 
 @Component({
@@ -25,6 +27,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./sr-new-order.component.scss']
 })
 export class SrNewOrderComponent implements OnInit {
+  @ViewChild('openActionDropDown') openActionDropDown: MatSelect;
 
   displayedColumns: string[] = ['Item Number', 'Description', 'Warehouse', 'Stock Qty', 'Replenishment Point', 'Replenishment Level', 'Available Qty', 'Replenishment Qty', 'Case Qty', 'Transaction Qty', 'Replenish', 'Replenish Exists', 'Alloc Pick', 'Alloc Put', 'action'];
   tableData: any = [];
@@ -133,6 +136,7 @@ export class SrNewOrderComponent implements OnInit {
         TypeOfElement: TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
@@ -170,6 +174,7 @@ export class SrNewOrderComponent implements OnInit {
     const dialogRef = this.dialog.open(TransactionQtyEditComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         rP_ID: element.rP_ID,
         transactionQuantity: element.transactionQuantity,
@@ -227,6 +232,7 @@ export class SrNewOrderComponent implements OnInit {
     //   height: 'auto',
     //   width: '560px',
     //   autoFocus: '__non_existing_element__',
+
     //   data: {
     //     message: 'Click OK to create a new replenishment list.',
     //   },
@@ -347,25 +353,39 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   viewItemInInventoryMaster(element: any) {
+    
     window.open(`/#/admin/inventoryMaster?itemNumber=${element.itemNumber}`, '_blank', "location=yes");
   }
 
   print() {
+
+  
     let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         message: 'Click OK to print a replenishment report.',
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result == 'Yes') {
-        alert('The print service is currently offline');
+        // alert('The print service is currently offline');
+        window.open(`/#/report-view?file=FileName:printNewReplenishmentReport|reorder:${this.tablePayloadObj.reOrder}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+        // window.open(`/#/report-view?file=FileName:printNewReplenishmentReport|reorder:${this.tablePayloadObj.reOrder}`, '_blank', "location=yes");
+
       }
     });
   }
 
+  clearMatSelectList(){
+    this.openActionDropDown.options.forEach((data: MatOption) => data.deselect());
+  }
+  openAction(event:any){
+    this.clearMatSelectList();
+  }
   selectAll() {
     this.ReplenishmentsIncludeAllUpdate(true);
     // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -432,6 +452,7 @@ export class SrNewOrderComponent implements OnInit {
     const dialogRef = this.dialog.open(FilterItemNumbersComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: this.filterItemNumbersText,
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -459,6 +480,7 @@ export class SrNewOrderComponent implements OnInit {
     //   height: 'auto',
     //   width: '560px',
     //   autoFocus: '__non_existing_element__',
+   
     //   data: {
     //     message: `Click OK to create replenishment orders for all selected items.`,
     //   },
@@ -487,6 +509,7 @@ export class SrNewOrderComponent implements OnInit {
             height: 'auto',
             width: '560px',
             autoFocus: '__non_existing_element__',
+      disableClose:true,
             data: {
               message: `Replenishments finished. There are reprocess transactions due to the replenishment process. Click Ok to print a process report now.`,
             },

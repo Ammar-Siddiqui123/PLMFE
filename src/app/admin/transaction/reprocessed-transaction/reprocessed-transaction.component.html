@@ -33,7 +33,9 @@
                 <div class="d-block d-xl-flex gap-12 align-items-center">
                     <mat-form-field class="action-dropdown w-100 mb-3" appearance="outline" style="flex:1">
                         <mat-label>Search</mat-label>
-                        <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn">
+                        <mat-select class="employees-action" [(ngModel)]="this.columnSearch.searchColumn"
+                        (selectionChange)="resetFields($event.value)">
+                            <mat-option value=""></mat-option>
                             <mat-option *ngFor="let item of displayedColumns | sort:'colDef':false" [value]="item">
                                 {{item.colDef}}
                             </mat-option>

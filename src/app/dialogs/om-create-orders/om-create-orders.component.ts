@@ -157,6 +157,7 @@ export class OmCreateOrdersComponent implements OnInit {
       height: 'auto',
       width: '75vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         from: "add-new-order",
         heading: "Adding a New Order Number",
@@ -175,6 +176,7 @@ export class OmCreateOrdersComponent implements OnInit {
       height: 'auto',
       width: '75vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         from: "edit-transaction",
         heading: `Updating a transaction for ${this.createOrdersDTPayload.orderNumber}`,
@@ -212,6 +214,7 @@ export class OmCreateOrdersComponent implements OnInit {
       height: 'auto',
       width: '75vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         from: "add-transaction",
         heading: `Adding a new transaction for ${this.createOrdersDTPayload.orderNumber}`,
@@ -232,6 +235,7 @@ export class OmCreateOrdersComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe(result => {
 
@@ -285,6 +289,7 @@ export class OmCreateOrdersComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         heading: 'Release Transaction',
         message: 'Release all orders for this order number?',
@@ -318,7 +323,11 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   printViewed() {
-    alert('The print service is currently offline');
+    // this.dialogRef.close();
+    let tabIDs = this.tableData.filteredData?.length > 0 ? this.tableData.filteredData.map((x:any) => x.id).toString() : '';
+    // window.location.href = `/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:${tabIDs}|View:|Table:|Page:${'Create Orders'}|WSID:${this.userData.wsid}`;
+    // window.location.reload();
+    window.open(`/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:${tabIDs}|View:|Table:|Page:${'Create Orders'}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
   }
 
   deleteViewed() {
@@ -335,6 +344,7 @@ export class OmCreateOrdersComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'release-all-orders',
           ErrorMessage: 'Are you sure you want to delete these records?',
@@ -448,6 +458,7 @@ export class OmCreateOrdersComponent implements OnInit {
         TypeOfElement: TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => { 
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)

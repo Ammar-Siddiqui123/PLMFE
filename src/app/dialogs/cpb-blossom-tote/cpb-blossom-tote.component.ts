@@ -115,6 +115,7 @@ export class CpbBlossomToteComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         heading: 'Perform Blossom?',
         message: 'Perform a blossom wiht the current setup? This will complete the original tote with the quantities entered, and assign any remaining quantities to the new tote.',

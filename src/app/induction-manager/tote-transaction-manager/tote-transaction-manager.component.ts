@@ -130,6 +130,7 @@ export class ToteTransactionManagerComponent implements OnInit {
             height: 'auto',
             width: '60vw',
             autoFocus: '__non_existing_element__',
+      disableClose:true,
             data: {
               deleteAllDisable:true,
               enableClear:enablebatch,
@@ -151,6 +152,7 @@ export class ToteTransactionManagerComponent implements OnInit {
             height: 'auto',
             width: '600px',
             autoFocus: '__non_existing_element__',
+      disableClose:true,
             data: {
               mode: 'clear-pick-tote-info',
               action: 'clear',
@@ -274,7 +276,35 @@ export class ToteTransactionManagerComponent implements OnInit {
     this.sortOrder = event.direction;
     this.getToteTrans();
   }
+  printToteList(type,row){
+    switch (type) {
+      case 'printCarouselList':
+    window.open(`/#/report-view?file=FileName:PrintPrevOffCarList|ToteID:${row.toteId}|TransType:${row.transactionType}|PrintDirect:true`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+        
+    //  window.open(`/#/report-view?file=FileName:PrintPrevOffCarList|ToteID:${row.toteId}|TransType:${row.transactionType}|PrintDirect:true`)
+        
+        break;
+        case 'printTotelContents':
+    window.open(`/#/report-view?file=FileName:PrintPrevToteContents|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}|PrintDirect:true`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+        
+        // window.open(`/#/report-view?file=FileName:PrintPrevToteContents|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}|PrintDirect:true`)
+           
+           break;
 
+           case 'printToteLabels':
+    window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}|printDirect:true|ID:-2|BatchID:''`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+        
+          //  window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}|printDirect:true|ID:-2|BatchID:''`)
+              
+              break;
+      default:
+        break;
+    }
+
+    // window.location.href = `/#/report-view?file=FileName:printIMReport|invMapID:0|groupLikeLoc:${this.groupLikeLoc}|beginLoc:${this.beginLoc}|endLoc:${this.endLoc}|User:${this.userData.userName}`
+    // window.location.reload();
+    
+  }
   onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + 'px';
@@ -314,6 +344,7 @@ export class ToteTransactionManagerComponent implements OnInit {
         TypeOfElement: TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => {
       ;

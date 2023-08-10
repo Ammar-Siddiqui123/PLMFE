@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/init/auth.service';
 import { CmAddNewItemToShipmentComponent } from '../cm-add-new-item-to-shipment/cm-add-new-item-to-shipment.component';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { Router } from '@angular/router';
 
 export interface PeriodicElement {
   name: string;
@@ -37,6 +38,7 @@ export class CmShippingComponent implements OnInit {
   shippingComp: any = false;
   shippingPreferences: any = {};
   constructor(private Api: ApiFuntions, private authService: AuthService, private toast: ToastrService, private dialog: MatDialog,
+    private route: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CmShippingComponent>,) {
     this.orderNumber = this.data.orderNumber;
@@ -142,6 +144,7 @@ export class CmShippingComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         message: "Are you sure you wish to complete this shipment?",
       },
@@ -165,6 +168,7 @@ export class CmShippingComponent implements OnInit {
               height: 'auto',
               width: '560px',
               autoFocus: '__non_existing_element__',
+      disableClose:true,
               data: {
                 message: "Back Orders exist for this order number. Still complete shipment?",
               },
@@ -202,6 +206,7 @@ export class CmShippingComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: { orderNumber: this.orderNumber }
     })
     dialogRef.afterClosed().subscribe(result => {
@@ -211,5 +216,19 @@ export class CmShippingComponent implements OnInit {
 
   calculateCube(element){
     this.shippingData.filter((x:any) => x.id == element.id)[0].cube = ((element.length * element.width * element.height) / 1728);
+  }
+
+  printAll(){
+    window.open(`/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // this.dialogRef.close();
+    // window.location.href = `/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`;
+    // window.location.reload();
+  }
+
+  PrintItem(element: any,i:any=null){
+    window.open(`/#/report-view?file=FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // this.dialogRef.close();
+    // window.location.href = `/#/report-view?file=FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`;
+    // window.location.reload();
   }
 }

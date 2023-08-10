@@ -18,13 +18,16 @@ import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/c
 import { Subject } from 'rxjs';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
-
+import { Router } from '@angular/router';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 @Component({
   selector: 'app-sr-current-order',
   templateUrl: './sr-current-order.component.html',
   styleUrls: ['./sr-current-order.component.scss']
 })
 export class SrCurrentOrderComponent implements OnInit {
+  @ViewChild('openActionDropDown') openActionDropDown: MatSelect;
 
   displayedColumns2: string[] = ['Item Number', 'Trans Type', 'warehouse', 'zone', 'carousel', 'row', 'shelf', 'bin', 'cell', 'lotNumber', 'Trans Qty', 'description', 'Order Number', 'UofM', 'Batch Pick ID', 'Serial Number', 'Completed Date', 'Print Date','action'];
   noOfPicks: number = 0;
@@ -83,7 +86,8 @@ export class SrCurrentOrderComponent implements OnInit {
     private Api: ApiFuntions,
     private toastr: ToastrService,
     private authService: AuthService,
-    private filterService: ContextMenuFiltersService
+    private filterService: ContextMenuFiltersService,
+    private router:Router
   ) { }
 
 
@@ -99,8 +103,7 @@ export class SrCurrentOrderComponent implements OnInit {
     this.trigger.openMenu();
   }
 
-  onClick() {
-    debugger
+  onClick() { 
     this.trigger.closeMenu();
   }
 
@@ -130,6 +133,7 @@ export class SrCurrentOrderComponent implements OnInit {
         TypeOfElement: TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => {
       ;
@@ -264,18 +268,74 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   printOrders() {
-    alert("The print service is currently offline");
+
+    switch ( this.tablePayloadObj.searchColumn) {
+      case 'Trans Type':
+        this.tablePayloadObj.searchColumn='Transaction Type'
+        break;
+        case 'Carsl':
+          this.tablePayloadObj.searchColumn='Carousel'
+          break;
+          case 'Trans Qty':
+            this.tablePayloadObj.searchColumn='Transaction Quantity'
+            break;
+            case 'UofM':
+              this.tablePayloadObj.searchColumn='Unit of Measure'
+              break;
+              case 'Comp Date':
+                this.tablePayloadObj.searchColumn='Completed Date'
+                break;
+      default:
+        break;
+    }
+   
+    window.open(`/#/report-view?file=FileName:printReplenishmentReportLabels|searchString:${this.repByDeletePayload.searchString?this.repByDeletePayload.searchString:''}|searchColumn:${this.tablePayloadObj.searchColumn}|Status:${this.tablePayloadObj.status}|filter:${this.tablePayloadObj.filter}|ident:Orders`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    
+    // window.open(`/#/report-view?file=FileName:printReplenishmentReportLabels|searchString:${this.repByDeletePayload.searchString?this.repByDeletePayload.searchString:''}|searchColumn:${this.tablePayloadObj.searchColumn}|Status:${this.tablePayloadObj.status}|filter:${this.tablePayloadObj.filter}|ident:Orders`, '_blank', "location=yes");
+
+    // alert("The print service is currently offline");
   }
 
+  clearMatSelectList(){
+    this.openActionDropDown.options.forEach((data: MatOption) => data.deselect());
+  }
+  openAction(event:any){
+    this.clearMatSelectList();
+  }
   printLabels() {
+ 
     const dialogRef = this.dialog.open(PrintReplenLabelsComponent, {
       width: '1100px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        switch ( this.tablePayloadObj.searchColumn) {
+          case 'Trans Type':
+            this.tablePayloadObj.searchColumn='Transaction Type'
+            break;
+            case 'Carsl':
+              this.tablePayloadObj.searchColumn='Carousel'
+              break;
+              case 'Trans Qty':
+                this.tablePayloadObj.searchColumn='Transaction Quantity'
+                break;
+                case 'UofM':
+                  this.tablePayloadObj.searchColumn='Unit of Measure'
+                  break;
+                  case 'Comp Date':
+                    this.tablePayloadObj.searchColumn='Completed Date'
+                    break;
+          default:
+            break;
+        }
+        window.open(`/#/report-view?file=FileName:printReplenishmentReportLabels|searchString:${this.repByDeletePayload.searchString?this.repByDeletePayload.searchString:''}|searchColumn:${this.tablePayloadObj.searchColumn}|Status:${this.tablePayloadObj.status}|PrintAll:${1}|filter:${this.tablePayloadObj.filter}|Sort:${this.tableData.sort}|ident:Labels`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+        
+        // window.open(`/#/report-view?file=FileName:printReplenishmentReportLabels|searchString:${this.repByDeletePayload.searchString?this.repByDeletePayload.searchString:''}|searchColumn:${this.tablePayloadObj.searchColumn}|Status:${this.tablePayloadObj.status}|PrintAll:${1}|filter:${this.tablePayloadObj.filter}|Sort:${this.tableData.sort}|ident:Labels`, '_blank', "location=yes");
+    
       }
     });
   }
@@ -285,6 +345,7 @@ export class SrCurrentOrderComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-all-current-orders',
         ErrorMessage: 'Are you sure you want to delete all records',
@@ -309,6 +370,7 @@ export class SrCurrentOrderComponent implements OnInit {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         mode: 'delete-shown-current-orders',
         ErrorMessage: 'Are you sure you want to delete all records that are currently dipslayed',
@@ -332,6 +394,7 @@ export class SrCurrentOrderComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteRangeComponent, {
       width: '900px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {},
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -347,6 +410,7 @@ export class SrCurrentOrderComponent implements OnInit {
         height: 'auto',
         width: '600px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           orderNumber: null,
         },
@@ -360,6 +424,7 @@ export class SrCurrentOrderComponent implements OnInit {
       const dialogRef = this.dialog.open(this.deleteSelectedConfirm, {
         width: '550px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
       });
 
       dialogRef.afterClosed().subscribe(() => {
@@ -369,6 +434,7 @@ export class SrCurrentOrderComponent implements OnInit {
       //   height: 'auto',
       //   width: '560px',
       //   autoFocus: '__non_existing_element__',
+     
       //   data: {
       //     mode: 'delete-selected-current-orders',
       //     ErrorMessage: `Delete All transactions for Order: ${this.selectedOrder.orderNumber}. This will delete all transactions, not just selected one.`,

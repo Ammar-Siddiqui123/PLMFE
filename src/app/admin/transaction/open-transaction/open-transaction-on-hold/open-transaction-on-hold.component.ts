@@ -485,6 +485,7 @@ this.router.navigate([]).then((result) => {
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         target: 'assigned',
         function: '',
@@ -703,6 +704,7 @@ this.router.navigate([]).then((result) => {
     // this.orderNo = '';
     this.columnSearch.searchValue = '';
     this.searchAutocompleteListByCol = [];
+    this.searchByColumn.next(event);
   }
   resetColumn() {
     this.columnSearch.searchColumn.colDef = '';
@@ -743,6 +745,7 @@ this.router.navigate([]).then((result) => {
       height: 'auto',
       width: '580px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         user: this.userData.userName,
         wsid: this.userData.wsid,
@@ -781,8 +784,7 @@ this.router.navigate([]).then((result) => {
     this.trigger.openMenu();
   }
 
-  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) {
-    debugger;
+  onContextMenuCommand(SelectedItem: any, FilterColumnName: any, Condition: any, Type: any) { 
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     if(FilterColumnName != "" || Condition == "clear"){
       this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
@@ -812,6 +814,7 @@ this.router.navigate([]).then((result) => {
         TypeOfElement: TypeOfElement
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     })
     dialogRef.afterClosed().subscribe((result) => {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
@@ -822,5 +825,17 @@ this.router.navigate([]).then((result) => {
   clear(){
     this.columnSearch.searchValue = ''
     this.getContentData()
+  }
+
+  printCycleCountReport(){
+    window.open(`/#/report-view?file=FileName:printCycleCountReport`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:printCycleCountReport`;
+    // window.location.reload();
+  }
+
+  previewFiftyPagesOnly(){
+    window.open(`/#/report-view?file=CycleCount-lst-prv`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=CycleCount-lst-prv`;
+    // window.location.reload();
   }
 }

@@ -25,6 +25,8 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { Subject } from 'rxjs';
 import { SharedService } from 'src/app/services/shared.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 
 
@@ -34,6 +36,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
   styleUrls: ['./inventory-master.component.scss']
 })
 export class InventoryMasterComponent implements OnInit {
+  @ViewChild('matRef') matRef: MatSelect;
   public textLabel: any = 'Details';
   tabIndex: any = 0;
   ifAllowed: boolean = false;
@@ -58,8 +61,6 @@ export class InventoryMasterComponent implements OnInit {
   saveDisabled = true;
   count;
   spliUrl;
-isQuarantine=false;
-
   public locationTable: any;
   public getItemNum: any;
   public openCount: any;
@@ -228,6 +229,10 @@ isQuarantine=false;
     this.spliUrl=this.router.url.split('/');
   }
 
+
+  clearMatSelectList(){
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+  }
   // onOutsideSearchBox(e?:any) {
   //   console.log('working');
   //    window.addEventListener('scroll', this.scrollEvent, true);
@@ -490,7 +495,6 @@ isQuarantine=false;
       // this.invMasterLocations ='asdsad';
       this.invMaster.get('inventoryTable')?.setValue(res.data.inventoryTable);
       this.count = res.data.count 
-      this.isQuarantine=res.data.inventoryTable.find(obj => obj.warehouse.toLowerCase() === 'quarantine');
       this.initialzeIMFeilds();
     })
   }
@@ -529,6 +533,7 @@ isQuarantine=false;
     // const dialogRef = this.dialog.open(this.propertiesChanged, {
     //   width: '450px',
     //   autoFocus: '__non_existing_element__',
+      
     // });
     this.searchValue = this.currentPageItemNo;
     if (this.paginationData.position >= 1 && this.paginationData.position <= this.paginationData.total) {
@@ -571,8 +576,7 @@ isQuarantine=false;
         'CfGoldZone': this.invMaster.value?.cfVelocity,
         'splitCase': this.invMaster.value.splitCase ? true : false,
         'active': this.invMaster.value.active ? true : false
-      });
-      debugger
+      }); 
       if(!this.invMaster.value.secondaryPickZone){
         this.invMaster.value['secondaryPickZone'] = '';
       }
@@ -615,6 +619,7 @@ isQuarantine=false;
       height: 'auto',
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         itemNumber: this.addItemNumber!=''?this.addItemNumber:this.currentPageItemNo,
         description: this.getInvMasterData && this.getInvMasterData.description?this.getInvMasterData.description:'',
@@ -659,7 +664,10 @@ isQuarantine=false;
 
     });
   }
+  inventoryMapAction(event:any){
+    this.clearMatSelectList();
 
+  }
   deleteItem($event) {
     this.isDialogOpen = true
     let itemToDelete = this.currentPageItemNo
@@ -667,6 +675,7 @@ isQuarantine=false;
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         actionMessage: `item :${this.searchValue}`,
         action: 'delete',
@@ -718,6 +727,7 @@ isQuarantine=false;
     const dialogRef = this.dialog.open(this.quarantineTemp, {
       width: '560px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((x) => {
       this.isDialogOpen = false
@@ -755,6 +765,7 @@ isQuarantine=false;
     const dialogRef = this.dialog.open(this.unquarantineTemp, {
       width: '450px',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
     dialogRef.afterClosed().subscribe((x) => {
       this.isDialogOpen = true
@@ -956,6 +967,7 @@ isQuarantine=false;
         heading: 'Inventory Master'
       },
       autoFocus: '__non_existing_element__',
+      disableClose:true,
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {

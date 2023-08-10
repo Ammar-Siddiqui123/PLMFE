@@ -24,36 +24,15 @@ export class HeaderInterceptor implements HttpInterceptor {
     private authService: AuthService,
     private api:ApiFuntions
     ) {}
-
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    let authReq: any;
- 
-      // const headerValue = request.headers.get('Payload') ?? '';
-    
-
-    if(localStorage.getItem('user')){
-      const { _token }  = JSON.parse(localStorage.getItem('user') || "{}");
-      authReq = request.clone({
-        headers: new HttpHeaders({
-          'Content-Type':  'application/json',
-          '_token': _token,
-        })
-      });    
+    intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+      
+      return next.handle(request).pipe(
+        catchError((error, caught) => {
+          this.handleAuthError(error);
+          return of(error);
+        }) as any
+      );
     }
-    else{
-      authReq = request.clone({
-        headers: new HttpHeaders({
-          'Content-Type':  'application/json',
-          '_token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVc2VyTmFtZSI6IjEyMzQiLCJVc2VyVHlwZSI6IlUiLCJBY2Nlc3NEdHRtIjo2MzgwMTk0ODA5MTQ0MTk5NTksIkFwcGxpY2F0aW9uSUQiOiJQaWNrUHJvIiwiQWNjZXNzTGV2ZWwiOiJBZG1pbmlzdHJhdG9yIiwiRmlyc3RMb2dpblRpbWUiOjYzODAxOTQ4MDkxNDQxOTk1OX0.Cyg97oHb_UlFuuBd8MadpE037CW52VPF-_sdYCbxfyA'
-        })
-      });
-    }
-    return next.handle(authReq).pipe(catchError((error, caught) => {
-      this.handleAuthError(error);
-      return of(error);
-    }) as any);
-  
-  }
 
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
     if (err.status === 401) {
@@ -64,22 +43,23 @@ export class HeaderInterceptor implements HttpInterceptor {
         "wsid": userData.wsid,
       }      
       
+      if(this.router.url.split('?')[0] != '/report-view'){
       if(this.authService.isConfigUser()){
-        this.api.configLogout(paylaod).subscribe((res:any) => {
-          if (res.isExecuted) {       
-            this.dialog.closeAll();
-            this.toastr.error('Token Expire', 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-            this.router.navigate(['/globalconfig']);
-          } else {
-            this.toastr.error(res.responseMessage, 'Error!', {
-              positionClass: 'toast-bottom-right',
-              timeOut: 2000
-            });
-          }
-        });       
+          this.api.configLogout(paylaod).subscribe((res:any) => {
+            if (res.isExecuted) {       
+              this.dialog.closeAll();
+              this.toastr.error('Token Expire', 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+              this.router.navigate(['/globalconfig']);
+            } else {
+              this.toastr.error(res.responseMessage, 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000
+              });
+            }
+          });    
       } else {
         this.api.Logout(paylaod).subscribe((res:any) => {
           if (res.isExecuted) {  
@@ -95,8 +75,9 @@ export class HeaderInterceptor implements HttpInterceptor {
             this.toastr.error('Token Expire', 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
-            });
-            this.router.navigate(['/login']);            
+            });  
+            if(!(this.router.url.indexOf('login') > -1)) localStorage.setItem('LastRoute', this.router.url);        
+            this.router.navigate(['/login']);    
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -110,4 +91,6 @@ export class HeaderInterceptor implements HttpInterceptor {
     }
     throw err;
   }
+  return of(err.message);
+} 
 }

@@ -41,6 +41,8 @@ export class ToteTransactionViewComponent implements OnInit {
     startIndex: 1,
     endIndex: 10,
   };
+  IMPreferences:any;
+  zoneLabels:any;
  
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -55,6 +57,8 @@ export class ToteTransactionViewComponent implements OnInit {
     this.tote = this.data.tote;
     this.toteID = this.data.toteID;
     this.cell=this.data.cell;
+    this.IMPreferences=this.data.IMPreferences;
+    this.zoneLabels = this.data.zoneLabels;
     this.getTransactionTable();
   }
   ngAfterViewInit(): void {
@@ -135,6 +139,7 @@ export class ToteTransactionViewComponent implements OnInit {
         height: 'auto',
         width: '50vw',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           deleteAllDisable:true,
           batchId: this.batchID,
@@ -159,6 +164,7 @@ export class ToteTransactionViewComponent implements OnInit {
         height: 'auto',
         width: '560px',
         autoFocus: '__non_existing_element__',
+      disableClose:true,
         data: {
           mode: 'add-trans',
           message: 'Click OK to mark this Tote as being Full',
@@ -223,6 +229,7 @@ export class ToteTransactionViewComponent implements OnInit {
       height: 'auto',
       width: '50vw',
       autoFocus: '__non_existing_element__',
+      disableClose:true,
       data: {
         message:
           type === 'clear'
@@ -258,6 +265,34 @@ export class ToteTransactionViewComponent implements OnInit {
         })
       }
     });
+  }
+
+  print(type:any){
+    if(type == 'tote-label'){
+      window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:|ZoneLab:${this.zoneLabels}|ID:${this.dataSource?.filteredData[0]?.id}|BatchID:${this.batchID}|TransType:Put Away`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      // window.location.href = `/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:|ZoneLab:${this.zoneLabels}|ID:${this.dataSource?.filteredData[0]?.id}|BatchID:${this.batchID}|TransType:Put Away`;
+    }
+    else if(type == 'item-label'){
+      window.open(`/#/report-view?file=FileName:PrintPrevToteItemLabel|ID:-1|BatchID:${this.batchID}|ToteNum:${this.tote}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      // window.location.href = `/#/report-view?file=FileName:PrintPrevToteItemLabel|ID:-1|BatchID:${this.batchID}|ToteNum:${this.tote}`;
+    }
+    else if(type == 'tote-contents'){
+      window.open(`/#/report-view?file=FileName:PrintPrevToteTransViewCont|BatchID:${this.batchID}|ToteNum:${this.tote}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      // window.location.href = `/#/report-view?file=FileName:PrintPrevToteTransViewCont|BatchID:${this.batchID}|ToteNum:${this.tote}`;
+    }
+  }
+
+  printToteLabel(){
+    // console.log(this.IMPreferences);
+    let ID = this.dataSource?.filteredData[0]?.id;
+    window.open(`/#/report-view?file=FileName:PrintPrevToteItemLabel|ID:${ID}|BatchID:${this.batchID}|ToteNum:${this.tote}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    // window.location.href = `/#/report-view?file=FileName:PrintPrevToteItemLabel|ID:${ID}|BatchID:${this.batchID}|ToteNum:${this.tote}`;
+    // if(this.IMPreferences.printDirectly){
+
+    // }
+    // else{
+    //   window.location.href = `/#/report-view?file=FileName:PrintPrevToteItemLabel|ID:${ID}|BatchID:${this.batchID}|ToteNum:${this.tote}`;
+    // }
   }
 
 

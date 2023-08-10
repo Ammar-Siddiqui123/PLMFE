@@ -1,8 +1,8 @@
 <div class="container-fluid-0 mt-4 p-0">
     <div class="row mb-3">
-        <div class="col-xl-6">
+        <div class="col-xl-4">
 
-            <mat-card class="mat-elevation-z g-card mb-4">
+            <mat-card class="mat-elevation-z g-card mb-4 mb-xl-0">
                 <mat-card-content>
 
                     <div class="d-xl-flex justify-content-between">
@@ -20,10 +20,10 @@
                         <div class="d-flex d-lg-block">
                             <mat-form-field class="action-dropdown mb-3" appearance="outline" style="flex:1">
                                 <mat-label>Actions</mat-label>
-                                <mat-select class="employees-action" value="pick">
-                                    <mat-option value="123456" (click)="OpenListAndLabel()">Print</mat-option>
-                                    <mat-option value="987654" (click)="OpenListAndLabel()">Export</mat-option>
-                                    <mat-option value="147852">Preview Top 50 Pages Only</mat-option>
+                                <mat-select #matRef  class="employees-action" [disabled]="!this.BasicReportModel.ChooseReport" value="pick" (selectionChange)="openAction($event)">
+                                    <mat-option   (click)="OpenListAndLabel()">Print</mat-option>
+                                    <mat-option    (click)="OpenListAndLabel()">Export</mat-option>
+                                    <mat-option    (click)="OpenListAndLabel()">Preview Top 50 Pages Only</mat-option>
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">
                                     expand_more
@@ -61,8 +61,8 @@
             </mat-card>
         </div>
 
-        <div class="col-xl-6">
-            <mat-card class="mat-elevation-z g-card mb-4">
+        <div class="col-xl-8">
+            <mat-card class="mat-elevation-z g-card mb-4 mb-xl-0">
                 <mat-card-content>
 
                     <div class="d-xl-flex justify-content-between mb-3">
@@ -79,8 +79,8 @@
 
                     </div>
 
-                    <div class="card br-14  borderless px-0 mb-3" style="overflow-x: auto;">
-                        <ng-scrollbar class="mat-table-scrollbar  scrollbar-hover-padding" style="height:360px"
+                    <div class="card br-14  borderless px-0" style="overflow-x: auto;">
+                        <ng-scrollbar class="mat-table-scrollbar  scrollbar-hover-padding" style="height:56vh"
                             track="all">
                             <table mat-table [dataSource]="this.ELEMENT_DATA" class="w-100">
 
@@ -92,7 +92,7 @@
                                             class="action-dropdown custom-form-field custom-form-field-bg-white w-100 pe-2"
                                             appearance="outline">
                                             <mat-label>Field(s) to filter on</mat-label>
-                                            <mat-select class="employees-action" [(ngModel)]="reportData[4+i]" (ngModelChange)="ReportFieldsExps()" placeholder="Actions">
+                                            <mat-select class="employees-action" [(ngModel)]="reportData[4+i]" (ngModelChange)="ReportFieldsExps();changefilter(reportData[4+i],i)" placeholder="Actions" [disabled]="BasicReportModel.ChooseReport == ''">
                                                 <mat-option *ngFor="let item of fields" [value]="item">{{item}}</mat-option> 
                                             </mat-select>
                                             <span class="material-symbols-outlined icon-expand-more">
@@ -110,7 +110,7 @@
                                             class="action-dropdown custom-form-field custom-form-field-bg-white w-100 pe-2"
                                             appearance="outline">
                                             <mat-label>Expression Type</mat-label>
-                                            <mat-select class="employees-action"  [(ngModel)]="reportData[10+i]" (ngModelChange)="ReportFieldsExps()" placeholder="Actions">
+                                            <mat-select class="employees-action"  [(ngModel)]="reportData[10+i]" (ngModelChange)="ReportFieldsExps();reportfieldvaluesChange(i,reportData[16+i])" placeholder="Actions" [disabled]="BasicReportModel.ChooseReport == ''">
                                                 <mat-option value=""> </mat-option>
                                                 <mat-option value="=">= (Equals)</mat-option>
                                                 <mat-option value=">">> (Greater Than)</mat-option>
@@ -138,17 +138,49 @@
                                     <th mat-header-cell *matHeaderCellDef>Value To Test</th>
                                     <td mat-cell *matCellDef="let element;let i =index">
                                         <mat-form-field class="custom-form-field w-100 pe-2" appearance="outline">
-                                            <input matInput type="text" [(ngModel)]="reportData[16+i]" [disabled]="reportData[10+i] == '' || reportData[10+i] == null" (change)="reportfieldvalues()" />
+                                            <input matInput type="text"  [matAutocomplete]="auto"
+                                            
+                                             (ngModelChange)="[filterByItem($event,i),reportfieldvaluesChange(i,reportData[16+i])]"  (focus)="onFocusEmptyInput(i)"   
+                                             [(ngModel)]="reportData[16+i]" [disabled]="(reportData[4+i] == '' || reportData[4+i] == null) || BasicReportModel.ChooseReport == ''"  />
+                                            <mat-autocomplete #auto="matAutocomplete"  (optionSelected)="ValueSelect($event,i)">
+                                                <mat-option *ngFor="let option of ListFilterValue[i]" [value]="option"
+                                                >
+                                                  {{option}}
+                                                </mat-option>
+                                              
+                                              </mat-autocomplete>
+                                            </mat-form-field>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="between" >
+                                        <th mat-header-cell *matHeaderCellDef></th>
+                                        <td mat-cell *matCellDef="let element;let i =index" style="width: 220px;">
+                                            <mat-form-field class="custom-form-field w-100 pe-2" appearance="outline" >
+                                            
+                                            <input matInput type="text"  
+                                            [(ngModel)]="reportData[22+i]"
+                                            (change)="reportfieldvalues(i,reportData[22+i])" 
+                                            [disabled]="(reportData[10 + i] !== 'BETWEEN' && reportData[10 + i] !== 'NOT BETWEEN')" 
+                                                />
+                                            <!-- <mat-autocomplete #auto="matAutocomplete"  (optionSelected)="ValueSelect($event,i)">
+                                                <mat-option *ngFor="let option of ListFilterValue[i]" [value]="option"
+                                                
+                                                >
+                                                  {{option}}
+                                                </mat-option>
+                                              
+                                              </mat-autocomplete> -->
                                         </mat-form-field>
                                     </td>
                                 </ng-container>
+                                <!-- (click)="reportData[16+i] = option" -->
 
 
                                 <ng-container matColumnDef="actions" stickyEnd>
                                     <th width="10%" class="text-center px-2" mat-header-cell *matHeaderCellDef>Action
                                     </th>
                                     <td class="pe-0" mat-cell *matCellDef="let element; let i = index" width="10%">
-                                        <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete"
+                                        <button class="mx-auto xsm-icon-button" mat-flat-button aria-label="Delete" [disabled]="BasicReportModel.ChooseReport == ''"
                                         (click)="Remove(i)"
                                             matTooltip="Delete" matTooltipPosition="above" color="warn">
                                             <mat-icon>close</mat-icon>
