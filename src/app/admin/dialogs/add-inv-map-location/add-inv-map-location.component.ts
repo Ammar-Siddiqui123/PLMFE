@@ -132,6 +132,7 @@ export class AddInvMapLocationComponent implements OnInit {
   myroute1:boolean=true;
   myroute2:boolean=true;
   unitOFMeasure  
+  itemNumberScroll:any = "all";
 
   constructor(
     private dialog: MatDialog,
@@ -248,10 +249,29 @@ export class AddInvMapLocationComponent implements OnInit {
       'lotNumber': '',
       'revision': '',
       'expirationDate': '',
-      'description':''
+      'description':'',
+      'location':'',
+      'locationNumber':'',
+      'laserX':'',
+      'lasery':'',
+      'warehouse':'',
+      'zone':'',
+      'carousel':'',
+      'row':'',
+      'shelf':'',
+      'bin':'',
+      'cell':'',
+      'velocity':'',
+      'altLight':'',
+      dedicated: false,
+      dateSensitive : false
+      
 
     });
     this.itemDescription = "";
+    this.unitOFMeasure = ''
+    this.autoFillLocNumber = ''
+    this.itemNumberList = []
   }
 
   adjustQuantity() {
@@ -283,6 +303,9 @@ export class AddInvMapLocationComponent implements OnInit {
   }
 
   searchItemNumber(event:any,itemNum: any) { 
+    if(this.searchItemNumbers == ''||this.searchItemNumbers == undefined){
+      this.clearFields()
+    }
     if(event.keyCode == 13){
       this.searchItemNumbers = this.itemNumberList.find(x=>x.itemNumber == event.target.value.toString()).itemNumber;
       if(this.searchItemNumbers) { 
@@ -305,6 +328,7 @@ export class AddInvMapLocationComponent implements OnInit {
       else {
         this.addInvMapLocation.controls['item'].setValue('');
         this.itemNumberList = []
+        this.clearFields()
       }
     });  
   }
@@ -569,4 +593,10 @@ export class AddInvMapLocationComponent implements OnInit {
     
   }
 
+  focusinmethod(){
+    this.itemNumberScroll = "horizontal";
+  }
+  focusoutmethod(){
+    this.itemNumberScroll = "all";
+  }
 }
