@@ -58,6 +58,7 @@ export class ReprocessedTransactionComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('matRef') matRef: MatSelect;
+  orderSelectionSearch:boolean  = true
   pageEvent: PageEvent;
   cols = [];
   customPagination: any = {
@@ -281,6 +282,7 @@ export class ReprocessedTransactionComponent implements OnInit {
     // this.orderNo = '';
     this.columnSearch.searchValue = '';
     this.searchAutocompleteList = [];
+    this.orderSelectionSearch = false
     this.searchBar.next('');
   }
 }
