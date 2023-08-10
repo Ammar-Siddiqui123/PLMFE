@@ -183,6 +183,7 @@ export class ReprocessTransactionComponent implements OnInit {
   itemNumber: string = '';
   selectedVariable;
   isHistory: boolean = false;
+  orderSelectionSearch: boolean = false;
   toteId: string = '';
   searchByToteId = new Subject<string>();
   searchByOrderNumber = new Subject<string>();
@@ -976,11 +977,11 @@ export class ReprocessTransactionComponent implements OnInit {
  
   }
 
-
   resetFields(event?) {
     // this.orderNo = '';
     this.columnSearch.searchValue = '';
     this.searchAutocompleteListByCol = [];
+    this.orderSelectionSearch = false
     this.searchByColumn.next('');
   }
 
