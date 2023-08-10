@@ -236,7 +236,12 @@ export class PickToteManagerComponent implements OnInit {
 
   ngAfterViewInit() {
     // this.batchByZoneSource.paginator = this.batchByZonePaginator;
-    this.field_focus.nativeElement.focus();
+    // this.field_focus.nativeElement.focus();
+    setTimeout(()=>{
+
+      this.field_focus.nativeElement.focus();  
+
+    }, 500);
   }
 
   getSavedFilters() {
