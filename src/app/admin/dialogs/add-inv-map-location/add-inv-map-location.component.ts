@@ -131,7 +131,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
   myroute1:boolean=true;
   myroute2:boolean=true;
-
+  unitOFMeasure  
 
   constructor(
     private dialog: MatDialog,
@@ -159,6 +159,7 @@ export class AddInvMapLocationComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.fieldNames=this.data?.fieldName;
+    console.log(this.data.detailData)
     if (this.data.detailData) {
       this.getDetailInventoryMapData = this.data.detailData;
       this.zone = this.getDetailInventoryMapData.zone;
@@ -168,6 +169,7 @@ export class AddInvMapLocationComponent implements OnInit {
       this.bin = this.getDetailInventoryMapData.bin;
       this.itemDescription = this.getDetailInventoryMapData.description;
       this.quantity = this.getDetailInventoryMapData.itemQuantity; 
+      this.unitOFMeasure = this.getDetailInventoryMapData.unitOfMeasure; 
       
       this.updateItemNumber();
       this.initializeDataSet();
@@ -204,6 +206,7 @@ export class AddInvMapLocationComponent implements OnInit {
     if(this.router.url == '/OrderManager/InventoryMap'){
       this.addInvMapLocation.get('location')?.disable();
       this.addInvMapLocation.get('zone')?.disable();
+      this.addInvMapLocation.get('description')?.disable();
       this.addInvMapLocation.get('laserX')?.disable();
       this.addInvMapLocation.get('laserY')?.disable();
       this.addInvMapLocation.get('warehouse')?.disable();
@@ -244,7 +247,9 @@ export class AddInvMapLocationComponent implements OnInit {
       'serialNumber': '',
       'lotNumber': '',
       'revision': '',
-      'expirationDate': ''
+      'expirationDate': '',
+      'description':''
+
     });
     this.itemDescription = "";
   }
@@ -277,7 +282,15 @@ export class AddInvMapLocationComponent implements OnInit {
     })
   }
 
-  searchItemNumber(itemNum: any) {
+  searchItemNumber(event:any,itemNum: any) { 
+    if(event.keyCode == 13){
+      this.searchItemNumbers = this.itemNumberList.find(x=>x.itemNumber == event.target.value.toString()).itemNumber;
+      if(this.searchItemNumbers) { 
+        this.loadItemDetails(this.searchItemNumbers);
+        this.itemNumberList = []
+      }
+    }
+    else{
     let payload = {
       "itemNumber": itemNum.value.toString(),
       "beginItem": "---",
@@ -293,7 +306,8 @@ export class AddInvMapLocationComponent implements OnInit {
         this.addInvMapLocation.controls['item'].setValue('');
         this.itemNumberList = []
       }
-    });
+    });  
+  }
   }
 
   initializeDataSet() {
@@ -306,7 +320,9 @@ export class AddInvMapLocationComponent implements OnInit {
       bin: [this.getDetailInventoryMapData.bin || '', [Validators.maxLength(3)]],
       item: [this.getDetailInventoryMapData.itemNumber || '', [Validators.maxLength(50)]],
       itemQuantity: new FormControl({value:this.getDetailInventoryMapData.itemQuantity || '',disabled:this.getDetailInventoryMapData.itemNumber == ''? true: false}),
-      description: [this.getDetailInventoryMapData.description || ''],
+      description: [this.getDetailInventoryMapData.description || ""],
+      
+      // description: new FormControl({ value: this.getDetailInventoryMapData.description ? this.getDetailInventoryMapData.description : "", disabled: true }),
       cell: [this.getDetailInventoryMapData.cellSize || ''],
       velocity: [this.getDetailInventoryMapData.goldenZone || ''],
       maxQuantity: [this.getDetailInventoryMapData.maxQuantity || 0, [Validators.maxLength(9)]],
@@ -362,8 +378,7 @@ export class AddInvMapLocationComponent implements OnInit {
     let value = this.addInvMapLocation.controls['zone'].value + this.addInvMapLocation.controls['carousel'].value + this.addInvMapLocation.controls['row'].value + this.addInvMapLocation.controls['shelf'].value + this.addInvMapLocation.controls['bin'].value;
     this.addInvMapLocation.controls['locationNumber'].setValue(value);
   }
-  onSubmit(form: FormGroup) {
-    
+  onSubmit(form: FormGroup) { 
     let invMapIDs={
       invMapID:this.getDetailInventoryMapData.invMapID,
       masterInvMapID:this.getDetailInventoryMapData.masterInvMapID
@@ -487,7 +502,8 @@ export class AddInvMapLocationComponent implements OnInit {
   loadItemDetails(item: any) {
     this.itemNumberList.map(val => {
       if (val.itemNumber === item) {
-        this.itemDescription = val.description ?? '';
+        this.addInvMapLocation.controls['description'].setValue(val.description ?? '');
+        // this.itemDescription = ;
       }
     })
     let payload = {
@@ -501,7 +517,7 @@ export class AddInvMapLocationComponent implements OnInit {
 
     this.Api.getItemNumDetail(payload).subscribe((res) => {
       if (res.isExecuted) {
-
+        this.unitOFMeasure =res.data.unitOfMeasure 
         var match = '';
         var expected = '';
         if (cellSizeVal != res.data.cellSize && res.data.cellSize) {

@@ -4,7 +4,7 @@
       <span class="material-symbols-outlined icon-search">
         search
       </span>
-      <input type="search" matTooltip="You must select an employee from the list to continue" matTooltipPosition="above" maxlength="50" placeholder="Search Employee" aria-label="Search Employee" matInput
+      <input type="search" matTooltip="You must select an employee from the list to continue" matTooltipPosition="above" maxlength="50" placeholder="Search Employee By Last Name" aria-label="Search Employee" matInput
         (keyup)="applyFilter($event)" [(ngModel)]="searchVal" #autoFocusField>
         <button matSuffix *ngIf="searchVal" class="clear-btn" (click)="clear()"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
 

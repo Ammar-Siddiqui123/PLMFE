@@ -229,17 +229,17 @@ this.customPagination.total = 0;
   deleteRow(rowId) {
 
     
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      height: 'auto',
-      width: '600px',
-      autoFocus: '__non_existing_element__',
-      disableClose:true,
-      data: {
-        mode: 'delete-cycle-count',
-      },
-    });
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res === 'Yes') {
+    // const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+    //   height: 'auto',
+    //   width: '600px',
+    //   autoFocus: '__non_existing_element__',
+    //   disableClose:true,
+    //   data: {
+    //     mode: 'delete-cycle-count',
+    //   },
+    // });
+    // dialogRef.afterClosed().subscribe((res) => {
+    //   if (res === 'Yes') {
         let payload = {
           wsid: this.userData.wsid,
           invMapID: rowId.toString(),
@@ -262,8 +262,7 @@ this.customPagination.total = 0;
           (error) => {}
         );
       }
-    });
-  }
+      
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
