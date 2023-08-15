@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from './auth.service';
 import { ApiFuntions } from '../services/ApiFuntions';
+import { SpinnerService } from './spinner.service';
 
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
@@ -22,7 +23,8 @@ export class HeaderInterceptor implements HttpInterceptor {
     private toastr: ToastrService,
     private dialog: MatDialog,
     private authService: AuthService,
-    private api:ApiFuntions
+    private api:ApiFuntions,
+    private spinnerService: SpinnerService
     ) {}
     intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
       
@@ -35,6 +37,7 @@ export class HeaderInterceptor implements HttpInterceptor {
     }
 
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
+    debugger
     if (err.status === 401) {
       
       let userData = this.authService.userData();
@@ -90,7 +93,13 @@ export class HeaderInterceptor implements HttpInterceptor {
       return of(err.message);
     }
     throw err;
-  }
+  }else if(err.status === 500){
+    this.toastr.error(err.error.ResponseMessage, 'Error!', {
+      positionClass: 'toast-bottom-right',
+      timeOut: 2000,
+    }); 
+    this.spinnerService.hide();
+  } 
   return of(err.message);
 } 
 }

@@ -81,6 +81,13 @@
 //     }
 //   }
 
+.stickyHeader{
+    position: sticky;
+    top: 0px;
+    z-index: 200000000;
+  }
+
+  
 table{
     th{
         white-space: nowrap ;
