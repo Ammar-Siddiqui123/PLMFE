@@ -522,4 +522,17 @@ export class OmCreateOrdersComponent implements OnInit {
   ngAfterViewInit(): void {
     this.ord_focus.nativeElement.focus();
   }
+
+  selectRow(row: any) {
+    this.tableData.filteredData.forEach(element => {
+      if(row != element){
+        element.selected = false;
+      }
+    });
+    const selectedRow = this.tableData.filteredData.find((x: any) => x === row);
+    if (selectedRow) {
+      selectedRow.selected = !selectedRow.selected;
+    }
+  }
+
 }

@@ -361,4 +361,16 @@ export class ToteTransactionManagerComponent implements OnInit {
     this.batchPickId.next('');
     this.batchId='';
   }
+
+  selectRow(row: any) {
+    this.dataSource.filteredData.forEach(element => {
+      if(row != element){
+        element.selected = false;
+      }
+    });
+    const selectedRow = this.dataSource.filteredData.find((x: any) => x === row);
+    if (selectedRow) {
+      selectedRow.selected = !selectedRow.selected;
+    }
+  }
 }

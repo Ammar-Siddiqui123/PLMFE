@@ -24,4 +24,16 @@ export class SpLightTreeSetupComponent implements OnInit {
   tableData = this.ELEMENT_DATA
   dataSourceList:any
 
+  selectRow(row: any) {
+    this.ELEMENT_DATA.forEach(element => {
+      if(row != element){
+        element.selected = false;
+      }
+    });
+    const selectedRow = this.ELEMENT_DATA.find((x: any) => x === row);
+    if (selectedRow) {
+      selectedRow.selected = !selectedRow.selected;
+    }
+  }
+
 }

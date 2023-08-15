@@ -145,7 +145,7 @@
                             <mat-checkbox color="primary">
                             </mat-checkbox>
                         </th>
-                        <td mat-cell *matCellDef="let element">
+                        <td mat-cell *matCellDef="let seletedRecord">
                             <mat-checkbox color="primary" matTooltip="Check" matTooltipPosition="above">
                             </mat-checkbox>
                         </td>
@@ -153,56 +153,56 @@
 
                     <ng-container matColumnDef="Item Number">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Item No. </th>
-                        <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"> {{element.itemNumber}} </td>
+                        <td (dblclick)="viewItemInInventoryMaster(seletedRecord)" mat-cell *matCellDef="let seletedRecord" (contextmenu)="onContextMenu($event, seletedRecord.itemNumber, 'Item Number')"> {{seletedRecord.itemNumber}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Description">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-                        <td #tooltip="matTooltip" [matTooltip]="element.description"   matTooltipPosition="right"
-                        (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.description, 'Description')"> {{element.description}} </td>
+                        <td #tooltip="matTooltip" [matTooltip]="seletedRecord.description"   matTooltipPosition="right"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)" mat-cell *matCellDef="let seletedRecord" (contextmenu)="onContextMenu($event, seletedRecord.description, 'Description')"> {{seletedRecord.description}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Warehouse">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse </th>
-                        <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.warehouse, 'Warehouse')"> {{element.warehouse}} </td>
+                        <td (dblclick)="viewItemInInventoryMaster(seletedRecord)" mat-cell *matCellDef="let seletedRecord" (contextmenu)="onContextMenu($event, seletedRecord.warehouse, 'Warehouse')"> {{seletedRecord.warehouse}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Stock Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock Qty </th>
-                        <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.stockQuantity, 'Stock Qty')"> {{element.stockQuantity}} </td>
+                        <td (dblclick)="viewItemInInventoryMaster(seletedRecord)" mat-cell *matCellDef="let seletedRecord" (contextmenu)="onContextMenu($event, seletedRecord.stockQuantity, 'Stock Qty')"> {{seletedRecord.stockQuantity}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Replenishment Point">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Replen Point </th>
-                        <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentPoint, 'Replenishment Point')"> {{element.replenishmentPoint}} </td>
+                        <td (dblclick)="viewItemInInventoryMaster(seletedRecord)" mat-cell *matCellDef="let seletedRecord" (contextmenu)="onContextMenu($event, seletedRecord.replenishmentPoint, 'Replenishment Point')"> {{seletedRecord.replenishmentPoint}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Replenishment Level">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Replen Level </th>
-                        <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentLevel, 'Replenishment Level')"> {{element.replenishmentLevel}} </td>
+                        <td (dblclick)="viewItemInInventoryMaster(seletedRecord)" mat-cell *matCellDef="let seletedRecord" (contextmenu)="onContextMenu($event, seletedRecord.replenishmentLevel, 'Replenishment Level')"> {{seletedRecord.replenishmentLevel}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Available Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Avail Qty </th>
-                        <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.availableQuantity, 'Available Qty')"> {{element.availableQuantity}} </td>
+                        <td (dblclick)="viewItemInInventoryMaster(seletedRecord)" mat-cell *matCellDef="let seletedRecord" (contextmenu)="onContextMenu($event, seletedRecord.availableQuantity, 'Available Qty')"> {{seletedRecord.availableQuantity}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Replenishment Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Replen Qty </th>
-                        <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.replenishmentQuantity, 'Replenishment Qty')"> {{element.replenishmentQuantity}} </td>
+                        <td (dblclick)="viewItemInInventoryMaster(seletedRecord)" mat-cell *matCellDef="let seletedRecord" (contextmenu)="onContextMenu($event, seletedRecord.replenishmentQuantity, 'Replenishment Qty')"> {{seletedRecord.replenishmentQuantity}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Case Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Case Qty </th>
-                        <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.caseQuantity, 'Case Qty')"> {{element.caseQuantity}} </td>
+                        <td (dblclick)="viewItemInInventoryMaster(seletedRecord)" mat-cell *matCellDef="let seletedRecord" (contextmenu)="onContextMenu($event, seletedRecord.caseQuantity, 'Case Qty')"> {{seletedRecord.caseQuantity}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Transaction Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Trans Qty </th>
-                        <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.transactionQuantity, 'Transaction Qty')">
+                        <td (dblclick)="viewItemInInventoryMaster(seletedRecord)" mat-cell *matCellDef="let seletedRecord" (contextmenu)="onContextMenu($event, seletedRecord.transactionQuantity, 'Transaction Qty')">
                             <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline"
-                                (click)="editTransDialog(element)" >
-                                <input matInput type="text" maxlength="50" readonly="true" value="000000" [ngModel]="element.transactionQuantity">
+                                (click)="editTransDialog(seletedRecord)" >
+                                <input matInput type="text" maxlength="50" readonly="true" value="000000" [ngModel]="seletedRecord.transactionQuantity">
                                 <span matSuffix>
                                     <mat-icon style="color:#8B8BA3; transform: rotate(45deg);">unfold_more</mat-icon>
                                 </span>
@@ -212,10 +212,10 @@
 
                     <ng-container matColumnDef="Replenish">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Replen </th>
-                        <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element">
+                        <td (dblclick)="viewItemInInventoryMaster(seletedRecord)" mat-cell *matCellDef="let seletedRecord">
                             <div class="text-center">
-                                <mat-checkbox color="primary" matTooltip="Check" matTooltipPosition="above" [disabled]="element.availableQuantity == 0 ||  element.transactionQuantity == 0 || element.replenishExists"
-                                    [checked]="element.replenish" [(ngModel)]="element.replenish" (change)="changeReplenish(element,$event)">
+                                <mat-checkbox color="primary" matTooltip="Check" matTooltipPosition="above" [disabled]="seletedRecord.availableQuantity == 0 ||  seletedRecord.transactionQuantity == 0 || seletedRecord.replenishExists"
+                                    [checked]="seletedRecord.replenish" [(ngModel)]="seletedRecord.replenish" (change)="changeReplenish(seletedRecord,$event)">
                                 </mat-checkbox>
                             </div>
                         </td>
@@ -223,10 +223,10 @@
                     
                     <ng-container matColumnDef="Replenish Exists">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Exists </th>
-                        <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element">
+                        <td (dblclick)="viewItemInInventoryMaster(seletedRecord)" mat-cell *matCellDef="let seletedRecord">
                             <div class="text-center">
                                 <mat-checkbox color="primary" matTooltip="Check" matTooltipPosition="above" disabled
-                                    [checked]="element.replenishExists">
+                                    [checked]="seletedRecord.replenishExists">
                                 </mat-checkbox>
                             </div>
                         </td>
@@ -234,12 +234,12 @@
 
                     <ng-container matColumnDef="Alloc Pick">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Allocated Pick </th>
-                        <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.allocPick, 'Alloc Pick')"> {{element.allocPick}} </td>
+                        <td (dblclick)="viewItemInInventoryMaster(seletedRecord)" mat-cell *matCellDef="let seletedRecord" (contextmenu)="onContextMenu($event, seletedRecord.allocPick, 'Alloc Pick')"> {{seletedRecord.allocPick}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Alloc Put">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Allocated Put </th>
-                        <td (dblclick)="viewItemInInventoryMaster(element)" mat-cell *matCellDef="let element" (contextmenu)="onContextMenu($event, element.allocPut, 'Alloc Put')"> {{element.allocPut}} </td>
+                        <td (dblclick)="viewItemInInventoryMaster(seletedRecord)" mat-cell *matCellDef="let seletedRecord" (contextmenu)="onContextMenu($event, seletedRecord.allocPut, 'Alloc Put')"> {{seletedRecord.allocPut}} </td>
                     </ng-container>
 
                     <!-- Action Column -->
@@ -248,15 +248,14 @@
                         <th mat-header-cell *matHeaderCellDef style="border: 0;height: 66px; padding-left:65px;">
                         </th>
 
-                        <td mat-cell *matCellDef="let element" style="border: 0; padding-left: 24px; background: #fff;">
+                        <td mat-cell *matCellDef="let seletedRecord" style="border: 0; padding-left: 24px; background: #fff;">
 
-                            <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o"
-                                appearance="outline">
+                            <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" [ngClass]="{'active-btn':seletedRecord.selected}" class="circle-icon-o active-btn" appearance="outline">
                                 <mat-icon>more_horiz</mat-icon>
                             </button>
 
                             <mat-menu #appMenu="matMenu">
-                                <button mat-menu-item (click)="viewItemInInventoryMaster(element)">View Item in Inventory Master</button>
+                                <button mat-menu-item (click)="viewItemInInventoryMaster(seletedRecord)">View Item in Inventory Master</button>
                             </mat-menu>
 
                         </td>
@@ -271,7 +270,7 @@
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"
                         style=" background-color: #F9F9FF;"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)"></tr>
                 </table>
             </ng-scrollbar>
         </div>
