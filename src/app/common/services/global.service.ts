@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Api } from 'datatables.net-bs5';
+import { ToastrService } from 'ngx-toastr';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +40,7 @@ export class GlobalService {
     }
   };
 
-  constructor() {}
+  constructor(private Api:ApiFuntions,private toast:ToastrService) {}
 
     // returns the date from JS in format: mm/dd/yyyy hh:mm
     getCurrentDateTime() {
@@ -178,4 +181,23 @@ export class GlobalService {
         else
           return true;
     }
+    Print(ChooseReport){
+        var paylaod:any={
+          ClientCustomData:`${this.capitalizeAndRemoveSpaces(ChooseReport)+'-lst'}`,
+          repositoryIdOfProject:"BCAEC8B2-9D16-4ACD-94EC-74932157BF82"
+        }
+        this.Api.CommonPrint(paylaod).subscribe((res:any)=>{
+          if(res.StatusCode == 200){
+            this.toast.success("print successfully completed", 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+          }else{
+            this.toast.error("print unsuccessfully complete", 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+          }
+        })
+      }
 }

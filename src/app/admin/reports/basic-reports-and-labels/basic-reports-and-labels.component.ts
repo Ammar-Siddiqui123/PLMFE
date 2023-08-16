@@ -42,7 +42,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     currentApp
 
       
-  constructor(private dialog: MatDialog,private api:ApiFuntions,private authService:AuthService,private route:Router,private global:GlobalService) { 
+  constructor(private dialog: MatDialog,private api:ApiFuntions,private authService:AuthService,private route:Router,public global:GlobalService) { 
     this.userData = this.authService.userData(); 
     this.route.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -223,5 +223,18 @@ Remove(index){
 }
 
 
-  
+Export(){
+  var paylaod:any={
+    ClientCustomData:`${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`,
+    repositoryIdOfProject:"BCAEC8B2-9D16-4ACD-94EC-74932157BF82",
+    type:"csv"
+  }
+  this.api.CommonExport(paylaod).subscribe((res:any)=>{
+    if(res.StatusCode == 200){
+      
+    }
+  })
+}
+
+
 }

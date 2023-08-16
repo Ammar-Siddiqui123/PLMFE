@@ -1475,4 +1475,11 @@ public updatereportDetails(body): Observable<any> {
 public ShowCMPackPrintModal(body:any): Observable<any> { 
   return this.ApiBase.Get("/consolidation/cmPackPrintmodalshow",body);
 }
+public CommonExport(body): Observable<any> {
+  return this.ApiBase.Get(`/Admin/reports/export`,body);
+}
+public CommonPrint(body): Observable<any> {
+  return this.ApiBase.Get(`/Admin/reports/print`,body);
+}
+ 
 }
