@@ -199,15 +199,7 @@ ReportTitles(){
        
      })
    } 
-  BrChooseReportTypeDialogue() {
-    const dialogRef = this.dialog.open(BrChooseReportTypeComponent, {
-      height: 'auto',
-      width: '932px',
-      autoFocus: '__non_existing_element__',
-      disableClose:true,
-    });
-  
-  }
+ 
   OpenListAndLabel(){ 
     window.open(`/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
     // window.location.href = `/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`;
@@ -223,18 +215,7 @@ Remove(index){
 }
 
 
-Export(){
-  var paylaod:any={
-    ClientCustomData:`${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`,
-    repositoryIdOfProject:"BCAEC8B2-9D16-4ACD-94EC-74932157BF82",
-    type:"csv"
-  }
-  this.api.CommonExport(paylaod).subscribe((res:any)=>{
-    if(res.StatusCode == 200){
-      
-    }
-  })
-}
+
 
 
 }

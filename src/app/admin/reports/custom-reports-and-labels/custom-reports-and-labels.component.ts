@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-custom-reports-and-labels',
@@ -27,7 +28,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   sysTitles:any = [];
   olddetail
   currentApp
-  constructor(private api:ApiFuntions,private route:Router,private dialog: MatDialog, private toastr :ToastrService,private router: Router,) { 
+  constructor(private api:ApiFuntions,private route:Router,private dialog: MatDialog, private toastr :ToastrService,private router: Router,public global:GlobalService) { 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         let spliUrl=event.url.split('/');

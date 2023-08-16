@@ -10,20 +10,18 @@
     <div class="col-xl-12 mb-2">
     <mat-form-field class="custom-form-field w-100" appearance="outline">
         <mat-label>Export Filename</mat-label>
-        <input #exp_file matInput type="text">
+        <input #exp_file matInput type="text" [(ngModel)]="ExportFileName">
     </mat-form-field>
 </div>
     <div class="col-xl-12 mb-2">
     <mat-form-field class="custom-form-field w-100" appearance="outline">
         <mat-label>File Format</mat-label>
-        <mat-select class="employees-action" value="pick">
-            <mat-option>PDF (PDF Format)</mat-option>
-            <mat-option>CSV (Comma Sepereated File - Openable in Excel)</mat-option>
-            <mat-option>RTF (Rich Text Format)</mat-option>
-            <mat-option>TXT (Text Format )</mat-option>
-            <mat-option>XML (XML format)</mat-option>
-            <mat-option>HTML (Web page format)</mat-option>
-            <mat-option>XPS (XPS Format)</mat-option>
+        <mat-select class="employees-action" [(ngModel)]="Type">
+            <mat-option value="pdf">PDF (PDF Format)</mat-option>
+            <mat-option value="csv">CSV (Comma Sepereated File - Openable in Excel)</mat-option> 
+            <mat-option value="text">TXT (Text Format )</mat-option> 
+            <mat-option value="html">HTML (Web page format)</mat-option>
+            <mat-option value="json">Json (Json Format)</mat-option>
         </mat-select>
         <span class="material-symbols-outlined icon-expand-more">
             expand_more
@@ -33,5 +31,5 @@
 </div>
 
 <div class="row mt-2">
-    <button type="button" mat-flat-button color="primary" class="button-primary-i mb-2 btn-lg w-100">Export</button>
+    <button type="button" mat-flat-button color="primary" (click)="ExportSubmit()" [disabled]="!Type || !ExportFileName" class="button-primary-i mb-2 btn-lg w-100">Export</button>
 </div>
