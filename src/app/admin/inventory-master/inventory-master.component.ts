@@ -712,7 +712,7 @@ export class InventoryMasterComponent implements OnInit {
             });
             this.getInventory();
           } else {
-            this.toastr.error(res.responseMessage, 'Error!', {
+            this.toastr.error('Delete failed!  Item exists in Inventory Map.  Please deallocate item from Inventory Map location(s) before deleting.', 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });

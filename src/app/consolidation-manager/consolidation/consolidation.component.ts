@@ -82,13 +82,13 @@ export class ConsolidationComponent implements OnInit {
   tableData_2 = new MatTableDataSource<any>([]);
 
   filterOption: any = [
-    { key: '1', value: 'Item Number' },
-    { key: '2', value: 'Supplier Item ID' },
-    { key: '10', value: 'Lot Number' },
-    { key: '8', value: 'Serial Number' },
-    { key: '9', value: 'User Field 1' },
     { key: '0', value: 'Any Code' },
+    { key: '1', value: 'Item Number' },
+    { key: '10', value: 'Lot Number' },
+    { key: '2', value: 'Supplier Item ID' },
+    { key: '8', value: 'Serial Number' },
     { key: '6', value: 'Tote ID' },
+    { key: '9', value: 'User Field 1' },
   ];
 
   constructor(private dialog: MatDialog,
