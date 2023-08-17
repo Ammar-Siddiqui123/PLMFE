@@ -12,6 +12,7 @@ import { FormControl } from '@angular/forms';
 import { FloatLabelType } from '@angular/material/form-field';
 import { Subject, catchError, of, takeUntil } from 'rxjs';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 export interface PeriodicElement {
   name: string;
@@ -111,12 +112,10 @@ export class TotesAddEditComponent implements OnInit {
   // ToTote:eTote,
   // PrintDirect: pd,
   // BatchID: batch
+ 
+    this.global.Print(`FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`);
 
-    // window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
-    window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-
-    // window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', "location=yes");
-  }
+    }
   printRange(){
     let ident = 1;
    let ToteID = '';
@@ -124,12 +123,7 @@ export class TotesAddEditComponent implements OnInit {
     let sTote = this.fromTote;
     let eTote = this.toTote;
 
-    window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-
-    // window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', "location=yes");
-
-    // window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
-
+    this.global.Print(`FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`);
   }
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   toggleAllRows() {
@@ -424,7 +418,7 @@ export class TotesAddEditComponent implements OnInit {
   selection1 = new SelectionModel<PeriodicElement>(true, []);
 
   constructor(public dialogRef: MatDialogRef<TotesAddEditComponent>,private route: ActivatedRoute,private location: Location,private renderer: Renderer2,
-    @Inject(MAT_DIALOG_DATA) public data : any,private authService: AuthService,private Api:ApiFuntions,private toastr: ToastrService,private dialog: MatDialog,) {
+    @Inject(MAT_DIALOG_DATA) public data : any,private authService: AuthService,private Api:ApiFuntions, private global:GlobalService,private toastr: ToastrService,private dialog: MatDialog,) {
 
       let pathArr= this.location.path().split('/')
       this.isIMPath=pathArr[pathArr.length-1]==='ImToteManager'?true:false

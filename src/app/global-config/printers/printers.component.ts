@@ -7,6 +7,7 @@ import labels from '../../labels/labels.json'
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { Router } from '@angular/router';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-printers',
@@ -32,7 +33,9 @@ export class PrintersComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService,
     private renderer: Renderer2,
+    private global:GlobalService,
     private router: Router
+    
   ) { }
 
   ngOnInit(): void {
@@ -276,8 +279,7 @@ export class PrintersComponent implements OnInit {
       dialogRef2.afterClosed().subscribe((result) => {
         if (result == 'Yes') {
           // window.location.reload();
-          window.open(`/#/report-view?file=FileName:TestPrint|islabel:${printer.labelPrinter == 'Yes' ? true : false}|PrinterName:${printer.printer}|PrinterAddress:${printer.printerAdd}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
- 
+          this.global.Print(`FileName:TestPrint|islabel:${printer.labelPrinter == 'Yes' ? true : false}|PrinterName:${printer.printer}|PrinterAddress:${printer.printerAdd}`); 
         }
       });
     }

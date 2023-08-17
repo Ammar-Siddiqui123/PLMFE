@@ -34,6 +34,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
@@ -243,6 +244,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     private router: Router, 
     private Api: ApiFuntions,
     public authService: AuthService,
+    private global:GlobalService,
     private toastr: ToastrService, 
     private dialog: MatDialog,
     private sharedService:SharedService,

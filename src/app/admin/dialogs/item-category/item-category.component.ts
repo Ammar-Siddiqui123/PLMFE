@@ -9,6 +9,7 @@ import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confi
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 import { Router } from '@angular/router';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-item-category',
@@ -27,6 +28,7 @@ export class ItemCategoryComponent implements OnInit {
               private toastr: ToastrService,
               private renderer: Renderer2,
               public dialogRef: MatDialogRef<any>,
+              private global:GlobalService,
               public route: Router
               ) {}
 
@@ -165,7 +167,7 @@ export class ItemCategoryComponent implements OnInit {
   }
 
   openPrintRangeDialog(){
-    window.open(`/#/report-view?file=FileName:printCategoriesReport`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    this.global.Print(`FileName:printCategoriesReport`)
     // this.dialogRef.close();
     // window.location.href = `/#/report-view?file=FileName:printCategoriesReport`
     // window.location.reload(); 

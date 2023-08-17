@@ -221,16 +221,10 @@ export class CmShippingComponent implements OnInit {
   }
 
   printAll(){
-    window.open(`/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-    // this.dialogRef.close();
-    // window.location.href = `/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`;
-    // window.location.reload();
+    this.global.Print(`FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`);
   }
 
   PrintItem(element: any,i:any=null){
-    window.open(`/#/report-view?file=FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-    // this.dialogRef.close();
-    // window.location.href = `/#/report-view?file=FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`;
-    // window.location.reload();
+    this.global.Print(`FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`);
   }
 }
