@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/init/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-la-location-assignment-quantities',
@@ -28,6 +29,7 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
              public dialogRef: MatDialogRef<any>,
              private router: Router,
              private toastr: ToastrService, 
+             private global:GlobalService
              ) { }
 
   ngOnInit(): void {

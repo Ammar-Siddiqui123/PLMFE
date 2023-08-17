@@ -6,6 +6,7 @@ import { ReelDetailComponent } from '../reel-detail/reel-detail.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirmation.component';
 import { take } from 'rxjs';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-reel-transactions',
@@ -38,6 +39,7 @@ fieldNames:any;
   @ViewChildren('serialTemp') serialInputs: QueryList<any>;
   
   constructor(private dialog: MatDialog,public dialogRef: MatDialogRef<ReelTransactionsComponent>,
+    private global:GlobalService,
     @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService,) { }
 
   ngOnInit(): void {

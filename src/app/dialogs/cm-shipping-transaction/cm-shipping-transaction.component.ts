@@ -13,6 +13,7 @@ import { CmShipEditQtyComponent } from '../cm-ship-edit-qty/cm-ship-edit-qty.com
 import { CmToteIdUpdateModalComponent } from '../cm-tote-id-update-modal/cm-tote-id-update-modal.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { Router } from '@angular/router';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-cm-shipping-transaction',
@@ -38,6 +39,7 @@ export class CmShippingTransactionComponent implements OnInit {
               private Api: ApiFuntions,
               private authService     : AuthService,
               private _liveAnnouncer  : LiveAnnouncer,
+              private global:GlobalService,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private route: Router
               ) { }

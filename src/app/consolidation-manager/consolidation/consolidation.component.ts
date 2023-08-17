@@ -22,6 +22,7 @@ import { CmOrderToteConflictComponent } from 'src/app/dialogs/cm-order-tote-conf
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatOption } from '@angular/material/core';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-consolidation',
@@ -95,6 +96,7 @@ export class ConsolidationComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private Api: ApiFuntions,
+    private global:GlobalService,
     public authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer,) { }
 

@@ -26,6 +26,7 @@ import { FunctionAllocationComponent } from '../../dialogs/function-allocation/f
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { Router } from '@angular/router';
+import { GlobalService } from 'src/app/common/services/global.service';
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
   { colHeader: 'importDate', colDef: 'Import Date' },
@@ -206,7 +207,8 @@ export class ReprocessTransactionComponent implements OnInit {
     private toastr: ToastrService, 
     private dialog: MatDialog,
     private sharedService: SharedService,
-    private router: Router
+    private router: Router,
+    private global:GlobalService,
   ) { }
 
   ngOnInit(): void {

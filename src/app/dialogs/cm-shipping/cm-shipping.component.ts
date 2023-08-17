@@ -6,6 +6,7 @@ import { CmAddNewItemToShipmentComponent } from '../cm-add-new-item-to-shipment/
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { Router } from '@angular/router';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 export interface PeriodicElement {
   name: string;
@@ -38,6 +39,7 @@ export class CmShippingComponent implements OnInit {
   shippingComp: any = false;
   shippingPreferences: any = {};
   constructor(private Api: ApiFuntions, private authService: AuthService, private toast: ToastrService, private dialog: MatDialog,
+    private global:GlobalService,
     private route: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CmShippingComponent>,) {

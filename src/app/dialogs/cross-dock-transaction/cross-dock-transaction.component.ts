@@ -10,6 +10,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { ConfirmationDialogComponent } from '../../../app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-cross-dock-transaction',
@@ -50,6 +51,7 @@ export class CrossDockTransactionComponent implements OnInit {
               public dialogRef: MatDialogRef<CrossDockTransactionComponent>, 
               private dialog: MatDialog, 
               @Inject(MAT_DIALOG_DATA) public data: any, 
+              private global:GlobalService,
               private Api:ApiFuntions, 
               private toastr: ToastrService) { }
 

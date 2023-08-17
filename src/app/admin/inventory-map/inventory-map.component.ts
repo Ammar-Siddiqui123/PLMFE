@@ -31,6 +31,7 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { RouteHistoryService } from 'src/app/services/route-history.service';
 import { PrintRangeComponent } from '../dialogs/print-range/print-range.component';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 
 const INVMAP_DATA = [
@@ -210,6 +211,7 @@ export class InventoryMapComponent implements OnInit {
     private authService: AuthService,
     private Api: ApiFuntions,
     private toastr: ToastrService, 
+    private global:GlobalService,
     private router: Router,
     private loader: SpinnerService,
     private _liveAnnouncer: LiveAnnouncer,

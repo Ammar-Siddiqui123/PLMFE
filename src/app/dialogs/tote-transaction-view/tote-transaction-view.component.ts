@@ -14,6 +14,7 @@ import { MarkToteFullComponent } from '../mark-tote-full/mark-tote-full.componen
 import labels from '../../labels/labels.json';
 import { PageEvent } from '@angular/material/paginator';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 
 @Component({
@@ -49,6 +50,7 @@ export class ToteTransactionViewComponent implements OnInit {
     public dialogRef: MatDialogRef<any>,
     private dialog: MatDialog,
     private Api: ApiFuntions,
+    private global:GlobalService,
     private toastr: ToastrService,
   ) {}
 

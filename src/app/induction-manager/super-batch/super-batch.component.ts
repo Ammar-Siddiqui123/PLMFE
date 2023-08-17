@@ -7,6 +7,7 @@ import { RequiredDateStatusComponent } from '../../../app/dialogs/required-date-
 import { AuthService } from '../../../app/init/auth.service'; 
 import labels from '../../labels/labels.json';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-super-batch',
@@ -37,6 +38,7 @@ export class SuperBatchComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private dialog: MatDialog,
+    private global:GlobalService,
     private toastr: ToastrService,
     private Api: ApiFuntions
   ) { }

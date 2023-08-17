@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { GlobalService } from 'src/app/common/services/global.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
@@ -21,7 +22,8 @@ export class PrintRangeComponent implements OnInit {
     private route: Router,
     public dialogRef: MatDialogRef<any>,
     private authService: AuthService,
-    private Api: ApiFuntions
+    private Api: ApiFuntions,
+    private global:GlobalService
   ) { }
 
   ngOnInit(): void {
