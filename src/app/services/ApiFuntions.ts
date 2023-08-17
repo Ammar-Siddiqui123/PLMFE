@@ -644,7 +644,7 @@ export class ApiFuntions {
     return this.ApiBase.Get("/Induction/wspickzone",body);
   }
   public PickToteSetupIndex(body:any): Observable<any> { 
-    return this.ApiBase.Get("/Induction/picktotesetupindex",body);
+    return this.ApiBase.Get("/Induction/picktotesetupindex");
   }
   public FillOrderNumber(body:any): Observable<any> { 
     return this.ApiBase.Get("/Induction/fillordernumber",body);

@@ -157,9 +157,10 @@ statusTab;
     }else {
       this.ConfigUserLogin =  false; 
       this.GetWorkStatPrinters();
+      this.setImPreferences();
     }
       this.userData = this.authService.userData(); 
-    this.setImPreferences();
+    // 
     
 
   }
