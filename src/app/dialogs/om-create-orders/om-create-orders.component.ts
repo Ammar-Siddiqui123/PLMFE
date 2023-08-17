@@ -386,6 +386,7 @@ export class OmCreateOrdersComponent implements OnInit {
     let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
       height: 'auto',
       width: '960px',
+      disableClose: true,
       data: {
         mode: event,
         tableName: 'Order Manager Create',
@@ -522,4 +523,17 @@ export class OmCreateOrdersComponent implements OnInit {
   ngAfterViewInit(): void {
     this.ord_focus.nativeElement.focus();
   }
+
+  selectRow(row: any) {
+    this.tableData.filteredData.forEach(element => {
+      if(row != element){
+        element.selected = false;
+      }
+    });
+    const selectedRow = this.tableData.filteredData.find((x: any) => x === row);
+    if (selectedRow) {
+      selectedRow.selected = !selectedRow.selected;
+    }
+  }
+
 }

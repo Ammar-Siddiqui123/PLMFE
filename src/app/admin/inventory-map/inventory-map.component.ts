@@ -401,6 +401,7 @@ export class InventoryMapComponent implements OnInit {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: 'auto',
         width: '960px',
+        disableClose: true,
         data: {
           mode: event,
           tableName: 'Inventory Map',
@@ -772,5 +773,16 @@ export class InventoryMapComponent implements OnInit {
   // window.location.reload(); 
 }
 
+selectRow(row: any) {
+  this.dataSource.filteredData.forEach(element => {
+    if(row != element){
+      element.selected = false;
+    }
+  });
+  const selectedRow = this.dataSource.filteredData.find((x: any) => x === row);
+  if (selectedRow) {
+    selectedRow.selected = !selectedRow.selected;
+  }
+}
 
 }

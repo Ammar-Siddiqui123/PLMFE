@@ -42,7 +42,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     currentApp
 
       
-  constructor(private dialog: MatDialog,private api:ApiFuntions,private authService:AuthService,private route:Router,private global:GlobalService) { 
+  constructor(private dialog: MatDialog,private api:ApiFuntions,private authService:AuthService,private route:Router,public global:GlobalService) { 
     this.userData = this.authService.userData(); 
     this.route.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -199,15 +199,7 @@ ReportTitles(){
        
      })
    } 
-  BrChooseReportTypeDialogue() {
-    const dialogRef = this.dialog.open(BrChooseReportTypeComponent, {
-      height: 'auto',
-      width: '932px',
-      autoFocus: '__non_existing_element__',
-      disableClose:true,
-    });
-  
-  }
+ 
   OpenListAndLabel(){ 
     window.open(`/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
     // window.location.href = `/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`;
@@ -223,5 +215,7 @@ Remove(index){
 }
 
 
-  
+
+
+
 }

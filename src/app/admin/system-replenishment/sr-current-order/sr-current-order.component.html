@@ -118,180 +118,179 @@
 
                     <ng-container matColumnDef="Item Number">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Num </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.itemNumber, 'Item Number')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        > {{element.itemNumber}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.itemNumber, 'Item Number')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        > {{seletedRecord.itemNumber}} </td>
                     </ng-container>
 
                     <!-- Name Column -->
                     <ng-container matColumnDef="Trans Type">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Trans Type </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.transactionType, 'Transaction Type')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        > {{element.transactionType}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.transactionType, 'Transaction Type')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        > {{seletedRecord.transactionType}} </td>
                     </ng-container>
 
                     <!-- Weight Column -->
                     <ng-container matColumnDef="warehouse">
                         <th class="px-3" mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse </th>
-                        <td class="px-3" mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.warehouse, 'Warehouse')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        >{{element.warehouse}}</td>
+                        <td class="px-3" mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.warehouse, 'Warehouse')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        >{{seletedRecord.warehouse}}</td>
                     </ng-container>
 
                     <!-- Symbol Column -->
                     <ng-container matColumnDef="zone">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Zone </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.zone, 'Zone')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        >{{element.zone}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.zone, 'Zone')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        >{{seletedRecord.zone}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="carousel">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Carsl </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.carousel, 'Carousel')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        > {{element.carousel}}</td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.carousel, 'Carousel')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        > {{seletedRecord.carousel}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="row">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Row </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.row, 'Row')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        > {{element.row}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.row, 'Row')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        > {{seletedRecord.row}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="shelf">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Shelf </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.shelf, 'Shelf')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        >{{element.shelf}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.shelf, 'Shelf')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        >{{seletedRecord.shelf}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="bin">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Bin </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.bin, 'Bin')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        >{{element.bin}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.bin, 'Bin')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        >{{seletedRecord.bin}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="cell">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Cell </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.cell, 'Cell')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        >{{element.cell}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.cell, 'Cell')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        >{{seletedRecord.cell}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="lotNumber">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Lot Number </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.lotNumber, 'lot Number')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        >{{element.lotNumber}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.lotNumber, 'lot Number')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        >{{seletedRecord.lotNumber}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Trans Qty">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Trans Qty </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.transactionQuantity, 'Trans Qty')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        >{{element.transactionQuantity}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.transactionQuantity, 'Trans Qty')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        >{{seletedRecord.transactionQuantity}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="description">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.description, 'Description')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        >{{element.description}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.description, 'Description')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        >{{seletedRecord.description}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Order Number">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Order Number </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.orderNumber, 'Order Number')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        >{{element.orderNumber}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.orderNumber, 'Order Number')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        >{{seletedRecord.orderNumber}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="UofM">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> UofM </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.unitOfMeasure, 'UofM')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        >{{element.unitOfMeasure}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.unitOfMeasure, 'UofM')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        >{{seletedRecord.unitOfMeasure}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Batch Pick ID">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch Pick ID </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.batchPickID, 'Batch Pick ID')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        >{{element.batchPickID}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.batchPickID, 'Batch Pick ID')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        >{{seletedRecord.batchPickID}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Serial Number">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Serial Number </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.serialNumber, 'Serial Number')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        >{{element.serialNumber}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.serialNumber, 'Serial Number')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        >{{seletedRecord.serialNumber}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Completed Date">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Comp Date </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.completedDate, 'Comp Date')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        >{{element.completedDate}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.completedDate, 'Comp Date')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        >{{seletedRecord.completedDate}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Print Date">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Print Date </th>
-                        <td mat-cell *matCellDef="let element"
-                        (dblclick)="viewItemInInventoryMaster(element)"
-                        (contextmenu)="onContextMenu($event, element.printDate, 'Print Date')"
-                        (click)="selectOrder(element)" [class.selected]="element.rowNumber == selectedOrder.rowNumber"
-                        >{{element.printDate}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"
+                        (dblclick)="viewItemInInventoryMaster(seletedRecord)"
+                        (contextmenu)="onContextMenu($event, seletedRecord.printDate, 'Print Date')"
+                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                        >{{seletedRecord.printDate}} </td>
                     </ng-container>
 
 
                     <!-- Action Column -->
                     <ng-container matColumnDef="action" stickyEnd>
                         <th mat-header-cell *matHeaderCellDef style="border: 0;height: 66px; padding-left:65px;"></th>
-                        <td mat-cell *matCellDef="let element" style="border: 0; padding-left: 24px; background: #fff;">
-                            <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o"
-                                appearance="outline">
+                        <td mat-cell *matCellDef="let seletedRecord" style="border: 0; padding-left: 24px; background: #fff;">
+                            <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" [ngClass]="{'active-btn':seletedRecord.selected}" class="circle-icon-o active-btn" appearance="outline">
                                 <mat-icon>more_horiz</mat-icon>
                             </button>
                             <mat-menu #appMenu="matMenu">
-                                <button mat-menu-item (click)="this.selectedOrder = element;deleteSelectedOrder();">Delete Orders</button>
+                                <button mat-menu-item (click)="this.selectedOrder = seletedRecord;deleteSelectedOrder();">Delete Orders</button>
                             </mat-menu>
                         </td>
                     </ng-container>
@@ -306,7 +305,7 @@
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns2; sticky: true"
                         style=" background-color: #F9F9FF;"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns2;" (click)="selectRow(row)"></tr>
                 </table>
 
 

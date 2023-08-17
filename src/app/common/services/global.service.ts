@@ -1,4 +1,9 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Api } from 'datatables.net-bs5';
+import { ToastrService } from 'ngx-toastr';
+import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +42,7 @@ export class GlobalService {
     }
   };
 
-  constructor() {}
+  constructor(private Api:ApiFuntions,private toast:ToastrService,private dialog: MatDialog) {}
 
     // returns the date from JS in format: mm/dd/yyyy hh:mm
     getCurrentDateTime() {
@@ -178,4 +183,61 @@ export class GlobalService {
         else
           return true;
     }
+    Print(ChooseReport){
+      ChooseReport = ChooseReport.replace(".lst","").replace(".lbl","");
+        var paylaod:any={
+          ClientCustomData:`${this.capitalizeAndRemoveSpaces(ChooseReport)+'-lst'}`,
+          repositoryIdOfProject:"BCAEC8B2-9D16-4ACD-94EC-74932157BF82"
+        }
+        this.Api.CommonPrint(paylaod).subscribe((res:any)=>{
+          if(res.isExecuted){
+            this.toast.success("print successfully completed", 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+          }else{
+            this.toast.error("print unsuccessfully complete", 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+          }
+        })
+      }
+      OpenExportModal(ReportName) {
+        ReportName = ReportName.replace(".lst","").replace(".lbl","");
+        const dialogRef = this.dialog.open(BrChooseReportTypeComponent, {
+          height: 'auto',
+          width: '932px',
+          autoFocus: '__non_existing_element__',
+          disableClose:true,
+          data:{ReportName:ReportName}
+        }); 
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result.FileName != null) {
+            this.Export(ReportName,result.Type,result.FileName);
+          }
+        });
+      
+      }
+      Export(ChooseReport:any,Type:any,filename:any){
+        var paylaod:any={
+          ClientCustomData:`${this.capitalizeAndRemoveSpaces(ChooseReport)+'-lst'}`,
+          repositoryIdOfProject:"BCAEC8B2-9D16-4ACD-94EC-74932157BF82",
+          type:Type,
+          FileName:`${this.capitalizeAndRemoveSpaces(filename)}`
+        }
+        this.Api.CommonExport(paylaod).subscribe((res:any)=>{
+            if(res.isExecuted){
+                this.toast.success("Export successfully completed", 'Success!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000,
+                  });
+              }else{
+                this.toast.error("Export unsuccessfully complete", 'Error!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000,
+                  });
+              }
+        })
+      }
 }

@@ -98,6 +98,9 @@ export class ApiFuntions {
   public GetInventory(body:any): Observable<any> {
     return this.ApiBase.Get("/Admin/inventory", body);
   }
+  public GetInventoryItemNumber(body:any): Observable<any> {
+    return this.ApiBase.Get("/Admin/itemNumber", body);
+  }
   public GetInventoryMasterData(body:any):  Observable<any> {
     return this.ApiBase.Get("/Admin/inventorymasterdata", body);
   }
@@ -1475,4 +1478,11 @@ public updatereportDetails(body): Observable<any> {
 public ShowCMPackPrintModal(body:any): Observable<any> { 
   return this.ApiBase.Get("/consolidation/cmPackPrintmodalshow",body);
 }
+public CommonExport(body): Observable<any> {
+  return this.ApiBase.Get(`/Admin/reports/export`,body);
+}
+public CommonPrint(body): Observable<any> {
+  return this.ApiBase.Get(`/Admin/reports/print`,body);
+}
+ 
 }

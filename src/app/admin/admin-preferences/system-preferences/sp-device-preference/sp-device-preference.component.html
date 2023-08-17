@@ -20,13 +20,13 @@
 
         <div class="card br-14 table-responsive my-3">
             <ng-scrollbar track="all" class="mat-table-scrollbar " style="height: 600px">
-                <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)" style=" min-height: 150px;width: 100%;">
+                <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)" style=" min-height: 150px;">
                     <ng-container matColumnDef="zone">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef> Zone </th>
-                        <td mat-cell *matCellDef="let element">
+                        <td mat-cell *matCellDef="let seletedRecord">
                             <div class="d-flex align-items-center ">
 
-                                <span class="br-14  label px-3 f-16">{{element.zone}}</span>
+                                <span class="br-14  label pe-3 f-16">{{seletedRecord.zone}}</span>
                             </div>
                         </td>
 
@@ -34,62 +34,62 @@
 
                     <ng-container matColumnDef="deviceType">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef> Device Type </th>
-                        <td mat-cell *matCellDef="let element"> {{element.deviceType}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"> {{seletedRecord.deviceType}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="device">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef> Device Number</th>
-                        <td mat-cell *matCellDef="let element"> {{element.deviceNumber}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"> {{seletedRecord.deviceNumber}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="deviceModel">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef> Device Model </th>
-                        <td mat-cell *matCellDef="let element"> {{element.deviceModel}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"> {{seletedRecord.deviceModel}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="controllerType">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef> Controller Type</th>
-                        <td mat-cell *matCellDef="let element"> {{element.controllerType}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"> {{seletedRecord.controllerType}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="controllerTermPort">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef> Controller Term Port</th>
-                        <td mat-cell *matCellDef="let element"> {{element.controllerTermPort}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"> {{seletedRecord.controllerTermPort}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="arrowDirection">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef> Arrow Direction</th>
-                        <td mat-cell *matCellDef="let element"> {{element.arrowDirection}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"> {{seletedRecord.arrowDirection}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="lightDirection">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef>Light Direction</th>
-                        <td mat-cell *matCellDef="let element"> {{element.lightDirection}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"> {{seletedRecord.lightDirection}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="userLaserPointer">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef> User Laser Pointer</th>
-                        <td mat-cell *matCellDef="let element"> {{element.laserPointer}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"> {{seletedRecord.laserPointer}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="useLightTree">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef> Use Light Tree</th>
-                        <td mat-cell *matCellDef="let element"> {{element.lightTreeNumber}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"> {{seletedRecord.lightTreeNumber}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="firstAddress">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef>First Address</th>
-                        <td mat-cell *matCellDef="let element"> {{element.beginAddress}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"> {{seletedRecord.beginAddress}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="positions">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef>Positions</th>
-                        <td mat-cell *matCellDef="let element"> {{element.displayPositions}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"> {{seletedRecord.displayPositions}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="displayCharacters">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef>Display Characters</th>
-                        <td mat-cell *matCellDef="let element"> {{element.displayCharacters}} </td>
+                        <td mat-cell *matCellDef="let seletedRecord"> {{seletedRecord.displayCharacters}} </td>
                     </ng-container>
 
 
@@ -98,23 +98,22 @@
                             style="border: 0;height: 67px; padding-left:65px; border-bottom: 1px solid var(--clr-tertiary-50);">
                             Actions </th>
 
-                        <td mat-cell *matCellDef="let element" style="border: 0; padding-left: 24px; background: #fff;">
-                            <div class="d-flex justify-content-end">
-                                <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label=""
-                                    class="circle-icon-o" appearance="outline">
+                        <td mat-cell *matCellDef="let seletedRecord" style="border: 0; padding-left: 24px; background: #fff;">
+                           
+                                <button style="margin-left: auto;" mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" 
+                                [ngClass]="{'active-btn':seletedRecord.selected}" class="circle-icon-o active-btn" 
+                                appearance="outline">
+                                <!-- <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label=""
+                                    class="circle-icon-o" appearance="outline"> -->
                                     <mat-icon>more_horiz</mat-icon>
                                 </button>
 
                                 <mat-menu #appMenu="matMenu">
-                                    <button mat-menu-item (click)="addEditNewDevice(element,true)">Edit Selected Device</button>
-                                    <button mat-menu-item (click)="deleteAllOrders(element.deviceID)">Delete Selected Device</button>
+                                    <button mat-menu-item (click)="addEditNewDevice(seletedRecord,true)">Edit Selected Device</button>
+                                    <button mat-menu-item (click)="deleteAllOrders(seletedRecord.deviceID)">Delete Selected Device</button>
                                     <!-- <button mat-menu-item   *ngIf="!hideDelete" (click)="sendCompletedToHistory()">Send Completed to
                                                         History</button> -->
-
                                 </mat-menu>
-                            </div>
-
-
                         </td>
 
                     </ng-container>
@@ -126,7 +125,8 @@
                     </tr>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)"></tr>
+                    
                 </table>
             </ng-scrollbar>
         </div>

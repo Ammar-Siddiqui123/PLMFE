@@ -191,6 +191,7 @@ export class OmOrderManagerComponent implements OnInit {
     let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
       height: 'auto',
       width: '960px',
+      disableClose: true,
       data: {
         mode: event,
         tableName: 'Order Manager',
@@ -586,6 +587,19 @@ export class OmOrderManagerComponent implements OnInit {
     window.open(`/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
     // window.location.href = `/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`;
     // window.location.reload();
+  }
+
+
+  selectRow(row: any) {
+    this.orderTable.filteredData.forEach(element => {
+      if(row != element){
+        element.selected = false;
+      }
+    });
+    const selectedRow = this.orderTable.filteredData.find((x: any) => x === row);
+    if (selectedRow) {
+      selectedRow.selected = !selectedRow.selected;
+    }
   }
 
 }

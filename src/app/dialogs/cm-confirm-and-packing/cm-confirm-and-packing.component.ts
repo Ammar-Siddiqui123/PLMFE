@@ -325,5 +325,17 @@ itemLabel(element:any){
   // window.location.reload();
 }
 
+selectRow(row: any) {
+  this.transTable.filteredData.forEach(element => {
+    if(row != element){
+      element.selected = false;
+    }
+  });
+  const selectedRow = this.transTable.filteredData.find((x: any) => x === row);
+  if (selectedRow) {
+    selectedRow.selected = !selectedRow.selected;
+  }
+}
+
 }
 
