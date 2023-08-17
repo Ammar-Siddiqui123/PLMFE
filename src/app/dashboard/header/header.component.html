@@ -86,10 +86,12 @@
           <mat-icon class="user-image-icon" style="height: 18px ;">keyboard_arrow_down</mat-icon>
         </button>
         <mat-menu #menu="matMenu" class="custom mat-menu-panel " xPosition="before">
-          <!-- <button mat-menu-item>
-            <mat-icon>assignment_ind</mat-icon>
-            Profile
-          </button> -->
+          <button mat-menu-item (click)="openPrintSetting()">
+            <mat-icon class="material-symbols-outlined">
+              print
+            </mat-icon>
+            Printer Settings
+          </button>
           <button mat-menu-item (click)="logout()">
             <mat-icon>exit_to_app</mat-icon>
             Logout

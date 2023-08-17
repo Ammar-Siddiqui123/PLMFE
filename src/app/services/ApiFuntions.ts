@@ -934,6 +934,9 @@ return this.ApiBase.Delete(`/Admin/group`, Body);
 public GetAllPrinters(Body: any ): Observable<any> {
   return this.ApiBase.Post(`/GlobalConfig/getallprinters`, Body);
  } 
+ public UpdWSPrefsPrinters(Body: any ): Observable<any> {
+  return this.ApiBase.Put(`/GlobalConfig/PrefsPrinters`, Body);
+ } 
 public StatusPrintService(Body: any ): Observable<any> {
     return this.ApiBase.Post(`/GlobalConfig/statusprintservice`, Body);
  } 
@@ -1480,6 +1483,6 @@ public CommonExport(body): Observable<any> {
 }
 public CommonPrint(body): Observable<any> {
   return this.ApiBase.Get(`/Admin/reports/print`,body);
-}
+} 
  
 }
