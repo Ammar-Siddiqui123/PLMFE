@@ -43,6 +43,7 @@ export class CrossDockTransactionComponent implements OnInit {
   public nxtToteID;
   public toteID;
   public loopIndex = -1;
+  imPreferences:any;
   @ViewChild('openAction') openAction: MatSelect;
 
 
@@ -51,9 +52,9 @@ export class CrossDockTransactionComponent implements OnInit {
               public dialogRef: MatDialogRef<CrossDockTransactionComponent>, 
               private dialog: MatDialog, 
               @Inject(MAT_DIALOG_DATA) public data: any, 
-              private global:GlobalService,
               private Api:ApiFuntions, 
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              private global:GlobalService) { }
 
   ngOnInit(): void {
     
@@ -65,6 +66,7 @@ export class CrossDockTransactionComponent implements OnInit {
     this.batchID = this.data.batchID;
     this.zone = this.data.zone;
     this.description = this.data.description;
+    
 
     this.getCrossDock();
   }
@@ -384,10 +386,20 @@ export class CrossDockTransactionComponent implements OnInit {
   print(type:any){
 
     if(type == 'printtotelabel'){
-    this.global.Print(`FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:${this.selectedRowObj.toteID}`);
+
+        this.global.Print(`FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:${this.selectedRowObj.toteID}`)
+  
+
+      // window.location.href = `/#/report-view?file=FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:${this.selectedRowObj.toteID}`;
     }
     else{
-    this.global.Print(`FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:`);
+
+        this.global.Print(`FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:`)
+  
+       
+
+
+      // window.location.href = `/#/report-view?file=FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:`;
     }
   }
 }

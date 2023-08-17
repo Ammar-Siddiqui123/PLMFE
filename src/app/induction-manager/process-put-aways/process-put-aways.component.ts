@@ -103,6 +103,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   tote: any;
   minPos: any;
   maxPos: any;
+  imPreferences:any;
 
   // Global
   processPutAwayIndex: any;
@@ -134,10 +135,11 @@ export class ProcessPutAwaysComponent implements OnInit {
     private Api:ApiFuntions,
     private global:GlobalService,
     private authService: AuthService,
-    private _liveAnnouncer: LiveAnnouncer
+    private _liveAnnouncer: LiveAnnouncer,
   ) { }
   ngAfterViewInit() {
     this.start_location.nativeElement.focus();
+    this.imPreferences=this.global.getImPreferences();
   }
 
   
@@ -218,15 +220,23 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.tote = "";
   }
   print(tote){
+      this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:${tote}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`)
+    // window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${tote}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`, '_blank', "location=yes");
     this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:${tote}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`);
  
   }
   printToteLoc(){
+      this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:${this.toteID}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`)
+    // window.open(`/#/report-view?file=IMPutTote-lbl`, '_blank', "location=yes");
+    // window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${this.toteID}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`, '_blank', "location=yes");
       this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:${this.toteID}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`);
     
   }
   printTotePut(){
     this.clearMatSelectList();
+      this.global.Print(`FileName:PrintOffCarList|BatchID:${this.batchId}`)
+    // window.open(`/#/report-view?file=IMOCPut-lst`, '_blank', "location=yes");
+    // window.open(`/#/report-view?file=FileName:PrintOffCarList|BatchID:${this.batchId}`, '_blank', "location=yes");
      this.global.Print(`FileName:PrintOffCarList|BatchID:${this.batchId}`);
   }
   getCurrentToteID() {

@@ -33,14 +33,14 @@ fieldNames:any;
   AutoGenerateReel:any =false
   HiddenInputValue
   generatedReelQty
+  imPreferences:any;
 
   @ViewChild('noOfReeltemp') noOfReeltemp: ElementRef
   @ViewChild('serialTemp') serialTemp: ElementRef
   @ViewChildren('serialTemp') serialInputs: QueryList<any>;
   
   constructor(private dialog: MatDialog,public dialogRef: MatDialogRef<ReelTransactionsComponent>,
-    private global:GlobalService,
-    @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService,) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService,private global:GlobalService) { }
 
   ngOnInit(): void {
     // debugger
@@ -53,6 +53,8 @@ fieldNames:any;
     setTimeout(() => {
       this.ReelDetailDialogue()
     }, 300);
+
+    this.imPreferences=this.global.getImPreferences();
     
   }
   ngAfterViewInit(): void {
@@ -447,7 +449,10 @@ this.ReelDetailDialogue()
 
   print(index,e){
 
-    this.global.Print(`FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`);
+      this.global.Print(`FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`)
+
+
+    // window.location.href = `/#/report-view?file=FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`;
   }
 
 }
