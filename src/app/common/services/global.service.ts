@@ -187,7 +187,11 @@ export class GlobalService {
           return true;
     }
     Print(ChooseReport){
-      ChooseReport = ChooseReport.replace(".lst","").replace(".lbl","");
+
+      let imPreferences=this.getImPreferences();
+
+      if(imPreferences.printDirectly){
+        ChooseReport = ChooseReport.replace(".lst","").replace(".lbl","");
         var paylaod:any={
           ClientCustomData:ChooseReport,
           repositoryIdOfProject:"BCAEC8B2-9D16-4ACD-94EC-74932157BF82"
@@ -205,6 +209,11 @@ export class GlobalService {
               });
           }
         })
+      }else{
+        window.open(`/#/report-view?file=${ChooseReport}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+      }
+
       }
       OpenExportModal(ReportName) {
         ReportName = ReportName.replace(".lst","").replace(".lbl","");
