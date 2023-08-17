@@ -686,6 +686,7 @@ this.router.navigate([]).then((result) => {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: 'auto',
         width: '960',
+        disableClose: true,
         data: {
           mode: event,
           tableName: 'Open Transactions',

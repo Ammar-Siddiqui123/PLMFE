@@ -191,6 +191,7 @@ export class OmOrderManagerComponent implements OnInit {
     let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
       height: 'auto',
       width: '960px',
+      disableClose: true,
       data: {
         mode: event,
         tableName: 'Order Manager',
