@@ -703,4 +703,17 @@ export class GenerateTransactionComponent implements OnInit {
       ;
     });
   }
+
+  isInvalid = false;
+
+  onFormFieldFocusOut() {
+    // Implement your custom validation logic here
+    // For example, check if the input is valid, and if not, set isInvalid to true
+    this.isInvalid = !this.isValidInput(); // Change isValidInput() to your validation logic
+  }
+
+  isValidInput(): boolean {
+    // Implement your validation logic here
+    return true; // Return true if the input is valid, false otherwise
+  }
 }
