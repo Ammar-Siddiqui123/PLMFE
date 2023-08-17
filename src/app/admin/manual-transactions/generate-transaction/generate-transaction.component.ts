@@ -104,10 +104,8 @@ export class GenerateTransactionComponent implements OnInit {
     // this.selectedOrder = event.target.value;
   }
   printLabelMT(){
-    this.global.Print(`FileName:printMTLabel|ID:${this.transactionID}|User:${this.userData.userName}`)
-
-    // this.global.Print(`FileName:printMTLabel|ID:${this.transactionID}|User:${this.userData.userName}`);
-    // this.global.Print(`ManTran-lbl`);
+    this.global.Print(`FileName:printMTLabel|ID:${this.transactionID}|User:${this.userData.userName}`,'lbl')
+  
   }
   clearMatSelectList(){
     this.openAction.options.forEach((data: MatOption) => data.deselect());

@@ -279,7 +279,7 @@ export class PrintersComponent implements OnInit {
       dialogRef2.afterClosed().subscribe((result) => {
         if (result == 'Yes') {
           // window.location.reload();
-          this.global.Print(`FileName:TestPrint|islabel:${printer.labelPrinter == 'Yes' ? true : false}|PrinterName:${printer.printer}|PrinterAddress:${printer.printerAdd}`); 
+          this.global.Print(`FileName:TestPrint|islabel:${printer.labelPrinter == 'Yes' ? true : false}|PrinterName:${printer.printer}|PrinterAddress:${printer.printerAdd}`,'lbl'); 
         }
       });
     }

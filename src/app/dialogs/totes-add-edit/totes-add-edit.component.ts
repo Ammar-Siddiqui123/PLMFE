@@ -114,7 +114,7 @@ export class TotesAddEditComponent implements OnInit {
   // PrintDirect: pd,
   // BatchID: batch
  
-    this.global.Print(`FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`);
+    this.global.Print(`FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`,'lbl');
 
     }
   printRange(){
@@ -124,7 +124,7 @@ export class TotesAddEditComponent implements OnInit {
     let sTote = this.fromTote;
     let eTote = this.toTote;
 
-      this.global.Print(`FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`)
+      this.global.Print(`FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`,'lbl')
 
 
 
