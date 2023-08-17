@@ -293,26 +293,36 @@ async ConfirmedPacked() {
 
 printPackList(){
   this.global.Print(`FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
+  // this.dialogRef.close();
+  // window.location.href = `/#/report-view?file=FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`;
+  // window.location.reload();
 }
 
 print(type:any){
   if(type == 'list'){
     this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`);
-
+    // this.dialogRef.close();
+    // window.location.href = `/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
+    // window.location.reload();
   }
   else if (type == 'label'){
     this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`);
-
+    // this.dialogRef.close();
+    // window.location.href = `/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
+    // window.location.reload();
   }
   else{
     this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`);
     this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`);
+    // window.location.href = `/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
+    // window.location.href = `/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
+    // window.location.reload();
   }
 }
 
 itemLabel(element:any){
-  this.global.Print(`FileName:PrintConfPackItemLabel|OrderNum:${this.orderNumber}|ST_ID:${element.sT_ID}`);
-
+  window.open(`/#/report-view?file=FileName:PrintConfPackItemLabel|OrderNum:${this.orderNumber}|ST_ID:${element.sT_ID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+  
 }
 
 selectRow(row: any) {

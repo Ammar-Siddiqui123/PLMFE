@@ -875,19 +875,19 @@ initialzeEmpForm() {
 
 
   printEmpList(){
-    window.open(`/#/report-view?file=FileName:printEmployees`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    this.global.Print(`FileName:printEmployees`)
     // window.location.href = `/#/report-view?file=FileName:printEmployees`;
     // window.location.reload();
   }
 
   printSelected(){
-    window.open(`/#/report-view?file=FileName:printEmployeeGroup|Group:${this.grpData.groupName}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    this.global.Print(`FileName:printEmployeeGroup|Group:${this.grpData.groupName}`)
     // window.location.href = `/#/report-view?file=FileName:printEmployeeGroup|Group:${this.grpData.groupName}`;
     // window.location.reload();
   }
 
   printAll(){
-    window.open(`/#/report-view?file=FileName:printEmployeeGroup`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    this.global.Print(`FileName:printEmployeeGroup`)
     // window.location.href = `/#/report-view?file=FileName:printEmployeeGroup`;
     // window.location.reload();
   }

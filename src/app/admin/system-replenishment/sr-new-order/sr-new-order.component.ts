@@ -374,9 +374,7 @@ export class SrNewOrderComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result == 'Yes') {
         // alert('The print service is currently offline');
-        window.open(`/#/report-view?file=FileName:printNewReplenishmentReport|reorder:${this.tablePayloadObj.reOrder}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-
-        // window.open(`/#/report-view?file=FileName:printNewReplenishmentReport|reorder:${this.tablePayloadObj.reOrder}`, '_blank', "location=yes");
+        this.global.Print(`FileName:printNewReplenishmentReport|reorder:${this.tablePayloadObj.reOrder}`) ;
 
       }
     });
