@@ -136,7 +136,6 @@ export class ProcessPutAwaysComponent implements OnInit {
     private global:GlobalService,
     private authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer,
-    private global:GlobalService
   ) { }
   ngAfterViewInit() {
     this.start_location.nativeElement.focus();

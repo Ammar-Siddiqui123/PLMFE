@@ -15,7 +15,6 @@ import labels from '../../labels/labels.json';
 import { PageEvent } from '@angular/material/paginator';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { GlobalService } from 'src/app/common/services/global.service';
-import { GlobalService } from 'src/app/common/services/global.service';
 
 
 @Component({
@@ -54,7 +53,6 @@ export class ToteTransactionViewComponent implements OnInit {
     private Api: ApiFuntions,
     private global:GlobalService,
     private toastr: ToastrService,
-    private global:GlobalService
   ) {}
 
   ngOnInit(): void {

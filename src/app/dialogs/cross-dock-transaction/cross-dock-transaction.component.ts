@@ -11,7 +11,6 @@ import { MatOption } from '@angular/material/core';
 import { ConfirmationDialogComponent } from '../../../app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { GlobalService } from 'src/app/common/services/global.service';
-import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-cross-dock-transaction',
