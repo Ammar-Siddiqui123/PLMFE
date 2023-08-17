@@ -8,6 +8,8 @@ import { Title } from '@angular/platform-browser';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { MatDialog } from '@angular/material/dialog';
+import { DPrinterSetupComponent } from 'src/app/dialogs/d-printer-setup/d-printer-setup.component';
 
 @Component({
   selector: 'app-header',
@@ -26,6 +28,7 @@ isConfigUser
 statusTab;
   // public user_data  = JSON.parse(localStorage.getItem('user') || '');
   constructor(
+    private dialog: MatDialog,
     private router: Router,
     public spinnerService: SpinnerService, 
     private authService: AuthService,
@@ -254,6 +257,16 @@ statusTab;
     if (this.breakpointSubscription) {
       this.breakpointSubscription.unsubscribe();
     }
+  }
+
+  openPrintSetting(){
+    const dialogRef = this.dialog.open(DPrinterSetupComponent, {
+      height: 'auto',
+      width: '556px',
+      autoFocus: '__non_existing_element__',
+      disableClose:true,
+    });
+
   }
  
 }

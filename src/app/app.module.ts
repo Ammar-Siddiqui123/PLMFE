@@ -110,6 +110,7 @@ import { IeInvFieldsComponent } from './import-export/ie-inv-fields/ie-inv-field
 import { IeFtpComponent } from './import-export/ie-ftp/ie-ftp.component';
 import { ShippingCompleteDialogComponent } from './dialogs/shipping-complete-dialog/shipping-complete-dialog.component';
 import { CrDesignFilenameConfirmationComponent } from './dialogs/cr-design-filename-confirmation/cr-design-filename-confirmation.component';
+import { DPrinterSetupComponent } from './dialogs/d-printer-setup/d-printer-setup.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -205,6 +206,7 @@ import { CrDesignFilenameConfirmationComponent } from './dialogs/cr-design-filen
     IeFtpComponent,
     ShippingCompleteDialogComponent,
     CrDesignFilenameConfirmationComponent,
+    DPrinterSetupComponent,
     // ActionDisableDirective,
   ],
   imports: [
