@@ -186,7 +186,7 @@ export class GlobalService {
     Print(ChooseReport){
       ChooseReport = ChooseReport.replace(".lst","").replace(".lbl","");
         var paylaod:any={
-          ClientCustomData:`${this.capitalizeAndRemoveSpaces(ChooseReport)+'-lst'}`,
+          ClientCustomData:ChooseReport,
           repositoryIdOfProject:"BCAEC8B2-9D16-4ACD-94EC-74932157BF82"
         }
         this.Api.CommonPrint(paylaod).subscribe((res:any)=>{

@@ -68,7 +68,7 @@
                                     <mat-option [value]="Detail.testData" [disabled]="!Detail.testData" 
                                     (click)="this.global.OpenExportModal(this.Detail.fileName)">Export</mat-option>
                                     <mat-option [value]="Detail.testData" [disabled]="!Detail.testData" 
-                                    (click)="this.global.Print(this.Detail.fileName)">Print</mat-option>
+                                    (click)="this.global.Print(this.global.capitalizeAndRemoveSpaces(this.Detail.fileName)+'-lst')">Print</mat-option>
                                     <mat-option [value]="Detail.testData" [disabled]="!Detail.testData" 
                                        (click)="OpenListAndLabel('report')"
                                         >Design</mat-option>
