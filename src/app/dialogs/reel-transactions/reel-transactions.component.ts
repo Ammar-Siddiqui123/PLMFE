@@ -363,11 +363,11 @@ test(){
                                   message: "Click OK to print labels now.",
                                 },
                                 autoFocus: '__non_existing_element__',
-      disableClose:true,
+                                 disableClose:true,
                               });
                               dialogRef.afterClosed().subscribe((result) => {
                                 if(result){
-                                  window.open(`/#/report-view?file=FileName:PrintReelLabels|OTID:${res.data.join(",")}|SN:|Item:|Order:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                                  this.global.Print(`FileName:PrintReelLabels|OTID:${res.data.join(",")}|SN:|Item:|Order:`);
                                   this.dialogRef.close(SNs[0]);
                                   return
                                 }

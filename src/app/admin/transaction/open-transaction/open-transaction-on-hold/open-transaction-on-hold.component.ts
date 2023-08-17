@@ -34,6 +34,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
@@ -243,6 +244,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     private router: Router, 
     private Api: ApiFuntions,
     public authService: AuthService,
+    private global:GlobalService,
     private toastr: ToastrService, 
     private dialog: MatDialog,
     private sharedService:SharedService,
@@ -830,9 +832,7 @@ this.router.navigate([]).then((result) => {
   }
 
   printCycleCountReport(){
-    window.open(`/#/report-view?file=FileName:printCycleCountReport`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-    // window.location.href = `/#/report-view?file=FileName:printCycleCountReport`;
-    // window.location.reload();
+   this.global.Print(`FileName:printCycleCountReport`)
   }
 
   previewFiftyPagesOnly(){

@@ -157,10 +157,16 @@ statusTab;
     }else this.ConfigUserLogin =  false; 
     this.userData = this.authService.userData(); 
     this.setImPreferences();
+    this.GetWorkStatPrinters();
 
   }
 
-
+  GetWorkStatPrinters(){
+    this.api.GetWorkStatPrinters().subscribe((res:any)=>{ 
+      localStorage.setItem("SelectedReportPrinter",res.data.reportPrinter);
+       localStorage.setItem("SelectedLabelPrinter",res.data.labelPrinter);
+    })
+  }
   ngAfterViewInit() {
       this.sharedService.breadCrumObserver.subscribe((res: any) => { 
       this.statusTab = res.tab.textLabel;

@@ -307,9 +307,7 @@ export class ToteTransactionManagerComponent implements OnInit {
       default:
         break;
     }
-
-    // window.location.href = `/#/report-view?file=FileName:printIMReport|invMapID:0|groupLikeLoc:${this.groupLikeLoc}|beginLoc:${this.beginLoc}|endLoc:${this.endLoc}|User:${this.userData.userName}`
-    // window.location.reload();
+ 
     
   }
   onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {

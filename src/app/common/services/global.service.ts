@@ -186,11 +186,17 @@ export class GlobalService {
         else
           return true;
     }
-    Print(ChooseReport){
-      ChooseReport = ChooseReport.replace(".lst","").replace(".lbl","");
+    Print(ChooseReport){ 
+      var PrinterName:any;
+      if(ChooseReport.indexOf("lst") > -1){
+        PrinterName = localStorage.getItem("SelectedReportPrinter")
+      }else{
+        PrinterName = localStorage.getItem("SelectedLabelPrinter")
+      }
         var paylaod:any={
           ClientCustomData:ChooseReport,
-          repositoryIdOfProject:"BCAEC8B2-9D16-4ACD-94EC-74932157BF82"
+          repositoryIdOfProject:"BCAEC8B2-9D16-4ACD-94EC-74932157BF82",
+          PrinterName:PrinterName
         }
         this.Api.CommonPrint(paylaod).subscribe((res:any)=>{
           if(res.isExecuted){

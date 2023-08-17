@@ -34,6 +34,7 @@ import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.ser
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ShippingCompleteDialogComponent } from 'src/app/dialogs/shipping-complete-dialog/shipping-complete-dialog.component';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-tran-order-list',
@@ -274,6 +275,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     private _liveAnnouncer: LiveAnnouncer,
     private sharedService: SharedService,
     private dialog: MatDialog,
+    private global:GlobalService,
     private router: Router,
     private filterService: ContextMenuFiltersService
   ) {
@@ -800,14 +802,10 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   }
 
   printReport(){
-    window.open(`/#/report-view?file=FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-    // window.location.href = `/#/report-view?file=FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`;
-    // window.location.reload();
+    this.global.Print(`FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`);
   }
 
   previewReport(){
-    window.open(`/#/report-view?file=OrderStatus-lst-prv|field:Order Number|exptype:=|expone:${this.orderNo}|exptwo:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-    // window.location.href = `/#/report-view?file=OrderStatus-lst-prv|field:Order Number|exptype:=|expone:${this.orderNo}|exptwo:`;
-    // window.location.reload();
+    this.global.Print(`OrderStatus-lst-prv|field:Order Number|exptype:=|expone:${this.orderNo}|exptwo:`); 
   }
 }

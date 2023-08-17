@@ -113,12 +113,10 @@ export class TotesAddEditComponent implements OnInit {
   // ToTote:eTote,
   // PrintDirect: pd,
   // BatchID: batch
+ 
+    this.global.Print(`FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`);
 
-    // window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
-    window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-
-    // window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', "location=yes");
-  }
+    }
   printRange(){
     let ident = 1;
    let ToteID = '';

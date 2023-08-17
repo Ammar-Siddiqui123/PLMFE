@@ -20,6 +20,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { AddNotesComponent } from '../../dialogs/add-notes/add-notes.component';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-generate-transaction',
@@ -80,7 +81,8 @@ export class GenerateTransactionComponent implements OnInit {
     private authService: AuthService,
     private Api:ApiFuntions,
     private dialog: MatDialog,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private global:GlobalService
   ) {
     this.userData = this.authService.userData();
     
