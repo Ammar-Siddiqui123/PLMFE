@@ -73,7 +73,7 @@ statusTab;
         if(!res.includes('report-view')||!res.includes('report')){
           localStorage.setItem('reportNav',val.url)
         }
-       
+
         let withoutParam = res.split('?')[0]
         let splittedArray = withoutParam.split('/'); 
 
@@ -93,7 +93,6 @@ statusTab;
 
          if(width<=768){
           if(element==='InductionManager'){
-        
             element='IM'
            }
            
@@ -129,6 +128,27 @@ statusTab;
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
+
+  setImPreferences(){
+    const imPreference = localStorage.getItem('InductionPreference');
+    if (imPreference) {
+      const parsedData = JSON.parse(imPreference);
+      console.log('InductionPreference:', parsedData);
+
+    } else {
+
+ let paylaod = {
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    this.api.PickToteSetupIndex(paylaod).subscribe(res => {
+      localStorage.setItem('InductionPreference', JSON.stringify(res.data.imPreference));
+
+
+    });
+    }
+
+  }
   ngOnInit(): void {
     this.loading = false;
     this.userData = JSON.parse(localStorage.getItem('user') || '{}');
@@ -137,6 +157,7 @@ statusTab;
       this.ConfigUserLogin =  true;
     }else this.ConfigUserLogin =  false; 
     this.userData = this.authService.userData(); 
+    this.setImPreferences();
 
   }
 

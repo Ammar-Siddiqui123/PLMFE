@@ -240,4 +240,11 @@ export class GlobalService {
               }
         })
       }
+
+      getImPreferences(){
+       return JSON.parse(localStorage.getItem('InductionPreference') || '{}');
+      }
+      setImPreferences(response){
+        return JSON.parse(localStorage.getItem('InductionPreference') || '{}');
+       }
 }
