@@ -47,6 +47,7 @@ export class ToteTransactionManagerComponent implements OnInit {
       host_trans_id: '123641',
     },
   ];
+
   pageEvent: PageEvent;
   public dataSource: any = new MatTableDataSource();
   batchId: any = '';
@@ -59,6 +60,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   batchPickId = new Subject<string>();
   userData: any;
   searchAutocompletBatchPick: any = [];
+  imPreferences:any;
   // displayedColumns: string[] = [
   //   'batch_id',
   //   'pos_no',
@@ -108,6 +110,8 @@ export class ToteTransactionManagerComponent implements OnInit {
       });
 
     this.getToteTrans();
+    this.imPreferences=this.global.getImPreferences();
+   
   }
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
@@ -281,7 +285,14 @@ export class ToteTransactionManagerComponent implements OnInit {
   printToteList(type,row){
     switch (type) {
       case 'printCarouselList':
-      this.global.Print(`FileName:PrintPrevOffCarList|ToteID:${row.toteId}|TransType:${row.transactionType}|PrintDirect:true`)
+
+      if(this.imPreferences.printDirectly){
+        this.global.Print(`PrintPrevOffCarList|ToteID:${row.toteId}|TransType:${row.transactionType}|PrintDirect:true`)
+
+      }else{
+     window.open(`/#/report-view?file=FileName:PrintPrevOffCarList|ToteID:${row.toteId}|TransType:${row.transactionType}|PrintDirect:true`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+      }
     // window.open(`/#/report-view?file=FileName:PrintPrevOffCarList|ToteID:${row.toteId}|TransType:${row.transactionType}|PrintDirect:true`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
         
     //  window.open(`/#/report-view?file=FileName:PrintPrevOffCarList|ToteID:${row.toteId}|TransType:${row.transactionType}|PrintDirect:true`)
