@@ -98,6 +98,9 @@ export class ApiFuntions {
   public GetInventory(body:any): Observable<any> {
     return this.ApiBase.Get("/Admin/inventory", body);
   }
+  public GetInventoryItemNumber(body:any): Observable<any> {
+    return this.ApiBase.Get("/Admin/itemNumber", body);
+  }
   public GetInventoryMasterData(body:any):  Observable<any> {
     return this.ApiBase.Get("/Admin/inventorymasterdata", body);
   }

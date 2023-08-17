@@ -410,8 +410,30 @@ export class InventoryMasterComponent implements OnInit {
   onSubmit(form: FormGroup) { 
   }
   public getInventory() {
-    let paylaod = {
+    let paylaod1 = {
       "itemNumber": this.currentPageItemNo,
+    }
+
+    this.api.GetInventoryItemNumber(paylaod1).subscribe((res:any)=>{
+      console.log(res)
+      if(res.isExecuted){
+        this.currentPageItemNo = res.data
+        this.getInsertedItemNumber(res.data)
+      }
+      else{
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    })
+
+  }
+
+
+  getInsertedItemNumber(currentPageItemNumber){
+    let paylaod = {
+      "itemNumber": currentPageItemNumber,
       "app": "",
       "newItem": false,
       "username": this.userData.userName,
@@ -419,18 +441,18 @@ export class InventoryMasterComponent implements OnInit {
     }
     this.api.GetInventory(paylaod).subscribe((res: any) => {
 
-      if (this.currentPageItemNo == '') {
-        this.currentPageItemNo = res.data?.firstItemNumber;
+      if (currentPageItemNumber == '') {
+        currentPageItemNumber = res.data?.firstItemNumber;
       }
-      this.searchValue = this.currentPageItemNo;
+      this.searchValue = currentPageItemNumber;
       this.paginationData = {
         total: res.data?.filterCount.total,
         position: res.data?.filterCount.pos,
         itemNumber: res.data?.filterCount.itemNumber,
       }
       this.saveDisabled = true;
-      this.getInvMasterDetail(this.currentPageItemNo);
-      this.getInvMasterLocations(this.currentPageItemNo);
+      this.getInvMasterDetail(currentPageItemNumber);
+      this.getInvMasterLocations(currentPageItemNumber);
       //this.getInvMasterDetail('024768000010');
       //this.getInvMasterLocations('024768000010');
     });
