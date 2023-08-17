@@ -1484,5 +1484,9 @@ public CommonExport(body): Observable<any> {
 public CommonPrint(body): Observable<any> {
   return this.ApiBase.Get(`/Admin/reports/print`,body);
 } 
- 
+public GetWorkStatPrinters(): Observable<any> {
+  return this.ApiBase.Get(`/GlobalConfig/WorkStatPrinters`);
+} 
+
+
 }

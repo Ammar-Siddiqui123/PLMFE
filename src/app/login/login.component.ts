@@ -113,6 +113,9 @@ enterUserName(){
 
       });
   }
+
+
+ 
   CompanyInfo(){
     var obj:any = { 
     }
