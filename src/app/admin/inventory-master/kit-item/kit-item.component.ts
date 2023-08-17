@@ -69,7 +69,9 @@ export class KitItemComponent implements OnInit, OnChanges {
   }
 
   openPrintRangeDialog() {
-    this.global.Print(`FileName:printKitReport|ItemNumber:${this.kitItem.value.itemNumber}`);
+    this.global.Print(`FileName:printKitReport|ItemNumber:${this.kitItem.value.itemNumber}`)
+    // window.location.href = `/#/report-view?file=FileName:printKitReport|ItemNumber:${this.kitItem.value.itemNumber}`
+    // window.location.reload();
 
   }
 

@@ -838,7 +838,9 @@ export class ConsolidationComponent implements OnInit {
 
   printPreviewNonVerified() {
     if (this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0) {
-      this.global.Print(`FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`);
+      this.global.Print(`FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`)
+      // window.location.href = `/#/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`;
+      // window.location.reload();
     }
     else {
       this.toastr.error("There are no unverfied items", 'Error!', {
@@ -863,7 +865,8 @@ export class ConsolidationComponent implements OnInit {
         if (result === 'Yes') {
           this.Api.ShowCMPackPrintModal({ orderNumber: this.TypeValue }).subscribe((res: any) => {
             if (res.isExecuted && res.data == "all") {
-              this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
+              this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
+              // this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
             } else if (res.isExecuted && res.data == "modal") {
               this.showCmPackPrintModal(true, this.TypeValue);
             } else {
@@ -876,7 +879,9 @@ export class ConsolidationComponent implements OnInit {
     else {
       this.Api.ShowCMPackPrintModal({ orderNumber: this.TypeValue }).subscribe((res: any) => {
         if (res.isExecuted && res.data == "all") {
-          this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);        } else if (res.isExecuted && res.data == "modal") {
+          this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
+          // this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
+        } else if (res.isExecuted && res.data == "modal") {
           this.showCmPackPrintModal(true, this.TypeValue);
         } else {
           this.toastr.error("Error has occured","Error");
