@@ -8,6 +8,7 @@ import { Title } from '@angular/platform-browser';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { PrinterSettingService } from 'src/app/admin/printer-setup/printer-setting-service';
 
 @Component({
   selector: 'app-header',
@@ -132,7 +133,7 @@ statusTab;
     if(this.router.url.indexOf('globalconfig') > -1){
       this.ConfigUserLogin =  true;
     }else this.ConfigUserLogin =  false; 
-    this.userData = this.authService.userData();
+    this.userData = this.authService.userData(); 
 
   }
 

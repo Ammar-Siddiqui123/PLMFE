@@ -9,6 +9,7 @@ import { GlobalService } from 'src/app/common/services/global.service';
 import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { PrinterSettingService } from '../../printer-setup/printer-setting-service';
 
 @Component({
   selector: 'app-basic-reports-and-labels',
@@ -42,7 +43,8 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     currentApp
 
       
-  constructor(private dialog: MatDialog,private api:ApiFuntions,private authService:AuthService,private route:Router,public global:GlobalService) { 
+  constructor(private dialog: MatDialog,private api:ApiFuntions,private authService:AuthService,private route:Router,public global:GlobalService) {
+     
     this.userData = this.authService.userData(); 
     this.route.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
