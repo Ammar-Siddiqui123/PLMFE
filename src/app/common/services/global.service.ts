@@ -186,9 +186,9 @@ export class GlobalService {
         else
           return true;
     }
-    Print(ChooseReport){ 
+    Print(ChooseReport,type = "lst"){ 
       var PrinterName:any;
-      if(ChooseReport.indexOf("lst") > -1){
+      if(type == "lst"  || type == "lbl"){
         PrinterName = localStorage.getItem("SelectedReportPrinter")
       }else{
         PrinterName = localStorage.getItem("SelectedLabelPrinter")
