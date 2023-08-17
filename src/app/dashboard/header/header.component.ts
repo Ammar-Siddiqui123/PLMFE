@@ -7,8 +7,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { Title } from '@angular/platform-browser';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
-import { ApiFuntions } from 'src/app/services/ApiFuntions';
-import { PrinterSettingService } from 'src/app/admin/printer-setup/printer-setting-service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions'; 
 import { MatDialog } from '@angular/material/dialog';
 import { DPrinterSetupComponent } from 'src/app/dialogs/d-printer-setup/d-printer-setup.component';
 

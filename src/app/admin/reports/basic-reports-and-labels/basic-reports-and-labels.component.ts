@@ -8,8 +8,7 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { GlobalService } from 'src/app/common/services/global.service';
 import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
 import { AuthService } from 'src/app/init/auth.service';
-import { ApiFuntions } from 'src/app/services/ApiFuntions';
-import { PrinterSettingService } from '../../printer-setup/printer-setting-service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions'; 
 
 @Component({
   selector: 'app-basic-reports-and-labels',

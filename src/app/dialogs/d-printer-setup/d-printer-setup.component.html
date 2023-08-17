@@ -13,9 +13,9 @@
         <div class="col-12 mb-2">
             <mat-form-field class="action-dropdown custom-form-field-bg-white w-100" appearance="outline">
                 <mat-label>Report Printer</mat-label>
-                <mat-select class="employees-action">
+                <mat-select class="employees-action" [(ngModel)]="ReportPrinter">
                   <ng-container> 
-                  <mat-option>1</mat-option>  
+                  <mat-option  *ngFor="let item of ListReportPrinter" [value]="item.printer">{{item.printer}}</mat-option>  
                 </ng-container>
                 </mat-select>
                 <span class="material-symbols-outlined icon-expand-more">
@@ -26,9 +26,9 @@
         <div class="col-12 mb-2">
             <mat-form-field class="action-dropdown custom-form-field-bg-white w-100" appearance="outline">
                 <mat-label>Label Printer</mat-label>
-                <mat-select class="employees-action">
+                <mat-select class="employees-action" [(ngModel)]="LabelPrinter">
                   <ng-container> 
-                  <mat-option>1</mat-option>  
+                    <mat-option  *ngFor="let item of ListLabelPrinter" [value]="item.printer">{{item.printer}}</mat-option>  
                 </ng-container>
                 </mat-select>
                 <span class="material-symbols-outlined icon-expand-more">
@@ -37,7 +37,10 @@
               </mat-form-field>
         </div>
         <div class="d-flex justify-content-end pt-3">
-            <button type="submit" style="flex:1" mat-flat-button color="primary" class="btn-lg w-100">Save</button>
+            <button type="submit" style="flex:1"
+            [disabled]="!LabelPrinter || !ReportPrinter"
+            mat-flat-button color="primary" class="btn-lg w-100"
+            (click)="UpdWSPrefsPrinters(ReportPrinter,LabelPrinter);ClosePopup();">Save</button>
         </div>
         
     </div>
