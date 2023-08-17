@@ -1,15 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Api } from 'datatables.net-bs5';
 import { ToastrService } from 'ngx-toastr';
 import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
+import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalService {
-  
+  userData:any;
   sqlLimits : any = {
     numerics: {
         bigint: {
@@ -42,7 +43,9 @@ export class GlobalService {
     }
   };
 
-  constructor(private Api:ApiFuntions,private toast:ToastrService,private dialog: MatDialog) {}
+  constructor(private Api:ApiFuntions,private toast:ToastrService,private dialog: MatDialog,private authService:AuthService) {
+    this.userData=this.authService.userData();
+  }
 
     // returns the date from JS in format: mm/dd/yyyy hh:mm
     getCurrentDateTime() {
@@ -244,7 +247,35 @@ export class GlobalService {
       getImPreferences(){
        return JSON.parse(localStorage.getItem('InductionPreference') || '{}');
       }
+
+      updateImPreferences(){
+        let paylaod = {
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid,
+        }
+        this.Api.PickToteSetupIndex(paylaod).subscribe(res => {
+          localStorage.setItem('InductionPreference', JSON.stringify(res.data.imPreference));
+    
+    
+        });
+      }
       setImPreferences(response){
-        return JSON.parse(localStorage.getItem('InductionPreference') || '{}');
-       }
+        const imPref = localStorage.getItem('InductionPreference');
+
+        if (imPref) {
+          const data = JSON.parse(imPref); // Assuming storedData is the object a
+          
+        
+          // Loop through properties of b and update values in a if they exist
+          for (const prop in response) {
+            if (response.hasOwnProperty(prop) && data.hasOwnProperty(prop)) {
+              console.log(prop)
+              data[prop] = response[prop];
+            }
+          }
+        
+          // Store the updated object a back in localStorage
+          localStorage.setItem('inductionPreference', JSON.stringify(data));
+        }
+      }
 }
