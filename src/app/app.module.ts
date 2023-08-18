@@ -111,6 +111,7 @@ import { IeFtpComponent } from './import-export/ie-ftp/ie-ftp.component';
 import { ShippingCompleteDialogComponent } from './dialogs/shipping-complete-dialog/shipping-complete-dialog.component';
 import { CrDesignFilenameConfirmationComponent } from './dialogs/cr-design-filename-confirmation/cr-design-filename-confirmation.component';
 import { DPrinterSetupComponent } from './dialogs/d-printer-setup/d-printer-setup.component';
+import { PaPrintLabelConfirmationComponent } from './dialogs/pa-print-label-confirmation/pa-print-label-confirmation.component';
 //import { InputFilterComponent } from './dialogs/choose-location/choose-location.component';
 // import { ActionDisableDirective } from './init/action-disable.directive';
 
@@ -207,6 +208,7 @@ import { DPrinterSetupComponent } from './dialogs/d-printer-setup/d-printer-setu
     ShippingCompleteDialogComponent,
     CrDesignFilenameConfirmationComponent,
     DPrinterSetupComponent,
+    PaPrintLabelConfirmationComponent,
     // ActionDisableDirective,
   ],
   imports: [
