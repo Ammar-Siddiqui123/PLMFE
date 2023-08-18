@@ -240,7 +240,15 @@ export class GlobalService {
                 this.toast.success("Export successfully completed", 'Success!', {
                     positionClass: 'toast-bottom-right',
                     timeOut: 2000,
-                  });
+                  });  
+                 
+                      const blob = new Blob([res.data.file], { type: 'application/pdf' });
+                      const url = window.URL.createObjectURL(blob);
+                      const link = document.createElement('a');
+                      link.href = url;
+                      link.download = res.data.fileName;
+                      link.click();
+                  
               }else{
                 this.toast.error("Export unsuccessfully complete", 'Error!', {
                     positionClass: 'toast-bottom-right',
