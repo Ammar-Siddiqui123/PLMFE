@@ -186,9 +186,9 @@ export class GlobalService {
         else
           return true;
     }
-    Print(ChooseReport){ 
+    Print(ChooseReport,type = "lst"){ 
       var PrinterName:any;
-      if(ChooseReport.indexOf("lst") > -1){
+      if(type == "lst"  || type == "lbl"){
         PrinterName = localStorage.getItem("SelectedReportPrinter")
       }else{
         PrinterName = localStorage.getItem("SelectedLabelPrinter")
@@ -240,7 +240,15 @@ export class GlobalService {
                 this.toast.success("Export successfully completed", 'Success!', {
                     positionClass: 'toast-bottom-right',
                     timeOut: 2000,
-                  });
+                  });  
+                 
+                      const blob = new Blob([res.data.file], { type: 'application/pdf' });
+                      const url = window.URL.createObjectURL(blob);
+                      const link = document.createElement('a');
+                      link.href = url;
+                      link.download = res.data.fileName;
+                      link.click();
+                  
               }else{
                 this.toast.error("Export unsuccessfully complete", 'Error!', {
                     positionClass: 'toast-bottom-right',

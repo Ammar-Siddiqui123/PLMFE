@@ -69,7 +69,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
   ngOnInit(): void {
     this.BasicReportModel.ChooseReport = "";
     this.Getcustomreports();
-
+    
   }
   clearMatSelectList(){
     this.matRef.options.forEach((data: MatOption) => data.deselect());

@@ -367,7 +367,7 @@ test(){
                               });
                               dialogRef.afterClosed().subscribe((result) => {
                                 if(result){
-                                  this.global.Print(`FileName:PrintReelLabels|OTID:${res.data.join(",")}|SN:|Item:|Order:`);
+                                  this.global.Print(`FileName:PrintReelLabels|OTID:${res.data.join(",",'lbl')}|SN:|Item:|Order:`);
                                   this.dialogRef.close(SNs[0]);
                                   return
                                 }
@@ -449,7 +449,7 @@ this.ReelDetailDialogue()
 
   print(index,e){
 
-      this.global.Print(`FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`)
+      this.global.Print(`FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`,'lbl')
 
 
     // window.location.href = `/#/report-view?file=FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`;
