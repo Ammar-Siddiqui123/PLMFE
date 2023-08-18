@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import jsPDF from 'jspdf';
 
 @Injectable({
   providedIn: 'root'
@@ -241,13 +242,11 @@ export class GlobalService {
                     positionClass: 'toast-bottom-right',
                     timeOut: 2000,
                   });  
-                 
-                      const blob = new Blob([res.data.file], { type: 'application/pdf' });
-                      const url = window.URL.createObjectURL(blob);
-                      const link = document.createElement('a');
-                      link.href = url;
-                      link.download = res.data.fileName;
-                      link.click();
+                  
+                   document.getElementById('CurrentDownload')?.setAttribute("href","https://staging-e64.com:9011/pdf/"+res.data.fileName);
+                   document.getElementById('CurrentDownload')?.click();
+                   
+                     
                   
               }else{
                 this.toast.error("Export unsuccessfully complete", 'Error!', {
