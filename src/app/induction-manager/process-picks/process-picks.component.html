@@ -8,6 +8,7 @@
                     </span>
                 </div>
                 <span>Batch Setup</span>
+                <!-- <button (click)="InZoneProcessPrintPref()"> TEST</button> -->
             </h2>
             <button type="submit" mat-stroked-button class="btn-regular" color="primary" [matMenuTriggerFor]="appMenu">
                 <mat-icon class="material-symbols-outlined">print</mat-icon>
@@ -275,9 +276,9 @@
                         <td mat-cell *matCellDef="let element">
                             <div class="pe-2">
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
-                                    <!-- disabled="{{useInZonePickScreen}}" -->
+                              
                                     <input matInput type="text" #specialFeature maxlength="255"
-                                        [(ngModel)]="element.orderNumber"  (focusout)="isValidOrderNumber(element)">
+                                        [(ngModel)]="element.orderNumber" disabled="{{useInZonePickScreen}}"  (focusout)="isValidOrderNumber(element)">
                                 </mat-form-field>
                             </div>
                         </td>

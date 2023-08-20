@@ -21,6 +21,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { Router } from '@angular/router';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { GlobalService } from 'src/app/common/services/global.service';
 @Component({
   selector: 'app-sr-current-order',
   templateUrl: './sr-current-order.component.html',
@@ -87,7 +88,7 @@ export class SrCurrentOrderComponent implements OnInit {
     private toastr: ToastrService,
     private authService: AuthService,
     private filterService: ContextMenuFiltersService,
-    private router:Router
+    private global:GlobalService,
   ) { }
 
 

@@ -28,6 +28,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { GroupsLookupComponent } from './groups-lookup/groups-lookup.component';
 import { EmployeesLookupComponent } from './employees-lookup/employees-lookup.component';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 export interface location {
   start_location: string;
@@ -119,6 +120,7 @@ bpSettingLocInp='';
     private zone: NgZone,
     public router: Router,
     public laoder: SpinnerService,
+    private global:GlobalService,
     private fb: FormBuilder
     ) {  
   }

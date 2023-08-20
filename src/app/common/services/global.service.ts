@@ -186,15 +186,17 @@ export class GlobalService {
         else
           return true;
     }
-    Print(ChooseReport){
-
-      let imPreferences=this.getImPreferences();
-
-      if(imPreferences.printDirectly){
-        ChooseReport = ChooseReport.replace(".lst","").replace(".lbl","");
+    Print(ChooseReport){ 
+      var PrinterName:any;
+      if(ChooseReport.indexOf("lst") > -1){
+        PrinterName = localStorage.getItem("SelectedReportPrinter")
+      }else{
+        PrinterName = localStorage.getItem("SelectedLabelPrinter")
+      }
         var paylaod:any={
           ClientCustomData:ChooseReport,
-          repositoryIdOfProject:"BCAEC8B2-9D16-4ACD-94EC-74932157BF82"
+          repositoryIdOfProject:"BCAEC8B2-9D16-4ACD-94EC-74932157BF82",
+          PrinterName:PrinterName
         }
         this.Api.CommonPrint(paylaod).subscribe((res:any)=>{
           if(res.isExecuted){
@@ -209,11 +211,6 @@ export class GlobalService {
               });
           }
         })
-      }else{
-        window.open(`/#/report-view?file=${ChooseReport}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-
-      }
-
       }
       OpenExportModal(ReportName) {
         ReportName = ReportName.replace(".lst","").replace(".lbl","");

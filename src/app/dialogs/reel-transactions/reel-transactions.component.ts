@@ -6,6 +6,7 @@ import { ReelDetailComponent } from '../reel-detail/reel-detail.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirmation.component';
 import { take } from 'rxjs';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-reel-transactions',
@@ -38,6 +39,7 @@ fieldNames:any;
   @ViewChildren('serialTemp') serialInputs: QueryList<any>;
   
   constructor(private dialog: MatDialog,public dialogRef: MatDialogRef<ReelTransactionsComponent>,
+    private global:GlobalService,
     @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService,) { }
 
   ngOnInit(): void {
@@ -359,11 +361,11 @@ test(){
                                   message: "Click OK to print labels now.",
                                 },
                                 autoFocus: '__non_existing_element__',
-      disableClose:true,
+                                 disableClose:true,
                               });
                               dialogRef.afterClosed().subscribe((result) => {
                                 if(result){
-                                  window.open(`/#/report-view?file=FileName:PrintReelLabels|OTID:${res.data.join(",")}|SN:|Item:|Order:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                                  this.global.Print(`FileName:PrintReelLabels|OTID:${res.data.join(",")}|SN:|Item:|Order:`);
                                   this.dialogRef.close(SNs[0]);
                                   return
                                 }
@@ -445,8 +447,7 @@ this.ReelDetailDialogue()
 
   print(index,e){
 
-    window.open(`/#/report-view?file=FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-    // window.location.href = `/#/report-view?file=FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`;
+    this.global.Print(`FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`);
   }
 
 }

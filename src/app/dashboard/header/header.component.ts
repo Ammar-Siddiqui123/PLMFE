@@ -75,11 +75,14 @@ statusTab;
 
         let withoutParam = res.split('?')[0]
         let splittedArray = withoutParam.split('/'); 
-
+          if(splittedArray[0]==='FlowrackReplenishment'){
+            splittedArray[0]='FlowrackReplenish'
+          }
         splittedArray.forEach((element,i) => {
          if(element==='createCountBatches' || element==='cycleCounts'){
           element='CycleCount'
          }
+
          if(element==='Flowrack'){
           element='FlowrackReplenishment'
          }
@@ -157,10 +160,16 @@ statusTab;
     }else this.ConfigUserLogin =  false; 
     this.userData = this.authService.userData(); 
     this.setImPreferences();
+    this.GetWorkStatPrinters();
 
   }
 
-
+  GetWorkStatPrinters(){
+    this.api.GetWorkStatPrinters().subscribe((res:any)=>{ 
+      localStorage.setItem("SelectedReportPrinter",res.data.reportPrinter);
+       localStorage.setItem("SelectedLabelPrinter",res.data.labelPrinter);
+    })
+  }
   ngAfterViewInit() {
       this.sharedService.breadCrumObserver.subscribe((res: any) => { 
       this.statusTab = res.tab.textLabel;
