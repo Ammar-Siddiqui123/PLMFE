@@ -44,6 +44,7 @@ export class ToteTransactionViewComponent implements OnInit {
   };
   IMPreferences:any;
   zoneLabels:any;
+  imPreferences:any;
  
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -62,6 +63,7 @@ export class ToteTransactionViewComponent implements OnInit {
     this.IMPreferences=this.data.IMPreferences;
     this.zoneLabels = this.data.zoneLabels;
     this.getTransactionTable();
+    this.imPreferences=this.global.getImPreferences();
   }
   ngAfterViewInit(): void {
     this.field_focus.nativeElement.focus();
@@ -271,20 +273,40 @@ export class ToteTransactionViewComponent implements OnInit {
 
   print(type:any){
     if(type == 'tote-label'){
-      this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:|ZoneLab:${this.zoneLabels}|ID:${this.dataSource?.filteredData[0]?.id}|BatchID:${this.batchID}|TransType:Put Away`);
-       }
+
+        this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:|ZoneLab:${this.zoneLabels}|ID:${this.dataSource?.filteredData[0]?.id}|BatchID:${this.batchID}|TransType:Put Away`,'lbl')
+  
+
+      // window.location.href = `/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:|ZoneLab:${this.zoneLabels}|ID:${this.dataSource?.filteredData[0]?.id}|BatchID:${this.batchID}|TransType:Put Away`;
+    }
     else if(type == 'item-label'){
-      this.global.Print(`FileName:PrintPrevToteItemLabel|ID:-1|BatchID:${this.batchID}|ToteNum:${this.tote}`);
+
+        this.global.Print(`FileName:PrintPrevToteItemLabel|ID:-1|BatchID:${this.batchID}|ToteNum:${this.tote}`,'lbl')
+  
+      // window.location.href = `/#/report-view?file=FileName:PrintPrevToteItemLabel|ID:-1|BatchID:${this.batchID}|ToteNum:${this.tote}`;
     }
     else if(type == 'tote-contents'){
-      this.global.Print(`FileName:PrintPrevToteTransViewCont|BatchID:${this.batchID}|ToteNum:${this.tote}`);
+
+        this.global.Print(`FileName:PrintPrevToteTransViewCont|BatchID:${this.batchID}|ToteNum:${this.tote}`)
+  
+      // window.location.href = `/#/report-view?file=FileName:PrintPrevToteTransViewCont|BatchID:${this.batchID}|ToteNum:${this.tote}`;
     }
   }
 
   printToteLabel(){
     // console.log(this.IMPreferences);
     let ID = this.dataSource?.filteredData[0]?.id;
-    this.global.Print(`FileName:PrintPrevToteItemLabel|ID:${ID}|BatchID:${this.batchID}|ToteNum:${this.tote}`);
+
+        this.global.Print(`FileName:PrintPrevToteItemLabel|ID:${ID}|BatchID:${this.batchID}|ToteNum:${this.tote}`,'lbl')
+  
+    
+    // window.location.href = `/#/report-view?file=FileName:PrintPrevToteItemLabel|ID:${ID}|BatchID:${this.batchID}|ToteNum:${this.tote}`;
+    // if(this.IMPreferences.printDirectly){
+
+    // }
+    // else{
+    //   window.location.href = `/#/report-view?file=FileName:PrintPrevToteItemLabel|ID:${ID}|BatchID:${this.batchID}|ToteNum:${this.tote}`;
+    // }
   }
 
   selectRow(row: any) {

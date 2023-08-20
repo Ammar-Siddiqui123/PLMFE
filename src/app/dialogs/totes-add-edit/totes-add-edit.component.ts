@@ -58,6 +58,7 @@ export class TotesAddEditComponent implements OnInit {
   userData:any;
   searchAutocompleteList:any;
   hideRequiredControl = new FormControl(false);
+  imPreferences:any;
   // emptyField:boolean = false
   onDestroy$: Subject<boolean> = new Subject();
   @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
@@ -113,7 +114,7 @@ export class TotesAddEditComponent implements OnInit {
   // PrintDirect: pd,
   // BatchID: batch
  
-    this.global.Print(`FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`);
+    this.global.Print(`FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`,'lbl');
 
     }
   printRange(){
@@ -123,7 +124,14 @@ export class TotesAddEditComponent implements OnInit {
     let sTote = this.fromTote;
     let eTote = this.toTote;
 
-    this.global.Print(`FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`);
+      this.global.Print(`FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`,'lbl')
+
+
+
+    // window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', "location=yes");
+
+    // window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
+
   }
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   toggleAllRows() {
@@ -418,7 +426,7 @@ export class TotesAddEditComponent implements OnInit {
   selection1 = new SelectionModel<PeriodicElement>(true, []);
 
   constructor(public dialogRef: MatDialogRef<TotesAddEditComponent>,private route: ActivatedRoute,private location: Location,private renderer: Renderer2,
-    @Inject(MAT_DIALOG_DATA) public data : any,private authService: AuthService,private Api:ApiFuntions, private global:GlobalService,private toastr: ToastrService,private dialog: MatDialog,) {
+    @Inject(MAT_DIALOG_DATA) public data : any,private authService: AuthService,private Api:ApiFuntions,private toastr: ToastrService,private dialog: MatDialog,private global:GlobalService) {
 
       let pathArr= this.location.path().split('/')
       this.isIMPath=pathArr[pathArr.length-1]==='ImToteManager'?true:false
@@ -438,6 +446,7 @@ export class TotesAddEditComponent implements OnInit {
     this.cellID = this.data.defaultCells ? this.data.defaultCells : 0;
     this.getTotes();
     this.autocompleteSearchColumn();
+    this.imPreferences=this.global.getImPreferences();
   }
   ngAfterViewInit(): void {
     this.field_focus.nativeElement.focus();

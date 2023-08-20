@@ -802,10 +802,16 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   }
 
   printReport(){
-    this.global.Print(`FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`);
+    this.global.Print(`FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`)
+    // window.location.href = `/#/report-view?file=FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`;
+    // window.location.reload();
   }
 
-  previewReport(){
-    this.global.Print(`OrderStatus-lst-prv|field:Order Number|exptype:=|expone:${this.orderNo}|exptwo:`); 
+  previewReport(){ 
+    window.open(`/#/report-view?file=OrderStatus-lst-prv|field:Order Number|exptype:=|expone:${this.orderNo}|exptwo:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+   
+      
+    // window.location.href = `/#/report-view?file=OrderStatus-lst-prv|field:Order Number|exptype:=|expone:${this.orderNo}|exptwo:`;
+    // window.location.reload();
   }
 }

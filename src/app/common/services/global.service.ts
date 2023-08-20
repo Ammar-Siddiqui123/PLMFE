@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import jsPDF from 'jspdf';
 
 @Injectable({
   providedIn: 'root'
@@ -186,9 +187,9 @@ export class GlobalService {
         else
           return true;
     }
-    Print(ChooseReport){ 
+    Print(ChooseReport,type = "lst"){ 
       var PrinterName:any;
-      if(ChooseReport.indexOf("lst") > -1){
+      if(type == "lst"  || type == "lbl"){
         PrinterName = localStorage.getItem("SelectedReportPrinter")
       }else{
         PrinterName = localStorage.getItem("SelectedLabelPrinter")
@@ -240,7 +241,13 @@ export class GlobalService {
                 this.toast.success("Export successfully completed", 'Success!', {
                     positionClass: 'toast-bottom-right',
                     timeOut: 2000,
-                  });
+                  });  
+                  
+                   document.getElementById('CurrentDownload')?.setAttribute("href","https://staging-e64.com:9011/pdf/"+res.data.fileName);
+                   document.getElementById('CurrentDownload')?.click();
+                   
+                     
+                  
               }else{
                 this.toast.error("Export unsuccessfully complete", 'Error!', {
                     positionClass: 'toast-bottom-right',

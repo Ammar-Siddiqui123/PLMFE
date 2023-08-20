@@ -157,10 +157,14 @@ statusTab;
     this.configUser = JSON.parse(localStorage.getItem('userConfig') || '{}'); 
     if(this.router.url.indexOf('globalconfig') > -1){
       this.ConfigUserLogin =  true;
-    }else this.ConfigUserLogin =  false; 
-    this.userData = this.authService.userData(); 
-    this.setImPreferences();
-    this.GetWorkStatPrinters();
+    }else {
+      this.ConfigUserLogin =  false; 
+      this.GetWorkStatPrinters();
+      this.setImPreferences();
+    }
+      this.userData = this.authService.userData(); 
+    // 
+    
 
   }
 

@@ -265,7 +265,7 @@ export class CmShippingTransactionComponent implements OnInit {
   }
 
   openShipPrintItemLabel(order : any, i : any) {
-    this.global.Print(`FileName:PrintShipTransLabel|ST_ID:${order.sT_ID}`);
+    this.global.Print(`FileName:PrintShipTransLabel|ST_ID:${order.sT_ID}`,'lbl');
   }
 
   // Open the dialog component, pass in the data to be modified

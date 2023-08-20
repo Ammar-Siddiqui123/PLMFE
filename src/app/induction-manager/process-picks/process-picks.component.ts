@@ -107,7 +107,7 @@ export class ProcessPicksComponent implements OnInit {
        
       if(type==='PrintTote'){
         if(this.imPreferences.printDirectly){
-          this.global.Print(`FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`)
+          this.global.Print(`FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`,'lbl')
   
         }else{
           window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
@@ -118,7 +118,7 @@ export class ProcessPicksComponent implements OnInit {
 
 
         if(this.imPreferences.printDirectly){
-          this.global.Print(`FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`)
+          this.global.Print(`FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`,'lbl')
   
         }else{
           window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
@@ -144,7 +144,7 @@ export class ProcessPicksComponent implements OnInit {
 
              
         if(this.imPreferences.printDirectly){
-          this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`)
+        this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`,'lbl');
   
         }else{
           window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
@@ -186,7 +186,7 @@ export class ProcessPicksComponent implements OnInit {
       orderNumberList.push(row.orderNumber)
 
       if(this.imPreferences.printDirectly){
-        this.global.Print(`FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`);
+        this.global.Print(`FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`,'lbl');
 
       }else{
         window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
@@ -210,7 +210,7 @@ export class ProcessPicksComponent implements OnInit {
       orderNumberList.push(row.orderNumber)
 
       if(this.imPreferences.printDirectly){
-        this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`);
+        this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`,'lbl');
 
       }else{
         window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
@@ -262,7 +262,7 @@ export class ProcessPicksComponent implements OnInit {
         //  this.global.Print(`FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`)
   
         
-    // this.global.Print(`FileName:PrintPrevIMPickToteLabelButt|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}`);
+    this.global.Print(`FileName:PrintPrevIMPickToteLabelButt|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}`,'lbl');
   
       }
     }
@@ -291,11 +291,7 @@ export class ProcessPicksComponent implements OnInit {
   
         }
         
-        // this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`)
-        
-       
-        
-        // this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`);
+        this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`,'lbl');
       }
     }
     if(type==='PrintPickList'){

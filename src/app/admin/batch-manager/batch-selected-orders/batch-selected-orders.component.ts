@@ -171,7 +171,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
           this.tableData._data._value.forEach(element => {
               ordersArr.push(element.orderNumber)
           });
-          this.global.Print(`FileName:PrintBatchLabel|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}`)
+          this.global.Print(`FileName:PrintBatchLabel|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}`,'lbl')
         }
       });
     }
