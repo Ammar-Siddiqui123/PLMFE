@@ -165,7 +165,7 @@
             <div class="col-xl-5">
                 <div class="table-pagination d-flex justify-content-start"
                   *ngIf="  displayedColumns && dataSource">
-                  <mat-paginator [length]="totalRecords" [pageSize]="10" [pageSizeOptions]="[10, 20, 100]" #paginator
+                  <mat-paginator [length]="totalRecords" [pageSize]="10" showFirstLastButtons [pageSizeOptions]="[10, 20, 100]" #paginator
                     (page)="handlePageEvent($event)"></mat-paginator>
     
     
