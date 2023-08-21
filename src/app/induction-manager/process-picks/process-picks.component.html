@@ -390,3 +390,34 @@
         </div>
     </div>
 </ng-template>
+
+<ng-template #popupBlocked>
+
+    <div class="mat-modal-wrap text-center">
+        <mat-dialog-content>
+          <div class="prompt-wrap">
+            <div class="d-flex justify-content-center prompt-icon-wrap ">
+              <span #cancel class="material-symbols-outlined prompt-icon-delete">
+                notification_important
+              </span>
+      
+            </div>
+            <div class=" py-4"> 
+            <p class="text-danger bold card-header-title p-0 mb-2" >
+              An Error Occured
+            </p>
+            <p class="prompt-message mb-0 bold">
+                Pop-ups appear to be blocked for this workstation.  Please check your settings and ensure that the browser allows pop-ups for this site.
+            </p>
+     </div>
+        
+          </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="d-flex flex-column justify-content-center m-0 p-0">
+          <button  class="mat-button-base prompt-action-danger-button  mb-3 btn-lg w-100"  [mat-dialog-close]="false" mat-stroked-button mat-button
+         >OK</button>
+     
+        </mat-dialog-actions>
+      </div>
+      
+</ng-template>
