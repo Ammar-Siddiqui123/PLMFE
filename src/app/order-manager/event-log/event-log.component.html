@@ -320,6 +320,7 @@
             [pageSize]="length" 
             [disabled]="tableData.length == 0"
             (page)="paginatorChange($event)"
+            showFirstLastButtons
             ></mat-paginator>
             <mat-label class="text-14 mat-paginator" *ngIf="recordsTotal > recordsFiltered">(filtered from {{recordsTotal}} total entries)</mat-label>
         </div>
