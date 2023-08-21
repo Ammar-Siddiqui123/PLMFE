@@ -455,9 +455,9 @@ export class AdminPrefrencesComponent implements OnInit {
       this.Api.DynamicMethod(payLoad, endPoint).subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
-            if(endPoint == '/Induction/imprintsettings'){
+            // if(endPoint == '/Induction/imprintsettings'){
               this.global.updateImPreferences()
-            }
+            // }
             this.toast.success(labels.alert.update, 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,

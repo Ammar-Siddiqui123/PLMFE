@@ -17,6 +17,8 @@ import { ChooseLocationComponent } from '../choose-location/choose-location.comp
 import { WarehouseComponent } from 'src/app/admin/dialogs/warehouse/warehouse.component';
 import { Router } from '@angular/router';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
+import { PaPrintLabelConfirmationComponent } from '../pa-print-label-confirmation/pa-print-label-confirmation.component';
 
 @Component({
   selector: 'app-selection-transaction-for-tote-extend',
@@ -36,6 +38,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
   selectedTotePosition:any='';
   selectedToteID:any='';
   fieldNames:any;
+  imPreferences:any;
   constructor(public dialogRef                  : MatDialogRef<SelectionTransactionForToteExtendComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private dialog                    : MatDialog,
@@ -45,6 +48,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               private Api : ApiFuntions, 
               private toastr: ToastrService,
               public router: Router,
+              private global:GlobalService,
               ) {
 
     this.toteForm = this.formBuilder.group({
@@ -116,6 +120,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     this.getCellSizeList();
     this.getVelocityCodeList();
     this.getDetails();    
+    this.imPreferences=this.global.getImPreferences();
   }
   ngAfterViewInit(): void {
     this.field_focus.nativeElement.focus();
@@ -792,6 +797,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     }
   }
 
+
+  
   complete(values : any) {
 
     if (!this.validationPopups({...values, type : 1})) {
@@ -852,6 +859,54 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
             (res: any) => {
               
               if (res.data && res.isExecuted) {
+                let OTID = res.data
+                if(this.imPreferences.autoPrintPutAwayLabels){
+                  let numLabel = 1
+                    if(this.imPreferences.requestNumberOfPutAwayLabels && this.imPreferences.printDirectly){
+                      // here pop up will be implemented which will ask for number of labels
+                      let dialogRef = this.dialog.open(PaPrintLabelConfirmationComponent, {
+                        height: 'auto',
+                        width: '560px',
+                        autoFocus: '__non_existing_element__',
+                        disableClose:true,
+                    
+                      });
+                      dialogRef.afterClosed().subscribe((result) => {
+                        if(result>0){
+                          if(!this.imPreferences.printDirectly){
+                            window.open(`/#/report-view?file=FileName:PrintPutAwayItemLabels|OTID:${OTID}|printDirect:true`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+                          }
+                          else{
+                            for (var i = 0; i < result; i++) {
+                              this.global.Print(`FileName:PrintPutAwayItemLabels|OTID:${OTID}|printDirect:true`)
+                          };
+                          }
+                        }
+                     
+                      })
+
+                    }
+                    else{
+                      if(numLabel>0){
+                        if(!this.imPreferences.printDirectly){
+                          window.open(`/#/report-view?file=FileName:PrintPutAwayItemLabels|OTID:${OTID}|printDirect:true`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+                        }
+                        else{
+                          for (var i = 0; i < numLabel; i++) {
+                            this.global.Print(`FileName:PrintPutAwayItemLabels|OTID:${OTID}|printDirect:true`)
+                        };
+                        }
+                      }
+                   
+                    }
+
+                 
+
+                }
+
+
                 this.dialogRef.close("Task Completed");
                 this.toast.success(labels.alert.update, 'Success!',{
                   positionClass: 'toast-bottom-right',

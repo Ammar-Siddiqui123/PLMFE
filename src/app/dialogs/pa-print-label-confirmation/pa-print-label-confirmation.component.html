@@ -24,12 +24,12 @@
     </p>
     <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline">
 
-        <input matInput type="text" maxlength="50">
+        <input matInput [(ngModel)]="numberLabel" type="text" maxlength="50">
       </mat-form-field>
   </div>
   <div class="w-100">
     <button mat-stroked-button color="primary"
-      class="w-100 btn-lg mb-3 prompt-action-accent-button">
+      class="w-100 btn-lg mb-3 prompt-action-accent-button"  (click)="sendData()">
       Ok
     </button>
     <button mat-stroked-button color="secondary"

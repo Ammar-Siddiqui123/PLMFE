@@ -124,7 +124,12 @@ export class TotesAddEditComponent implements OnInit {
     let sTote = this.fromTote;
     let eTote = this.toTote;
 
-      this.global.Print(`FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`,'lbl')
+    if(this.imPreferences.printDirectly){
+      this.global.Print(`FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`)
+
+    }else{
+      window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    }
 
 
 
