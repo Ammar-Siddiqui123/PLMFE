@@ -27,6 +27,7 @@ import { ReelTransactionsComponent } from 'src/app/dialogs/reel-transactions/ree
 import { event } from 'jquery';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { GlobalService } from 'src/app/common/services/global.service';
+import { PaPrintLabelConfirmationComponent } from 'src/app/dialogs/pa-print-label-confirmation/pa-print-label-confirmation.component';
 
 
 export interface PeriodicElement {
@@ -1216,46 +1217,58 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.Api.CompleteBatch(payLoad).subscribe(
               (res: any) => {
                 if (res.isExecuted) {
-                  let dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
-                    height: 'auto',
-                    width: '560px',
-                    autoFocus: '__non_existing_element__',
-                disableClose:true,
-                    data: {
-                      message: 'Click OK to print an Off-Carousel Put Away List.',
-                    },
-                  });
-          
-                  dialogRef2.afterClosed().subscribe((result) => {
-                    if (result == 'Yes') {
-                      if(this.imPreferences.autoPrintPutAwayLabels){
-                        if(this.imPreferences.printDirectly){
-                          this.global.Print(`FileName:PrintOffCarList|batchID:${this.batchId2}`);
-                        }
-                        else{
-                          window.open(`/#/report-view?file=FileName:PrintOffCarList|batchID:${this.batchId2}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-                        }
-                       
-                      }
-
-                    }else{
-                      this.toastr.success(
-                        'Batch Completed Successfully',
-                        'Success!',
-                        {
-                          positionClass: 'toast-bottom-right',
-                          timeOut: 2000,
-                        }
-                      );
-                      this.clearFormAndTable();
-                      this.selectedIndex = 0;
-                      setTimeout(() => {
-                      this.batchFocus.nativeElement.focus();
-                        
-                      }, 100);
+                  if(this.imPreferences.autoPrintOffCarouselPutAwayList){
+                    if(this.imPreferences.printDirectly){
+                      this.global.Print(`FileName:PrintOffCarList|batchID:${this.batchId2}`);
                     }
-                  });          
-                 
+                    else{
+                      window.open(`/#/report-view?file=FileName:PrintOffCarList|batchID:${this.batchId2}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                    }
+                  }
+                  else{
+                    let dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
+                      height: 'auto',
+                      width: '560px',
+                      autoFocus: '__non_existing_element__',
+                  disableClose:true,
+                      data: {
+                        message: 'Click OK to print an Off-Carousel Put Away List.',
+                      },
+                    });
+            
+                    dialogRef2.afterClosed().subscribe((result) => {
+                      if (result == 'Yes') {
+                        
+                          if(this.imPreferences.printDirectly){
+                            this.global.Print(`FileName:PrintOffCarList|batchID:${this.batchId2}`);
+                          }
+                          else{
+                            window.open(`/#/report-view?file=FileName:PrintOffCarList|batchID:${this.batchId2}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                          }
+                         
+                        
+  
+                      }else{
+                        this.toastr.success(
+                          'Batch Completed Successfully',
+                          'Success!',
+                          {
+                            positionClass: 'toast-bottom-right',
+                            timeOut: 2000,
+                          }
+                        );
+                        this.clearFormAndTable();
+                        this.selectedIndex = 0;
+                        setTimeout(() => {
+                        this.batchFocus.nativeElement.focus();
+                          
+                        }, 100);
+                      }
+                    });          
+                   
+                  }
+
+        
                 
                   // this.getRow(this.batchId);
                 } else {
@@ -1273,6 +1286,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     } catch (error) { 
     }
   }
+
 
   goToNext() {
     var fil = this.dataSource2.data.filter((e: any) => e.status == 0);

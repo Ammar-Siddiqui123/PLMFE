@@ -18,6 +18,7 @@ import { WarehouseComponent } from 'src/app/admin/dialogs/warehouse/warehouse.co
 import { Router } from '@angular/router';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { GlobalService } from 'src/app/common/services/global.service';
+import { PaPrintLabelConfirmationComponent } from '../pa-print-label-confirmation/pa-print-label-confirmation.component';
 
 @Component({
   selector: 'app-selection-transaction-for-tote-extend',
@@ -796,6 +797,8 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     }
   }
 
+
+  
   complete(values : any) {
 
     if (!this.validationPopups({...values, type : 1})) {
@@ -858,27 +861,48 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
               if (res.data && res.isExecuted) {
                 let OTID = res.data
                 if(this.imPreferences.autoPrintPutAwayLabels){
-                  
-                  if(this.imPreferences.printDirectly){
-                 let   numLabels = 1;
-                    if(this.imPreferences.requestNumberOfPutAwayLabels){
+                  let numLabel = 1
+                    if(this.imPreferences.requestNumberOfPutAwayLabels && this.imPreferences.printDirectly){
                       // here pop up will be implemented which will ask for number of labels
+                      let dialogRef = this.dialog.open(PaPrintLabelConfirmationComponent, {
+                        height: 'auto',
+                        width: '560px',
+                        autoFocus: '__non_existing_element__',
+                        disableClose:true,
+                    
+                      });
+                      dialogRef.afterClosed().subscribe((result) => {
+                        if(result>0){
+                          if(!this.imPreferences.printDirectly){
+                            window.open(`/#/report-view?file=FileName:PrintPutAwayItemLabels|OTID:${OTID}|printDirect:true`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+                          }
+                          else{
+                            for (var i = 0; i < result; i++) {
+                              this.global.Print(`FileName:PrintPutAwayItemLabels|OTID:${OTID}|printDirect:true`)
+                          };
+                          }
+                        }
+                     
+                      })
 
                     }
+                    else{
+                      if(numLabel>0){
+                        if(!this.imPreferences.printDirectly){
+                          window.open(`/#/report-view?file=FileName:PrintPutAwayItemLabels|OTID:${OTID}|printDirect:true`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
 
-                    if(numLabels > 0){
-                      if(!this.imPreferences.printDirectly){
-                        this.global.Print(`FileName:PrintPutAwayItemLabels|OTID:${OTID}|printDirect:true`)
+                        }
+                        else{
+                          for (var i = 0; i < numLabel; i++) {
+                            this.global.Print(`FileName:PrintPutAwayItemLabels|OTID:${OTID}|printDirect:true`)
+                        };
+                        }
                       }
-                      else{
-                        for (var i = 0; i < numLabels; i++) {
-                          this.global.Print(`FileName:PrintPutAwayItemLabels|OTID:${OTID}|printDirect:true`)
-                      };
-                      }
+                   
                     }
-                  }else{
-                    window.open(`/#/report-view?file=FileName:PrintPutAwayItemLabels|OTID:${OTID}|printDirect:true`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-                  }
+
+                 
 
                 }
 
