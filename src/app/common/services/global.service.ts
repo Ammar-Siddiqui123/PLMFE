@@ -205,6 +205,7 @@ export class GlobalService {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000,
               });
+              
           }else{
             this.toast.error("print unsuccessfully complete", 'Error!', {
                 positionClass: 'toast-bottom-right',
