@@ -132,7 +132,7 @@
         </div>
 
         <div class="table-pagination d-flex justify-content-start" >
-            <mat-paginator [length]="this.customPagination.total" [pageSize]="10" [pageSizeOptions]="[10, 20, 100]" (page)="handlePageEvent($event)"
+            <mat-paginator [length]="this.customPagination.total" [pageSize]="10" showFirstLastButtons [pageSizeOptions]="[10, 20, 100]" (page)="handlePageEvent($event)"
                 mat-paginator-range-label="customLabelTo" #paginatorTo></mat-paginator>
 
 
