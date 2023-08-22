@@ -9,8 +9,8 @@ table.custom-action-clickable-table tr{
     margin-left:15px;
   }
   
-  table.custom-action-clickable-table tr:hover{
-          transition: 0.3s ease all;
+  table.custom-action-clickable-table tr td:hover{
+          transition: 0.1s ease all;
           color: #fff !important;
           background: var(--clr-primary-300);
           position: relative;
