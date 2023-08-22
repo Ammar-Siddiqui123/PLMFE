@@ -91,10 +91,10 @@
 
                                             <button mat-flat-button color="primary" class="xsm-icon-button m-1 m-xl-0" [disabled]="item.isButtonDisable"
                                                (click)="saveString(item,index)" #namebutton>
-                                                <mat-icon class="material-symbols-outlined">save</mat-icon>
+                                                <mat-icon class="material-symbols-outlined" matTooltip="Save" matTooltipPosition="above">save</mat-icon>
                                             </button>
 
-                                            <button (click)="deleteString(item)" mat-flat-button color="warn" class="xsm-icon-button m-1 m-xl-0">
+                                            <button (click)="deleteString(item)" mat-flat-button color="warn" class="xsm-icon-button m-1 m-xl-0" matTooltip="Delete" matTooltipPosition="above">
                                                 <mat-icon class="material-symbols-outlined">close</mat-icon>
                                             </button>
                                         </div>
