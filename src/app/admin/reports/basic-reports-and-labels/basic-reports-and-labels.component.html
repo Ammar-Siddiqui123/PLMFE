@@ -22,7 +22,7 @@
                                 <mat-label>Actions</mat-label>
                                 <mat-select #matRef  class="employees-action" [disabled]="!this.BasicReportModel.ChooseReport" value="pick" (selectionChange)="openAction($event)">
                                     <mat-option   (click)="this.global.Print(this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst')">Print</mat-option>
-                                    <mat-option    (click)="this.global.OpenExportModal(this.BasicReportModel.ChooseReport)">Export</mat-option>
+                                    <mat-option    (click)="this.global.OpenExportModal(this.BasicReportModel.ChooseReport,this.BasicReportModel.ChooseReport)">Export</mat-option>
                                     <mat-option    (click)="OpenListAndLabel()">Preview Top 50 Pages Only</mat-option>
                                 </mat-select>
                                 <span class="material-symbols-outlined icon-expand-more">

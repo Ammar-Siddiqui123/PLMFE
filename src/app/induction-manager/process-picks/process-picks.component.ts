@@ -1083,9 +1083,9 @@ export class ProcessPicksComponent implements OnInit {
       if(this.imPreferences.autoPrintPickToteLabels){
 
         if(this.imPreferences.printDirectly){
-              this.global.Print(`FileName:PrintPrevInZoneBatchToteLabel|BatchID:${batchId}`,'lbl');
+              this.global.Print(`FileName:PrintPrevInZoneBatchToteLabel|BatchID:${batchId}|WSID:${this.userData.wsid}`,'lbl');
               }else{
-                isWindowClosed =await this.previewWindow(`FileName:PrintPrevInZoneBatchToteLabel|BatchID:${batchId}`); 
+                isWindowClosed =await this.previewWindow(`FileName:PrintPrevInZoneBatchToteLabel|BatchID:${batchId}|WSID:${this.userData.wsid}`); 
               }
               if( this.imPreferences.autoPrintOffCarouselPickList){
                 if(this.imPreferences.printDirectly){

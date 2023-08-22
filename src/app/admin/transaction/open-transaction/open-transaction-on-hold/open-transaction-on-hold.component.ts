@@ -35,6 +35,7 @@ import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { GlobalService } from 'src/app/common/services/global.service';
+import { CurrentTabDataService } from 'src/app/admin/inventory-master/current-tab-data-service';
 
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
@@ -248,7 +249,8 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     private toastr: ToastrService, 
     private dialog: MatDialog,
     private sharedService:SharedService,
-    private filterService: ContextMenuFiltersService
+    private filterService: ContextMenuFiltersService,
+    private currentTabDataService: CurrentTabDataService
   ) {
     if (this.router.getCurrentNavigation()?.extras?.state?.['searchValue']) {
       this.columnSearch.searchValue =
@@ -326,7 +328,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       });
 
     this.userData = this.authService.userData();
-    this.getColumnsData();
+    this.getColumnsData(true);    
   }
   viewOrderInOrder(row) {
     this.returnToOrder.emit();
@@ -537,11 +539,13 @@ this.router.navigate([]).then((result) => {
     this.columnSearch.searchColumn.colDef='';
     this.columnSearch.searchValue='';
     this.orderNumber='';
+    
+    this.currentTabDataService.savedItem[this.currentTabDataService.TRANSACTIONS] = undefined;
     // this.initializeApi();
     this.getContentData();
   }
 
-  getColumnsData() {
+  getColumnsData(isInit : boolean = false) {
     let payload = {
       username: this.userData.userName,
       wsid: this.userData.wsid,
@@ -553,7 +557,7 @@ this.router.navigate([]).then((result) => {
         if (res.data) {
           this.columnValues = res.data;
           this.columnValues.push('actions');
-          this.getContentData();
+          this.getContentData(isInit);
         } else {
           this.toastr.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
@@ -593,7 +597,7 @@ this.router.navigate([]).then((result) => {
     // this.getContentData();
   }
 
-  getContentData() {
+  getContentData(isInit: boolean = false) {
     this.payload = {
       draw: 0,
       sDate: this.sdate,
@@ -622,6 +626,10 @@ this.router.navigate([]).then((result) => {
           //  this.dataSource.paginator = this.paginator;
           this.customPagination.total = res.data?.recordsFiltered;
           this.dataSource.sort = this.sort;
+          if (isInit && this.currentTabDataService.savedItem[this.currentTabDataService.TRANSACTIONS])
+            this.ApplySavedItem();
+          else
+            this.RecordSavedItem();
         },
         (error) => {}
       );
@@ -641,7 +649,40 @@ this.router.navigate([]).then((result) => {
     //     this.dataSource.sort = this.sort;
     //   });
   }
-
+  
+  ApplySavedItem() {
+    if (this.currentTabDataService.savedItem[this.currentTabDataService.TRANSACTIONS]) {
+      let item = this.currentTabDataService.savedItem[this.currentTabDataService.TRANSACTIONS];
+      this.detailDataInventoryMap = item.detailDataInventoryMap;
+      this.dataSource = item.dataSource;
+      //  this.dataSource.paginator = this.paginator;
+      this.customPagination.total = item.customPaginationTotal;
+      this.dataSource.sort = item.dataSourceSort;
+      this.sdate= item.sdate;
+      this.edate= item.edate;
+      this.statusType= item.statusType;
+      this.orderNumber= item.orderNumber;
+      this.toteId= item.toteId;
+      this.transTypeSelect= item.transTypeSelect;
+      this.columnSearch= item.columnSearch
+    }
+  }
+  RecordSavedItem() {
+    this.currentTabDataService.savedItem[this.currentTabDataService.TRANSACTIONS]= {
+          detailDataInventoryMap : this.detailDataInventoryMap,
+          dataSource : this.dataSource,
+          //  this.dataSource.paginator = this.paginator;
+          customPaginationTotal : this.customPagination.total,
+          dataSourceSort : this.dataSource.sort,
+          sdate: this.sdate,
+          edate: this.edate,
+          statusType: this.statusType,
+          orderNumber: this.orderNumber,
+          toteId: this.toteId,
+          transTypeSelect: this.transTypeSelect,
+          columnSearch: this.columnSearch
+    }
+  }
   // initializeApi() {
   //   this.userData = this.authService.userData();
   //   this.payload = {

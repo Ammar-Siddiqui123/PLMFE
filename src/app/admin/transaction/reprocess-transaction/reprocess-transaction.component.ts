@@ -88,6 +88,7 @@ const TRNSC_DATA = [
   { colHeader: 'dateStamp', colDef: 'Date Stamp' },
   { colHeader: 'reason', colDef: 'Reason' },
   { colHeader: 'nameStamp', colDef: 'Name Stamp' },
+  { colHeader: 'blank', colDef: 'blank' },
 ];
 @Component({
   selector: 'app-reprocess-transaction',

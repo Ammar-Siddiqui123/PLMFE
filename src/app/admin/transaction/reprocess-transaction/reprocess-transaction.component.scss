@@ -76,3 +76,39 @@ table.custom-action-clickable-table tr:hover td{
 table tr.selected {
     color: #fff !important;
   }
+
+
+.scroll-fix{
+  // --scrollbar-track-color: #fff !important;
+  --scrollbar-thumb-color: rgb(200, 200, 200) !important;
+  // --scrollbar-padding: 0px;
+  // --scrollbar-size: 10px;
+  
+  }
+  
+::ng-deep .scroll-fix scrollbar-y.scrollbar-control {
+  top: 68px !important;
+}
+::ng-deep .scroll-fix scrollbar-x.scrollbar-control {
+  left: 10px !important;
+}
+
+// .custom-scrollbar {
+//   height: 63vh;
+//   overflow: scroll;
+//   -webkit-overflow-scrolling: touch;
+  
+//   }
+//   .custom-scrollbar::-webkit-scrollbar-padding{
+//     padding: 10px;
+//   }
+  
+//   .custom-scrollbar::-webkit-scrollbar {
+//       width: 8px;
+//       -webkit-overflow-scrolling: touch;
+//   }
+  
+//   .custom-scrollbar::-webkit-scrollbar-thumb {
+//       background: rgb(216, 215, 215);
+//       border-radius: 10px;
+//   }

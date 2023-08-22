@@ -313,7 +313,7 @@ export class EventLogComponent implements OnInit {
   }
 
   exportRange(){
-    this.global.Print(`FileName:singleExport|sDate:${this.startDate}|eDate:${this.endDate}|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`);
+    this.global.OpenExportModal("Single Range",`FileName:singleExport|sDate:${this.startDate}|eDate:${this.endDate}|message:${this.message}|eLocation:${this.eventLocation}|nStamp:${this.message}`);
   }
 
   @HostListener('document:keyup', ['$event'])
