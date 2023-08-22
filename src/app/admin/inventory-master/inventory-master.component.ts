@@ -27,6 +27,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { CurrentTabDataService } from './current-tab-data-service';
 
 
 
@@ -55,7 +56,14 @@ export class InventoryMasterComponent implements OnInit {
   }
   public currentPageItemNo: any = '';
   searchList: any;
-  searchValue: any = '';
+  private _searchValue: any = '';
+  get searchValue(): any {
+    return this._searchValue;
+  }
+  set searchValue(value: any) {
+    this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY] = value;
+    this._searchValue = value;
+  }
   isDataFound = false;
   isDataFoundCounter = 0;
   saveDisabled = true;
@@ -92,6 +100,7 @@ export class InventoryMasterComponent implements OnInit {
     private route: ActivatedRoute,
     private confirmationGuard: ConfirmationGuard,
     private sharedService: SharedService,
+    private currentTabDataService: CurrentTabDataService
     // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
   ) {
   }
@@ -440,9 +449,14 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.api.GetInventory(paylaod).subscribe((res: any) => {
-
+      
       if (currentPageItemNumber == '') {
         currentPageItemNumber = res.data?.firstItemNumber;
+      }
+      if (this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY])
+      {
+        currentPageItemNumber = this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY];
+        this.currentPageItemNo = currentPageItemNumber;
       }
       this.searchValue = currentPageItemNumber;
       this.paginationData = {
@@ -457,7 +471,7 @@ export class InventoryMasterComponent implements OnInit {
       //this.getInvMasterLocations('024768000010');
     });
   }
-
+  
   async getInvMasterDetail(itemNum: any): Promise<void> {
     let paylaod = {
       "itemNumber": itemNum,
@@ -669,6 +683,7 @@ export class InventoryMasterComponent implements OnInit {
               timeOut: 2000
             });
             this.currentPageItemNo = itemNumber;
+            this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY] = undefined;
             this.getInventory();
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
@@ -732,6 +747,7 @@ export class InventoryMasterComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
+            this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY] = undefined;
             this.getInventory();
           } else {
             this.toastr.error('Delete failed!  Item exists in Inventory Map.  Please deallocate item from Inventory Map location(s) before deleting.', 'Error!', {

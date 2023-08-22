@@ -111,3 +111,10 @@ table.custom-action-clickable-table tr:hover td{
   color: #fff !important;
   border: none;
 }
+.scroll-color{
+  --scrollbar-track-color: #fff !important;
+  // --scrollbar-thumb-color: rgb(200, 200, 200) !important;
+  --scrollbar-padding: 0px;
+  // --scrollbar-size: 10px;
+  
+  }

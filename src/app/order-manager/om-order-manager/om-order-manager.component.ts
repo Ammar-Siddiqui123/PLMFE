@@ -28,6 +28,7 @@ import { catchError, of } from 'rxjs';
   styleUrls: ['./om-order-manager.component.scss']
 })
 export class OmOrderManagerComponent implements OnInit {
+  omPreferences:any;
   
   public userData: any;
   OMIndex: any;
@@ -126,6 +127,7 @@ export class OmOrderManagerComponent implements OnInit {
               public authService      : AuthService,
               public globalService    : GlobalService,
               private filterService   : ContextMenuFiltersService,
+              private global:GlobalService,
               private router: Router) { }
 
   @ViewChild('btnRef') buttonRef: MatButton;
@@ -148,6 +150,7 @@ export class OmOrderManagerComponent implements OnInit {
     this.getOMIndex();
  
     this.fillTable();
+    this.omPreferences=this.global.getOmPreferences();
   }  
 
   getOMIndex() { 
@@ -584,7 +587,15 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   printViewed(){
-   this.globalService.Print(`FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`);
+    this.omPreferences=this.global.getOmPreferences();
+
+    if(this.omPreferences.printDirectly){
+      this.globalService.Print(`FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`);
+
+    }else{
+      window.open(`/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+    }
     // window.location.href = `/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`;
     // window.location.reload();
   }

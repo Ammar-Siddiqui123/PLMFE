@@ -22,6 +22,7 @@ import { GlobalService } from 'src/app/common/services/global.service';
 export class CmConfirmAndPackingComponent implements OnInit {
   @ViewChild('order_focus') order_focus: ElementRef;
   orderNumber:any ;
+  preferencesData:any;
   toteTable:any;
   ItemNumber:any;
   transTable:any;
@@ -77,7 +78,14 @@ displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transacti
    this.Api.SelContIDConfirmPack(obj).subscribe((res:any) => { 
     if(res.data == ''){
       this.toast.error("An error has occurred",'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});
-    }else this.contID = res.data;
+    }else{
+      this.getPreferences();
+      if(this.preferencesData && this.preferencesData.autoPrintContPL){
+        this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+      }
+      this.contID = res.data;
+
+    }
    });
 }
 
@@ -94,7 +102,24 @@ async UnPack(id:any){
   });
  
 }
+getPreferences() {
+  let payload = {
+    type: '',
+    value: '',
+    username: this.userData.userName,
+    wsid: this.userData.wsid,
+  };
+
+  this.Api
+    .ConsoleDataSB(payload)
+    .subscribe((res) => {
+      if (res.isExecuted) {
+        this.preferencesData = res.data.cmPreferences;
  
+      }
+      
+    });
+}
  
 ConfirmAndPackingIndex(){ 
 
@@ -125,6 +150,7 @@ if(this.orderNumber != ""){
 }
 }
 async ClickConfirmAll(){
+  this.getPreferences();
   let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
     height: 'auto',
     width: '560px',
@@ -147,6 +173,22 @@ async ClickConfirmAll(){
     if (res.data == "Fail") {
       this.toast.error('An error has occurred', 'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000}); 
   } else { 
+
+   
+    
+    if(this.preferencesData && this.preferencesData.autoPrintContLabel){
+      this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+      
+    }
+    if(this.preferencesData && this.preferencesData.autoPrintContPL){
+      this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+      
+    }
+    if(this.preferencesData && this.preferencesData.autoPrintOrderPL){
+      this.global.Print(`FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
+      
+    }
+
     this.ConfirmAndPackingIndex(); 
     }
   });
@@ -273,12 +315,26 @@ if(searchCount == 0){
     //show modal here
   this.openScanItem($event.target.value,id);  
 } else {  
+  this.getPreferences();
   var index =  this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
   this.transTable.filteredData[index].containerID = this.contID;
   this.transTable.filteredData[index].complete = true; 
     if (this.OldtransTable.filteredData.length == 1) {
         // this.ConfirmedPacked();
     };
+    if(this.preferencesData && this.preferencesData.autoPrintContLabel){
+      this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+    
+    }
+    if(this.preferencesData && this.preferencesData.autoPrintContPL){
+      this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+    
+    }
+    if(this.preferencesData && this.preferencesData.autoPrintOrderPL){
+      this.global.Print(`FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
+    
+    }
+
 };
  });
   }else {
@@ -313,7 +369,9 @@ print(type:any){
   }
   else{
     this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`);
-    this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`,'lbl');
+    setTimeout(()=>{
+      this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`,'lbl');
+    }, 500);
     // window.location.href = `/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
     // window.location.href = `/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
     // window.location.reload();

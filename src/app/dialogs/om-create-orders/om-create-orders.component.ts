@@ -29,6 +29,7 @@ import { GlobalService } from 'src/app/common/services/global.service';
   styleUrls: ['./om-create-orders.component.scss']
 })
 export class OmCreateOrdersComponent implements OnInit {
+  omPreferences:any;
   @ViewChild('ord_focus') ord_focus: ElementRef;
   displayedColumns: any[] = [
     // 'transactionType',
@@ -152,6 +153,7 @@ export class OmCreateOrdersComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getColumnSequence();
+    this.omPreferences=this.global.getOmPreferences();
   }
 
   openOmAddRecord() {
@@ -326,8 +328,17 @@ export class OmCreateOrdersComponent implements OnInit {
 
   printViewed() {
     // this.dialogRef.close();
+    this.omPreferences=this.global.getOmPreferences();
     let tabIDs = this.tableData.filteredData?.length > 0 ? this.tableData.filteredData.map((x:any) => x.id).toString() : '';
-    this.global.Print(`FileName:PrintReleaseOrders|tabIDs:${tabIDs}|View:|Table:|Page:${'Create Orders'}|WSID:${this.userData.wsid}`);
+
+    if(this.omPreferences.printDirectly){
+      this.global.Print(`FileName:PrintReleaseOrders|tabIDs:${tabIDs}|View:|Table:|Page:${'Create Orders'}|WSID:${this.userData.wsid}`);
+
+    }else{
+      window.open(`/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:${tabIDs}|View:|Table:|Page:${'Create Orders'}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+    }
+
   }
 
   deleteViewed() {

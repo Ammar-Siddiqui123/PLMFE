@@ -27,7 +27,6 @@ import { ReelTransactionsComponent } from 'src/app/dialogs/reel-transactions/ree
 import { event } from 'jquery';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { GlobalService } from 'src/app/common/services/global.service';
-import { PaPrintLabelConfirmationComponent } from 'src/app/dialogs/pa-print-label-confirmation/pa-print-label-confirmation.component';
 
 
 export interface PeriodicElement {
@@ -212,7 +211,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.dataSource = [];
     this.assignedZonesArray.length=0;   // after deleting zones array reset to select zones 
     this.batchId2 = "";
-    this.dataSource2 = new MatTableDataSource<any>([]);;
+    this.dataSource2 = new MatTableDataSource<any>([]);
     this.inputValue = "";
     this.nextPos = "";
     this.nextPutLoc = "";
@@ -221,21 +220,19 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.tote = "";
   }
   print(tote){
-    if(this.imPreferences.printDirectly){
-      this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:${tote}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|ID:-1`)
-    }else{
-      window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${tote}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|ID:-1`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-    }
+      this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:${tote}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`,'lbl')
+    // window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${tote}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`, '_blank', "location=yes");
+    // this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:${tote}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`,'lbl','lbl');
  
   }
   printToteLoc(){
     if(this.imPreferences.printDirectly){
 
-      this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:${this.toteID}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|ID:-1`,'lbl')
+      this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:${this.toteID}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`,'lbl')
 
     }else{
 
-      window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${this.toteID}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|ID:-1`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${this.toteID}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
 
     }
 
@@ -244,12 +241,10 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
   printTotePut(){
     this.clearMatSelectList();
-
-    if(this.imPreferences.printDirectly){
       this.global.Print(`FileName:PrintOffCarList|BatchID:${this.batchId}`)
-    }else{
-      window.open(`/#/report-view?file=FileName:PrintOffCarList|BatchID:${this.batchId}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-    }
+    // window.open(`/#/report-view?file=IMOCPut-lst`, '_blank', "location=yes");
+    // window.open(`/#/report-view?file=FileName:PrintOffCarList|BatchID:${this.batchId}`, '_blank', "location=yes");
+     this.global.Print(`FileName:PrintOffCarList|BatchID:${this.batchId}`);
   }
   getCurrentToteID() {
     this.Api.NextTote().subscribe(
@@ -426,7 +421,7 @@ export class ProcessPutAwaysComponent implements OnInit {
                 height: 'auto',
                 width: '50vw',
                 autoFocus: '__non_existing_element__',
-      disableClose:true,
+                 disableClose:true,
                 data: {
                   message: "This Batch ID either does not exists or is assigned to a different workstation.Use the Tote Setup tab to create a new batch or choose an existing batch for this workstation.",
                   heading: 'Invalid Batch ID'
@@ -562,13 +557,6 @@ export class ProcessPutAwaysComponent implements OnInit {
               this.Api.ProcessBatch(payLoad).subscribe(
                 (res: any) => {
                   if (res.data && res.isExecuted) {
-                    if(this.imPreferences.autoPrintPutAwayToteLabels){
-                      if(this.imPreferences.printDirectly){
-                        this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:-1|ZoneLabel:|TransType:Put Away|ID:-1|BatchID:${this.batchId}`)
-                      }else{
-                        window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:-1|ZoneLabel:|TransType:Put Away|ID:-1|BatchID:${this.batchId}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-                      }
-                    }
                     this.toastr.success(res.responseMessage, 'Success!', {
                       positionClass: 'toast-bottom-right',
                       timeOut: 2000,
@@ -582,7 +570,7 @@ export class ProcessPutAwaysComponent implements OnInit {
                     }, 500);
                     this.fillToteTable(this.batchId);
                   } else {
-                    this.toastr.error('An error occurred while creating or updating the batch.', 'Error!', {
+                    this.toastr.error('Something went wrong', 'Error!', {
                       positionClass: 'toast-bottom-right',
                       timeOut: 2000,
                     });
@@ -1217,6 +1205,8 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.Api.CompleteBatch(payLoad).subscribe(
               (res: any) => {
                 if (res.isExecuted) {
+
+
                   if(this.imPreferences.autoPrintOffCarouselPutAwayList){
                     if(this.imPreferences.printDirectly){
                       this.global.Print(`FileName:PrintOffCarList|batchID:${this.batchId2}`);
@@ -1224,13 +1214,15 @@ export class ProcessPutAwaysComponent implements OnInit {
                     else{
                       window.open(`/#/report-view?file=FileName:PrintOffCarList|batchID:${this.batchId2}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
                     }
+                    this.clearFormAndTable();
                   }
-                  else{
+                  else if(!this.imPreferences.autoPrintOffCarouselPutAwayList) {
+
                     let dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
                       height: 'auto',
                       width: '560px',
                       autoFocus: '__non_existing_element__',
-                  disableClose:true,
+                      disableClose:true,
                       data: {
                         message: 'Click OK to print an Off-Carousel Put Away List.',
                       },
@@ -1238,16 +1230,17 @@ export class ProcessPutAwaysComponent implements OnInit {
             
                     dialogRef2.afterClosed().subscribe((result) => {
                       if (result == 'Yes') {
-                        
+  
                           if(this.imPreferences.printDirectly){
                             this.global.Print(`FileName:PrintOffCarList|batchID:${this.batchId2}`);
                           }
                           else{
                             window.open(`/#/report-view?file=FileName:PrintOffCarList|batchID:${this.batchId2}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
                           }
-                         
-                        
-  
+                          this.clearFormAndTable();
+
+                        // this.global.Print(`FileName:PrintOffCarList|batchID:${this.batchId2}`);
+                        // this.clearFormAndTable();
                       }else{
                         this.toastr.success(
                           'Batch Completed Successfully',
@@ -1264,11 +1257,10 @@ export class ProcessPutAwaysComponent implements OnInit {
                           
                         }, 100);
                       }
-                    });          
-                   
+                    });   
                   }
-
-        
+                        
+                 
                 
                   // this.getRow(this.batchId);
                 } else {
