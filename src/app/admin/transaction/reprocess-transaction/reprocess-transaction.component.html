@@ -168,8 +168,8 @@
     
                     <div class="card br-14 table-responsive my-3">
                         <!-- <ng-scrollbar style="height: 200px;"></ng-scrollbar> -->
-                        <ng-scrollbar style="height:600px" track="all" class="mat-table-scrollbar">
-    
+                        <ng-scrollbar style="height:600px" track="all" appearance="compact" visibility="always" pointerEventsMethod="scrollbar" class="mat-table-scrollbar scroll-fix">
+<!-- <div class="custom-scrollbar"> -->
                             <table mat-table class="custom-table table-fix custom-action-clickable-table" #table [dataSource]="dataSource" matSort
                                 (matSortChange)="sortChange($event)">
 
@@ -178,7 +178,7 @@
     
                                     <th class="header" mat-header-cell *cdkHeaderCellDef mat-sort-header
                                         (sortActionDescription)="indexOfelement"
-                                        style="width:auto; padding: 5px 18px; border-bottom: 1px solid var(--clr-tertiary-50);">
+                                        style="width:auto; padding: 5px 12px; border-bottom: 1px solid var(--clr-tertiary-50);">
                                         {{ col.colDef }}
     
                                     </th>
@@ -201,6 +201,7 @@
                                 <!-- <mat-row [style.color]="rowClicked == row.id ? 'white' :''" [style.border-radius]="rowClicked == row.id ? '8px' :''"  [class.mx-2] = "rowClicked == row.id"   *matRowDef="let row; columns: columnValues;" (click)="getTransaction(row);changeTableRowColor(row.id);getTransactionInfo(false)" [style.background-color]="rowClicked == row.id ? 'var(--clr-primary-300)' :'white'"></mat-row> -->
 
                             </table>
+                        <!-- </div> -->
                         </ng-scrollbar>
                     </div>
                     <div class="table-pagination d-flex justify-content-start" *ngIf="columnValues.length>0 && displayedColumns && dataSource">

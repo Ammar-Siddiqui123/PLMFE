@@ -6,8 +6,8 @@
 </button>
 </div>
 <form [formGroup]="addInvMapLocation" (ngSubmit)="onSubmit(addInvMapLocation)" mat-dialog-content>
-    <ng-scrollbar style="height:65vh" [track]="itemNumberScroll">
-        <div class="row mb-3">
+    <ng-scrollbar class="scroll-color" style="height:65vh" [track]="itemNumberScroll">
+        <div class="row mb-3 mx-1">
             <div class="col-xl-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-xl-0 ">
                     <div class="container location_detail px-md-3">
                         <!-- <ng-scrollbar style="height: 500px"> -->
@@ -24,7 +24,7 @@
                                     <mat-label>Location Name</mat-label>
                                     <!--   #location_name  -->
                                     <input placeholder="Location Name" aria-label="Location Name" matInput maxlength="50"
-                                        formControlName="location" [matAutocomplete]="auto">
+                                        formControlName="location" [matAutocomplete]="auto" (focus)="focusinmethod()" (focusout)="focusoutmethod()">
                                     <mat-autocomplete class="br-14" style="padding-bottom: 16px; padding-top: 16px;" autoActiveFirstOption #auto="matAutocomplete"
                                         (optionSelected)="loadZones($event)">
     
@@ -241,19 +241,20 @@
                 <div class="container item_detail px-md-3">
                     <h1 mat-dialog-title>Assigned Item Details</h1>
                     <div class="row">
-                        <div class="col-xl-6 col-md-12 mb-2">
+                        <div class="col-xl-12 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100" appearance="outline" >
                                 <mat-label>{{fieldNames?.itemNumber}}</mat-label>
                                 <input  maxlength="50"  aria-label="Item Number" matInput (focus)="focusinmethod()" (focusout)="focusoutmethod()"
                                     formControlName="item" [matAutocomplete]="itemNumAuto" [(ngModel)]="searchItemNumbers" #searchItam (keyup)="searchItemNumber($event,searchItam)">
                                     <button matSuffix *ngIf="searchItemNumbers" class="clear-btn" type="button" (click)="[searchItemNumbers='',clearFields()]"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
-                                <mat-autocomplete  #itemNumAuto="matAutocomplete" [panelWidth]="400" (optionSelected)="loadItemDetails($event.option.value)">
-                                    <h6 class="loc_name"><span>Item Number</span> <span>Description</span></h6>
+                                    <mat-autocomplete class="br-14" style="padding-bottom: 16px; padding-top: 16px;" #itemNumAuto="matAutocomplete" (optionSelected)="loadItemDetails($event.option.value)">
+                                        <h6 class="card-header matAutoCompHeader stickyHeader"> <span style="padding: 0px 25px; border: 0; text-overflow: ellipsis; overflow: hidden; width:30%; white-space: nowrap;">Item Number</span>
+                                            <span style="padding: 0px 25px; border: 0; text-overflow: ellipsis; overflow: hidden; width:70%; white-space: nowrap;">Description</span></h6>
                                     <mat-option *ngFor="let option of itemNumberList"
                                         [value]="option.itemNumber">
-                                        <div class="itemNum" >
-                                            <span>{{option.itemNumber}}</span> <span>{{option.description}}</span>
-                                        </div>
+                                        <div class="loc_option" >
+                                            <span style="padding: 10px 12px; border: 0; text-overflow: ellipsis; overflow: hidden; width:30%; white-space: nowrap;">{{option.itemNumber}}</span> <span style="padding: 10px 12px; border: 0; text-overflow: ellipsis; overflow: hidden; width:70%; white-space: nowrap;" >{{option.description}}</span>
+                                            </div>
                                     </mat-option>
                                 </mat-autocomplete>
                             </mat-form-field>
@@ -307,13 +308,13 @@
                         </div>
                     </div>
                     <div class="row">
-                         <div class="col-xl-4 col-md-12">
+                         <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Put Away Date</mat-label>
                                 <input matInput type="text" formControlName="putAwayDate" name="putAwayDate">
                             </mat-form-field>
                         </div>
-                        <div class="col-xl-4 col-md-12">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Serial Number</mat-label>
                                 <input type="text" matInput  formControlName="serialNumber" name="serialNumber">
@@ -321,13 +322,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-4 col-md-12">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100" appearance="outline">
                                 <mat-label>Lot Number</mat-label>
                                 <input matInput formControlName="lotNumber" name="lotNumber">
                             </mat-form-field>
                         </div>
-                        <div class="col-xl-4 col-md-12">
+                        <div class="col-xl-6 col-md-12 mb-2">
                             <mat-form-field class="d-block w-100 " appearance="outline">
                                 <mat-label>Revision</mat-label>
                                 <input matInput formControlName="revision" name="revision">
