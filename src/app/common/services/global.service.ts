@@ -212,7 +212,7 @@ export class GlobalService {
         })
       }
       OpenExportModal(Name:any = null,ReportName) {
-        ReportName = ReportName.replace(".lst","").replace(".lbl","");
+        ReportName = ReportName.replace(".lst","-lst").replace(".lbl","-lbl");
         Name = Name.replace(".lst","").replace(".lbl","");
         const dialogRef = this.dialog.open(BrChooseReportTypeComponent, {
           height: 'auto',
@@ -223,7 +223,7 @@ export class GlobalService {
         }); 
         dialogRef.afterClosed().subscribe((result) => {
           if (result.FileName != null) {
-            this.Export(ReportName,result.Type,Name);
+            this.Export(ReportName,result.Type,result.FileName);
           }
         });
       
