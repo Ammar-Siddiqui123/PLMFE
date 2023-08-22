@@ -8,7 +8,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router,RoutesRecognized } from '@angular/router';
+import { ActivatedRoute, Router,RoutesRecognized } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { Subject } from 'rxjs/internal/Subject';
@@ -32,6 +32,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { RouteHistoryService } from 'src/app/services/route-history.service';
 import { PrintRangeComponent } from '../dialogs/print-range/print-range.component';
 import { GlobalService } from 'src/app/common/services/global.service';
+import { CurrentTabDataService } from '../inventory-master/current-tab-data-service';
 
 
 const INVMAP_DATA = [
@@ -216,7 +217,9 @@ export class InventoryMapComponent implements OnInit {
     private loader: SpinnerService,
     private _liveAnnouncer: LiveAnnouncer,
     private filterService:ContextMenuFiltersService,
-    private routeHistoryService: RouteHistoryService
+    private routeHistoryService: RouteHistoryService,
+    private currentTabDataService: CurrentTabDataService,
+    private route: ActivatedRoute
   ) {
     this.previousUrl = this.routeHistoryService.getPreviousUrl();
  
@@ -226,6 +229,13 @@ export class InventoryMapComponent implements OnInit {
       this.columnSearch.searchColumn = {
         colDef: this.router.getCurrentNavigation()?.extras?.state?.['colDef'],
         colHeader: this.router.getCurrentNavigation()?.extras?.state?.['colHeader']
+      }
+    }
+    else {
+      
+      if (this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY_MAP])
+      {
+          this.ApplySavedItem();
       }
     }
  
@@ -269,7 +279,7 @@ export class InventoryMapComponent implements OnInit {
 
     this.OSFieldFilterNames();
     this.initializeApi();
-    this.getColumnsData();
+    this.getColumnsData(true);
 
    //  this.getContentData();
 
@@ -290,10 +300,9 @@ export class InventoryMapComponent implements OnInit {
       this.myroute = true
 
     }
-
+    //if (this.currentTabDataService.savedItem['inventory-map'])
+     // this.dataSource = this.currentTabDataService.savedItem['inventory-map'];
   //  this.routeFromIM=JSON.parse(this.setStorage)
-
-    
     }
   pageEvent: PageEvent;
 
@@ -338,7 +347,7 @@ export class InventoryMapComponent implements OnInit {
      "filter": this.FilterString
    }
   }
-  getColumnsData(){
+  getColumnsData(isInit: boolean=false) {
     let payload = {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
@@ -351,7 +360,7 @@ export class InventoryMapComponent implements OnInit {
         this.columnValues =  res.data;
 
         this.columnValues.push('actions');
-        this.getContentData();
+        this.getContentData(isInit);
       } else {
         this.toastr.error('Something went wrong', 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -360,8 +369,21 @@ export class InventoryMapComponent implements OnInit {
       }
     });
   }
-
-  getContentData(){
+  ApplySavedItem() {
+    if(this.router.getCurrentNavigation()?.extras?.state?.['searchValue'] ) return;
+    
+    this.dataSource = this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY_MAP].dataSource;
+    this.columnSearch = this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY_MAP].columnSearch;
+    this.filterLoc= this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY_MAP].filterLoc;
+  }
+  RecordSavedItem() {
+    this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY_MAP]= {
+      dataSource: this.dataSource,
+      columnSearch: this.columnSearch,
+      filterLoc: this.filterLoc
+    };
+  }
+  getContentData(isInit: boolean = false){
     // debugger
     this.Api.getInventoryMap(this.payload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
       // console.log(res.data);
@@ -371,9 +393,12 @@ export class InventoryMapComponent implements OnInit {
        
       this.detailDataInventoryMap= res.data?.inventoryMaps;
       this.dataSource = new MatTableDataSource(res.data?.inventoryMaps);
-    //  this.dataSource.paginator = this.paginator;
-      this.customPagination.total = res.data?.recordsFiltered;
+  //  this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.RecordSavedItem();
+    
+      this.customPagination.total = res.data?.recordsFiltered;
+
     });
   }
 
@@ -664,7 +689,7 @@ export class InventoryMapComponent implements OnInit {
     this.Api.getSearchData(searchPayload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
       if(res.data){
         this.searchAutocompleteList = res.data;
-      }
+        }
 
     });
   }
