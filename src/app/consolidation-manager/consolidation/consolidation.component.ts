@@ -23,6 +23,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatOption } from '@angular/material/core';
 import { GlobalService } from 'src/app/common/services/global.service';
+import { CurrentTabDataService } from 'src/app/admin/inventory-master/current-tab-data-service';
 
 @Component({
   selector: 'app-consolidation',
@@ -98,6 +99,7 @@ export class ConsolidationComponent implements OnInit {
     private Api: ApiFuntions,
     private global:GlobalService,
     public authService: AuthService,
+    private currentTabDataService: CurrentTabDataService,
     private _liveAnnouncer: LiveAnnouncer,) { }
 
   ngOnInit(): void {
@@ -114,6 +116,41 @@ export class ConsolidationComponent implements OnInit {
 
   ngAfterViewInit() {
     this.searchBoxField.nativeElement.focus();
+    this.ApplySavedItem();
+  }
+
+  
+  ApplySavedItem() {
+    //console.log('ApplySavedItem');
+    if (this.currentTabDataService.savedItem[this.currentTabDataService.CONSOLIDATION])
+    {
+      let item= this.currentTabDataService.savedItem[this.currentTabDataService.CONSOLIDATION];
+      this.open = item.open;
+      this.completed = item.completed;
+      this.backOrder = item.backOrder;
+      this.stageTable = item.stageTable;
+      this.tableData_1 = item.tableData_1;
+      this.tableData_2 = item.tableData_2;
+      this.TypeValue = item.TypeValue;
+      this.dataSource = item.dataSource;
+      //this.changeTranType(item);
+      return true;
+    }
+    return false;
+  }
+  RecordSavedItem() {
+    //console.log('RecordSavedItem');
+    this.currentTabDataService.savedItem[this.currentTabDataService.CONSOLIDATION]= {
+      open : this.open,
+      completed : this.completed,
+      backOrder : this.backOrder,
+      stageTable : this.stageTable,
+      tableData_1 : this.tableData_1,
+      tableData_2 : this.tableData_2,
+      TypeValue : this.TypeValue,
+      dataSource : this.dataSource
+ 
+    }
   }
 
   hideRow = true;
@@ -302,6 +339,8 @@ export class ConsolidationComponent implements OnInit {
           timeOut: 2000
         });
       }
+      
+      this.RecordSavedItem();
     })
   }
 
@@ -502,6 +541,7 @@ export class ConsolidationComponent implements OnInit {
     if (event.keyCode == 13) {
       this.CheckDuplicatesForVerify(this.filterValue);
     }
+    this.RecordSavedItem();
   }
 
   checkVerifyType(columnIndex, val) {
@@ -606,6 +646,8 @@ export class ConsolidationComponent implements OnInit {
       this.displayedColumns_1.shift()
       this.displayedColumns_1.unshift('itemNumber')
     }
+    
+    this.RecordSavedItem();
   }
 
   btnEnable() {
@@ -743,6 +785,7 @@ export class ConsolidationComponent implements OnInit {
     this.clearpagedata();
     this.searchBoxField.nativeElement.focus();
     this.disableConButts();
+    this.RecordSavedItem();
   }
 
   openCmOrderNumber() {

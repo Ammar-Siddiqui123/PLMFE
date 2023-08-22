@@ -12,6 +12,8 @@ export class CurrentTabDataService {
     public TRANSACTIONS = "Transactions";
     public TRANSACTIONS_ORDER = "Transactions Order";
     public TRANSACTIONS_ORDER_SELECT = "Transactions Order Select";
+    public CONSOLIDATION = "Consolidation";
+    public ORDER_MANAGER = "Order Manager";
     public ClearAllItems() {
       this.savedItem = [];
     }
@@ -22,7 +24,9 @@ export class CurrentTabDataService {
       this.SetNull(this.INVENTORY_MAP, currentTab);      
       this.SetNull(this.TRANSACTIONS, currentTab);
       this.SetNull(this.TRANSACTIONS_ORDER, currentTab);    
-      this.SetNull(this.TRANSACTIONS_ORDER_SELECT, currentTab);        
+      this.SetNull(this.TRANSACTIONS_ORDER_SELECT, currentTab);     
+      this.SetNull(this.CONSOLIDATION, currentTab);          
+      this.SetNull(this.ORDER_MANAGER, currentTab);      
     }
     public SetNull (currentTab: string, excludeTab: string) {
       // if (currentTab !== excludeTab) {
