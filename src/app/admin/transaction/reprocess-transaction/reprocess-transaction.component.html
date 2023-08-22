@@ -131,7 +131,6 @@
                                 <mat-label>Action</mat-label>
                                 <mat-select [(value)]="selectedVariable" class="employees-action"
                                     (openedChange)="actionDialog($event)">
-                                    <mat-option value="pagesNumber">Preview 50 Pages Only</mat-option>
                                     <mat-option value="set_column_sq">Set Column Sequence</mat-option>
 
                                     <mat-option *ngIf="print" (click)="printPreview('selected')" value="printPreview">Print Preview Selected</mat-option>
