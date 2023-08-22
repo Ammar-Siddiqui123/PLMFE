@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CmShipSplitLineComponent } from '../cm-ship-split-line/cm-ship-split-line.component';
 import { CmShipEditQtyComponent } from '../cm-ship-edit-qty/cm-ship-edit-qty.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-cm-confirm-and-packing-process-transaction',
@@ -17,12 +18,13 @@ displayedColumns: string[] = ['itemNumber', 'lineNumber', 'transactionQuantity',
 confPackProcTable: any = [];
 confPackTransTable: any = [];
 orderNumber: any;
+preferencesData:any;
 itemNumber: any;
 contID: any;
 id:  any;
 userData:any = {};
 IsSelectModal: boolean = false;
-constructor(private dialog: MatDialog,private Api:ApiFuntions,private authService: AuthService,private toast:ToastrService,
+constructor(private dialog: MatDialog,private Api:ApiFuntions,private authService: AuthService,private toast:ToastrService,private global:GlobalService,
   @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<CmConfirmAndPackingProcessTransactionComponent>,) {
   this.userData = this.authService.userData();
   this.confPackTransTable = this.data.confPackTransTable;
@@ -35,6 +37,25 @@ constructor(private dialog: MatDialog,private Api:ApiFuntions,private authServic
 ngOnInit(): void {
   this.ConfPackProc();
 }  
+
+getPreferences() {
+  let payload = {
+    type: '',
+    value: '',
+    username: this.userData.userName,
+    wsid: this.userData.wsid,
+  };
+
+  this.Api
+    .ConsoleDataSB(payload)
+    .subscribe((res) => {
+      if (res.isExecuted) {
+        this.preferencesData = res.data.cmPreferences;
+ 
+      }
+      
+    });
+}
 async ConfPackProc(){
   this.Api.ConfPackProcModal({id:this.id}).subscribe((response:any) => { 
     this.confPackProcTable = response.data;  
@@ -113,6 +134,19 @@ openShipEditQuantity() {
       if (this.confPackTransTable.length == 1) {
         emit = 'ConfirmedPacked';
       };
+
+      if(this.preferencesData && this.preferencesData.autoPrintContLabel){
+        this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+      
+      }
+      if(this.preferencesData && this.preferencesData.autoPrintContPL){
+        this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+      
+      }
+      if(this.preferencesData && this.preferencesData.autoPrintOrderPL){
+        this.global.Print(`FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
+      
+      }
       this.dialogRef.close(emit);
   };
    });
