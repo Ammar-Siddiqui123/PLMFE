@@ -315,7 +315,7 @@
         </div>
 
         <div class="table-pagination d-flex justify-content-start" *ngIf="  displayedColumns && dataSource1">
-            <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 100]" mat-paginator-range-label="customLabel"
+            <mat-paginator [pageSize]="10" showFirstLastButtons [pageSizeOptions]="[10, 20, 100]" mat-paginator-range-label="customLabel"
                 #paginator></mat-paginator>
 
 

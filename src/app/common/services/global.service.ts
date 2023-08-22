@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
-import jsPDF from 'jspdf';
+// import jsPDF from 'jspdf';
 
 @Injectable({
   providedIn: 'root'

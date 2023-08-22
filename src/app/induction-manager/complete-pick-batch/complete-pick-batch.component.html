@@ -148,7 +148,7 @@
                 </ng-scrollbar>
             </div>
             <div class="d-flex justify-content-between bg-white"> 
-                <mat-paginator [length]="totalTransactions" pageSize="10" [hidePageSize]="true" (page)="handlePageEvent($event)"></mat-paginator>
+                <mat-paginator [length]="totalTransactions" showFirstLastButtons pageSize="10" [hidePageSize]="true" (page)="handlePageEvent($event)"></mat-paginator>
             </div>
         </mat-card-content>
     </mat-card>

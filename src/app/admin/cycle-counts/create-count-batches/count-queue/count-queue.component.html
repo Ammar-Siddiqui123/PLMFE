@@ -107,7 +107,7 @@
     <div class="d-flex justify-content-between bg-white mb-3">
       <div class="table-pagination d-flex justify-content-start"
               *ngIf="displayedColumns && dataSource">
-              <mat-paginator [length]="this.customPagination.total" [pageSize]="10" [pageSizeOptions]="[10, 20, 100]"
+              <mat-paginator [length]="this.customPagination.total" [pageSize]="10" showFirstLastButtons [pageSizeOptions]="[10, 20, 100]"
                 (page)="handlePageEvent($event)"></mat-paginator>
 
 
