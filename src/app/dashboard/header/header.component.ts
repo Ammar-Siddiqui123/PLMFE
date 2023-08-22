@@ -75,11 +75,14 @@ statusTab;
 
         let withoutParam = res.split('?')[0]
         let splittedArray = withoutParam.split('/'); 
-
+          if(splittedArray[0]==='FlowrackReplenishment'){
+            splittedArray[0]='FlowrackReplenish'
+          }
         splittedArray.forEach((element,i) => {
          if(element==='createCountBatches' || element==='cycleCounts'){
           element='CycleCount'
          }
+
          if(element==='Flowrack'){
           element='FlowrackReplenishment'
          }

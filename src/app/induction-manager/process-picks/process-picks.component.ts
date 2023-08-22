@@ -59,10 +59,11 @@ export class ProcessPicksComponent implements OnInit {
   onDestroy$: Subject<boolean> = new Subject();
   @ViewChild('batchPickID') batchPickID: TemplateRef<any>;
   @ViewChild('processSetup') processSetup: TemplateRef<any>;
+  @ViewChild('popupBlocked') popupBlocked: TemplateRef<any>;
   @ViewChild('batch_id') batch_id: ElementRef;
   isBatchIdFocus: boolean = false;
   pickBatchesCrossbtn
-
+  imPreferences:any;
   public ifAllowed: boolean = false
   orderInput: any;
   constructor(
@@ -81,6 +82,8 @@ export class ProcessPicksComponent implements OnInit {
     this.getAllZones();
     this.getAllOrders();
     this.isBatchIdFocus = true;
+    this.imPreferences=this.global.getImPreferences();
+
   }
   printExisting(type){
 
@@ -104,24 +107,64 @@ export class ProcessPicksComponent implements OnInit {
     }else{
        
       if(type==='PrintTote'){
-        this.global.Print(`FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`,'lbl');
+        if(this.imPreferences.printDirectly){
+          this.global.Print(`FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`,'lbl')
+  
+        }else{
+          window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+  
+        }
       }
       if(type==='PrintPickLabel'){
-        this.global.Print(`FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`,'lbl');
+
+
+        if(this.imPreferences.printDirectly){
+          this.global.Print(`FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`,'lbl')
+  
+        }else{
+          window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+  
+        }
+
      
       }
       if(type==='PrintPickList'){
-        this.global.Print(`FileName:PrintPrevIMPickBatchList|BatchID:${this.pickBatches.value}`);
+
+        
+        if(this.imPreferences.printDirectly){
+          this.global.Print(`FileName:PrintPrevIMPickBatchList|BatchID:${this.pickBatches.value}`);
+  
+        }else{
+          window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchList|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+  
+        }
+
     
       }
       if(type==='PrintCase'){
-        debugger
+
+             
+        if(this.imPreferences.printDirectly){
         this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`,'lbl');
   
+        }else{
+          window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+  
+        }
+
+
       }
       if(type==='PrintBatch'){
 
-        this.global.Print(`IMPickBatch-lst`);
+              
+        if(this.imPreferences.printDirectly){
+          this.global.Print(`FileName:PrintPrevPickBatchList|BatchID:${this.pickBatches.value}`);
+  
+        }else{
+          window.open(`/#/report-view?file=FileName:PrintPrevPickBatchList|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+  
+        }
+
        
       }
     }
@@ -142,7 +185,14 @@ export class ProcessPicksComponent implements OnInit {
       positionList.push(row.position)
       toteList.push(row.toteID)
       orderNumberList.push(row.orderNumber)
-      this.global.Print(`FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`,'lbl');
+
+      if(this.imPreferences.printDirectly){
+        this.global.Print(`FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`,'lbl');
+
+      }else{
+        window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+      }
  
     }
   }
@@ -159,7 +209,14 @@ export class ProcessPicksComponent implements OnInit {
       positionList.push(row.position)
       toteList.push(row.toteID)
       orderNumberList.push(row.orderNumber)
-      this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`,'lbl');
+
+      if(this.imPreferences.printDirectly){
+        this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`,'lbl');
+
+      }else{
+        window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+      }
 
        
 
@@ -177,7 +234,7 @@ export class ProcessPicksComponent implements OnInit {
           ToteList.push(this.dataSource._data?._value[i].toteID)
           OrderList.push(this.dataSource._data?._value[i].orderNumber)
       };
-  };
+    };
 
     this.toteEmpty = this.dataSource?._data?._value.some(element => element.toteID != ""); 
     this.orderEmpty = this.dataSource?._data?._value.some(element => element.orderNumber!= ""); 
@@ -195,6 +252,16 @@ export class ProcessPicksComponent implements OnInit {
         })
       }
       else{
+        if(this.imPreferences.printDirectly){
+          this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`);
+  
+        }else{
+          window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+  
+        }
+
+        //  this.global.Print(`FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`)
+  
         
     this.global.Print(`FileName:PrintPrevIMPickToteLabelButt|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}`,'lbl');
   
@@ -217,6 +284,13 @@ export class ProcessPicksComponent implements OnInit {
           timeOut: 2000
         })
       }else{
+        if(this.imPreferences.printDirectly){
+          this.global.Print(`FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`);
+  
+        }else{
+          window.open(`/#/report-view?file=FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+  
+        }
         
         this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`,'lbl');
       }
@@ -234,7 +308,14 @@ export class ProcessPicksComponent implements OnInit {
           timeOut: 2000
         })
       }else{
-        this.global.Print(`FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`);
+        if(this.imPreferences.printDirectly){
+          this.global.Print(`FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`);
+  
+        }else{
+          window.open(`/#/report-view?file=FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+  
+        }
+        
      
       }
     }
@@ -767,6 +848,28 @@ export class ProcessPicksComponent implements OnInit {
       
   }
 
+  previewWindow(url): Promise<boolean> {
+    return new Promise((resolve,reject) => {
+      let newWindow: Window | null = null;
+      let windowCheckInterval: any = null;
+  
+      newWindow = window.open(`/#/report-view?file=${url}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+      if (!newWindow) { // Check if popup was blocked
+        reject(new Error('Popup was blocked by the browser.'));
+        return; // Exit the function
+      }
+    else  if (newWindow) {
+        windowCheckInterval = setInterval(() => {
+          if (newWindow?.closed) {
+            clearInterval(windowCheckInterval);
+            resolve(newWindow?.closed);
+          }
+        }, 1000); // Check every second
+      }
+    });
+  }
+  
+
   fillNextToteID(i: any) {
     let paylaod = {
       "username": this.userData.userName,
@@ -793,7 +896,15 @@ export class ProcessPicksComponent implements OnInit {
       disableClose:true,
     });
   }
-
+  alertPopUpBlocked() {
+    const dialogRef = this.dialog.open(this.popupBlocked, {
+      width: '450px',
+      height:'auto',
+      minHeight:'auto',
+      autoFocus: '__non_existing_element__',
+      disableClose:true,
+    });
+  }
   onPrcessBatch() {
     if (!this.batchID) {
       this.toastr.error('Please enter in a batch id to proccess.', 'Error!', {
@@ -840,6 +951,7 @@ export class ProcessPicksComponent implements OnInit {
       
       this.Api.InZoneSetupProcess(paylaod).subscribe(res => {
         if (res.isExecuted) {
+          let btId=this.batchID
           this.dialog.closeAll();
           this.TOTE_SETUP.map(obj => {
             obj.toteID = '';
@@ -847,6 +959,14 @@ export class ProcessPicksComponent implements OnInit {
             obj.priority = '';
           });
           this.batchID = '';
+
+
+          
+            //  IN ZONE SETUP PROCESS PRINT CONDITIONS 
+
+            this.InZoneProcessPrintPref(btId);
+
+      
           this.toastr.success(labels.alert.success, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
@@ -872,6 +992,7 @@ export class ProcessPicksComponent implements OnInit {
       }
       this.Api.PickToteSetupProcess(paylaod).subscribe(res => {
         if (res.isExecuted) {
+          let batId=this.batchID
           this.dialog.closeAll();
           this.TOTE_SETUP.map(obj => {
             obj.toteID = '';
@@ -879,10 +1000,18 @@ export class ProcessPicksComponent implements OnInit {
             obj.priority = '';
           });
           this.batchID = '';
+
           this.toastr.success(labels.alert.success, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
+
+          // AUTO PRINT PREFERENCES CONDITIONS ON PICK TOTE SETUP 
+
+
+          this.ProcessPickPrintPref(Positions,ToteIDs,OrderNumbers,batId)
+       
+
         }
         else {
           this.toastr.error(res.responseMessage, 'Error!', {
@@ -896,4 +1025,153 @@ export class ProcessPicksComponent implements OnInit {
 
   }
 
+
+  
+  async ProcessPickPrintPref(Positions,ToteIDs,OrderNumbers,batchId){
+    try {
+      this.imPreferences=this.global.getImPreferences();
+      let isWindowClosed:any=null;
+
+      if(this.imPreferences.autoPrintPickToteLabels){
+
+        if(this.imPreferences.printDirectly){
+              this.global.Print(`FileName:PrintPrevPickToteLabel|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}|BatchID:${batchId}`,'lbl');
+              }else{
+                isWindowClosed =await this.previewWindow(`FileName:PrintPrevPickToteLabel|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}|BatchID:${batchId}`); 
+              }
+              if(this.imPreferences.autoPrintOffCarouselPickList){
+                if(this.imPreferences.printDirectly){
+                  this.global.Print(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`);
+                  }else if(isWindowClosed){
+                    isWindowClosed =await this.previewWindow(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`); 
+                  }
+                }
+               
+      }
+      else if(this.imPreferences.autoPrintOffCarouselPickList){
+        if(this.imPreferences.printDirectly){
+        this.global.Print(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`);
+        }else{
+          isWindowClosed =await this.previewWindow(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`); 
+            //  window.open(`/#/report-view?file=FileName:PrintPrevPickToteLabel|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+        }
+        if(this.imPreferences.autoPrintCaseLabel ){
+          if(this.imPreferences.printDirectly){
+            this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`,'lbl');
+          }
+          else if(isWindowClosed){
+          window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+          }
+        }
+      }
+
+
+    } catch (error) {
+
+      this.alertPopUpBlocked();
+      console.error('Error occurred:', error);
+    }
+  }
+
+  async InZoneProcessPrintPref(batchId){
+    try {
+ 
+      this.imPreferences=this.global.getImPreferences();
+      let isWindowClosed:any=null;
+      if(this.imPreferences.autoPrintPickToteLabels){
+
+        if(this.imPreferences.printDirectly){
+              this.global.Print(`FileName:PrintPrevInZoneBatchToteLabel|BatchID:${batchId}`,'lbl');
+              }else{
+                isWindowClosed =await this.previewWindow(`FileName:PrintPrevInZoneBatchToteLabel|BatchID:${batchId}`); 
+              }
+              if( this.imPreferences.autoPrintOffCarouselPickList){
+                if(this.imPreferences.printDirectly){
+                  this.global.Print(`FileName:PrintPrevIMPickBatchList|BatchID:${batchId}`);
+                  }else if(isWindowClosed){
+                    isWindowClosed =await this.previewWindow(`FileName:PrintPrevIMPickBatchList|BatchID:${batchId}`); 
+                  }
+                }
+                  if( this.imPreferences.autoPrintCaseLabel){
+                    if(this.imPreferences.printDirectly){
+                      this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`,'lbl');
+                      }else if(isWindowClosed){
+                        isWindowClosed =await this.previewWindow(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`); 
+                      }
+                    }
+                      if(this.imPreferences.autoPrintPickBatchList){
+                        if(this.imPreferences.printDirectly){
+                          this.global.Print(`FileName:PrintPrevPickBatchList|BatchAutoPrintPickBatchListID:${batchId}`,'lbl');
+                          }else if(isWindowClosed){
+                            isWindowClosed =await this.previewWindow(`FileName:PrintPrevPickBatchList|BatchAutoPrintPickBatchListID:${batchId}`); 
+                          }
+                        }
+                      
+     
+      }
+    else if(this.imPreferences.autoPrintOffCarouselPickList){
+   
+        if(this.imPreferences.printDirectly){
+          this.global.Print(`FileName:PrintPrevIMPickBatchList|BatchID:${batchId}`);
+          }else{
+            isWindowClosed =await this.previewWindow(`FileName:PrintPrevIMPickBatchList|BatchID:${batchId}`); 
+
+          // window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchList|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+          }
+                if( this.imPreferences.autoPrintCaseLabel){
+                  if(this.imPreferences.printDirectly){
+                    this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`,'lbl');
+                    }else if(isWindowClosed){
+                       isWindowClosed =await this.previewWindow(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`); 
+
+                    // window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                    }
+                }
+
+                if(this.imPreferences.autoPrintPickBatchList){
+                  if(this.imPreferences.printDirectly){
+                    this.global.Print(`FileName:PrintPrevPickBatchList|BatchID:${batchId}`);
+                    }else if(isWindowClosed){
+                      isWindowClosed =await this.previewWindow(`FileName:PrintPrevPickBatchList|BatchID:${batchId}`); 
+
+                    // window.open(`/#/report-view?file=FileName:PrintPrevPickBatchList|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                    }
+                }
+    }
+    else if (this.imPreferences.autoPrintCaseLabel){
+      if(this.imPreferences.printDirectly){
+        this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`,'lbl');
+        }else{
+          isWindowClosed =await this.previewWindow(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`); 
+
+        // window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+        }
+
+        if(this.imPreferences.autoPrintPickBatchList){
+          if(this.imPreferences.printDirectly){
+            this.global.Print(`FileName:PrintPrevPickBatchList|BatchID:${batchId}`);
+            }else if(isWindowClosed){
+          isWindowClosed =await this.previewWindow(`FileName:PrintPrevPickBatchList|BatchID:${batchId}`); 
+
+            // window.open(`/#/report-view?file=FileName:PrintPrevPickBatchList|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+            }
+        }
+
+
+    }
+    else if (this.imPreferences.autoPrintPickBatchList){
+      if(this.imPreferences.printDirectly){
+        this.global.Print(`FileName:PrintPrevPickBatchList|BatchID:${batchId}`);
+        }else{
+        window.open(`/#/report-view?file=FileName:PrintPrevPickBatchList|BatchID:${batchId}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+        }
+    }
+  }catch (error) {
+    this.alertPopUpBlocked();
+    console.error('Error occurred:', error);
+  }
+  }
+  
 }
