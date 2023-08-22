@@ -115,7 +115,7 @@ export class ProcessPicksComponent implements OnInit {
     
       }
       if(type==='PrintCase'){
-
+        debugger
         this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`,'lbl');
   
       }

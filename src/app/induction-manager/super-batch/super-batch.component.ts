@@ -78,6 +78,7 @@ export class SuperBatchComponent implements OnInit {
     this.global.Print(`FileName:PrintSuperBatchOrderLabel|ToteID:${this.printBatchLabels}`,'lbl');
         }
       if(type=='printCaseLabels'){
+        debugger
     this.global.Print(`FileName:PrintPrevInZoneCaseLabelToteID|ToteID:${this.printBatchLabels}`,'lbl');
 
        }
