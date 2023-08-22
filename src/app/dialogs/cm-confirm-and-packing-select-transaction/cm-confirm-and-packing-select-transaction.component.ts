@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import { CmConfirmAndPackingProcessTransactionComponent } from '../cm-confirm-and-packing-process-transaction/cm-confirm-and-packing-process-transaction.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-cm-confirm-and-packing-select-transaction',
@@ -15,6 +16,7 @@ export class CmConfirmAndPackingSelectTransactionComponent implements OnInit {
  itemNumber: any;
  orderNumber: any;
   confPackSelectTable:any[] = [];
+  preferencesData:any;
 
  displayedColumns: string[] = ['sT_ID','itemNumber', 'lineNumber','completedQuantity',   'transactionQuantity']; 
  dataSourceList:any
@@ -22,7 +24,7 @@ export class CmConfirmAndPackingSelectTransactionComponent implements OnInit {
  confPackTransTable:any;
  contID:any;
  id:any;
- constructor(private Api:ApiFuntions,private authService: AuthService,
+ constructor(private Api:ApiFuntions,private authService: AuthService,private global:GlobalService,
   private toast:ToastrService,private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any,
   public dialogRef: MatDialogRef<CmConfirmAndPackingSelectTransactionComponent>,) {
   this.userData = this.authService.userData();
@@ -88,6 +90,21 @@ openScanItem(ItemNumber:any,id: any) {
             // click active 
           };
       }; 
+
+
+
+      if(this.preferencesData && this.preferencesData.autoPrintContLabel){
+        this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+      
+      }
+      if(this.preferencesData && this.preferencesData.autoPrintContPL){
+        this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+      
+      }
+      if(this.preferencesData && this.preferencesData.autoPrintOrderPL){
+        this.global.Print(`FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
+      
+      }
       //remove items from modal table here
       this.dialogRef.close('true');
   
