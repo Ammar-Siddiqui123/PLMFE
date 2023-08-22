@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { Observable, Subscription } from 'rxjs';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { CurrentTabDataService } from '../current-tab-data-service';
 
 @Component({
   selector: 'app-detail',
@@ -38,7 +39,8 @@ export class DetailComponent implements OnInit {
     private router: Router,
     private sharedService:SharedService,
     private authService: AuthService, 
-    private dialog: MatDialog,
+    private dialog: MatDialog,    
+    private currentTabDataService: CurrentTabDataService,
     private toastr: ToastrService,) { }
   
     ngOnChanges(changes: SimpleChanges) {
@@ -97,6 +99,8 @@ export class DetailComponent implements OnInit {
           "wsid": this.userData.wsid
         }
         this.Api.UpdateItemNumber(paylaod).subscribe((res: any) => {
+          this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY] = result;
+
           // console.log(res.data);
           if (res.isExecuted) {
             this.details.patchValue({
