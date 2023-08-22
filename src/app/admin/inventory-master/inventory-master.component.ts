@@ -858,8 +858,7 @@ export class InventoryMasterComponent implements OnInit {
     }
   }
   getSearchList(e: any) {
-
-    this.searchValue = e.currentTarget.value; 
+    this._searchValue = e.currentTarget.value; 
     let paylaod = {
       "stockCode": e.currentTarget.value,
       "username": this.userData.userName,
