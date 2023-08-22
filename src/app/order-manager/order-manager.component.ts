@@ -5,6 +5,7 @@ import { AuthService } from '../init/auth.service';
 import { NavigationEnd, Router, RoutesRecognized } from '@angular/router';
 import { filter, pairwise } from 'rxjs';
 import { ApiFuntions } from '../services/ApiFuntions';
+import { GlobalService } from '../common/services/global.service';
 
 @Component({
   selector: 'app-order-manager',
@@ -26,6 +27,7 @@ export class OrderManagerComponent implements OnInit {
     private Api:ApiFuntions,
     private authService: AuthService,
     private router: Router,
+    private global:GlobalService
   ) {
 
   //   router.events
@@ -69,6 +71,7 @@ export class OrderManagerComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.authService.userData();
     this.getInvDetailsList();
+    this.global.getOmPreferences();
   }
 
   getInvDetailsList() {

@@ -256,7 +256,33 @@ export class GlobalService {
               }
         })
       }
+      
 
+      getOmPreferences(): any{
+        const preferencesString = localStorage.getItem('OmPreference');
+        if(preferencesString){
+          return JSON.parse(preferencesString)
+        }else{
+          this.Api.OrderManagerPreferenceIndex().subscribe((response: any) => {
+            if (response.isExecuted) {
+              localStorage.setItem('OmPreference', JSON.stringify(response.data.preferences[0]));
+              const getOm:any = localStorage.getItem('OmPreference');
+              return JSON.parse(getOm)
+            }
+            })
+        }
+      }
+
+      updateOmPref(){
+        this.Api.OrderManagerPreferenceIndex().subscribe((response: any) => {
+          if (response.isExecuted) {
+            localStorage.setItem('OmPreference', JSON.stringify(response.data.preferences[0]));
+       
+       
+          }
+          })
+      }
+ 
       getImPreferences(){
        return JSON.parse(localStorage.getItem('InductionPreference') || '{}');
       }
