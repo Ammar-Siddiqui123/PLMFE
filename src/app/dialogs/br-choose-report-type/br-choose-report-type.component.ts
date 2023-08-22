@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-br-choose-report-type',
@@ -8,15 +8,26 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class BrChooseReportTypeComponent implements OnInit {
   @ViewChild('exp_file') exp_file: ElementRef;
-  constructor() { }
+  Type:string;
+  ExportFileName:string;
+  constructor(public dialogRef: MatDialogRef<any>,    @Inject(MAT_DIALOG_DATA) public data: any) { 
+    if(data.Name){
+      this.ExportFileName  = data.Name;  
+    }else{
+      this.ExportFileName  = data.ReportName;  
+    }
+  }
 
   ngOnInit(): void {
   }
   ngAfterViewInit(): void {
     this.exp_file.nativeElement.focus();
   }
-}
 
+  ExportSubmit(){
+    this.dialogRef.close({ Type:this.Type,FileName:this.ExportFileName});
+  }
+  }
 
 function BrChooseReportTypeDialogue() {
   throw new Error('Function not implemented.');

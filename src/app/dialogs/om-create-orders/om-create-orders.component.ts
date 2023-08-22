@@ -21,6 +21,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatPaginator } from '@angular/material/paginator';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-om-create-orders',
@@ -143,6 +144,7 @@ export class OmCreateOrdersComponent implements OnInit {
     private router: Router,
     public dialogRef: MatDialogRef<OmCreateOrdersComponent>,
     private Api: ApiFuntions,
+    private global:GlobalService,
     private filterService: ContextMenuFiltersService,
     private _liveAnnouncer: LiveAnnouncer
   ) { }
@@ -325,9 +327,7 @@ export class OmCreateOrdersComponent implements OnInit {
   printViewed() {
     // this.dialogRef.close();
     let tabIDs = this.tableData.filteredData?.length > 0 ? this.tableData.filteredData.map((x:any) => x.id).toString() : '';
-    // window.location.href = `/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:${tabIDs}|View:|Table:|Page:${'Create Orders'}|WSID:${this.userData.wsid}`;
-    // window.location.reload();
-    window.open(`/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:${tabIDs}|View:|Table:|Page:${'Create Orders'}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    this.global.Print(`FileName:PrintReleaseOrders|tabIDs:${tabIDs}|View:|Table:|Page:${'Create Orders'}|WSID:${this.userData.wsid}`);
   }
 
   deleteViewed() {
@@ -386,6 +386,7 @@ export class OmCreateOrdersComponent implements OnInit {
     let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
       height: 'auto',
       width: '960px',
+      disableClose: true,
       data: {
         mode: event,
         tableName: 'Order Manager Create',
@@ -522,4 +523,17 @@ export class OmCreateOrdersComponent implements OnInit {
   ngAfterViewInit(): void {
     this.ord_focus.nativeElement.focus();
   }
+
+  selectRow(row: any) {
+    this.tableData.filteredData.forEach(element => {
+      if(row != element){
+        element.selected = false;
+      }
+    });
+    const selectedRow = this.tableData.filteredData.find((x: any) => x === row);
+    if (selectedRow) {
+      selectedRow.selected = !selectedRow.selected;
+    }
+  }
+
 }

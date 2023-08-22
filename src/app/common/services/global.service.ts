@@ -1,10 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Api } from 'datatables.net-bs5';
+import { ToastrService } from 'ngx-toastr';
+import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
+import { AuthService } from 'src/app/init/auth.service';
+import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { environment } from 'src/environments/environment';
+// import jsPDF from 'jspdf';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalService {
-  
+  userData:any;
   sqlLimits : any = {
     numerics: {
         bigint: {
@@ -37,7 +45,9 @@ export class GlobalService {
     }
   };
 
-  constructor() {}
+  constructor(private Api:ApiFuntions,private toast:ToastrService,private dialog: MatDialog,private authService:AuthService) {
+    this.userData=this.authService.userData();
+  }
 
     // returns the date from JS in format: mm/dd/yyyy hh:mm
     getCurrentDateTime() {
@@ -178,4 +188,107 @@ export class GlobalService {
         else
           return true;
     }
+    Print(ChooseReport,type = "lst"){ 
+     
+        var paylaod:any={
+          ClientCustomData:ChooseReport,
+          repositoryIdOfProject:"BCAEC8B2-9D16-4ACD-94EC-74932157BF82",
+          PrinterReportName:localStorage.getItem("SelectedReportPrinter"),
+          PrinterLabelName:localStorage.getItem("SelectedLabelPrinter"),
+        }
+        this.Api.CommonPrint(paylaod).subscribe((res:any)=>{
+          if(res.isExecuted){
+            this.toast.success("print successfully completed", 'Success!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+              
+          }else{
+            this.toast.error("print unsuccessfully complete", 'Error!', {
+                positionClass: 'toast-bottom-right',
+                timeOut: 2000,
+              });
+          }
+        })
+      }
+      OpenExportModal(Name:any = null,ReportName) {
+        ReportName = ReportName.replace(".lst","").replace(".lbl","");
+        Name = Name.replace(".lst","").replace(".lbl","");
+        const dialogRef = this.dialog.open(BrChooseReportTypeComponent, {
+          height: 'auto',
+          width: '932px',
+          autoFocus: '__non_existing_element__',
+          disableClose:true,
+          data:{ReportName:ReportName,Name:Name}
+        }); 
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result.FileName != null) {
+            this.Export(ReportName,result.Type,Name);
+          }
+        });
+      
+      }
+      Export(ChooseReport:any,Type:any,filename:any){
+        var paylaod:any={
+          ClientCustomData:`${this.capitalizeAndRemoveSpaces(ChooseReport)}`,
+          repositoryIdOfProject:"BCAEC8B2-9D16-4ACD-94EC-74932157BF82",
+          type:Type,
+          FileName:`${this.capitalizeAndRemoveSpaces(filename)}`
+        }
+        this.Api.CommonExport(paylaod).subscribe((res:any)=>{
+            if(res.isExecuted){
+                this.toast.success("Export successfully completed", 'Success!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000,
+                  });  
+                  
+                  // ${environment.apiUrl.replace("/api","")}
+                   document.getElementById('CurrentDownload')?.setAttribute("href",`${environment.apiUrl.replace("/api","")}/pdf/`+res.data.fileName);
+                   document.getElementById('CurrentDownload')?.click();
+                   
+                     
+                  
+              }else{
+                this.toast.error("Export unsuccessfully complete", 'Error!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000,
+                  });
+              }
+        })
+      }
+
+      getImPreferences(){
+       return JSON.parse(localStorage.getItem('InductionPreference') || '{}');
+      }
+
+      updateImPreferences(){
+        let paylaod = {
+          "username": this.userData.userName,
+          "wsid": this.userData.wsid,
+        }
+        this.Api.PickToteSetupIndex(paylaod).subscribe(res => {
+          localStorage.setItem('InductionPreference', JSON.stringify(res.data.imPreference));
+    
+    
+        });
+      }
+      setImPreferences(response){
+        const imPref = localStorage.getItem('InductionPreference');
+
+        if (imPref) {
+          const data = JSON.parse(imPref); // Assuming storedData is the object a
+          
+        
+          // Loop through properties of b and update values in a if they exist
+          for (const prop in response) {
+            if (response.hasOwnProperty(prop) && data.hasOwnProperty(prop)) {
+              console.log(prop)
+              data[prop] = response[prop];
+            }
+          }
+        
+          // Store the updated object a back in localStorage
+          localStorage.setItem('inductionPreference', JSON.stringify(data));
+        }
+      }
 }

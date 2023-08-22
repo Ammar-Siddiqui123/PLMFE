@@ -40,6 +40,7 @@ export class WrvFrontendComponent implements OnInit {
     this.ListAndLabel.nativeElement.insertAdjacentHTML('beforeend', dynamicHtml);
   }
   ngOnDestroy(){ 
+    alert('123213')
     this.sharedService.SideBarMenu.next(true);
     this.sharedService.updateLoadMenuFunction({route:localStorage?.getItem('reportNav'),isBackFromReport:true})
     window.location.reload();

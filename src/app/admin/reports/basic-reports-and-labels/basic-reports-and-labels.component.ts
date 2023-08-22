@@ -8,7 +8,7 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { GlobalService } from 'src/app/common/services/global.service';
 import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
 import { AuthService } from 'src/app/init/auth.service';
-import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { ApiFuntions } from 'src/app/services/ApiFuntions'; 
 
 @Component({
   selector: 'app-basic-reports-and-labels',
@@ -42,7 +42,8 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     currentApp
 
       
-  constructor(private dialog: MatDialog,private api:ApiFuntions,private authService:AuthService,private route:Router,private global:GlobalService) { 
+  constructor(private dialog: MatDialog,private api:ApiFuntions,private authService:AuthService,private route:Router,public global:GlobalService) {
+     
     this.userData = this.authService.userData(); 
     this.route.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -68,7 +69,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
   ngOnInit(): void {
     this.BasicReportModel.ChooseReport = "";
     this.Getcustomreports();
-
+    
   }
   clearMatSelectList(){
     this.matRef.options.forEach((data: MatOption) => data.deselect());
@@ -199,15 +200,7 @@ ReportTitles(){
        
      })
    } 
-  BrChooseReportTypeDialogue() {
-    const dialogRef = this.dialog.open(BrChooseReportTypeComponent, {
-      height: 'auto',
-      width: '932px',
-      autoFocus: '__non_existing_element__',
-      disableClose:true,
-    });
-  
-  }
+ 
   OpenListAndLabel(){ 
     window.open(`/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
     // window.location.href = `/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`;
@@ -223,5 +216,7 @@ Remove(index){
 }
 
 
-  
+
+
+
 }

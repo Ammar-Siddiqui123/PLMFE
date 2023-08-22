@@ -423,7 +423,7 @@
           <div class="col-xl-5">
             <div class="table-pagination d-flex justify-content-start"
               *ngIf=" columnValues && columnValues.length>0 && displayedColumns && dataSource">
-              <mat-paginator [length]="this.customPagination.total" [pageSize]="20" [pageSizeOptions]="[10, 20, 100]"
+              <mat-paginator [length]="this.customPagination.total" [pageSize]="20" showFirstLastButtons [pageSizeOptions]="[10, 20, 100]"
                 (page)="handlePageEvent($event)"></mat-paginator>
 
 

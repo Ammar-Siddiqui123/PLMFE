@@ -6,6 +6,7 @@ import { of, from } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http'; 
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { CurrentTabDataService } from 'src/app/admin/inventory-master/current-tab-data-service';
 
 @Component({
   selector: 'app-side-nav',
@@ -121,6 +122,7 @@ export class SideNavComponent implements OnInit {
               private router: Router,
               private authService: AuthService,
               private sharedService:SharedService, 
+              private currentTabDataService:CurrentTabDataService,
               private Api:ApiFuntions) { 
                 this.sharedService.sideMenuHideObserver.subscribe(menu => {
                   this.isMenuHide = menu;   
@@ -341,6 +343,7 @@ redirect(){
 
     if(menu.route!='')
     { 
+        this.currentTabDataService.ClearItemsExceptCurrentTab(menu.title);
         // if(menu.route.includes('/FlowrackReplenishment')){
         //   this.adminMenus[0].route = '/FlowrackReplenishment';
         //   this.dynamicMenu = this.menus;

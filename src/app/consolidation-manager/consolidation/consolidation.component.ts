@@ -22,6 +22,7 @@ import { CmOrderToteConflictComponent } from 'src/app/dialogs/cm-order-tote-conf
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatOption } from '@angular/material/core';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-consolidation',
@@ -82,19 +83,20 @@ export class ConsolidationComponent implements OnInit {
   tableData_2 = new MatTableDataSource<any>([]);
 
   filterOption: any = [
-    { key: '1', value: 'Item Number' },
-    { key: '2', value: 'Supplier Item ID' },
-    { key: '10', value: 'Lot Number' },
-    { key: '8', value: 'Serial Number' },
-    { key: '9', value: 'User Field 1' },
     { key: '0', value: 'Any Code' },
+    { key: '1', value: 'Item Number' },
+    { key: '10', value: 'Lot Number' },
+    { key: '2', value: 'Supplier Item ID' },
+    { key: '8', value: 'Serial Number' },
     { key: '6', value: 'Tote ID' },
+    { key: '9', value: 'User Field 1' },
   ];
 
   constructor(private dialog: MatDialog,
     private toastr: ToastrService,
     private router: Router,
     private Api: ApiFuntions,
+    private global:GlobalService,
     public authService: AuthService,
     private _liveAnnouncer: LiveAnnouncer,) { }
 
@@ -836,7 +838,7 @@ export class ConsolidationComponent implements OnInit {
 
   printPreviewNonVerified() {
     if (this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0) {
-      window.open(`/#/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      this.global.Print(`FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`)
       // window.location.href = `/#/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`;
       // window.location.reload();
     }
@@ -863,7 +865,7 @@ export class ConsolidationComponent implements OnInit {
         if (result === 'Yes') {
           this.Api.ShowCMPackPrintModal({ orderNumber: this.TypeValue }).subscribe((res: any) => {
             if (res.isExecuted && res.data == "all") {
-              window.open(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+              this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
               // this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
             } else if (res.isExecuted && res.data == "modal") {
               this.showCmPackPrintModal(true, this.TypeValue);
@@ -877,7 +879,7 @@ export class ConsolidationComponent implements OnInit {
     else {
       this.Api.ShowCMPackPrintModal({ orderNumber: this.TypeValue }).subscribe((res: any) => {
         if (res.isExecuted && res.data == "all") {
-          window.open(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+          this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
           // this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
         } else if (res.isExecuted && res.data == "modal") {
           this.showCmPackPrintModal(true, this.TypeValue);

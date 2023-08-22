@@ -268,6 +268,7 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: 'auto',
         width: '960px',
+        disableClose: true,
         data: {
           mode: event,
           tableName: 'Transaction History',

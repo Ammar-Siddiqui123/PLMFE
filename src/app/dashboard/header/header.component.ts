@@ -7,7 +7,9 @@ import { SharedService } from 'src/app/services/shared.service';
 import { Title } from '@angular/platform-browser';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
-import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { ApiFuntions } from 'src/app/services/ApiFuntions'; 
+import { MatDialog } from '@angular/material/dialog';
+import { DPrinterSetupComponent } from 'src/app/dialogs/d-printer-setup/d-printer-setup.component';
 
 @Component({
   selector: 'app-header',
@@ -26,6 +28,7 @@ isConfigUser
 statusTab;
   // public user_data  = JSON.parse(localStorage.getItem('user') || '');
   constructor(
+    private dialog: MatDialog,
     private router: Router,
     public spinnerService: SpinnerService, 
     private authService: AuthService,
@@ -69,14 +72,17 @@ statusTab;
         if(!res.includes('report-view')||!res.includes('report')){
           localStorage.setItem('reportNav',val.url)
         }
-       
+
         let withoutParam = res.split('?')[0]
         let splittedArray = withoutParam.split('/'); 
-
+          if(splittedArray[0]==='FlowrackReplenishment'){
+            splittedArray[0]='FlowrackReplenish'
+          }
         splittedArray.forEach((element,i) => {
          if(element==='createCountBatches' || element==='cycleCounts'){
           element='CycleCount'
          }
+
          if(element==='Flowrack'){
           element='FlowrackReplenishment'
          }
@@ -89,7 +95,6 @@ statusTab;
 
          if(width<=768){
           if(element==='InductionManager'){
-        
             element='IM'
            }
            
@@ -125,18 +130,50 @@ statusTab;
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
+
+  setImPreferences(){
+    const imPreference = localStorage.getItem('InductionPreference');
+    if (imPreference) {
+      const parsedData = JSON.parse(imPreference);
+      console.log('InductionPreference:', parsedData);
+
+    } else {
+
+ let paylaod = {
+      "username": this.userData.userName,
+      "wsid": this.userData.wsid,
+    }
+    this.api.PickToteSetupIndex(paylaod).subscribe(res => {
+      localStorage.setItem('InductionPreference', JSON.stringify(res.data.imPreference));
+
+
+    });
+    }
+
+  }
   ngOnInit(): void {
     this.loading = false;
     this.userData = JSON.parse(localStorage.getItem('user') || '{}');
     this.configUser = JSON.parse(localStorage.getItem('userConfig') || '{}'); 
     if(this.router.url.indexOf('globalconfig') > -1){
       this.ConfigUserLogin =  true;
-    }else this.ConfigUserLogin =  false; 
-    this.userData = this.authService.userData();
+    }else {
+      this.ConfigUserLogin =  false; 
+      this.GetWorkStatPrinters();
+      this.setImPreferences();
+    }
+      this.userData = this.authService.userData(); 
+    // 
+    
 
   }
 
-
+  GetWorkStatPrinters(){
+    this.api.GetWorkStatPrinters().subscribe((res:any)=>{ 
+      localStorage.setItem("SelectedReportPrinter",res.data.reportPrinter);
+       localStorage.setItem("SelectedLabelPrinter",res.data.labelPrinter);
+    })
+  }
   ngAfterViewInit() {
       this.sharedService.breadCrumObserver.subscribe((res: any) => { 
       this.statusTab = res.tab.textLabel;
@@ -254,6 +291,16 @@ statusTab;
     if (this.breakpointSubscription) {
       this.breakpointSubscription.unsubscribe();
     }
+  }
+
+  openPrintSetting(){
+    const dialogRef = this.dialog.open(DPrinterSetupComponent, {
+      height: 'auto',
+      width: '556px',
+      autoFocus: '__non_existing_element__',
+      disableClose:true,
+    });
+
   }
  
 }

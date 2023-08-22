@@ -34,6 +34,8 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
+import { CurrentTabDataService } from 'src/app/admin/inventory-master/current-tab-data-service';
 
 const TRNSC_DATA = [
   { colHeader: 'id', colDef: 'ID' },
@@ -243,10 +245,12 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     private router: Router, 
     private Api: ApiFuntions,
     public authService: AuthService,
+    private global:GlobalService,
     private toastr: ToastrService, 
     private dialog: MatDialog,
     private sharedService:SharedService,
-    private filterService: ContextMenuFiltersService
+    private filterService: ContextMenuFiltersService,
+    private currentTabDataService: CurrentTabDataService
   ) {
     if (this.router.getCurrentNavigation()?.extras?.state?.['searchValue']) {
       this.columnSearch.searchValue =
@@ -324,7 +328,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
       });
 
     this.userData = this.authService.userData();
-    this.getColumnsData();
+    this.getColumnsData(true);    
   }
   viewOrderInOrder(row) {
     this.returnToOrder.emit();
@@ -535,11 +539,13 @@ this.router.navigate([]).then((result) => {
     this.columnSearch.searchColumn.colDef='';
     this.columnSearch.searchValue='';
     this.orderNumber='';
+    
+    this.currentTabDataService.savedItem[this.currentTabDataService.TRANSACTIONS] = undefined;
     // this.initializeApi();
     this.getContentData();
   }
 
-  getColumnsData() {
+  getColumnsData(isInit : boolean = false) {
     let payload = {
       username: this.userData.userName,
       wsid: this.userData.wsid,
@@ -551,7 +557,7 @@ this.router.navigate([]).then((result) => {
         if (res.data) {
           this.columnValues = res.data;
           this.columnValues.push('actions');
-          this.getContentData();
+          this.getContentData(isInit);
         } else {
           this.toastr.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
@@ -591,7 +597,7 @@ this.router.navigate([]).then((result) => {
     // this.getContentData();
   }
 
-  getContentData() {
+  getContentData(isInit: boolean = false) {
     this.payload = {
       draw: 0,
       sDate: this.sdate,
@@ -620,6 +626,10 @@ this.router.navigate([]).then((result) => {
           //  this.dataSource.paginator = this.paginator;
           this.customPagination.total = res.data?.recordsFiltered;
           this.dataSource.sort = this.sort;
+          if (isInit && this.currentTabDataService.savedItem[this.currentTabDataService.TRANSACTIONS])
+            this.ApplySavedItem();
+          else
+            this.RecordSavedItem();
         },
         (error) => {}
       );
@@ -639,7 +649,40 @@ this.router.navigate([]).then((result) => {
     //     this.dataSource.sort = this.sort;
     //   });
   }
-
+  
+  ApplySavedItem() {
+    if (this.currentTabDataService.savedItem[this.currentTabDataService.TRANSACTIONS]) {
+      let item = this.currentTabDataService.savedItem[this.currentTabDataService.TRANSACTIONS];
+      this.detailDataInventoryMap = item.detailDataInventoryMap;
+      this.dataSource = item.dataSource;
+      //  this.dataSource.paginator = this.paginator;
+      this.customPagination.total = item.customPaginationTotal;
+      this.dataSource.sort = item.dataSourceSort;
+      this.sdate= item.sdate;
+      this.edate= item.edate;
+      this.statusType= item.statusType;
+      this.orderNumber= item.orderNumber;
+      this.toteId= item.toteId;
+      this.transTypeSelect= item.transTypeSelect;
+      this.columnSearch= item.columnSearch
+    }
+  }
+  RecordSavedItem() {
+    this.currentTabDataService.savedItem[this.currentTabDataService.TRANSACTIONS]= {
+          detailDataInventoryMap : this.detailDataInventoryMap,
+          dataSource : this.dataSource,
+          //  this.dataSource.paginator = this.paginator;
+          customPaginationTotal : this.customPagination.total,
+          dataSourceSort : this.dataSource.sort,
+          sdate: this.sdate,
+          edate: this.edate,
+          statusType: this.statusType,
+          orderNumber: this.orderNumber,
+          toteId: this.toteId,
+          transTypeSelect: this.transTypeSelect,
+          columnSearch: this.columnSearch
+    }
+  }
   // initializeApi() {
   //   this.userData = this.authService.userData();
   //   this.payload = {
@@ -684,6 +727,7 @@ this.router.navigate([]).then((result) => {
       let dialogRef = this.dialog.open(ColumnSequenceDialogComponent, {
         height: 'auto',
         width: '960',
+        disableClose: true,
         data: {
           mode: event,
           tableName: 'Open Transactions',
@@ -830,14 +874,27 @@ this.router.navigate([]).then((result) => {
   }
 
   printCycleCountReport(){
-    window.open(`/#/report-view?file=FileName:printCycleCountReport`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    this.global.Print(`FileName:printCycleCountReport`)
     // window.location.href = `/#/report-view?file=FileName:printCycleCountReport`;
     // window.location.reload();
   }
 
   previewFiftyPagesOnly(){
-    window.open(`/#/report-view?file=CycleCount-lst-prv`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    window.open(`/#/report-view?file=CycleCount-lst-prv`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
     // window.location.href = `/#/report-view?file=CycleCount-lst-prv`;
     // window.location.reload();
   }
+
+  selectRow(row: any) {
+    this.dataSource.filteredData.forEach(element => {
+      if(row != element){
+        element.selected = false;
+      }
+    });
+    const selectedRow = this.dataSource.filteredData.find((x: any) => x === row);
+    if (selectedRow) {
+      selectedRow.selected = !selectedRow.selected;
+    }
+  }
+
 }

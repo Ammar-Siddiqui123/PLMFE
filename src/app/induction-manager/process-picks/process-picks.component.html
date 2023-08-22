@@ -8,6 +8,7 @@
                     </span>
                 </div>
                 <span>Batch Setup</span>
+                <!-- <button (click)="ProcessPickPrintPref('','','')"> TEST</button> -->
             </h2>
             <button type="submit" mat-stroked-button class="btn-regular" color="primary" [matMenuTriggerFor]="appMenu">
                 <mat-icon class="material-symbols-outlined">print</mat-icon>
@@ -275,9 +276,9 @@
                         <td mat-cell *matCellDef="let element">
                             <div class="pe-2">
                                 <mat-form-field class="custom-form-field w-100" appearance="outline">
-
+                              
                                     <input matInput type="text" #specialFeature maxlength="255"
-                                        [(ngModel)]="element.orderNumber" disabled="{{useInZonePickScreen}}" (focusout)="isValidOrderNumber(element)">
+                                        [(ngModel)]="element.orderNumber" disabled="{{useInZonePickScreen}}"  (focusout)="isValidOrderNumber(element)">
                                 </mat-form-field>
                             </div>
                         </td>
@@ -368,7 +369,7 @@
     </div>
 </ng-template>
 <ng-template #processSetup>
-
+    
     <div class="d-flex flex-column align-items-center justify-content-center text-center py-4">
         <div color="warn" class="circle-icon circle-66 circle-primary mb-4 text-primary-900">
             <mat-icon color="primary">ballot</mat-icon>
@@ -388,4 +389,35 @@
             </div>
         </div>
     </div>
+</ng-template>
+
+<ng-template #popupBlocked>
+
+    <div class="mat-modal-wrap text-center">
+        <mat-dialog-content>
+          <div class="prompt-wrap">
+            <div class="d-flex justify-content-center prompt-icon-wrap ">
+              <span #cancel class="material-symbols-outlined prompt-icon-delete">
+                notification_important
+              </span>
+      
+            </div>
+            <div class=" py-4"> 
+            <p class="text-danger bold card-header-title p-0 mb-2" >
+              An Error Occured
+            </p>
+            <p class="prompt-message mb-0 bold">
+                Pop-ups appear to be blocked for this workstation.  Please check your settings and ensure that the browser allows pop-ups for this site.
+            </p>
+     </div>
+        
+          </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="d-flex flex-column justify-content-center m-0 p-0">
+          <button  class="mat-button-base prompt-action-danger-button  mb-3 btn-lg w-100"  [mat-dialog-close]="false" mat-stroked-button mat-button
+         >OK</button>
+     
+        </mat-dialog-actions>
+      </div>
+      
 </ng-template>

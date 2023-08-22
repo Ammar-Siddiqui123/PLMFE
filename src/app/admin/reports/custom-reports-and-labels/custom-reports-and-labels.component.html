@@ -66,9 +66,9 @@
                                 <mat-select  #matRef  class="employees-action" value="pick"  (selectionChange)="openAction($event)">
                                     <mat-option value="123456"(click)="CrAddNewCustomReportDialogue()">Add New</mat-option>
                                     <mat-option [value]="Detail.testData" [disabled]="!Detail.testData" 
-                                    (click)="OpenListAndLabel('report-view')">Export</mat-option>
+                                    (click)="this.global.OpenExportModal(this.Detail.fileName,this.Detail.fileName)">Export</mat-option>
                                     <mat-option [value]="Detail.testData" [disabled]="!Detail.testData" 
-                                    (click)="OpenListAndLabel('report-view')">Print</mat-option>
+                                    (click)="this.global.Print(this.Detail.fileName.replace('.','-'))">Print</mat-option>
                                     <mat-option [value]="Detail.testData" [disabled]="!Detail.testData" 
                                        (click)="OpenListAndLabel('report')"
                                         >Design</mat-option>
