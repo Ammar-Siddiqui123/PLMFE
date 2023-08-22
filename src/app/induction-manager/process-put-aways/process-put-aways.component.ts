@@ -239,7 +239,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
     }
 
-      // this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:${this.toteID}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|printDirect:true|ID:-1`);
+      // this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:${this.toteID}|BatchID:${this.batchId}|ZoneLabel:''|TransType:'Put Away'|ID:-1`);
     
   }
   printTotePut(){

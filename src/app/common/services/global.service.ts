@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { environment } from 'src/environments/environment';
 // import jsPDF from 'jspdf';
 
 @Injectable({
@@ -214,25 +215,26 @@ export class GlobalService {
           }
         })
       }
-      OpenExportModal(ReportName) {
+      OpenExportModal(Name:any = null,ReportName) {
         ReportName = ReportName.replace(".lst","").replace(".lbl","");
+        Name = Name.replace(".lst","").replace(".lbl","");
         const dialogRef = this.dialog.open(BrChooseReportTypeComponent, {
           height: 'auto',
           width: '932px',
           autoFocus: '__non_existing_element__',
           disableClose:true,
-          data:{ReportName:ReportName}
+          data:{ReportName:ReportName,Name:Name}
         }); 
         dialogRef.afterClosed().subscribe((result) => {
           if (result.FileName != null) {
-            this.Export(ReportName,result.Type,result.FileName);
+            this.Export(ReportName,result.Type,Name);
           }
         });
       
       }
       Export(ChooseReport:any,Type:any,filename:any){
         var paylaod:any={
-          ClientCustomData:`${this.capitalizeAndRemoveSpaces(ChooseReport)+'-lst'}`,
+          ClientCustomData:`${this.capitalizeAndRemoveSpaces(ChooseReport)}`,
           repositoryIdOfProject:"BCAEC8B2-9D16-4ACD-94EC-74932157BF82",
           type:Type,
           FileName:`${this.capitalizeAndRemoveSpaces(filename)}`
@@ -244,7 +246,8 @@ export class GlobalService {
                     timeOut: 2000,
                   });  
                   
-                   document.getElementById('CurrentDownload')?.setAttribute("href","https://staging-e64.com:9011/pdf/"+res.data.fileName);
+                  // ${environment.apiUrl.replace("/api","")}
+                   document.getElementById('CurrentDownload')?.setAttribute("href",`${environment.apiUrl.replace("/api","")}/pdf/`+res.data.fileName);
                    document.getElementById('CurrentDownload')?.click();
                    
                      

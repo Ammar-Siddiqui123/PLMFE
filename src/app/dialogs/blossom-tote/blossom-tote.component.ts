@@ -95,18 +95,18 @@ export class BlossomToteComponent implements OnInit {
               let batch = res.data
               if(this.imPreferences.autoPrintPickToteLabels){
                 if(this.imPreferences.printDirectly){
-                  this.global.Print(`FileName:PrintPrevInZoneBatchToteLabel|tote:true|BatchID:${batch}|PrintDirect:true`)
+                  this.global.Print(`FileName:PrintPrevInZoneBatchToteLabel|tote:true|BatchID:${batch}`)
                 }
                 else{
-                  window.open(`/#/report-view?file=FileName:PrintPrevInZoneBatchToteLabel|tote:true|BatchID:${batch}|PrintDirect:true`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                  window.open(`/#/report-view?file=FileName:PrintPrevInZoneBatchToteLabel|tote:true|BatchID:${batch}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
                 }
               }
               if(this.imPreferences.autoPrintOffCarouselPickList){
                 if(this.imPreferences.printDirectly){
-                  this.global.Print(`FileName:autoPrintCrossDock|tote:true|BatchID:${batch}|PrintDirect:true`)
+                  this.global.Print(`FileName:autoPrintCrossDock|tote:true|BatchID:${batch}`)
                 }
                 else{
-                  window.open(`/#/report-view?file=FileName:autoPrintCrossDock|tote:true|BatchID:${batch}|PrintDirect:true`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                  window.open(`/#/report-view?file=FileName:autoPrintCrossDock|tote:true|BatchID:${batch}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
                 }
                 
               }

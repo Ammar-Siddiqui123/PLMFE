@@ -11,7 +11,11 @@ export class BrChooseReportTypeComponent implements OnInit {
   Type:string;
   ExportFileName:string;
   constructor(public dialogRef: MatDialogRef<any>,    @Inject(MAT_DIALOG_DATA) public data: any) { 
-this.ExportFileName  = data.ReportName;  
+    if(data.Name){
+      this.ExportFileName  = data.Name;  
+    }else{
+      this.ExportFileName  = data.ReportName;  
+    }
   }
 
   ngOnInit(): void {
