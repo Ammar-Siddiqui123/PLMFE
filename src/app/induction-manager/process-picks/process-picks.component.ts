@@ -1056,14 +1056,14 @@ export class ProcessPicksComponent implements OnInit {
             //  window.open(`/#/report-view?file=FileName:PrintPrevPickToteLabel|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
 
         }
-        if(this.imPreferences.autoPrintCaseLabel ){
-          if(this.imPreferences.printDirectly){
-            this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`,'lbl');
-          }
-          else if(isWindowClosed){
-          window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+   
+      }else if(this.imPreferences.autoPrintCaseLabel ){
+        if(this.imPreferences.printDirectly){
+          this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`,'lbl');
+        }
+        else if(isWindowClosed){
+        window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
 
-          }
         }
       }
 
