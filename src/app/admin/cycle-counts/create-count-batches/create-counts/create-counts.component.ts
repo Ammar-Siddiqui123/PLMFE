@@ -300,7 +300,9 @@ export class CCBCreateCountsComponent implements OnInit {
       this.global.Print(`FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`)
 
      }else{
-      this.global.Print(`FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`)
+      window.open(`/#/report-view?file=PrintCycleCountReport-lst-prv|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+      // this.global.Print(`FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`)
 
       }
 

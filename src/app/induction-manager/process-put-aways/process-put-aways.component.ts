@@ -211,7 +211,7 @@ export class ProcessPutAwaysComponent implements OnInit {
     this.dataSource = [];
     this.assignedZonesArray.length=0;   // after deleting zones array reset to select zones 
     this.batchId2 = "";
-    this.dataSource2 = new MatTableDataSource<any>([]);;
+    this.dataSource2 = new MatTableDataSource<any>([]);
     this.inputValue = "";
     this.nextPos = "";
     this.nextPutLoc = "";
@@ -421,7 +421,7 @@ export class ProcessPutAwaysComponent implements OnInit {
                 height: 'auto',
                 width: '50vw',
                 autoFocus: '__non_existing_element__',
-      disableClose:true,
+                 disableClose:true,
                 data: {
                   message: "This Batch ID either does not exists or is assigned to a different workstation.Use the Tote Setup tab to create a new batch or choose an existing batch for this workstation.",
                   heading: 'Invalid Batch ID'
@@ -1205,37 +1205,61 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.Api.CompleteBatch(payLoad).subscribe(
               (res: any) => {
                 if (res.isExecuted) {
-                  let dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
-                    height: 'auto',
-                    width: '560px',
-                    autoFocus: '__non_existing_element__',
-                    disableClose:true,
-                    data: {
-                      message: 'Click OK to print an Off-Carousel Put Away List.',
-                    },
-                  });
-          
-                  dialogRef2.afterClosed().subscribe((result) => {
-                    if (result == 'Yes') {
+
+
+                  if(this.imPreferences.autoPrintOffCarouselPutAwayList){
+                    if(this.imPreferences.printDirectly){
                       this.global.Print(`FileName:PrintOffCarList|batchID:${this.batchId2}`);
-                      this.clearFormAndTable();
-                    }else{
-                      this.toastr.success(
-                        'Batch Completed Successfully',
-                        'Success!',
-                        {
-                          positionClass: 'toast-bottom-right',
-                          timeOut: 2000,
-                        }
-                      );
-                      this.clearFormAndTable();
-                      this.selectedIndex = 0;
-                      setTimeout(() => {
-                      this.batchFocus.nativeElement.focus();
-                        
-                      }, 100);
                     }
-                  });          
+                    else{
+                      window.open(`/#/report-view?file=FileName:PrintOffCarList|batchID:${this.batchId2}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                    }
+                    this.clearFormAndTable();
+                  }
+                  else if(!this.imPreferences.autoPrintOffCarouselPutAwayList) {
+
+                    let dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
+                      height: 'auto',
+                      width: '560px',
+                      autoFocus: '__non_existing_element__',
+                      disableClose:true,
+                      data: {
+                        message: 'Click OK to print an Off-Carousel Put Away List.',
+                      },
+                    });
+            
+                    dialogRef2.afterClosed().subscribe((result) => {
+                      if (result == 'Yes') {
+  
+                          if(this.imPreferences.printDirectly){
+                            this.global.Print(`FileName:PrintOffCarList|batchID:${this.batchId2}`);
+                          }
+                          else{
+                            window.open(`/#/report-view?file=FileName:PrintOffCarList|batchID:${this.batchId2}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                          }
+                          this.clearFormAndTable();
+
+                        // this.global.Print(`FileName:PrintOffCarList|batchID:${this.batchId2}`);
+                        // this.clearFormAndTable();
+                      }else{
+                        this.toastr.success(
+                          'Batch Completed Successfully',
+                          'Success!',
+                          {
+                            positionClass: 'toast-bottom-right',
+                            timeOut: 2000,
+                          }
+                        );
+                        this.clearFormAndTable();
+                        this.selectedIndex = 0;
+                        setTimeout(() => {
+                        this.batchFocus.nativeElement.focus();
+                          
+                        }, 100);
+                      }
+                    });   
+                  }
+                        
                  
                 
                   // this.getRow(this.batchId);

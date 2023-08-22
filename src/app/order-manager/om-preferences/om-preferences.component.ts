@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-om-preferences',
@@ -17,7 +18,8 @@ export class OmPreferencesComponent implements OnInit {
   constructor(
     private Api: ApiFuntions,
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private global:GlobalService
   ) {
     this.userData = this.authService.userData();
 
@@ -106,7 +108,7 @@ export class OmPreferencesComponent implements OnInit {
           );
           this.filtersForm.controls['custReportsMenuText'].setValue(
             response.data.customAdminText ? response.data.customAdminText : ''
-          );
+          );      
         } else {
         }
       });
@@ -140,6 +142,7 @@ export class OmPreferencesComponent implements OnInit {
       .OrderManagerPreferenceUpdate(payload)
       .subscribe((response: any) => {
         if (response.isExecuted) {
+          this.global.updateOmPref();
         } else {
           this.toastr.error(
             'Error',
