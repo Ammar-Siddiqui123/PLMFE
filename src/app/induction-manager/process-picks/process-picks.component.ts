@@ -1087,13 +1087,13 @@ export class ProcessPicksComponent implements OnInit {
       this.imPreferences = this.global.getImPreferences();
       let isWindowClosed: any = null;
       let isAnyWindowOpen = false;
-
+      debugger
       if (this.imPreferences.autoPrintPickToteLabels) {
 
         if (this.imPreferences.printDirectly) {
-          debugger;
+          ;
 
-          await this.global.Print(`FileName:PrintPrevInZoneBatchToteLabel|BatchID:${batchId}|WSID:${this.userData.wsid}`, 'lbl');
+          await this.global.Print(`FileName:PrintPrevInZoneBatchToteLabel|BatchID:${batchId}|WSID:${this.userData.wsid}`);
         } else {
           isWindowClosed = await this.previewWindow(`FileName:PrintPrevInZoneBatchToteLabel|BatchID:${batchId}|WSID:${this.userData.wsid}`);
           
@@ -1107,14 +1107,14 @@ export class ProcessPicksComponent implements OnInit {
         }
         if (this.imPreferences.autoPrintCaseLabel) {
           if (this.imPreferences.printDirectly) {
-            await this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`, 'lbl');
+            await this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`);
           } else if (isWindowClosed) {
             isWindowClosed = await this.previewWindow(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`);
           }
         }
         if (this.imPreferences.autoPrintPickBatchList) {
           if (this.imPreferences.printDirectly) {
-            await this.global.Print(`FileName:PrintPrevPickBatchList|BatchAutoPrintPickBatchListID:${batchId}`, 'lbl');
+            await this.global.Print(`FileName:PrintPrevPickBatchList|BatchAutoPrintPickBatchListID:${batchId}`);
           } else if (isWindowClosed) {
             isWindowClosed = await this.previewWindow(`FileName:PrintPrevPickBatchList|BatchAutoPrintPickBatchListID:${batchId}`);
           }
@@ -1133,7 +1133,7 @@ export class ProcessPicksComponent implements OnInit {
         }
         if (this.imPreferences.autoPrintCaseLabel) {
           if (this.imPreferences.printDirectly) {
-            await this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`, 'lbl');
+            await this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`);
           } else if (isWindowClosed) {
             isWindowClosed = await this.previewWindow(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`);
 
@@ -1153,7 +1153,7 @@ export class ProcessPicksComponent implements OnInit {
       }
       if (this.imPreferences.autoPrintCaseLabel) {
         if (this.imPreferences.printDirectly) {
-          await this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`, 'lbl');
+          await this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`);
         } else {
           isWindowClosed = await this.previewWindow(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`);
 

@@ -188,7 +188,7 @@ export class GlobalService {
         else
           return true;
     }
-    async Print(ChooseReport,type = "lst",callback?){ 
+    async Print(ChooseReport,type = "lst"){ 
      
         var paylaod:any={
           ClientCustomData:ChooseReport,
@@ -202,13 +202,14 @@ export class GlobalService {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
             });
-              callback(true)
+            return true;
         }else{
           this.toast.error("print unsuccessfully complete", 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
             });
-            callback(false)
+            return false;
+
         }
       }
       OpenExportModal(Name:any = null,ReportName) {

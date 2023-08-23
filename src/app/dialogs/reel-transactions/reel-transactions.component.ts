@@ -405,19 +405,19 @@ test(){
 }
 
 PrintCrossDock(){
-  this.global.Print(`FileName:PrintReelLabels|OTID:${this.createdReel.join(",",'lbl')}|SN:|Item:|Order:`,'lst',(success:any)=>{ 
-    // if(success){
-    this.showConfirmationDialog('Click OK if the labels printed correctly.',(open)=>{
-      if(!open){
-      this.PrintCrossDock();
-      }else{
-        this.dialogRef.close(this.checkSNS);
-        return
-      }
-    });
-    // }
+var res:any =   this.global.Print(`FileName:PrintReelLabels|OTID:${this.createdReel.join(",",'lbl')}|SN:|Item:|Order:`);
+ 
+   if(res){
+  this.showConfirmationDialog('Click OK if the labels printed correctly.',(open)=>{
+    if(!open){
+    this.PrintCrossDock();
+    }else{
+      this.dialogRef.close(this.checkSNS);
+      return
+    }
   });
- }
+    } 
+}
 
  async showConfirmationDialog(message,callback) {
   const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
