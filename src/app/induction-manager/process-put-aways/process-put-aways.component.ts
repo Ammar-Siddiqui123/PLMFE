@@ -557,6 +557,13 @@ export class ProcessPutAwaysComponent implements OnInit {
               this.Api.ProcessBatch(payLoad).subscribe(
                 (res: any) => {
                   if (res.data && res.isExecuted) {
+                    if(this.imPreferences.autoPrintPutAwayToteLabels){
+                      if(this.imPreferences.printDirectly){
+                        this.global.Print(`FileName:PrintPrevToteContentsLabel|ToteID:-1|ZoneLabel:|TransType:Put Away|ID:-1|BatchID:${this.batchId}`)
+                      }else{
+                        window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:-1|ZoneLabel:|TransType:Put Away|ID:-1|BatchID:${this.batchId}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                      }
+                    }
                     this.toastr.success(res.responseMessage, 'Success!', {
                       positionClass: 'toast-bottom-right',
                       timeOut: 2000,
