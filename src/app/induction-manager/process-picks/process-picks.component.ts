@@ -1113,9 +1113,9 @@ async  printPickLabels(row) {
         }
         if (this.imPreferences.autoPrintPickBatchList) {
           if (this.imPreferences.printDirectly) {
-            await this.global.Print(`FileName:PrintPrevPickBatchList|BatchAutoPrintPickBatchListID:${batchId}`);
+            await this.global.Print(`FileName:PrintPrevPickBatchList|BatchID:${batchId}`);
           } else if (isWindowClosed) {
-            isWindowClosed = await this.previewWindow(`FileName:PrintPrevPickBatchList|BatchAutoPrintPickBatchListID:${batchId}`);
+            isWindowClosed = await this.previewWindow(`FileName:PrintPrevPickBatchList|BatchID:${batchId}`);
           }
         }
 
