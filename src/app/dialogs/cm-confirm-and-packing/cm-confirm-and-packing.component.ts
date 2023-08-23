@@ -371,7 +371,7 @@ print(type:any){
     this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`);
     setTimeout(()=>{
       this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`,'lbl');
-    }, 500);
+    }, 2000);
     // window.location.href = `/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
     // window.location.href = `/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
     // window.location.reload();
