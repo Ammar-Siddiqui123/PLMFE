@@ -1484,8 +1484,9 @@ public ShowCMPackPrintModal(body:any): Observable<any> {
 public CommonExport(body): Observable<any> {
   return this.ApiBase.Get(`/Admin/reports/export`,body);
 }
-public CommonPrint(body): Observable<any> {
-  return this.ApiBase.Get(`/Admin/reports/print`,body);
+
+public async CommonPrint(body)  {
+   return  await this.ApiBase.GetAsync(`/Admin/reports/print`,body);
 } 
 public GetWorkStatPrinters(): Observable<any> {
   return this.ApiBase.Get(`/GlobalConfig/WorkStatPrinters`);

@@ -188,7 +188,7 @@ export class GlobalService {
         else
           return true;
     }
-    Print(ChooseReport,type = "lst",callback?){ 
+    async Print(ChooseReport,type = "lst",callback?){ 
      
         var paylaod:any={
           ClientCustomData:ChooseReport,
@@ -196,21 +196,20 @@ export class GlobalService {
           PrinterReportName:localStorage.getItem("SelectedReportPrinter"),
           PrinterLabelName:localStorage.getItem("SelectedLabelPrinter"),
         }
-        this.Api.CommonPrint(paylaod).subscribe((res:any)=>{
-          if(res.isExecuted){
-            this.toast.success("print successfully completed", 'Success!', {
-                positionClass: 'toast-bottom-right',
-                timeOut: 2000,
-              });
+        var res:any = await this.Api.CommonPrint(paylaod); 
+        if(res.isExecuted){
+          this.toast.success("print successfully completed", 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
               callback(true)
-          }else{
-            this.toast.error("print unsuccessfully complete", 'Error!', {
-                positionClass: 'toast-bottom-right',
-                timeOut: 2000,
-              });
-              callback(false)
-          }
-        })
+        }else{
+          this.toast.error("print unsuccessfully complete", 'Error!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000,
+            });
+            callback(false)
+        }
       }
       OpenExportModal(Name:any = null,ReportName) {
         ReportName = ReportName.replace(".lst","-lst").replace(".lbl","-lbl");
