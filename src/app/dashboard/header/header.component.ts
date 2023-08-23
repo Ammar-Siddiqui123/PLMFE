@@ -159,7 +159,8 @@ statusTab;
       this.ConfigUserLogin =  true;
     }else {
       this.ConfigUserLogin =  false; 
-      this.GetWorkStatPrinters();
+      this.userData = this.authService.userData(); 
+      if(this.userData.wsid) this.GetWorkStatPrinters();
       this.setImPreferences();
     }
       this.userData = this.authService.userData(); 
