@@ -1180,7 +1180,7 @@ export class ProcessPicksComponent implements OnInit {
         }
       }
     } catch (error) {
-      this.alertPopUpBlocked();
+      // this.alertPopUpBlocked();
       console.error('Error occurred:', error);
     }
   }
