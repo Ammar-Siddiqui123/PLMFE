@@ -1121,7 +1121,7 @@ async  printPickLabels(row) {
 
 
       }
-      if (this.imPreferences.autoPrintOffCarouselPickList) {
+     else if (this.imPreferences.autoPrintOffCarouselPickList) {
 
         if (this.imPreferences.printDirectly) {
           await this.global.Print(`FileName:PrintPrevIMPickBatchList|BatchID:${batchId}`);
@@ -1150,7 +1150,7 @@ async  printPickLabels(row) {
           }
         }
       }
-      if (this.imPreferences.autoPrintCaseLabel) {
+      else   if (this.imPreferences.autoPrintCaseLabel) {
         if (this.imPreferences.printDirectly) {
           await this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`);
         } else {
@@ -1171,7 +1171,7 @@ async  printPickLabels(row) {
 
 
       }
-      if (this.imPreferences.autoPrintPickBatchList) {
+      else  if (this.imPreferences.autoPrintPickBatchList) {
         if (this.imPreferences.printDirectly) {
           await this.global.Print(`FileName:PrintPrevPickBatchList|BatchID:${batchId}`);
         } else {
