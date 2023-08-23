@@ -212,7 +212,7 @@ export class GlobalService {
         })
       }
       OpenExportModal(Name:any = null,ReportName) {
-        ReportName = ReportName.replace(".lst","").replace(".lbl","");
+        ReportName = ReportName.replace(".lst","-lst").replace(".lbl","-lbl");
         Name = Name.replace(".lst","").replace(".lbl","");
         const dialogRef = this.dialog.open(BrChooseReportTypeComponent, {
           height: 'auto',
@@ -223,7 +223,7 @@ export class GlobalService {
         }); 
         dialogRef.afterClosed().subscribe((result) => {
           if (result.FileName != null) {
-            this.Export(ReportName,result.Type,Name);
+            this.Export(ReportName,result.Type,result.FileName);
           }
         });
       
@@ -256,7 +256,33 @@ export class GlobalService {
               }
         })
       }
+      
 
+      getOmPreferences(): any{
+        const preferencesString = localStorage.getItem('OmPreference');
+        if(preferencesString){
+          return JSON.parse(preferencesString)
+        }else{
+          this.Api.OrderManagerPreferenceIndex().subscribe((response: any) => {
+            if (response.isExecuted) {
+              localStorage.setItem('OmPreference', JSON.stringify(response.data.preferences[0]));
+              const getOm:any = localStorage.getItem('OmPreference');
+              return JSON.parse(getOm)
+            }
+            })
+        }
+      }
+
+      updateOmPref(){
+        this.Api.OrderManagerPreferenceIndex().subscribe((response: any) => {
+          if (response.isExecuted) {
+            localStorage.setItem('OmPreference', JSON.stringify(response.data.preferences[0]));
+       
+       
+          }
+          })
+      }
+ 
       getImPreferences(){
        return JSON.parse(localStorage.getItem('InductionPreference') || '{}');
       }

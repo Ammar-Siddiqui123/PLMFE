@@ -21,6 +21,7 @@ import { MatButton } from '@angular/material/button';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
+import { CurrentTabDataService } from 'src/app/admin/inventory-master/current-tab-data-service';
 
 @Component({
   selector: 'app-om-order-manager',
@@ -28,6 +29,7 @@ import { catchError, of } from 'rxjs';
   styleUrls: ['./om-order-manager.component.scss']
 })
 export class OmOrderManagerComponent implements OnInit {
+  omPreferences:any;
   
   public userData: any;
   OMIndex: any;
@@ -126,6 +128,8 @@ export class OmOrderManagerComponent implements OnInit {
               public authService      : AuthService,
               public globalService    : GlobalService,
               private filterService   : ContextMenuFiltersService,
+              private currentTabDataService: CurrentTabDataService,
+              private global:GlobalService,
               private router: Router) { }
 
   @ViewChild('btnRef') buttonRef: MatButton;
@@ -133,6 +137,7 @@ export class OmOrderManagerComponent implements OnInit {
   ngAfterViewInit() {
   //  this.buttonRef.focus();
   this.getColumnSequence();
+  this.ApplySavedItem();
   }
 
   async ngOnInit(): Promise<void> {
@@ -148,6 +153,7 @@ export class OmOrderManagerComponent implements OnInit {
     this.getOMIndex();
  
     this.fillTable();
+    this.omPreferences=this.global.getOmPreferences();
   }  
 
   getOMIndex() { 
@@ -263,11 +269,53 @@ export class OmOrderManagerComponent implements OnInit {
       this.customPagination.total = res.data?.recordsFiltered;
       this.totalRecords = res.data?.recordsFiltered;
       
+      this.RecordSavedItem();
 
       this.orderTable.sort = this.sort;
     });   
   }
 
+  
+  ApplySavedItem() {
+    if (this.currentTabDataService.savedItem[this.currentTabDataService.ORDER_MANAGER])
+    {
+      let item= this.currentTabDataService.savedItem[this.currentTabDataService.ORDER_MANAGER];
+      this.column = item.column;
+      this.value1D = item.value1D;
+      this.case = item.case;
+      this.value1 = item.value1;
+      this.value2D = item.value2D;
+      this.value2 = item.value2;
+      this.maxOrders = item.maxOrders;
+      this.searchCol = item.searchCol;
+      this.transType = item.transType;
+      this.viewType = item.viewType;
+      this.orderType = item.orderType;
+      this.searchTxt = item.searchTxt;
+      this.orderTable = item.orderTable;
+      return true;
+    }
+    return false;
+  }
+  RecordSavedItem() {
+    this.currentTabDataService.savedItem[this.currentTabDataService.ORDER_MANAGER]= {
+      column : this.column,
+      case : this.case,
+      value1D : this.value1D,
+      value1 : this.value1,
+      value2D : this.value2D,
+      value2 : this.value2,
+      maxOrders : this.maxOrders, 
+      searchTxt : this.searchTxt, 
+      transType : this.transType,
+      viewType : this.viewType,
+      orderType : this.orderType,
+      searchCol : this.searchCol,
+      orderTable : this.orderTable
+	  
+    }
+  }
+  
   handlePageEvent(e: PageEvent) { 
     this.customPagination.startIndex =  e.pageSize*e.pageIndex
     this.customPagination.endIndex =  (e.pageSize*e.pageIndex + e.pageSize)
@@ -320,6 +368,7 @@ export class OmOrderManagerComponent implements OnInit {
     if ((this.column == "Import Date" || this.column == "Required Date" || this.column == "Priority") && this.case == "Like") 
       this.toastr.error("Cannot use the 'Like' option with Required Date, Import Date, or Priority column options", 'Warning!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
     else this.getOrders();
+    this.RecordSavedItem();
   }
 
   updateRecord(ele : any) {
@@ -495,6 +544,7 @@ export class OmOrderManagerComponent implements OnInit {
           this.v2DShow = false;
       }
     }
+    this.RecordSavedItem();
     // let area = document.getElementById('focusFeild');
     // area?.click();
     // this.focusFeild.focus();
@@ -584,7 +634,15 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   printViewed(){
-   this.globalService.Print(`FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`);
+    this.omPreferences=this.global.getOmPreferences();
+
+    if(this.omPreferences.printDirectly){
+      this.globalService.Print(`FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`);
+
+    }else{
+      window.open(`/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+
+    }
     // window.location.href = `/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`;
     // window.location.reload();
   }
