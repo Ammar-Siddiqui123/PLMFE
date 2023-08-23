@@ -1041,20 +1041,20 @@ async  printPickLabels(row) {
         }
         if (this.imPreferences.autoPrintOffCarouselPickList) {
           if (this.imPreferences.printDirectly) {
-            await   this.global.Print(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`);
+            await   this.global.Print(`FileName:PrintPrevOffCarPickList|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}`);
           } else if (isWindowClosed) {
             isAnyWindowOpen = true;
-            isWindowClosed = await this.previewWindow(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`);
+            isWindowClosed = await this.previewWindow(`FileName:PrintPrevOffCarPickList|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}`);
           }
         }
 
       }
       if (this.imPreferences.autoPrintOffCarouselPickList) {
         if (this.imPreferences.printDirectly) {
-          await   this.global.Print(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`);
+          await   this.global.Print(`FileName:PrintPrevOffCarPickList|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}`);
         } else {
           isAnyWindowOpen = true;
-          isWindowClosed = await this.previewWindow(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`);
+          isWindowClosed = await this.previewWindow(`FileName:PrintPrevOffCarPickList|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}`);
           //  window.open(`/#/report-view?file=FileName:PrintPrevPickToteLabel|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
 
         }
