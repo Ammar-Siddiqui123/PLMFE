@@ -19,9 +19,9 @@
                         <mat-option value="2" [disabled]="shippingbtb" (click)="!shippingbtb ? openCmShipping() : ''">Shipping</mat-option>
                         <mat-option value="3" (click)="navigateToOrder()">Order Status</mat-option>
                         <mat-option value="4" [disabled]="printButtons" (click)="printPreviewPackList()">Print Packaging List</mat-option>
-                        <mat-option value="5" [disabled]="printButtons" (click)="printPreviewPackList()">Preview Packaging List</mat-option>
+                        <mat-option value="5" [disabled]="printButtons" (click)="printPreviewPackList(false)">Preview Packaging List</mat-option>
                         <mat-option value="6" [disabled]="printButtons" (click)="printPreviewNonVerified()">Print Not Verified List</mat-option>
-                        <mat-option value="7" [disabled]="printButtons" (click)="printPreviewNonVerified()">Preview Not Verified List</mat-option>
+                        <mat-option value="7" [disabled]="printButtons" (click)="printPreviewNonVerified(false)">Preview Not Verified List</mat-option>
                         <!-- <mat-option value="8" (click)="openCmShippingTransaction()">Shipping Transaction Dialogue</mat-option>
                         <mat-option value="9" (click)="openCmConfirmPacking()">Confirm and Packing Dialogue</mat-option>
                         <mat-option value="10" (click)="openCmItemSelected()">Item Selected Dialogue</mat-option>
