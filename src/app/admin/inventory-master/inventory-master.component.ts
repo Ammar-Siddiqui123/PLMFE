@@ -998,7 +998,7 @@ export class InventoryMasterComponent implements OnInit {
   async ConfirmationDialog(tabIndex) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       height: 'auto',
-      width: '786px',
+      width: '560px',
       data: {
         message: 'Changes you made may not be saved.',
         heading: 'Inventory Master'
