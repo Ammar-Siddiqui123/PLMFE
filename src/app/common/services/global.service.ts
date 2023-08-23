@@ -217,7 +217,7 @@ export class GlobalService {
         Name = Name.replace(".lst","").replace(".lbl","");
         const dialogRef = this.dialog.open(BrChooseReportTypeComponent, {
           height: 'auto',
-          width: '932px',
+          width: '560px',
           autoFocus: '__non_existing_element__',
           disableClose:true,
           data:{ReportName:ReportName,Name:Name}
