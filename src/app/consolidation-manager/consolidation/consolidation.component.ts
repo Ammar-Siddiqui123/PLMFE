@@ -879,11 +879,14 @@ export class ConsolidationComponent implements OnInit {
 
   }
 
-  printPreviewNonVerified() {
+  printPreviewNonVerified(print = true) {
     if (this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0) {
-      this.global.Print(`FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`)
-      // window.location.href = `/#/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`;
-      // window.location.reload();
+      if(print){
+        this.global.Print(`FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`)
+      }
+      else{
+        window.open(`/#/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      }
     }
     else {
       this.toastr.error("There are no unverfied items", 'Error!', {
@@ -893,7 +896,7 @@ export class ConsolidationComponent implements OnInit {
     }
   }
 
-  printPreviewPackList() {
+  printPreviewPackList(print = true) {
     if (this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0) {
       let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
@@ -908,10 +911,14 @@ export class ConsolidationComponent implements OnInit {
         if (result === 'Yes') {
           this.Api.ShowCMPackPrintModal({ orderNumber: this.TypeValue }).subscribe((res: any) => {
             if (res.isExecuted && res.data == "all") {
-              this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
-              // this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
+              if(print){
+                this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
+              }
+              else{
+                window.open(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+              }
             } else if (res.isExecuted && res.data == "modal") {
-              this.showCmPackPrintModal(true, this.TypeValue);
+              this.showCmPackPrintModal(true, this.TypeValue,print);
             } else {
               this.toastr.error("Error has occured","Error");
             };
@@ -922,10 +929,14 @@ export class ConsolidationComponent implements OnInit {
     else {
       this.Api.ShowCMPackPrintModal({ orderNumber: this.TypeValue }).subscribe((res: any) => {
         if (res.isExecuted && res.data == "all") {
-          this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
-          // this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
+          if(print){
+            this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
+          }
+          else{
+            window.open(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+          }
         } else if (res.isExecuted && res.data == "modal") {
-          this.showCmPackPrintModal(true, this.TypeValue);
+          this.showCmPackPrintModal(true, this.TypeValue,print);
         } else {
           this.toastr.error("Error has occured","Error");
         };
@@ -933,14 +944,15 @@ export class ConsolidationComponent implements OnInit {
     }
   }
 
-  showCmPackPrintModal(preview:boolean,orderNumber:any){
+  showCmPackPrintModal(preview:boolean,orderNumber:any,print:any){
     let dialogRef = this.dialog.open(CmPrintOptionsComponent, {
       height: 'auto',
       width: '786px',
       data: {
         preview : preview,
         orderNumber: orderNumber,
-        packListSort : this.packListSort
+        packListSort : this.packListSort,
+        print : print
       },
       autoFocus: '__non_existing_element__',
       disableClose:true,

@@ -15,6 +15,7 @@ export class CmPrintOptionsComponent implements OnInit {
   preview:any;
   orderNumber:any;
   packListSort:any;
+  print:any;
   public userData: any;
   printType:any = "";
 
@@ -31,6 +32,7 @@ export class CmPrintOptionsComponent implements OnInit {
     this.preview = this.data?.preview;
     this.orderNumber = this.data?.orderNumber;
     this.packListSort = this.data?.packListSort;
+    this.print = this.data?.print;
   }
 
   submit(){
@@ -44,25 +46,39 @@ export class CmPrintOptionsComponent implements OnInit {
 
   printNewLines(){
     if(this.preview){
-      this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:where|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
-      // this.dialogRef.close();
-      // this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:where|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
+      if(this.print){
+        this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:where|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
+      }
+      else{
+        window.open(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:where|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      }
     }
     else{
-      this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:where|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
-      // this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:where|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
+      if(this.print){
+        this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:where|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
+      }
+      else{
+        window.open(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:where|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      }
     }
   }
 
   printAllLines(){
     if(this.preview){
-      this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
-      // this.dialogRef.close();
-      // this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
+      if(this.print){
+        this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
+      }
+      else{
+        window.open(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      }
     }
     else{
-      this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
-      // this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
+      if(this.print){
+        this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
+      }
+      else{
+        window.open(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.orderNumber}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      }
     }
   }
 

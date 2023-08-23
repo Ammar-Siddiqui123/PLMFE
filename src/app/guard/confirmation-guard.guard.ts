@@ -23,7 +23,7 @@ export class ConfirmationGuard implements CanDeactivate<any> {
     return new Promise<boolean>((resolve) => {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
-        width: '786px',
+        width: '560px',
         data: {
           message: 'Changes you made may not be saved.',
           heading: title

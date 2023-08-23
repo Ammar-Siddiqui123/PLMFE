@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirmation.component';
 import { take } from 'rxjs';
 import { GlobalService } from 'src/app/common/services/global.service';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-reel-transactions',
@@ -243,7 +244,8 @@ dialog1(numUnassigned){
   
   })
 }
-
+createdReel
+checkSNS
 validateInputs() {
   this.serialInputs.forEach(input => {
     input.nativeElement.focus(); // This will force Angular to validate each input
@@ -355,6 +357,7 @@ test(){
                               });
                             }
                             else  {
+                              this.createdReel = res.data
                               // print functionality will be implemented here
                               const dialogRef = this.dialog.open(AlertConfirmationComponent, {
                                 height: 'auto',
@@ -367,8 +370,10 @@ test(){
                               });
                               dialogRef.afterClosed().subscribe((result) => {
                                 if(result){
-                                  this.global.Print(`FileName:PrintReelLabels|OTID:${res.data.join(",",'lbl')}|SN:|Item:|Order:`);
-                                  this.dialogRef.close(SNs[0]);
+                                  this.checkSNS = SNs[0]
+                                  // this.global.Print(`FileName:PrintReelLabels|OTID:${this.createdReel.join(",",'lbl')}|SN:|Item:|Order:`);
+                                  this.PrintCrossDock()
+                                  
                                   return
                                 }
                                 else{
@@ -397,6 +402,40 @@ test(){
                 (error) => {}
 
                 
+}
+
+PrintCrossDock(){
+  this.global.Print(`FileName:PrintReelLabels|OTID:${this.createdReel.join(",",'lbl')}|SN:|Item:|Order:`,'lst',(success:any)=>{ 
+    // if(success){
+    this.showConfirmationDialog('Click OK if the labels printed correctly.',(open)=>{
+      if(!open){
+      this.PrintCrossDock();
+      }else{
+        this.dialogRef.close(this.checkSNS);
+        return
+      }
+    });
+    // }
+  });
+ }
+
+ async showConfirmationDialog(message,callback) {
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    height: 'auto',
+    width: '560px',
+    autoFocus: '__non_existing_element__',
+    disableClose: true,
+    data: {
+      message: message,
+    },
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+    if(result=='Yes'){
+      callback(true)
+    }else{
+      callback(false)
+    }
+  })
 }
   GenerateSerialNumber(index){
     let payload = {

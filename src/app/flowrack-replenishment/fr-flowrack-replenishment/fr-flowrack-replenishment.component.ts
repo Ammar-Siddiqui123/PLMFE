@@ -38,6 +38,7 @@ export class FrFlowrackReplenishmentComponent implements OnInit {
   @ViewChild('scrollbar') scrollbar: ElementRef
   applicationData: any = [];
   @ViewChild('auto') matAutocomplete: MatAutocompleteTrigger;
+  @ViewChild('ord_focus') ord_focus: ElementRef;
 
 
   constructor(private dialog: MatDialog, 
@@ -50,6 +51,11 @@ export class FrFlowrackReplenishmentComponent implements OnInit {
     this.userData = this.authservice.userData()
     this.cartonFlow()
     
+  }
+
+  ngAfterViewInit(): void {
+    this.ord_focus.nativeElement.focus();
+    this.getAppLicense(); 
   }
 
 
@@ -236,9 +242,7 @@ export class FrFlowrackReplenishmentComponent implements OnInit {
       }
     }))
   }
-  ngAfterViewInit() {
-    this.getAppLicense();  
-  }
+  
   openCal() { 
     const dialogRef = this.dialog.open(FrNumpadComponent, {
       width: '480px',

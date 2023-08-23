@@ -188,7 +188,7 @@ export class GlobalService {
         else
           return true;
     }
-    Print(ChooseReport,type = "lst"){ 
+    Print(ChooseReport,type = "lst",callback?){ 
      
         var paylaod:any={
           ClientCustomData:ChooseReport,
@@ -202,12 +202,13 @@ export class GlobalService {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000,
               });
-              
+              callback(true)
           }else{
             this.toast.error("print unsuccessfully complete", 'Error!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000,
               });
+              callback(false)
           }
         })
       }
@@ -216,7 +217,7 @@ export class GlobalService {
         Name = Name.replace(".lst","").replace(".lbl","");
         const dialogRef = this.dialog.open(BrChooseReportTypeComponent, {
           height: 'auto',
-          width: '932px',
+          width: '560px',
           autoFocus: '__non_existing_element__',
           disableClose:true,
           data:{ReportName:ReportName,Name:Name}

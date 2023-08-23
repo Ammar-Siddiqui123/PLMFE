@@ -297,9 +297,10 @@ export class CrossDockTransactionComponent implements OnInit {
     });
   }
 
+  OTRecID
+   
   compPick() {
     try {
-
       let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
         width: '560px',
@@ -335,29 +336,28 @@ export class CrossDockTransactionComponent implements OnInit {
           this.Api.CompletePick(payLoad).subscribe(
             (res: any) => {
               if (res.data && res.isExecuted) {
-                let OTRecID = res.data
-                debugger
+               this.OTRecID = res.data
                 this.qtyToSubtract += this.selectedRowObj.completedQuantity ? parseInt(this.selectedRowObj.completedQuantity) : 0;
                 this.getCrossDock();
 
                 if(this.imPreferences.autoPrintCrossDockLabel){
-                  if(this.imPreferences.printDirectly){
-                    this.global.Print(`FileName:autoPrintCrossDock|tote:true|otid:${OTRecID}|ZoneLabel:${this.zone}`)
-                    
-
-                    this.global.Print(`FileName:autoPrintCrossDock|tote:false|otid:${OTRecID}|ZoneLabel:${this.zone}`)
+                  if (this.imPreferences.printDirectly) {
+                    this.PrintCrossDock()
                   }
                   else{
-                    window.open(`/#/report-view?file=FileName:autoPrintCrossDock|tote:true|otid:${OTRecID}|ZoneLabel:${this.zone}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-                    // while implementation
-                    // window.open(`/#/report-view?file=FileName:autoPrintCrossDock|tote:false|otid:${OTRecID}|ZoneLabel:${this.zone}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                    window.open(`/#/report-view?file=FileName:autoPrintCrossDock|tote:true|otid:${this.OTRecID}|ZoneLabel:${this.zone}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                    this.toastr.success('Pick Completed Successfully', 'Success!', {
+                      positionClass: 'toast-bottom-right',
+                      timeOut: 2000,
+                    });
                   }
                 }
-
-                this.toastr.success('Pick Completed Successfully', 'Success!', {
-                  positionClass: 'toast-bottom-right',
-                  timeOut: 2000,
-                });
+                else{
+                  this.toastr.success('Pick Completed Successfully', 'Success!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000,
+                  });
+                }
               } else {
                 this.toastr.error('Something went wrong', 'Error!', {
                   positionClass: 'toast-bottom-right',
@@ -372,6 +372,58 @@ export class CrossDockTransactionComponent implements OnInit {
       
     } catch (error) { 
     }
+  }
+
+  PrintCrossDock(){
+    this.global.Print(`FileName:autoPrintCrossDock|tote:true|otid:${this.OTRecID}|ZoneLabel:${this.zone}`,'lst',(success:any)=>{ 
+      // if(success){
+      this.showConfirmationDialog('Click OK if the tote label printed correctly.',(open)=>{
+        if(!open){
+        this.PrintCrossDock();
+        }else{
+          this.PrintCrossDockForLbl();
+        }
+      });
+      // }
+    });
+   }
+
+
+   PrintCrossDockForLbl(){
+    this.global.Print(`FileName:autoPrintCrossDock|tote:false|otid:${this.OTRecID}|ZoneLabel:${this.zone}`,'lst',(success:any)=>{ 
+      // if(success){
+      this.showConfirmationDialog('Click OK if the item label printed correctly.',(open)=>{
+        if(!open){
+        this.PrintCrossDockForLbl();
+        }else{
+          this.toastr.success('Pick Completed Successfully', 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
+         return
+        }
+      });
+      // }
+    });
+   }
+
+  async showConfirmationDialog(message,callback) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      disableClose: true,
+      data: {
+        message: message,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result=='Yes'){
+        callback(true)
+      }else{
+        callback(false)
+      }
+    })
   }
 
   completePick() {
