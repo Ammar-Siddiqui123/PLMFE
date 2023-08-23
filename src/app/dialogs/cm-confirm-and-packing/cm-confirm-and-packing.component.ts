@@ -175,17 +175,20 @@ async ClickConfirmAll(){
   } else { 
 
    
-    
+
     if(this.preferencesData && this.preferencesData.autoPrintContLabel){
       this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
-      
     }
     if(this.preferencesData && this.preferencesData.autoPrintContPL){
-      this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+      setTimeout(() => {
+        this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+      }, 2000); 
       
     }
     if(this.preferencesData && this.preferencesData.autoPrintOrderPL){
-      this.global.Print(`FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
+      setTimeout(() => {
+        this.global.Print(`FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
+      }, 3500); 
       
     }
 

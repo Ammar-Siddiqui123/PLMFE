@@ -133,13 +133,21 @@
                                     (openedChange)="actionDialog($event)">
                                     <mat-option value="set_column_sq">Set Column Sequence</mat-option>
 
-                                    <mat-option *ngIf="print" (click)="printPreview('selected')" value="printPreview">Print Preview Selected</mat-option>
-                                    <mat-option (click)="printPreview('all')" value="printPreviewAllRecords">Print Preview All Records</mat-option>
-                                    <mat-option *ngIf="print" (click)="printPreview('reason')"  value="printPreviewSelectedReason">Print Preview By Selected Reason</mat-option>
-                                    <mat-option *ngIf="print" (click)="printPreview('message')"  value="printPreviewSelectedMessage">Print Preview By Selected Message</mat-option>
-                                    <mat-option *ngIf="print" (click)="printPreview('date')"  value="printPreviewDateTime">Print Preview By Date/Time</mat-option>
-                                    <mat-option *ngIf="this.itemNumber != ''" (click)="printPreview('item')"  value="printPreviewItemNumber">Print Preview By Item Number</mat-option>
-                                    <mat-option *ngIf="this.orderNumber != ''" (click)="printPreview('order')"  value="printPreviewItemNumber">Print Preview By Order Number</mat-option>
+                                    <mat-option *ngIf="print" (click)="printPreview('selected',false)" value="printPreview">Print Preview Selected</mat-option>
+                                    <mat-option (click)="printPreview('all',false)" value="printPreviewAllRecords">Print Preview All Records</mat-option>
+                                    <mat-option *ngIf="print" (click)="printPreview('reason',false)"  value="printPreviewSelectedReason">Print Preview By Selected Reason</mat-option>
+                                    <mat-option *ngIf="print" (click)="printPreview('message',false)"  value="printPreviewSelectedMessage">Print Preview By Selected Message</mat-option>
+                                    <mat-option *ngIf="print" (click)="printPreview('date',false)"  value="printPreviewDateTime">Print Preview By Date/Time</mat-option>
+                                    <mat-option *ngIf="this.itemNumber != ''" (click)="printPreview('item',false)"  value="printPreviewItemNumber">Print Preview By Item Number</mat-option>
+                                    <mat-option *ngIf="this.orderNumber != ''" (click)="printPreview('order',false)"  value="printPreviewItemNumber">Print Preview By Order Number</mat-option>
+
+                                    <mat-option *ngIf="print" (click)="printPreview('selected')" value="printPreview">Print Selected</mat-option>
+                                    <mat-option (click)="printPreview('all')" value="printPreviewAllRecords">Print All Records</mat-option>
+                                    <mat-option *ngIf="print" (click)="printPreview('reason')"  value="printPreviewSelectedReason">Print By Selected Reason</mat-option>
+                                    <mat-option *ngIf="print" (click)="printPreview('message')"  value="printPreviewSelectedMessage">Print By Selected Message</mat-option>
+                                    <mat-option *ngIf="print" (click)="printPreview('date')"  value="printPreviewDateTime">Print By Date/Time</mat-option>
+                                    <mat-option *ngIf="this.itemNumber != ''" (click)="printPreview('item')"  value="printPreviewItemNumber">Print By Item Number</mat-option>
+                                    <mat-option *ngIf="this.orderNumber != ''" (click)="printPreview('order')"  value="printPreviewItemNumber">Print By Order Number</mat-option>
 
                                     <mat-option *ngIf="deleteReplenishment" value="deleteReplenishment">Delete Replenishment</mat-option>
                                     <mat-option *ngIf="deleteSelected" value="deleteSelected">Delete Selected</mat-option>
