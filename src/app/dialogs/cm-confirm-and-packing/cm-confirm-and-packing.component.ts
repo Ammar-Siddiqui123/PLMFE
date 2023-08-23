@@ -182,13 +182,13 @@ async ClickConfirmAll(){
     if(this.preferencesData && this.preferencesData.autoPrintContPL){
       setTimeout(() => {
         this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
-      }, 3000); 
+      }, 2000); 
       
     }
     if(this.preferencesData && this.preferencesData.autoPrintOrderPL){
       setTimeout(() => {
         this.global.Print(`FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
-      }, 3000); 
+      }, 3500); 
       
     }
 
