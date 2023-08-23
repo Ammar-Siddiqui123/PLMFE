@@ -1119,7 +1119,7 @@ export class ProcessPicksComponent implements OnInit {
                       
      
       }
-     if(this.imPreferences.autoPrintOffCarouselPickList){
+     else if(this.imPreferences.autoPrintOffCarouselPickList){
    
         if(this.imPreferences.printDirectly){
           this.global.Print(`FileName:PrintPrevIMPickBatchList|BatchID:${batchId}`);
@@ -1148,7 +1148,7 @@ export class ProcessPicksComponent implements OnInit {
                     }
                 }
     }
-     if (this.imPreferences.autoPrintCaseLabel){
+   else if (this.imPreferences.autoPrintCaseLabel){
       if(this.imPreferences.printDirectly){
         this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`,'lbl');
         }else{
@@ -1169,7 +1169,7 @@ export class ProcessPicksComponent implements OnInit {
 
 
     }
-     if (this.imPreferences.autoPrintPickBatchList){
+   else if (this.imPreferences.autoPrintPickBatchList){
       if(this.imPreferences.printDirectly){
         this.global.Print(`FileName:PrintPrevPickBatchList|BatchID:${batchId}`);
         }else{
