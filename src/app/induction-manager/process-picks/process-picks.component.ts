@@ -85,7 +85,7 @@ export class ProcessPicksComponent implements OnInit {
     this.imPreferences = this.global.getImPreferences();
 
   }
-  printExisting(type) {
+  async printExisting(type) {
 
 
     var positionList: any[] = [];
@@ -108,7 +108,7 @@ export class ProcessPicksComponent implements OnInit {
 
       if (type === 'PrintTote') {
         if (this.imPreferences.printDirectly) {
-          this.global.Print(`FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`, 'lbl')
+          await this.global.Print(`FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`, 'lbl')
 
         } else {
           window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
@@ -119,7 +119,7 @@ export class ProcessPicksComponent implements OnInit {
 
 
         if (this.imPreferences.printDirectly) {
-          this.global.Print(`FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`, 'lbl')
+        await  this.global.Print(`FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`, 'lbl')
 
         } else {
           window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchItemLabel|BatchID:${this.pickBatches.value}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
@@ -132,7 +132,7 @@ export class ProcessPicksComponent implements OnInit {
 
 
         if (this.imPreferences.printDirectly) {
-          this.global.Print(`FileName:PrintPrevIMPickBatchList|BatchID:${this.pickBatches.value}`);
+          await   this.global.Print(`FileName:PrintPrevIMPickBatchList|BatchID:${this.pickBatches.value}`);
 
         } else {
           window.open(`/#/report-view?file=FileName:PrintPrevIMPickBatchList|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
@@ -145,7 +145,7 @@ export class ProcessPicksComponent implements OnInit {
 
 
         if (this.imPreferences.printDirectly) {
-          this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`, 'lbl');
+          await  this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`, 'lbl');
 
         } else {
           window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
@@ -158,7 +158,7 @@ export class ProcessPicksComponent implements OnInit {
 
 
         if (this.imPreferences.printDirectly) {
-          this.global.Print(`FileName:PrintPrevPickBatchList|BatchID:${this.pickBatches.value}`);
+          await   this.global.Print(`FileName:PrintPrevPickBatchList|BatchID:${this.pickBatches.value}`);
 
         } else {
           window.open(`/#/report-view?file=FileName:PrintPrevPickBatchList|BatchID:${this.pickBatches.value}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
@@ -169,7 +169,7 @@ export class ProcessPicksComponent implements OnInit {
       }
     }
   }
-  printToteLabels(row) {
+ async printToteLabels(row) {
     console.log(row);
     let positionList: any = [];
     let toteList: any = [];
@@ -187,7 +187,7 @@ export class ProcessPicksComponent implements OnInit {
       orderNumberList.push(row.orderNumber)
 
       if (this.imPreferences.printDirectly) {
-        this.global.Print(`FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`, 'lbl');
+        await   this.global.Print(`FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`, 'lbl');
 
       } else {
         window.open(`/#/report-view?file=FileName:PrintPrevIMPickToteLabelButt|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
@@ -196,7 +196,7 @@ export class ProcessPicksComponent implements OnInit {
 
     }
   }
-  printPickLabels(row) {
+async  printPickLabels(row) {
     let positionList: any = [];
     let toteList: any = [];
     let orderNumberList: any = [];
@@ -211,7 +211,7 @@ export class ProcessPicksComponent implements OnInit {
       orderNumberList.push(row.orderNumber)
 
       if (this.imPreferences.printDirectly) {
-        this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, 'lbl');
+        await  this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, 'lbl');
 
       } else {
         window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${positionList}|ToteIDs:${toteList}|OrderNums:${orderNumberList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
@@ -222,7 +222,7 @@ export class ProcessPicksComponent implements OnInit {
 
     }
   }
-  printPick(type) {
+ async printPick(type) {
     const counter = this.dataSource._data?._value?.length
     let PositionList: any = [];
     let ToteList: any = [];
@@ -253,7 +253,7 @@ export class ProcessPicksComponent implements OnInit {
       }
       else {
         if (this.imPreferences.printDirectly) {
-          this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`);
+        await  this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`);
 
         } else {
           window.open(`/#/report-view?file=FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
@@ -263,7 +263,7 @@ export class ProcessPicksComponent implements OnInit {
         //  this.global.Print(`FileName:PrintPrevIMPickBatchToteLabel|BatchID:${this.pickBatches.value}`)
 
 
-        this.global.Print(`FileName:PrintPrevIMPickToteLabelButt|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}`, 'lbl');
+        await this.global.Print(`FileName:PrintPrevIMPickToteLabelButt|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}`, 'lbl');
 
       }
     }
@@ -285,14 +285,14 @@ export class ProcessPicksComponent implements OnInit {
         })
       } else {
         if (this.imPreferences.printDirectly) {
-          this.global.Print(`FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`);
+          await  this.global.Print(`FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`);
 
         } else {
           window.open(`/#/report-view?file=FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
 
         }
 
-        this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, 'lbl');
+        await this.global.Print(`FileName:PrintPrevIMPickItemLabel|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}|WSID:${this.userData.wsid}`, 'lbl');
       }
     }
     if (type === 'PrintPickList') {
@@ -309,7 +309,7 @@ export class ProcessPicksComponent implements OnInit {
         })
       } else {
         if (this.imPreferences.printDirectly) {
-          this.global.Print(`FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`);
+          await  this.global.Print(`FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`);
 
         } else {
           window.open(`/#/report-view?file=FileName:PrintPrevIMPickList|Positions:${PositionList}|ToteIDs:${ToteList}|OrderNums:${OrderList}|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
@@ -1034,14 +1034,14 @@ export class ProcessPicksComponent implements OnInit {
       if (this.imPreferences.autoPrintPickToteLabels) {
 
         if (this.imPreferences.printDirectly) {
-          this.global.Print(`FileName:PrintPrevPickToteLabel|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}|BatchID:${batchId}`, 'lbl');
+          await  this.global.Print(`FileName:PrintPrevPickToteLabel|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}|BatchID:${batchId}`, 'lbl');
         } else {
           isAnyWindowOpen = true;
           isWindowClosed = await this.previewWindow(`FileName:PrintPrevPickToteLabel|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}|BatchID:${batchId}`);
         }
         if (this.imPreferences.autoPrintOffCarouselPickList) {
           if (this.imPreferences.printDirectly) {
-            this.global.Print(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`);
+            await   this.global.Print(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`);
           } else if (isWindowClosed) {
             isAnyWindowOpen = true;
             isWindowClosed = await this.previewWindow(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`);
@@ -1051,7 +1051,7 @@ export class ProcessPicksComponent implements OnInit {
       }
       if (this.imPreferences.autoPrintOffCarouselPickList) {
         if (this.imPreferences.printDirectly) {
-          this.global.Print(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`);
+          await   this.global.Print(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`);
         } else {
           isAnyWindowOpen = true;
           isWindowClosed = await this.previewWindow(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`);
@@ -1061,7 +1061,7 @@ export class ProcessPicksComponent implements OnInit {
 
       } if (this.imPreferences.autoPrintCaseLabel) {
         if (this.imPreferences.printDirectly) {
-          this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`, 'lbl');
+          await  this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`, 'lbl');
         }
 
         else if (isAnyWindowOpen) {
@@ -1091,8 +1091,7 @@ export class ProcessPicksComponent implements OnInit {
       if (this.imPreferences.autoPrintPickToteLabels) {
 
         if (this.imPreferences.printDirectly) {
-          ;
-
+           
           await this.global.Print(`FileName:PrintPrevInZoneBatchToteLabel|BatchID:${batchId}|WSID:${this.userData.wsid}`);
         } else {
           isWindowClosed = await this.previewWindow(`FileName:PrintPrevInZoneBatchToteLabel|BatchID:${batchId}|WSID:${this.userData.wsid}`);
@@ -1180,7 +1179,7 @@ export class ProcessPicksComponent implements OnInit {
         }
       }
     } catch (error) {
-      // this.alertPopUpBlocked();
+       this.alertPopUpBlocked();
       console.error('Error occurred:', error);
     }
   }
