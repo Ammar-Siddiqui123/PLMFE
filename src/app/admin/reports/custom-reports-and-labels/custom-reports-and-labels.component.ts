@@ -273,7 +273,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if(result){
         let payload = {
-          filename:this.Detail.fileName
+          FileName:this.Detail.fileName
         }
         this.api.pushReportChanges(payload).subscribe(res=>{
           console.log(res)
