@@ -57,8 +57,9 @@ export class OmPreferencesComponent implements OnInit {
     //   });
   }
   restrictTo10Digits(event: KeyboardEvent): void {
+    debugger
     const inputElement = this.myInput.nativeElement;
-    let value = inputElement.value.replace(/\D/g, ''); // Remove non-digit characters
+    let value = inputElement.value.replace(/\D/g, ''); // Remove non-digit characters 
     if (parseInt(value) > 2147483647) {
       value = value.substr(0, 9); // Limit to maximum of 10 digits
     } else {
@@ -127,7 +128,7 @@ export class OmPreferencesComponent implements OnInit {
 
     let payload = {
       // maxOrders: this.filtersForm.controls['maxOrder'] && this.filtersForm.controls['maxOrder'].value && this.filtersForm.controls['maxOrder'].value>2147483647?this.removeLastDigit(this.filtersForm.controls['maxOrder'].value):this.filtersForm.controls['maxOrder'].value ,
-      maxOrders: maxOrderRem,
+      maxOrders: maxOrderRem !=null ? maxOrderRem : 1,
       allowInProc: this.filtersForm.controls['allowInProcOrders'].value,
       allowPartRel: this.filtersForm.controls['allowIndivdOrders'].value,
       defUserFields: this.filtersForm.controls['defUserFields'].value,
