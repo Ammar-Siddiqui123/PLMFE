@@ -1063,39 +1063,32 @@ export class ReprocessTransactionComponent implements OnInit {
     let orderNumber = this.orderNumber;
     let itemNumber = this.itemNumber;
     if(type == 'all'){
-      this.global.Print(`FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:|Date:`)
-      // window.location.href = `/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:|Date:`;
-      // window.location.reload();
+      
+      window.open(`/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:|Date:`);
+  
     }
     else if(type == 'selected'){
-      this.global.Print(`FileName:printReprocessTransactions|History:${history}|ID:${id}|OrderNumber:|ItemNumber:|Reason:|Message:|Date:`)
+      window.open(`/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:${id}|OrderNumber:|ItemNumber:|Reason:|Message:|Date:`);
+
+
       // window.location.href = `/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:${id}|OrderNumber:|ItemNumber:|Reason:|Message:|Date:`;
       // window.location.reload();
     }
     else if(type == 'reason'){
-      this.global.Print(`FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:${reason}|Message:|Date:`)
-      // window.location.href = `/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:${reason}|Message:|Date:`;
-      // window.location.reload();
+      window.open(`/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:${reason}|Message:|Date:`);
     }
     else if(type == 'message'){
-      this.global.Print(`FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:${message}|Date:`)
-      // window.location.href = `/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:${message}|Date:`;
-      // window.location.reload();
+      window.open(`/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:${message}|Date:`);
     }
     else if(type == 'date'){
-      this.global.Print(`FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:|Date:${date}`)
-      // window.location.href = `/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:|Date:${date}`;
-      // window.location.reload();
-    }
+      window.open(`/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:|Reason:|Message:|Date:${date}`);
+       }
     else if(type == 'item'){
-      this.global.Print(`FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:${itemNumber}|Reason:|Message:|Date:`)
-      // window.location.href = `/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:${itemNumber}|Reason:|Message:|Date:`;
-      // window.location.reload();
+      
+      window.open(`/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:|ItemNumber:${itemNumber}|Reason:|Message:|Date:`);
     }
     else if(type == 'order'){
-      this.global.Print(`FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:${orderNumber}|ItemNumber:|Reason:|Message:|Date:`)
-      // window.location.href = `/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:${orderNumber}|ItemNumber:|Reason:|Message:|Date:`;
-      // window.location.reload();
+      window.open(`/#/report-view?file=FileName:printReprocessTransactions|History:${history}|ID:|OrderNumber:${orderNumber}|ItemNumber:|Reason:|Message:|Date:`);
     }
   }
 }
