@@ -1031,39 +1031,46 @@ export class ProcessPicksComponent implements OnInit {
     try {
       this.imPreferences=this.global.getImPreferences();
       let isWindowClosed:any=null;
-
+      let isAnyWindowOpen=false;
       if(this.imPreferences.autoPrintPickToteLabels){
 
         if(this.imPreferences.printDirectly){
               this.global.Print(`FileName:PrintPrevPickToteLabel|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}|BatchID:${batchId}`,'lbl');
               }else{
+                isAnyWindowOpen=true;
                 isWindowClosed =await this.previewWindow(`FileName:PrintPrevPickToteLabel|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}|BatchID:${batchId}`); 
               }
               if(this.imPreferences.autoPrintOffCarouselPickList){
                 if(this.imPreferences.printDirectly){
                   this.global.Print(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`);
                   }else if(isWindowClosed){
+                     isAnyWindowOpen=true;
                     isWindowClosed =await this.previewWindow(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`); 
                   }
                 }
                
       }
-      else if(this.imPreferences.autoPrintOffCarouselPickList){
+       if(this.imPreferences.autoPrintOffCarouselPickList){
         if(this.imPreferences.printDirectly){
         this.global.Print(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`);
         }else{
+          isAnyWindowOpen=true;
           isWindowClosed =await this.previewWindow(`FileName:PrintPrevOffCarPickList|BatchID:${batchId}`); 
             //  window.open(`/#/report-view?file=FileName:PrintPrevPickToteLabel|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}|BatchID:${this.batchID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
 
         }
    
-      }else if(this.imPreferences.autoPrintCaseLabel ){
+      } if(this.imPreferences.autoPrintCaseLabel ){
         if(this.imPreferences.printDirectly){
           this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`,'lbl');
         }
-        else if(isWindowClosed){
-        window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-
+        
+        else if(isAnyWindowOpen ){
+          if(isWindowClosed){
+            window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+          }
+        }else{
+          window.open(`/#/report-view?file=FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
         }
       }
 
@@ -1080,6 +1087,7 @@ export class ProcessPicksComponent implements OnInit {
  
       this.imPreferences=this.global.getImPreferences();
       let isWindowClosed:any=null;
+      let isAnyWindowOpen=false;
       if(this.imPreferences.autoPrintPickToteLabels){
 
         if(this.imPreferences.printDirectly){
@@ -1111,7 +1119,7 @@ export class ProcessPicksComponent implements OnInit {
                       
      
       }
-    else if(this.imPreferences.autoPrintOffCarouselPickList){
+     if(this.imPreferences.autoPrintOffCarouselPickList){
    
         if(this.imPreferences.printDirectly){
           this.global.Print(`FileName:PrintPrevIMPickBatchList|BatchID:${batchId}`);
@@ -1140,7 +1148,7 @@ export class ProcessPicksComponent implements OnInit {
                     }
                 }
     }
-    else if (this.imPreferences.autoPrintCaseLabel){
+     if (this.imPreferences.autoPrintCaseLabel){
       if(this.imPreferences.printDirectly){
         this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`,'lbl');
         }else{
@@ -1161,7 +1169,7 @@ export class ProcessPicksComponent implements OnInit {
 
 
     }
-    else if (this.imPreferences.autoPrintPickBatchList){
+     if (this.imPreferences.autoPrintPickBatchList){
       if(this.imPreferences.printDirectly){
         this.global.Print(`FileName:PrintPrevPickBatchList|BatchID:${batchId}`);
         }else{
