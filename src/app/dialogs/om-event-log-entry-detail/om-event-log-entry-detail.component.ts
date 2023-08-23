@@ -5,6 +5,8 @@ import labels from '../../labels/labels.json';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-om-event-log-entry-detail',
@@ -22,6 +24,8 @@ export class OmEventLogEntryDetailComponent implements OnInit {
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<OmEventLogEntryDetailComponent>,
     private authService: AuthService,
+    private global:GlobalService,
+    private datepipe: DatePipe,
   ) { }
 
   ngOnInit(): void {
@@ -68,7 +72,9 @@ export class OmEventLogEntryDetailComponent implements OnInit {
   }
 
   printEvent() {
-    alert('The print service is currently offline');
+    if(this.eventLog.eventID == 0) this.eventLog.eventID  = -1; 
+    var curdatetime = this.datepipe.transform(this.eventLog.dateStamp, 'yyyy-MM-dd HH:mm:ss');
+    this.global.Print(`FileName:printELReport|sDate:${curdatetime}|eDate:${curdatetime}|eID:${this.eventLog.eventID ? this.eventLog.eventID : ''}|message:${this.eventLog.message ? this.eventLog.message: '' }|eLocation:${this.eventLog.eLocation ? this.eventLog.eLocation: '' }|nStamp:${this.eventLog.nStamp ? this.eventLog.nStamp: '' }`);
   }
 
 }
