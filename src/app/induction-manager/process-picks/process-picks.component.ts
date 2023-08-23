@@ -1049,7 +1049,7 @@ async  printPickLabels(row) {
         }
 
       }
-      if (this.imPreferences.autoPrintOffCarouselPickList) {
+     else if (this.imPreferences.autoPrintOffCarouselPickList) {
         if (this.imPreferences.printDirectly) {
           await   this.global.Print(`FileName:PrintPrevOffCarPickList|Positions:${Positions}|ToteIDs:${ToteIDs}|OrderNums:${OrderNumbers}`);
         } else {
@@ -1059,7 +1059,7 @@ async  printPickLabels(row) {
 
         }
 
-      } if (this.imPreferences.autoPrintCaseLabel) {
+      }else if (this.imPreferences.autoPrintCaseLabel) {
         if (this.imPreferences.printDirectly) {
           await  this.global.Print(`FileName:PrintPrevInZoneCaseLabel|BatchID:${batchId}`, 'lbl');
         }
