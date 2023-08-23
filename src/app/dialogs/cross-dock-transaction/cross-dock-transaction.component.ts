@@ -346,13 +346,18 @@ export class CrossDockTransactionComponent implements OnInit {
                   }
                   else{
                     window.open(`/#/report-view?file=FileName:autoPrintCrossDock|tote:true|otid:${this.OTRecID}|ZoneLabel:${this.zone}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                    this.toastr.success('Pick Completed Successfully', 'Success!', {
+                      positionClass: 'toast-bottom-right',
+                      timeOut: 2000,
+                    });
                   }
                 }
-
-                this.toastr.success('Pick Completed Successfully', 'Success!', {
-                  positionClass: 'toast-bottom-right',
-                  timeOut: 2000,
-                });
+                else{
+                  this.toastr.success('Pick Completed Successfully', 'Success!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000,
+                  });
+                }
               } else {
                 this.toastr.error('Something went wrong', 'Error!', {
                   positionClass: 'toast-bottom-right',
@@ -371,7 +376,7 @@ export class CrossDockTransactionComponent implements OnInit {
 
   PrintCrossDock(){
     this.global.Print(`FileName:autoPrintCrossDock|tote:true|otid:${this.OTRecID}|ZoneLabel:${this.zone}`,'lst',(success:any)=>{ 
-      if(success){
+      // if(success){
       this.showConfirmationDialog('Click OK if the tote label printed correctly.',(open)=>{
         if(!open){
         this.PrintCrossDock();
@@ -379,22 +384,26 @@ export class CrossDockTransactionComponent implements OnInit {
           this.PrintCrossDockForLbl();
         }
       });
-      }
+      // }
     });
    }
 
 
    PrintCrossDockForLbl(){
     this.global.Print(`FileName:autoPrintCrossDock|tote:false|otid:${this.OTRecID}|ZoneLabel:${this.zone}`,'lst',(success:any)=>{ 
-      if(success){
+      // if(success){
       this.showConfirmationDialog('Click OK if the item label printed correctly.',(open)=>{
         if(!open){
         this.PrintCrossDockForLbl();
         }else{
+          this.toastr.success('Pick Completed Successfully', 'Success!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000,
+          });
          return
         }
       });
-      }
+      // }
     });
    }
 
