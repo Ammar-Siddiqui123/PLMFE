@@ -125,10 +125,11 @@ export class GlobalConfigComponent {
   }
 
   ngOnInit() {
-    if (this.auth.IsloggedIn()) {
-      this.router.navigate(['/dashboard']);
-    }
-    else{
+    debugger
+    // if (this.auth.IsloggedIn()) {
+    //   this.router.navigate(['/dashboard']);
+    // }
+    // else{
     this.route.url.forEach((res) => {
       if(res[0].path.includes('globalconfig')){
           localStorage.setItem('isConfigUser', JSON.stringify(true))
@@ -151,7 +152,7 @@ export class GlobalConfigComponent {
           );
         }
       });
-    }
+    // }
   }
 
   changePass() {
