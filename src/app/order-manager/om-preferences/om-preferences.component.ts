@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-om-preferences',
@@ -17,7 +18,8 @@ export class OmPreferencesComponent implements OnInit {
   constructor(
     private Api: ApiFuntions,
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private global:GlobalService
   ) {
     this.userData = this.authService.userData();
 
@@ -55,8 +57,9 @@ export class OmPreferencesComponent implements OnInit {
     //   });
   }
   restrictTo10Digits(event: KeyboardEvent): void {
+    debugger
     const inputElement = this.myInput.nativeElement;
-    let value = inputElement.value.replace(/\D/g, ''); // Remove non-digit characters
+    let value = inputElement.value.replace(/\D/g, ''); // Remove non-digit characters 
     if (parseInt(value) > 2147483647) {
       value = value.substr(0, 9); // Limit to maximum of 10 digits
     } else {
@@ -106,7 +109,7 @@ export class OmPreferencesComponent implements OnInit {
           );
           this.filtersForm.controls['custReportsMenuText'].setValue(
             response.data.customAdminText ? response.data.customAdminText : ''
-          );
+          );      
         } else {
         }
       });
@@ -125,7 +128,7 @@ export class OmPreferencesComponent implements OnInit {
 
     let payload = {
       // maxOrders: this.filtersForm.controls['maxOrder'] && this.filtersForm.controls['maxOrder'].value && this.filtersForm.controls['maxOrder'].value>2147483647?this.removeLastDigit(this.filtersForm.controls['maxOrder'].value):this.filtersForm.controls['maxOrder'].value ,
-      maxOrders: maxOrderRem,
+      maxOrders: maxOrderRem !=null ? maxOrderRem : 1,
       allowInProc: this.filtersForm.controls['allowInProcOrders'].value,
       allowPartRel: this.filtersForm.controls['allowIndivdOrders'].value,
       defUserFields: this.filtersForm.controls['defUserFields'].value,
@@ -140,6 +143,7 @@ export class OmPreferencesComponent implements OnInit {
       .OrderManagerPreferenceUpdate(payload)
       .subscribe((response: any) => {
         if (response.isExecuted) {
+          this.global.updateOmPref();
         } else {
           this.toastr.error(
             'Error',

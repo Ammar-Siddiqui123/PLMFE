@@ -116,8 +116,7 @@
                 </th>
 
                 <td mat-cell *matCellDef="let seletedRecord" style="border: 0; padding-left: 24px; background: #fff;" >
-                  
-                  <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" class="circle-icon-o" appearance="outline">
+                  <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="" [ngClass]="{'active-btn':seletedRecord.selected}" class="circle-icon-o" appearance="outline">
                     <mat-icon>more_horiz</mat-icon>
                   </button>
 
@@ -147,7 +146,7 @@
               </tr>
 
               <mat-header-row *matHeaderRowDef="columnValues;sticky: true" style=" border: 0"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: columnValues;"></mat-row>
+              <mat-row *matRowDef="let row; columns: columnValues;" (click)="selectRow(row)"></mat-row>
               <!-- <tr mat-header-row *matHeaderRowDef="columnValues; sticky: true;" style=" background-color: #F9F9FF;"></tr>
               <tr mat-row *matRowDef="let row; columns: columnValues;"></tr> -->
 
@@ -162,7 +161,7 @@
             color="primary" (click)="ClearFilters()">Clear FIlters</button>
           </div> -->
           <div class="table-pagination d-flex justify-content-start align-items-center" *ngIf="columnValues.length> 0 && displayedColumns && dataSource">
-            <mat-paginator [length]="this.customPagination.total" [pageSize]="20" [pageSizeOptions]="[10, 20, 100]"
+            <mat-paginator [length]="this.customPagination.total" [pageSize]="20" showFirstLastButtons [pageSizeOptions]="[10, 20, 100]"
               (page)="handlePageEvent($event)"></mat-paginator>
               <!-- <mat-label class="text-14 mat-paginator">Hello world</mat-label> -->
           </div>

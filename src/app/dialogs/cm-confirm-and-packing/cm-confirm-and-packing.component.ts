@@ -12,6 +12,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { Router } from '@angular/router';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-cm-confirm-and-packing',
@@ -21,6 +22,7 @@ import { Router } from '@angular/router';
 export class CmConfirmAndPackingComponent implements OnInit {
   @ViewChild('order_focus') order_focus: ElementRef;
   orderNumber:any ;
+  preferencesData:any;
   toteTable:any;
   ItemNumber:any;
   transTable:any;
@@ -42,6 +44,7 @@ userData:any={};
 displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transactionQuantity', 'completedQuantity', 'containerID',
  'shipQuantity', 'complete']; 
   constructor(private Api:ApiFuntions,public authService: AuthService,private toast:ToastrService,private dialog: MatDialog,
+    private global:GlobalService,
     public route: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,private _liveAnnouncer: LiveAnnouncer,
     public dialogRef: MatDialogRef<any>) { 
@@ -75,7 +78,14 @@ displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transacti
    this.Api.SelContIDConfirmPack(obj).subscribe((res:any) => { 
     if(res.data == ''){
       this.toast.error("An error has occurred",'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});
-    }else this.contID = res.data;
+    }else{
+      this.getPreferences();
+      if(this.preferencesData && this.preferencesData.autoPrintContPL){
+        this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+      }
+      this.contID = res.data;
+
+    }
    });
 }
 
@@ -92,7 +102,24 @@ async UnPack(id:any){
   });
  
 }
+getPreferences() {
+  let payload = {
+    type: '',
+    value: '',
+    username: this.userData.userName,
+    wsid: this.userData.wsid,
+  };
+
+  this.Api
+    .ConsoleDataSB(payload)
+    .subscribe((res) => {
+      if (res.isExecuted) {
+        this.preferencesData = res.data.cmPreferences;
  
+      }
+      
+    });
+}
  
 ConfirmAndPackingIndex(){ 
 
@@ -123,6 +150,7 @@ if(this.orderNumber != ""){
 }
 }
 async ClickConfirmAll(){
+  this.getPreferences();
   let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
     height: 'auto',
     width: '560px',
@@ -145,6 +173,25 @@ async ClickConfirmAll(){
     if (res.data == "Fail") {
       this.toast.error('An error has occurred', 'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000}); 
   } else { 
+
+   
+
+    if(this.preferencesData && this.preferencesData.autoPrintContLabel){
+      this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+    }
+    if(this.preferencesData && this.preferencesData.autoPrintContPL){
+      setTimeout(() => {
+        this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+      }, 2000); 
+      
+    }
+    if(this.preferencesData && this.preferencesData.autoPrintOrderPL){
+      setTimeout(() => {
+        this.global.Print(`FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
+      }, 3500); 
+      
+    }
+
     this.ConfirmAndPackingIndex(); 
     }
   });
@@ -271,12 +318,26 @@ if(searchCount == 0){
     //show modal here
   this.openScanItem($event.target.value,id);  
 } else {  
+  this.getPreferences();
   var index =  this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
   this.transTable.filteredData[index].containerID = this.contID;
   this.transTable.filteredData[index].complete = true; 
     if (this.OldtransTable.filteredData.length == 1) {
         // this.ConfirmedPacked();
     };
+    if(this.preferencesData && this.preferencesData.autoPrintContLabel){
+      this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+    
+    }
+    if(this.preferencesData && this.preferencesData.autoPrintContPL){
+      this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
+    
+    }
+    if(this.preferencesData && this.preferencesData.autoPrintOrderPL){
+      this.global.Print(`FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
+    
+    }
+
 };
  });
   }else {
@@ -290,7 +351,7 @@ async ConfirmedPacked() {
 };
 
 printPackList(){
-  window.open(`/#/report-view?file=FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+  this.global.Print(`FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
   // this.dialogRef.close();
   // window.location.href = `/#/report-view?file=FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`;
   // window.location.reload();
@@ -298,20 +359,22 @@ printPackList(){
 
 print(type:any){
   if(type == 'list'){
-    window.open(`/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`);
     // this.dialogRef.close();
     // window.location.href = `/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
     // window.location.reload();
   }
   else if (type == 'label'){
-    window.open(`/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`,'lbl');
     // this.dialogRef.close();
     // window.location.href = `/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
     // window.location.reload();
   }
   else{
-    window.open(`/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
-    window.open(`/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`);
+    setTimeout(()=>{
+      this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`,'lbl');
+    }, 2000);
     // window.location.href = `/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
     // window.location.href = `/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
     // window.location.reload();
@@ -319,10 +382,19 @@ print(type:any){
 }
 
 itemLabel(element:any){
-  window.open(`/#/report-view?file=FileName:PrintConfPackItemLabel|OrderNum:${this.orderNumber}|ST_ID:${element.sT_ID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
-  // this.dialogRef.close();
-  // window.location.href = `/#/report-view?file=FileName:PrintConfPackItemLabel|OrderNum:${this.orderNumber}|ST_ID:${element.sT_ID}`;
-  // window.location.reload();
+  this.global.Print(`FileName:PrintConfPackItemLabel|OrderNum:${this.orderNumber}|ST_ID:${element.sT_ID}`);  
+}
+
+selectRow(row: any) {
+  this.transTable.filteredData.forEach(element => {
+    if(row != element){
+      element.selected = false;
+    }
+  });
+  const selectedRow = this.transTable.filteredData.find((x: any) => x === row);
+  if (selectedRow) {
+    selectedRow.selected = !selectedRow.selected;
+  }
 }
 
 }

@@ -25,6 +25,7 @@ import { CreateBatchConfirmationComponent } from '../../dialogs/create-batch-con
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-batch-selected-orders',
@@ -70,7 +71,8 @@ export class BatchSelectedOrdersComponent implements OnInit {
     private Api: ApiFuntions,
     private toastr: ToastrService,
     private sharedService: SharedService,
-    private router:Router
+    private router:Router,
+    private global:GlobalService
     
   ) {}
 
@@ -146,12 +148,9 @@ export class BatchSelectedOrdersComponent implements OnInit {
           this.tableData._data._value.forEach(element => {
               ordersArr.push(element.orderNumber)
           });
+          this.global.Print(`FileName:PrintBatchReport|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}|BatchID:${this.nextOrderNumber}`)
 
-    window.open(`/#/report-view?file=FileName:PrintBatchReport|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}|BatchID:${this.nextOrderNumber}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-
-          // window.open(`/#/report-view?file=FileName:PrintBatchReport|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}|BatchID:${this.nextOrderNumber}`, '_blank', "location=yes");
-          // window.open(`/#/report-view?file=${this.transType==='Pick'?'BMPickList':this.transType==='Put Away'?'BMPutList':'BMCountList'}-lst`, '_blank','location=yes');
-        }
+         }
       });
     }else{
       let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -172,10 +171,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
           this.tableData._data._value.forEach(element => {
               ordersArr.push(element.orderNumber)
           });
-    window.open(`/#/report-view?file=FileName:PrintBatchLabel|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-
-          // window.open(`/#/report-view?file=FileName:PrintBatchLabel|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}`, '_blank', "location=yes");
-          // window.open(`/#/report-view?file=${this.transType==='Pick'?'BMPickLabel':'BMPutLabel'}-lbl`, '_blank','location=yes');
+          this.global.Print(`FileName:PrintBatchLabel|TransType:${this.transType}|Orders:${ordersArr.length>0?ordersArr:''}`,'lbl')
         }
       });
     }

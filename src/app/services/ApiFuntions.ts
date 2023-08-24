@@ -98,6 +98,9 @@ export class ApiFuntions {
   public GetInventory(body:any): Observable<any> {
     return this.ApiBase.Get("/Admin/inventory", body);
   }
+  public GetInventoryItemNumber(body:any): Observable<any> {
+    return this.ApiBase.Get("/Admin/itemNumber", body);
+  }
   public GetInventoryMasterData(body:any):  Observable<any> {
     return this.ApiBase.Get("/Admin/inventorymasterdata", body);
   }
@@ -641,7 +644,7 @@ export class ApiFuntions {
     return this.ApiBase.Get("/Induction/wspickzone",body);
   }
   public PickToteSetupIndex(body:any): Observable<any> { 
-    return this.ApiBase.Get("/Induction/picktotesetupindex",body);
+    return this.ApiBase.Get("/Induction/picktotesetupindex");
   }
   public FillOrderNumber(body:any): Observable<any> { 
     return this.ApiBase.Get("/Induction/fillordernumber",body);
@@ -933,6 +936,9 @@ return this.ApiBase.Delete(`/Admin/group`, Body);
 } 
 public GetAllPrinters(Body: any ): Observable<any> {
   return this.ApiBase.Post(`/GlobalConfig/getallprinters`, Body);
+ } 
+ public UpdWSPrefsPrinters(Body: any ): Observable<any> {
+  return this.ApiBase.Put(`/GlobalConfig/PrefsPrinters`, Body);
  } 
 public StatusPrintService(Body: any ): Observable<any> {
     return this.ApiBase.Post(`/GlobalConfig/statusprintservice`, Body);
@@ -1465,7 +1471,7 @@ public deleteReport(payload:any) {
 } 
 
 public pushReportChanges(body): Observable<any> { 
-  return this.ApiBase.Get("/Admin/customreports/PushReportChanges",body);
+  return this.ApiBase.Post("/Admin/customreports/PushReportChanges",body);
 } 
 
 public updatereportDetails(body): Observable<any> {
@@ -1475,4 +1481,16 @@ public updatereportDetails(body): Observable<any> {
 public ShowCMPackPrintModal(body:any): Observable<any> { 
   return this.ApiBase.Get("/consolidation/cmPackPrintmodalshow",body);
 }
+public CommonExport(body): Observable<any> {
+  return this.ApiBase.Get(`/Admin/reports/export`,body);
+}
+
+public async CommonPrint(body)  {
+   return  await this.ApiBase.GetAsync(`/Admin/reports/print`,body);
+} 
+public GetWorkStatPrinters(): Observable<any> {
+  return this.ApiBase.Get(`/GlobalConfig/WorkStatPrinters`);
+} 
+
+
 }

@@ -260,4 +260,17 @@ export class CompletePickBatchComponent implements OnInit {
     this.endRow = 10;
     this.paginator.pageIndex = 0;
   }
+
+  selectRow(row: any) {
+    this.tableData.forEach(element => {
+      if(row != element){
+        element.selected = false;
+      }
+    });
+    const selectedRow = this.tableData.find((x: any) => x === row);
+    if (selectedRow) {
+      selectedRow.selected = !selectedRow.selected;
+    }
+  }
+
 }

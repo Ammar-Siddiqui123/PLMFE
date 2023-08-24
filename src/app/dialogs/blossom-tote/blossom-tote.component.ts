@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirmation.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-blossom-tote',
@@ -16,14 +17,18 @@ export class BlossomToteComponent implements OnInit {
   TOTE_SETUP: any = [];
   nxtToteID: any;
   oldToteID: any;
+  
+  imPreferences:any;
 
   constructor(private dialog: MatDialog,
     private toastr: ToastrService,
     private Api: ApiFuntions,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private global:GlobalService) { }
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
+    this.imPreferences=this.global.getImPreferences();
   }
   ngAfterViewChecked(): void {
     this.tote_focus.nativeElement.focus();
@@ -87,6 +92,24 @@ export class BlossomToteComponent implements OnInit {
           this.Api.ProcessBlossom(paylaod).subscribe(res => {
             // console.log(res.data);
             if (res.data) {
+              let batch = res.data
+              if(this.imPreferences.autoPrintPickToteLabels){
+                if(this.imPreferences.printDirectly){
+                  this.global.Print(`FileName:PrintPrevInZoneBatchToteLabel|tote:true|BatchID:${batch}`)
+                }
+                else{
+                  window.open(`/#/report-view?file=FileName:PrintPrevInZoneBatchToteLabel|tote:true|BatchID:${batch}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                }
+              }
+              if(this.imPreferences.autoPrintOffCarouselPickList){
+                if(this.imPreferences.printDirectly){
+                  this.global.Print(`FileName:autoPrintCrossDock|tote:true|BatchID:${batch}`)
+                }
+                else{
+                  window.open(`/#/report-view?file=FileName:autoPrintCrossDock|tote:true|BatchID:${batch}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                }
+                
+              }
               this.toastr.success('Updated Successfully', 'Success!', {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000

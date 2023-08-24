@@ -176,7 +176,6 @@ this.orderRequired=true
   this.orderRequired=false;
 }
 }else if(type==='item'){
-  // if(this.itemNumber==='')return;
   if(!this.itemNumber) return ;
    let payLoad = {
     itemNumber: this.itemNumber,

@@ -27,6 +27,21 @@ export class BaseService {
         
     }
   
+    async GetAsync(endPoint: string,payload?, isLoader:boolean=false): Promise<any> {
+      let queryParams = new HttpParams();
+      if(payload != null){
+           for(let key in payload){
+               if(payload[key] != undefined) queryParams=queryParams.append(key,payload[key]);
+           }
+      }  
+      return await this.http
+        .get<any>(`${environment.apiUrl}${endPoint}`,  {
+          headers: this.GetHeaders(),
+          params:queryParams
+        })
+        .toPromise();
+    }
+  
     public Post(endPoint: string,reqPaylaod: any) { 
         return this.http.post<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, {
             headers: this.GetHeaders(),

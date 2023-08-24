@@ -27,6 +27,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { CurrentTabDataService } from './current-tab-data-service';
 
 
 
@@ -55,7 +56,14 @@ export class InventoryMasterComponent implements OnInit {
   }
   public currentPageItemNo: any = '';
   searchList: any;
-  searchValue: any = '';
+  private _searchValue: any = '';
+  get searchValue(): any {
+    return this._searchValue;
+  }
+  set searchValue(value: any) {
+    this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY] = value;
+    this._searchValue = value;
+  }
   isDataFound = false;
   isDataFoundCounter = 0;
   saveDisabled = true;
@@ -92,6 +100,7 @@ export class InventoryMasterComponent implements OnInit {
     private route: ActivatedRoute,
     private confirmationGuard: ConfirmationGuard,
     private sharedService: SharedService,
+    private currentTabDataService: CurrentTabDataService
     // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
   ) {
   }
@@ -410,32 +419,59 @@ export class InventoryMasterComponent implements OnInit {
   onSubmit(form: FormGroup) { 
   }
   public getInventory() {
-    let paylaod = {
+    let paylaod1 = {
       "itemNumber": this.currentPageItemNo,
+    }
+
+    this.api.GetInventoryItemNumber(paylaod1).subscribe((res:any)=>{
+      console.log(res)
+      if(res.isExecuted){
+        this.currentPageItemNo = res.data
+        this.getInsertedItemNumber(res.data)
+      }
+      else{
+        this.toastr.error(res.responseMessage, 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+    })
+
+  }
+
+
+  getInsertedItemNumber(currentPageItemNumber){
+    let paylaod = {
+      "itemNumber": currentPageItemNumber,
       "app": "",
       "newItem": false,
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
     this.api.GetInventory(paylaod).subscribe((res: any) => {
-
-      if (this.currentPageItemNo == '') {
-        this.currentPageItemNo = res.data?.firstItemNumber;
+      
+      if (currentPageItemNumber == '') {
+        currentPageItemNumber = res.data?.firstItemNumber;
       }
-      this.searchValue = this.currentPageItemNo;
+      if (this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY])
+      {
+        currentPageItemNumber = this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY];
+        this.currentPageItemNo = currentPageItemNumber;
+      }
+      this.searchValue = currentPageItemNumber;
       this.paginationData = {
         total: res.data?.filterCount.total,
         position: res.data?.filterCount.pos,
         itemNumber: res.data?.filterCount.itemNumber,
       }
       this.saveDisabled = true;
-      this.getInvMasterDetail(this.currentPageItemNo);
-      this.getInvMasterLocations(this.currentPageItemNo);
+      this.getInvMasterDetail(currentPageItemNumber);
+      this.getInvMasterLocations(currentPageItemNumber);
       //this.getInvMasterDetail('024768000010');
       //this.getInvMasterLocations('024768000010');
     });
   }
-
+  
   async getInvMasterDetail(itemNum: any): Promise<void> {
     let paylaod = {
       "itemNumber": itemNum,
@@ -647,6 +683,7 @@ export class InventoryMasterComponent implements OnInit {
               timeOut: 2000
             });
             this.currentPageItemNo = itemNumber;
+            this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY] = undefined;
             this.getInventory();
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
@@ -710,9 +747,10 @@ export class InventoryMasterComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
+            this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY] = undefined;
             this.getInventory();
           } else {
-            this.toastr.error(res.responseMessage, 'Error!', {
+            this.toastr.error('Delete failed!  Item exists in Inventory Map.  Please deallocate item from Inventory Map location(s) before deleting.', 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
@@ -820,8 +858,7 @@ export class InventoryMasterComponent implements OnInit {
     }
   }
   getSearchList(e: any) {
-
-    this.searchValue = e.currentTarget.value; 
+    this._searchValue = e.currentTarget.value; 
     let paylaod = {
       "stockCode": e.currentTarget.value,
       "username": this.userData.userName,
@@ -961,7 +998,7 @@ export class InventoryMasterComponent implements OnInit {
   async ConfirmationDialog(tabIndex) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       height: 'auto',
-      width: '786px',
+      width: '560px',
       data: {
         message: 'Changes you made may not be saved.',
         heading: 'Inventory Master'

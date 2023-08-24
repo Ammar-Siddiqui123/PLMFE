@@ -22,6 +22,8 @@ import { CmOrderToteConflictComponent } from 'src/app/dialogs/cm-order-tote-conf
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatOption } from '@angular/material/core';
+import { GlobalService } from 'src/app/common/services/global.service';
+import { CurrentTabDataService } from 'src/app/admin/inventory-master/current-tab-data-service';
 
 @Component({
   selector: 'app-consolidation',
@@ -82,20 +84,22 @@ export class ConsolidationComponent implements OnInit {
   tableData_2 = new MatTableDataSource<any>([]);
 
   filterOption: any = [
-    { key: '1', value: 'Item Number' },
-    { key: '2', value: 'Supplier Item ID' },
-    { key: '10', value: 'Lot Number' },
-    { key: '8', value: 'Serial Number' },
-    { key: '9', value: 'User Field 1' },
     { key: '0', value: 'Any Code' },
+    { key: '1', value: 'Item Number' },
+    { key: '10', value: 'Lot Number' },
+    { key: '2', value: 'Supplier Item ID' },
+    { key: '8', value: 'Serial Number' },
     { key: '6', value: 'Tote ID' },
+    { key: '9', value: 'User Field 1' },
   ];
 
   constructor(private dialog: MatDialog,
     private toastr: ToastrService,
     private router: Router,
     private Api: ApiFuntions,
+    private global:GlobalService,
     public authService: AuthService,
+    private currentTabDataService: CurrentTabDataService,
     private _liveAnnouncer: LiveAnnouncer,) { }
 
   ngOnInit(): void {
@@ -112,6 +116,41 @@ export class ConsolidationComponent implements OnInit {
 
   ngAfterViewInit() {
     this.searchBoxField.nativeElement.focus();
+    this.ApplySavedItem();
+  }
+
+  
+  ApplySavedItem() {
+    //console.log('ApplySavedItem');
+    if (this.currentTabDataService.savedItem[this.currentTabDataService.CONSOLIDATION])
+    {
+      let item= this.currentTabDataService.savedItem[this.currentTabDataService.CONSOLIDATION];
+      this.open = item.open;
+      this.completed = item.completed;
+      this.backOrder = item.backOrder;
+      this.stageTable = item.stageTable;
+      this.tableData_1 = item.tableData_1;
+      this.tableData_2 = item.tableData_2;
+      this.TypeValue = item.TypeValue;
+      this.dataSource = item.dataSource;
+      //this.changeTranType(item);
+      return true;
+    }
+    return false;
+  }
+  RecordSavedItem() {
+    //console.log('RecordSavedItem');
+    this.currentTabDataService.savedItem[this.currentTabDataService.CONSOLIDATION]= {
+      open : this.open,
+      completed : this.completed,
+      backOrder : this.backOrder,
+      stageTable : this.stageTable,
+      tableData_1 : this.tableData_1,
+      tableData_2 : this.tableData_2,
+      TypeValue : this.TypeValue,
+      dataSource : this.dataSource
+ 
+    }
   }
 
   hideRow = true;
@@ -300,6 +339,8 @@ export class ConsolidationComponent implements OnInit {
           timeOut: 2000
         });
       }
+      
+      this.RecordSavedItem();
     })
   }
 
@@ -500,6 +541,7 @@ export class ConsolidationComponent implements OnInit {
     if (event.keyCode == 13) {
       this.CheckDuplicatesForVerify(this.filterValue);
     }
+    this.RecordSavedItem();
   }
 
   checkVerifyType(columnIndex, val) {
@@ -604,6 +646,8 @@ export class ConsolidationComponent implements OnInit {
       this.displayedColumns_1.shift()
       this.displayedColumns_1.unshift('itemNumber')
     }
+    
+    this.RecordSavedItem();
   }
 
   btnEnable() {
@@ -741,6 +785,7 @@ export class ConsolidationComponent implements OnInit {
     this.clearpagedata();
     this.searchBoxField.nativeElement.focus();
     this.disableConButts();
+    this.RecordSavedItem();
   }
 
   openCmOrderNumber() {
@@ -834,11 +879,14 @@ export class ConsolidationComponent implements OnInit {
 
   }
 
-  printPreviewNonVerified() {
+  printPreviewNonVerified(print = true) {
     if (this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0) {
-      window.open(`/#/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-      // window.location.href = `/#/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`;
-      // window.location.reload();
+      if(print){
+        this.global.Print(`FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`)
+      }
+      else{
+        window.open(`/#/report-view?file=FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      }
     }
     else {
       this.toastr.error("There are no unverfied items", 'Error!', {
@@ -848,7 +896,7 @@ export class ConsolidationComponent implements OnInit {
     }
   }
 
-  printPreviewPackList() {
+  printPreviewPackList(print = true) {
     if (this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0) {
       let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
@@ -863,10 +911,14 @@ export class ConsolidationComponent implements OnInit {
         if (result === 'Yes') {
           this.Api.ShowCMPackPrintModal({ orderNumber: this.TypeValue }).subscribe((res: any) => {
             if (res.isExecuted && res.data == "all") {
-              window.open(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-              // this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
+              if(print){
+                this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
+              }
+              else{
+                window.open(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+              }
             } else if (res.isExecuted && res.data == "modal") {
-              this.showCmPackPrintModal(true, this.TypeValue);
+              this.showCmPackPrintModal(true, this.TypeValue,print);
             } else {
               this.toastr.error("Error has occured","Error");
             };
@@ -877,10 +929,14 @@ export class ConsolidationComponent implements OnInit {
     else {
       this.Api.ShowCMPackPrintModal({ orderNumber: this.TypeValue }).subscribe((res: any) => {
         if (res.isExecuted && res.data == "all") {
-          window.open(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-          // this.router.navigateByUrl(`/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`);
+          if(print){
+            this.global.Print(`FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`)
+          }
+          else{
+            window.open(`/#/report-view?file=FileName:PrintPrevCMPackList|OrderNum:${this.TypeValue}|Where:all|OrderBy:${this.packListSort}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+          }
         } else if (res.isExecuted && res.data == "modal") {
-          this.showCmPackPrintModal(true, this.TypeValue);
+          this.showCmPackPrintModal(true, this.TypeValue,print);
         } else {
           this.toastr.error("Error has occured","Error");
         };
@@ -888,14 +944,15 @@ export class ConsolidationComponent implements OnInit {
     }
   }
 
-  showCmPackPrintModal(preview:boolean,orderNumber:any){
+  showCmPackPrintModal(preview:boolean,orderNumber:any,print:any){
     let dialogRef = this.dialog.open(CmPrintOptionsComponent, {
       height: 'auto',
       width: '786px',
       data: {
         preview : preview,
         orderNumber: orderNumber,
-        packListSort : this.packListSort
+        packListSort : this.packListSort,
+        print : print
       },
       autoFocus: '__non_existing_element__',
       disableClose:true,

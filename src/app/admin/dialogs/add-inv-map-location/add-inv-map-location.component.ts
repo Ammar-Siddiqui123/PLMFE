@@ -132,7 +132,7 @@ export class AddInvMapLocationComponent implements OnInit {
   myroute1:boolean=true;
   myroute2:boolean=true;
   unitOFMeasure  
-  itemNumberScroll:any = "all";
+  itemNumberScroll:any = "vertical";
 
   constructor(
     private dialog: MatDialog,
@@ -594,9 +594,9 @@ export class AddInvMapLocationComponent implements OnInit {
   }
 
   focusinmethod(){
-    this.itemNumberScroll = "horizontal";
+    this.itemNumberScroll = "";
   }
   focusoutmethod(){
-    this.itemNumberScroll = "all";
+    this.itemNumberScroll = "vertical";
   }
 }

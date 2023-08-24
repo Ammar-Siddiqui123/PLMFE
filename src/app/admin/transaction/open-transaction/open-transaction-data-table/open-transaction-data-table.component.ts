@@ -187,5 +187,16 @@ export class OpenTransactionDataTableComponent
 
   }
 
+  selectRow(row: any) {
+    this.datasource.forEach(element => {
+      if(row != element){
+        element.selected = false;
+      }
+    });
+    const selectedRow = this.datasource.find((x: any) => x === row);
+    if (selectedRow) {
+      selectedRow.selected = !selectedRow.selected;
+    }
+  }
 
 }

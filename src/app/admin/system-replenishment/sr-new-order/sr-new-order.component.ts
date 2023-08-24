@@ -19,6 +19,7 @@ import { Subject } from 'rxjs';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 
 @Component({
@@ -75,6 +76,7 @@ export class SrNewOrderComponent implements OnInit {
     private toastr: ToastrService,
     private authService: AuthService,
     private router: Router,
+    private global:GlobalService,
     private filterService: ContextMenuFiltersService
   ) { }
 
@@ -372,9 +374,7 @@ export class SrNewOrderComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result == 'Yes') {
         // alert('The print service is currently offline');
-        window.open(`/#/report-view?file=FileName:printNewReplenishmentReport|reorder:${this.tablePayloadObj.reOrder}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-
-        // window.open(`/#/report-view?file=FileName:printNewReplenishmentReport|reorder:${this.tablePayloadObj.reOrder}`, '_blank', "location=yes");
+        this.global.Print(`FileName:printNewReplenishmentReport|reorder:${this.tablePayloadObj.reOrder}`) ;
 
       }
     });
@@ -615,6 +615,18 @@ export class SrNewOrderComponent implements OnInit {
         this.searchAutocompleteList = res.data.sort();
       }
     });
+  }
+
+  selectRow(row: any) {
+    this.filteredTableData.forEach(element => {
+      if(row != element){
+        element.selected = false;
+      }
+    });
+    const selectedRow = this.filteredTableData.find((x: any) => x === row);
+    if (selectedRow) {
+      selectedRow.selected = !selectedRow.selected;
+    }
   }
   
 }

@@ -30,6 +30,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { Route, Router } from '@angular/router';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-ccb-create-counts',
@@ -130,6 +131,7 @@ export class CCBCreateCountsComponent implements OnInit {
     public dialog: MatDialog,
     private liveAnnouncer: LiveAnnouncer,
     private router: Router,
+    private global:GlobalService
     
   ) {
     this.filtersForm = new FormGroup({
@@ -295,14 +297,14 @@ export class CCBCreateCountsComponent implements OnInit {
   }
   printCountOrders(){
     if(this.printCC){
-    window.open(`/#/report-view?file=FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      this.global.Print(`FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`)
 
-      // window.open(`/#/report-view?file=FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_self', "location=yes");
-    }else{
-    window.open(`/#/report-view?file=FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+     }else{
+      window.open(`/#/report-view?file=PrintCycleCountReport-lst-prv|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
 
-      // window.open(`/#/report-view?file=FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_blank', "location=yes");
-    }
+      // this.global.Print(`FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`)
+
+      }
 
   }
   resetVal() {

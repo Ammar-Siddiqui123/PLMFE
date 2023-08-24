@@ -36,8 +36,7 @@ export class HeaderInterceptor implements HttpInterceptor {
       );
     }
 
-  private handleAuthError(err: HttpErrorResponse): Observable<any> {
-    debugger
+  private handleAuthError(err: HttpErrorResponse): Observable<any> { 
     if (err.status === 401) {
       
       let userData = this.authService.userData();

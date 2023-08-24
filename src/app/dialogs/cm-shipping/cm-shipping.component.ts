@@ -6,6 +6,7 @@ import { CmAddNewItemToShipmentComponent } from '../cm-add-new-item-to-shipment/
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { Router } from '@angular/router';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 export interface PeriodicElement {
   name: string;
@@ -38,6 +39,7 @@ export class CmShippingComponent implements OnInit {
   shippingComp: any = false;
   shippingPreferences: any = {};
   constructor(private Api: ApiFuntions, private authService: AuthService, private toast: ToastrService, private dialog: MatDialog,
+    private global:GlobalService,
     private route: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CmShippingComponent>,) {
@@ -219,16 +221,10 @@ export class CmShippingComponent implements OnInit {
   }
 
   printAll(){
-    window.open(`/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-    // this.dialogRef.close();
-    // window.location.href = `/#/report-view?file=FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`;
-    // window.location.reload();
+    this.global.Print(`FileName:PrintShipOrderPL|OrderNum:${this.orderNumber}`);
   }
 
   PrintItem(element: any,i:any=null){
-    window.open(`/#/report-view?file=FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-    // this.dialogRef.close();
-    // window.location.href = `/#/report-view?file=FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`;
-    // window.location.reload();
+    this.global.Print(`FileName:PrintShipContPL|OrderNum:${this.orderNumber}|ContID:${element.containerID}`);
   }
 }

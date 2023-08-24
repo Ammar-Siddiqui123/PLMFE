@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { GlobalService } from 'src/app/common/services/global.service';
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
@@ -21,7 +22,8 @@ export class PrintRangeComponent implements OnInit {
     private route: Router,
     public dialogRef: MatDialogRef<any>,
     private authService: AuthService,
-    private Api: ApiFuntions
+    private Api: ApiFuntions,
+    private global:GlobalService
   ) { }
 
   ngOnInit(): void {
@@ -105,7 +107,7 @@ export class PrintRangeComponent implements OnInit {
   }
 
   printRange() {
-    window.open(`/#/report-view?file=FileName:printIMReport|invMapID:0|groupLikeLoc:${this.groupLikeLoc}|beginLoc:${this.beginLoc}|endLoc:${this.endLoc}|User:${this.userData.userName}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    this.global.Print(`FileName:printIMReport|invMapID:0|groupLikeLoc:${this.groupLikeLoc}|beginLoc:${this.beginLoc}|endLoc:${this.endLoc}|User:${this.userData.userName}`)
     // this.dialogRef.close();
     // window.location.href = `/#/report-view?file=FileName:printIMReport|invMapID:0|groupLikeLoc:${this.groupLikeLoc}|beginLoc:${this.beginLoc}|endLoc:${this.endLoc}|User:${this.userData.userName}`
     // window.location.reload();

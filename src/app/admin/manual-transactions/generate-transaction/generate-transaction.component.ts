@@ -20,6 +20,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { AddNotesComponent } from '../../dialogs/add-notes/add-notes.component';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-generate-transaction',
@@ -80,7 +81,8 @@ export class GenerateTransactionComponent implements OnInit {
     private authService: AuthService,
     private Api:ApiFuntions,
     private dialog: MatDialog,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private global:GlobalService
   ) {
     this.userData = this.authService.userData();
     
@@ -102,10 +104,8 @@ export class GenerateTransactionComponent implements OnInit {
     // this.selectedOrder = event.target.value;
   }
   printLabelMT(){
-    window.open(`/#/report-view?file=FileName:printMTLabel|ID:${this.transactionID}|User:${this.userData.userName}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-
-    // window.open(`/#/report-view?file=FileName:printMTLabel|ID:${this.transactionID}|User:${this.userData.userName}`, '_blank', "location=yes");
-    // window.open(`/#/report-view?file=ManTran-lbl`, '_blank', "location=yes");
+    this.global.Print(`FileName:printMTLabel|ID:${this.transactionID}|User:${this.userData.userName}`,'lbl')
+  
   }
   clearMatSelectList(){
     this.openAction.options.forEach((data: MatOption) => data.deselect());
@@ -702,5 +702,18 @@ export class GenerateTransactionComponent implements OnInit {
       }
       ;
     });
+  }
+
+  isInvalid = false;
+
+  onFormFieldFocusOut() {
+    // Implement your custom validation logic here
+    // For example, check if the input is valid, and if not, set isInvalid to true
+    this.isInvalid = !this.isValidInput(); // Change isValidInput() to your validation logic
+  }
+
+  isValidInput(): boolean {
+    // Implement your validation logic here
+    return true; // Return true if the input is valid, false otherwise
   }
 }

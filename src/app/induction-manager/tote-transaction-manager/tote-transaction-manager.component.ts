@@ -14,6 +14,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 @Component({
   selector: 'app-tote-transaction-manager',
   templateUrl: './tote-transaction-manager.component.html',
@@ -46,6 +47,7 @@ export class ToteTransactionManagerComponent implements OnInit {
       host_trans_id: '123641',
     },
   ];
+
   pageEvent: PageEvent;
   public dataSource: any = new MatTableDataSource();
   batchId: any = '';
@@ -58,6 +60,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   batchPickId = new Subject<string>();
   userData: any;
   searchAutocompletBatchPick: any = [];
+  imPreferences:any;
   // displayedColumns: string[] = [
   //   'batch_id',
   //   'pos_no',
@@ -92,7 +95,8 @@ export class ToteTransactionManagerComponent implements OnInit {
     private toastr: ToastrService,
     private Api: ApiFuntions,
     private authService: AuthService,
-    private filterService: ContextMenuFiltersService
+    private filterService: ContextMenuFiltersService,
+    private global:GlobalService
   ) {
     this.userData = this.authService.userData();
   }
@@ -106,6 +110,8 @@ export class ToteTransactionManagerComponent implements OnInit {
       });
 
     this.getToteTrans();
+    this.imPreferences=this.global.getImPreferences();
+   
   }
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
@@ -279,30 +285,33 @@ export class ToteTransactionManagerComponent implements OnInit {
   printToteList(type,row){
     switch (type) {
       case 'printCarouselList':
-    window.open(`/#/report-view?file=FileName:PrintPrevOffCarList|ToteID:${row.toteId}|TransType:${row.transactionType}|PrintDirect:true`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-        
-    //  window.open(`/#/report-view?file=FileName:PrintPrevOffCarList|ToteID:${row.toteId}|TransType:${row.transactionType}|PrintDirect:true`)
-        
+
+      if(this.imPreferences.printDirectly){
+        this.global.Print(`FileName:PrintPrevOffCarList|ToteID:${row.toteId}|TransType:${row.transactionType}`)
+      }else{
+        window.open(`/#/report-view?file=FileName:PrintPrevOffCarList|ToteID:${row.toteId}|TransType:${row.transactionType}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      }
         break;
         case 'printTotelContents':
-    window.open(`/#/report-view?file=FileName:PrintPrevToteContents|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}|PrintDirect:true`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-        
-        // window.open(`/#/report-view?file=FileName:PrintPrevToteContents|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}|PrintDirect:true`)
-           
+
+        if(this.imPreferences.printDirectly){
+          this.global.Print(`FileName:PrintPrevToteContents|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}`)
+        }else{
+          window.open(`/#/report-view?file=FileName:PrintPrevToteContents|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+        }
            break;
 
            case 'printToteLabels':
-    window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}|printDirect:true|ID:-2|BatchID:''`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-        
-          //  window.open(`/#/report-view?file=FileName:PrintPrevToteContentsLabel|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}|printDirect:true|ID:-2|BatchID:''`)
-              
+            if(this.imPreferences.printDirectly){
+              this.global.Print(`FileName:PrintPrevToteContents|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}`)
+            }else{
+              window.open(`/#/report-view?file=FileName:PrintPrevToteContents|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+            }
               break;
       default:
         break;
     }
-
-    // window.location.href = `/#/report-view?file=FileName:printIMReport|invMapID:0|groupLikeLoc:${this.groupLikeLoc}|beginLoc:${this.beginLoc}|endLoc:${this.endLoc}|User:${this.userData.userName}`
-    // window.location.reload();
+ 
     
   }
   onContextMenu(event: MouseEvent, SelectedItem: any, FilterColumnName?: any, FilterConditon?: any, FilterItemType?: any) {
@@ -360,5 +369,17 @@ export class ToteTransactionManagerComponent implements OnInit {
   test(){
     this.batchPickId.next('');
     this.batchId='';
+  }
+
+  selectRow(row: any) {
+    this.dataSource.filteredData.forEach(element => {
+      if(row != element){
+        element.selected = false;
+      }
+    });
+    const selectedRow = this.dataSource.filteredData.find((x: any) => x === row);
+    if (selectedRow) {
+      selectedRow.selected = !selectedRow.selected;
+    }
   }
 }

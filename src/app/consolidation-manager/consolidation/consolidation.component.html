@@ -19,9 +19,9 @@
                         <mat-option value="2" [disabled]="shippingbtb" (click)="!shippingbtb ? openCmShipping() : ''">Shipping</mat-option>
                         <mat-option value="3" (click)="navigateToOrder()">Order Status</mat-option>
                         <mat-option value="4" [disabled]="printButtons" (click)="printPreviewPackList()">Print Packaging List</mat-option>
-                        <mat-option value="5" [disabled]="printButtons" (click)="printPreviewPackList()">Preview Packaging List</mat-option>
+                        <mat-option value="5" [disabled]="printButtons" (click)="printPreviewPackList(false)">Preview Packaging List</mat-option>
                         <mat-option value="6" [disabled]="printButtons" (click)="printPreviewNonVerified()">Print Not Verified List</mat-option>
-                        <mat-option value="7" [disabled]="printButtons" (click)="printPreviewNonVerified()">Preview Not Verified List</mat-option>
+                        <mat-option value="7" [disabled]="printButtons" (click)="printPreviewNonVerified(false)">Preview Not Verified List</mat-option>
                         <!-- <mat-option value="8" (click)="openCmShippingTransaction()">Shipping Transaction Dialogue</mat-option>
                         <mat-option value="9" (click)="openCmConfirmPacking()">Confirm and Packing Dialogue</mat-option>
                         <mat-option value="10" (click)="openCmItemSelected()">Item Selected Dialogue</mat-option>
@@ -124,7 +124,7 @@
                     </ng-scrollbar>
                 </div>
                 <div class="d-flex justify-content-between bg-white">
-                    <mat-paginator #paginator3 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons> </mat-paginator>
+                    <mat-paginator #paginator3 showFirstLastButtons [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons> </mat-paginator>
                 </div>
             </div>
         </div>
@@ -267,7 +267,7 @@
                 </ng-scrollbar>
             </div>
             <div class="d-flex justify-content-between bg-white">
-                <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons> </mat-paginator>
+                <mat-paginator #paginator showFirstLastButtons [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons> </mat-paginator>
             </div>
         </mat-card-content>
     </mat-card>
@@ -360,7 +360,7 @@
             </div>
 
             <div class="d-flex justify-content-between bg-white">
-                <mat-paginator #paginator2 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons > </mat-paginator>
+                <mat-paginator #paginator2 showFirstLastButtons [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons > </mat-paginator>
             </div>
         </mat-card-content>
     </mat-card>

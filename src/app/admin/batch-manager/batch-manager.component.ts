@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table'; 
 import { AuthService } from '../../../app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { CurrentTabDataService } from '../inventory-master/current-tab-data-service';
 
 const ELEMENT_DATA: any = [
   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H', action: ''},
@@ -72,6 +73,7 @@ export class BatchManagerComponent implements OnInit {
   batchUpdater: Event;
 
   public userData : any;
+  
   orderList : any;
   transTypeEvent: Event;
   displayOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "minOfPriority", "detail", "action"];
@@ -85,7 +87,9 @@ export class BatchManagerComponent implements OnInit {
   pickToTotes:boolean;
   extraField:any="";
   constructor(private Api : ApiFuntions, 
-              private authService: AuthService) { 
+              private authService: AuthService,
+              private currentTabDataService: CurrentTabDataService
+              ) { 
                 this.permissions= JSON.parse(localStorage.getItem('userRights') || '');
               }
 
@@ -93,14 +97,35 @@ export class BatchManagerComponent implements OnInit {
     this.orderList = [];
     this.selOrderList = [];
     this.userData = this.authService.userData();
-    this.getOrders("Pick");
+    
+    if (!this.ApplySavedItem())
+      this.getOrders("Pick");
     this.seeOrderStatus=this.permissions.includes('Order Status')
     
   }
   onBatchUpdate(event: Event) {
     this.batchUpdater = event;
   } 
-
+  ApplySavedItem() {
+    //console.log('ApplySavedItem');
+    if (this.currentTabDataService.savedItem[this.currentTabDataService.BATCH_MANAGER])  {
+      let item= this.currentTabDataService.savedItem[this.currentTabDataService.BATCH_MANAGER];
+      this.selOrderList = item.selOrderList;
+      this.orderList = item.orderList;
+      this.type = item.transType;
+      return true;
+    }
+    return false;
+  }
+  RecordSavedItem() {
+    //console.log('RecordSavedItem');
+    this.currentTabDataService.savedItem[this.currentTabDataService.BATCH_MANAGER] = {
+      selOrderList : this.selOrderList,
+      orderList : this.orderList,
+      type :this.type,
+    }
+  // this.currentTabDataService.savedItem['batch-delete']=value;
+  }
 
   // displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
   // dataSource : any;
@@ -119,6 +144,7 @@ export class BatchManagerComponent implements OnInit {
         const { data, isExecuted } = res
         if (isExecuted && data.length > 0) {
           this.orderList = data;
+          this.RecordSavedItem();
           // this.orderList = [
           //   {"orderNumber":"1974473","minOfPriority":0,"countOfOrderNumber":2,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
           //   {"orderNumber":"1974478","minOfPriority":0,"countOfOrderNumber":34,"includeInAutoBatch":false,"extraField1":"0","extraField2":""},
@@ -167,7 +193,7 @@ export class BatchManagerComponent implements OnInit {
   
   }
   getDeletedOrder(event){
-
+    this.currentTabDataService.savedItem[this.currentTabDataService.BATCH_MANAGER] = undefined;
     this.ngOnInit();
   }
   addRemoveOrder(order : any, type : any) {
@@ -188,6 +214,7 @@ export class BatchManagerComponent implements OnInit {
       this.selOrderList = this.selOrderList.filter(val => val.orderNumber !== order.orderNumber);
       this.orderList = [order, ...this.orderList];
     }
+    this.RecordSavedItem();
   }
    
   addRemoveAllOrders(operation){
@@ -217,10 +244,11 @@ export class BatchManagerComponent implements OnInit {
       this.orderList = [...this.orderList,...this.selOrderList];
       this.selOrderList = [];
     }
-    
+    this.RecordSavedItem();
   }
   batchCreated(event:any){
     if(event){
+      this.currentTabDataService.savedItem[this.currentTabDataService.BATCH_MANAGER] = undefined;
       this.ngOnInit();
     }
   }

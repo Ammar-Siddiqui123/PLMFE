@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service'; 
 import labels from '../../labels/labels.json';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-admin-prefrences',
@@ -125,7 +126,8 @@ export class AdminPrefrencesComponent implements OnInit {
     private authService: AuthService,
     private Api: ApiFuntions,
     public formBuilder: FormBuilder,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private global:GlobalService
   ) {
     this.preferencesForm = this.formBuilder.group({
       // System Settings
@@ -453,6 +455,9 @@ export class AdminPrefrencesComponent implements OnInit {
       this.Api.DynamicMethod(payLoad, endPoint).subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
+            // if(endPoint == '/Induction/imprintsettings'){
+              this.global.updateImPreferences()
+            // }
             this.toast.success(labels.alert.update, 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,

@@ -15,6 +15,7 @@ import { AuthService } from '../../../../app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { CurrentTabDataService } from '../../inventory-master/current-tab-data-service';
 
 @Component({
   selector: 'app-batch-delete',
@@ -36,7 +37,13 @@ export class BatchDeleteComponent implements OnInit {
       name: 'Count',
     },
   ];
-  batchList: any = [];
+  _batchList: any = [];
+  get batchList(): any {
+    return this._batchList;
+  }
+  set batchList(value: any) {
+    this._batchList = value;
+  }
   transType: string = 'Pick';
   batchID: string | undefined = '';
   isChecked = true;
@@ -59,12 +66,14 @@ export class BatchDeleteComponent implements OnInit {
     private dialog: MatDialog,
     private api: ApiFuntions,
     public authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private currentTabDataService : CurrentTabDataService,
   ) {}
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    this.getBatch(this.transType);
+    if (!this.ApplySavedItem())
+      this.getBatch(this.transType);
   }
   checkOptions(event: MatCheckboxChange): void {
     if (event.checked) {
@@ -91,7 +100,28 @@ export class BatchDeleteComponent implements OnInit {
             });
           }
         });
+      this.RecordSavedItem();
     } catch (error) { 
+    }
+  }
+
+  ApplySavedItem() {
+    //console.log('ApplySavedItem');
+    if (this.currentTabDataService.savedItem[this.currentTabDataService.BATCH_MANAGER_DELETE])
+    {
+      let item= this.currentTabDataService.savedItem[this.currentTabDataService.BATCH_MANAGER_DELETE];
+      this.transType = item.transType;
+      this.batchList = item.batchList;
+      //this.changeTranType(item);
+      return true;
+    }
+    return false;
+  }
+  RecordSavedItem() {
+    //console.log('RecordSavedItem');
+    this.currentTabDataService.savedItem[this.currentTabDataService.BATCH_MANAGER_DELETE]= {
+      transType: this.transType,
+      batchList: this.batchList 
     }
   }
 
@@ -127,6 +157,7 @@ export class BatchDeleteComponent implements OnInit {
             .BatchDeleteAll(payload)
             .subscribe((res: any) => {
               if (res.isExecuted) {
+                this.currentTabDataService.savedItem[this.currentTabDataService.BATCH_MANAGER_DELETE] = undefined; 
                 this.ngOnInit();
                 this.toastr.success(res.responseMessage, 'Success!', {
                   positionClass: 'toast-bottom-right',
@@ -152,6 +183,7 @@ export class BatchDeleteComponent implements OnInit {
             .BatchDeleteAll(payload)
             .subscribe((res: any) => {
               if (res.isExecuted) {
+                this.currentTabDataService.savedItem[this.currentTabDataService.BATCH_MANAGER_DELETE] = undefined; 
                 this.ngOnInit();
                 this.toastr.success(res.responseMessage, 'Success!', {
                   positionClass: 'toast-bottom-right',

@@ -10,6 +10,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { ConfirmationDialogComponent } from '../../../app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { GlobalService } from 'src/app/common/services/global.service';
 
 @Component({
   selector: 'app-cross-dock-transaction',
@@ -42,6 +43,7 @@ export class CrossDockTransactionComponent implements OnInit {
   public nxtToteID;
   public toteID;
   public loopIndex = -1;
+  imPreferences:any;
   @ViewChild('openAction') openAction: MatSelect;
 
 
@@ -51,7 +53,8 @@ export class CrossDockTransactionComponent implements OnInit {
               private dialog: MatDialog, 
               @Inject(MAT_DIALOG_DATA) public data: any, 
               private Api:ApiFuntions, 
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              private global:GlobalService) { }
 
   ngOnInit(): void {
     
@@ -63,6 +66,8 @@ export class CrossDockTransactionComponent implements OnInit {
     this.batchID = this.data.batchID;
     this.zone = this.data.zone;
     this.description = this.data.description;
+    this.imPreferences=this.global.getImPreferences();
+    
 
     this.getCrossDock();
   }
@@ -292,9 +297,10 @@ export class CrossDockTransactionComponent implements OnInit {
     });
   }
 
+  OTRecID
+   
   compPick() {
     try {
-
       let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
         width: '560px',
@@ -330,12 +336,28 @@ export class CrossDockTransactionComponent implements OnInit {
           this.Api.CompletePick(payLoad).subscribe(
             (res: any) => {
               if (res.data && res.isExecuted) {
+               this.OTRecID = res.data
                 this.qtyToSubtract += this.selectedRowObj.completedQuantity ? parseInt(this.selectedRowObj.completedQuantity) : 0;
                 this.getCrossDock();
-                this.toastr.success('Pick Completed Successfully', 'Success!', {
-                  positionClass: 'toast-bottom-right',
-                  timeOut: 2000,
-                });
+
+                if(this.imPreferences.autoPrintCrossDockLabel){
+                  if (this.imPreferences.printDirectly) {
+                    this.PrintCrossDock()
+                  }
+                  else{
+                    window.open(`/#/report-view?file=FileName:autoPrintCrossDock|tote:true|otid:${this.OTRecID}|ZoneLabel:${this.zone}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+                    this.toastr.success('Pick Completed Successfully', 'Success!', {
+                      positionClass: 'toast-bottom-right',
+                      timeOut: 2000,
+                    });
+                  }
+                }
+                else{
+                  this.toastr.success('Pick Completed Successfully', 'Success!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000,
+                  });
+                }
               } else {
                 this.toastr.error('Something went wrong', 'Error!', {
                   positionClass: 'toast-bottom-right',
@@ -350,6 +372,58 @@ export class CrossDockTransactionComponent implements OnInit {
       
     } catch (error) { 
     }
+  }
+
+  PrintCrossDock(){
+    var res:any =  this.global.Print(`FileName:autoPrintCrossDock|tote:true|otid:${this.OTRecID}|ZoneLabel:${this.zone}`);
+     
+        if(res){
+      this.showConfirmationDialog('Click OK if the tote label printed correctly.',(open)=>{
+        if(!open){
+        this.PrintCrossDock();
+        }else{
+          this.PrintCrossDockForLbl();
+        }
+      });
+        } 
+  }
+
+
+   PrintCrossDockForLbl(){
+   var res:any =  this.global.Print(`FileName:autoPrintCrossDock|tote:false|otid:${this.OTRecID}|ZoneLabel:${this.zone}`);
+    
+     if(res){
+    this.showConfirmationDialog('Click OK if the item label printed correctly.',(open)=>{
+      if(!open){
+      this.PrintCrossDockForLbl();
+      }else{
+        this.toastr.success('Pick Completed Successfully', 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000,
+        });
+       return
+      }
+    });
+      } 
+  }
+
+  async showConfirmationDialog(message,callback) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      disableClose: true,
+      data: {
+        message: message,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result=='Yes'){
+        callback(true)
+      }else{
+        callback(false)
+      }
+    })
   }
 
   completePick() {
@@ -382,14 +456,18 @@ export class CrossDockTransactionComponent implements OnInit {
   print(type:any){
 
     if(type == 'printtotelabel'){
-    window.open(`/#/report-view?file=FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:${this.selectedRowObj.toteID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-
-      // window.location.href = `/#/report-view?file=FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:${this.selectedRowObj.toteID}`;
+      if(this.imPreferences.printDirectly){
+        this.global.Print(`FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:${this.selectedRowObj.toteID}`)
+      }else{
+        window.open(`/#/report-view?file=FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:${this.selectedRowObj.toteID}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      }
     }
     else{
-    window.open(`/#/report-view?file=FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-
-      // window.location.href = `/#/report-view?file=FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:`;
+      if(this.imPreferences.printDirectly){
+        this.global.Print(`FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:`)
+      }else{
+        window.open(`/#/report-view?file=FileName:PrintCrossDock|RPID:${this.selectedRowObj.id}|ZoneLabel:${this.zone}|ToteID:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+      }
     }
   }
 }

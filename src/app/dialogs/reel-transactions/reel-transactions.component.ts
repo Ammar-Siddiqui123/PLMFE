@@ -6,6 +6,8 @@ import { ReelDetailComponent } from '../reel-detail/reel-detail.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirmation.component';
 import { take } from 'rxjs';
+import { GlobalService } from 'src/app/common/services/global.service';
+import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-reel-transactions',
@@ -32,13 +34,14 @@ fieldNames:any;
   AutoGenerateReel:any =false
   HiddenInputValue
   generatedReelQty
+  imPreferences:any;
 
   @ViewChild('noOfReeltemp') noOfReeltemp: ElementRef
   @ViewChild('serialTemp') serialTemp: ElementRef
   @ViewChildren('serialTemp') serialInputs: QueryList<any>;
   
   constructor(private dialog: MatDialog,public dialogRef: MatDialogRef<ReelTransactionsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService,) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService,private global:GlobalService) { }
 
   ngOnInit(): void {
     // debugger
@@ -51,6 +54,8 @@ fieldNames:any;
     setTimeout(() => {
       this.ReelDetailDialogue()
     }, 300);
+
+    this.imPreferences=this.global.getImPreferences();
     
   }
   ngAfterViewInit(): void {
@@ -239,7 +244,8 @@ dialog1(numUnassigned){
   
   })
 }
-
+createdReel
+checkSNS
 validateInputs() {
   this.serialInputs.forEach(input => {
     input.nativeElement.focus(); // This will force Angular to validate each input
@@ -351,6 +357,7 @@ test(){
                               });
                             }
                             else  {
+                              this.createdReel = res.data
                               // print functionality will be implemented here
                               const dialogRef = this.dialog.open(AlertConfirmationComponent, {
                                 height: 'auto',
@@ -359,12 +366,14 @@ test(){
                                   message: "Click OK to print labels now.",
                                 },
                                 autoFocus: '__non_existing_element__',
-      disableClose:true,
+                                 disableClose:true,
                               });
                               dialogRef.afterClosed().subscribe((result) => {
                                 if(result){
-                                  window.open(`/#/report-view?file=FileName:PrintReelLabels|OTID:${res.data.join(",")}|SN:|Item:|Order:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-                                  this.dialogRef.close(SNs[0]);
+                                  this.checkSNS = SNs[0]
+                                  // this.global.Print(`FileName:PrintReelLabels|OTID:${this.createdReel.join(",",'lbl')}|SN:|Item:|Order:`);
+                                  this.PrintCrossDock()
+                                  
                                   return
                                 }
                                 else{
@@ -393,6 +402,40 @@ test(){
                 (error) => {}
 
                 
+}
+
+PrintCrossDock(){
+var res:any =   this.global.Print(`FileName:PrintReelLabels|OTID:${this.createdReel.join(",",'lbl')}|SN:|Item:|Order:`);
+ 
+   if(res){
+  this.showConfirmationDialog('Click OK if the labels printed correctly.',(open)=>{
+    if(!open){
+    this.PrintCrossDock();
+    }else{
+      this.dialogRef.close(this.checkSNS);
+      return
+    }
+  });
+    } 
+}
+
+ async showConfirmationDialog(message,callback) {
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    height: 'auto',
+    width: '560px',
+    autoFocus: '__non_existing_element__',
+    disableClose: true,
+    data: {
+      message: message,
+    },
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+    if(result=='Yes'){
+      callback(true)
+    }else{
+      callback(false)
+    }
+  })
 }
   GenerateSerialNumber(index){
     let payload = {
@@ -444,9 +487,11 @@ this.ReelDetailDialogue()
   }
 
   print(index,e){
-
-    window.open(`/#/report-view?file=FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-    // window.location.href = `/#/report-view?file=FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`;
+    if(this.imPreferences.printDirectly){
+      this.global.Print(`FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`)
+    }else{
+      window.open(`/#/report-view?file=FileName:PrintReelLabels|OTID:[]|SN:${e.reel_serial_number}|Order:${this.data.hvObj.order}|Item:${this.itemNumber}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
+    }
   }
 
 }
