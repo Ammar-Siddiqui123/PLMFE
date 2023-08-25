@@ -1003,8 +1003,14 @@ export class ProcessPutAwaysComponent implements OnInit {
                 });
               }
             } else if (result == "Task Completed") {
+              
+              this.inputValue='';
               this.fillToteTable(this.batchId2);
+          
             } else if (result == "New Batch") {
+              
+              this.inputValue='';
+
               this.clearFormAndTable();
             }
           });
@@ -1083,9 +1089,12 @@ export class ProcessPutAwaysComponent implements OnInit {
             });
           }
         } else if (result == "Task Completed") {
+          debugger
           this.inputValue='';
           this.fillToteTable(this.batchId2);
         } else if (result == "New Batch") {
+          debugger
+          this.inputValue='';
           this.selectedIndex = 0;
           // this.clearFormAndTable();
         }
