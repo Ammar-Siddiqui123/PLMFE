@@ -39,7 +39,6 @@ export interface PeriodicElement {
   styleUrls: ['./process-put-aways.component.scss'],
 })
 export class ProcessPutAwaysComponent implements OnInit {
-  @ViewChild('start_location') start_location: ElementRef;
   ELEMENT_DATA = [{ position: 0, cells: '', toteid: '', locked: '' }];
   displayedColumns: string[] = ['positions', 'cells', 'toteid', 'save'];
   dataSource: any;
@@ -138,7 +137,9 @@ export class ProcessPutAwaysComponent implements OnInit {
     private _liveAnnouncer: LiveAnnouncer,
   ) { }
   ngAfterViewInit() {
-    this.start_location.nativeElement.focus();
+    setTimeout(() => {
+      this.inputVal.nativeElement.focus();
+      }, 2000);
     this.imPreferences=this.global.getImPreferences();
   }
 
