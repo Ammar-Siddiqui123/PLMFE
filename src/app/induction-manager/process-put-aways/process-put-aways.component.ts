@@ -196,6 +196,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   @HostListener('click')
   documentClick(event: MouseEvent) {
+    this.global.changesConfirmation = true;
     this.ifAllowed = true
   }
   public OSFieldFilterNames() { 
@@ -1029,8 +1030,14 @@ export class ProcessPutAwaysComponent implements OnInit {
                 });
               }
             } else if (result == "Task Completed") {
+              
+              this.inputValue='';
               this.fillToteTable(this.batchId2);
+          
             } else if (result == "New Batch") {
+              
+              this.inputValue='';
+
               this.clearFormAndTable();
             }
             else if(result.category == "isReel"){
@@ -1134,9 +1141,12 @@ export class ProcessPutAwaysComponent implements OnInit {
             });
           }
         } else if (result == "Task Completed") {
+          debugger
           this.inputValue='';
           this.fillToteTable(this.batchId2);
         } else if (result == "New Batch") {
+          debugger
+          this.inputValue='';
           this.selectedIndex = 0;
           // this.clearFormAndTable();
         }
