@@ -196,6 +196,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   @HostListener('click')
   documentClick(event: MouseEvent) {
+    this.global.changesConfirmation = true;
     this.ifAllowed = true
   }
   public OSFieldFilterNames() { 
