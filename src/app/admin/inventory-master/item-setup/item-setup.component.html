@@ -179,13 +179,13 @@
         <div class="col-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Bulk</mat-label>
-            <input (input)="handleInputChange($event)"  matInput type="text" formControlName="bulkMinimumQuantity" maxlength="9" (change)="cellQuantityChange()">
+            <input (input)="handleInputChange($event)"  matInput type="text" formControlName="bulkMinimumQuantity" (focusout)="defaultVal($event,'bulkMinimumQuantity')"  maxlength="9" (change)="cellQuantityChange()">
           </mat-form-field>
         </div>
         <div class="col-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Carton Flow</mat-label>
-            <input (input)="handleInputChange($event)"  matInput type="text" formControlName="cfMinimumQuantity" maxlength="9" (change)="cellQuantityChange()">
+            <input (input)="handleInputChange($event)"  matInput type="text" formControlName="cfMinimumQuantity"  (focusout)="defaultVal($event,'cfMinimumQuantity')" maxlength="9" (change)="cellQuantityChange()">
           </mat-form-field>
         </div>
       </div>
@@ -203,13 +203,13 @@
         <div class="col-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Bulk</mat-label>
-            <input matInput type="text"  (input)="handleInputChange($event)" formControlName="bulkMaximumQuantity" maxlength="9" (change)="cellQuantityChange()">
+            <input matInput type="text"  (input)="handleInputChange($event)" (focusout)="defaultVal($event,'bulkMaximumQuantity')"  formControlName="bulkMaximumQuantity" maxlength="9" (change)="cellQuantityChange()">
           </mat-form-field>
         </div>
         <div class="col-3">
           <mat-form-field class="custom-form-field w-100 __grab_cursor" appearance="outline">
             <mat-label>Carton Flow</mat-label>
-            <input matInput type="text"  (input)="handleInputChange($event)" formControlName="cfMaximumQuantity" maxlength="9" (change)="cellQuantityChange()">
+            <input matInput type="text"  (input)="handleInputChange($event)"  (focusout)="defaultVal($event,'cfMaximumQuantity')"  formControlName="cfMaximumQuantity" maxlength="9" (change)="cellQuantityChange()">
           </mat-form-field>
         </div>
       </div>

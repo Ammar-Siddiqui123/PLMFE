@@ -168,7 +168,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
 
   onFocusOutEvent(event,type){ 
     if(this.searchAutocompleteItemNum.length>0)return
-
+   
 if(type==='order'){
 if(event.target.value===''){
 this.orderRequired=true

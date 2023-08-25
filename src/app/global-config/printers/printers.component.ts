@@ -208,6 +208,7 @@ export class PrintersComponent implements OnInit {
   }
 
   SavePrinter(printer: any) {
+     
     if (printer.isNew) {
       let payload = {
         "printerName": printer.printer,
@@ -215,6 +216,7 @@ export class PrintersComponent implements OnInit {
         "label": printer.labelPrinter == 'Yes' ? true : false
       };
       this.Api.InsertNewPrinter(payload).subscribe((res: any) => {
+        debugger
         if (res.isExecuted) {
           this.toastr.success(labels.alert.success, 'Success!', {
             positionClass: 'toast-bottom-right',
