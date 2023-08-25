@@ -81,7 +81,7 @@ statusTab;
         let withoutParam = res.split('?')[0]
         let splittedArray = withoutParam.split('/'); 
           if(splittedArray[0]==='FlowrackReplenishment'){
-            splittedArray[0]='FlowrackReplenish'
+            splittedArray[0]='FlowrackReplenishment'
           }
         splittedArray.forEach((element,i) => {
          if(element==='createCountBatches' || element==='cycleCounts'){
@@ -197,6 +197,7 @@ statusTab;
   }
 
   breadCrumbClick(menu,index:any = null) { 
+    debugger
      if(index != null){ 
       var Url = "";  
       for (let i = 0; i <= index; i++) {

@@ -110,7 +110,7 @@ export class SideNavComponent implements OnInit {
   ];
 
   flowrackReplenishmentMenus: any = [
-    { icon: 'arrow_back', title: 'Flowrack Replenish', route: '/dashboard', class: 'back-class' , permission: 'FlowRack Replenish'},
+    { icon: 'arrow_back', title: 'Flowrack Replenish', route: '/FlowrackReplenishment', class: 'back-class' , permission: 'FlowRack Replenish'},
     { icon: 'schema', title: 'Flowrack Replenishment', route: '/FlowrackReplenishment/Flowrack' ,permission:'FlowRack Replenish'},
     { icon: 'tune', title: 'Preferences ', route: '/FlowrackReplenishment/Preferences' ,permission:'FlowRack Replenish'},
   ];
