@@ -54,9 +54,8 @@ export class GlobalConfigComponent {
     );
     this.login.wsid = workStation.workStationID;
     this.Api.LoginUser(this.login).subscribe(
-      (res: any) => {
-
-        if (res.isExecuted && res.data !=null) {
+      (res: any) => { 
+        if (res.isExecuted && res.data !=null) { 
           let data = {
             _token: res.data.token,
             userName: res.data.userName,
@@ -69,7 +68,7 @@ export class GlobalConfigComponent {
                   // this.addLoginForm.reset();
                   localStorage.setItem('userConfig', JSON.stringify(data));
                   // localStorage.setItem('global-config-userRights', JSON.stringify(userRights));
-          window.location.href =  '/globalconfig/home';
+          window.location.href =  '/#/globalconfig/home';
           window.location.reload();
         } else {
           const errorMessage = res.responseMessage;
@@ -121,10 +120,11 @@ export class GlobalConfigComponent {
   }
   ngOnInit() {
     debugger
-    // if (this.auth.IsloggedIn()) {
-    //   this.router.navigate(['/dashboard']);
-    // }
-    // else{
+    if (this.auth.IsloggedIn()) { 
+        window.location.href = '/#/dashboard'; 
+       
+    }
+      else{
     this.route.url.forEach((res) => {
       if(res[0].path.includes('globalconfig')){
           localStorage.setItem('isConfigUser', JSON.stringify(true))
@@ -147,7 +147,7 @@ export class GlobalConfigComponent {
           );
         }
       });
-    // }
+  }
   }
 
   changePass() {

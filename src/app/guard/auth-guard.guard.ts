@@ -28,6 +28,10 @@ export class AuthGuardGuard implements CanActivate {
       else return true;
     }
   if(pathSet == '/globalconfig'){ 
+    if(this.authService.IsloggedIn()) {
+      window.location.href = '/#/dashboard'; 
+    return false;
+    } 
     if(this.authService.IsConfigLogin()) {
        if(this.router.url.split('?')[0].indexOf('report-view') > -1){
         return false;
