@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 // import { ILogin, ILoginInfo } from './Ilogin'; 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
@@ -18,7 +18,8 @@ import { ApiFuntions } from '../services/ApiFuntions';
 })
 export class GlobalConfigComponent {
   login: ILogin;
-
+  addLoginForm:any = {};
+  @ViewChild('passwordInput') passwordInput: ElementRef;
   returnUrl: string;
   public env;
   public toggle_password = true;
@@ -36,14 +37,7 @@ export class GlobalConfigComponent {
     this.url = this.router.url;
   }
 
-  addLoginForm = new FormGroup({
-    username: new FormControl('', [
-      Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(50),
-    ]),
-    password: new FormControl('', [Validators.required]),
-  });
+ 
 
   public noWhitespaceValidator(control: FormControl) {
     const isSpace = (control.value || '').match(/\s/g);
@@ -52,10 +46,9 @@ export class GlobalConfigComponent {
 
   loginUser() {
     this.loader.show();
-    this.addLoginForm
-      .get('username')
-      ?.setValue(this.addLoginForm.value.username?.replace(/\s/g, '') || null);
-    this.login = this.addLoginForm.value;
+    this.addLoginForm.username = this.addLoginForm.username?.replace(/\s/g, "")||null;
+    this.addLoginForm.password = this.addLoginForm.password?.replace(/\s/g, "")||null;
+    this.login = this.addLoginForm;
     const workStation: any = JSON.parse(
       localStorage.getItem('workStation') || ''
     );
@@ -73,7 +66,7 @@ export class GlobalConfigComponent {
           };
           let userRights = res.data.userRights;
                   // userRights = this.addCustomPermission(userRights);
-                  this.addLoginForm.reset();
+                  // this.addLoginForm.reset();
                   localStorage.setItem('userConfig', JSON.stringify(data));
                   // localStorage.setItem('global-config-userRights', JSON.stringify(userRights));
           window.location.href =  '/globalconfig/home';
@@ -123,7 +116,9 @@ export class GlobalConfigComponent {
 
     // });
   }
-
+  enterUserName(){
+    this.passwordInput.nativeElement.focus();
+  }
   ngOnInit() {
     debugger
     // if (this.auth.IsloggedIn()) {
