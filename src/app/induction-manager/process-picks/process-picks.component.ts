@@ -404,6 +404,7 @@ async  printPickLabels(row) {
 
   @HostListener('click')
   documentClick(event: MouseEvent) {
+    this.global.changesConfirmation = true;
     this.ifAllowed = true
   }
 
