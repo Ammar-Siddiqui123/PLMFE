@@ -48,7 +48,6 @@ export class UserFieldsComponent implements OnInit {
     ;
 
     this.userData = this.authService.userData();
-    this.setValues();
     this.OSFieldFilterNames();
   }
   ngAfterViewInit(): void {
@@ -58,22 +57,23 @@ export class UserFieldsComponent implements OnInit {
   public OSFieldFilterNames() { 
     this.Api.ColumnAlias().subscribe((res: any) => {
       this.fieldNames = res.data;
+      this.setValues();
       // this.sharedService.updateFieldNames(this.fieldNames)
     })
   }
   setValues() {
 
     this.userForm.patchValue({
-      userField1: this.data.userField1.trim() ?? '',
-      userField2: this.data.userField2.trim() ?? '',
-      userField3: this.data.userField3.trim() ?? '',
-      userField4: this.data.userField4.trim() ?? '',
-      userField5: this.data.userField5.trim() ?? '',
-      userField6: this.data.userField6.trim() ?? '',
-      userField7: this.data.userField7.trim() ?? '',
-      userField8: this.data.userField8.trim() ?? '',
-      userField9: this.data.userField9.trim() ?? '',
-      userField10: this.data.userField10.trim() ?? ''
+      userField1: this.data.userField1?.trim() ?? '',
+      userField2: this.data.userField2?.trim() ?? '',
+      userField3: this.data.userField3?.trim() ?? '',
+      userField4: this.data.userField4?.trim() ?? '',
+      userField5: this.data.userField5?.trim() ?? '',
+      userField6: this.data.userField6?.trim() ?? '',
+      userField7: this.data.userField7?.trim() ?? '',
+      userField8: this.data.userField8?.trim() ?? '',
+      userField9: this.data.userField9?.trim() ?? '',
+      userField10: this.data.userField10?.trim() ?? ''
     });
 
   }
