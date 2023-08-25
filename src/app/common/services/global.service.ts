@@ -244,7 +244,8 @@ export class GlobalService {
                   });  
                   
                   // ${environment.apiUrl.replace("/api","")}
-                   document.getElementById('CurrentDownload')?.setAttribute("href",`${environment.apiUrl.replace("/api","")}/pdf/`+res.data.fileName);
+                   document.getElementById('CurrentDownload')?.setAttribute("href",`${res.data.fileName.indexOf('txt') > -1 ? 'data:text/plain;charset=UTF-8,':res.data.fileName.indexOf('pdf') > -1 ? 'data:pdf;charset=UTF-8,':''}${environment.apiUrl.replace("/api","")}/pdf/`+res.data.fileName);
+                  document.getElementById('CurrentDownload')?.setAttribute("download",res.data.fileName);
                    document.getElementById('CurrentDownload')?.click();
                    
                      
