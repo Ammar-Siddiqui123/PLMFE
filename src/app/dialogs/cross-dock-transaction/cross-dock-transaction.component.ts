@@ -155,7 +155,7 @@ export class CrossDockTransactionComponent implements OnInit {
             this.allocatedTotal = res.data.allocatedTotal;
             this.backOrderTotal = res.data.backOrderTotal;
             this.numberRecords = res.data.numberRecords;
-            this.upperBound = res.data.transaction.length < 5 ? res.data.numberRecords : 5;
+            this.upperBound = res.data.transaction.length < 5 ? res.data.numberRecords : 5; 
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
               positionClass: 'toast-bottom-right',
@@ -319,13 +319,13 @@ export class CrossDockTransactionComponent implements OnInit {
             "put": this.data.values.toteQty,
             "reel": this.data.values.subCategory == 'reel tracking' ? true : false,
             "ser": this.data.values.serialNumber,
-            "htid": this.selectedRowObj.hostTransactionID,
-            "rpid": this.selectedRowObj.id,
+            "htid": this.transactions[this.selectedRow].hostTransactionID,
+            "rpid": this.transactions[this.selectedRow].id,
             "otid": this.data.otid,
             "item": this.data.values.itemNumber,
-            "uf1": this.selectedRowObj.userField1 ? this.selectedRowObj.userField1 : "",
-            "toteID": this.selectedRowObj.toteID,
-            "order": this.selectedRowObj.orderNumber,
+            "uf1": this.transactions[this.selectedRow].userField1 ? this.transactions[this.selectedRow].userField1 : "",
+            "toteID": this.transactions[this.selectedRow].toteID,
+            "order": this.transactions[this.selectedRow].orderNumber,
             "invMapID": this.data.values.invMapID,
             "whse": this.data.values.warehouse,
             "batch": this.data.values.batchID,
