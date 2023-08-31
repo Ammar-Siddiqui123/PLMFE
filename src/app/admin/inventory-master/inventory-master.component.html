@@ -15,14 +15,14 @@
                   <span>{{columns.itemNumber}} Lookup</span>
                 </h2>
               </div>
-              <div class="col-xl-3 col-lg-4 ms-xl-5">
-                <div class="d-flex align-items-center gap-12 ms-xl-5 ps-xl-5 mb-2">
+              <div class="col-xl-4 col-lg-4 ms-xl-5">
+                <div class="d-flex justify-content-end align-items-center gap-12 ms-xl-5 ps-xl-5 mb-2">
                   <button mat-flat-button color="primary" class="sm-icon-button"  [disabled]="paginationData && paginationData.position<2"  (click)="prevPage()">
                     <span class="material-symbols-outlined">
                       keyboard_arrow_left
                     </span>
                   </button>
-                  <div class="text-chrome-600 text-center" style="flex:1; white-space: nowrap;"><b>{{paginationData && paginationData.position}}</b> of {{paginationData &&
+                  <div class="text-chrome-600 text-center" style="white-space: nowrap;"><b>{{paginationData && paginationData.position}}</b> of {{paginationData &&
                     paginationData.total}}</div>
                   <button mat-flat-button color="primary" class="sm-icon-button" [disabled]="paginationData && paginationData.position===paginationData.total" (click)="nextPage()">
                     <span class="material-symbols-outlined">
@@ -44,9 +44,8 @@
                         search
                       </span>
                       <input #alertInput [matAutocomplete]="searchauto" type="text" placeholder="Item No."
-                        aria-label="Search" matInput (blur)="handleFocusOut()" (keyup)="getSearchList($event)" [value]="searchValue"
+                        aria-label="Search" matInput (blur)="handleFocusOut()" (keydown.enter)="$event.preventDefault();" (keyup)="getSearchList($event)" [value]="searchValue"
                         maxlength="50" #autoFocusField>
-
                          <button matSuffix *ngIf="searchValue" class="clear-btn"  (click)="searchValue = ''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                          <mat-autocomplete class="card custom-scroll panel-custom-scroll" #searchauto="matAutocomplete"
                          (optionSelected)="onSearchSelect($event)">
