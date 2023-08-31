@@ -1067,9 +1067,11 @@ table.g-card-table th.mat-header-cell {
 
   background: var(--clr-primary-300);
 }
-
+.mat-table-scrollbar{
+  --scrollbar-thumb-color: rgb(200, 200, 200) !important;
+  }
 .mat-table-scrollbar scrollbar-y.scrollbar-control {
-  top: 60px !important;
+  top: 64px !important;
 }
 
 .mat-table-scrollbar scrollbar-x.scrollbar-control {
