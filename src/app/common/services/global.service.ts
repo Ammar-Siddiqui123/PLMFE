@@ -47,6 +47,7 @@ export class GlobalService {
         }
     }
   };
+  changesConfirmation = false;
 
   constructor(private Api:ApiFuntions,private toast:ToastrService,private dialog: MatDialog, private httpClient : HttpClient
     ,private authService:AuthService,private sanitizer: DomSanitizer) {
