@@ -122,6 +122,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     })
   }
   async changefilter(column,index){
+ 
     var payload:any ={
       reportName:this.BasicReportModel.ChooseReport,
       column:column
@@ -131,8 +132,14 @@ export class BasicReportsAndLabelsComponent implements OnInit {
         this.ListFilterValue[index] = res.data;
         this.oldFilterValue[index] = res.data;
     })  
+    
   }
-  ReportFieldsExps(){
+  ReportFieldsExps(item:any=null,index:any=null){
+    if(item == 'fields'){
+      this.reportData[10+index] = "";
+      this.reportData[16+index] = "";
+      this.reportData[22+index] = "";
+    }
     var payload:any = {
      report:this.BasicReportModel.ChooseReport,
      wsid:this.userData.wsid,

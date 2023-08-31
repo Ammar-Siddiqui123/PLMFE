@@ -126,10 +126,10 @@ export class SideNavComponent implements OnInit {
               private currentTabDataService:CurrentTabDataService,
               private global:GlobalService,
               private Api:ApiFuntions) { 
-                this.sharedService.sideMenuHideObserver.subscribe(menu => {
+                this.sharedService?.sideMenuHideObserver?.subscribe(menu => {
                   this.isMenuHide = menu;   
                 });
-                this.sharedService.SidebarMenupdate.subscribe((data: any) => {
+                this.sharedService?.SidebarMenupdate?.subscribe((data: any) => {
                   var Menuobj = this.menus.find(x=>x.route == data);
                   if(Menuobj==null&&this.authService.UserPermissonByFuncName('Admin Menu'))Menuobj = this.adminMenus.find(x=>x.route == data);
                   else if(Menuobj==null) Menuobj = this.globalMenus.find(x=>x.route == data);
