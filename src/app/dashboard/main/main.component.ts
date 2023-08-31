@@ -4,6 +4,8 @@ import { SharedService } from '../../../app/services/shared.service';
 import { mergeMap, map } from 'rxjs/operators';
 import { forkJoin, of, Subscription } from 'rxjs';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { CurrentTabDataService } from 'src/app/admin/inventory-master/current-tab-data-service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -23,8 +25,14 @@ export class MainComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
     private Api: ApiFuntions,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private currentTabDataService: CurrentTabDataService,
+    private router: Router
+  ) {
+    window.addEventListener('beforeunload', () => {
+      this.currentTabDataService.RemoveTabOnRoute(this.router.url);
+    });
+  }
 
   
   ngOnInit(): void {

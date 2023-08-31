@@ -5,6 +5,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Navig
 import { AuthService } from '../init/auth.service';
 import { HttpClient } from '@angular/common/http'
 import { Location } from '@angular/common';
+import { CurrentTabDataService } from '../admin/inventory-master/current-tab-data-service';
 
 
 @Injectable({ providedIn: 'root' })
@@ -13,12 +14,16 @@ export class AuthGuardGuard implements CanActivate {
   constructor(
     private router: Router,
     private activatedRoute:ActivatedRoute,
-    public authService: AuthService, private http: HttpClient, private location: Location
+    public authService: AuthService, private http: HttpClient, private location: Location,
+    private currentTabDataService:CurrentTabDataService
   ) {
 
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) { 
+    const currentUrl: string = state.url;
+    const previousUrl: string = this.currentTabDataService.getPreviousUrl() || '';
+
     const pathSet = state.url.split('?')[0]; 
     if(pathSet.indexOf('/login') > -1) {
       if(this.authService.IsloggedIn()) {
@@ -68,7 +73,12 @@ export class AuthGuardGuard implements CanActivate {
       if(permission.Permission == true) return true;
       
       else if (userPermission.filter(x => x.toLowerCase() == permission.Permission.toLowerCase()).length > 0) {
-        return true;
+        const isProceed = this.currentTabDataService.CheckTabOnRoute(currentUrl, previousUrl);
+        this.currentTabDataService.setPreviousUrl(currentUrl);    
+        if (isProceed) 
+          return true;          
+        else
+            return this.router.navigate(['/dashboard']);
       } else{ 
         window.location.href = '/#/login';
         return false;
