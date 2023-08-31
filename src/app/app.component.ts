@@ -4,6 +4,7 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { BrowserCloseService } from './services/browser-close.service';
 import { ApiFuntions } from './services/ApiFuntions';
+import { BroadcastService } from './init/broadcast.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ export class AppComponent implements OnInit {
     private titleService: Title,
     private browserCloseService: BrowserCloseService,
     private api:ApiFuntions,
+    private broadCast:BroadcastService
   ) {}
   // @HostListener('window:beforeunload')
   // onBrowserClose(): void {
@@ -70,6 +72,14 @@ onPageLoad(event: Event) {
   }
 }
   ngOnInit() {
+
+    this.broadCast.checkLastTab(() => {
+      console.log('This is the last open tab');
+    });
+
+    window.addEventListener('beforeunload', () => {
+      this.broadCast.sendTabClosedMessage();
+    });
     // this.router.events
     //   .pipe(filter((event) => event instanceof NavigationEnd))
     //   .subscribe(() => {
