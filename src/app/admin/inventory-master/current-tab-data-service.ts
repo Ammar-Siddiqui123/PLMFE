@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
   providedIn: 'root'
 })
 export class CurrentTabDataService {
+    public currentTab: string;
     public savedItem: string[] = [];
     public BATCH_MANAGER = "Batch Manager";
     public BATCH_MANAGER_DELETE = "Batch Manager Delete";
@@ -35,5 +36,35 @@ export class CurrentTabDataService {
       //   this.savedItem[this.TRANSACTIONS_ORDER_SELECT] = undefined;        
       // }
       this.savedItem[currentTab] = undefined;
+    }
+    
+
+    public CheckTabOnRoute(currentTab: string, previousTab: string) {
+      if (currentTab.indexOf("Dashboard") >= 0) return true;
+      if ((currentTab.split("/").length - 1) != 2) return true;
+
+      if (localStorage.getItem('selectedTab_'+currentTab) != null) {
+        return true; // No redirect to dashboard.
+      }
+      else {
+        if (currentTab !== previousTab) {
+          this.RemoveTabOnRoute(previousTab);
+          localStorage.setItem('selectedTab_'+currentTab, currentTab);	
+        }
+      }
+      return true;
+    }
+    public RemoveTabOnRoute(currentTab:string) {
+      if (currentTab.indexOf("Dashboard") >= 0) return;
+      localStorage.removeItem('selectedTab_'+currentTab);
+    }
+    private previousUrl: string | null = null;
+
+    setPreviousUrl(url: string) {
+      this.previousUrl = url;
+    }
+
+    getPreviousUrl(): string | null {
+      return this.previousUrl;
     }
 }
