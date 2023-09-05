@@ -22,7 +22,8 @@ import { CompletePickBatchComponent } from './complete-pick-batch/complete-pick-
 import { ReportsComponent } from '../admin/reports/reports.component';
 
 const routes: Routes = [
-  { path: '', component: InductionManagerComponent },
+  { path: '', component: InductionManagerComponent,
+  canActivate: [AuthGuardGuard], },
   {
     path: 'MarkEmptyReels',
     component: MarkEmptyReelsComponent,
@@ -59,7 +60,7 @@ const routes: Routes = [
   {
     path: 'CompletePickBatch',
     component: CompletePickBatchComponent,
-    // canActivate: [AuthGuardGuard],
+    canActivate: [AuthGuardGuard],
   },
 
 
