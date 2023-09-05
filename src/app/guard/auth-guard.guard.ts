@@ -74,9 +74,11 @@ export class AuthGuardGuard implements CanActivate {
       
       else if (userPermission.filter(x => x.toLowerCase() == permission.Permission.toLowerCase()).length > 0) {
         const isProceed = this.currentTabDataService.CheckTabOnRoute(currentUrl, previousUrl);
-        this.currentTabDataService.setPreviousUrl(currentUrl);    
         if (isProceed) 
-          return true;          
+        {
+          this.currentTabDataService.setPreviousUrl(currentUrl);    
+          return true;
+        }          
         else
             return this.router.navigate(['/dashboard']);
       } else{ 

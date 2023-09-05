@@ -111,22 +111,22 @@ const routes: Routes = [
       { 
         path: 'InductionManager', 
         loadChildren: () => import('./induction-manager/induction-manager.module').then(m => m.InductionManagerModule),
-        canActivate:[AuthGuardGuard]
+        canActivate:[]
       },
       { 
         path: 'ConsolidationManager', 
         loadChildren: () => import('./consolidation-manager/consolidation-manager.module').then(m => m.ConsolidationManagerModule),
-        canActivate:[AuthGuardGuard]
+        canActivate:[]
       },
       { 
         path: 'OrderManager', 
         loadChildren: () => import('./order-manager/order-manager.module').then(m => m.OrderManagerModule),
-        canActivate:[AuthGuardGuard]
+        canActivate:[]
       },
       { 
         path: 'FlowrackReplenishment', 
         loadChildren: () => import('./flowrack-replenishment/flowrack-replenishment.module').then(m => m.FlowrackReplenishmentModule),
-        canActivate:[AuthGuardGuard]
+        canActivate:[]
       },
       { 
         path: '', 
