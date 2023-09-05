@@ -40,11 +40,12 @@ export class CurrentTabDataService {
     
 
     public CheckTabOnRoute(currentTab: string, previousTab: string) {
-      if (currentTab.indexOf("Dashboard") >= 0) return true;
+      if (currentTab.indexOf("Dashboard") >= 0 || currentTab.indexOf("dashboard") >= 0) return true;
       if ((currentTab.split("/").length - 1) != 2) return true;
 
       if (localStorage.getItem('selectedTab_'+currentTab) != null) {
-        return true; // No redirect to dashboard.
+        //this.setPreviousUrl('selectedTab_'+currentTab);
+        return false; // No redirect to dashboard.
       }
       else {
         if (currentTab !== previousTab) {
@@ -55,12 +56,15 @@ export class CurrentTabDataService {
       return true;
     }
     public RemoveTabOnRoute(currentTab:string) {
-      if (currentTab.indexOf("Dashboard") >= 0) return;
+      if (currentTab.indexOf("Dashboard") >= 0 || currentTab.indexOf("dashboard") >= 0) return;
       localStorage.removeItem('selectedTab_'+currentTab);
     }
     private previousUrl: string | null = null;
 
     setPreviousUrl(url: string) {
+      if (url.indexOf("Dashboard") >= 0 || url.indexOf("dashboard") >= 0) return;
+      if ((url.split("/").length - 1) != 2) return;
+
       this.previousUrl = url;
     }
 
