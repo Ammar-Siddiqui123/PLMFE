@@ -6,6 +6,7 @@ import { AuthService } from '../init/auth.service';
 import { HttpClient } from '@angular/common/http'
 import { Location } from '@angular/common';
 import { CurrentTabDataService } from '../admin/inventory-master/current-tab-data-service';
+import { SharedService } from '../services/shared.service';
 
 
 @Injectable({ providedIn: 'root' })
@@ -15,7 +16,8 @@ export class AuthGuardGuard implements CanActivate {
     private router: Router,
     private activatedRoute:ActivatedRoute,
     public authService: AuthService, private http: HttpClient, private location: Location,
-    private currentTabDataService:CurrentTabDataService
+    private currentTabDataService:CurrentTabDataService,
+    private sharedService: SharedService
   ) {
 
   }
@@ -80,7 +82,11 @@ export class AuthGuardGuard implements CanActivate {
           return true;
         }          
         else
-            return this.router.navigate(['/dashboard']);
+          {
+            this.sharedService.resetSidebar();
+            //return TODO this.router.navigate(['/dashboard'], { queryParams: { error: "multipletab"}});
+            return this.router.navigate(['/dashboard'], { queryParams: { error: 'multipletab'} });
+          }
       } else{ 
         window.location.href = '/#/login';
         return false;
