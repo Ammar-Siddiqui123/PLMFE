@@ -41,15 +41,25 @@ export class CurrentTabDataService {
 
     public CheckTabOnRoute(currentTab: string, previousTab: string) {
       if (currentTab.indexOf("Dashboard") >= 0 || currentTab.indexOf("dashboard") >= 0) return true;
-      if ((currentTab.split("/").length - 1) != 2) return true;
+      if ((currentTab.split("/").length - 1) != 2) {
+        this.RemoveTabOnRoute(previousTab);
+        this.setPreviousUrl('selectedTab_'+currentTab);
+        return true;
+      }
 
       if (localStorage.getItem('selectedTab_'+currentTab) != null) {
+        console.log("MultiTabs | Returned to Dashboard: "+'selectedTab_'+currentTab);
         //this.setPreviousUrl('selectedTab_'+currentTab);
+        console.log("MultiTabs | Removed: "+previousTab);
+        this.RemoveTabOnRoute(previousTab);
+        this.setPreviousUrl('selectedTab_'+currentTab);
         return false; // No redirect to dashboard.
       }
       else {
         if (currentTab !== previousTab) {
+          console.log("MultiTabs | Removed: "+previousTab);
           this.RemoveTabOnRoute(previousTab);
+          console.log("MultiTabs | Set: "+'selectedTab_'+currentTab);
           localStorage.setItem('selectedTab_'+currentTab, currentTab);	
         }
       }
@@ -57,14 +67,15 @@ export class CurrentTabDataService {
     }
     public RemoveTabOnRoute(currentTab:string) {
       if (currentTab.indexOf("Dashboard") >= 0 || currentTab.indexOf("dashboard") >= 0) return;
+      console.log("MultiTabs | Removed: "+'selectedTab_'+currentTab);
       localStorage.removeItem('selectedTab_'+currentTab);
     }
     private previousUrl: string | null = null;
 
     setPreviousUrl(url: string) {
       if (url.indexOf("Dashboard") >= 0 || url.indexOf("dashboard") >= 0) return;
-      if ((url.split("/").length - 1) != 2) return;
-
+      //if ((url.split("/").length - 1) != 2) return;
+      console.log("MultiTabs | Set PreviousURL: "+url);
       this.previousUrl = url;
     }
 

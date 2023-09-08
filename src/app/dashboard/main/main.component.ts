@@ -5,7 +5,8 @@ import { mergeMap, map } from 'rxjs/operators';
 import { forkJoin, of, Subscription } from 'rxjs';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { CurrentTabDataService } from 'src/app/admin/inventory-master/current-tab-data-service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -27,7 +28,9 @@ export class MainComponent implements OnInit {
     private Api: ApiFuntions,
     private authService: AuthService,
     private currentTabDataService: CurrentTabDataService,
-    private router: Router
+    private toastr: ToastrService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     window.addEventListener('beforeunload', () => {
       this.currentTabDataService.RemoveTabOnRoute(this.router.url);
@@ -44,8 +47,15 @@ export class MainComponent implements OnInit {
     }else{
       this.isDefaultAppVerify={appName: "",isVerified:true}
     }
-    
-
+    this.route.queryParams.subscribe(params => {
+      const error = params['error'];
+      if (error === "multipletab") {
+        this.toastr.error("Same Tab cannot be opened twice!", 'Error!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+       });
+      }
+  });
   }
 
 
