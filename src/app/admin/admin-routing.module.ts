@@ -84,7 +84,7 @@ const routes: Routes = [
   {
     path: 'moveItems',
     component: MoveItemsComponent,
-    // canActivate: [AuthGuardGuard],
+    canActivate: [AuthGuardGuard],
   },
   {
     path: 'systemReplenishment',
