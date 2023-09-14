@@ -5,6 +5,7 @@ import labels from '../../../../labels/labels.json';
 import { Output, EventEmitter } from '@angular/core';
 import { SharedService } from '../../../../services/shared.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-reprocess-choice',
@@ -21,12 +22,37 @@ export class ReprocessChoiceComponent implements OnInit {
   @Input() isCompleteChecked : any;
   @Input() isHistoryChecked : any;
   @Output() itemUpdatedEvent = new EventEmitter<boolean>();
+
+  @Input() ROrder : any = '';
+  @Input() RItem : any = '';
+  @Input() selection4 : any = '';
+  @Input() searchString4 : any = '';
+  @Input() hold : boolean = false;
   
 
   constructor(private Api:ApiFuntions,private toastr: ToastrService , private sharedService:SharedService) { }
 
   ngOnInit(): void {
 
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['ROrder']&&changes['ROrder']?.currentValue){
+      this.ROrder = changes['ROrder'].currentValue;
+      console.log(this.ROrder);
+    } 
+    if(changes['RItem']&&changes['RItem']?.currentValue){
+      this.ROrder = changes['RItem'].currentValue;
+      console.log(this.RItem);
+    } 
+    if(changes['selection4']&&changes['selection4']?.currentValue){
+      this.selection4 = changes['selection4'].currentValue;
+      console.log(this.selection4);
+    } 
+    if(changes['searchString4']&&changes['searchString4']?.currentValue){
+      this.searchString4 = changes['searchString4'].currentValue;
+      console.log(this.searchString4);
+    } 
   }
 
   postTransaction()
@@ -106,4 +132,22 @@ export class ReprocessChoiceComponent implements OnInit {
 
   }
 
+  markTableSelection(matEvent:any){
+    const matSelect: MatSelect = matEvent.source;
+    matSelect.writeValue(null);
+  }
+  
+  markTable(type:string){
+    console.log(type);
+    console.log("ROrder",this.ROrder);
+    console.log("RItem",this.RItem);
+    console.log("selection4",this.selection4);
+    console.log("searchString4",this.searchString4);
+    console.log("hold",this.hold);
+    //   RPHub.server.setReprocessIDs($('#ROrder').val(), $('#RItem').val(), hold, $('#selection4').val(), $('#searchString4').val(), Field).done(function (response) {
+    //     if (!response) {
+    //         MessageModal('Error', 'There was an error marking the designated reprocess records', undefined, function () { document.getElementById("Message_Modal").style.zIndex = "1061"; });
+    //     };
+    // });
+  }
 }
