@@ -667,6 +667,9 @@ export class ApiFuntions {
   public WSPickZoneDelete(body:any): Observable<any> { 
     return this.ApiBase.Delete("/Induction/wspickzone",body);
   }
+  public ClrWSPickZone(): Observable<any> { 
+    return this.ApiBase.Delete("/Induction/clrwspickzone");
+  }
   public InZoneTransDT(body:any): Observable<any> { 
     return this.ApiBase.Get("/Induction/inzonetransdt",body);
   }
