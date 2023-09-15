@@ -1494,6 +1494,9 @@ public async CommonPrint(body)  {
 public GetWorkStatPrinters(): Observable<any> {
   return this.ApiBase.Get(`/GlobalConfig/WorkStatPrinters`);
 } 
+public SetReprocessIds(Body: any ): Observable<any> {
+  return this.ApiBase.Update(`/Admin/setreprocessids`, Body);
+} 
 
 
 }
