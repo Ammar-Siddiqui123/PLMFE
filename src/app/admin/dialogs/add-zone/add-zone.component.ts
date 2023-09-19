@@ -39,12 +39,10 @@ export class AddZoneComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.data?.mode === 'edit-zone' ? this.form_heading = 'Edit Zone' : 'Update Zone';
-    this.data?.mode === 'edit-zone' ? this.form_btn_label = 'Update' : 'Add';
+    this.form_heading = this.data?.mode === 'edit-zone' ? 'Edit Zone' : 'Update Zone';
+    this.form_btn_label = this.data?.mode === 'edit-zone' ? 'Update' : 'Add';
     this.fetchedZones=this.data?.fetchedZones;
-    
     this.editZoneName=this.data?.fetchedZones;
-
     this.initialzeEmpForm();
     this.filteredOptions = this.addZoneForm.controls['zoneList'].valueChanges.pipe(
       startWith(''),

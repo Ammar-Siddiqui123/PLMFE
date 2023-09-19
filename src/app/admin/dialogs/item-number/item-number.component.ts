@@ -22,7 +22,6 @@ export class ItemNumberComponent implements OnInit {
 
     if(this.data.fromPutaways){
       this.addItem = true;
-      this.data.itemNumber=this.data.itemNumber;
       this.data.description="";
     }
     else if(this.data.fromInventoryMaster)

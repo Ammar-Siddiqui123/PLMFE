@@ -34,7 +34,7 @@
                         <mat-form-field class="custom-form-field w-100 mb-3" appearance="outline"
                         [floatLabel]="getFloatLabelValue()" [hideRequiredMarker]="hideRequiredControl.value" >
                         <mat-label>Item Number</mat-label>
-                        <input #item_num (focusout)="onFocusOutItemNum($event)" type="text" placeholder="Search"  class="pac-container" aria-label="Number" matInput [(ngModel)]='itemNumber' 
+                        <input #item_num type="text" placeholder="Search"  class="pac-container" aria-label="Number" matInput [(ngModel)]='itemNumber' 
                           maxlength="255" [matAutocomplete]="auto"   (keyup)="onKeydownEvent($event)" >
                           <button matSuffix *ngIf="itemNumber" class="clear-btn"  (click)="itemNumber=''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
                         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()">

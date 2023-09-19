@@ -206,45 +206,6 @@ export class AddNewTransactionToOrderComponent implements OnInit {
     return this.floatLabelControl.value || 'auto';
   }
 
-  onFocusOutItemNum(event){
-return
-    if(event.target.value==='')return
-    
-    let payload = {
-      itemNumber: this.itemNumber,
-      username: this.data.userName,
-      wsid: this.data.wsid,
-    }
-
-    setTimeout(() => {
-      this.Api.ItemExists(payload)
-      .subscribe(
-        (res: any) => {
-          if(res.isExecuted){
-              if(res.data==''){
-                const dialogRef = this.dialog.open(ItemExistGenerateOrderComponent, {
-                  height: 'auto',
-                  width: '560px',
-                  autoFocus: '__non_existing_element__',
-      disableClose:true,
-                  data: {
-                    itemNumber:this.itemNumber,
-                  },
-                });
-                dialogRef.afterClosed().subscribe((res) => {
-                 this.itemNumber=''
-                });
-              }
-            
-          }
-        },
-        (error) => {
-    
-        }
-      );
-    }, 500);
-   
-  }
   saveTransaction() {
     let payloadItem = {
       itemNumber: this.itemNumber,

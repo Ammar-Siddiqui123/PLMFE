@@ -242,7 +242,7 @@ export class AddNewDeviceComponent implements OnInit {
         value:
           this.item && this.item.laserPointer
             ? JSON.parse(this.item.laserPointer.toLowerCase())
-            : false || false,
+            : false,
         disabled: false,
       }),
       hostIP: new FormControl({ value: '', disabled: false }),

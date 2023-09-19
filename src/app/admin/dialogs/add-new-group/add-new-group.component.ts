@@ -37,8 +37,8 @@ export class AddNewGroupComponent implements OnInit {
 
   ngOnInit(): void {
     this.grpData = this.data.grp_data;
-    this.data?.mode === 'edit' ? this.form_heading = 'Edit Group' : 'Add New Group';
-    this.data?.mode === 'edit' ? this.form_btn_label = 'Save' : 'Add';
+    this.form_heading = this.data?.mode === 'edit' ? 'Edit Group' : 'Add New Group';
+    this.form_btn_label = this.data?.mode === 'edit' ? 'Save' : 'Add';
     this.groupName = this.grpData.groupName ?? '';
 
   }

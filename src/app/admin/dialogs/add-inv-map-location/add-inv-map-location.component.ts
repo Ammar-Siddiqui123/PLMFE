@@ -524,10 +524,9 @@ export class AddInvMapLocationComponent implements OnInit {
 
   }
   loadItemDetails(item: any) {
-    this.itemNumberList.map(val => {
+    this.itemNumberList.forEach(val => {
       if (val.itemNumber === item) {
         this.addInvMapLocation.controls['description'].setValue(val.description ?? '');
-        // this.itemDescription = ;
       }
     })
     let payload = {

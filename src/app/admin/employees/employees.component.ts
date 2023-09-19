@@ -852,10 +852,9 @@ initialzeEmpForm() {
     this.bpSettingLocInp='';
     this.searchfuncAllowed = '';
     this.grpAllFilter='';
-    this.employee_fetched_zones && this.employee_fetched_zones.filter? this.employee_fetched_zones.filter = '' : '';
-    this.location_data_source && this.location_data_source.filter? this.location_data_source!.filter = '':'';
-    this.groupAllowedList && this.groupAllowedList.filter? this.groupAllowedList.filter = '':'';
-    
+    this.employee_fetched_zones.filter = '';
+    this.location_data_source!.filter = '';
+    this.groupAllowedList.filter = '';
   }
   
  

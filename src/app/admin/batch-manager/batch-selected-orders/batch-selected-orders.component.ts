@@ -144,7 +144,6 @@ export class BatchSelectedOrdersComponent implements OnInit {
       dialogRef.afterClosed().subscribe((res) => {
         if (res==='Yes') {
           let ordersArr:any=[];
-          this.tableData._data._value.orderNumber
           this.tableData._data._value.forEach(element => {
               ordersArr.push(element.orderNumber)
           });
@@ -165,9 +164,7 @@ export class BatchSelectedOrdersComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe((res) => {
         if (res==='Yes') {
-
           let ordersArr:any=[];
-          this.tableData._data._value.orderNumber
           this.tableData._data._value.forEach(element => {
               ordersArr.push(element.orderNumber)
           });

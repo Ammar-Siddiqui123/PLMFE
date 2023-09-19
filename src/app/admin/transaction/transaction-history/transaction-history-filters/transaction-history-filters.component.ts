@@ -62,8 +62,7 @@ export class TransactionHistoryFiltersComponent implements OnInit {
     this.edate=new Date().toISOString()
     this.sdate=new Date().toISOString()
     this.orderNumber='';
-    // this.searchAutocompleteList.length=0;
-    this.searchAutocompleteList && this.searchAutocompleteList.length?this.searchAutocompleteList.length=0:'';
+    this.searchAutocompleteList = [];
     this.resetDates.emit({endDate : new Date().toISOString(),startDate : new Date().toISOString()})
     this.clearData.emit(event);
    

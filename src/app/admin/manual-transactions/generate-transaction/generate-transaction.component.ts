@@ -256,7 +256,7 @@ export class GenerateTransactionComponent implements OnInit {
     this.quantityAllocatedPutAway = '';
     this.orderNumber = '';
     this.emergency = false;
-    this.searchAutocompleteList? this.searchAutocompleteList.length=0:[];
+    this.searchAutocompleteList = [];
     this.item=null;
     this.selectedAction='';
     this.clearMatSelectList();
