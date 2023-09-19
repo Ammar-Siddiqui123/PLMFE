@@ -8,6 +8,7 @@ import { ConfirmationDialogComponent } from '../../admin/dialogs/confirmation-di
 import { AuthService } from '../../../app/init/auth.service';
 import labels from '../../labels/labels.json';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
+import { MatAutocomplete } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-workstation-zones',
@@ -26,6 +27,74 @@ export class WorkstationZonesComponent implements OnInit {
   public allZoneList: any[] = [];
   public zones: any[] = [];
   @ViewChild('btnSave') button;
+
+  @ViewChild("searchauto", { static: false }) autocompleteOpened: MatAutocomplete;
+  zoneSelectOptions: any[] = [];
+  onSearchSelect(e: any) {
+    this.selectedZone = e.option.value;
+    this.saveVlCode();
+  }
+  searchItem(event:any) {
+    if (this.selectedZone.trim() != '') {
+      if(event.key == "Enter"){
+        if(this.velocity_code_list.filter((x:any) => x.zone.toLowerCase() == this.selectedZone.trim().toLowerCase()).length > 0){
+          this.toastr.error("This Zone is already selected for this workstation", 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+        else if(this.zones.filter((x:any) => x == this.selectedZone).length == 0){
+          this.toastr.error("This zone does not exist", 'Error!', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+        }
+        else{
+          this.saveVlCode();
+        }
+      }
+      else{
+        this.zoneSelectOptions = this.zones.filter((x:any) => x.trim().toLowerCase().indexOf(this.selectedZone.trim().toLowerCase()) != -1 );
+      }
+    }
+    else {
+      this.zoneSelectOptions = [];
+    }
+  }
+  clearAllZones(){
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      height: 'auto',
+      width: '560px',
+      autoFocus: '__non_existing_element__',
+      disableClose:true,
+      data: {
+        mode: 'release-all-orders',
+        ErrorMessage: 'Remove All Zones for this workstation?',
+        action: 'remove'
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'Yes') {
+        this.Api.ClrWSPickZone().subscribe((res) => {
+          if (res.isExecuted && res.data) {
+            this.getVelocity();
+            this.toastr.success(labels.alert.remove, 'Success!', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+          else {
+            this.toastr.error("Failed to remove Zones from workstation", 'Remove Failed', {
+              positionClass: 'toast-bottom-right',
+              timeOut: 2000
+            });
+          }
+        });
+      }
+    });
+
+  }
+  
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, 
     private Api: ApiFuntions,
@@ -96,6 +165,8 @@ export class WorkstationZonesComponent implements OnInit {
           });
           this.getVelocity();
           this.allZoneList = [];
+          this.selectedZone = "";
+          this.zoneSelectOptions = [];
         }
         else {
           this.toastr.error("This Zone is already selected for this workstation.", 'Error!', {
@@ -153,7 +224,7 @@ export class WorkstationZonesComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       disableClose:true,
       data: {
-        message: "Remove Zone "+event+" from picking for this workstation"
+        message: "Remove Zone "+event+" from picking for this workstation?"
       }
     })
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {

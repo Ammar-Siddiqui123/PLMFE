@@ -947,6 +947,13 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   openSelectionTransactionDialogue() {
+    if (this.batchId2 == "") {
+      this.toastr.error('No batch ID present. Please select a batch vlaue form the typeahead to ensure you are inducting against the correct batch', 'Empty Batch ID Value', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000,
+      });
+      return;
+    };
 
     this.applyStripIfApplicable();
 
