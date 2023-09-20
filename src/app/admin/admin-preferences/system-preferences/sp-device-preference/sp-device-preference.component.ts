@@ -174,7 +174,7 @@ export class SpDevicePreferenceComponent implements OnInit {
     )
       return;
     let index;
-    this.displayedColumns.find((x, i) => {
+    this.displayedColumns.forEach((x, i) => {
       if (x === event.active) {
         index = i + 1;
       }

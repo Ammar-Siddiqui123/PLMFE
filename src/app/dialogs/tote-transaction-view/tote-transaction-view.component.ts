@@ -86,7 +86,7 @@ export class ToteTransactionViewComponent implements OnInit {
   sortChange(event) {
     if (!this.dataSource._data._value || event.direction=='' || event.direction==this.sortOrder) return;
     let index;
-    this.displayedColumns.find((x, i) => {
+    this.displayedColumns.forEach((x, i) => {
       if (x === event.active) {
         index = i;
       }
