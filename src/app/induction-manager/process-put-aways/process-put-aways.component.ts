@@ -1240,7 +1240,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.selectTotes(0)
             this.goToNext();
             this.getRow(batchID ? batchID : this.batchId2);
-            this.inputValue == ""
+            this.inputValue = "";
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
               positionClass: 'toast-bottom-right',

@@ -328,7 +328,7 @@ async  printPickLabels(row) {
       }
       this.filteredOrderNum = this.orderNumber.valueChanges.pipe(
         startWith(""),
-        map(value => (typeof value === "string" ? value : value)),
+        map(value => (value)),
         map(name => (name ? this._orderFilter(name) : this.orderNumberList.slice()))
       );
     });
@@ -443,7 +443,7 @@ async  printPickLabels(row) {
 
       this.filteredOptions = this.pickBatches.valueChanges.pipe(
         startWith(""),
-        map(value => (typeof value === "string" ? value : value)),
+        map(value => (value)),
         map(name => (name ? this._filter(name) : this.pickBatchesList.slice()))
         
       );

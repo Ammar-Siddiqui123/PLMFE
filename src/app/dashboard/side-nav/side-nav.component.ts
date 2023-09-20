@@ -131,12 +131,7 @@ export class SideNavComponent implements OnInit {
                 });
                 this.sharedService?.SidebarMenupdate?.subscribe((data: any) => {
                   var Menuobj = this.menus.find(x=>x.route == data);
-                  if(Menuobj==null&&this.authService.UserPermissonByFuncName('Admin Menu'))Menuobj = this.adminMenus.find(x=>x.route == data);
-                  else if(Menuobj==null) Menuobj = this.globalMenus.find(x=>x.route == data);
-                  else if(Menuobj==null) Menuobj = this.inductionMenus.find(x=>x.route == data);
-                  else if(Menuobj==null) Menuobj = this.inductionAdminMenus.find(x=>x.route == data);
-                  else if(Menuobj==null) Menuobj = this.orderManagerMenus.find(x=>x.route == data);
-                  else if(Menuobj==null) Menuobj = this.flowrackReplenishmentMenus.find(x=>x.route == data);
+                  if(Menuobj==null&&this.authService.UserPermissonByFuncName('Admin Menu')) Menuobj = this.adminMenus.find(x=>x.route == data);
                   this.loadMenus(Menuobj);
                 });
 

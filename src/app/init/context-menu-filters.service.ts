@@ -62,51 +62,40 @@ export class ContextMenuFiltersService {
       {
         case "equals to":
         return " = ";
-        break;
   
         case "is not equals to":
           return " <> ";
-          break;
   
         case "is greater than or equal to":
           return " >= ";
-          break;
   
         case "is less than or equal to":
           return " <= ";
-          break;
   
         case "is like":
         case "begins with":
         case "ends with":
         case "contains":
           return " like ";
-          break;
   
         case "is not like":
         case "does not begins with":
         case "does not ends with":
         case "does not contains":
           return " not like ";
-          break;
         
         case "is less than":
           return " < ";
-          break;
   
         case "is greater than":
           return " > ";
-          break;
   
         case "is between":
           return " Between ";
-          break;
   
         default:
            return "";
-          break;
       }
-     return "";
     }
     getSelectedItemFormat(ValueType: any, valueText: any, Condition: any) : string{
       if(ValueType == "boolean")
