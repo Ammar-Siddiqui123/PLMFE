@@ -5,7 +5,7 @@
   <div class="breadcrumb-menu ps-1 ps-xl-3" style="height: 30px;">
 
 
-    <nav aria-label="breadcrumb" class="breadcrumb m-0">
+    <ul aria-label="breadcrumb" class="breadcrumb m-0">
       <li style="cursor:pointer;" *ngIf="isConfigUser" (click)="routeToLogin()">
         LogixPro
       </li>
@@ -22,7 +22,7 @@
           {{item.name}}
         </li>
       </ng-container>      
-    </nav>
+    </ul>
   </div>
   <!-- <div class="breadcrumb-menu ps-3" style="height: 30px;">
     <nav aria-label="breadcrumb" class="breadcrumb m-0">
