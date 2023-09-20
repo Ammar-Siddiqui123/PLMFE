@@ -20,7 +20,7 @@ export class GlobalService {
     numerics: {
         bigint: {
             min : -9223372036854775808,
-            max: 9223372036854775807
+            max: 9223372036854775807n
         },
         int: {
             min: -2147483648,

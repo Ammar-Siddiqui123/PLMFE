@@ -135,7 +135,6 @@ export class WorkstationComponent implements OnInit {
     };
     this.api.GlobalMenu(payload).subscribe(
       (res: any) => {
-        res && res.data;
         if (res && res.data) {
           this.sharedService.setData(res.data);
           res.data.workstations.map((obj) => ({ ...obj, checked: false }));

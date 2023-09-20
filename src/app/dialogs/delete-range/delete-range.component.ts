@@ -61,13 +61,15 @@ export class DeleteRangeComponent implements OnInit {
       this.del_focus.nativeElement.focus();  
     }, 200);
   }
+  
   ngOnDestroy() {
     this.getSearchOptionsBeginSubscribe.unsubscribe();
     this.getSearchOptionsEndSubscribe.unsubscribe();
   }
 
   ReplenishmentsByDelete() {
-    if (this.repByDeletePayload.filter2 && this.repByDeletePayload.filter2) {
+    debugger
+    if (this.repByDeletePayload.filter1 && this.repByDeletePayload.filter2) {
       const dialogRef2 = this.dialog.open(DeleteConfirmationComponent, {
         height: 'auto',
         width: '560px',

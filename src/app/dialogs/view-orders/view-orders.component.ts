@@ -128,7 +128,7 @@ export class ViewOrdersComponent implements OnInit {
         if (this.data.allOrders.length > 0) {
           const selectedArr = this.allOrders.filter(element => this.data.allOrders.includes(element.orderNumber));
           
-          selectedArr.map(ele => {
+          selectedArr.forEach(ele => {
             ele.isSelected = true
             this.selectedOrders.push(ele.orderNumber);
           });

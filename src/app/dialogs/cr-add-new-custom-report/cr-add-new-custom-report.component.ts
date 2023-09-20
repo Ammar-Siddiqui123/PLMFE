@@ -77,8 +77,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
 
   var valid = true;
   for (var x = 0; x < newParams.length - 1; x++) {
-    newParams[x] == ''||newParams[x] == undefined
-    // this.validateInputs();
       if (newParams[x] == ''||newParams[x] == undefined) {
         this.toastr.error(`${fields[x]} must not be left blank!`, 'Error!', {
           positionClass: 'toast-bottom-right',

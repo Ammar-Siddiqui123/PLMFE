@@ -39,6 +39,7 @@ export class AddNewGroupComponent implements OnInit {
     this.grpData = this.data.grp_data;
     this.form_heading = this.data?.mode === 'edit' ? 'Edit Group' : 'Add New Group';
     this.form_btn_label = this.data?.mode === 'edit' ? 'Save' : 'Add';
+
     this.groupName = this.grpData.groupName ?? '';
 
   }

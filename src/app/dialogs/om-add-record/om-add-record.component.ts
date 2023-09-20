@@ -321,7 +321,6 @@ export class OmAddRecordComponent implements OnInit {
   }
 
   onDateChange(event, key: any): void {
-    this.oTTempUpdatePayload[key] = "";
     this.oTTempUpdatePayload[key] = event;
   }
 

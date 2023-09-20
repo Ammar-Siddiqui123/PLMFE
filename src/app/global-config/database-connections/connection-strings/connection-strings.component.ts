@@ -77,7 +77,7 @@ export class ConnectionStringsComponent implements OnInit {
   saveString(item,index?) {
     let indexesToShow:any = [];
     let indexesToHide:any = [];
-    this.connectionStringData.map((el,i)=>{
+    this.connectionStringData.forEach((el,i)=>{
 
         if(i!=index){
         if(el.connectionName===item.connectionName){

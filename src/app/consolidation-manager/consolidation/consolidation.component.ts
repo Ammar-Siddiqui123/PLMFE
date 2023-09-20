@@ -574,9 +574,6 @@ export class ConsolidationComponent implements OnInit {
 
       this.filterOption.forEach((e: any) => {
         result = this.checkVerifyType(e.key, val);
-        if (result.valueCount >= 1 || e.key == 0) {
-          false;
-        }
       });
 
     }

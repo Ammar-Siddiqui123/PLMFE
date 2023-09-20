@@ -253,7 +253,7 @@ export class PickToteManagerComponent implements OnInit {
         this.savedFilterList = res.data;
         this.filteredOptions = this.savedFilter.valueChanges.pipe(
           startWith(""),
-          map(value => (typeof value === "string" ? value : value)),
+          map(value => (value)),
           map(name => (name ? this._filter(name) : this.savedFilterList.slice()))
         );
       }
@@ -480,7 +480,7 @@ export class PickToteManagerComponent implements OnInit {
           if (this.data.allOrders.length > 0) {
             const selectedArr = this.FILTER_BATCH_DATA.filter(element => this.data.allOrders.includes(element.orderNumber));
             
-            selectedArr.map(ele => {
+            selectedArr.forEach(ele => {
               ele.isSelected = true
               this.selectedOrders.push(ele.orderNumber);
             });
@@ -511,7 +511,7 @@ export class PickToteManagerComponent implements OnInit {
           if (this.data.allOrders.length > 0) {
             const selectedArr = this.FILTER_BATCH_DATA_ZONE.filter(element => this.data.allOrders.includes(element.orderNumber));
             
-            selectedArr.map(ele => {
+            selectedArr.forEach(ele => {
               ele.isSelected = true
               this.selectedOrders.push(ele.orderNumber);
             });
@@ -561,7 +561,7 @@ export class PickToteManagerComponent implements OnInit {
       });
     }
     else {
-      this.FILTER_BATCH_DATA.map(v => {
+      this.FILTER_BATCH_DATA.forEach(v => {
         if (this.selectedOrders.includes(v.orderNumber)) {
           v.isSelected = true;
         }
@@ -627,7 +627,7 @@ export class PickToteManagerComponent implements OnInit {
       });
     }
     else {
-      this.FILTER_BATCH_DATA_ZONE.map(v => {
+      this.FILTER_BATCH_DATA_ZONE.forEach(v => {
         if (this.selectedOrders.includes(v.orderNumber)) {
           v.isSelected = true;
         }
@@ -715,7 +715,7 @@ export class PickToteManagerComponent implements OnInit {
       this.onCloseAllPickToteManager();
     }
     if (option === 'unselect_all_orders') {
-      this.FILTER_BATCH_DATA.map(ele => {
+      this.FILTER_BATCH_DATA.forEach(ele => {
         ele.isSelected = false;
         ele.priority = '';
         this.selectedOrders = [];
@@ -750,7 +750,7 @@ export class PickToteManagerComponent implements OnInit {
       this.onCloseAllPickToteManager();
     }
     if (option === 'unselect_all_orders') {
-      this.FILTER_BATCH_DATA_ZONE.map(ele => {
+      this.FILTER_BATCH_DATA_ZONE.forEach(ele => {
         ele.isSelected = false;
         ele.priority = '';
         this.selectedOrders = [];
@@ -772,7 +772,7 @@ export class PickToteManagerComponent implements OnInit {
   }
   onViewOrderLineZone(event) {
     let orderNum = '';
-    this.FILTER_BATCH_DATA_ZONE.map(val => {
+    this.FILTER_BATCH_DATA_ZONE.forEach(val => {
       orderNum += val.orderNumber + ','
     })
 
@@ -798,7 +798,7 @@ export class PickToteManagerComponent implements OnInit {
     }
     if (event.value === 'vSelectedOrderZone') {
       orderNum = '';
-      this.FILTER_BATCH_DATA_ZONE.map(val => {
+      this.FILTER_BATCH_DATA_ZONE.forEach(val => {
         if (val.isSelected) {
           orderNum += val.orderNumber + ','
         }
@@ -832,7 +832,7 @@ export class PickToteManagerComponent implements OnInit {
   }
   onViewOrderLineFilter(event) {
     let orderNum = '';
-    this.FILTER_BATCH_DATA.map(val => {
+    this.FILTER_BATCH_DATA.forEach(val => {
       orderNum += val.orderNumber + ','
     })
 
@@ -858,7 +858,7 @@ export class PickToteManagerComponent implements OnInit {
     }
     if (event.value === 'vSelectedOrderFilter') {
       orderNum = '';
-      this.FILTER_BATCH_DATA.map(val => {
+      this.FILTER_BATCH_DATA.forEach(val => {
         if (val.isSelected) {
           orderNum += val.orderNumber + ','
         }
@@ -908,7 +908,7 @@ export class PickToteManagerComponent implements OnInit {
         "Description": this.savedFilter.value,
         "wsid": this.userData.wsid,
       }
-      this.FILTER_DATA.map(val => {
+      this.FILTER_DATA.forEach(val => {
 
         // console.log(val);
         

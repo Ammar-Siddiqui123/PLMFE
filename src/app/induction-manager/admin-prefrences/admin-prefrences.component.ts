@@ -514,9 +514,7 @@ export class AdminPrefrencesComponent implements OnInit {
     let value = inputElement.value.replace(/\D/g, ''); // Remove non-digit characters
     if (parseInt(value) > 2147483647) {
       value = value.substr(0, 10);
-    } else {
-      value = value.substr(0, 10);
-    }
+    } 
     // if (value === '') {
     //   value = '0';
     // }
@@ -527,8 +525,6 @@ export class AdminPrefrencesComponent implements OnInit {
     const inputElement = this.maxNumber.nativeElement;
     let value = inputElement.value.replace(/\D/g, ''); // Remove non-digit characters
     if (parseInt(value) > 2147483647) {
-      value = value.substr(0, 309);
-    } else {
       value = value.substr(0, 309);
     }
     // if (value === '') {

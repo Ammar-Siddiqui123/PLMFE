@@ -51,7 +51,6 @@ export class UserAccountComponent implements OnInit {
     };
     this.Api.Menu(payload).subscribe(
       (res: any) => {
-        res && res.data;
         if (res && res.data ) {
           this.sharedService.setData(res.data);
           this.username = res.data.loginInfo[0].user;
