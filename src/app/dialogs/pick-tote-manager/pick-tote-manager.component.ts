@@ -541,7 +541,7 @@ export class PickToteManagerComponent implements OnInit {
 
   onOrderSelect(row: any) {
     if (this.selectedOrders.includes(row.orderNumber)) {
-      this.FILTER_BATCH_DATA.filter(val => {
+      this.FILTER_BATCH_DATA.forEach(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = false;
           this.filterOrderTransactionSource = [];
@@ -572,7 +572,7 @@ export class PickToteManagerComponent implements OnInit {
       this.tempHoldEle = row; 
 
       // this.selectedOrders.push(row.orderNumber);
-      this.FILTER_BATCH_DATA.filter(val => {
+      this.FILTER_BATCH_DATA.forEach(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = true;
         }
@@ -606,7 +606,7 @@ export class PickToteManagerComponent implements OnInit {
 
   onOrderSelectZone(row: any) {
     if (this.selectedOrders.includes(row.orderNumber)) {
-      this.FILTER_BATCH_DATA_ZONE.filter(val => {
+      this.FILTER_BATCH_DATA_ZONE.forEach(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = false;
           this.zoneOrderTransactionSource = [];
@@ -638,7 +638,7 @@ export class PickToteManagerComponent implements OnInit {
       this.tempHoldEle = row;
 
       // this.selectedOrders.push(row.orderNumber);
-      this.FILTER_BATCH_DATA_ZONE.filter(val => {
+      this.FILTER_BATCH_DATA_ZONE.forEach(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = true;
         }

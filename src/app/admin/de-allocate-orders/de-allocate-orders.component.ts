@@ -257,7 +257,7 @@ export class DeAllocateOrdersComponent implements OnInit {
   ordertransaction(row,index){
    this.resetpaginationOrder()
     this.orderNameList.data[index].isRowSelected=!this.orderNameList.data[index].isRowSelected;
-    this.orderNameList.data.filter((item,i)=>{
+    this.orderNameList.data.forEach((item,i)=>{
       if(index===i)return
       item.isRowSelected=false;
     })
@@ -372,13 +372,13 @@ export class DeAllocateOrdersComponent implements OnInit {
       this.orderNumbersList.splice(index, 1);
     }
     
-    this.orderItemTransactions.data.filter((item,i)=>{
+    this.orderItemTransactions.data.forEach((item,i)=>{
       if(item.orderNumber===order){
         this.orderItemTransactions.data[i].isDeallocate=event.checked?true:false
       }
     })
 
-    this.orderNameList.data.filter((item,i)=>{
+    this.orderNameList.data.forEach((item,i)=>{
       if(item.name===order){
         this.orderNameList.data[i].isChecked=event.checked?true:false
       }

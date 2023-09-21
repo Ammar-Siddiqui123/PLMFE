@@ -268,7 +268,7 @@ export class TotesAddEditComponent implements OnInit {
                 this.isRowAdded=false;
                 let isUnsavedItem=false
                 // this.dataSourceManagedTotes.data.splice(index,1)
-                this.dataSourceManagedTotes.data.filter(obj=>{
+                this.dataSourceManagedTotes.data.forEach(obj=>{
                   if(obj.isInserted===0){
                     isUnsavedItem=true
                   }else {

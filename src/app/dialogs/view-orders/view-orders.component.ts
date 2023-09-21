@@ -175,7 +175,7 @@ export class ViewOrdersComponent implements OnInit {
     
     
     if (this.selectedOrders.includes(row.orderNumber)) {
-      this.allOrders.filter(val => {
+      this.allOrders.forEach(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = false;
           this.orderTransDataSource = [];
@@ -191,7 +191,7 @@ export class ViewOrdersComponent implements OnInit {
     }
     else {
       this.selectedOrders.push(row.orderNumber);
-      this.allOrders.filter(val => {
+      this.allOrders.forEach(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = true;
         }
