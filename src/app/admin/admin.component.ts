@@ -260,20 +260,13 @@ export class AdminComponent implements OnInit {
 
     this.sortCol = index;
     this.sortOrder = event.direction;
-    // this.getContentData();
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
-    // this.customPagination.startIndex =  e.pageIndex
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
 
     this.customPagination.endIndex = e.pageSize * e.pageIndex + e.pageSize;
-    // this.length = e.length;
     this.customPagination.recordsPerPage = e.pageSize;
-    // this.pageIndex = e.pageIndex;
-
-    // this.initializeApi();
-    // this.getContentData();
   }
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {

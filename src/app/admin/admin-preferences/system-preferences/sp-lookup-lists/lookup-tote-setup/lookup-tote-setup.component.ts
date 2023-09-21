@@ -38,21 +38,11 @@ export class LookupToteSetupComponent implements OnInit {
   }
 
   getToteTable(){
-    // debugger
 
     this.Api.getToteCell().subscribe(res => {
       if (res.isExecuted) {
         this.OldtableData =res.data;   
-        // debugger 
         this.tableData = JSON.parse(JSON.stringify(res.data));   
-          // console.log(res);
-        // this.tableData.data = res.data.map((element: any) => {
-        //   return {
-        //     oldVal: element,
-        //     currentVal: element
-        //   };
-        // });
-        // console.log(this.tableData.data);
       }
     });
   }
@@ -68,7 +58,6 @@ export class LookupToteSetupComponent implements OnInit {
     let temA:any = []
     temA.push(newOBj)
     this.tableData =  this.tableData.concat(temA);
-    // this.OldtableData =  this.tableData.concat(temA);
   }
 
   check(toteID,ind){
@@ -108,7 +97,6 @@ export class LookupToteSetupComponent implements OnInit {
           positionClass: 'toast-bottom-right',
           timeOut: 2000,
         });
-        // ele.oldVal = ele.currentVal
       }
       else{
        

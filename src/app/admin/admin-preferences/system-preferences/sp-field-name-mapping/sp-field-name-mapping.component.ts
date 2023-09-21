@@ -42,7 +42,6 @@ export class SpFieldNameMappingComponent implements OnInit {
       "wsid":this.userData.wsid
     };
     this.Api.FieldNameSave(payload).subscribe((res: any) => {
-      // this.columns = res.data;
       this.OSFieldFilterNames();
     })
   }

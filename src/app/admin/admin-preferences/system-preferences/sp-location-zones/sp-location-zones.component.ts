@@ -32,12 +32,10 @@ export class SpLocationZonesComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    // this.alterParentZones('','1s0')
     this.getLocationZones()
   }
   
   test(zone:any){
-    // debugger
     if(zone.allocable == true && zone.kanbanZone == true){
       let dialogRef = this.dialog.open(KanbanZoneAllocationConflictComponent, {
         height: 'auto',
@@ -56,28 +54,8 @@ export class SpLocationZonesComponent implements OnInit {
   }
 
 
-  // test2(zone:any){
-  //   debugger
-  //   if(zone.carousel==true){
-  //     zone.cartonFlow = false
-  //     zone.includeCFCarouselPick =false
-  //   }
-  //   // else if(zone.carousel==true){
-  //   // }
-  //   else if(zone.cartonFlow == true){
-  //     zone.carousel = false
-  //   }
-  //   else if(zone.includeCFCarouselPick==true){
-  //     zone.cartonFlow = true
-  //     zone.carousel = false
-
-  //   }
-  // }
-
-  
 
   zoneChange(zone: any,check,type?) {
-  // debugger
   if(!check){
     if(type==='carousel'){
       if(zone.carousel){
@@ -88,7 +66,6 @@ export class SpLocationZonesComponent implements OnInit {
         if(zone.includeCFCarouselPick){
           zone.includeCFCarouselPick=false;
       }
-        // zone.includeCFCarouselPick = false;
       }else{
         this.alterParentZones(false,zone.zone)
         if(zone.cartonFlow){
@@ -177,7 +154,6 @@ export class SpLocationZonesComponent implements OnInit {
         
         this.Api.LocationZoneSave(payload).subscribe((res=>{
           if(res.isExecuted){
-            // debugger
             
           }
         }))
@@ -291,41 +267,6 @@ export class SpLocationZonesComponent implements OnInit {
     }
   }
 
-  // DelLocationZone(zone) { 
-  //   let payload = {
-  //     'username': this.userData.userName,
-  //     "wsid": this.userData.wsid,
-  //     "zone": zone
-  //   }
-  //   this.preferencehub.get(payload, '/Admin/LocationZoneDelete').subscribe((res => { 
-  //     if (res.isExecuted) {
-  //       const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-  //         height: 'auto',
-  //         width: '600px',
-  //         autoFocus: '__non_existing_element__',
-   
-  //         data: {
-  //           action: 'delete',
-  //         },
-  //       });
-  //       dialogRef.afterClosed().subscribe((res) => {
-  //         if (res === 'Yes') {
-  //           this.getLocationZones()
-  //           this.toastr.success("Deleted successfully", 'Success!', {
-  //             positionClass: 'toast-bottom-right',
-  //             timeOut: 2000
-  //           });
-  //         }
-  //       });
-  //     }
-  //     else {
-  //       this.toastr.error(`Location Zone ${zone} cannot be deleted because there are allocated quantities in an Inventory Map location matching the zone`, 'Error!', {
-  //         positionClass: 'toast-bottom-right',
-  //         timeOut: 2000,
-  //       });
-  //     }
-  //   }))
-  // }
 
   addNewLocation() {
     this.newLocation = true;

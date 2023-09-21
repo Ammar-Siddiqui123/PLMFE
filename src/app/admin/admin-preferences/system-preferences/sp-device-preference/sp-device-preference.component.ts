@@ -87,23 +87,7 @@ export class SpDevicePreferenceComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res.data.devicePreferences);
         this.customPagination.total = res.data?.recordsFiltered;
       }
-      // if (res && res?.data?.devicePreferences && res?.data?.devicePreferences) {
-      // }
     });
-
-    // this.Api
-    //   .GetAdminMenu()
-    //   .subscribe((res: any) => {
-    //     if (res && res?.data?.totalOrders) {
-    //       this.dataSource = new MatTableDataSource(
-    //         res.data.totalOrders.orderTable
-    //       );
-    //     }
-    //     if (res && res?.data?.totalOrders && res?.data?.totalOrders?.adminValues) {
-    //     }
-    //     // if (res && res?.data?.devicePreferences && res?.data?.devicePreferences) {
-    //     // }
-    //   });
   }
 
   addEditNewDevice(item?, isEdit = false) {
@@ -183,28 +167,6 @@ export class SpDevicePreferenceComponent implements OnInit {
     this.sortCol = index;
     this.sortDir = event.direction;
     this.getDevicePrefTable();
-  }
-  deleteRecord() {
-    // let payload = {
-    //   deviceID: this.data && this.data.item ? this.data.item.deviceID : 0,
-    //   username: this.userData.userName,
-    //   wsid: this.userData.wsid,
-    // };
-    // this.adminService
-    //   .get(payload, '/Admin/DevicePreferencesDelete')
-    //   .subscribe((res: any) => {
-    //     if (res.isExecuted) {
-    //       this.toastr.success(res.responseMessage, 'Success!', {
-    //         positionClass: 'toast-bottom-right',
-    //         timeOut: 2000,
-    //       });
-    //     } else {
-    //       this.toastr.error(res.responseMessage, 'Error!', {
-    //         positionClass: 'toast-bottom-right',
-    //         timeOut: 2000,
-    //       });
-    //     }
-    //   });
   }
 
   selectRow(row: any) {
