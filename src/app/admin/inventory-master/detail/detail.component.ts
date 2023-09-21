@@ -101,7 +101,6 @@ export class DetailComponent implements OnInit {
         this.Api.UpdateItemNumber(paylaod).subscribe((res: any) => {
           this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY] = result;
 
-          // console.log(res.data);
           if (res.isExecuted) {
             this.details.patchValue({
               'itemNumber' : res.data.newItemNumber
@@ -192,22 +191,6 @@ export class DetailComponent implements OnInit {
 
  RedirectInv(type){
 
-// if(this.details.controls['histCount'].value==0 || this.details.controls['openCount'].value==0 ||this.details.controls['procCount'].value==0 ) return
-
-
-//   if( this.spliUrl[1] == 'OrderManager' ){
-//     this.router.navigate([]).then((result) => {
-//       let url = '/#/OrderManager/OrderStatus?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
-//       window.open(url, '_blank');
-//     });
-//  }
-//  else {
-//   this.router.navigate([]).then((result) => {
-//     let url = '/#/admin/transaction?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
-//     window.open(url, '_blank');
-//   });
-
-//  }
 
   if(this.setVal == true){
     this.router.navigate([]).then((result) => {

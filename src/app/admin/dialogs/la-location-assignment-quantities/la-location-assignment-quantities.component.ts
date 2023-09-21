@@ -50,9 +50,6 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
       }
     });
 
-    // this.count = this.data.totalCount[0].count;
-    // this.pick = this.data.totalCount[1].count;
-    // this.putaway = this.data.totalCount[2].count;
   }
 
   viewOrderSelection(event:any,index?){
@@ -82,7 +79,6 @@ export class LaLocationAssignmentQuantitiesComponent implements OnInit {
 
   exitBack(){
     this.dialogRef.close();
-    // this.dialog.closeAll();
     this.router.navigate([]).then((result) => {
       window.open(`/#/admin`, '_self');
     });

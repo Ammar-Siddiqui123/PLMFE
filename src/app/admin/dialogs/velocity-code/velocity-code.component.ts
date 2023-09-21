@@ -65,7 +65,6 @@ export class VelocityCodeComponent implements OnInit {
 
   addVLRow(row:any){
     this.velocity_code_list.unshift([]);
-    //this.disableEnable.unshift({index:0,value:false});
     
     const lastIndex = this.velocity_code_list.length - 1;
     setTimeout(() => {
@@ -158,7 +157,6 @@ export class VelocityCodeComponent implements OnInit {
         data: {
           mode: 'delete-velocity',
           velocity: event
-        //  grp_data: grp_data
         }
       })
       dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {

@@ -72,24 +72,6 @@ export class SupplierItemIdComponent implements OnInit {
   getRow(row) {
     this.description=row.description;
     this.itemNumber=row.itemNumber;
-    // let payLoad = {
-    //   id: row.id,
-    //   username: this.data.userName,
-    //   wsid: this.data.wsid,
-    // };
-    // this.transactionService
-    //   .get(payLoad, '/Admin/ManualTransactionTypeAhead', true)
-    //   .subscribe(
-    //     (res: any) => {
-    //       if(res && res.data){
-    //         this.setLocationByItemList=res.data.map((item)=>{
-    //           return {invMapID:item.invMapID,select:`${item.itemQty}@${item.locationNumber}`}
-    //         }) 
-    //       }
-    //       // this.searchAutocompleteItemNum = res.data;
-    //     },
-    //     (error) => {}
-    //   );
   }
   ngOnDestroy() {
     this.searchByItem.unsubscribe();

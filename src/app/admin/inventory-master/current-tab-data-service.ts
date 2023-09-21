@@ -30,11 +30,6 @@ export class CurrentTabDataService {
       this.SetNull(this.ORDER_MANAGER, currentTab);      
     }
     public SetNull (currentTab: string, excludeTab: string) {
-      // if (currentTab !== excludeTab) {
-      //   this.savedItem[currentTab] = undefined;
-      //   if (currentTab === this.TRANSACTIONS)
-      //   this.savedItem[this.TRANSACTIONS_ORDER_SELECT] = undefined;        
-      // }
       this.savedItem[currentTab] = undefined;
     }
     
@@ -49,7 +44,6 @@ export class CurrentTabDataService {
 
       if (localStorage.getItem('selectedTab_'+currentTab) != null) {
         console.log("MultiTabs | Returned to Dashboard: "+'selectedTab_'+currentTab);
-        //this.setPreviousUrl('selectedTab_'+currentTab);
         console.log("MultiTabs | Removed: "+previousTab);
         this.RemoveTabOnRoute(previousTab);
         this.setPreviousUrl('selectedTab_'+currentTab);
@@ -74,7 +68,6 @@ export class CurrentTabDataService {
 
     setPreviousUrl(url: string) {
       if (url.indexOf("Dashboard") >= 0 || url.indexOf("dashboard") >= 0) return;
-      //if ((url.split("/").length - 1) != 2) return;
       console.log("MultiTabs | Set PreviousURL: "+url);
       this.previousUrl = url;
     }

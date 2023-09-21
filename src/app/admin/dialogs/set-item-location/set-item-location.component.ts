@@ -84,7 +84,6 @@ export class SetItemLocationComponent implements OnInit {
               }
        
             }
-            // this.searchAutocompleteItemNum = res.data;
           },
           (error) => {}
         );
@@ -92,11 +91,6 @@ export class SetItemLocationComponent implements OnInit {
   }
   ngOnInit(): void {
     this.autocompleteGetLocation();
-    // this.searchByOrderNumber
-    //   .pipe(debounceTime(600), distinctUntilChanged())
-    //   .subscribe((value) => {
-    //     this.autocompleteGetItem();
-    //   });
 
     this.searchByItemNumber
       .pipe(debounceTime(600), distinctUntilChanged())
@@ -108,21 +102,6 @@ export class SetItemLocationComponent implements OnInit {
     this.itm_nmb.nativeElement.focus();
   }
 
-  // getItemLocation(){
-
-  //   let payload={
-  //     itemNumber:  this.itemNumber,
-  //     username: this.data.userName,
-  //     wsid: this.data.wsid,
-  //   }
-
-  //   this.transactionService.get(payload,'/Admin/GetLocations',true).subscribe((res:any)=>{
-  //     if(res && res.data){
-  //       this.searchAutocompleteListItem=res.data
-
-  //     }
-  //   })
-  // }
   async autocompleteGetLocation() {
     let searchPayload = {
       itemNumber: this.itemNumber,

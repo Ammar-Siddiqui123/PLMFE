@@ -43,7 +43,6 @@ export class  ItemCategoryComponent implements OnInit {
   }
 
  getCategoryList(){ 
-    // this.enableButton.shift();
     this.api.getCategory().subscribe((res) => {
       this.category_list = res.data;
       this.enableButton=[];
@@ -168,8 +167,5 @@ export class  ItemCategoryComponent implements OnInit {
 
   openPrintRangeDialog(){
     this.global.Print(`FileName:printCategoriesReport`)
-    // this.dialogRef.close();
-    // window.location.href = `/#/report-view?file=FileName:printCategoriesReport`
-    // window.location.reload(); 
   }
 }

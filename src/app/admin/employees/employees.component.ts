@@ -54,7 +54,6 @@ export class EmployeesComponent implements OnInit {
   public isGroupLookUp: boolean = false;
   public env;
   @ViewChild('matRef') matRef: MatSelect;
- // public searchGrpAllowed = '';
   public allGroups:any = [];
   public searchfuncAllowed = '';
   public grpAllFilter='';
@@ -72,11 +71,8 @@ bpSettingLocInp='';
   location_data: any[] = [];
   employee_data_source: any = [];
   grpData: any = {};
-  // max_orders:any;
   userName: any;
   employees_action: boolean = false;
-  // employee_fetched_zones: string[] = [];
-  // employees_action: boolean = false;
   employee_fetched_zones: any;
   location_data_source: any;
   employee_group_allowed: any;
@@ -127,10 +123,7 @@ bpSettingLocInp='';
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('MatSortLocation', { static: true }) sortLocation: MatSort;
-  ngAfterViewInit() {
-    // this.location_data_source.sort = this.sort;
-    // this.employee_fetched_zones.sort = this.sort;
-  }
+
 
   clearMatSelectList(){
     this.matRef.options.forEach((data: MatOption) => data.deselect());
@@ -156,12 +149,7 @@ getgroupAllowedList(){
   }
 
   this.employeeService.Groupnames(payload).subscribe((res:any) => {
-     
-   // this.groupAllowedList = res.data;
     this.groupAllowedList = new MatTableDataSource(res.data);
-  //   this.groupAllowedList.filterPredicate = (data: any, filter: string) => {
-  //     return data.toLowerCase().includes(filter.trim().toLowerCase());
-  // };
   }) 
 }
 getFuncationAllowedList(){
@@ -425,7 +413,6 @@ initialzeEmpForm() {
       ;
       this.updateGrpTable = result.groupName; 
       this.groupsLookup.loadEmpData();
-      // this.loadEmpData();
     })
 
   }
@@ -527,7 +514,6 @@ initialzeEmpForm() {
         this.employee_fetched_zones.sort=this.sort;
         this.zoneDataRefresh.renderRows()
       }
-      // this.reloadData();
     })
   }
 
@@ -564,8 +550,6 @@ initialzeEmpForm() {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      // this.reloadData();
-      ;
       
       if (result.mode === 'editZone') {
         const newData = { zones: result.data.zone }; 
@@ -586,7 +570,6 @@ initialzeEmpForm() {
 
   saveMaximumOrders(){
     this.initialzeEmpForm();
-    // this.empForm.removeControl('password');
     this.empForm.value.wsid = "TESTWID";
     this.empForm.value.username = this.empData.username;
     this.empForm.value.groupName = "";
@@ -781,14 +764,12 @@ initialzeEmpForm() {
     };
     this.employeeService.deleteControlName(groupData).subscribe((res: any) => {
       if (res.isExecuted) {
-        // this.dialog.closeAll();
         this.toastr.success('Your details have been deleted', 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000,
         });
         this.reloadData();
       } else {
-        // this.dialog.closeAll();
         this.toastr.error('Something went wrong!', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000,
@@ -814,7 +795,6 @@ initialzeEmpForm() {
           timeOut: 2000,
         });
          this.getgroupAllowedList();
-        //   this.reloadCurrentRoute();
       } else {
         this.toastr.error(res.responseMessage, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -875,19 +855,13 @@ initialzeEmpForm() {
 
   printEmpList(){
     this.global.Print(`FileName:printEmployees`)
-    // window.location.href = `/#/report-view?file=FileName:printEmployees`;
-    // window.location.reload();
   }
 
   printSelected(){
     this.global.Print(`FileName:printEmployeeGroup|Group:${this.grpData.groupName}`)
-    // window.location.href = `/#/report-view?file=FileName:printEmployeeGroup|Group:${this.grpData.groupName}`;
-    // window.location.reload();
   }
 
   printAll(){
     this.global.Print(`FileName:printEmployeeGroup`)
-    // window.location.href = `/#/report-view?file=FileName:printEmployeeGroup`;
-    // window.location.reload();
   }
 }

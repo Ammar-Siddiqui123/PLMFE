@@ -31,7 +31,6 @@ export class UnitMeasureComponent implements OnInit {
     this.getUOM()
   }
   getUOM(){
-    // this.enableButton.shift();
     this.enableButton = [];
     this.api.getUnitOfMeasure().subscribe((res) => {
       if (res.isExecuted) {
@@ -50,11 +49,6 @@ export class UnitMeasureComponent implements OnInit {
       }
     });
   }
-  // onValueChange(event,ind:number=-1) {
-  //   const currentValue = event.target.value;
-  //   const previousValue = this.unitOfMeasure_list[ind];
-  //   if (previousValue === currentValue)  this.enableButton[ind].value = true;
-  // }
   addUMRow(row : any){
     this.unitOfMeasure_list.unshift("");
     this.enableButton.push({index:-1,value:true}) 
@@ -129,7 +123,6 @@ export class UnitMeasureComponent implements OnInit {
         }
         
         this.api.dltUnitOfMeasure(paylaod).subscribe((res) => {
-          // console.log(res);
           
           if(res.isExecuted){
             this.getUOM();

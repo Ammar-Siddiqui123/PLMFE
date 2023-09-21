@@ -105,14 +105,12 @@ export class ReprocessTransactionDetailComponent implements OnInit {
         this.editTransactionForm.get("unitOfMeasure")?.value,
         this.editTransactionForm.get("serialNumber")?.value,
         this.editTransactionForm.get("lotNumber")?.value?.toString(),
-        // (this.expDate!=null&&this.expDate!="1900-01-01T19:31:48.000Z")?this.expDate:" ",
         this.dayIncrement(this.expDate),
         this.editTransactionForm.get("revision")?.value,
         this.editTransactionForm.get("notes")?.value,
         this.editTransactionForm.get("userField1")?.value,
         this.editTransactionForm.get("userField2")?.value,
         this.editTransactionForm.get("hostTransactionID")?.value,
-        // (this.reqDate!=null&&this.reqDate!="1900-01-01T19:31:48.000Z")?this.reqDate:" ",
         this.dayIncrement(this.reqDate),
 
         this.editTransactionForm.get("batchPickID")?.value,
@@ -201,16 +199,10 @@ export class ReprocessTransactionDetailComponent implements OnInit {
           let finalExpiryDate, finalReqDate;
           try {
             if (res.data[0].expirationDate != '') {
-              // var expDate = res.data[0].expirationDate.split(" ");
-              // expDate = expDate[0].split('/');
-              // finalExpiryDate = new Date(expDate[2],expDate[0]-1,parseInt(expDate[1])+1);
               finalExpiryDate = new Date(res.data[0].expirationDate);
 
             }
             if (res.data[0].requiredDate != '') {
-              // var reqDate = res.data[0].requiredDate.split(" ");
-              // reqDate = reqDate[0].split('/');
-              // finalReqDate = new Date(reqDate[2],reqDate[0]-1,parseInt(reqDate[1])+1);
               finalReqDate = new Date(res.data[0].requiredDate);
 
 
@@ -220,9 +212,6 @@ export class ReprocessTransactionDetailComponent implements OnInit {
             this.reqDate = finalReqDate ? finalReqDate.toISOString() : '';
           }
           catch (e) { }
-          // console.log('===========GET===============>');
-          // console.log(this.expDate);
-          // console.log(this.reqDate);
 
           this.expDate = this.expDate != "1900-01-01T19:31:48.000Z" ? this.expDate : " ";
           this.reqDate = this.reqDate != "1900-01-01T19:31:48.000Z" ? this.reqDate : " ";
@@ -268,7 +257,6 @@ export class ReprocessTransactionDetailComponent implements OnInit {
 
 
         } else {
-          // console.log(res);
           this.toastr.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000,
@@ -281,7 +269,6 @@ export class ReprocessTransactionDetailComponent implements OnInit {
 
   dayIncrement(date: any) {
 
-    // (this.expDate!=null&&this.expDate!="1900-01-01T19:31:48.000Z")?this.expDate:" ",
     if (date != null && date != "1900-01-01T19:31:48.000Z" && date!='') {
       var newDate = new Date(date);
       newDate.setDate(newDate.getDate() + 1);

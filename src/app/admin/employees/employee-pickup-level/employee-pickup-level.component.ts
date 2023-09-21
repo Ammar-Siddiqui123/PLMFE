@@ -38,10 +38,6 @@ export class EmployeePickupLevelComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   public nextPickLvl:any;
 
-  ngAfterViewInit() {
-    //this.pickup_level_data_source.sort = this.sort;
-  }
-
    displayedColumns: string[] = ['pickLevel', 'startShelf', 'endShelf', 'edit'];
 
 

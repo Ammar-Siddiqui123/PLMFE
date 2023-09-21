@@ -169,40 +169,8 @@ export class UserFieldsEditComponent implements OnInit {
       );
   }
   getRow(row) {}
-  onFocusOutEvent(event, type) {
-    // if (type === 'order') {
-    //   if (event.target.value === '') {
-    //     this.orderRequired = true;
-    //   } else {
-    //     this.orderRequired = false;
-    //   }
-    // } else if (type === 'item') {
-    //   // if(this.itemNumber==='')return;
-    //   let payLoad = {
-    //     itemNumber: this.itemNumber,
-    //     username: this.data.userName,
-    //     wsid: this.data.wsid,
-    //   };
-    //   this.transactionService
-    //     .get(payLoad, '/Common/ItemExists', true)
-    //     .subscribe(
-    //       (res: any) => {
-    //         if (res && res.isExecuted) {
-    //           if (res.data === '') {
-    //             this.itemInvalid = true;
-    //           } else {
-    //             this.itemInvalid = false;
-    //           }
-    //         }
-    //         // this.searchAutocompleteItemNum = res.data;
-    //       },
-    //       (error) => {}
-    //     );
-    // }
-  }
   ngOnDestroy() {
     this.searchByShipVia.unsubscribe();
     this.searchByShipName.unsubscribe();
-    // this.searchByItem.unsubscribe();
   }
 }

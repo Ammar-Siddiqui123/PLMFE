@@ -48,7 +48,6 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
     this.ord_nmb.nativeElement.focus();
   }
   searchData(event) {
-    // if(!this.itemNumber) return
     let payLoad = {
       itemNumber: this.itemNumber,
         username: this.data.userName,
@@ -70,7 +69,6 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
               }
        
             }
-            // this.searchAutocompleteItemNum = res.data;
           },
           (error) => {}
         );
@@ -96,7 +94,6 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
  
         }
 
-        // this.searchAutocompleteItemNum = res.data;
       },
       (error) => {}
     );
@@ -156,7 +153,6 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
               }
        
             }
-            // this.searchAutocompleteItemNum = res.data;
           },
           (error) => {}
         );
@@ -197,7 +193,6 @@ this.orderRequired=true
             }
      
           }
-          // this.searchAutocompleteItemNum = res.data;
         },
         (error) => {}
       );
@@ -205,27 +200,6 @@ this.orderRequired=true
 
 }
   } 
-  getRow(row) {
-    
-    // let payLoad = {
-    //   id: row.id,
-    //   username: this.data.userName,
-    //   wsid: this.data.wsid,
-    // };
-    // this.transactionService
-    //   .get(payLoad, '/Admin/ManualTransactionTypeAhead', true)
-    //   .subscribe(
-    //     (res: any) => {
-    //       if(res && res.data){
-    //         this.setLocationByItemList=res.data.map((item)=>{
-    //           return {invMapID:item.invMapID,select:`${item.itemQty}@${item.locationNumber}`}
-    //         }) 
-    //       }
-    //       // this.searchAutocompleteItemNum = res.data;
-    //     },
-    //     (error) => {}
-    //   );
-  }
 
   async autocompleteSearchColumn() {
     let searchPayload = {
@@ -261,8 +235,6 @@ this.orderRequired=true
           if (res.data.length>0) {
             this.searchAutocompleteItemNum=res.data
             this.setItem()
-            // if (this.searchAutocompleteItemNum.includes(res.data)) return;
-            // this.searchAutocompleteItemNum.push(res.data);
           }else{
             
             this.searchAutocompleteItemNum.length=0;

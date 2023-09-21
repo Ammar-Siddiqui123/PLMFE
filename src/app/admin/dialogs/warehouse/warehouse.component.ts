@@ -41,8 +41,6 @@ export class WarehouseComponent implements OnInit {
     console.log(this.data)
     this.userData = this.authService.userData();
     this.getWarehouse();
-    // this.spliUrl=this.router.url.split('/'); 
-    // console.log(this.spliUrl[1])
     if( this.data.check == 'fromReelDetail'  ){
        this.disableBtn =true
     }
@@ -62,7 +60,6 @@ export class WarehouseComponent implements OnInit {
           mode: 'delete-warehouse',
           warehouse: warehosue,
           action: 'delete',
-          //  grp_data: grp_data
         }
       })
       dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
@@ -72,10 +69,6 @@ export class WarehouseComponent implements OnInit {
     else{
       this.warehouse_list.shift();
       this.getWarehouse();
-      // this.toastr.error('Warehouse can not be deleted.', 'Error!', {
-      //   positionClass: 'toast-bottom-right',
-      //   timeOut: 2000
-      // });
     }
    
   }
@@ -86,19 +79,12 @@ export class WarehouseComponent implements OnInit {
     this.Api.GetWarehouses().subscribe((res) => {
       this.warehouse_list = res.data;
       for (var i = 0; i < this.warehouse_list.length; i++) {
-        // this.unitOfMeasure_list.fromDB = true;
         this.enableButton.push({ index: i, value: true });
       }
 
-      // setTimeout(() => {
-      //   const inputElements = this.whname.toArray();
-      //   const inputElement = inputElements[0].nativeElement as HTMLInputElement;
-      //     this.renderer.selectRootElement(inputElement).focus();
-      // }, 100)
     });
   }
   addwhRow(row: any) {
-    // this.inputEl.nativeElement.disabled = true;
     this.warehouse_list.unshift([]);
     this.enableButton.push({ index: -1, value: true })
     const lastIndex = this.warehouse_list.length - 1;
@@ -133,7 +119,6 @@ export class WarehouseComponent implements OnInit {
         "username": this.userData.userName,
         "wsid": this.userData.wsid,
       }
-      // console.log(paylaod);
 
       this.Api.saveWareHouse(paylaod).subscribe((res) => {
         if(res.isExecuted){
@@ -152,7 +137,6 @@ export class WarehouseComponent implements OnInit {
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
-    //  this.warehouse_list.pop(warehosue);
     this.Api.dltWareHouse(paylaod).subscribe((res) => {
       this.toastr.success(labels.alert.delete, 'Success!', {
         positionClass: 'toast-bottom-right',
