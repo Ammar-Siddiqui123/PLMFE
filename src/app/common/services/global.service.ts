@@ -8,7 +8,6 @@ import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-ty
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { environment } from 'src/environments/environment';
-// import jsPDF from 'jspdf';
 
 @Injectable({
   providedIn: 'root'
@@ -103,7 +102,6 @@ export class GlobalService {
  
     //Allows only numeric strings in an input box
     setNumeric(value : any) {
-        // var value = element.val();
         var decimalVal = "";
         if (value.indexOf(".") == 0) {
             decimalVal = ".";

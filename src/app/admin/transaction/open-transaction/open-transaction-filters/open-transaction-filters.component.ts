@@ -50,7 +50,6 @@ export class OpenTransactionFiltersComponent implements OnInit {
         this.filterObjectForEvnt.selectedCheck=this.selectedCheck
 
         this.eventChangeEmitter(value)
-        // this.getContentData();
       });
       this.sharedService.fieldNameObserver.subscribe(item => {
         this.fieldNames=item;

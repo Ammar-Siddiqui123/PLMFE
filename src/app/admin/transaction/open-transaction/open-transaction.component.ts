@@ -19,8 +19,7 @@ export class OpenTransactionComponent implements OnInit {
   selectedIndex: number = 0;
   event: any;
   @Output() emitOrderTab = new EventEmitter<string>();
-  // displayOrderCols : string[] = ["orderNumber", "countOfOrderNumber", "minOfPriority", "detail", "action"];
-  displayOrderCols: any = []; //'position', 'name', 'weight', 'symbol'
+  displayOrderCols: any = []; 
   constructor(
     private Api:ApiFuntions,
     private authService: AuthService
@@ -28,7 +27,6 @@ export class OpenTransactionComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    // this.getTransactionModelIndex();
   }
   nexScreen(event) {
     this.previousStep();

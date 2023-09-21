@@ -126,7 +126,6 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   searchAutocompleteList: any;
   searchAutocompleteListByCol: any;
   isDeleteVisible:any=localStorage.getItem('routeFromInduction')
-  // isResetVisible:any=localStorage.getItem('routeFromOrderStatus')
  
   /*for data col. */
   public columnValues: any = [];
@@ -282,7 +281,6 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     }
     this.hideDelete=JSON.parse(this.isDeleteVisible);
 
-    // this.hideReset=JSON.parse(this.isResetVisible);
 
 
     this.customPagination = {
@@ -302,23 +300,9 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
     this.searchByOrderNumber
       .pipe(debounceTime(600), distinctUntilChanged())
       .subscribe((value) => {
-        // this.orderNumber = value;
         this.autocompleteSearchColumn(true);
         this.getContentData();
       });
-
-    // Search Bar  Debounce values
-    // this.searchBar
-    //   .pipe(debounceTime(600), distinctUntilChanged())
-    //   .subscribe((value) => {
-    //     this.columnSearch.searchValue = value;
-    //     if (!this.columnSearch.searchColumn.colDef) return;
-
-    //     this.autocompleteSearchColumn(false);
-    //     if (!this.searchAutocompleteListByCol.length) {
-    //       this.getContentData();
-    //     }
-    //   });
 
     this.searchByColumn
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -332,14 +316,10 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   }
   viewOrderInOrder(row) {
     this.returnToOrder.emit();
-    // this.router.navigate([]).then((result) => {
-    //   window.open(`/#/admin/transaction?orderStatus=${row.orderNumber}`, '_self');
-    // });
 
 
 if( this.spliUrl[1] == 'OrderManager' ){
   this.router.navigate([]).then((result) => {
-    // window.open(`/#/OrderManager/OrderStatus?itemNumber=${row.itemNumber}`, '_blank');
     window.open(`/#/OrderManager/OrderStatus?orderStatus=${row.orderNumber}`, '_self');
   });
 }
@@ -380,7 +360,6 @@ this.router.navigate([]).then((result) => {
         this.columnSearch.searchColumn.colDef='Item Number';
        this.columnSearch.searchValue=itemNo;
        
-      //  this.onOrderNoChange();
       }
        })
     )
@@ -400,31 +379,14 @@ this.router.navigate([]).then((result) => {
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
-    // this.customPagination.startIndex =  e.pageIndex
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
 
     this.customPagination.endIndex = e.pageSize * e.pageIndex + e.pageSize;
-    // this.length = e.length;
     this.customPagination.recordsPerPage = e.pageSize;
-    // this.pageIndex = e.pageIndex;
 
-    // this.initializeApi();
     this.getContentData();
   }
-  // autocompleteSearchColumn(){
-  //   let searchPayload = {
-  //     "columnName": this.columnSearch.searchColumn.colDef,
-  //     "value": this.columnSearch.searchValue,
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid
-  //   }
-  //   this.invMapService.getSearchData(searchPayload).pipe(takeUntil(this.onDestroy$)).subscribe((res: any) => {
-  //     if(res.data){
-  //       this.searchAutocompleteList = res.data;
-  //     }
 
-  //   });
-  // }
   async autocompleteSearchColumn(isSearchByOrder: boolean = false) {
     let searchPayload;
     if (isSearchByOrder) {
@@ -480,10 +442,6 @@ this.router.navigate([]).then((result) => {
 
    }
 
-    //////////////////////////////////////////////////////////
-    // this.router.navigate([]).then((result) => {
-    //   window.open(`/#/admin/inventoryMaster?itemNumber=${row.itemNumber}`, '_self');
-    // });
   }
   sendComp(event) {
     let dialogRef = this.dialog.open(FunctionAllocationComponent, {
@@ -527,7 +485,6 @@ this.router.navigate([]).then((result) => {
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (res == 'Yes') {
-        // this.initializeApi();
         this.getContentData();
       }
     });
@@ -541,7 +498,6 @@ this.router.navigate([]).then((result) => {
     this.orderNumber='';
     
     this.currentTabDataService.savedItem[this.currentTabDataService.TRANSACTIONS] = undefined;
-    // this.initializeApi();
     this.getContentData();
   }
 
@@ -587,15 +543,6 @@ this.router.navigate([]).then((result) => {
     this.sortOrder = event.direction;
     this.getContentData();
   }
-  announceSortChange(e: any) {
-    // let index = this.columnValues.findIndex(x => x === e.active );
-    // this.sortColumn = {
-    //   columnName: index,
-    //   sortOrder: e.direction
-    // }
-    // this.initializeApi();
-    // this.getContentData();
-  }
 
   getContentData(isInit: boolean = false) {
     this.payload = {
@@ -620,10 +567,8 @@ this.router.navigate([]).then((result) => {
       .OpenTransactionTable(this.payload)
       .subscribe(
         (res: any) => {
-          // this.getTransactionModelIndex();
           this.detailDataInventoryMap = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
-          //  this.dataSource.paginator = this.paginator;
           this.customPagination.total = res.data?.recordsFiltered;
           this.dataSource.sort = this.sort;
           if (isInit && this.currentTabDataService.savedItem[this.currentTabDataService.TRANSACTIONS])
@@ -636,21 +581,6 @@ this.router.navigate([]).then((result) => {
         },
         (error) => {}
       );
-    // this.invMapService
-    //   .getInventoryMap(this.payload)
-    //   .pipe(takeUntil(this.onDestroy$))
-    //   .subscribe((res: any) => {
-    //     debugger;
-    //     this.itemList = res.data?.inventoryMaps?.map((arr) => {
-    //       return { itemNumber: arr.itemNumber, desc: arr.description };
-    //     });
-
-    //     this.detailDataInventoryMap = res.data?.inventoryMaps;
-    //     this.dataSource = new MatTableDataSource(res.data?.inventoryMaps);
-    //     //  this.dataSource.paginator = this.paginator;
-    //     this.customPagination.total = res.data?.recordsFiltered;
-    //     this.dataSource.sort = this.sort;
-    //   });
   }
   
   ApplySavedItem() {
@@ -658,7 +588,6 @@ this.router.navigate([]).then((result) => {
       let item = this.currentTabDataService.savedItem[this.currentTabDataService.TRANSACTIONS];
       this.detailDataInventoryMap = item.detailDataInventoryMap;
       this.dataSource = item.dataSource;
-      //  this.dataSource.paginator = this.paginator;
       this.customPagination.total = item.customPaginationTotal;
       this.dataSource.sort = item.dataSourceSort;
       this.sdate= item.sdate;
@@ -674,7 +603,6 @@ this.router.navigate([]).then((result) => {
     this.currentTabDataService.savedItem[this.currentTabDataService.TRANSACTIONS]= {
           detailDataInventoryMap : this.detailDataInventoryMap,
           dataSource : this.dataSource,
-          //  this.dataSource.paginator = this.paginator;
           customPaginationTotal : this.customPagination.total,
           dataSourceSort : this.dataSource.sort,
           sdate: this.sdate,
@@ -686,21 +614,6 @@ this.router.navigate([]).then((result) => {
           columnSearch: this.columnSearch
     }
   }
-  // initializeApi() {
-  //   this.userData = this.authService.userData();
-  //   this.payload = {
-  //     username: this.userData.userName,
-  //     wsid: this.userData.wsid,
-  //     oqa: this.filterLoc,
-  //     searchString: this.columnSearch.searchValue,
-  //     searchColumn: this.columnSearch.searchColumn.colDef,
-  //     sortColumnIndex: this.sortColumn.columnName,
-  //     sRow: this.customPagination.startIndex,
-  //     eRow: this.customPagination.endIndex,
-  //     sortOrder: this.sortColumn.sortOrder,
-  //     filter: '1 = 1',
-  //   };
-  // }
 
   getTransactionModelIndex() {
     let paylaod = {
@@ -719,7 +632,6 @@ this.router.navigate([]).then((result) => {
         (res: any) => {
           this.columnValues = res.data?.openTransactionColumns;
           this.columnValues.push('actions');
-          // this.displayOrderCols=res.data.openTransactionColumns;
         },
         (error) => {}
       );
@@ -749,7 +661,6 @@ this.router.navigate([]).then((result) => {
   }
 
   resetFields(event?) {
-    // this.orderNo = '';
     this.columnSearch.searchValue = '';
     this.searchAutocompleteListByCol = [];
     this.orderSelectionSearch = false
@@ -763,7 +674,6 @@ this.router.navigate([]).then((result) => {
     this.resetFields();
     this.startdateChange.emit();
     this.sdate = new Date(event).toISOString();
-    // this.initializeApi();
     this.getContentData();
   }
 
@@ -772,21 +682,18 @@ this.router.navigate([]).then((result) => {
     this.resetFields();
     this.enddateChange.emit();
     this.edate = new Date(event).toISOString();
-    // this.initializeApi();
     this.getContentData();
   }
   selectStatus(event) {
     this.resetColumn();
     this.resetFields();
     this.transStatusSelect = event;
-    // this.initializeApi();
     this.getContentData();
   }
   selectTransType(value) {
     this.resetColumn();
     this.resetFields();
     this.transTypeSelect = value;
-    // this.initializeApi();
     this.getContentData();
   }
   sendCompletedToHistory() {
@@ -804,10 +711,7 @@ this.router.navigate([]).then((result) => {
       .afterClosed()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((result) => {
-        // if (result.isExecuted) {
           this.getContentData();
-        // }
-        // this.getContentData();
       });
   }
 
@@ -878,14 +782,10 @@ this.router.navigate([]).then((result) => {
 
   printCycleCountReport(){
     this.global.Print(`FileName:printCycleCountReport`)
-    // window.location.href = `/#/report-view?file=FileName:printCycleCountReport`;
-    // window.location.reload();
   }
 
   previewFiftyPagesOnly(){
     window.open(`/#/report-view?file=CycleCount-lst-prv`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
-    // window.location.href = `/#/report-view?file=CycleCount-lst-prv`;
-    // window.location.reload();
   }
 
   selectRow(row: any) {

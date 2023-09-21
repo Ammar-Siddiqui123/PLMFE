@@ -36,22 +36,6 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     public authService: AuthService,
     private Api: ApiFuntions,
   ) { 
-    // router.events
-    //   .pipe(
-    //     filter((evt: any) => evt instanceof RoutesRecognized),
-    //     pairwise()
-    //   )
-    //   .subscribe((events: RoutesRecognized[]) => {
-    //     if (events[0].urlAfterRedirects == '/InductionManager/Admin') {
-    //       localStorage.setItem('routeFromInduction','true')
-    //         // this.showReprocess=false;
-    //         // this.showReprocessed=false;
-    //     }else{
-    //       localStorage.setItem('routeFromInduction','false')
-    //       // this.showReprocess=true;
-    //       // this.showReprocessed=true;
-    //     }
-    //   });
 
     //get absolute url 
    if(router.url == '/OrderManager/OrderStatus'){
@@ -81,7 +65,6 @@ export class TransactionComponent implements OnInit, AfterViewInit {
       map((params: ParamMap) => params.get('IsOrderStatus')),
     );
     IsStatus.subscribe((param) => {
-      // debugger
       if (param!=null &&param != undefined) {
         this.IsOrderStatus = true;
       }else this.IsOrderStatus = false;
@@ -89,7 +72,6 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     this.tabIndex$.subscribe((param) => { 
       if (param) {
         this.TabIndex = 0;
-        // this.sharedService.updateOrderStatus(param)
       }
     });
     
@@ -142,7 +124,6 @@ export class TransactionComponent implements OnInit, AfterViewInit {
       if (param) {
         this.TabIndex = 2;
         this.sharedService.updateTransactionLocHistory(param);
-        // this.location=param;
       }
     });
   }

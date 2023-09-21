@@ -100,11 +100,6 @@ export class CmStagingLocationComponent implements OnInit {
                   this.stagetables.push({ toteID: inputVal, stagingLocation:null});
                   }
                 })
-              // var promptResponse = prompt("Order/Tote was not found in the system, enter an order number to correspond to the Tote value scanned")
-              // if (promptResponse != null) {
-              //   this.OrderNumberTote = promptResponse;
-              //   this.stagetables.push({ toteID: inputVal });
-              // }
               break;
             case "Conflict":
                 this.openCmOrderToteConflict(inputVal); 

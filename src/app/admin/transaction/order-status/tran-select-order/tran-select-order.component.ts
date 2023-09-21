@@ -130,7 +130,6 @@ export class TranSelectOrderComponent implements OnInit {
   }
 
   selectOrderByTote() {
-    // && this.totalLinesOrder > 0
     if (this.columnSelect === 'Tote ID' && this.totalLinesOrder > 0) {
       // if data populate and tote id selected then filter only
 
@@ -218,21 +217,6 @@ export class TranSelectOrderComponent implements OnInit {
          })
     );
 
-
-    // this.subscription.add(
-    //   this.searchBar
-    //     .pipe(debounceTime(300), distinctUntilChanged())
-    //     .subscribe((value) => {
-    //       if (!value) {
-    //         this.resetLines();
-    //         this.columnSelect = '';
-    //       }
-    //       this.autocompleteSearchColumn();
-    //       this.onOrderNoChange();
-    //     }));
-
-    
-
   }
 
   getNextItemNo(event:any){
@@ -309,8 +293,6 @@ export class TranSelectOrderComponent implements OnInit {
         mode: 'delete-order-status',
         paylaod: paylaod,
         action:'delete'
-        //itemList : this.itemList,
-        //  detailData : event
       },
 
      
@@ -319,30 +301,6 @@ export class TranSelectOrderComponent implements OnInit {
       if (res.isExecuted) {
         this.deleteEvent.emit(res);
         this.resetLines();
-        // this.deleteEvent.emit(res);
-
-        // this.transactionService
-        //   .get(paylaod, '/Admin/DeleteOrderStatus')
-        //   .subscribe(
-        //     (res: any) => {
-        //       if (res.isExecuted) {
-        //         this.toastr.success(labels.alert.success, 'Success!', {
-        //           positionClass: 'toast-bottom-right',
-        //           timeOut: 2000,
-        //         });
-        //         this.deleteEvent.emit(res.isExecuted);
-        //       } else {
-        //         this.toastr.error(labels.alert.went_worng, 'Error!', {
-        //           positionClass: 'toast-bottom-right',
-        //           timeOut: 2000,
-        //         });
-        //       }
-        //     },
-        //     (error) => {}
-        //     // this.columnValues = res.data?.openTransactionColumns;
-        //     // this.columnValues.push('actions');
-        //     // this.displayOrderCols=res.data.openTransactionColumns;
-        //   );
       }
     });
   }
@@ -388,21 +346,6 @@ export class TranSelectOrderComponent implements OnInit {
     );
    }
   }
-  // async autocompleteSearchColumn() {
-  //   let searchPayload = {
-  //     orderNumber: this.orderNumber,
-  //     username: this.userData.userName,
-  //     wsid: this.userData.wsid,
-  //   };
-  //   this.transactionService
-  //     .get(searchPayload, '/Admin/OrderNumberNext')
-  //     .subscribe(
-  //       (res: any) => {
-  //         this.searchAutocompleteList = res.data;
-  //       },
-  //       (error) => {}
-  //     );
-  // }
   actionDialog(event) {
     this.searchField = '';
     this.searchAutocompleteList = [];
@@ -412,7 +355,6 @@ export class TranSelectOrderComponent implements OnInit {
   ngOnDestroy() {
     this.searchByOrderNumber.unsubscribe();
     this.searchByToteId.unsubscribe();
-    // this.searchBar.unsubscribe();
     this.subscription.unsubscribe();
   }
 }

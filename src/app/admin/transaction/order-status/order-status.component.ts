@@ -32,7 +32,6 @@ export class OrderStatusComponent implements OnInit {
   ngOnInit(): void {
 
     this.userData = this.authService.userData();
-    // this.autocompleteSearchColumn();
   }
   onClearFromStatus(event: Event) {
     this.clearEvent = event;

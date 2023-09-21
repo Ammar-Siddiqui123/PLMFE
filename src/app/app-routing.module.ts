@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
-// import { EmployeesComponent } from './dashboard/employees/employees.component';
 import { MainComponent } from './dashboard/main/main.component';
 import { GlobalConfigComponent } from './global-config/global-config.component';
 import { AuthGuardGuard } from './guard/auth-guard.guard';
@@ -91,17 +90,6 @@ const routes: Routes = [
         component: ImportExportComponent,
         canActivate: [AuthGuardGuard] 
       },
-      // {
-      //   path: 'FlowrackReplenishment',
-      //   component: FlowrackReplenishmentComponent,
-      //   canActivate: [AuthGuardGuard] 
-      // },
-      // {
-      //   path: 'globalconfig/dashboard',
-      //   component: MainComponent,
-      //   // canActivate:[AuthGuardGuard]
-      // },
-
       {
         path: 'admin',
         loadChildren: () =>
@@ -131,26 +119,10 @@ const routes: Routes = [
       { 
         path: '', 
         loadChildren: () => import('./list-and-label/list-and-label.module').then(m => m.ListAndLabelModule),
-        // canActivate:[AuthGuardGuard]
       },
     ]
 
   },  
-
-  // {
-  //   path:'dashboard',
-  //   component:DashboardComponent,
-  //   children: [
-  //     // {
-  //     //   path:''
-  //     // },
-  //     // {
-  //     //   path:'all-employees',
-  //     //   component:AllEmployeesComponentComponent
-  //     // }
-
-  //   ]
-  // },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

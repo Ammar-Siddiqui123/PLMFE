@@ -142,27 +142,6 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     'emergency',
     'id',
   ];
-  // 'importBy',
-  //   'fileFrom',
-  //   'orderNumber',
-  //   'lineSequence',
-  //   'carousel',
-  //   'row',
-  //   'shelf',
-  //   'bin',
-  //   'invMapID',
-  //   'notes',
-  //   'exportFileName',
-  //   'exportDate',
-  //   'exportedBy',
-  //   'exportBatchID',
-  //   'tableType',
-  //   'statusCode',
-  //   'masterRecord',
-  //   'masterRecordID',
-  //   'label',
-  //   'inProcess',
-  //   'rn',
 
   public dataSource: any = new MatTableDataSource();
   public userData: any;
@@ -198,24 +177,17 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
         event.columnFIeld === 'Order Number' ? event.searchField : '';
       this.searchCol = '';
       this.searchString = '';
-      // if (event) {
-      //   event.columnFIeld && event.columnFIeld === 'Order Number'
-      //     ? (this.orderNo = event.searchField)
-      //     : (this.toteId = event.searchField);
 
       console.log('orderNoEvent',this.orderNo,event);
       this.getContentData();
       this.selShipComp(event);
-      // }
     }
-    // this.getContentData();
   }
 
   @Input() set toteIdEvent(event: Event) {
     if (event) {
       this.toteId = event;
     }
-    // this.getContentData();
   }
   // Emitters
   @Output() openOrders = new EventEmitter<any>();
@@ -228,10 +200,6 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   @Output() clearFromListChange = new EventEmitter<Event>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  // @ViewChild(MatSort, { static: true }) sort: MatSort;
-  // @ViewChild(MatSort) set matSort(sort:MatSort){
-  //   this.dataSource.sort=sort
-  // }
   @ViewChild('viewAllLocation') customTemplate: TemplateRef<any>;
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto' as FloatLabelType);
@@ -318,20 +286,16 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       .subscribe(
         (res: any) => {
           
-          // this.getTransactionModelIndex();
           this.detailDataInventoryMap = res.data?.orderStatus;
           this.getOrderForTote = res.data?.orderNo;
           this.dataSource = new MatTableDataSource(res.data?.orderStatus);
-          // this.displayedColumns = Order_Table_Config;
 
           this.columnValues = res.data?.orderStatusColSequence;
-          //  this.dataSource.paginator = this.paginator;
           this.customPagination.total = res.data?.totalRecords;
           this.getOrderForTote =
             res.data &&
             res.data.orderStatus &&
             res.data.orderStatus[0].orderNumber;
-          // this.dataSource.sort = this.sort;
           if (res.data) {
             this.onOpenOrderChange(res.data?.opLines);
             this.onCompleteOrderChange(res.data?.compLines);
@@ -371,7 +335,6 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
               return (item.carousel = 'off');
             });
             this.onLocationZoneChange(res.data?.offCar);
-            // this.onCompleteOrderChange(res.data?.offCar);
           } else {
             this.onLocationZoneChange(res.data?.onCar);
           }
@@ -462,9 +425,6 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       .TransactionModelIndex(paylaod)
       .subscribe(
         (res: any) => {
-          // this.columnValues = res.data?.openTransactionColumns;
-          // this.columnValues.push('actions');
-          // this.displayOrderCols=res.data.openTransactionColumns;
         },
         (error) => {}
       );
@@ -531,7 +491,6 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     }
   }
   getColumnsData() {
-    // this.displayedColumns = Order_Table_Config;
     this.getContentData();
   }
   async autocompleteSearchColumn() {
@@ -589,7 +548,6 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
       this.toteId = '';
     }
 
-    // this.orderNo = '';
     this.searchCol = event;
     this.searchString = '';
     this.searchAutocompleteList = [];
@@ -597,24 +555,15 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
-    // this.customPagination.startIndex =  e.pageIndex
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
 
     this.customPagination.endIndex = e.pageSize * e.pageIndex + e.pageSize;
-    // this.length = e.length;
     this.customPagination.recordsPerPage = e.pageSize;
-    // this.pageIndex = e.pageIndex;
 
-    // this.initializeApi();
     this.getContentData();
   }
 
   announceSortChange(sortState: Sort) {
-    // if (sortState.direction) {
-    //   this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    // } else {
-    //   this._liveAnnouncer.announce('Sorting cleared');
-    // }
 
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -631,11 +580,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.searchByInput
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value) => {
-        // this.searchString = value;
         this.autocompleteSearchColumn();
         this.getContentData();
       });
-    // this.getContentData();
 
     // Data coming from select order when user enter / check tote filter by Id it gets object type it tote id selected only
     // then it will do send back the order number to select order component and set order field and also check if
@@ -804,15 +751,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
 
   printReport(){
     this.global.Print(`FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`)
-    // window.location.href = `/#/report-view?file=FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`;
-    // window.location.reload();
   }
 
   previewReport(){ 
     window.open(`/#/report-view?file=OrderStatus-lst-prv|field:Order Number|exptype:=|expone:${this.orderNo}|exptwo:`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-   
-      
-    // window.location.href = `/#/report-view?file=OrderStatus-lst-prv|field:Order Number|exptype:=|expone:${this.orderNo}|exptwo:`;
-    // window.location.reload();
   }
 }

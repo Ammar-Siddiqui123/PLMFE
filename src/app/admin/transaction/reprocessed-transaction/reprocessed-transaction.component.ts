@@ -89,17 +89,12 @@ export class ReprocessedTransactionComponent implements OnInit {
     this.searchBar
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        // this.columnSearch.searchValue = value;
         if (!this.columnSearch.searchColumn.colDef){
           this.getContentData();
         }
         else{
           this.autocompleteSearchColumn();
         }
-
-        // if (!this.searchAutocompleteList.length) {
-        //   // this.getContentData();
-        // }
       });
 
     this.userData = this.authService.userData();
@@ -109,10 +104,6 @@ export class ReprocessedTransactionComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
-  // getColumnsData() {
-  //   this.displayedColumns = TRNSC_DATA;
-  //   this.getContentData();
-  // }
 
   getColumnsData() {
     let payload = {
@@ -155,8 +146,6 @@ export class ReprocessedTransactionComponent implements OnInit {
       .subscribe(
         (res: any) => {
           this.columnValues = res.data?.reprocessedColumns;
-          // this.columnValues.push('actions');
-          // this.displayOrderCols=res.data.openTransactionColumns;
         },
         (error) => {}
       );
@@ -177,10 +166,8 @@ export class ReprocessedTransactionComponent implements OnInit {
       .ReprocessedTransactionTable(this.payload)
       .subscribe(
         (res: any) => {
-          // this.getTransactionModelIndex();
           this.detailDataTransHistory = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
-          //  this.dataSource.paginator = this.paginator;
           this.customPagination.total = res.data?.recordsFiltered;
           this.dataSource.sort = this.sort;
         },
@@ -258,15 +245,11 @@ export class ReprocessedTransactionComponent implements OnInit {
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
-    // this.customPagination.startIndex =  e.pageIndex
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
 
     this.customPagination.endIndex = e.pageSize * e.pageIndex + e.pageSize;
-    // this.length = e.length;
     this.customPagination.recordsPerPage = e.pageSize;
-    // this.pageIndex = e.pageIndex;
 
-    // this.initializeApi();
     this.getContentData();
   }
   ngOnDestroy() {
@@ -280,7 +263,6 @@ export class ReprocessedTransactionComponent implements OnInit {
   }
 
   resetFields(event?) {
-    // this.orderNo = '';
     this.columnSearch.searchValue = '';
     this.searchAutocompleteList = [];
     this.orderSelectionSearch = false

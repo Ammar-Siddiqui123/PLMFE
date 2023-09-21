@@ -70,13 +70,6 @@ export class TransactionHistoryFiltersComponent implements OnInit {
 
   searchData(event) {
     this.onOrderNoChange(event);
-    // if (event == this.columnSearch.searchValue) return;
-    // if (
-    //   this.columnSearch.searchColumn ||
-    //   this.columnSearch.searchColumn == ''
-    // ) {
-    //   this.getContentData();
-    // }
   }
 
   async autocompleteSearchColumn() {
@@ -92,23 +85,18 @@ export class TransactionHistoryFiltersComponent implements OnInit {
       .subscribe(
         (res: any) => {
           this.searchAutocompleteList = res.data;
-          // this.getContentData();
         },
         (error) => {}
       );
   }
   onDateChange(event: any): void {
-    // this.startdateChange.emit();
     this.sdate = new Date(event).toISOString();
     this.startDate.emit(event);
-    // this.getContentData();
   }
 
   onEndDateChange(event: any): void {
-    // this.enddateChange.emit();
     this.edate = new Date(event).toISOString();
     this.endDate.emit(event);
-    // this.getContentData();
   }
   ngOnDestroy() {
     this.searchByOrderNumber.unsubscribe();
@@ -119,11 +107,6 @@ export class TransactionHistoryFiltersComponent implements OnInit {
       this.orderNumber = 0;
     }
   }
-
-
-  // sendToParent(event:any){
-  //   this.childToParent.emit(event);
-  //   }
 
   clear(){
     this.orderNumber = ''

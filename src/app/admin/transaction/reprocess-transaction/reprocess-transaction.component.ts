@@ -247,7 +247,6 @@ export class ReprocessTransactionComponent implements OnInit {
         this.columnSearch.searchColumn.colDef='Item Number';
         this.columnSearch.searchValue=itemNo;
        
-      //  this.onOrderNoChange();
       }
        })
     )
@@ -381,12 +380,10 @@ export class ReprocessTransactionComponent implements OnInit {
 
   selectedOrderNumber(value: any) {
     this.orderNumber = value;
-    // this.getContentData();
     this.isHistory ? this.getHistoryData() : this.getContentData();
   }
   selectedItemNum(value: any) {
     this.itemNumber = value;
-    // this.getContentData();
     this.isHistory ? this.getHistoryData() : this.getContentData();
   }
 
@@ -400,11 +397,8 @@ export class ReprocessTransactionComponent implements OnInit {
     else{
       this.itemNumber='';
       this.orderNumber='';
-    // this.isHistory ? this.getHistoryData() : this.getContentData("1");
-
     }
   
-    // this.getContentData("1");
   
   }
 
@@ -641,7 +635,6 @@ export class ReprocessTransactionComponent implements OnInit {
       this.columnSearch.searchColumn ||
       this.columnSearch.searchColumn == ''
     ) {
-      // this.getContentData();
       this.isHistory ? this.getHistoryData() : this.getContentData();
     }
   }
@@ -814,18 +807,6 @@ export class ReprocessTransactionComponent implements OnInit {
           this.orders.complete = res.data.completeCount;
           this.orders.history = res.data.historyCount;
 
-          // if(this.orders.reprocessOrders.length&&this.orders.reprocessOrders.length>0)
-          // {
-          //   this.orders.reprocessOrders.shift();
-          // }
-          // if(this.orders.completeOrders.length&&this.orders.completeOrders.length>0)
-          // {
-          //   this.orders.completeOrders.shift();
-          // }
-          // if(this.orders.historyOrders.length&&this.orders.historyOrders.length>0)
-          // {
-          //   this.orders.historyOrders.shift();
-          // }
           this.orders.reprocessOrders = res.data.reprocess;
 
           this.orders.completeOrders = res.data.complete;
@@ -846,7 +827,6 @@ export class ReprocessTransactionComponent implements OnInit {
   deleteReprocessOrder(record: any) { }
 
   itemUpdatedEvent(event: any) {
-    //alert("TRIGGERED");
     this.getContentData('1');
     this.getOrdersWithStatus();
     this.isEnabled = false; 
@@ -908,16 +888,10 @@ export class ReprocessTransactionComponent implements OnInit {
       .ReprocessTransactionTable(payload)
       .subscribe(
         (res: any) => { 
-          // this.getTransactionModelIndex();
           this.detailDataInventoryMap = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
-          // this.dataSource.paginator = this.paginator;
           this.customPagination.total = res.data?.recordsFiltered;        
           
-          // this.pageEvent = this.paginator;          
-          // this.customPagination.startIndex = this.paginator.pageIndex;
-          // this.customPagination.endIndex = res.data?.recordsFiltered;
-          // this.customPagination.recordsPerPage = this.paginator.pageSize;
 
           this.dataSource.sort = this.sort;
         },
@@ -941,7 +915,6 @@ export class ReprocessTransactionComponent implements OnInit {
       sortOrder: this.sortOrder,
       orderNumber: "",
       itemNumber: this.itemNumber,
-      // hold: false,
       username: this.userData.userName,
       wsid: this.userData.wsid
     };
@@ -949,10 +922,8 @@ export class ReprocessTransactionComponent implements OnInit {
       .ReprocessedTransactionHistoryTable(payload)
       .subscribe(
         (res: any) => {
-          // this.getTransactionModelIndex();
           this.detailDataInventoryMap = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
-          //  this.dataSource.paginator = this.paginator;
           this.customPagination.total = res.data?.recordsFiltered;
           this.dataSource.sort = this.sort;
         },
@@ -964,15 +935,11 @@ export class ReprocessTransactionComponent implements OnInit {
   }
   handlePageEvent(e: PageEvent) {    
     this.pageEvent = e;
-    // this.customPagination.startIndex =  e.pageIndex
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
 
     this.customPagination.endIndex = e.pageSize * e.pageIndex + e.pageSize;
-    // this.length = e.length;
     this.customPagination.recordsPerPage = e.pageSize;
-    // this.pageIndex = e.pageIndex;
 
-    // this.initializeApi();
     if(this.isHistory){
       this.getHistoryData()
     }else{
@@ -982,7 +949,6 @@ export class ReprocessTransactionComponent implements OnInit {
   }
 
   resetFields(event?) {
-    // this.orderNo = '';
     this.columnSearch.searchValue = '';
     this.searchAutocompleteListByCol = [];
     this.orderSelectionSearch = false
@@ -996,12 +962,6 @@ export class ReprocessTransactionComponent implements OnInit {
       autoFocus: '__non_existing_element__',
       disableClose:true,
     });
-    dialogRef.afterClosed().subscribe((x) => {
-
-      if (x) {
-        //e.description =  this.dialogDescription!=""?this.dialogDescription:e.description 
-      }
-    })
   }
 
   openReprocessTransactionDialogue(id: any) {

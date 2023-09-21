@@ -142,17 +142,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     }
   }
   @Input() set orderNoEvent(event: Event) {
-    // if (event) {
       this.orderNo = event;
-      // this.columnSearch.searchValue= event;
-      // this.columnSearch.searchColumn.colDef='Order Number'
       this.getContentData();
-    // }
-    // else{
-    //   this.columnSearch.searchValue= '';
-    //   this.columnSearch.searchColumn.colDef=''
-    //   this.getContentData()
-    // }
   }
 
   @Input()
@@ -211,13 +202,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       .subscribe((value) => {
  
 
-        // this.columnSearch.searchValue = value;
-        // if (!this.columnSearch.searchColumn.colDef) return;
-
         this.autocompleteSearchColumn();
-        // if (!this.searchAutocompleteList.length) {
           this.getContentData();
-        // }
       });
 
     this.getColumnsData();
@@ -231,7 +217,6 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
         this.selectedDropdown='Item Number';
         this.columnSearch.searchValue=itemNo;
        
-      //  this.onOrderNoChange();
       }
        })
     )
@@ -242,7 +227,6 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
         this.selectedDropdown='Item Number';
         this.columnSearch.searchValue=itemNo;
        
-      //  this.onOrderNoChange();
       }
        })
     )
@@ -346,8 +330,6 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       .subscribe(
         (res: any) => {
           this.columnValues = res.data?.transactionHistoryColumns;
-          // this.columnValues.push('actions');
-          // this.displayOrderCols=res.data.openTransactionColumns;
         },
         (error) => {}
       );
@@ -374,10 +356,8 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
       .TransactionHistoryTable(payload)
       .subscribe(
         (res: any) => {
-          // this.getTransactionModelIndex();
           this.detailDataTransHistory = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
-          //  this.dataSource.paginator = this.paginator;
           this.customPagination.total = res.data?.recordsFiltered;
           this.dataSource.sort = this.sort;
         },
@@ -398,7 +378,6 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
   }
 
   resetFields(event?) {
-    // this.orderNo = '';
     this.columnSearch.searchValue = '';
     this.searchAutocompleteList = [];
   }
@@ -406,7 +385,6 @@ export class TransactionHistoryListComponent implements OnInit, AfterViewInit {
     this.resetColumn();
     this.resetFields();
 
-    // this.initializeApi();
     this.getContentData();
   }
   handlePageEvent(e: PageEvent) {
