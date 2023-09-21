@@ -39,21 +39,9 @@ export class ScanCodesComponent implements OnInit , OnChanges {
     private authService: AuthService, private toastr: ToastrService,  private dialog: MatDialog,private cusValidator: CustomValidatorService) {
 
     this.userData = this.authService.userData();
- //   this.getScanTypeList();
 
   }
 
-  // getScanTypeList(){
-  //   let paylaod = {
-  //     "username": this.userData.userName,
-  //     "wsid": this.userData.wsid,
-  //   }
-  //   this.invMasterService.get(paylaod, '/Common/ScanCodeTypes').subscribe((res: any) => {
-  //     if (res.isExecuted) {
-  //       this.scanTypeList = res.data;
-  //     }
-  //   })
-  // }
   ngOnChanges(changes: SimpleChanges) {
       this.scanCodesList = [...this.scanCodes.controls['scanCode'].value];
       this.OldscanCodesList = JSON.parse(JSON.stringify(this.scanCodesList));

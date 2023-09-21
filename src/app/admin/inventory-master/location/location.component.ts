@@ -55,18 +55,9 @@ export class LocationComponent implements OnInit {
       }else{
         sortState.direction=this.nextDir;
       }
-    // if (sortState.direction != "") {
-    //   this.nextDir = sortState.direction === "asc" ? "desc" : "asc";
-    //   // this.nextDir = this.nextDir  === "asc" ? "desc" : "asc";
-    // }
-    // if(sortState.direction!=''){
 
       this.sendNotification({sortingColumn: this.displayedColumns.indexOf(sortState.active) , sortingSeq:sortState.direction})
 
-    // }else{
-    //   this.sendNotification({sortingColumn: this.displayedColumns.indexOf(sortState.active) , sortingSeq:this.nextDir})
-
-    // }
    
   }
 

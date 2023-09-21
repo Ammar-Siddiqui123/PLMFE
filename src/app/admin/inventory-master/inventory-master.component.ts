@@ -62,9 +62,6 @@ export class InventoryMasterComponent implements OnInit {
      return this._searchValue;
   }
   set searchValue(value: any) {
-   
-    
-//    this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY] = value;
     this._searchValue = value;
   }
   isDataFound = false;
@@ -104,7 +101,6 @@ export class InventoryMasterComponent implements OnInit {
     private confirmationGuard: ConfirmationGuard,
     private sharedService: SharedService,
     private currentTabDataService: CurrentTabDataService
-    // public quarantineDialogRef: MatDialogRef<'quarantineAction'>,
   ) {
   }
   @ViewChild('quarantineAction') quarantineTemp: TemplateRef<any>;
@@ -119,9 +115,6 @@ export class InventoryMasterComponent implements OnInit {
   reelSubject: Subject<String> = new Subject<String>();
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
-  onScroll(event) {
-    // alert();
-  }
   @HostListener('document:keydown', ['$event'])
 
   //  SHORTCUT KEYS
@@ -228,7 +221,6 @@ export class InventoryMasterComponent implements OnInit {
   async ngOnInit() {
     const paramName = this.route.snapshot.queryParamMap.get('itemNumber');
     let initialValue;
-    // window.addEventListener('scroll', this.scrollEvent, true);
     this.userData = this.authService.userData();
     this.initialzeIMFeilds();
     this.ApplySavedItem();
@@ -252,7 +244,6 @@ export class InventoryMasterComponent implements OnInit {
       this.getInventory(true,paramName);
       this.OSFieldFilterNames();
     }
-    // this.prevPage(true);
   
 
     this.route
@@ -269,42 +260,9 @@ export class InventoryMasterComponent implements OnInit {
   clearMatSelectList(){
     this.matRef.options.forEach((data: MatOption) => data.deselect());
   }
-  // onOutsideSearchBox(e?:any) {
-  //   console.log('working');
-  //    window.addEventListener('scroll', this.scrollEvent, true);
-
-  //   // if(this.autoComplete.panelOpen){
-  //   //   this.autoComplete.closePanel();
-  //   // }
-  // }
-
-  // openMatAutoComplete(){
-  //   console.log(this.autocompleteOpened.panel);
-  //   if(this.autocompleteOpened._isOpen){
-  //     this.autocompleteOpened.panel.nativeElement.addEventListener('mouseleave', () => {
-  //       this.autoComplete.closePanel();
-  //     })
-  //   }
-  // }
-  // closeMatAutoComplete(){
-  //  console.log('closed');
-
-  // }
-  // focusinmethod(){
-  //   let b = document.body;
-  //   console.log(b);
-  // }
-  // focusoutmethod(){
-  //   let b = document.body;
-  //   b.style.overflow = "auto";
-  // }
+  
 
   scrollEvent = (event: any): void => {
-    // if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
-    //   if (this.autoComplete.panelOpen) {
-    //     this.autoComplete.closePanel();
-    //   }
-    // }
     if (this.autoComplete.panelOpen) this.autoComplete.updatePosition();
   }
   ngAfterViewInit() {
@@ -423,7 +381,6 @@ export class InventoryMasterComponent implements OnInit {
 
 
       unitCost: [this.getInvMasterData?.unitCost || 0, [Validators.required, Validators.maxLength(11), Validators.pattern("^[0-9]*$")]],
-      // supplierItemID: [ '', [Validators.required]],
       manufacturer: [this.getInvMasterData?.manufacturer || '', [Validators.maxLength(50)]],
       specialFeatures: [this.getInvMasterData?.specialFeatures || '', [Validators.maxLength(255)]],
 
@@ -493,11 +450,6 @@ export class InventoryMasterComponent implements OnInit {
       if (currentPageItemNumber == '') {
         currentPageItemNumber = res.data?.firstItemNumber;
       }
-      // if (init && this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY])
-      // {
-      //   currentPageItemNumber = this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY];
-      //   this.currentPageItemNo = currentPageItemNumber;
-      // }
       this._searchValue = currentPageItemNumber;
       this.paginationData = {
         total: res.data?.filterCount.total,
@@ -507,8 +459,6 @@ export class InventoryMasterComponent implements OnInit {
       this.saveDisabled = true;
       this.getInvMasterDetail(currentPageItemNumber);
       this.getInvMasterLocations(currentPageItemNumber);
-      //this.getInvMasterDetail('024768000010');
-      //this.getInvMasterLocations('024768000010');
     });
   }
   
@@ -583,7 +533,6 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.api.GetLocationTable(paylaod).subscribe((res: any) => {
-      // console.log(res.data);
       this.locationTable = res.data;
     })
   }
@@ -609,11 +558,6 @@ export class InventoryMasterComponent implements OnInit {
 
   prevPage(init?) {
    
-    // const dialogRef = this.dialog.open(this.propertiesChanged, {
-    //   width: '450px',
-    //   autoFocus: '__non_existing_element__',
-      
-    // });
     this.searchValue = this.currentPageItemNo;
     if ((this.paginationData?.position >= 1 && this.paginationData?.position <= this.paginationData?.total) || init) {
       let paylaod = {
@@ -717,7 +661,6 @@ export class InventoryMasterComponent implements OnInit {
       "wsid": this.userData.wsid
     }
     this.api.UpdateItemNumber(paylaod).subscribe((res: any) => {
-      // console.log(res.data);
     })
   }
 
@@ -755,7 +698,6 @@ export class InventoryMasterComponent implements OnInit {
               timeOut: 2000
             });
             this.currentPageItemNo = itemNumber;
-            //this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY] = undefined;
             this.getInventory();
           } else {
             this.toastr.error(res.responseMessage, 'Error!', {
@@ -764,12 +706,7 @@ export class InventoryMasterComponent implements OnInit {
             });
           }
         })
-      } else {
-        // this.toastr.error('Enter Valid Item Number', 'Error!', {
-        //   positionClass: 'toast-bottom-right',
-        //   timeOut: 2000
-        // });
-      }
+      } 
 
     });
   }
@@ -820,8 +757,6 @@ export class InventoryMasterComponent implements OnInit {
               this.searchValue = this.currentPageItemNo;
               this.getInventory();
             })
-            //this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY] = undefined;
-            // this.getInventory();
             
           } else {
             this.toastr.error('Delete failed!  Item exists in Inventory Map.  Please deallocate item from Inventory Map location(s) before deleting.', 'Error!', {
@@ -943,7 +878,6 @@ export class InventoryMasterComponent implements OnInit {
     }
 
     this.searchValue = e.currentTarget.value;
-    // this.RecordSavedItem(); 
     let paylaod = {
       "stockCode": e.currentTarget.value,
       "username": this.userData.userName,
@@ -968,8 +902,6 @@ export class InventoryMasterComponent implements OnInit {
     this.searchValue = e.option.value;
     this.currentPageItemNo = e.option.value;
     this.getInventory();
-    // this.getInvMasterDetail(e.option.value);
-    // this.getInvMasterLocations(e.option.value);
   }
 
   clearSearchField() {
@@ -977,14 +909,13 @@ export class InventoryMasterComponent implements OnInit {
     this.searchValue = '';
   }
   getNotification(e: any) {
-    // console.log(e);
 
     if (e?.newItemNumber) {
       this.currentPageItemNo = e.newItemNumber;
       this.getInventory();
     } else if (e?.refreshLocationGrid) {
       this.getInvMasterLocations(this.currentPageItemNo);
-    } else if (e?.locationPageSize) {  //&& e?.startIndex 
+    } else if (e?.locationPageSize) {  
 
       this.getInvMasterLocations(this.currentPageItemNo, e.locationPageSize, e.startIndex);
     } else if (e?.sortingColumn) {
@@ -1076,7 +1007,6 @@ export class InventoryMasterComponent implements OnInit {
       setTimeout(() => {
         this.spinnerService.hide();
       }, 500);
-      // this.PrevtabIndex =this.tabIndex; 
     }
   }
 

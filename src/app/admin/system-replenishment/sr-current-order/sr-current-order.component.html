@@ -121,7 +121,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.itemNumber, 'Item Number')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         > {{seletedRecord.itemNumber}} </td>
                     </ng-container>
 
@@ -131,7 +131,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.transactionType, 'Transaction Type')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         > {{seletedRecord.transactionType}} </td>
                     </ng-container>
 
@@ -141,7 +141,7 @@
                         <td class="px-3" mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.warehouse, 'Warehouse')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         >{{seletedRecord.warehouse}}</td>
                     </ng-container>
 
@@ -151,7 +151,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.zone, 'Zone')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         >{{seletedRecord.zone}} </td>
                     </ng-container>
 
@@ -160,7 +160,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.carousel, 'Carousel')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         > {{seletedRecord.carousel}}</td>
                     </ng-container>
 
@@ -169,7 +169,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.row, 'Row')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         > {{seletedRecord.row}} </td>
                     </ng-container>
 
@@ -178,7 +178,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.shelf, 'Shelf')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         >{{seletedRecord.shelf}} </td>
                     </ng-container>
 
@@ -187,7 +187,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.bin, 'Bin')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         >{{seletedRecord.bin}} </td>
                     </ng-container>
 
@@ -196,7 +196,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.cell, 'Cell')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         >{{seletedRecord.cell}} </td>
                     </ng-container>
 
@@ -205,7 +205,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.lotNumber, 'lot Number')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         >{{seletedRecord.lotNumber}} </td>
                     </ng-container>
 
@@ -214,7 +214,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.transactionQuantity, 'Trans Qty')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         >{{seletedRecord.transactionQuantity}} </td>
                     </ng-container>
 
@@ -223,7 +223,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.description, 'Description')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         >{{seletedRecord.description}} </td>
                     </ng-container>
 
@@ -232,7 +232,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.orderNumber, 'Order Number')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         >{{seletedRecord.orderNumber}} </td>
                     </ng-container>
 
@@ -241,7 +241,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.unitOfMeasure, 'UofM')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         >{{seletedRecord.unitOfMeasure}} </td>
                     </ng-container>
 
@@ -250,7 +250,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.batchPickID, 'Batch Pick ID')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         >{{seletedRecord.batchPickID}} </td>
                     </ng-container>
 
@@ -259,7 +259,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.serialNumber, 'Serial Number')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         >{{seletedRecord.serialNumber}} </td>
                     </ng-container>
 
@@ -268,7 +268,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.completedDate, 'Comp Date')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         >{{seletedRecord.completedDate}} </td>
                     </ng-container>
 
@@ -277,7 +277,7 @@
                         <td mat-cell *matCellDef="let seletedRecord"
                         (dblclick)="viewItemInInventoryMaster(seletedRecord)"
                         (contextmenu)="onContextMenu($event, seletedRecord.printDate, 'Print Date')"
-                        (click)="selectOrder(seletedRecord)" [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
+                         [class.selected]="seletedRecord.rowNumber == selectedOrder.rowNumber"
                         >{{seletedRecord.printDate}} </td>
                     </ng-container>
 

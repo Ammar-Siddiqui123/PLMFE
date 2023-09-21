@@ -104,7 +104,6 @@ export class ReelTrackingComponent implements OnInit {
           wsid: this.userData.wsid
         }
         this.api.UpdateReelAll(payload).subscribe((res:any)=>{
-          // console.log(res);
 
           if(res.isExecuted){
 
@@ -115,7 +114,6 @@ export class ReelTrackingComponent implements OnInit {
            }
 
             this.api.RefreshRTS(payload2).subscribe((res:any)=>{
-              // console.log(res)
               if (res.isExecuted) {
                 this.reelTracking.patchValue({
                   'minimumRTSReelQuantity' : res.data[0]

@@ -32,7 +32,6 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         let spliUrl=event.url.split('/');
-        // console.log(spliUrl)
 
         if(spliUrl[1]=='admin'){
           this.currentApp = 'Admin'
@@ -79,7 +78,6 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       console.log(this.sysTitles)
       console.log(this.reportTitles)
 
-      // this.ListReports = this.sysTitles;
       if(this.IsSystemReport == true || this.IsSystemReport == undefined) this.ListReports = this.sysTitles;
       else this.ListReports = this.reportTitles;
       
@@ -87,7 +85,6 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   }
   OpenListAndLabel(route){
     window.open(`/#/${route}?file=${this.Detail.fileName.replace(".","-")}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-    // this.route.navigateByUrl(`/${route}?file=${this.Detail.fileName.replace(".","-")}`);
   }
 
   clearMatSelectList(){
@@ -114,7 +111,6 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       }
       
     })
-    // this.ListReports[index].isSelected=!this.ListReports[index].isSelected;
 
       this.olddetail = file; 
     if(this.SelectedFile == file){
@@ -133,7 +129,6 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     })
    
     return 1;
-    // this.Detail = ! this.Detail 
   }
 
   openEditDesign() {
@@ -167,11 +162,9 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     if(result != true){
       console.log(result,'obj')
       console.log(this.IsSystemReport)      
-      // this.ListReports.push({title:result.description, filename:result.filename})    
       console.log(this.ListReports)  
       
       this.Getcustomreports()
-      // this.ChangeReport(this.IsSystemReport)
       this.Getreportdetails(result.filename)
     }
     }
@@ -299,7 +292,6 @@ export class CustomReportsAndLabelsComponent implements OnInit {
 
 
   saveInput(){
-    // if(this.Detail = {})return
     if(this.Detail.outputType == undefined) return
    let payload =  {
       "oldfilename": this.olddetail,
@@ -312,7 +304,6 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     }
 
     this.api.updatereportDetails(payload).subscribe(res=>{
-      // console.log(res)
       if(!res.isExecuted){
         this.toastr.error("Unexpected error occurred. Changes Not Saved", 'Error!', {
           positionClass: 'toast-bottom-right',

@@ -171,7 +171,6 @@ export class MoveItemsComponent implements OnInit {
         this.startRow = 0;
         this.endRow = 10;
         this.resetPaginationFrom();
-        // this.autocompleteSearchColumn();
         this.autocompleteSearchColumn();
       });
     this.getMoveItemList('MoveFrom');
@@ -285,7 +284,6 @@ export class MoveItemsComponent implements OnInit {
           )}`;
         }
 
-        // this.displayedColumns = TRNSC_DATA;
       });
   }
 
@@ -360,28 +358,20 @@ export class MoveItemsComponent implements OnInit {
 
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
-    // this.customPagination.startIndex =  e.pageIndex
     this.startRow = e.pageSize * e.pageIndex;
 
     this.endRow = e.pageSize * e.pageIndex + e.pageSize;
-    // this.length = e.length;
     this.recordsPerPage = e.pageSize;
-    // this.pageIndex = e.pageIndex;
 
-    // this.initializeApi();
     this.getMoveItemList('MoveFrom');
   }
   handlePageEventTo(e: PageEvent) {
     this.pageEventTo = e;
-    // this.customPagination.startIndex =  e.pageIndex
     this.startRowTo = e.pageSize * e.pageIndex;
 
     this.endRowTo = e.pageSize * e.pageIndex + e.pageSize;
-    // this.length = e.length;
     this.recordsPerPageTo = e.pageSize;
-    // this.pageIndex = e.pageIndex;
 
-    // this.initializeApi();
     this.getMoveItemList('MoveTo', true);
   }
 
@@ -518,13 +508,11 @@ export class MoveItemsComponent implements OnInit {
         message = 'Would you like to Undedicate your move from Location?';
         isDisableButton = false;
         buttonFields = true;
-        // this.undedicateMoveFrom=true;
         break;
 
       case 'Dedicate':
         message = 'Would you like to Dedicate your move to Location?';
         isDisableButton = false;
-        // this.dedicateMoveTo=true;
         buttonFields = true;
         break;
       case 'ZeroQty':
@@ -585,11 +573,9 @@ export class MoveItemsComponent implements OnInit {
         if (type === 'Dedicate') {
           if (result) {
             this.dedicateMoveTo = true;
-            // callback(true)
             this.openAlertDialog('Un-Dedicate');
           } else {
             this.dedicateMoveTo = false;
-            // callback(true)
             this.openAlertDialog('Un-Dedicate');
           }
         }
@@ -599,7 +585,6 @@ export class MoveItemsComponent implements OnInit {
             this.undedicateMoveFrom = true;
 
             this.callCreateMoveTrans();
-            // this.openAlertDialog('Un-Dedicate')
           } else {
             this.undedicateMoveFrom = false;
 
@@ -651,11 +636,6 @@ export class MoveItemsComponent implements OnInit {
     let moveToDedicated = this.MoveToDedicated;
     if (this.isDedicated) {
       this.openAlertDialog('Dedicate', null, (val) => {
-        //  if(val){
-        //   console.log('dedicateMoveTo',this.dedicateMoveTo);
-        //   console.log('undedicateMoveFrom',this.undedicateMoveFrom);
-        //   // this.openAlertDialog('Un-Dedicate');
-        //  }
       });
 
       return;
@@ -824,8 +804,6 @@ export class MoveItemsComponent implements OnInit {
       this.moveToFilter = this.moveToFilter != '' ? this.moveToFilter : '1 = 1';
     }
 
-    // this.paginator1.pageIndex = 0;
-
     this.getMoveItemList(this.tableType);
   }
 
@@ -932,9 +910,6 @@ export class MoveItemsComponent implements OnInit {
     } else {
       value = value.substr(0, 4);
     }
-    // if (value === '') {
-    //   value = '0';
-    // }
     inputElement.value = value;
   }
   onBlurPriority(){

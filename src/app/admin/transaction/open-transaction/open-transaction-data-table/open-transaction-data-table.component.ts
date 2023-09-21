@@ -100,7 +100,6 @@ export class OpenTransactionDataTableComponent
       endIndex: 10,
     };
     this.userData = this.authService.userData();
-    // this.datasource = new MatTableDataSource(this.employees_details_data);
     this.getContentData();
   }
 
@@ -122,14 +121,6 @@ export class OpenTransactionDataTableComponent
       .subscribe(
         (res: any) => {
           this.datasource = res.data.holdTransactions;
-          // this.getTransactionModelIndex();
-
-          // this.columnValues.push('actions');
-          // this.detailDataInventoryMap = res.data?.transactions;
-          // this.dataSource = new MatTableDataSource(res.data?.holdTransactions);
-          // //  this.dataSource.paginator = this.paginator;
-          // this.customPagination.total = res.data?.recordsFiltered;
-          // this.dataSource.sort = this.sort;
         },
         (error) => {}
       );
@@ -155,11 +146,9 @@ export class OpenTransactionDataTableComponent
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
-    // this.customPagination.startIndex =  e.pageIndex
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
 
     this.customPagination.endIndex = e.pageSize * e.pageIndex + e.pageSize;
-    // this.length = e.length;
     this.customPagination.recordsPerPage = e.pageSize;
     
     this.getContentData();

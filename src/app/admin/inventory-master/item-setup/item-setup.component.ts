@@ -32,11 +32,9 @@ export class ItemSetupComponent implements OnInit {
     
       if(changes['itemSetup'].currentValue.value.primaryPickZone===''){
         this.itemSetup.controls['secondaryPickZone'].disable();
-        // this.disableSecondaryZone=true;
         
       }else{
         this.itemSetup.controls['secondaryPickZone'].enable();
-        // this.disableSecondaryZone=false;
 
       }
     }
@@ -47,12 +45,10 @@ export class ItemSetupComponent implements OnInit {
   
     if(event.value===''){
       this.itemSetup.controls['secondaryPickZone'].disable();
-      //  this.disableSecondaryZone=true;
       this.itemSetup.controls['secondaryPickZone'].setValue('')
      
     }else{
       this.itemSetup.controls['secondaryPickZone'].enable();
-      // this.disableSecondaryZone=false;
     }
   }
   public openCellSizeDialog(param) {

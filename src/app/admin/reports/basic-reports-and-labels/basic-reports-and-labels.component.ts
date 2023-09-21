@@ -48,7 +48,6 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     this.route.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         let spliUrl=event.url.split('/');
-        // console.log(spliUrl)
 
         if(spliUrl[1]=='admin'){
           this.currentApp = 'Admin'
@@ -84,15 +83,6 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     }
   }
 
-  // filterByItem(value : any,index) {
-  //   debugger
-  //   if(this.oldFilterValue && this.oldFilterValue.length > 0) {
-  //     this.ListFilterValue[index] = this.oldFilterValue.filter((x : any) =>  x.toLowerCase().includes(value.toLowerCase()));
-  //   } else {
-  //     this.ListFilterValue[index] =   this.ListFilterValue.filter((x : any) =>  x.toLowerCase().includes(value.toLowerCase()));
-      
-  //   }
-  // }
 
   filterByItem(value : any,index){ 
     this.ListFilterValue[index] = this.oldFilterValue[index].filter(x=> x.toString().toLowerCase().indexOf(value.toString().toLowerCase()) > -1);
@@ -210,8 +200,6 @@ ReportTitles(){
  
   OpenListAndLabel(){ 
     window.open(`/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-    // window.location.href = `/#/report-view?file=${this.global.capitalizeAndRemoveSpaces(this.BasicReportModel.ChooseReport)+'-lst'}`;
-    // window.location.reload();  
   }
 Remove(index){ 
   this.reportData[16+index] = "";
