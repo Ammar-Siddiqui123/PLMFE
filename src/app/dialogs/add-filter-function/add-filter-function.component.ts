@@ -12,7 +12,6 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 })
 export class AddFilterFunction implements OnInit {
   @ViewChild('filter_focus') filter_focus: ElementRef;
-  // updateItemNumber : boolean = true;
   addItem : boolean = true;
   submit: boolean = false;
   filter_name:any
@@ -45,7 +44,6 @@ export class AddFilterFunction implements OnInit {
      
       }
       this.Api.PickBatchFilterRename(paylaod).subscribe(res => {
-        // console.log(res);
         if(res.isExecuted){
           this.dialogRef.close({"oldFilter": this.data.savedFilter,"newFilter":this.filter_name,})
         }

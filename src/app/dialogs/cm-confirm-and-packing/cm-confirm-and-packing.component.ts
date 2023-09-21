@@ -209,11 +209,6 @@ openScanItem(ItemNumber:any,id: any) {
       disableClose:true,
     data: {ItemNumber:ItemNumber,orderNumber:this.orderNumber,contID:this.contID,confPackTransTable:this.transTable,id:id,reasons:this.reasons}
   })
-  dialogRef.afterClosed().subscribe(result => {
-    if(result == 'ConfirmedPacked'){
-     // this.ConfirmedPacked();
-    }  
-  })
  }
  
 announceSortChange1(sortState: Sort) {  
@@ -227,14 +222,6 @@ announceSortChange1(sortState: Sort) {
   // Set the data source's sort property to the new sort.
   this.toteTable.sort = this.sort1;
 
-  // this.toteTable.filteredData =  this.toteTable.filteredData.sort((a, b) => {
-  //   if(sortState.direction == 'asc') {
-  //     return a[sortState.active] - b[sortState.active];
-  //   }
-  //   else {
-  //     return b[sortState.active] - a[sortState.active];
-  //   }
-  // }); 
 }
 announceSortChange2(sortState: Sort) {    
   if (sortState.direction) {
@@ -246,14 +233,6 @@ announceSortChange2(sortState: Sort) {
 
   // Set the data source's sort property to the new sort.
   this.transTable.sort = this.sort2; 
-  // this.transTable.filteredData = this.transTable.filteredData.sort((a, b) => {
-  //   if(sortState.direction == 'asc') {
-  //     return a[sortState.active] - b[sortState.active];
-  //   }
-  //   else {
-  //     return b[sortState.active] - a[sortState.active];
-  //   }
-  // }); 
 }
 
  openSelectTransaction(ItemNumber:any,id: any) {
@@ -322,9 +301,6 @@ if(searchCount == 0){
   var index =  this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
   this.transTable.filteredData[index].containerID = this.contID;
   this.transTable.filteredData[index].complete = true; 
-    if (this.OldtransTable.filteredData.length == 1) {
-        // this.ConfirmedPacked();
-    };
     if(this.preferencesData && this.preferencesData.autoPrintContLabel){
       this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|contID:${this.contID}`);
     
@@ -352,32 +328,20 @@ async ConfirmedPacked() {
 
 printPackList(){
   this.global.Print(`FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
-  // this.dialogRef.close();
-  // window.location.href = `/#/report-view?file=FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`;
-  // window.location.reload();
 }
 
 print(type:any){
   if(type == 'list'){
     this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`);
-    // this.dialogRef.close();
-    // window.location.href = `/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
-    // window.location.reload();
   }
   else if (type == 'label'){
     this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`,'lbl');
-    // this.dialogRef.close();
-    // window.location.href = `/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
-    // window.location.reload();
   }
   else{
     this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`);
     setTimeout(()=>{
       this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`,'lbl');
     }, 2000);
-    // window.location.href = `/#/report-view?file=FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
-    // window.location.href = `/#/report-view?file=FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|ContID:${this.contID}`;
-    // window.location.reload();
   }
 }
 

@@ -80,7 +80,6 @@ export class BatchDeleteConfirmationComponent implements OnInit {
           );
       } else {
         this.dialogRef.close({isExecuted:false});
-        // this.dialog.closeAll();
       }
     }
   }

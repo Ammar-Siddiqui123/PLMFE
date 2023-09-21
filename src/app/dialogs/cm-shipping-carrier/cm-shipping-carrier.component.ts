@@ -54,7 +54,6 @@ export class CmShippingCarrierComponent implements OnInit {
           for (var i = 0; i < this.carrierList.length; i++) {
             this.disableEnable.push({ index: i, value: true });
           }
-          // this.carrierList=res.data;
 
           setTimeout(() => {
             const inputElements = this.carrier_focus.toArray();
@@ -79,7 +78,6 @@ export class CmShippingCarrierComponent implements OnInit {
         this.renderer.selectRootElement(inputElement).focus();
       }
     });
-    //this.disableEnable.unshift({index:0,value:false});
   }
 
   saveCarrier(carrer, item) {
@@ -135,8 +133,6 @@ export class CmShippingCarrierComponent implements OnInit {
           this.getCarrier();
         });
     } else {
-      // this.velocity_code_list.shift();
-      // this.getVelocity();
     }
   }
 }

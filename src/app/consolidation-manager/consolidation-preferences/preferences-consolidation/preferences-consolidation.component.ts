@@ -60,13 +60,6 @@ export class PreferencesConsolidationComponent implements OnInit {
     if (changes['pref']['currentValue']) {
       this.setPreferences(changes['pref']['currentValue'])
     }
-    // if (changes['orderListData']) {
-    //   this.tableData['_data']['_value'] =
-    //     changes['orderListData']['currentValue'];
-    // }
-    // if (changes['extraField']) {
-    //   this.extraField = changes['extraField']['currentValue'];
-    // }
   }
   changePreferences() {
     this.updatePreferencesValues();
@@ -132,43 +125,6 @@ this.Api
         (response: any) => {
           if (response.isExecuted) {
             this.consolidationEvnt.emit();
-            // this.filtersForm.controls['defPackList'].setValue(
-            //   response.data.defPackList
-            // );
-            // this.filtersForm.controls['blindVerify'].setValue(
-            //   response.data.blindVerify
-            // );
-            // this.filtersForm.controls['verifyEach'].setValue(
-            //   response.data.verifyItems
-            // );
-            // this.filtersForm.controls['packingList'].setValue(
-            //   response.data.packingListSort
-            // );
-            // this.filtersForm.controls['printUnVerified'].setValue(
-            //   response.data.printUnVerified
-            // );
-            // this.filtersForm.controls['printVerified'].setValue(
-            //   response.data.printVerified
-            // );
-            // this.filtersForm.controls['defLookType'].setValue(
-            //   response.data.deffLookType
-            // );
-            // this.filtersForm.controls['backOrders'].setValue(
-            //   response.data.autoCompleteShip
-            // );
-            // this.filtersForm.controls['nonPickpro'].setValue(
-            //   response.data.nonPickpro
-            // );
-            // this.filtersForm.controls['validateStaingLocs'].setValue(
-            //   response.data.validateStaingLocs
-            // );
-
-            // this.toastr.success(response.responseMessage, 'Success!', {
-            //   positionClass: 'toast-bottom-right',
-            //   timeOut: 2000,
-            // });
-
-            // this.ngOnInit();
           } else {
             this.toastr.error(
               'Error',

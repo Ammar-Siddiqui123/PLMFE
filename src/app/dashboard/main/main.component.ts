@@ -89,7 +89,6 @@ export class MainComponent implements OnInit {
   convertToObj(data) {
     data.wsAllAppPermission.forEach((item, i) => {
       for (const key of Object.keys(data.appLicenses)) {
-        // arrayOfObjects.push({ key, value: this.licAppData[key] });
         if (item.includes(key) && data.appLicenses[key].isLicenseValid) {
           this.applicationData.push({
             appname: data.appLicenses[key].info.name,
@@ -97,7 +96,6 @@ export class MainComponent implements OnInit {
             license: data.appLicenses[key].info.licenseString,
             numlicense: data.appLicenses[key].numLicenses,
             info: this.appNameDictionary(item),
-            // status: data[key].isLicenseValid ? 'Valid' : 'Invalid',
             appurl: data.appLicenses[key].info.url,
             isButtonDisable: true,
           });
@@ -106,54 +104,6 @@ export class MainComponent implements OnInit {
     });
     this.sortAppsData();
   }
-  // OLD-----
-  // async getAppLicense() {
-  //   // get can access
-
-  //   this.globalService.get(null, '/GlobalConfig/AppLicense').subscribe(
-  //     (res: any) => {
-  //       if (res && res.data) {
-  //         this.appNames=Object.keys(res.data)
-  //         this.convertToObj(res.data);
-  //         // this.sharedService.setMenuData(this.appNames)
-
-  //       }
-  //     },
-  //     (error) => {}
-  //   );
-  // }
-  // async convertToObj(data) {
-
-  //   for await (const key of Object.keys(data)) {
-
-  //     if (data[key].isLicenseValid) {
-  //       let payload = {
-  //         AppName: data[key].info.name,
-  //         wsid: this.userData.wsid,
-  //       };
-  //       this.globalService.get(payload, '/Common/WSAppPermission').subscribe(
-  //         (res: any) => {
-  //           if (res && res.data) {
-  //            this.index++;
-  //             this.applicationData.push({
-  //               appName: res.data.appName,
-  //               wsid: res.data.wsid,
-  //               displayName:data[key].info.displayName,
-  //               info: this.appNameDictionary(res.data.appName),
-  //             });
-
-  //           }
-  //           this.sortAppsData();
-  //         },
-  //         (error) => {}
-  //       );
-  //     }
-
-  //   }
-
-  //           this.sharedService.setMenuData(this.applicationData)
-
-  // }
 
   appNameDictionary(appName) {
     let routes = [
@@ -252,13 +202,10 @@ export class MainComponent implements OnInit {
       this.sharedService.updateAdminMenu();
     } else if (menu == 'induction') {
       this.sharedService.BroadCastMenuUpdate(obj.route);
-      // this.sharedService.updateInductionAdminMenu(menu)
     } else if (menu == 'orderManager') {
       this.sharedService.BroadCastMenuUpdate(obj.route);
-      // this.sharedService.updateInductionAdminMenu(menu)
     } else if (menu == 'consolidation') {
       this.sharedService.BroadCastMenuUpdate(obj.route);
-      // this.sharedService.updateInductionAdminMenu(menu)
     } else if (menu === 'FlowReplenishment') {
       this.sharedService.updateFlowrackMenu(menu);
     }

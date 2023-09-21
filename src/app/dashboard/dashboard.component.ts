@@ -23,24 +23,6 @@ export class DashboardComponent implements OnInit {
     this.sharedService.sideMenuHideObserver.subscribe(menu => {
       this.isMenuHide = menu;   
     });
-
-  //   router.events.subscribe((val: any) => {
-  //     this.breadcrumbList = [];
-  //     this.breadcrumbList.push({
-  //       name:'Home',
-  //       value:'/dashboard'
-  //     })
-  //     if(val instanceof NavigationEnd){
-  //       let res = val.url.substring(1);
-  //       let splittedArray = res.split('/');
-  //       splittedArray.forEach(element => {
-  //       this.breadcrumbList.push({
-  //         name: this.capitalizeFirstLetter(element),
-  //         value:'/'+element
-  //       })
-  //     });
-  //     } 
-  // });
    }
 
   capitalizeFirstLetter(string) {
@@ -48,42 +30,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
-    //get employee
-  //   this.getEmployee()
-
-
-    //  this.employeeLookup()
-
-  //    this.saveEmployee()
-
-  //    this.deleteEmployee()
-
-  //    this.updateEmployee()
-
-  //    this.getControlName()
-
-  //    this.updateControlName()
-
-  //    this.deleteControlName()
-
-  //    this.submitControlName()
-
-    //  this.employeeStatsInfo()
-
-    //  this.getZones()
-    // this.insertAllAccess()
-
-    // this.updateEmployeeZone();
-
-    // this.deleteEmployeeZone()
-    // this.insertEmployeeLocation()
-    // this.updateEmployeeLocation()
-    // this.deleteEmployeeLocation()
-    // this.insertPickLevels()
-    // this.updatePickLevels()
-    // this.deletePickLevels()
-    // this.updateAccessGroup()
   }
 
   ngOnDestroy(){
@@ -133,27 +79,6 @@ this.employeeService.employeeStatsInfo(this.emp)
 
   });
 }
-
-//save employee Lookup
-
-// saveEmployee() {
-//   this.emp = {
-//     "lastName": "AsifAhmedtwo",
-//     "firstName": "Admin",
-//     "userName": "asifadmin12",
-//     "mi": "",
-//     "accessLevel": "Administrator",
-//     "wsid": "TESTWSID"
-//   };
-
-
-// this.employeeService.saveAdminEmployee(this.emp)
-// .subscribe((response: AdminEmployeeLookupResponse) => {
-
-
-
-// });
-// }
 
 //delete employee Lookup
 deleteEmployee() {

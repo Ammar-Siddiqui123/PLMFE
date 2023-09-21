@@ -45,26 +45,8 @@ export class ConsolidationPreferencesComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    // this.subscription.add(
-    //   this.shippingForm.valueChanges
-    //     .pipe(startWith(this.shippingForm.getRawValue()))
-    //     .subscribe((value) => {
-    //       console.log(value);
-    //       this.saveShippingPreferences();
-    //       // whatever you want to do here
-    //     })
-    // );
     this.getPreferences();
   }
-
-  ngAfterViewInit() {
-    // this.updatePreferencesValues();
-  }
-
-
-  
-
-
 
   getPreferences() {
     let payload = {

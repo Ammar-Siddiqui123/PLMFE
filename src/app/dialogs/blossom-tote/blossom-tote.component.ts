@@ -90,7 +90,6 @@ export class BlossomToteComponent implements OnInit {
             "NewTote": this.nxtToteID?.toString()
           }
           this.Api.ProcessBlossom(paylaod).subscribe(res => {
-            // console.log(res.data);
             if (res.data) {
               let batch = res.data
               if(this.imPreferences.autoPrintPickToteLabels){

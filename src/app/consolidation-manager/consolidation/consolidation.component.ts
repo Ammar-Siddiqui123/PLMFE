@@ -111,7 +111,6 @@ export class ConsolidationComponent implements OnInit {
         this.autocompleteSearchColumnItem()
       });
 
-    // this.getTableData('','') 
   }
 
   ngAfterViewInit() {
@@ -121,7 +120,6 @@ export class ConsolidationComponent implements OnInit {
 
   
   ApplySavedItem() {
-    //console.log('ApplySavedItem');
     if (this.currentTabDataService.savedItem[this.currentTabDataService.CONSOLIDATION])
     {
       let item= this.currentTabDataService.savedItem[this.currentTabDataService.CONSOLIDATION];
@@ -133,13 +131,11 @@ export class ConsolidationComponent implements OnInit {
       this.tableData_2 = item.tableData_2;
       this.TypeValue = item.TypeValue;
       this.dataSource = item.dataSource;
-      //this.changeTranType(item);
       return true;
     }
     return false;
   }
   RecordSavedItem() {
-    //console.log('RecordSavedItem');
     this.currentTabDataService.savedItem[this.currentTabDataService.CONSOLIDATION]= {
       open : this.open,
       completed : this.completed,
@@ -348,7 +344,6 @@ export class ConsolidationComponent implements OnInit {
 
     let IDS: any = [];
     this.tableData_1.data.forEach((row: any) => {
-      // row.lineStatus != "Not Completed" && row.lineStatus != "Not Assigned"
       if (row.lineStatus != "Not Completed" && row.lineStatus != "Not Assigned") {
         IDS.push(row.id.toString())
       }
@@ -380,7 +375,6 @@ export class ConsolidationComponent implements OnInit {
         this.tableData_2 = new MatTableDataSource(data);
         this.tableData_1.paginator = this.paginator
         this.tableData_2.paginator = this.paginator2;
-        // this.tableData_2.data.push(...z)
         this.tableData_1.data = this.tableData_1.data.filter((el) => {
           return !z.includes(el)
         })
@@ -424,7 +418,6 @@ export class ConsolidationComponent implements OnInit {
         this.tableData_2.data = this.tableData_2.data.filter((el) => {
           return !z.includes(el)
         })
-        // this.tableData_2.data = [];
         this.tableData_1.paginator = this.paginator
         this.tableData_2.paginator = this.paginator2;
       }
@@ -434,7 +427,6 @@ export class ConsolidationComponent implements OnInit {
   }
 
   verifyLine(element: any, Index?: any) {
-    // debugger
     let index: any;
     let status: any;
     let id: any;
@@ -455,7 +447,6 @@ export class ConsolidationComponent implements OnInit {
       });
     }
     else {
-      // debugger
       let payload = {
         "id": id,
         "username": this.userData.userName,
@@ -545,7 +536,6 @@ export class ConsolidationComponent implements OnInit {
   }
 
   checkVerifyType(columnIndex, val) {
-    // debugger
     let filterVal = this.filterValue
     this.filterValue = '';
     if (val != undefined) {
@@ -561,13 +551,11 @@ export class ConsolidationComponent implements OnInit {
         }
       }
     });
-    // debugger;
     return { index: index, valueCount: valueCount }
 
   }
 
   CheckDuplicatesForVerify(val) {
-    // debugger
     let columnIndex = this.startSelectFilter;
     let result: any;
     if (columnIndex == 0) {
@@ -582,7 +570,6 @@ export class ConsolidationComponent implements OnInit {
 
     // desturcturing
     const { verifyItems, blindVerifyItems } = this.consolidationIndex.cmPreferences;
-    // result.valueCount >=1 && verifyItems == 'No' && blindVerifyItems == 'No'
     if (result.valueCount >= 1 && verifyItems == 'No' && blindVerifyItems == 'No') {
       const dialogRef = this.dialog.open(CmItemSelectedComponent, {
         height: 'auto',
