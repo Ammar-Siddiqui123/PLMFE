@@ -388,11 +388,13 @@ CreateReels(){
                               // this.dialogRef.close(SNs[0]);
                             }
                         }
-                      })),
-                      (error) => {this.toastr.error(error, 'Error!', {
-                        positionClass: 'toast-bottom-right',
-                        timeOut: 2000,
-                      });}
+                        else{
+                          this.toastr.error(res.responseMessage, 'Error!', {
+                            positionClass: 'toast-bottom-right',
+                            timeOut: 2000,
+                          });
+                        }
+                      }));
                     }
             
                   }
@@ -402,8 +404,7 @@ CreateReels(){
                       timeOut: 2000,
                     });
                   }
-                }),
-                (error) => {}
+                });
 
                 
 }

@@ -578,22 +578,22 @@ export class ReprocessTransactionComponent implements OnInit {
             if(result=='Yes')
             {
               this.Api.ReprocessTransactionDelete(deletePayload).subscribe((res: any) => {
+                if (res.isExecuted){
+                  this.selectedVariable = "";
+                  this.toastr.success(labels.alert.update, 'Success!',{
+                    positionClass: 'toast-bottom-right',
+                    timeOut:2000
+                 });
     
-                this.selectedVariable = "";
-                this.toastr.success(labels.alert.update, 'Success!',{
-                  positionClass: 'toast-bottom-right',
-                  timeOut:2000
-               });
-  
-               this.getContentData("1");
-               this.getOrdersWithStatus();
-      
-          (error) => {
-            this.toastr.error('Something went wrong', 'Error!', {
-                      positionClass: 'toast-bottom-right',
-                      timeOut: 2000,
-                    });
-          }
+                 this.getContentData("1");
+                 this.getOrdersWithStatus();
+                }
+                else{
+                  this.toastr.error('Something went wrong', 'Error!', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 2000,
+                  });
+                }
         });
             }
             else 

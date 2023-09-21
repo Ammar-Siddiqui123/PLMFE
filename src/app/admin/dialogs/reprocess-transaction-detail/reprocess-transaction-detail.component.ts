@@ -128,15 +128,14 @@ export class ReprocessTransactionDetailComponent implements OnInit {
     }
 
     this.Api.SaveTransaction(payload).subscribe((res: any) => {
-
-
-      this.dialogRef.close('add');
-      this.toastr.success(labels.alert.update, 'Success!', {
-        positionClass: 'toast-bottom-right',
-        timeOut: 2000
-      });
-
-      (error) => {
+      if (res.isExecuted){
+        this.dialogRef.close('add');
+        this.toastr.success(labels.alert.update, 'Success!', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
+      }
+      else{
         this.toastr.error('Something went wrong', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000,

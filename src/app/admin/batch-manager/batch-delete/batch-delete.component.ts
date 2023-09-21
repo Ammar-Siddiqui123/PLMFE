@@ -96,7 +96,7 @@ export class BatchDeleteComponent implements OnInit {
           if (res.isExecuted && res.data.length > 0) {
             this.batchList.push('All Transaction');
             res.data.forEach((i: any) => {
-              i ? this.batchList.push(i) : '';
+              if(i) this.batchList.push(i);
             });
           }
         });
