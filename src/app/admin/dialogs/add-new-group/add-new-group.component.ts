@@ -55,9 +55,6 @@ export class AddNewGroupComponent implements OnInit {
   }
 
   alphaNumberOnly(string: any) {
-
-    //const regex: RegExp = /[!@#$%^&*()+=\[\]{};':"\\|,.<>\/?]/;
-    // const regex = "^[a-zA-Z0-9_]*$";
     if (!string.includes('=') && !string.includes('\'')) {
       return true;
     }

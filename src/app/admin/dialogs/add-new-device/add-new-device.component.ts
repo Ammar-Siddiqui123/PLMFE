@@ -98,7 +98,6 @@ export class AddNewDeviceComponent implements OnInit {
       return;
     } else {
       let item = form.value;
-      // const preferences = Object.values(form.value);
       var preferences = [
         item.zone,
         item.deviceType,
@@ -167,7 +166,6 @@ export class AddNewDeviceComponent implements OnInit {
             if (res.data != 0) {
               this.newDeviceID=res.data;
               
-              // this.item.deviceID=res.data;
               this.getDeviceInformation(res.data);
             }
             if (type === 'close') {
@@ -344,10 +342,6 @@ export class AddNewDeviceComponent implements OnInit {
         this.newDeviceForm.controls['Baud'].setValue(res.data.baudRate);
         this.newDeviceForm.controls['StopBit'].setValue(res.data.stopBit);
         this.newDeviceForm.controls['Parity'].setValue(res.data.parity);
-        // this.COMPort = res.data.hostPCComPort;
-        // this.Baud = res.data.baudRate;
-        // this.StopBit = res.data.stopBit;
-        // this.Parity = res.data.parity;
       }else{
         this.toastr.error('An Error occured while retrieving data.', 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -374,18 +368,6 @@ export class AddNewDeviceComponent implements OnInit {
 
   getCompName() {
     this.newDeviceForm.controls['workstationName'].setValue(this.userData.wsid);
-    // this.newDeviceForm.get('workstationName')?.setValue(this.userData.wsid);
-    // let payload = {
-    //   WSID: this.userData.wsid,
-    // };
-    // this.adminService.get(payload, '/Induction/CompName', true).subscribe(
-    //   (res: any) => {
-    //     if (res.data && res.isExecuted) {
-    //       this.newDeviceForm.get('workstationName')?.setValue(res.data);
-    //     }
-    //   },
-    //   (error) => {}
-    // );
   }
 
   showDPTypeFields() {
@@ -401,35 +383,19 @@ export class AddNewDeviceComponent implements OnInit {
       this.newDeviceForm.controls['deviceType'].value == 'Light Tree' &&
       this.newDeviceForm.controls['deviceModel'].value == 'IPTI'
     ) {
-      // IPTI.show();
-      // WMI.hide();
-      // Other.hide();
       shown = 'IPTI';
     } else if (this.WMIControllers.indexOf(ctype) >= 0) {
       shown = 'WMI';
       this.interFaceType = 'WMI';
       this.isEdit = true;
-      // WMI.show();
       if (ctype == 'JMIFShuttle') {
         shown += ' JMIF';
-        // JMIF.show();
-        // setup.hide();
       } else if (ctype.toLowerCase().indexOf('sapientshuttle') >= 0) {
         shown += ' SETUP';
-        // setup.show();
-        // JMIF.hide();
-      } else {
-        // setup.hide();
-        // JMIF.hide();
       }
-      // IPTI.hide();
-      // Other.hide();
     } else {
       this.interFaceType = 'Other';
       this.isEdit = true;
-      // Other.show();
-      // IPTI.hide();
-      // WMI.hide();
       shown = 'OTHER';
     }
     return shown;

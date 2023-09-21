@@ -21,7 +21,6 @@ export class AddGroupAllowedComponent implements OnInit {
   form_btn_label: string = 'Add';
   GroupName: any;
   controlNameList: any[] = [];
-  // myControl = new FormControl('');
   options: string[] = [];
   filteredOptions: Observable<any[]>;
   userData: any;

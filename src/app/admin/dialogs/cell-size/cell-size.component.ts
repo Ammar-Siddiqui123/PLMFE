@@ -100,7 +100,6 @@ export class CellSizeComponent implements OnInit {
           "wsid": this.userData.wsid,
         }
         this.api.saveCellSize(paylaod).subscribe((res) => {
-          //console.log(res);
           if (res.isExecuted) {
             this.getCellSizeList();
             this.toastr.success(labels.alert.success, 'Success!', {

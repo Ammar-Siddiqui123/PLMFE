@@ -12,7 +12,6 @@ import { ConditionalExpr } from '@angular/compiler';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface  AdjustQuantityDataStructure   {
- // invMapID : string |  '',
   itemNumber :  string |  '',
   description :  string |  '',
   location :  string |  '',
@@ -117,7 +116,6 @@ export class AdjustQuantityComponent implements OnInit {
             positionClass: 'toast-bottom-right',
             timeOut:2000
          }); 
-        //  this.dialog.closeAll(form.value.quantity);
           this.dialogRef.close(form.value.quantity);   
         }
       });

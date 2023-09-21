@@ -104,7 +104,6 @@ export class AddNewEmployeeComponent implements OnInit {
 
   initialzeEmpForm() {
     if (this.env === 'DB') {
-      // this.validatorsArray.push(this.cusValidator.customTrim);
       this.validatorsArray.push(Validators.required, this.cusValidator.customTrim)
     }
 
@@ -122,12 +121,10 @@ export class AddNewEmployeeComponent implements OnInit {
     });
   }
 ChangePassword(data){ 
-  // if(this.OldPassword == this.password) this.OldPassword = -1;
   this.password = data;
 }
   async onSubmit(form: FormGroup) {
     if (form.valid) {
-      // this.isSubmitting = true;
       this.cleanForm(form);
       form.value.active = Boolean(JSON.parse(form.value.active));
       
@@ -143,15 +140,6 @@ ChangePassword(data){
             }
           }
 
-          // this.employeeService.updateAccessGroup({"group": this.empForm.value.groupName,"Username" : this.username}).subscribe((res:any) => {
-          //   if(res.isExecuted){
-          //     this.employeeService.getAdminEmployeeDetails({"user": this.username,"wsid": "TESTWSID"}).subscribe((response: any) => { 
-          //       if(response.isExecuted){
-          //         this.functionsAllowedList = response.data.userRights;
-          //       }
-          //     });
-          //   }
-          // });
         }
           this.employeeService.updateAdminEmployee(form.value).subscribe((res: any) => {
             if (res.isExecuted) {
@@ -179,7 +167,6 @@ ChangePassword(data){
                 timeOut: 2000
               });
               
-               // this.reloadCurrentRoute();
             }
             else {
               if(response.responseMessage?.toString() === 'User already exists'){
@@ -242,15 +229,6 @@ ChangePassword(data){
       dialogRef.afterClosed().subscribe((result) => {
         if (result==='Yes') {
           this.groupChanged = true;
-          // this.employeeService.updateAccessGroup({"group": this.empForm.value.groupName,"Username" : this.username}).subscribe((res:any) => {
-          //   if(res.isExecuted){
-          //     this.employeeService.getAdminEmployeeDetails({"user": this.username,"wsid": "TESTWSID"}).subscribe((response: any) => { 
-          //       if(response.isExecuted){
-          //         this.functionsAllowedList = response.data.userRights;
-          //       }
-          //     });
-          //   }
-          // });
         }
         else{
           this.empForm.get('groupName')?.setValue(this.groupName);

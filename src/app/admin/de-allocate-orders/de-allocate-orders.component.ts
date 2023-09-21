@@ -162,7 +162,6 @@ export class DeAllocateOrdersComponent implements OnInit {
   
 
   orderItemTable(e?,isPagination=false){
-// debugger
 
     if(!this.isOrderSelected){
       if(isPagination){
@@ -195,7 +194,6 @@ export class DeAllocateOrdersComponent implements OnInit {
         })
         this.orderItemTransactions.data = res.data.openTransactions
         this.pageLength= res.data.recordsTotal
-        // this.resetpaginationTransaction()
       }))
     }
     else{
@@ -220,7 +218,6 @@ export class DeAllocateOrdersComponent implements OnInit {
       }
       this.Api.OrderItemsTable(payload).subscribe((res=>{
         res.data.openTransactions.forEach((item,i)=>{
-          // debugger
           if(this.orderNumbersList.includes(item.orderNumber)){
             res.data.openTransactions[i].isDeallocate=true
           }else{
@@ -234,7 +231,6 @@ export class DeAllocateOrdersComponent implements OnInit {
         this.dublicateTransaction =  res.data.openTransactions
         this.dublicateRecords = res.data.recordsTotal
 
-        // this.resetpaginationOrder()
         
       }))
     }
@@ -242,7 +238,6 @@ export class DeAllocateOrdersComponent implements OnInit {
   }
 
   check(e){
-    // this.orderNameList.data = []
     this.chooseSearchType = e
     this.searchedItemOrder.length = 0
     this.resetpaginationOrder()
@@ -270,7 +265,6 @@ export class DeAllocateOrdersComponent implements OnInit {
       this.pageLength= 0
       this.dublicateTransaction = []
       this.paginator.pageIndex=0;
-      // this.resetpaginationOrder()
     }
 
   }
@@ -307,7 +301,6 @@ export class DeAllocateOrdersComponent implements OnInit {
               this.orderNumbersList.length=0
                 this.getAllOrder()
                 this.orderItemTable()
-                // this.actions = ''
             }
             else{
               this.toastr.error('Order De-Allocation Not Successfull', 'Error!', {
@@ -386,8 +379,6 @@ export class DeAllocateOrdersComponent implements OnInit {
 
     this.orderItemTransactions= new MatTableDataSource<any>(this.orderItemTransactions.data);
     this.orderNameList= new MatTableDataSource<any>(this.orderNameList.data);
-    // this.orderItemTransactions.paginator = this.paginator;
-    // this.orderItemTransactions.sort = this.sort1;
 
 // for disable seleted btn
     if(this.orderNumbersList.length !=0){
@@ -403,7 +394,6 @@ export class DeAllocateOrdersComponent implements OnInit {
       if(this.dublicateTransaction.length!=0){
         this.orderItemTransactions.data = this.dublicateTransaction
         this.pageLength = this.dublicateRecords
-        // console.log(this.dublicateTransaction.length,'page lenghth')
       }
       else{
         this.orderItemTransactions.data = []
@@ -465,7 +455,6 @@ export class DeAllocateOrdersComponent implements OnInit {
 
     }
 
-    // this.getMoveItemList('MoveFrom');
   }
 
   handlePageEventTo(e: PageEvent) {
@@ -527,7 +516,6 @@ export class DeAllocateOrdersComponent implements OnInit {
     if(FilterColumnName != "" || Condition == "clear"){
       this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
       this.FilterString = this.FilterString != "" ? this.FilterString : "1=1";
-      // this.resetPagination();
       this.orderItemTable();
     }
   }

@@ -179,7 +179,6 @@ export class AddInvMapLocationComponent implements OnInit {
     } 
     this.searchItemNumbers = this.getDetailInventoryMapData.itemNumber;
 
-    //  this.itemNumberList = this.data.itemList;
 
     this.Api.getLocZTypeInvMap().subscribe((res) => {
       this.locZoneList = res.data; 
@@ -187,18 +186,10 @@ export class AddInvMapLocationComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value || '')),
       );
-      // this.filteredItemNum = this.addInvMapLocation.controls['item'].valueChanges.pipe(
-      //   startWith(''),
-      //   map(value => this._filterItemNum(value || '')),
-      // );
 
     });
 
 
-    // this.setStorage = localStorage.getItem('routeFromInduction')
-    // this.setStorage = localStorage.getItem('routeFromOrderStatus')
-    // this.routeFromIM = JSON.parse(this.setStorage)
-    // this.routeFromOM = JSON.parse(this.setStorageOM)
 
   }
 
@@ -346,7 +337,6 @@ export class AddInvMapLocationComponent implements OnInit {
       itemQuantity: new FormControl({value:this.getDetailInventoryMapData.itemQuantity || '',disabled:this.getDetailInventoryMapData.itemNumber == ''? true: false}),
       description: [this.getDetailInventoryMapData.description || ""],
       
-      // description: new FormControl({ value: this.getDetailInventoryMapData.description ? this.getDetailInventoryMapData.description : "", disabled: true }),
       cell: [this.getDetailInventoryMapData.cellSize || ''],
       velocity: [this.getDetailInventoryMapData.goldenZone || ''],
       maxQuantity: [this.getDetailInventoryMapData.maxQuantity || 0, [Validators.maxLength(9)]],
@@ -384,14 +374,7 @@ export class AddInvMapLocationComponent implements OnInit {
       this.addInvMapLocation.get("minQuantity")?.setValue("");
     }
 
-    // var max = this.addInvMapLocation.get("maxQuantity")?.value;
-    // var min = this.addInvMapLocation.get("minQuantity")?.value;
-    // if (max == "" || max == "0") {
-    //   this.addInvMapLocation.get("minQuantity")?.setValue("0");
-    // }
-    // if (min > max) {
-    //   this.addInvMapLocation.get("minQuantity")?.setValue(this.addInvMapLocation.get("maxQuantity")?.value.toString().charAt(0));
-    // }
+
   }
 
   onMaxChange($event) {

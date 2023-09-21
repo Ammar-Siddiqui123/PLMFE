@@ -34,7 +34,6 @@ export class FilterItemNumbersComponent implements OnInit {
     this.filter_text.nativeElement.focus();
   }
   filterItemNumbers() {
-    // if (this.data.trim() != "") {
       let itemsStr = this.data.trim().replace(/[\n\r]/g, ',');
       let itemsArray = itemsStr.split(',');
       itemsArray = itemsArray.filter((item: any) => item != "");
@@ -46,10 +45,6 @@ export class FilterItemNumbersComponent implements OnInit {
       }
       this.Api.FiltersItemNumInsert(payload).subscribe((res: any) => {
         if (res.isExecuted && res.data) {
-          // this.toastr.success(labels.alert.success, 'Success!', {
-          //   positionClass: 'toast-bottom-right',
-          //   timeOut: 2000
-          // });
           this.dialog.closeAll();
           this.dialogRef.close({ filterItemNumbersText: this.data, filterItemNumbersArray: itemsArray });
         } else {
@@ -60,10 +55,6 @@ export class FilterItemNumbersComponent implements OnInit {
           this.dialog.closeAll();
         }
       });
-    // }
-    // else{
-    //   this.dialog.closeAll();
-    // }
   }
 
 }

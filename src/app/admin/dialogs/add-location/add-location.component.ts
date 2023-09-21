@@ -113,7 +113,6 @@ export class AddLocationComponent implements OnInit {
     if(this.data.locationData){
       this.employeeService.updateEmployeeLocation(payload).subscribe((res:any) => {
         if(res.isExecuted){
-          // this.dialog.closeAll();
           this.dialogRef.close('update');
           this.toastr.success(labels.alert.update, 'Success!',{
             positionClass: 'toast-bottom-right',
@@ -129,7 +128,6 @@ export class AddLocationComponent implements OnInit {
     }else{
       this.employeeService.insertEmployeeLocation(payload).subscribe((res:any) => {
         if(res.isExecuted){
-          // this.dialog.closeAll();
           this.dialogRef.close('add');
           this.toastr.success(labels.alert.success, 'Success!',{
             positionClass: 'toast-bottom-right',

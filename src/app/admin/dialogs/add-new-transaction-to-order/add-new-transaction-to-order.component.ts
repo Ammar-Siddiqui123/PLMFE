@@ -62,13 +62,6 @@ export class AddNewTransactionToOrderComponent implements OnInit {
   });
   ngOnInit(): void { 
     this.autocompleteSearchColumn();
-    // if(this.itemNumber==='')return
-    // this.searchByInput
-    // .pipe(debounceTime(400), distinctUntilChanged())
-    // .subscribe((value) => {
-   
-    //   this.autocompleteSearchColumn();
-    // });
     if (this.data.mode === 'edit-transaction') {
       this.itemNumber = this.data.item.itemNumber;
       this.requiredDate =this.data.item.requiredDate? new Date(this.data.item.requiredDate):'' ;
@@ -178,9 +171,6 @@ export class AddNewTransactionToOrderComponent implements OnInit {
   }
   async autocompleteSearchColumn() {
     let searchPayload = {
-      // itemNumber: this.itemNumber,
-      // username: this.data.userName,
-      // wsid: this.data.wsid,
 
       itemNumber: this.itemNumber,
       beginItem:'---',
@@ -194,8 +184,6 @@ export class AddNewTransactionToOrderComponent implements OnInit {
         (res: any) => {
           if(res.data){
             this.searchAutocompleteList=res.data
-            // if( this.searchAutocompleteList.includes(res.data))return 
-            // this.searchAutocompleteList.push(res.data)
           }
      
         },
@@ -246,7 +234,6 @@ export class AddNewTransactionToOrderComponent implements OnInit {
                 return
               }
               let payload = {
-                // itemNum: this.data.itemNumber,
                 transQty: this.quantity.toString(),
                 reqDate: this.requiredDate ? this.requiredDate.toISOString() : '',
                 expDate: this.expirationDate ? this.expirationDate.toISOString() : '',

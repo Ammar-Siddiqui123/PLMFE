@@ -37,12 +37,6 @@ export class CloneGroupComponent implements OnInit {
     return this.cloneForm.get(fieldName)?.touched && this.cloneForm.get(fieldName)?.hasError(errorName);
   }
 
-  checkIfValid(){
-    if(this.cloneForm.controls['group_name'].value.trim() === ''){
-      // this.cloneForm.controls['group_name'].setErrors({'incorrect': true}); 
-      
-    }
-  }
   public noWhitespaceValidator(control: FormControl) {
     const isSpace = control.value.trim() === '' ? true : false;
     return isSpace ? { 'whitespace': true } : false;
