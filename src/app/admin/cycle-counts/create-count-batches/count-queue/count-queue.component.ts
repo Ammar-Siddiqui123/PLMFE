@@ -81,7 +81,6 @@ export class CCBCountQueueComponent implements OnInit {
     this.dataSource = new MatTableDataSource();
 
     this.getCountQue();
-    // this.dataSource.sort = this.sort
   }
   
   ngOnChanges(changes: SimpleChanges): void {
@@ -183,16 +182,6 @@ this.customPagination.total = 0;
   }
 
   deleteCycleCount(event) {
-    // const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-    //   height: 'auto',
-    //   width: '600px',
-    //   autoFocus: '__non_existing_element__',
-    //   data: {
-    //     mode: 'delete-cycle-count',
-    //     actionMessage: 'all records from the Queue',
-    //     action:'delete'
-    //   },
-    // });
 
         let payload = {
           userName: this.userData.userName,
@@ -249,20 +238,6 @@ this.customPagination.total = 0;
       },
       (error) => {}
     );
-    // const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-    //   height: 'auto',
-    //   width: '600px',
-    //   autoFocus: '__non_existing_element__',
-    //   disableClose:true,
-    //   data: {
-    //     mode: 'delete-cycle-count',
-    //   },
-    // });
-    // dialogRef.afterClosed().subscribe((res) => {
-    //   if (res === 'Yes') {
-      
-    //   }
-    // });
   }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;

@@ -81,8 +81,6 @@ export class BatchSelectedOrdersComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
     this.sharedService.batchManagerObserver.subscribe((obj) => {
       if (obj['isCreate']) {
         this.createBatch();
@@ -180,7 +178,6 @@ export class BatchSelectedOrdersComponent implements OnInit {
   createBatch() {
     let iBactchData: any[] = [];
     this.tableData.data.map((order: any) => {
-      // let result = [ order.orderNumber.toString(), order.countOfOrderNumber.toString()];
       let result = [
         order.orderNumber.toString(),
         this.isAutoBatch
@@ -220,18 +217,6 @@ export class BatchSelectedOrdersComponent implements OnInit {
 
   addRemoveAllOrder() {
     if (this.tableData['_data']['_value'].length == 0) return;
-    // const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-    //   height: 'auto',
-    //   width: '600px',
-    //   autoFocus: '__non_existing_element__',
-    //   data: {
-    //     mode: 'remove-batch-list',
-    //   },
-    // });
-    // dialogRef.afterClosed().subscribe((res) => {
-    //   if (res === 'Yes') {
-    //   }
-    // });
     this.addRemoveAll.emit();
   }
 

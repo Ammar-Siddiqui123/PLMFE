@@ -144,7 +144,6 @@ export class CCBCreateCountsComponent implements OnInit {
       toItem: new FormControl(''),
       description: new FormControl(''),
       category: new FormControl(''),
-      // subCategory: new FormControl({ value: '', disabled: true }),
       subCategory: new FormControl({ value: '', disabled: true }),
       notCounted: new FormControl(new Date()),
       pickedStart: new FormControl(new Date()),
@@ -193,14 +192,6 @@ export class CCBCreateCountsComponent implements OnInit {
         
         if (value === '') return;
         this.fillData();
-
-        // this.columnSearch.searchValue = value;
-        // if (!this.columnSearch.searchColumn.colDef) return;
-
-        // this.autocompleteSearchColumn();
-        // if (!this.searchAutocompleteList.length) {
-        // this.getContentData();
-        // }
       });
 
     this.descriptionTA
@@ -284,14 +275,10 @@ export class CCBCreateCountsComponent implements OnInit {
   }
   searchData() {
 
-    // this.fillData();
   }
   onSelFunc(item, event: any) {
     if (event.isUserInput) {  
-      
-    // this.filtersForm.controls.subCategory.setValue(item.transactionType);
     this.subCategory = item.subCategory;
-    // this.filtersForm.controls['category'].setValue(item.category);
     this.fillData();
     }
   }
@@ -302,7 +289,6 @@ export class CCBCreateCountsComponent implements OnInit {
      }else{
       window.open(`/#/report-view?file=PrintCycleCountReport-lst-prv|OrderNum:${this.orderNumber?this.orderNumber:''}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
 
-      // this.global.Print(`FileName:PrintCycleCountReport|OrderNum:${this.orderNumber?this.orderNumber:''}`)
 
       }
 
@@ -310,8 +296,6 @@ export class CCBCreateCountsComponent implements OnInit {
   resetVal() {
     this.filtersForm.controls['fromLocation'].setValue('');
     this.filtersForm.controls['toLocation'].setValue('');
-    // this.filtersForm.controls['includeEmpty'].setValue(false);
-    // this.filtersForm.controls['includeOther'].setValue(false);
     this.filtersForm.controls['description'].setValue('');
     this.filtersForm.controls['category'].setValue('');
     this.filtersForm.controls['subCategory'].setValue('');
@@ -327,28 +311,10 @@ export class CCBCreateCountsComponent implements OnInit {
     this.filtersForm.controls['costEnd'].setValue('');
     this.filtersForm.controls['warehouse'].setValue('');
 
-    // this.filtersForm.value.fromLocation = '';
-    // this.filtersForm.value.toLocation = '';
-    // this.filtersForm.value.includeEmpty = false;
-    // this.filtersForm.value.includeOther = false;
-    // this.filtersForm.value.description = '';
-    // this.filtersForm.value.category = '';
-    // this.filtersForm.value.subCategory = '';
-    // this.filtersForm.value.fromItem = '';
-    // this.filtersForm.value.toItem = '';
-    // this.filtersForm.value.notCounted = new Date(1 / 11 / 1111);
-    // this.filtersForm.value.pickedStart = new Date(1 / 11 / 1111);
-    // this.filtersForm.value.pickedEnd = new Date(1 / 11 / 1111);
-    // this.filtersForm.value.putStart = new Date(1 / 11 / 1111);
-    // this.filtersForm.value.putEnd = new Date(1 / 11 / 1111);
-    // this.filtersForm.value.costStart = '';
-    // this.filtersForm.value.costEnd = '';
-    // this.filtersForm.value.warehouse = '';
 
     this.fillData();
   }
   getTypeAheads(type) {
-    // debugger
     if (type === 'Description') {
       let paylaod = {
         description: this.filtersForm.value.description,
@@ -504,24 +470,6 @@ export class CCBCreateCountsComponent implements OnInit {
   // function returns an object with 18 values
   getPayload() {
     return {
-      // "fromLocation": "",
-      // "toLocation": "",
-      // "includeEmpty": true,
-      // "includeOther": true,
-      // "countType": "Description",
-      // "fromItem": "",
-      // "toItem": "",
-      // "description": "Kit Item",
-      // "category": "",
-      // "subCategory": "",
-      // "notCounted": "2023-04-12T10:54:05.127Z",
-      // "pickedStart": "2023-04-12T10:54:05.127Z",
-      // "pickedEnd": "2023-04-12T10:54:05.127Z",
-      // "putStart": "2023-04-12T10:54:05.127Z",
-      // "putEnd": "2023-04-12T10:54:05.127Z",
-      // "costStart": "",
-      // "costEnd": "",
-      // "warehouseFilter": ""
 
       fromLocation: this.filtersForm.value.fromLocation
         ? this.filtersForm.value.fromLocation
@@ -569,7 +517,6 @@ export class CCBCreateCountsComponent implements OnInit {
           : this.filtersForm.value.putEnd,
       costStart: this.filtersForm.value.costStart,
       costEnd: this.filtersForm.value.costEnd,
-      // warehouseFilter: this.filtersForm.value.warehouse,
       warehouseFilter: this.warehouse,
     };
   }
@@ -612,7 +559,7 @@ export class CCBCreateCountsComponent implements OnInit {
         pickEnd:
           this.filtersForm.value.pickedEnd === '' ||
           this.filtersForm.value.pickedEnd === null
-            ? new Date() //'1/11/1111'
+            ? new Date() 
             : this.filtersForm.value.pickedEnd,
         putAwayStart:
           this.filtersForm.value.putStart === '' ||
@@ -626,7 +573,6 @@ export class CCBCreateCountsComponent implements OnInit {
             : this.filtersForm.value.putEnd,
         costStart: this.filtersForm.value.costStart,
         costEnd: this.filtersForm.value.costEnd,
-        // warehouseFilter: this.filtersForm.value.warehouse,
         warehouseFilter: this.warehouse,
       } ;  
     this.Api.BatchResultTable(queryData).subscribe(
@@ -697,7 +643,6 @@ export class CCBCreateCountsComponent implements OnInit {
 
               this.orderNumber = '';
               // Get the orders again
-              // this.getOrders();
             } else {
               // Display an error message
               this.toastService.error('Something went wrong', 'Error!', {
@@ -717,9 +662,6 @@ export class CCBCreateCountsComponent implements OnInit {
         );
       }
     });
-  }
-  ngAfterViewInit() {
-    // this.dataSource.sort = this.sort;
   }
   insertCCQueue(ids: any) {
     var payLoad = {
@@ -808,27 +750,6 @@ export class CCBCreateCountsComponent implements OnInit {
           return value.invMapID != rowId;
         });
 
-        // let payload = {
-        //   wsid: this.userData.wsid,
-        //   invMapID: rowId.toString(),
-        // };
-        // this.Api.get(payload, `/Admin/RemoveccQueueRow`).subscribe(
-        //   (res: any) => {
-        //     if (res.isExecuted) {
-        //       this.getCountQue();
-        //     } else {
-        //       this.toastr.error(
-        //         'Error',
-        //         'An Error Occured while trying to remove this row, check the event log for more information',
-        //         {
-        //           positionClass: 'toast-bottom-right',
-        //           timeOut: 2000,
-        //         }
-        //       );
-        //     }
-        //   },
-        //   (error) => {}
-        // );
       }
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
