@@ -512,7 +512,8 @@ export class InventoryMasterComponent implements OnInit {
     });
   }
   
-  async getInvMasterDetail(itemNum: any): Promise<void> {
+  async getInvMasterDetail(itemNum: any,shouldExecute = true): Promise<void> {
+    if(!shouldExecute) return;
     let paylaod = {
       "itemNumber": itemNum,
       "username": this.userData.userName,
@@ -1099,6 +1100,7 @@ export class InventoryMasterComponent implements OnInit {
         this.PrevtabIndex = tabIndex;
         this.IstabChange = false;
       } else {
+        await this.getInvMasterDetail(this.searchValue,false);
         this.IstabChange = false;
       }
     });
