@@ -29,8 +29,6 @@
                       keyboard_arrow_right
                     </span>
                   </button>
-                  <!-- <mat-paginator>
-                  </mat-paginator> -->
                 </div>
               </div>
               
@@ -71,7 +69,6 @@
                   <div class="d-flex d-xl-block">
                   <button mat-stroked-button color="warn" class="button-remove-all bg-white mb-3 mb-xl-0"
                     (click)="clearSearchField()" style="flex:1">
-                    <!-- <mat-icon>block</mat-icon> -->
                     Clear
                   </button>
                   </div>
@@ -84,9 +81,6 @@
                     *ngIf="this.getInvMasterData?.itemQuarantined">
                     Quarantine
                   </div>
-                  <!-- <button mat-flat-button color="secondary" class="button-secondary" (click)="viewLocations()">
-                    View Item Location
-                  </button> -->
                     <div class="w-100 d-flex d-xl-block">
                         <mat-form-field class="action-dropdown custom-form-field-bg-white float-end" appearance="outline" style="flex:1">
                             <mat-label>Actions</mat-label>
@@ -104,15 +98,6 @@
                     </div>
                 </div>
                 <div class="d-flex gap-12">
-                  <!-- <button mat-flat-button color="primary" class=" mat-button-icon" (click)="openAddItemDialog()">
-                  <span class="material-symbols-outlined">
-                    add
-                  </span>
-                </button> -->
-                  <!-- <button mat-flat-button color="secondary" class="button-secondary" (click)="viewLocations()">
-                  <mat-icon>clear_all</mat-icon>
-                  View Item Location
-                </button> -->
                 </div>
               </div>
             </div>
@@ -159,21 +144,6 @@
 
         </mat-card>
         <div class="d-flex gap-20 justify-content-end py-3">
-          <!-- <button mat-stroked-button color="danger" class=" button-warn btn-lg" (click)="deleteItem($event)"
-            [disabled]="!(this.currentPageItemNo)">
-            Delete
-          </button> -->
-          <!-- <button mat-flat-button color="secondary" class="button-secondary btn-lg" (click)="openAddItemDialog()">
-            Add New Item
-          </button> -->
-          <!-- <button *ngIf="invMaster.controls['itemQuarantined'].value == 0" mat-flat-button color="secondary"
-            class="button-secondary btn-lg" (click)="quarantineDialog()">
-            Quarantine Item
-          </button> -->
-          <!-- <button *ngIf="invMaster.controls['itemQuarantined'].value == 1" mat-flat-button color="primary"
-            class="button-secondary btn-lg" (click)="unquarantineDialog()">
-            Un-Quarantine Item
-          </button> -->
           <button [disabled]="saveDisabled" style="flex:1" mat-flat-button color="primary" class="btn-lg"
             (click)="updateInventoryMaster()">
             Save
