@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -39,17 +39,17 @@ export class AddZoneComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.form_heading = this.data?.mode === 'edit-zone' ? 'Edit Zone' : 'Update Zone';
-    this.form_btn_label = this.data?.mode === 'edit-zone' ? 'Update' : 'Add';
-    this.fetchedZones=this.data?.fetchedZones;
-    this.editZoneName=this.data?.fetchedZones;
+    const isEditMode = this.data?.mode === 'edit-zone';
+    this.form_heading = isEditMode ? 'Edit Zone' : 'Update Zone';
+    this.form_btn_label = isEditMode ? 'Update' : 'Add';
+    this.fetchedZones = this.data?.fetchedZones;
+    this.editZoneName = this.data?.fetchedZones;
     this.initialzeEmpForm();
     this.filteredOptions = this.addZoneForm.controls['zoneList'].valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
+        startWith(''),
+        map(value => this._filter(value || '')),
     );
-
-  }
+}
 
   ngAfterViewInit() {
     if (this.data.mode === 'edit-zone') {

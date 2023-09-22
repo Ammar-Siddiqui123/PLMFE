@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup } from '@angular/forms';
 import labels from '../../../labels/labels.json';
 import { FloatLabelType } from '@angular/material/form-field';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ItemExistGenerateOrderComponent } from '../item-exist-generate-order/item-exist-generate-order.component';
 import { EmptyFieldsComponent } from '../empty-fields/empty-fields.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
@@ -191,7 +191,7 @@ export class AddNewTransactionToOrderComponent implements OnInit {
       );
   }
   getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+    return this.floatLabelControl.value ?? 'auto';
   }
 
   saveTransaction() {
@@ -265,9 +265,9 @@ export class AddNewTransactionToOrderComponent implements OnInit {
              
               // TransactionForOrderInsert
               if (this.data.mode === 'add-trans') {
-                (payload['orderNumber'] = this.data.orderNumber),
-                  (payload['transType'] = this.data.transactionType),
-                  (payload['itemNum'] = this.itemNumber);
+                  payload['orderNumber'] = this.data.orderNumber;
+                  payload['transType'] = this.data.transactionType;
+                  payload['itemNum'] = this.itemNumber;
               } else {
                 payload['itemNum'] = this.data.item.itemNumber;
                 payload['id'] = this.data.item.id;

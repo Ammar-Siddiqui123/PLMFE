@@ -4,13 +4,13 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { ToastrService } from 'ngx-toastr'; 
 import { SpinnerService } from '../../../../app/init/spinner.service';
 import labels from '../../../labels/labels.json';
-import { Api } from 'datatables.net';
+import {  } from 'datatables.net';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-add-location',
   templateUrl: './add-location.component.html',
-  styleUrls: ['./add-location.component.scss']
+  styleUrls: []
 })
 export class AddLocationComponent implements OnInit {
   @ViewChild('start_location') start_location: ElementRef;
