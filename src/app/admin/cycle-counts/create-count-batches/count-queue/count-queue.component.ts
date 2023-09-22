@@ -14,9 +14,6 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr'; 
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { DeleteConfirmationTransactionComponent } from 'src/app/admin/dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
-import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
-import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
@@ -146,11 +143,7 @@ this.customPagination.total = 0;
     dialogRef.afterClosed().subscribe((res) => {
       
       if (res==='Yes') {
-        let payload = {
-          userName: this.userData.userName,
-          wsid: this.userData.wsid,
-          appName: 'Cycle Count',
-        };
+       
        
         this.Api.CreateCountRecords().subscribe(
           (response: any) => {
@@ -176,18 +169,13 @@ this.customPagination.total = 0;
           },
           (error) => {}
         );
-      } else {
-      }
+      } 
     });
   }
 
   deleteCycleCount(event) {
 
-        let payload = {
-          userName: this.userData.userName,
-          wsid: this.userData.wsid,
-          appName: 'Cycle Count',
-        };
+      
 
         this.Api.RemoveccQueueAll().subscribe(
           (response: any) => {

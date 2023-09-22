@@ -12,7 +12,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-global-config-set-sql',
   templateUrl: './global-config-set-sql.component.html',
-  styleUrls: ['./global-config-set-sql.component.scss'],
+  styleUrls: [],
 })
 export class GlobalConfigSetSqlComponent implements OnInit {
   @ViewChild('user_name') user_name: ElementRef;
