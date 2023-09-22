@@ -1,7 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -19,15 +18,12 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import {
   FormGroup,
   FormControl,
-  FormArray,
   FormBuilder,
-  Validators,
 } from '@angular/forms';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { FloatLabelType } from '@angular/material/form-field';
-import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { GlobalService } from 'src/app/common/services/global.service';
@@ -577,7 +573,7 @@ export class CCBCreateCountsComponent implements OnInit {
       } ;  
     this.Api.BatchResultTable(queryData).subscribe(
       (res: any) => {
-        if (res && res.data && res.isExecuted) {
+        if (res?.data && res.isExecuted) {
           this.dataSource = new MatTableDataSource(res.data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -623,7 +619,7 @@ export class CCBCreateCountsComponent implements OnInit {
       ;
 
       if (res == 'Yes') {
-        var payLoad = {
+        const payLoad = {
           orderNumber: this.orderNumber,
           ident: ident,
           username: this.userData.userName,
@@ -664,7 +660,7 @@ export class CCBCreateCountsComponent implements OnInit {
     });
   }
   insertCCQueue(ids: any) {
-    var payLoad = {
+    const payLoad = {
       InvMapIDs: ids,
       username: this.userData.username,
       wsid: this.userData.wsid,
@@ -706,7 +702,7 @@ export class CCBCreateCountsComponent implements OnInit {
               invMapIDs.push(element.invMapID);
 
               if (invMapIDs.length == 1000) {
-                var payLoad = {
+                const payLoad = {
                   InvMapIDs: invMapIDs,
                   username: this.userData.username,
                   wsid: this.userData.wsid,
@@ -767,7 +763,7 @@ export class CCBCreateCountsComponent implements OnInit {
   }
 
   getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+    return this.floatLabelControl.value ?? 'auto';
   }
 
   ngOnDestroy() {

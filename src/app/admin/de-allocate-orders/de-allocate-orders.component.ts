@@ -4,7 +4,7 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort} from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ToastrService } from 'ngx-toastr';
 import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/delete-confirmation.component';
@@ -13,7 +13,6 @@ import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.ser
 import { SharedService } from 'src/app/services/shared.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { BaseService } from 'src/app/services/base-service.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
@@ -367,13 +366,13 @@ export class DeAllocateOrdersComponent implements OnInit {
     
     this.orderItemTransactions.data.forEach((item,i)=>{
       if(item.orderNumber===order){
-        this.orderItemTransactions.data[i].isDeallocate=event.checked?true:false
+        this.orderItemTransactions.data[i].isDeallocate=event.checked;
       }
     })
 
     this.orderNameList.data.forEach((item,i)=>{
       if(item.name===order){
-        this.orderNameList.data[i].isChecked=event.checked?true:false
+        this.orderNameList.data[i].isChecked=event.checked;
       }
     })
 
