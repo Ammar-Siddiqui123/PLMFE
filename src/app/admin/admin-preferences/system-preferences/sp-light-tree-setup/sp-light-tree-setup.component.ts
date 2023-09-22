@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -6,11 +6,11 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './sp-light-tree-setup.component.html',
   styleUrls: []
 })
-export class SpLightTreeSetupComponent  {
+export class SpLightTreeSetupComponent{
 
   constructor(private dialog: MatDialog) { }
 
-  
+
 
   ELEMENT_DATA: any[] =[
 
