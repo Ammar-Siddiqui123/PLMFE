@@ -5,14 +5,6 @@
         <mat-icon class="close-icon">close</mat-icon>
     </button>
 </div>
-
-<!-- <div class="d-flex gap-12 my-4 justify-content-end">
-    <button mat-flat-button color="primary" class="add-icon-button" (click)="addVLRow($event)" [disabled]="allZoneList.length >= 1">
-        <span class="material-symbols-outlined">
-            add
-        </span>
-    </button>
-</div> -->
 <div class="row my-2 align-items-center">
     <div class="col-xl-8">
         <mat-form-field class="custom-form-field w-100" appearance="outline">
@@ -85,10 +77,6 @@
                                                 [disabled]="vlcode.isSaved">
                                         </mat-form-field>
                                         <div class="d-flex gap-12">
-                                            <!-- <button *ngIf="!vlcode.isSaved" mat-flat-button color="primary"
-                                                class="xsm-icon-button" (click)="saveVlCode(vlname.value, vlcode)">
-                                                <mat-icon class="material-symbols-outlined">save</mat-icon>
-                                            </button> -->
                                             <button mat-flat-button color="warn" class="xsm-icon-button"
                                                 (click)="delete(vlname.value);">
                                                 <mat-icon class="material-symbols-outlined">close</mat-icon>
