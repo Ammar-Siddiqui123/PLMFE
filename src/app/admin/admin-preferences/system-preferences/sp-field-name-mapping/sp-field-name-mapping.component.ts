@@ -5,7 +5,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-sp-field-name-mapping',
   templateUrl: './sp-field-name-mapping.component.html',
-  styleUrls: ['./sp-field-name-mapping.component.scss']
+  styleUrls: []
 })
 export class SpFieldNameMappingComponent implements OnInit {
   public userData: any;
@@ -31,7 +31,7 @@ export class SpFieldNameMappingComponent implements OnInit {
     })
   }
   public FieldNameSave() { 
-    var payload :any = {
+    const payload :any = {
       "itemAlias": this.columns?.itemNumber?this.columns?.itemNumber:'',
       "uomAlias": this.columns?.unitOfMeasure? this.columns?.unitOfMeasure:'',
       "ufs": [

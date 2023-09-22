@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table'; 
@@ -83,7 +82,7 @@ export class SpDevicePreferenceComponent implements OnInit {
     .subscribe((res: any) => {
       console.log(res);
 
-      if (res && res?.data?.devicePreferences) {
+      if (res?.data?.devicePreferences) {
         this.dataSource = new MatTableDataSource(res.data.devicePreferences);
         this.customPagination.total = res.data?.recordsFiltered;
       }
