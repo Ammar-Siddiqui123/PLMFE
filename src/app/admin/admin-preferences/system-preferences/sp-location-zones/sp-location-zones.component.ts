@@ -36,7 +36,7 @@ export class SpLocationZonesComponent implements OnInit {
   }
   
   test(zone:any){
-    if(zone.allocable == true && zone.kanbanZone == true){
+    if(zone.allocable  && zone.kanbanZone ){
       let dialogRef = this.dialog.open(KanbanZoneAllocationConflictComponent, {
         height: 'auto',
         width: '56vw',
@@ -168,10 +168,7 @@ export class SpLocationZonesComponent implements OnInit {
   parentZones:any = [];
   getLocationZones() {
 
-    let payload = {
-      'username': this.userData.userName,
-      "wsid": this.userData.wsid
-    }
+    
     this.Api.LocationZone().subscribe((res => {
       this.locationzone = [];
       res.data.forEach((zone: any, i) => {
@@ -251,10 +248,8 @@ export class SpLocationZonesComponent implements OnInit {
       const isNumberExist = (item, parentzone) => {
         return parentzone.some(element => element === item);
       }; 
-      if (isNumberExist(item, parentzone)){
+      if (!isNumberExist(item, parentzone)){
  
-      }
-      else{
         this.parentZones.push(item) 
       }
     }
