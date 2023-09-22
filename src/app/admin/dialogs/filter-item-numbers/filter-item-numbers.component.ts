@@ -1,14 +1,13 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import labels from '../../../labels/labels.json';
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-filter-item-numbers',
   templateUrl: './filter-item-numbers.component.html',
-  styleUrls: ['./filter-item-numbers.component.scss']
+  styleUrls: []
 })
 export class FilterItemNumbersComponent implements OnInit {
   @ViewChild('filter_text') filter_text: ElementRef;
