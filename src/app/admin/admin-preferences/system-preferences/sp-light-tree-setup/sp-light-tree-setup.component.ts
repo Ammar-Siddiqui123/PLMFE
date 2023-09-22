@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-sp-light-tree-setup',
   templateUrl: './sp-light-tree-setup.component.html',
-  styleUrls: ['./sp-light-tree-setup.component.scss']
+  styleUrls: []
 })
 export class SpLightTreeSetupComponent implements OnInit {
 
