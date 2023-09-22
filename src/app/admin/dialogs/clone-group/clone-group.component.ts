@@ -9,7 +9,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-clone-group',
   templateUrl: './clone-group.component.html',
-  styleUrls: ['./clone-group.component.scss']
+  styleUrls: []
 })
 export class CloneGroupComponent implements OnInit {
   @ViewChild('grp_name') grp_name: ElementRef;
@@ -38,8 +38,7 @@ export class CloneGroupComponent implements OnInit {
   }
 
   public noWhitespaceValidator(control: FormControl) {
-    const isSpace = control.value.trim() === '' ? true : false;
-    return isSpace ? { 'whitespace': true } : false;
+    return control.value.trim() === '' ? { 'whitespace': true } : false;
   }
 
   onSend(form: any) {
