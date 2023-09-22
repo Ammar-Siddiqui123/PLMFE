@@ -151,7 +151,6 @@
                     <mat-form-field class="w-100 custom-form-field mb-3" appearance="outline">
                         <mat-label>Expiration Date</mat-label>
     
-                        <!-- <input type="text" aria-label="Search" matInput [(ngModel)]="this.oTTempUpdatePayload.expirationDate"> -->
     
                         <input matInput [value]="this.oTTempUpdatePayload.expirationDate" [(ngModel)]="this.oTTempUpdatePayload.expirationDate" 
                         [matDatepicker]="expirationDate" (dateChange)="onDateChange($event.value.toISOString(),'expirationDate')">
