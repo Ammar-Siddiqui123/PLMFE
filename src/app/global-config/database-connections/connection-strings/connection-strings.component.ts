@@ -62,13 +62,11 @@ export class ConnectionStringsComponent implements OnInit {
         this.connectionStringData[index].isButtonDisable = true;
       } else {
         this.connectionStringData[index].isButtonDisable = false;
-        // this.connectionStringData[index].isSqlButtonDisable = false;
       }
     } else if(   item.connectionName == '' ||
     item.databaseName == '' ||
     item.serverName == '')  {
       this.connectionStringData[index].isButtonDisable = true;
-      // this.connectionStringData[index].isSqlButtonDisable = false;
     }else{
       this.connectionStringData[index].isButtonDisable = false;
 
@@ -81,49 +79,14 @@ export class ConnectionStringsComponent implements OnInit {
 
         if(i!=index){
         if(el.connectionName===item.connectionName){
-          // this.connectionStringData[index].isDuplicate=true
           this.duplicateIndex=true
         }else{
           this.duplicateIndex=false
       
         }
-        // else if(el.connectionName!=item.connectionName){
-        //   this.connectionStringData[i].isDuplicate=false;
-      
-        // }
       }
     })
 
-    
-
-
-
-
-    // this.connectionStringData.map((el,i)=>{
-    //   // if(i!=index){
-        
-    //     if(el.connectionName===item.connectionName && i === index && !this.duplicateIndex){
-    //       // this.connectionStringData[index].isDuplicate=true;
-    //       indexesToShow.push(i);
-    //       this.duplicateIndex = i;
-          
-    //     }
-    //     else{
-    //       // this.connectionStringData[index].isDuplicate=false;
-    //       indexesToHide.push(i);
-    //       if(this.duplicateIndex != undefined && this.duplicateIndex === i){
-    //           this.duplicateIndex = undefined;
-    //     }}
-    //   // } else{
-    //   //   indexesToHide.push(i);
-    //   // }
-    // });
-    // indexesToShow.forEach(x => {
-    //   this.connectionStringData[x].isDuplicate = true;      
-    // });
-    // indexesToHide.forEach(x => {
-    //   this.connectionStringData[x].isDuplicate = false;
-    // });
     
     if(!this.duplicateIndex){
     

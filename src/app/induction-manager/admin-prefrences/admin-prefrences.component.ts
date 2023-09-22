@@ -413,7 +413,6 @@ export class AdminPrefrencesComponent implements OnInit {
         }
 
         if(values.defaultSuperBatchSize<2){
-          // this.preferencesForm.get('defaultSuperBatchSize')?.setValue(2);
           this.toast.error('Default Super Batch Size must be greater than 1', 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000,
@@ -455,9 +454,7 @@ export class AdminPrefrencesComponent implements OnInit {
       this.Api.DynamicMethod(payLoad, endPoint).subscribe(
         (res: any) => {
           if (res.data && res.isExecuted) {
-            // if(endPoint == '/Induction/imprintsettings'){
               this.global.updateImPreferences()
-            // }
             this.toast.success(labels.alert.update, 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,
@@ -484,8 +481,6 @@ export class AdminPrefrencesComponent implements OnInit {
 
           this.preferencesForm.get('inductionLocation')?.setValue(res.data);
           this.updatePreferences(3);
-          // this.preferencesForm.get('inductionLocation')?.enable();
-          // this.trackIndIsDisable=false;
           this.toast.success(labels.alert.update, 'Success!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000,
@@ -515,9 +510,6 @@ export class AdminPrefrencesComponent implements OnInit {
     if (parseInt(value) > 2147483647) {
       value = value.substr(0, 10);
     } 
-    // if (value === '') {
-    //   value = '0';
-    // }
     inputElement.value = value;
   }
 
@@ -527,9 +519,6 @@ export class AdminPrefrencesComponent implements OnInit {
     if (parseInt(value) > 2147483647) {
       value = value.substr(0, 309);
     }
-    // if (value === '') {
-    //   value = '0';
-    // }
     inputElement.value = value;
   }
 

@@ -47,14 +47,6 @@ export class OmPreferencesComponent implements OnInit {
           return;
         }
       );
-
-    // this.filtersForm.valueChanges
-    //   .pipe(debounceTime(500))
-    //   .subscribe((newValues) => {
-
-    //       this.setPreferences();
-
-    //   });
   }
   restrictTo10Digits(event: KeyboardEvent): void {
     debugger
@@ -127,7 +119,6 @@ export class OmPreferencesComponent implements OnInit {
     }
 
     let payload = {
-      // maxOrders: this.filtersForm.controls['maxOrder'] && this.filtersForm.controls['maxOrder'].value && this.filtersForm.controls['maxOrder'].value>2147483647?this.removeLastDigit(this.filtersForm.controls['maxOrder'].value):this.filtersForm.controls['maxOrder'].value ,
       maxOrders: maxOrderRem !=null ? maxOrderRem : 1,
       allowInProc: this.filtersForm.controls['allowInProcOrders'].value,
       allowPartRel: this.filtersForm.controls['allowIndivdOrders'].value,

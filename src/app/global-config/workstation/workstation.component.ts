@@ -43,7 +43,6 @@ export class WorkstationComponent implements OnInit {
   }
   async radioChange(item) {
     this.wsid = item.wsid;
-    // this.filter['property'] = event.value;
     this.selectedItem = item;
 
     await this.getCanAccessList(this.selectedItem.wsid);
@@ -113,14 +112,6 @@ export class WorkstationComponent implements OnInit {
       this.getAppLicense();
     }
   }
-
-  // convertLicAppToObj(app,canAccess,defApp) {
-  //   const modifiedLicApp= app.map((item) => {
-  //      return { appName: item, canAccess: false, defaultApp: false };
-  //    });
-  //    return modifiedLicApp
-  //  }
-
 
   clearMatSelectList(){
     this.matRef.options.forEach((data: MatOption) => data.deselect());

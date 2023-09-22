@@ -86,8 +86,6 @@ export class EventLogComponent implements OnInit {
     this.userData = this.authService.userData();
     this.startDate = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
     this.endDate = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
-    // console.log(this.startDate);
-    // console.log(this.endDate);
     this.eventLogTable();
   }
 
@@ -343,7 +341,6 @@ export class EventLogComponent implements OnInit {
   }
 
   clear(){
-    // this.message = ''
     this.eventLogTable(true);
   }
 }

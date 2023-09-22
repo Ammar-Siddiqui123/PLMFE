@@ -74,9 +74,7 @@ export class AuthService {
   }
 
   isAuthorized(perm:any){
-    // console.log(this.userPermission());
     return this.userPermission()?.includes(perm)
-    // console.log(this.userPermission().includes('Admin Menu'))
   }
   isAllowedUrl(){
     

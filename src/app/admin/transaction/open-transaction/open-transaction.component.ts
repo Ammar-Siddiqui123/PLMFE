@@ -3,7 +3,6 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { AuthService } from 'src/app/init/auth.service';
 import {
   ITransactionModelIndex,
-  OpenTransactionResponse,
 } from 'src/app/interface/transaction'; 
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 

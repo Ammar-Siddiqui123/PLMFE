@@ -61,15 +61,6 @@ export class ToteTransactionManagerComponent implements OnInit {
   userData: any;
   searchAutocompletBatchPick: any = [];
   imPreferences:any;
-  // displayedColumns: string[] = [
-  //   'batch_id',
-  //   'pos_no',
-  //   'tote_id',
-  //   'zone',
-  //   'trans_type',
-  //   'host_trans_id',
-  //   'action',
-  // ];
   public displayedColumns: string[] = [
     'batchPickID',
     'filterCount',
@@ -150,7 +141,6 @@ export class ToteTransactionManagerComponent implements OnInit {
           dialogRef.afterClosed().subscribe((res) => {
             if (res.isExecuted) {
               this.getToteTrans()
-              // this.getTransactionTable();
             }
           });
         } else {
@@ -176,24 +166,6 @@ export class ToteTransactionManagerComponent implements OnInit {
           // Clear tote info
         }
   }
-
-  // getToteTrans() {
-  //   let payload = {
-  //     userName: this.userData.userName,
-  //     wsid: this.userData.wsid,
-  //     batchID: this.batchId?this.batchId:'',
-  //     startRow: 0,
-  //     endRow: 0,
-  //     sortCol: this.sortCol,
-  //     sortOrder: this.sortOrder,
-  //     filter: '1=1',
-  //   };
-  //   this.toteService
-  //     .getAll('/Induction/SelectToteTransManTable',payload,true)
-  //     .subscribe((res: any) => {
-  //       this.dataSource = new MatTableDataSource(res?.data);
-  //     });
-  // }
   
  getToteTrans() {  
     let payload = {
@@ -214,8 +186,7 @@ export class ToteTransactionManagerComponent implements OnInit {
   }
 
   async autocompleteSearchColumn() {
-    // debugger
-    let searchPayload = {
+   let searchPayload = {
       batchID:this.batchId
     };
     this.Api
@@ -250,16 +221,11 @@ export class ToteTransactionManagerComponent implements OnInit {
 
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
-    // this.customPagination.startIndex =  e.pageIndex
-    this.startRow = e.pageSize * e.pageIndex;
+   this.startRow = e.pageSize * e.pageIndex;
 
     this.endRow = e.pageSize * e.pageIndex + e.pageSize;
-    // this.length = e.length;
-    this.recordsPerPage = e.pageSize;
-    // this.pageIndex = e.pageIndex;
-
-    // this.initializeApi();
-    this.getToteTrans();
+   this.recordsPerPage = e.pageSize;
+   this.getToteTrans();
   }
 
 
@@ -328,14 +294,12 @@ export class ToteTransactionManagerComponent implements OnInit {
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, "clear", Type);
     this.FilterString = this.filterService.onContextMenuCommand(SelectedItem, FilterColumnName, Condition, Type);
     this.FilterString = this.FilterString != "" ? this.FilterString : "1 = 1";
-    // this.resetPagination();
     this.getToteTrans();
   }
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   resetPagination() {
     this.startRow = 0;
-    // this.tablePayloadObj.length = 10;
     this.paginator.pageIndex = 0;
   }
 

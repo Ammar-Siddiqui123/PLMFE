@@ -29,31 +29,6 @@ export class OrderManagerComponent implements OnInit {
     private router: Router,
     private global:GlobalService
   ) {
-
-  //   router.events
-  //   .pipe(
-  //     filter((evt: any) => evt instanceof RoutesRecognized),
-  //     pairwise()
-  //   )
-  //   .subscribe((events: RoutesRecognized[]) => {
-  //     const prevRoute= events[0].urlAfterRedirects.split('/');
-  //     const nextRoute = events[1].urlAfterRedirects.split('/');
-
-  // console.log(prevRoute[1],nextRoute[1]);
-   
-  //     // if (events[0].urlAfterRedirects == '/InductionManager' || events[1].urlAfterRedirects == '/InductionManager') {
-  
-  //     if(prevRoute[1]== 'OrderManager' || nextRoute[1] == 'OrderManager'){
-  //       localStorage.setItem('routeFromOrderStatus','true')
-  //     }
-  //     else{
-  //       localStorage.setItem('routeFromOrderStatus','false')
-  //       // this.showReprocess=true;
-  //       // this.showReprocessed=true;
-  //     }
-      
-  //   });
-
         this.router.events.subscribe((event) => {
           if (event instanceof NavigationEnd) {
 

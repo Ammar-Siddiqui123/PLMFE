@@ -35,9 +35,6 @@ export class IeTransferSettingsComponent implements OnInit {
     }
     this.hideDelete=JSON.parse(this.isDeleteVisible);
 
-
-  // ngOnInit(): void {
-
   }
   IeImportAllDialog(){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -50,7 +47,6 @@ export class IeTransferSettingsComponent implements OnInit {
   }
 
   retunrToPrev() {
-    // this.back.emit('back');
     this.showFilter = !this.showFilter;
   }
 }

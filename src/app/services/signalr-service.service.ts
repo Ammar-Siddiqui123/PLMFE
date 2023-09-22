@@ -14,7 +14,6 @@ export class SignalrServiceService {
   connect() {
     if (!this.hubConnection) {
       this.hubConnection = new signalR.HubConnectionBuilder()
-                              //.configureLogging(signalR.LogLevel.Debug)
                               .withUrl(environment.apiUrl +
                                 '/GlobalConfig/ConnectedUser')
                               .build();
@@ -36,7 +35,6 @@ export class SignalrServiceService {
     disconnect() {
       if (this.hubConnection) {
         this.hubConnection.stop();
-        //this.connection = null;
       }
     }
     

@@ -17,9 +17,6 @@ export class WrvFrontendComponent implements OnInit {
     this.sharedService.updateMenuState(true)
   }
   ngOnInit(): void {
-    // let appd=JSON.parse(localStorage.getItem('availableApps') || '');
-    // this.sharedService.setMenuData(appd);
-   
     this.sharedService.updateLoadMenuFunction({route:localStorage?.getItem('reportNav'),isBackFromReport:false})
     var filename = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('file')),

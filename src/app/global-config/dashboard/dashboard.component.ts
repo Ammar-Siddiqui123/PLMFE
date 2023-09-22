@@ -20,7 +20,6 @@ export class GlobalDashboardComponent implements OnInit {
     if (!appData) {
       this.getAppLicense();
     }
-    // this.getAppLicense();
   }
 
   sideBarToggler() {

@@ -27,11 +27,6 @@ export class InductionManagerComponent implements OnInit {
       .subscribe((events: RoutesRecognized[]) => {
         const prevRoute= events[0].urlAfterRedirects.split('/');
         const nextRoute = events[1].urlAfterRedirects.split('/');
-
-    
-    
-        // debugger;
-        // if (events[0].urlAfterRedirects == '/InductionManager' || events[1].urlAfterRedirects == '/InductionManager') {
     
         if (prevRoute[1]== 'InductionManager' || nextRoute[1] == 'InductionManager') {
           localStorage.setItem('routeFromInduction','true')
@@ -62,10 +57,7 @@ export class InductionManagerComponent implements OnInit {
     });
   }
 
-  updateMenu(menu = '', route = ''){
-    // if (menu == 'transaction-admin') {
-    //   this.sharedService.updateInductionAdminMenu(menu);
-    // }    
+  updateMenu(menu = '', route = ''){  
     this.sharedService.updateInductionAdminMenu({menu , route});
 
   }

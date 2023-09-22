@@ -105,8 +105,8 @@ export class OmOrderManagerComponent implements OnInit {
     { colHeader: "label", colDef: "Label" },
     { colHeader: "cell", colDef: "Cell" },
   ];
-  displayedColumns  : string[] = []; // ['orderNo', 'priority', 'requiredDate', 'uf1', 'uf2', 'uf3', 'actions']; 
-  orderTable        : any = new MatTableDataSource([]);  // ['10','10','10','10','10','10'];
+  displayedColumns  : string[] = []; 
+  orderTable        : any = new MatTableDataSource([]); 
   customPagination  : any = {
                               total : '',
                               recordsPerPage : 20,
@@ -135,7 +135,6 @@ export class OmOrderManagerComponent implements OnInit {
   @ViewChild('btnRef') buttonRef: MatButton;
 
   ngAfterViewInit() {
-  //  this.buttonRef.focus();
   this.getColumnSequence();
   this.ApplySavedItem();
   }
@@ -185,7 +184,6 @@ export class OmOrderManagerComponent implements OnInit {
         this.displayedColumns = res.data;        
         this.displayedColumns.push( 'actions');
         
-        // this.colList = structuredClone(res.data.filter(x => x != 'actions'));// structuredClone causing iPad issue in dropdown 
         this.colList = res.data.filter(x => x != 'actions');
         this.colList = this.colList.sort();
         this.searchCol = this.colList[0];
@@ -418,10 +416,6 @@ export class OmOrderManagerComponent implements OnInit {
   }
 
   releaseViewed() {
-    // debugger;
-    // console.log(this.OMIndex.preferences[0].allowPartRel)
-    // console.log(this.totalRecords)
-    // console.log(this.FilterString)
     if (this.orderTable.data.length == 0) {
       this.toastr.error("No Transactions match your current filters to release.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
       return
@@ -552,11 +546,7 @@ export class OmOrderManagerComponent implements OnInit {
       }
     }
     this.RecordSavedItem();
-    // let area = document.getElementById('focusFeild');
-    // area?.click();
-    // this.focusFeild.focus();
   }
-  // @ViewChild('focusFeild') focusFeild: MatSelect;
 
   openOmCreateOrders() { 
     let dialogRef = this.dialog.open(OmCreateOrdersComponent, { 
@@ -650,8 +640,6 @@ export class OmOrderManagerComponent implements OnInit {
       window.open(`/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
 
     }
-    // window.location.href = `/#/report-view?file=FileName:PrintReleaseOrders|tabIDs:|View:${this.viewType}|Table:${this.orderType}|Page:${'Order Manager'}|WSID:${this.userData.wsid}`;
-    // window.location.reload();
   }
 
 

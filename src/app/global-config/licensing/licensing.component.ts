@@ -112,12 +112,10 @@ export class LicensingComponent implements OnInit {
   }
   onInputValueChange(event, item, index) {
     this.dataSource.filteredData[index]['isButtonDisable'] = false;
-    // this.connectionStringData[index].isSqlButtonDisable = false;
   }
   convertToObj() {
     const arrayOfObjects: any = [];
     for (const key of Object.keys(this.licAppData)) {
-      // arrayOfObjects.push({ key, value: this.licAppData[key] });
       arrayOfObjects.push({
         appname: this.licAppData[key].info.name,
         displayname: this.licAppData[key].info.displayName,

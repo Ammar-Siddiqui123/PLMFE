@@ -36,8 +36,6 @@ export class ChangePasswordComponent implements OnInit {
   }
   onSend(form: FormGroup) {
 
-    // console.log(form.value);
-
     if (form.value.old_password.toLowerCase() === form.value.new_password.toLowerCase()) {
       this.toastr.error('You aren\'t changing your password. You\'re re-entering your password', 'Error!', {
         positionClass: 'toast-bottom-right',
@@ -64,7 +62,6 @@ export class ChangePasswordComponent implements OnInit {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
-          // this.dialogRef.close();
         }
       })
     }
