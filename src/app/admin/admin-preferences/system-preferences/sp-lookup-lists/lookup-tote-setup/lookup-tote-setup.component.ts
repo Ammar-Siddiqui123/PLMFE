@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, of } from 'rxjs';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
@@ -11,7 +10,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-lookup-tote-setup',
   templateUrl: './lookup-tote-setup.component.html',
-  styleUrls: ['./lookup-tote-setup.component.scss']
+  styleUrls: []
 })
 export class LookupToteSetupComponent implements OnInit {
 
@@ -61,7 +60,7 @@ export class LookupToteSetupComponent implements OnInit {
   }
 
   check(toteID,ind){
-    for (let i = 0; i < this.OldtableData.length; i++) {
+    for(let i = 0; i < this.OldtableData.length; i++) {
       if(this.OldtableData[i].toteID == toteID) {
         this.tableData[ind].IsDisabled = true;
         this.toastr.error(`Tote must be unique. Another entry matches it. Please save any pending totes and try again.`, 'Error!', {
@@ -97,9 +96,6 @@ export class LookupToteSetupComponent implements OnInit {
           positionClass: 'toast-bottom-right',
           timeOut: 2000,
         });
-      }
-      else{
-       
       }
     }))
 
