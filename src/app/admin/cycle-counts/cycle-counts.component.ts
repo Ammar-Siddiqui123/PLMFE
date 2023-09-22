@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,12 +6,9 @@ import { Router } from '@angular/router';
   templateUrl: './cycle-counts.component.html',
   styleUrls: ['./cycle-counts.component.scss']
 })
-export class CycleCountsComponent implements OnInit {
+export class CycleCountsComponent {
 
   constructor(private router: Router) { }
-
-  ngOnInit(): void {
-  }
   createTransaction(){
     this.router.navigate(['/admin/createCountBatches']);
   }

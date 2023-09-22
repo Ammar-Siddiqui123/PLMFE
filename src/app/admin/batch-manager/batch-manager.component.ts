@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table'; 
 import { AuthService } from '../../../app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { CurrentTabDataService } from '../inventory-master/current-tab-data-service';
@@ -90,7 +89,7 @@ export class BatchManagerComponent implements OnInit {
               private authService: AuthService,
               private currentTabDataService: CurrentTabDataService
               ) { 
-                this.permissions= JSON.parse(localStorage.getItem('userRights') || '');
+                this.permissions= JSON.parse(localStorage.getItem('userRights') ?? '');
               }
 
   ngOnInit(): void {
@@ -140,9 +139,7 @@ export class BatchManagerComponent implements OnInit {
         if (isExecuted && data.length > 0) {
           this.orderList = data;
           this.RecordSavedItem();
-        } else {
-
-        }
+        } 
       
       
       });
@@ -154,8 +151,6 @@ export class BatchManagerComponent implements OnInit {
           this.pickToTotes=JSON.parse(this.batchManagerSettings[0].pickToTotes.toLowerCase())
           this.extraField=this.batchManagerSettings[0].extraField1;
           
-        } else {
-
         }
        
       });

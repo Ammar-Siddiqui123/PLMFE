@@ -8,52 +8,50 @@ import { Observable } from 'rxjs/internal/Observable';
 import { startWith } from 'rxjs/internal/operators/startWith';
 import { map } from 'rxjs/internal/operators/map'; 
 import { ToastrService } from 'ngx-toastr';
-import { ConditionalExpr } from '@angular/compiler';
 import { AuthService } from '../../../../app/init/auth.service';
 import { AdjustQuantityComponent } from '../adjust-quantity/adjust-quantity.component';
 import { Router } from '@angular/router';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
-import { event } from 'jquery';
+
 
 export interface InventoryMapDataStructure {
-  invMapID: string | '',
-  locationID: string | '',
-  location: string | '',
-  warehouse: string | '',
-  zone: string | '',
-  carousel: string | '',
-  row: string | '',
-  shelf: string | '',
-  bin: string | '',
-  itemNumber: string | '',
-  revision: string | '',
-  serialNumber: string | '',
-  lotNumber: string | '',
-  expirationDate: string | '',
-  description: string | '',
-  itemQuantity: string | '',
-  unitOfMeasure: string | '',
-  maxQuantity: string | '',
-  cellSize: string | '',
-  goldenZone: string | '',
-  putAwayDate: string | '',
-  userField1: string | '',
-  userField2: string | '',
-  masterLocation: string | '',
-  dateSensitive: boolean | '',
-  dedicated: boolean | '',
-  masterInvMapID: string | '',
-  minQuantity: string | '',
-  quantityAllocatedPick: string | '',
-  quantityAllocatedPutAway: string | '',
-  laserX: string | '',
-  laserY: string | '',
-  locationNumber: string | '',
-  rn: string | '',
-  velocity: string | '' //additional field,
-  altLight: string | ''
+  invMapID: string;
+  locationID: string;
+  location: string;
+  warehouse: string;
+  zone: string;
+  carousel: string;
+  row: string;
+  shelf: string;
+  bin: string;
+  itemNumber: string;
+  revision: string;
+  serialNumber: string;
+  lotNumber: string;
+  expirationDate: string;
+  description: string;
+  itemQuantity: string;
+  unitOfMeasure: string;
+  maxQuantity: string;
+  cellSize: string;
+  goldenZone: string;
+  putAwayDate: string;
+  userField1: string;
+  userField2: string;
+  masterLocation: string;
+  dateSensitive: boolean;
+  dedicated: boolean;
+  masterInvMapID: string;
+  minQuantity: string;
+  quantityAllocatedPick: string;
+  quantityAllocatedPutAway: string;
+  laserX: string;
+  laserY: string;
+  locationNumber: string;
+  rn: string;
+  velocity: string; // additional field
+  altLight: string;
 }
-
 @Component({
   selector: 'app-add-inv-map-location',
   templateUrl: './add-inv-map-location.component.html',
@@ -334,7 +332,7 @@ export class AddInvMapLocationComponent implements OnInit {
       shelf: [this.getDetailInventoryMapData.shelf || '', [Validators.maxLength(2)]],
       bin: [this.getDetailInventoryMapData.bin || '', [Validators.maxLength(3)]],
       item: [this.getDetailInventoryMapData.itemNumber || '', [Validators.maxLength(50)]],
-      itemQuantity: new FormControl({value:this.getDetailInventoryMapData.itemQuantity || '',disabled:this.getDetailInventoryMapData.itemNumber == ''? true: false}),
+      itemQuantity: new FormControl({value:this.getDetailInventoryMapData.itemQuantity || '',disabled:this.getDetailInventoryMapData.itemNumber ===''}),
       description: [this.getDetailInventoryMapData.description || ""],
       
       cell: [this.getDetailInventoryMapData.cellSize || ''],
@@ -524,8 +522,8 @@ export class AddInvMapLocationComponent implements OnInit {
     this.Api.getItemNumDetail(payload).subscribe((res) => {
       if (res.isExecuted) {
         this.unitOFMeasure =res.data.unitOfMeasure 
-        var match = '';
-        var expected = '';
+        let match = '';
+        let expected = '';
         if (cellSizeVal != res.data.cellSize && res.data.cellSize) {
           match += 'Cell Size';
           expected += ' Expecting Cell Size: ' + res.data.cellSize;
