@@ -11,6 +11,5 @@ export class WpPickLevelsComponent{
   dataSource:any = [ {},{},{},{},{},{},]
   
 
-  
 
 }
