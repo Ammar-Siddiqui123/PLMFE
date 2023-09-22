@@ -17,19 +17,16 @@ export class PrintReplenLabelsComponent implements OnInit {
   }
 
   printLabelsForCurrentDisplay(){
-    // alert("The print service is currently offline");
     this.dialog.closeAll();
     this.dialogRef.close({});
   }
 
   printLabelsForUnprintedReplens(){
-    // alert("The print service is currently offline");
     this.dialog.closeAll();
     this.dialogRef.close({});
   }
 
   printLabelsForAllReplens(){
-    // alert("The print service is currently offline");
     this.dialog.closeAll();
     this.dialogRef.close({});
   }

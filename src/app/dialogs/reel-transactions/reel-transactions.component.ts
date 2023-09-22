@@ -50,7 +50,6 @@ fieldNames:any;
     @Inject(MAT_DIALOG_DATA) public data: any,private Api:ApiFuntions,private toastr: ToastrService,private global:GlobalService) { }
 
   ngOnInit(): void {
-    // debugger
     this.itemNumber = this.data.itemObj.number
     this.description = this.data.itemObj.description
     this.partsInducted =this.data.itemObj.totalParts
@@ -68,12 +67,10 @@ fieldNames:any;
     this.field_focus.nativeElement.focus();
   }
   updateRemaining(){
-    // debugger
     let total = this.partsInducted;
     let counted = 0;
     this.generateReelAndSerial.data.forEach(element => {
       if( element.reel_part_quantity != ''){
-        // element.reel_part_quantity = 0
         counted += parseInt(element.reel_part_quantity);
       }
     });
@@ -115,15 +112,6 @@ fieldNames:any;
         }
 
       }
-      else{
-        // debugger
-        // this.partsInducted  =   this.partsInducted ?this.partsInducted:'' 
-        // this.partsNotAssigned = this.partsNotAssigned ?this.partsInducted:'' 
-        // this.partsNotAssigned = this.oldIncluded?this.oldIncluded:''
-        // this.partsNotAssigned =result[0].reelQty
-        // this.partsIncluded = this.oldIncluded?this.oldIncluded:0
-        // this.partsNotAssigned =this.oldIncluded?this.oldIncluded:0
-      }
     })
   }
 
@@ -163,7 +151,6 @@ fieldNames:any;
 
 
   onChange(event:any,index){
-    // debugger
     if(event.keyCode == 8){
       this.generateReelAndSerial.data[index].reel_part_quantity=event.target.value
       this.updateRemaining()
@@ -263,19 +250,9 @@ CreateReels(){
                 
                 
                 this.generateReelAndSerial.data.forEach((element)=>{
-                 
-                  // if(element.reel_serial_number !=''){
-                  //   element.isEmpty = false
-                  // }
+
                   sn =element.reel_serial_number
                   SNs.push(element.reel_serial_number)
-                  // if(element.reel_serial_number==''){
-                  //   this.toastr.error("You must provide a serial number for each reel transaction.", 'Error!', {
-                  //     positionClass: 'toast-bottom-right',
-                  //     timeOut: 2000
-                  //   });
-                  //   return
-                  // }
             
                   reels.push({
                     "SerialNumber": element.reel_serial_number,
@@ -289,7 +266,6 @@ CreateReels(){
                     "Notes":  element.details.reelNotes
                 })
                 })
-                // console.log(this.generateReelAndSerial.data,'checj')
                 this.validateInputs();
                 if(SNs.includes('')){
                   this.validateInputs();
@@ -375,7 +351,6 @@ CreateReels(){
                               dialogRef.afterClosed().subscribe((result) => {
                                 if(result){
                                   this.checkSNS = SNs[0]
-                                  // this.global.Print(`FileName:PrintReelLabels|OTID:${this.createdReel.join(",",'lbl')}|SN:|Item:|Order:`);
                                   this.PrintCrossDock()
                                   
                                   return
@@ -385,7 +360,6 @@ CreateReels(){
                                 }
                                 
                               })
-                              // this.dialogRef.close(SNs[0]);
                             }
                         }
                         else{
@@ -463,13 +437,9 @@ var res:any =   this.global.Print(`FileName:PrintReelLabels|OTID:${this.createdR
 
   
   OpenDetails(index,e){
-    // debugger
 this.generatedReelQty = e.reel_part_quantity
 this.fromReelCheck = true
-// console.log(index)
 this.generatedReelQtyIndex = index
-
-// this.reel
 
 this.ReelDetailDialogue()
   }

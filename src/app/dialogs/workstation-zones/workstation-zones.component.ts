@@ -106,7 +106,6 @@ export class WorkstationZonesComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.authService.userData();
-    // this.currentVelocity = this.data.vc
     this.getVelocity();
     this.getAllZoneList();
 
@@ -234,7 +233,6 @@ export class WorkstationZonesComponent implements OnInit {
           "wsid": this.userData.wsid,
         }
         this.Api.WSPickZoneDelete(paylaod).subscribe((res) => {
-          // console.log(res);
           if (res.isExecuted) {
             this.toastr.success(labels.alert.delete, 'Success!', {
               positionClass: 'toast-bottom-right',

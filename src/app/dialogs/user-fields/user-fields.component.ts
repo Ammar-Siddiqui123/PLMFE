@@ -58,7 +58,6 @@ export class UserFieldsComponent implements OnInit {
     this.Api.ColumnAlias().subscribe((res: any) => {
       this.fieldNames = res.data;
       this.setValues();
-      // this.sharedService.updateFieldNames(this.fieldNames)
     })
   }
   setValues() {
@@ -94,49 +93,6 @@ export class UserFieldsComponent implements OnInit {
     }
 
     this.dialogRef.close(userFields);
-    //   try {
-
-    //     const values = this.userForm.value;
-
-    //     var payload = { 
-    //       "transaction": this.data.id,
-    //       "userFields": [
-    //         values.userField1,
-    //         values.userField2,
-    //         values.userField3,
-    //         values.userField4,
-    //         values.userField5,
-    //         values.userField6,
-    //         values.userField7,
-    //         values.userField8,
-    //         values.userField9,
-    //         values.userField10
-    //       ],
-    //       "username": this.userData.userName,
-    //       "wsid": this.userData.wsid 
-    //     }
-
-    //     this.service.create(payload, '/Common/UserFieldMTSave').subscribe(
-    //       (res: any) => {
-    //         if (res.data && res.isExecuted) {
-    //           this.dialogRef.close();
-    //           this.toast.success(labels.alert.update, 'Success!',{
-    //             positionClass: 'toast-bottom-right',
-    //             timeOut:2000
-    //           });            
-    //         } else {
-    //           this.toast.error('Something went wrong', 'Error!', {
-    //             positionClass: 'toast-bottom-right',
-    //             timeOut: 2000,
-    //           });
-    //         }
-    //       },
-    //       (error) => { }
-    //     );
-    //   } catch (error) {
-    //     
-    //   }
-    // }
 
   }
 }

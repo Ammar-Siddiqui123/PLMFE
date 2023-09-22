@@ -97,8 +97,6 @@ export class CrossDockTransactionComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.toteID != "") {
-          // alert(result.toteID.toString());
-          // alert(result.cellID.toString());
           this.transactions[position].toteID = result.toteID.toString();
         }
       }
@@ -132,7 +130,6 @@ export class CrossDockTransactionComponent implements OnInit {
   }
 
   getCrossDock() {
-    // this.itemWhse = "238562";
     let payLoad = {
       sRow: this.lowerBound,
       eRow: this.upperBound,
@@ -198,24 +195,6 @@ export class CrossDockTransactionComponent implements OnInit {
     }
     
   }
-  // openUserFieldsEditDialogue() {
-  //   const dialogRef = this.dialog.open(UserFieldsEditComponent, {
-  //     height: 'auto',
-  //     width: '800px',
-  //     autoFocus: '__non_existing_element__',
-  //     data: {
-  //       transID: this.selectedRowObj.id,
-  //       username: this.userId,
-  //       wsid: this.wsid
-  //     },
-  //   });
-  //   dialogRef.afterClosed().subscribe((res) => {
-  //     // this.clearMatSelectList();
-  //     if (res.isExecuted) {
-  //     }
-  //     console.log(res);
-  //   });
-  // }
 
   getNxtToteIds() { 
     if (this.loopIndex >= 0) {
@@ -273,20 +252,6 @@ export class CrossDockTransactionComponent implements OnInit {
   }
 
   submit() {
-    // let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-    //   height: 'auto',
-    //   width: '560px',
-    //   autoFocus: '__non_existing_element__',
-    //   data: {
-    //     message: 'Click OK to proceed without a tote ID. Click Cancel to provide a tote ID.',
-    //   },
-    // });
-
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   if (result == 'Yes') {
-    //     this.dialogRef.close("Submit");
-    //   }
-    // });
     this.dialogRef.close({ data : "Submit", qtyToSubtract : this.qtyToSubtract });
   }
 

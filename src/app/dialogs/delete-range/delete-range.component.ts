@@ -56,7 +56,6 @@ export class DeleteRangeComponent implements OnInit {
     this.getSearchOptionsEnd();
   }
   ngAfterViewInit(): void {
-    // this.del_focus.nativeElement.focus();
     setTimeout(()=>{
       this.del_focus.nativeElement.focus();  
     }, 200);

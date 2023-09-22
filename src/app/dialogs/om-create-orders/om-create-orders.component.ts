@@ -31,47 +31,7 @@ import { GlobalService } from 'src/app/common/services/global.service';
 export class OmCreateOrdersComponent implements OnInit {
   omPreferences:any;
   @ViewChild('ord_focus') ord_focus: ElementRef;
-  displayedColumns: any[] = [
-    // 'transactionType',
-    // 'orderNumber',
-    // 'priority',
-    // 'requiredDate',
-    // 'userField1',
-    // 'userField2',
-    // 'userField3',
-    // 'userField4',
-    // 'userField5',
-    // 'userField6',
-    // 'userField7',
-    // 'userField8',
-    // 'userField9',
-    // 'userField10',
-    // 'itemNumber',
-    // 'description',
-    // 'lineNumber',
-    // 'transactionQuantity',
-    // 'warehouse',
-    // 'lineSequence',
-    // 'inProcess',
-    // 'processingBy',
-    // 'unitOfMeasure',
-    // 'importBy',
-    // 'importDate',
-    // 'importFilename',
-    // 'expirationDate',
-    // 'lotNumber',
-    // 'serialNumber',
-    // 'notes',
-    // 'revision',
-    // 'id',
-    // 'hostTransactionID',
-    // 'emergency',
-    // 'label',
-    // 'batchPickID',
-    // 'toteID',
-    // 'cell',
-    // 'action'
-  ];
+  displayedColumns: any[] = [];
 
   sequenceKeyMapping:any = [
     {sequence: 'Transaction Type',key:'transactionType'},
@@ -207,7 +167,6 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   openOmAddTransaction(element: any = {}) {
-    // debugger;
     if(this.tableData.filteredData.length == 0){
       return;
     }
@@ -251,20 +210,10 @@ export class OmCreateOrdersComponent implements OnInit {
     if (this.createOrdersDTPayload.orderNumber.trim() != '') {
       this.Api.CreateOrdersDT(this.createOrdersDTPayload).subscribe((res: any) => {
         if (res.isExecuted && res.data) {
-          // this.tableData = res.data;
-          // if (res.data.length > 0) {
-          //   this.tableData.forEach(element => {
-          //     element.isSelected = false;
-          //   });
-          // }
           this.tableData = new MatTableDataSource(res.data);  
           this.tableData.paginator = this.paginator1;
         } else { 
           this.tableData = new MatTableDataSource(); 
-          // this.toastr.error(res.responseMessage, 'Error!', {
-          //   positionClass: 'toast-bottom-right',
-          //   timeOut: 2000
-          // });
         }
       });
     }
@@ -312,12 +261,7 @@ export class OmCreateOrdersComponent implements OnInit {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
             });
-          } else {
-            // this.toastr.error("An Error Occured while releasing orders. Check the Event Log for more info", 'Error!', {
-            //   positionClass: 'toast-bottom-right',
-            //   timeOut: 2000
-            // });
-          }
+          } 
           this.createOrdersDTPayload.orderNumber = '';
           this.createOrdersDT();
           dialogRef.close();
@@ -327,7 +271,6 @@ export class OmCreateOrdersComponent implements OnInit {
   }
 
   printViewed() {
-    // this.dialogRef.close();
     this.omPreferences=this.global.getOmPreferences();
     let tabIDs = this.tableData.filteredData?.length > 0 ? this.tableData.filteredData.map((x:any) => x.id).toString() : '';
 
@@ -375,7 +318,6 @@ export class OmCreateOrdersComponent implements OnInit {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000
               });
-              // this.createOrdersDTPayload.orderNumber = '';
               this.createOrdersDTPayload.filter = "1 = 1";
               this.selectedFilterColumn = '';
               this.selectedFilterString = '';
@@ -476,14 +418,6 @@ export class OmCreateOrdersComponent implements OnInit {
       this.onContextMenuCommand(result.SelectedItem, result.SelectedColumn, result.Condition, result.Type)
     }
     );
-  }
-
-  selectTransaction(element) {
-    // if (this.selectedTransaction.id && this.selectedTransaction.id == element.id) {
-    //   this.selectedTransaction = {};
-    // } else {
-    //   this.selectedTransaction = element;
-    // }
   }
 
   getColumnSequence(refresh: boolean = false) {

@@ -95,21 +95,16 @@ export class ToteTransactionViewComponent implements OnInit {
     this.sortCol = index;
     this.sortOrder = event.direction;
     this.getTransactionTable();
-    // this.getContentData();
   }
 
 
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
-    // this.customPagination.startIndex =  e.pageIndex
     this.customPagination.startIndex = e.pageSize * e.pageIndex;
 
     this.customPagination.endIndex = e.pageSize * e.pageIndex + e.pageSize;
-    // this.length = e.length;
     this.customPagination.recordsPerPage = e.pageSize;
-    // this.pageIndex = e.pageIndex;
 
-    // this.initializeApi();
     this.getTransactionTable();
   }
   getTransactionTable() {
@@ -128,7 +123,6 @@ export class ToteTransactionViewComponent implements OnInit {
       
       if(res && res.data){
         this.isData=true
-      // this.dataSource = new MatTableDataSource<any>(res.data);
 
       this.dataSource = new MatTableDataSource<any>(res.data);
 

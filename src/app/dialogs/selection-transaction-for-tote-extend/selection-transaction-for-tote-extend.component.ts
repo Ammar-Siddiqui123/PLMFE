@@ -132,7 +132,6 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
     })
   }
   onToteChange(event,type){
-  // event.value
     this.totes.filter(item=>{
       if(type==='toteId'){  // change position on id base
         if(item.toteID===event.value){
@@ -500,10 +499,6 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
           } else {
             this.findLocation(false, 0);
-            // this.toastr.error('Something went wrong', 'Error!', {
-            //   positionClass: 'toast-bottom-right',
-            //   timeOut: 2000,
-            // });
           }
         },
         (error) => {}
@@ -738,7 +733,6 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
                   eRow: 5,
                   itemWhse: [
                     values.itemNumber,
-                    // "238562",
                     values.warehouse,
                     "1=1"
                   ],
@@ -827,7 +821,7 @@ export class SelectionTransactionForToteExtendComponent implements OnInit {
 
           var payload2 = {
             "otid": this.data.otid,
-            "splitQty": 0, // (values.toteQty ? parseInt(values.toteQty) : 0) - (values.quantityAllocatedPutAway ? parseInt(values.quantityAllocatedPutAway) : 0),
+            "splitQty": 0, 
             "qty": values.toteQty,
             "toteID": values.toteID,
             "batchID": this.data.batchID,

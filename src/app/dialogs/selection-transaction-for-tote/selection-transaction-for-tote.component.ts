@@ -171,12 +171,10 @@ export class SelectionTransactionForToteComponent implements OnInit {
         "1=1"
       ],
     };
-    //console.log(getTransaction);
     this.Api
       .TransactionForTote(getTransaction)
       .subscribe(
         (res: any) => {
-          // console.log(res,'getTransaction')
           if (res.data && res.isExecuted) {
             if(res.data.subCategory == 'Reel Tracking'&&res.data.inputType != 'Serial Number' ){
                this.dialogRef.close({category:'isReel',item:res.data});
@@ -186,7 +184,6 @@ export class SelectionTransactionForToteComponent implements OnInit {
              
             this.transactionTable = res.data.transactionTable;
             
-            // !res.data.transactionTable || res.data.transactionTable.length == 0
             if (res.data.success == "0") {
               this.dialogRef.close("NO");
               return;

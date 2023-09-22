@@ -30,15 +30,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
   { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
   { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  // { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  // { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  // { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  // { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  // { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  // { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  // { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  // { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  // { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
 ];
 
 @Component({
@@ -189,7 +180,6 @@ export class PickToteManagerComponent implements OnInit {
   @ViewChild('filterBatchTrans') filterBatchTrans: MatPaginator;
   @ViewChild('zoneBatchOrder') zoneBatchOrder: MatPaginator;
   @ViewChild('zoneBatchTrans') zoneBatchTrans: MatPaginator;
-  // @ViewChild('batchByZonePaginator', {read: true}) batchByZonePaginator: MatPaginator;
   @ViewChild('batchByZonePaginator', { static: false })
   set paginator(value: MatPaginator) {
     this.batchByZoneSource.paginator = value;
@@ -229,14 +219,11 @@ export class PickToteManagerComponent implements OnInit {
       if (res.data) {
         this.batchByZoneData = res.data
         this.batchByZoneSource = new MatTableDataSource<any>(this.batchByZoneData);
-        // this.batchByZoneSource.paginator = this.batchByZonePaginator;
       }
     });
   }
 
-  ngAfterViewInit() {
-    // this.batchByZoneSource.paginator = this.batchByZonePaginator;
-    
+  ngAfterViewInit() {    
     setTimeout(()=>{
       this.field_focus.nativeElement.focus();  
     }, 500);
@@ -485,7 +472,6 @@ export class PickToteManagerComponent implements OnInit {
               this.selectedOrders.push(ele.orderNumber);
             });
             this.selectedOrders = [...new Set(this.selectedOrders)];
-            // this.onOrderSelect(selectedArr[selectedArr.length -1]);
           }
           this.filterBatchOrders = new MatTableDataSource<any>(this.FILTER_BATCH_DATA);
           this.filterBatchOrders.paginator = this.filterBatchOrder;
@@ -515,7 +501,6 @@ export class PickToteManagerComponent implements OnInit {
               ele.isSelected = true
               this.selectedOrders.push(ele.orderNumber);
             });
-            // this.onOrderSelect(selectedArr[selectedArr.length -1]);
             this.selectedOrders = [...new Set(this.selectedOrders)];
             this.allSelectOrders = this.selectedOrders;
           }
@@ -571,7 +556,6 @@ export class PickToteManagerComponent implements OnInit {
       });
       this.tempHoldEle = row; 
 
-      // this.selectedOrders.push(row.orderNumber);
       this.FILTER_BATCH_DATA.forEach(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = true;
@@ -590,13 +574,9 @@ export class PickToteManagerComponent implements OnInit {
         "wsid": this.userData.wsid,
       }
       this.Api.PickToteTransDT(paylaod).subscribe((res) => {
-        // if (res.data.length > 0) {
-        ;
-
         this.filterOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
         this.filterOrderTransactionSource.paginator = this.filterBatchTrans;
         this.filterOrderTransactionSource.sort = this.viewFilterTransSort;
-        // }
       });
     }
     
@@ -637,7 +617,6 @@ export class PickToteManagerComponent implements OnInit {
       });
       this.tempHoldEle = row;
 
-      // this.selectedOrders.push(row.orderNumber);
       this.FILTER_BATCH_DATA_ZONE.forEach(val => {
         if (val.orderNumber === row.orderNumber) {
           val.isSelected = true;
@@ -656,11 +635,9 @@ export class PickToteManagerComponent implements OnInit {
         "wsid": this.userData.wsid,
       }
       this.Api.PickToteTransDT(paylaod).subscribe((res) => {
-        // if (res.data) {
         this.zoneOrderTransactionSource = new MatTableDataSource<any>(res.data.pickToteManTrans);
         this.zoneOrderTransactionSource.paginator = this.zoneBatchTrans;
         this.zoneOrderTransactionSource.sort = this.viewZoneTransSort;
-        // }
       });
     }
 
@@ -671,7 +648,6 @@ export class PickToteManagerComponent implements OnInit {
       "wsid": this.userData.wsid,
     }
     this.Api.PickBatchFilterOrderData(paylaod).subscribe(res => {
-      // console.log(res.data);
 
       if (res.data) {
         this.FILTER_DATA = [];
@@ -684,9 +660,7 @@ export class PickToteManagerComponent implements OnInit {
           this.onAddFilter(this.pickBatchFilter);
         }
 
-        if (!this.pickBatchOrder) {
-          // this.onAddOrderBy();
-        } else {
+        if (this.pickBatchOrder) {
           this.onAddOrderBy(this.pickBatchOrder);
         }
       }
@@ -765,7 +739,6 @@ export class PickToteManagerComponent implements OnInit {
           this.selectedOrders.push(this.tempHoldEle.orderNumber);
         }
       }
-      // this.selectedOrders.push(this.tempHoldEle.orderNumber);
       this.onCloseAllPickToteManager();
     }
     this.orderActionRefreshZone();
@@ -908,10 +881,7 @@ export class PickToteManagerComponent implements OnInit {
         "Description": this.savedFilter.value,
         "wsid": this.userData.wsid,
       }
-      this.FILTER_DATA.forEach(val => {
-
-        // console.log(val);
-        
+      this.FILTER_DATA.forEach(val => {        
         
         if (val.is_db) {
           this.Api.PickBatchFilterUpdate(payload).subscribe(res => {
@@ -992,8 +962,6 @@ export class PickToteManagerComponent implements OnInit {
     this.orderBydataSource.filteredData.map( (item) => {
       var existItem = res.find((x: any) => x.sequence == item.sequence);
       if (existItem) {
-        // console.log("item already exist");
-        // console.log(existItem);
         this.toastr.error('Can\'t have conflicting sequences within the order rows. A new sequence has been provided', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
@@ -1078,7 +1046,6 @@ export class PickToteManagerComponent implements OnInit {
 
     }
     else {
-      // console.log(this.allSelectOrders);
       if (this.allSelectOrders.length > 0) {
         selectedObj = this.FILTER_BATCH_DATA_ZONE.filter(element => this.allSelectOrders.includes(element.orderNumber));
         selectedObj = [...new Map(selectedObj.map(item => [item.orderNumber, item])).values()]
@@ -1087,8 +1054,6 @@ export class PickToteManagerComponent implements OnInit {
         currentObjArr = [...selectedObj, ...this.data.resultObj.filter(d => !orderNumbers.has(d.orderNumber))];
       }
     }
-    // console.log(currentObjArr);
-
     this.dialogRef.close(currentObjArr);
   }
 
@@ -1131,12 +1096,6 @@ export class PickToteManagerComponent implements OnInit {
 
   }
 
-  tabChange(event:any){
-    console.log(event);
-    if(event.index == 1){
-      // this.onViewOrderLineFilter({value:'vSelectedOrderFilter'});
-    }
-  }
 }
 
 

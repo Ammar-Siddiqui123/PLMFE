@@ -196,7 +196,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
 
 
   restoreDesign(filename, all?){
-    // if (filename == '' ||filename == undefined  ) { return; };
     let  obj = {
       description: this.NewDescription,
       filename: this.NewFilename,
@@ -205,7 +204,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
       outputType:  this.NewOutputType == 'Report' ? 2 : 1,
       exportFilename: this.NewExportFilename,
       all:all?all:false
-      // appName: $('#AppName').val()
   };
   this.api.restoreDesign(obj).subscribe(res=>{
     if(!res.data){
@@ -290,7 +288,6 @@ validateInputs() {
 };
 
   setExtension() {
-  // this.setNoExtension(this.NewFilename);
   if(this.NewFilename.includes('.lst')||this.NewFilename.includes('.lbl')){
     let extensionIndex = this.NewFilename.indexOf('.')
     this.NewFilename = this.NewFilename.slice(0,extensionIndex)
@@ -301,17 +298,6 @@ validateInputs() {
       this.NewFilename = `${this.NewFilename}.lbl`
   };
 };
-
-
-
-
-
-  // ["Testing Description",
-  // "TestFilename.lst",
-  // "Select [OT Report Data BM].* FROM [OT Report Data BM];",
-  // "SQL",
-  // "Report",
-  // "TestingExportFileName"]
 
 
   openCrDesignFilenameConfirmation() {
@@ -335,7 +321,6 @@ validateInputs() {
       else if(result != true && result == 'delete') {
         this.DeleteExistingdesign()
       }
-      // this.NewDesignTestData = result?result:this.NewDesignTestData
     }
     );
   }

@@ -75,7 +75,6 @@ export class CmShippingComponent implements OnInit {
           let indx=0;
           for (let key in this.shippingPreferences) { 
             if(!(this.displayedColumns.indexOf(key) > -1) && this.shippingPreferences[key] == true){
-          // this.displayedColumns.push(key);
           this.displayedColumns.splice((3+indx), 0, key);
           indx=indx+1;
             }
@@ -117,7 +116,6 @@ export class CmShippingComponent implements OnInit {
     this.Api.ShipmentItemDelete(obj).subscribe((res: any) => {
       if (res && res.isExecuted) {
         this.shippingData = this.shippingData.slice(0,i);
-        //this.ShippingIndex();
       }
     });
   }
@@ -136,9 +134,6 @@ export class CmShippingComponent implements OnInit {
       "cube": element.cube
     }
     this.Api.ShipmentItemUpdate(obj).subscribe((res: any) => {
-      if (res && res.isExecuted) {
-       // this.ShippingIndex();
-      }
     });
   }
   async ShippingCompShip() {

@@ -97,13 +97,6 @@ export class SelectZonesComponent implements OnInit {
         this.ELEMENT_DATA[i].selected=$event.checked;
       }
     }
-    
-    // if (this.isAllSelected()) {
-    //   this.selection.clear();
-    //   return;
-    // }
-    // console.log(this.dataSource.data);
-    // this.selection.select(...this.dataSource.data);
     this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
     
 
@@ -198,7 +191,6 @@ export class SelectZonesComponent implements OnInit {
       (res: any) => {
         if (res.data && res.isExecuted) {
         this.zoneDetails = res.data.zoneDetails; 
-        // console.log(this.alreadyAssignedZones);
         for(var i=0;i<this.zoneDetails.length;i++)
         {
           

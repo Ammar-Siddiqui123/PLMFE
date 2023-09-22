@@ -61,7 +61,6 @@ export class ReprocessTransactionDetailViewComponent implements OnInit {
     this.userData=this.userService.userData();
     this.getReprocessData();
     this.OSFieldFilterNames();
-    // this.reprocessInfo.controls.orderNumber.setValue('123213');
   }
   ngAfterViewInit(): void {
     this.field_focus.nativeElement.focus();
@@ -69,7 +68,6 @@ export class ReprocessTransactionDetailViewComponent implements OnInit {
   public OSFieldFilterNames() { 
     this.Api.ColumnAlias().subscribe((res: any) => {
       this.fieldNames = res.data;
-      // this.sharedService.updateFieldNames(this.fieldNames)
     })
   }
   getReprocessData() {

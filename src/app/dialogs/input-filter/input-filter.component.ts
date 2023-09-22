@@ -2,9 +2,6 @@ import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-//import { CustomValidatorService } from '../../../../app/init/custom-validator.service';
-//import { EmployeeService } from '../../../../app/employee.service';
-//import labels from '../../../labels/labels.json';
 
 
 @Component({

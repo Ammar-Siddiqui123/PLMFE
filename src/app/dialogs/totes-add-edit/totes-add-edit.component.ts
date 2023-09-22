@@ -59,7 +59,6 @@ export class TotesAddEditComponent implements OnInit {
   searchAutocompleteList:any;
   hideRequiredControl = new FormControl(false);
   imPreferences:any;
-  // emptyField:boolean = false
   onDestroy$: Subject<boolean> = new Subject();
   @ViewChild(MatAutocompleteTrigger) autocompleteInventory: MatAutocompleteTrigger;
   /** Whether the number of selected elements matches the total number of rows. */
@@ -106,13 +105,6 @@ export class TotesAddEditComponent implements OnInit {
       ToteID = '';
       batch = '';
   };
-
-  // ToteID:ToteID,
-  // Ident:ident,
-  // FromTote:sTote,
-  // ToTote:eTote,
-  // PrintDirect: pd,
-  // BatchID: batch
  
     this.global.Print(`FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`,'lbl');
 
@@ -130,12 +122,6 @@ export class TotesAddEditComponent implements OnInit {
     }else{
       window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
     }
-
-
-
-    // window.open(`/#/report-view?file=FileName:PrintPrevToteManLabel|ToteID:${ToteID}|Ident:${ident}|FromTote:${sTote}|ToTote:${eTote}|BatchID:${batch}`, '_blank', "location=yes");
-
-    // window.open(`/#/report-view?file=IMToteLabel-lbl`, '_blank', "location=yes");
 
   }
   /** Selects all rows if they are not all selected; otherwise clear selection. */
@@ -267,7 +253,6 @@ export class TotesAddEditComponent implements OnInit {
                 });
                 this.isRowAdded=false;
                 let isUnsavedItem=false
-                // this.dataSourceManagedTotes.data.splice(index,1)
                 this.dataSourceManagedTotes.data.forEach(obj=>{
                   if(obj.isInserted===0){
                     isUnsavedItem=true
