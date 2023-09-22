@@ -10,7 +10,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-sp-location-zones',
   templateUrl: './sp-location-zones.component.html',
-  styleUrls: ['./sp-location-zones.component.scss']
+  styleUrls: []
 })
 export class SpLocationZonesComponent implements OnInit {
 
