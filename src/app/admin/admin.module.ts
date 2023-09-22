@@ -29,7 +29,6 @@ import { AddInvMapLocationComponent } from './dialogs/add-inv-map-location/add-i
 import { WarehouseComponent } from './dialogs/warehouse/warehouse.component';
 import { SetColumnSeqComponent } from './dialogs/set-column-seq/set-column-seq.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 import { CellSizeComponent } from './dialogs/cell-size/cell-size.component';
 import { VelocityCodeComponent } from './dialogs/velocity-code/velocity-code.component';

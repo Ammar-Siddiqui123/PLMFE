@@ -5,8 +5,6 @@ import {
   EventEmitter,
   TemplateRef,
   ViewChild,
-  Optional,
-  Inject,
   Input,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -120,6 +118,7 @@ export class BatchDeleteComponent implements OnInit {
       transType: this.transType,
       batchList: this.batchList 
     }
+    
   }
 
   changeTranType(value: any) {
