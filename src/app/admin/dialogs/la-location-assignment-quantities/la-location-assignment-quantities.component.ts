@@ -9,7 +9,7 @@ import { GlobalService } from 'src/app/common/services/global.service';
 @Component({
   selector: 'app-la-location-assignment-quantities',
   templateUrl: './la-location-assignment-quantities.component.html',
-  styleUrls: ['./la-location-assignment-quantities.component.scss']
+  styleUrls: []
 })
 export class LaLocationAssignmentQuantitiesComponent implements OnInit {
 
