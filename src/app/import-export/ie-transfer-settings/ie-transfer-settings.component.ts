@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-ie-transfer-settings',
   templateUrl: './ie-transfer-settings.component.html',
-  styleUrls: ['./ie-transfer-settings.component.scss']
+  styleUrls: []
 })
 export class IeTransferSettingsComponent implements OnInit {
   @Output() back = new EventEmitter<string>();
@@ -37,7 +37,7 @@ export class IeTransferSettingsComponent implements OnInit {
 
   }
   IeImportAllDialog(){
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    this.dialog.open(ConfirmationDialogComponent, {
       height: 'auto',
       width: '550px',
       autoFocus: '__non_existing_element__',

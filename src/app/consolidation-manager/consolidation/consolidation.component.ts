@@ -2,9 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../app/init/auth.service';
-import { event } from 'jquery';
 import { CmConfirmAndPackingSelectTransactionComponent } from 'src/app/dialogs/cm-confirm-and-packing-select-transaction/cm-confirm-and-packing-select-transaction.component';
 import { CmConfirmAndPackingComponent } from 'src/app/dialogs/cm-confirm-and-packing/cm-confirm-and-packing.component';
 import { CmItemSelectedComponent } from 'src/app/dialogs/cm-item-selected/cm-item-selected.component';
@@ -13,7 +12,6 @@ import { CmPrintOptionsComponent } from 'src/app/dialogs/cm-print-options/cm-pri
 import { CmShippingTransactionComponent } from 'src/app/dialogs/cm-shipping-transaction/cm-shipping-transaction.component';
 import { CmShippingComponent } from 'src/app/dialogs/cm-shipping/cm-shipping.component';
 import { Subject, catchError, debounceTime, distinctUntilChanged, of } from 'rxjs';
-import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -543,7 +541,7 @@ export class ConsolidationComponent implements OnInit {
     }
     let valueCount = 0;
     let index;
-    const currentColVal = this.tableData_1.data.some((obj, i) => {
+     this.tableData_1.data.some((obj, i) => {
       for (let key in obj) {
         if (obj[key] === filterVal) {
           index = i;
@@ -586,7 +584,7 @@ export class ConsolidationComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        if (result && result.isExecuted) {
+        if (result?.isExecuted) {
           this.getTableData('', this.TypeValue);
         }
       })
@@ -742,7 +740,7 @@ export class ConsolidationComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result && result.isExecuted) {
+      if (result?.isExecuted) {
         this.getTableData("", this.TypeValue);
       }
     });
@@ -780,7 +778,7 @@ export class ConsolidationComponent implements OnInit {
       disableClose:true,
       data: {
         orderNumber: this.TypeValue,
-        stagingTable: this.stageTable && this.stageTable.data ? this.stageTable.data : []
+        stagingTable: this.stageTable?.data ? this.stageTable.data : []
       }
     });
 
@@ -864,7 +862,7 @@ export class ConsolidationComponent implements OnInit {
   }
 
   printPreviewNonVerified(print = true) {
-    if (this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0) {
+    if (this.tableData_1?.filteredData && this.tableData_1.filteredData.length > 0) {
       if(print){
         this.global.Print(`FileName:PrintPrevNotVerified|OrderNum:${this.TypeValue}|WSID:${this.userData.wsid}`)
       }
@@ -881,7 +879,7 @@ export class ConsolidationComponent implements OnInit {
   }
 
   printPreviewPackList(print = true) {
-    if (this.tableData_1 && this.tableData_1.filteredData && this.tableData_1.filteredData.length > 0) {
+    if (this.tableData_1?.filteredData && this.tableData_1.filteredData.length > 0) {
       let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
         width: '786px',
@@ -905,7 +903,7 @@ export class ConsolidationComponent implements OnInit {
               this.showCmPackPrintModal(true, this.TypeValue,print);
             } else {
               this.toastr.error("Error has occured","Error");
-            };
+            }
           });
         }
       });
@@ -923,13 +921,13 @@ export class ConsolidationComponent implements OnInit {
           this.showCmPackPrintModal(true, this.TypeValue,print);
         } else {
           this.toastr.error("Error has occured","Error");
-        };
+        }
       });
     }
   }
 
   showCmPackPrintModal(preview:boolean,orderNumber:any,print:any){
-    let dialogRef = this.dialog.open(CmPrintOptionsComponent, {
+     this.dialog.open(CmPrintOptionsComponent, {
       height: 'auto',
       width: '786px',
       data: {

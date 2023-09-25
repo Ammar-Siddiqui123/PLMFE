@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from 'src/app/init/auth.service';
@@ -8,9 +8,9 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-preferences-consolidation',
   templateUrl: './preferences-consolidation.component.html',
-  styleUrls: ['./preferences-consolidation.component.scss'],
+  styleUrls: [],
 })
-export class PreferencesConsolidationComponent implements OnInit {
+export class PreferencesConsolidationComponent {
   filtersForm: FormGroup;
   @Input() pref: any;
   userData: any;
@@ -38,9 +38,7 @@ export class PreferencesConsolidationComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    
-  }
+
   setPreferences(item) { 
            this.filtersForm.controls['defPackList'].setValue(item.defaultPackingList);
           this.filtersForm.controls['blindVerify'].setValue(item.blindVerifyItems);
@@ -87,8 +85,6 @@ this.Api
           timeOut: 2000,
         });
 
-        // Refresh the data on the page
-        this.ngOnInit();
       } else {
         // Show an error message
         this.toastr.error(

@@ -17,7 +17,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-preferences-shipping',
   templateUrl: './preferences-shipping.component.html',
-  styleUrls: ['./preferences-shipping.component.scss'],
+  styleUrls: [],
 })
 export class PreferencesShippingComponent implements OnInit {
   shippingForm: FormGroup;

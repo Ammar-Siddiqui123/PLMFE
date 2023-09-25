@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { disableDebugTools } from '@angular/platform-browser';
-
+import { Component} from '@angular/core';
 import { IEmployee,EmployeeObject,AdminEmployeeLookupResponse,AccessGroupObject } from '../Iemployee'; 
-import { Router,NavigationEnd  } from '@angular/router';
+import { Router } from '@angular/router';
 import { ApiFuntions } from '../services/ApiFuntions';
 import { SharedService } from '../services/shared.service';
 @Component({
@@ -10,7 +8,7 @@ import { SharedService } from '../services/shared.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent  {
   sideBarOpen: boolean = true;
   emp: IEmployee;
   empRes:EmployeeObject;
@@ -27,9 +25,6 @@ export class DashboardComponent implements OnInit {
 
   capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-  ngOnInit(): void {
   }
 
   ngOnDestroy(){
