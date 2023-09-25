@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OmAddRecordComponent } from '../om-add-record/om-add-record.component';
-import { OmAddTransactionComponent } from '../om-add-transaction/om-add-transaction.component';
-import { OmEditTransactionComponent } from '../om-edit-transaction/om-edit-transaction.component';
+import {  } from '../om-add-transaction/om-add-transaction.component';
+import {  } from '../om-edit-transaction/om-edit-transaction.component';
 import { OmUserFieldDataComponent } from '../om-user-field-data/om-user-field-data.component';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
@@ -346,7 +346,7 @@ export class OmCreateOrdersComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result && result.isExecuted) {
+      if (result?.isExecuted && result.isExecuted) {
         this.getColumnSequence();
       }
     });

@@ -157,7 +157,7 @@ export class KitItemComponent implements OnInit, OnChanges {
     this.kitItem.controls['kitInventories'].value.forEach(element => {
       if (element.itemNumber == newItem) {
         newRecord = false;
-        return;
+       
       }
     });
     if (e.itemNumber && newRecord && e.kitQuantity) {
@@ -296,7 +296,7 @@ export class KitItemComponent implements OnInit, OnChanges {
       this.kitItem.controls['kitInventories'].value.forEach(element => {
         if (element.itemNumber == e.option.value.itemNumber) {
           alreadyExits = true;
-          return;
+          
         }
       });
       if (!alreadyExits) {

@@ -1,4 +1,4 @@
-import { SelectionModel } from '@angular/cdk/collections';
+import { } from '@angular/cdk/collections';
 import { Component, ElementRef, OnInit, ViewChild, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
@@ -111,7 +111,7 @@ export class GenerateOrderComponent implements OnInit {
   public dataSource: any = new MatTableDataSource();
 
   getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+    return this.floatLabelControl.value ?? 'auto';
   }
   async autocompleteSearchColumn() {
     let searchPayload = {
@@ -327,8 +327,8 @@ export class GenerateOrderComponent implements OnInit {
             }else{
               this.isPost=false;
             }
-            this.dataSource = new MatTableDataSource(res.data && res.data.orderTable);
-            this.itemNumberForInsertion=res.data && res.data.orderTable && res.data.orderTable[0] &&res.data.orderTable[0].itemNumber
+            this.dataSource = new MatTableDataSource(res.data?.orderTable && res.data.orderTable);
+            this.itemNumberForInsertion=res.data?.orderTable && res.data.orderTable && res.data.orderTable[0] &&res.data.orderTable[0].itemNumber
           }
         },
         (error) => {}

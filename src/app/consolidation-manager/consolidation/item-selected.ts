@@ -70,7 +70,7 @@ export class ItemSelected implements OnInit {
     }
 
     clickOnItemSelect() {
-        let setItem = this.itemSelectTable().forEach((row) => { 
+         this.itemSelectTable().forEach((row) => { 
             let id = row.id;
 
             let payload = {
@@ -106,7 +106,7 @@ export class ItemSelected implements OnInit {
     }
 
     verifyAll(){
-        let data = this.itemSelectTable.forEach((row) => {
+        this.itemSelectTable.forEach((row) => {
                 let id = row.id;
                 let payload = {
                     "id": id,

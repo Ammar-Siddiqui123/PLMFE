@@ -1,20 +1,14 @@
 import { Component, ElementRef, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { AuthService } from '../../../app/init/auth.service'; 
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog} from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/delete-confirmation.component';
-import { ItemCategoryComponent } from '../dialogs/item-category/item-category.component';
 import { ItemNumberComponent } from '../dialogs/item-number/item-number.component';
-import { UnitMeasureComponent } from '../dialogs/unit-measure/unit-measure.component';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { data } from 'jquery';
+import { FormBuilder,  FormGroup, Validators } from '@angular/forms';
 import labels from '../../labels/labels.json'
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
-import { debounceTime } from 'rxjs/internal/operators/debounceTime';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { SpinnerService } from 'src/app/init/spinner.service';
 import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -111,8 +105,8 @@ export class InventoryMasterComponent implements OnInit {
   OldinvMaster: any = {};
   invMaster: FormGroup;
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
-  eventsSubject: Subject<String> = new Subject<String>();
-  reelSubject: Subject<String> = new Subject<String>();
+  eventsSubject: Subject<string> = new Subject<string>();
+  reelSubject: Subject<string> = new Subject<string>();
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
   @HostListener('document:keydown', ['$event'])
@@ -266,7 +260,7 @@ export class InventoryMasterComponent implements OnInit {
     if (this.autoComplete.panelOpen) this.autoComplete.updatePosition();
   }
   ngAfterViewInit() {
-    this.setVal = localStorage.getItem('routeFromOrderStatus') == 'true' ? true : false;
+    this.setVal = localStorage.getItem('routeFromOrderStatus') === 'true';
     this.itemNumberParam$ = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('itemNumber')),
     );
@@ -332,7 +326,7 @@ export class InventoryMasterComponent implements OnInit {
       primaryPickZone: [this.getInvMasterData?.primaryPickZone.toLowerCase() || ''],
       secondaryPickZone: [this.getInvMasterData?.secondaryPickZone.toLowerCase()||''],
       caseQuantity: [this.getInvMasterData?.caseQuantity || 0, [Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
-      pickFenceQuantity: [this.getInvMasterData?.pickFenceQuantity || 0, [, Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
+      pickFenceQuantity: [this.getInvMasterData?.pickFenceQuantity || 0, [Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
       pickSequence: [this.getInvMasterData?.pickSequence || 0, [Validators.maxLength(9), Validators.pattern("^[0-9]*$")]],
 
       dateSensitive: [this.getInvMasterData?.dateSensitive || false],
@@ -397,14 +391,14 @@ export class InventoryMasterComponent implements OnInit {
 
       supplierName: ['']
     });
-    var CopyObject = JSON.stringify(this.invMaster.value);
+    let CopyObject = JSON.stringify(this.invMaster.value);
     this.OldinvMaster = JSON.parse(CopyObject || '{}');
   }
   onSubmit(form: FormGroup) { 
   }
   public getInventory(init: boolean= false,param?) {
     let paylaod1 = {
-      "itemNumber": param?param:this.currentPageItemNo,
+      "itemNumber": param??this.currentPageItemNo,
     }
 
     this.api.GetInventoryItemNumber(paylaod1).subscribe((res:any)=>{
@@ -426,8 +420,7 @@ export class InventoryMasterComponent implements OnInit {
   ApplySavedItem() {
     
     if(this.router.getCurrentNavigation()?.extras?.state?.['searchValue'] ) return;
-    this.searchValue = this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY] && this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY].searchValue?this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY].searchValue:'';
-
+    this.searchValue = this.currentTabDataService.savedItem[this.currentTabDataService.INVENTORY]?.searchValue || '';
 
   }
   RecordSavedItem() {
@@ -511,10 +504,10 @@ export class InventoryMasterComponent implements OnInit {
     let paylaod = {
       "draw": 0,
       "itemNumber": itemNum,
-      "start": startIndex ? startIndex : 0,
-      "length": pageSize ? pageSize : 5,
-      "sortColumnNumber": sortingColumnName ? sortingColumnName : 0,
-      "sortOrder": sortingOrder ? sortingOrder : "",
+      "start": startIndex ?? 0,
+      "length": pageSize ??5,
+      "sortColumnNumber": sortingColumnName ?? 0,
+      "sortOrder": sortingOrder ?? "",
       "username": this.userData.userName,
       "wsid": this.userData.wsid,
     }
@@ -626,8 +619,8 @@ export class InventoryMasterComponent implements OnInit {
       this.invMaster.patchValue({
         'bulkGoldZone': this.invMaster.value?.bulkVelocity,
         'CfGoldZone': this.invMaster.value?.cfVelocity,
-        'splitCase': this.invMaster.value.splitCase ? true : false,
-        'active': this.invMaster.value.active ? true : false
+        'splitCase':this.invMaster.value.splitCase,
+        'active': this.invMaster.value.active
       }); 
       if(!this.invMaster.value.secondaryPickZone){
         this.invMaster.value['secondaryPickZone'] = '';
@@ -673,7 +666,7 @@ export class InventoryMasterComponent implements OnInit {
       disableClose:true,
       data: {
         itemNumber: this.addItemNumber!=''?this.addItemNumber:this.currentPageItemNo,
-        description: this.getInvMasterData && this.getInvMasterData.description?this.getInvMasterData.description:'',
+        description: this.getInvMasterData?.description || '',
         fromInventoryMaster: 1,
         newItemNumber: '',
         addItem: true,
@@ -927,10 +920,10 @@ export class InventoryMasterComponent implements OnInit {
 
   }
   kitItemChecks() {
-    var IsReturn: any = false;
+    let IsReturn: any = false;
     if (this.kititemcom.kitItemsList.length) {
       for (let i = 0; i < this.kititemcom.kitItemsList.length; i++) {
-        for (var key in this.OldinvMaster.kitInventories[0]) {
+        for (let key in this.OldinvMaster.kitInventories[0]) {
           if (this.OldinvMaster.kitInventories[i] && this.OldinvMaster.kitInventories[i][key] == this.kititemcom.kitItemsList[i][key]) {
 
           } else {
@@ -943,10 +936,10 @@ export class InventoryMasterComponent implements OnInit {
     return IsReturn;
   }
   ScanCodesChecks() {
-    var IsReturn: any = false;
+    let IsReturn: any = false;
     if (this.ScanCodesCom.scanCodesList.length) {
       for (let i = 0; i < this.ScanCodesCom.scanCodesList.length; i++) {
-        for (var key in this.ScanCodesCom.scanCodesList[0]) {
+        for (let key in this.ScanCodesCom.scanCodesList[0]) {
           if (this.OldinvMaster.scanCode[i] && this.OldinvMaster.scanCode[i][key] == this.ScanCodesCom.scanCodesList[i][key]) {
 
           } else { 
@@ -959,8 +952,8 @@ export class InventoryMasterComponent implements OnInit {
     return IsReturn;
   }
   getChangesCheck() {
-    var IsReturn: any = false;
-    for (var key in this.invMaster.value) {
+   let IsReturn: any = false;
+    for (let key in this.invMaster.value) {
       if ((typeof this.invMaster.value[key]) == 'object' && key == 'kitInventories') {
         if (this.kitItemChecks()) {
           IsReturn = true;
@@ -985,7 +978,7 @@ export class InventoryMasterComponent implements OnInit {
     if (!this.IstabChange) {
       this.IstabChange = true;
       this.spinnerService.show();
-      var IsCheck = this.getChangesCheck();
+      let IsCheck = this.getChangesCheck();
 
       if (IsCheck) { 
         this.ConfirmationDialog(tab.index);
@@ -1046,7 +1039,7 @@ export class InventoryMasterComponent implements OnInit {
 
   @HostListener('document:keyup', ['$event'])
   documentClick(event: MouseEvent) {
-    var IsCheck = this.getChangesCheck();
+    let IsCheck = this.getChangesCheck();
     if (IsCheck) {
       this.ifAllowed = true;
     }
