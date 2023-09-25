@@ -9,7 +9,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-set-item-location',
   templateUrl: './set-item-location.component.html',
-  styleUrls: ['./set-item-location.component.scss'],
+  styleUrls: [],
 })
 export class SetItemLocationComponent implements OnInit {
   @ViewChild('itm_nmb') itm_nmb: ElementRef;
@@ -71,8 +71,8 @@ export class SetItemLocationComponent implements OnInit {
       this.Api
         .ItemExists(payLoad)
         .subscribe(
-          (res: any) => {
-            if(res && res.isExecuted){
+          {next:(res: any) => {
+            if(res?.isExecuted){
               if(res.data===''){
                 
                 this.itemInvalid=true
@@ -85,7 +85,7 @@ export class SetItemLocationComponent implements OnInit {
        
             }
           },
-          (error) => {}
+          error:(error) => {}}
         );
       }, 500);
   }
@@ -111,10 +111,10 @@ export class SetItemLocationComponent implements OnInit {
     this.Api
       .GetLocations(searchPayload)
       .subscribe(
-        (res: any) => {
+        {next: (res: any) => {
           this.searchAutocompleteList = res.data;
         },
-        (error) => {}
+        error: (error) => {}}
       );
   }
 
@@ -129,10 +129,10 @@ export class SetItemLocationComponent implements OnInit {
     this.Api
       .SearchItem(searchPayload)
       .subscribe(
-        (res: any) => {
+        {next: (res: any) => {
           this.searchAutocompleteListItem = res.data;
         },
-        (error) => {}
+        error: (error) => {}}
       );
   }
   ngOnDestroy() {

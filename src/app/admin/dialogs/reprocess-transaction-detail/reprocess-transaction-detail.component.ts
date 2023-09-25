@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'; 
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'; 
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service'; 
 import { FormControl, FormGroup, Validators } from '@angular/forms'; 
@@ -12,7 +12,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-reprocess-transaction-detail',
   templateUrl: './reprocess-transaction-detail.component.html',
-  styleUrls: ['./reprocess-transaction-detail.component.scss']
+  styleUrls: []
 })
 export class ReprocessTransactionDetailComponent implements OnInit {
   @ViewChild('trans_qty') trans_qty: ElementRef;
@@ -84,19 +84,19 @@ export class ReprocessTransactionDetailComponent implements OnInit {
   }
   onNumberValueChange() {
 
-    var currentLotNumber = this.editTransactionForm.get("lotNumber")?.value?.toString() == "" ? "0" : this.editTransactionForm.get("lotNumber")?.value?.toString();
-    var currentSerialNumber = this.editTransactionForm.get("serialNumber")?.value?.toString() == "" ? "0" : this.editTransactionForm.get("serialNumber")?.value?.toString();
+    let currentLotNumber = this.editTransactionForm.get("lotNumber")?.value?.toString() == "" ? "0" : this.editTransactionForm.get("lotNumber")?.value?.toString();
+    let currentSerialNumber = this.editTransactionForm.get("serialNumber")?.value?.toString() == "" ? "0" : this.editTransactionForm.get("serialNumber")?.value?.toString();
 
 
 
-    this.editTransactionForm.get("lotNumber")?.setValue(parseInt(currentLotNumber || '').toString());
-    this.editTransactionForm.get("serialNumber")?.setValue(parseInt(currentSerialNumber || '').toString());
+    this.editTransactionForm.get("lotNumber")?.setValue(parseInt(currentLotNumber ?? '').toString());
+    this.editTransactionForm.get("serialNumber")?.setValue(parseInt(currentSerialNumber ?? '').toString());
 
 
   }
 
   editTransaction() { 
-    var payload = {
+    let payload = {
       "id": this.transactionID,
       "oldValues": [
       ],
@@ -177,7 +177,7 @@ export class ReprocessTransactionDetailComponent implements OnInit {
   }
 
   onDateChange(event: any, fromExpDate = ""): void {
-    if (!(fromExpDate == "")) {
+    if ((fromExpDate !== "")) {
       this.expDate = new Date(event).toISOString();
     }
     else {
@@ -187,14 +187,14 @@ export class ReprocessTransactionDetailComponent implements OnInit {
   }
 
   getTransactionDetail() {
-    var payload = {
+    let payload = {
       id: '' + this.transactionID + '',
       username: this.userData.userName,
       wsid: this.userData.wsid,
       history: false,
     }
     this.Api.TransactionByID(payload).subscribe(
-      (res: any) => {
+      {next: (res: any) => {
         if (res.data && res.isExecuted) {
           let finalExpiryDate, finalReqDate;
           try {
@@ -217,7 +217,7 @@ export class ReprocessTransactionDetailComponent implements OnInit {
           this.reqDate = this.reqDate != "1900-01-01T19:31:48.000Z" ? this.reqDate : " ";
 
 
-          if (res.data[0].label == false) { this.label = false; } else { this.label = true; }
+          if (!res.data[0].label) { this.label = false; } else { this.label = true; }
           if (res.data[0].emergency == 'False') { this.emergency = false; } else { this.emergency = true; }
           this.editTransactionForm.patchValue({
             "transactionQuantity": res.data[0].transactionQuantity,
@@ -263,14 +263,14 @@ export class ReprocessTransactionDetailComponent implements OnInit {
           });
         }
       },
-      (error) => { }
+      error: (error) => { }}
     );
   }
 
   dayIncrement(date: any) {
 
     if (date != null && date != "1900-01-01T19:31:48.000Z" && date!='') {
-      var newDate = new Date(date);
+      let newDate = new Date(date);
       newDate.setDate(newDate.getDate() + 1);
       return newDate;
     } else {
