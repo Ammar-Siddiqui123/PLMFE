@@ -52,7 +52,7 @@ export class AuthGuardGuard implements CanActivate {
     } 
   }
     if(pathSet.indexOf('/globalconfig') > -1){
-      if(!(pathSet.indexOf('/globalconfig/') <= -1))    { this.router.navigate(['/globalconfig']);}  
+      if((pathSet.indexOf('/globalconfig/') <= -1))    { this.router.navigate(['/globalconfig']);}  
       if(this.authService.IsConfigLogin()) return true; else return false;
     }
     if (!this.ConfigJson?.length) {
