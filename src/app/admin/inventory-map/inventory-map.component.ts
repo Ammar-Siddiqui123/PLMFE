@@ -1,14 +1,13 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSelect, MatSelectChange } from '@angular/material/select';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSelect} from '@angular/material/select';
+import { MatSort} from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router,RoutesRecognized } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { Subject } from 'rxjs/internal/Subject';
@@ -18,11 +17,8 @@ import { AddInvMapLocationComponent } from '../dialogs/add-inv-map-location/add-
 import { AdjustQuantityComponent } from '../dialogs/adjust-quantity/adjust-quantity.component';
 import { DeleteConfirmationComponent } from '../dialogs/delete-confirmation/delete-confirmation.component';
 import { QuarantineConfirmationComponent } from '../dialogs/quarantine-confirmation/quarantine-confirmation.component';
-import { SetColumnSeqComponent } from '../dialogs/set-column-seq/set-column-seq.component';  
-import { filter, pairwise } from 'rxjs/operators';
 import { ColumnSequenceDialogComponent } from '../dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ContextMenuFiltersService } from '../../../app/init/context-menu-filters.service';
 import { MatMenuTrigger} from '@angular/material/menu';
@@ -405,7 +401,7 @@ export class InventoryMapComponent implements OnInit {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((result) => {
           this.clearMatSelectList();
-          if (result && result.isExecuted) {
+          if (result?.isExecuted) {
             this.getColumnsData();
           }
         });
@@ -465,7 +461,7 @@ export class InventoryMapComponent implements OnInit {
   delete(event: any){
     
     if(event.itemQuantity > 0){
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
         width: '786px',
         data: {
@@ -552,7 +548,7 @@ export class InventoryMapComponent implements OnInit {
   }
 
   duplicate(event){
-    var obj:any = {
+    let obj:any = {
       userName:this.userData.userName,
       wsid:this.userData.wsid,
       inventoryMapID:event.invMapID
@@ -693,7 +689,7 @@ export class InventoryMapComponent implements OnInit {
 
 
   getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+    return this.floatLabelControl.value ?? 'auto';
   }
 
   ngOnDestroy() {
@@ -718,7 +714,7 @@ export class InventoryMapComponent implements OnInit {
  }
 
  printRange(){
-  const dialogRef = this.dialog.open(PrintRangeComponent, {
+  this.dialog.open(PrintRangeComponent, {
     height: 'auto',
     width: '932px',
     autoFocus: '__non_existing_element__'

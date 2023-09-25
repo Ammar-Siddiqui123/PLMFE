@@ -25,7 +25,6 @@ export class LocationComponent implements OnInit {
     this.notifyParent.emit(e);
   }
   
-  constructor() { }
 
   ngOnInit(): void { 
     setTimeout(() => {
@@ -34,7 +33,7 @@ export class LocationComponent implements OnInit {
   }
   ngOnChanges(changes: SimpleChanges) { 
     if(changes['location']){
-      if( changes['location'] && changes['location']['previousValue'] &&  changes['location']['previousValue']['controls'] && changes['location']['previousValue']['controls'].inventoryTable.value?.length ){
+      if( changes['location']?.previousValue?.controls?.inventoryTable.value?.length){
         this.location.controls['inventoryTable'].setValue(changes['location']['previousValue']['controls'].inventoryTable.value)
 
       }else{
