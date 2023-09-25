@@ -24,7 +24,6 @@ import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/a
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ReelDetailComponent } from 'src/app/dialogs/reel-detail/reel-detail.component';
 import { ReelTransactionsComponent } from 'src/app/dialogs/reel-transactions/reel-transactions.component';
-import { event } from 'jquery';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { GlobalService } from 'src/app/common/services/global.service';
 
@@ -276,7 +275,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   getRow(batchID) {
-    var payLoad = {
+    let payLoad = {
       batchID: batchID,
       username: this.userData.username,
       wsid: this.userData.wsid,
@@ -291,7 +290,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.status = "Not Processed";
           }
           this.ELEMENT_DATA.length = 0;
-          for (var ix = 0; ix < res.data.length; ix++) {
+          for (let ix = 0; ix < res.data.length; ix++) {
             this.ELEMENT_DATA.push({
              
               position: parseInt(res.data[ix].totePosition),
@@ -303,8 +302,8 @@ export class ProcessPutAwaysComponent implements OnInit {
             if (ix == 0) {
               try {
                 this.assignedZones = res.data[ix].zoneLabel;
-                var zones = res.data[ix].zoneLabel.split(' ');
-                for (var i = 1; i < zones.length; i++) { 
+                let zones = res.data[ix].zoneLabel.split(' ');
+                for (let i = 1; i < zones.length; i++) { 
                   this.assignedZonesArray.push({ zone: zones[i] });
                 }
               } catch (e) { }
@@ -337,14 +336,14 @@ export class ProcessPutAwaysComponent implements OnInit {
           wsid: this.userData.wsid,
           assignedZones: this.assignedZonesArray,
           status:this.status,
-          isNewBatch:this.dataSource2 && this.dataSource2.length>0?false:true
+          isNewBatch:this.dataSource2.length <= 0
         },
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          var zones = 'Zones:';
+          let zones = 'Zones:';
           this.assignedZonesArray = result;
-          for (var i = 0; i < result.length; i++) {
+          for (let i = 0; i < result.length; i++) {
             zones = zones + ' ' + result[i].zone;
           }
           this.assignedZones = zones;
@@ -377,7 +376,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.ELEMENT_DATA[index].toteid = result.toteID.toString();
           }
           if (result.cellID.toString() != '') {
-            for (var i = 0; i < this.ELEMENT_DATA.length; i++) {
+            for (let i = 0; i < this.ELEMENT_DATA.length; i++) {
               this.ELEMENT_DATA[i].cells = result.cellID.toString();
             }
           }
@@ -462,7 +461,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   processIfZoneSelected() {
     if (this.assignedZonesArray.length <= 0) {
-      const dialogRef = this.dialog.open(AlertConfirmationComponent, {
+      this.dialog.open(AlertConfirmationComponent, {
         height: 'auto',
         width: '50vw',
         autoFocus: '__non_existing_element__',
@@ -495,10 +494,10 @@ export class ProcessPutAwaysComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result == 'Yes') {
-          var toteID = '',
+          let toteID = '',
             cells = '',
             position = '';
-          for (var i = 0; i < this.ELEMENT_DATA.length; i++) {
+          for (let i = 0; i < this.ELEMENT_DATA.length; i++) {
             if (i == 0) {
               toteID = toteID + this.ELEMENT_DATA[i].toteid;
               cells = cells + this.ELEMENT_DATA[i].cells;
@@ -520,7 +519,7 @@ export class ProcessPutAwaysComponent implements OnInit {
                 positionClass: 'toast-bottom-right',
                 timeOut: 2000,
               });
-              for (var i = 0; i < this.ELEMENT_DATA.length; i++) {
+              for (let i = 0; i < this.ELEMENT_DATA.length; i++) {
                 if (this.ELEMENT_DATA[i].toteid == res.data) {
                   this.ELEMENT_DATA[i].toteid = '';
                   this.ELEMENT_DATA[i].locked = '';
@@ -528,7 +527,7 @@ export class ProcessPutAwaysComponent implements OnInit {
               }
             }
             else {
-              var payLoad = {
+              let payLoad = {
                 batchID: this.batchId,
                 zoneLabel: this.assignedZones,
                 totes: [toteID, cells, position],
@@ -786,10 +785,10 @@ export class ProcessPutAwaysComponent implements OnInit {
       if (this.ELEMENT_DATA[position - 1].toteid != $event.target.value) {
         this.ELEMENT_DATA[position - 1].toteid = $event.target.value;
       }
-    } else {
-      if (this.ELEMENT_DATA[position - 1].cells != $event.target.value) {
+    } else if (this.ELEMENT_DATA[position - 1].cells != $event.target.value) {
+       
         this.ELEMENT_DATA[position - 1].cells = $event.target.value;
-      }
+      
     }
   }
 
@@ -838,7 +837,7 @@ export class ProcessPutAwaysComponent implements OnInit {
   }
 
   updateToteID($event) {
-    for (var i = 0; i < this.pickBatchQuantity; i++) {
+    for (let i = 0; i < this.pickBatchQuantity; i++) {
       if(this.ELEMENT_DATA && this.ELEMENT_DATA[i]){
       if (this.ELEMENT_DATA[i].toteid == '') {
         this.ELEMENT_DATA[i].toteid = $event.target.value;
@@ -876,7 +875,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe((result) => {
         if (result == 'Yes') {
-          for (var i = 0; i < this.pickBatchQuantity; i++) {
+          for (let i = 0; i < this.pickBatchQuantity; i++) {
             this.ELEMENT_DATA[i].cells = this.cellSize.toString();
           }
         }
@@ -1172,7 +1171,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
   fillToteTable(batchID: string = '') {
     try {
-      var payLoad = {
+      let payLoad = {
         batchID: batchID ? batchID : this.batchId2,
         sortOrder: 'asc',
         sortColumn: 0,
@@ -1198,7 +1197,7 @@ export class ProcessPutAwaysComponent implements OnInit {
             this.maxPos = this.dataSource2.data.length;
             this.selectTotes(0)
             this.goToNext();
-            this.getRow(batchID ? batchID : this.batchId2);
+            this.getRow(batchID ?? this.batchId2);
             this.inputValue = "";
           } else {
             this.toastr.error('Something went wrong', 'Error!', {
@@ -1230,7 +1229,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((result) => {
           if (result == 'Yes') {
-            var payLoad = {
+            let payLoad = {
               batchID: this.batchId2,
               username: this.userData.userName,
               wsid: this.userData.wsid,
@@ -1311,7 +1310,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
 
   goToNext() {
-    var fil = this.dataSource2.data.filter((e: any) => e.status == 0);
+    let fil = this.dataSource2.data.filter((e: any) => e.status == 0);
     if (fil.length > 0) {
       this.selectTotes(this.dataSource2.data.indexOf(fil[0]));
       this.nextPutLoc = fil[0].toteID;
@@ -1336,7 +1335,7 @@ export class ProcessPutAwaysComponent implements OnInit {
         if (parseInt(this.postion) > parseInt(this.maxPos)) { this.postion = this.maxPos; value = this.maxPos; }
       }
 
-      var fil = this.dataSource2.data.filter((e: any) => e.totesPosition == value?.toString());
+      let fil = this.dataSource2.data.filter((e: any) => e.totesPosition == value?.toString());
       if (fil.length > 0) {
         this.tote = fil[0].toteID
       } else {
@@ -1344,11 +1343,11 @@ export class ProcessPutAwaysComponent implements OnInit {
       }
     }
     else if (type == 1) {
-      var fil = this.dataSource2.data.filter((e: any) => e.toteID == value?.toString());
-      fil.length > 0 ? this.postion = fil[0].totesPosition : this.postion = '';
+      let fil = this.dataSource2.data.filter((e: any) => e.toteID == value?.toString());
+      this.postion = fil.length > 0 ? fil[0].totesPosition : '';
     }
     else {
-      var fil = this.dataSource2.data.filter((e: any) => { return (e.totesPosition == this.postion?.toString() && e.toteID == this.tote) });
+      let fil = this.dataSource2.data.filter((e: any) => { return (e.totesPosition == this.postion?.toString() && e.toteID == this.tote) });
       if (fil.length > 0) {
         for (const iterator of this.dataSource2.data) { iterator.isSelected = false; }
         this.dataSource2.data[
@@ -1475,7 +1474,7 @@ export class ProcessPutAwaysComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result)
-      if(result !=true || result != 'undefined'){
+      if(!result|| result != 'undefined'){
         this.reelQty =result.reelQty
       }
     })
@@ -1495,7 +1494,7 @@ export class ProcessPutAwaysComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if(result !=true ){
+      if(!result){
         this.inputValue = result
         this.openSelectionTransactionDialogue();
       }

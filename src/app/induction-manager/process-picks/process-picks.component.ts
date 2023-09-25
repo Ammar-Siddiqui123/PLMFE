@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, HostListener, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, ElementRef, HostListener,OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog} from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { BlossomToteComponent } from 'src/app/dialogs/blossom-tote/blossom-tote.component';
 import { ToastrService } from 'ngx-toastr';
@@ -85,17 +85,15 @@ export class ProcessPicksComponent implements OnInit {
   async printExisting(type) {
 
 
-    var positionList: any[] = [];
-    var toteIds: any[] = [];
-    var OrderNumList: any[] = [];
+    let positionList: any[] = [];
+    let toteIds: any[] = [];
+    let OrderNumList: any[] = [];
     this.dataSource?._data?._value.forEach(element => {
       if (element.position) positionList.push(element.position);
       if (element.toteID) toteIds.push(element.toteID);
       if (element.orderNumber) OrderNumList.push(element.orderNumber);
     });
-    var strposition = JSON.stringify(positionList);
-    var strtoteIds = JSON.stringify(toteIds);
-    var strOrderNumList = JSON.stringify(OrderNumList);
+    
     if (!this.pickBatchesCrossbtn) {
       this.toastr.error('Please select a Batch ID to print', 'Error!', {
         positionClass: 'toast-bottom-right',
@@ -221,7 +219,7 @@ async  printPickLabels(row) {
     let PositionList: any = [];
     let ToteList: any = [];
     let OrderList: any = [];
-    for (var i = 0; i <= counter - 1; i++) {
+    for (let i = 0; i <= counter - 1; i++) {
 
       if (this.dataSource._data?._value[i].orderNumber != "" && this.dataSource._data?._value[i].toteID != "") {
         PositionList.push(this.dataSource._data?._value[i].position);
@@ -541,10 +539,10 @@ async  printPickLabels(row) {
               });
               this.allOrders = [];
             }
-            else {
-              if (this.autoPickToteID) {
+            else if (this.autoPickToteID) {
+               
                 this.getAllToteIds(true);
-              }
+              
             }
           });
         }
@@ -578,10 +576,9 @@ async  printPickLabels(row) {
                 obj.orderNumber = '';
               });
             }
-            else {
-              if (this.autoPickToteID) {
+            else if (this.autoPickToteID){
+               
                 this.getAllToteIds(true)
-              }
             }
 
 
@@ -675,10 +672,7 @@ async  printPickLabels(row) {
     dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
 
 
-      if (result === true) {
-
-      }
-      else {
+      if (!result) {
         if (result.length > 0) {
           this.allOrders = result;
           this.TOTE_SETUP.forEach((element, key) => {
@@ -698,7 +692,7 @@ async  printPickLabels(row) {
   }
 
   openBlossomToteDialogue() {
-    const dialogRef = this.dialog.open(BlossomToteComponent, {
+    this.dialog.open(BlossomToteComponent, {
       height: 'auto',
       width: '786px',
       autoFocus: '__non_existing_element__'
@@ -754,10 +748,6 @@ async  printPickLabels(row) {
   }
 
   getAllToteIds(autoToteIds: boolean = false) {
-    let paylaod = {
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-    }
     this.Api.NextTote().subscribe(res => {
       this.nxtToteID = res.data;
       this.TOTE_SETUP.forEach((element, key) => {
@@ -859,10 +849,6 @@ async  printPickLabels(row) {
 
 
   fillNextToteID(i: any) {
-    let paylaod = {
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-    }
     this.Api.NextTote().subscribe(res => {
       this.nxtToteID = res.data;
       this.TOTE_SETUP[i].toteID = this.nxtToteID;
@@ -878,14 +864,14 @@ async  printPickLabels(row) {
   }
 
   confirmProcessSetup() {
-    const dialogRef = this.dialog.open(this.processSetup, {
+    this.dialog.open(this.processSetup, {
       width: '450px',
       autoFocus: '__non_existing_element__',
       disableClose: true,
     });
   }
   alertPopUpBlocked() {
-    const dialogRef = this.dialog.open(this.popupBlocked, {
+    this.dialog.open(this.popupBlocked, {
       width: '450px',
       height: 'auto',
       minHeight: 'auto',
@@ -1073,7 +1059,6 @@ async  printPickLabels(row) {
   async InZoneProcessPrintPref(batchId) {
     try {
       let isWindowClosed: any = null;
-      let isAnyWindowOpen = false;
       
       if (this.imPreferences.autoPrintPickToteLabels) {
 

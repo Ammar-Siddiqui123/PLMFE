@@ -1,7 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatRadioChange } from '@angular/material/radio';
-import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { RequiredDateStatusComponent } from '../../../app/dialogs/required-date-status/required-date-status.component';
 import { AuthService } from '../../../app/init/auth.service'; 
@@ -58,7 +57,7 @@ export class SuperBatchComponent implements OnInit {
   }
 
   openReqDataStatus() {
-    const dialogRef = this.dialog.open(RequiredDateStatusComponent, {
+    this.dialog.open(RequiredDateStatusComponent, {
       height: 'auto',
       width: '932px',
       autoFocus: '__non_existing_element__'
@@ -88,7 +87,7 @@ export class SuperBatchComponent implements OnInit {
   }
   getSuperBatchBy(type: any, itemNumber?: any) {
     this.type = type;
-    this.itemNum = itemNumber ? itemNumber : '';
+    this.itemNum = itemNumber ??  '';
     let payload = {
       "Type": type,
       "ItemNumber": itemNumber
