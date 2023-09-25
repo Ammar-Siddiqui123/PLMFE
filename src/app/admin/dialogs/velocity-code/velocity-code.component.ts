@@ -10,7 +10,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-velocity-code',
   templateUrl: './velocity-code.component.html',
-  styleUrls: ['./velocity-code.component.scss']
+  styleUrls: []
 })
 
 export class VelocityCodeComponent implements OnInit {
@@ -45,7 +45,7 @@ export class VelocityCodeComponent implements OnInit {
       this.velocity_code_list_Res = [...res.data];
       this.velocity_code_list = res.data;
       this.disableEnable.shift();
-      for(var i=0;i<this.velocity_code_list.length;i++)
+      for(let i=0;i<this.velocity_code_list.length;i++)
       {
       this.disableEnable.push({index:i,value:true});
       }
@@ -79,13 +79,13 @@ export class VelocityCodeComponent implements OnInit {
     if(vlcode){
     let cond = true;
     this.velocity_code_list_Res.forEach(element => {
-      if(element == vlcode) { 
+      if(element == vlcode && cond) { 
         cond = false;
        this.toastr.error('Velocity cannot be saved! Another velocity code matches the current. Please save any pending changes before attempting to save this entry.', 'Error!', {
          positionClass: 'toast-bottom-right',
          timeOut: 2000
        });
-       return;
+       
       }   
     });
 
@@ -110,7 +110,6 @@ export class VelocityCodeComponent implements OnInit {
       positionClass: 'toast-bottom-right',
       timeOut: 2000
     });
-    return;
   }
   }
   dltVlCode(vlCode:any){

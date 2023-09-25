@@ -10,7 +10,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-temporary-manual-order-number-add',
   templateUrl: './temporary-manual-order-number-add.component.html',
-  styleUrls: ['./temporary-manual-order-number-add.component.scss'],
+  styleUrls: [],
 })
 export class TemporaryManualOrderNumberAddComponent implements OnInit {
   @ViewChild('ord_nmb') ord_nmb: ElementRef;
@@ -59,7 +59,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
         .ItemExists(payLoad)
         .subscribe(
           (res: any) => {
-            if(res && res.isExecuted){
+            if(res?.isExecuted){
               if(res.data===''){
                 this.itemInvalid=true
                 this.setLocationByItemList.length=0;
@@ -84,7 +84,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
     };
     this.Api.GetLocations(payLoad).subscribe(
       (res: any) => {
-        if (res && res.data) {
+        if (res?.data) {
           this.setLocationByItemList = res.data.map((item) => {
             return {
               invMapID: item.invMapID,
@@ -113,7 +113,7 @@ export class TemporaryManualOrderNumberAddComponent implements OnInit {
         .ItemExists(payLoadItem)
         .subscribe(
           (res: any) => {
-            if(res && res.isExecuted){
+            if(res?.isExecuted){
               if(res.data===''){
                 this.itemInvalid=true
                 this.setLocationByItemList.length=0;
@@ -172,30 +172,31 @@ this.orderRequired=true
   this.orderRequired=false;
 }
 }else if(type==='item'){
-  if(!this.itemNumber) return ;
-   let payLoad = {
-    itemNumber: this.itemNumber,
-      username: this.data.userName,
-      wsid: this.data.wsid,
-    };
-
-  
-      this.Api
-      .ItemExists(payLoad)
-      .subscribe(
-        (res: any) => {
-          if(res && res.isExecuted){
-            if(res.data===''){
-              this.itemInvalid=true
-            }else{
-              this.itemInvalid=false
-
-            }
-     
-          }
-        },
-        (error) => {}
-      );
+  if(this.itemNumber){
+    let payLoad = {
+     itemNumber: this.itemNumber,
+       username: this.data.userName,
+       wsid: this.data.wsid,
+     };
+ 
+   
+       this.Api
+       .ItemExists(payLoad)
+       .subscribe(
+         (res: any) => {
+           if(res?.isExecuted){
+             if(res.data===''){
+               this.itemInvalid=true
+             }else{
+               this.itemInvalid=false
+ 
+             }
+      
+           }
+         },
+         (error) => {}
+       );
+  }
 
 
 }

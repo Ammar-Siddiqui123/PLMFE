@@ -10,7 +10,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-user-fields-edit',
   templateUrl: './user-fields-edit.component.html',
-  styleUrls: ['./user-fields-edit.component.scss'],
+  styleUrls: [],
 })
 export class UserFieldsEditComponent implements OnInit {
   @ViewChild('ship_via') ship_via: ElementRef;
@@ -105,9 +105,7 @@ export class UserFieldsEditComponent implements OnInit {
   getFloatLabelValueItem(): FloatLabelType {
     return this.floatLabelControlShipName.value || 'shipName';
   }
-  searchData(event) {
-    
-  }
+
 
   async autocompleteSearchColumn() {
     let searchPayload = {
@@ -136,7 +134,7 @@ export class UserFieldsEditComponent implements OnInit {
     this.Api
       .UserFieldGetByID(payload)
       .subscribe((res: any) => {
-        if (res && res.data) {
+        if (res?.data) {
           let item = res.data;
 
           this.shipVia = item.userField1 ?? "";
@@ -168,7 +166,6 @@ export class UserFieldsEditComponent implements OnInit {
         (error) => {}
       );
   }
-  getRow(row) {}
   ngOnDestroy() {
     this.searchByShipVia.unsubscribe();
     this.searchByShipName.unsubscribe();

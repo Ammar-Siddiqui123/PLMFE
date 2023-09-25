@@ -21,7 +21,7 @@ export interface pickup_level_details {
 @Component({
   selector: 'app-employee-pickup-level',
   templateUrl: './employee-pickup-level.component.html',
-  styleUrls: ['./employee-pickup-level.component.scss']
+  styleUrls: []
 })
 export class EmployeePickupLevelComponent implements OnInit {
   @Input() pickUplevels: any;
