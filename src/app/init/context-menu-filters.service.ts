@@ -1,4 +1,4 @@
-import { Injectable,Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -100,7 +100,7 @@ export class ContextMenuFiltersService {
     getSelectedItemFormat(ValueType: any, valueText: any, Condition: any) : string{
       if(ValueType == "boolean")
       {
-        if(valueText == true)
+        if(valueText)
         {
           return "1";
         }
@@ -158,5 +158,5 @@ export class ContextMenuFiltersService {
     }
     
    
-  constructor() { }
+  
 }
